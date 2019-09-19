@@ -155,12 +155,13 @@ export class CommonServiceFactory {
         return true;
     }
 
-    // validate  phone number 
-    validatePhone(value) {
+    // validate  phone number
+    validatePhone(value, maxlength) {
+        console.log(maxlength);
         if (isNaN(value) || value.trim() == '') {  //int
             return 'noNumber';
         }
-        else if (value.length != 10) {
+        else if (value.length != maxlength) {
             return 'lessThanTen';
         }
         return false;

@@ -1,4 +1,5 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
+  *ngIf="isRippleLoad">
 </loaders-css>
 <section class="middle-section homewrap clearFix">
 
@@ -71,8 +72,9 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_name != ''}">
                     <label for="sName">Student Name<span class="text-danger">*</span></label>
 
-                    <input type="text" value="" class="form-ctrl" id="sName" [(ngModel)]="studentAddFormData.student_name" name="sName" maxlength="50"
-                      #sname="ngModel" required>
+                    <input type="text" value="" class="form-ctrl" id="sName"
+                      [(ngModel)]="studentAddFormData.student_name" name="sName" maxlength="50" #sname="ngModel"
+                      required>
                     <div *ngIf="sname.invalid && (sname.dirty || sname.touched)" class="alert invalid-alert">
                       <div *ngIf="sname.errors.required">
                         name is required.
@@ -83,12 +85,25 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
-                    <label for="cNumber">Contact Number<span class="text-danger">*</span></label>
 
-                    <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
-                      maxlength="10" minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #cNumber="ngModel"
-                      required />
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
+                    <label for="cNumber">Contact Number<span class="text-danger">*</span></label><br>
+                    <span class="countryCallingCode"style="width: 22%">
+                      <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id"
+                      [disabled]="countryDetails.length<=2" (change)="onChangeObj($event.target.value)"
+                        style="height: 29px;padding: 0">
+                        <option value="" ></option>
+                        <option [value]="data.id" *ngFor='let data of countryDetails'>
+                          {{data.country_code}} +{{data.country_calling_code}}
+                        </option>
+                      </select>
+                    </span>
+                    <input type="text" value="" id="cNumber" class="form-ctrl"
+                      [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
+                      maxlength={{instituteCountryDetObj.country_phone_number_length}}
+                      minlength={{instituteCountryDetObj.country_phone_number_length}}
+                      onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #cNumber="ngModel" required
+                      style="width: 78%" />
                     <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
                       <div *ngIf="cNumber.errors.required">
                         Phone number is required.
@@ -99,8 +114,9 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_email != ''}">
                     <label for="sEmail">Email ID</label>
 
-                    <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.student_email" name="sEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$"
-                      #sEmail="ngModel" />
+                    <input type="text" value="" id="sEmail" class="form-ctrl"
+                      [(ngModel)]="studentAddFormData.student_email" name="sEmail"
+                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #sEmail="ngModel" />
                     <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="sEmail.errors.pattern">
                         Enter email in format eg. someone@xyz.com
@@ -108,17 +124,20 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value': studentAddFormData.attendance_device_id != ''}">
+                  <div class="field-wrapper" *ngIf="enableBiometric == '1'"
+                    [ngClass]="{'has-value': studentAddFormData.attendance_device_id != ''}">
                     <label for="cardId">Attendance Card ID</label>
 
-                    <input type="text" value="" id="cardId" class="form-ctrl" [(ngModel)]="studentAddFormData.attendance_device_id" name="attCard"
-                      #cardId="ngModel" />
+                    <input type="text" value="" id="cardId" class="form-ctrl"
+                      [(ngModel)]="studentAddFormData.attendance_device_id" name="attCard" #cardId="ngModel" />
                   </div>
 
-                  <div *ngIf="isManualDisplayId" class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_disp_id != ''}">
+                  <div *ngIf="isManualDisplayId" class="field-wrapper"
+                    [ngClass]="{'has-value': studentAddFormData.student_disp_id != ''}">
                     <label for="manualId">Student Roll Number<span class="text-danger">*</span></label>
-                    <input type="text" value="" class="form-ctrl" id="manualId" [(ngModel)]="studentAddFormData.student_disp_id" name="manualId"
-                      maxlength="50" #manualId="ngModel" required>
+                    <input type="text" value="" class="form-ctrl" id="manualId"
+                      [(ngModel)]="studentAddFormData.student_disp_id" name="manualId" maxlength="50"
+                      #manualId="ngModel" required>
                     <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
                       <div *ngIf="manualId.errors.required">
                         Roll Number is Mandatory
@@ -129,7 +148,8 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_sex != ''}">
                     <label for="userGender">Gender</label>
 
-                    <select id="userGender" class="form-ctrl" [(ngModel)]="studentAddFormData.student_sex" name="userGender">
+                    <select id="userGender" class="form-ctrl" [(ngModel)]="studentAddFormData.student_sex"
+                      name="userGender">
                       <option value=""></option>
                       <option value="M">Male</option>
                       <option value="F">Female</option>
@@ -150,9 +170,11 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_name != ''}">
                     <label for="parentName">Parent Name</label>
 
-                    <input type="text" value="" id="parentName" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_name" name="parentName"
-                      maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" #parentName="ngModel">
-                    <div *ngIf="parentName.invalid && (parentName.dirty || parentName.touched)" class="alert invalid-alert">
+                    <input type="text" value="" id="parentName" class="form-ctrl"
+                      [(ngModel)]="studentAddFormData.parent_name" name="parentName" maxlength="50"
+                      pattern="[a-zA-Z .]+[a-zA-Z .]+" #parentName="ngModel">
+                    <div *ngIf="parentName.invalid && (parentName.dirty || parentName.touched)"
+                      class="alert invalid-alert">
                       <div *ngIf="parentName.errors.pattern">
                         Name cannot have number / special characters except '.'
                       </div>
@@ -160,19 +182,33 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
-                    <label for="parentContactNo">Parent Contact Number</label>
-
-                    <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
-                      maxlength="10" minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel"
-                    />
+                    <label for="parentContactNo">Parent Contact Number</label><br>
+                    <span class="countryCallingCode"style="width: 22%">
+                        <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id"
+                        [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
+                        style="height: 29px;padding: 0">
+                        <option value=""></option>
+                        <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                          {{data.country_code}} +{{data.country_calling_code}}
+                        </option>
+                      </select>
+                    </span>
+                    <input type="text" value="" id="parentContactNo" class="form-ctrl"
+                      [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
+                      maxlength={{instituteCountryDetObj.country_phone_number_length}}
+                      minlength={{instituteCountryDetObj.country_phone_number_length}}
+                      onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel"
+                      style="width: 78%;" />
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_email != ''}">
                     <label for="parentEmail">Parent Email ID</label>
 
-                    <input type="text" value="" id="parentEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_email" name="parentEmail"
+                    <input type="text" value="" id="parentEmail" class="form-ctrl"
+                      [(ngModel)]="studentAddFormData.parent_email" name="parentEmail"
                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #parentEmail="ngModel">
-                    <div *ngIf="parentEmail.invalid && (parentEmail.dirty || parentEmail.touched)" class="alert invalid-alert">
+                    <div *ngIf="parentEmail.invalid && (parentEmail.dirty || parentEmail.touched)"
+                      class="alert invalid-alert">
                       <div *ngIf="parentEmail.errors.pattern">
                         Enter email in format eg. someone@xyz.com
                       </div>
@@ -180,14 +216,17 @@
                   </div>
 
                   <div class="more-detail" style="font-size: 14px;">
-                    <a *ngIf="!additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
-                    <a *ngIf="additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">- &nbsp; Hide Additional Details</a>
+                    <a *ngIf="!additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+
+                      &nbsp; Add Additional Details</a>
+                    <a *ngIf="additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">-
+                      &nbsp; Hide Additional Details</a>
                   </div>
 
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth" (setImage)="setImage($event)">
+                <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth"
+                  (setImage)="setImage($event)">
                 </proctur-image>
               </div>
             </div>
@@ -200,22 +239,25 @@
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.dob != ''}">
                     <label >Date of Birth</label>
 
-                    <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob" [(ngModel)]="studentAddFormData.dob" #sdob="ngModel"
-                      readonly="true" bsDatepicker>
+                    <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob"
+                      [(ngModel)]="studentAddFormData.dob" #sdob="ngModel" readonly="true" bsDatepicker>
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_curr_addr != ''}">
                     <label for="currentAdd">Current Address</label>
 
-                    <input type="text" value="" id="currentAdd" name="currentAdd" [(ngModel)]="studentAddFormData.student_curr_addr" class="form-ctrl">
+                    <input type="text" value="" id="currentAdd" name="currentAdd"
+                      [(ngModel)]="studentAddFormData.student_curr_addr" class="form-ctrl">
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_name != ''}">
                     <label for="guardianName">Guardian Name</label>
 
-                    <input type="text" value="" id="guardianName" class="form-ctrl" maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" name="guardianName"
+                    <input type="text" value="" id="guardianName" class="form-ctrl" maxlength="50"
+                      pattern="[a-zA-Z .]+[a-zA-Z .]+" name="guardianName"
                       [(ngModel)]="studentAddFormData.guardian_name" #guardianName="ngModel" />
-                    <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert invalid-alert">
+                    <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)"
+                      class="alert invalid-alert">
                       <div *ngIf="guardianName.errors.pattern">
                         Name cannot have number / special characters except '.'
                       </div>
@@ -223,10 +265,24 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_phone != ''}">
-                    <label for="guardianContact">Guardian Contact Number</label>
+                    <label for="guardianContact">Guardian Contact Number</label><br>
+                    <span class="countryCallingCode"style="width: 24%">
+                        <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id"
+                        [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
+                        style="height: 29px;padding: 0">
+                        <option value=""></option>
+                        <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                          {{data.country_code}} +{{data.country_calling_code}}
+                        </option>
+                      </select>
+                    </span>
+                    <input type="text" value="" id="guardianContact" class="form-ctrl"
+                      maxlength={{instituteCountryDetObj.country_phone_number_length}}
+                      minlength={{instituteCountryDetObj.country_phone_number_length}}
+                      [(ngModel)]="studentAddFormData.guardian_phone" name="guardianContact"
+                      onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #guardianContact="ngModel"
+                      style="width: 76%">
 
-                    <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength="10" minlength="10" [(ngModel)]="studentAddFormData.guardian_phone"
-                      name="guardianContact" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #guardianContact="ngModel">
                     <div class="questionInfo pos-rel">
                       <span class="qInfoIcon">?</span>
                       <div class="tooltip-box-field">
@@ -238,9 +294,11 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_email != ''}">
                     <label for="guardianEmail">Guardian Email ID</label>
 
-                    <input type="text" value="" id="guardianEmail" class="form-ctrl" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" name="guardianEmail"
+                    <input type="text" value="" id="guardianEmail" class="form-ctrl"
+                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" name="guardianEmail"
                       [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
-                    <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert invalid-alert">
+                    <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)"
+                      class="alert invalid-alert">
                       <div *ngIf="guardianEmail.errors.pattern">
                         Enter email in format eg. someone@xyz.com
                       </div>
@@ -250,7 +308,8 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.comments != ''}">
                     <label for="addCommentNote">Add Comment Note</label>
 
-                    <input type="text" value="" name="addCommentNote" [(ngModel)]="studentAddFormData.comments" id="addCommentNote" class="form-ctrl">
+                    <input type="text" value="" name="addCommentNote" [(ngModel)]="studentAddFormData.comments"
+                      id="addCommentNote" class="form-ctrl">
                   </div>
 
                 </div>
@@ -268,17 +327,19 @@
                 <strong>Administration Details</strong> (Official Use)</h4>
               <div>
 
-                <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
+                <div class="field-wrapper datePickerBox has-value"
+                  [ngClass]="{'has-value': studentAddFormData.doj != ''}">
                   <label for="doj">Date of Admission</label>
-                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" readonly="true" [(ngModel)]="studentAddFormData.doj"
-                  />
+                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj"
+                    readonly="true" [(ngModel)]="studentAddFormData.doj" />
                   <!-- <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span> -->
                 </div>
 
                 <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.school_name != ''}">
                   <label for="schoolStitution">School/Institution</label>
 
-                  <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name" class="form-ctrl">
+                  <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name"
+                    class="form-ctrl">
                     <option></option>
                     <option [value]="institute.school_id" *ngFor="let institute of instituteList">
                       {{institute.school_name}}
@@ -301,10 +362,12 @@
                   </select>
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto" *ngIf="isAcad" (click)="openAssignBatch()">
-                  <label for="assignCourses">     </label>
-                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" [ngModel]="assignedBatchString"
-                    placeholder="Assign Courses" id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
+                <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto" *ngIf="isAcad"
+                  (click)="openAssignBatch()">
+                  <label for="assignCourses"> </label>
+                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px"
+                    name="assignCoursesParent" [ngModel]="assignedBatchString" placeholder="Assign Courses"
+                    id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
                   <a style="cursor:pointer" (click)="openAssignBatch()">Assign Courses</a>
                 </div>
 
@@ -315,8 +378,8 @@
                 <div class="field-wrapper" *ngIf="isProfessional">
                   <label for="masterCourse">Master Course</label>
 
-                  <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id" (ngModelChange)="fetchCourseFromMaster($event)"
-                    class="form-ctrl">
+                  <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id"
+                    (ngModelChange)="fetchCourseFromMaster($event)" class="form-ctrl">
                     <option value="-1"></option>
                     <option *ngFor="let course of standardList" [value]="course.standard_id">
                       {{course.standard_name}}
@@ -335,17 +398,20 @@
                   </select>
                 </div>
 
-                <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional" (click)="multiselectVisible($event.target.id)">
+                <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional"
+                  (click)="multiselectVisible($event.target.id)">
                   <label for="slot">Slots</label>
 
-                  <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
+                  <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl"
+                    readonly="true" />
                 </div>
                 <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
                   <div class="multiselect-wrapper-inner">
                     <ul class="">
                       <li *ngFor="let slot of slots">
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" value="" name="slot.label" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
+                          <input type="checkbox" value="" name="slot.label" [(ngModel)]="slot.status"
+                            (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
                           <label for="slot.id">{{slot.label}}</label>
                         </div>
                       </li>
@@ -356,18 +422,22 @@
                 <div class="field-wrapper has-value hide" *ngIf="isProfessional">
                   <label for="status">Status</label>
 
-                  <select id="status" [(ngModel)]="studentAddFormData.language_inst_status" name="status" class="form-ctrl">
+                  <select id="status" [(ngModel)]="studentAddFormData.language_inst_status" name="status"
+                    class="form-ctrl">
                     <option></option>
-                    <option *ngFor="let status of langStatus" [value]="status.data_key" [attr.selected]="status.data_key == 'admitted' ? '' : null">
+                    <option *ngFor="let status of langStatus" [value]="status.data_key"
+                      [attr.selected]="status.data_key == 'admitted' ? '' : null">
                       {{status.data_value}}
                     </option>
                   </select>
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper" style="height:auto" *ngIf="isProfessional" (click)="openAssignBatch()">
+                <div id="assignCoursesParent" class="field-wrapper" style="height:auto" *ngIf="isProfessional"
+                  (click)="openAssignBatch()">
                   <label (click)="openAssignBatch()" for="assignCourses"></label>
-                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" cols="1" rows="1"
-                    placeholder="Assign Batch" [ngModel]="assignedBatchString" id="assignCourses" class="form-ctrl" readonly="true"></textarea>
+                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px"
+                    name="assignCoursesParent" cols="1" rows="1" placeholder="Assign Batch"
+                    [ngModel]="assignedBatchString" id="assignCourses" class="form-ctrl" readonly="true"></textarea>
                   <a style="cursor:pointer" (click)="openAssignBatch()">Assign Batch</a>
                 </div>
 
@@ -385,8 +455,8 @@
         <section class="middle-bottom clearFix">
           <div class="pull-left">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)"
-                class="form-checkbox" id="isStudentActive">
+              <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive"
+                (ngModelChange)="updateFormIsActive($event)" class="form-checkbox" id="isStudentActive">
               <label for="isStudentActive">Is Active Student</label>
             </div>
           </div>
@@ -402,9 +472,10 @@
               </div>
             </div> -->
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" id="form-continue" [class.hide]="quickAddStudent" value="Continue" class="btn fullBlue" (click)="navigateTo('kyc')">
-            <input type="button" id="form-submit" [disabled]="!values.form.valid" [class.hide]="!quickAddStudent" (click)="studentQuickAdder(values)"
-              value="Submit" class="btn hide fullBlue">
+            <input type="button" id="form-continue" [class.hide]="quickAddStudent" value="Continue" class="btn fullBlue"
+              (click)="navigateTo('kyc')">
+            <input type="button" id="form-submit" [disabled]="!values.form.valid" [class.hide]="!quickAddStudent"
+              (click)="studentQuickAdder(values)" value="Submit" class="btn hide fullBlue">
           </aside>
         </section>
 
@@ -431,30 +502,34 @@
 
                 <div class="row" *ngIf="component.type == 1" input-def>
                   <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span
+                        class="text-danger">*</span></label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
-                    <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
-                    [maxlength]="component.data.comp_length"  />
+                    <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value"
+                      class="form-ctrl" name="{{component.label}}" [maxlength]="component.data.comp_length" />
                   </div>
                 </div>
 
                 <div class="row" *ngIf="component.type == 2" input-def>
                   <br>
                   <div class="field-checkbox-wrapper">
-                    <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
-                      value="{{component.value}}" >
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
+                    <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"
+                      name="{{component.label}}" value="{{component.value}}">
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span
+                        class="text-danger">*</span></label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                   </div>
                 </div>
 
                 <div class="row" *ngIf="component.type == 3" input-def>
                   <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span
+                        class="text-danger">*</span></label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
-                    <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
+                    <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value"
+                      name="{{component.label}}">
                       <option value=""></option>
                       <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                     </select>
@@ -462,20 +537,23 @@
                 </div>
 
                 <div class="row" *ngIf="component.type == 4" input-def>
-                  <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.selectedString != ''}">
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
+                  <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)"
+                    [ngClass]="{'has-value': component.selectedString != ''}">
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span
+                        class="text-danger">*</span></label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
-                    <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
-                      readonly="true" />
+                    <input id="{{component.id}}" type="text" [ngModel]="component.selectedString"
+                      name="{{component.label}}" class="form-ctrl" readonly="true" />
                   </div>
-                  <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
+                  <div id="{{component.id}}multi" class="hide multiselect-wrapper"
+                    (mouseleave)="multiselectVisible(component.id)">
                     <div class="multiselect-wrapper-inner">
                       <ul class="">
                         <li *ngFor="let opt of component.prefilled_data">
                           <div class="field-checkbox-wrapper">
-                            <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
-                              class="form-checkbox">
+                            <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked"
+                              (ngModelChange)="updateMultiSelect(opt, component.id)" class="form-checkbox">
                             <label for="opt.data">{{opt.data}}</label>
                           </div>
                         </li>
@@ -488,8 +566,8 @@
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
                     <label for="{{component.id}}">{{component.label}} </label>
 
-                    <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
-                      name="{{component.label}}" bsDatepicker />
+                    <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value"
+                      class="form-ctrl bsDatepicker" name="{{component.label}}" bsDatepicker />
                   </div>
                 </div>
 
@@ -504,10 +582,12 @@
           </aside>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" #saveAndContinue id="form-kyc-continue" [disabled]="!values.form.valid && isRippleLoad" value="Save and Continue" class="btn fullBlue"
-              [class.hide]="quickAddStudent" (click)="addStudentDataAndFetchFee(values)">
-            <input type="button" id="form-kyc-submit" [disabled]="!values.form.valid && isRippleLoad" (click)="studentQuickAdder(values)" value="Submit"
-              [class.hide]="!quickAddStudent" class="btn hide fullBlue">
+            <input type="button" #saveAndContinue id="form-kyc-continue" [disabled]="!values.form.valid && isRippleLoad"
+              value="Save and Continue" class="btn fullBlue" [class.hide]="quickAddStudent"
+              (click)="addStudentDataAndFetchFee(values)">
+            <input type="button" id="form-kyc-submit" [disabled]="!values.form.valid && isRippleLoad"
+              (click)="studentQuickAdder(values)" value="Submit" [class.hide]="!quickAddStudent"
+              class="btn hide fullBlue">
           </aside>
         </section>
       </section>
@@ -521,11 +601,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77) rotate(45)" />
             </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
           </g>
         </svg>
       </span>
@@ -555,8 +637,10 @@
       <div class="" popup-footer>
         <div class="clearfix">
           <aside class="text-center popup-btn">
-            <input type="button" value="Send" style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(1)" class="fullBlue btn">
-            <input type="button" value="Cancel" style="font-size:12px; height: 30px;" class="btn" (click)="isShareDetails=false">
+            <input type="button" value="Send" style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(1)"
+              class="fullBlue btn">
+            <input type="button" value="Cancel" style="font-size:12px; height: 30px;" class="btn"
+              (click)="isShareDetails=false">
 
           </aside>
         </div>
@@ -575,7 +659,8 @@
             <span style="font-weight: 100; ">{{studentAddFormData.student_name}}</span>
           </h1>
           <aside class="pull-right btn-diff">
-            <button class="btn-header" (click)="openDiscountApply()" *ngIf="checkBoxGroup.showFeeSection && checkBoxGroup.feeDiscouting">
+            <button class="btn-header" (click)="openDiscountApply()"
+              *ngIf="checkBoxGroup.showFeeSection && checkBoxGroup.feeDiscouting">
               <img src="../../../../assets/images/discount.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Discount</span>
             </button>
@@ -583,7 +668,8 @@
               <img src="../../../../assets/images/cheque.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Manage Cheques</span>
             </button>
-            <button class="btn-header" (click)="reConfigureFees($event)" *ngIf="checkBoxGroup.showFeeSection && checkBoxGroup.hideReconfigure">
+            <button class="btn-header" (click)="reConfigureFees($event)"
+              *ngIf="checkBoxGroup.showFeeSection && checkBoxGroup.hideReconfigure">
               <img src="../../../../assets/images/reconfigure.svg" style="width:16px; height:16px;">
               <span>Re-configure Fees</span>
             </button>
@@ -605,8 +691,10 @@
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
               <span class="amount-Value">{{cardAmountObject.discountAmount | commaSeprator}}</span>
-              <span class="tooltip-content">The discount value is the total discount applied to the student across all its course(s). This value is the
-                combination of previous discount and the new discount applied post the release of new discount feature recently
+              <span class="tooltip-content">The discount value is the total discount applied to the student across all
+                its course(s). This value is the
+                combination of previous discount and the new discount applied post the release of new discount feature
+                recently
                 introduced.
               </span>
             </div>
@@ -615,7 +703,8 @@
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
               <span class="amount-Value">{{cardAmountObject.taxAmount | commaSeprator}}</span>
-              <span class="tooltip-content">Tax component in Summary card and total tax in individual Instalments may differ due to rounding off decimal
+              <span class="tooltip-content">Tax component in Summary card and total tax in individual Instalments may
+                differ due to rounding off decimal
                 values.
               </span>
             </div>
@@ -649,20 +738,21 @@
           <div class="row">
             <div class="c-sm-12 c-md-12 c-lg-12" style="margin-bottom: 10px ">
               <div class="field-checkbox-wrapper" style="display: inline-block;margin-right: 15px;">
-                <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="checkBoxGroup.unpaidInstallment" (ngModelChange)="onPaidOrUnpaidCheckbox()"
-                  name="chkBoxUnpaidMain" id="chkBoxUnpaidMain" />
+                <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="checkBoxGroup.unpaidInstallment"
+                  (ngModelChange)="onPaidOrUnpaidCheckbox()" name="chkBoxUnpaidMain" id="chkBoxUnpaidMain" />
                 <label for="chkBoxUnpaidMain">Unpaid</label>
               </div>
 
               <div class="field-checkbox-wrapper" style="display: inline-block;margin-right: 15px;">
-                <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="checkBoxGroup.paidInstallment" (ngModelChange)="onPaidOrUnpaidCheckbox()"
-                  name="chkBoxpaidMain" id="chkBoxpaidMain" />
+                <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="checkBoxGroup.paidInstallment"
+                  (ngModelChange)="onPaidOrUnpaidCheckbox()" name="chkBoxpaidMain" id="chkBoxpaidMain" />
                 <label for="chkBoxpaidMain">Paid</label>
               </div>
               <a id="hiddenAnchorTag2" class="hide">Element Made For fee Installment Download</a>
               <input style="right: 115px;" type="button" value="Share" (click)="isShareDetails= !isShareDetails"
                 class="btn downloadbtn">
-              <i  class="fa fa-download" (click)="studentFeeInstallment(-1)" style="font-size: 25px;color: #0084f6;position: absolute;right: 70px;top: 6px;"
+              <i class="fa fa-download" (click)="studentFeeInstallment(-1)"
+                style="font-size: 25px;color: #0084f6;position: absolute;right: 70px;top: 6px;"
                 placeholder="Download fee installment"></i>
             </div>
           </div>
@@ -673,8 +763,8 @@
 
                 <aside class="checkbox-div">
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}" [(ngModel)]="tableHeaderCheckbox" (ngModelChange)="mainTAbleCheckboxClicked($event)"
-                    />
+                    <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}"
+                      [(ngModel)]="tableHeaderCheckbox" (ngModelChange)="mainTAbleCheckboxClicked($event)" />
                     <label for="instl{{i}}">Course Name</label>
                   </div>
                 </aside>
@@ -712,16 +802,23 @@
 
                 <div class="course-installment" (click)="openInstallmentListOfCourse(i ,  'open' , $event)">
                   <div class="checkbox-div">
-                    <div class="field-checkbox-wrapper hide" [ngClass]="{visibilityHidden: data.paid_Full_Installment_CourseWise == 'Paid'}">
-                      <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="data.uiSelected" (ngModelChange)="onCheckBoxSelection($event ,  'course' , data)"
-                      />
+                    <div class="field-checkbox-wrapper hide"
+                      [ngClass]="{visibilityHidden: data.paid_Full_Installment_CourseWise == 'Paid'}">
+                      <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="data.uiSelected"
+                        (ngModelChange)="onCheckBoxSelection($event ,  'course' , data)" />
                       <label></label>
                     </div>
                     <span>
-                      <i id="idDownIcon{{i}}" class="fa fa-angle-right iconStyling" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'open' , $event)"></i>
-                      <i id="idUpIcon{{i}}" class="fa fa-angle-down hide iconStyling" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'close' , $event)"></i>
-                      <span class="elipsisText" *ngIf="data.master_course_name != '' &&  data.master_course_name != null" title="{{data.master_course_name}} - {{data.courseName}}">{{data.master_course_name}} - {{data.courseName}}</span>
-                      <span class="elipsisText" *ngIf="data.master_course_name == '' ||  data.master_course_name == null">{{data.courseName}}</span>
+                      <i id="idDownIcon{{i}}" class="fa fa-angle-right iconStyling" aria-hidden="true"
+                        (click)="openInstallmentListOfCourse(i ,  'open' , $event)"></i>
+                      <i id="idUpIcon{{i}}" class="fa fa-angle-down hide iconStyling" aria-hidden="true"
+                        (click)="openInstallmentListOfCourse(i ,  'close' , $event)"></i>
+                      <span class="elipsisText"
+                        *ngIf="data.master_course_name != '' &&  data.master_course_name != null"
+                        title="{{data.master_course_name}} - {{data.courseName}}">{{data.master_course_name}} -
+                        {{data.courseName}}</span>
+                      <span class="elipsisText"
+                        *ngIf="data.master_course_name == '' ||  data.master_course_name == null">{{data.courseName}}</span>
                     </span>
                   </div>
 
@@ -747,9 +844,12 @@
                     </div>
 
                     <div class="status-amount">
-                      <span *ngIf="data.paid_Full_Installment_CourseWise == 'Partially Paid'" class="partial">{{data.paid_Full_Installment_CourseWise}}</span>
-                      <span *ngIf="data.paid_Full_Installment_CourseWise == 'Due'" class="due">{{data.paid_Full_Installment_CourseWise}}</span>
-                      <span *ngIf="data.paid_Full_Installment_CourseWise == 'Paid'" class="paid">{{data.paid_Full_Installment_CourseWise}}</span>
+                      <span *ngIf="data.paid_Full_Installment_CourseWise == 'Partially Paid'"
+                        class="partial">{{data.paid_Full_Installment_CourseWise}}</span>
+                      <span *ngIf="data.paid_Full_Installment_CourseWise == 'Due'"
+                        class="due">{{data.paid_Full_Installment_CourseWise}}</span>
+                      <span *ngIf="data.paid_Full_Installment_CourseWise == 'Paid'"
+                        class="paid">{{data.paid_Full_Installment_CourseWise}}</span>
                     </div>
                   </div>
                 </div>
@@ -806,11 +906,14 @@
 
                     </li>
 
-                    <li *ngFor="let installment of data.installmentArray; let j = index" class="inner-table installment-row">
+                    <li *ngFor="let installment of data.installmentArray; let j = index"
+                      class="inner-table installment-row">
 
                       <div class="checkbox">
-                        <div class="field-checkbox-wrapper" [ngClass]="{visibilityHidden: installment.paid_full == 'Y'}">
-                          <input type="checkbox" value="" class="form-checkbox" id="installmentCh{{installment.installment_no}}" [(ngModel)]="installment.uiSelected"
+                        <div class="field-checkbox-wrapper"
+                          [ngClass]="{visibilityHidden: installment.paid_full == 'Y'}">
+                          <input type="checkbox" value="" class="form-checkbox"
+                            id="installmentCh{{installment.installment_no}}" [(ngModel)]="installment.uiSelected"
                             (ngModelChange)="onCheckBoxSelection($event ,  'installment' , installment)" />
                           <label for="installmentCh{{installment.installment_no}}"></label>
                         </div>
@@ -837,8 +940,10 @@
 
                         <div class="balance" style="margin-right:5px">
                           <span *ngIf="installment.paid_full == 'Y'">{{ 0 | commaSeprator}}</span>
-                          <span *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">{{installment.balance_amount | commaSeprator}}</span>
-                          <span *ngIf="installment.balance_amount == 0 && installment.paid_full == 'N'">{{installment.fees_amount | commaSeprator}}</span>
+                          <span
+                            *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">{{installment.balance_amount | commaSeprator}}</span>
+                          <span
+                            *ngIf="installment.balance_amount == 0 && installment.paid_full == 'N'">{{installment.fees_amount | commaSeprator}}</span>
                         </div>
 
                         <div class="dueDate">
@@ -854,9 +959,12 @@
                         </div>
 
                         <div class="status-amount">
-                          <span class="paid" *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'Y'))">Paid</span>
-                          <span class="due" *ngIf="((installment.is_referenced == 'N')&&(installment.paid_full == 'N'))">Due</span>
-                          <span class="partial" *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'N'))">
+                          <span class="paid"
+                            *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'Y'))">Paid</span>
+                          <span class="due"
+                            *ngIf="((installment.is_referenced == 'N')&&(installment.paid_full == 'N'))">Due</span>
+                          <span class="partial"
+                            *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'N'))">
                             Partially Paid
                           </span>
                         </div>
@@ -894,8 +1002,10 @@
               Payment for {{totalAmountToPay | commaSeprator}} to be updated
             </div>
             <div style="display: inline-block;" class="">
-              <input type="button" *ngIf="totalAmountToPay != 0" value="Update Payment" (click)="openPaymentDetails($event)" class="btn fullBlue">
-              <input *ngIf="totalAmountToPay == 0" type="button" value="Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
+              <input type="button" *ngIf="totalAmountToPay != 0" value="Update Payment"
+                (click)="openPaymentDetails($event)" class="btn fullBlue">
+              <input *ngIf="totalAmountToPay == 0" type="button" value="Continue" (click)="navigateTo('inventory')"
+                class="btn fullBlue">
             </div>
           </aside>
 
@@ -926,7 +1036,8 @@
             <div class="c-sm-3 c-md-3 c-lg-3">
               <div class="field-wrapper">
                 <label for="itemInventory">Inventory Item</label>
-                <select id="itemInventory" [(ngModel)]="addInventory.item_id" name="itemInventory" class="form-ctrl" (ngModelChange)="onInventoryItemSelction()">
+                <select id="itemInventory" [(ngModel)]="addInventory.item_id" name="itemInventory" class="form-ctrl"
+                  (ngModelChange)="onInventoryItemSelction()">
                   <option value="-1"></option>
                   <option *ngFor="let item of inventoryItemsArr" [value]="item.item_id">
                     {{item.item_name}}
@@ -982,7 +1093,8 @@
                         {{item.alloted_units}}
                       </td>
                       <td>
-                        <a *ngIf="item.alloted_units > 0" style="cursor: pointer;" (click)="deleteInventory(item)">Delete</a>
+                        <a *ngIf="item.alloted_units > 0" style="cursor: pointer;"
+                          (click)="deleteInventory(item)">Delete</a>
                       </td>
                     </tr>
                   </tbody>
@@ -1029,11 +1141,13 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+              transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+              transform="translate(978.81 305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-          />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+            transform="translate(1012 297)" />
         </g>
       </svg>
     </span>
@@ -1053,8 +1167,8 @@
             <div class="field-wrapper">
               <label for="instituteName">Institute Name</label>
 
-              <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
-              />
+              <input type="text" value="" id="instituteName" class="form-ctrl"
+                [(ngModel)]="createInstitute.instituteName" name="instituteName" />
             </div>
           </div>
 
@@ -1133,8 +1247,9 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
-  <student-batch-list (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)" *ngIf="isAssignBatch"
-    [dataList]="batchList" [defaultAcadYear]="defaultAcadYear" [academicYear]="academicYear" [standardList]="standardList"></student-batch-list>
+  <student-batch-list (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)"
+    *ngIf="isAssignBatch" [dataList]="batchList" [defaultAcadYear]="defaultAcadYear" [academicYear]="academicYear"
+    [standardList]="standardList"></student-batch-list>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Duplicate Contact =============================== -->
@@ -1143,11 +1258,13 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+              transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+              transform="translate(978.81 305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-          />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+            transform="translate(1012 297)" />
         </g>
       </svg>
     </span>
@@ -1164,7 +1281,8 @@
           <div class="field-wrapper">
             <label for="sEmail2">Student's Email<span class="text-danger">*</span></label>
 
-            <input type="text" value="" id="sEmail2" class="form-ctrl" [(ngModel)]="studentAddFormData.student_manual_username" name="sEmail2"
+            <input type="text" value="" id="sEmail2" class="form-ctrl"
+              [(ngModel)]="studentAddFormData.student_manual_username" name="sEmail2"
               pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #sEmail2="ngModel" />
             <div *ngIf="sEmail2.invalid && (sEmail2.dirty || sEmail2.touched)" class="alert invalid-alert">
               <div *ngIf="sEmail2.errors.required">
@@ -1185,7 +1303,8 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="isDuplicateContactClose()">
-          <input type="button" value="Ok" class="fullBlue btn" [disabled]="!semail.form.valid" (click)="registerDuplicateStudent(semail)">
+          <input type="button" value="Ok" class="fullBlue btn" [disabled]="!semail.form.valid"
+            (click)="registerDuplicateStudent(semail)">
         </aside>
       </div>
     </div>
@@ -1198,11 +1317,13 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+              transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+              transform="translate(978.81 305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-          />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+            transform="translate(1012 297)" />
         </g>
       </svg>
     </span>
@@ -1229,8 +1350,8 @@
         <div class="field-wrapper datePickerBox has-value">
           <label for="effD">Effective Date<span class="text-danger">*</span></label>
 
-          <input type="text" value="" id="effD" class="form-ctrl bsDatepicker" [(ngModel)]="feeStructureForm.template_effective_date"
-            name="effD" bsDatepicker readonly="true">
+          <input type="text" value="" id="effD" class="form-ctrl bsDatepicker"
+            [(ngModel)]="feeStructureForm.template_effective_date" name="effD" bsDatepicker readonly="true">
           <span class="date-clear" name="followupdate" (click)="clearEffectiveDate($event)">clear</span>
         </div>
 
@@ -1250,15 +1371,18 @@
   <!-- ======================================================== -->
   <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->
-  <student-fee-table *ngIf="isDefineFees"  [academicListData]="academicList" [courseDropdown]="courseDropdown" (closePopup)="closeAllFeePops($event)" [feeTemplateData]="feeTemplateById"
-    [studentName]="studentName" [student_id]="student_id">
+  <student-fee-table *ngIf="isDefineFees" [academicListData]="academicList" [courseDropdown]="courseDropdown"
+    (closePopup)="closeAllFeePops($event)" [feeTemplateData]="feeTemplateById" [studentName]="studentName"
+    [student_id]="student_id">
   </student-fee-table>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Apply Discounts ============================ -->
 
-  <student-discount *ngIf="isDiscountApply" [feeObject]="feeObject" [totalDiscountApplied]="cardAmountObject.discountAmount"
-    [initialAmountWithoutTax]="cardAmountObject.feeAmountExclTax" (closePopup)="onDiscountPopUpClose(event)" [student_id]="student_id"></student-discount>
+  <student-discount *ngIf="isDiscountApply" [feeObject]="feeObject"
+    [totalDiscountApplied]="cardAmountObject.discountAmount"
+    [initialAmountWithoutTax]="cardAmountObject.feeAmountExclTax" (closePopup)="onDiscountPopUpClose(event)"
+    [student_id]="student_id"></student-discount>
 
 
 
@@ -1273,11 +1397,13 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+              transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+              transform="translate(978.81 305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-          />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+            transform="translate(1012 297)" />
         </g>
       </svg>
     </span>
@@ -1302,30 +1428,32 @@
 
               <li>
                 <div class="form-wrapper">
-                  <input type="text" value="" placeholder="Bank Name" class="form-ctrl" id="bankName" [(ngModel)]="pdcAddForm.bank_name" name="bankName"
-                    maxlength="50" required>
+                  <input type="text" value="" placeholder="Bank Name" class="form-ctrl" id="bankName"
+                    [(ngModel)]="pdcAddForm.bank_name" name="bankName" maxlength="50" required>
                 </div>
               </li>
 
               <li>
                 <div class="form-wrapper">
-                  <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" value="" placeholder="Cheque Number"
-                    class="form-ctrl" id="chequeno" [(ngModel)]="pdcAddForm.cheque_no" name="chequeno" minlength="6" maxlength="6"
-                    #chequeno="ngModel" required>
+                  <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" value=""
+                    placeholder="Cheque Number" class="form-ctrl" id="chequeno" [(ngModel)]="pdcAddForm.cheque_no"
+                    name="chequeno" minlength="6" maxlength="6" #chequeno="ngModel" required>
                 </div>
               </li>
 
               <li>
                 <div class="form-wrapper datePickerBox">
-                  <input type="text" value="" placeholder="Cheque Date" id="chequedate" class="form-ctrl bsDatepicker" name="chequedate" [(ngModel)]="pdcAddForm.cheque_date"
-                    readonly="true" #chequedate="ngModel" bsDatepicker>
+                  <input type="text" value="" placeholder="Cheque Date" id="chequedate" class="form-ctrl bsDatepicker"
+                    name="chequedate" [(ngModel)]="pdcAddForm.cheque_date" readonly="true" #chequedate="ngModel"
+                    bsDatepicker>
                 </div>
               </li>
 
               <li>
                 <div class="form-wrapper">
-                  <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" value="" id="chequeamount" class="form-ctrl"
-                    name="chequeamount" [(ngModel)]="pdcAddForm.cheque_amount" max="6" placeholder="Amount">
+                  <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" value=""
+                    id="chequeamount" class="form-ctrl" name="chequeamount" [(ngModel)]="pdcAddForm.cheque_amount"
+                    max="6" placeholder="Amount">
                 </div>
               </li>
 
@@ -1353,10 +1481,12 @@
               <li>Action</li>
             </ul>
             <div class="table-data" *ngIf="chequePdcList.length != 0">
-              <ul class="table-row displayComp" [id]='ch.student_id +ch.cheque_id' *ngFor="let ch of chequePdcList; let i = index;">
+              <ul class="table-row displayComp" [id]='ch.student_id +ch.cheque_id'
+                *ngFor="let ch of chequePdcList; let i = index;">
                 <li>
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" name="pdcGen" class="form-checkbox" [(ngModel)]="ch.uiSelected" id="pdcEditlist{{i}}">
+                    <input type="checkbox" name="pdcGen" class="form-checkbox" [(ngModel)]="ch.uiSelected"
+                      id="pdcEditlist{{i}}">
                     <label for="pdcEditlist{{i}}"></label>
                   </div>
                 </li>
@@ -1385,8 +1515,8 @@
                 </li>
                 <li class="edit-comp ">
                   <div class="field-wrapper datePickerBox">
-                    <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="ch.cheque_date" name="pdto" readonly="true"
-                      bsDatepicker>
+                    <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="ch.cheque_date"
+                      name="pdto" readonly="true" bsDatepicker>
                   </div>
                 </li>
 
@@ -1396,8 +1526,8 @@
                 </li>
                 <li class="edit-comp ">
                   <div class="field-wrapper datePickerBox">
-                    <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="ch.clearing_date" name="pdto" readonly="true"
-                      bsDatepicker>
+                    <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="ch.clearing_date"
+                      name="pdto" readonly="true" bsDatepicker>
                   </div>
                 </li>
 
@@ -1416,7 +1546,7 @@
                   {{ch.cheque_status}}
                 </li>
                 <li class="edit-comp ">
-                    {{ch.cheque_status}}
+                  {{ch.cheque_status}}
                   <!-- <div class="field-wrapper">
                     <select id="" class="form-ctrl" name="" [(ngModel)]="ch.cheque_status_key">
                       <option *ngFor="let opt of pdcStatus" [value]="opt.data_key" [hidden]="opt.data_key == '3'">
@@ -1428,8 +1558,10 @@
 
                 <!-- Action -->
                 <li class="view-comp actions">
-                  <a style="cursor:pointer;margin-right: 15px;" (click)="editPDC(ch)" *ngIf="(ch.cheque_status_key != 3 && ch.cheque_status_key != 2)">Edit</a>
-                  <a style="cursor:pointer;margin-right: 15px;" (click)="deletePDC(ch, i)" *ngIf="(ch.cheque_status_key != 3 && ch.cheque_status_key != 2)">Delete</a>
+                  <a style="cursor:pointer;margin-right: 15px;" (click)="editPDC(ch)"
+                    *ngIf="(ch.cheque_status_key != 3 && ch.cheque_status_key != 2)">Edit</a>
+                  <a style="cursor:pointer;margin-right: 15px;" (click)="deletePDC(ch, i)"
+                    *ngIf="(ch.cheque_status_key != 3 && ch.cheque_status_key != 2)">Delete</a>
                 </li>
                 <li class="edit-comp">
                   <a style="cursor:pointer;margin-right: 15px;" (click)="updatePDC(ch)">Update</a>
@@ -1439,7 +1571,9 @@
               </ul>
             </div>
             <div class="table-data" *ngIf="chequePdcList.length == 0">
-              <h3 style="text-align: center;padding: 20px 0px;border-bottom: 1px solid rgba(119, 119, 119, 0.32);border-left: 1px solid rgba(119, 119, 119, 0.32);border-right: 1px solid rgba(119, 119, 119, 0.32);">No Cheque Saved</h3>
+              <h3
+                style="text-align: center;padding: 20px 0px;border-bottom: 1px solid rgba(119, 119, 119, 0.32);border-left: 1px solid rgba(119, 119, 119, 0.32);border-right: 1px solid rgba(119, 119, 119, 0.32);">
+                No Cheque Saved</h3>
             </div>
           </div>
         </div>
@@ -1467,11 +1601,13 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+              transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+              transform="translate(978.81 305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-          />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+            transform="translate(1012 297)" />
         </g>
       </svg>
     </span>
@@ -1488,14 +1624,15 @@
 
           <div class="field-wrapper">
             <label for="payamt">Payment for</label>
-            <input type="text" id="payamt" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="paymentPopUpJson.payingAmount"
-              name="payamt" (keyup)="totalPartialChange($event)" />
+            <input type="text" id="payamt" class="form-ctrl"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+              [(ngModel)]="paymentPopUpJson.payingAmount" name="payamt" (keyup)="totalPartialChange($event)" />
           </div>
 
           <div class="field-wrapper datePickerBox">
             <label for="pd">Payment Date<span class="text-danger">*</span></label>
-            <input type="text" value="" id="pd" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="paymentPopUpJson.paid_date"
-              name="pd" bsDatepicker>
+            <input type="text" value="" id="pd" class="form-ctrl bsDatepicker" readonly="true"
+              [(ngModel)]="paymentPopUpJson.paid_date" name="pd" bsDatepicker>
           </div>
 
           <div class="field-wrapper">
@@ -1513,18 +1650,21 @@
 
           <div class="field-wrapper">
             <label for="ref">Reference No.</label>
-            <input type="text" value="" id="ref" class="form-ctrl" [(ngModel)]="paymentPopUpJson.reference_no" name="ref" />
+            <input type="text" value="" id="ref" class="form-ctrl" [(ngModel)]="paymentPopUpJson.reference_no"
+              name="ref" />
           </div>
 
           <div class="field-wrapper">
             <label for="rema">Remarks</label>
-            <input type="text" value="" id="rema" class="form-ctrl" [(ngModel)]="paymentPopUpJson.remarks" name="rema" />
+            <input type="text" value="" id="rema" class="form-ctrl" [(ngModel)]="paymentPopUpJson.remarks"
+              name="rema" />
           </div>
 
         </div>
 
         <!-- Cheque Payment PDC updates -->
-        <div style="margin: 5px -5px;" class="row pdcChequePayment" *ngIf="paymentPopUpJson.payment_mode == 'Cheque/PDC/DD No.'">
+        <div style="margin: 5px -5px;" class="row pdcChequePayment"
+          *ngIf="paymentPopUpJson.payment_mode == 'Cheque/PDC/DD No.'">
           <h5></h5>
 
           <div [ngClass]="{'hide': chequePdcList.length == 0}" class="">
@@ -1534,12 +1674,15 @@
                 <div class="questionInfo pos-rel">
                   <span class="qInfoIcon">?</span>
                   <div class="tooltip-box-field">
-                    Choose Post Dated Cheque for which the payment is to be made. This is applicable if Cheques are added using Manage Cheques
+                    Choose Post Dated Cheque for which the payment is to be made. This is applicable if Cheques are
+                    added using Manage Cheques
                   </div>
                 </div>
-                <select id="pMode" name="pMode" [(ngModel)]="paymentPopUpJson.selectedPdcId" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
+                <select id="pMode" name="pMode" [(ngModel)]="paymentPopUpJson.selectedPdcId" class="form-ctrl"
+                  (ngModelChange)="feePdcSelected($event)">
                   <option value=""></option>
-                  <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
+                  <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList"
+                    [hidden]="opt.cheque_status_key != 1">
                     {{opt.cheque_date| procturDate}} ( {{opt.cheque_amount| commaSeprator}} )
                   </option>
                 </select>
@@ -1550,34 +1693,38 @@
           <div class="c-lg-12">
             <div class="field-wrapper">
               <label for="pdcfeepay">Bank Name<span class="text-danger">*</span></label>
-              <input disabled="true" type="text" value="" id="pdcfeepay" class="form-ctrl" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.bank_name"
-                name="" />
+              <input disabled="true" type="text" value="" id="pdcfeepay" class="form-ctrl"
+                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.bank_name" name="" />
             </div>
           </div>
 
           <div class="c-lg-12">
             <div class="field-wrapper datePickerBox">
               <label for="pdcfeeselect">Cheque Date<span class="text-danger">*</span></label>
-              <input *ngIf="paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect" class="form-ctrl bsDatepicker"
-                readonly="true" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="" bsDatepicker>
-              <input *ngIf="!paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect" class="form-ctrl bsDatepicker"
-                readonly="true" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="">
+              <input *ngIf="paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect"
+                class="form-ctrl bsDatepicker" readonly="true"
+                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="" bsDatepicker>
+              <input *ngIf="!paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect"
+                class="form-ctrl bsDatepicker" readonly="true"
+                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="">
             </div>
           </div>
 
           <div class="c-lg-12">
             <div class="field-wrapper">
               <label for="pdccheque">Cheque No.<span class="text-danger">*</span></label>
-              <input disabled="true"  id="pdccheque" type="text" minlength="6" maxlength="6" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                class="form-ctrl" name="" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_no" />
+              <input disabled="true" id="pdccheque" type="text" minlength="6" maxlength="6"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name=""
+                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_no" />
             </div>
           </div>
 
           <div class="c-lg-12">
             <div class="field-wrapper">
               <label for="pdctrue">Cheque Amount<span class="text-danger">*</span></label>
-              <input readonly='true' type="text" value="" id="pdctrue" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                class="form-ctrl" name="" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_amount" />
+              <input readonly='true' type="text" value="" id="pdctrue"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name=""
+                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_amount" />
             </div>
           </div>
         </div>
@@ -1585,13 +1732,15 @@
         <div class="row" style="margin-top: 10px;">
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="paymentPopUpJson.genFeeRecipt" class="form-checkbox" id="isGenPdc">
+              <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="paymentPopUpJson.genFeeRecipt"
+                class="form-checkbox" id="isGenPdc">
               <label for="isGenPdc">Generate Fee Receipt</label>
             </div>
           </div>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="emailPdc" [(ngModel)]="paymentPopUpJson.emailFeeRecipt" class="form-checkbox" id="emailPdc">
+              <input type="checkbox" value="" name="emailPdc" [(ngModel)]="paymentPopUpJson.emailFeeRecipt"
+                class="form-checkbox" id="emailPdc">
               <label for="emailPdc">Email Receipt</label>
             </div>
           </div>
@@ -1626,13 +1775,13 @@
       </div>
       <br>
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" id="retrieveOldStudent" name="cb1" [(ngModel)]="retrieveOldStudent"
-            class="form-checkbox" (ngModelChange)="check(1)">
+        <input type="checkbox" id="retrieveOldStudent" name="cb1" [(ngModel)]="retrieveOldStudent" class="form-checkbox"
+          (ngModelChange)="check(1)">
         <label for="retrieveOldStudent"> Retrieve student data.</label>
       </div>
       <div class="field-checkbox-wrapper">
         <input type="checkbox" id="createDuplicateStudent" name="cb2" [(ngModel)]="createDuplicateStudent"
-            class="form-checkbox" (ngModelChange)="check(2)">
+          class="form-checkbox" (ngModelChange)="check(2)">
         <label for="createDuplicateStudent"> Add new student</label>
       </div>
 
@@ -1652,6 +1801,7 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ======================================================== -->
-  <partial-pay-history *ngIf="isPartialPayHistory" (closeHist)="closeHistory($event)" [schedule_id]="schedule_id" [studentid]="student_id"></partial-pay-history>
+  <partial-pay-history *ngIf="isPartialPayHistory" (closeHist)="closeHistory($event)" [schedule_id]="schedule_id"
+    [studentid]="student_id"></partial-pay-history>
 
 </section>
