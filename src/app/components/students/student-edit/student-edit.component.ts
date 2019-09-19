@@ -33,6 +33,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     formIsActive:false,
   }
 
+  countryDetails: any=[];
   isConvertEnquiry: boolean = false;
   isNewInstitute: boolean = true;
   isNewInstituteEditor: boolean = false;
@@ -121,11 +122,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   feeObject: FeeModel;
   selectedInstallment: number = 0;
   academicYearFilter: any;
+  instituteCountryDetObj:any={};
+  maxlength:number=10;
 
   studentAddFormData: StudentForm = {
     student_name: "",
     student_sex: "",
     student_email: "",
+    country_id: "",
     student_phone: "",
     student_curr_addr: "",
     dob: "",
@@ -329,8 +333,29 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.getAcademicYearDetails();
       }
     }
+    this.fetchDataForCountryDetails();
   }
 
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = atob(encryptedData)
+    data = JSON.parse(data);
+    if (data.length > 0) {
+    this.countryDetails = data;
+    console.log(this.countryDetails);
+    }
+  }
+
+  onChangeObj(event){
+    console.log(event);
+    this.countryDetails.forEach(element => {
+      if(element.id==event){
+        this.instituteCountryDetObj = element;
+        this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
+      }
+    }
+    );
+  }
   getAcademicYearDetails() {
     this.academicList = [];
     this.isRippleLoad= true;
@@ -1169,12 +1194,20 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     /* Fetching Student Details from server */
     this.fetchService.getStudentById(id).subscribe(
       (data: any) => {
+        console.log(data);
         this.isRippleLoad = false;
         this.studentName = data.student_name;
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
         this.fetchCourseFromMaster(this.studentAddFormData.standard_id);
+        this.countryDetails.forEach(element => {
+          if (element.id == this.studentAddFormData.country_id) {
+            this.instituteCountryDetObj = element;
+            this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
+          }
+        }
+        );
         if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
           this.studentAddFormData.assignedBatchescademicYearArray = [];
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [];
@@ -1311,7 +1344,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   formValidator(): boolean {
 
     if (this.studentAddFormData.student_phone != null && this.studentAddFormData.student_phone != "") {
-      if (isNaN(this.studentAddFormData.student_phone) == false && this.studentAddFormData.student_phone.trim().length == 10) {
+      if (isNaN(this.studentAddFormData.student_phone) == false && this.studentAddFormData.student_phone.trim().length == this.maxlength) {
         return true;
       } else {
         this.commonServiceFactory.showErrorMessage('error', 'Phone Number error', 'Please provide valid phone number');
@@ -1428,6 +1461,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.studentAddFormData.slot_id = this.selectedSlotsID;
       this.studentAddFormData.stuCustomLi = customArr;
       this.studentAddFormData.photo = this.studentServerImage;
+      // this.studentAddFormData.country_id=this.instituteCountryDetObj.id;
+      console.log(this.studentAddFormData);
       this.additionalBasicDetails = false;
       if (this.studentAddFormData.assignedBatches == null || this.studentAddFormData.assignedBatches.length == 0) {
         this.studentAddFormData.assignedBatches = null
@@ -1440,6 +1475,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       this.btnSaveAndContinue.nativeElement.disabled = true;
       this.isRippleLoad = true;
+      console.log(this.studentAddFormData);
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         (res: any) => {
           this.isRippleLoad = false;
