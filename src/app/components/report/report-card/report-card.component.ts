@@ -58,8 +58,6 @@ export class ReportCardComponent implements OnInit {
 
   /*
   *** Created By Amol Arun Betwar ***
-  ******** Angular Developer ********
-  ************ 7770046569 ***********
   */
   //Next two method is used for student report download
 
@@ -83,18 +81,15 @@ export class ReportCardComponent implements OnInit {
         else{
           this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
         }
-
       },
       err => {
         this.isRippleLoad = false;
         this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
-
    }
 
    convertBase64ToArray(val) {
-
      var binary_string = window.atob(val);
      var len = binary_string.length;
      var bytes = new Uint8Array(len);
@@ -102,7 +97,6 @@ export class ReportCardComponent implements OnInit {
        bytes[i] = binary_string.charCodeAt(i);
      }
      return bytes.buffer;
-
    }
 
   fetchMasterCourseList() {
