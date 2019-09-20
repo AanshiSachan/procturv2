@@ -75,14 +75,14 @@
             <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
               <label for="from">From Date<span class="text-danger">*</span></label>
               <input type="text" [(ngModel)]="prodForm.sales_from_date"  name="from"
-                class="form-control form-control-sm" bsDatepicker>
+                class="form-control form-control-sm" autocomplete="off" bsDatepicker>
             </div>
           </div>
           <div class="col-md-5 form-group">
             <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
               <label for="from">To Date</label>
               <input type="text" [(ngModel)]="prodForm.sales_to_date"  name="to"
-                class="form-control form-control-sm" bsDatepicker>
+                class="form-control form-control-sm" autocomplete="off" bsDatepicker>
             </div>
           </div>
         </div>
@@ -94,14 +94,14 @@
               <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
                 <label for="from">Start Date<span class="text-danger">*</span></label>
                 <input type="text" [(ngModel)]="prodForm.valid_from_date" (change)="calc_days()" name="from"
-                  class="form-control form-control-sm" bsDatepicker>
+                  class="form-control form-control-sm" autocomplete="off" bsDatepicker>
               </div>
             </div>
             <div class="col-md-5 form-group">
               <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
                 <label for="from">End Date</label>
                 <input type="text" [(ngModel)]="prodForm.valid_to_date" (change)="calc_days()" name="from"
-                  class="form-control form-control-sm" bsDatepicker>
+                  class="form-control form-control-sm" autocomplete="off" bsDatepicker>
               </div>
             </div>
     

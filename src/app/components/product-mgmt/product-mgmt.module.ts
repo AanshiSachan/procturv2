@@ -18,6 +18,11 @@ import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap-custome';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { SalesReportclsComponent } from './sales-reportcls/sales-reportcls.component';
+import { MessageShowService } from '../../services/message-show.service';
+import { ExportToPdfService } from '../../services/export-to-pdf.service';
+import { ExcelService } from '../../services/excel.service';
+import { TablePreferencesService } from '../../services/table-preference/table-preferences.service';
 
 @NgModule({
   imports: [
@@ -30,7 +35,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     SharedModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
-  declarations: [    
+  declarations: [
     ProductListComponent,
     GroupComponent,
     ProductCreationComponent,
@@ -40,7 +45,14 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     OfflineProductsComponent,
     StudyMaterialComponent,
     ReviewProductComponent,
-    HomeComponent
+    HomeComponent,
+    SalesReportclsComponent
+  ],
+  providers: [
+    ExcelService,
+    ExportToPdfService,
+    MessageShowService,
+    TablePreferencesService
   ]
 })
 export class ProductMgmtModule { }

@@ -293,10 +293,10 @@ export class ProductListComponent implements OnInit {
         this.isRippleLoad = false;
         if (resp) {
           let response = resp.result;
-          console.log(resp);
+          console.log(response);
           if (resp.validate) {
-            this.productList = response.results;
-            this.varJson.total_items = response.total_records;
+            this.productList = response;
+            this.varJson.total_items =response.length;
           }
           else {
             this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
