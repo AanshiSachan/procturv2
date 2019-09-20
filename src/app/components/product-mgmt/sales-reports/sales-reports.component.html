@@ -24,13 +24,13 @@
                             <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
                                 <div class="multiselect-wrapper-inner">
                                     <ul class="">
-                                        <li *ngFor="let i of getAllAcademic">
+                                        <li *ngFor="let product of productLists">
                                             <div class="field-checkbox-wrapper">
-                                                <input type="checkbox" [id]="i.inst_acad_year_id" [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
-                                                 [(ngModel)]="i.status" 
-                                                 (ngModelChange)="updateSlotSelected(i)"
+                                                <input type="checkbox" [id]="product.title" [value]="product.title" name="{{product.title}}"
+                                                 [(ngModel)]="product.isChecked" 
+                                                 (ngModelChange)="updateSlotSelected(product)"
                                                     class="form-checkbox">
-                                                <label for="{{i.inst_acad_year_id}}"> {{i.inst_acad_year}}</label>
+                                                <label for="{{product.title}}"> {{product.title}}</label>
                                             </div>
                                         </li>
                                     </ul>

@@ -4,7 +4,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { GroupComponent } from './group/group.component';
 import { ProductCreationComponent } from './product-creation/product-creation.component';
 import { HomeComponent } from './home/home.component';
-import { SalesReportclsComponent } from './sales-reportcls/sales-reportcls.component';
+import { SalesReportsComponent } from './sales-reports/sales-reports.component';
 
 const routes: Routes = [
     {
@@ -21,7 +21,7 @@ const routes: Routes = [
     },
     {
         path: 'sales-report',
-        component: SalesReportclsComponent
+        component: SalesReportsComponent
     },
     {
         path: 'create',

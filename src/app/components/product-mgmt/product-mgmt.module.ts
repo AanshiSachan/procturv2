@@ -18,7 +18,7 @@ import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap-custome';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { SalesReportclsComponent } from './sales-reportcls/sales-reportcls.component';
+import { SalesReportsComponent } from './sales-reports/sales-reports.component';
 import { MessageShowService } from '../../services/message-show.service';
 import { ExportToPdfService } from '../../services/export-to-pdf.service';
 import { ExcelService } from '../../services/excel.service';
@@ -46,7 +46,7 @@ import { TablePreferencesService } from '../../services/table-preference/table-p
     StudyMaterialComponent,
     ReviewProductComponent,
     HomeComponent,
-    SalesReportclsComponent
+    SalesReportsComponent
   ],
   providers: [
     ExcelService,

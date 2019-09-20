@@ -132,12 +132,14 @@
                   <a class="dropdown-item" *ngIf="item.status != 30" (click)="actionProductModal('delete', item.entity_id)">Delete</a>
                   <a class="dropdown-item" (click)="actionProductModal('ready', item.entity_id)"
                     *ngIf="item.status == 10">Ready</a>
+                    <a class="dropdown-item" (click)="actionProductModal('readytopublish', item.entity_id)"
+                    *ngIf="item.status == 20">Ready To Publish</a>
                     <a class="dropdown-item" (click)="actionProductModal('publish', item.entity_id)"
-                    *ngIf="item.status == 20">Publish</a>
+                    *ngIf="item.status == 30">Publish</a>
                   <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)"
-                    *ngIf="item.status == 30">Unpublished</a>
+                    *ngIf="item.status == 40">Unpublished</a>
                     <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)"
-                    *ngIf="item.status == 40">Closed</a>
+                    *ngIf="item.status == 50">Closed</a>
                 </div>
               </div>
             </td>

@@ -9,11 +9,11 @@ import { HttpService } from '../../../services/http.service';
 import { ProductService } from '../../../services/products.service';
 import * as moment from 'moment';
 @Component({
-  selector: 'app-sales-reportcls',
-  templateUrl: './sales-reportcls.component.html',
-  styleUrls: ['./sales-reportcls.component.scss']
+  selector: 'app-sales-reports',
+  templateUrl: './sales-reports.component.html',
+  styleUrls: ['./sales-reports.component.scss']
 })
-export class SalesReportclsComponent implements OnInit {
+export class SalesReportsComponent implements OnInit {
 
   @ViewChild('child') private child: DataDisplayTableComponent;
   @ViewChild('form') form: any;
@@ -21,6 +21,7 @@ export class SalesReportclsComponent implements OnInit {
   displayKeys: any = [];//need for selected keys
   private slotIdArr: any[] = [];
   salesDataSource: any[] = [];
+  productLists:any[]=[];
   private selectedSlots: any[] = [];
   private selectedSlotsString: string = '';
   private selectedSlotsID: string = '';
@@ -34,18 +35,22 @@ export class SalesReportclsComponent implements OnInit {
     isRippleLoad: false
   }
   feeSettings1: ColumnData2[] = [
-    { primaryKey: 'title', header: 'Product Name', priority: 1, allowSortingFlag: true },
-    { primaryKey: 'valid_from_date', header: 'Start Date', priority: 2, allowSortingFlag: true },
-    { primaryKey: 'valid_to_date', header: 'End Date', priority: 3, allowSortingFlag: true },
-    { primaryKey: 'publish_date', header: 'Publish Date', priority: 4, amountValue: true, allowSortingFlag: true },
+    { primaryKey: 'title', header: 'Student Name', priority: 1, allowSortingFlag: true },
+    { primaryKey: 'institute_id', header: 'Phone No', priority: 2, allowSortingFlag: true },
+    { primaryKey: 'about', header: 'Product Name', priority: 3, allowSortingFlag: true },
+    { primaryKey: 'publish_date', header: 'Purchase Date', priority: 4,  allowSortingFlag: true , dataType:'Date',format:'DD-MMM-YYYY' },
     { primaryKey: 'price', header: 'Price', priority: 5, amountValue: true, allowSortingFlag: true },
-    { primaryKey: 'status', header: 'Status', priority: 6, allowSortingFlag: true }];
+    { primaryKey: 'status', header: 'Status', priority: 6, allowSortingFlag: true,dataType:'array',
+    arrayValue:{'10':'Ready','20':'Ready To Publish','30':'Publish','40':'Unpublished','50':'Closed'}
+  }
+  ];
 
   tableSetting: any = {//inventory.item
     tableDetails: { title: 'Sales Report', key: 'products.salesReports', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
     selectAll: { showSelectAll: false, title: 'Sales report', checked: true, key: 'title' },
+    defaultSort: { primaryKey: 'publish_date', sortingType:'asc', header: 'Purchase Date', priority: 4, allowSortingFlag: true,dataType:'Date',format:'DD-MMM-YYYY'  },
     actionSetting:
     {
       showActionButton: false
@@ -98,6 +103,7 @@ export class SalesReportclsComponent implements OnInit {
         console.log(response);
         if (response.validate) {
           this.salesDataSource = response.result.results;
+          this.productLists = response.result.results;
         }
         else {
           this._msgService.showErrorMessage('error', "something went wrong, try again", '');
@@ -126,9 +132,9 @@ export class SalesReportclsComponent implements OnInit {
   /* =================================================================================================== */
   updateSlotSelected(data) {
     /* slot checked */
-    if (data.status) {
-      this.slotIdArr.push(data.inst_acad_year_id);
-      this.selectedSlots.push(data.inst_acad_year);
+    if (data.isChecked) {
+      this.slotIdArr.push(data.title);
+      this.selectedSlots.push(data.title);
       if (this.selectedSlots.length != 0) {
         document.getElementById('slotwrapper').classList.add('has-value');
       }
@@ -149,12 +155,12 @@ export class SalesReportclsComponent implements OnInit {
       else if (this.selectedSlots.length == 1) {
         document.getElementById('slotwrapper').classList.remove('has-value');
       }
-      var index = this.selectedSlots.indexOf(data.inst_acad_year);
+      var index = this.selectedSlots.indexOf(data.title);
       if (index > -1) {
         this.selectedSlots.splice(index, 1);
       }
       this.selectedSlotsString = this.selectedSlots.join(',');
-      var index2 = this.slotIdArr.indexOf(data.inst_acad_year_id);
+      var index2 = this.slotIdArr.indexOf(data.title);
       if (index2 > -1) {
         this.slotIdArr.splice(index, 1);
       }
@@ -165,11 +171,12 @@ export class SalesReportclsComponent implements OnInit {
 
 
   setDefaultValues() {
-    this.tableSetting.keys = [{ primaryKey: 'title', header: 'Product Name', priority: 1, allowSortingFlag: true },
-    { primaryKey: 'valid_from_date', header: 'Start Date', priority: 2, allowSortingFlag: true },
-    { primaryKey: 'valid_to_date', header: 'End Date', priority: 3, allowSortingFlag: true },
-    { primaryKey: 'publish_date', header: 'Publish Date', priority: 4, amountValue: true, allowSortingFlag: true }
-    ];
+    this.tableSetting.keys = [
+      { primaryKey: 'title', header: 'Student Name', priority: 1, allowSortingFlag: true },
+      { primaryKey: 'institute_id', header: 'Phone No', priority: 2, allowSortingFlag: true },
+      { primaryKey: 'about', header: 'Product Name', priority: 3, allowSortingFlag: true },
+      { primaryKey: 'publish_date', header: 'Purchase Date', priority: 4,  allowSortingFlag: true , dataType:'Date',format:'DD-MMM-YYYY' },
+       ];
     this.displayKeys = this.tableSetting.keys;
     this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
   }
@@ -210,6 +217,7 @@ export class SalesReportclsComponent implements OnInit {
 
   fetchSalesReportDetails() {
     console.log('sales Details');
+    this.fectchTableDataByPage(0);
   }
 
   openPreferences($event) {
