@@ -100,7 +100,7 @@ export class StudyMaterialComponent implements OnInit {
   subjectListToggle(subject) {
     subject.isExpand = !subject.isExpand;
     subject.parent_topic_id= subject.topic_id;
-    if (subject.isExpand && subject.subTopics.length == 0) {
+    if (subject.isExpand && subject.subTopics&&subject.subTopics.length == 0) {
       this.getSubjectTopics(subject);
     }
     else {
@@ -229,7 +229,7 @@ export class StudyMaterialComponent implements OnInit {
 
   isItemSelected(item, key) {
     if(this.prodForm){
-      this.prodForm.product_item_list.forEach((object) => {
+      this.prodForm.product_item_list && this.prodForm.product_item_list.forEach((object) => {
         if (object.source_item_id == item.file_id && item.slug == object.slug) {
           item.isSelected = true;
           // this.testlist.push(object);

@@ -21,7 +21,7 @@ export class SalesReportsComponent implements OnInit {
   displayKeys: any = [];//need for selected keys
   private slotIdArr: any[] = [];
   salesDataSource: any[] = [];
-  productLists:any[]=[];
+  productLists: any[] = [];
   private selectedSlots: any[] = [];
   private selectedSlotsString: string = '';
   private selectedSlotsID: string = '';
@@ -29,6 +29,7 @@ export class SalesReportsComponent implements OnInit {
     to_date: moment().format("YYYY-MM-DD"),
     from_date: moment().format("YYYY-MM-DD")
   }
+ 
   showPopupKeys: any = {
     showPreference: false,
     isProfessional: false,
@@ -38,11 +39,12 @@ export class SalesReportsComponent implements OnInit {
     { primaryKey: 'title', header: 'Student Name', priority: 1, allowSortingFlag: true },
     { primaryKey: 'institute_id', header: 'Phone No', priority: 2, allowSortingFlag: true },
     { primaryKey: 'about', header: 'Product Name', priority: 3, allowSortingFlag: true },
-    { primaryKey: 'publish_date', header: 'Purchase Date', priority: 4,  allowSortingFlag: true , dataType:'Date',format:'DD-MMM-YYYY' },
+    { primaryKey: 'publish_date', header: 'Purchase Date', priority: 4, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
     { primaryKey: 'price', header: 'Price', priority: 5, amountValue: true, allowSortingFlag: true },
-    { primaryKey: 'status', header: 'Status', priority: 6, allowSortingFlag: true,dataType:'array',
-    arrayValue:{'10':'Ready','20':'Ready To Publish','30':'Publish','40':'Unpublished','50':'Closed'}
-  }
+    {
+      primaryKey: 'status', header: 'Status', priority: 6, allowSortingFlag: true, dataType: 'array',
+      arrayValue: { '10': 'Ready', '20': 'Ready To Publish', '30': 'Publish', '40': 'Unpublished', '50': 'Closed' }
+    }
   ];
 
   tableSetting: any = {//inventory.item
@@ -50,7 +52,7 @@ export class SalesReportsComponent implements OnInit {
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
     selectAll: { showSelectAll: false, title: 'Sales report', checked: true, key: 'title' },
-    defaultSort: { primaryKey: 'publish_date', sortingType:'asc', header: 'Purchase Date', priority: 4, allowSortingFlag: true,dataType:'Date',format:'DD-MMM-YYYY'  },
+    defaultSort: { primaryKey: 'publish_date', sortingType: 'asc', header: 'Purchase Date', priority: 4, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
     actionSetting:
     {
       showActionButton: false
@@ -96,7 +98,33 @@ export class SalesReportsComponent implements OnInit {
     }
 
     this.showPopupKeys.isRippleLoad = true;
-    this.http.postMethod('product/get', object).then(
+    this.http.getMethod('product/get', null).subscribe(
+      (resp: any) => {
+        this.showPopupKeys.isRippleLoad = false;
+        if (resp.validate) {
+          this.salesDataSource = resp.result;
+          this.productLists = resp.result;
+        }
+        else {
+          this._msgService.showErrorMessage('error', "something went wrong, try again", '');
+        }
+      },
+      (err) => {
+        this.showPopupKeys.isRippleLoad = false;
+        this._msgService.showErrorMessage('error', "something went wrong, try again", '');
+      });
+
+  }
+
+  /* Fetch table data by page index */
+  getProductDetails() {
+    let object = {
+      "page_no": 1,
+      "no_of_records": 100
+    }
+
+    this.showPopupKeys.isRippleLoad = true;
+    this.http.postMethod('order/get', null).then(
       (resp: any) => {
         this.showPopupKeys.isRippleLoad = false;
         let response = resp['body'];
@@ -133,7 +161,7 @@ export class SalesReportsComponent implements OnInit {
   updateSlotSelected(data) {
     /* slot checked */
     if (data.isChecked) {
-      this.slotIdArr.push(data.title);
+      this.slotIdArr.push(data.entity_id);
       this.selectedSlots.push(data.title);
       if (this.selectedSlots.length != 0) {
         document.getElementById('slotwrapper').classList.add('has-value');
@@ -160,7 +188,7 @@ export class SalesReportsComponent implements OnInit {
         this.selectedSlots.splice(index, 1);
       }
       this.selectedSlotsString = this.selectedSlots.join(',');
-      var index2 = this.slotIdArr.indexOf(data.title);
+      var index2 = this.slotIdArr.indexOf(data.entity_id);
       if (index2 > -1) {
         this.slotIdArr.splice(index, 1);
       }
@@ -175,8 +203,8 @@ export class SalesReportsComponent implements OnInit {
       { primaryKey: 'title', header: 'Student Name', priority: 1, allowSortingFlag: true },
       { primaryKey: 'institute_id', header: 'Phone No', priority: 2, allowSortingFlag: true },
       { primaryKey: 'about', header: 'Product Name', priority: 3, allowSortingFlag: true },
-      { primaryKey: 'publish_date', header: 'Purchase Date', priority: 4,  allowSortingFlag: true , dataType:'Date',format:'DD-MMM-YYYY' },
-       ];
+      { primaryKey: 'publish_date', header: 'Purchase Date', priority: 4, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
+    ];
     this.displayKeys = this.tableSetting.keys;
     this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
   }

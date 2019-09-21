@@ -34,7 +34,16 @@
     <label for="ch2" style="font-weight: 600;">Select All</label>
   </div>
 </div> -->
+
 <div class="fluid-container data-wrapper">
+  <div class="row main-topic-row" style="margin-bottom: 10px;border: none;">
+    <div class="form-group">
+      <label class="text-bold">Short Description</label>
+      <textarea [(ngModel)]="prodForm.about" name="description" class="form-control form-control-sm"
+        placeholder="Write a short description about this product"></textarea>
+    </div>
+  </div>
+
   <div class="row main-topic-row" *ngFor="let ecourse of materialData;">
     <div class="row singleton-row col-md-12 topic-data main-topic-data">
       <div class="col-md-8 topic-name">
@@ -46,7 +55,7 @@
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="ecourse.isExpand" (click)="subjectListToggle(ecourse)"></i>
           <i class="fa fa-plus" *ngIf="!ecourse.isExpand" (click)="subjectListToggle(ecourse)"></i>
-        </button> {{ecourse.ecourse_name}} 
+        </button> {{ecourse.ecourse_name}}
       </div>
       <div class="col-md-4">
       </div>
@@ -82,8 +91,8 @@
         <ng-container *ngTemplateOutlet="subjectsNodes; context: { $implicit: ecourse.subjectsList, subLevel: 1 } ">
         </ng-container>
         <div *ngIf="ecourse.subjectsList?.length==0">
-           No Data Found
-          </div>
+          No Data Found
+        </div>
       </div>
     </div>
   </div>
@@ -95,50 +104,50 @@
 
 
 <ng-template #subjectsNodes let-subjectList let-level="subLevel">
-    <div class="row topic-row" *ngFor="let subject of subjectList">
-      <div class="row singleton-row col-md-12 topic-data topic-name">
-        <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
-          <!-- <div class="field-checkbox-wrapper">
+  <div class="row topic-row" *ngFor="let subject of subjectList">
+    <div class="row singleton-row col-md-12 topic-data topic-name">
+      <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
+        <!-- <div class="field-checkbox-wrapper">
             <input type="checkbox" class="form-checkbox" [(ngModel)]="subject.isSelected"
               (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test">
             <label for="ch2"></label>
           </div> -->
-          <button class="btn-ga-collapse">
-            <i class="fa fa-minus" *ngIf="subject.isExpand" (click)="toggleObject(subject)"></i>
-            <i class="fa fa-plus" *ngIf="!subject.isExpand" (click)="toggleObject(subject)"></i>
-          </button> {{subject.subject_name}}
-        </div>
-        <div class="col-md-4">
-        </div>
+        <button class="btn-ga-collapse">
+          <i class="fa fa-minus" *ngIf="subject.isExpand" (click)="toggleObject(subject)"></i>
+          <i class="fa fa-plus" *ngIf="!subject.isExpand" (click)="toggleObject(subject)"></i>
+        </button> {{subject.subject_name}}
       </div>
-      <div class="row col-md-12 p-0" *ngIf="subject.isExpand">
-        <div class="row col-md-12 topic-material-data" [ngStyle]="{'padding-left': level+'em'}">
-          <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.videosList, level: level+2}">
-          </ng-container>
-          <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: subject.assignmentList, level: level+2}">
-          </ng-container>
-          <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: subject.imageList, level: level+2}">
-          </ng-container>
-          <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: subject.audioNotesList, level: level+2}">
-          </ng-container>
-          <ng-container *ngTemplateOutlet="notesData; context:{$implicit: subject.notesList, level: level+2}">
-          </ng-container>
-          <ng-container
-            *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: subject.previousYearQuesList, level: level+2}">
-          </ng-container>
-          <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: subject.slidesList, level: level+2}">
-          </ng-container>
-          <ng-container
-            *ngTemplateOutlet="studyMaterialList; context:{$implicit: subject.studyMaterialList, level: level+2}">
-          </ng-container>  
-        </div>
-        <div class="row col-md-12 subTopics-data">
-          <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: subject.subTopics, subLevel: level+1 } ">
-          </ng-container>
-        </div>
+      <div class="col-md-4">
       </div>
     </div>
-  </ng-template>
+    <div class="row col-md-12 p-0" *ngIf="subject.isExpand">
+      <div class="row col-md-12 topic-material-data" [ngStyle]="{'padding-left': level+'em'}">
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.videosList, level: level+2}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: subject.assignmentList, level: level+2}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: subject.imageList, level: level+2}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: subject.audioNotesList, level: level+2}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: subject.notesList, level: level+2}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: subject.previousYearQuesList, level: level+2}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: subject.slidesList, level: level+2}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="studyMaterialList; context:{$implicit: subject.studyMaterialList, level: level+2}">
+        </ng-container>
+      </div>
+      <div class="row col-md-12 subTopics-data">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: subject.subTopics, subLevel: level+1 } ">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
 <ng-template #recursiveNodes let-subTopics let-level="subLevel">
   <div class="row topic-row" *ngFor="let topic of subTopics">
@@ -192,13 +201,13 @@
   <div class="row singleton-row material-row" *ngFor="let video of youtube">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="video.isSelected" (ngModelChange)="selectAllDetails($event,video)"
-          name="has_mock_tests" id="mock_test">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="video.isSelected"
+          (ngModelChange)="selectAllDetails($event,video)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
       <h4 class="file__title" title="{{video.title}}">
         <i class="fa fa-youtube-play text-red"></i>
-        <a  target="_blank" class="txt-color">
+        <a target="_blank" class="txt-color">
           <!-- //[href]="video.video_url" -->
           <span class="txt-title">{{video.title}}</span>
         </a>
@@ -214,8 +223,8 @@
   <div class="row singleton-row material-row" *ngFor="let file of image">
     <div class="col-md-8 material-title txt-color " [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected" (ngModelChange)="selectAllDetails($event,file)"
-          name="has_mock_tests" id="mock_test">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"
+          (ngModelChange)="selectAllDetails($event,file)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
       <h4 class="file__title" title="{{file.title}}">
@@ -241,8 +250,8 @@
   <div class="row singleton-row material-row" *ngFor="let file of assignment">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"  (ngModelChange)="selectAllDetails($event,file)"
-          name="has_mock_tests" id="mock_test">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"
+          (ngModelChange)="selectAllDetails($event,file)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
       <h4 class="file__title" title="{{file.title}}">
@@ -268,8 +277,8 @@
   <div class="row singleton-row material-row" *ngFor="let file of notes">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"  (ngModelChange)="selectAllDetails($event,file)"
-          name="has_mock_tests" id="mock_test">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"
+          (ngModelChange)="selectAllDetails($event,file)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
       <h4 class="file__title" title="{{file.title}}">
@@ -295,8 +304,8 @@
   <div class="row singleton-row material-row" *ngFor="let audio of audios">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="audio.isSelected"  (ngModelChange)="selectAllDetails($event,audio)"
-          name="has_mock_tests" id="mock_test">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="audio.isSelected"
+          (ngModelChange)="selectAllDetails($event,audio)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
       <h4 class="file__title" title="{{audio.title}}">
@@ -322,8 +331,8 @@
   <div class="row singleton-row material-row" *ngFor="let file of previousYearQuesList">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected" (ngModelChange)="selectAllDetails($event,file)"
-          name="has_mock_tests" id="mock_test">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"
+          (ngModelChange)="selectAllDetails($event,file)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
       <h4 class="file__title" title="{{file.title}}">
@@ -350,8 +359,8 @@
   <div class="row singleton-row material-row" *ngFor="let file of slidesList">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected" (ngModelChange)="selectAllDetails($event,file)"
-          name="has_mock_tests" id="mock_test">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"
+          (ngModelChange)="selectAllDetails($event,file)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
       <h4 class="file__title" title="{{file.title}}">
@@ -377,8 +386,8 @@
   <div class="row singleton-row material-row" *ngFor="let file of studyList">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected" (ngModelChange)="selectAllDetails($event,file)"
-          name="has_mock_tests" id="mock_test">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"
+          (ngModelChange)="selectAllDetails($event,file)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
       <h4 class="file__title" title="{{file.title}}">
