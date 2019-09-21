@@ -23,6 +23,10 @@ import { MessageShowService } from '../../services/message-show.service';
 import { ExportToPdfService } from '../../services/export-to-pdf.service';
 import { ExcelService } from '../../services/excel.service';
 import { TablePreferencesService } from '../../services/table-preference/table-preferences.service';
+import { VideoLectureComponent } from './product-creation/video-lecture/video-lecture.component';
+import { ClassroomClassComponent } from './product-creation/classroom-class/classroom-class.component';
+import { OnlineClassComponent } from './product-creation/online-class/online-class.component';
+import { OfflineMaterialComponent } from './product-creation/offline-material/offline-material.component';
 
 @NgModule({
   imports: [
@@ -46,7 +50,11 @@ import { TablePreferencesService } from '../../services/table-preference/table-p
     StudyMaterialComponent,
     ReviewProductComponent,
     HomeComponent,
-    SalesReportsComponent
+    SalesReportsComponent,
+    VideoLectureComponent,
+    ClassroomClassComponent,
+    OnlineClassComponent,
+    OfflineMaterialComponent
   ],
   providers: [
     ExcelService,
