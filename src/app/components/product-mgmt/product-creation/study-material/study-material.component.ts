@@ -21,6 +21,7 @@ export class StudyMaterialComponent implements OnInit {
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
   institute_id: any = sessionStorage.getItem('institute_id');
+  description:string='';
   // subjectList: any[] = [{ name: 'History' }, { name: 'Geography' }, { name: 'Physics' }];
   studyMaterial: any[] = [{ "course_type": "PG-DAC", "is_test_series": "N", "course_type_id": 512, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "New Db Migrationgvf", "is_test_series": "N", "course_type_id": 736, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "New Db Migration", "is_test_series": "N", "course_type_id": 737, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "testiii", "is_test_series": "N", "course_type_id": 706, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "Primary", "is_test_series": "N", "course_type_id": 676, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "HTML", "is_test_series": "N", "course_type_id": 612, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "Gate Review :D", "is_test_series": "N", "course_type_id": 4, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "Primary-EE", "is_test_series": "N", "course_type_id": 677, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "GATE New", "is_test_series": "N", "course_type_id": 5, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "CDAC", "is_test_series": "N", "course_type_id": 678, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "aditya", "is_test_series": "N", "course_type_id": 616, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "Gogo", "is_test_series": "N", "course_type_id": 501, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "New db migrationbf", "is_test_series": "N", "course_type_id": 735, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }];
   outputMessage: any = '';
@@ -72,7 +73,8 @@ export class StudyMaterialComponent implements OnInit {
       //update test List
       let obj={
         "page_type": "Study_Material",
-        "item_list":this.testlist
+        "item_list":this.testlist,
+        "description":this.description        
       }
       this.isRippleLoad = true;
       this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
@@ -307,7 +309,7 @@ export class StudyMaterialComponent implements OnInit {
       //Fetch Product Info
       if (!this.isRippleLoad) {
         this.isRippleLoad = true;
-        this.http.getMethod('ext/get-subjects-of-ecourses/' + this.entity_id, null).subscribe(
+        this.http.getMethod('ext/get-subjects-of-ecourses/' + this.entity_id+'/Study_Material', null).subscribe(
           (resp: any) => {
             this.isRippleLoad = false;
             if (resp) {

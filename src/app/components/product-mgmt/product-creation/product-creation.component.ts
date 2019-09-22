@@ -84,13 +84,13 @@ export class ProductCreationComponent implements OnInit {
       index: 6
     },
     7: {
-      slug: 'Offline_Material',
+      slug: 'Classroom_Class',
       show: false,
       is_completed: false,
       index: 7
     },
     8: {
-      slug: 'Classroom_Class',
+      slug: 'Offline_Material',
       show: false,
       is_completed: false,
       index: 8
@@ -120,8 +120,9 @@ export class ProductCreationComponent implements OnInit {
           case 'Mock_Test': this.activeForm = 4; break;
           case 'Online_Test': this.activeForm = 5; break;
           case 'Online_Class': this.activeForm = 6; break;
-          case 'Offline_Material': this.activeForm = 7; break;
-          case 'review': this.activeForm = 8; break;
+          case 'Classroom_Class': this.activeForm = 7; break;
+          case 'Offline_Material': this.activeForm = 8; break;
+          case 'review': this.activeForm = 9; break;
           default:
             this.router.navigate(['/error404'], { replaceUrl: true }); break;
         }

@@ -19,6 +19,7 @@ export class OnlineExamComponent implements OnInit {
   @Output() previewEvent = new EventEmitter<boolean>();
   testlist: any = [];
   checkedList: any = [];
+  description:string='';
   selectAll: boolean = false;
   isRippleLoad: boolean = false;
   constructor(
@@ -158,7 +159,8 @@ export class OnlineExamComponent implements OnInit {
         //update test List
         let obj={
           "page_type": "Online_Test",
-          "item_list":objectArray
+          "item_list":objectArray,
+          "description":this.description
         }
         this.isRippleLoad = true;
         this.http.postMethod('product-item/update/' + this.entity_id, obj).then(

@@ -205,6 +205,11 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'please select at least one e-course', '');
       return;
     }
+    if (this.prodForm.duration <= 0) {
+      this.msgService.showErrorMessage('error', 'please enter product duration ', '');
+      return;
+    }
+
     let keys = Object.keys(this.prodItems);
     let notselectedItem = keys.filter(key => this.prodItems[key] == false);
     if (this.productItems.length == notselectedItem.length) {

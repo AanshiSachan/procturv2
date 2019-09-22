@@ -1,6 +1,6 @@
 <div class="container-fluid product-contents-wrapper mainDiv">
   <div class="row m-0 form-steps-wrapper">
-    <ul id="progressbar" class="row"  [ngStyle]="{'padding-left': jsonData.padding_left+'rem'}">
+    <ul id="progressbar" class="row" [ngStyle]="{'padding-left': jsonData.padding_left+'rem'}">
       <li class="col" [ngClass]="{'active' : activeForm == 1, 'completed' : activeForm > 1}"
         *ngIf="formSequence[1].show" (click)="visitForm(1,formSequence[1])">Basic Info </li>
       <li class="col" [ngClass]="{'active' : activeForm == 2, 'completed' : activeForm > 2}"
@@ -14,9 +14,9 @@
       <li class="col" [ngClass]="{'active' : activeForm == 6, 'completed' : activeForm > 6}"
         *ngIf="formSequence[6].show" (click)="visitForm(6,formSequence[6])">Live Classes</li>
       <li class="col" [ngClass]="{'active' : activeForm == 7, 'completed' : activeForm > 7}"
-        *ngIf="formSequence[7].show" (click)="visitForm(7,formSequence[7])">Printed Materials</li>
+        *ngIf="formSequence[7].show" (click)="visitForm(7,formSequence[7])">Classroom Classes</li>
       <li class="col" [ngClass]="{'active' : activeForm == 8, 'completed' : activeForm > 8}"
-        *ngIf="formSequence[8].show" (click)="visitForm(8,formSequence[8])">Classroom Classes</li>
+        *ngIf="formSequence[8].show" (click)="visitForm(8,formSequence[8])">Printed Materials</li>
       <li class="col" [ngClass]="{'active' : activeForm == 9, 'completed' : activeForm > 9}"
         *ngIf="formSequence[9].show" (click)="visitForm(9,formSequence[9])">Review Product</li>
     </ul>
@@ -31,24 +31,36 @@
           (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
           *ngIf="activeForm == 2">
         </app-study-material>
+        <app-video-lecture [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+          (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
+          *ngIf="activeForm == 3">
+        </app-video-lecture>
         <!-- <app-study-material [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
         (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
         *ngIf="activeForm == 3">
       </app-study-material> -->
         <app-mock-test [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
           (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
-          *ngIf="activeForm == 3"></app-mock-test>
+          *ngIf="activeForm == 4"></app-mock-test>
         <app-online-exam [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
           (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
-          *ngIf="activeForm == 4">
-        </app-online-exam>
-        <app-offline-products [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
-          (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
           *ngIf="activeForm == 5">
-        </app-offline-products>
-        <app-review-product [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+        </app-online-exam>
+        <app-online-class [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
           (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
           *ngIf="activeForm == 6">
+        </app-online-class>
+        <app-classroom-class [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+          (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
+          *ngIf="activeForm == 7">
+        </app-classroom-class>
+        <app-offline-material [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+          (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
+          *ngIf="activeForm == 8">
+        </app-offline-material>
+        <app-review-product [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+          (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
+          *ngIf="activeForm == 9">
         </app-review-product>
       </div>
     </div>
