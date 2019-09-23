@@ -54,6 +54,7 @@ export class MockTestComponent implements OnInit {
 
   initMockTests(ecourse) {
     //Fetch Product Groups List
+    //{course_type: "KAS Prelims", course_type_id: 145}
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
       this.http.postMethod2('ext/get-examdesk/IIT', ["Mock_Test"]).then(
@@ -97,7 +98,8 @@ export class MockTestComponent implements OnInit {
           if (resp.validate) {
             let productData = response;
             console.log(response);
-            this.prodForm = response;
+            this.description = response.page_description['Mock_Test']
+            
             this.product_ecourse_maps = response.product_ecourse_maps;
             this.product_ecourse_maps.forEach((course) => {
               course.isExpand = false;
@@ -154,8 +156,9 @@ export class MockTestComponent implements OnInit {
           objectArray.push(object);
         }
       });
-    }); {
-      if (objectArray.length && (!this.isRippleLoad)) {
+    });
+     {
+      if ((!this.isRippleLoad)) {
         //update test List
         let obj = {
           "page_type": "Mock_Test",
@@ -169,13 +172,15 @@ export class MockTestComponent implements OnInit {
             let response = resp['body'];
             if (response.validate) {
               let details = response.result;
+              
               this.prodForm.product_item_list = details;
+              console.log(this.prodForm)
               this.msgService.showErrorMessage('success', "product mock test updated successfully", '');
               this.nextForm.emit();
             }
             else {
               this.checkedList = [];
-              this.msgService.showErrorMessage('error', response.errors.message, '');
+              this.msgService.showErrorMessage('error', response.error[0].error_message, '');
             }
           },
           (err) => {

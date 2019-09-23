@@ -88,7 +88,7 @@ export class VideoLectureComponent implements OnInit {
           }
           else {
             this.testlist = [];
-            this.msgService.showErrorMessage('error', response.errors[0].error_message, '');
+            this.msgService.showErrorMessage('error', response.error[0].error_message, '');
           }
         },
         (err) => {
@@ -354,7 +354,7 @@ export class VideoLectureComponent implements OnInit {
 
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
-      this.http.postMethod('ext/get-topic-of-subject', params, null).then((res: any) => {
+      this.http.postMethod('ext/get-topic-of-subject/Videos', params, null).then((res: any) => {
         this.isRippleLoad = false;
         if (res && res.body && res.body.result) {
           let responce = JSON.parse(res.body.result);

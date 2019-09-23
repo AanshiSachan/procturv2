@@ -111,7 +111,7 @@ export class OnlineClassComponent implements OnInit {
             this.nextForm.emit();
           }
           else {
-            this.msgService.showErrorMessage('error', response.errors[0].error_message, '');
+            this.msgService.showErrorMessage('error', response.error[0].error_message, '');
           }
         },
         (err) => {

@@ -49,7 +49,7 @@
         <div class="col-md-6" style=" padding-left: 0px;">
           <div class="form-group">
             <label class="text-bold">Product Sell Limit <span class="text-danger">*</span></label>
-            <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+            <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" autocomplete="off"
               [(ngModel)]="prodForm.purchase_limit" name="purchase_limit" class="form-control form-control-sm">
           </div>
         </div>

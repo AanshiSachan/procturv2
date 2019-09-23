@@ -89,7 +89,7 @@ export class StudyMaterialComponent implements OnInit {
           }
           else {
             this.testlist = [];
-            this.msgService.showErrorMessage('error', response.errors.message, '');
+            this.msgService.showErrorMessage('error', response.error[0].error_message, '');
           }
         },
         (err) => {
@@ -355,7 +355,7 @@ export class StudyMaterialComponent implements OnInit {
 
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
-      this.http.postMethod('ext/get-topic-of-subject', params, null).then((res: any) => {
+      this.http.postMethod('ext/get-topic-of-subject/Study_Material', params, null).then((res: any) => {
         this.isRippleLoad = false;
         if (res && res.body && res.body.result) {
           let responce = JSON.parse(res.body.result);
@@ -427,6 +427,7 @@ export class StudyMaterialComponent implements OnInit {
             this.prodForm.product_items_types = productData.product_items_types;
             this.prodForm.product_item_stats = {};
              this.testlist = this.prodForm.product_item_list;
+            this.description = response.page_description['Study_Material']
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });

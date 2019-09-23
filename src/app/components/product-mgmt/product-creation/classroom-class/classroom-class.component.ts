@@ -17,7 +17,7 @@ export class ClassroomClassComponent implements OnInit {
   @Output() startForm = new EventEmitter<string>();
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
-  description:string='';
+  description: string = '';
   selectAll: boolean = false;
   isRippleLoad: boolean = false;
   constructor(
@@ -36,10 +36,10 @@ export class ClassroomClassComponent implements OnInit {
   gotoNext() {
     if ((!this.isRippleLoad)) {
       //update test List
-      let obj={
+      let obj = {
         "page_type": "Classroom_Class",
-        "item_list":[],
-        "description":this.description
+        "item_list": [],
+        "description": this.description
       }
       this.isRippleLoad = true;
       this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
@@ -53,12 +53,12 @@ export class ClassroomClassComponent implements OnInit {
             this.nextForm.emit();
           }
           else {
-            this.msgService.showErrorMessage('error', response.errors[0].error_message, '');
+            response.error && this.msgService.showErrorMessage('error', response.error[0].error_message, '');
           }
         },
         (err) => {
           this.isRippleLoad = false;
-          this.msgService.showErrorMessage('error','something went wrong ty again ', '');
+          this.msgService.showErrorMessage('error', 'something went wrong ty again ', '');
         });
     }
   }
