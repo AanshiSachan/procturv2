@@ -157,14 +157,15 @@
           <div class="col-md-12 file-form">
             <div class="form-group">
               <label class="title">Parent Topic &nbsp;:&nbsp;</label>
-              <label>{{jsonData.parentTopic}}</label>
+              <label title="{{jsonData.parentTopic}}">{{(jsonData.parentTopic?.length>30)?(jsonData.parentTopic | slice:0:30) + '...':(jsonData.parentTopic)}}
+              </label>
 
             </div>
           </div>
           <div class="col-md-12 file-form">
             <div class="form-group">
               <label class="title">Main Topic &nbsp;:&nbsp;</label>
-              <label>{{jsonData.mainTopic}}</label>
+              <label title="{{jsonData.parentTopic}}">{{(jsonData.mainTopic?.length>30)?(jsonData.mainTopic | slice:0:30) + '...':(jsonData.mainTopic)}}</label>
             </div>
           </div>
         </div>

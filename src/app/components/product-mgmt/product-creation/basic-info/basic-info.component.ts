@@ -56,12 +56,16 @@ export class BasicInfoComponent implements OnInit {
     start_timestamp: '',
     end_timestamp: '',
     status: 10,
+    duration:0,
     product_item_stats: {
       mock_test: 0,
       online_exams: 0,
-      live_classes: 0,
-      assignments: 0,
-      Study_Material: 0
+      Classroom_Class: 0,
+      Online_Class: 0,
+      Offline_Material:0,
+      Study_Material: 0,
+      Videos:0,
+
     }
   };
   constructor(
@@ -90,11 +94,9 @@ export class BasicInfoComponent implements OnInit {
           this.productItems = response;
           this.prodForm.product_item_stats = {};
           this.productItems.forEach((element, index) => {
-            if (element.slug != 'Study_Material') {
               this.itemStates.push(element);// add states
               this.prodForm.product_item_stats[element.slug] = 0;
               this.prodItems[element.slug] = false;
-            }
           });
           this.initForm();
         }
@@ -203,6 +205,11 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'please select at least one e-course', '');
       return;
     }
+    if (this.prodForm.duration <= 0) {
+      this.msgService.showErrorMessage('error', 'please enter product duration ', '');
+      return;
+    }
+
     let keys = Object.keys(this.prodItems);
     let notselectedItem = keys.filter(key => this.prodItems[key] == false);
     if (this.productItems.length == notselectedItem.length) {
@@ -229,8 +236,9 @@ export class BasicInfoComponent implements OnInit {
       "about": this.prodForm.about,
       "is_paid": this.prodForm.is_paid,
       "price": this.prodForm.price,
-      "valid_from_date": this.prodForm.valid_from_date,
-      "valid_to_date": this.prodForm.valid_to_date,
+      // "valid_from_date": moment(this.prodForm.valid_from_date),
+      // "valid_to_date": moment(this.prodForm.valid_to_date),
+      "duration":this.prodForm.duration,
       "sales_from_date":this.prodForm.sales_from_date,
       "sales_to_date":this.prodForm.sales_to_date,
       "purchase_limit": this.prodForm.purchase_limit,
@@ -298,7 +306,9 @@ export class BasicInfoComponent implements OnInit {
   }
 
   calc_days() {
-    return (this.prodForm.valid_from_date != '' && this.prodForm.valid_to_date != '') ? Math.ceil(Math.abs((new Date(this.prodForm.valid_to_date).getTime()) - (new Date(this.prodForm.valid_from_date).getTime())) / (1000 * 3600 * 24)) : 'NA';
+    this.prodForm.valid_from_date =  moment(this.prodForm.sales_from_date).format('DD-MMM-YYYY');
+    this.prodForm.valid_to_date = moment(this.prodForm.sales_from_date).add(this.prodForm.duration, 'd').format('DD-MMM-YYYY');
+    // return (this.prodForm.valid_from_date != '' && this.prodForm.valid_to_date != '') ? Math.ceil(Math.abs((new Date(this.prodForm.valid_to_date).getTime()) - (new Date(this.prodForm.valid_from_date).getTime())) / (1000 * 3600 * 24)) : 'NA';
   }
 
 

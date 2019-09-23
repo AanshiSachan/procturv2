@@ -40,24 +40,6 @@ export class ProductService {
 
     }
 
-    createHeader(type) {
-        // this.headerJson['x-prod-inst-id'] = '100058';
-        // this.headerJson['x-prod-user-id'] = 'zin';
-        // if (window.sessionStorage) {
-        //     if (sessionStorage.getItem('userCreadentials') != null) {
-        //         let obj = JSON.parse(sessionStorage.getItem('userCreadentials'));
-
-        //     }
-
-        //     if (sessionStorage.getItem('siteScreadentials') != null) {
-        //         let obj = JSON.parse(sessionStorage.getItem('siteScreadentials'));
-        //         this.headerJson['X-Access-Token'] = obj['portal_access_token'];
-        //     }
-        // }
-        // let headers: HttpHeaders = new HttpHeaders(this.headerJson);
-        // return headers;
-    }
-
     searchMethod(method, url, body, params, plateform) {
         let fullUrl = this.urls.apiAdminUrl + url;
         let _httpRequest = new HttpRequest(method, fullUrl, body, {

@@ -1,27 +1,26 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProductService } from '../../../../services/products.service';
 import { MessageShowService } from '../../../../services/message-show.service';
-import { Router } from '../../../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-mock-test',
-  templateUrl: './mock-test.component.html',
-  styleUrls: ['./mock-test.component.scss']
+  selector: 'app-offline-material',
+  templateUrl: './offline-material.component.html',
+  styleUrls: ['./offline-material.component.scss']
 })
-export class MockTestComponent implements OnInit {
-
+export class OfflineMaterialComponent implements OnInit {
   @Input() entity_id: any;
   @Input() prodForm: any;
+
   @Output() nextForm = new EventEmitter<string>();
   @Output() startForm = new EventEmitter<string>();
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
   testlist: any = [];
   checkedList: any = [];
+  description:string='';
   selectAll: boolean = false;
   isRippleLoad: boolean = false;
-  description: string = '';
-  product_ecourse_maps: any = [];
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
@@ -29,46 +28,25 @@ export class MockTestComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.prodForm);
     this.initForm();
   }
-  expandEcourse(ecourse) {
-    ecourse.isExpand = !ecourse.isExpand;
-    this.initMockTests(ecourse);
-  }
 
-  selectAllDetails($event) {
-    this.testlist.forEach(element => { element.isChecked = $event });
-  }
-
-  selectVlaue($event, test) {
-    // this.selectAll = false;
-    // let array = this.testlist.filter(element => element.isChecked == true);
-    // if (array.length == this.testlist.length) {
-    //   this.selectAll = true;
-    // }
-    console.log($event, test);
-  }
-
-
-
-  initMockTests(ecourse) {
+  initOnlineTests() {
     //Fetch Product Groups List
-    //{course_type: "KAS Prelims", course_type_id: 145}
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
-      this.http.postMethod2('ext/get-examdesk/IIT', ["Mock_Test"]).then(
+      this.http.postMethod2('ext/get-examdesk', ["Online_Test"]).then(
         (resp: any) => {
           this.isRippleLoad = false;
           let response = resp['body'];
           if (response.validate) {
-            let details = JSON.parse(response.result['Mock_Test']);
-            ecourse.testlist = details.data;
-            // this.selectAllDetails(false);
-            if (ecourse.testlist.length && this.prodForm.product_item_list.length) {
+            let details = JSON.parse(response.result['Online Test']);
+            this.testlist = details.data;
+            this.selectAllDetails(false);
+            if (this.testlist.length && this.prodForm.product_item_list.length) {
               this.prodForm.product_item_list.forEach((obj) => {
-                ecourse.testlist.forEach((test) => {
-                  if (test.test_id == obj.source_item_id && obj.course_type_id==ecourse.course_type_id) { test.isChecked = true; }
+                this.testlist.forEach((test) => {
+                  if (test.test_id == obj.source_item_id) { test.isChecked = true; }
                 });
               });
             }
@@ -97,19 +75,25 @@ export class MockTestComponent implements OnInit {
           let response = resp.result;
           if (resp.validate) {
             let productData = response;
-            console.log(response);
-            this.description = response.page_description['Mock_Test']
-            
-            this.product_ecourse_maps = response.product_ecourse_maps;
-            this.product_ecourse_maps.forEach((course) => {
-              course.isExpand = false;
-              course.testlist = [];
-            })
+            this.prodForm = response;
+            // this.prodForm.entity_id = productData.entity_id;
+            // this.prodForm.title = productData.title;
+            // this.prodForm.about = productData.about;
+            // this.prodForm.is_paid = productData.is_paid;
+            // this.prodForm.price = productData.price;
+            // this.prodForm.start_datetime = productData.valid_from_date;
+            // this.prodForm.end_datetime = productData.valid_to_date;
+            // this.prodForm.status = productData.status;
+            // this.prodForm.purchase_limit = productData.purchase_limit;
+            // this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
+            // this.prodForm.product_items_types = productData.product_items_types;
+            // this.prodForm.product_item_list =productData.product_item_list;
             this.prodForm.product_item_stats = {};
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
             this.updateProductItemStates(null, null);
+            this.initOnlineTests();
           }
           else {
             this.msgService.showErrorMessage('error', response.errors.message, '');
@@ -120,6 +104,7 @@ export class MockTestComponent implements OnInit {
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
+
 
   }
 
@@ -132,38 +117,49 @@ export class MockTestComponent implements OnInit {
     this.previewEvent.emit(this.prodForm);
   }
 
+  selectAllDetails($event) {
+    this.testlist.forEach(element => { element.isChecked = $event });
+  }
+
+  selectVlaue($event) {
+    this.selectAll = false;
+    let array = this.testlist.filter(element => element.isChecked == true);
+    if (array.length == this.testlist.length) {
+      this.selectAll = true;
+    }
+  }
+
   gotoBack() {
     this.router.navigateByUrl('/view/products/details');
   }
 
   gotoNext() {
-    // let array = this.testlist.filter((item) => item.isChecked == true);
-    // console.log(array);
-    // if (this.testlist.length == 0) {
-    //   this.nextForm.emit();
-    // } else 
-    let objectArray = [];
-    this.product_ecourse_maps.forEach(course => {
-      course.testlist.forEach(element => {
+    let array = this.testlist.filter((item) => item.isChecked == true);
+    console.log(array);
+    if (this.testlist.length == 0) {
+      this.nextForm.emit();
+    } else {
+      let objectArray = []
+      array.forEach(element => {
         if (element.isChecked) {
           let object = {
             "source_item_id": element.test_id,
             "source_subject_id": "",
-            "course_type_id": course.course_type_id,
+            "course_type_id": "",
             "parent_topic_id": "",
-            "slug": "Mock_Test"
+            "slug": "Online_Test"
           }
           objectArray.push(object);
         }
       });
-    });
-     {
-      if ((!this.isRippleLoad)) {
+
+
+      if (objectArray.length && (!this.isRippleLoad)) {
         //update test List
-        let obj = {
-          "page_type": "Mock_Test",
-          "item_list": objectArray,
-          "description": this.description
+        let obj={
+          "page_type": "Online_Test",
+          "item_list":objectArray,
+          "description":this.description
         }
         this.isRippleLoad = true;
         this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
@@ -172,10 +168,8 @@ export class MockTestComponent implements OnInit {
             let response = resp['body'];
             if (response.validate) {
               let details = response.result;
-              
               this.prodForm.product_item_list = details;
-              console.log(this.prodForm)
-              this.msgService.showErrorMessage('success', "product mock test updated successfully", '');
+              this.msgService.showErrorMessage('success', "product online test updated successfully", '');
               this.nextForm.emit();
             }
             else {
@@ -184,15 +178,16 @@ export class MockTestComponent implements OnInit {
             }
           },
           (err) => {
-            this.isRippleLoad = false;
             this.msgService.showErrorMessage('error', err['error'].errors.message, '');
           });
       }
       else {
-        this.msgService.showErrorMessage('error', " select at least one Mock Test", '');
+        this.isRippleLoad = false;
+        this.msgService.showErrorMessage('error', " select at least one online test", '');
         return;
       }
     }
 
   }
+
 }

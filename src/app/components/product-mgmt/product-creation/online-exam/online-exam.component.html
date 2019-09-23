@@ -1,132 +1,46 @@
-<!-- <div class="row filters-box">
-    <div class="col-md-3">
-      <select name="" class="form-control form-control-sm">
-        <option>Select Exam</option>
-        <option>SSC CGL</option>
-        <option>SSC CHSL</option>
-      </select>
-    </div>
-    <div class="col-md-3">
-      <select name="" class="form-control form-control-sm">
-        <option>Select Subject</option>
-        <option>SSC CGL</option>
-        <option>SSC CHSL</option>
-      </select>
-    </div>
-    <div class="col-md-6">
-      <button class="btn btn-primary btn-sm btn-round">Add</button>
-    </div>
-    <div class="col-md-12 subjects-nav-bar">
-      <button class="btn btn-light btn-sm btn-tab">History</button>
-      <button class="btn btn-light btn-sm btn-tab">Geography</button>
-    </div>
+<!-- <div class="row m-0 mb-4 filters-box">
+  <div class="col-md-3">
+    <select name="" class="form-control form-control-sm">
+      <option>Select Exam</option>
+      <option>SSC CGL</option>
+      <option>SSC CHSL</option>
+    </select>
   </div>
-  
-  
-  <div class="row m-0 content-wrapper">
-    <div class="col-md-12 p-0 content-table">
-      <div class="row m-0 head table-row">
-        <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-        <div class="col table-cell content-name-cell">Content</div>
-        <div class="col table-cell">Marks</div>
-        <div class="col table-cell">Questions</div>
-        <div class="col table-cell">Time</div>
-        <div class="col table-cell">Difficulty</div>
-      </div>
-      <div class="row m-0 table-body">
-  
-        <div class="row m-0 col-md-12 p-0 singleton-row">
-          <div class="col table-cell checkbox-cell">
-            <input type="checkbox">
-          </div>
-          <div class="col table-cell content-name-cell">
-            History Model Exam
-          </div>
-          <div class="col table-cell stats-cell">
-            50
-          </div>
-          <div class="col table-cell stats-cell">
-            100
-          </div>
-          <div class="col table-cell stats-cell">
-            60 mins
-          </div>
-          <div class="col table-cell stats-cell">
-            Easy
-          </div>
-        </div>
-  
-        <div class="row m-0 col-md-12 p-0 singleton-row">
-          <div class="col table-cell checkbox-cell">
-            <input type="checkbox">
-          </div>
-          <div class="col table-cell content-name-cell">
-            History Model Exam
-          </div>
-          <div class="col table-cell stats-cell">
-            50
-          </div>
-          <div class="col table-cell stats-cell">
-            100
-          </div>
-          <div class="col table-cell stats-cell">
-            60 mins
-          </div>
-          <div class="col table-cell stats-cell">
-            Easy
-          </div>
-        </div>
-  
-        <div class="row m-0 col-md-12 p-0 singleton-row">
-          <div class="col table-cell checkbox-cell">
-            <input type="checkbox">
-          </div>
-          <div class="col table-cell content-name-cell">
-            History Model Exam
-          </div>
-          <div class="col table-cell stats-cell">
-            50
-          </div>
-          <div class="col table-cell stats-cell">
-            100
-          </div>
-          <div class="col table-cell stats-cell">
-            60 mins
-          </div>
-          <div class="col table-cell stats-cell">
-            Easy
-          </div>
-        </div>
-  
-      </div>
+  <div class="col-md-3">
+    <select name="" class="form-control form-control-sm">
+      <option>Select Subject</option>
+      <option>SSC CGL</option>
+      <option>SSC CHSL</option>
+    </select>
+  </div>
+  <div class="col-md-6">
+    <button class="btn btn-primary btn-sm btn-round">Add</button>
+  </div>
+</div> -->
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
+  *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="row m-0 pt-0 product-list-wrapper ">
+
+  <div class="row main-topic-row" style="margin-bottom: 10px;border: none;">
+    <div class="form-group">
+      <label class="text-bold">Description</label>
+      <textarea [(ngModel)]="description" name="description" style="height:120px"
+        class="form-control form-control-sm" placeholder="Write a description about online test"></textarea>
     </div>
   </div>
 
-<div class="row basic-info-footer">
-  <div class="col">
-    
-  </div>
-  <div class="col text-center">
-    <button class="btn btn-outline-danger btn-round">Cancel</button>
-    <button class="btn btn-primary btn-round">Save</button>
-  </div>
-  <div class="col text-right">
-      <button class="btn btn-link">Next ></button>
-  </div>
-</div> -->
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
-  </loaders-css>
-<div class="row m-0 pt-0 product-list-wrapper">
-  <div class="col-md-12 table-wrapper p-0">
+  <div class="col-md-12 table-wrapper p-0 ">
     <table class="table product-table">
       <thead class="product-table-head">
         <tr>
           <th width="5%">
-            <div class="field-checkbox-wrapper">
+            <!-- <div class="field-checkbox-wrapper">
               <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll"
                 (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test"> <label
                 for="ch2"></label>
-            </div>
+            </div> -->
           </th>
           <th width="45%" style="text-align: left;">Content</th>
           <th width="10%">Marks</th>
@@ -135,43 +49,54 @@
           <th class="text-center">Difficulty</th>
         </tr>
       </thead>
-      <tbody class="product-table-body">
-        <tr *ngFor="let test of testlist;let i =index;">
-          <td>
-            <div class="field-checkbox-wrapper">
-              <input type="checkbox" class="form-checkbox" [checked]="test.isChecked" [(ngModel)]="test.isChecked"
-                (ngModelChange)="selectVlaue($event)" [id]="'ch'+index">
-                <label [for]="'ch'+index"></label>
-              </div>
-          </td>
-          <td style="text-align: left;">
-            <label [for]="'ch'+index">{{test.test_name}}{{index}}</label>
-          </td>
-          <td> {{test.total_marks}}</td>
-          <td>
-            {{test.total_question}}
-          </td>
-          <td>
-            {{test.duration}}
-          </td>
-          <td class="text-center">
-            {{test.difficulty_title}}
-          </td>
-        </tr>
-
-        <ng-container *ngIf="testlist.length < 1">
-          <tr>
-            <td colspan="7">No Records Found</td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-  </div>
+      <tbody class="product-table-body">        <!--read view -->
+        <ng-template [ngIf]="true">
+          <ng-container *ngFor="let ecourse of product_ecourse_maps;">
+            <tr>
+              <td>              
+                  <i class="fa fa-minus" *ngIf="ecourse.isExpand" (click)="expandEcourse(ecourse)"></i>
+                  <i class="fa fa-plus" *ngIf="!ecourse.isExpand" (click)="expandEcourse(ecourse)"></i>
+              </td>
+              <td colspan="6" class="text-left">
+                <label>{{ecourse.course_type}}</label>
+              </td>
+            </tr>  
+          <ng-template [ngIf]="ecourse.isExpand">
+            
+              <tr *ngFor="let test of ecourse.testlist;let i =index;">
+                  <td>
+                    <div class="field-checkbox-wrapper">
+                      <input type="checkbox" class="form-checkbox" [checked]="test.isChecked" [(ngModel)]="test.isChecked"
+                        (ngModelChange)="selectVlaue($event,test)" [id]="'ch'+index">
+                        <label [for]="'ch'+index"></label>
+                      </div>
+                  </td>
+                  <td style="text-align: left;">
+                    <label [for]="'ch'+index">{{test.test_name}}</label>
+                  </td>
+                  <td> {{test.total_marks}}</td>
+                  <td>
+                    {{test.total_question}}
+                  </td>
+                  <td>
+                    {{test.duration}}
+                  </td>
+                  <td class="text-center">
+                    {{test.difficulty_title}}
+                  </td>
+                </tr>   
+          </ng-template>
+                   
+          </ng-container>
+        </ng-template>
+      </tbody>      
+  </table>
 </div>
-
+</div>
 <div class="row basic-info-footer">
   <div class="col text-center">
     <button class="btn btn-outline-danger btn-round" (click)="gotoBack()">Cancel</button>
     <button class="btn btn-primary btn-round" (click)="gotoNext()">Save & Next</button>
   </div>
+
 </div>

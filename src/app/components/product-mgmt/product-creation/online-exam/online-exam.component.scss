@@ -1,67 +1,67 @@
 .basic-info-footer{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-top: 1pt solid #f3f3f3;
-    padding: 0.5em 0.8em;
-    background: #fff;
-    box-shadow: 0pt -2pt 6pt #e6e6e6;
-    z-index: 5;
-    .btn-round{
-        padding: 0.2em 1em;
-        border-radius: 2em;
-        margin: 0.2em;
-    }
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 1pt solid #f3f3f3;
+  padding: 0.5em 0.8em;
+  background: #fff;
+  box-shadow: 0pt -2pt 6pt #e6e6e6;
+  z-index: 5;
+  .btn-round{
+      padding: 0.2em 1em;
+      border-radius: 2em;
+      margin: 0.2em;
+  }
 }
 
 .row {
-    margin-left: 0px;
-    margin-right: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
 }   
 
 .product-list-wrapper {
-    padding: 1em;
-  }
-  .product-table { 
-    .product-table-head {
-      background: #fff;
-  
-      tr {
+  padding: 1em;
+}
+.product-table { 
+  .product-table-head {
+    background: #fff;
+
+    tr {
+      border: 0;
+      cursor: default;
+      border: none;
+
+      th {
         border: 0;
-        cursor: default;
-        border: none;
-  
-        th {
-          border: 0;
-          color: #999;
-          font-weight: normal;
-          border-top: 0;
-          padding: 8px;
-        }
+        color: #999;
+        font-weight: normal;
+        border-top: 0;
+        padding: 8px;
       }
     }
   }
+}
 
-  .table-wrapper{
-    padding: 0.2em !important;
-    border: 1pt solid #f1f1f1;
-    -webkit-box-shadow: 0pt 0pt 4pt #eee;
-    box-shadow: 0pt 0pt 4pt #eee;
-  }
-  .table>tr, .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
-    padding-left: 0;
-    padding-right: 0;
-    padding-bottom: 8px;
-    padding-top: 8px;
-    font-size: 12px;
-  }
+.table-wrapper{
+  padding: 0.2em !important;
+  border: 1pt solid #f1f1f1;
+  -webkit-box-shadow: 0pt 0pt 4pt #eee;
+  box-shadow: 0pt 0pt 4pt #eee;
+}
+.table>tr, .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 8px;
+  padding-top: 8px;
+  font-size: 12px;
+}
 
-  table tr{
-    border-left:0;
-    border-right:0; 
-  }
+table tr{
+  border-left:0;
+  border-right:0; 
+}
 
-  .field-checkbox-wrapper{
-    margin-bottom: 0px;
-  }
+.field-checkbox-wrapper{
+  margin-bottom: 0px;
+}

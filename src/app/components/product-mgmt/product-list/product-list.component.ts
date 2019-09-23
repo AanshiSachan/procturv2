@@ -157,6 +157,11 @@ export class ProductListComponent implements OnInit {
         this.deleteItem.btnText = 'Delete';
         break;
       }
+      case 'readytopublish':{
+        this.deleteItem.btnClass = 'btn-primary';
+        this.deleteItem.btnText = 'Ready To Publish';
+        break;
+      }
       case 'ready': {
         this.deleteItem.btnClass = 'btn-primary';
         this.deleteItem.btnText = 'Ready';
@@ -224,12 +229,18 @@ export class ProductListComponent implements OnInit {
         }
         break;
       }
+    
       case 'ready': {
 
+        object.status = 10;
+        item.status = 10;
+        this.tempFucntion(id,item, object, operation);
+        break;
+      }
+      case  'readytopublish':{
         object.status = 20;
         item.status = 20;
         this.tempFucntion(id,item, object, operation);
-        break;
       }
       case 'publish': {
         object.status = 30;
@@ -293,10 +304,10 @@ export class ProductListComponent implements OnInit {
         this.isRippleLoad = false;
         if (resp) {
           let response = resp.result;
-          console.log(resp);
+          console.log(response);
           if (resp.validate) {
-            this.productList = response.results;
-            this.varJson.total_items = response.total_records;
+            this.productList = response;
+            this.varJson.total_items =response.length;
           }
           else {
             this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');

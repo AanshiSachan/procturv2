@@ -1,15 +1,15 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Router } from '../../../../../../node_modules/@angular/router';
-import { HttpService } from '../../../../services/http.service';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { Router } from '@angular/router';
+import { HttpService } from '../../../../services/http.service';
 import { ProductService } from '../../../../services/products.service';
 
 @Component({
-  selector: 'app-study-material',
-  templateUrl: './study-material.component.html',
-  styleUrls: ['./study-material.component.scss']
+  selector: 'app-video-lecture',
+  templateUrl: './video-lecture.component.html',
+  styleUrls: ['./video-lecture.component.scss']
 })
-export class StudyMaterialComponent implements OnInit {
+export class VideoLectureComponent implements OnInit {
 
   @Input()
   entity_id: any;
@@ -47,7 +47,6 @@ export class StudyMaterialComponent implements OnInit {
       if (operation == 'hide') {
         child_el.classList.remove('fade-in');
         child_el.classList.add('fade-out');
-
         event.target.classList.remove('btn-close');
         event.target.classList.add('btn-open');
         event.target.attributes['data'].value = 'show';
@@ -72,9 +71,9 @@ export class StudyMaterialComponent implements OnInit {
     if ((!this.isRippleLoad)) {
       //update test List
       let obj={
-        "page_type": "Study_Material",
+        "page_type": "Videos",
         "item_list":this.testlist,
-        "description":this.description        
+        "description":this.description
       }
       this.isRippleLoad = true;
       this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
@@ -309,7 +308,7 @@ export class StudyMaterialComponent implements OnInit {
       //Fetch Product Info
       if (!this.isRippleLoad) {
         this.isRippleLoad = true;
-        this.http.getMethod('ext/get-subjects-of-ecourses/' + this.entity_id+'/Study_Material', null).subscribe(
+        this.http.getMethod('ext/get-subjects-of-ecourses/' + this.entity_id+'/Videos', null).subscribe(
           (resp: any) => {
             this.isRippleLoad = false;
             if (resp) {
@@ -355,7 +354,7 @@ export class StudyMaterialComponent implements OnInit {
 
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
-      this.http.postMethod('ext/get-topic-of-subject/Study_Material', params, null).then((res: any) => {
+      this.http.postMethod('ext/get-topic-of-subject/Videos', params, null).then((res: any) => {
         this.isRippleLoad = false;
         if (res && res.body && res.body.result) {
           let responce = JSON.parse(res.body.result);
@@ -427,7 +426,6 @@ export class StudyMaterialComponent implements OnInit {
             this.prodForm.product_items_types = productData.product_items_types;
             this.prodForm.product_item_stats = {};
              this.testlist = this.prodForm.product_item_list;
-            this.description = response.page_description['Study_Material']
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });

@@ -19,7 +19,7 @@ export class UploadFileComponent implements OnInit {
   subtopicList: any[] = [];
   categiesList: any[] = [];
   categiesTypeList: any[] = [];
-  existVideos:any[]=[];
+  existVideos: any[] = [];
   institute_id: any;
   showModal: boolean = false;
   dragoverflag: boolean = false;
@@ -31,7 +31,7 @@ export class UploadFileComponent implements OnInit {
   jsonData = {
     parentTopic: '',
     mainTopic: '',
-    selectedVideo:''
+    selectedVideo: ''
   }
   file: any;
   payload = {
@@ -57,7 +57,7 @@ export class UploadFileComponent implements OnInit {
     file_id: 0,
     is_readonly: 'N',
     title: '',
-    is_private:'Y'
+    is_private: 'Y'
   }
 
   constructor(
@@ -85,66 +85,67 @@ export class UploadFileComponent implements OnInit {
     });
   }
 
-  getVDOCipherLinkedDate(){
+  getVDOCipherLinkedDate() {
     let url = "/api/v1/instFileSystem/VDOCipher/" + this.institute_id;
     this.existVideos = [];
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
-      if(res){
+      if (res) {
         this.existVideos = res;
       }
-    },(err)=>{
+    }, (err) => {
       this.existVideos = [];
     });
   }
 
-  linkAlreadyUploadedVideo($event){
+  linkAlreadyUploadedVideo($event) {
     console.log($event);
-    let url = "/api/v1/instFileSystem/linkVideos" ;    
-    let object = { 
-      "institute_id":this.institute_id,
-      "videoID":this.jsonData.selectedVideo,
+    let url = "/api/v1/instFileSystem/linkVideos";
+    let object = {
+      "institute_id": this.institute_id,
+      "videoID": this.jsonData.selectedVideo,
       "course_types": this.varJson.course_types,
       "subject_id": this.varJson.subject_id,
-      "topic_id": this.varJson.topic_id,                                                          
-      "sub_topic_id": this.varJson.sub_topic_id,                                             
+      "topic_id": this.varJson.topic_id,
+      "sub_topic_id": this.varJson.sub_topic_id,
       "title": this.varJson.title,
       "category_id": 235,
-  }
-  let flag = this.uploadDatavalidation();
-  if(!this.isRippleLoad &&(flag)){
-    this.isRippleLoad = true;
-    this._http.postData(url,object).subscribe((res: any) => {
-      console.log(res);
-      this.isRippleLoad = false;
-      if(res){
-        this.clearuploadObject();
-                this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
-      
-      }
-    },(err)=>{
-      this.isRippleLoad = false;
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.message);
-    });
-  }
-   
+    }
+    let flag = this.uploadDatavalidation();
+    if (!this.isRippleLoad && (flag)) {
+      this.isRippleLoad = true;
+      this._http.postData(url, object).subscribe((res: any) => {
+        console.log(res);
+        this.isRippleLoad = false;
+        if (res) {
+          this.clearuploadObject();
+          this.refreshList();
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
+
+        }
+      }, (err) => {
+        this.isRippleLoad = false;
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.message);
+      });
+    }
+
   }
 
-  getSourceName(video){
+  getSourceName(video) {
     //{{video.subject_name}}
-    if(video.sub_topic_name!=null){
-      return video.sub_topic_name+'  ( '+video.ecourse_name+' )';
-    }else{
-      if(video.parent_topic_name!=null){
-        return video.parent_topic_name+'  ( '+video.ecourse_name+' )';
-      }else{        
-          return video.subject_name+'  ( '+video.ecourse_name+' )';        
+    if (video.sub_topic_name != null) {
+      return video.sub_topic_name + '  ( ' + video.ecourse_name + ' )';
+    } else {
+      if (video.parent_topic_name != null) {
+        return video.parent_topic_name + '  ( ' + video.ecourse_name + ' )';
+      } else {
+        return video.subject_name + '  ( ' + video.ecourse_name + ' )';
       }
     }
   }
 
-  getLocationName(video){
-  return video.sub_topic_name;
+  getLocationName(video) {
+    return video.sub_topic_name;
   }
   uploadYoutubeURL($event) {
     let flag = this.uploadDatavalidation();
@@ -197,9 +198,10 @@ export class UploadFileComponent implements OnInit {
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
               this.clearuploadObject();
 
-              this.material_dataShow ? this._http.updatedDataSelection('material') :
-                this.material_dataFlag == 'material' ? this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
-              console.log(this.material_dataFlag);
+              // this.material_dataShow ? this._http.updatedDataSelection('material') :
+              //   this.material_dataFlag == 'material' ? this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
+
+              this.refreshList();
             } else {
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }
@@ -209,6 +211,20 @@ export class UploadFileComponent implements OnInit {
       }
 
     }
+  }
+
+  refreshList() {
+
+    if (this.material_dataShow && this.material_dataFlag == 'material') {
+      this._http.updatedDataSelection('material')
+    }
+    else if (this.material_dataShow && this.material_dataFlag == 'subject-list') {
+      this._http.updatedDataSelection('subject');
+    }
+    else {
+      this._http.updatedDataSelection('list');
+    }
+    console.log(this.material_dataFlag);
   }
 
   checkListCall() {
@@ -233,7 +249,7 @@ export class UploadFileComponent implements OnInit {
       file_id: 0,
       is_readonly: 'N',
       title: '',
-      is_private:'Y'
+      is_private: 'Y'
     }
     this.varJson.name = '';
   }
@@ -308,16 +324,7 @@ export class UploadFileComponent implements OnInit {
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               this.clearuploadObject();
-
-              if (this.material_dataShow && this.material_dataFlag == 'material') {
-                this._http.updatedDataSelection('material')
-              }
-              else if (this.material_dataShow && this.material_dataFlag == 'subject-list') {
-                this._http.updatedDataSelection('subject');
-              }
-              else {
-                this._http.updatedDataSelection('list');
-              }
+              this.refreshList();
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
               this.getDataUsedInCourseList();
 
@@ -342,7 +349,7 @@ export class UploadFileComponent implements OnInit {
         }
       }
     });
-    if(value=='330'){
+    if (value == '330') {
       this.getVDOCipherLinkedDate();
     }
   }
@@ -455,7 +462,7 @@ export class UploadFileComponent implements OnInit {
     let url = "/api/v1/instFileSystem/v2/categories";
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
-      let temp = [{category_id:330,category_name:'existing video'}];
+      let temp = [{ category_id: 330, category_name: 'existing video' }];
       res.forEach(category => {
         if (category.category_id == -1) {
           category.videoCategoryList.forEach(vdoType => {
@@ -532,9 +539,9 @@ export class UploadFileComponent implements OnInit {
     });
   }
 
-  onRadioButtonChange($event,video){
-    console.log($event,video);
-    this.varJson.title =video.video_title;
+  onRadioButtonChange($event, video) {
+    console.log($event, video);
+    this.varJson.title = video.video_title;
   }
 
 

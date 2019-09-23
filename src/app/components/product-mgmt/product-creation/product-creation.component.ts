@@ -60,28 +60,46 @@ export class ProductCreationComponent implements OnInit {
       index: 2
     },
     3: {
-      slug: 'Mock_Test',
+      slug: 'Videos',
       show: false,
       is_completed: false,
       index: 3
     },
     4: {
-      slug: 'Online_Test',
+      slug: 'Mock_Test',
       show: false,
       is_completed: false,
       index: 4
     },
     5: {
-      slug: 'Offline22_Products',
+      slug: 'Online_Test',
       show: false,
       is_completed: false,
       index: 5
     },
     6: {
+      slug: 'Online_Class',
+      show: false,
+      is_completed: false,
+      index: 6
+    },
+    7: {
+      slug: 'Classroom_Class',
+      show: false,
+      is_completed: false,
+      index: 7
+    },
+    8: {
+      slug: 'Offline_Material',
+      show: false,
+      is_completed: false,
+      index: 8
+    },
+    9: {
       slug: 'review',
       show: true,
       is_completed: false,
-      index: 6
+      index: 9
     }
   };
 
@@ -98,10 +116,13 @@ export class ProductCreationComponent implements OnInit {
         switch (params.form) {
           case 'basic': this.activeForm = 1; break;
           case 'Study_Material': this.activeForm = 2; break;
-          case 'Mock_Test': this.activeForm = 3; break;
-          case 'Online_Test': this.activeForm = 4; break;
-          case 'Offline_Products': this.activeForm = 5; break;
-          case 'review': this.activeForm = 6; break;
+          case 'Videos': this.activeForm = 3; break;         
+          case 'Mock_Test': this.activeForm = 4; break;
+          case 'Online_Test': this.activeForm = 5; break;
+          case 'Online_Class': this.activeForm = 6; break;
+          case 'Classroom_Class': this.activeForm = 7; break;
+          case 'Offline_Material': this.activeForm = 8; break;
+          case 'review': this.activeForm = 9; break;
           default:
             this.router.navigate(['/error404'], { replaceUrl: true }); break;
         }
@@ -146,16 +167,7 @@ export class ProductCreationComponent implements OnInit {
             this.formSequence[i].show = (this.prodForm.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
           });
           this.formSequence[1].show = true;
-          this.formSequence[6].show = true;
-          let states = Object.keys(this.prodForm.product_item_stats);
-          this.prodForm.product_item_stats['Study_Material'] = false;
-          this.formSequence[2].show = false ;
-          states.forEach((object, index) => {
-            if (object != 'Mock_Test' && object != 'Section_Test' && object != 'Online_Test') {
-              this.prodForm.product_item_stats['Study_Material'] = true;
-              this.formSequence[2].show = true ;
-            }        
-          });
+          this.formSequence[9].show = true;
         }
         else {
           this.msgService.showErrorMessage('error', response.errors.message, '');
@@ -176,24 +188,13 @@ export class ProductCreationComponent implements OnInit {
       this.formSequence[i].show = (this.prodForm.product_item_stats[this.formSequence[i].slug] > 0) ? true: false;
     });
     this.formSequence[1].show = true;
-    this.formSequence[6].show = true;
-    let states = Object.keys(this.prodForm.product_item_stats);
-    this.prodForm.product_item_stats['Study_Material'] = false;
-        this.formSequence[2].show = false ;
-    states.forEach((object, index) => {
-      if (object != 'Mock_Test' && object != 'Section_Test' && object != 'Online_Test') {
-        if(this.prodForm.product_item_stats[object]>0){
-          this.prodForm.product_item_stats['Study_Material'] = true;
-          this.formSequence[2].show = true ;
-        }
-      }        
-    });
+    this.formSequence[9].show = true;
       this.setPaddingDetails();
   }
 
    setPaddingDetails(){
     this.jsonData.padding_left =35;
-    let obj={1:35,2:35,3:30,4:26,5:15};
+    let obj={1:37,2:37,3:34,4:29,5:26,6:22,7:18,8:14,9:11};
     let keys = Object.keys(this.formSequence);
     let flag_count=0;
    keys.forEach((element, index) => {
@@ -254,7 +255,7 @@ export class ProductCreationComponent implements OnInit {
             this.formSequence[i].show = (product.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
           });
           this.formSequence[1].show = true;
-          this.formSequence[6].show = true;
+          this.formSequence[9].show = true;
         }
         else {
           this.msgService.showErrorMessage('error', resp.errors.message, '');
