@@ -1,5 +1,6 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
-  </loaders-css>
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
+  *ngIf="isRippleLoad">
+</loaders-css>
 
 <div class="container-fluid product-wrapper p-0">
   <div class="row m-0 pt-3 pb-3" style="border-bottom: 1pt solid #ddd;padding-bottom:10px">
@@ -24,8 +25,8 @@
     <div class="col-md-12 col-sm-12 container">
       <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">E-course</label>
-        <select [(ngModel)]="filter.ecourse_id" class="form-ctrl" (ngModelChange)="getSubjectList()" >
-          <option value="-1"  selected>Select E-course</option>
+        <select [(ngModel)]="filter.ecourse_id" class="form-ctrl" (ngModelChange)="getSubjectList()">
+          <option value="-1" selected>Select E-course</option>
           <option *ngFor="let course of ecourseList" [value]="course.course_type_id">{{course.course_type}}</option>
         </select>
       </div>
@@ -40,13 +41,13 @@
 
       <div class="form-group  field-wrapper form-el-width">
         <label class="text-bold">Subject</label>
-        <select [(ngModel)]="filter.subject_id" class="form-ctrl"  name="cc" id="cc">
+        <select [(ngModel)]="filter.subject_id" class="form-ctrl" name="cc" id="cc">
           <option value="-1" selected>Select Subject</option>
           <option *ngFor="let sub of subjectsList" [value]="sub.subject_id">{{sub.subject_name}}</option>
         </select>
       </div>
 
-      <button class="btn btn-primary btn-product btn_go" (click)="filterData()">GO</button>
+      <button class="btn btn-primary btn-product btn_go" [disabled]="isRippleLoad" (click)="filterData()">GO</button>
 
     </div>
   </div>
@@ -70,7 +71,7 @@
             <th class="text-center">Start Date</th>
             <th class="text-center">End Date</th>
             <th width="8%" class="text-center">Publish Date</th>
-            <th width="8%" class="text-center">Price</th>        
+            <th width="8%" class="text-center">Price</th>
             <th width="8%" class="text-center">Action</th>
           </tr>
         </thead>
@@ -91,11 +92,11 @@
             <td style="text-align: left">
               <p class="m-0 text-bold">{{item.title}}</p>
             </td>
-            <td  style="width:20%;text-align: left;">
-               <span class="ecourse-list" *ngFor="let  ecourse of item.product_ecourse_maps">
-                  {{ecourse.course_type}}  
-               </span>
-              </td>
+            <td style="width:20%;text-align: left;">
+              <span class="ecourse-list" *ngFor="let  ecourse of item.product_ecourse_maps">
+                {{ecourse.course_type}}
+              </span>
+            </td>
             <td class="text-center text-bold">
               <span *ngIf="item.status == 10" class="text-primary">Draft</span>
               <span *ngIf="item.status == 20" class="text-warning">Ready</span>
@@ -129,17 +130,16 @@
                 </button>
                 <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
                   <a class="dropdown-item" [routerLink]="['/view/products/create/'+item.entity_id+'/basic']">Edit</a>
-                  <a class="dropdown-item" *ngIf="item.status != 30" (click)="actionProductModal('delete', item.entity_id)">Delete</a>
+                  <a class="dropdown-item" *ngIf="item.status < 30 "
+                    (click)="actionProductModal('delete', item.entity_id)">Delete</a>
                   <a class="dropdown-item" (click)="actionProductModal('ready', item.entity_id)"
                     *ngIf="item.status == 10">Ready</a>
-                    <a class="dropdown-item" (click)="actionProductModal('readytopublish', item.entity_id)"
-                    *ngIf="item.status == 20">Ready To Publish</a>
-                    <a class="dropdown-item" (click)="actionProductModal('publish', item.entity_id)"
-                    *ngIf="item.status == 30">Publish</a>
-                  <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)"
-                    *ngIf="item.status == 40">Unpublished</a>
-                    <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)"
-                    *ngIf="item.status == 50">Closed</a>
+                  <a class="dropdown-item" (click)="actionProductModal('publish', item.entity_id)" 
+                    *ngIf="item.status == 20">Publish</a>
+                  <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)" style="border: none;"
+                    *ngIf="item.status == 30">Unpublished</a>
+                  <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;"
+                    *ngIf="item.status == 40">Closed</a>
                 </div>
               </div>
             </td>

@@ -34,33 +34,8 @@ export class VideoLectureComponent implements OnInit {
     private http: ProductService) { }
 
   ngOnInit() {
-    this.initForm();
+
     this.initProductForm();
-  }
-
-  toggleRows(event) {
-    console.log(event);
-    let operation = event.target.attributes['data'].value;
-    let length = event.target.parentNode.parentNode.parentNode.children.length;
-    for (let i = 1; i < length; i++) {
-      let child_el = event.target.parentNode.parentNode.parentNode.children[i];
-      if (operation == 'hide') {
-        child_el.classList.remove('fade-in');
-        child_el.classList.add('fade-out');
-        event.target.classList.remove('btn-close');
-        event.target.classList.add('btn-open');
-        event.target.attributes['data'].value = 'show';
-      }
-      else {
-        child_el.classList.remove('fade-out');
-        child_el.classList.add('fade-in');
-
-        event.target.classList.add('btn-close');
-        event.target.classList.remove('btn-open');
-        event.target.attributes['data'].value = 'hide';
-      }
-    }
-
   }
 
   gotoBack() {
@@ -87,7 +62,7 @@ export class VideoLectureComponent implements OnInit {
           if (response.validate) {
             let details = response.result;
             this.prodForm.product_item_list = details;
-            this.msgService.showErrorMessage('success', "product study matterial data updated successfully", '');
+            this.msgService.showErrorMessage('success', "product video lecture data updated successfully", '');
             this.nextForm.emit();
           }
           else {
@@ -127,71 +102,6 @@ export class VideoLectureComponent implements OnInit {
     }
   }
 
-  getSubtopicListData(topic) {
-
-    let url = "/api/v1/topic_manager/subject/6685/topicMaterials";
-    let parent_topic_id = -1;
-    topic.topic_id = -1;
-    let data =
-    {
-      "institute_id": sessionStorage.getItem('institute_id'),
-      "parent_topic_id": topic.topic_id,
-    }
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
-      this._http.postData(url, data).subscribe((res) => {
-        console.log(res);
-        topic.subTopics = res;
-        topic.subTopics.forEach(element => {
-          element.isExpand = false;
-          element.subTopics = [];
-          element.subject_id =topic.subject_id;
-          element.course_type_id = topic.course_type_id;
-          element.parent_topic_id = topic.parent_topic_id;
-          this.addMaterialExtension(element);
-        });
-        this.isRippleLoad = false;
-      },
-        (err) => {
-          this.isRippleLoad = false;
-        });
-    }
-  }
-
-  getSubjectData() {
-    this.isRippleLoad = true;
-    let url = "/api/v1/topic_manager/" + this.institute_id + "/subjects/2577/materials_metadata";
-    this._http.getData(url).subscribe((res: any) => {
-      console.log(res);
-      this.materialData = res;
-      if (this.materialData.length == 0) {
-        this.outputMessage = 'No Data Found';
-      }
-      this.materialData.forEach(element => {
-        element.isExpand = false;
-        element.isSelected = false
-        if (element.subjectsList) {
-          element.subjectsList.forEach((subject) => {
-            subject.isExpand = false;
-            subject.isSelected = false
-            subject.subject_id =subject.subject_id;
-            subject.course_type_id = subject.course_type_id;
-            subject.parent_topic_id = subject.parent_topic_id
-            this.addMaterialExtension(subject);
-          })
-        }
-
-        if (element.subTopics == undefined) {
-          element.subTopics = [];
-        }
-      });
-      console.log(this.materialData);
-      this.isRippleLoad = false;
-    },
-      (err) => {
-        this.isRippleLoad = false;
-      })
-  }
 
   getSlugname(key) {
     let slug = 'Slides';
@@ -236,7 +146,7 @@ export class VideoLectureComponent implements OnInit {
     if(this.prodForm){
       this.prodForm.product_item_list && this.prodForm.product_item_list.forEach((object) => {
         if (object.source_item_id == item.file_id && item.slug == object.slug) {
-          item.isSelected = true;
+          // item.isSelected = true;
           // this.testlist.push(object);
         }
       });
@@ -245,18 +155,18 @@ export class VideoLectureComponent implements OnInit {
 
 
   addMaterialExtension(object) {
-    let keys = ["notesList", "assignmentList", "studyMaterialList", "videosList", "imageList", "previousYearQuesList", "audioNotesList", "slidesList"];
+    let keys = ["videosList"];
     keys.forEach(key => {
       if (object[key]) {
         let slug = this.getSlugname(key);
         object[key].forEach(element => {
-          element.isSelected = false;
+          // element.isSelected = false;
           element.slug = slug;
           element.subject_id =object.subject_id;
           element.course_type_id = object.course_type_id;
           element.parent_topic_id = object.parent_topic_id;
           let str = element.file_name;
-          this.isItemSelected(element, key);
+          // this.isItemSelected(element, key);
           let ext = str && str.substr(str.lastIndexOf(".") + 1, str.length);
           switch (ext) {
             case 'epub': {
@@ -317,15 +227,16 @@ export class VideoLectureComponent implements OnInit {
             this.isRippleLoad = false;
             if (resp) {
               let response = JSON.parse(resp.result);
+              console.log(response);
               this.materialData = response;
               console.log(this.materialData);
               this.materialData.forEach(element => {
                 element.isExpand = false;
-                element.isSelected = false
+                // element.isSelected = false
                 if (element.subjectsList) {
                   element.subjectsList.forEach((subject) => {
                     subject.isExpand = false;
-                    subject.isSelected = false;
+                    // subject.isSelected = false;
                     subject.subject_id = subject.subject_id;
                     subject.course_type_id = element.ecourse_id;
                     subject.parent_topic_id = '-1';
@@ -366,7 +277,7 @@ export class VideoLectureComponent implements OnInit {
           object.subTopics = responce;
           object.subTopics.forEach(element => {
             element.isExpand = false;
-            element.isSelected = false
+            // element.isSelected = false
             element.subTopics = [];        
             element.subject_id =object.subject_id;
             element.course_type_id = object.course_type_id;
@@ -383,7 +294,7 @@ export class VideoLectureComponent implements OnInit {
 
   selectAllDetails($event, object) {
     console.log($event, object);
-    if (object.isSelected) {
+    if (object.selected) {
       let obj = {
         "source_item_id": object.file_id,
         "source_subject_id": object.subject_id,
@@ -405,8 +316,6 @@ export class VideoLectureComponent implements OnInit {
   }
 
   initProductForm() {
-    //Fetch Product Groups List
-
     if (this.entity_id && this.entity_id.length > 0) {
       //Fetch Product Info
       this.isRippleLoad = true;
@@ -416,18 +325,6 @@ export class VideoLectureComponent implements OnInit {
           let response = resp.result;
           if (resp.validate) {
             this.prodForm = response;
-            let productData = response;
-            // this.prodForm.entity_id = productData.entity_id;
-            // this.prodForm.title = productData.title;
-            // this.prodForm.about = productData.about;
-            // this.prodForm.is_paid = productData.is_paid;
-            // this.prodForm.price = productData.price;
-            // this.prodForm.start_datetime = productData.valid_from_date;
-            // this.prodForm.end_datetime = productData.valid_to_date;
-            // this.prodForm.status = productData.status;
-            // this.prodForm.purchase_limit = productData.purchase_limit;
-            // this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
-            // this.prodForm.product_items_types = productData.product_items_types;
             this.description = response.page_description['Videos'];
             this.prodForm.product_item_stats = {};
              this.testlist = this.prodForm.product_item_list;
@@ -435,6 +332,7 @@ export class VideoLectureComponent implements OnInit {
               this.prodForm.product_item_stats[element.slug] = true;
             });
             this.updateProductItemStates(null, null);
+            this.initForm();
           }
           else {
             this.msgService.showErrorMessage('error', response.errors.message, '');
@@ -454,7 +352,6 @@ export class VideoLectureComponent implements OnInit {
     if (item) {
       this.prodForm.product_item_stats[item.slug] = event ? 1 : 0;
     }
-    // console.log(this.prodForm);
     this.previewEvent.emit(this.prodForm);
   }
 }
