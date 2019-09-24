@@ -50,7 +50,7 @@
     <div class="row singleton-row col-md-12 topic-data main-topic-data">
       <div class="col-md-8 topic-name">
         <!-- <div class="field-checkbox-wrapper">
-          <input type="checkbox" class="form-checkbox" [(ngModel)]="ecourse.isSelected"
+          <input type="checkbox" class="form-checkbox" [(ngModel)]="ecourse.selected"
             (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test">
           <label for="ch2"></label>
         </div> -->
@@ -110,7 +110,7 @@
     <div class="row singleton-row col-md-12 topic-data topic-name">
       <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
         <!-- <div class="field-checkbox-wrapper">
-            <input type="checkbox" class="form-checkbox" [(ngModel)]="subject.isSelected"
+            <input type="checkbox" class="form-checkbox" [(ngModel)]="subject.selected"
               (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test">
             <label for="ch2"></label>
           </div> -->
@@ -156,7 +156,7 @@
     <div class="row singleton-row col-md-12 topic-data">
       <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
         <!-- <div class="field-checkbox-wrapper">
-          <input type="checkbox" class="form-checkbox" [(ngModel)]="topic.isSelected"
+          <input type="checkbox" class="form-checkbox" [(ngModel)]="topic.selected"
             (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test">
           <label for="ch2"></label>
         </div> -->
@@ -203,7 +203,7 @@
   <div class="row singleton-row material-row" *ngFor="let video of youtube">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="video.isSelected"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="video.selected"
           (ngModelChange)="selectAllDetails($event,video)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -225,7 +225,7 @@
   <div class="row singleton-row material-row" *ngFor="let file of image">
     <div class="col-md-8 material-title txt-color " [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.selected"
           (ngModelChange)="selectAllDetails($event,file)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -252,7 +252,7 @@
   <div class="row singleton-row material-row" *ngFor="let file of assignment">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.selected"
           (ngModelChange)="selectAllDetails($event,file)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -279,7 +279,7 @@
   <div class="row singleton-row material-row" *ngFor="let file of notes">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.selected"
           (ngModelChange)="selectAllDetails($event,file)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -306,7 +306,7 @@
   <div class="row singleton-row material-row" *ngFor="let audio of audios">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="audio.isSelected"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="audio.selected"
           (ngModelChange)="selectAllDetails($event,audio)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -333,7 +333,7 @@
   <div class="row singleton-row material-row" *ngFor="let file of previousYearQuesList">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.selected"
           (ngModelChange)="selectAllDetails($event,file)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -361,7 +361,7 @@
   <div class="row singleton-row material-row" *ngFor="let file of slidesList">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.selected"
           (ngModelChange)="selectAllDetails($event,file)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -388,7 +388,7 @@
   <div class="row singleton-row material-row" *ngFor="let file of studyList">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.selected"
           (ngModelChange)="selectAllDetails($event,file)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>

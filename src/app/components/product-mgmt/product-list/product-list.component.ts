@@ -232,32 +232,26 @@ export class ProductListComponent implements OnInit {
     
       case 'ready': {
 
-        object.status = 10;
-        item.status = 10;
-        this.tempFucntion(id,item, object, operation);
-        break;
-      }
-      case  'readytopublish':{
         object.status = 20;
         item.status = 20;
         this.tempFucntion(id,item, object, operation);
+        break;
       }
-      case 'publish': {
+      case  'publish':{
         object.status = 30;
         item.status = 30;
         this.tempFucntion(id,item, object, operation);
-        break;
       }
       case 'unpublish': {
         object.status = 40;
         item.status = 40;
-        
         this.tempFucntion(id,item, object, operation);
         break;
       }
       case 'close': {
         object.status = 50;
         item.status = 50;
+        
         this.tempFucntion(id,item, object, operation);
         break;
       }
@@ -310,7 +304,8 @@ export class ProductListComponent implements OnInit {
             this.varJson.total_items =response.length;
           }
           else {
-            this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+            this.productList =[];
+            this.msgService.showErrorMessage('info', 'Data is not Available in product', '');
           }
         }
       },
