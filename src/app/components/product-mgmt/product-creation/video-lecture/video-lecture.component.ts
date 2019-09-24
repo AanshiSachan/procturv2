@@ -68,6 +68,10 @@ export class VideoLectureComponent implements OnInit {
   }
 
   gotoNext() {
+    if(this.description==''){
+      this.msgService.showErrorMessage('error', 'Pleaas add description', '');
+      return
+    }
     if ((!this.isRippleLoad)) {
       //update test List
       let obj={
@@ -413,17 +417,18 @@ export class VideoLectureComponent implements OnInit {
           if (resp.validate) {
             this.prodForm = response;
             let productData = response;
-            this.prodForm.entity_id = productData.entity_id;
-            this.prodForm.title = productData.title;
-            this.prodForm.about = productData.about;
-            this.prodForm.is_paid = productData.is_paid;
-            this.prodForm.price = productData.price;
-            this.prodForm.start_datetime = productData.valid_from_date;
-            this.prodForm.end_datetime = productData.valid_to_date;
-            this.prodForm.status = productData.status;
-            this.prodForm.purchase_limit = productData.purchase_limit;
-            this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
-            this.prodForm.product_items_types = productData.product_items_types;
+            // this.prodForm.entity_id = productData.entity_id;
+            // this.prodForm.title = productData.title;
+            // this.prodForm.about = productData.about;
+            // this.prodForm.is_paid = productData.is_paid;
+            // this.prodForm.price = productData.price;
+            // this.prodForm.start_datetime = productData.valid_from_date;
+            // this.prodForm.end_datetime = productData.valid_to_date;
+            // this.prodForm.status = productData.status;
+            // this.prodForm.purchase_limit = productData.purchase_limit;
+            // this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
+            // this.prodForm.product_items_types = productData.product_items_types;
+            this.description = response.page_description['Videos'];
             this.prodForm.product_item_stats = {};
              this.testlist = this.prodForm.product_item_list;
             this.prodForm.product_items_types.forEach(element => {

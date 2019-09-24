@@ -69,6 +69,10 @@ export class StudyMaterialComponent implements OnInit {
   }
 
   gotoNext() {
+    if(this.description==''){
+      this.msgService.showErrorMessage('error', 'Pleaas add description', '');
+      return
+    }
     if ((!this.isRippleLoad)) {
       //update test List
       let obj={

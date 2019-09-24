@@ -27,13 +27,61 @@ export class ClassroomClassComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.initForm();
   }
+
+  
+  initForm() {
+    //Fetch Product Groups List
+
+    if (this.entity_id && this.entity_id.length > 0) {
+      //Fetch Product Info
+      this.isRippleLoad = true;
+      this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
+        (resp: any) => {
+          this.isRippleLoad = false;
+          let response = resp.result;
+          if (resp.validate) {
+            this.prodForm = response;
+            this.prodForm.product_item_stats = {};
+            this.description = response.page_description['Classroom_Class']
+            this.prodForm.product_items_types.forEach(element => {
+              this.prodForm.product_item_stats[element.slug] = true;
+            });
+            this.updateProductItemStates(null, null);
+          }
+          else {
+            this.msgService.showErrorMessage('error', response.errors.message, '');
+          }
+        },
+        (err) => {
+          this.isRippleLoad = false;
+          this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+        });
+    }
+
+
+  }
+
+    // update parent state data
+    updateProductItemStates(event, item) {
+      if (item) {
+        this.prodForm.product_item_stats[item.slug] = event ? 1 : 0;
+      }
+      // console.log(this.prodForm);
+      this.previewEvent.emit(this.prodForm);
+    }
+  
 
   gotoBack() {
     this.router.navigateByUrl('/view/products/details');
   }
 
   gotoNext() {
+    if(this.description==''){
+      this.msgService.showErrorMessage('error', 'Pleaas add description', '');
+      return
+    }
     if ((!this.isRippleLoad)) {
       //update test List
       let obj = {
