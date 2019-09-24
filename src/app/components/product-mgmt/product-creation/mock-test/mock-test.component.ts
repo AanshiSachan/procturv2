@@ -17,7 +17,6 @@ export class MockTestComponent implements OnInit {
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
   testlist: any = [];
-  checkedList: any = [];
   selectAll: boolean = false;
   isRippleLoad: boolean = false;
   description: string = '';
@@ -32,9 +31,12 @@ export class MockTestComponent implements OnInit {
     console.log(this.prodForm);
     this.initForm();
   }
+
   expandEcourse(ecourse) {
     ecourse.isExpand = !ecourse.isExpand;
-    this.initMockTests(ecourse);
+    if (ecourse.isExpand && ecourse.testlist.length == 0) {
+      this.initMockTests(ecourse);
+    }
   }
 
   selectAllDetails($event) {
@@ -57,7 +59,7 @@ export class MockTestComponent implements OnInit {
     //{course_type: "KAS Prelims", course_type_id: 145}
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
-      this.http.postMethod2('ext/get-examdesk/IIT', ["Mock_Test"]).then(
+      this.http.postMethod('ext/get-examdesk/' + ecourse.course_type, ["Mock_Test"]).then(
         (resp: any) => {
           this.isRippleLoad = false;
           let response = resp['body'];
@@ -68,13 +70,15 @@ export class MockTestComponent implements OnInit {
             if (ecourse.testlist.length && this.prodForm.product_item_list.length) {
               this.prodForm.product_item_list.forEach((obj) => {
                 ecourse.testlist.forEach((test) => {
-                  if (test.test_id == obj.source_item_id && obj.course_type_id==ecourse.course_type_id) { test.isChecked = true; }
+                  if (test.test_id == obj.source_item_id &&
+                    obj.course_type_id == ecourse.course_type_id
+                    && obj.slug == "Mock_Test") 
+                    { test.isChecked = true; }
                 });
               });
             }
           }
           else {
-            this.checkedList = [];
             this.msgService.showErrorMessage('error', response.errors.message, '');
           }
         },
@@ -97,16 +101,24 @@ export class MockTestComponent implements OnInit {
           let response = resp.result;
           if (resp.validate) {
             let productData = response;
+            this.prodForm = response;
+            this.testlist = [];
             console.log(response);
-            this.description = response.page_description['Mock_Test']
-            
+            this.description = response.page_description['Mock_Test'];
             this.product_ecourse_maps = response.product_ecourse_maps;
             this.product_ecourse_maps.forEach((course) => {
               course.isExpand = false;
               course.testlist = [];
-            })
+            });
             this.prodForm.product_item_stats = {};
-            this.prodForm.product_items_types.forEach(element => {
+            if (productData.product_item_list && productData.product_item_list.length) {
+              productData.product_item_list.forEach((object) => {
+                if (object.slug == 'Mock_Test') {
+                  this.testlist.push(object);
+                }
+              });
+            }
+            this.prodForm && this.prodForm.product_items_types && this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
             this.updateProductItemStates(null, null);
@@ -137,12 +149,17 @@ export class MockTestComponent implements OnInit {
   }
 
   gotoNext() {
-    // let array = this.testlist.filter((item) => item.isChecked == true);
-    // console.log(array);
-    // if (this.testlist.length == 0) {
-    //   this.nextForm.emit();
-    // } else 
+    if (this.description == '') {
+      this.msgService.showErrorMessage('error', 'Pleaas add description', '');
+      return
+    }
     let objectArray = [];
+    this.prodForm.product_item_list && this.prodForm.product_item_list.forEach((object) => {
+      if (object.slug != 'Mock_Test') {
+        objectArray.push(object);
+      }
+    })
+
     this.product_ecourse_maps.forEach(course => {
       course.testlist.forEach(element => {
         if (element.isChecked) {
@@ -157,7 +174,25 @@ export class MockTestComponent implements OnInit {
         }
       });
     });
-     {
+    if (objectArray.length == 0) {
+      objectArray = this.testlist;
+    }
+    else {
+      this.testlist.forEach((linkedtest) => {
+        let isAdded = false;
+        for (let i = 0; i <= objectArray.length; i++) {
+          if (linkedtest.source_item_id == objectArray[i].source_item_id) {
+            isAdded = true;
+            break;
+          }
+        }
+        if (!isAdded) {
+          objectArray.push(linkedtest);
+        }
+      });
+    }
+
+    {
       if ((!this.isRippleLoad)) {
         //update test List
         let obj = {
@@ -172,14 +207,13 @@ export class MockTestComponent implements OnInit {
             let response = resp['body'];
             if (response.validate) {
               let details = response.result;
-              
+
               this.prodForm.product_item_list = details;
               console.log(this.prodForm)
               this.msgService.showErrorMessage('success', "product mock test updated successfully", '');
               this.nextForm.emit();
             }
             else {
-              this.checkedList = [];
               this.msgService.showErrorMessage('error', response.error[0].error_message, '');
             }
           },

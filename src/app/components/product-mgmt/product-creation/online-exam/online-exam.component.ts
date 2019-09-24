@@ -20,7 +20,7 @@ export class OnlineExamComponent implements OnInit {
   testlist: any = [];
   checkedList: any = [];
   product_ecourse_maps: any = [];
-  description:string='';
+  description: string = '';
   selectAll: boolean = false;
   isRippleLoad: boolean = false;
   constructor(
@@ -32,17 +32,19 @@ export class OnlineExamComponent implements OnInit {
   ngOnInit() {
     this.initForm();
   }
-  
+
   expandEcourse(ecourse) {
-    ecourse.isExpand = !ecourse.isExpand;
-    this.initOnlineTests(ecourse);
+    ecourse.isExpand = !ecourse.isExpand;  
+    if (ecourse.isExpand && ecourse.testlist.length == 0) {
+      this.initOnlineTests(ecourse);
+    }
   }
 
   initOnlineTests(ecourse) {
     //Fetch Product Groups List
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
-      this.http.postMethod2('ext/get-examdesk/IIT', ["Online_Test"]).then(
+      this.http.postMethod('ext/get-examdesk/' + ecourse.course_type, ["Online_Test"]).then(
         (resp: any) => {
           this.isRippleLoad = false;
           let response = resp['body'];
@@ -53,7 +55,8 @@ export class OnlineExamComponent implements OnInit {
             if (ecourse.testlist.length && this.prodForm.product_item_list.length) {
               this.prodForm.product_item_list.forEach((obj) => {
                 ecourse.testlist.forEach((test) => {
-                  if (test.test_id == obj.source_item_id && obj.course_type_id==ecourse.course_type_id) { test.isChecked = true; }
+                  if (test.test_id == obj.source_item_id && obj.course_type_id == ecourse.course_type_id
+                    && obj.slug == "Online_Test") { test.isChecked = true; }
                 });
               });
             }
@@ -82,21 +85,29 @@ export class OnlineExamComponent implements OnInit {
           let response = resp.result;
           if (resp.validate) {
             let productData = response;
+            this.testlist = [];
             this.prodForm = response;
-            this.description = response.page_description['Online_Test']
+            this.description = response.page_description['Online_Test'];
             this.prodForm.product_item_stats = {};
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
-            this.updateProductItemStates(null, null);
 
+            this.updateProductItemStates(null, null);
             this.product_ecourse_maps = response.product_ecourse_maps;
             this.product_ecourse_maps.forEach((course) => {
               course.isExpand = false;
               course.testlist = [];
-            })
+            });
+            if (productData.product_item_list && productData.product_item_list.length) {
+              productData.product_item_list.forEach((object) => {
+                if (object.slug == 'Online_Test') {
+                  this.testlist.push(object);
+                }
+              });
+            }
             this.prodForm.product_item_stats = {};
-            this.prodForm.product_items_types.forEach(element => {
+            this.prodForm && this.prodForm.product_items_types && this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
             this.updateProductItemStates(null, null);
@@ -140,12 +151,21 @@ export class OnlineExamComponent implements OnInit {
   }
 
   gotoNext() {
+    if(this.description==''){
+      this.msgService.showErrorMessage('error', 'Pleaas add description', '');
+      return
+    }
     // let array = this.testlist.filter((item) => item.isChecked == true);
     // console.log(array);
     // if (this.testlist.length == 0) {
     //   this.nextForm.emit();
     // } else 
     let objectArray = [];
+    this.prodForm.product_item_list && this.prodForm.product_item_list.forEach((object) => {
+      if (object.slug != 'Online_Test') {
+        objectArray.push(object);
+      }
+    });
     this.product_ecourse_maps.forEach(course => {
       course.testlist.forEach(element => {
         if (element.isChecked) {
@@ -160,7 +180,25 @@ export class OnlineExamComponent implements OnInit {
         }
       });
     });
-     {
+    if (objectArray.length == 0) {
+      objectArray = this.testlist;
+    }
+    else {
+      this.testlist.forEach((linkedtest) => {
+        let isAdded = false;
+        for (let i = 0; i <= objectArray.length; i++) {
+          if (linkedtest.source_item_id == objectArray[i].source_item_id) {
+            isAdded = true;
+            break;
+          }
+        }
+        if (!isAdded) {
+          objectArray.push(linkedtest);
+        }
+      });
+    }
+
+    {
       if ((!this.isRippleLoad)) {
         //update test List
         let obj = {
@@ -175,7 +213,7 @@ export class OnlineExamComponent implements OnInit {
             let response = resp['body'];
             if (response.validate) {
               let details = response.result;
-              
+
               this.prodForm.product_item_list = details;
               console.log(this.prodForm)
               this.msgService.showErrorMessage('success', "product online test updated successfully", '');

@@ -60,18 +60,6 @@ export class ReviewProductComponent implements OnInit {
           if (resp.validate) {
             let productData = response;
             this.prodForm = response;
-            // this.prodForm.entity_id = productData.entity_id;
-            // this.prodForm.title = productData.title;
-            // this.prodForm.about = productData.about;
-            // this.prodForm.is_paid = productData.is_paid;
-            // this.prodForm.price = productData.price;
-            // this.prodForm.valid_from_date = productData.valid_from_date;
-            // this.prodForm.valid_from_date = productData.valid_to_date;
-            // this.prodForm.status = productData.status;
-            // this.prodForm.purchase_limit = productData.purchase_limit;
-            // this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
-            // this.prodForm.product_items_types = productData.product_items_types;
-            // this.prodForm.product_item_list =productData.product_item_list;
             this.prodForm.product_item_stats = { };
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
