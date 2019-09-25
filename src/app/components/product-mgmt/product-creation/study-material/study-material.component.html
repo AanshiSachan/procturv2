@@ -90,7 +90,7 @@
       </div> -->
     <div class="row col-md-12 p-0" *ngIf="ecourse.isExpand">
       <div class="row col-md-12 subTopics-data">
-        <ng-container *ngTemplateOutlet="subjectsNodes; context: { $implicit: ecourse.subjectsList, subLevel: 1 } ">
+        <ng-container *ngTemplateOutlet="subjectsNodes; context: { $implicit: ecourse.subjectsList, level: 1 } ">
         </ng-container>
         <div *ngIf="ecourse.subjectsList?.length==0">
           No Data Found
@@ -105,7 +105,7 @@
 </div>
 
 
-<ng-template #subjectsNodes let-subjectList let-level="subLevel">
+<ng-template #subjectsNodes let-subjectList let-level="level">
   <div class="row topic-row" *ngFor="let subject of subjectList">
     <div class="row singleton-row col-md-12 topic-data topic-name">
       <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
@@ -117,41 +117,41 @@
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="subject.isExpand" (click)="toggleObject(subject)"></i>
           <i class="fa fa-plus" *ngIf="!subject.isExpand" (click)="toggleObject(subject)"></i>
-        </button> {{subject.subject_name}}
+        </button> {{subject.subject_name}} 
       </div>
       <div class="col-md-4">
       </div>
     </div>
     <div class="row col-md-12 p-0" *ngIf="subject.isExpand">
       <div class="row col-md-12 topic-material-data" [ngStyle]="{'padding-left': level+'em'}">
-        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.videosList, level: level+2}">
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.videosList, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: subject.assignmentList, level: level+2}">
+        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: subject.assignmentList, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: subject.imageList, level: level+2}">
+        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: subject.imageList, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: subject.audioNotesList, level: level+2}">
+        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: subject.audioNotesList, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: subject.notesList, level: level+2}">
-        </ng-container>
-        <ng-container
-          *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: subject.previousYearQuesList, level: level+2}">
-        </ng-container>
-        <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: subject.slidesList, level: level+2}">
+        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: subject.notesList, level: level+1}">
         </ng-container>
         <ng-container
-          *ngTemplateOutlet="studyMaterialList; context:{$implicit: subject.studyMaterialList, level: level+2}">
+          *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: subject.previousYearQuesList, level: level+1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: subject.slidesList, level: level+1}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="studyMaterialList; context:{$implicit: subject.studyMaterialList, level: level+1}">
         </ng-container>
       </div>
       <div class="row col-md-12 subTopics-data">
-        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: subject.subTopics, subLevel: level+1 } ">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: subject.subTopics, level: level+1 } ">
         </ng-container>
       </div>
     </div>
   </div>
 </ng-template>
 
-<ng-template #recursiveNodes let-subTopics let-level="subLevel">
+<ng-template #recursiveNodes let-subTopics let-level="level">
   <div class="row topic-row" *ngFor="let topic of subTopics">
     <div class="row singleton-row col-md-12 topic-data">
       <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
@@ -163,7 +163,7 @@
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="subjectListToggle(topic)"></i>
           <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="subjectListToggle(topic)"></i>
-        </button> {{topic.topic_name}}
+        </button> {{topic.topic_name}} 
       </div>
       <div class="col-md-4">
       </div>
@@ -191,7 +191,7 @@
 
       </div>
       <div class="row col-md-12 subTopics-data">
-        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: level+1 } ">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, level: level+1 } ">
         </ng-container>
       </div>
     </div>
@@ -211,7 +211,7 @@
         <i class="fa fa-youtube-play text-red"></i>
         <a target="_blank" class="txt-color">
           <!-- //[href]="video.video_url" -->
-          <span class="txt-title">{{video.title}}</span>
+          <span class="txt-title">{{video.title}} </span>
         </a>
       </h4>
     </div>
@@ -231,7 +231,7 @@
       </div>
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
-        <span class="txt-title">{{file.title}}</span>
+        <span class="txt-title">{{file.title}} </span>
       </h4>
     </div>
     <div class="col-md-4 txt-font">
@@ -258,7 +258,7 @@
       </div>
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
-        <span class="txt-title">{{file.title}}</span>
+        <span class="txt-title">{{file.title}} </span>
       </h4>
     </div>
     <div class="col-md-4 txt-font">
@@ -285,7 +285,7 @@
       </div>
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
-        <span class="txt-title">{{file.title}}</span>
+        <span class="txt-title">{{file.title}} </span>
       </h4>
     </div>
     <div class="col-md-4 txt-font">
@@ -312,7 +312,7 @@
       </div>
       <h4 class="file__title" title="{{audio.title}}">
         <i [class]="audio?.extension" aria-hidden="true"></i>
-        <span class="txt-title">{{audio.title}}</span>
+        <span class="txt-title">{{audio.title}} </span>
       </h4>
     </div>
     <div class="col-md-4 txt-font">
@@ -339,7 +339,7 @@
       </div>
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
-        <span class="txt-title">{{file.title}}</span>
+        <span class="txt-title">{{file.title}} </span>
       </h4>
     </div>
     <div class="col-md-4 txt-font">
@@ -367,7 +367,7 @@
       </div>
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
-        <span class="txt-title">{{file.title}}</span>
+        <span class="txt-title">{{file.title}} </span>
       </h4>
     </div>
     <div class="col-md-4 txt-font">
@@ -394,7 +394,7 @@
       </div>
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
-        <span class="txt-title">{{file.title}}</span>
+        <span class="txt-title">{{file.title}} </span>
       </h4>
     </div>
     <div class="col-md-4 txt-font">

@@ -22,8 +22,7 @@ export class StudyMaterialComponent implements OnInit {
   @Output() previewEvent = new EventEmitter<boolean>();
   institute_id: any = sessionStorage.getItem('institute_id');
   description:string='';
-  // subjectList: any[] = [{ name: 'History' }, { name: 'Geography' }, { name: 'Physics' }];
-  studyMaterial: any[] = [{ "course_type": "PG-DAC", "is_test_series": "N", "course_type_id": 512, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "New Db Migrationgvf", "is_test_series": "N", "course_type_id": 736, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "New Db Migration", "is_test_series": "N", "course_type_id": 737, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "testiii", "is_test_series": "N", "course_type_id": 706, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "Primary", "is_test_series": "N", "course_type_id": 676, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "HTML", "is_test_series": "N", "course_type_id": 612, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "Gate Review :D", "is_test_series": "N", "course_type_id": 4, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "Primary-EE", "is_test_series": "N", "course_type_id": 677, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "GATE New", "is_test_series": "N", "course_type_id": 5, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "CDAC", "is_test_series": "N", "course_type_id": 678, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "aditya", "is_test_series": "N", "course_type_id": 616, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "Gogo", "is_test_series": "N", "course_type_id": 501, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "New db migrationbf", "is_test_series": "N", "course_type_id": 735, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }];
+  studyMaterial: any[] = [];
   outputMessage: any = '';
   materialData: any[] = [];
   testlist: any[] = [];
@@ -170,11 +169,9 @@ export class StudyMaterialComponent implements OnInit {
       }
       this.materialData.forEach(element => {
         element.isExpand = false;
-        element.isSelected = false
         if (element.subjectsList) {
           element.subjectsList.forEach((subject) => {
             subject.isExpand = false;
-            subject.isSelected = false
             subject.subject_id =subject.subject_id;
             subject.course_type_id = subject.course_type_id;
             subject.parent_topic_id = subject.parent_topic_id
@@ -210,11 +207,11 @@ export class StudyMaterialComponent implements OnInit {
         break;
       }
       case "videosList": {
-        slug = 'Images';
+        slug = 'Video';
         break;
       }
       case "imageList": {
-        slug = 'Video';
+        slug = 'Images';
         break;
       }
       case "previousYearQuesList": {
@@ -233,17 +230,6 @@ export class StudyMaterialComponent implements OnInit {
     return slug;
   }
 
-  isItemSelected(item, key) {
-    if(this.prodForm){
-      this.prodForm.product_item_list && this.prodForm.product_item_list.forEach((object) => {
-        if (object.source_item_id == item.file_id && item.slug == object.slug) {
-          item.isSelected = true;
-          // this.testlist.push(object);
-        }
-      });
-    }   
-  }
-
 
   addMaterialExtension(object) {
     let keys = ["notesList", "assignmentList", "studyMaterialList", "videosList", "imageList", "previousYearQuesList", "audioNotesList", "slidesList"];
@@ -251,13 +237,12 @@ export class StudyMaterialComponent implements OnInit {
       if (object[key]) {
         let slug = this.getSlugname(key);
         object[key].forEach(element => {
-          element.isSelected = false;
           element.slug = slug;
           element.subject_id =object.subject_id;
           element.course_type_id = object.course_type_id;
           element.parent_topic_id = object.parent_topic_id;
           let str = element.file_name;
-          this.isItemSelected(element, key);
+          // this.isItemSelected(element, key);
           let ext = str && str.substr(str.lastIndexOf(".") + 1, str.length);
           switch (ext) {
             case 'epub': {
@@ -322,11 +307,9 @@ export class StudyMaterialComponent implements OnInit {
               console.log(this.materialData);
               this.materialData.forEach(element => {
                 element.isExpand = false;
-                element.isSelected = false
                 if (element.subjectsList) {
                   element.subjectsList.forEach((subject) => {
                     subject.isExpand = false;
-                    subject.isSelected = false;
                     subject.subject_id = subject.subject_id;
                     subject.course_type_id = element.ecourse_id;
                     subject.parent_topic_id = '-1';
@@ -367,7 +350,6 @@ export class StudyMaterialComponent implements OnInit {
           object.subTopics = responce;
           object.subTopics.forEach(element => {
             element.isExpand = false;
-            element.isSelected = false
             element.subTopics = [];        
             element.subject_id =object.subject_id;
             element.course_type_id = object.course_type_id;
@@ -384,7 +366,7 @@ export class StudyMaterialComponent implements OnInit {
 
   selectAllDetails($event, object) {
     console.log($event, object);
-    if (object.isSelected) {
+    if (object.selected) {
       let obj = {
         "source_item_id": object.file_id,
         "source_subject_id": object.subject_id,
