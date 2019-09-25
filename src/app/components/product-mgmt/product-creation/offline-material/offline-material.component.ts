@@ -16,8 +16,8 @@ export class OfflineMaterialComponent implements OnInit {
   @Output() startForm = new EventEmitter<string>();
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
-  testlist: any = [];
-  description:string='';
+  inventoryList: any = [ ];
+  description: string = '';
   selectAll: boolean = false;
   isRippleLoad: boolean = false;
   constructor(
@@ -27,31 +27,31 @@ export class OfflineMaterialComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.initForm();
+    this.initForm();    
   }
 
   initOfflineMaterials() {
     //Fetch Product Groups List
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
-      this.http.postMethod('ext/get-examdesk', ["Online_Test"]).then(
+      this.http.getMethod('ext/inventory', null).subscribe(
         (resp: any) => {
           this.isRippleLoad = false;
-          let response = resp['body'];
-          if (response.validate) {
-            let details = JSON.parse(response.result['Online_Test']);
-            this.testlist = details.data;
-            this.selectAllDetails(false);
-            if (this.testlist.length && this.prodForm.product_item_list.length) {
-              this.prodForm.product_item_list.forEach((obj) => {
-                this.testlist.forEach((test) => {
-                  if (test.test_id == obj.source_item_id) { test.isChecked = true; }
-                });
+          if (resp.validate) {
+              this.inventoryList = resp.result;
+              this.inventoryList.forEach(element => {
+                element.isChecked = false;
+                for (let i = 0; i < this.prodForm.product_item_list.length; i++) {
+                let obj = this.prodForm.product_item_list[i];
+                  if(element.inventory_id==obj.source_item_id && obj.slug=='Offline_Material'){
+                    element.isChecked = true;
+                    break;
+                  } 
+                }
               });
-            }
           }
           else {
-            this.msgService.showErrorMessage('error', response.errors.message, '');
+            this.msgService.showErrorMessage('error', resp.error, '');
           }
         },
         (err) => {
@@ -80,6 +80,7 @@ export class OfflineMaterialComponent implements OnInit {
               this.prodForm.product_item_stats[element.slug] = true;
             });
             this.updateProductItemStates(null, null);
+            this.initOfflineMaterials();
           }
           else {
             this.msgService.showErrorMessage('error', response.errors.message, '');
@@ -104,13 +105,13 @@ export class OfflineMaterialComponent implements OnInit {
   }
 
   selectAllDetails($event) {
-    this.testlist.forEach(element => { element.isChecked = $event });
+    this.inventoryList.forEach(element => { element.isChecked = $event });
   }
 
   selectVlaue($event) {
     this.selectAll = false;
-    let array = this.testlist.filter(element => element.isChecked == true);
-    if (array.length == this.testlist.length) {
+    let array = this.inventoryList.filter(element => element.isChecked == true);
+    if (array.length == this.inventoryList.length) {
       this.selectAll = true;
     }
   }
@@ -120,37 +121,37 @@ export class OfflineMaterialComponent implements OnInit {
   }
 
   gotoNext() {
-    if(this.description==''){
+    if (this.description == '') {
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }
     let objectArray = [];
-    // let array = this.testlist.filter((item) => item.isChecked == true);
-    // console.log(array);
-    // if (this.testlist.length == 0) {
-    //   this.nextForm.emit();
-    // } else {
-    //   let objectArray = []
-    //   array.forEach(element => {
-    //     if (element.isChecked) {
-    //       let object = {
-    //         "source_item_id": element.test_id,
-    //         "source_subject_id": "",
-    //         "course_type_id": "",
-    //         "parent_topic_id": "",
-    //         "slug": "Offline_Material"
-    //       }
-    //       objectArray.push(object);
-    //     }
-    //   });}
+    let array = this.inventoryList.filter((item) => item.isChecked == true);
+    console.log(array);
+    if (this.inventoryList.length == 0) {
+      this.nextForm.emit();
+    } else {
+      let objectArray = []
+      array.forEach(element => {
+        if (element.isChecked) {
+          let object = {
+            "source_item_id": element.inventory_id,
+            "source_subject_id": "",
+            "course_type_id": "",
+            "parent_topic_id": "",
+            "slug": "Offline_Material"
+          }
+          objectArray.push(object);
+        }
+      });
 
 
       if ((!this.isRippleLoad)) {
         //update test List
-        let obj={
+        let obj = {
           "page_type": "Offline_Material",
-          "item_list":objectArray,
-          "description":this.description
+          "item_list": objectArray,
+          "description": this.description
         }
         this.isRippleLoad = true;
         this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
@@ -174,11 +175,10 @@ export class OfflineMaterialComponent implements OnInit {
       }
       else {
         this.isRippleLoad = false;
-        this.msgService.showErrorMessage('error', " select at least one online test", '');
+        this.msgService.showErrorMessage('error', " select at least one printed materials", '');
         return;
       }
-    
-
+    }
   }
 
 }
