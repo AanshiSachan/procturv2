@@ -8,7 +8,7 @@
           class="form-control form-control-sm" placeholder="Write a description about printed material"></textarea>
       </div>
     </div>
-<!-- <div class="col-md-12 table-wrapper p-0">
+<div class="col-md-12 table-wrapper p-0">
   <table class="table product-table">
     <thead class="product-table-head">
       <tr>
@@ -19,45 +19,41 @@
               for="ch2"></label>
           </div>
         </th>
-        <th width="45%" style="text-align: left;">Content</th>
-        <th width="10%">Marks</th>
-        <th class="text-center">Questions</th>
-        <th class="text-center">Time</th>
-        <th class="text-center">Difficulty</th>
+        <th style="text-align: left;">ID</th>
+        <th width="10%">Name</th>
+        <th class="text-center">Description</th>
+        <th class="text-center">Type</th>
       </tr>
     </thead>
     <tbody class="product-table-body">
-      <tr *ngFor="let test of testlist;let i =index;">
+      <tr *ngFor="let inventoy of inventoryList;let i =index;">
         <td>
           <div class="field-checkbox-wrapper">
-            <input type="checkbox" class="form-checkbox" [checked]="test.isChecked" [(ngModel)]="test.isChecked"
+            <input type="checkbox" class="form-checkbox" [checked]="inventoy.isChecked" [(ngModel)]="inventoy.isChecked"
               (ngModelChange)="selectVlaue($event)" [id]="'ch'+index">
               <label [for]="'ch'+index"></label>
             </div>
         </td>
         <td style="text-align: left;">
-          <label [for]="'ch'+index">{{test.test_name}}{{index}}</label>
+          <label [for]="'ch'+index">{{inventoy.inventory_id}}</label>
         </td>
-        <td> {{test.total_marks}}</td>
+        <td> {{inventoy.inventory_name}}</td>
         <td>
-          {{test.total_question}}
+          <span title="{{inventoy.description}}">{{ (inventoy.description.length > 30) ? (inventoy.description | slice:0:30) + '...' : inventoy.description}}</span>
         </td>
         <td>
-          {{test.duration}}
-        </td>
-        <td class="text-center">
-          {{test.difficulty_title}}
+          {{inventoy.inventory_type}}
         </td>
       </tr>
 
-      <ng-container *ngIf="testlist.length < 1">
+      <ng-container *ngIf="inventoryList.length < 1">
         <tr>
           <td colspan="7">No Records Found</td>
         </tr>
       </ng-container>
     </tbody>
   </table>
-</div> -->
+</div>
 </div>
 
 <div class="row basic-info-footer">

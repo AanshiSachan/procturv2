@@ -27,7 +27,9 @@
         <label class="text-bold">E-course</label>
         <select [(ngModel)]="filter.ecourse_id" class="form-ctrl" (ngModelChange)="getSubjectList()">
           <option value="-1" selected>Select E-course</option>
-          <option *ngFor="let course of ecourseList" [value]="course.course_type_id">{{course.course_type}}</option>
+          <option *ngFor="let course of ecourseList" [value]="course.course_type_id">
+              <span title="{{course.course_type}}">{{ (course.course_type.length > 50) ? (course.course_type | slice:0:50) + '...' : course.course_type}}</span>
+          </option>
         </select>
       </div>
 
@@ -43,7 +45,10 @@
         <label class="text-bold">Subject</label>
         <select [(ngModel)]="filter.subject_id" class="form-ctrl" name="cc" id="cc">
           <option value="-1" selected>Select Subject</option>
-          <option *ngFor="let sub of subjectsList" [value]="sub.subject_id">{{sub.subject_name}}</option>
+          <option *ngFor="let sub of subjectsList" [value]="sub.subject_id">
+              <span title="{{sub.subject_name}}">{{ (sub.subject_name.length > 50) ? (sub.subject_name | slice:0:50) + '...' : sub.subject_name }}</span>
+      </option>
+
         </select>
       </div>
 
@@ -104,14 +109,14 @@
               <span *ngIf="item.status == 40" class="text-secondary">Unpublished</span>
             </td>
             <td class="text-center">
-              <p class="m-0 text-bold">{{item.valid_from_date | date: 'dd MMM yy'}}</p>
+              <p class="m-0 text-bold">{{item.sales_from_date  | date :'d MMM y'}}</p>
               <!-- , HH:mm -->
             </td>
             <td class="text-center">
-              <p class="m-0 text-bold">{{item.valid_to_date   | date: 'dd MMM yy'}}</p>
+              <p class="m-0 text-bold">{{item.sales_to_date    | date :'d MMM y'}}</p>
             </td>
             <td class="text-center">
-              <p class="m-0 text-bold">{{item.publish_date   | date: 'dd MMM yy'}}</p>
+              <p class="m-0 text-bold">{{item.publish_date    | date :'d MMM y'}}</p>
             </td>
             <td class="text-center">
               <span *ngIf="item.price <= 0" class="text-active text-bold">Free</span>

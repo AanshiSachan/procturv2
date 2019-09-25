@@ -29,20 +29,21 @@ export class SalesReportsComponent implements OnInit {
     to_date: moment().format("YYYY-MM-DD"),
     from_date: moment().format("YYYY-MM-DD")
   }
- 
+
   showPopupKeys: any = {
     showPreference: false,
     isProfessional: false,
     isRippleLoad: false
   }
   feeSettings1: ColumnData2[] = [
-    { primaryKey: 'title', header: 'Student Name', priority: 1, allowSortingFlag: true },
-    { primaryKey: 'institute_id', header: 'Phone No', priority: 2, allowSortingFlag: true },
-    { primaryKey: 'about', header: 'Product Name', priority: 3, allowSortingFlag: true },
-    { primaryKey: 'publish_date', header: 'Purchase Date', priority: 4, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
-    { primaryKey: 'price', header: 'Price', priority: 5, amountValue: true, allowSortingFlag: true },
+    { primaryKey: 'order_id', header: 'Order ID', priority: 1, allowSortingFlag: true },
+    { primaryKey: 'name', header: 'Student Name', priority: 2, allowSortingFlag: true },
+    { primaryKey: 'phone', header: 'Phone No', priority: 3, allowSortingFlag: true },
+    { primaryKey: 'title', header: 'Product Name', priority: 4, allowSortingFlag: true },
+    { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
+    { primaryKey: 'price', header: 'Price', priority: 6, amountValue: true, allowSortingFlag: true },
     {
-      primaryKey: 'status', header: 'Status', priority: 6, allowSortingFlag: true, dataType: 'array',
+      primaryKey: 'status', header: 'Status', priority: 7, allowSortingFlag: true, dataType: 'array',
       arrayValue: { '10': 'Ready', '20': 'Ready To Publish', '30': 'Publish', '40': 'Unpublished', '50': 'Closed' }
     }
   ];
@@ -57,7 +58,7 @@ export class SalesReportsComponent implements OnInit {
     {
       showActionButton: false
     },
-    displayMessage: "Enter Detail to Search"
+    displayMessage: "Data Not Found"
   };
 
   constructor(private auth: AuthenticatorService,
@@ -84,6 +85,7 @@ export class SalesReportsComponent implements OnInit {
     }
     console.log(this.tableSetting);
     this.fectchTableDataByPage(0);
+    this.getProductDetails();
   }
 
   optionSelected($event) {
@@ -102,7 +104,6 @@ export class SalesReportsComponent implements OnInit {
       (resp: any) => {
         this.showPopupKeys.isRippleLoad = false;
         if (resp.validate) {
-          this.salesDataSource = resp.result;
           this.productLists = resp.result;
         }
         else {
@@ -119,19 +120,40 @@ export class SalesReportsComponent implements OnInit {
   /* Fetch table data by page index */
   getProductDetails() {
     let object = {
-      "page_no": 1,
-      "no_of_records": 100
+      "between": {
+        "from": this.filterDataKeys.from_date,
+        "to": this.filterDataKeys.to_date
+      },
+
+      "in": [
+        {
+          "column": "productIds",
+          "values": this.selectedSlots
+        }
+      ]
     }
 
     this.showPopupKeys.isRippleLoad = true;
-    this.http.postMethod('order/get', null).then(
+    this.http.postMethod('order/sales-report', object).then(
       (resp: any) => {
         this.showPopupKeys.isRippleLoad = false;
         let response = resp['body'];
         console.log(response);
         if (response.validate) {
-          this.salesDataSource = response.result.results;
-          this.productLists = response.result.results;
+          this.salesDataSource = [];
+          let data = response.result;
+          data && data.forEach((object) => {
+            let saleData = {
+              "order_id": object.order_id,
+              "name": object.name,
+              "phone": object.phone,
+              "title": object.product.title,
+              "publish_date": object.product.publish_date,
+              "status": object.product.status,
+            }
+            this.salesDataSource.push(saleData);
+          });
+
         }
         else {
           this._msgService.showErrorMessage('error', "something went wrong, try again", '');
@@ -200,10 +222,11 @@ export class SalesReportsComponent implements OnInit {
 
   setDefaultValues() {
     this.tableSetting.keys = [
-      { primaryKey: 'title', header: 'Student Name', priority: 1, allowSortingFlag: true },
-      { primaryKey: 'institute_id', header: 'Phone No', priority: 2, allowSortingFlag: true },
-      { primaryKey: 'about', header: 'Product Name', priority: 3, allowSortingFlag: true },
-      { primaryKey: 'publish_date', header: 'Purchase Date', priority: 4, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
+      { primaryKey: 'order_id', header: 'Order ID', priority: 1, allowSortingFlag: true },
+      { primaryKey: 'name', header: 'Student Name', priority: 2, allowSortingFlag: true },
+      { primaryKey: 'phone', header: 'Phone No', priority: 3, allowSortingFlag: true },
+      { primaryKey: 'title', header: 'Product Name', priority: 4, allowSortingFlag: true },
+      { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' }  
     ];
     this.displayKeys = this.tableSetting.keys;
     this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
@@ -245,7 +268,7 @@ export class SalesReportsComponent implements OnInit {
 
   fetchSalesReportDetails() {
     console.log('sales Details');
-    this.fectchTableDataByPage(0);
+    this.getProductDetails();
   }
 
   openPreferences($event) {
