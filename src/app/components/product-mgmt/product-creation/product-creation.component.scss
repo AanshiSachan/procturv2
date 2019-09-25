@@ -135,7 +135,7 @@ table tr{
     /*marking active/completed steps green*/
     /*The number of the step and the connector before it = green*/
     li.active:before, li.active:after, li.completed:before, li.completed:after{
-        background: #27AE60;
+        background: #0084f6;
         color: white;
         border: 1pt solid #fff;
         border-radius: .9rem;

@@ -25,7 +25,7 @@
     </div>
     <div class="row col-md-12 p-0" *ngIf="ecourse.isExpand">
       <div class="row col-md-12 subTopics-data">
-        <ng-container *ngTemplateOutlet="subjectsNodes; context: { $implicit: ecourse.subjectsList, subLevel: 1 } ">
+        <ng-container *ngTemplateOutlet="subjectsNodes; context: { $implicit: ecourse.subjectsList, level: 1 } ">
         </ng-container>
         <div *ngIf="ecourse.subjectsList?.length==0">
           No Data Found
@@ -40,7 +40,7 @@
 </div>
 
 
-<ng-template #subjectsNodes let-subjectList let-level="subLevel">
+<ng-template #subjectsNodes let-subjectList let-level="level">
   <div class="row topic-row" *ngFor="let subject of subjectList">
     <div class="row singleton-row col-md-12 topic-data topic-name">
       <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
@@ -54,18 +54,18 @@
     </div>
     <div class="row col-md-12 p-0" *ngIf="subject.isExpand">
       <div class="row col-md-12 topic-material-data" [ngStyle]="{'padding-left': level+'em'}">
-        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.videosList, level: level+2}">
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.videosList, level: level+1}">
         </ng-container>
       </div>
       <div class="row col-md-12 subTopics-data">
-        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: subject.subTopics, subLevel: level+1 } ">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: subject.subTopics, level: level+1 } ">
         </ng-container>
       </div>
     </div>
   </div>
 </ng-template>
 
-<ng-template #recursiveNodes let-subTopics let-level="subLevel">
+<ng-template #recursiveNodes let-subTopics let-level="level">
   <div class="row topic-row" *ngFor="let topic of subTopics">
     <div class="row singleton-row col-md-12 topic-data">
       <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
@@ -83,7 +83,7 @@
         </ng-container>
       </div>
       <div class="row col-md-12 subTopics-data">
-        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: level+1 } ">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, level: level+1 } ">
         </ng-container>
       </div>
     </div>
