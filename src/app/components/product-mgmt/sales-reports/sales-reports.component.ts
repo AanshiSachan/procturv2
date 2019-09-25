@@ -148,6 +148,7 @@ export class SalesReportsComponent implements OnInit {
               "name": object.name,
               "phone": object.phone,
               "title": object.product.title,
+              "price":object.price,
               "publish_date": object.product.publish_date,
               "status": object.product.status,
             }
