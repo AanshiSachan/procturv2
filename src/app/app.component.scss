@@ -28,6 +28,16 @@
     ;
 }
 
+.black-bg{
+    background: rgba(12, 11, 11, 0.3);
+    position: fixed;
+    top: 0px;
+    height: 100%;
+    left: 0px;
+    z-index: 7;
+    width: 100%;
+  }
+
 .blueRipple {
     position: absolute !important;
     top: -2px !important;

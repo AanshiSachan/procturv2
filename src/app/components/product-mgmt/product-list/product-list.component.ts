@@ -76,14 +76,16 @@ export class ProductListComponent implements OnInit {
       this.isRippleLoad = true;
       this.http.postMethod('product/get', object).then(
         (resp: any) => {
-          this.isRippleLoad = false;
           let response = resp['body'];
+          this.isRippleLoad = false;
           console.log(response);
           if (response.validate) {
             this.productList = response.result.results;
             this.varJson.total_items = response.result.total_records;
+           
           }
           else {
+            this.isRippleLoad = false;
             this.msgService.showErrorMessage('error', "something went wrong, try again", '');
           }
         },
@@ -103,10 +105,8 @@ export class ProductListComponent implements OnInit {
   }
 
   initFilters() {
-    this.isRippleLoad = true;
     this.http.getMethod('ext/get-ecources', null).subscribe(
       (resp: any) => {
-        this.isRippleLoad = false;
         if (resp) {
           let response = JSON.parse(resp.result);
           console.log(resp);
@@ -119,14 +119,12 @@ export class ProductListComponent implements OnInit {
         }
       },
       (err) => {
-        this.isRippleLoad = false;
         // this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
   }
 
   getSubjectList() {
-    // if (this.filter.standard_id > 0) {
-    //   //Fetch Subjects List
+    //  Fetch Subjects List
     //<base_url>/ecourse/{institute_id}/{ecourse_id}/subjects
     this.isRippleLoad = false;
     this.filter.subject_id = '-1';
@@ -292,30 +290,6 @@ export class ProductListComponent implements OnInit {
     console.log("filterData");
     this.varJson.PageIndex=1;
       this.fectchTableDataByPage(this.varJson.PageIndex);
-    // this.isRippleLoad = true;
-    // //find-by-course-subject?courseId=123&sujectId=7
-    // let url = 'product/find-by-course-subject?courseId=' + this.filter.ecourse_id + '&sujectId=' + this.filter.subject_id
-    // this.http.getMethod(url, null).subscribe(
-    //   (resp: any) => {
-    //     this.isRippleLoad = false;
-    //     if (resp) {
-    //       let response = resp.result;
-    //       console.log(response);
-    //       if (resp.validate) {
-    //         this.productList = response;
-    //         this.varJson.total_items =response.length;
-    //       }
-    //       else {
-    //         this.productList =[];
-    //         // this.msgService.showErrorMessage('info', 'Data is not Available in product', '');
-    //       }
-    //     }
-    //   },
-    //   (err) => {
-    //     this.isRippleLoad = false;
-    //     this.productList =[];
-    //     // this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
-    //   });
   }
 
   toggleAllCheckBox($event) {
