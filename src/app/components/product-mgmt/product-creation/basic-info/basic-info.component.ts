@@ -42,6 +42,7 @@ export class BasicInfoComponent implements OnInit {
     product_image: '',
     exam_ids: [],
     // product_group_id: null,
+    is_duration:true,
     purchase_limit: 0,
     short_description: '',
     about: '',
@@ -205,7 +206,7 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'please select at least one e-course', '');
       return;
     }
-    if (this.prodForm.duration <= 0) {
+    if (this.prodForm.duration <= 0 && this.prodForm.is_duration) {
       this.msgService.showErrorMessage('error', 'please enter product duration ', '');
       return;
     }
@@ -228,6 +229,16 @@ export class BasicInfoComponent implements OnInit {
         this.product_item_list.push(object);
       }
     });
+  
+    if(!this.prodForm.is_duration){
+      this.prodForm.duration =0;
+      this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date);
+      this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date);
+    }else{
+      this.prodForm.valid_from_date = null;
+      this.prodForm.valid_to_date = null;
+    }
+
     let object = {
       "entity_id": this.prodForm.entity_id,
       "title": this.prodForm.title,
@@ -236,8 +247,8 @@ export class BasicInfoComponent implements OnInit {
       "about": this.prodForm.about,
       "is_paid": this.prodForm.is_paid,
       "price": this.prodForm.price,
-      // "valid_from_date": moment(this.prodForm.valid_from_date),
-      // "valid_to_date": moment(this.prodForm.valid_to_date),
+      "valid_from_date": this.prodForm.valid_from_date,
+      "valid_to_date": this.prodForm.valid_to_date,
       "duration": this.prodForm.duration,
       "sales_from_date": this.prodForm.sales_from_date,
       "sales_to_date": this.prodForm.sales_to_date,
