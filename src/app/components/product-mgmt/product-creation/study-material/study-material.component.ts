@@ -296,38 +296,34 @@ export class StudyMaterialComponent implements OnInit {
     //Fetch Product Groups List
     if (this.entity_id && this.entity_id.length > 0) {
       //Fetch Product Info
-      if (!this.isRippleLoad) {
-        this.isRippleLoad = true;
-        this.http.getMethod('ext/get-subjects-of-ecourses/' + this.entity_id + '/Study_Material', null).subscribe(
-          (resp: any) => {
-            this.isRippleLoad = false;
-            if (resp) {
-              let response = JSON.parse(resp.result);
-              this.materialData = response;
-              console.log(this.materialData);
-              this.materialData.forEach(element => {
-                element.isExpand = false;
-                if (element.subjectsList) {
-                  element.subjectsList.forEach((subject) => {
-                    subject.isExpand = false;
-                    subject.subject_id = subject.subject_id;
-                    subject.course_type_id = element.ecourse_id;
-                    subject.parent_topic_id = '-1';
-                    subject.subTopics = [];
-                    this.addMaterialExtension(subject);
-                  });
-                }
-                else {
-                  element.subjectsList = [];
-                }
-              });
-            }
-          },
-          (err) => {
-            this.isRippleLoad = false;
-            this.msgService.showErrorMessage('error', 'something went wrong ty again ', '');
-          });
-      }
+      this.http.getMethod('ext/get-subjects-of-ecourses/' + this.entity_id + '/Study_Material', null).subscribe(
+        (resp: any) => {
+          if (resp) {
+            let response = JSON.parse(resp.result);
+            this.materialData = response;
+            console.log(this.materialData);
+            this.materialData.forEach(element => {
+              element.isExpand = false;
+              if (element.subjectsList) {
+                element.subjectsList.forEach((subject) => {
+                  subject.isExpand = false;
+                  subject.subject_id = subject.subject_id;
+                  subject.course_type_id = element.ecourse_id;
+                  subject.parent_topic_id = '-1';
+                  subject.subTopics = [];
+                  this.addMaterialExtension(subject);
+                });
+              }
+              else {
+                element.subjectsList = [];
+              }
+            });
+          }
+        },
+        (err) => {
+
+          this.msgService.showErrorMessage('error', 'something went wrong ty again ', '');
+        });
     }
 
 

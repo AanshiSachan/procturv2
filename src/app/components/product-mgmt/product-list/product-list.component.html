@@ -28,7 +28,8 @@
         <select [(ngModel)]="filter.ecourse_id" class="form-ctrl" (ngModelChange)="getSubjectList()">
           <option value="-1" selected>Select E-course</option>
           <option *ngFor="let course of ecourseList" [value]="course.course_type_id">
-              <span title="{{course.course_type}}">{{ (course.course_type.length > 50) ? (course.course_type | slice:0:50) + '...' : course.course_type}}</span>
+            <span
+              title="{{course.course_type}}">{{ (course.course_type.length > 50) ? (course.course_type | slice:0:50) + '...' : course.course_type}}</span>
           </option>
         </select>
       </div>
@@ -46,8 +47,9 @@
         <select [(ngModel)]="filter.subject_id" class="form-ctrl" name="cc" id="cc">
           <option value="-1" selected>Select Subject</option>
           <option *ngFor="let sub of subjectsList" [value]="sub.subject_id">
-              <span title="{{sub.subject_name}}">{{ (sub.subject_name.length > 50) ? (sub.subject_name | slice:0:50) + '...' : sub.subject_name }}</span>
-      </option>
+            <span
+              title="{{sub.subject_name}}">{{ (sub.subject_name.length > 50) ? (sub.subject_name | slice:0:50) + '...' : sub.subject_name }}</span>
+          </option>
 
         </select>
       </div>
@@ -76,6 +78,7 @@
             <th class="text-center">Start Date</th>
             <th class="text-center">End Date</th>
             <th width="8%" class="text-center">Publish Date</th>
+            <th width="8%" class="text-center">Update Date</th>
             <th width="8%" class="text-center">Price</th>
             <th width="8%" class="text-center">Action</th>
           </tr>
@@ -116,7 +119,10 @@
               <p class="m-0 text-bold">{{item.sales_to_date    | date :'d MMM y'}}</p>
             </td>
             <td class="text-center">
-              <p class="m-0 text-bold">{{item.publish_date    | date :'d MMM y'}}</p>
+              <p class="m-0 text-bold">{{ (!item.publish_date)? '-' : item.publish_date | date :'d MMM y'}}</p>
+            </td>
+            <td class="text-center">
+              <p class="m-0 text-bold">{{item.updated_date    | date :'d MMM y'}}</p>
             </td>
             <td class="text-center">
               <span *ngIf="item.price <= 0" class="text-active text-bold">Free</span>
@@ -139,10 +145,10 @@
                     (click)="actionProductModal('delete', item.entity_id)">Delete</a>
                   <a class="dropdown-item" (click)="actionProductModal('ready', item.entity_id)"
                     *ngIf="item.status == 10">Ready</a>
-                  <a class="dropdown-item" (click)="actionProductModal('publish', item.entity_id)" 
+                  <a class="dropdown-item" (click)="actionProductModal('publish', item.entity_id)"
                     *ngIf="item.status == 20">Publish</a>
-                  <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)" style="border: none;"
-                    *ngIf="item.status == 30">Unpublished</a>
+                  <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)"
+                    style="border: none;" *ngIf="item.status == 30">Unpublished</a>
                   <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;"
                     *ngIf="item.status == 40">Closed</a>
                 </div>

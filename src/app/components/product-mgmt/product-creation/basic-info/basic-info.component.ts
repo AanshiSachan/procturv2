@@ -51,20 +51,20 @@ export class BasicInfoComponent implements OnInit {
     itemStates: [],
     valid_from_date: moment().format('DD-MMM-YYYY'),
     valid_to_date: moment().format('DD-MMM-YYYY'),
-    sales_from_date:moment().format('DD-MMM-YYYY'),
-    sales_to_date:moment().format('DD-MMM-YYYY'),
+    sales_from_date: moment().format('DD-MMM-YYYY'),
+    sales_to_date: moment().format('DD-MMM-YYYY'),
     start_timestamp: '',
     end_timestamp: '',
     status: 10,
-    duration:0,
+    duration: 0,
     product_item_stats: {
       mock_test: 0,
       online_exams: 0,
       Classroom_Class: 0,
       Online_Class: 0,
-      Offline_Material:0,
+      Offline_Material: 0,
       Study_Material: 0,
-      Videos:0,
+      Videos: 0,
 
     }
   };
@@ -76,6 +76,7 @@ export class BasicInfoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isRippleLoad = true;
     this.getProductItemsData();
     this.toggleLoader.emit(true);
     this.initDataEcourse();
@@ -85,23 +86,24 @@ export class BasicInfoComponent implements OnInit {
 
   /** get product item details in  */
   getProductItemsData() {
-    this.isRippleLoad = true;
     this.http.getMethod('master/item-type/get', null).subscribe(
       (resp: any) => {
-        this.isRippleLoad = false;
         let response = resp.result;
         if (resp.validate) {
           this.productItems = response;
           this.prodForm.product_item_stats = {};
           this.productItems.forEach((element, index) => {
-              this.itemStates.push(element);// add states
-              this.prodForm.product_item_stats[element.slug] = 0;
-              this.prodItems[element.slug] = false;
+            this.itemStates.push(element);// add states
+            this.prodForm.product_item_stats[element.slug] = 0;
+            this.prodItems[element.slug] = false;
           });
-          this.initForm();
+          if (this.entity_id && this.entity_id.length > 0) {
+            this.initForm();
+          }else{
+            this.isRippleLoad = false;
+          }
         }
         else {
-          this.isRippleLoad = false;
           this.msgService.showErrorMessage('error', response.errors.message, '');
         }
       },
@@ -112,43 +114,40 @@ export class BasicInfoComponent implements OnInit {
   }
 
   initForm() {
-    //Fetch Product Groups List
+    //Fetch Product Info
+    this.isRippleLoad = true;
+    this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
+      (resp: any) => {
+        this.isRippleLoad = false;
+        let response = resp.result;
+        if (resp.validate) {
+          this.prodForm = response;
+          this.prodForm.is_paid = this.prodForm.is_paid == 'Y' ? 0 : 1;
+          this.products_ecourse_maps = [];
+          this.prodForm.product_ecourse_maps.forEach((object) => {
+            let obj = { course_type: object.course_type, course_type_id: object.course_type_id };
+            this.products_ecourse_maps.push(obj);
+          });
+          this.prodForm.product_item_stats = {};
+          this.prodForm.product_items_types.forEach(element => {
+            this.itemStates.forEach((object) => {
+              if (object.entity_id == element.entity_id) {
+                this.prodItems[object.slug] = true;
+                this.prodForm.product_item_stats[object.slug] = true;
+              }
+            });
+          });
+          this.updateProductItemStates(null, null);
+        }
+        else {
+          this.msgService.showErrorMessage('error', response.errors.message, '');
+        }
+      },
+      (err) => {
+        this.isRippleLoad = false;
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+      });
 
-    if (this.entity_id && this.entity_id.length > 0) {
-      //Fetch Product Info
-      this.isRippleLoad = true;
-      this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
-        (resp: any) => {
-          this.isRippleLoad = false;
-          let response = resp.result;
-          if (resp.validate) {
-            this.prodForm = response;
-            this.prodForm.is_paid =  this.prodForm.is_paid =='Y' ?0:1;
-            this.products_ecourse_maps = [];
-            this.prodForm.product_ecourse_maps.forEach((object) => {
-              let obj = { course_type: object.course_type, course_type_id: object.course_type_id };
-              this.products_ecourse_maps.push(obj);
-            });
-            this.prodForm.product_item_stats = {};
-            this.prodForm.product_items_types.forEach(element => {
-              this.itemStates.forEach((object) => {
-                if (object.entity_id == element.entity_id) {
-                  this.prodItems[object.slug] = true;
-                  this.prodForm.product_item_stats[object.slug] = true;
-                }
-              });
-            });
-            this.updateProductItemStates(null, null);
-          }
-          else {
-            this.msgService.showErrorMessage('error', response.errors.message, '');
-          }
-        },
-        (err) => {
-          this.isRippleLoad = false;
-          this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-        });
-    }
 
   }
 
@@ -157,10 +156,8 @@ export class BasicInfoComponent implements OnInit {
     let param = {
       "proc-authorization": "MTk4MzJ8MDphZG1pbjoxMDAxMjg="
     }
-    this.isRippleLoad = true;
     this.http.getMethod('ext/get-ecources', param).subscribe(
       (resp: any) => {
-        this.isRippleLoad = false;
         let response = JSON.parse(resp.result);
         console.log(response);
         if (resp.validate) {
@@ -171,7 +168,6 @@ export class BasicInfoComponent implements OnInit {
         }
       },
       (err) => {
-        this.isRippleLoad = false;
         // this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
   }
@@ -193,10 +189,10 @@ export class BasicInfoComponent implements OnInit {
   saveProduct() {
     if (this.prodForm.title == "" ||
       this.prodForm.title == null) {
-      this.msgService.showErrorMessage('error', 'title should not be shorter than 1 characters', '');
+      this.msgService.showErrorMessage('error', 'title should not be shorter than one characters', '');
       return;
     }
-    if(this.prodForm.about==''){
+    if (this.prodForm.about == '') {
       this.msgService.showErrorMessage('error', 'please enter product description', '');
       return;
     }
@@ -222,7 +218,7 @@ export class BasicInfoComponent implements OnInit {
     }
 
     this.prodForm.is_paid = (this.prodForm.price) ? 'Y' : 'N';
-    this.prodForm.price = this.prodForm.price? this.prodForm.price : 0;
+    this.prodForm.price = this.prodForm.price ? this.prodForm.price : 0;
     this.productItems.forEach(element => {
       this.prodForm.product_item_stats[element.slug] = (this.prodItems[element.slug]) ? this.prodForm.product_item_stats[element.slug] : 0;
       if (this.prodForm.product_item_stats[element.slug]) {
@@ -242,9 +238,9 @@ export class BasicInfoComponent implements OnInit {
       "price": this.prodForm.price,
       // "valid_from_date": moment(this.prodForm.valid_from_date),
       // "valid_to_date": moment(this.prodForm.valid_to_date),
-      "duration":this.prodForm.duration,
-      "sales_from_date":this.prodForm.sales_from_date,
-      "sales_to_date":this.prodForm.sales_to_date,
+      "duration": this.prodForm.duration,
+      "sales_from_date": this.prodForm.sales_from_date,
+      "sales_to_date": this.prodForm.sales_to_date,
       "purchase_limit": this.prodForm.purchase_limit,
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
@@ -310,7 +306,7 @@ export class BasicInfoComponent implements OnInit {
   }
 
   calc_days() {
-    this.prodForm.valid_from_date =  moment(this.prodForm.sales_from_date).format('DD-MMM-YYYY');
+    this.prodForm.valid_from_date = moment(this.prodForm.sales_from_date).format('DD-MMM-YYYY');
     this.prodForm.valid_to_date = moment(this.prodForm.sales_from_date).add(this.prodForm.duration, 'd').format('DD-MMM-YYYY');
     // return (this.prodForm.valid_from_date != '' && this.prodForm.valid_to_date != '') ? Math.ceil(Math.abs((new Date(this.prodForm.valid_to_date).getTime()) - (new Date(this.prodForm.valid_from_date).getTime())) / (1000 * 3600 * 24)) : 'NA';
   }

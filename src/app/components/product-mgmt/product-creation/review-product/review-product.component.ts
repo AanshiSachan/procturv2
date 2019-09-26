@@ -179,13 +179,18 @@ export class ReviewProductComponent implements OnInit {
   saveProduct() {
     if (this.prodForm.title == "" ||
       this.prodForm.title == null) {
-      this.msgService.showErrorMessage('error', 'title should NOT be shorter than 1 characters', '');
+      this.msgService.showErrorMessage('error', 'title should not be shorter than one characters', '');
       return;
     } 
     if(this.prodForm.purchase_limit==0){
       this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
       return;
      }
+
+     if (this.prodForm.duration <= 0) {
+      this.msgService.showErrorMessage('error', 'please enter product duration ', '');
+      return;
+    }
 
     this.prodForm.is_paid = (this.prodForm.price) ? 'Y' : 'N';
     this.prodForm.price = this.prodForm.price ? 0 : this.prodForm.price;

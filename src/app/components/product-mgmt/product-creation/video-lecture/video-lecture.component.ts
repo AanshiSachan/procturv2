@@ -34,7 +34,6 @@ export class VideoLectureComponent implements OnInit {
     private http: ProductService) { }
 
   ngOnInit() {
-
     this.initProductForm();
   }
 
@@ -221,7 +220,7 @@ export class VideoLectureComponent implements OnInit {
     if (this.entity_id && this.entity_id.length > 0) {
       //Fetch Product Info
       if (!this.isRippleLoad) {
-        this.isRippleLoad = true;
+      
         this.http.getMethod('ext/get-subjects-of-ecourses/' + this.entity_id+'/Videos', null).subscribe(
           (resp: any) => {
             this.isRippleLoad = false;
@@ -316,12 +315,11 @@ export class VideoLectureComponent implements OnInit {
   }
 
   initProductForm() {
+    this.isRippleLoad = true;
     if (this.entity_id && this.entity_id.length > 0) {
       //Fetch Product Info
-      this.isRippleLoad = true;
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
-          this.isRippleLoad = false;
           let response = resp.result;
           if (resp.validate) {
             this.prodForm = response;
@@ -339,7 +337,7 @@ export class VideoLectureComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
