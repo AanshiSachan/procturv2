@@ -37,7 +37,11 @@
         <td style="text-align: left;">
           <label [for]="'ch'+index">{{inventoy.inventory_id}}</label>
         </td>
-        <td> {{inventoy.inventory_name}}</td>
+        <td> 
+            <span title="{{inventoy.inventory_name}}">
+                {{ (inventoy.inventory_name.length > 30) ? (inventoy.inventory_name | slice:0:30) + '...' : inventoy.inventory_name }}
+            </span>         
+        </td>
         <td>
           <span title="{{inventoy.description}}">{{ (inventoy.description.length > 30) ? (inventoy.description | slice:0:30) + '...' : inventoy.description}}</span>
         </td>

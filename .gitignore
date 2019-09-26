@@ -5,6 +5,7 @@
 /dist.zip
 /tmp
 /out-tsc
+/Dockerfile
 
 # dependencies 
 /node_modules

@@ -72,14 +72,16 @@
                       </div>
                   </td>
                   <td style="text-align: left;">
-                    <label [for]="'ch'+index">{{test.test_name}}</label>
+                    <label [for]="'ch'+index" title="{{test.test_name}}">                      
+                    {{ (test.test_name.length > 20) ? (test.test_name | slice:0:20) + '...' : test.test_name }}
+                    </label>
                   </td>
-                  <td> {{test.total_marks}}</td>
+                  <td> {{test.total_marks}} </td>
                   <td>
                     {{test.total_question}}
                   </td>
                   <td>
-                    {{test.duration}}
+                    {{test.duration}} &nbsp;min
                   </td>
                   <td class="text-center">
                     {{test.difficulty_title}}

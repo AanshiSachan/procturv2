@@ -216,11 +216,8 @@ export class VideoLectureComponent implements OnInit {
   }
 
   initForm() {
-    //Fetch Product Groups List
-    if (this.entity_id && this.entity_id.length > 0) {
-      //Fetch Product Info
-      if (!this.isRippleLoad) {
-      
+    //Fetch Product List
+    if (this.entity_id && this.entity_id.length > 0) {  
         this.http.getMethod('ext/get-subjects-of-ecourses/' + this.entity_id+'/Videos', null).subscribe(
           (resp: any) => {
             this.isRippleLoad = false;
@@ -231,7 +228,6 @@ export class VideoLectureComponent implements OnInit {
               console.log(this.materialData);
               this.materialData.forEach(element => {
                 element.isExpand = false;
-                // element.isSelected = false
                 if (element.subjectsList) {
                   element.subjectsList.forEach((subject) => {
                     subject.isExpand = false;
@@ -253,7 +249,7 @@ export class VideoLectureComponent implements OnInit {
             this.isRippleLoad = false;
             this.msgService.showErrorMessage('error','something went wrong ty again ', '');
           });
-      }
+      
     }
 
 
