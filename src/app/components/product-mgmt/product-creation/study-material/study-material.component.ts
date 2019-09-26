@@ -21,7 +21,7 @@ export class StudyMaterialComponent implements OnInit {
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
   institute_id: any = sessionStorage.getItem('institute_id');
-  description:string='';
+  description: string = '';
   studyMaterial: any[] = [];
   outputMessage: any = '';
   materialData: any[] = [];
@@ -68,16 +68,16 @@ export class StudyMaterialComponent implements OnInit {
   }
 
   gotoNext() {
-    if(this.description==''){
+    if (this.description == undefined || this.description == '') {
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }
     if ((!this.isRippleLoad)) {
       //update test List
-      let obj={
+      let obj = {
         "page_type": "Study_Material",
-        "item_list":this.testlist,
-        "description":this.description        
+        "item_list": this.testlist,
+        "description": this.description
       }
       this.isRippleLoad = true;
       this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
@@ -97,15 +97,15 @@ export class StudyMaterialComponent implements OnInit {
         },
         (err) => {
           this.isRippleLoad = false;
-          this.msgService.showErrorMessage('error','something went wrong ty again ', '');
+          this.msgService.showErrorMessage('error', 'something went wrong ty again ', '');
         });
     }
   }
 
   subjectListToggle(subject) {
     subject.isExpand = !subject.isExpand;
-    subject.parent_topic_id= subject.topic_id;
-    if (subject.isExpand && subject.subTopics&&subject.subTopics.length == 0) {
+    subject.parent_topic_id = subject.topic_id;
+    if (subject.isExpand && subject.subTopics && subject.subTopics.length == 0) {
       this.getSubjectTopics(subject);
     }
     else {
@@ -145,7 +145,7 @@ export class StudyMaterialComponent implements OnInit {
         topic.subTopics.forEach(element => {
           element.isExpand = false;
           element.subTopics = [];
-          element.subject_id =topic.subject_id;
+          element.subject_id = topic.subject_id;
           element.course_type_id = topic.course_type_id;
           element.parent_topic_id = topic.parent_topic_id;
           this.addMaterialExtension(element);
@@ -172,7 +172,7 @@ export class StudyMaterialComponent implements OnInit {
         if (element.subjectsList) {
           element.subjectsList.forEach((subject) => {
             subject.isExpand = false;
-            subject.subject_id =subject.subject_id;
+            subject.subject_id = subject.subject_id;
             subject.course_type_id = subject.course_type_id;
             subject.parent_topic_id = subject.parent_topic_id
             this.addMaterialExtension(subject);
@@ -238,7 +238,7 @@ export class StudyMaterialComponent implements OnInit {
         let slug = this.getSlugname(key);
         object[key].forEach(element => {
           element.slug = slug;
-          element.subject_id =object.subject_id;
+          element.subject_id = object.subject_id;
           element.course_type_id = object.course_type_id;
           element.parent_topic_id = object.parent_topic_id;
           let str = element.file_name;
@@ -298,7 +298,7 @@ export class StudyMaterialComponent implements OnInit {
       //Fetch Product Info
       if (!this.isRippleLoad) {
         this.isRippleLoad = true;
-        this.http.getMethod('ext/get-subjects-of-ecourses/' + this.entity_id+'/Study_Material', null).subscribe(
+        this.http.getMethod('ext/get-subjects-of-ecourses/' + this.entity_id + '/Study_Material', null).subscribe(
           (resp: any) => {
             this.isRippleLoad = false;
             if (resp) {
@@ -325,7 +325,7 @@ export class StudyMaterialComponent implements OnInit {
           },
           (err) => {
             this.isRippleLoad = false;
-            this.msgService.showErrorMessage('error','something went wrong ty again ', '');
+            this.msgService.showErrorMessage('error', 'something went wrong ty again ', '');
           });
       }
     }
@@ -350,8 +350,8 @@ export class StudyMaterialComponent implements OnInit {
           object.subTopics = responce;
           object.subTopics.forEach(element => {
             element.isExpand = false;
-            element.subTopics = [];        
-            element.subject_id =object.subject_id;
+            element.subTopics = [];
+            element.subject_id = object.subject_id;
             element.course_type_id = object.course_type_id;
             element.parent_topic_id = object.parent_topic_id;
             this.addMaterialExtension(element);
@@ -412,7 +412,7 @@ export class StudyMaterialComponent implements OnInit {
             this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
             this.prodForm.product_items_types = productData.product_items_types;
             this.prodForm.product_item_stats = {};
-             this.testlist = this.prodForm.product_item_list;
+            this.testlist = this.prodForm.product_item_list;
             this.description = response.page_description['Study_Material']
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;

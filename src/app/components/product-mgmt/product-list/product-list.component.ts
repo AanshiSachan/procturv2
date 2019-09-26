@@ -11,9 +11,9 @@ declare var $;
 })
 export class ProductListComponent implements OnInit {
   filter: any = {
-    ecourse_id: null,
-    standard_id: null,
-    subject_id: null
+    ecourse_id: '-1',
+    standard_id: '-1',
+    subject_id: '-1'
   };
 
   /* Variable to handle popups */
@@ -290,29 +290,32 @@ export class ProductListComponent implements OnInit {
 
   filterData() {
     console.log("filterData");
-    this.isRippleLoad = true;
-    //find-by-course-subject?courseId=123&sujectId=7
-    let url = 'product/find-by-course-subject?courseId=' + this.filter.ecourse_id + '&sujectId=' + this.filter.subject_id
-    this.http.getMethod(url, null).subscribe(
-      (resp: any) => {
-        this.isRippleLoad = false;
-        if (resp) {
-          let response = resp.result;
-          console.log(response);
-          if (resp.validate) {
-            this.productList = response;
-            this.varJson.total_items =response.length;
-          }
-          else {
-            this.productList =[];
-            this.msgService.showErrorMessage('info', 'Data is not Available in product', '');
-          }
-        }
-      },
-      (err) => {
-        this.isRippleLoad = false;
-        this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
-      });
+    this.varJson.PageIndex=1;
+      this.fectchTableDataByPage(this.varJson.PageIndex);
+    // this.isRippleLoad = true;
+    // //find-by-course-subject?courseId=123&sujectId=7
+    // let url = 'product/find-by-course-subject?courseId=' + this.filter.ecourse_id + '&sujectId=' + this.filter.subject_id
+    // this.http.getMethod(url, null).subscribe(
+    //   (resp: any) => {
+    //     this.isRippleLoad = false;
+    //     if (resp) {
+    //       let response = resp.result;
+    //       console.log(response);
+    //       if (resp.validate) {
+    //         this.productList = response;
+    //         this.varJson.total_items =response.length;
+    //       }
+    //       else {
+    //         this.productList =[];
+    //         // this.msgService.showErrorMessage('info', 'Data is not Available in product', '');
+    //       }
+    //     }
+    //   },
+    //   (err) => {
+    //     this.isRippleLoad = false;
+    //     this.productList =[];
+    //     // this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
+    //   });
   }
 
   toggleAllCheckBox($event) {

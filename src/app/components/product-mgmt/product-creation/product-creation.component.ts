@@ -194,7 +194,7 @@ export class ProductCreationComponent implements OnInit {
 
    setPaddingDetails(){
     this.jsonData.padding_left =35;
-    let obj={1:37,2:37,3:34,4:29,5:26,6:22,7:18,8:14,9:11};
+    let obj={1:37,2:37,3:34,4:29,5:26,6:22,7:18,8:16,9:18};
     let keys = Object.keys(this.formSequence);
     let flag_count=0;
    keys.forEach((element, index) => {

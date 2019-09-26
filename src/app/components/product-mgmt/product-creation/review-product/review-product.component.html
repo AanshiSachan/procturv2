@@ -24,9 +24,9 @@
         <textarea class="form-control form-control-sm" [(ngModel)]="prodForm.about"></textarea>
       </div>
 
-      <div class="col-md-12 form-group">
+      <div class="col-md-12 form-group" style="pointer-events: none">
         <label class="text-bold">E-courses  <span class="text-danger">*</span> </label>
-        <ng-multiselect-dropdown [placeholder]="'Select E-courses'" [(ngModel)]="products_ecourse_maps" [data]="ecourseList"
+        <ng-multiselect-dropdown   [placeholder]="'Select E-courses'" [(ngModel)]="products_ecourse_maps" [data]="ecourseList"
           [settings]="moderatorSettings">
         </ng-multiselect-dropdown> 
       </div>

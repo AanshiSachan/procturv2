@@ -151,7 +151,7 @@ export class OnlineExamComponent implements OnInit {
   }
 
   gotoNext() {
-    if(this.description==''){
+    if(this.description == undefined || this.description==''){
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }

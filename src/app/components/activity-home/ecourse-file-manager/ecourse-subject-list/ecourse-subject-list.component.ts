@@ -80,33 +80,42 @@ export class EcourseSubjectListComponent implements OnInit {
   }
 
      // get otp details to show video 
-     getVdocipherVideoOtp() {
-      let url = "/api/v1/instFileSystem/videoOTP";
-      let data = {
-          "file_id": 787,
-          "institute_id": 100058
-      }
-      this._http.postData(url, data).subscribe((response) => {
-          this.isRippleLoad = false;
-          if (response == null) {
-              let obj = {
-                  "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
-                  "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
-              }
-              console.log(obj);
-              this.ShowVideo(obj.otp, obj.playbackInfo);
-          }else{
-              let obj = {
-                  "otp":response['otp'] ,
-                  "playbackInfo":response['playbackInfo']
-              }
-              console.log(obj);
-              this.ShowVideo(obj.otp, obj.playbackInfo);
-          }
-      },
-          (err) => {
-              this.isRippleLoad = false;
-          });
+     getVdocipherVideoOtp(video) {
+      let obj = {
+        "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
+        "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
+    }
+    console.log(obj);
+    this.ShowVideo(obj.otp, obj.playbackInfo);
+       if(video.category_name=='VDOCipher'){
+        let url = "/api/v1/instFileSystem/videoOTP";
+        let data = {
+            "file_id": 787,
+            "institute_id": 100058
+        }
+        this._http.postData(url, data).subscribe((response) => {
+            this.isRippleLoad = false;
+            if (response == null) {
+                let obj = {
+                    "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
+                    "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
+                }
+                console.log(obj);
+                this.ShowVideo(obj.otp, obj.playbackInfo);
+            }else{
+                let obj = {
+                    "otp":response['otp'] ,
+                    "playbackInfo":response['playbackInfo']
+                }
+                console.log(obj);
+                this.ShowVideo(obj.otp, obj.playbackInfo);
+            }
+        },
+            (err) => {
+                this.isRippleLoad = false;
+            });
+       }
+   
   }
 
 
