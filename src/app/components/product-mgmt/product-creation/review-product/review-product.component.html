@@ -1,4 +1,4 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
   </loaders-css>
 
 <div class="row">
@@ -34,7 +34,7 @@
           <div class="col-md-6" style=" padding-left: 0px;">
               <div class="form-group">
                 <label class="text-bold">Product Sell Limit   <span class="text-danger">*</span></label>
-                <input type="text"  [(ngModel)]="prodForm.purchase_limit" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" 
+                <input type="text"  maxlength="6" [(ngModel)]="prodForm.purchase_limit" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" 
                   name="purchase_limit" class="form-control form-control-sm">
               </div>
             </div>
@@ -87,34 +87,48 @@
           </div>
         </div>
         <div class="row m-0">
-            <div class="col-md-12 form-group m-0">
-              <label class="text-bold">Visibility Date Range</label>
-            </div>
-            <div class="col-md-6 form-group">
-              <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
-                <label for="from">Duration<span class="text-danger">*</span></label>
-                <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    Provide validate date duration in Days
-                    <br> its start from student purchase date 
-                  </div>
-                </div>
-                <input type="text" max="4" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="prodForm.duration"  name="from"
-                  class="form-control form-control-sm" autocomplete="off" >
-              </div>
-            </div>
-            <!-- <div class="col-md-6 form-group"  style="margin-top: 1.6rem;">
-              <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
-                <label for="from">{{prodForm.valid_from_date}}</label> to <label
-                  for="from">{{prodForm.valid_to_date}}</label>
-              </div>
-    
-              <div class="col-md-2 form-group text-right m-auto text-bold" style="margin-top: 25px;">
-              <label>{{calc_days()}} Day(s)</label>
-            </div>
-            </div> -->
+          <div class="col-md-9 form-group m-0">
+            <label class="text-bold">Visibility Date Range</label>
           </div>
+          <div class="col-md-3" style=" padding-right: 0px;">
+            <div class="form-group" style="text-align: right;">
+              <label class="text-bold" style="position: absolute; left: 19px;"></label>
+              <span class="field-checkbox-wrapper">
+                <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_duration"
+                  name="is_duration" name="is_duration">
+                <label for="free_price">Show Duration </label>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6 form-group" *ngIf="!prodForm.is_duration" >
+            <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+              <label for="from">From Date<span class="text-danger">*</span></label>
+              <input type="text" [(ngModel)]="prodForm.valid_from_date" name="from" class="form-control form-control-sm"
+                autocomplete="off" bsDatepicker>
+            </div>
+          </div>
+          <div class="col-md-6 form-group" *ngIf="!prodForm.is_duration">
+            <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+              <label for="from">To Date</label>
+              <input type="text" [(ngModel)]="prodForm.valid_to_date" name="to" class="form-control form-control-sm"
+                autocomplete="off" bsDatepicker>
+            </div>
+          </div>
+          <div class="col-md-6 form-group" *ngIf="prodForm.is_duration">
+            <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+              <label for="from">Duration<span class="text-danger">*</span></label>
+              <div class="questionInfo inline-relative">
+                <span class="qInfoIcon i-class">i</span>
+                <div class="tooltip-box-field">
+                  Provide validate date duration in Days
+                  <br> its start from student purchase date 
+                </div>
+              </div>
+              <input type="text" maxlength="4" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="prodForm.duration"  name="from"
+                class="form-control form-control-sm" autocomplete="off" >
+            </div>
+          </div>      
+        </div>
     </div>
   </div>
 </div>

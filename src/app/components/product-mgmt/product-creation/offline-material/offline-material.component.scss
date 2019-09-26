@@ -65,3 +65,13 @@
   .field-checkbox-wrapper{
     margin-bottom: 0px;
   }
+  
+  .black-bg{
+    background: rgba(12, 11, 11, 0.3);
+    position: fixed;
+    top: 0px;
+    height: 100%;
+    left: 0px;
+    z-index: 6;
+    width: 100%;
+  }
