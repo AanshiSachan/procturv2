@@ -15,6 +15,9 @@
     </button>
   </div>
 </div>
+<!-- <button class="btn " (click)=" getVdocipherVideoOtp({category_name:'VDOCipher'})">
+  show Video Stream
+</button> -->
 
 <div class="row">
   <div class="col-md-12 subject-wrapper">
@@ -39,10 +42,6 @@
     </div>    
   </div>
 </div> -->
-<button class="btn " (click)=" getVdocipherVideoOtp()">
-  show Video Stream
-</button>
-
 <div class="fluid-container data-wrapper">
   <div class="row main-topic-row" *ngFor="let topic of subjectList;">
     <div class="row singleton-row col-md-12 topic-data main-topic-data">
@@ -149,20 +148,20 @@
 
 <ng-template #youtubeData let-youtube let-level="level">
   <div class="row singleton-row material-row" *ngFor="let video of youtube">
-    <div class="col-md-4 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+    <div class="col-md-4 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{video.title}}">
         <i class="fa fa-youtube-play text-red"></i>
         <a [href]="video.video_url" *ngIf="video.category_name!='VDOCipher'" target="_blank" class="txt-color">
           <span class="txt-title"
             title="{{video.title}}">{{(video.title?.length>30)?(video.title | slice:0:30) + '...':(video.title)}}</span>
         </a>
-        <a *ngIf="video.category_name=='VDOCipher'" target="_blank" class="txt-color">
-          <span class="txt-title"
+        <a *ngIf="video.category_name=='VDOCipher'"  class="txt-color">
+          <span class="txt-title"  style="cursor: pointer"
             title="{{video.title}}">{{(video.title?.length>30)?(video.title | slice:0:30) + '...':(video.title)}}</span>
         </a>
       </h4>
     </div>
-    <div class="col-md-2 txt-font" *ngIf="video.category_name!='VDOCipher'">
+    <div class="col-md-4 txt-font" *ngIf="video.category_name!='VDOCipher'">
       {{video.category_name}}
     </div>
     <div class="col-md-1 txt-font" *ngIf="video.category_name=='VDOCipher'">

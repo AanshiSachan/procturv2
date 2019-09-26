@@ -149,7 +149,7 @@ export class MockTestComponent implements OnInit {
   }
 
   gotoNext() {
-    if (this.description == '') {
+    if (this.description == undefined ||this.description == '') {
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }
@@ -180,7 +180,7 @@ export class MockTestComponent implements OnInit {
     else {
       this.testlist.forEach((linkedtest) => {
         let isAdded = false;
-        for (let i = 0; i <= objectArray.length; i++) {
+        for (let i = 0; i < objectArray.length; i++) {
           if (linkedtest.source_item_id == objectArray[i].source_item_id) {
             isAdded = true;
             break;

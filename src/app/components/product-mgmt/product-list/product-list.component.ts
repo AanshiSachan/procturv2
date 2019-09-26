@@ -11,9 +11,9 @@ declare var $;
 })
 export class ProductListComponent implements OnInit {
   filter: any = {
-    ecourse_id: null,
-    standard_id: null,
-    subject_id: null
+    ecourse_id: '-1',
+    standard_id: '-1',
+    subject_id: '-1'
   };
 
   /* Variable to handle popups */
@@ -305,13 +305,14 @@ export class ProductListComponent implements OnInit {
           }
           else {
             this.productList =[];
-            this.msgService.showErrorMessage('info', 'Data is not Available in product', '');
+            // this.msgService.showErrorMessage('info', 'Data is not Available in product', '');
           }
         }
       },
       (err) => {
         this.isRippleLoad = false;
-        this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+        this.productList =[];
+        // this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
       });
   }
 

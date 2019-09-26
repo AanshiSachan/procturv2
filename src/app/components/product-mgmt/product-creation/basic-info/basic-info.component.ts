@@ -196,6 +196,10 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'title should not be shorter than 1 characters', '');
       return;
     }
+    if(this.prodForm.about==''){
+      this.msgService.showErrorMessage('error', 'please enter product description', '');
+      return;
+    }
     if (this.prodForm.purchase_limit == 0) {
       this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
       return;
