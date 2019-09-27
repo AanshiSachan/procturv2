@@ -229,27 +229,22 @@ export class ProductListComponent implements OnInit {
       }
     
       case 'ready': {
-
-        object.status = 20;
-        item.status = 20;
+        object.status = 20;      
         this.tempFucntion(id,item, object, operation);
         break;
       }
       case  'publish':{
         object.status = 30;
-        item.status = 30;
         this.tempFucntion(id,item, object, operation);
+        break;
       }
       case 'unpublish': {
         object.status = 40;
-        item.status = 40;
         this.tempFucntion(id,item, object, operation);
         break;
       }
       case 'close': {
         object.status = 50;
-        item.status = 50;
-        
         this.tempFucntion(id,item, object, operation);
         break;
       }
@@ -266,6 +261,7 @@ export class ProductListComponent implements OnInit {
           this.isRippleLoad = false;
           if (resp) {
             let data = resp['body'];
+            item.status = body.status;
             if (resp && data.validate) {
               item.publish_date = data.result.publish_date;
               this.msgService.showErrorMessage("success", "product updated successfully", '');

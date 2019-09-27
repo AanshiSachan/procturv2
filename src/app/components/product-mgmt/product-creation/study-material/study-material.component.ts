@@ -87,7 +87,7 @@ export class StudyMaterialComponent implements OnInit {
           if (response.validate) {
             let details = response.result;
             this.prodForm.product_item_list = details;
-            this.msgService.showErrorMessage('success', "product study matterial data updated successfully", '');
+            this.msgService.showErrorMessage('success', "product study material data updated successfully", '');
             this.nextForm.emit();
           }
           else {
@@ -127,70 +127,6 @@ export class StudyMaterialComponent implements OnInit {
     }
   }
 
-  getSubtopicListData(topic) {
-
-    let url = "/api/v1/topic_manager/subject/6685/topicMaterials";
-    let parent_topic_id = -1;
-    topic.topic_id = -1;
-    let data =
-    {
-      "institute_id": sessionStorage.getItem('institute_id'),
-      "parent_topic_id": topic.topic_id,
-    }
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
-      this._http.postData(url, data).subscribe((res) => {
-        console.log(res);
-        topic.subTopics = res;
-        topic.subTopics.forEach(element => {
-          element.isExpand = false;
-          element.subTopics = [];
-          element.subject_id = topic.subject_id;
-          element.course_type_id = topic.course_type_id;
-          element.parent_topic_id = topic.parent_topic_id;
-          this.addMaterialExtension(element);
-        });
-        this.isRippleLoad = false;
-      },
-        (err) => {
-          this.isRippleLoad = false;
-        });
-    }
-  }
-
-  getSubjectData() {
-    this.isRippleLoad = true;
-    let url = "/api/v1/topic_manager/" + this.institute_id + "/subjects/2577/materials_metadata";
-    this._http.getData(url).subscribe((res: any) => {
-      console.log(res);
-      this.materialData = res;
-      if (this.materialData.length == 0) {
-        this.outputMessage = 'No Data Found';
-      }
-      this.materialData.forEach(element => {
-        element.isExpand = false;
-        if (element.subjectsList) {
-          element.subjectsList.forEach((subject) => {
-            subject.isExpand = false;
-            subject.subject_id = subject.subject_id;
-            subject.course_type_id = subject.course_type_id;
-            subject.parent_topic_id = subject.parent_topic_id
-            this.addMaterialExtension(subject);
-          })
-        }
-
-        if (element.subTopics == undefined) {
-          element.subTopics = [];
-        }
-      });
-      console.log(this.materialData);
-      this.isRippleLoad = false;
-    },
-      (err) => {
-        this.isRippleLoad = false;
-      })
-  }
-
   getSlugname(key) {
     let slug = 'Slides';
     switch (key) {
@@ -207,7 +143,7 @@ export class StudyMaterialComponent implements OnInit {
         break;
       }
       case "videosList": {
-        slug = 'Video';
+        slug = 'Videos';
         break;
       }
       case "imageList": {

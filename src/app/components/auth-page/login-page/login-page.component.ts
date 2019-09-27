@@ -363,6 +363,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('is_exam_grad_feature', institute_data.is_exam_grad_feature);
       sessionStorage.setItem('enable_routing', institute_data.enable_routing);
       sessionStorage.setItem('enable_online_payment_feature', institute_data.enable_online_payment_feature);
+      sessionStorage.setItem('enable_eLearn_feature', '1');//institute_data.enable_eLearn_feature
       sessionStorage.setItem('open_enq_Visibility_feature', institute_data.open_enq_Visibility_feature);
       sessionStorage.setItem('institute_setup_type', institute_data.institute_setup_type);
       sessionStorage.setItem('enable_elearn_course_mapping_feature', institute_data.enable_elearn_course_mapping_feature);

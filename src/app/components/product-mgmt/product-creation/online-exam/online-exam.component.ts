@@ -2,6 +2,7 @@ import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { ProductService } from '../../../../services/products.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { Router } from '../../../../../../node_modules/@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-online-exam',
@@ -39,6 +40,16 @@ export class OnlineExamComponent implements OnInit {
       this.initOnlineTests(ecourse);
     }
   }
+
+  getTime(date){
+    let milisec = date*1000;
+    return moment(new Date(milisec)).format('h:mm')
+  }
+  getDate(date){
+    let milisec = date*1000;
+    return moment(new Date(milisec)).format('DD MMM YYYY');
+  }
+
 
   initOnlineTests(ecourse) {
     //Fetch Product Groups List
@@ -186,7 +197,7 @@ export class OnlineExamComponent implements OnInit {
     else {
       this.testlist.forEach((linkedtest) => {
         let isAdded = false;
-        for (let i = 0; i <= objectArray.length; i++) {
+        for (let i = 0; i < objectArray.length; i++) {
           if (linkedtest.source_item_id == objectArray[i].source_item_id) {
             isAdded = true;
             break;

@@ -54,33 +54,33 @@
         <div class="row upload-box">
           <div style="height: 350px;overflow-y: scroll; padding-bottom: 10px;" class="model_body_div">
             <div class="field-wrapper">
-              <label>Video Watermark </label>
+              <label>Watermark </label>
               <div class="dropdown-div">
                 <input class="dropdown" [(ngModel)]="settingDetails.video_watermark" type="text"
                   placeholder="  Enter Topic Name" />
               </div>
             </div>
             <div class="field-wrapper">
-              <label>Watermark Opacity </label>
+              <label>Opacity </label>
               <div class="dropdown-div">
                 <input class="dropdown" maxlength="3" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                   [(ngModel)]="settingDetails.watermark_opacity" type="text" placeholder="  Enter Estimated Time" />
               </div>
             </div>
             <div class="field-wrapper">
-              <label>Watermark Font Size </label>
+              <label>Font Size </label>
               <div class="dropdown-div">
                 <input class="dropdown" [(ngModel)]="settingDetails.watermark_font_size" type="text"
                   placeholder=" font size" />
               </div>
             </div>
-            <div class="field-wrapper">
+            <!-- <div class="field-wrapper">
               <label>Video Watch Limit (per video) </label>
               <div class="dropdown-div">
                 <input class="dropdown" maxlength="3" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                   [(ngModel)]="settingDetails.video_watch_limit_per_video" type="text" placeholder="" />
               </div>
-            </div>
+            </div> -->
             <div class="field-wrapper">
               <label>Bandwidth Threshold Alerts </label>
               <div class="dropdown-div">
@@ -96,21 +96,21 @@
               </div>
             </div>
             <div class="field-wrapper">
-              <label>Watermark Text Moving Interval </label>
+              <label>Interval</label>
               <div class="dropdown-div">
                 <input class="dropdown" [(ngModel)]="settingDetails.watermark_text_moving_interval" type="text"
                   placeholder="" />
               </div>
             </div>
-            <div class="field-wrapper">
+            <!-- <div class="field-wrapper">
               <label>Moving Text </label>
               <div class="dropdown-div">
                 <input class="dropdown" [(ngModel)]="settingDetails.moving_text_type" type="text" placeholder="" />
               </div>
-            </div>
+            </div> -->
             <div class="field-wrapper">             
               <div class="dropdown-div">
-                  <label>Watermark Color  &nbsp;&nbsp;
+                  <label>Colour  &nbsp;&nbsp;
                 <input [(ngModel)]="settingDetails.watermark_color" type="color" />
               </label>
               </div>
