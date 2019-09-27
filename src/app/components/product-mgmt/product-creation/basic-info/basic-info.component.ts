@@ -212,6 +212,12 @@ export class BasicInfoComponent implements OnInit {
       return;
     }
 
+    if ((!this.prodForm.is_duration) && 
+    (moment(this.prodForm.valid_from_date).valueOf() < moment(this.prodForm.sales_from_date).valueOf())) {
+      this.msgService.showErrorMessage('error', 'visibility date should be grater than sales start date', '');
+      return;
+    }
+
     let keys = Object.keys(this.prodItems);
     let notselectedItem = keys.filter(key => this.prodItems[key] == false);
     if (this.productItems.length == notselectedItem.length) {
