@@ -1362,6 +1362,23 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     if (this.studentAddFormData.student_phone != null && this.studentAddFormData.student_phone != "") {
       if (isNaN(this.studentAddFormData.student_phone) == false && this.studentAddFormData.student_phone.trim().length == this.maxlength) {
+        if(this.studentAddFormData.parent_phone != null && this.studentAddFormData.parent_phone != ""){
+          if (isNaN(this.studentAddFormData.parent_phone) == false && this.studentAddFormData.parent_phone.trim().length == this.maxlength) {
+            if(this.studentAddFormData.guardian_phone !=null && this.studentAddFormData.guardian_phone != ""){
+              if (isNaN(this.studentAddFormData.guardian_phone) == false && this.studentAddFormData.guardian_phone.trim().length == this.maxlength) {
+                return true;
+              } else {
+                this.commonServiceFactory.showErrorMessage('error', 'Phone Number error', 'Please provide valid phone number');
+                return false;
+              }
+            }
+            return true;
+          }
+          else{
+            this.commonServiceFactory.showErrorMessage('error', 'Phone Number error', 'Please provide valid phone number');
+            return false;
+          }
+        }
         return true;
       } else {
         this.commonServiceFactory.showErrorMessage('error', 'Phone Number error', 'Please provide valid phone number');
@@ -1734,7 +1751,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   formfullValidator() {
     if (this.studentAddFormData.student_name != "" && this.studentAddFormData.student_name != " "
       && this.studentAddFormData.student_phone != "" && this.studentAddFormData.student_phone != " "
-      && this.studentAddFormData.student_phone.length == 10) {
+      && this.studentAddFormData.student_phone.length == this.maxlength) {
       return true;
     }
     else {
