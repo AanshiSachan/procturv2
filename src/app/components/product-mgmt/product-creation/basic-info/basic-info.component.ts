@@ -42,7 +42,7 @@ export class BasicInfoComponent implements OnInit {
     product_image: '',
     exam_ids: [],
     // product_group_id: null,
-    is_duration:true,
+    is_duration: true,
     purchase_limit: 0,
     short_description: '',
     about: '',
@@ -100,7 +100,7 @@ export class BasicInfoComponent implements OnInit {
           });
           if (this.entity_id && this.entity_id.length > 0) {
             this.initForm();
-          }else{
+          } else {
             this.isRippleLoad = false;
           }
         }
@@ -129,6 +129,7 @@ export class BasicInfoComponent implements OnInit {
             let obj = { course_type: object.course_type, course_type_id: object.course_type_id };
             this.products_ecourse_maps.push(obj);
           });
+          this.prodForm.is_duration = this.prodForm.duration ? true : false;
           this.prodForm.product_item_stats = {};
           this.prodForm.product_items_types.forEach(element => {
             this.itemStates.forEach((object) => {
@@ -211,6 +212,12 @@ export class BasicInfoComponent implements OnInit {
       return;
     }
 
+    if ((!this.prodForm.is_duration) && 
+    (moment(this.prodForm.valid_from_date).valueOf() < moment(this.prodForm.sales_from_date).valueOf())) {
+      this.msgService.showErrorMessage('error', 'visibility date should be grater than sales start date', '');
+      return;
+    }
+
     let keys = Object.keys(this.prodItems);
     let notselectedItem = keys.filter(key => this.prodItems[key] == false);
     if (this.productItems.length == notselectedItem.length) {
@@ -229,12 +236,12 @@ export class BasicInfoComponent implements OnInit {
         this.product_item_list.push(object);
       }
     });
-  
-    if(!this.prodForm.is_duration){
-      this.prodForm.duration =0;
+
+    if (!this.prodForm.is_duration) {
+      this.prodForm.duration = 0;
       this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date);
       this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date);
-    }else{
+    } else {
       this.prodForm.valid_from_date = null;
       this.prodForm.valid_to_date = null;
     }

@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ProductService } from '../../../../services/products.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { Router } from '@angular/router';
-import moment = require('moment');
+import * as moment from 'moment';
 
 
 @Component({
@@ -195,7 +195,7 @@ export class ReviewProductComponent implements OnInit {
 
 
     this.prodForm.is_paid = (this.prodForm.price) ? 'Y' : 'N';
-    this.prodForm.price = this.prodForm.price ? 0 : this.prodForm.price;
+    this.prodForm.price = this.prodForm.price ?  this.prodForm.price:0;
     let object = {
       "entity_id": this.prodForm.entity_id,
       "title": this.prodForm.title,

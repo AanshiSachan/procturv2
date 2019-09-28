@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ProductService } from '../../../../services/products.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { Router } from '../../../../../../node_modules/@angular/router';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-mock-test',
   templateUrl: './mock-test.component.html',
@@ -142,6 +142,15 @@ export class MockTestComponent implements OnInit {
     }
     // console.log(this.prodForm);
     this.previewEvent.emit(this.prodForm);
+  }
+
+  getTime(date){
+    let milisec = date*1000;
+    return moment(new Date(milisec)).format('h:mm')
+  }
+  getDate(date){
+    let milisec = date*1000;
+    return moment(new Date(milisec)).format('DD MMM YYYY');
   }
 
   gotoBack() {
