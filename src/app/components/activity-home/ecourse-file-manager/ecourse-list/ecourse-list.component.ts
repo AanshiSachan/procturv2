@@ -16,20 +16,21 @@ export class EcourseListComponent implements OnInit {
   institute_id: any;
   isRippleLoad: boolean = false;
   showSettings: boolean = true;
+  is_video_public: boolean = true;
   outputMessage: any = '';
   settingDetails: any = {
     "institute_id": 100058,
     "video_watermark": "Megha",
-    "is_video_public": "N",
+    "is_video_public": true,
     "watermark_opacity": 1,
     "watermark_color": "#2680eb",
     "watermark_font_size": 10,
-    "video_watch_limit_per_video": 0,
-    "storage_capacity_threshold_alerts": null,
-    "bandwidth_threshold_alerts": null,
-    "watermark_text_moving_interval": 0,
-    "moving_text_type": "rtext"
+    "video_watch_limit_per_video": 1,
+    "storage_capacity_threshold_alerts": 1,
+    "bandwidth_threshold_alerts": 1,
+    "watermark_text_moving_interval": 1
   }
+
 
   constructor(
     private _http: HttpService,
@@ -65,17 +66,18 @@ export class EcourseListComponent implements OnInit {
     }
   }
 
-  getSettingDetails(){
+  getSettingDetails() {
     // <base_url>/instFileSystem/getStudyMaterialSetting/{institute_id}
     let url = "/api/v1/instFileSystem/getStudyMaterialSetting/" + this.institute_id;
     this.isRippleLoad = true;
     this.showSettings = true;
     this._http.getData(url).subscribe((res: any) => {
-      console.log("getSettingDetails",res);
+      console.log("getSettingDetails", res);
       this.isRippleLoad = false;
-      this.settingDetails =res;
+      this.settingDetails = res;
+      this.is_video_public = this.settingDetails.is_video_public == 'Y' ? true : false;
       this.showSettings = false;
-      
+
     }, err => {
       this.isRippleLoad = false;
     });
@@ -90,8 +92,20 @@ export class EcourseListComponent implements OnInit {
     this.isRippleLoad = true;
     //<base_url>/instFileSystem/updateStudyMaterialSetting
     let url = "/api/v1/instFileSystem/updateStudyMaterialSetting";
-    this.settingDetails.institute_id = this.institute_id ;
-    this._http.putData(url,this.settingDetails).subscribe((res: any) => {
+    this.settingDetails.institute_id = this.institute_id;
+    this.settingDetails.is_video_public = this.is_video_public == true ? 'Y' : 'N';
+    let object = {
+      "institute_id": this.settingDetails.institute_id,
+      "video_watermark": this.settingDetails.video_watermark,
+      "is_video_public": this.settingDetails.is_video_public,
+      "watermark_opacity": this.settingDetails.watermark_opacity,
+      "watermark_color": this.settingDetails.watermark_color,
+      "watermark_font_size": this.settingDetails.watermark_font_size,
+      "watermark_text_moving_interval": this.settingDetails.watermark_text_moving_interval,
+      "vdocipher_bandwidth_threshold": this.settingDetails.vdocipher_bandwidth_threshold,
+      "vdocipher_storage_capacity_threshold": this.settingDetails.vdocipher_storage_capacity_threshold
+    }
+    this._http.putData(url, object).subscribe((res: any) => {
       console.log(res);
       this.isRippleLoad = false;
       this.showSettings = true;

@@ -79,8 +79,8 @@
             <th class="text-center">End Date</th>
             <th width="8%" class="text-center">Publish Date</th>
             <th width="8%" class="text-center">Update Date</th>
-            <th width="8%" class="text-center">Status</th>
-            <th width="8%" class="text-right">Price</th>
+            <th width="5%" class="text-center">Status</th>
+            <th width="5%" class="text-right">Price</th>
             <th width="8%" class="text-center">Action</th>
           </tr>
         </thead>
@@ -113,6 +113,7 @@
               <span *ngIf="item.status == 20" class="text-warning">Ready</span>
               <span *ngIf="item.status == 30" class="text-success">Published</span>
               <span *ngIf="item.status == 40" class="text-secondary">Unpublished</span>
+              <span *ngIf="item.status == 50" class="text-secondary">Closed</span>
             </td>
             <td class="text-center">
               <p class="m-0 text-bold">{{item.sales_from_date  | date :'d MMM y'}}</p>
@@ -140,11 +141,11 @@
                   20 <i class="fas fa-users"></i>
               </td> -->
             <td class="text-center">
-              <div class="dropdown dropleft">
+              <div class="dropdown dropleft" *ngIf="item.status!=50">
                 <button class="btn btn-light btn-xs dropdown-toggle" type="button" (click)="toggleActionMenu($event)"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp;
-                  Action
+                  Action 
                 </button>
                 <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
                   <a class="dropdown-item" *ngIf="item.status < 30 "

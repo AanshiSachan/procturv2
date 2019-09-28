@@ -1,3 +1,4 @@
+@import "./src/assets/css/common/variables.scss";
 .wrap-data {
 
   height: 88vh;
@@ -188,4 +189,113 @@
   padding-right: 20px;
   padding-bottom: 0px;
   padding-left: 20px;
+}
+
+
+.toggle {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.toggle-switch {
+  display: inline-block;
+  background: #0084f6;
+  border-radius: 16px;
+  width: 46px;
+  height: 16px;
+  position: relative;
+  vertical-align: middle;
+  transition: background 0.25s;
+
+  &:before,
+  &:after {
+    content: "";
+  }
+
+  &:before {
+    display: block;
+    background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    transition: left 0.25s;
+  }
+
+  .toggle:hover &:before {
+    background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  }
+
+  .toggle-checkbox:checked+& {
+    background: #0084f6;
+
+    &:before {
+      left: 30px;
+    }
+  }
+}
+
+.toggle-checkbox {
+  position: absolute;
+  visibility: hidden;
+}
+
+.toggle-label {
+  margin-left: 5px;
+  margin-right: 5px;
+  position: relative;
+  top: 2px;
+  font-weight: 600;
+}
+
+.active_toggle_button {
+  color: #00a2ff;
+}
+
+.inactive_toggle_button {
+  color: lightgray;
+}
+
+/*Chrome*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  input[type='range'] {
+    overflow: hidden;
+    // width: 200px;
+    -webkit-appearance: none;
+    background-color: #337ab7;
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    width: 0px;
+    -webkit-appearance: none;
+    height: 10px;
+    cursor: ew-resize;
+    box-shadow: -8px 0 0 8px orange;
+  }
+
+}
+
+.qInfoIcon {
+  width: 20px;
+  margin-left: 5px;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  line-height: 20px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0px 0px 1px 0px #ccc inset;
+  color: #888;
+  transition: all 0.2s linear;
+  &:hover {
+      border-color: $header-bg;
+      box-shadow: 0px 0px 1px 0px $header-bg inset;
+      color: $header-bg;
+  }
 }
