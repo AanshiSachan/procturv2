@@ -170,9 +170,12 @@
     <div class="col-md-1 txt-font" *ngIf="video.category_name=='VDOCipher'">
       {{video.video_time | number:'.2-2'}}&nbsp;Min
     </div>
-    <div class="col-md-2 txt-font" *ngIf="video.category_name=='VDOCipher'">
+    <div class="col-md-1 txt-font" *ngIf="video.category_name=='VDOCipher'">
       {{video.watch_count}} &nbsp;Watched &nbsp; &nbsp;
     </div>
+    <div class="col-md-1 txt-font" style="color:blue;" *ngIf="video.category_name=='VDOCipher'">
+        {{video.video_status |titlecase}} &nbsp;
+      </div>
     <div class="col-md-4">
       <div class="action-buttons" *ngIf="video.category_name=='VDOCipher'">
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'unlink')">Unlink</button>
