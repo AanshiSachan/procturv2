@@ -304,6 +304,7 @@ export class EnquiryAddComponent implements OnInit {
     this.countryDetails.forEach(element => {
       if (element.id == event) {
         this.instituteCountryDetObj = element;
+        this.newEnqData.country_id = element.id;
         this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
       }
     }
@@ -1061,8 +1062,10 @@ export class EnquiryAddComponent implements OnInit {
       enquiry_id: instituteEnqId,
       institute_enquiry_id: instituteEnqId,
       school_id: this.newEnqData.school_id,
-      curr_address: this.newEnqData.curr_address
+      curr_address: this.newEnqData.curr_address,
+      country_id: this.newEnqData.country_id
     }
+    console.log(obj);
     if (!this.isProfessional) {
       obj.standard_id = this.course_standard_id;
     } else {
@@ -1175,13 +1178,13 @@ export class EnquiryAddComponent implements OnInit {
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
+    let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
     let phoneFlag = this.commonServiceFactory.validatePhone(this.newEnqData.phone, this.maxlength)
     if (phoneFlag == 'noNumber' || phoneFlag == 'lessThanTen') {
       if (phoneFlag == 'noNumber') {
         return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
       }
       else {
-        let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
         return this.showErrorMessage('error', msg , '');
       }
     }
@@ -1191,10 +1194,13 @@ export class EnquiryAddComponent implements OnInit {
     else if (this.commonServiceFactory.sourceValueCheck(this.newEnqData.source_id)) {
       return this.showErrorMessage('error', 'Enquiry Source Is Mandatory', '');
     }
+    else if(this.newEnqData.name == '' || this.newEnqData.name ==null){
+      return this.showErrorMessage('error', 'Name Is Mandatory' , '');
+    }
     else {
       if (this.validateEnquiryDate()) {//newEnqData.parent_phone
-        if (this.newEnqData.parent_phone.length != 10 && this.newEnqData.parent_phone != "") {
-          return this.showErrorMessage('error', 'Enter 10 Digit Contact Number', '');
+        if (this.newEnqData.parent_phone.length != this.maxlength && this.newEnqData.parent_phone != "") {
+          return this.showErrorMessage('error', msg, '');
         }
         if (this.hour == '' && Number(this.minute) > 0) {
           return this.showErrorMessage('error', 'Please select time', '');
