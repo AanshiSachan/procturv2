@@ -128,7 +128,7 @@ export class SalesReportsComponent implements OnInit {
       "in": [
         {
           "column": "productIds",
-          "values": this.selectedSlots
+          "values": this.slotIdArr
         }
       ]
     }
@@ -149,7 +149,7 @@ export class SalesReportsComponent implements OnInit {
               "phone": object.phone,
               "title": object.product.title,
               "price":object.price,
-              "publish_date": object.product.publish_date,
+              "publish_date": object.purchase_date,
               "status": object.product.status,
             }
             this.salesDataSource.push(saleData);
