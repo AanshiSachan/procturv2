@@ -22,6 +22,10 @@ export class TeacherEditComponent implements OnInit {
   @ViewChild('uploadedImage') idCardImg;
   @ViewChild('uploadImageAnchor') anchTag;
   enableBiometric: any = 0;
+  instituteCountryDetObj: any = {};
+  countryDetails: any = [];
+  maxlength: number = 10;
+
 
   constructor(
     private route: Router,
@@ -38,11 +42,37 @@ export class TeacherEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fetchDataForCountryDetails();
     this.createEditTeacherForm();
     if (this.selectedTeacherId) {
       this.getTeacherInfo();
       this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
     }
+  }
+
+  // created by: Nalini Walunj
+  // Below two functions are written to fetch country details from the session stored at the time of login of institute
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = atob(encryptedData);
+    data = JSON.parse(data);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      console.log(this.countryDetails);
+      this.maxlength = this.countryDetails[0].country_phone_number_length;
+      this.instituteCountryDetObj = this.countryDetails[0];
+    }
+  }
+
+  onChangeObj(event) {
+    console.log(event);
+    this.countryDetails.forEach(element => {
+      if (element.id == event) {
+        this.instituteCountryDetObj = element;
+        this.maxlength = element.country_phone_number_length;
+      }
+    }
+    );
   }
 
   getTeacherInfo() {
@@ -64,7 +94,8 @@ export class TeacherEditComponent implements OnInit {
     this.editTeacherForm = this.fb.group({
       teacher_name: ['', [Validators.required]],
       teacher_curr_addr: [''],
-      teacher_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      country_id: [this.instituteCountryDetObj.id],
+      teacher_phone: ['', [Validators.required]],
       teacher_alt_phone: [''],
       teacher_standards: [''],
       teacher_email: [''],
@@ -113,6 +144,18 @@ export class TeacherEditComponent implements OnInit {
       dataToBind.is_student_mgmt_flag = false;
     }
     dataToBind.attendance_device_id = data.attendance_device_id;
+    dataToBind.country_id = data.country_id;
+    this.countryDetails.forEach(element => {
+      if (element.id == data.country_id) {
+        this.instituteCountryDetObj = element;
+        dataToBind.country_id = this.instituteCountryDetObj.id;
+      } else {
+        // dataToBind.country = 'India';
+        dataToBind.country_id = '1';
+      }
+    }
+    );
+    console.log(dataToBind);
     return dataToBind
   }
 
@@ -122,12 +165,12 @@ export class TeacherEditComponent implements OnInit {
       this.messageToast('error', 'Error', 'Please provide valid email address.');
       return;
     }
-    if (!(this.validateNumber(formData.teacher_phone))) {
+    if (!(this.validateNumber(formData.teacher_phone, this.maxlength))) {
       this.messageToast('error', 'Error', 'Please provide valid phone number.');
       return;
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
-      if (!(this.validateNumber(formData.teacher_alt_phone))) {
+      if (!(this.validateNumber(formData.teacher_alt_phone, this.maxlength))) {
         this.messageToast('error', 'Error', 'Please provide valid alternate phone number.');
         return;
       }
@@ -157,6 +200,7 @@ export class TeacherEditComponent implements OnInit {
       formData.is_allow_teacher_to_only_mark_attendance = "N";
     }
     formData.is_employee_to_be_create = "N";
+    formData.country_id = this.instituteCountryDetObj.id;
     this.ApiService.addNewTeacherDetails(formData).subscribe(
       data => {
         this.messageToast('success', 'Added', 'Faculty Added Successfully.');
@@ -183,12 +227,12 @@ export class TeacherEditComponent implements OnInit {
       this.messageToast('error', 'Error', 'Please provide valid email address.');
       return;
     }
-    if (!(this.validateNumber(formData.teacher_phone))) {
+    if (!(this.validateNumber(formData.teacher_phone, this.maxlength))) {
       this.messageToast('error', 'Error', 'Please provide valid phone number.');
       return;
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
-      if (!(this.validateNumber(formData.teacher_alt_phone))) {
+      if (!(this.validateNumber(formData.teacher_alt_phone, this.maxlength))) {
         this.messageToast('error', 'Error', 'Please provide valid alternate phone number.');
         return;
       }
@@ -227,7 +271,6 @@ export class TeacherEditComponent implements OnInit {
       formData.id_file = null;
       formData.id_fileType = "";
     }
-
     this.ApiService.saveEditTeacherInformation(this.selectedTeacherInfo.teacher_id, formData).subscribe(
       data => {
         this.messageToast('success', 'Updated', 'Details Updated Successfully.');
@@ -293,9 +336,10 @@ export class TeacherEditComponent implements OnInit {
     }
   }
 
-  validateNumber(inputtxt) {
-    let phoneno = /^\d{10}$/;
-    if ((inputtxt.match(phoneno))) {
+  validateNumber(inputtxt, maxlength) {
+    console.log(maxlength);
+    console.log(inputtxt);
+    if (inputtxt.length == maxlength) {
       return true;
     }
     else {

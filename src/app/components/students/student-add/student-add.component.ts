@@ -108,6 +108,7 @@ export class StudentAddComponent implements OnInit {
   service_tax: number = 0;
   is_undo: string = "N";
   enquiryData: any = [];
+  maxlegth: number = 10;
   feeStructureForm: any = {
     studentArray: ["-1"],
     template_effective_date: moment().format('YYYY-MM-DD')
@@ -162,6 +163,7 @@ export class StudentAddComponent implements OnInit {
   };
   enableBiometric: any;
   courseDropdown: any = null;
+  countryDetails: any = [{}];
   addInventory: any = {
     alloted_units: 0,
     item_id: -1,
@@ -178,6 +180,7 @@ export class StudentAddComponent implements OnInit {
     student_sex: "",
     student_email: "",
     student_phone: "",
+    country_id: "",
     student_curr_addr: "",
     dob: "",
     doj: moment().format('YYYY-MM-DD'),
@@ -271,6 +274,7 @@ export class StudentAddComponent implements OnInit {
   clonedFeeObject: FeeModel;
   convertInstituteEnquiryId: any = '';
   totalAmountToPay: number = 0;
+  instituteCountryDetObj: any = {};
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -340,11 +344,33 @@ export class StudentAddComponent implements OnInit {
       this.getAcademicYearDetails();
     }
 
+    this.fetchDataForCountryDetails();
   }
 
 
 
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = atob(encryptedData);
+    data = JSON.parse(data);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      console.log(this.countryDetails);
+      this.studentAddFormData.country_id = this.countryDetails[0].id;
+      this.instituteCountryDetObj = this.countryDetails[0];
+    }
+  }
 
+  onChangeObj(event) {
+    console.log(event);
+    this.countryDetails.forEach(element => {
+      if (element.id == event) {
+        this.instituteCountryDetObj = element;
+        this.maxlegth = this.instituteCountryDetObj.country_phone_number_length;
+      }
+    }
+    );
+  }
   /* ========================================================================================================== */
   /* ===================================== Data Prefill Method and General Methods ============================ */
   /* ========================================================================================================== */
@@ -1129,8 +1155,10 @@ export class StudentAddComponent implements OnInit {
       }
 
       this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
+      // this.studentAddFormData.country_id=this.instituteCountryDetObj.id;
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
+      console.log(this.studentAddFormData);
       this.btnSaveAndContinue.nativeElement.disabled = true;
       if (!this.isRippleLoad) {
         this.isRippleLoad = true;
@@ -1242,6 +1270,7 @@ export class StudentAddComponent implements OnInit {
           this.removeImage = true;
           this.student_id = res.generated_id;
           this.msgToast.showErrorMessage('success', 'Student Added', "Student details Updated Successfully");
+
           this.getCourseDropdown(res.generated_id);
           if (this.studentAddnMove) {
             this.updateStudentFeeDetails();
@@ -1288,7 +1317,7 @@ export class StudentAddComponent implements OnInit {
   }
 
   formfullValidator() {
-    let flag = this.commonServiceFactory.validatePhone(this.studentAddFormData.student_phone.trim()) == false ? false : true;
+    let flag = this.commonServiceFactory.validatePhone(this.studentAddFormData.student_phone.trim(), this.maxlegth) == false ? false : true;
     if (!flag) {
       return true;
     }
@@ -1389,9 +1418,12 @@ export class StudentAddComponent implements OnInit {
           if (statusCode == 200) {
             this.removeImage = true;
             this.student_id = res.generated_id;
+            this.msgToast.showErrorMessage('success', 'Student Added', "Student details Updated Successfully");
             this.getCourseDropdown(res.generated_id);
-            this.updateStudentFeeDetails();
-
+            if (this.studentAddnMove) {
+              this.updateStudentFeeDetails();
+              this.navigateTo('feeDetails');
+            }
           }
           else if (statusCode == 2) {
             this.removeImage = true;
@@ -1406,7 +1438,7 @@ export class StudentAddComponent implements OnInit {
     }
     else {
       if (!isCustomComponentValid) {
-        //console.log("invalid custom component");
+        // console.log("invalid custom component");
         this.msgToast.showErrorMessage('error', 'Required Fields not filled', "Please fill all the required fields on other details tab");
       }
       else if (!formValid) {

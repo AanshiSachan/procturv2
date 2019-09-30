@@ -75,10 +75,20 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
-                    <label for="cNumber">Contact Number<span class="text-danger">*</span></label>
+                    <label for="cNumber">Contact Number<span class="text-danger">*</span></label><br>
+                    <span class="countryCallingCode"style="width: 22%">
+                        <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id"
+                        [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
+                        <option value=""></option>
+                        <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                          {{data.country_code}} +{{data.country_calling_code}}
+                        </option>
+                      </select>
+                    </span> 
                     <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
-                      maxlength="10" minlength="10" #cNumber="ngModel" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                      required />
+                      maxlength={{instituteCountryDetObj.country_phone_number_length}}
+                      minlength={{instituteCountryDetObj.country_phone_number_length}} #cNumber="ngModel" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                      required style="width: 78%">
                     <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
                       <div *ngIf="cNumber.errors.required">
                         phone number is required.
@@ -137,9 +147,19 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
-                    <label for="parentContactNo">Parent Contact Number</label>
+                    <label for="parentContactNo">Parent Contact Number</label><br>
+                    <span class="countryCallingCode"style="width: 22%">
+                        <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id"
+                        [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
+                        <option value=""></option>
+                        <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                          {{data.country_code}} +{{data.country_calling_code}}
+                        </option>
+                      </select>
+                    </span>
                     <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
-                      maxlength="10" minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel"
+                    maxlength={{instituteCountryDetObj.country_phone_number_length}}
+                    minlength={{instituteCountryDetObjcountry_phone_number_length}} style="width: 78%" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel"
                     />
                   </div>
 
@@ -195,8 +215,18 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_phone != ''}">
-                    <label for="guardianContact">Guardian Contact Number</label>
-                    <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength="10" minlength="10" [(ngModel)]="studentAddFormData.guardian_phone"
+                    <label for="guardianContact">Guardian Contact Number</label><br>
+                    <span class="countryCallingCode"style="width: 24%">
+                        <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id"
+                        [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
+                        <option value=""></option>
+                        <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                          {{data.country_code}} +{{data.country_calling_code}}
+                        </option>
+                      </select>
+                    </span>
+                    <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength={{instituteCountryDetObj.country_phone_number_length}}
+                    minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 76%" [(ngModel)]="studentAddFormData.guardian_phone"
                       name="guardianContact" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #guardianContact="ngModel">
                     <div class="questionInfo pos-rel">
                       <span class="qInfoIcon">?</span>
