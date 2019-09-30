@@ -218,6 +218,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.login.postLoginDetails(this.loginDataForm).subscribe(
         res => {
           this.checkForAuthOptions(res);
+          let enable_eLearn_feature = JSON.stringify(res.data.enable_eLearn_feature);
+          console.log(enable_eLearn_feature);
+          sessionStorage.setItem('enable_eLearn_feature', btoa(enable_eLearn_feature));
         },
         err => {
           console.log(err);
@@ -367,7 +370,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('open_enq_Visibility_feature', institute_data.open_enq_Visibility_feature);
       sessionStorage.setItem('institute_setup_type', institute_data.institute_setup_type);
       sessionStorage.setItem('enable_elearn_course_mapping_feature', institute_data.enable_elearn_course_mapping_feature);
-
+ 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
         this.login.changePermissions('');
