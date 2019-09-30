@@ -1243,6 +1243,9 @@ export class EnquiryAddComponent implements OnInit {
         if (this.newEnqData.parent_phone.length != this.maxlength && this.newEnqData.parent_phone != "") {
           return this.showErrorMessage('error', msg, '');
         }
+        if (this.newEnqData.phone2.length != this.maxlength && this.newEnqData.phone2 != "") {
+          return this.showErrorMessage('error', msg, '');
+        }
         if (this.hour == '' && Number(this.minute) > 0) {
           return this.showErrorMessage('error', 'Please select time', '');
         }

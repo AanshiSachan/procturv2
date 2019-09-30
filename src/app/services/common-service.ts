@@ -157,7 +157,6 @@ export class CommonServiceFactory {
 
     // validate  phone number
     validatePhone(value, maxlength) {
-        console.log(maxlength);
         if (isNaN(value) || value.trim() == '') {  //int
             return 'noNumber';
         }

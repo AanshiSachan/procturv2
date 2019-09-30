@@ -1019,7 +1019,7 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
-    let phoneFlag = this.commonServiceFactory.validatePhone(this.editEnqData.phone,this.maxlength);
+    let phoneFlag = this.commonServiceFactory.validatePhone(this.editEnqData.phone, this.maxlength);
     // if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
     //   return this.showErrorMessage('error', 'Enquirer Name Is Mandatory', '');
     // }
@@ -1039,6 +1039,20 @@ export class EnquiryEditComponent implements OnInit {
 
     else if (this.commonServiceFactory.sourceValueCheck(this.editEnqData.source_id)) {
       return this.showErrorMessage('error', 'Enquiry Source Is Mandatory', '');
+    }
+    else if (this.editEnqData.parent_phone != "" || this.editEnqData.parent_phone != null){
+      let parentPhoneCheck = this.commonServiceFactory.validatePhone(this.editEnqData.parent_phone, this.maxlength);
+      if (parentPhoneCheck == 'lessThanTen') {
+          let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
+          return this.showErrorMessage('error', msg, '');
+      }
+    }
+    else if (this.editEnqData.phone2 != "" || this.editEnqData.phone2 != null){
+      let alternatePhoneCheck = this.commonServiceFactory.validatePhone(this.editEnqData.phone2, this.maxlength);
+      if (alternatePhoneCheck == 'lessThanTen') {
+          let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
+          return this.showErrorMessage('error', msg, '');
+      }
     }
     else {
       if (this.validateEnquiryDate()) {
