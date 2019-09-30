@@ -360,7 +360,7 @@ export class StudentAddComponent implements OnInit {
     if (data.length > 1) {
       this.countryDetails = data;
       console.log(this.countryDetails);
-      if(this.checkStatusofStudent = true) {
+      if(this.checkStatusofStudent == true) {
         this.studentAddFormData.country_id = this.countryDetails[0].id;
         this.instituteCountryDetObj = this.countryDetails[0];
       }
@@ -377,7 +377,8 @@ export class StudentAddComponent implements OnInit {
     this.fetchDataForCountryDetails();
     this.countryDetails.forEach(element => {
       if (element.id == event) {
-        console.log('hi');
+        console.log(element.id);
+        this.studentAddFormData.country_id = element.id;
         this.instituteCountryDetObj = element;
         this.maxlegth = this.instituteCountryDetObj.country_phone_number_length;
       }
@@ -1527,9 +1528,9 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.country_id = this.enquiryData.country_id;
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
-    this.onChangeObj(this.enquiryData.country_id);
     console.log(this.studentAddFormData);
     this.checkStatusofStudent = false;
+    this.onChangeObj(this.enquiryData.country_id);
     this.fetchEnquiryCustomComponentDetails();
     sessionStorage.removeItem('studentPrefill');
   }
