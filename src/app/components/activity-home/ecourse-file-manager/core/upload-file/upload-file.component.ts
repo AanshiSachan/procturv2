@@ -405,7 +405,7 @@ export class UploadFileComponent implements OnInit {
         for (let i = 0; i < files.length; i++) {
           let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV)$/i;
           if (!pattern.test(files[i].name)) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + "in avi,flv,wmv,mp4 and mov form");
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " in avi,flv,wmv,mp4 and mov form");
             flag = false;
             break;
           }
@@ -591,7 +591,7 @@ export class UploadFileComponent implements OnInit {
               var files = $event.files;
               this.file = files[0];
               console.log(this.file);
-              let payloadObject: any = newxhr;
+              let payloadObject: any = JSON.parse(newxhr.response);
               this.payload = payloadObject;
               this.upload();
             } else {
@@ -625,12 +625,35 @@ export class UploadFileComponent implements OnInit {
     formData.append('file', this.file);
     xhr.open('POST', this.payload.clientPayload['uploadLink'], false);
     xhr.onreadystatechange = () => {
+      var parser, xmlDoc;
       if (xhr.readyState == 4 && xhr.status == 201) {
         console.log(xhr.response);
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Video uploaded successfully");
+        var text = '' + xhr.response + '';
+        parser = new DOMParser();
+        xmlDoc = parser.parseFromString(text, "text/xml");
+        if (xmlDoc.getElementsByTagName("ETag")) {
+          var videoID = xmlDoc.getElementsByTagName("ETag")[0].childNodes[0].nodeValue;
+          this.updateVideoStatus(videoID);
+        }
       }
     }
     xhr.send(formData);
   }
 
+  updateVideoStatus(videoID) {
+    let obj = {
+      "videoID": videoID,
+      "institute_id": sessionStorage.getItem('institute_id'),
+      "video_status": "Queued"
+    }
+    let url = "/api/v1/instFileSystem/updateVideoStatus";
+
+    this._http.postData(url, obj).subscribe((res: any) => {
+      console.log(res);
+      this.clearuploadObject();
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Video uploaded successfully");
+    }, (err) => {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "some problem arise please check with support ");
+    });
+  }
 }

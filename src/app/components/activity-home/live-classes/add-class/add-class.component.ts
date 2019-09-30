@@ -6,6 +6,8 @@ import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { CommonServiceFactory } from '../../../../services/common-service';
 import { ViewEncapsulation } from '@angular/core'
+import { ProductService } from '../../../../services/products.service';
+import { HttpService } from '../../../../services/http.service';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class AddClassComponent implements OnInit {
 
   isRippleLoad: boolean = false;
   selectedStudentList: any[] = [];
+  selectedUserList: any[] = [];
   selectedFacultyList: any[] = [];
   selectedModeratorList: any[] = [];
 
@@ -37,10 +40,15 @@ export class AddClassComponent implements OnInit {
   facultySettings = {};
   moderatorSettings = {};
   studentListSettings = {};
+  userListSetting = {};
+  product_id: {} = null;
+  productData: any[] = [];
+  userData: any[] = [];
 
   facultyId = [];
   custUserIds = [];
   studentsId = [];
+  eLearnCustUserIDs = [];
 
   courseValue: any;
   batches: any[] = [];
@@ -56,6 +64,7 @@ export class AddClassComponent implements OnInit {
   minuteFrom: string = '';
   hoursTo: string = '';
   minuteTo: string = '';
+  isShowProductOption: boolean = false;
   scheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
   getPayloadBatch = {
     inst_id: this.service.institute_id,
@@ -70,7 +79,9 @@ export class AddClassComponent implements OnInit {
     session_name: "",
     start_datetime: "",
     studentIds: [],
-    teacherIds: []
+    teacherIds: [],
+    eLearnCustUserIDs: [],
+    product_id: null,
   }
 
   constructor(
@@ -78,6 +89,8 @@ export class AddClassComponent implements OnInit {
     private router: Router,
     private appC: AppComponent,
     private service: LiveClasses,
+    private product_service: ProductService,
+    private http_service: HttpService
   ) { }
 
   ngOnInit() {
@@ -116,14 +129,67 @@ export class AddClassComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 10,
       enableCheckAll: true
+    };
+
+    this.userListSetting = {
+      singleSelection: false,
+      idField: 'user_id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 10,
+      enableCheckAll: true
     }
 
     this.getTeachers();
     this.getCustomUsers();
+    this.checkIsEnableElearnFeature();
+  }
+
+  checkIsEnableElearnFeature() {
+    let enable_eLearn_feature = sessionStorage.getItem('enable_eLearn_feature');
+    let data: any;
+    data = atob(enable_eLearn_feature);
+    data = JSON.parse(data);
+    console.log(data);
+    if (data != 0) {
+      this.isShowProductOption = true;
+      this.product_service.getData(' https://test999.proctur.com/StdMgmtWebAPI/prod/product/get-product-list').subscribe(
+        (data: any) => {
+          this.productData = data.result;
+          console.log(this.productData);
+        },
+        (error: any) => {
+          this.isRippleLoad = false;
+          // this.clearOnlineSchedulesObject() ;
+          this.appC.popToast({ type: "error", body: error.error.message })
+        }
+      )
+    }
+    else {
+      this.isShowProductOption = false;
+    }
+  }
+
+  onChangeProduct(event) {
+    let institute_id = sessionStorage.getItem('institute_id');
+    let url = `/api/v1/meeting_manager/userDetailByProductID/${institute_id}/${event}`;
+    this.isRippleLoad = true;
+    this.http_service.getData(url).subscribe(
+      (data: any) => {
+        this.isRippleLoad = false;
+        this.userData = data;
+        console.log(this.userData);
+      },
+      (error: any) => {
+        this.isRippleLoad = false;
+        this.appC.popToast({ type: "error", body: error.error.message })
+      }
+    );
   }
 
 
-  getEvent(event){
+  getEvent(event) {
     if (moment(event).diff(moment(), 'days') < 0) {
       let msg = {
         type: "info",
@@ -134,23 +200,23 @@ export class AddClassComponent implements OnInit {
     }
   }
 
-  getEventHourFrom(e){
+  getEventHourFrom(e) {
     // this.minuteFrom = "00";
-    if(this.hoursFrom != "" && this.hoursFrom != null && this.minuteFrom == ""){
+    if (this.hoursFrom != "" && this.hoursFrom != null && this.minuteFrom == "") {
       this.minuteFrom = "00";
     }
-    else if(this.hoursTo != "" && this.hoursTo != null && this.minuteTo == ""){
+    else if (this.hoursTo != "" && this.hoursTo != null && this.minuteTo == "") {
       this.minuteTo = "00";
     }
-    if(this.hoursFrom != "" && this.hoursFrom != null && this.minuteFrom != "" && this.minuteFrom != null
-      && this.hoursTo != "" && this.hoursTo != null && this.minuteTo != "" && this.minuteTo != null){
+    if (this.hoursFrom != "" && this.hoursFrom != null && this.minuteFrom != "" && this.minuteFrom != null
+      && this.hoursTo != "" && this.hoursTo != null && this.minuteTo != "" && this.minuteTo != null) {
       this.getEventHourTo();
     }
 
 
   }
 
-  getEventHourTo(){
+  getEventHourTo() {
 
     let fromTime = moment(this.scheduledateFrom).format('YYYY-MM-DD') + " " + this.hoursFrom.split(' ')[0] + ":" + this.minuteFrom + " " + this.hoursFrom.split(' ')[1];
     let toTime = moment(this.scheduledateFrom).format('YYYY-MM-DD') + " " + this.hoursTo.split(' ')[0] + ":" + this.minuteTo + " " + this.hoursTo.split(' ')[1];
@@ -183,43 +249,43 @@ export class AddClassComponent implements OnInit {
   }
 
 
-  checkMandatoryFields(){
+  checkMandatoryFields() {
     // this.navigateTo("assignStudent")
-    if(this.topicName != "" && this.topicName != null  && this.selectedFacultyList.length != 0 && this.selectedModeratorList.length != 0){
-      if(this.dateTimeStatus){
+    if (this.topicName != "" && this.topicName != null && this.selectedFacultyList.length != 0 && this.selectedModeratorList.length != 0) {
+      if (this.dateTimeStatus) {
         this.navigateTo("assignStudent")
       }
-      else{
+      else {
         this.getEventHourTo();
       }
     }
-    else{
+    else {
       this.appC.popToast({ type: "error", body: "All fields are required" })
     }
   }
 
-  scheduleClass(){
+  scheduleClass() {
     let validationFlag = false;
-    if(!this.isProfessional){
-      if(this.courseIds != null && this.courseValue != null && this.courseValue != ''){
+    if (!this.isProfessional) {
+      if (this.courseIds != null && this.courseValue != null && this.courseValue != '') {
         validationFlag = true;
       }
-      else{
+      else {
         validationFlag = false;
         this.appC.popToast({ type: "error", body: "All fields are required" })
       }
     }
-    else{
-      if(this.batchesIds != null){
+    else {
+      if (this.batchesIds != null) {
         validationFlag = true;
       }
-      else{
+      else {
         validationFlag = false;
         this.appC.popToast({ type: "error", body: "All fields are required" })
       }
     }
 
-    if(validationFlag){
+    if (validationFlag) {
       this.facultyId = [];
       this.custUserIds = [];
       this.studentsId = [];
@@ -243,31 +309,46 @@ export class AddClassComponent implements OnInit {
           let x = ele.student_id.toString();
           this.studentsId.push(x);
         }
-      )
+      );
 
-
+        if (this.selectedUserList.length != 0) {
+          this.selectedUserList.map(
+            (ele: any) => {
+              let x = ele.user_id.toString();
+              this.eLearnCustUserIDs.push(x);
+            }
+          );
+          this.addOnlineClass.eLearnCustUserIDs = this.eLearnCustUserIDs;
+        } else {
+        this.addOnlineClass.eLearnCustUserIDs = null;
+      }
       this.addOnlineClass.session_name = this.topicName;
       this.addOnlineClass.custUserIds = this.custUserIds;
       this.addOnlineClass.studentIds = this.studentsId;
       this.addOnlineClass.teacherIds = this.facultyId;
+      if (this.product_id != null) {
+        this.addOnlineClass.product_id = this.product_id;
+      } else {
+        this.addOnlineClass.product_id = null;
+      }
       this.addOnlineClass.start_datetime = moment(this.scheduledateFrom).format('YYYY-MM-DD') + " " + this.hoursFrom.split(' ')[0] + "" + ":" + this.minuteFrom + " " + this.hoursFrom.split(' ')[1];
       this.addOnlineClass.end_datetime = moment(this.scheduledateFrom).format('YYYY-MM-DD') + " " + this.hoursTo.split(' ')[0] + "" + ":" + this.minuteTo + " " + this.hoursTo.split(' ')[1];
 
-      if(this.addOnlineClass.sent_notification_flag){
+      if (this.addOnlineClass.sent_notification_flag) {
         this.addOnlineClass.sent_notification_flag = 1;
       }
-      else if(!this.addOnlineClass.sent_notification_flag){
+      else if (!this.addOnlineClass.sent_notification_flag) {
         this.addOnlineClass.sent_notification_flag = 0;
       }
       console.log(this.addOnlineClass)
 
       this.isRippleLoad = true;
+      console.log(this.addOnlineClass);
       this.service.getOnlineClasses(this.addOnlineClass).subscribe(
         (data: any) => {
-          this.appC.popToast({ type: "success", body: "Live class session "+this.topicName + " " + "created successfully" });
-          // this.navigateTo("studentForm");
+          this.appC.popToast({ type: "success", body: "Live class session " + this.topicName + " " + "created successfully" });
+          this.navigateTo("studentForm");
           this.isRippleLoad = false;
-          this.cancel();
           this.clearOnlineSchedulesObject();
         },
         (error: any) => {
@@ -286,7 +367,7 @@ export class AddClassComponent implements OnInit {
 
   }
 
-  clearOnlineSchedulesObject(){
+  clearOnlineSchedulesObject() {
 
     this.addOnlineClass = {
       custUserIds: [],
@@ -296,8 +377,10 @@ export class AddClassComponent implements OnInit {
       session_name: "",
       start_datetime: "",
       studentIds: [],
-      teacherIds: []
-    }
+      teacherIds: [],
+      product_id: [],
+      eLearnCustUserIDs: []
+    };
 
     this.topicName = "";
     this.studentsId = [];
@@ -404,7 +487,7 @@ export class AddClassComponent implements OnInit {
     if (master_course_name == null || master_course_name == '') {
       this.courses = [];
     }
-    else{
+    else {
       this.isRippleLoad = true;
       this.service.fetchCourses(master_course_name).subscribe(
         (data: any) => {
@@ -512,7 +595,7 @@ export class AddClassComponent implements OnInit {
 
   }
 
-  cancel(){
+  cancel() {
     this.router.navigateByUrl('/view/activity/liveClass');
   }
 
