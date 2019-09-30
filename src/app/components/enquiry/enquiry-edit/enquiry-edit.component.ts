@@ -892,7 +892,8 @@ export class EnquiryEditComponent implements OnInit {
                   parent_phone: this.editEnqData.parent_phone,
                   enquiry_id: this.institute_enquiry_id,
                   institute_enquiry_id: this.institute_enquiry_id,
-                  school_id: this.editEnqData.school_id
+                  school_id: this.editEnqData.school_id,
+                  country_id:this.editEnqData.country_id
                 }
                 if (!this.isProfessional) {
                   obj.standard_id = this.editEnqData.standard_id;
