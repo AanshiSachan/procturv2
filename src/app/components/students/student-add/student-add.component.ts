@@ -313,6 +313,7 @@ export class StudentAddComponent implements OnInit {
         this.getSlots();
         this.getlangStudentStatus();
         this.convertToStudentDetected();
+        this.checkStatusofStudent = false;
       }else{
         this.checkStatusofStudent = true;
       }
@@ -359,7 +360,7 @@ export class StudentAddComponent implements OnInit {
     if (data.length > 1) {
       this.countryDetails = data;
       console.log(this.countryDetails);
-      if(this.checkStatusofStudent == true){
+      if(this.checkStatusofStudent = true) {
         this.studentAddFormData.country_id = this.countryDetails[0].id;
         this.instituteCountryDetObj = this.countryDetails[0];
       }

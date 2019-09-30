@@ -1034,12 +1034,18 @@ export class EnquiryEditComponent implements OnInit {
           let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
           return this.showErrorMessage('error', msg, '');
       }
+      else{
+        return true;
+      }
     }
     else if (this.editEnqData.phone2 != "" || this.editEnqData.phone2 != null){
       let alternatePhoneCheck = this.commonServiceFactory.validatePhone(this.editEnqData.phone2, this.maxlength);
       if (alternatePhoneCheck == 'lessThanTen') {
           let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
           return this.showErrorMessage('error', msg, '');
+      }
+      else{
+        return true;
       }
     }
     else {
