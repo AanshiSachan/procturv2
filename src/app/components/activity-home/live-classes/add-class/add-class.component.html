@@ -106,7 +106,7 @@
               [data]="teachersAssigned"
               [settings]="facultySettings"
               [(ngModel)]="selectedFacultyList">
-            </ng-multiselect-dropdown>{{selectedFacultyList}}
+            </ng-multiselect-dropdown>
           </div>
 
           <div class="field-wrapper moderator_container">
@@ -116,7 +116,7 @@
               [data]="userAssigned"
               [settings]="moderatorSettings"
               [(ngModel)]="selectedModeratorList" >
-            </ng-multiselect-dropdown>{{selectedModeratorList}}
+            </ng-multiselect-dropdown>
           </div>
 
           <div class="field-wrapper moderator_container" *ngIf="isShowProductOption">

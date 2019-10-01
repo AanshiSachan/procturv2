@@ -154,8 +154,10 @@ export class AddClassComponent implements OnInit {
     console.log(data);
     if (data != 0) {
       this.isShowProductOption = true;
+      this.isRippleLoad = true;
       this.product_service.getData(' https://test999.proctur.com/StdMgmtWebAPI/prod/product/get-product-list').subscribe(
         (data: any) => {
+          this.isRippleLoad = false;
           this.productData = data.result;
           console.log(this.productData);
         },
