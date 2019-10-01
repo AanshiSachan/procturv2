@@ -90,8 +90,9 @@
                             <label for="bothRadio"></label>
                           </div></td>
                         <td>
-                          <span class="txt-title"
-                          title="{{video.video_title}}">{{(video.video_title)?.length>20)?(video.video_title | slice:0:20) + '...':(video.video_title)}}</span>
+                          {{video.video_title}}
+                          <!-- <span class="txt-title"
+                          title="{{video.video_title}}">{{(video.video_title)?.length>20)?(video.video_title | slice:0:20) + '...':(video.video_title)}}</span> -->
                         </td>
                         <td>{{video.video_size}} MB</td>
                         <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
