@@ -176,7 +176,7 @@ callMethods2(method, url, body, params, plateform) {
             "Content-Type": "application/json",
             // 'X-Platform': 'web',
             "x-proc-authorization": this.getAuthToken(),
-            "x-prod-inst-id": "100083",
+            "x-prod-inst-id":sessionStorage.getItem('institute_id'),
             "x-prod-user-id": sessionStorage.getItem('userid')
         }),
         params: params,

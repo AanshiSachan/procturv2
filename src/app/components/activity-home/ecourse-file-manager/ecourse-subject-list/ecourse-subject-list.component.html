@@ -1,13 +1,6 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
   *ngIf="isRippleLoad">
 </loaders-css>
-<!-- <div class="row">
-    <div class="head" id="addDiv" routerLink="/view/activity/ecoursemapping" style="text-align: right">
-      <button class="btn_addecourse">
-        <i class="fa fa-plus" aria-hidden="true"></i> &nbsp; Subject  &nbsp; 
-      </button>
-    </div>
-  </div> -->
 <div class="row">
   <div class="head" id="addDiv" routerLink="/view/course/topic" style="text-align: right">
     <button class="btn_addecourse">
@@ -15,83 +8,75 @@
     </button>
   </div>
 </div>
-<!-- <button class="btn " (click)=" getVdocipherVideoOtp({category_name:'VDOCipher'})">
-  show Video Stream
-</button> -->
 
-<div class="row">
-  <div class="col-md-12 subject-wrapper">
-    <div class="subject-title">
-      Subject List
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-12 subject-wrapper">
-    <div *ngIf="subjectList.length==0">
-      {{outputMessage}}
-    </div>
-  </div>
-</div>
-
-<!-- <div class="table table-responsive scroll_table">
-  <div id="divSubjectListTable " class="row" *ngFor="let subject of subjectList;" style="padding: 10px;">
-    <div class="col-md-11">      
-      <div class="subject-label" (click)="getToSubjectMaterials(subject)">{{subject.subject_name}}
-      </div>
-    </div>    
-  </div>
-</div> -->
-<div class="fluid-container data-wrapper">
-  <div class="row main-topic-row" *ngFor="let topic of subjectList;">
-    <div class="row singleton-row col-md-12 topic-data main-topic-data">
-      <!-- <div class="field-checkbox-wrapper">
-        <input type="checkbox" name="topicIds[]" id="topic{{topic.topic_id}}" class="topic-selector form-checkbox">
-        <label for="topic{{topic.topic_id}}"></label>
-      </div> -->
-
-      <div class="col-md-4 topic-name">
-        <button class="btn-ga-collapse">
-          <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="toggleObject(topic)"></i>
-          <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="toggleObject(topic)"></i>
-        </button> {{topic.subject_name}}
-      </div>
-      <div class="col-md-4">
-      </div>
-      <div class="col-md-4">
-        <div>
-          <button class="btn btn-xs btn-ga-white" (click)="uploadPopupOpen(topic)">Upload</button>
-          <!-- <button class="btn btn-xs btn-ga-white" (click)="getToSubjectMaterials(topic)">view topic</button> -->
-          <!-- <button class="btn btn-xs btn-ga-white">Add Topic</button> -->
+<div>
+    <div class="row">
+        <div class="col-md-12 subject-wrapper">
+          <div class="subject-title">
+            Subject List
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
-      <div class="col-md-12 topic-material-data">
-        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: 1}"></ng-container>
-        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: 1}">
-        </ng-container>
-        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: 1}"></ng-container>
-        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.audioNotesList, level: 1}">
-        </ng-container>
-        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.notesList, level: level+1}">
-        </ng-container>
-        <ng-container
-          *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.previousYearQuesList, level: level+1}">
-        </ng-container>
-        <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: topic.slidesList, level: level+1}">
-        </ng-container>
-        <ng-container
-          *ngTemplateOutlet="studyMaterialList; context:{$implicit: topic.studyMaterialList, level: level+1}">
-        </ng-container>
+      <div class="row">
+        <div class="col-md-12 subject-wrapper">
+          <div *ngIf="subjectList.length==0">
+            {{outputMessage}}
+          </div>
+        </div>
       </div>
-      <div class="row col-md-12 subTopics-data" *ngIf="topic.isExpand">
-        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: 1 } ">
-        </ng-container>
+      
+      <div class="fluid-container data-wrapper">
+        <div class="row main-topic-row" *ngFor="let topic of subjectList;">
+          <div class="row singleton-row col-md-12 topic-data main-topic-data">
+            <!-- <div class="field-checkbox-wrapper">
+              <input type="checkbox" name="topicIds[]" id="topic{{topic.topic_id}}" class="topic-selector form-checkbox">
+              <label for="topic{{topic.topic_id}}"></label>
+            </div> -->
+      
+            <div class="col-md-4 topic-name">
+              <button class="btn-ga-collapse">
+                <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="toggleObject(topic)"></i>
+                <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="toggleObject(topic)"></i>
+              </button> {{topic.subject_name}}
+            </div>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+              <div>
+                <button class="btn btn-xs btn-ga-white" (click)="uploadPopupOpen(topic)">Upload</button>
+                <!-- <button class="btn btn-xs btn-ga-white" (click)="getToSubjectMaterials(topic)">view topic</button> -->
+                <!-- <button class="btn btn-xs btn-ga-white">Add Topic</button> -->
+              </div>
+            </div>
+          </div>
+          <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
+            <div class="col-md-12 topic-material-data">
+              <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: 1}"></ng-container>
+              <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: 1}">
+              </ng-container>
+              <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: 1}"></ng-container>
+              <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.audioNotesList, level: 1}">
+              </ng-container>
+              <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.notesList, level: level+1}">
+              </ng-container>
+              <ng-container
+                *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.previousYearQuesList, level: level+1}">
+              </ng-container>
+              <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: topic.slidesList, level: level+1}">
+              </ng-container>
+              <ng-container
+                *ngTemplateOutlet="studyMaterialList; context:{$implicit: topic.studyMaterialList, level: level+1}">
+              </ng-container>
+            </div>
+            <div class="row col-md-12 subTopics-data" *ngIf="topic.isExpand">
+              <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: 1 } ">
+              </ng-container>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 </div>
+
 
 <ng-template #recursiveNodes let-subTopics let-level="subLevel">
   <div class="row topic-row" *ngFor="let topic of subTopics">
@@ -178,8 +163,8 @@
       </div>
     <div class="col-md-4">
       <div class="action-buttons" *ngIf="video.category_name=='VDOCipher'">
-        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'unlink')">Unlink</button>
-        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked!='N'" (click)="setRemoveDataFile(video,'delete')">Delete</button>
+        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked!='N'" (click)="setRemoveDataFile(video,'unlink')">Unlink</button>
+        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'delete')">Delete</button>
       </div>
     </div>
   </div>
@@ -391,9 +376,11 @@
   <div class="ga-modal-container">
     <div class="ga-modal" style="height: 460px;">
       <div class="ga-modal-head" style="text-align: left">
-        <span>uploadCheck77</span>
-        <button style="position: absolute; right: 21rem; top: 5.6rem;" class="btn btn-xs btn-ga-white"
-          (click)="showVideo = true">X</button>
+        <span>{{tempData.title}}</span>
+
+        <div class="btn_cross" > 
+            <button  class="btn btn-xs btn-ga-white" style="position: absolute;right: 0;" (click)="showVideo = true">X</button>
+          </div>
       </div>
       <div class="ga-modal-body">
         <div class="row upload-box">
