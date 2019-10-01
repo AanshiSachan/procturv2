@@ -305,7 +305,7 @@ export class StudentAddComponent implements OnInit {
         this.convertToStudentDetected();
         this.checkStatusofStudent = false;
       } else{
-        this.checkStatusofStudent = true;
+        this.checkStatusofStudent =  true;
       }
       this.getSlots();
       this.getlangStudentStatus();
