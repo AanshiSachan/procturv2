@@ -310,7 +310,7 @@ export class EnquiryHomeComponent implements OnInit {
         tableDetails: { title: 'Enquiry List', key: 'enquiry.home', showTitle: false },
         search: { title: 'Search', showSearch: false },
         keys: this.displayKeys,
-        selectAll: { showSelectAll: true, title: 'Select Enquiry', checked: false, key: 'enquiry_no' },
+        selectAll: { showSelectAll: true, option:'single', title: 'Select Enquiry', checked: false, key: 'enquiry_no' },
         actionSetting: {},
         displayMessage: "Enter Detail to Search"
     };

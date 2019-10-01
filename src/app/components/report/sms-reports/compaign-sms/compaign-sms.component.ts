@@ -43,7 +43,7 @@ export class CompaignSmsComponent implements OnInit {
     search: { title: 'Search', showSearch: false },
     defaultSort: { primaryKey: 'date', header: 'Schedule Date Time', priority: 3, allowSortingFlag: true ,sortingType:'desc'},
     keys: this.projectSettings,
-    selectAll: { showSelectAll: false, title: 'Send Due SMS', checked: true, key: 'name' },
+    selectAll: { showSelectAll: false, option:'single', title: 'Send Due SMS', checked: true, key: 'name' },
     actionSetting:
     {
       showActionButton: true,
