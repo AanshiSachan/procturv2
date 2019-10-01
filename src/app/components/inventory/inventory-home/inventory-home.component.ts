@@ -60,7 +60,8 @@ export class HomeComponent implements OnInit {
   showAllocationHistoryPopUp: boolean = false;
    searchDataFlag: boolean = false;
   isRippleLoad: boolean = false;
-  showMenu: boolean = false; 
+  showMenu: boolean = false;
+  enable_eLearn_feature_flag : boolean = false;
 
   header: any = {
     inventory_item: { id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
@@ -97,8 +98,16 @@ export class HomeComponent implements OnInit {
     this.loadTableDatatoSource();
     this.loadItemCategories();
     this.loadItemCategoryMaster();
+    this.checkEnableElearnFeature();
   }
 
+  checkEnableElearnFeature() {
+    let enable_eLearn_feature: any;
+    enable_eLearn_feature = sessionStorage.getItem('enable_eLearn_feature');
+    if (enable_eLearn_feature == 1) {
+      this.enable_eLearn_feature_flag = true;
+    }
+  }
 
   checkMainBranchOrSubBranch() {
     let sessionData = sessionStorage.getItem('is_main_branch');
