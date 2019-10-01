@@ -80,7 +80,7 @@
                   </label>
                 </th>
                 
-                <th>
+                <th *ngIf="enable_eLearn_feature_flag">
                   <label>
                     <a class="cursor-icon">Status</a>
                   </label>
@@ -167,12 +167,12 @@
                   </div>
                 </td>
 
-                <td class="view-comp">
+                <td class="view-comp" *ngIf="enable_eLearn_feature_flag">
                   <div class="field-wrapper">
                     {{row.is_offline_or_online}}
                   </div>
                 </td>
-                <td class="edit-comp editCellAllignment">
+                <td class="edit-comp editCellAllignment" >
                   <div class="field-wrapper">
                       <select id="is_offline_or_online" class="form-ctrl" name="is_offline_or_online" [(ngModel)]="row.is_offline_or_online" style="margin: auto;">
                           <option value="online">Online</option>
@@ -477,7 +477,7 @@
               </div>
            
 
-            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">		
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" *ngIf="enable_eLearn_feature_flag">		
               <div class="field-wrapper">		
               <br>		
                   <input type="radio" class="form-ctrl" name="is_offline_or_online" value="online" formControlName="is_offline_or_online" id="is_offline_or_online"><label class="online_offline_label">Online</label>		
