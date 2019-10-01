@@ -67,7 +67,7 @@ export class TransctionalSmsComponent implements OnInit {
     search: { title: 'Search', showSearch: false },
     defaultSort: { primaryKey: 'sentDateTime', sortingType:'desc', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
     keys: this.projectSettings,
-    selectAll: { showSelectAll: false, title: 'Send Due SMS', checked: true, key: 'name' },
+    selectAll: { showSelectAll: false, option:'single', title: 'Send Due SMS', checked: true, key: 'name' },
     actionSetting:
     {
       showActionButton: false,
