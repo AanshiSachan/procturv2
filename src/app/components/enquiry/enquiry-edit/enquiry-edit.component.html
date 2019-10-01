@@ -1,4 +1,5 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
+  *ngIf="isRippleLoad">
 </loaders-css>
 <section class="homewrap middle-section clearFix">
   <form (ngSubmit)="save()" class="scroll-content" #myForm="ngForm">
@@ -30,196 +31,251 @@
                   <span class="close-accor" id="closeBasic" (click)="toggleForm($event)">-</span>
                 </h4>
               </div>
-              <!    -- Accordian Form 1 -->
-              <div class="accordian-content">
-                <div class="form-type1">
+              <! -- Accordian Form 1 -->
+                <div class="accordian-content">
+                  <div class="form-type1">
 
-                  <!-- Name -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.name != ''}">
-                    <label for="name">Name
-                      <span class="text-danger">*</span>
-                    </label>
-                    <input type="text" value="" id="name" #name="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.name" name="name" maxlength="50"
-                      required />
+                    <!-- Name -->
+                    <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.name != ''}">
+                      <label for="name">Name
+                        <span class="text-danger">*</span>
+                      </label>
+                      <input type="text" value="" id="name" #name="ngModel" class="form-ctrl"
+                        [(ngModel)]="editEnqData.name" name="name" maxlength="50" required />
 
-                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
-                      <div *ngIf="name.errors.required">
-                        name is required.
-                      </div>
-                      <!-- <div *ngIf="name.errors.pattern">
+                      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
+                        <div *ngIf="name.errors.required">
+                          name is required.
+                        </div>
+                        <!-- <div *ngIf="name.errors.pattern">
                         Only Alphabets . - Allowed.    pattern="^([a-zA-Z .-]){1,30}$"
                       </div> -->
-                    </div>
-                  </div>
-
-                  <!-- Phone -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.phone != ''}">
-                    <label for="phone">Phone No</label>
-                    <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone" name="phone" maxlength="10"
-                      minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
-                  </div>
-
-                  <!-- Email -->
-                  <div class="field-wrapper">
-                    <label for="email">Email ID</label>
-                    <input type="text" value="" id="email" #email="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$"
-                    />
-                    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert invalid-alert">
-                      <div *ngIf="email.errors.pattern">
-                        Enter email in format eg. someone@xyz.com
                       </div>
                     </div>
-                  </div>
 
-                  <!-- Gender -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.gender != ''}">
-                    <label for="gender">Gender</label>
-                    <select class="form-ctrl" [(ngModel)]="editEnqData.gender" name="gender" id="gender">
-                      <option value=""></option>
-                      <option value="M">Male</option>
-                      <option value="F">Female</option>
-                      <option value="NA">NA</option>
-                    </select>
-                  </div>
+                    <!-- Phone -->
+                    <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.phone != ''}">
+                      <label for="phone">Phone No</label><br>
+                      <span class="countryCallingCode"style="width: 22%">
+                        <select id="country_id" class="form-ctrl" [(ngModel)]="editEnqData.country_id" name="country_id"
+                          [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
+                          style="height: 29px;padding: 0">
+                          <option value=""></option>
+                          <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                            {{data.country_code}} +{{data.country_calling_code}}
+                          </option>
+                        </select>
+                      </span>
+                      <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl"
+                        [(ngModel)]="editEnqData.phone" name="phone"
+                        maxlength={{instituteCountryDetObj.country_phone_number_length}}
+                        minlength={{instituteCountryDetObj.country_phone_number_length}}
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                        style="width: 78%" />
+                    </div>
 
-                  <!-- Date of Birth -->
-                  <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': editEnqData.dob != ''}">
-                    <label for="dob">Date of Birth</label>
-                    <input type="text" value="" id="dob" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.dob" name="dob" readonly='true'
-                      bsDatepicker>
-                    <span class="date-clear" name="dob" (click)="editEnqData.dob = ''">clear</span>
-                  </div>
-
-                  <!-- city -->
-                  <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.city != ''}">
-                    <label for="cityDdn">City
-                      <span class="text-danger" *ngIf="isCityMandatory == 1">*</span>
-                    </label>
-                    <select id="cityDdn" class="form-ctrl" [(ngModel)]="editEnqData.city" (ngModelChange)="onCitySelctionChanges($event)" name="city">
-                      <option value="-1"></option>
-                      <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
-                    </select>
-                  </div>
-
-                  <!-- area -->
-                  <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.area != ''}">
-                    <label for="areaDdn">Area
-                    </label>
-                    <select id="areaDdn" class="form-ctrl" [(ngModel)]="editEnqData.area" name="area">
-                      <option value="-1"></option>
-                      <option *ngFor="let area of areaListDataSource" [value]="area.area">{{area.area}}</option>
-                    </select>
-
-                  </div>
-
-                  <!-- Source -->
-                  <div class="field-wrapper">
-                    <label for="source">Source<span class="text-danger">*</span></label>
-                    <select id="source" class="form-ctrl" [(ngModel)]="editEnqData.source_id" name="source">
-                      <option value="-1"></option>
-                      <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
-                    </select>
-
-                  </div>
-
-                  <!-- Additonal details -->
-                  <div class="more-detail">
-                    <b>
-                      <a *ngIf="!additionDetails" (click)="showAdditionDetails()" style="font-size: 14px;font-weight: 600;cursor:pointer" id="additionAnch2">+ &nbsp; Add Additional Details</a>
-                      <a *ngIf="additionDetails" (click)="showAdditionDetails()" style="font-size: 14px;font-weight: 600;cursor:pointer" id="additionAnch3">- &nbsp; Add Additional Details</a>
-                    </b>
-                  </div>
-
-                </div>
-
-                <div class="form-type1" *ngIf="additionDetails">
-                  <br>
-
-                  <!-- Address -->
-                  <div class="field-wrapper">
-                    <label for="userAddress">Address</label>
-                    <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="editEnqData.curr_address" name="address" />
-                  </div>
-
-                  <!-- Phone -->
-                  <div class="field-wrapper">
-                    <label for="phone2">Alternate Contact</label>
-                    <input type="text" value="" id="phone2" class="form-ctrl" [(ngModel)]="editEnqData.phone2" name="phone2" maxlength="10" minlength="10"
-                      onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
-                  </div>
-
-                  <!-- Email -->
-                  <div class="field-wrapper">
-                    <label for="email2">Alternate Email ID</label>
-                    <input type="text" value="" id="email2" #email2="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.email2" name="email2"
-                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" />
-
-                    <div *ngIf="email2.invalid && (email2.dirty || email2.touched)" class="alert invalid-alert">
-                      <div *ngIf="email2.errors.pattern">
-                        Enter email in format eg. someone@xyz.com
+                    <!-- Email -->
+                    <div class="field-wrapper">
+                      <label for="email">Email ID</label>
+                      <input type="text" value="" id="email" #email="ngModel" class="form-ctrl"
+                        [(ngModel)]="editEnqData.email" name="email"
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" />
+                      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert invalid-alert">
+                        <div *ngIf="email.errors.pattern">
+                          Enter email in format eg. someone@xyz.com
+                        </div>
                       </div>
                     </div>
+
+                    <!-- Gender -->
+                    <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.gender != ''}">
+                      <label for="gender">Gender</label>
+                      <select class="form-ctrl" [(ngModel)]="editEnqData.gender" name="gender" id="gender">
+                        <option value=""></option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="NA">NA</option>
+                      </select>
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': editEnqData.dob != ''}">
+                      <label for="dob">Date of Birth</label>
+                      <input type="text" value="" id="dob" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.dob"
+                        name="dob" readonly='true' bsDatepicker>
+                      <span class="date-clear" name="dob" (click)="editEnqData.dob = ''">clear</span>
+                    </div>
+
+                    <!-- city -->
+                    <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.city != ''}">
+                      <label for="cityDdn">City
+                        <span class="text-danger" *ngIf="isCityMandatory == 1">*</span>
+                      </label>
+                      <select id="cityDdn" class="form-ctrl" [(ngModel)]="editEnqData.city"
+                        (ngModelChange)="onCitySelctionChanges($event)" name="city">
+                        <option value="-1"></option>
+                        <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
+                      </select>
+                    </div>
+
+                    <!-- area -->
+                    <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.area != ''}">
+                      <label for="areaDdn">Area
+                      </label>
+                      <select id="areaDdn" class="form-ctrl" [(ngModel)]="editEnqData.area" name="area">
+                        <option value="-1"></option>
+                        <option *ngFor="let area of areaListDataSource" [value]="area.area">{{area.area}}</option>
+                      </select>
+
+                    </div>
+
+                    <!-- Source -->
+                    <div class="field-wrapper">
+                      <label for="source">Source<span class="text-danger">*</span></label>
+                      <select id="source" class="form-ctrl" [(ngModel)]="editEnqData.source_id" name="source">
+                        <option value="-1"></option>
+                        <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
+                      </select>
+
+                    </div>
+
+                    <!-- Additonal details -->
+                    <div class="more-detail">
+                      <b>
+                        <a *ngIf="!additionDetails" (click)="showAdditionDetails()"
+                          style="font-size: 14px;font-weight: 600;cursor:pointer" id="additionAnch2">+ &nbsp; Add
+                          Additional Details</a>
+                        <a *ngIf="additionDetails" (click)="showAdditionDetails()"
+                          style="font-size: 14px;font-weight: 600;cursor:pointer" id="additionAnch3">- &nbsp; Add
+                          Additional Details</a>
+                      </b>
+                    </div>
+
                   </div>
 
-                  <!-- Name -->
-                  <div class="field-wrapper">
-                    <label for="guardianName">Parent Name</label>
-                    <input type="text" value="" id="guardianName" class="form-ctrl" [(ngModel)]="editEnqData.parent_name" name="guardianName"
-                      maxlength="50" #guardianName="ngModel" />
+                  <div class="form-type1" *ngIf="additionDetails">
+                    <br>
 
-                    <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert invalid-alert">
-                      <!-- <div *ngIf="guardianName.errors.pattern">
+                    <!-- Address -->
+                    <div class="field-wrapper">
+                      <label for="userAddress">Address</label>
+                      <input type="text" value="" id="userAddress" class="form-ctrl"
+                        [(ngModel)]="editEnqData.curr_address" name="address" />
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="field-wrapper">
+                      <label for="phone2">Alternate Contact</label><br>
+                      <span class="countryCallingCode"style="width: 22%">
+                         <select id="country_id" class="form-ctrl" [(ngModel)]="editEnqData.country_id" name="country_id"
+                          [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
+                          style="height: 29px;padding: 0">
+                          <option value=""></option>
+                          <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                            {{data.country_code}} +{{data.country_calling_code}}
+                          </option>
+                        </select>
+                      </span>
+                      <input type="text" value="" id="phone2" class="form-ctrl" [(ngModel)]="editEnqData.phone2"
+                        name="phone2" maxlength={{instituteCountryDetObj.country_phone_number_length}}
+                        minlength={{instituteCountryDetObj.country_phone_number_length}}
+                        style="width: 78%"
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
+                    </div>
+
+                    <!-- Email -->
+                    <div class="field-wrapper">
+                      <label for="email2">Alternate Email ID</label>
+                      <input type="text" value="" id="email2" #email2="ngModel" class="form-ctrl"
+                        [(ngModel)]="editEnqData.email2" name="email2"
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" />
+
+                      <div *ngIf="email2.invalid && (email2.dirty || email2.touched)" class="alert invalid-alert">
+                        <div *ngIf="email2.errors.pattern">
+                          Enter email in format eg. someone@xyz.com
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="field-wrapper">
+                      <label for="guardianName">Parent Name</label>
+                      <input type="text" value="" id="guardianName" class="form-ctrl"
+                        [(ngModel)]="editEnqData.parent_name" name="guardianName" maxlength="50"
+                        #guardianName="ngModel" />
+
+                      <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)"
+                        class="alert invalid-alert">
+                        <!-- <div *ngIf="guardianName.errors.pattern">
                         Only Alphabets . - Allowed. pattern="^([a-zA-Z .-]){1,30}$"
                       </div> -->
-                    </div>
-                  </div>
-
-                  <!-- Phone -->
-                  <div class="field-wrapper">
-                    <label for="guardianContact">Parent Contact</label>
-                    <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="editEnqData.parent_phone" name="guardianContact"
-                      maxlength="10" minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
-
-                  </div>
-
-                  <!-- Email -->
-                  <div class="field-wrapper">
-                    <label for="guardianEmail">Parent Email ID</label>
-                    <input type="text" value="" id="guardianEmail" class="form-ctrl" [(ngModel)]="editEnqData.parent_email" name="guardianEmail"
-                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #guardianEmail="ngModel" />
-
-                    <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert invalid-alert">
-                      <div *ngIf="guardianEmail.errors.pattern">
-                        Enter email in format eg. someone@xyz.com
                       </div>
                     </div>
+
+                    <!-- Phone -->
+                    <div class="field-wrapper">
+                      <label for="guardianContact"style="width: 22%">Parent Contact</label><br>
+                      <span class="countryCallingCode">
+                          <select id="country_id" class="form-ctrl" [(ngModel)]="editEnqData.country_id" name="country_id"
+                          [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
+                          style="height: 29px;padding: 0">
+                          <option value=""></option>
+                          <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                            {{data.country_code}} +{{data.country_calling_code}}
+                          </option>
+                        </select>
+                      </span>
+                      <input type="text" value="" id="guardianContact" class="form-ctrl"
+                        [(ngModel)]="editEnqData.parent_phone" name="guardianContact"
+                        maxlength={{instituteCountryDetObj.country_phone_number_length}}
+                        minlength={{instituteCountryDetObj.country_phone_number_length}}
+                        style="width: 78%"
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
+                    </div>
+
+                    <!-- Email -->
+                    <div class="field-wrapper">
+                      <label for="guardianEmail">Parent Email ID</label>
+                      <input type="text" value="" id="guardianEmail" class="form-ctrl"
+                        [(ngModel)]="editEnqData.parent_email" name="guardianEmail"
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #guardianEmail="ngModel" />
+
+                      <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)"
+                        class="alert invalid-alert">
+                        <div *ngIf="guardianEmail.errors.pattern">
+                          Enter email in format eg. someone@xyz.com
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Link -->
+                    <div class="field-wrapper">
+                      <label for="enquirerLink">Link Details</label>
+                      <input type="text" value="" id="enquirerLink" class="form-ctrl" [(ngModel)]="editEnqData.link"
+                        name="enquirerLink" />
+
+                    </div>
+
+                    <!-- Fee Commited -->
+                    <div class="field-wrapper">
+                      <label for="feeCommitted">Fees Committed Details</label>
+                      <input type="text" value="" id="feeCommitted" class="form-ctrl"
+                        [(ngModel)]="editEnqData.fee_committed" name="feeCommitted" #feeCommitted="ngModel"
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
+
+                    </div>
+
+                    <!-- Discount -->
+                    <div class="field-wrapper">
+                      <label for="discount">Discount Offered Details</label>
+                      <input type="text" value="" id="discount" class="form-ctrl"
+                        [(ngModel)]="editEnqData.discount_offered" name="discount" pattern="[0-9]+"
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #discount="ngModel" />
+
+                    </div>
+
                   </div>
-
-                  <!-- Link -->
-                  <div class="field-wrapper">
-                    <label for="enquirerLink">Link Details</label>
-                    <input type="text" value="" id="enquirerLink" class="form-ctrl" [(ngModel)]="editEnqData.link" name="enquirerLink" />
-
-                  </div>
-
-                  <!-- Fee Commited -->
-                  <div class="field-wrapper">
-                    <label for="feeCommitted">Fees Committed Details</label>
-                    <input type="text" value="" id="feeCommitted" class="form-ctrl" [(ngModel)]="editEnqData.fee_committed" name="feeCommitted"
-                      #feeCommitted="ngModel" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
-
-                  </div>
-
-                  <!-- Discount -->
-                  <div class="field-wrapper">
-                    <label for="discount">Discount Offered Details</label>
-                    <input type="text" value="" id="discount" class="form-ctrl" [(ngModel)]="editEnqData.discount_offered" name="discount" pattern="[0-9]+"
-                      onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #discount="ngModel" />
-
-                  </div>
-
                 </div>
-              </div>
             </li>
             <!-- Academic Form 2-->
             <li class="data-filled" id="academicDetails">
@@ -235,7 +291,8 @@
 
                   <div class="field-wrapper">
                     <label for="institutionName">Institution Name</label>
-                    <select id="institutionName" class="form-ctrl" [(ngModel)]="editEnqData.school_id" name="institutename">
+                    <select id="institutionName" class="form-ctrl" [(ngModel)]="editEnqData.school_id"
+                      name="institutename">
                       <option value="-1"></option>
                       <option *ngFor="let institute of school" [value]="institute.school_id">
                         {{institute.school_name}}
@@ -246,8 +303,8 @@
                   <!-- standard Course-->
                   <div *ngIf="!isProfessional" class="field-wrapper">
                     <label for="editStandard">Standard</label>
-                    <select id="editStandard" class="form-ctrl" [(ngModel)]="editEnqData.standard_id" (ngModelChange)="fetchSubject($event)"
-                      name="editStandard">
+                    <select id="editStandard" class="form-ctrl" [(ngModel)]="editEnqData.standard_id"
+                      (ngModelChange)="fetchSubject($event)" name="editStandard">
                       <option value="-1"></option>
                       <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                     </select>
@@ -262,8 +319,10 @@
                   <!-- subject Course -->
                   <div *ngIf="!isProfessional" class="field-wrapper">
                     <label for="forSubject">Subject</label>
-                    <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="editEnqData.subjectIdArray" name="subject">
-                      <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
+                    <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple"
+                      [(ngModel)]="editEnqData.subjectIdArray" name="subject">
+                      <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}
+                      </option>
                     </select>
                     <div class="questionInfo">
                       <span class="qInfoIcon" style="margin-top:-12px;">?</span>
@@ -276,16 +335,19 @@
                   <!-- masterCourse course -->
                   <div *ngIf="!isProfessional" class="field-wrapper">
                     <label for="editMc">Master Course</label>
-                    <select id="editMc" class="form-ctrl" name="editMc" [(ngModel)]="editEnqData.master_course_name" (ngModelChange)="courseMasterChange($event)">
+                    <select id="editMc" class="form-ctrl" name="editMc" [(ngModel)]="editEnqData.master_course_name"
+                      (ngModelChange)="courseMasterChange($event)">
                       <option value="-1"></option>
-                      <option *ngFor="let master of masterCourseData" [value]="master.master_course">{{master.master_course}}</option>
+                      <option *ngFor="let master of masterCourseData" [value]="master.master_course">
+                        {{master.master_course}}</option>
                     </select>
                   </div>
 
                   <!-- course course-->
                   <div *ngIf="!isProfessional" class="field-wrapper">
                     <label for="editCC">Course</label>
-                    <select id="editCC" class="form-ctrl form-ctrl-multiple" [(ngModel)]="editEnqData.courseIdArray" name="editCC" multiple>
+                    <select id="editCC" class="form-ctrl form-ctrl-multiple" [(ngModel)]="editEnqData.courseIdArray"
+                      name="editCC" multiple>
                       <option *ngFor="let cc of course_course" [value]="cc.course_id">{{cc.course_name}}</option>
                     </select>
                   </div>
@@ -293,8 +355,8 @@
                   <!-- master Professional -->
                   <div *ngIf="isProfessional" class="field-wrapper">
                     <label for="editStandard">Master Course</label>
-                    <select id="editStandard" class="form-ctrl" [(ngModel)]="editEnqData.standard_id" (ngModelChange)="fetchSubject($event)"
-                      name="editStandard">
+                    <select id="editStandard" class="form-ctrl" [(ngModel)]="editEnqData.standard_id"
+                      (ngModelChange)="fetchSubject($event)" name="editStandard">
                       <option value="-1"></option>
                       <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                     </select>
@@ -309,8 +371,10 @@
                   <!-- course Professional -->
                   <div *ngIf="isProfessional" class="field-wrapper">
                     <label for="forSubject">Course</label>
-                    <select id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="editEnqData.subjectIdArray" name="subject" multiple>
-                      <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
+                    <select id="forSubject" class="form-ctrl form-ctrl-multiple"
+                      [(ngModel)]="editEnqData.subjectIdArray" name="subject" multiple>
+                      <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}
+                      </option>
                     </select>
                     <div class="questionInfo">
                       <span class="qInfoIcon" style="margin-top:-12px;">?</span>
@@ -324,10 +388,11 @@
                   <custom-enquiry *ngFor="let component of customComponents">
                     <div class="" *ngIf="component.type == 1" input-def>
                       <div class="field-wrapper" [class.has-value]="component.value != ''">
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span
+                            class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
-                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="a{{component.label}}"
-                        [maxlength]="component.comp_length"/>
+                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value"
+                          class="form-ctrl" name="a{{component.label}}" [maxlength]="component.comp_length" />
                       </div>
                     </div>
 
@@ -335,9 +400,10 @@
                       <br>
                       <div class="field-checkbox-wrapper" [class.has-value]="component.value != ''">
 
-                        <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" (ngModelChange)="fillCustomComponent($event, component)"
-                          name="a{{component.label}}" value="" >
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
+                        <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"
+                          (ngModelChange)="fillCustomComponent($event, component)" name="a{{component.label}}" value="">
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span
+                            class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
                       </div>
@@ -345,30 +411,36 @@
 
                     <div class="" *ngIf="component.type == 3" input-def>
                       <div class="field-wrapper" [class.has-value]="component.value != ''">
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span
+                            class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
-                        <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="a{{component.label}}">
+                        <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value"
+                          name="a{{component.label}}">
                           <option value=""></option>
-                          <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.displayName}}</option>
+                          <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.displayName}}
+                          </option>
                         </select>
                       </div>
                     </div>
 
                     <div class="" *ngIf="component.type == 4" input-def>
-                      <div id="{{component.id}}wrapper" class="field-wrapper" [class.has-value]="component.value != ''" (click)="multiselectVisible($event.target.id)">
+                      <div id="{{component.id}}wrapper" class="field-wrapper" [class.has-value]="component.value != ''"
+                        (click)="multiselectVisible($event.target.id)">
                         <label *ngIf="component.is_required == 'Y'" for="component.id">{{component.label}}*</label>
                         <label *ngIf="component.is_required == 'N'" for="component.id">{{component.label}} </label>
-                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" autocomplete="off" name="a{{component.label}}"
-                          readonly="true" class="form-ctrl" />
+                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" autocomplete="off"
+                          name="a{{component.label}}" readonly="true" class="form-ctrl" />
                       </div>
-                      <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
+                      <div id="{{component.id}}multi" class="hide multiselect-wrapper"
+                        (mouseleave)="multiselectVisible(component.id)">
                         <div class="multiselect-wrapper-inner">
                           <ul class="">
                             <li *ngFor="let opt of component.prefilled_data">
                               <div class="field-checkbox-wrapper">
 
-                                <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
-                                  class="form-checkbox" id="{{opt.data}}">
+                                <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked"
+                                  (ngModelChange)="updateMultiSelect(opt, component.id)" class="form-checkbox"
+                                  id="{{opt.data}}">
                                 <label for="opt.data">{{opt.data}}</label>
                               </div>
                             </li>
@@ -380,8 +452,8 @@
                     <div class="newDate" *ngIf="component.type == 5" input-def>
                       <div class="field-wrapper datePickerBox">
                         <label for="component.id">{{component.label}} </label>
-                        <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
-                          name="{{component.label}}" bsDatepicker/>
+                        <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value"
+                          class="form-ctrl bsDatepicker" name="{{component.label}}" bsDatepicker />
                       </div>
                     </div>
                   </custom-enquiry>
@@ -399,10 +471,10 @@
         </div>
         <aside class="pull-right">
           <input type="button" value="Cancel" class="btn cancle" (click)="clearLocalAndRoute()" id="btnClearLocal">
-          <input style="display: inline-block;" type="button" value="Update & Admit Enquiry" [disabled]="!myForm.form.valid" class="btn fullBlue"
-            (click)="submitRegisterForm()" id="btnUpdateAndAdmit">
-          <input type="button" value="Save Enquiry" [disabled]="!myForm.form.valid && isEnquirySubmit" class="btn fullBlue" (click)="submitForm()"
-            id="btnSaveEnquiry">
+          <input style="display: inline-block;" type="button" value="Update & Admit Enquiry"
+            [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()" id="btnUpdateAndAdmit">
+          <input type="button" value="Save Enquiry" [disabled]="!myForm.form.valid && isEnquirySubmit"
+            class="btn fullBlue" (click)="submitForm()" id="btnSaveEnquiry">
         </aside>
       </section>
 
@@ -417,24 +489,28 @@
         <div class="box-shadow-lite AdFilter">
           <div class="field-wrapper datePickerBox">
             <label for="enquiryDate">Enquiry Date</label>
-            <input type="text" value="" id="enquiryDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate"
-              readonly="true" bsDatepicker>
+            <input type="text" value="" id="enquiryDate" class="form-ctrl bsDatepicker"
+              [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate" readonly="true" bsDatepicker>
             <!-- <span class="date-clear" name="followupdate" (click)="editEnqData.enquiry_date = ''">clear</span> -->
           </div>
 
           <div class="field-wrapper">
             <label for="eStatus">Enquiry Status</label>
-            <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status" [disabled]="enquiryStatus ==1 || enquiryStatus == 12">
+            <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status"
+              [disabled]="enquiryStatus ==1 || enquiryStatus == 12">
               <option value="-1"></option>
-              <option *ngFor="let status of enqstatus" [value]="status.data_key" [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
+              <option *ngFor="let status of enqstatus" [value]="status.data_key"
+                [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
             </select>
           </div>
 
           <div class="field-wrapper" *ngIf="editEnqData.status == '1'">
             <label for="closingReason">Closing Reason<span class="text-danger">*</span></label>
-            <select id="closingReason" class="form-ctrl" [(ngModel)]="editEnqData.closing_reason_id" name="closingReason">
+            <select id="closingReason" class="form-ctrl" [(ngModel)]="editEnqData.closing_reason_id"
+              name="closingReason">
               <option value="0"></option>
-              <option *ngFor="let status of closingReasonDataSource" [value]="status.closing_reason_id">{{status.closing_desc}}</option>
+              <option *ngFor="let status of closingReasonDataSource" [value]="status.closing_reason_id">
+                {{status.closing_desc}}</option>
             </select>
             <span style="right: 5px;" class="sourceI iconPlus" (click)="closingReason()">+</span>
           </div>
@@ -461,8 +537,9 @@
 
           <div class="field-wrapper datePickerBox">
             <label for="followUpDate">Follow Up Date</label>
-            <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.followUpDate" name="followUpDate"
-              readonly='true' (ngModelChange)="notifyMeCheckBoxChangesDetect()" bsDatepicker>
+            <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker"
+              [(ngModel)]="editEnqData.followUpDate" name="followUpDate" readonly='true'
+              (ngModelChange)="notifyMeCheckBoxChangesDetect()" bsDatepicker>
             <span class="date-clear" name="followupdate" (click)="editEnqData.followUpDate = ''">clear</span>
           </div>
 
@@ -471,8 +548,8 @@
 
             <div class="field-wrapper" id="hourpar" style="padding-right: 10px;">
               <label for="hour">Hour</label>
-              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="followUpTime" name="hour" style="width: 75px;"
-                (ngModelChange)="timeChanges($event)">
+              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="followUpTime" name="hour"
+                style="width: 75px;" (ngModelChange)="timeChanges($event)">
                 <option *ngFor="let time of times" [value]="time">
                   {{time}}
                 </option>
@@ -481,8 +558,8 @@
 
             <div class="field-wrapper" id="minutepar" style="padding-right: 10px;">
               <label for="minute">Minute</label>
-              <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute" style="width: 70px;"
-                (ngModelChange)="notifyMeCheckBoxChangesDetect()">
+              <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute"
+                style="width: 70px;" (ngModelChange)="notifyMeCheckBoxChangesDetect()">
                 <option *ngFor="let minute of minuteArr" [value]="minute">
                   {{minute}}
                 </option>
@@ -491,25 +568,30 @@
 
           </div>
 
-          <div *ngIf="followUpTime!='' && minute!='' && editEnqData.followUpDate != '' && editEnqData.followUpDate != null" style="padding-top: 20px;">
+          <div
+            *ngIf="followUpTime!='' && minute!='' && editEnqData.followUpDate != '' && editEnqData.followUpDate != null"
+            style="padding-top: 20px;">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" class="form-checkbox" [(ngModel)]="editEnqData.is_follow_up_time_notification" name="checked">
+              <input type="checkbox" class="form-checkbox" [(ngModel)]="editEnqData.is_follow_up_time_notification"
+                name="checked">
               <label>Notify Me</label>
             </div>
           </div>
 
           <div class="field-wrapper datePickerBox" *ngIf="editEnqData.follow_type == 'Walkin'">
             <label for="walkinDate">Walkin Date<span class="text-danger">*</span></label>
-            <input type="text" value="" id="walkinDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.walkin_followUpDate"
-              name="walkinDate" readonly='true' bsDatepicker>
-            <span class="date-clear" name="walkin_followUpDate" (click)="editEnqData.walkin_followUpDate = ''">clear</span>
+            <input type="text" value="" id="walkinDate" class="form-ctrl bsDatepicker"
+              [(ngModel)]="editEnqData.walkin_followUpDate" name="walkinDate" readonly='true' bsDatepicker>
+            <span class="date-clear" name="walkin_followUpDate"
+              (click)="editEnqData.walkin_followUpDate = ''">clear</span>
           </div>
 
           <div class="time-picker" *ngIf="editEnqData.follow_type == 'Walkin'">
 
             <div class="field-wrapper" style="padding-right: 10px;">
               <label for="walkinHour">Hour<span class="text-danger">*</span></label>
-              <select id="walkinHour" class="form-ctrl" [(ngModel)]="walkintime.hour" name="walkinHour" style="width: 75px;">
+              <select id="walkinHour" class="form-ctrl" [(ngModel)]="walkintime.hour" name="walkinHour"
+                style="width: 75px;">
                 <option *ngFor="let time of times" [value]="time">
                   {{time}}
                 </option>
@@ -518,7 +600,8 @@
 
             <div class="field-wrapper" style="padding-right: 10px;">
               <label for="walkinMin">Minute<span class="text-danger">*</span></label>
-              <select id="walkinMin" class="form-ctrl" [(ngModel)]="walkintime.minute" name="walkinMin" style="width: 70px;">
+              <select id="walkinMin" class="form-ctrl" [(ngModel)]="walkintime.minute" name="walkinMin"
+                style="width: 70px;">
                 <option *ngFor="let minute of minArr" [value]="minute">
                   {{minute}}
                 </option>
@@ -537,7 +620,8 @@
 
           <div class="field-wrapper" *ngIf="isMainBranch == 'Y' || subBranchSelected == true">
             <label for="selectBranch">Branch</label>
-            <select id="selectBranch" class="form-ctrl" [(ngModel)]="editEnqData.source_instituteId" name="selectBranch" (ngModelChange)="branchUpdated($event)">
+            <select id="selectBranch" class="form-ctrl" [(ngModel)]="editEnqData.source_instituteId" name="selectBranch"
+              (ngModelChange)="branchUpdated($event)">
               <option *ngFor="let data of branchesList" [value]="data.institute_id">{{data.institute_name}}</option>
             </select>
           </div>
@@ -567,8 +651,11 @@
     <div class="popup pos-abs" style="max-width: 80%;">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="commentHandlerClose()">
-          <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-            <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+          <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px"
+            preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+            <path _ngcontent-c11="" class="large-icon"
+              d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+              style="fill: currentColor"></path>
           </svg>
         </span>
         <div class="popup-content" style="min-height: 400px; max-height: 500px; padding: 15px 15px 20px 15px;">
@@ -579,8 +666,9 @@
               <div class="row" style="background: #d1d1d1;">
                 <div class="c-lg-12 c-md-12 c-sm-12">
                   <div class="field-wrapper" style="background: transparent;">
-                    <textarea placeholder="Update Comment Here (max 1000 characters)" rows="2" cols="10" style="height: 200px;background: transparent;"
-                      id="addcommentEdit" class="form-ctrl" [(ngModel)]="updateFormData.comment">
+                    <textarea placeholder="Update Comment Here (max 1000 characters)" rows="2" cols="10"
+                      style="height: 200px;background: transparent;" id="addcommentEdit" class="form-ctrl"
+                      [(ngModel)]="updateFormData.comment">
                     </textarea>
                   </div>
                 </div>
@@ -588,8 +676,10 @@
               <div class="pull-right submitter">
                 <div class="clearfix">
                   <aside class="pull-right popup-btn">
-                    <input type="button" value="Cancel" class="btn" (click)="commentHandlerClose()" id="btnCommentHandler">
-                    <input type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()" id="btnUpdateEnquiry">
+                    <input type="button" value="Cancel" class="btn" (click)="commentHandlerClose()"
+                      id="btnCommentHandler">
+                    <input type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()"
+                      id="btnUpdateEnquiry">
                   </aside>
                 </div>
               </div>
@@ -641,11 +731,13 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
       <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
         <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+            transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+            transform="translate(978.81 305.77) rotate(45)" />
         </g>
-        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-        />
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+          transform="translate(1012 297)" />
       </g>
     </svg>
   </span>
@@ -666,7 +758,8 @@
     <div class="row class-edit" *ngIf="isNewRefer">
       <div class="c-lg-4 field-wrapper">
         <label>Closing Reason Description<span class="text-danger">*</span></label>
-        <textarea class="form-ctrl" style="height: 69px;" maxlength="50" [(ngModel)]="createNewReasonObj.closing_desc"></textarea>
+        <textarea class="form-ctrl" style="height: 69px;" maxlength="50"
+          [(ngModel)]="createNewReasonObj.closing_desc"></textarea>
       </div>
       <div class="c-lg-2" style="margin-top: 3%;">
         <button class="btn fullBlue" (click)="createNewReason()">Add</button>
@@ -705,8 +798,8 @@
 
               <td class="edit-comp">
                 <div class="field-wrapper">
-                  <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="reason.closing_desc" [value]="reason.closing_desc"
-                    style="text-align: center;">
+                  <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="reason.closing_desc"
+                    [value]="reason.closing_desc" style="text-align: center;">
                 </div>
               </td>
 
