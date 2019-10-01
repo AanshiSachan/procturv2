@@ -237,7 +237,8 @@ export class HomeComponent implements OnInit {
       standard_id: row.standard_id.toString(),
       subject_id: row.subject_id.toString(),
       unit_cost: row.unit_cost.toString(),
-      out_of_stock_indicator_units: row.out_of_stock_indicator_units.toString()
+      out_of_stock_indicator_units: row.out_of_stock_indicator_units.toString(),
+      is_offline_or_online: row.is_offline_or_online
     };
     this.isRippleLoad = true;
     this.inventoryApi.updateInventoryItem(postdata).subscribe(
@@ -360,7 +361,8 @@ export class HomeComponent implements OnInit {
       subjectDet: [''],
       unit_cost: [''],
       created_date: [moment().format("YYYY-MM-DD")],
-      out_of_stock_indicator_units: ['']
+      out_of_stock_indicator_units: [''],
+      is_offline_or_online:['']
     })
   }
 
@@ -413,6 +415,7 @@ export class HomeComponent implements OnInit {
     }
     data.unit_cost = this.addItemForm.value.unit_cost.toString();
     data.out_of_stock_indicator_units = this.addItemForm.value.out_of_stock_indicator_units;
+    data.is_offline_or_online=this.addItemForm.value.is_offline_or_online;
     this.isRippleLoad = true;
     this.inventoryApi.addItemDetailsInCategory(data).subscribe(
       data => {

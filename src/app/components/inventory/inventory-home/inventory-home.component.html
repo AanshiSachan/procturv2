@@ -161,6 +161,26 @@
                 </td>
 
                 <td class="view-comp">
+                  <div class="field-wrapper">
+                    {{row.is_offline_or_online}}
+                  </div>
+                </td>
+                <td class="edit-comp editCellAllignment">
+                  <div class="field-wrapper">
+                      <select id="is_offline_or_online" class="form-ctrl" name="is_offline_or_online" [(ngModel)]="row.is_offline_or_online" style="margin: auto;">
+                          <option value="online">Online</option>
+                          <option value="offline">Offline</option>
+                          <option value="both">Both</option>
+                      </select>
+                      <!-- <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="is_offline_or_online" value="online"  [(ngModel)]="row.is_offline_or_online" checked ><label class="online_offline_label" style="margin-top: 5%">online</label>
+                      <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="is_offline_or_online" value="offline"  [(ngModel)]="row.is_offline_or_online" checked><label class="online_offline_label" style="margin-top: 5%">offline</label> -->
+                      <!-- <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="status" value="online"  [(ngModel)]="row.is_offline_or_online" ><label class="online_offline_label" style="margin-top: 5%">online</label> -->
+                      <!-- <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="status" value="offline"  [(ngModel)]="row.is_offline_or_online"><label class="online_offline_label" style="margin-top: 5%">offline</label> -->
+                      <!-- <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="is_offline_or_online" value="offline"  [(ngModel)]="row.is_offline_or_online" id="is_offline_or_online"><label class="online_offline_label" style="margin-top: 5%">Offline</label> -->
+                  </div>
+                </td>
+
+                <td class="view-comp">
                   <div class="displayAddItem" id="add-item{{i}}">
                     <a class="view-addItem" (click)="addItemsEnable(i)" style="cursor: pointer;">
                       <img src="assets/images/plus.png" title="Add Quantity">
@@ -448,8 +468,17 @@
 
                 </div>
               </div>
-            </div>
+           
 
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">		
+              <div class="field-wrapper">		
+              <br>		
+                  <input type="radio" class="form-ctrl" name="is_offline_or_online" value="online" formControlName="is_offline_or_online" id="is_offline_or_online"><label class="online_offline_label">Online</label>		
+                  <input type="radio" class="form-ctrl" name="is_offline_or_online" value="offline" formControlName="is_offline_or_online" id="is_offline_or_online"><label class="online_offline_label">offline</label>		
+                  <input type="radio" class="form-ctrl" name="is_offline_or_online" value="both" formControlName="is_offline_or_online" id="is_offline_or_online"><label class="online_offline_label">Both</label>		
+              </div>		
+            </div>		
+          </div>
             <div class="row pull-right" style="margin-right:40px">
               <button [disabled]='!addItemForm.valid' id="btnSave" class="btn fullBlue" type="submit"> Save </button>
             </div>
