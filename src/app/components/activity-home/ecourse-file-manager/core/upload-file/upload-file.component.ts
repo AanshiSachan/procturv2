@@ -121,7 +121,6 @@ export class UploadFileComponent implements OnInit {
           this.clearuploadObject();
           this.refreshList();
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
-
         }
       }, (err) => {
         this.isRippleLoad = false;
@@ -147,6 +146,7 @@ export class UploadFileComponent implements OnInit {
   getLocationName(video) {
     return video.sub_topic_name;
   }
+  
   uploadYoutubeURL($event) {
     let flag = this.uploadDatavalidation();
     if (flag) {

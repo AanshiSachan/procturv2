@@ -158,8 +158,8 @@ export class EditClassComponent implements OnInit {
   checkIsEnableElearnFeature() {
     let enable_eLearn_feature = sessionStorage.getItem('enable_eLearn_feature');
     let data: any;
-    data = atob(enable_eLearn_feature);
-    data = JSON.parse(data);
+    data = enable_eLearn_feature;
+    // data = JSON.parse(data);
     if (data != 0) {
       this.isShowProductOption = true;
       this.isRippleLoad = true;

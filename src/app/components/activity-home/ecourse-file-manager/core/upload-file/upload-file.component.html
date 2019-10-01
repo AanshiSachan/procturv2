@@ -67,7 +67,7 @@
                   (click)="uploadYoutubeURL($event)">
                 <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
               </div>
-              <div style="width: 50rem; height: 20rem;    overflow-y: scroll;" class="table table-responsive table-made"
+              <div style="height: 22rem; overflow:hidden;   overflow-y: scroll;" class="table table-responsive table-made"
                 *ngIf="varJson.category_id==330">
                 <table>
                   <thead>
@@ -92,8 +92,20 @@
                         <td>{{video.video_title}}</td>
                         <td>{{video.video_size}} MB</td>
                         <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
-                        <td>{{getSourceName(video)}}</td>
-                        <td>{{getLocationName(video)}}</td>
+                        <td>
+                            <span class="txt-title"
+                            title="{{getSourceName(video)}}">{{(getSourceName(video)?.length>30)?(getSourceName(video) | slice:0:30) + '...':(getSourceName(video))}}</span>
+                        </td>
+                        <td>
+                            <div class="questionInfo inline-relative">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field">
+                                  Set the text to be shown as
+                                  watermark in the video
+                                  {{getLocationName(video)}}
+                                </div>
+                              </div>
+                          </td>
                     </tr>
 
                   </tbody>
@@ -193,7 +205,7 @@
                   (click)="uploadYoutubeURL($event)">
                 <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
               </div>
-              <div style="width: 50rem; height: 20rem;    overflow-y: scroll;" class="table table-responsive table-made"
+              <div style=" height: 22rem;overflow:hidden; overflow-y: scroll;" class="table table-responsive table-made"
               *ngIf="varJson.category_id==330">
               <table>
                 <thead>
@@ -224,7 +236,7 @@
                 </tbody>
               </table>              
             </div>
-            <div class="btn-div" *ngIf="varJson.category_id==330" style=" position: absolute; right: 1rem; bottom: 0;">
+            <div class="btn-div" *ngIf="varJson.category_id==330" style=" position: absolute; right: 1rem; bottom: -10px;">
               <input class="btn fullBlue" type="button" value="Link Video" 
                 (click)="linkAlreadyUploadedVideo($event)">
               <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">

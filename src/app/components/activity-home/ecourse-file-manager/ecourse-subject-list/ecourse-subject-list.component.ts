@@ -19,9 +19,10 @@ export class EcourseSubjectListComponent implements OnInit {
   isRippleLoad: boolean = false;
   showModal: boolean = false;
   showVideo: boolean = true;
-  type:string='delete';
+  type: string = 'delete';
   outputMessage: string = '';
   tempfile: any;
+  tempData: any={ };
 
   constructor(
     private _http: HttpService,
@@ -73,79 +74,79 @@ export class EcourseSubjectListComponent implements OnInit {
     this.uploadFile.getSubjectsList(this.ecourse_id);
     this.uploadFile.varJson.subject_id = topic.subject_id;
     this.uploadFile.getTopicsList(topic.subject_id);
-    if (topic.topic_id&& topic.topic_id != '-1') {
+    if (topic.topic_id && topic.topic_id != '-1') {
       this.uploadFile.showModal = false;
       this.uploadTopicPopupOpen(topic);
     }
   }
 
-     // get otp details to show video 
-     getVdocipherVideoOtp(video) {
-      let obj = {
-        "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
-        "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
-    }
-    console.log(obj);
-    this.ShowVideo(obj.otp, obj.playbackInfo);
-       if(video.category_name=='VDOCipher'){
-        let url = "/api/v1/instFileSystem/videoOTP";
-        let data = {
-            "file_id": 787,
-            "institute_id": 100058
+  // get otp details to show video 
+  getVdocipherVideoOtp(video) {
+    if (video.category_name == 'VDOCipher') {
+      let url = "/api/v1/instFileSystem/videoOTP";
+      let data = {
+        "videoID": video.videoID,
+        "institute_id": sessionStorage.getItem("institute_id"),
+        "user_id": sessionStorage.getItem("userid")
+      }
+      this.tempData = video;
+      
+      console.log(video);
+      this.isRippleLoad=true;
+      this._http.postData(url, data).subscribe((response) => {
+        this.isRippleLoad = false;
+        console.log(response);
+        if (response == null) {
+          let obj = {
+            "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
+            "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
+          }
+          console.log(obj);
+          this.ShowVideo(obj.otp, obj.playbackInfo);
+        } else {
+          let obj = {
+            "otp": response['otp'],
+            "playbackInfo": response['playbackInfo']
+          }
+          console.log(obj);
+          this.ShowVideo(obj.otp, obj.playbackInfo);
         }
-        this._http.postData(url, data).subscribe((response) => {
-            this.isRippleLoad = false;
-            if (response == null) {
-                let obj = {
-                    "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
-                    "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
-                }
-                console.log(obj);
-                this.ShowVideo(obj.otp, obj.playbackInfo);
-            }else{
-                let obj = {
-                    "otp":response['otp'] ,
-                    "playbackInfo":response['playbackInfo']
-                }
-                console.log(obj);
-                this.ShowVideo(obj.otp, obj.playbackInfo);
-            }
-        },
-            (err) => {
-                this.isRippleLoad = false;
-            });
-       }
-   
+      },
+        (err) => {
+          this.isRippleLoad = false;
+        });
+    }
+
   }
 
 
-     // vdocipher video show 
+  // vdocipher video show 
 
-     ShowVideo(otpString, playbackInfoString) {
-      this.showVideo = false;
-      var video = new window.VdoPlayer({
-          otp: otpString,
-          playbackInfo: playbackInfoString,
-          theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",// please never changes 
-          container: document.querySelector("#embedBox"),
-      });
-      video.addEventListener(`mpmlLoad`, () => {
-          video.injectThemeHtml('<p class="watermark">proctur</p>');
-      });
-      var container = document.querySelector('.embedBox');
-      // get reference to all watermarks
-      var watermarks = document.querySelectorAll('.watermark');
-      setTimeout(() => {
-          for (var i = 0; i < watermarks.length; i++) {
-              var mark = watermarks[i];
-              if (mark) {
-                  var contWidth = container['offsetWidth'];
-                  var contHeight = container['offsetHeight'];
-                  mark['left'] = (contWidth - mark['offsetWidth']) * Math.random();
-                  mark['top'] = (contHeight - mark['offsetHeight']) * Math.random();
-              }
-          }
-      }, 2000);
+  ShowVideo(otpString, playbackInfoString) {
+    this.showVideo = false;
+    var video = new window.VdoPlayer({
+      otp: otpString,
+      playbackInfo: playbackInfoString,
+      theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",// please never changes 
+      container: document.querySelector("#embedBox"),
+    });
+    video.addEventListener(`mpmlLoad`, () => {
+      video.injectThemeHtml('<p class="watermark">proctur</p>');
+    });
+    var container = document.querySelector('.embedBox');
+    // get reference to all watermarks
+    var watermarks = document.querySelectorAll('.watermark');
+    setTimeout(() => {
+      for (var i = 0; i < watermarks.length; i++) {
+        var mark = watermarks[i];
+        if (mark) {
+          var contWidth = container['offsetWidth'];
+          var contHeight = container['offsetHeight'];
+          mark['left'] = (contWidth - mark['offsetWidth']) * Math.random();
+          mark['top'] = (contHeight - mark['offsetHeight']) * Math.random();
+        }
+      }
+    }, 2000);
   }
 
   uploadTopicPopupOpen(topic) {
@@ -241,7 +242,7 @@ export class EcourseSubjectListComponent implements OnInit {
   removeData(key) {
     this.showModal = false;
     this.isRippleLoad = true;
-    let url = "/api/v1/instFileSystem/deleteFiles?key="+key;
+    let url = "/api/v1/instFileSystem/deleteFiles?key=" + key;
     let data =
     {
       "institute_id": this.institute_id,
@@ -251,7 +252,7 @@ export class EcourseSubjectListComponent implements OnInit {
     this._http.deleteData(url, data).subscribe((res) => {
       // console.log(res);
       this.isRippleLoad = false;
-      this.msgService.showErrorMessage('success', '', "file "+this.type+" successfully");
+      this.msgService.showErrorMessage('success', '', "file " + this.type + " successfully");
       this.getSubjectList();
     },
       (err) => {
@@ -260,7 +261,7 @@ export class EcourseSubjectListComponent implements OnInit {
       });
   }
 
-  addDownloadCount(file){
+  addDownloadCount(file) {
     this.isRippleLoad = true;
     let url = "/api/v1/instFileSystem/fileDownloadCount";
     let data =
@@ -271,7 +272,7 @@ export class EcourseSubjectListComponent implements OnInit {
 
     this._http.postData(url, data).subscribe((res) => {
       // console.log(res);
-      this.isRippleLoad = false;   
+      this.isRippleLoad = false;
       file.downloads++;
 
     },
@@ -285,9 +286,9 @@ export class EcourseSubjectListComponent implements OnInit {
     this.router.navigate(["/view/activity/ecourse-file-manager/ecourses/" + this.ecourse_id + "/subjects/" + subject.subject_id + "/materials"], { queryParams: { data: window.btoa(subject.subject_name) } });
   }
 
-  setRemoveDataFile(file,type) {
+  setRemoveDataFile(file, type) {
     this.tempfile = file;
-    this.type=type;
+    this.type = type;
     this.showModal = true;
   }
 
