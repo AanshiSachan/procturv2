@@ -303,6 +303,9 @@ export class StudentAddComponent implements OnInit {
     if (this.isProfessional) {
       if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
         this.convertToStudentDetected();
+        this.checkStatusofStudent = false;
+      } else{
+        this.checkStatusofStudent = true;
       }
       this.getSlots();
       this.getlangStudentStatus();
@@ -357,10 +360,11 @@ export class StudentAddComponent implements OnInit {
     let encryptedData = sessionStorage.getItem('country_data');
     let data = atob(encryptedData);
     data = JSON.parse(data);
-    if (data.length > 1) {
+    if (data.length > 0) {
       this.countryDetails = data;
       console.log(this.countryDetails);
       if(this.checkStatusofStudent == true) {
+        console.log('hiii');
         this.studentAddFormData.country_id = this.countryDetails[0].id;
         this.instituteCountryDetObj = this.countryDetails[0];
       }
