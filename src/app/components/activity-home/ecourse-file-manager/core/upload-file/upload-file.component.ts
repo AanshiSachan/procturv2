@@ -350,6 +350,7 @@ export class UploadFileComponent implements OnInit {
       }
     });
     if (value == '330') {
+      this.jsonData.selectedVideo='';
       this.getVDOCipherLinkedDate();
     }
   }

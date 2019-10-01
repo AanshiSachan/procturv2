@@ -89,7 +89,10 @@
                             (ngModelChange)="onRadioButtonChange($event,video)">
                             <label for="bothRadio"></label>
                           </div></td>
-                        <td>{{video.video_title}}</td>
+                        <td>
+                          <span class="txt-title"
+                          title="{{video.video_title}}">{{(video.video_title)?.length>20)?(video.video_title | slice:0:20) + '...':(video.video_title)}}</span>
+                        </td>
                         <td>{{video.video_size}} MB</td>
                         <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
                         <td>
@@ -102,6 +105,15 @@
                                 <div class="tooltip-box-field">
                                   Set the text to be shown as
                                   watermark in the video
+                                  Set the text to be shown as
+                                  watermark in the video
+                                  Set the text to be shown as
+                                  watermark in the video
+                                  Set the text to be shown as
+                                  watermark in the video  Set the text to be shown as
+                                  watermark in the video
+                                  Set the text to be shown as
+                                  watermark in the video  
                                   {{getLocationName(video)}}
                                 </div>
                               </div>
