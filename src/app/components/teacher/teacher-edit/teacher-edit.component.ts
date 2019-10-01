@@ -56,7 +56,7 @@ export class TeacherEditComponent implements OnInit {
     let encryptedData = sessionStorage.getItem('country_data');
     let data = atob(encryptedData);
     data = JSON.parse(data);
-    if (data.length > 0) {
+    if (data.length > 1) {
       this.countryDetails = data;
       console.log(this.countryDetails);
       this.maxlength = this.countryDetails[0].country_phone_number_length;
@@ -66,10 +66,26 @@ export class TeacherEditComponent implements OnInit {
 
   onChangeObj(event) {
     console.log(event);
+    console.log(this.countryDetails);
     this.countryDetails.forEach(element => {
       if (element.id == event) {
         this.instituteCountryDetObj = element;
         this.maxlength = element.country_phone_number_length;
+        this.editTeacherForm.setValue({
+          country_id : element.id,
+          teacher_name : this.editTeacherForm.value.teacher_name,
+          teacher_curr_addr : this.editTeacherForm.value.teacher_curr_addr,
+          teacher_phone: this.editTeacherForm.value.teacher_phone,
+          teacher_alt_phone: this.editTeacherForm.value.teacher_alt_phone,
+          teacher_standards: this.editTeacherForm.value.teacher_standards,
+          teacher_email: this.editTeacherForm.value.teacher_email,
+          teacher_subjects: this.editTeacherForm.value.teacher_subjects,
+          hour_rate: this.editTeacherForm.value.hour_rate,
+          attendance_device_id: this.editTeacherForm.value.attendance_device_id,
+          is_active: this.editTeacherForm.value.is_active,
+          is_allow_teacher_to_only_mark_attendance: this.editTeacherForm.value.is_allow_teacher_to_only_mark_attendance,
+          is_student_mgmt_flag: this.editTeacherForm.value.is_student_mgmt_flag
+        });
       }
     }
     );
@@ -175,6 +191,10 @@ export class TeacherEditComponent implements OnInit {
         return;
       }
     }
+    if(formData.teacher_name == "" || formData.teacher_name == null){
+      this.messageToast('error', 'Error', 'Faculty Name is required.');
+        return;
+    }
     if (formData.hour_rate == "" || formData.hour_rate == null) {
       formData.hour_rate = 0;
     }
@@ -236,6 +256,10 @@ export class TeacherEditComponent implements OnInit {
         this.messageToast('error', 'Error', 'Please provide valid alternate phone number.');
         return;
       }
+    }
+    if(formData.teacher_name == "" || formData.teacher_name == null){
+      this.messageToast('error', 'Error', 'Faculty Name is required.');
+        return;
     }
     if (formData.hour_rate == "" || formData.hour_rate == null) {
       formData.hour_rate = "0";

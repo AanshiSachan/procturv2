@@ -31,8 +31,8 @@
                         <label for="contNumber">Contact Number
                             <span class="text-danger">*</span>
                         </label><br>
-                        <span class="countryCallingCode"style="width: 23%">
-                                <select id="country_id" class="form-ctrl" formControlName="country_id" name="country_id"
+                        <span class="countryCallingCode"style="width: 26%">
+                                <select id="country_id" class="form-ctrl" formControlName="country_id" name="country"
                                 [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
                                 <option value=""></option>
                                 <option [value]="data.id" selected *ngFor='let data of countryDetails'>
@@ -41,7 +41,7 @@
                               </select>
                         </span>
                         <input type="text" maxlength={{instituteCountryDetObj.country_phone_number_length}}
-                        minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 77%"  class="form-ctrl" formControlName="teacher_phone" name="contNumber" required>
+                        minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 74%"  class="form-ctrl" formControlName="teacher_phone" name="contNumber" required>
 
                         <div *ngIf="editTeacherForm.controls['teacher_phone'].invalid && (editTeacherForm.controls['teacher_phone'].dirty || editTeacherForm.controls['teacher_phone'].touched)"
                             class="alert alert-danger">
@@ -67,20 +67,20 @@
                         <input type="text" class="form-ctrl" formControlName="teacher_curr_addr" name="CurrentAddress">
 
                     </div>
-                    <div class="row field-wrapper">
+                    <div class="row field-wrapper"> 
                         <label for="alternateNo">Alternate Contact Number
                         </label><br>
-                        <span class="countryCallingCode"style="width: 22%">
-                                <select id="country_id" class="form-ctrl" formControlName="country_id" name="country_id"
-                          [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
-                          <option value=""></option>
-                          <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                            {{data.country_code}} +{{data.country_calling_code}}
-                          </option>
-                        </select>
-                        </span>
+                        <span class="countryCallingCode"style="width: 26%">
+                            <select id="country_id" class="form-ctrl" formControlName="country_id" name="country"
+                            [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
+                            <option value=""></option>
+                            <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                              {{data.country_code}} +{{data.country_calling_code}}
+                            </option>
+                          </select>
+                    </span>
                         <input type="text"maxlength={{instituteCountryDetObj.country_phone_number_length}}
-                        minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 78%" class="form-ctrl" name="alternateNo" formControlName="teacher_alt_phone">
+                        minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 74%" class="form-ctrl" name="alternateNo" formControlName="teacher_alt_phone">
  
                     </div>
                     <div class="row field-wrapper">
@@ -134,7 +134,7 @@
                     <div class="row">
                         <div class="pull-right">
                             <button routerLink="/view/teacher" class="btn">Cancel</button>
-                            <button [disabled]='!editTeacherForm.valid' class="btn fullBlue" style="font-size: 16px;height: 40px;" type="submit">Save</button>
+                            <button  class="btn fullBlue" style="font-size: 16px;height: 40px;" type="submit">Save</button>
                         </div>
                     </div>
                 </form>
