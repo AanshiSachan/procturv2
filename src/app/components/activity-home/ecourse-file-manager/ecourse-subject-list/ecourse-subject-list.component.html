@@ -1,4 +1,4 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'"
   *ngIf="isRippleLoad">
 </loaders-css>
 <div class="row">
@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-12 subject-wrapper">
           <div class="subject-title">
-            Subject List
+            Subject List 
           </div>
         </div>
       </div>
@@ -165,6 +165,7 @@
       <div class="action-buttons" *ngIf="video.category_name=='VDOCipher'">
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked!='N'" (click)="setRemoveDataFile(video,'unlink')">Unlink</button>
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'delete')">Delete</button>
+        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'unlink all')">Unlink All</button>
       </div>
     </div>
   </div>
@@ -377,6 +378,7 @@
     <div class="ga-modal" style="height: 460px;">
       <div class="ga-modal-head" style="text-align: left">
         <span>{{tempData.title}}</span>
+
 
         <div class="btn_cross" > 
             <button  class="btn btn-xs btn-ga-white" style="position: absolute;right: 0;" (click)="showVideo = true">X</button>
