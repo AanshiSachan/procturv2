@@ -734,8 +734,8 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     )
   }
 
-  getCountryData(institute_id){
-    this.login.getInstituteCountryDetails(institute_id).subscribe(
+  getCountryData(institution_id){
+    this.login.getInstituteCountryDetails(institution_id).subscribe(
       (res: any) => {
         let country_info = JSON.stringify(res);
           sessionStorage.setItem('country_data', btoa(country_info));
