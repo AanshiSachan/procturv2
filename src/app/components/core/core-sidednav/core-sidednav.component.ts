@@ -86,7 +86,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
   @Output() changePassword = new EventEmitter<any>();
 
   constructor(
-    // private login: LoginService,
+    private login: LoginService,
     private auth: AuthenticatorService,
     private log: LoginService,
     private router: Router,
@@ -689,12 +689,25 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
         this.fillSessionStorageCommonFields(res);
         sessionStorage.setItem('mainBranchId', this.mainBranchId);
         sessionStorage.setItem('permissions', '');
+        this.getCountryData(data.institute_id);
         this.router.navigateByUrl('/authPage');
       },
       err => {
 
       }
     )
+  }
+
+  getCountryData(institution_id){
+    this.login.getInstituteCountryDetails(institution_id).subscribe(
+      (res: any) => {
+        let country_info = JSON.stringify(res);
+          sessionStorage.setItem('country_data', btoa(country_info));
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   loginToMainBranch() {
@@ -704,6 +717,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
         this.multiBranchService.subBranchSelected.next(false);
         this.fillSessionStorageCommonFields(res);
         this.mainBranchLogin(res);
+        this.getCountryData(mainBranchId);
       },
       err => {
         console.log(err);
