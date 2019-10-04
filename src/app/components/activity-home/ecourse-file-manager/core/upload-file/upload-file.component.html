@@ -1,4 +1,4 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'"
   *ngIf="isRippleLoad">
 </loaders-css>
 <div class="ga-modal-wrapper" *ngIf="showModal">
@@ -55,9 +55,58 @@
                 <option *ngFor="let category of categiesTypeList; " [value]="category.category_id">
                   {{category.category_name}}</option>
               </select>
-              <input type="text" style="margin-bottom: 0.8em;"
-                *ngIf="varJson.category_id==230||varJson.category_id==235" class="form-ctrl video-input"
-                placeholder="Video Title" [(ngModel)]="varJson.title">
+              <div class="row" *ngIf="varJson.category_id==235">
+                <div class="col-md-7">
+                  <div class="field-wrapper">
+                    <label>Privacy Settings<div class="questionInfo inline-relative">
+                        <span class="qInfoIcon i-class">i</span>
+                        <div class="tooltip-box-field">
+                          Set the video visibility mode to private or public.
+                          In private mode, video will be visible to the enrolled students.
+                          In public mode, video will be visible to guest users & enrolled students
+                        </div>
+                      </div></label>
+                    <div class="row" style="padding: 15px 30px;">
+                      <label class="toggle">
+                        <span class="toggle-label" id="unassigned"
+                          [ngClass]="(varJson.is_private)?'inactive_toggle_button':'active_toggle_button'">Private</span>
+                        <input class="toggle-checkbox" type="checkbox" [(ngModel)]="varJson.is_private">
+                        <div class="toggle-switch"></div>
+                        <span class="toggle-label" id="assigned"
+                          [ngClass]="(varJson.is_private)?'active_toggle_button':'inactive_toggle_button'">Public
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="field-wrapper" style="margin-left: -50px;">
+                    <div class="dropdown-div">
+                      <label>Enable Watermark <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field">
+                            Enable or disable the watermark visibility in the video with this setting
+                          </div>
+                        </div>&nbsp;&nbsp;
+                        <div class="row" style="padding: 15px 30px;">
+                          <label class="toggle">
+                            <span class="toggle-label" id="unassigned"
+                              [ngClass]="(varJson.enable_watermark)?'inactive_toggle_button':'active_toggle_button'">Disable
+                            </span>
+                            <input class="toggle-checkbox" type="checkbox" [(ngModel)]="varJson.enable_watermark">
+                            <div class="toggle-switch"></div>
+                            <span class="toggle-label" id="assigned"
+                              [ngClass]="(varJson.enable_watermark)?'active_toggle_button':'inactive_toggle_button'">Enable
+                            </span>
+                          </label>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input type="text" style="margin-bottom: 0.8em;" *ngIf="varJson.category_id==235"
+                class="form-ctrl video-input" placeholder="Video Title" [(ngModel)]="varJson.title">
 
               <input type="text" style="margin-bottom: 0.8em;" class="form-ctrl video-input"
                 *ngIf="varJson.category_id==230" placeholder="Video URL" [(ngModel)]="varJson.video_url">
@@ -67,40 +116,57 @@
                   (click)="uploadYoutubeURL($event)">
                 <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
               </div>
-              <div style="width: 50rem; height: 20rem;    overflow-y: scroll;" class="table table-responsive table-made"
-                *ngIf="varJson.category_id==330">
+              <div style="height: 22rem; overflow:hidden;   overflow-y: scroll;"
+                class="table table-responsive table-made" *ngIf="varJson.category_id==330">
                 <table>
                   <thead>
-                    <tr>
+                    <tr style="background:#005cbf;">
                       <td>#</td>
                       <td>Title</td>
                       <td>Size</td>
-                      <td>Date</td>                     
+                      <td>Date</td>
                       <td>Source</td>
                       <td>Location</td>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let video of existVideos;">
-                        <td>
-                          <div class="field-radio-wrapper">
-                            <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" 
-                              [(ngModel)]="jsonData.selectedVideo"  [value]="video.video_id"
+                    <tr *ngFor="let video of existVideos; let i= index" >
+                      <td>
+                        <div class="field-radio-wrapper">
+                          <input type="radio" name="bothRadio" id="bothRadio" class="form-radio"
+                            [(ngModel)]="jsonData.selectedVideo" [value]="video.video_id"
                             (ngModelChange)="onRadioButtonChange($event,video)">
-                            <label for="bothRadio"></label>
-                          </div></td>
-                        <td>{{video.video_title}}</td>
-                        <td>{{video.video_size}} MB</td>
-                        <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
-                        <td>{{getSourceName(video)}}</td>
-                        <td>{{getLocationName(video)}}</td>
+                          <label for="bothRadio"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="txt-title"
+                          title="{{video.video_title}}">{{video.video_title.length>20?(video.video_title | slice:0:20):video.video_title}}</span>
+                      </td>
+                      <td>{{video.video_size}} MB {{i}}</td>
+                      <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
+                      <td>
+                        <span class="txt-title"
+                          title="{{getSourceName(video)}}">{{(getSourceName(video)?.length>30)?(getSourceName(video) | slice:0:30) + '...':(getSourceName(video))}}</span>
+                      </td>
+                      <td>
+                        <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field"><br>
+                            <span *ngFor="let data of video.link_video_list;let i=index">
+                              {{videoGetDetails(data,i+1)}} <br>
+                            </span>
+                          </div>
+                        </div>
+                      </td>
                     </tr>
 
                   </tbody>
 
-                </table>              
+                </table>
               </div>
-              <div class="btn-div" *ngIf="varJson.category_id==330" style=" position: absolute; right: 1rem; bottom: 0;">
+              <div class="btn-div" *ngIf="varJson.category_id==330"
+                style=" position: absolute; right: 1rem; bottom: 0;">
                 <input class="btn fullBlue" type="button" value="Link Video" [disabled]="varJson.title==''"
                   (click)="linkAlreadyUploadedVideo($event)">
                 <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
@@ -157,7 +223,8 @@
           <div class="col-md-12 file-form">
             <div class="form-group">
               <label class="title">Parent Topic &nbsp;:&nbsp;</label>
-              <label title="{{jsonData.parentTopic}}">{{(jsonData.parentTopic?.length>30)?(jsonData.parentTopic | slice:0:30) + '...':(jsonData.parentTopic)}}
+              <label
+                title="{{jsonData.parentTopic}}">{{(jsonData.parentTopic?.length>30)?(jsonData.parentTopic | slice:0:30) + '...':(jsonData.parentTopic)}}
               </label>
 
             </div>
@@ -165,7 +232,8 @@
           <div class="col-md-12 file-form">
             <div class="form-group">
               <label class="title">Main Topic &nbsp;:&nbsp;</label>
-              <label title="{{jsonData.parentTopic}}">{{(jsonData.mainTopic?.length>30)?(jsonData.mainTopic | slice:0:30) + '...':(jsonData.mainTopic)}}</label>
+              <label
+                title="{{jsonData.parentTopic}}">{{(jsonData.mainTopic?.length>30)?(jsonData.mainTopic | slice:0:30) + '...':(jsonData.mainTopic)}}</label>
             </div>
           </div>
         </div>
@@ -193,42 +261,57 @@
                   (click)="uploadYoutubeURL($event)">
                 <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
               </div>
-              <div style="width: 50rem; height: 20rem;    overflow-y: scroll;" class="table table-responsive table-made"
-              *ngIf="varJson.category_id==330">
-              <table>
-                <thead>
-                  <tr>
-                    <td>#</td>
-                    <td>Title</td>
-                    <td>Size</td>
-                    <td>Date</td>                     
-                    <td>Source</td>
-                    <td>Location</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let video of existVideos;">
+              <div style=" height: 22rem;overflow:hidden; overflow-y: scroll;" class="table table-responsive table-made"
+                *ngIf="varJson.category_id==330">
+                <table>
+                  <thead>
+                    <tr style="background:#005cbf;">
+                      <td>#</td>
+                      <td>Title</td>
+                      <td>Size</td>
+                      <td>Date</td>
+                      <td>Source</td>
+                      <td>Location</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let video of existVideos;">
                       <td>
                         <div class="field-radio-wrapper">
-                          <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" 
-                            [(ngModel)]="jsonData.selectedVideo"  [value]="video.video_id"
-                          (ngModelChange)="onRadioButtonChange($event,video)">
+                          <input type="radio" name="bothRadio" id="bothRadio" class="form-radio"
+                            [(ngModel)]="jsonData.selectedVideo" [value]="video.video_id"
+                            (ngModelChange)="onRadioButtonChange($event,video)">
                           <label for="bothRadio"></label>
-                        </div></td>
-                      <td>{{video.video_title}}</td>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="txt-title"
+                          title="{{video.video_title}}">{{video.video_title.length>20?(video.video_title | slice:0:20):video.video_title}}</span>
+                      </td>
                       <td>{{video.video_size}} MB</td>
                       <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
-                      <td>{{getSourceName(video)}}</td>
-                      <td>{{getLocationName(video)}}</td>
-                  </tr>
-                </tbody>
-              </table>              
-            </div>
-            <div class="btn-div" *ngIf="varJson.category_id==330" style=" position: absolute; right: 1rem; bottom: 0;">
-              <input class="btn fullBlue" type="button" value="Link Video" 
-                (click)="linkAlreadyUploadedVideo($event)">
-              <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
-            </div>
+                      <td><span class="txt-title"
+                          title="{{getSourceName(video)}}">{{(getSourceName(video)?.length>30)?(getSourceName(video) | slice:0:30) + '...':(getSourceName(video))}}</span>
+                      </td>
+                      <td>
+                        <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field"><br>
+                            <span *ngFor="let data of video.link_video_list;let i=index">
+                              {{videoGetDetails(data,i+1)}} <br>
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="btn-div" *ngIf="varJson.category_id==330"
+                style=" position: absolute; right: 1rem; bottom: -10px;">
+                <input class="btn fullBlue" type="button" value="Link Video" (click)="linkAlreadyUploadedVideo($event)">
+                <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
+              </div>
               <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler2($event,values)"
                 [showCancelButton]="false"
                 *ngIf="varJson.category_id==235 && varJson.category_id!=0 && varJson.category_id!=330">

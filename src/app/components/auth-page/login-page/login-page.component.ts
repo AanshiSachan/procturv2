@@ -23,7 +23,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   @ViewChild('backgroundChange') backgroundChange: ElementRef;
   @ViewChild('virtualStyle') virtualStyle: ElementRef;
   loginDataForm: LoginAuth;
-  selectedCourseNames= [];
+  selectedCourseNames = [];
   courses: any = [];
   userListArr: any[] = [];
   instituteListArr: any = [];
@@ -51,6 +51,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   isGuestUser: boolean = false;
   isGuestUserCourse: boolean = false;
+  countryDetails: [{}] = [{}];
 
   instituteListObj: instituteList = {
     institute_id: "",
@@ -90,6 +91,13 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     otp_validate_mode: 1
   }
 
+  instituteCountryDetObj: any = {
+    "id": "",
+    "country_name": "",
+    "country_code": "",
+    "country_calling_code": "",
+    "country_phone_number_length": ""
+  };
 
 
   constructor(
@@ -217,10 +225,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     else {
       this.login.postLoginDetails(this.loginDataForm).subscribe(
         res => {
+          console.log(res);
           this.checkForAuthOptions(res);
-          let enable_eLearn_feature = JSON.stringify(res.data.enable_eLearn_feature);
-          console.log(enable_eLearn_feature);
-          sessionStorage.setItem('enable_eLearn_feature', btoa(enable_eLearn_feature));
+          console.log(res.institution_id);
+          this.getCountryDetails(res.institution_id);
         },
         err => {
           console.log(err);
@@ -229,6 +237,48 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  //  created by: Nalini Walunj;
+  //  description: Below function is written to get country code details of institution based on login details.
+  getCountryDetails(institute_id) {
+
+    this.login.getInstituteCountryDetails(institute_id).subscribe(
+      (res: any) => {
+        this.countryDetails = res;
+        console.log(res);
+        // this.countryDetails.forEach(element => {
+        //   this.instituteCountryDetObj = {
+        //     "id": element.id,
+        //     "country_name": element.country_name,
+        //     "country_code": element.country_code,
+        //     "country_calling_code": element.country_calling_code,
+        //     "country_phone_number_length": element.country_phone_number_length
+        //   };
+        //   let obj = {
+        //     data: this.instituteCountryDetObj
+        //   }
+        //   let country_info = JSON.stringify(obj);
+        //   console.log(country_info);
+        //   sessionStorage.setItem('country_data', btoa(country_info));
+        // });
+        let country_info = JSON.stringify(res);
+          console.log(country_info);
+          sessionStorage.setItem('country_data', btoa(country_info));
+        // console.log(this.instituteCountryDetObj);
+      },
+      err => {
+        console.log(err);
+      }
+    )
+    // this.countryDetails.forEach(element => {
+    //   instituteCountryDetObj = {
+    //     "id": element.id,
+    //     "country_name": element.country_name,
+    //     "country_code": element.country_code,
+    //     "country_calling_code": element.country_calling_code,
+    //     "country_phone_number_length": element.country_phone_number_length
+    //   };
+    // });
+  }
   //END - 0
 
   //Method to decide where to take user when he/she Logs in (START - 1)
@@ -366,7 +416,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('is_exam_grad_feature', institute_data.is_exam_grad_feature);
       sessionStorage.setItem('enable_routing', institute_data.enable_routing);
       sessionStorage.setItem('enable_online_payment_feature', institute_data.enable_online_payment_feature);
-      sessionStorage.setItem('enable_eLearn_feature', '1');//institute_data.enable_eLearn_feature
+      sessionStorage.setItem('enable_eLearn_feature', institute_data.enable_eLearn_feature);//
       sessionStorage.setItem('open_enq_Visibility_feature', institute_data.open_enq_Visibility_feature);
       sessionStorage.setItem('institute_setup_type', institute_data.institute_setup_type);
       sessionStorage.setItem('enable_elearn_course_mapping_feature', institute_data.enable_elearn_course_mapping_feature);
@@ -405,18 +455,18 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       }
       else if (sessionStorage.getItem('userType') == '99' && sessionStorage.getItem('testprepEnabled')
         && institute_data.courseType == "") {
-          sessionStorage.setItem('student_id', "0");
-          sessionStorage.setItem('institution_id', res.institution_id);
-          sessionStorage.setItem('institution_name', res.data.institute_name);
-          sessionStorage.setItem('userid', this.serverUserData.userid);
-          sessionStorage.setItem('user_type',this.serverUserData.user_type);
+        sessionStorage.setItem('student_id', "0");
+        sessionStorage.setItem('institution_id', res.institution_id);
+        sessionStorage.setItem('institution_name', res.data.institute_name);
+        sessionStorage.setItem('userid', this.serverUserData.userid);
+        sessionStorage.setItem('user_type', this.serverUserData.user_type);
         this.getGuestUserCourser(sessionStorage.getItem('institute_id'));
       }
-      else if(sessionStorage.getItem('userType') == '99' && sessionStorage.getItem('testprepEnabled')
-      && institute_data.courseType != ""){
+      else if (sessionStorage.getItem('userType') == '99' && sessionStorage.getItem('testprepEnabled')
+        && institute_data.courseType != "") {
         sessionStorage.setItem('student_id', "0");
         sessionStorage.setItem('userid', this.serverUserData.userid);
-        sessionStorage.setItem('user_type',this.serverUserData.user_type);
+        sessionStorage.setItem('user_type', this.serverUserData.user_type);
         sessionStorage.setItem('institution_id', res.institution_id);
         sessionStorage.setItem('institution_name', res.data.institute_name);
         this.gotoStudentPortal();
@@ -425,13 +475,13 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   getGuestUserCourser(institute_id) {
-    this.login.getGuestUserCourses(institute_id).subscribe((res:any) => {
+    this.login.getGuestUserCourses(institute_id).subscribe((res: any) => {
       console.log(res);
-      if(res.length!= 0){
+      if (res.length != 0) {
         this.isGuestUserCourse = true;
-        this.courses  = res;
+        this.courses = res;
       }
-      else{
+      else {
         this.gotoStudentPortal();
       }
 
@@ -443,34 +493,34 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   updateCourseforGuestUser() {
     let obj = {
       userid: sessionStorage.getItem('userid'),
-      courseType:  this.selectedCourseNames.toString()
+      courseType: this.selectedCourseNames.toString()
     };
     this.login.updateCourseforGuestUser(obj).subscribe(res => {
       console.log(res);
-       sessionStorage.setItem("courseType",this.selectedCourseNames.toString());
+      sessionStorage.setItem("courseType", this.selectedCourseNames.toString());
       this.gotoStudentPortal();
     }, err => {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", err.error.message);
     });
   }
 
-  gotoStudentPortal(){
-    if(sessionStorage.getItem('testprepEnabled')!='false'){
+  gotoStudentPortal() {
+    if (sessionStorage.getItem('testprepEnabled') != 'false') {
       window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
     }
-    else{
+    else {
       window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Documents";
     }
 
   }
 
-  toggleCheckbox(course,data) {
-    console.log(course,data);
+  toggleCheckbox(course, data) {
+    console.log(course, data);
     let index = this.selectedCourseNames.indexOf(data.course_type);
-    if(index==-1){
+    if (index == -1) {
       this.selectedCourseNames.push(data.course_type);
     }
-    else{
+    else {
       this.selectedCourseNames.splice(index, 1);
     }
   }
@@ -589,15 +639,15 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     //console.log("##### in Regenerate Method ######");
     //console.log(this.OTPRegenerateData);
     this.login.regenerateOTP(this.OTPRegenerateData).subscribe(el => {
-    this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'OTP sent successfully');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'OTP sent successfully');
 
       //console.log("OTP Regenerate Success");
       //console.log(el);
       this.OTPVerification(el);
     },
-    err => {
-      console.log(err);
-    })
+      err => {
+        console.log(err);
+      })
   }
 
   forgotPassword() {

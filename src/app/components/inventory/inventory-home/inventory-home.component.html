@@ -79,6 +79,13 @@
                     <a class="cursor-icon">Low Stock Indicator Units</a>
                   </label>
                 </th>
+                
+                <th *ngIf="enable_eLearn_feature_flag">
+                  <label>
+                    <a class="cursor-icon">Status</a>
+                  </label>
+                </th>
+
 
                 <th>
                   <label>
@@ -157,6 +164,26 @@
                 <td class="edit-comp editCellAllignment">
                   <div class="field-wrapper">
                     <input type="number" class="form-ctrl" style="margin:auto" [(ngModel)]="row.out_of_stock_indicator_units" name="label">
+                  </div>
+                </td>
+
+                <td class="view-comp" *ngIf="enable_eLearn_feature_flag">
+                  <div class="field-wrapper">
+                    {{row.is_offline_or_online}}
+                  </div>
+                </td>
+                <td class="edit-comp editCellAllignment" >
+                  <div class="field-wrapper">
+                      <select id="is_offline_or_online" class="form-ctrl" name="is_offline_or_online" [(ngModel)]="row.is_offline_or_online" style="margin: auto;">
+                          <option value="online">Online</option>
+                          <option value="offline">Offline</option>
+                          <option value="both">Both</option>
+                      </select>
+                      <!-- <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="is_offline_or_online" value="online"  [(ngModel)]="row.is_offline_or_online" checked ><label class="online_offline_label" style="margin-top: 5%">online</label>
+                      <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="is_offline_or_online" value="offline"  [(ngModel)]="row.is_offline_or_online" checked><label class="online_offline_label" style="margin-top: 5%">offline</label> -->
+                      <!-- <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="status" value="online"  [(ngModel)]="row.is_offline_or_online" ><label class="online_offline_label" style="margin-top: 5%">online</label> -->
+                      <!-- <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="status" value="offline"  [(ngModel)]="row.is_offline_or_online"><label class="online_offline_label" style="margin-top: 5%">offline</label> -->
+                      <!-- <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="is_offline_or_online" value="offline"  [(ngModel)]="row.is_offline_or_online" id="is_offline_or_online"><label class="online_offline_label" style="margin-top: 5%">Offline</label> -->
                   </div>
                 </td>
 
@@ -448,8 +475,17 @@
 
                 </div>
               </div>
-            </div>
+           
 
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" *ngIf="enable_eLearn_feature_flag">		
+              <div class="field-wrapper">		
+              <br>		
+                  <input type="radio" class="form-ctrl" name="is_offline_or_online" value="online" formControlName="is_offline_or_online" id="is_offline_or_online"><label class="online_offline_label">Online</label>		
+                  <input type="radio" class="form-ctrl" name="is_offline_or_online" value="offline" formControlName="is_offline_or_online" id="is_offline_or_online"><label class="online_offline_label">offline</label>		
+                  <input type="radio" class="form-ctrl" name="is_offline_or_online" value="both" formControlName="is_offline_or_online" id="is_offline_or_online"><label class="online_offline_label">Both</label>		
+              </div>		
+            </div>		
+          </div>
             <div class="row pull-right" style="margin-right:40px">
               <button [disabled]='!addItemForm.valid' id="btnSave" class="btn fullBlue" type="submit"> Save </button>
             </div>

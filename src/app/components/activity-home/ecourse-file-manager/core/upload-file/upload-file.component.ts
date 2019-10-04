@@ -57,7 +57,8 @@ export class UploadFileComponent implements OnInit {
     file_id: 0,
     is_readonly: 'N',
     title: '',
-    is_private: 'Y'
+    is_private: false,
+    enable_watermark: true
   }
 
   constructor(
@@ -121,7 +122,6 @@ export class UploadFileComponent implements OnInit {
           this.clearuploadObject();
           this.refreshList();
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
-
         }
       }, (err) => {
         this.isRippleLoad = false;
@@ -133,20 +133,16 @@ export class UploadFileComponent implements OnInit {
 
   getSourceName(video) {
     //{{video.subject_name}}
-    if (video.sub_topic_name != null) {
-      return video.sub_topic_name + '  ( ' + video.ecourse_name + ' )';
-    } else {
-      if (video.parent_topic_name != null) {
-        return video.parent_topic_name + '  ( ' + video.ecourse_name + ' )';
-      } else {
-        return video.subject_name + '  ( ' + video.ecourse_name + ' )';
+    let source = video.ecourse_name + ' > ' + video.subject_name;
+    if (video.parent_topic_name != null) {
+      source += ' > ' + video.parent_topic_name;
+      if (video.sub_topic_name != null) {
+        source += ' > ' + video.sub_topic_name;
       }
     }
+    return source;
   }
 
-  getLocationName(video) {
-    return video.sub_topic_name;
-  }
   uploadYoutubeURL($event) {
     let flag = this.uploadDatavalidation();
     if (flag) {
@@ -155,10 +151,10 @@ export class UploadFileComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Incorrect url");
         return false;
       }
-      if (this.varJson.title == '') {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please add video title");
-        return false;
-      }
+      // if (this.varJson.title == '') {
+      //   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please add video title");
+      //   return false;
+      // }
       const formData = new FormData();
       let fileJson = {
         institute_id: this.institute_id,
@@ -249,7 +245,8 @@ export class UploadFileComponent implements OnInit {
       file_id: 0,
       is_readonly: 'N',
       title: '',
-      is_private: 'Y'
+      is_private: false,
+      enable_watermark: true
     }
     this.varJson.name = '';
   }
@@ -290,7 +287,8 @@ export class UploadFileComponent implements OnInit {
         sub_topic_id: this.varJson.sub_topic_id,
         subject_id: this.varJson.subject_id,
         file_id: -1,
-        is_readonly: 'N'
+        is_readonly: 'N',
+
       }
       if ($event.files && $event.files.length) {
         $event.files.forEach(file => {
@@ -350,6 +348,7 @@ export class UploadFileComponent implements OnInit {
       }
     });
     if (value == '330') {
+      this.jsonData.selectedVideo = '';
       this.getVDOCipherLinkedDate();
     }
   }
@@ -403,7 +402,7 @@ export class UploadFileComponent implements OnInit {
           flag = false;
         }
         for (let i = 0; i < files.length; i++) {
-          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV)$/i;
+          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV|.avi|.flv|.wmv|.mp4|.mov)/i;
           if (!pattern.test(files[i].name)) {
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " in avi,flv,wmv,mp4 and mov form");
             flag = false;
@@ -454,6 +453,17 @@ export class UploadFileComponent implements OnInit {
     }
     return flag;
 
+  }
+
+  videoGetDetails(video, index) {
+    let url = index + ' ) ' + video.ecourse_name + ' > ' + video.subject_name;
+    if (video.parent_topic_name) {
+      url = url + ' > ' + video.parent_topic_name;
+      if (video.sub_topic_name) {
+        url = url + ' > ' + video.sub_topic_name;
+      }
+    }
+    return url;
   }
 
   getCategories() {
@@ -550,6 +560,8 @@ export class UploadFileComponent implements OnInit {
     let flag = this.uploadDatavalidation();
 
     if (flag && this.checkCategoriesType($event.files)) {
+      let is_private = this.varJson.is_private == false ? 'Y' : 'N';
+      let enable_watermark = this.varJson.enable_watermark == true ? 'Y' : 'N';
       let fileJson = {
         "institute_id": this.institute_id,
         "category_id": this.varJson.category_id,
@@ -560,8 +572,9 @@ export class UploadFileComponent implements OnInit {
         "subject_id": this.varJson.subject_id,
         "is_raw_data": "Y",                                             //if send only video title then this key value should be 'Y' ; else set 'N'
         "is_url": "N",                                                        //if send video url & title then this key value should be 'Y' ; else set 'N'
-        "is_private": this.varJson.is_private,                                                 // if user wants to make file as private
-        "title": this.varJson.title
+        "is_private": is_private,                                                 // if user wants to make file as private
+        "title": this.varJson.title,
+        "enable_watermark": enable_watermark
       }
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";

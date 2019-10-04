@@ -251,7 +251,7 @@
         min-width: 30%;
   
         .ga-modal-head {
-          padding: .5em 1em;
+          padding: .5em 1em 1.5em 1em;
           border-bottom: 1pt solid #ddd;
           font-weight: bold;
           text-align: center;
@@ -263,4 +263,22 @@
         }
       }
     }
+  }
+
+  .btn_cross{
+    text-align: right;
+    margin-bottom: -25px;
+    position: relative;
+    bottom: 1.4rem;
+    right: -.7rem;
+  }
+
+  .black-bg{
+    background: rgba(12, 11, 11, 0.3);
+    position: fixed;
+    top: 0px;
+    height: 100%;
+    left: 0px;
+    z-index: 6;
+    width: 100%;
   }
