@@ -23,6 +23,60 @@
   </div>
   <div class="row m-0 action-bar">
     <div class="col-md-12 col-sm-12 container">
+
+        <div class="form-group field-wrapper form-el-width datePickerBox">
+            <label class="text-bold">From Date</label>
+            <input type="text" value="" id="FromDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="filter.between.from"
+            name="FD" bsDatepicker readonly="true" />
+          </div>
+
+          <div class="form-group field-wrapper form-el-width datePickerBox">
+              <label class="text-bold">To Date</label>
+              <input type="text" value="" id="ToDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="filter.between.to"
+              name="FD" bsDatepicker readonly="true" />
+            </div>
+
+            <div class="form-group field-wrapper form-el-width">
+                <label class="text-bold">Product</label>
+                <select [(ngModel)]="filter.by.title" class="form-ctrl" (change)="getPublishedDate($event.target.value)">
+                  <option value="-1" selected>Select Product</option>
+                  <option *ngFor="let product of productList" [value]="product.entity_id">
+                    <span>{{product.title}}</span>
+                  </option>
+                </select>
+              </div> 
+ 
+            <div class="form-group field-wrapper form-el-width">
+                <label class="text-bold">Is Paid</label>
+                <select [(ngModel)]="filter.by.isPaid" class="form-ctrl">
+                  <option value="true" selected>True</option>
+                  <option value="false">False</option>
+                </select>
+              </div>
+
+              <div class="form-group field-wrapper form-el-width" *ngIf="filter.by.isPaid=='true'">
+                  <label class="text-bold">Minimum Price</label>
+                  <input type="text" value="" id="minPrice" class="form-ctrl" [(ngModel)]="filter.by.minPrice"
+                  name="minPrice"/>
+                </div>
+
+                <div class="form-group field-wrapper form-el-width" *ngIf="filter.by.isPaid=='true'">
+                    <label class="text-bold">Maximum Price</label>
+                    <input type="text" value="" id="maxPrice" class="form-ctrl" [(ngModel)]="filter.by.maxPrice"
+                    name="maxPrice"/>
+                  </div>
+              
+                  <div class="form-group field-wrapper form-el-width">
+                      <label class="text-bold">Status</label>
+                      <select [(ngModel)]="filter.by.status" class="form-ctrl">
+                        <option value=10 selected>Draft</option>
+                        <option value=20>Ready For Published</option>
+                        <option value=30>Published</option>
+                        <option value=40>Unpublished</option>
+                        <option value=50>Closed</option>
+                      </select>
+                    </div>
+<!-- 
       <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">E-course</label>
         <select [(ngModel)]="filter.ecourse_id" class="form-ctrl" (ngModelChange)="getSubjectList()">
@@ -32,8 +86,8 @@
               title="{{course.course_type}}">{{ (course.course_type.length > 50) ? (course.course_type | slice:0:50) + '...' : course.course_type}}</span>
           </option>
         </select>
-      </div>
-
+      </div> -->
+   
       <!-- <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">Standard</label>
         <select [(ngModel)]="filter.standard_id" class="form-ctrl" (ngModelChange)="getSubjectList()" name="cc" id="cc">
@@ -42,7 +96,7 @@
         </select>
       </div> -->
 
-      <div class="form-group  field-wrapper form-el-width">
+      <!-- <div class="form-group  field-wrapper form-el-width">
         <label class="text-bold">Subject</label>
         <select [(ngModel)]="filter.subject_id" class="form-ctrl" name="cc" id="cc">
           <option value="-1" selected>Select Subject</option>
@@ -52,7 +106,7 @@
           </option>
 
         </select>
-      </div>
+      </div> -->
 
       <button class="btn btn-primary btn-product btn_go" [disabled]="isRippleLoad" (click)="filterData()">GO</button>
 

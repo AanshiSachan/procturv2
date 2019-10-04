@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ProductService } from '../../../services/products.service';
 import { HttpService } from '../../../services/http.service';
+import moment = require('moment');
 declare var $;
 
 @Component({
@@ -11,11 +12,22 @@ declare var $;
 })
 export class ProductListComponent implements OnInit {
   filter: any = {
-    ecourse_id: '-1',
-    standard_id: '-1',
-    subject_id: '-1'
+    between : {
+    from: '',
+    to: ''
+  },
+    by : [{
+    title: '',
+    publishDate: '',
+    isPaid: true,
+    minPrice: '',
+    maxPrice: '',
+    status: ''}],
+    sort: {
+      publishDate: false
+    }
   };
-
+ 
   /* Variable to handle popups */
   varJson: any = {
     PageIndex: 1,
@@ -264,11 +276,10 @@ export class ProductListComponent implements OnInit {
             item.status = body.status;
             if (resp && data.validate) {
               item.publish_date = data.result.publish_date;
-              this.msgService.showErrorMessage("success", "product updated successfully", '');
-              $("#actionProductModal").modal('hide');
+              this.msgService.showErrorMessage("success", 'product updated successfully', '');
+              $('#actionProductModal').modal('hide');
               // item.product_status = body.product_status;
-            }
-            else {
+            } else {
               this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
             }
           }
@@ -281,11 +292,77 @@ export class ProductListComponent implements OnInit {
     }
 
   }
+  getPublishedDate(entity_id) {
+    console.log(this.productList);
+    this.productList.forEach(element => {
+      if (element.entity_id == entity_id) {
+        this.filter.by.title = element.title;
+        this.filter.by.publishDate = element.publishDate;
+      }
+    });
+  }
 
   filterData() {
     console.log("filterData");
-    this.varJson.PageIndex=1;
-      this.fectchTableDataByPage(this.varJson.PageIndex);
+    console.log(this.filter);
+    let data: any;
+    let between = {
+      from: moment(this.filter.between.from).format('YYYY-MM-DD'),
+      to: moment(this.filter.between.to).format('YYYY-MM-DD')
+    }
+    this.varJson.PageIndex = 1;
+    data = {
+      'page_no':  this.varJson.PageIndex ,
+      'no_of_records': this.varJson.displayBatchSize,
+    'between' : between,
+    'by' : [
+        {
+            'column': 'title',
+            'value': this.filter.by.title
+        },
+       {
+         'column': 'publishDate',
+         'value': moment(this.filter.by.publishDate).format('YYYY-MM-DD')
+        },
+
+        {
+            'column': 'isPaid',
+            'value': JSON.parse(this.filter.by.isPaid)
+        },
+        {
+            'column': 'minPrice',
+            'value': Number(this.filter.by.minPrice)
+        },
+        {
+            'column': 'maxPrice',
+            'value': Number(this.filter.by.maxPrice)
+        },
+        {
+            'column': 'status',
+            'value': this.filter.by.status
+        }
+    ],
+    'sort': {
+        'column': 'publishDate',
+        'assending': false
+    }
+  };
+  this.isRippleLoad = true;
+      this.http.postMethod('product/advance-filter', data).then(
+        (resp: any) => {
+          this.isRippleLoad = false;
+          let response = resp['body'];
+          console.log(response);
+          this.productList = response.result.results;
+            this.varJson.total_items = response.result.total_records;
+        },
+        (err) => {
+          this.isRippleLoad = false;
+          this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
+        }
+      );
+    // this.varJson.PageIndex=1;
+    //   this.fectchTableDataByPage(this.varJson.PageIndex);
   }
 
   toggleAllCheckBox($event) {
@@ -301,7 +378,7 @@ export class ProductListComponent implements OnInit {
 
   toggleActionMenu(event) {
     console.log(event);
-    //event.target.nextElementSibling.classList.toggle('d-flex');
+    // event.target.nextElementSibling.classList.toggle('d-flex');
   }
 
 }

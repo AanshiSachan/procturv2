@@ -303,3 +303,25 @@
   z-index: 6;
   width: 100%;
 }
+.datePickerBox {
+  .form-ctrl {
+    position: relative;
+    z-index: 1;
+    float: left;
+    // border-right: 0;
+    // height: 35px;
+    font: 400 12px 'Open sans',sans-serif;
+    width: 85% !important;
+  }
+
+  &:after {
+    content: '';
+    background: url('../../../../assets/images/calendar.svg') no-repeat;
+    position: absolute;
+    left: 75% !important;
+    top: 27px !important;
+    width: 21px;
+    height: 21px;
+    z-index: 0;
+  }
+}
