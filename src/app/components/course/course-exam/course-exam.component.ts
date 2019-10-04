@@ -102,23 +102,23 @@ export class CourseExamComponent implements OnInit {
     endTimeMins: '00',
     total_marks: ''
   };
-  exam_desc: any = '';
-  exam_room_no: any = '';
-  subject_id: any = '';
-  subject_name: any = '';
-  exam_marks: any = '';
-  edit_subject_id: any = '';
-  edit_subject_name: any = '';
-  edit_exam_marks: any = '';
-  edit_subject_topics: any = '';
-  edit_exam_desc: any = '';
-  edit_exam_room_no: any = '';
-  row_edit_subject_id: any = '';
-  row_edit_subject_name: any = '';
-  row_edit_exam_marks: any = '';
-  row_edit_subject_topics: any = '';
-  row_edit_exam_desc: any = '';
-  row_edit_exam_room_no: any = '';
+  exam_desc:any ='';
+  exam_room_no:any ='';
+  subject_id:any ='';
+  subject_name:any ='';
+  exam_marks:any ='';
+  edit_subject_id:any ='';
+  edit_subject_name:any ='';
+  edit_exam_marks:any ='';
+  edit_subject_topics:any ='';
+  edit_exam_desc:any ='';
+  edit_exam_room_no:any ='';
+  row_edit_subject_id:any ='';
+  row_edit_subject_name:any ='';
+  row_edit_exam_marks:any ='';
+  row_edit_subject_topics:any ='';
+  row_edit_exam_desc:any ='';
+  row_edit_exam_room_no:any ='';
   selectedSubId: any;
   total_marks_to_show = 0;
   // Topic listing variables
@@ -160,13 +160,12 @@ export class CourseExamComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("ngOnInit");
     this.checkInstituteType();
     this.fetchPrefillData();
     this.checkForCoursePlannerRoute();
   }
 
-  checkForCoursePlannerRoute() {
+  checkForCoursePlannerRoute(){
     this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
   }
 
@@ -503,34 +502,27 @@ export class CourseExamComponent implements OnInit {
     } else {
       notify = "N";
     }
-
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
-      let obj: any = {
-        batch_id: this.batchData.batch_id,
-        exam_freq: "OTHER",
-        cancelSchd: [{
-          schd_id: this.cancelExamData.schd_id,
-          exam_desc: this.cancelPopUpData.reason,
-          is_notified: notify
-        }]
-      }
-
-      this.apiService.cancelExamSchedule(obj).subscribe(
-        res => {
-          this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
-          this.isRippleLoad = false;
-          this.batchModelGoClick();
-          this.closeCancelExamPopUp();
-        },
-        err => {
-          //console.log(err);
-          this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
-        }
-      )
+    let obj: any = {
+      batch_id: this.batchData.batch_id,
+      exam_freq: "OTHER",
+      cancelSchd: [{
+        schd_id: this.cancelExamData.schd_id,
+        exam_desc: this.cancelPopUpData.reason,
+        is_notified: notify
+      }]
     }
 
+    this.apiService.cancelExamSchedule(obj).subscribe(
+      res => {
+        this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
+        this.batchModelGoClick();
+        this.closeCancelExamPopUp();
+      },
+      err => {
+        //console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
   }
 
   // Mark Attendance Popup
@@ -853,7 +845,7 @@ export class CourseExamComponent implements OnInit {
           this.multiClickDisabled = false;
           this.examScheduleData = res;
           this.calculateDataAsPerSelection(res);
-          // console.log(this.subjectListData);
+          console.log(this.subjectListData);
           this.showContentSection = true;
           //console.log(res);
         },
@@ -1032,6 +1024,7 @@ export class CourseExamComponent implements OnInit {
               }
             )
             this.subject_name = subjectName;
+            this.subject_name ;
             this.children = (dataItem: any) => of(dataItem.subTopic);
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
@@ -1239,11 +1232,6 @@ export class CourseExamComponent implements OnInit {
 
 
   addNewExamSubject() {
-    if (this.newExamData.startTimeHrs == this.newExamData.endTimeHrs
-      && this.newExamData.startTimeMins == this.newExamData.endTimeMins) {
-      this.messageNotifier('error', 'Error', 'Exam  start time and end time cannot be same !');
-      return;
-    }
     if (this.subject_id == null || this.subject_id == '') {
       this.messageNotifier('error', 'Error', 'No subject(s) added!');
       return;
@@ -1441,8 +1429,8 @@ export class CourseExamComponent implements OnInit {
       return;
     }
 
-    let subjectName = "";
-    console.log(this.viewList);
+    let subjectName = ""
+
     this.viewList[j].subjectList.forEach(
       ele => {
         if (this.row_edit_subject_id == ele.subject_id) {
@@ -1508,22 +1496,7 @@ export class CourseExamComponent implements OnInit {
       return;
     }
     if (dataToSend.coursesList.length > 0) {
-      let flag = false;
-      dataToSend.coursesList.forEach((object, index) => {
-        if (object) {
-          if (object.courseClassSchdList.length) {
-            flag = true;
-          }
-          else {
-            object.exam_start_time = null;
-            object.exam_end_time = null;
-          }
-        }
-        else {
-          dataToSend.coursesList.splice(index, 1);
-        }
-      });
-      if (flag) {
+      if (dataToSend.coursesList[0].courseClassSchdList.length > 0) {
         this.apiService.updateExamSch(dataToSend).subscribe(
           (res: any) => {
             this.isRippleLoad = false;
@@ -1543,6 +1516,11 @@ export class CourseExamComponent implements OnInit {
             this.messageNotifier('error', 'Error', err.error.message);
           }
         )
+      }
+      else {
+        this.multiClickDisabled = false;
+        this.isRippleLoad = false;
+        this.messageNotifier('error', 'Error', 'Required fields not mentioned!');
       }
     }
     else {
@@ -1674,16 +1652,9 @@ export class CourseExamComponent implements OnInit {
       data.coursesList.push(test);
       if (validation_flag) {
         for (let m = 0; m < coursesLists.length; m++) {
-          let isPush = false;
-          console.log(coursesLists[m]);
-          this.examScheduleData.coursesList.forEach((object, index) => {
-            if (object.course_exam_schedule_id == coursesLists[m].course_exam_schedule_id) {
-              isPush = true;;
-            }
-          });
-          if (isPush) {
-            coursesLists[m] && coursesLists[m].courseClassSchdList.length != 0 ? data.coursesList.push(coursesLists[m]) : '';
-          }
+          // if(i == 0){
+          data.coursesList.push(coursesLists[m]);
+          // }
         }
       }
       // }
@@ -1692,7 +1663,6 @@ export class CourseExamComponent implements OnInit {
 
     /// This section makes json for unselected course
     if (this.examScheduleData.coursesList.length > 0) {
-      let startIndex = 0;
       for (let i = 0; i < this.examScheduleData.coursesList.length; i++) {
         if (this.examScheduleData.coursesList[i].course_id != this.courseData.course_id) {
           let unselected: any = {};
@@ -1725,42 +1695,6 @@ export class CourseExamComponent implements OnInit {
           unselected.exam_end_time = timeEnd;
           data.coursesList.push(unselected);
         }
-        else if (this.examScheduleData.coursesList[i].course_id == this.courseData.course_id &&
-          this.examScheduleData.coursesList[i] && this.examScheduleData.coursesList[i].courseClassSchdList == null &&
-          this.examScheduleData.coursesList[i].course_exam_schedule_id != 0) {
-          /** this condition used  for cancel exam if user try to create exam 
-           * using  same time and type then cancel exam course_exam_schedule_id need to send in new created 
-           * exam object  --- added laxmi */
-          if (data.coursesList[i] && this.examScheduleData.coursesList[i]) {
-            data.coursesList[startIndex].course_exam_schedule_id = this.examScheduleData.coursesList[i].course_exam_schedule_id;
-            startIndex++;
-          }
-          else if (this.examScheduleData.coursesList[i]) {
-            let obj = {
-              "course_id": this.examScheduleData.coursesList[i].course_id,
-              "courseClassSchdList": [],
-              "exam_start_time": null,
-              "exam_end_time": null,
-              "course_exam_schedule_id": this.examScheduleData.coursesList[i].course_exam_schedule_id
-            }
-            data.coursesList.push(obj);
-          }
-        } else if (this.examScheduleData.coursesList[i].course_id == this.courseData.course_id &&
-          this.examScheduleData.coursesList[i] && this.examScheduleData.coursesList[i].courseClassSchdList) {
-          let isNeedToAdd = true;
-
-          data.coursesList.forEach((obj) => {
-            if (obj.course_exam_schedule_id == this.examScheduleData.coursesList[i].course_exam_schedule_id) {
-              isNeedToAdd = false;
-            }
-          });
-          if (isNeedToAdd) {
-            if (coursesLists[i]) {
-              data.coursesList.push(coursesLists[i]);
-            }
-          }
-
-        }
       }
 
     }
@@ -1769,6 +1703,7 @@ export class CourseExamComponent implements OnInit {
 
 
   ////cancel Exam popup/////
+
   cancelExamCourse(data, index, j) {
     this.cancelExamPopUp = true;
     this.cancelExamData = this.viewList[j].courseTableList[index];
@@ -1785,31 +1720,26 @@ export class CourseExamComponent implements OnInit {
     } else {
       notify = "N";
     }
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
-      let obj: any = {
-        batch_id: this.cancelExamData.batch_id,
-        exam_freq: "OTHER",
-        cancelSchd: [{
-          schd_id: this.cancelExamData.class_schedule_id,
-          exam_desc: this.cancelPopUpData.reason,
-          is_notified: notify
-        }]
-      }
-      this.apiService.cancelExamSchedule(obj).subscribe(
-        res => {
-          this.isRippleLoad = false;
-          this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
-          this.closeCancelExamPopUp();
-          this.getExamSchedule();
-        },
-        err => {
-          //console.log(err);
-          this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
-        }
-      )
+    let obj: any = {
+      batch_id: this.cancelExamData.batch_id,
+      exam_freq: "OTHER",
+      cancelSchd: [{
+        schd_id: this.cancelExamData.class_schedule_id,
+        exam_desc: this.cancelPopUpData.reason,
+        is_notified: notify
+      }]
     }
+    this.apiService.cancelExamSchedule(obj).subscribe(
+      res => {
+        this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
+        this.closeCancelExamPopUp();
+        this.getExamSchedule();
+      },
+      err => {
+        //console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
   }
 
   // cancel Button next to Send Reminder
@@ -1831,31 +1761,24 @@ export class CourseExamComponent implements OnInit {
     } else {
       notify = "N";
     }
-
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
-      let obj = {
-        cancel_reason: this.cancelPopUpData.reason,
-        course_exam_schedule_id: this.cancelExamData.selectedCourseList.course_exam_schedule_id,
-        course_id: this.courseData.course_id,
-        is_cancel_notify: notify,
-        requested_date: moment(this.courseData.requested_date).format('YYYY-MM-DD')
-      }
-      this.apiService.cancelExamScheduleCourse(obj).subscribe(
-        res => {
-          this.isRippleLoad = false;
-          this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
-          this.closeCancelExamPopUp();
-          this.getExamSchedule();
-        },
-        err => {
-          //console.log(err);
-          this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
-        }
-      )
+    let obj = {
+      cancel_reason: this.cancelPopUpData.reason,
+      course_exam_schedule_id: this.cancelExamData.selectedCourseList.course_exam_schedule_id,
+      course_id: this.courseData.course_id,
+      is_cancel_notify: notify,
+      requested_date: moment(this.courseData.requested_date).format('YYYY-MM-DD')
     }
-
+    this.apiService.cancelExamScheduleCourse(obj).subscribe(
+      res => {
+        this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
+        this.closeCancelExamPopUp();
+        this.getExamSchedule();
+      },
+      err => {
+        //console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
   }
 
 

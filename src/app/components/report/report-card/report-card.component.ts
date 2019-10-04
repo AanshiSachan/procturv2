@@ -1,10 +1,7 @@
-import { Component, OnInit, EventEmitter, Output, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StudentReportService } from '../../../services/report-services/student-report-service/student-report.service';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { HttpService } from '../../../services/http.service';
-import { CommonServiceFactory } from '../../../services/common-service';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-report-card',
@@ -13,7 +10,6 @@ import * as moment from 'moment';
 })
 export class ReportCardComponent implements OnInit {
 
-  institute_id: any = null;
   isRippleLoad: boolean = false;
   isLangInstitue: boolean = false;
   masterCourseList: any = [];
@@ -32,14 +28,8 @@ export class ReportCardComponent implements OnInit {
   constructor(
     private apiService: StudentReportService,
     private appC: AppComponent,
-    private auth: AuthenticatorService,
-    private _http: HttpService,
-    private commonService: CommonServiceFactory
-  ) {
-    this.auth.currentInstituteId.subscribe(id => {
-      this.institute_id = id;
-    });
-  }
+    private auth: AuthenticatorService
+  ) { }
 
   ngOnInit() {
     this.auth.institute_type.subscribe(
@@ -55,49 +45,6 @@ export class ReportCardComponent implements OnInit {
       this.fetchMasterCourseList();
     }
   }
-
-  /*
-  *** Created By Amol Arun Betwar ***
-  */
-  //Next two method is used for student report download
-
-  getDownload(student_id) {
-    this.isRippleLoad = true;
-    let url='/api/v1/reports/Student/downloadReportCard/'+ this.institute_id + '/' + student_id;
-    this._http.getData(url).subscribe(
-      (res: any) => {
-        this.isRippleLoad = false;
-        if(res.document!=""){
-          let byteArr = this.convertBase64ToArray(res.document);
-          let fileName = res.docTitle;
-          let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
-          let url = URL.createObjectURL(file);
-          let dwldLink = document.getElementById('downloadFileClick1');
-          dwldLink.setAttribute("href", url);
-          dwldLink.setAttribute("download", fileName);
-          document.body.appendChild(dwldLink);
-          dwldLink.click();
-        }
-        else{
-          this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
-        }
-      },
-      err => {
-        this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
-      }
-    )
-   }
-
-   convertBase64ToArray(val) {
-     var binary_string = window.atob(val);
-     var len = binary_string.length;
-     var bytes = new Uint8Array(len);
-     for (var i = 0; i < len; i++) {
-       bytes[i] = binary_string.charCodeAt(i);
-     }
-     return bytes.buffer;
-   }
 
   fetchMasterCourseList() {
     this.studentList = [];
@@ -146,7 +93,7 @@ export class ReportCardComponent implements OnInit {
   validateAndMakeJSON() {
     let obj: any = {};
     if (this.payLoad.name == "") {
-        // if (this.isLangInstitue) {
+      // if (this.isLangInstitue) {
       //   if (this.payLoad.standard_id == -1 && this.payLoad.subject_id == -1) {
       //     this.messageToast('error', 'Error', 'Please provide fields');
       //     return false;

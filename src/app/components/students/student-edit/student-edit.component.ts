@@ -28,14 +28,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   @ViewChild('btnPdcPopUpAdd') btnPdcPopUpAdd: ElementRef;
   @ViewChild('btnPayment') btnPayment: ElementRef;
 
-  JsonFlags = {
-    isDisabled: false,
-    formIsActive: false,
+  JsonFlags={
+    isDisabled:false,
+    formIsActive:false,
   }
-  countrySelected: string = "";
-  countryList: any = [];
 
-  countryDetails: any=[];
   isConvertEnquiry: boolean = false;
   isNewInstitute: boolean = true;
   isNewInstituteEditor: boolean = false;
@@ -97,7 +94,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   savedAssignedBatch: any[] = [];
   allocatedItem: any = [];
   subjectWiseInstallmentArray: any = [];
-  academicList: any = [];
+  academicList : any= [];
   taxEnableCheck: any = '1';
   feeTempSelected: any = "";
   defaultAcadYear: any = '-1';
@@ -124,16 +121,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   feeObject: FeeModel;
   selectedInstallment: number = 0;
   academicYearFilter: any;
-  instituteCountryDetObj:any={};
-  maxlength:number=10;
 
   studentAddFormData: StudentForm = {
     student_name: "",
     student_sex: "",
     student_email: "",
-    country_id: "",
     student_phone: "",
-    country: "",
     student_curr_addr: "",
     dob: "",
     doj: moment().format('YYYY-MM-DD'),
@@ -336,40 +329,19 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.getAcademicYearDetails();
       }
     }
-    this.fetchDataForCountryDetails();
   }
 
-  fetchDataForCountryDetails() {
-    let encryptedData = sessionStorage.getItem('country_data');
-    let data = atob(encryptedData)
-    data = JSON.parse(data);
-    if (data.length > 0) {
-    this.countryDetails = data;
-    console.log(this.countryDetails);
-    }
-  }
-
-  onChangeObj(event){
-    console.log(event);
-    this.countryDetails.forEach(element => {
-      if(element.id==event){
-        this.instituteCountryDetObj = element;
-        this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
-      }
-    }
-    );
-  }
   getAcademicYearDetails() {
     this.academicList = [];
-    this.isRippleLoad = true;
+    this.isRippleLoad= true;
     this.apiService.getAcadYear().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.isRippleLoad= false;
         this.academicList = res;
-        console.log("academicList", this.academicList);
+        console.log("academicList",this.academicList);
       },
       err => {
-        this.isRippleLoad = false;
+        this.isRippleLoad= false;
       }
     )
   }
@@ -648,18 +620,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     );
 
-
-    this.prefill.getEnqCountry().subscribe(
-      data => {
-        this.countryList = data;
-      
-      },
-      err => {
-      }
-    )
-
-
-
     this.isRippleLoad = true;
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
@@ -691,7 +651,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.isRippleLoad = false;
         if (data != null) {
           data.forEach(el => {
-            let max_length = el.comp_length == 0 ? 100 : el.comp_length;
+            let max_length =el.comp_length == 0 ? 100 : el.comp_length;
             let obj = {
               data: el,
               id: el.component_id,
@@ -703,7 +663,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               selectedString: '',
               type: el.type,
               value: el.enq_custom_value,
-              comp_length: max_length
+              comp_length:max_length
             }
             if (el.type == 4) {
               obj = {
@@ -717,7 +677,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
                 type: el.type,
                 value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
-                comp_length: max_length
+                comp_length:max_length
               }
             }
             if (el.type == 3) {
@@ -731,8 +691,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 selected: [],
                 selectedString: "",
                 type: el.type,
-                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
-                comp_length: max_length
+                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value ,
+                comp_length:max_length
               }
             }
             if (el.type == 2) {
@@ -747,7 +707,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 selectedString: '',
                 type: el.type,
                 value: this.getCustomComponentCheckboxValue(el.enq_custom_value),
-                comp_length: max_length
+                comp_length:max_length
               }
             }
             else if (el.type != 2 && el.type != 4 && el.type != 3) {
@@ -762,7 +722,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 selectedString: '',
                 type: el.type,
                 value: el.enq_custom_value,
-                comp_length: max_length
+                comp_length:max_length
               }
             }
             this.customComponents.push(obj);
@@ -1102,8 +1062,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.updateAssignedBatches(this.batchList);
               this.isRippleLoad = false;
               console.log(this.batchList);
-            }else{
-              this.JsonFlags.isDisabled = false;
             }
           },
           err => {
@@ -1211,20 +1169,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     /* Fetching Student Details from server */
     this.fetchService.getStudentById(id).subscribe(
       (data: any) => {
-        console.log(data);
         this.isRippleLoad = false;
         this.studentName = data.student_name;
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
         this.fetchCourseFromMaster(this.studentAddFormData.standard_id);
-        this.countryDetails.forEach(element => {
-          if (element.id == this.studentAddFormData.country_id) {
-            this.instituteCountryDetObj = element;
-            this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
-          }
-        }
-        );
         if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
           this.studentAddFormData.assignedBatchescademicYearArray = [];
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [];
@@ -1324,7 +1274,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         //       this.updateAssignedBatches(this.batchList);
         //     },
         //     err => {
-        // 
+           // 
         //       let msg = err.error.message;
         //       this.isRippleLoad = false;
         //       let obj = {
@@ -1361,24 +1311,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   formValidator(): boolean {
 
     if (this.studentAddFormData.student_phone != null && this.studentAddFormData.student_phone != "") {
-      if (isNaN(this.studentAddFormData.student_phone) == false && this.studentAddFormData.student_phone.trim().length == this.maxlength) {
-        if(this.studentAddFormData.parent_phone != null && this.studentAddFormData.parent_phone != ""){
-          if (isNaN(this.studentAddFormData.parent_phone) == false && this.studentAddFormData.parent_phone.trim().length == this.maxlength) {
-            if(this.studentAddFormData.guardian_phone !=null && this.studentAddFormData.guardian_phone != ""){
-              if (isNaN(this.studentAddFormData.guardian_phone) == false && this.studentAddFormData.guardian_phone.trim().length == this.maxlength) {
-                return true;
-              } else {
-                this.commonServiceFactory.showErrorMessage('error', 'Phone Number error', 'Please provide valid phone number');
-                return false;
-              }
-            }
-            return true;
-          }
-          else{
-            this.commonServiceFactory.showErrorMessage('error', 'Phone Number error', 'Please provide valid phone number');
-            return false;
-          }
-        }
+      if (isNaN(this.studentAddFormData.student_phone) == false && this.studentAddFormData.student_phone.trim().length == 10) {
         return true;
       } else {
         this.commonServiceFactory.showErrorMessage('error', 'Phone Number error', 'Please provide valid phone number');
@@ -1411,7 +1344,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             enq_custom_id: el.data.enq_custom_id,
             enq_custom_value: el.value,
             comp_length: el.comp_length,
-            type: el.type,
+            type:el.type,
             label: el.label
           }
           customArr.push(obj);
@@ -1424,7 +1357,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               enq_custom_id: el.data.enq_custom_id,
               enq_custom_value: "Y",
               comp_length: el.comp_length,
-              type: el.type,
+              type:el.type,
               label: el.label
             }
             customArr.push(obj);
@@ -1435,7 +1368,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               enq_custom_id: el.data.enq_custom_id,
               enq_custom_value: "N",
               comp_length: el.comp_length,
-              type: el.type,
+              type:el.type,
               label: el.label
             }
             customArr.push(obj);
@@ -1448,7 +1381,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             enq_custom_id: el.data.enq_custom_id,
             enq_custom_value: moment(el.value).format("YYYY-MM-DD"),
             comp_length: el.comp_length,
-            type: el.type,
+            type:el.type,
             label: el.label
           }
           customArr.push(obj);
@@ -1495,8 +1428,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.studentAddFormData.slot_id = this.selectedSlotsID;
       this.studentAddFormData.stuCustomLi = customArr;
       this.studentAddFormData.photo = this.studentServerImage;
-      // this.studentAddFormData.country_id=this.instituteCountryDetObj.id;
-      console.log(this.studentAddFormData);
       this.additionalBasicDetails = false;
       if (this.studentAddFormData.assignedBatches == null || this.studentAddFormData.assignedBatches.length == 0) {
         this.studentAddFormData.assignedBatches = null
@@ -1509,7 +1440,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       this.btnSaveAndContinue.nativeElement.disabled = true;
       this.isRippleLoad = true;
-      console.log(this.studentAddFormData);
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         (res: any) => {
           this.isRippleLoad = false;
@@ -1751,7 +1681,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   formfullValidator() {
     if (this.studentAddFormData.student_name != "" && this.studentAddFormData.student_name != " "
       && this.studentAddFormData.student_phone != "" && this.studentAddFormData.student_phone != " "
-      && this.studentAddFormData.student_phone.length == this.maxlength) {
+      && this.studentAddFormData.student_phone.length == 10) {
       return true;
     }
     else {

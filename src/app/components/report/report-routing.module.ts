@@ -9,7 +9,6 @@ import { FeeReportComponent } from './fee-report/fee-report.component';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 import { BiometricComponent } from './biometric/biometric.component';
 import { EnquiryReportComponent } from './enquiry-report/enquiry-report.component';
-// import { NewExamReportComponent } from './new-exam-report/new-exam-report.component';
 
 @NgModule({
     imports: [
@@ -47,11 +46,6 @@ import { EnquiryReportComponent } from './enquiry-report/enquiry-report.componen
                     },
                     {
                         path: 'exam',
-                        loadChildren: 'app/components/report/new-exam-report/exam-report.module#ExamReportModule',
-                        pathMatch: 'prefix'
-                    },
-                    {
-                        path: 'oldexam',
                         component: ExamReportComponent
                     },
                     {

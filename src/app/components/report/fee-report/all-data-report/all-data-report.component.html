@@ -272,7 +272,7 @@
 
             <div class="table table-responsive" *ngIf="showPopupKeys.isFilterReversed">
                 <data-display-table *ngIf="displayKeys.length" #child [displayKeys]="tableSetting" [displayData]="feeDataSource1" (editView)='optionSelected($event)'
-                    (selectAllView)="checkOption($event)">
+                    (selectAllView)="sendBulkSms($event)">
                 </data-display-table>
             </div>
             <div class="table-content" *ngIf="!showPopupKeys.isFilterReversed">

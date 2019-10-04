@@ -149,8 +149,8 @@ export class AddClassComponent implements OnInit {
   checkIsEnableElearnFeature() {
     let enable_eLearn_feature = sessionStorage.getItem('enable_eLearn_feature');
     let data: any;
-    data = enable_eLearn_feature;
-    // data = JSON.parse(data);
+    data = atob(enable_eLearn_feature);
+    data = JSON.parse(data);
     console.log(data);
     if (data != 0) {
       this.isShowProductOption = true;

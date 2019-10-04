@@ -310,7 +310,7 @@ export class EnquiryHomeComponent implements OnInit {
         tableDetails: { title: 'Enquiry List', key: 'enquiry.home', showTitle: false },
         search: { title: 'Search', showSearch: false },
         keys: this.displayKeys,
-        selectAll: { showSelectAll: true, option:'single', title: 'Select Enquiry', checked: false, key: 'enquiry_no' },
+        selectAll: { showSelectAll: true, title: 'Select Enquiry', checked: false, key: 'enquiry_no' },
         actionSetting: {},
         displayMessage: "Enter Detail to Search"
     };
@@ -1883,11 +1883,10 @@ export class EnquiryHomeComponent implements OnInit {
         return this.enquire.fetchEnquiryStudentData(institute_id, this.selectedRow.institute_enquiry_id).subscribe(
             (data: any) => {
                 this.flagJSON.isRippleLoad = false;
+                console.log(data);
                 this.selectedRow.standard_id = data.standard_id;
                 this.selectedRow.address = data.curr_address;
                 this.selectedRow.curr_address = data.curr_address;
-                this.selectedRow.country_id = data.country_id;
-                this.selectedRow.phone = data.phone;
                 sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
                 this.router.navigate(['/view/student/add'])
                 this.closePopup();
