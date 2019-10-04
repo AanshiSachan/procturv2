@@ -4,7 +4,7 @@ import { LiveClasses } from '../../../services/live-classes/live-class.service';
 import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core'
+import {Pipe, PipeTransform} from '@angular/core'
 
 
 @Component({
@@ -109,10 +109,6 @@ export class LiveClassesComponent implements OnInit {
     to_date: ''
   };
 
-  obj: any = {
-    institution_id: '',
-    user_id: ''
-  }
   alertBox: boolean = true;
   cancelSessionId: any;
   sendSMSNotification: boolean = false;
@@ -144,20 +140,16 @@ export class LiveClassesComponent implements OnInit {
     }
 
     this.getClassesList();
+
   }
 
-  getClassesList() {
+  getClassesList(){
     this.PageIndex = 1;
     this.JsonVars.isRippleLoad = true;
-    this.obj = {
-      institution_id: this.service.institute_id,
+    let obj = {
+      institution_id: this.service.institute_id
     }
-    const userType: any = sessionStorage.getItem('userType');
-    if (userType != 0) {
-      const userid: any = sessionStorage.getItem('userid');
-      this.obj.user_id = userid;
-    }
-    this.service.fetchOnlineClasses(this.obj).subscribe(
+    this.service.fetchOnlineClasses(obj).subscribe(
       (data: any) => {
         this.JsonVars.isRippleLoad = false;
         this.previosLiveClasses = data.pastLiveClasses;
@@ -182,56 +174,56 @@ export class LiveClassesComponent implements OnInit {
     )
   }
 
-  forTeacher(teachersUserIds) {
+  forTeacher(teachersUserIds){
     let userId = sessionStorage.getItem('userid');
 
-    if (teachersUserIds.includes(userId)) {
+    if(teachersUserIds.includes(userId)){
       return true;
     }
-    else {
+    else{
       return false;
     }
   }
 
-  startLiveClass(link, start_time) {
+  startLiveClass(link, start_time){
     let time = this.diffDate(this.today, start_time);
     let splitedTime = time.split(":");
     let hrs = +splitedTime[0];
     let mins = +splitedTime[1];
 
-    if (hrs <= 0 && mins <= 30) {
+    if(hrs <= 0 && mins <= 30){
       window.open(link, "_blank");
     }
-    else {
+    else{
       this.appC.popToast({ type: "error", body: "Sessions can only be started before 30 minutes of start time." })
     }
 
   }
 
-  checkForTime(start_time) {
+  checkForTime(start_time){
     let time = this.diffDate(this.today, start_time);
     let splitedTime = time.split(":");
     let hrs = +splitedTime[0];
     let mins = +splitedTime[1];
 
-    if (hrs <= 0 && mins <= 30) {
+    if(hrs <= 0 && mins <= 30){
       return true;
     }
-    else {
+    else{
       return false;
     }
   }
 
-  dateRangeChanges() {
+  dateRangeChanges(){
 
-    if (this.sortDate == "all") {
+    if(this.sortDate == "all"){
       // this.filteredDate = true;
       this.liveClassSearchFilter = {
         from_date: '',
         to_date: ''
       }
     }
-    else if (this.sortDate == "last_week") {
+    else if(this.sortDate == "last_week"){
       let begin = moment().format('YYYY-MM-DD');
       let end = moment().subtract('week', 1).format('YYYY-MM-DD');
       this.liveClassSearchFilter = {
@@ -239,7 +231,7 @@ export class LiveClassesComponent implements OnInit {
         to_date: begin
       }
     }
-    else if (this.sortDate == "this_month") {
+    else if(this.sortDate == "this_month"){
       let begin = moment().format("YYYY-MM-01");
       let end = moment().format("YYYY-MM-") + moment().daysInMonth();
 
@@ -248,7 +240,7 @@ export class LiveClassesComponent implements OnInit {
         to_date: end
       }
     }
-    else if (this.sortDate == "last_month") {
+    else if(this.sortDate == "last_month"){
       let begin = moment().subtract('months', 1).format('YYYY-MM-01');
       let end = moment().date(0).format("YYYY-MM-DD");
       this.liveClassSearchFilter = {
@@ -256,7 +248,7 @@ export class LiveClassesComponent implements OnInit {
         to_date: end
       }
     }
-    else if (this.sortDate == "last_three_month") {
+    else if(this.sortDate == "last_three_month"){
       let begin = moment().format('YYYY-MM-DD');
       let end = moment().subtract('months', 3).format('YYYY-MM-DD');
       this.liveClassSearchFilter = {
@@ -264,7 +256,7 @@ export class LiveClassesComponent implements OnInit {
         to_date: begin
       }
     }
-    else if (this.sortDate == "custom_date_range") {
+    else if(this.sortDate == "custom_date_range"){
       // this.openCalendar('dateRange');
     }
 
@@ -275,20 +267,20 @@ export class LiveClassesComponent implements OnInit {
   }
 
 
-  editStudent(session_id) {
-    this.router.navigate(['/view/activity/edit/' + session_id], { queryParams: { repeat: 0 } });
+  editStudent(session_id){
+    this.router.navigate(['/view/activity/edit/'+session_id], { queryParams: { repeat: 0 } });
   }
 
-  repeatSession(session_id) {
-    this.router.navigate(['/view/activity/edit/' + session_id], { queryParams: { repeat: 1 } });
+  repeatSession(session_id){
+    this.router.navigate(['/view/activity/edit/'+session_id], { queryParams: { repeat: 1} });
   }
 
-  getClassesFor() {
-    if (this.liveClassFor) {
+  getClassesFor(){
+    if(this.liveClassFor){
       this.getClasses = this.previosLiveClasses;
       this.classListDataSource = this.previosLiveClasses;
     }
-    else {
+    else{
       this.getClasses = this.futureLiveClasses;
       this.classListDataSource = this.futureLiveClasses;
     }
@@ -296,7 +288,7 @@ export class LiveClassesComponent implements OnInit {
     this.fetchTableDataByPage(this.PageIndex);
   }
 
-  diffDate(date1, date2) {
+  diffDate(date1, date2){
     let dateOut1 = new Date(date1); // it will work if date1 is in ISO format
     let dateOut2 = new Date(date2);
     let timeDiff = dateOut2.getTime() / 1000 - dateOut1.getTime() / 1000;
@@ -308,48 +300,48 @@ export class LiveClassesComponent implements OnInit {
     let divisor_for_seconds = divisor_for_minutes % 60;
     let seconds = Math.ceil(divisor_for_seconds);
 
-    if (hours.toString().length == 1) {
-      hours = "0" + hours;
+    if(hours.toString().length == 1){
+      hours = "0"+hours;
     }
-    if (minutes.toString().length == 1) {
-      minutes = "0" + minutes;
+    if(minutes.toString().length == 1){
+      minutes = "0"+minutes;
     }
 
-    let time = hours + ":" + minutes;
+    let time = hours+":"+minutes;
     return time;
   }
 
-  getTimeLeft(date1, date2) {
+  getTimeLeft(date1, date2){
     let time = this.diffDate(date1, date2);
     let splitedTime = time.split(":");
     let hrs = +splitedTime[0];
     let inDays: number = Math.floor(hrs / 24);
 
-    if (inDays > 0) {
-      if (inDays > 1) {
-        return inDays + " days";
+    if(inDays > 0){
+      if(inDays > 1){
+        return inDays+" days";
       }
-      else {
-        return inDays + " day";
+      else{
+        return inDays+" day";
       }
     }
-    else if (hrs < 0) {
+    else if(hrs < 0){
       return "00:00 hrs";
     }
-    else {
-      return time + " hrs";
+    else{
+      return time+" hrs";
     }
   }
 
-  timeLeft(date1, date2) {
+  timeLeft(date1, date2){
     let time = this.diffDate(date1, date2);
     let splitedTime = time.split(":");
     let hrs = +splitedTime[0];
 
-    if (hrs < 0) {
+    if(hrs < 0){
       return true;
     }
-    else {
+    else{
       return false;
     }
 
@@ -487,7 +479,7 @@ export class LiveClassesComponent implements OnInit {
     this.cancelSessionId = id;
   }
 
-  cancelSession() {
+  cancelSession(){
     this.service.cancelSchedule(this.cancelSessionId).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: "Live class session cancelled successfully" })
@@ -500,7 +492,7 @@ export class LiveClassesComponent implements OnInit {
     )
   }
 
-  closeAlert() {
+  closeAlert(){
     this.alertBox = true;
     this.cancelSessionId = "";
   }

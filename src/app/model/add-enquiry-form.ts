@@ -1,7 +1,5 @@
 export interface addEnquiryForm {
-    country: any;
 	name?: any,
-	country_id?: any,
 	phone?: any,
 	email?: any,
 	gender?: any,

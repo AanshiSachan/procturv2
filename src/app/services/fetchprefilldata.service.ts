@@ -12,7 +12,6 @@ import { AuthenticatorService } from './authenticator.service';
 @Injectable()
 export class FetchprefilldataService {
 
-
   /* Variable Declaration to urls and headers */
 
   urlAssignTo: string;  // assigned to
@@ -200,15 +199,7 @@ export class FetchprefilldataService {
       })
   }
 
-  getEnqCountry(): any {
 
-    this.urlStdSub = this.baseUrl + "/api/v1/masterData/type/COUNTRY";
-
-    return this.http.get(this.urlStdSub, { headers: this.headers })
-      .map(res => {
-        return res;
-      })
-  }
 
 
   /* fetch prefill data subjects*/
@@ -618,7 +609,6 @@ export class FetchprefilldataService {
       }
     )
   }
-  
 
   getAreaList(obj) {
     obj.main_branch_instId = this.institute_id;
@@ -633,7 +623,6 @@ export class FetchprefilldataService {
     )
   }
 
- 
   /// Get All Branches Details
 
   getAllSubBranches(id) {

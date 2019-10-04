@@ -60,8 +60,7 @@ export class HomeComponent implements OnInit {
   showAllocationHistoryPopUp: boolean = false;
    searchDataFlag: boolean = false;
   isRippleLoad: boolean = false;
-  showMenu: boolean = false;
-  enable_eLearn_feature_flag : boolean = false;
+  showMenu: boolean = false; 
 
   header: any = {
     inventory_item: { id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
@@ -98,16 +97,8 @@ export class HomeComponent implements OnInit {
     this.loadTableDatatoSource();
     this.loadItemCategories();
     this.loadItemCategoryMaster();
-    this.checkEnableElearnFeature();
   }
 
-  checkEnableElearnFeature() {
-    let enable_eLearn_feature: any;
-    enable_eLearn_feature = sessionStorage.getItem('enable_eLearn_feature');
-    if (enable_eLearn_feature == 1) {
-      this.enable_eLearn_feature_flag = true;
-    }
-  }
 
   checkMainBranchOrSubBranch() {
     let sessionData = sessionStorage.getItem('is_main_branch');
@@ -246,8 +237,7 @@ export class HomeComponent implements OnInit {
       standard_id: row.standard_id.toString(),
       subject_id: row.subject_id.toString(),
       unit_cost: row.unit_cost.toString(),
-      out_of_stock_indicator_units: row.out_of_stock_indicator_units.toString(),
-      is_offline_or_online: row.is_offline_or_online
+      out_of_stock_indicator_units: row.out_of_stock_indicator_units.toString()
     };
     this.isRippleLoad = true;
     this.inventoryApi.updateInventoryItem(postdata).subscribe(
@@ -370,8 +360,7 @@ export class HomeComponent implements OnInit {
       subjectDet: [''],
       unit_cost: [''],
       created_date: [moment().format("YYYY-MM-DD")],
-      out_of_stock_indicator_units: [''],
-      is_offline_or_online:['']
+      out_of_stock_indicator_units: ['']
     })
   }
 
@@ -424,7 +413,6 @@ export class HomeComponent implements OnInit {
     }
     data.unit_cost = this.addItemForm.value.unit_cost.toString();
     data.out_of_stock_indicator_units = this.addItemForm.value.out_of_stock_indicator_units;
-    data.is_offline_or_online=this.addItemForm.value.is_offline_or_online;
     this.isRippleLoad = true;
     this.inventoryApi.addItemDetailsInCategory(data).subscribe(
       data => {

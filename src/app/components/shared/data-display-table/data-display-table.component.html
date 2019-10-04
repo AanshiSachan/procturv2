@@ -4,20 +4,10 @@
       <h1>{{displayKeys.tableDetails.title}}</h1>
     </div>
     <div *ngIf="displayKeys.selectAll.showSelectAll">
-      <div class="pull-right mt-2" *ngIf="displayKeys.selectAll.option=='single'" role="group"
-        (click)="SelectAlleventTrigger()">
+      <div class="pull-right mt-2" role="group" (click)="SelectAlleventTrigger()">
         <a class="btn btn-secondary btn-md btnCss">
           {{displayKeys.selectAll.title}}</a>
       </div>
-      <ng-template [ngIf]="displayKeys.selectAll.option=='multiple'">
-        <ng-container *ngFor="let option of displayKeys.selectAll.option_details">
-          <div class="pull-right mt-2" role="group" (click)="SelectAllMultipleEventTrigger(option)">
-            <a class="btn btn-secondary btn-md btnCss">
-              {{option.title}}</a>
-          </div>
-        </ng-container>
-
-      </ng-template>
     </div>
   </section>
 </div>
@@ -29,8 +19,7 @@
         <!-- <input type="checkbox" class="form-checkbox" > -->
 
         <div class="field-checkbox-wrapper">
-          <input type="checkbox" class="form-checkbox" [checked]="displayKeys.selectAll.checked"
-            (change)="toggleAllCheckBox()" id="ch2">
+          <input type="checkbox" class="form-checkbox" [checked]="displayKeys.selectAll.checked" (change)="toggleAllCheckBox()" id="ch2">
           <label for="ch2"></label>
         </div>
       </th>
@@ -56,8 +45,8 @@
     <tr *ngFor="let data of recordsTrimmed ; let i=index" (click)="rowClick(i)" [id]="'editTableRow-'+i">
       <td *ngIf="displayKeys.selectAll.showSelectAll" class="checkBoxCss">
         <div class="field-checkbox-wrapper">
-          <input type="checkbox" class="form-checkbox" [checked]="data.checked"
-            (change)="toggleCheckbox($event,data,displayKeys.selectAll.key)" [id]="'checkbox-'+i">
+          <input type="checkbox" class="form-checkbox" [checked]="data.checked" (change)="toggleCheckbox($event,data,displayKeys.selectAll.key)"
+            [id]="'checkbox-'+i">
           <label [for]="'checkbox-'+i"></label>
         </div>
       </td>
@@ -91,17 +80,14 @@
             </td>
           </ng-container>
           <ng-container *ngSwitchDefault>
-            <td *ngIf="key.ngClassShow " style="background: rgba(211, 212, 213, 0.5)"
-              [ngClass]="getClass(key.primaryKey,key.ngClassShow,data)">
+            <td *ngIf="key.ngClassShow " style="background: rgba(211, 212, 213, 0.5)" [ngClass]="getClass(key.primaryKey,key.ngClassShow,data)">
 
               <input *ngIf="key.inputType !='noEdit'" [type]="key.inputType" [(ngModel)]="data[key['primaryKey']]">
               <span *ngIf="key.inputType =='noEdit'"> {{getTypeCheck(data,data[key["primaryKey"]],key)}}</span>
             </td>
             <td *ngIf="!key.ngClassShow" style="background: rgba(211, 212, 213, 0.5)">
-              <input class="inputCss" *ngIf="key.inputType !='noEdit'" [type]="key.inputType"
-                [(ngModel)]="data[key['primaryKey']]">
-              <span class="inputCss" *ngIf="key.inputType =='noEdit'" style="border:none">
-                {{getTypeCheck(data,data[key["primaryKey"]],key)}}</span>
+              <input class="inputCss" *ngIf="key.inputType !='noEdit'" [type]="key.inputType" [(ngModel)]="data[key['primaryKey']]">
+              <span class="inputCss" *ngIf="key.inputType =='noEdit'" style="border:none"> {{getTypeCheck(data,data[key["primaryKey"]],key)}}</span>
 
             </td>
           </ng-container>
@@ -112,56 +98,45 @@
 
         <ng-template [ngIf]="displayKeys.actionSetting.isEditRowShow &&isEditRow!='editTableRow-'+i">
           <ng-container *ngFor="let option of displayKeys.actionSetting.options">
-            <button class="button" *ngIf="checkCondition(data)"
-              (click)="editRow('editTableRow-'+i,data,option.optionType)">{{option.title}}</button>
+            <button class="button" *ngIf="checkCondition(data)" (click)="editRow('editTableRow-'+i,data,option.optionType)">{{option.title}}</button>
           </ng-container>
         </ng-template>
 
-        <button class="button"
-          *ngIf="(!displayKeys.actionSetting.isEditRowShow) &&displayKeys.actionSetting.editOption=='button'&& checkCondition(data)"
+        <button class="button" *ngIf="(!displayKeys.actionSetting.isEditRowShow) &&displayKeys.actionSetting.editOption=='button'&& checkCondition(data)"
           (click)="editRow('editTableRow-'+i,data)">{{ displayKeys.actionSetting.options[0].title}}</button>
-        <div style="padding: 15px;font-size: 16px;font-weight: 500;"
-          *ngIf="displayKeys.actionSetting.editOption=='icon'">
+        <div style="padding: 15px;font-size: 16px;font-weight: 500;" *ngIf="displayKeys.actionSetting.editOption=='icon'">
           <ng-template [ngIf]="true">
             <ng-container *ngFor="let option of displayKeys.actionSetting.options">
-              <i class="fa fa-trash" *ngIf="option.viewName=='delete'&&isShow(option,data)" aria-hidden="true"
-                (click)="handleEvent(data,option.viewName)" style="color: palevioletred; font-size: 1.4rem;">&nbsp;</i>
-              <i class="fa fa-eye" *ngIf="option.viewName=='view' &&isShow(option,data)"
-                (click)="handleEvent(data,option.viewName)" style="font-size: 1.4rem;color: #0084f6;">&nbsp;</i>
-              <i class="fa fa-edit" *ngIf="option.viewName=='edit'&&isShow(option,data)"
-                (click)="handleEvent(data,option.viewName)" style="font-size: 1.4rem;color:#0084f6"></i>
+              <i class="fa fa-trash" *ngIf="option.viewName=='delete'&&isShow(option,data)" aria-hidden="true" (click)="handleEvent(data,option.viewName)"
+                style="color: palevioletred; font-size: 1.4rem;">&nbsp;</i>
+              <i class="fa fa-eye" *ngIf="option.viewName=='view' &&isShow(option,data)" (click)="handleEvent(data,option.viewName)" style="font-size: 1.4rem;color: #0084f6;">&nbsp;</i>
+              <i class="fa fa-edit" *ngIf="option.viewName=='edit'&&isShow(option,data)" (click)="handleEvent(data,option.viewName)" style="font-size: 1.4rem;color:#0084f6"></i>
             </ng-container>
           </ng-template>
         </div>
-        <div *ngIf="displayKeys.actionSetting.editOption=='link'">
+        <div  *ngIf="displayKeys.actionSetting.editOption=='link'">
           <ng-template [ngIf]="true">
             <ng-container *ngFor="let option of displayKeys.actionSetting.options">
-              <a *ngIf="checkCondition(data)" (click)="handleEvent(data,option.viewName)"
-                style="font-size: .8rem;color: #0084f6;">{{option.title}}</a>
+              <a   *ngIf="checkCondition(data)" (click)="handleEvent(data,option.viewName)" style="font-size: .8rem;color: #0084f6;">{{option.title}}</a>
             </ng-container>
           </ng-template>
         </div>
         <ng-template [ngIf]="displayKeys.actionSetting.editOption=='popup'  ">
-          <drop-menu [dropType]="dropType" [info]="data" [menuOptions]="displayKeys.actionSetting.options"
-            (selectedRecord)="recordSelected($event)"></drop-menu>
+          <drop-menu [dropType]="dropType" [info]="data" [menuOptions]="displayKeys.actionSetting.options" (selectedRecord)="recordSelected($event)"></drop-menu>
         </ng-template>
       </td>
       <!-- button editView -->
-      <td *ngIf=" displayKeys.actionSetting.showActionButton && isEditRow=='editTableRow-'+i "
-        style="  background: rgba(211, 212, 213, 0.5);">
+      <td *ngIf=" displayKeys.actionSetting.showActionButton && isEditRow=='editTableRow-'+i " style="  background: rgba(211, 212, 213, 0.5);">
         <ng-template [ngIf]="displayKeys.actionSetting.editOption=='button'">
           <ng-container *ngFor="let option of displayKeys.actionSetting.editOptions">
-            <button class="button" *ngIf="checkCondition(data)"
-              (click)="editRow('editTableRow-'+i,data,option.optionType)">{{option.title}}</button>
+            <button class="button" *ngIf="checkCondition(data)" (click)="editRow('editTableRow-'+i,data,option.optionType)">{{option.title}}</button>
           </ng-container>
         </ng-template>
-        <drop-menu *ngIf="displayKeys.actionSetting.editOption!='button'" [dropType]="dropType" [info]="data"
-          [menuOptions]="displayKeys.actionSetting.options" (selectedRecord)="recordSelected($event)"></drop-menu>
-      </td>
-      <td
-        *ngIf=" displayKeys.actionSetting.editOption!='button' && displayKeys.actionSetting.showActionButton && isEditRow=='editTableRow-'+i ">
-        <drop-menu [dropType]="dropType" [info]="data" [menuOptions]="displayKeys.actionSetting.options"
+        <drop-menu *ngIf="displayKeys.actionSetting.editOption!='button'" [dropType]="dropType" [info]="data" [menuOptions]="displayKeys.actionSetting.options"
           (selectedRecord)="recordSelected($event)"></drop-menu>
+      </td>
+      <td *ngIf=" displayKeys.actionSetting.editOption!='button' && displayKeys.actionSetting.showActionButton && isEditRow=='editTableRow-'+i ">
+        <drop-menu [dropType]="dropType" [info]="data" [menuOptions]="displayKeys.actionSetting.options" (selectedRecord)="recordSelected($event)"></drop-menu>
       </td>
     </tr>
 
@@ -178,8 +153,7 @@
 </table>
 <br>
 <br>
-<pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-  [pagesToShow]="_paginationService.getPagesToShow()" [page]="_paginationService.getPageIndex()"
-  [perPage]="_paginationService.displayBatchSize" [sizeArr]="_paginationService.getSizeArr()"
+<pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="_paginationService.getPagesToShow()"
+  [page]="_paginationService.getPageIndex()" [perPage]="_paginationService.displayBatchSize" [sizeArr]="_paginationService.getSizeArr()"
   (sizeChange)="updateTableBatchSize($event)" [count]="recordCount">
 </pagination>
