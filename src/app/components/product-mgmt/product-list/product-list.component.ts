@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ProductService } from '../../../services/products.service';
 import { HttpService } from '../../../services/http.service';
-import moment = require('moment');
+import * as moment from 'moment';
 declare var $;
 
 @Component({
@@ -386,7 +386,7 @@ export class ProductListComponent implements OnInit {
         },
         {
           'column': 'status',
-          'value': this.filter.by.status ? Number(this.filter.by.status) : this.filter.by.status;
+          'value': this.filter.by.status ? Number(this.filter.by.status) : this.filter.by.status
         }
       ],
       'sort': {
