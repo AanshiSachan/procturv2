@@ -147,12 +147,12 @@ export class AddClassComponent implements OnInit {
   }
 
   checkIsEnableElearnFeature() {
-    let enable_eLearn_feature = sessionStorage.getItem('enable_eLearn_feature');
-    let data: any;
-    data = atob(enable_eLearn_feature);
-    data = JSON.parse(data);
-    console.log(data);
-    if (data != 0) {
+    let data = sessionStorage.getItem('enable_eLearn_feature');
+    // let data: any;
+    // data = atob(enable_eLearn_feature);
+    // data = JSON.parse(data);
+    // console.log(data);
+    if (data=='1') {
       this.isShowProductOption = true;
       this.isRippleLoad = true;
       this.product_service.getMethod('product/get-product-list',null).subscribe(

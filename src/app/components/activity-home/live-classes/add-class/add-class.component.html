@@ -120,16 +120,16 @@
           </div>
 
           <div class="field-wrapper moderator_container" *ngIf="isShowProductOption">
-            <label for="product">Product</label><br>
-              <select class="made-out" id="product" [(ngModel)]="product_id" style="width: 100%;padding: 6px 12px;border: 1px solid #adadad;border-radius: 4px;" (change)="onChangeProduct($event.target.value)">
-                  <option *ngFor="let product of productData" [value]="product.id" >
+            <label for="product">Product(s)* </label><br>
+              <select class="made-out" id="product" [(ngModel)]="product_id" style="width: 100%;padding: 6px 12px;border: 1px solid #adadad;border-radius: 4px;" (change)="onChangeProduct($event.target.value)"> 
+                <option *ngFor="let product of productData" [value]="product.id" >
                       {{product.title}}
                   </option>
               </select>
           </div> 
 
           <div class="field-wrapper student_list_container" *ngIf="isShowProductOption" style="width: 73%">
-            <label for="students">User Name(s) </label>
+            <label for="students">User Name(s)* </label>
             <ng-multiselect-dropdown class="container"
               [placeholder]="'Select Users'"
               [data]="userData"
