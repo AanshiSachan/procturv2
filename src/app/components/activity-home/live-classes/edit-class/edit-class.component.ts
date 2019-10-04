@@ -140,7 +140,7 @@ export class EditClassComponent implements OnInit {
     this.userListSetting = {
       singleSelection: false,
       idField: 'user_id',
-      textField: 'name',
+      textField: 'user_name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 10,
@@ -335,10 +335,11 @@ export class EditClassComponent implements OnInit {
     this.selectedStudentList = temp;
 
   }
-
   getUserpreFillData() {
+
     let userIDs = this.editData.elearnUserIds.split(',')
     let userName = this.editData.eLearnUserName.split(',')
+
     let temp: any[] = [];
     for (var i = 0; i < userIDs.length; i++) {
       let x = {
