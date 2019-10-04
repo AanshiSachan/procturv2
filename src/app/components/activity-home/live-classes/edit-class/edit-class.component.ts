@@ -163,7 +163,7 @@ export class EditClassComponent implements OnInit {
     if (data != 0) {
       this.isShowProductOption = true;
       this.isRippleLoad = true;
-      this.product_service.getData(' https://test999.proctur.com/StdMgmtWebAPI/prod/product/get-product-list').subscribe(
+      this.product_service.getMethod('product/get-product-list',null).subscribe(
         (data: any) => {
           this.isRippleLoad = false;
           this.productData = data.result;
@@ -337,20 +337,20 @@ export class EditClassComponent implements OnInit {
   }
 
   getUserpreFillData() {
-    let institute_id = sessionStorage.getItem('institute_id');
-    let url = `/api/v1/meeting_manager/userDetailByProductID/${institute_id}/${this.editData.product_id}`;
-    this.isRippleLoad = true;
-    this.http_service.getData(url).subscribe(
-      (data: any) => {
-        this.isRippleLoad = false;
-        this.userList = data;
-        this.selectedUserList = this.userList;
-      },
-      (error: any) => {
-        this.isRippleLoad = false;
-        this.appC.popToast({ type: "error", body: error.error.message })
-      }
-    );
+    let userIDs = this.editData.elearnUserIds.split(',')
+    let userName = this.editData.eLearnUserName.split(',')
+    let temp: any[] = [];
+    for (var i = 0; i < userIDs.length; i++) {
+      let x = {
+        user_id: '',
+        user_name: ''
+      };
+      x.user_id = userIDs[i];
+      x.user_name=userName[i];
+      temp.push(x)
+    }
+    this.userList = temp;
+    this.selectedUserList = temp;
 
   }
 

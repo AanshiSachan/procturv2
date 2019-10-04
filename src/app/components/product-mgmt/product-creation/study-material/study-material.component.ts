@@ -72,6 +72,12 @@ export class StudyMaterialComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }
+
+    if (this.prodForm.about.length > 1500 ) {
+      this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
+      return;
+    }
+    
     if ((!this.isRippleLoad)) {
       //update test List
       let obj = {
@@ -87,7 +93,7 @@ export class StudyMaterialComponent implements OnInit {
           if (response.validate) {
             let details = response.result;
             this.prodForm.product_item_list = details;
-            this.msgService.showErrorMessage('success', "product study material data updated successfully", '');
+            this.msgService.showErrorMessage('success', "Product updated successfully !", '');
             this.nextForm.emit();
           }
           else {

@@ -1,4 +1,5 @@
 @import "./src/assets/css/common/variables.scss";
+@import "./src/assets/css/common/common-web.scss";
 
 .form-grop{
     label{
@@ -127,4 +128,27 @@ input[type="checkbox"], label{
     left: 0px;
     z-index: 6;
     width: 100%;
+  }
+
+  .datePickerBox {
+    .form-ctrl {
+      position: relative;
+      z-index: 1;
+      float: left;
+      // border-right: 0;
+      // height: 35px;
+      font: 400 12px 'Open sans',sans-serif;
+      width: 100% !important;
+    }
+  
+    &:after {
+      content: '';
+      background: url('../../../../../assets/images/calendar.svg') no-repeat;
+      position: absolute;
+      left: 88% !important;
+      top: 27px !important;
+      width: 21px;
+      height: 21px;
+      z-index: 0;
+    }
   }

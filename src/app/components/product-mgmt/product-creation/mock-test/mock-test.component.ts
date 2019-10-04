@@ -162,6 +162,10 @@ export class MockTestComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }
+    if (this.description.length>1500 ) {
+      this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
+      return;
+    }
     let objectArray = [];
     this.prodForm.product_item_list && this.prodForm.product_item_list.forEach((object) => {
       if (object.slug != 'Mock_Test') {
@@ -219,7 +223,7 @@ export class MockTestComponent implements OnInit {
 
               this.prodForm.product_item_list = details;
               console.log(this.prodForm)
-              this.msgService.showErrorMessage('success', "product mock test updated successfully", '');
+              this.msgService.showErrorMessage('success',"Product updated successfully !", '');
               this.nextForm.emit();
             }
             else {

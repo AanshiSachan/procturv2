@@ -462,7 +462,8 @@ export class UploadFileComponent implements OnInit {
     let url = "/api/v1/instFileSystem/v2/categories";
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
-      let temp = [{ category_id: 330, category_name: 'existing video' }];
+      let temp = [];
+      // { category_id: 330, category_name: 'existing video' }
       res.forEach(category => {
         if (category.category_id == -1) {
           category.videoCategoryList.forEach(vdoType => {

@@ -82,6 +82,10 @@ export class ClassroomClassComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }
+    if (this.description.length>1500 ) {
+      this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
+      return;
+    }
     if ((!this.isRippleLoad)) {
       //update test List
       let obj = {
@@ -97,7 +101,7 @@ export class ClassroomClassComponent implements OnInit {
           if (response.validate) {
             let details = response.result;
             this.prodForm.product_item_list = details;
-            this.msgService.showErrorMessage('success', "classroom class data updated successfully", '');
+            this.msgService.showErrorMessage('success', "Product updated successfully !", '');
             this.nextForm.emit();
           }
           else {

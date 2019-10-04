@@ -31,7 +31,7 @@
         <div class="form-group">
           <label class="text-bold">Description  <span class="text-danger">*</span></label>
           <textarea [(ngModel)]="prodForm.about" name="description" class="form-control form-control-sm"
-            placeholder="Write a short description about this product"></textarea>
+            placeholder="Write a short description about this product" maxLength="1500"></textarea>
         </div>
       </div>
       <div class="col-md-12">
@@ -84,7 +84,7 @@
         </div>
         <div class="col-md-6 form-group">
           <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
-            <label for="from">To Date</label>
+            <label for="from">To Date<span class="text-danger">*</span></label>
             <input type="text" [(ngModel)]="prodForm.sales_to_date" name="to" class="form-control form-control-sm"
               autocomplete="off" bsDatepicker>
           </div>
@@ -107,19 +107,19 @@
         <div class="col-md-6 form-group" *ngIf="!prodForm.is_duration" >
           <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
             <label for="from">From Date<span class="text-danger">*</span></label>
-            <input type="text" [(ngModel)]="prodForm.valid_from_date" name="from" class="form-control form-control-sm"
+            <input type="text" [(ngModel)]="prodForm.valid_from_date" name="from" class="form-control bsDatepicker form-control-sm"
               autocomplete="off" bsDatepicker>
           </div>
         </div>
         <div class="col-md-6 form-group" *ngIf="!prodForm.is_duration">
           <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
             <label for="from">To Date</label>
-            <input type="text" [(ngModel)]="prodForm.valid_to_date" name="to" class="form-control form-control-sm"
+            <input type="text" [(ngModel)]="prodForm.valid_to_date" name="to" class="form-control bsDatepicker form-control-sm"
               autocomplete="off" bsDatepicker>
           </div>
         </div>
         <div class="col-md-6 form-group" *ngIf="prodForm.is_duration">
-          <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+          <div class="col-md-12 " style="padding-top: 0px;padding-bottom: 10px;">
             <label for="from">Duration<span class="text-danger">*</span></label>
             <div class="questionInfo inline-relative">
               <span class="qInfoIcon i-class">i</span>

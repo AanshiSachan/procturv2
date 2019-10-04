@@ -166,6 +166,10 @@ export class OnlineExamComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }
+    if (this.description.length > 1500 ) {
+      this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
+      return;
+    }
     // let array = this.testlist.filter((item) => item.isChecked == true);
     // console.log(array);
     // if (this.testlist.length == 0) {
@@ -227,7 +231,7 @@ export class OnlineExamComponent implements OnInit {
 
               this.prodForm.product_item_list = details;
               console.log(this.prodForm)
-              this.msgService.showErrorMessage('success', "product online test updated successfully", '');
+              this.msgService.showErrorMessage('success', "Product updated successfully !", '');
               this.nextForm.emit();
             }
             else {

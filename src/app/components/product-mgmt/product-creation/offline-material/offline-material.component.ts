@@ -125,6 +125,10 @@ export class OfflineMaterialComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }
+    if (this.description.length>1500 ) {
+      this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
+      return;
+    }
     let objectArray = [];
     let array = this.inventoryList.filter((item) => item.isChecked == true);
     console.log(array);
@@ -161,7 +165,7 @@ export class OfflineMaterialComponent implements OnInit {
             if (response.validate) {
               let details = response.result;
               this.prodForm.product_item_list = details;
-              this.msgService.showErrorMessage('success', "product printed material  updated successfully", '');
+              this.msgService.showErrorMessage('success', "Product updated successfully !", '');
               this.nextForm.emit();
             }
             else {

@@ -51,9 +51,9 @@ export class BasicInfoComponent implements OnInit {
     cateory: 0,
     itemStates: [],
     valid_from_date: moment().format('DD-MMM-YYYY'),
-    valid_to_date: moment().format('DD-MMM-YYYY'),
+    valid_to_date: '',
     sales_from_date: moment().format('DD-MMM-YYYY'),
-    sales_to_date: moment().format('DD-MMM-YYYY'),
+    sales_to_date:  moment().format('DD-MMM-YYYY'),
     start_timestamp: '',
     end_timestamp: '',
     status: 10,
@@ -194,8 +194,12 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'title should not be shorter than one characters', '');
       return;
     }
-    if (this.prodForm.about == '') {
+    if (this.prodForm.about == '' ) {
       this.msgService.showErrorMessage('error', 'please enter product description', '');
+      return;
+    }
+    if (this.prodForm.about.length>1500 ) {
+      this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
       return;
     }
     if (this.prodForm.purchase_limit == 0) {
@@ -204,17 +208,22 @@ export class BasicInfoComponent implements OnInit {
     }
 
     if (this.products_ecourse_maps.length == 0) {
-      this.msgService.showErrorMessage('error', 'please select at least one e-course', '');
+      this.msgService.showErrorMessage('error', 'please select at least one Ecourse', '');
       return;
     }
     if (this.prodForm.duration <= 0 && this.prodForm.is_duration) {
       this.msgService.showErrorMessage('error', 'please enter product duration ', '');
       return;
     }
+    if ((moment(this.prodForm.sales_to_date).valueOf() <= moment(this.prodForm.sales_from_date).valueOf())) {
+      this.msgService.showErrorMessage('error', 'sales from date cannot be prior to than sales to date', '');
+      return;
+    }
+
 
     if ((!this.prodForm.is_duration) && 
     (moment(this.prodForm.valid_from_date).valueOf() < moment(this.prodForm.sales_from_date).valueOf())) {
-      this.msgService.showErrorMessage('error', 'visibility date should be grater than sales start date', '');
+      this.msgService.showErrorMessage('error', 'Product visibility start date cannot be prior to sales start date', '');
       return;
     }
 
@@ -309,7 +318,7 @@ export class BasicInfoComponent implements OnInit {
           this.isRippleLoad = false;
           let data = resp['body'];
           if (data.validate) {
-            this.msgService.showErrorMessage('success', "product updated successfully", '');
+            this.msgService.showErrorMessage('success', "Product updated successfully !", '');
             this.nextForm.emit();
           }
           else {
