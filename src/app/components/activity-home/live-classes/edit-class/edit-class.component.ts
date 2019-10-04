@@ -163,7 +163,7 @@ export class EditClassComponent implements OnInit {
     if (data != 0) {
       this.isShowProductOption = true;
       this.isRippleLoad = true;
-      this.product_service.getData(' https://test999.proctur.com/StdMgmtWebAPI/prod/product/get-product-list').subscribe(
+      this.product_service.getMethod(' prod/product/get-product-list', null).subscribe(
         (data: any) => {
           this.isRippleLoad = false;
           this.productData = data.result;
