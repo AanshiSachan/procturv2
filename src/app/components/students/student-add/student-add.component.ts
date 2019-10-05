@@ -303,9 +303,6 @@ export class StudentAddComponent implements OnInit {
     if (this.isProfessional) {
       if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
         this.convertToStudentDetected();
-        this.checkStatusofStudent = false;
-      } else{
-        this.checkStatusofStudent =  true;
       }
       this.getSlots();
       this.getlangStudentStatus();
@@ -316,7 +313,6 @@ export class StudentAddComponent implements OnInit {
         this.getSlots();
         this.getlangStudentStatus();
         this.convertToStudentDetected();
-        this.checkStatusofStudent = false;
       }else{
         this.checkStatusofStudent = true;
       }
@@ -360,11 +356,10 @@ export class StudentAddComponent implements OnInit {
     let encryptedData = sessionStorage.getItem('country_data');
     let data = atob(encryptedData);
     data = JSON.parse(data);
-    if (data.length > 0) {
+    if (data.length > 1) {
       this.countryDetails = data;
       console.log(this.countryDetails);
-      if(this.checkStatusofStudent == true) {
-        console.log('hiii');
+      if(this.checkStatusofStudent == true){
         this.studentAddFormData.country_id = this.countryDetails[0].id;
         this.instituteCountryDetObj = this.countryDetails[0];
       }
@@ -381,8 +376,7 @@ export class StudentAddComponent implements OnInit {
     this.fetchDataForCountryDetails();
     this.countryDetails.forEach(element => {
       if (element.id == event) {
-        console.log(element.id);
-        this.studentAddFormData.country_id = element.id;
+        console.log('hi');
         this.instituteCountryDetObj = element;
         this.maxlegth = this.instituteCountryDetObj.country_phone_number_length;
       }
@@ -1532,9 +1526,9 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.country_id = this.enquiryData.country_id;
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
+    this.onChangeObj(this.enquiryData.country_id);
     console.log(this.studentAddFormData);
     this.checkStatusofStudent = false;
-    this.onChangeObj(this.enquiryData.country_id);
     this.fetchEnquiryCustomComponentDetails();
     sessionStorage.removeItem('studentPrefill');
   }

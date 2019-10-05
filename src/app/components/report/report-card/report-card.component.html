@@ -55,11 +55,11 @@
                     <th>Contact Number</th>
                     <th>Joining Date</th>
                     <th>Status</th>
-                    <th>View</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody *ngIf="studentList.length > 0 && dataStatus === 2">
-                <tr *ngFor="let row of studentList">
+                <tr *ngFor="let row of studentList;let i = index;">
                     <td>{{row.student_disp_id}}</td>
                     <td>{{row.student_name}}</td>
                     <td>{{row.student_phone}}</td>
@@ -69,7 +69,10 @@
                         <span *ngIf="row.is_active != 'Y'">Inactive</span>
                     </td>
                     <td>
-                        <a [routerLink]='["./view" , row.student_id]'>view</a>
+                        <a [routerLink]='["./view", row.student_id]'><i class="fa fa-eye" aria-hidden="true" style="color: #1283f4;cursor:pointer" (click)="viewClassDetails(i, class)" title="View Details"></i></a>
+                        <!-- <a class="fa fa-download" style="font-size: 17px; color: #1283f4; margin-left: 1%;" title="Download File" (click)="getDownload(row.student_id);"
+                        id="downloadReport" ></a>
+                        <a id="downloadFileClick1"></a> -->
                     </td>
                 </tr>
             </tbody>
@@ -97,5 +100,4 @@
             </tbody>
         </table>
     </div>
-
 </section>
