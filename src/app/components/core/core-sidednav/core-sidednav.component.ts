@@ -826,7 +826,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('enable_online_payment_feature', res.enable_online_payment_feature);
     sessionStorage.setItem('institute_setup_type', res.institute_setup_type);
     sessionStorage.setItem('allow_sms_approve_feature', res.allow_sms_approve_feature);
-    sessionStorage.setItem('enable_eLearn_feature', '0');//res.enable_eLearn_feature
+    sessionStorage.setItem('enable_eLearn_feature',res.enable_eLearn_feature);//
     sessionStorage.setItem('open_enq_Visibility_feature', res.open_enq_Visibility_feature);
   }
 
