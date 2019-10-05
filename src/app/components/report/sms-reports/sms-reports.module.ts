@@ -19,6 +19,11 @@ import { CompaignBaseReportComponent } from './compaign-base-report/compaign-bas
     SharedModule,
     BsDatepickerModule,
   ],
-  declarations: [SmsReportsComponent, TransctionalSmsComponent, CompaignSmsComponent, SmsHomeComponent, CompaignBaseReportComponent]
+  declarations: [
+    SmsReportsComponent, 
+    TransctionalSmsComponent,
+     CompaignSmsComponent, 
+    SmsHomeComponent, 
+    CompaignBaseReportComponent]
 })
 export class SmsReportsModule { }

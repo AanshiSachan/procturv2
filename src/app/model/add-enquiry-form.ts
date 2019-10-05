@@ -1,6 +1,5 @@
 export interface addEnquiryForm {
 	name?: any,
-	country_id?: any,
 	phone?: any,
 	email?: any,
 	gender?: any,
@@ -46,4 +45,5 @@ export interface addEnquiryForm {
 	walkin_followUpTime: any,
 	closing_reason_id: any,
 	is_follow_up_time_notification?:any
+	country_id?: any
 }

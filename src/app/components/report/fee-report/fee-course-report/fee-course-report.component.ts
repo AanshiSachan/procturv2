@@ -323,7 +323,7 @@ export class FeeCourseReportComponent implements OnInit {
           let obj = {
             standard_id: this.courseFetchForm.standard_id,
             batch_id: this.courseFetchForm.batch_id,
-            type:this.courseFetchForm.type,
+            type: this.courseFetchForm.type,
             from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
             to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
             installment_id: this.courseFetchForm.installment_id,
@@ -458,7 +458,7 @@ export class FeeCourseReportComponent implements OnInit {
     this.isCustomDate = false;
     this.courseFetchForm.from_date = '';
     this.courseFetchForm.to_date = '';
-    this.courseFetchForm.type = "1";
+    this.courseFetchForm.type = "0";
     this.applyAcademicYear('-1');
     this.isRippleLoad = true;
     if (this.isProfessional) {
@@ -522,7 +522,7 @@ export class FeeCourseReportComponent implements OnInit {
     this.isCustomDate = false;
     this.courseFetchForm.from_date = '';
     this.courseFetchForm.to_date = '';
-    this.courseFetchForm.type = "1";
+    this.courseFetchForm.type = "0";
     this.selectedSlotsString = "";
     this.selectedSlots = [];
     this.applyAcademicYear('-1');

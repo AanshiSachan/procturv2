@@ -131,7 +131,7 @@
                 <div class="row">
 
                     <div class="c-sm-6 c-md-6 c-lg-6">
-                     <b style="font-weight: 600;">Batch Duration &nbsp; :&nbsp;</b>  <span class="spanText">{{batchStartDate}} to {{batchEndDate}}</span>
+                        <span class="spanText">{{batchStartDate}} to {{batchEndDate}}</span>
                     </div>
 
                 </div>
@@ -151,9 +151,7 @@
                     <div class="c-sm-2 c-lg-2 c-md-2">
 
                         <div class="form-wrapper timepick">
-                            <label for="startTime">Start Time
-                                <span class="text-danger">*</span>
-                            </label>
+                            <label for="startTime">Start Time</label>
                             <div class="tbox">
                                 <div class="times">
                                     <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.start_time.hour" name="startTime">
@@ -177,9 +175,7 @@
                     <div class="c-sm-2 c-lg-2 c-md-2">
 
                         <div class="form-wrapper timepick">
-                            <label for="startTime">End Time
-                                <span class="text-danger">*</span>
-                            </label>
+                            <label for="startTime">End Time</label>
                             <div class="tbox">
                                 <div class="times">
                                     <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.end_time.hour" name="startTime">
@@ -1007,12 +1003,12 @@
                         </aside>
                         <aside *ngIf="isLangInstitute" class="pull-right popup-btn">
                             <input type="button" value="No" class="btn" (click)="closeCancelExamPopUp()" style="width:70px;">
-                            <input type="button" value="Yes" [disabled]="isRippleLoad" (click)="cancelExamClassSchedule()" class="fullBlue btn" style="width:70px;">
+                            <input type="button" value="Yes" (click)="cancelExamClassSchedule()" class="fullBlue btn" style="width:70px;">
                         </aside>
                         <aside *ngIf="!isLangInstitute" class="pull-right popup-btn">
                             <input type="button" value="No" class="btn" (click)="closeCancelExamPopUp()" style="width:70px;">
-                            <input *ngIf="jsonVar.cancelCourseLevel" type="button" value="Yes" [disabled]="isRippleLoad" (click)="cancelCourseLevelExam()" class="fullBlue btn" style="width:70px;">
-                            <input *ngIf="!jsonVar.cancelCourseLevel" type="button" value="Yes"  [disabled]="isRippleLoad" (click)="cancelCourseExam()" class="fullBlue btn" style="width:70px;">
+                            <input *ngIf="jsonVar.cancelCourseLevel" type="button" value="Yes" (click)="cancelCourseLevelExam()" class="fullBlue btn" style="width:70px;">
+                            <input *ngIf="!jsonVar.cancelCourseLevel" type="button" value="Yes" (click)="cancelCourseExam()" class="fullBlue btn" style="width:70px;">
                         </aside>
                     </div>
 
