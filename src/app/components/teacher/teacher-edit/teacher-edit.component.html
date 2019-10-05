@@ -32,7 +32,7 @@
                             <span class="text-danger">*</span>
                         </label><br>
                         <span class="countryCallingCode"style="width: 26%">
-                                <select id="country_id" class="form-ctrl" formControlName="country_id" name="country"
+                                <select id="country_id" class="form-ctrl" formControlName="country_id" name="country" 
                                 [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
                                 <option value=""></option>
                                 <option [value]="data.id" selected *ngFor='let data of countryDetails'>
@@ -72,7 +72,7 @@
                         <label for="alternateNo">Alternate Contact Number
                         </label><br>
                         <span class="countryCallingCode"style="width: 26%">
-                            <select id="country_id" class="form-ctrl" formControlName="country_id" name="country"
+                            <select id="country_id" class="form-ctrl" formControlName="country_id" name="country" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                             [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
                             <option value=""></option>
                             <option [value]="data.id" selected *ngFor='let data of countryDetails'>
