@@ -1,4 +1,4 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'"
   *ngIf="isRippleLoad">
 </loaders-css>
 <!-- <div class="row">
@@ -180,6 +180,9 @@
       <div class="action-buttons" *ngIf="video.category_name=='VDOCipher'">
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'unlink')">Unlink</button>
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked!='N'" (click)="setRemoveDataFile(video,'delete')">Delete</button>
+      </div>
+      <div class="action-buttons" *ngIf="video.category_name!='VDOCipher'">
+        <button class="btn btn-xs btn-ga-white"  (click)="setRemoveDataFile(video,'delete')">Delete</button>
       </div>
     </div>
   </div>
