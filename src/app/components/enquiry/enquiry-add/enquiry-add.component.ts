@@ -22,6 +22,7 @@ export class EnquiryAddComponent implements OnInit {
   isRippleLoad: boolean;
   isRegisterStudent: boolean = false;
   /* Variable Declarations */
+  countryDetails: any=[];
   enqstatus: any = [];
   enqPriority: any = [];
   enqFollowType: any = [];
@@ -46,6 +47,7 @@ export class EnquiryAddComponent implements OnInit {
   newEnqData: addEnquiryForm =
     {
       name: "",
+      country_id: "",
       phone: "",
       email: "",
       gender: "",
@@ -156,6 +158,8 @@ export class EnquiryAddComponent implements OnInit {
   selectedCourseIds: any = null;
   selectedSubjectIds: any = null;
   isEnquirySubmit: boolean = true;
+  instituteCountryDetObj: any = {};
+  maxlength: any = 10;
   walkinTime: any = {
     hour: '',
     minute: ''
@@ -206,6 +210,7 @@ export class EnquiryAddComponent implements OnInit {
     /* Model for Enquiry Data */
     this.newEnqData = {
       name: "",
+      country_id: "",
       phone: "",
       email: "",
       gender: "",
@@ -275,10 +280,37 @@ export class EnquiryAddComponent implements OnInit {
       }
     )
 
+    this.fetchDataForCountryDetails();
+
+  }
+
+  // created by: Nalini Walunj
+  // Below three functions are written to fetch country details from the session stored at the time of login of institute
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = atob(encryptedData);
+    data = JSON.parse(data);
+    if (data.length > 0) {
+    this.countryDetails = data;
+    console.log(this.countryDetails);
+    this.newEnqData.country_id = this.countryDetails[0].id;
+    this.instituteCountryDetObj=this.countryDetails[0];
+    }
   }
 
 
-
+  onChangeObj(event) {
+    console.log(event);
+    this.countryDetails.forEach(element => {
+      if (element.id == event) {
+        this.instituteCountryDetObj = element;
+        this.newEnqData.country_id = element.id;
+        this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
+      }
+    }
+    );
+  }
+  
   /* Function for Toggling Form Visibility */
   toggleForm(event) {
     let eleid = event.srcElement.id;
@@ -322,8 +354,7 @@ export class EnquiryAddComponent implements OnInit {
 
     this.prefill.getFollowupType().subscribe(
       data => { this.enqFollowType = data },
-      err => { }
-    );
+      err => { });
 
     this.prefill.getAssignTo().subscribe(
       data => { this.enqAssignTo = data; },
@@ -430,7 +461,7 @@ export class EnquiryAddComponent implements OnInit {
         data => {
           if (data != null) {
             data.forEach(el => {
-              let max_length =  el.comp_length==0?100:el.comp_length;
+              let max_length = el.comp_length == 0 ? 100 : el.comp_length;
               let obj = {
                 data: el,
                 id: el.component_id,
@@ -442,7 +473,7 @@ export class EnquiryAddComponent implements OnInit {
                 selectedString: '',
                 type: el.type,
                 value: el.enq_custom_value,
-                comp_length:max_length
+                comp_length: max_length
               }
               if (el.type == 4) {
                 obj = {
@@ -456,7 +487,7 @@ export class EnquiryAddComponent implements OnInit {
                   selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
                   type: el.type,
                   value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
-                  comp_length:max_length
+                  comp_length: max_length
                 }
               }
               if (el.type == 3) {
@@ -471,7 +502,7 @@ export class EnquiryAddComponent implements OnInit {
                   selectedString: "",
                   type: el.type,
                   value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
-                  comp_length:max_length
+                  comp_length: max_length
                 }
               }
               if (el.type == 2) {
@@ -486,7 +517,7 @@ export class EnquiryAddComponent implements OnInit {
                   selectedString: '',
                   type: el.type,
                   value: el.enq_custom_value == "" ? false : true,
-                  comp_length:max_length
+                  comp_length: max_length
                 }
               }
               else if (el.type != 2 && el.type != 4 && el.type != 3) {
@@ -501,7 +532,7 @@ export class EnquiryAddComponent implements OnInit {
                   selectedString: '',
                   type: el.type,
                   value: el.enq_custom_value,
-                  comp_length:max_length
+                  comp_length: max_length
                 }
               }
               this.customComponents.push(obj);
@@ -625,7 +656,7 @@ export class EnquiryAddComponent implements OnInit {
   validatePhone(num) {
     //console.log(num);
     if (num != null) {
-      return this.newEnqData.phone.length === 10;
+      return this.newEnqData.phone.length === this.maxlength;
     }
   }
 
@@ -886,6 +917,7 @@ export class EnquiryAddComponent implements OnInit {
             area: this.newEnqData.area,
             assigned_to: this.newEnqData.assigned_to,
             city: this.newEnqData.city,
+            country_id: this.newEnqData.country_id,
             closedReason: this.newEnqData.closedReason,
             courseIdArray: this.selectedCourseIds,
             curr_address: this.newEnqData.curr_address,
@@ -925,8 +957,9 @@ export class EnquiryAddComponent implements OnInit {
             subjectIdArray: this.selectedSubjectIds,
             walkin_followUpDate: this.newEnqData.walkin_followUpDate,
             walkin_followUpTime: this.newEnqData.walkin_followUpTime,
-            is_follow_up_time_notification: this.newEnqData.is_follow_up_time_notification
+            is_follow_up_time_notification: this.newEnqData.is_follow_up_time_notification,
           }
+          console.log(obj);
           this.isRippleLoad = true;
           this.poster.postNewEnquiry(obj).subscribe(
             (data: any) => {
@@ -1029,8 +1062,10 @@ export class EnquiryAddComponent implements OnInit {
       enquiry_id: instituteEnqId,
       institute_enquiry_id: instituteEnqId,
       school_id: this.newEnqData.school_id,
-      curr_address:this.newEnqData.curr_address
+      curr_address: this.newEnqData.curr_address,
+      country_id: this.newEnqData.country_id
     }
+    console.log(obj);
     if (!this.isProfessional) {
       obj.standard_id = this.course_standard_id;
     } else {
@@ -1143,13 +1178,14 @@ export class EnquiryAddComponent implements OnInit {
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
-    let phoneFlag = this.commonServiceFactory.validatePhone(this.newEnqData.phone)
+    let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
+    let phoneFlag = this.commonServiceFactory.validatePhone(this.newEnqData.phone, this.maxlength)
     if (phoneFlag == 'noNumber' || phoneFlag == 'lessThanTen') {
       if (phoneFlag == 'noNumber') {
         return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
       }
       else {
-        return this.showErrorMessage('error', 'Enter 10 Digit Contact Number', '');
+        return this.showErrorMessage('error', msg , '');
       }
     }
     else if (this.commonServiceFactory.checkValueType(this.newEnqData.enquiry_date)) {
@@ -1158,10 +1194,16 @@ export class EnquiryAddComponent implements OnInit {
     else if (this.commonServiceFactory.sourceValueCheck(this.newEnqData.source_id)) {
       return this.showErrorMessage('error', 'Enquiry Source Is Mandatory', '');
     }
+    else if(this.newEnqData.name == '' || this.newEnqData.name ==null){
+      return this.showErrorMessage('error', 'Name Is Mandatory' , '');
+    }
     else {
       if (this.validateEnquiryDate()) {//newEnqData.parent_phone
-        if (this.newEnqData.parent_phone.length != 10 && this.newEnqData.parent_phone != "") {
-          return this.showErrorMessage('error', 'Enter 10 Digit Contact Number', '');
+        if (this.newEnqData.parent_phone.length != this.maxlength && this.newEnqData.parent_phone != "") {
+          return this.showErrorMessage('error', msg, '');
+        }
+        if (this.newEnqData.phone2.length != this.maxlength && this.newEnqData.phone2 != "") {
+          return this.showErrorMessage('error', msg, '');
         }
         if (this.hour == '' && Number(this.minute) > 0) {
           return this.showErrorMessage('error', 'Please select time', '');

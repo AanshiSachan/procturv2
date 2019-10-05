@@ -40,6 +40,7 @@ export class EnquiryEditComponent implements OnInit {
   institute_enquiry_id: any = '';
   editEnqData: addEnquiryForm = {
     name: "",
+    country_id: "",
     phone: "",
     email: "",
     dob: '',
@@ -157,6 +158,7 @@ export class EnquiryEditComponent implements OnInit {
   closingReasonDataSource: any = [];
   closingReasonOpen: boolean = false;
   isNewRefer: boolean;
+  instituteCountryDetObj: any = {};
   createNewReasonObj = {
     closing_desc: "",
     institution_id: this.service.institute_id
@@ -167,6 +169,8 @@ export class EnquiryEditComponent implements OnInit {
     minute: ''
   }
   minuteArr: any[] = ['', '00', '15', '30', '45'];
+  countryDetails: any=[];
+  maxlength: any = 10;
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(
@@ -233,8 +237,43 @@ export class EnquiryEditComponent implements OnInit {
       }
     )
     console.log(this.editEnqData);
+    this.fetchDataForCountryDetails();
+    this.checklengthOfCountry();
   }
 
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = atob(encryptedData);
+    data = JSON.parse(data);
+    if (data.length > 0) {
+    this.countryDetails = data;
+    console.log(this.countryDetails);
+    }
+  }
+
+  checklengthOfCountry() {
+    if (this.countryDetails.length <= 1) {
+      this.countryDetails.forEach(element => {
+        this.instituteCountryDetObj = element;
+      }
+      );
+      this.editEnqData.country_id = this.instituteCountryDetObj.country_id;
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  onChangeObj(event) {
+    console.log(event);
+    this.countryDetails.forEach(element => {
+      if (element.id == event) {
+        this.instituteCountryDetObj = element;
+        this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
+      }
+    }
+    );
+  }
 
   timeChanges(ev, id) {
     // 
@@ -259,6 +298,15 @@ export class EnquiryEditComponent implements OnInit {
     this.prefill.fetchEnquiryByInstituteID(id).subscribe(
       data => {
         this.editEnqData = data;
+        console.log(data);
+        // this.editEnqData.country_id = this.instituteCountryDetObj.country_id;
+        this.countryDetails.forEach(element => {
+          if (element.id == this.editEnqData.country_id) {
+            this.instituteCountryDetObj = element;
+            this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
+          }
+        }
+        );
         this.enquiryStatus = data.status;
         if (this.editEnqData.courseIdArray != null && this.editEnqData.courseIdArray.length) {
           this.editEnqData.courseIdArray = this.editEnqData.courseIdArray.map(el => { return parseInt(el) });
@@ -328,7 +376,7 @@ export class EnquiryEditComponent implements OnInit {
             obj.component_id = e.id;
             obj.enq_custom_id = e.data.enq_custom_id;
             obj.enq_custom_value = moment(e.value).format("YYYY-MM-DD");
-            obj.comp_length =  e.comp_length;
+            obj.comp_length = e.comp_length;
             tempArr.push(obj);
           }
         }
@@ -341,7 +389,7 @@ export class EnquiryEditComponent implements OnInit {
               obj.component_id = e.id;
               obj.enq_custom_id = e.data.enq_custom_id;
               obj.enq_custom_value = e.value;
-              obj.comp_length =  e.comp_length;
+              obj.comp_length = e.comp_length;
               tempArr.push(obj);
             }
           }
@@ -351,7 +399,7 @@ export class EnquiryEditComponent implements OnInit {
               obj.component_id = e.id;
               obj.enq_custom_id = e.data.enq_custom_id;
               obj.enq_custom_value = "Y";
-              obj.comp_length =  e.comp_length;
+              obj.comp_length = e.comp_length;
               tempArr.push(obj);
             }
             else {
@@ -359,7 +407,7 @@ export class EnquiryEditComponent implements OnInit {
               obj.component_id = e.id;
               obj.enq_custom_id = e.data.enq_custom_id;
               obj.enq_custom_value = "N";
-              obj.comp_length =  e.comp_length;
+              obj.comp_length = e.comp_length;
               tempArr.push(obj);
             }
           }
@@ -517,7 +565,7 @@ export class EnquiryEditComponent implements OnInit {
           this.customComponents = [];
           if (data != null) {
             data.forEach(el => {
-              let max_length =  el.comp_length==0?100:el.comp_length;
+              let max_length = el.comp_length == 0 ? 100 : el.comp_length;
               let obj = {
                 data: el,
                 id: el.component_id,
@@ -529,7 +577,7 @@ export class EnquiryEditComponent implements OnInit {
                 selectedString: '',
                 type: el.type,
                 value: el.enq_custom_value,
-                comp_length:max_length
+                comp_length: max_length
               }
               if (el.type == 4) {
                 obj = {
@@ -543,7 +591,7 @@ export class EnquiryEditComponent implements OnInit {
                   selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
                   type: el.type,
                   value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
-                  comp_length:max_length
+                  comp_length: max_length
                 }
               }
               if (el.type == 3) {
@@ -558,7 +606,7 @@ export class EnquiryEditComponent implements OnInit {
                   selectedString: "",
                   type: el.type,
                   value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
-                  comp_length:max_length
+                  comp_length: max_length
                 }
               }
               if (el.type == 2) {
@@ -573,7 +621,7 @@ export class EnquiryEditComponent implements OnInit {
                   selectedString: '',
                   type: el.type,
                   value: el.enq_custom_value == "Y" ? true : false,
-                  comp_length:max_length
+                  comp_length: max_length
                 }
               }
               else if (el.type != 2 && el.type != 4 && el.type != 3) {
@@ -588,7 +636,7 @@ export class EnquiryEditComponent implements OnInit {
                   selectedString: '',
                   type: el.type,
                   value: el.enq_custom_value,
-                  comp_length:max_length
+                  comp_length: max_length
                 }
               }
 
@@ -827,8 +875,6 @@ export class EnquiryEditComponent implements OnInit {
         else {
           this.editEnqData.is_follow_up_time_notification = 0
         }
-
-
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
           (data: any) => {
             this.isEnquirySubmit = false;
@@ -846,7 +892,8 @@ export class EnquiryEditComponent implements OnInit {
                   parent_phone: this.editEnqData.parent_phone,
                   enquiry_id: this.institute_enquiry_id,
                   institute_enquiry_id: this.institute_enquiry_id,
-                  school_id: this.editEnqData.school_id
+                  school_id: this.editEnqData.school_id,
+                  country_id:this.editEnqData.country_id
                 }
                 if (!this.isProfessional) {
                   obj.standard_id = this.editEnqData.standard_id;
@@ -961,17 +1008,18 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
-    let phoneFlag = this.commonServiceFactory.validatePhone(this.editEnqData.phone);
+    let phoneFlag = this.commonServiceFactory.validatePhone(this.editEnqData.phone, this.maxlength);
     // if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
     //   return this.showErrorMessage('error', 'Enquirer Name Is Mandatory', '');
     // }
     // else
-     if (phoneFlag == 'noNumber' || phoneFlag == 'lessThanTen') {
+    if (phoneFlag == 'noNumber' || phoneFlag == 'lessThanTen') {
       if (phoneFlag == 'noNumber') {
         return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
       }
       else {
-        return this.showErrorMessage('error', 'Enter 10 Digit Contact Number', '');
+        let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
+        return this.showErrorMessage('error', msg, '');
       }
     }
     else if (this.commonServiceFactory.checkValueType(this.editEnqData.enquiry_date)) {
@@ -980,6 +1028,26 @@ export class EnquiryEditComponent implements OnInit {
 
     else if (this.commonServiceFactory.sourceValueCheck(this.editEnqData.source_id)) {
       return this.showErrorMessage('error', 'Enquiry Source Is Mandatory', '');
+    }
+    else if (this.editEnqData.parent_phone != "" || this.editEnqData.parent_phone != null){
+      let parentPhoneCheck = this.commonServiceFactory.validatePhone(this.editEnqData.parent_phone, this.maxlength);
+      if (parentPhoneCheck == 'lessThanTen') {
+          let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
+          return this.showErrorMessage('error', msg, '');
+      }
+      else{
+        return true;
+      }
+    }
+    else if (this.editEnqData.phone2 != "" || this.editEnqData.phone2 != null){
+      let alternatePhoneCheck = this.commonServiceFactory.validatePhone(this.editEnqData.phone2, this.maxlength);
+      if (alternatePhoneCheck == 'lessThanTen') {
+          let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
+          return this.showErrorMessage('error', msg, '');
+      }
+      else{
+        return true;
+      }
     }
     else {
       if (this.validateEnquiryDate()) {
@@ -1160,8 +1228,8 @@ export class EnquiryEditComponent implements OnInit {
 
 
   isEnquiryAdministrator() {
-    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined 
-    || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
+    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined
+      || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
       this.isEnquiryAdmin = true;
     }
     else {

@@ -10,13 +10,14 @@ import { AppComponent } from '../../../../app.component';
 })
 export class AddEditUserComponent implements OnInit {
 
-  isRippleLoad:boolean =false;
+  isRippleLoad: boolean = false;
   userId: any = "-1";
   rolesList: any = [];
   roleDetails: any = {
     name: '',
     address: '',
     username: '',
+    country_id: '',
     alternate_email_id: '',
     role_id: '-1',
     attendance_device_id: '',
@@ -24,6 +25,9 @@ export class AddEditUserComponent implements OnInit {
     is_employee_to_be_create: 'true'
   }
   biometricEnable: any = '0';
+  instituteCountryDetObj: any = {};
+  countryDetails: any = [];
+  maxlength: number = null;
 
   constructor(
     private route: Router,
@@ -37,6 +41,7 @@ export class AddEditUserComponent implements OnInit {
       name: '',
       address: '',
       username: '',
+      country_id: '',
       alternate_email_id: '',
       role_id: '-1',
       attendance_device_id: '',
@@ -55,8 +60,37 @@ export class AddEditUserComponent implements OnInit {
     )
     this.getRolesList();
     this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
+    this.fetchDataForCountryDetails();
+
   }
 
+  // created by: Nalini Walunj
+  // Below three functions are written to fetch country details from the session stored at the time of login of institute
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = atob(encryptedData);
+    data = JSON.parse(data);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      this.instituteCountryDetObj = this.countryDetails[0];
+      this.roleDetails.country_id = this.countryDetails[0].id;
+      this.maxlength = this.countryDetails[0].country_phone_number_length;
+    }
+  }
+
+
+  onChangeObj(event) {
+    console.log(event);
+    this.countryDetails.forEach(element => {
+      if (element.id == event) {
+        this.instituteCountryDetObj = element;
+        // this.phonenumberCheck(this.instituteCountryDetObj.country_phone_number_length);
+        this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
+      }
+      this.roleDetails.country_id = this.instituteCountryDetObj.id;
+    }
+    );
+  }
   getRolesList() {
     this.apiService.getRoles().subscribe(
       res => {
@@ -69,11 +103,19 @@ export class AddEditUserComponent implements OnInit {
   }
 
   fetchUserDetails(id) {
-    this.isRippleLoad=true;
+    this.isRippleLoad = true;
     this.apiService.fetchUserDetails(id).subscribe(
       res => {
-        this.isRippleLoad=false;
+        this.isRippleLoad = false;
         this.roleDetails = res;
+        this.countryDetails.forEach(element => {
+          if (element.id == this.roleDetails.country_id) {
+            this.instituteCountryDetObj = element;
+            // this.phonenumberCheck(this.instituteCountryDetObj.country_phone_number_length);
+            this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
+          }
+        }
+        );
         if (this.roleDetails.is_active == 'Y') {
           this.roleDetails.is_active = true;
         } else {
@@ -81,7 +123,7 @@ export class AddEditUserComponent implements OnInit {
         }
       },
       err => {
-        this.isRippleLoad=false;
+        this.isRippleLoad = false;
         console.log(err);
       }
     )
@@ -97,22 +139,33 @@ export class AddEditUserComponent implements OnInit {
     } else {
       this.roleDetails.is_employee_to_be_create = 'N';
     }
-    if(!this.isRippleLoad){
-     this.isRippleLoad=true;
-     this.apiService.createUser(this.roleDetails).subscribe(
-      res => {
-        this.isRippleLoad=false;
-        this.messageNotifier('success', 'Added Successfully', 'User Added Successfully');
-        this.route.navigateByUrl('/view/manage/user');
-      },
-      err => {
-        this.isRippleLoad=false;
-        console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
-      }
-    )
+    let obj: any = {
+      address: this.roleDetails.address,
+      attendance_device_id: this.roleDetails.attendance_device_id,
+      is_active: this.roleDetails.is_active,
+      name: this.roleDetails.name,
+      phone: this.roleDetails.username,
+      country_id: this.roleDetails.country_id,
+      role_id: this.roleDetails.role_id,
+      username: this.roleDetails.username
     }
-   
+    console.log(obj);
+    if (!this.isRippleLoad) {
+      this.isRippleLoad = true;
+      this.apiService.createUser(obj).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.messageNotifier('success', 'Added Successfully', 'User Added Successfully');
+          this.route.navigateByUrl('/view/manage/user');
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
+
   }
 
   updateUserDetails() {
@@ -131,23 +184,25 @@ export class AddEditUserComponent implements OnInit {
       is_active: this.roleDetails.is_active,
       name: this.roleDetails.name,
       phone: this.roleDetails.username,
+      country_id: this.roleDetails.country_id,
       role_id: this.roleDetails.role_id
     }
-    
-    if(!this.isRippleLoad){
-      this.isRippleLoad=true;
+    console.log(obj);
+    if (!this.isRippleLoad) {
+      this.isRippleLoad = true;
       this.apiService.updateUserDetails(obj, this.userId).subscribe(
-      res => {
-        this.isRippleLoad=false;
-        this.messageNotifier('success', 'Updated Successfully', 'Details Updated Successfully');
-        this.route.navigateByUrl('/view/manage/user');
-      },
-      err => {
-        this.isRippleLoad=false;
-        console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
-      }
-    )}
+        res => {
+          this.isRippleLoad = false;
+          this.messageNotifier('success', 'Updated Successfully', 'Details Updated Successfully');
+          this.route.navigateByUrl('/view/manage/user');
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
   }
 
   validateUserDetails(obj) {
@@ -156,7 +211,8 @@ export class AddEditUserComponent implements OnInit {
       this.messageNotifier('error', 'Error', 'Please provide name');
       return false;
     }
-    check = this.phonenumberCheck(obj.username);
+    console.log(this.maxlength);
+    check = this.phonenumberCheck(obj.username, this.maxlength);
     if (check == false) {
       this.messageNotifier('error', 'Error', 'Please check the number you have provided');
       return false;
@@ -177,9 +233,20 @@ export class AddEditUserComponent implements OnInit {
     return true;
   }
 
-  phonenumberCheck(inputtxt) {
-    let phoneno = /^\d{10}$/;
-    if ((inputtxt.match(phoneno))) {
+  // phonenumberCheck(inputtxt, maxlength) {
+  //   let phoneno = /^\d{10}$/;
+  //   // let phoneno = /^\d+$/+(maxlength);
+  //   if ((inputtxt.match(phoneno))) {
+  //     return true;
+  //   }
+  //   else {
+  //     return false;
+  //   }
+  // }
+  phonenumberCheck(inputtxt, maxlength) {
+    console.log(maxlength);
+    console.log(inputtxt);
+    if (inputtxt.length == maxlength) {
       return true;
     }
     else {
