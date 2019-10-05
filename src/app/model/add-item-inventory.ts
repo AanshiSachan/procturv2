@@ -9,5 +9,4 @@ export interface AddCategoryInInventory {
     subject_id?: any;
     unit_cost?: any;
     out_of_stock_indicator_units?: any;
-    is_offline_or_online?: any;
 }

@@ -41,7 +41,10 @@ export class TablePreferencesService {
         'item': [],
         'category': []
       },
-      'campaing': []
+      'campaing': [],
+      'products': {
+        "salesReports":[]
+      }
     },
     'version': '1',
   }

@@ -1,5 +1,4 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
-  *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 
 <section class="middle-section clearFix">
@@ -21,19 +20,8 @@
       <div class="row">
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="field-wrapper">
-            <label for="contactNO">Contact No<span class="text-danger">*</span></label><br>
-            <span class="countryCallingCode"style="width: 20%">
-                <select id="country_id" class="form-ctrl" [(ngModel)]="roleDetails.country_id" name="country_id"
-                [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
-                <option value=""></option>
-                <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                  {{data.country_code}} +{{data.country_calling_code}}
-                </option>
-              </select>
-            </span> 
-            <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.username" id="contactNO" name="contactNO"
-              maxlength={{instituteCountryDetObj.country_phone_number_length}}
-              minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 80%">
+            <label for="contactNO">Contact No<span class="text-danger">*</span></label>
+            <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.username" id="contactNO" name="contactNO" maxlength="10">
           </div>
         </div>
       </div>
@@ -43,12 +31,12 @@
           <div class="field-wrapper">
             <label for="emailID" *ngIf="userId == '-1'">Email ID</label>
             <label for="emailID" *ngIf="userId != '-1'">Alternate Login Email ID</label>
-            <input type="text" class="form-ctrl" [disabled]="userId != '-1'"
-              [(ngModel)]="roleDetails.alternate_email_id" id="emailID" name="emailID">
+            <input type="text" class="form-ctrl" [disabled]="userId != '-1'" [(ngModel)]="roleDetails.alternate_email_id" id="emailID"
+              name="emailID">
           </div>
         </div>
       </div>
- 
+
       <div class="row">
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="field-wrapper">
@@ -82,8 +70,7 @@
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="field-wrapper">
             <label for="attendance_device_id">Attendance Card ID</label>
-            <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.attendance_device_id"
-              id="attendance_device_id" name="attendance_device_id">
+            <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.attendance_device_id" id="attendance_device_id" name="attendance_device_id">
           </div>
         </div>
       </div>
@@ -91,8 +78,7 @@
       <div class="row" *ngIf="userId == '-1'">
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="field-checkbox-wrapper">
-            <input id="is_employee_to_be_create" name="is_employee_to_be_create" type="checkbox" class="form-checkbox"
-              [(ngModel)]="roleDetails.is_employee_to_be_create">
+            <input id="is_employee_to_be_create" name="is_employee_to_be_create" type="checkbox" class="form-checkbox" [(ngModel)]="roleDetails.is_employee_to_be_create">
             <label for="is_employee_to_be_create">Allow Employee to create automatically</label>
           </div>
         </div>
@@ -101,8 +87,7 @@
       <div class="row" *ngIf="userId != '-1'">
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="field-checkbox-wrapper">
-            <input id="is_active" name="is_active" type="checkbox" class="form-checkbox"
-              [(ngModel)]="roleDetails.is_active">
+            <input id="is_active" name="is_active" type="checkbox" class="form-checkbox" [(ngModel)]="roleDetails.is_active">
             <label for="is_active">Is Active</label>
           </div>
         </div>
@@ -112,10 +97,8 @@
         <div class="c-sm-6 c-lg-6 c-md-6">
           <div class="pull-right">
             <button class="btn" routerLink="/view/manage/user">Cancel</button>
-            <button class="btn fullBlue" *ngIf="userId == '-1'" [disabled]="isRippleLoad"
-              (click)="saveUserDetails()">Save</button>
-            <button class="btn fullBlue" *ngIf="userId != '-1'" [disabled]="isRippleLoad"
-              (click)="updateUserDetails()">Update</button>
+            <button class="btn fullBlue" *ngIf="userId == '-1'" [disabled]="isRippleLoad" (click)="saveUserDetails()">Save</button>
+            <button class="btn fullBlue" *ngIf="userId != '-1'" [disabled]="isRippleLoad" (click)="updateUserDetails()">Update</button>
           </div>
         </div>
       </div>

@@ -122,6 +122,10 @@ import { AuthGuard } from '../guards/auth.guard';
                             path: 'library',
                             loadChildren: 'app/components/library-management/library-management.module#LibraryManagementModule',
                         },
+                        {
+                            path: 'products',
+                            loadChildren: 'app/components/product-mgmt/product-mgmt.module#ProductMgmtModule'
+                        },
                     ]
                 },
             ]

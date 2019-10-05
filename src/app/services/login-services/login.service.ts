@@ -165,19 +165,4 @@ export class LoginService {
       err => { return err; }
     )
   }
-
-  // creted by: Nalini Walunj/
-  // below function is written to get country details based on institute id.
-  getInstituteCountryDetails(institute_id){
-    let url = this.baseUrl + `/api/v1/institutes/country/${institute_id}`;
-    return this.http.get(url, { headers: this.headers }).map(
-      res => {
-        console.log(res);
-        return res;
-      },
-      err => {
-        return err;
-      }
-    );
-  }
 }
