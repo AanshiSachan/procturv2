@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductMgmtRoutingModule } from './product-mgmt-routing.module';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '../../../../node_modules/@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap-custome';
@@ -23,7 +22,6 @@ import { ProductCreationComponent } from './product-creation/product-creation.co
   imports: [
     CommonModule,
     ProductMgmtRoutingModule,
-    NgSelectModule,
     FormsModule,
     BsDatepickerModule,
     TimepickerModule,
