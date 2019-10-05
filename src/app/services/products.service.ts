@@ -8,20 +8,9 @@ export class ProductService {
 
     urls: any = {
         // //test
-        // siteUrl:"http://localhost:8080",
-        // apiBaseUrl:"http://localhost:8080",
-        siteUrl: "https://elearntest.proctur.com/api", //"http://proc-product-api.us-east-2.elasticbeanstalk.com/prod/"
-        apiBaseUrl: "https://elearntest.proctur.com/api/v1/",
-        apiAdminUrl: "https://test999.proctur.com/StdMgmtWebAPI/prod/", //"http://localhost:8080/prod/",
-        masterSiteUrl: "https://elearntest.proctur.com/api/master/site_master/",
-        enquryUrl: "https://app.proctur.com/StdMgmtWebAPI/api/v1/extLeads/website",
-
+        // apiAdminUrl: "https://test999.proctur.com/StdMgmtWebAPI/prod/", 
         // prod
-        // siteUrl: "https://elearn.proctur.com/api",
-        // apiBaseUrl: "https://elearn.proctur.com/api/v1/",
-        // apiAdminUrl: "https://elearn.proctur.com/api/v1/admin/",
-        // masterSiteUrl: "https://elearn.proctur.com/api/master/site_master/",
-        // enquryUrl: "https://app.proctur.com/StdMgmtWebAPI/api/v1/extLeads/website",
+        apiAdminUrl: "https://app.proctur.com/StdMgmtWebAPI/prod/",
 
     }
 
