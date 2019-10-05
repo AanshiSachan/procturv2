@@ -155,10 +155,10 @@ export class UploadFileComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Incorrect url");
         return false;
       }
-      if (this.varJson.title == '') {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please add video title");
-        return false;
-      }
+      // if (this.varJson.title == '') {
+      //   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please add video title");
+      //   return false;
+      // }
       const formData = new FormData();
       let fileJson = {
         institute_id: this.institute_id,
