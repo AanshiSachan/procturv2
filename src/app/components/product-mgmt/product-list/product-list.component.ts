@@ -342,7 +342,7 @@ export class ProductListComponent implements OnInit {
       }
     }
     this.varJson.PageIndex = 1;
-    if (this.filter.by.isPaid) {
+    if (JSON.parse(this.filter.by.isPaid)) {
 
       if (!this.filter.by.minPrice) {
         this.msgService.showErrorMessage('error', 'please enter product minimun price', '');

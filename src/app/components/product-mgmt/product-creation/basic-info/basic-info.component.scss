@@ -155,8 +155,8 @@ input[type="checkbox"], label{
 
   .questionInfo {
     position: absolute;
-    right: 55px;
-    bottom: 37px;
+    // right: 55px;
+    // bottom: 37px;
     height: 20px;
     width: 20px;
     z-index: 2;
@@ -182,3 +182,10 @@ input[type="checkbox"], label{
         }
     }
   }
+
+  .tooltip-box-field {
+    width: 200px;
+    overflow: visible;
+    color: black;
+    font-weight: bold;
+}
