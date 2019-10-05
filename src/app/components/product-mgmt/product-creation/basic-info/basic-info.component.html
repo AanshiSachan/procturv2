@@ -19,7 +19,14 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="text-bold">E-courses <span class="text-danger">*</span></label>
+          <label class="text-bold">E-courses <span class="text-danger">*</span>
+            <div class="questionInfo inline-relative">
+                <span class="qInfoIcon i-class">i</span>
+                <div class="tooltip-box-field">
+                    Multiple Ecourses can be selected to create a product. 
+                    Product items from all the selected Ecourses will be fetched
+                </div>
+              </div></label>
           <ng-multiselect-dropdown  [placeholder]="'Select E-courses'" [(ngModel)]="products_ecourse_maps"
             [data]="ecourseList" [settings]="moderatorSettings">
           </ng-multiselect-dropdown>
@@ -29,7 +36,14 @@
 
       <div class="col-md-12">
         <div class="form-group">
-          <label class="text-bold">Description  <span class="text-danger">*</span></label>
+          <label class="text-bold">Description  <span class="text-danger">*</span>
+            <div class="questionInfo inline-relative">
+                <span class="qInfoIcon i-class">i</span>
+                <div class="tooltip-box-field">
+                    The given description will be shown as
+                     short description of the product on the website
+                </div>
+              </div></label>
           <textarea [(ngModel)]="prodForm.about" name="description" class="form-control form-control-sm"
             placeholder="Write a short description about this product" maxLength="1500"></textarea>
         </div>
@@ -37,7 +51,14 @@
       <div class="col-md-12">
         <div class="col-md-6" style=" padding-left: 0px;">
           <div class="form-group">
-            <label class="text-bold">Product Sell Limit <span class="text-danger">*</span></label>
+            <label class="text-bold">Product Sell Limit <span class="text-danger">*</span>
+              <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                      No. of products which can be sold from the 
+                      website will be as per the defined product sell limit
+                  </div>
+                </div></label>
             <input type="text" maxlength="6" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" autocomplete="off"
               [(ngModel)]="prodForm.purchase_limit" name="purchase_limit" class="form-control form-control-sm">
           </div>
@@ -58,7 +79,13 @@
       </div>
       <div class="col-md-12">
         <div class="form-group">
-          <label class="text-bold">Product Items</label>
+          <label class="text-bold">Product Items <div class="questionInfo inline-relative">
+              <span class="qInfoIcon i-class">i</span>
+              <div class="tooltip-box-field">
+                  These are the items which can be added to the product, 
+                  whose data will be fetched on the basis of selected Ecourses 
+              </div>
+            </div></label>
         </div>
         <div class="row form-group border-bt">
           <div class="col-md-4" *ngFor="let item of itemStates;let i = index">
@@ -73,7 +100,13 @@
       </div>
       <div class="row m-0">
         <div class="col-md-12 form-group m-0">
-          <label class="text-bold">Sales Date Range</label>
+          <label class="text-bold">Sales Date Range <div class="questionInfo inline-relative">
+              <span class="qInfoIcon i-class">i</span>
+              <div class="tooltip-box-field">
+                  This is the date range in which the product can be sold. 
+                  Sales end date cannot be prior to sales start date
+              </div>
+            </div></label>
         </div>
         <div class="col-md-6 form-group" >
           <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
@@ -92,7 +125,15 @@
       </div>
       <div class="row m-0">
         <div class="col-md-9 form-group m-0">
-          <label class="text-bold">Visibility Date Range</label>
+          <label class="text-bold">Visibility Date Range<div class="questionInfo inline-relative">
+              <span class="qInfoIcon i-class">i</span>
+              <div class="tooltip-box-field">
+                Set the text to be shown as
+                watermark in the video This is the product validity date range. 
+                The student can access the product in the defined date range only.
+                 Product visibility start date cannot be prior to sales start date 
+              </div>
+            </div></label>
         </div>
         <div class="col-md-3" style=" padding-right: 0px;">
           <div class="form-group" style="text-align: right;">
@@ -124,8 +165,10 @@
             <div class="questionInfo inline-relative">
               <span class="qInfoIcon i-class">i</span>
               <div class="tooltip-box-field">
-                Provide validate date duration in Days
-                <br> its start from student purchase date 
+                  This is the product validity duration.
+                   The student can access the product in the defined duration only, 
+                  starting from the purchase date. 
+                  Product visibility duration can be set in no. of days
               </div>
             </div>
             <input type="text" maxlength="4" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="prodForm.duration"  name="from"

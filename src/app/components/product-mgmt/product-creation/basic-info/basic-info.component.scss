@@ -152,3 +152,33 @@ input[type="checkbox"], label{
       z-index: 0;
     }
   }
+
+  .questionInfo {
+    position: absolute;
+    right: 55px;
+    bottom: 37px;
+    height: 20px;
+    width: 20px;
+    z-index: 2;
+    .qInfoIcon {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        display: block;
+        text-align: center;
+        box-sizing: border-box;
+        line-height: 20px;
+        font-weight: 600;
+        font-size: 12px;
+        cursor: pointer;
+        box-shadow: 0px 0px 1px 0px #ccc inset;
+        color: #888;
+        transition: all 0.6s linear;
+        &:hover {
+            border-color: $header-bg;
+            box-shadow: 0px 0px 1px 0px $header-bg inset;
+            color: $header-bg;
+        }
+    }
+  }

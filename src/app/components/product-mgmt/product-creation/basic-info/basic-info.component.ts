@@ -191,11 +191,11 @@ export class BasicInfoComponent implements OnInit {
   saveProduct() {
     if (this.prodForm.title == "" ||
       this.prodForm.title == null) {
-      this.msgService.showErrorMessage('error', 'title should not be shorter than one characters', '');
+      this.msgService.showErrorMessage('error', 'Please add product name', '');
       return;
     }
     if (this.prodForm.about == '' ) {
-      this.msgService.showErrorMessage('error', 'please enter product description', '');
+      this.msgService.showErrorMessage('error', 'Please add description', '');
       return;
     }
     if (this.prodForm.about.length>1500 ) {

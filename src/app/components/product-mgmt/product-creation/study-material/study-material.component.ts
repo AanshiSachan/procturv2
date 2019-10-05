@@ -103,7 +103,7 @@ export class StudyMaterialComponent implements OnInit {
         },
         (err) => {
           this.isRippleLoad = false;
-          this.msgService.showErrorMessage('error', 'something went wrong ty again ', '');
+          this.msgService.showErrorMessage('error', 'There is some problem in processing your request.Please try after some time.Or contact us at support@proctur.com for further assistance. ', '');
         });
     }
   }
@@ -264,7 +264,7 @@ export class StudyMaterialComponent implements OnInit {
         },
         (err) => {
 
-          this.msgService.showErrorMessage('error', 'something went wrong ty again ', '');
+          this.msgService.showErrorMessage('error', 'There is some problem in processing your request.Please try after some time.Or contact us at support@proctur.com for further assistance. ', '');
         });
     }
 

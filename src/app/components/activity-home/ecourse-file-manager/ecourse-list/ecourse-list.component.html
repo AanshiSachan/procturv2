@@ -7,7 +7,7 @@
     <button class="btn_addecourse" routerLink="/view/activity/ecoursemapping">
       <i class="fa fa-plus" aria-hidden="true"></i> &nbsp; E-course &nbsp;
     </button>
-    <section class="login-tube pull-right" style="margin-top: 14px; position: absolute;  right: -30px; top: -9px;">
+    <!-- <section class="login-tube pull-right" style="margin-top: 14px; position: absolute;  right: -30px; top: -9px;">
       <nav (click)="getSettingDetails();">
         <ul class="login-nav">
           <li class="pos-rel">
@@ -20,7 +20,7 @@
           </li>
         </ul>
       </nav>
-    </section>
+    </section> -->
   </div>
 </div>
 
@@ -54,13 +54,15 @@
         <div class="row upload-box">
           <div style="height: 350px;overflow-x: hidden; padding-bottom: 10px;" class="model_body_div">
             <div class="field-wrapper">
-              <label>Watermark <div class="questionInfo inline-relative">
+              <label>Watermark 
+                <div class="questionInfo inline-relative">
                   <span class="qInfoIcon i-class">i</span>
                   <div class="tooltip-box-field">
                     Set the text to be shown as
                     watermark in the video
                   </div>
-                </div></label>
+                </div>
+              </label>
               <div class="dropdown-div">
                 <input class="dropdown" [(ngModel)]="settingDetails.video_watermark" type="text"
                   placeholder="  enter watermark" />
