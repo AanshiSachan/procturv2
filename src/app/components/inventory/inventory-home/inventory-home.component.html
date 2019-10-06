@@ -1,4 +1,5 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
+  *ngIf="isRippleLoad">
 </loaders-css>
 
 <section class="middle-section clearFix">
@@ -27,8 +28,9 @@
 
             </div>
             <div class="search-filter-wrapper">
-              <input #search type="text" class="normal-field pull-right" placeholder="Search" style="font-size:12px; margin: 0px 5px 2px -5px;width: 30%"
-                id="search" name="searchData" (keyup)="searchDatabase(search)">
+              <input #search type="text" class="normal-field pull-right" placeholder="Search"
+                style="font-size:12px; margin: 0px 5px 2px -5px;width: 30%" id="search" name="searchData"
+                (keyup)="searchDatabase(search)">
             </div>
           </div>
         </div>
@@ -79,7 +81,7 @@
                     <a class="cursor-icon">Low Stock Indicator Units</a>
                   </label>
                 </th>
-                
+
                 <th *ngIf="enable_eLearn_feature_flag">
                   <label>
                     <a class="cursor-icon">Status</a>
@@ -174,16 +176,12 @@
                 </td>
                 <td class="edit-comp editCellAllignment" >
                   <div class="field-wrapper">
-                      <select id="is_offline_or_online" class="form-ctrl" name="is_offline_or_online" [(ngModel)]="row.is_offline_or_online" style="margin: auto;">
-                          <option value="online">Online</option>
-                          <option value="offline">Offline</option>
-                          <option value="both">Both</option>
-                      </select>
-                      <!-- <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="is_offline_or_online" value="online"  [(ngModel)]="row.is_offline_or_online" checked ><label class="online_offline_label" style="margin-top: 5%">online</label>
-                      <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="is_offline_or_online" value="offline"  [(ngModel)]="row.is_offline_or_online" checked><label class="online_offline_label" style="margin-top: 5%">offline</label> -->
-                      <!-- <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="status" value="online"  [(ngModel)]="row.is_offline_or_online" ><label class="online_offline_label" style="margin-top: 5%">online</label> -->
-                      <!-- <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="status" value="offline"  [(ngModel)]="row.is_offline_or_online"><label class="online_offline_label" style="margin-top: 5%">offline</label> -->
-                      <!-- <input type="radio" style="margin:auto;width: auto;" class="form-ctrl" name="is_offline_or_online" value="offline"  [(ngModel)]="row.is_offline_or_online" id="is_offline_or_online"><label class="online_offline_label" style="margin-top: 5%">Offline</label> -->
+                    <select id="is_offline_or_online" class="form-ctrl" name="is_offline_or_online"
+                      [(ngModel)]="row.is_offline_or_online" style="margin: auto;">
+                      <option value="Online">Online</option>
+                      <option value="Offline">Offline</option>
+                      <option value="Both">Both</option>
+                    </select>
                   </div>
                 </td>
 
@@ -196,12 +194,16 @@
                       <i class="fas fa-minus" style="font-family: FontAwesome;size: 19px" title="Subtract Quantity"></i>
                     </a>
                     <div class="field-wrapper edit-addItem">
-                      <input type="number" class="form-ctrl addQuantityInput" style="display: inline-block" [(ngModel)]="row.units_added" name="label">
-                      <a style="cursor:pointer ; margin-right:10px; display: inline-block" (click)="addItemsQuantity(row)">
-                        <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px; display: inline-block;" title="Update"></i>
+                      <input type="number" class="form-ctrl addQuantityInput" style="display: inline-block"
+                        [(ngModel)]="row.units_added" name="label">
+                      <a style="cursor:pointer ; margin-right:10px; display: inline-block"
+                        (click)="addItemsQuantity(row)">
+                        <i class="fas fa-check"
+                          style="font-family: FontAwesome ;font-size: 19px; display: inline-block;" title="Update"></i>
                       </a>
                       <a style="cursor:pointer" (click)="cancelItem(i)">
-                        <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;  display: inline-block;" title="Cancel"></i>
+                        <i class="fas fa fa-times"
+                          style="font-family: FontAwesome ;font-size: 19px;  display: inline-block;" title="Cancel"></i>
                       </a>
                     </div>
                   </div>
@@ -227,9 +229,10 @@
                       <span class="svg-icon-wrap">
                         <span class="visually-hidden"></span>
                         <div aria-hidden="true" type="ellipsis-horizontal-icon">
-                          <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
-                            focusable="false">
-                            <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
+                          <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0"
+                            preserveAspectRatio="xMinYMin meet" class="artdeco-icon" focusable="false">
+                            <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon"
+                              style="fill: currentColor"></path>
                           </svg>
                         </div>
                       </span>
@@ -254,7 +257,8 @@
                                 Allocation History
                               </span>
                             </li>
-                            <li class="action-item" *ngIf="showAllocateOption" (click)="allocateQuantityToSubBranches(row)">
+                            <li class="action-item" *ngIf="showAllocateOption"
+                              (click)="allocateQuantityToSubBranches(row)">
                               <span class="textContent">
                                 Allocate To Sub Branches
                               </span>
@@ -283,8 +287,8 @@
         <!-- Paginator Here -->
         <div class="row filter-res pagination" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-              [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+              [pagesToShow]="10" [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
             </pagination>
           </div>
         </div>
@@ -303,11 +307,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77) rotate(45)" />
             </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
           </g>
         </svg>
       </span>
@@ -337,8 +343,11 @@
   <div class="popup pos-abs popup-body-container">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCreatePopup()">
-        <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-         <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+        <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+          viewBox="0 0 24 24" width="24px" x="0" y="0">
+          <path _ngcontent-c11="" class="large-icon"
+            d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+            style="fill: currentColor"></path>
         </svg>
       </span>
       <div class="popup-content">
@@ -359,7 +368,8 @@
                   </label>
                   <input type="text" class="form-ctrl" formControlName="item_name" id="In" name="item">
 
-                  <div *ngIf="addItemForm.controls['item_name'].invalid && (addItemForm.controls['item_name'].dirty || addItemForm.controls['item_name'].touched)"
+                  <div
+                    *ngIf="addItemForm.controls['item_name'].invalid && (addItemForm.controls['item_name'].dirty || addItemForm.controls['item_name'].touched)"
                     class="alert alert-danger">
                     <div *ngIf="addItemForm.controls['item_name'].hasError('required')">
                       Item Name is required.
@@ -390,7 +400,8 @@
                     </option>
                   </select>
 
-                  <div *ngIf="addItemForm.controls['categoryDet'].invalid && (addItemForm.controls['categoryDet'].dirty || addItemForm.controls['categoryDet'].touched)"
+                  <div
+                    *ngIf="addItemForm.controls['categoryDet'].invalid && (addItemForm.controls['categoryDet'].dirty || addItemForm.controls['categoryDet'].touched)"
                     class="alert alert-danger">
                     <div *ngIf="addItemForm.controls['categoryDet'].hasError('required')">
                       Category Name is required.
@@ -405,7 +416,8 @@
                   </label>
                   <input type="number" class="form-ctrl" formControlName="alloted_units" id="Unit" name="Unit">
 
-                  <div *ngIf="addItemForm.controls['alloted_units'].invalid && (addItemForm.controls['alloted_units'].dirty || addItemForm.controls['alloted_units'].touched)"
+                  <div
+                    *ngIf="addItemForm.controls['alloted_units'].invalid && (addItemForm.controls['alloted_units'].dirty || addItemForm.controls['alloted_units'].touched)"
                     class="alert alert-danger">
                     <div *ngIf="addItemForm.controls['alloted_units'].hasError('required')">
                       Units is required.
@@ -432,8 +444,8 @@
 
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <label for="course" *ngIf="isProfessional">Course   </label>
-                  <label for="course" *ngIf="!isProfessional">Subject   </label>
+                  <label for="course" *ngIf="isProfessional">Course </label>
+                  <label for="course" *ngIf="!isProfessional">Subject </label>
                   <select id="course" class="form-ctrl" formControlName="subjectDet">
                     <option value="-1"></option>
                     <option *ngFor="let opt of courseList" [value]="opt.subject_id">
@@ -450,7 +462,8 @@
                 <div class="field-wrapper">
                   <label for="UnitCost">Unit Cost
                   </label>
-                  <input type="number" class="form-ctrl" min="0" id="UnitCost" formControlName="unit_cost" name="UnitCost">
+                  <input type="number" class="form-ctrl" min="0" id="UnitCost" formControlName="unit_cost"
+                    name="UnitCost">
 
                 </div>
               </div>
@@ -458,8 +471,8 @@
                 <div class="field-wrapper datePickerBox">
                   <label for="followupdate">Date
                   </label>
-                  <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="created_date" style="cursor: pointer;" name="createdDate"
-                    readonly="true" bsDatepicker/>
+                  <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="created_date"
+                    style="cursor: pointer;" name="createdDate" readonly="true" bsDatepicker />
                   <span class="date-clear" name="createdDate" (click)="clearDate($event)"></span>
                 </div>
 
@@ -471,21 +484,28 @@
                 <div class="field-wrapper">
                   <label for="lowUnit">Low Stock Indicator Units
                   </label>
-                  <input type="number" class="form-ctrl" formControlName="out_of_stock_indicator_units" id="lowUnit" name="lowUnit">
+                  <input type="number" class="form-ctrl" formControlName="out_of_stock_indicator_units" id="lowUnit"
+                    name="lowUnit">
 
                 </div>
               </div>
-           
 
-            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" *ngIf="enable_eLearn_feature_flag">		
-              <div class="field-wrapper">		
-              <br>		
-                  <input type="radio" class="form-ctrl" name="is_offline_or_online" value="online" formControlName="is_offline_or_online" id="is_offline_or_online"><label class="online_offline_label">Online</label>		
-                  <input type="radio" class="form-ctrl" name="is_offline_or_online" value="offline" formControlName="is_offline_or_online" id="is_offline_or_online"><label class="online_offline_label">Offline</label>		
-                  <input type="radio" class="form-ctrl" name="is_offline_or_online" value="both" formControlName="is_offline_or_online" id="is_offline_or_online"><label class="online_offline_label">Both</label>		
-              </div>		
-            </div>		
-          </div>
+
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" *ngIf="enable_eLearn_feature_flag">
+                <div class="field-wrapper">
+                  <br>
+                  <input type="radio" class="form-ctrl" name="is_offline_or_online" value="Online"
+                    formControlName="is_offline_or_online" id="is_offline_or_online"><label
+                    class="online_offline_label">Online</label>
+                  <input type="radio" class="form-ctrl" name="is_offline_or_online" value="Offline"
+                    formControlName="is_offline_or_online" id="is_offline_or_online"><label
+                    class="online_offline_label">Offline</label>
+                  <input type="radio" class="form-ctrl" name="is_offline_or_online" value="Both"
+                    formControlName="is_offline_or_online" id="is_offline_or_online"><label
+                    class="online_offline_label">Both</label>
+                </div>
+              </div>
+            </div>
             <div class="row pull-right" style="margin-right:40px">
               <button [disabled]='!addItemForm.valid' id="btnSave" class="btn fullBlue" type="submit"> Save </button>
             </div>
@@ -506,11 +526,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77) rotate(45)" />
             </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
           </g>
         </svg>
       </span>
@@ -542,7 +564,8 @@
                   </option>
                 </select>
 
-                <div *ngIf="allocateItemForm.controls['sub_branch_id'].invalid && (allocateItemForm.controls['sub_branch_id'].dirty || allocateItemForm.controls['sub_branch_id'].touched)"
+                <div
+                  *ngIf="allocateItemForm.controls['sub_branch_id'].invalid && (allocateItemForm.controls['sub_branch_id'].dirty || allocateItemForm.controls['sub_branch_id'].touched)"
                   class="alert alert-danger">
                   <div *ngIf="allocateItemForm.controls['sub_branch_id'].hasError('required')">
                     Sub Branch Name is required.
@@ -562,7 +585,8 @@
                 </select>
 
                 <span *ngIf="showAvailableUnits">Units available in Sub Branch: {{availabelItemCount}}</span>
-                <div *ngIf="allocateItemForm.controls['sub_branch_item_id'].invalid && (allocateItemForm.controls['sub_branch_item_id'].dirty || allocateItemForm.controls['sub_branch_item_id'].touched)"
+                <div
+                  *ngIf="allocateItemForm.controls['sub_branch_item_id'].invalid && (allocateItemForm.controls['sub_branch_item_id'].dirty || allocateItemForm.controls['sub_branch_item_id'].touched)"
                   class="alert alert-danger">
                   <div *ngIf="allocateItemForm.controls['sub_branch_item_id'].hasError('required')">
                     Sub Branch Item is required.
@@ -581,7 +605,8 @@
                 </label>
                 <input type="number" class="form-ctrl" formControlName="alloted_units" name="item">
 
-                <div *ngIf="allocateItemForm.controls['alloted_units'].invalid && (allocateItemForm.controls['alloted_units'].dirty || allocateItemForm.controls['alloted_units'].touched)"
+                <div
+                  *ngIf="allocateItemForm.controls['alloted_units'].invalid && (allocateItemForm.controls['alloted_units'].dirty || allocateItemForm.controls['alloted_units'].touched)"
                   class="alert alert-danger">
                   <div *ngIf="allocateItemForm.controls['alloted_units'].hasError('required')">
                     Alloted Unit is required.
@@ -612,8 +637,8 @@
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper datePickerBox">
                 <label for="createdDate">Challan Date</label>
-                <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="challan_date" style="cursor: pointer;" name="createdDate"
-                  readonly="true" bsDatepicker/>
+                <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="challan_date"
+                  style="cursor: pointer;" name="createdDate" readonly="true" bsDatepicker />
 
               </div>
             </div>
@@ -651,11 +676,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77) rotate(45)" />
             </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
           </g>
         </svg>
       </span>

@@ -56,7 +56,7 @@ export class TeacherEditComponent implements OnInit {
     let encryptedData = sessionStorage.getItem('country_data');
     let data = atob(encryptedData);
     data = JSON.parse(data);
-    if (data.length > 1) {
+    if (data.length > 0) {
       this.countryDetails = data;
       console.log(this.countryDetails);
       this.maxlength = this.countryDetails[0].country_phone_number_length;

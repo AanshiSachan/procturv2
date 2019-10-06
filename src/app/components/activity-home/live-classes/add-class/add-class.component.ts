@@ -314,6 +314,7 @@ export class AddClassComponent implements OnInit {
       );
 
         if (this.selectedUserList.length != 0) {
+          this.eLearnCustUserIDs =[];
           this.selectedUserList.map(
             (ele: any) => {
               let x = ele.user_id.toString();
