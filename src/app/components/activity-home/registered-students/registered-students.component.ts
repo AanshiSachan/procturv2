@@ -3,6 +3,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { UserService } from '../../../services/user-management/user.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { MessageShowService } from '../../../services/message-show.service';
+import { ProductService } from '../../../services/products.service';
 
 @Component({
   selector: 'app-registered-students',
@@ -53,6 +54,7 @@ export class RegisteredStudentsComponent implements OnInit {
     private auth: AuthenticatorService,
     private user_service: UserService,
     private _tablePreferencesService: TablePreferencesService,
+    private http: ProductService,
   ) {
   }
 
@@ -71,7 +73,7 @@ export class RegisteredStudentsComponent implements OnInit {
     ];
     this.displayKeys = this.tableSetting.keys;
   }
-  
+
   getData() {
     let Active = 'Y';
     let obj: any = {
@@ -108,7 +110,7 @@ export class RegisteredStudentsComponent implements OnInit {
 
   getProductList() {
     this.isRippleLoad = true;
-    this.user_service.getProductList().subscribe(
+    this.http.getMethod('product/get-product-list',null).subscribe(
       (data: any) => {
         this.productList = data.result;
         this.isRippleLoad = false;
@@ -122,7 +124,7 @@ export class RegisteredStudentsComponent implements OnInit {
   getSlugData() {
     let data: any = sessionStorage.getItem('userid');
     this.isRippleLoad = true;
-    this.user_service.getSlugItemType(data).subscribe(
+    this.http.getMethod('master/item-type/get', null).subscribe(
       (data: any) => {
         this.isRippleLoad = false;
         this.ItemTypeData = data.result;
@@ -150,13 +152,14 @@ export class RegisteredStudentsComponent implements OnInit {
     };
     if (this.filter.product_id !== '' || this.filter.slug !== '') {
       this.isRippleLoad = true;
-      this.user_service.getUserUsingFilter(data).subscribe(
+      this.http.postMethod('/user-product/get-user-details',data).then(
         (data: any) => {
           this.isRippleLoad = false;
-          if (data.result != null) {
+          console.log(data.body.result);
+          if (data.body.result != null) {
             let temp: any = {};
             let temp2: any = [];
-            data.result.forEach(element => {
+            data.body.result.forEach(element => {
               temp = {
                 name: element.name,
                 username: element.phone,
