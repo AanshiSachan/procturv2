@@ -153,7 +153,7 @@ export class RegisteredStudentsComponent implements OnInit {
     };
     if (this.filter.product_id !== '' || this.filter.slug !== '') {
       this.isRippleLoad = true;
-      this.http.postMethod('/user-product/get-user-details',data).then(
+      this.http.postMethod('user-product/get-user-details',data).then(
         (data: any) => {
           this.isRippleLoad = false;
           console.log(data.body.result);
