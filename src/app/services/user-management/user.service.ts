@@ -34,6 +34,33 @@ export class UserService {
         )
     }
 
+    getProductList() {
+        let url = this.baseUrl + "/prod/product/get-product-list";
+        let header: any = {'x-prod-inst-id' : this.institute_id}
+        return this.http.get(url, { headers: header }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    getSlugItemType(userid) {
+        let url = this.baseUrl + "/prod/master/item-type/get";
+        let header: any = {'x-prod-inst-id' : this.institute_id, 'x-prod-user-id': userid}
+        return this.http.get(url, { headers: header }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    getUserUsingFilter(obj) {
+        let url = this.baseUrl + "/prod/user-product/get-user-details";
+        let header: any = {'x-prod-inst-id' : this.institute_id}
+        return this.http.post(url, obj, { headers: header }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
     getRoles() {
         let url = this.baseUrl + "/api/v1/roleApi/allRoles/" + this.institute_id;
         return this.http.get(url, { headers: this.headers }).map(

@@ -1,0 +1,121 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
+  class="blackbg" *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="middle-section clear-fix">
+
+  <section class="middle-top clearFix bulk-header">
+    <div>
+      <h1 class="pull-left">
+        <a routerLink="/view/activity/dashboard" style="padding:0px; ">
+          Activity
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        <span>Registered Students</span>
+      </h1>
+    </div>
+  </section>
+
+  <div class="filter-section" *ngIf="!enable_elearn_feature_flag">
+    <div class="row">
+      <div class="searchbox1">
+        <div style="margin-top: 20px;padding-left: 1%">
+          <div class="search-filter-wrapper">
+            <input type="text" class="normal-field" placeholder="Search" name="searchData" [(ngModel)]="searchText"
+              (keyup)="searchInList()"
+              style="border-radius: 4px; border: 1px solid #ccc;padding: 6px 10px;width: 200px;margin-top: 10px;margin-bottom: 10px;">
+          </div>
+        </div>
+      </div>
+      <div class="searchbox1">
+        <div style="margin-top: 20px;padding-right: 1%">
+          <!-- <div class="search-filter-wrapper" style="text-align: right;">
+            <input [(ngModel)]="dateRange" type="text" name="range" class="form-ctrl bsDatepicker" id="range" readonly="true" bsDaterangepicker style="border-radius: 4px; border: 1px solid #ccc;padding: 6px 10px;width: 200px;margin-top: 10px;margin-bottom: 10px;"><br>
+            <span class="pull-right cleat-txt" (click)="clearDateRange()">clear</span>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-section" *ngIf="enable_elearn_feature_flag">
+    <div class="row">
+      <div class="searchbox2">
+        <div style="margin-top: 20px;padding-left: 1%">
+          <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
+            <label for="product_id">Product</label>
+            <select [(ngModel)]="filter.product_id" class="form-ctrl"
+              style="border-radius: 4px; border: 1px solid #ccc;padding: 6px 10px;width: 200px;margin-top: 5px;margin-bottom: 10px;">
+              <option value="" selected>Select Product</option>
+              <option *ngFor="let product of productList" [value]="product.id" title="{{product.title}}">
+                <!-- <span title="{{product.title}}" class="a">{{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}</span> -->
+                {{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="searchbox2">
+        <div style="margin-top: 20px;padding-right: 1%">
+          <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
+            <label for="slug">Item Type</label>
+            <select [(ngModel)]="filter.slug" class="form-ctrl"
+              style="border-radius: 4px; border: 1px solid #ccc;padding: 6px 10px;width: 200px;margin-top: 5px;margin-bottom: 10px;">
+              <option value="" selected>Select Item</option>
+              <option *ngFor="let item of ItemTypeData" [value]="item.slug" title="{{item.name}}">
+                  {{ (item.name.length > 30) ? (item.name | slice:0:30) + '...' : item.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="searchbox2">
+        <div class="c-lg-1 btn-wrap" style="margin-top: 17%">
+          <button class="btn fullBlue" (click)="filterData()">Go</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <br>
+  <data-display-table #child [displayKeys]="tableSetting" [displayData]="usersList">
+  </data-display-table>
+
+  <!-- <div class="user-table-wrapper">
+    <div class="table-responsive" style="max-width: 99.8%">
+      <table>
+        <thead>
+          <tr>
+            <th class="align-txt-lft">Name</th>
+            <th class="align-txt-lft">Contact No</th>
+            <th class="align-txt-lft">Email Id</th>
+            <th class="align-txt-lft"> Registered Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of usersList; let i = index; trackBy: i">
+            <td class="align-txt-lft">{{data.name}}</td>
+            <td class="align-txt-lft">{{data.username}}</td>
+            <td class="align-txt-lft">{{data.alternate_email_id}}</td>
+            <td class="align-txt-lft">{{data.created_date}}</td>
+          </tr>
+          <tr *ngIf="usersList.length == 0">
+            <td colspan="9">
+              No User Data Found
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div> -->
+
+  <div class="row filter-res pagination" style="width: 100%;">
+    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+      <!-- <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+        [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+      </pagination> -->
+    </div>
+  </div>
+
+</div>
