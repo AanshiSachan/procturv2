@@ -43,6 +43,7 @@ import { MastersService } from './services/library/master/masters.service';
 import { AddBookService } from './services/library/add/add-book.service';
 import { IssueBookService } from './services/library/issue/issue-book.service';
 import { ReturnBookService } from './services/library/return/return-book.service';
+import { ProductService } from './services/products.service';
 
 
 @NgModule({
@@ -87,7 +88,8 @@ import { ReturnBookService } from './services/library/return/return-book.service
     MastersService,
     AddBookService,
     IssueBookService,
-    ReturnBookService
+    ReturnBookService,
+    ProductService
 
     //   {
     //     provide: HTTP_INTERCEPTORS,

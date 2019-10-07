@@ -32,7 +32,7 @@
               </select>
             </span> 
             <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.username" id="contactNO" name="contactNO"
-              maxlength={{instituteCountryDetObj.country_phone_number_length}}
+              maxlength={{instituteCountryDetObj.country_phone_number_length}} onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
               minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 80%">
           </div>
         </div>

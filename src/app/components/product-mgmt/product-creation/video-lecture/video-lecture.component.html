@@ -1,0 +1,120 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'"
+  *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="fluid-container data-wrapper">
+  <div class="row main-topic-row" style="margin-bottom: 10px;border: none;">
+    <div class="form-group">
+      <label class="text-bold">Description <span class="text-danger">*</span></label>
+      <textarea [(ngModel)]="description" name="description" style="height:120px" maxLength="1500" class="form-control form-control-sm"
+        placeholder="Write a description about this video lecture"></textarea>
+    </div>
+  </div>
+
+  <div class="row main-topic-row" *ngFor="let ecourse of materialData;">
+    <div class="row singleton-row col-md-12 topic-data main-topic-data">
+      <div class="col-md-8 topic-name">
+        <button class="btn-ga-collapse">
+          <i class="fa fa-minus" *ngIf="ecourse.isExpand" (click)="subjectListToggle(ecourse)"></i>
+          <i class="fa fa-plus" *ngIf="!ecourse.isExpand" (click)="subjectListToggle(ecourse)"></i>
+        </button> {{ecourse.ecourse_name}}
+      </div>
+      <div class="col-md-4">
+      </div>
+
+    </div>
+    <div class="row col-md-12 p-0" *ngIf="ecourse.isExpand">
+      <div class="row col-md-12 subTopics-data">
+        <ng-container *ngTemplateOutlet="subjectsNodes; context: { $implicit: ecourse.subjectsList, level: 1 } ">
+        </ng-container>
+        <div *ngIf="ecourse.subjectsList?.length==0">
+          No Data Found
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="materialData?.length==0">
+    {{outputMessage}}
+  </div>
+
+</div>
+
+
+<ng-template #subjectsNodes let-subjectList let-level="level">
+  <div class="row topic-row" *ngFor="let subject of subjectList">
+    <div class="row singleton-row col-md-12 topic-data topic-name">
+      <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
+        <button class="btn-ga-collapse">
+          <i class="fa fa-minus" *ngIf="subject.isExpand" (click)="toggleObject(subject)"></i>
+          <i class="fa fa-plus" *ngIf="!subject.isExpand" (click)="toggleObject(subject)"></i>
+        </button> {{subject.subject_name}}
+      </div>
+      <div class="col-md-4">
+      </div>
+    </div>
+    <div class="row col-md-12 p-0" *ngIf="subject.isExpand">
+      <div class="row col-md-12 topic-material-data" [ngStyle]="{'padding-left': level+'em'}">
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.videosList, level: level+1}">
+        </ng-container>
+      </div>
+      <div class="row col-md-12 subTopics-data">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: subject.subTopics, level: level+1 } ">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #recursiveNodes let-subTopics let-level="level">
+  <div class="row topic-row" *ngFor="let topic of subTopics">
+    <div class="row singleton-row col-md-12 topic-data">
+      <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
+        <button class="btn-ga-collapse">
+          <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="subjectListToggle(topic)"></i>
+          <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="subjectListToggle(topic)"></i>
+        </button> {{topic.topic_name}}
+      </div>
+      <div class="col-md-4">
+      </div>
+    </div>
+    <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
+      <div class="row col-md-12 topic-material-data">
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: level+1}">
+        </ng-container>
+      </div>
+      <div class="row col-md-12 subTopics-data">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, level: level+1 } ">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #youtubeData let-youtube let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let video of youtube">
+    <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="video.selected"
+          (ngModelChange)="selectAllDetails($event,video)" name="has_mock_tests" id="mock_test">
+        <label for="ch2"></label>
+      </div>
+      <h4 class="file__title" title="{{video.title}}">
+        <i class="fa fa-youtube-play text-red"></i>
+        <a target="_blank" class="txt-color">
+          <span class="txt-title">{{video.title}}</span>
+        </a>
+      </h4>
+    </div>
+    <div class="col-md-4 txt-font">
+      {{video.category_name}}
+    </div>
+  </div>
+</ng-template>
+
+<div class="row basic-info-footer">
+  <div class="col text-center">
+    <button class="btn btn-outline-danger btn-round">Cancel</button>
+    <button class="btn btn-primary btn-round" [disabled]="isRippleLoad" (click)="gotoNext()">Save & Next</button>
+  </div>
+</div>

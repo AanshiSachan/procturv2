@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit {
       }
     }
 
-    if (permittedRoles['718'] != undefined) {
+    if (permittedRoles['718'] != undefined && sessionStorage.getItem('enable_eLearn_feature')=='1') {
       this.jsonFlag.isEcourseFileManager = true;
     }
   }

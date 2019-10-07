@@ -1,4 +1,4 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 
 
@@ -117,6 +117,26 @@
               [data]="userAssigned"
               [settings]="moderatorSettings"
               [(ngModel)]="selectedModeratorList" >
+            </ng-multiselect-dropdown>
+          </div>
+
+          <div class="field-wrapper" *ngIf="isShowProductOption">
+            <label for="date">Product(s)*</label><br>
+              <select class="made-out" id="product" [(ngModel)]="product_id" style="padding: 6px 12px;border: 1px solid #adadad;border-radius: 4px;" (click)="onChangeProduct($event.target.value)"disabled="true">
+                  <option *ngFor="let product of productData" [value]="product.id" >
+                      {{product.title}}
+                  </option>
+              </select>
+          </div> 
+
+          <div class="field-wrapper student_list_container" *ngIf="isShowProductOption">
+            <label for="students">User Name(s)* </label>
+            <ng-multiselect-dropdown class="container disabled"
+              [disabled]="true"
+              [placeholder]="'Select Users'"
+              [data]="userList"
+              [settings]="userListSetting"
+              [(ngModel)]="selectedUserList" >
             </ng-multiselect-dropdown>
           </div>
 

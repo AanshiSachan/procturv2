@@ -1,0 +1,68 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="row m-0 pt-0 product-list-wrapper">
+  <div class="row main-topic-row" style="margin-bottom: 10px;border: none;">
+      <div class="form-group">
+        <label class="text-bold">Description<span class="text-danger">*</span></label>
+        <textarea [(ngModel)]="description" name="description" style="height:120px" maxLength="1500"
+          class="form-control form-control-sm" placeholder="Write a description about printed material"></textarea>
+      </div>
+    </div>
+<div class="col-md-12 table-wrapper p-0">
+  <table class="table product-table">
+    <thead class="product-table-head">
+      <tr>
+        <th width="5%">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll"
+              (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test"> <label
+              for="ch2"></label>
+          </div>
+        </th>
+        <th style="text-align: left;">ID</th>
+        <th width="10%">Name</th>
+        <th class="text-center">Description</th>
+        <th class="text-center">Type</th>
+      </tr>
+    </thead>
+    <tbody class="product-table-body">
+      <tr *ngFor="let inventoy of inventoryList;let i =index;">
+        <td>
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" class="form-checkbox" [checked]="inventoy.isChecked" [(ngModel)]="inventoy.isChecked"
+              (ngModelChange)="selectVlaue($event)" [id]="'ch'+index">
+              <label [for]="'ch'+index"></label>
+            </div>
+        </td>
+        <td style="text-align: left;">
+          <label [for]="'ch'+index">{{inventoy.inventory_id}}</label>
+        </td>
+        <td> 
+            <span title="{{inventoy.inventory_name}}">
+                {{ (inventoy.inventory_name.length > 30) ? (inventoy.inventory_name | slice:0:30) + '...' : inventoy.inventory_name }}
+            </span>         
+        </td>
+        <td>
+          <span title="{{inventoy.description}}">{{ (inventoy.description.length > 30) ? (inventoy.description | slice:0:30) + '...' : inventoy.description}}</span>
+        </td>
+        <td>
+          {{inventoy.inventory_type}}
+        </td>
+      </tr>
+
+      <ng-container *ngIf="inventoryList.length < 1">
+        <tr>
+          <td colspan="7">No Records Found</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<div class="row basic-info-footer">
+<div class="col text-center">
+  <button class="btn btn-outline-danger btn-round" (click)="gotoBack()">Cancel</button>
+  <button class="btn btn-primary btn-round" [disabled]="isRippleLoad" (click)="gotoNext()">Save & Next</button>
+</div>
+</div>
