@@ -1,18 +1,18 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { AuthenticatorService } from './authenticator.service';
 
 /** created by laxmi */
 @Injectable()
 export class ProductService {
 
 
-    urls: any = {
-        // //test
-        // apiAdminUrl: "https://test999.proctur.com/StdMgmtWebAPI/prod/", 
-        // prod
-        apiAdminUrl: "https://app.proctur.com/StdMgmtWebAPI/prod/",
-
-    }
+    // urls: any = {
+    //     // //test
+    //     apiAdminUrl: "https://test999.proctur.com/StdMgmtWebAPI/prod/", 
+    //     // prod
+    //     // apiAdminUrl: "https://app.proctur.com/StdMgmtWebAPI/prod/",
+    // }
 
     subscription: any;
 
@@ -23,14 +23,16 @@ export class ProductService {
         "x-prod-inst-id": sessionStorage.getItem('institute_id'),
         "x-prod-user-id": sessionStorage.getItem('userid')
     });
+    
     constructor(
-        private _http: HttpClient
+        private _http: HttpClient,
+        private _auth:AuthenticatorService
     ) {
-
+        this._auth.baseUrl  = this._auth.baseUrl +'/prod/';
     }
 
     searchMethod(method, url, body, params, plateform) {
-        let fullUrl = this.urls.apiAdminUrl + url;
+        let fullUrl = this._auth.baseUrl + url;
         let _httpRequest = new HttpRequest(method, fullUrl, body, {
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
@@ -75,7 +77,7 @@ export class ProductService {
     }
 
     callMethods(method, url, body, params, plateform) {
-        let fullUrl = this.urls.apiAdminUrl + url;
+        let fullUrl = this._auth.baseUrl + url;
         let _httpRequest = new HttpRequest(method, fullUrl, body, {
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
@@ -159,7 +161,7 @@ export class ProductService {
 }
 
 callMethods2(method, url, body, params, plateform) {
-    let fullUrl = this.urls.apiAdminUrl + url;
+    let fullUrl = this._auth.baseUrl + url;
     let _httpRequest = new HttpRequest(method, fullUrl, body, {
         headers: new HttpHeaders({
             "Content-Type": "application/json",
@@ -210,7 +212,7 @@ getMethod(url, params, plateform = 'web') {
             }
         }
     }
-    url = this.urls.apiAdminUrl + url;
+    url = this._auth.baseUrl + url;
     return this._http.get(url, {
         headers: {
             "Content-Type": "application/json",

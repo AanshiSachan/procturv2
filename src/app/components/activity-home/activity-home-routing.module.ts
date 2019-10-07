@@ -10,6 +10,7 @@ import { AddClassComponent } from './live-classes/add-class/add-class.component'
 import { EditClassComponent } from './live-classes/edit-class/edit-class.component';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { CoursePlannerComponent } from './course-planner/course-planner.component';
+import { RegisteredStudentsComponent } from './registered-students/registered-students.component';
 
 
 @NgModule({
@@ -88,7 +89,12 @@ import { CoursePlannerComponent } from './course-planner/course-planner.componen
                         path: 'coursePlanner',
                         loadChildren: 'app/components/activity-home/course-planner/course-planner.module#CoursePlannerModule',
                         pathMatch: 'prefix'
+                    },
+                    {
+                        path: 'registeredStudents',
+                        component: RegisteredStudentsComponent
                     }
+
 
                 ]
             }
