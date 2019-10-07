@@ -68,8 +68,8 @@ export class RegisteredStudentsComponent implements OnInit {
     this.tableSetting.keys = [
       { primaryKey: 'name', header: 'Name', priority: 1, allowSortingFlag: true },
       { primaryKey: 'username', header: 'Contact No', priority: 2, allowSortingFlag: true },
-      { primaryKey: 'alternate_email_id', header: 'Email Id', priority: 3, allowSortingFlag: true, amountValue: true, },
-      { primaryKey: 'created_date', header: 'Registered Date', priority: 4, allowSortingFlag: true, amountValue: true, }
+      { primaryKey: 'alternate_email_id', header: 'Email Id', priority: 3, allowSortingFlag: true, },
+      { primaryKey: 'created_date', header: 'Registered Date', priority: 4, allowSortingFlag: true,}
     ];
     this.displayKeys = this.tableSetting.keys;
   }
