@@ -96,8 +96,8 @@ export class RegisteredStudentsComponent implements OnInit {
   }
 
   checkIsEnableElearnFeature() {
-    let data: any = sessionStorage.getItem('enable_elearn_feature');
-    if (data != 0) {
+    let data: any = sessionStorage.getItem('enable_eLearn_feature');
+    if (data !== 0) {
       this.enable_elearn_feature_flag = true;
       this.getProductList();
       this.getSlugData();
