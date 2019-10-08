@@ -122,6 +122,11 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     this.editView.emit(e);
   }
 
+  SelectAllMultipleEventTrigger(event) {
+    this.selectAllView.emit({ 'data': this.selectedRecord, option_detail:event, option: 'selectAll' })
+  }
+
+
   SelectAlleventTrigger() {
     this.selectAllView.emit({ 'data': this.selectedRecord, option: 'selectAll' })
   }

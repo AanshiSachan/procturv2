@@ -37,7 +37,7 @@ export class CompaignBaseReportComponent implements OnInit {
     tableDetails: { title: 'Campaign Base SMS Report', key: 'reports.fee.campaignBaseReport', showTitle: false },
     search: { title: 'Search', showSearch: true },
     keys: this.projectSettings,
-    selectAll: { showSelectAll: false, title: 'Send Due SMS', checked: true, key: 'name' },
+    selectAll: { showSelectAll: false,option:'single', title: 'Send Due SMS', checked: true, key: 'name' },
     actionSetting:
     {
       showActionButton: false,
