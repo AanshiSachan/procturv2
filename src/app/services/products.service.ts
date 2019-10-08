@@ -7,12 +7,13 @@ import { AuthenticatorService } from './authenticator.service';
 export class ProductService {
 
 
-    urls: any = {
-        // //test
-        // apiAdminUrl: "https://test999.proctur.com/StdMgmtWebAPI/prod/", 
-        // prod
-        apiAdminUrl: "https://app.proctur.com/StdMgmtWebAPI/prod/",
-    }
+    baseUrl :any='';
+    // urls: any = {
+    //     // //test
+    //     // apiAdminUrl: "https://test999.proctur.com/StdMgmtWebAPI/prod/", 
+    //     // prod
+    //     apiAdminUrl: "https://app.proctur.com/StdMgmtWebAPI/prod/",
+    // }
 
     subscription: any;
 
@@ -28,11 +29,11 @@ export class ProductService {
         private _http: HttpClient,
         private _auth:AuthenticatorService
     ) {
-        this._auth.baseUrl  = this.urls.apiAdminUrl ;
+        this.baseUrl = this._auth.baseUrl+ '/prod/';
     }
 
     searchMethod(method, url, body, params, plateform) {
-        let fullUrl = this._auth.baseUrl + url;
+        let fullUrl = this.baseUrl + url;
         let _httpRequest = new HttpRequest(method, fullUrl, body, {
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
@@ -77,7 +78,7 @@ export class ProductService {
     }
 
     callMethods(method, url, body, params, plateform) {
-        let fullUrl = this._auth.baseUrl + url;
+        let fullUrl = this.baseUrl + url;
         let _httpRequest = new HttpRequest(method, fullUrl, body, {
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
@@ -161,7 +162,7 @@ export class ProductService {
 }
 
 callMethods2(method, url, body, params, plateform) {
-    let fullUrl = this._auth.baseUrl + url;
+    let fullUrl = this.baseUrl + url;
     let _httpRequest = new HttpRequest(method, fullUrl, body, {
         headers: new HttpHeaders({
             "Content-Type": "application/json",
@@ -212,7 +213,7 @@ getMethod(url, params, plateform = 'web') {
             }
         }
     }
-    url = this._auth.baseUrl + url;
+    url = this.baseUrl + url;
     return this._http.get(url, {
         headers: {
             "Content-Type": "application/json",
