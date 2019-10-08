@@ -473,11 +473,13 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
 
   hasReport(permissions) {
-    if (permissions.includes('201') || permissions.includes('202') || permissions.includes('203') || permissions.includes('204') || permissions.includes('205') || permissions.includes('206') || permissions.includes('207') || permissions.includes('208')) {
+    document.getElementById('lisix').classList.add('hide');
+    if (permissions.includes('201') || permissions.includes('202') || 
+        permissions.includes('203') || permissions.includes('204') ||
+        permissions.includes('205') || permissions.includes('206') || 
+        permissions.includes('207') || permissions.includes('208') ||
+        permissions.includes('722')) {
       document.getElementById('lisix').classList.remove('hide');
-    }
-    else {
-      document.getElementById('lisix').classList.add('hide');
     }
   }
 

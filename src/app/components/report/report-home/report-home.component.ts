@@ -121,6 +121,10 @@ export class ReportHomeComponent implements OnInit {
       if (perm.indexOf('208') != -1) {
         this.JsonFlags.isProfitnloss = true;
       }
+      /* Reports-Enquiry Report */
+      if (perm.indexOf('722') != -1) {
+        this.JsonFlags.isShowEnquiryReport = true;
+      }
     }
   }
 

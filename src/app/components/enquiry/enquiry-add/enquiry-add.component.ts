@@ -755,6 +755,7 @@ export class EnquiryAddComponent implements OnInit {
     });
     this.isEnquirySubmit = true;
     this.fetchCustomComponentData();
+    this.fetchDataForCountryDetails();  
   }
 
 
