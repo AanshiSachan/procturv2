@@ -7,12 +7,12 @@ import { AuthenticatorService } from './authenticator.service';
 export class ProductService {
 
 
-    // urls: any = {
-    //     // //test
-    //     apiAdminUrl: "https://test999.proctur.com/StdMgmtWebAPI/prod/", 
-    //     // prod
-    //     // apiAdminUrl: "https://app.proctur.com/StdMgmtWebAPI/prod/",
-    // }
+    urls: any = {
+        // //test
+        // apiAdminUrl: "https://test999.proctur.com/StdMgmtWebAPI/prod/", 
+        // prod
+        apiAdminUrl: "https://app.proctur.com/StdMgmtWebAPI/prod/",
+    }
 
     subscription: any;
 
@@ -28,7 +28,7 @@ export class ProductService {
         private _http: HttpClient,
         private _auth:AuthenticatorService
     ) {
-        this._auth.baseUrl  = this._auth.baseUrl +'/prod/';
+        this._auth.baseUrl  = this.urls.apiAdminUrl ;
     }
 
     searchMethod(method, url, body, params, plateform) {
