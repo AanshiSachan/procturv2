@@ -124,6 +124,7 @@ export class ReportHomeComponent implements OnInit {
       /* Reports-Enquiry Report */
       if (perm.indexOf('722') != -1) {
         this.JsonFlags.isShowEnquiryReport = true;
+        // this.JsonFlags.isExam = true;
       }
     }
   }
