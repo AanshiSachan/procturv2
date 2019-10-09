@@ -398,8 +398,7 @@ table {
 
 .middle-left {
     width: 70%;
-    height: auto;
-    overflow-y : auto;
+    padding-bottom: 50px;
     @extend .boxPadding15;
 }
 
