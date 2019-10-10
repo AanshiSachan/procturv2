@@ -83,6 +83,11 @@ export class RegisteredStudentsComponent implements OnInit {
         this.isRippleLoad = false;
         // this.usersList = data;
         this.userListDataSource = data;
+        this.userListDataSource.forEach(element => {
+          if (element.alternate_email_id == "null"){
+            element.alternate_email_id = "-";
+          }
+        });
       },
       err => {
         this.isRippleLoad = false;
