@@ -32,7 +32,7 @@ export class RegisteredStudentsComponent implements OnInit {
     tableDetails: { title: 'Open App Users', key: 'registeredStudents', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
-    selectAll: { showSelectAll: false, title: '', checked: true, key: 'student_disp_id' },
+    selectAll: { showSelectAll: false, option:'single',title: '', checked: true, key: 'student_disp_id' },
     actionSetting:
     {
       showActionButton: false,
