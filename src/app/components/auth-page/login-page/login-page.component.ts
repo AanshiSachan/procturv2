@@ -106,7 +106,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     private msgService: MessageShowService,
     private auth: AuthenticatorService,
     private titleService: Title,
-    private _tablePreferencesService: TablePreferencesService
+    private _tablePreferencesService: TablePreferencesService,
+    private activatedRoute: ActivatedRoute
   ) {
     this.messages = msgService.getMessages();
     if (sessionStorage.getItem('userid') != null) {
@@ -134,6 +135,17 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    let url = window.location.href;
+    if (url.indexOf("?") > -1) {
+      let arr = url.split('?');
+      if (url.length > 1 && arr[1] !== '') {
+        this.activatedRoute.queryParams.subscribe(params => {
+          this.loginDataForm.alternate_email_id = params['user'];
+          this.loginDataForm.password = atob(params['pass']);
+          this.loginViaServer();
+        });
+      }
+    }
     this.checkWebUrlForGenerics();
   }
 
