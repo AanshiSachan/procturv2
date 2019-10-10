@@ -80,7 +80,7 @@ export class ChequeManageComponent implements OnInit {
     tableDetails: { title: 'Manage Cheques', key: 'activity.manageCheques', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.activitySettings,
-    selectAll: { showSelectAll: false, title: '', checked: true, key: '' },
+    selectAll: { showSelectAll: false, option:'single',title: '', checked: true, key: '' },
     actionSetting: {
       showActionButton: true,
       editOption: 'link',//or popup
