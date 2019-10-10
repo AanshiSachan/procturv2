@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageShowService } from '../../../services/message-show.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
-// import { ProductService } from '../../../services/products.service';
+import { ProductService } from '../../../services/products.service';
 
 @Component({
   selector: 'app-registered-student',
@@ -24,7 +24,6 @@ export class RegisteredStudentComponent implements OnInit {
   };
   isRippleLoad = false;
   searchDataFlag = false;
-  enable_elearn_feature_flag = false;
 
   tableSetting: any = {
     tableDetails: { title: 'Open App Users', key: 'registeredStudents', showTitle: false },
@@ -48,126 +47,102 @@ export class RegisteredStudentComponent implements OnInit {
   ];
 
   constructor(
-    // private _msgService: MessageShowService,
-    // private auth: AuthenticatorService,
-    // private _tablePreferencesService: TablePreferencesService,
-    // private http: ProductService,
+    private _msgService: MessageShowService,
+    private auth: AuthenticatorService,
+    private _tablePreferencesService: TablePreferencesService,
+    private http: ProductService,
   ) {
   }
 
   ngOnInit() {
-    // // this.getData();
-    // this.checkIsEnableElearnFeature();
-    // this.tableSetting.keys = this.feeSettings1;
-    // this.setDefaultValues();
+    this.getProductList();
+    this.getSlugData();
+    this.tableSetting.keys = this.feeSettings1;
+    this.setDefaultValues();
   }
-  // setDefaultValues() {
-  //   this.tableSetting.keys = [
-  //     { primaryKey: 'name', header: 'Name', priority: 1, allowSortingFlag: true },
-  //     { primaryKey: 'username', header: 'Contact No', priority: 2, allowSortingFlag: true },
-  //     { primaryKey: 'alternate_email_id', header: 'Email Id', priority: 3, allowSortingFlag: true, },
-  //     { primaryKey: 'created_date', header: 'Registered Date', priority: 4, allowSortingFlag: true,}
-  //   ];
-  //   this.displayKeys = this.tableSetting.keys;
-  // }
+  setDefaultValues() {
+    this.tableSetting.keys = [
+      { primaryKey: 'name', header: 'Name', priority: 1, allowSortingFlag: true },
+      { primaryKey: 'username', header: 'Contact No', priority: 2, allowSortingFlag: true },
+      { primaryKey: 'alternate_email_id', header: 'Email Id', priority: 3, allowSortingFlag: true, },
+      { primaryKey: 'created_date', header: 'Registered Date', priority: 4, allowSortingFlag: true,}
+    ];
+    this.displayKeys = this.tableSetting.keys;
+  }
 
-  // checkIsEnableElearnFeature() {
-  //   let data: any = sessionStorage.getItem('enable_eLearn_feature');
-  //   if (data != 0) {
-  //     this.enable_elearn_feature_flag = true;
-  //     this.getProductList();
-  //     this.getSlugData();
-  //   }
-  // }
+  getProductList() {
+    this.isRippleLoad = true;
+    this.http.getMethod('product/get-product-list', null).subscribe(
+      (data: any) => {
+        this.productList = data.result;
+        this.isRippleLoad = false;
+      },
+      err => {
+        this.isRippleLoad = false;
+        this._msgService.showErrorMessage('error', 'Error', err.error.message);
+      }
+    )
+  }
+  getSlugData() {
+    this.isRippleLoad = true;
+    this.http.getMethod('master/item-type/get', null).subscribe(
+      (data: any) => {
+        this.isRippleLoad = false;
+        this.ItemTypeData = data.result;
+      },
+      err => {
+        this.isRippleLoad = false;
+        this._msgService.showErrorMessage('error', 'Error', err.error.message);
+      }
+    );
+  }
 
-  // getProductList() {
-  //   this.isRippleLoad = true;
-  //   this.http.getMethod('product/get-product-list', null).subscribe(
-  //     (data: any) => {
-  //       this.productList = data.result;
-  //       this.isRippleLoad = false;
-  //     },
-  //     err => {
-  //       this.isRippleLoad = false;
-  //       this._msgService.showErrorMessage('error', 'Error', err.error.message);
-  //     }
-  //   )
-  // }
-  // getSlugData() {
-  //   let data: any = sessionStorage.getItem('userid');
-  //   this.isRippleLoad = true;
-  //   this.http.getMethod('master/item-type/get', null).subscribe(
-  //     (data: any) => {
-  //       this.isRippleLoad = false;
-  //       this.ItemTypeData = data.result;
-  //     },
-  //     err => {
-  //       this.isRippleLoad = false;
-  //       this._msgService.showErrorMessage('error', 'Error', err.error.message);
-  //     }
-  //   );
-  // }
-
-  // filterData() {
-  //   let data: any;
-  //   data = {
-  //     'by': [
-  //       {
-  //         'column': 'productId',
-  //         'value': this.filter.product_id
-  //       },
-  //       {
-  //         'column': 'slug',
-  //         'value': this.filter.slug
-  //       }
-  //     ]
-  //   };
-  //   if (this.filter.product_id !== '' || this.filter.slug !== '') {
-  //     this.isRippleLoad = true;
-  //     this.http.postMethod('/user-product/get-user-details',data).then(
-  //       (data: any) => {
-  //         this.isRippleLoad = false;
-  //         console.log(data.body.result);
-  //         if (data.body.result != null) {
-  //           let temp: any = {};
-  //           let temp2: any = [];
-  //           data.body.result.forEach(element => {
-  //             temp = {
-  //               name: element.name,
-  //               username: element.phone,
-  //               alternate_email_id: element.email_id,
-  //               created_date: element.registered_date
-  //             };
-  //             temp2.push(temp);
-  //           },
-  //           );
-  //           this.usersList = temp2;
-  //         }
-  //       },
-  //       err => {
-  //         this.isRippleLoad = false;
-  //         this._msgService.showErrorMessage('error', 'Error', err.error.message);
-  //       }
-  //     );
-  //   }
-  //   else {
-  //     this._msgService.showErrorMessage('error', 'Error', 'Please select Product/ Item type');
-  //   }
-  // }
-
-  // searchInList() {
-  //   if (this.searchText != "" && this.searchText != null) {
-  //     let searchData = this.usersList.filter(item =>
-  //       Object.keys(item).some(
-  //         k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
-  //     );
-  //     this.usersList = searchData;
-  //     console.log(this.usersList);
-  //   } else {
-  //     this.searchDataFlag = false;
-  //     this.usersList = this.userListDataSource;
-  //   }
-  // }
+  filterData() {
+    let data: any;
+    data = {
+      'by': [
+        {
+          'column': 'productId',
+          'value': this.filter.product_id
+        },
+        {
+          'column': 'slug',
+          'value': this.filter.slug
+        }
+      ]
+    };
+    if (this.filter.product_id !== '' || this.filter.slug !== '') {
+      this.isRippleLoad = true;
+      this.http.postMethod('/user-product/get-user-details', data).then(
+        (data: any) => {
+          this.isRippleLoad = false;
+          console.log(data.body.result);
+          if (data.body.result != null) {
+            let temp: any = {};
+            let temp2: any = [];
+            data.body.result.forEach(element => {
+              temp = {
+                name: element.name,
+                username: element.phone,
+                alternate_email_id: element.email_id,
+                created_date: element.registered_date
+              };
+              temp2.push(temp);
+            },
+            );
+            this.usersList = temp2;
+          }
+        },
+        err => {
+          this.isRippleLoad = false;
+          this._msgService.showErrorMessage('error', 'Error', err.error.message);
+        }
+      );
+    }
+    else {
+      this._msgService.showErrorMessage('error', 'Error', 'Please select Product/ Item type');
+    }
+  }
 }
 
   // searchInList() {

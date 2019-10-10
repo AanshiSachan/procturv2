@@ -38,7 +38,7 @@
     </div>
   </div> -->
 
-  <div class="filter-section" *ngIf="enable_elearn_feature_flag">
+  <div class="filter-section">
     <div class="row">
       <div class="searchbox2">
         <div style="margin-top: 20px;padding-left: 1%">
@@ -48,7 +48,6 @@
               style="border-radius: 4px; border: 1px solid #ccc;padding: 6px 10px;width: 200px;margin-top: 5px;margin-bottom: 10px;">
               <option value="" selected>Select Product</option>
               <option *ngFor="let product of productList" [value]="product.id" title="{{product.title}}">
-                <!-- <span title="{{product.title}}" class="a">{{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}</span> -->
                 {{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}
               </option>
             </select>

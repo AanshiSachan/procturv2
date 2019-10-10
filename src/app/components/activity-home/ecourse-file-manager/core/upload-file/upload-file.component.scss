@@ -65,6 +65,12 @@
   box-shadow: inset 0 0 2pt #f1f1f1;
 }
 
+.field-checkbox-wrapper, .field-radio-wrapper{
+  position: relative;
+   padding-left: 0px; 
+   margin-bottom: 0px; 
+}
+
 .upload-box {
   display: flex;
 
@@ -125,4 +131,19 @@
   float: right;
   margin-top: 3em;
   margin-right: 1em;
+  margin-bottom: 1em;
+}
+
+.title{
+  font-weight: 600;
+}
+
+.black-bg{
+  background: rgba(12, 11, 11, 0.3);
+  position: fixed;
+  top: 0px;
+  height: 100%;
+  left: 0px;
+  z-index: 1000;
+  width: 100%;
 }

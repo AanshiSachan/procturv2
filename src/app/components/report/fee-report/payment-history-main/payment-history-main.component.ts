@@ -74,7 +74,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     tableDetails: { title: 'Payment History', key: 'reports.fee.paymentHistory', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
-    selectAll: { showSelectAll: false, title: 'Purchase Item', checked: true, key: 'student_disp_id' },
+    selectAll: { showSelectAll: false,option:'single', title: 'Purchase Item', checked: true, key: 'student_disp_id' },
     actionSetting: {},
     displayMessage: "Enter Detail to Search"
   };

@@ -107,7 +107,8 @@ export class AllDataReportComponent implements OnInit {
     tableDetails: { title: 'All Dues Report', key: 'reports.fee.allDuesReport', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
-    selectAll: { showSelectAll: true, title: 'Send Due SMS', checked: true, key: 'student_disp_id' },
+    selectAll: { showSelectAll: true, option:'multiple', option_details:[ {title: 'Send Due SMS',type:'SMS'},
+    {title: 'Send Due E-Mail',type:'Mail'}], checked: true, key: 'student_disp_id' },
     actionSetting:
     {
       showActionButton: true,
@@ -629,12 +630,31 @@ export class AllDataReportComponent implements OnInit {
   /** send sms to student about dues
    * created by laxmi
   */
-  sendBulkSms(event) {
+
+  checkOption(event){
+    console.log(event);
+    switch(event.option_detail.type){
+      case 'Mail':{
+        event.type ='email';
+        event.delivery_mode = 1;
+        break;
+      }
+      case 'SMS':{
+        event.type ='sms';
+        event.delivery_mode = 0;
+        break;
+      }
+    }
+
+    this.sendBulkDetails(event) 
+  }
+
+  sendBulkDetails(event) {
     if (event.data.length == 0) {
-      this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', "Select record to send due sms");
+      this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', "Select record to send due "+event.type);
       return;
     }
-    if (confirm("Due SMS shall be sent to those students/parents whose amount is due. Do you want to continue ? ")) {
+    if (confirm("Due "+event.type+" shall be sent to those students/parents whose amount is due. Do you want to continue ? ")) {
       let filtered = [];
       let arr: any[] = event.data.filter(e => {
         if (e.total_balance_amt != 0) {
@@ -649,16 +669,19 @@ export class AllDataReportComponent implements OnInit {
       }
 
       let obj = {
-        delivery_mode: 0,
+        delivery_mode: event.delivery_mode,
         institution_id: '',
         student_ids: student_ids.join()
       }
+      this.showPopupKeys.isRippleLoad=true;
       this._putter.sendBulkSMS(obj).subscribe(
         res => {
           // console.log(res);
+          this.showPopupKeys.isRippleLoad=false;
           this._msgService.showErrorMessage(this._msgService.toastTypes.success, '', res.message);
         },
         err => {
+          this.showPopupKeys.isRippleLoad=false;
           this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', err.error.message);
         }
       );

@@ -67,7 +67,7 @@
                 </div>
 
                 <!-- E-course -->
-                <div class="activity-item-container" routerLink="../ecourse-file-manager" *ngIf="jsonFlag.isEcourseFileManager &&  (jsonFlag.institute_id =='100767'||jsonFlag.institute_id =='100127')">
+                <div class="activity-item-container" routerLink="../ecourse-file-manager" *ngIf="jsonFlag.isEcourseFileManager">
                   <div class="img_name_container">
                     <img src="./assets/images/activity/study_material.svg" alt="">
                     <span>Study Materials</span>
@@ -88,7 +88,7 @@
                   </div>
                 </div>
 
-                <div class="activity-item-container" *ngIf="jsonFlag.showLiveClasses" routerLink="../liveClass">
+                <div class="activity-item-container" *ngIf="true" routerLink="../liveClass">
                   <div class="img_name_container">
                     <img src="./assets/images/activity/live_classes.svg" alt="">
                     <span>Live Classes</span>
@@ -116,6 +116,16 @@
                   </div>
                   <div class="activity-description">
                     <span>Plan and Manage Class/Exam for all courses easily</span>
+                  </div>
+                </div>
+
+                <div class="activity-item-container" routerLink="../registeredStudents">
+                  <div class="img_name_container">
+                    <img src="./assets/images/activity/registered_student.png" alt="">
+                    <span>Registered Students</span>
+                  </div>
+                  <div class="activity-description">
+                    <span>Get details of the Students registered from App/Website</span>
                   </div>
                 </div>
 

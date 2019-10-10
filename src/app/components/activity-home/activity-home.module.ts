@@ -30,6 +30,8 @@ import { timeTableService } from '../../services/TimeTable/timeTable.service';
 import { tableComponent } from './time-table/table/table.component';
 import { CoursePlannerModule } from './course-planner/course-planner.module';
 import { WidgetService } from '../../services/widget.service';
+import { RegisteredStudentsComponent } from './registered-students/registered-students.component';
+import { UserService } from '../../services/user-management/user.service';
 
 @NgModule({
     imports: [
@@ -55,7 +57,8 @@ import { WidgetService } from '../../services/widget.service';
         AddClassComponent,
         EditClassComponent,
         TimeTableComponent,
-        tableComponent
+        tableComponent,
+        RegisteredStudentsComponent
     ],
     entryComponents: [
         tableComponent
@@ -66,7 +69,8 @@ import { WidgetService } from '../../services/widget.service';
         MessageService,
         timeTableService,
         LiveClasses,
-        WidgetService
+        WidgetService,
+        UserService
     ]
 })
 export class ActivityHomeModule {

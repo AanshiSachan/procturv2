@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { PaginationService } from '../../../services/pagination-service/pagination.service';
+import * as moment from 'moment';
 declare var $;
 @Component({
   selector: 'data-display-table',
@@ -120,6 +121,11 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     console.log(e);
     this.editView.emit(e);
   }
+
+  SelectAllMultipleEventTrigger(event) {
+    this.selectAllView.emit({ 'data': this.selectedRecord, option_detail:event, option: 'selectAll' })
+  }
+
 
   SelectAlleventTrigger() {
     this.selectAllView.emit({ 'data': this.selectedRecord, option: 'selectAll' })
@@ -300,18 +306,32 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     if (key.primaryKey == this.keysArray[0].primaryKey) {
       return value;
     }
-    if ((!isNaN(value)) && (value != '') && (value != null)) {
+    if ((!isNaN(value)) && (value != '') && (value != null)||(key.amountValue)) {
       // return value ;
       if (key.amountValue) {
-
         return '₹ ' + value.toLocaleString('en-IN');
-      } else {
-        return value;
+      } 
+      else {
+        if(key.dataType=='array'){
+          return key.arrayValue[value];
+        }
+        else
+         return value;
       }
-
     }
-    else
-      return value;
+    else{
+      if(key.dataType=='Date'){
+        return moment(value).format(key.format);
+      }
+      else{
+        if(key.dataType=='array'){
+          return key.arrayValue[value];
+        }
+        else
+         return value;
+      }
+    }
+     
   }
 
   // convert string as type

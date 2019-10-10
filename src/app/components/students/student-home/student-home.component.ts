@@ -540,7 +540,7 @@ export class StudentHomeComponent implements OnInit {
     document.getElementById('adFilterOpen').classList.add('hide');
     document.getElementById('basic-search').classList.add('hide');
     document.getElementById('adFilterExit').classList.remove('hide');
-    document.getElementById('black-bg').classList.remove('hide');
+    // document.getElementById('black-bg').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.remove('hide');
   }
 
@@ -552,7 +552,7 @@ export class StudentHomeComponent implements OnInit {
     document.getElementById('adFilterExit').classList.add('hide');
     document.getElementById('basic-search').classList.remove('hide');
     document.getElementById('adFilterOpen').classList.remove('hide');
-    document.getElementById('black-bg').classList.add('hide');
+    // document.getElementById('black-bg').classList.add('hide');
     document.getElementById('advanced-filter-section').classList.add('hide');
   }
 

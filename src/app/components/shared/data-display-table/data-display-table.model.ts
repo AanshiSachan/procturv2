@@ -11,5 +11,7 @@ export class ColumnData2 {
     dataSource?: any;
     allowSortingFlag?: boolean;
     operation?: string;
+    dataType?:string;
+    arrayValue?:{};
     amountValue?: boolean;
 }
