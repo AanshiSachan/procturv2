@@ -3,7 +3,6 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { UserService } from '../../../services/user-management/user.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { MessageShowService } from '../../../services/message-show.service';
-import { ProductService } from '../../../services/products.service';
 
 @Component({
   selector: 'app-registered-students',
@@ -26,7 +25,6 @@ export class RegisteredStudentsComponent implements OnInit {
   };
   isRippleLoad = false;
   searchDataFlag = false;
-  enable_elearn_feature_flag = false;
 
   tableSetting: any = {
     tableDetails: { title: 'Open App Users', key: 'registeredStudents', showTitle: false },
@@ -54,13 +52,11 @@ export class RegisteredStudentsComponent implements OnInit {
     private auth: AuthenticatorService,
     private user_service: UserService,
     private _tablePreferencesService: TablePreferencesService,
-    private http: ProductService,
   ) {
   }
 
   ngOnInit() {
-    // this.getData();
-    this.checkIsEnableElearnFeature();
+    this.getData();
     this.tableSetting.keys = this.feeSettings1;
     this.setDefaultValues();
   }
@@ -85,154 +81,35 @@ export class RegisteredStudentsComponent implements OnInit {
     this.user_service.getUserList(obj, Active).subscribe(
       (data: any) => {
         this.isRippleLoad = false;
-        this.usersList = data;
-        this.userListDataSource = this.usersList;
-      },
-      err => {
-        this.isRippleLoad = false;
-        this._msgService.showErrorMessage('error', 'Error', err.error.message);
-      }
-    );
-  }
-
-  checkIsEnableElearnFeature() {
-    let data: any = sessionStorage.getItem('enable_eLearn_feature');
-    console.log(data);
-    if (data != 0) {
-      this.enable_elearn_feature_flag = true;
-      this.getProductList();
-      this.getSlugData();
-    }
-    else {
-      this.enable_elearn_feature_flag = false;
-      this.getData();
-    }
-  }
-
-  getProductList() {
-    this.isRippleLoad = true;
-    this.http.getMethod('product/get-product-list',null).subscribe(
-      (data: any) => {
-        this.productList = data.result;
-        this.isRippleLoad = false;
-      },
-      err => {
-        this.isRippleLoad = false;
-        this._msgService.showErrorMessage('error', 'Error', err.error.message);
-      }
-    )
-  }
-  getSlugData() {
-    let data: any = sessionStorage.getItem('userid');
-    this.isRippleLoad = true;
-    this.http.getMethod('master/item-type/get', null).subscribe(
-      (data: any) => {
-        this.isRippleLoad = false;
-        this.ItemTypeData = data.result;
-      },
-      err => {
-        this.isRippleLoad = false;
-        this._msgService.showErrorMessage('error', 'Error', err.error.message);
-      }
-    );
-  }
-
-  filterData() {
-    let data: any;
-    data = {
-      'by': [
-        {
-          'column': 'productId',
-          'value': this.filter.product_id
-        },
-        {
-          'column': 'slug',
-          'value': this.filter.slug
-        }
-      ]
-    };
-    if (this.filter.product_id !== '' || this.filter.slug !== '') {
-      this.isRippleLoad = true;
-      this.http.postMethod('user-product/get-user-details',data).then(
-        (data: any) => {
-          this.isRippleLoad = false;
-          console.log(data.body.result);
-          if (data.body.result != null) {
-            let temp: any = {};
-            let temp2: any = [];
-            data.body.result.forEach(element => {
-              temp = {
-                name: element.name,
-                username: element.phone,
-                alternate_email_id: element.email_id,
-                created_date: element.registered_date
-              };
-              temp2.push(temp);
-            },
-            );
-            this.usersList = temp2;
+        // this.usersList = data;
+        this.userListDataSource = data;
+        this.userListDataSource.forEach(element => {
+          if (element.alternate_email_id == "null"){
+            element.alternate_email_id = "-";
           }
-        },
-        err => {
-          this.isRippleLoad = false;
-          this._msgService.showErrorMessage('error', 'Error', err.error.message);
-        }
-      );
-    }
-    else {
-      this._msgService.showErrorMessage('error', 'Error', 'Please select Product/ Item type');
-    }
+        });
+      },
+      err => {
+        this.isRippleLoad = false;
+        this._msgService.showErrorMessage('error', 'Error', err.error.message);
+      }
+    );
   }
 
   searchInList() {
     if (this.searchText != "" && this.searchText != null) {
-      let searchData = this.usersList.filter(item =>
+      // this.getData();
+      let searchData = this.userListDataSource.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
       );
       this.usersList = searchData;
-      console.log(this.usersList);
     } else {
-      this.searchDataFlag = false;
+      // this.searchDataFlag = false;
+      // this.getData();
+      console.log(this.userListDataSource);
       this.usersList = this.userListDataSource;
     }
   }
 }
 
-  // searchInList() {
-  //   if (this.searchText != "" && this.searchText != null) {
-  //     let data1: any = {};
-  //     let data2: any = [];
-  //     this.userListDataSource.forEach(element => {
-  //       data1 = {
-  //         name : element.name,
-  //         user_id: element.user_id,
-  //         username : element.username
-  //       }
-  //       data2.push(data1);
-  //     },
-  //     );
-  //     console.log(data2);
-  //     let searchData = data2.filter(item =>
-  //       Object.keys(item).some(
-  //         k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
-  //     );
-  //     searchData.forEach(element => {
-  //       if(element.user_id == this.userListDataSource.user_id){
-  //         data1 = this.userListDataSource;
-  //       }
-  //       data2.push(data1);
-  //     },
-  //     );
-  //     console.log(data2);
-  //     this.searchedData = data2;
-  //     this.totalRow = searchData.length;
-  //     this.searchDataFlag = true;
-  //     this.PageIndex = 1;
-  //     this.fetchTableDataByPage(this.PageIndex);
-  //   } else {
-  //     this.searchDataFlag = false;
-  //     this.fetchTableDataByPage(this.PageIndex);
-  //     this.totalRow = this.userListDataSource.length;
-  //   }
-  // }

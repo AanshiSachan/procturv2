@@ -14,6 +14,7 @@ import { BasicInfoComponent, MockTestComponent, OnlineExamComponent,
   OnlineClassComponent, OfflineMaterialComponent, GroupComponent, ProductListComponent, HomeComponent, SalesReportsComponent
 } from '.';
 import { ProductCreationComponent } from './product-creation/product-creation.component';
+import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
 
 
 
@@ -42,7 +43,8 @@ import { ProductCreationComponent } from './product-creation/product-creation.co
     VideoLectureComponent,
     ClassroomClassComponent,
     OnlineClassComponent,
-    OfflineMaterialComponent
+    OfflineMaterialComponent,
+    RegisteredStudentComponent,
   ],
   providers: [
     ExcelService,
