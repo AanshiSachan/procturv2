@@ -503,17 +503,20 @@ export class InstituteSettingsComponent implements OnInit {
 
   checkPhoneValidation(data) {
     let check;
+    if(data!= null){
     data = this.instituteSettingDet.new_student_addmission_sms_notification.split(',');
-    data.forEach(element => {
-      if(element != null && element != ""){
-        if(element.length!=10 || element.match(/^[A-Za-z]+$/)) {
+    for(let i=0;i<data.length;i++){
+      if(data[i] != null && data[i] != ""){
+        if(data[i].length != 10 || data[i].match(/^[A-Za-z]+$/)) {
          check = false;
+         break;
        } else {
          check = true;
        }
       }
-     });
+     }
      return check;
+    }
   }
 
   convertTimeToSend(data) {
