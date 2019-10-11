@@ -23,6 +23,8 @@ export class InstituteSettingsComponent implements OnInit {
     sms_notification: '',
     email_notification: '',
     sms_status_report: '',
+    new_student_addmission_email_notification: '',
+    new_student_addmission_sms_notification: '',
     student_reg_notification: {
       student: '',
       parent: '',
@@ -490,9 +492,28 @@ export class InstituteSettingsComponent implements OnInit {
 
     obj.lib_issue_for_days = this.instituteSettingDet.lib_issue_for_days;
     obj.lib_due_date_fine_per_day = this.instituteSettingDet.lib_due_date_fine_per_day;
-
-
+    obj.new_student_addmission_email_notification = this.instituteSettingDet.new_student_addmission_email_notification;
+    obj.new_student_addmission_sms_notification = this.instituteSettingDet.new_student_addmission_sms_notification;
+    if(this.checkPhoneValidation(this.instituteSettingDet.new_student_addmission_sms_notification)==false){
+      this.commonService.showErrorMessage('error', 'Error', 'Please provide valid phone number.');
+    } else {
     return obj;
+    }
+  }
+
+  checkPhoneValidation(data) {
+    let check;
+    data = this.instituteSettingDet.new_student_addmission_sms_notification.split(',');
+    data.forEach(element => {
+      if(element != null && element != ""){
+        if(element.length!=10 || element.match(/^[A-Za-z]+$/)) {
+         check = false;
+       } else {
+         check = true;
+       }
+      }
+     });
+     return check;
   }
 
   convertTimeToSend(data) {
@@ -581,6 +602,8 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.enable_online_payment_sms_notification = data.enable_online_payment_sms_notification;
     this.instituteSettingDet.online_payment_notify_emailIds = data.online_payment_notify_emailIds;
     this.instituteSettingDet.online_payment_notify_mobiles = data.online_payment_notify_mobiles;
+    this.instituteSettingDet.new_student_addmission_email_notification = data.new_student_addmission_email_notification;
+    this.instituteSettingDet.new_student_addmission_sms_notification = data.new_student_addmission_sms_notification;
     this.instituteSettingDet.fee_dues_interval = data.fee_dues_interval;
     this.instituteSettingDet.pre_fee_dues_interval = data.pre_fee_dues_interval;
     this.instituteSettingDet.allow_fee_due_amount_in_notification = data.allow_fee_due_amount_in_notification;
@@ -729,6 +752,7 @@ export class InstituteSettingsComponent implements OnInit {
         if (data[i] != "" && data[i] != null) {
           if (!isNaN(data[i]) || data[i].length != 10) {
             check = false;
+            console.log(check);
             break;
           } else {
             check = true;
