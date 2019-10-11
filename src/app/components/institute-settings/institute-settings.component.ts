@@ -283,9 +283,9 @@ export class InstituteSettingsComponent implements OnInit {
     emailIds_for_justDail_ext_lead: '',
     enable_teacher_for_multiple_class: '',
     enable_elearn_course_mapping_feature: '',
-    enable_exam_marks_not_update_notification:0,
-    enable_exam_attendance_not_marked_notification:0,
-    enable_class_attendance_not_marked_notification:0,
+    enable_exam_marks_not_update_notification: 0,
+    enable_exam_attendance_not_marked_notification: 0,
+    enable_class_attendance_not_marked_notification: 0,
 
     lib_issue_for_days: '',
     lib_due_date_fine_per_day: ''
@@ -320,10 +320,10 @@ export class InstituteSettingsComponent implements OnInit {
     this.libraryRoleSetting();
   }
 
-  libraryRoleSetting(){
+  libraryRoleSetting() {
     const permissionArray = sessionStorage.getItem('permissions');
     let username = sessionStorage.getItem('username');
-    if(((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 101077)) || permissionArray.indexOf('721') != -1){
+    if (((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 101077)) || permissionArray.indexOf('721') != -1) {
       this.libraryRole = true;
     }
   }
@@ -340,8 +340,7 @@ export class InstituteSettingsComponent implements OnInit {
   hideAndRemoveClass() {
     this.menuList.map(
       ele => {
-        if(document.getElementById(ele))
-        {document.getElementById(ele).classList.remove('active');}
+        if (document.getElementById(ele)) { document.getElementById(ele).classList.remove('active'); }
       }
     );
   }
@@ -448,11 +447,11 @@ export class InstituteSettingsComponent implements OnInit {
     obj.allow_simple_registration = this.convertBoolenToNumber(this.instituteSettingDet.allow_simple_registration);
     obj.enable_online_payment_email_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_email_notification);
     obj.enable_online_payment_sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_sms_notification);
-  	obj.user_registration_otp_via_sms = this.convertBoolenToNumber(this.instituteSettingDet.user_registration_otp_via_sms);
-  	obj.user_registration_otp_via_email = this.convertBoolenToNumber(this.instituteSettingDet.user_registration_otp_via_email);
-  	obj.enable_justDial_routing_report = this.convertBoolenToNumber(this.instituteSettingDet.enable_justDial_routing_report);
-  	obj.enable_teacher_for_multiple_class = this.convertBoolenToNumber(this.instituteSettingDet.enable_teacher_for_multiple_class);
-  	obj.enable_elearn_course_mapping_feature = this.convertBoolenToNumber(this.instituteSettingDet.enable_elearn_course_mapping_feature);
+    obj.user_registration_otp_via_sms = this.convertBoolenToNumber(this.instituteSettingDet.user_registration_otp_via_sms);
+    obj.user_registration_otp_via_email = this.convertBoolenToNumber(this.instituteSettingDet.user_registration_otp_via_email);
+    obj.enable_justDial_routing_report = this.convertBoolenToNumber(this.instituteSettingDet.enable_justDial_routing_report);
+    obj.enable_teacher_for_multiple_class = this.convertBoolenToNumber(this.instituteSettingDet.enable_teacher_for_multiple_class);
+    obj.enable_elearn_course_mapping_feature = this.convertBoolenToNumber(this.instituteSettingDet.enable_elearn_course_mapping_feature);
     obj.enable_class_attendance_not_marked_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_class_attendance_not_marked_notification);
     obj.enable_exam_attendance_not_marked_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_exam_attendance_not_marked_notification);
     obj.enable_exam_marks_not_update_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_exam_marks_not_update_notification);
@@ -494,26 +493,29 @@ export class InstituteSettingsComponent implements OnInit {
     obj.lib_due_date_fine_per_day = this.instituteSettingDet.lib_due_date_fine_per_day;
     obj.new_student_addmission_email_notification = this.instituteSettingDet.new_student_addmission_email_notification;
     obj.new_student_addmission_sms_notification = this.instituteSettingDet.new_student_addmission_sms_notification;
-    if(this.checkPhoneValidation(this.instituteSettingDet.new_student_addmission_sms_notification)==false){
+    if (this.checkPhoneValidation(this.instituteSettingDet.new_student_addmission_sms_notification) == false) {
       this.commonService.showErrorMessage('error', 'Error', 'Please provide valid phone number.');
     } else {
-    return obj;
+      return obj;
     }
   }
 
   checkPhoneValidation(data) {
     let check;
-    data = this.instituteSettingDet.new_student_addmission_sms_notification.split(',');
-    data.forEach(element => {
-      if(element != null && element != ""){
-        if(element.length!=10 || element.match(/^[A-Za-z]+$/)) {
-         check = false;
-       } else {
-         check = true;
-       }
+    if (data) {
+      data = data.split(',');
+      for (let i = 0; i < data.length; i++) {
+        if (data[i] != null && data[i] != "") {
+          if (data[i].length != 10 || data[i].match(/^[A-Za-z]+$/)) {
+            check = false;
+            break;
+          } else {
+            check = true;
+          }
+        }
       }
-     });
-     return check;
+      return check;
+    }
   }
 
   convertTimeToSend(data) {
@@ -610,12 +612,12 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.due_date_in_fee_receipt = data.due_date_in_fee_receipt;
     this.instituteSettingDet.balance_amount_in_fee_receipt = data.balance_amount_in_fee_receipt;
     this.instituteSettingDet.discount_amount_in_fee_receipt = data.discount_amount_in_fee_receipt;
-  	this.instituteSettingDet.user_registration_otp_via_sms = data.user_registration_otp_via_sms;
-  	this.instituteSettingDet.user_registration_otp_via_email = data.user_registration_otp_via_email;
-  	this.instituteSettingDet.enable_justDial_routing_report = data.enable_justDial_routing_report;
-  	this.instituteSettingDet.enable_teacher_for_multiple_class = data.enable_teacher_for_multiple_class;
-  	this.instituteSettingDet.enable_elearn_course_mapping_feature = data.enable_elearn_course_mapping_feature;
-  	this.instituteSettingDet.emailIds_for_justDail_ext_lead = data.emailIds_for_justDail_ext_lead;
+    this.instituteSettingDet.user_registration_otp_via_sms = data.user_registration_otp_via_sms;
+    this.instituteSettingDet.user_registration_otp_via_email = data.user_registration_otp_via_email;
+    this.instituteSettingDet.enable_justDial_routing_report = data.enable_justDial_routing_report;
+    this.instituteSettingDet.enable_teacher_for_multiple_class = data.enable_teacher_for_multiple_class;
+    this.instituteSettingDet.enable_elearn_course_mapping_feature = data.enable_elearn_course_mapping_feature;
+    this.instituteSettingDet.emailIds_for_justDail_ext_lead = data.emailIds_for_justDail_ext_lead;
     this.instituteSettingDet.enable_class_attendance_not_marked_notification = data.enable_class_attendance_not_marked_notification;
     this.instituteSettingDet.enable_exam_attendance_not_marked_notification = data.enable_exam_attendance_not_marked_notification;
     this.instituteSettingDet.enable_exam_marks_not_update_notification = data.enable_exam_marks_not_update_notification;
@@ -635,9 +637,12 @@ export class InstituteSettingsComponent implements OnInit {
 
 
   fillTimeInHrAndMinute(dataJson, res) {
-    let time = res.split(':');
-    dataJson.hour = time[0] + " " + time[1].split(' ')[1];
-    dataJson.minute = time[1].split(' ')[0];
+    if (res) {
+      let time = res.split(':');
+      dataJson.hour = time[0] + " " + time[1].split(' ')[1];
+      dataJson.minute = time[1].split(' ')[0];
+    }
+
   }
 
   checkDropDownSelection(data) {
@@ -746,7 +751,7 @@ export class InstituteSettingsComponent implements OnInit {
 
   validatePhoneNumber(data) {
     let check: boolean = false;
-    if (data != "" && data != null) {
+    if (data) {
       let number: any = data.split(',');
       for (let i = 0; i < data.length; i++) {
         if (data[i] != "" && data[i] != null) {
