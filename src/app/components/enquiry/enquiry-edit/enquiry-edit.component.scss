@@ -1882,8 +1882,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .middle-left {
     width: 70%;
-    height: 62vh;
-    overflow-y: auto;
+    padding-bottom: 50px;
     @extend .boxPadding15;
 }
 
