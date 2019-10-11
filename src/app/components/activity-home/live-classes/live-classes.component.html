@@ -68,7 +68,9 @@
               </select>
             </div> -->
             <div class="add-class-container">
-              <button type="button" name="button" class="add-class" routerLink='/view/activity/add'>+ Add Live Class</button>
+              <button type="button" name="button" class="add-class" routerLink='/view/activity/add'>
+                <i class="fa fa-plus" aria-hidden="true" style="color: #0084f6;"></i>
+                 Add Live Class</button>
             </div>
           </div>
         </div>
@@ -164,11 +166,11 @@
         </div>
       </section>
 
-      <section *ngIf="!liveClassFor">
+      <!-- <section *ngIf="!liveClassFor">
         <div class="note-container">
           <span><span style="font-weight: 600;">NOTE : </span> Sessions can only be started before 30 minutes of start time.</span>
         </div>
-      </section>
+      </section> -->
 
       <!-- Paginator Here -->
       <div class="row filter-res pagination pagination-correct" style="width: 100%;">

@@ -82,6 +82,9 @@ $color-highlight: lighten($color-base, 7%);
             height: 20px;
             z-index: 1;
         }
+        label{
+          cursor: pointer;
+        }
     }
 }
 
@@ -380,6 +383,7 @@ table {
             height: 30px;
             width: 38%;
             margin-right: 10px;
+            border-radius: 4px;
           }
         }
         .action_container{
@@ -397,6 +401,7 @@ table {
             background: white;
             height: 30px;
             width: 47%;
+            border-radius: 4px;
             i{
               margin-left: 10px;
             }
@@ -411,6 +416,7 @@ table {
             background: white;
             height: 30px;
             width: 47%;
+            border-radius: 4px;
           }
         }
       }
