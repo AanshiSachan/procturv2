@@ -31,7 +31,7 @@
                         <label for="contNumber">Contact Number
                             <span class="text-danger">*</span>
                         </label><br>
-                        <span class="countryCallingCode"style="width: 26%">
+                        <span class="countryCallingCode"style="width: 30%">
                                 <select id="country_id" class="form-ctrl" formControlName="country_id" name="country" 
                                 [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
                                 <option value=""></option>
@@ -42,7 +42,7 @@
                         </span>
                         
                         <input type="text" maxlength={{instituteCountryDetObj.country_phone_number_length}} onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                        minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 74%"  class="form-ctrl" formControlName="teacher_phone" name="contNumber" required>
+                        minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 70%"  class="form-ctrl" formControlName="teacher_phone" name="contNumber" required>
 
                         <div *ngIf="editTeacherForm.controls['teacher_phone'].invalid && (editTeacherForm.controls['teacher_phone'].dirty || editTeacherForm.controls['teacher_phone'].touched)"
                             class="alert alert-danger">
@@ -71,7 +71,7 @@
                     <div class="row field-wrapper"> 
                         <label for="alternateNo">Alternate Contact Number
                         </label><br>
-                        <span class="countryCallingCode"style="width: 26%">
+                        <span class="countryCallingCode"style="width: 30%">
                             <select id="country_id" class="form-ctrl" formControlName="country_id" name="country" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                             [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
                             <option value=""></option>
@@ -81,7 +81,7 @@
                           </select>
                     </span>
                         <input type="text"maxlength={{instituteCountryDetObj.country_phone_number_length}}
-                        minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 74%" class="form-ctrl" name="alternateNo" formControlName="teacher_alt_phone">
+                        minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 70%" class="form-ctrl" name="alternateNo" formControlName="teacher_alt_phone">
  
                     </div>
                     <div class="row field-wrapper">
