@@ -2272,10 +2272,11 @@
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field md">
-                                    When enabled,
-                                    <br>absentees and
-                                    <br>Homework not done
-                                  </div>
+                                      Enable this to 
+                                      <br>receive Send
+                                      <br> Absentees / Homework 
+                                      <br>Report via Email 
+                                    </div>
                                 </div>
                               </label>
                             </div>
@@ -2555,6 +2556,41 @@
                               <label for="idEnableEmail">Enable Email Notification
                                 <p>If not enabled, no Email will be sent</p>
                               </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="c-sm-6 c-md-6 c-lg-6" style="margin-left:-15px">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.new_student_addmission_email_notification != ''}">
+                              <label for="ch106">Email ID(s) of Newly Registered Student
+                                  <div class="questionInfo inline-relative">
+                                      <span class="qInfoIcon i-class">i</span>
+                                      <div class="tooltip-box-field lg">
+                                        Whenever a new student is 
+                                        <br>registered an additional person
+                                        <br>whould recieve student details
+                                        <br>on the given email ids.
+                                      </div>
+                                    </div>
+                              </label>
+                              <input type="text" [(ngModel)]="instituteSettingDet.new_student_addmission_email_notification" class="form-ctrl" id="ch106">
+                            </div>
+                          </div>
+                          <div class="c-sm-6 c-md-6 c-lg-6">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.new_student_addmission_sms_notification != ''}">
+                              <label for="ch107">Contact No.(s) of Newly Registered Student
+                                  <div class="questionInfo inline-relative">
+                                      <span class="qInfoIcon i-class">i</span>
+                                      <div class="tooltip-box-field lg">
+                                        Whenever a new student is
+                                        <br>registered an additional person
+                                        <br>whould recieve student details
+                                        <br>on the given contact no(s).
+                                      </div>
+                                    </div>
+                              </label>
+                              <input type="text" [(ngModel)]="instituteSettingDet.new_student_addmission_sms_notification" class="form-ctrl" id="ch107" onkeypress="return(/^[0-9.,\b]+$/)">
                             </div>
                           </div>
                         </div>

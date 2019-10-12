@@ -227,7 +227,8 @@ export class AuthGuard implements CanActivate, CanLoad {
                 JSON.parse(sessionStorage.getItem('permissions')).includes('205') ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('206') ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('207') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('208')) {
+                JSON.parse(sessionStorage.getItem('permissions')).includes('208') ||
+                JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
                 return true;
             }
             else {

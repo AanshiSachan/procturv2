@@ -359,14 +359,14 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     if (userType == 0) {
       /* admin detected */
       if (permission == null || permission == undefined || permission == '') {
-        let hideArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine','lieleone'];
+        let hideArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'lieleone'];
         hideArray.forEach(obj => {
           if (document.getElementById(obj)) {
             document.getElementById(obj).classList.remove('hide');
           }
         })
         document.getElementById('lizero').classList.remove('active');
-        if(this.isProfessional||sessionStorage.getItem('enable_eLearn_feature')=='0') {
+        if (this.isProfessional || sessionStorage.getItem('enable_eLearn_feature') == '0') {
           document.getElementById('lieleone').classList.add('hide');
         }
       }
@@ -436,12 +436,12 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
 
   hasCourse(permissions) {
-    if (permissions.includes('401') || permissions.includes('402') 
-    || permissions.includes('403') || permissions.includes('404') ||
-     permissions.includes('405') || permissions.includes('406') || 
-     permissions.includes('501') || permissions.includes('502') || 
-     permissions.includes('505') || permissions.includes('701') || 
-     permissions.includes('704') || permissions.includes('702') ) {
+    if (permissions.includes('401') || permissions.includes('402')
+      || permissions.includes('403') || permissions.includes('404') ||
+      permissions.includes('405') || permissions.includes('406') ||
+      permissions.includes('501') || permissions.includes('502') ||
+      permissions.includes('505') || permissions.includes('701') ||
+      permissions.includes('704') || permissions.includes('702')) {
       document.getElementById('lithree').classList.remove('hide');
     }
     else {
@@ -473,10 +473,14 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
 
   hasReport(permissions) {
-    if (permissions.includes('201') || permissions.includes('202') || permissions.includes('203') || permissions.includes('204') || permissions.includes('205') || permissions.includes('206') || permissions.includes('207') || permissions.includes('208')) {
+
+    if (permissions.includes('201') || permissions.includes('202') ||
+      permissions.includes('203') || permissions.includes('204') ||
+      permissions.includes('205') || permissions.includes('206') ||
+      permissions.includes('207') || permissions.includes('208') ||
+      permissions.includes('722')) {
       document.getElementById('lisix').classList.remove('hide');
-    }
-    else {
+    }else{
       document.getElementById('lisix').classList.add('hide');
     }
   }
@@ -513,19 +517,19 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
   }
 
   hasProducts(permissions) {
-    if(this.isProfessional){
-      if (permissions.includes('401') || permissions.includes('402') 
-      || permissions.includes('403') || permissions.includes('404') ||
-       permissions.includes('405') || permissions.includes('406') || 
-       permissions.includes('501') || permissions.includes('502') || 
-       permissions.includes('505') || permissions.includes('701') || 
-       permissions.includes('704') || permissions.includes('702') ) {
+    if (this.isProfessional) {
+      if (permissions.includes('401') || permissions.includes('402')
+        || permissions.includes('403') || permissions.includes('404') ||
+        permissions.includes('405') || permissions.includes('406') ||
+        permissions.includes('501') || permissions.includes('502') ||
+        permissions.includes('505') || permissions.includes('701') ||
+        permissions.includes('704') || permissions.includes('702')) {
         document.getElementById('lieleone').classList.remove('hide');
       }
       else {
         document.getElementById('lieleone').classList.add('hide');
       }
-    }    
+    }
   }
 
 
@@ -575,8 +579,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
   }
 
   RemoveActiveTabs() {
-    let removeArray = ['lizero', 'lione', 'litwo', 'lithree', 'lifour', 'lifive',
-      'lisix', 'liseven', 'lieight', 'linine', 'liten', 'lieleone'];
+    let removeArray = ['lizero', 'lione', 'litwo', 'lithree', 'lifour', 'lifive','lisix', 'liseven', 'lieight', 'linine', 'liten', 'lieleone'];
     removeArray.forEach(object => {
       if (document.getElementById(object)) {
         document.getElementById(object).classList.remove('active');
@@ -698,11 +701,11 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     )
   }
 
-  getCountryData(institute_id){
+  getCountryData(institute_id) {
     this.login.getInstituteCountryDetails(institute_id).subscribe(
       (res: any) => {
         let country_info = JSON.stringify(res);
-          sessionStorage.setItem('country_data', btoa(country_info));
+        sessionStorage.setItem('country_data', btoa(country_info));
       },
       err => {
         console.log(err);
@@ -736,7 +739,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
   }
 
   showSubMenu(id) {
-    if (document.getElementById(id).style.display == 'block') {
+    if (document.getElementById(id) && document.getElementById(id).style.display == 'block') {
       document.getElementById(id).style.display = "none";
       // document.getElementById(id+"_current").classList.remove('active-current-menu');
       // document.getElementById(id+"_icon").setAttribute( 'src', "./assets/images/sidebar/sideMenu/"+id+".svg");
@@ -758,7 +761,8 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
       // document.getElementById(id+"icon").src = "./assets/images/sidebar/sideMenu/"+id+"_color.svg";
       // document.getElementById(id+"_current").classList.add('active-current-menu')
-      document.getElementById(id).style.display = "block";
+      if (document.getElementById(id))
+        {document.getElementById(id).style.display = "block";}
     }
   };
 
@@ -826,7 +830,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('enable_online_payment_feature', res.enable_online_payment_feature);
     sessionStorage.setItem('institute_setup_type', res.institute_setup_type);
     sessionStorage.setItem('allow_sms_approve_feature', res.allow_sms_approve_feature);
-    sessionStorage.setItem('enable_eLearn_feature',res.enable_eLearn_feature);//
+    sessionStorage.setItem('enable_eLearn_feature', res.enable_eLearn_feature);//
     sessionStorage.setItem('open_enq_Visibility_feature', res.open_enq_Visibility_feature);
   }
 
