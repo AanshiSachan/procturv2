@@ -46,7 +46,7 @@ export class EcourseMappingComponent implements OnInit {
     tableDetails: { title: 'Ecourse mapping', key: 'reports.fee.ecoursemapping', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
-    selectAll: { showSelectAll: false, title: 'Send Due SMS', checked: false, key: 'student_disp_id' },
+    selectAll: { showSelectAll: false, option:'single',title: 'Send Due SMS', checked: false, key: 'student_disp_id' },
     actionSetting: {
       showActionButton: true,
       editOption: 'button',//or popup 

@@ -52,7 +52,7 @@ export class SalesReportsComponent implements OnInit {
     tableDetails: { title: 'Sales Report', key: 'products.salesReports', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
-    selectAll: { showSelectAll: false, title: 'Sales report', checked: true, key: 'title' },
+    selectAll: { showSelectAll: false, option:'single', title: 'Sales report', checked: true, key: 'title' },
     defaultSort: { primaryKey: 'publish_date', sortingType: 'asc', header: 'Purchase Date', priority: 4, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
     actionSetting:
     {

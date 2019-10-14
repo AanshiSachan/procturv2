@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent, ProductListComponent, GroupComponent, SalesReportsComponent } from '.';
 import { ProductCreationComponent } from './product-creation/product-creation.component';
+import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,10 @@ const routes: Routes = [
     {
         path: 'create/:entity_id/:form',
         component: ProductCreationComponent
+    },
+    {
+        path: 'registered-user',
+        component: RegisteredStudentComponent
     }
 ];
 

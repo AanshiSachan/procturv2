@@ -53,26 +53,23 @@ export class TeacherEditComponent implements OnInit {
   // created by: Nalini Walunj
   // Below two functions are written to fetch country details from the session stored at the time of login of institute
   fetchDataForCountryDetails() {
-    let encryptedData = sessionStorage.getItem('country_data');
-    let data = atob(encryptedData);
-    data = JSON.parse(data);
-    if (data.length > 0) {
-      this.countryDetails = data;
-      console.log(this.countryDetails);
+    let countryCodeEncryptedData = sessionStorage.getItem('country_data');
+    let temp = atob(countryCodeEncryptedData);
+    let Countrydata = JSON.parse(temp);
+    if (Countrydata.length > 0) {
+      this.countryDetails = Countrydata;
       this.maxlength = this.countryDetails[0].country_phone_number_length;
       this.instituteCountryDetObj = this.countryDetails[0];
     }
   }
 
   onChangeObj(event) {
-    console.log(event);
-    console.log(this.countryDetails);
-    this.countryDetails.forEach(element => {
-      if (element.id == event) {
-        this.instituteCountryDetObj = element;
-        this.maxlength = element.country_phone_number_length;
+   for(let i=0; i<this.countryDetails.length;i++){
+      if (this.countryDetails[i].id == event) {
+        this.instituteCountryDetObj = this.countryDetails[i];
+        this.maxlength = this.countryDetails[i].country_phone_number_length;
         this.editTeacherForm.setValue({
-          country_id : element.id,
+          country_id : this.countryDetails[i].id,
           teacher_name : this.editTeacherForm.value.teacher_name,
           teacher_curr_addr : this.editTeacherForm.value.teacher_curr_addr,
           teacher_phone: this.editTeacherForm.value.teacher_phone,
@@ -86,9 +83,9 @@ export class TeacherEditComponent implements OnInit {
           is_allow_teacher_to_only_mark_attendance: this.editTeacherForm.value.is_allow_teacher_to_only_mark_attendance,
           is_student_mgmt_flag: this.editTeacherForm.value.is_student_mgmt_flag
         });
+        return;
       }
     }
-    );
   }
 
   getTeacherInfo() {
@@ -110,7 +107,7 @@ export class TeacherEditComponent implements OnInit {
     this.editTeacherForm = this.fb.group({
       teacher_name: ['', [Validators.required]],
       teacher_curr_addr: [''],
-      country_id: [this.instituteCountryDetObj.id],
+      country_id: [this.countryDetails[0].id],
       teacher_phone: ['', [Validators.required]],
       teacher_alt_phone: [''],
       teacher_standards: [''],
@@ -161,18 +158,7 @@ export class TeacherEditComponent implements OnInit {
     }
     dataToBind.attendance_device_id = data.attendance_device_id;
     dataToBind.country_id = data.country_id;
-    this.countryDetails.forEach(element => {
-      if (element.id == data.country_id) {
-        this.instituteCountryDetObj = element;
-        dataToBind.country_id = this.instituteCountryDetObj.id;
-      } else {
-        // dataToBind.country = 'India';
-        dataToBind.country_id = '1';
-      }
-    }
-    );
-    console.log(dataToBind);
-    return dataToBind
+    return dataToBind;
   }
 
   addNewTeacherInfo() {
