@@ -323,6 +323,7 @@ export class LiveClassesComponent implements OnInit {
     let time = this.diffDate(date1, date2);
     let splitedTime = time.split(":");
     let hrs = +splitedTime[0];
+    let mins = +splitedTime[1];
     let inDays: number = Math.floor(hrs / 24);
 
     if (inDays > 0) {
@@ -337,7 +338,12 @@ export class LiveClassesComponent implements OnInit {
       return "00:00 hrs";
     }
     else {
-      return time + " hrs";
+      if(hrs == 0){
+        return mins + " mins";
+      }
+      else{
+        return time + " hrs";
+      }
     }
   }
 
