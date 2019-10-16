@@ -5,8 +5,8 @@
 <div class="middle-section">
   <aside class="middle-full">
     <section class="middle-main clearFix activity-wrapper">
-      <section class="row header">
-        <div class="row" style="margin-left: 15px;">
+      <section class="row header" style="margin-right: 0px; margin-left: 0px;margin-bottom: 5px;">
+        <div class="row" style="margin-left: 0px;margin-right: 0px;">
           <h2 class="pull-left">
             <a routerLink="/view/activity/dashboard">
             Activity
@@ -48,7 +48,7 @@
       <section id="classDetails" *ngIf="isBasicActive">
         <div class="class_details_container">
           <div class="field-wrapper">
-            <label for="topicName">Topic Name* </label>
+            <label for="topicName">Topic Name<span class="text-danger">*</span> </label>
             <input type="text" value="" id="topicName" class="form-ctrl" name="topicName" required [(ngModel)]="topicName" placeholder="Enter Topic Name"/>
           </div>
 
@@ -99,7 +99,7 @@
           </div>
 
           <div class="field-wrapper faculty_container">
-            <label for="faculty">Faculty Name(s)* </label>
+            <label for="faculty">Faculty Name(s)<span class="text-danger">*</span> </label>
             <!-- <input type="text" value="" id="faculty" class="form-ctrl" name="faculty" required /> -->
             <ng-multiselect-dropdown
               [placeholder]="'Select Faculty'"
@@ -110,7 +110,7 @@
           </div>
 
           <div class="field-wrapper moderator_container">
-            <label for="moderator">Moderator Name(s)* </label>
+            <label for="moderator">Moderator Name(s) </label>
             <ng-multiselect-dropdown
               [placeholder]="'Select Moderator'"
               [data]="userAssigned"
@@ -121,12 +121,13 @@
 
           <div class="field-wrapper moderator_container" *ngIf="isShowProductOption">
             <label for="product">Product(s) </label><br>
-              <select class="made-out" id="product" [(ngModel)]="product_id" style="width: 100%;padding: 6px 12px;border: 1px solid #adadad;border-radius: 4px;" (change)="onChangeProduct($event.target.value)"> 
+              <select class="made-out" id="product" [(ngModel)]="product_id" style="width: 100%;padding: 6px 12px;border: 1px solid #adadad;border-radius: 4px;" (change)="onChangeProduct($event.target.value)">
+                <option value="">Select Product(s)</option>
                 <option *ngFor="let product of productData" [value]="product.id" >
                       {{product.title}}
                   </option>
               </select>
-          </div> 
+          </div>
 
           <div class="field-wrapper student_list_container" *ngIf="isShowProductOption" style="width: 73%">
             <label for="students">User Name(s) </label>
@@ -137,7 +138,7 @@
               [(ngModel)]="selectedUserList">
             </ng-multiselect-dropdown>
           </div>
- 
+
 
           <div class="action-button-container">
             <div class="action-btn-item-1">
@@ -155,7 +156,7 @@
       <section id="assignStudent" *ngIf="isOtherActive">
         <div class="add_student_container">
           <div class="field-wrapper"  *ngIf="!isProfessional">
-            <label for="master_course">Master Course* </label>
+            <label for="master_course">Master Course<span class="text-danger">*</span> </label>
             <select class="form-ctrl" name="master_course" id="master_course" [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)">
               <option value="" disabled  selected="selected" hidden>Select Master Course</option>
               <option *ngFor="let i of masters" [value]="i.master_course">
@@ -165,7 +166,7 @@
           </div>
 
           <div class="field-wrapper"  *ngIf="isProfessional">
-            <label for="batch">Batches* </label>
+            <label for="batch">Batches<span class="text-danger">*</span> </label>
             <select class="form-ctrl" name="batch" id="batch" [(ngModel)]="batchesIds" (ngModelChange)="getBatchesCoursesIds($event)">
               <option value="" disabled  selected="selected" hidden>Select Batch</option>
               <option *ngFor="let i of batches" [value]="i.batch_id">
@@ -175,7 +176,7 @@
           </div>
 
           <div class="field-wrapper" *ngIf="!isProfessional">
-            <label for="course">Course* </label>
+            <label for="course">Course<span class="text-danger">*</span> </label>
             <select class="form-ctrl" name="course" id="course" [(ngModel)]="courseIds" (ngModelChange)="getBatchesCoursesIds($event)">
               <option value=""  disabled  selected="selected" hidden>Select Course</option>
               <option *ngFor="let i of courses" [value]="i.course_id">
@@ -183,9 +184,9 @@
               </option>
             </select>
           </div>
- 
+
           <div class="field-wrapper student_list_container">
-            <label for="students">Student Name(s)* </label>
+            <label for="students">Student Name(s)<span class="text-danger">*</span> </label>
             <ng-multiselect-dropdown class="container"
               [placeholder]="'Select Students'"
               [data]="studentList"

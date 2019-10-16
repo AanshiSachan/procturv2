@@ -41,7 +41,7 @@ export class AddClassComponent implements OnInit {
   moderatorSettings = {};
   studentListSettings = {};
   userListSetting = {};
-  product_id: {} = null;
+  product_id: any = "";
   productData: any[] = [];
   userData: any[] = [];
 
@@ -235,8 +235,8 @@ export class AddClassComponent implements OnInit {
       return false;
     }
 
-    else if (moment(fromTimeT).diff(moment(), 'minutes') <= 20) {
-      this.appC.popToast({ type: "error", body: "Class can be schedule 20 minutes from current time" })
+    else if (moment(fromTimeT).diff(moment(), 'minutes') <= 0) {
+      this.appC.popToast({ type: "error", body: "Class can be schedule before current time" })
       return false;
     }
 
@@ -253,7 +253,7 @@ export class AddClassComponent implements OnInit {
 
   checkMandatoryFields() {
     // this.navigateTo("assignStudent")
-    if (this.topicName != "" && this.topicName != null && this.selectedFacultyList.length != 0 && this.selectedModeratorList.length != 0) {
+    if (this.topicName != "" && this.topicName != null && this.selectedFacultyList.length != 0) {
       if (this.dateTimeStatus) {
         this.navigateTo("assignStudent")
       }

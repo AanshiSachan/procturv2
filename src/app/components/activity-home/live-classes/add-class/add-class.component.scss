@@ -2,6 +2,9 @@ html {
   overflow-y: scroll;
 }
 
+.middle-section{
+  padding: 1%;
+}
 .border-container{
   border-top: 1px solid #e3e3e3;
 }
@@ -53,7 +56,7 @@ html {
               background: url(/./assets/images/calendar.svg) no-repeat;
               position: absolute;
               right: 57px;
-              top: 38px;
+              top: 35px;
               width: 21px;
               height: 21px;
               z-index: 0;

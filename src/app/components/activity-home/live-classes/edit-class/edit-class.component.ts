@@ -51,7 +51,7 @@ export class EditClassComponent implements OnInit {
 
   courseValue: any;
   productData: any[] = [];
-  product_id: any = {};
+  product_id: any = "";
   isShowProductOption: boolean = false;
   batches: any[] = [];
   masters: any[] = [];
@@ -279,7 +279,7 @@ export class EditClassComponent implements OnInit {
       return false;
     }
 
-    else if (moment(fromTimeT).diff(moment(), 'minutes') <= 20) {
+    else if (moment(fromTimeT).diff(moment(), 'minutes') <= 0) {
       this.appC.popToast({ type: "error", body: "Class can be schedule 20 minutes from current time" })
       return false;
     }
@@ -297,7 +297,7 @@ export class EditClassComponent implements OnInit {
 
   checkMandatoryFields() {
     this.getEventHourTo();
-    if (this.topicName != "" && this.topicName != null && this.selectedFacultyList.length != 0 && this.selectedModeratorList.length != 0) {
+    if (this.topicName != "" && this.topicName != null && this.selectedFacultyList.length != 0) {
       if (this.dateTimeStatus) {
         this.navigateTo("assignStudent")
         this.getStudentpreFillData();
