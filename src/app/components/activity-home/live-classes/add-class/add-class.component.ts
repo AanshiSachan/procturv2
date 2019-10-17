@@ -236,7 +236,7 @@ export class AddClassComponent implements OnInit {
     }
 
     else if (moment(fromTimeT).diff(moment(), 'minutes') <= 0) {
-      this.appC.popToast({ type: "error", body: "Class can be schedule before current time" })
+      this.appC.popToast({ type: "error", body: "Class cannot be schedule before current time" })
       return false;
     }
 
