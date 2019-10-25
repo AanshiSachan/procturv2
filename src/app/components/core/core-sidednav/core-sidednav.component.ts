@@ -123,7 +123,11 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
     const permissionArray = sessionStorage.getItem('permissions');
     let username = sessionStorage.getItem('username');
-    if (((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 100952)) || (permissionArray && permissionArray.indexOf('721') != -1)) {
+    if ((
+      (username == "admin" && this.instituteId == 100127) ||
+      (username == "admin" && this.instituteId == 100952) ||
+      (username == "admin" && this.instituteId == 101077)) ||
+      (permissionArray && permissionArray.indexOf('721') != -1)) {
       this.libraryRole = true;
     }
 
@@ -480,7 +484,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
       permissions.includes('207') || permissions.includes('208') ||
       permissions.includes('722')) {
       document.getElementById('lisix').classList.remove('hide');
-    }else{
+    } else {
       document.getElementById('lisix').classList.add('hide');
     }
   }
@@ -579,7 +583,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
   }
 
   RemoveActiveTabs() {
-    let removeArray = ['lizero', 'lione', 'litwo', 'lithree', 'lifour', 'lifive','lisix', 'liseven', 'lieight', 'linine', 'liten', 'lieleone'];
+    let removeArray = ['lizero', 'lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'liten', 'lieleone'];
     removeArray.forEach(object => {
       if (document.getElementById(object)) {
         document.getElementById(object).classList.remove('active');
@@ -761,8 +765,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
       // document.getElementById(id+"icon").src = "./assets/images/sidebar/sideMenu/"+id+"_color.svg";
       // document.getElementById(id+"_current").classList.add('active-current-menu')
-      if (document.getElementById(id))
-        {document.getElementById(id).style.display = "block";}
+      if (document.getElementById(id)) { document.getElementById(id).style.display = "block"; }
     }
   };
 
