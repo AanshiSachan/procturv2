@@ -1,0 +1,117 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="jsonflag.isRippleLoad">
+</loaders-css>
+<div class="report-wrapper clearFix">
+  <aside class="middle-full">
+    <section class="middle-main clearFix">
+      <div class="middle-top mb0 clearFix header" style="width: 99%;
+            margin-left: 10px;
+            padding-bottom: 20px;    background: #fff;">
+        <div class="row">
+          <h2 style="padding: 16px 0px 3px 32px;" class="pull-left">
+            <a routerLink="/view/e-store">
+              E-store
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> E-course Mapping
+          </h2>
+          <!-- <a (click)="clearObjects()" *ngIf="jsonflag.isUpadted" class="form btnAdd">Add E-Course
+          </a> -->
+
+        </div>
+
+        <div class="row">
+          <div class="c-lg-12 field-made">
+            <div class="c-lg-3 field-wrapper">
+              <label for="from">E-course Name<span class="text-danger">*</span></label>
+              <input type="text" class="form-ctrl" [(ngModel)]="ecourseObject.course_type">
+            </div>
+
+            <div class="c-lg-3 c-md-3 c-ms-3" style="height: auto;" *ngIf="jsonflag.allowMapping=='1'" (click)="openAssignBatch()">
+              <div style="height: 80px; padding: 5px; background: #efefef; overflow-y: auto;" >
+                <div *ngFor="let course of assignCourses"  [ngClass]="!jsonflag.isUpadted?'chipped intable':''">
+                  
+                  <span  *ngIf="!jsonflag.isUpadted">{{course}}</span>
+                </div>
+           
+                <span *ngIf="(!jsonflag.isProfessional &&(assignCourses.length==0))||(!jsonflag.isProfessional && jsonflag.isUpadted)" style="    color: gray;">Assign Courses</span>
+                <span *ngIf="jsonflag.isProfessional &&(assignCourses.length==0) ||(jsonflag.isProfessional && jsonflag.isUpadted)" style="    color: gray;">Assign Standard</span>
+              </div>
+              <a style="cursor:pointer" *ngIf="!jsonflag.isProfessional" (click)="openAssignBatch()">Assign Courses</a>
+              <a style="cursor:pointer" *ngIf="jsonflag.isProfessional" (click)="openAssignBatch()">Assign Standard</a>
+            </div>
+
+            <div class="c-lg-2" style="margin-top:2%;"> 
+              <input type="button" class="btn fullBlue"  value="Add" (click)="addEcourseMapping()">
+              <!-- <input type="button" class="btn fullBlue" *ngIf="jsonflag.isUpadted" value="Update" (click)="updateCourseMapping()"> -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="table table-responsive" style="margin-top: 30px;">
+        <data-display-table *ngIf="displayKeys.length" #child [displayKeys]="tableSetting" [displayData]="ecourseData" (editView)='optionSelected($event)'>
+        </data-display-table>
+      </div>
+    </section>
+  </aside>
+</div>
+
+
+<proctur-popup [sizeWidth]="'extraSmall'" *ngIf="jsonflag.isAssignBatch">
+
+  <span class="closePopup pos-abs fbold show" (click)="jsonflag.isAssignBatch = false" close-button>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
+      </g>
+    </svg>
+  </span>
+
+  <h2 popup-header *ngIf="!jsonflag.isProfessional">Select Courses</h2>
+  <h2 popup-header *ngIf="jsonflag.isProfessional">Select Standard</h2>
+  <!-- <h2 popup-header>Select Standards</h2> -->
+
+  <div popup-content class="student-assign-popup">
+    <div class=" filter-section">
+      <div class="batch-table row">
+        <table>
+          <tbody *ngIf="batchList.length != 0">
+            <tr *ngFor="let batch of batchList; let i = index">
+              <td style="text-align: left;">
+                <div class="inst-no">
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" name="batchcheck{{i}}" id="batchcheck{{i}}" name="batch" [(ngModel)]="batch.isSelected" class="form-checkbox">
+                    <label for="batchcheck{{i}}">{{batch.title}}</label>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="batchList.length == 0">
+            <tr>
+              <td colspan="7">
+                No Data Found
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="" popup-footer>
+    <div class="clearfix" style="margin-top :10px">
+      <aside class="pull-right popup-btn">
+        <input type="button" value="Cancel" class="btn" (click)="jsonflag.isAssignBatch = false">
+        <input type="button" *ngIf="!jsonflag.isProfessional" value="Assign course" class="fullBlue btn" (click)="addCourseOrStandard()">
+        <input type="button" *ngIf="jsonflag.isProfessional" value="Assign Batch" class="fullBlue btn" (click)="addCourseOrStandard()">
+      </aside>
+    </div>
+  </div>
+
+</proctur-popup>

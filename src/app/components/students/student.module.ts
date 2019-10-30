@@ -37,7 +37,9 @@ import { WidgetService } from '../../services/widget.service';
         CommonModule,
         StudentRoutingModule,
         BsDatepickerModule,
-        FileUploadModule, SplitButtonModule, MenuModule,
+        FileUploadModule, 
+        SplitButtonModule, 
+        MenuModule,
         SharedModule
     ],
     declarations: [

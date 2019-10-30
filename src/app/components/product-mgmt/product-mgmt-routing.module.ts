@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent, ProductListComponent, GroupComponent, SalesReportsComponent } from '.';
+import { HomeComponent, ProductListComponent, SalesReportsComponent,EcourseMappingComponent } from '.';
 import { ProductCreationComponent } from './product-creation/product-creation.component';
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
 
@@ -13,10 +13,6 @@ const routes: Routes = [
     {
         path: 'details',
         component: ProductListComponent,
-    },
-    {
-        path: 'groups',
-        component: GroupComponent
     },
     {
         path: 'sales-report',
@@ -37,7 +33,17 @@ const routes: Routes = [
     {
         path: 'registered-user',
         component: RegisteredStudentComponent
-    }
+    },
+    {
+        path: 'ecoursemapping',
+        component: EcourseMappingComponent,
+        pathMatch: 'prefix'
+    },
+    {
+        path: 'ecourse-file-manager',
+        loadChildren: 'app/components/product-mgmt/ecourse-file-manager/ecourse-file-manager.module#EcourseFileManagerModule',
+        pathMatch: "prefix"
+    },
 ];
 
 @NgModule({

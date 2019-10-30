@@ -280,7 +280,7 @@ export class ProductCreationComponent implements OnInit {
       }
     }
     let nextFormUrl = this.formSequence[index].slug;
-    this.router.navigate(['/view/products/create/' + this.entity_id + '/' + nextFormUrl]
+    this.router.navigate(['/view/e-store/create/' + this.entity_id + '/' + nextFormUrl]
     );
   }
 }

@@ -8,8 +8,8 @@
       <section class="middle-top clearFix bulk-header">
         <div>
           <h1 class="pull-left">
-            <a routerLink="/view/products" style="padding:0px; ">
-              Product
+            <a routerLink="/view/e-store" style="padding:0px; ">
+              E-store
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
             <span> Product Details </span>
@@ -18,7 +18,7 @@
       </section>
     </div>
     <div class="col-md-4 col-sm-4 text-right m-auto">
-      <button class="btn btn-primary btn-product " routerLink="/view/products/create">New Product</button>
+      <button class="btn btn-primary btn-product " routerLink="/view/e-store/create">New Product</button>
     </div>
   </div>
   <div class="row m-0 action-bar">
@@ -210,7 +210,7 @@
                 </button>
                 <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
                   <a class="dropdown-item" *ngIf="item.status < 30 "
-                    [routerLink]="['/view/products/create/'+item.entity_id+'/basic']">Edit</a>
+                    [routerLink]="['/view/e-store/create/'+item.entity_id+'/basic']">Edit</a>
                   <a class="dropdown-item" *ngIf="item.status < 30 "
                     (click)="actionProductModal('delete', item.entity_id)">Delete</a>
                   <a class="dropdown-item" (click)="actionProductModal('ready', item.entity_id)"

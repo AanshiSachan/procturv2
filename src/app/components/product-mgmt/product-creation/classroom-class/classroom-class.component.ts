@@ -74,7 +74,7 @@ export class ClassroomClassComponent implements OnInit {
   
 
   gotoBack() {
-    this.router.navigateByUrl('/view/products/details');
+    this.router.navigateByUrl('/view/e-store/details');
   }
 
   gotoNext() {

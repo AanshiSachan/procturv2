@@ -1,4 +1,3 @@
-export *  from  './group/group.component';
 export *  from  './home/home.component';
 export *  from './sales-reports/sales-reports.component';
 export *  from './product-list/product-list.component';
@@ -12,3 +11,4 @@ export *  from  './product-creation/product.model';
 export *  from  './product-creation/review-product/review-product.component';
 export *  from  './product-creation/study-material/study-material.component';
 export *  from  './product-creation/video-lecture/video-lecture.component';
+export *  from  './ecourse-mapping/ecourse-mapping.component';

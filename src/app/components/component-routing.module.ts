@@ -123,7 +123,7 @@ import { AuthGuard } from '../guards/auth.guard';
                             loadChildren: 'app/components/library-management/library-management.module#LibraryManagementModule',
                         },
                         {
-                            path: 'products',
+                            path: 'e-store',
                             loadChildren: 'app/components/product-mgmt/product-mgmt.module#ProductMgmtModule'
                         },
                     ]

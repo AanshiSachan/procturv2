@@ -11,7 +11,8 @@ import { ExcelService } from '../../services/excel.service';
 import { TablePreferencesService } from '../../services/table-preference/table-preferences.service';
 import { BasicInfoComponent, MockTestComponent, OnlineExamComponent,
   StudyMaterialComponent, ReviewProductComponent, VideoLectureComponent, ClassroomClassComponent,
-  OnlineClassComponent, OfflineMaterialComponent, GroupComponent, ProductListComponent, HomeComponent, SalesReportsComponent
+  OnlineClassComponent, OfflineMaterialComponent,  ProductListComponent, HomeComponent, SalesReportsComponent,
+  EcourseMappingComponent
 } from '.';
 import { ProductCreationComponent } from './product-creation/product-creation.component';
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
@@ -30,9 +31,9 @@ import { RegisteredStudentComponent } from './product-registered-student/product
     NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [
-    ProductListComponent,
-    GroupComponent,
+    ProductListComponent,    
     ProductCreationComponent,
+    EcourseMappingComponent,
     BasicInfoComponent,
     MockTestComponent,
     OnlineExamComponent,

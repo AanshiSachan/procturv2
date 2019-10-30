@@ -175,7 +175,7 @@ export class BasicInfoComponent implements OnInit {
   }
 
   gotoBack() {
-    this.router.navigateByUrl('/view/products/details');
+    this.router.navigateByUrl('/view/e-store/details');
   }
 
   // update parent state data
