@@ -1,0 +1,169 @@
+<section class="sideBar">
+  <section class="institute-logo-name-container">
+    <!-- <div class="institute-logo-container">
+      <img src="" alt="">
+    </div> -->
+    <div class="institute-name-container">
+      <span>{{instituteName}}</span>
+    </div>
+  </section>
+  <div class="nav">
+    <div class="search-container">
+      <form autocomplete="off" #form="ngForm">
+        <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput [ngClass]="{'has-focus': isResultDisplayed}"
+          (focus)="triggerSearchBox($event)" autocomplete="off" maxlength="20" placeholder="Search here..."
+          class="search-input searchbox form-ctrl-head search-item searchBox">
+      </form>
+      <i class="fa fa-search search-icon" aria-hidden="true"></i>
+      <section class="search-dropdown search-item" #seachResult>
+        <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat" [studentResult]="studentResult"
+          (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)"
+          [enquiryResult]="enquiryResult" (actionSelected)="actionSelected($event)">
+        </search-box>
+      </section>
+    </div>
+    <span class="NavLink activation-status-link" routerLink="/view/home" id="lizero" (click)="toggler('lizero')">
+      <i class="fa fa-home" aria-hidden="true"></i>
+      Home
+    </span>
+    <span class="NavLink" routerLink="/view/enquiry" id="lione" (click)="toggler('lione')">
+      <i class="fa fa-leanpub" aria-hidden="true"></i>
+      Lead
+    </span>
+    <span class="NavLink" routerLink="/view/student" id="litwo" (click)="toggler('litwo')">
+      <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+      Student
+    </span>
+    <span class="NavLink" routerLink="/view/course" id="lithree" (click)="toggler('lithree')">
+      <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+      <span *ngIf="isLangInstitute" id="li3">Batch</span>
+      <span *ngIf="!isLangInstitute" id="li3">Course</span>
+    </span>
+    <span class="NavLink" (click)="routerLink('/view/fee')" #divFeeTag id="divFeeTag">
+      <i class="fa fa-money" aria-hidden="true"></i>
+      Fee
+    </span>
+    <span class="NavLink" href="#/app/dashboard" >
+      <i class="fa fa-money" aria-hidden="true"></i>
+      Live Class
+    </span>
+    <span class="NavLink" href="#/app/dashboard">
+      <i class="fa fa-comments" aria-hidden="true"></i>
+      Communicate
+    </span>
+    <span class="NavLink" routerLink="/view/library" id="liten" (click)="toggler('liten')">
+      <i class="fa fa-book" aria-hidden="true"></i>
+      Library
+    </span>
+    <span class="NavLink" routerLink="/view/products" id="lieleone" (click)="toggler('lieleone')">
+      <i class="fa fa-street-view" aria-hidden="true"></i>
+      eStore
+    </span>
+    <span class="NavLink" href="#/app/dashboard">
+      <i class="fa fa-users" aria-hidden="true"></i>
+      Empolyee
+    </span>
+    <span class="NavLink" href="#/app/dashboard">
+      <i class="fa fa-suitcase" aria-hidden="true"></i>
+      Expense
+    </span>
+    <span class="NavLink" href="#/app/dashboard">
+      <i class="fa fa-tasks" aria-hidden="true"></i>
+      Task
+    </span>
+    <span class="NavLink" href="#/app/dashboard">
+      <i class="fa fa-money" aria-hidden="true"></i>
+      Dashboard
+    </span>
+  </div>
+
+  <div class="setting">
+    <div class="setting-item" (click)="showSubSection('help')">
+      <i class="fa fa-question-circle" title="Help" aria-hidden="true"></i>
+      <div class="side-section" id="help">
+        <div class="side-section-item">
+          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
+        </div>
+        <div class="side-section-item">
+          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')">Create Support Ticket</span>
+        </div>
+        <div class="side-section-item">
+          <span (click)="openInNewTab('https://anydesk.com/en/downloads/')">Download Anydesk</span>
+        </div>
+        <div class="side-section-item">
+          <span>+91 9971839153</span>
+        </div>
+      </div>
+    </div>
+    <div class="setting-item" #divSettingTag id="divSettingTag" (click)="showSubSection('setting')">
+      <i class="fa fa-cog" title="Settings" aria-hidden="true"></i>
+      <div class="side-section" id="setting">
+        <div class="side-section-item">
+          <span (click)="routerLink('/view/setting')">General Settings</span>
+        </div>
+        <div class="side-section-item">
+          <span (click)="routerLink('/view/formField/home')">Manage Form Field</span>
+        </div>
+        <div class="side-section-item">
+          <span (click)="routerLink('/view/master/areaCity')">City Area Map</span>
+        </div>
+      </div>
+    </div>
+    <div class="setting-item" #divMasterTag id="divMasterTag" (click)="showSubSection('setup')">
+      <i class="fa fa-wrench" title="Setup" aria-hidden="true"></i>
+      <div class="side-section" id="setup">
+        <div class="side-section-item">
+          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
+        </div>
+        <div class="side-section-item">
+          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')">Create Support Ticket</span>
+        </div>
+        <div class="side-section-item">
+          <span (click)="openInNewTab('https://anydesk.com/en/downloads/')">Download Anydesk</span>
+        </div>
+        <div class="side-section-item">
+          <span>+91 9971839153</span>
+        </div>
+      </div>
+    </div>
+    <div class="setting-item" (click)="showSubSection('branches')">
+      <i class="fa fa-user" title="Branches" aria-hidden="true"></i>
+      <div class="side-section" id="branches">
+        <div class="side-section-item">
+          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
+        </div>
+        <div class="side-section-item">
+          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')">Create Support Ticket</span>
+        </div>
+        <div class="side-section-item">
+          <span (click)="openInNewTab('https://anydesk.com/en/downloads/')">Download Anydesk</span>
+        </div>
+        <div class="side-section-item">
+          <span>+91 9971839153</span>
+        </div>
+      </div>
+    </div>
+    <div class="setting-item" #divManageUsers id="divManageUsers" (click)="routerLink('/view/manage')">
+      <i class="fa fa-universal-access" title="Users" aria-hidden="true"></i>
+    </div>
+    <div class="setting-item" #divMyAccountTag id="divMyAccountTag" (click)="showSubSection('account')">
+      <i class="fa fa-universal-access" title="My Account" aria-hidden="true"></i>
+      <div class="side-section" id="account">
+        <div class="side-section-item">
+          <span (click)="changePasswordClick()">Change Password</span>
+        </div>
+        <div class="side-section-item">
+          <span (click)="logout()">Logout</span>
+        </div>
+        <div class="side-section-item">
+          <span (click)="routerLink('/view/account')">My Account</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<aside class="blur-background" *ngIf="sideBar || searchBar || helpMenu" (click)="closeMenu()">
+
+</aside>

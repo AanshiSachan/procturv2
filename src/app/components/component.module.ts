@@ -14,6 +14,7 @@ import { SearchBoxComponent } from './core/search-box/search-box.component';
 import { EnquiryModule } from './enquiry/enquiry.module';
 import { StudentFeeService } from './students/student_fee.service';
 import { CourseListService } from '../services/course-services/course-list.service';
+import { SideBarComponent } from './core/side-bar/side-bar.component';
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import { CourseListService } from '../services/course-services/course-list.servi
         ChangePasswordComponent,
         ChangePasswordComponent,        
         GlobalSearchPopupComponent,
-        SearchBoxComponent
+        SearchBoxComponent,
+        SideBarComponent
     ],
     entryComponents: [
     ],
