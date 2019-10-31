@@ -1,0 +1,149 @@
+@import "./src/assets/css/common/variables.scss";
+
+.ga-modal-wrapper {
+  right: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(136, 136, 136, 0.6);
+  z-index: 999;
+
+  .ga-modal-container {
+    display: flex;
+    overflow-y: auto;
+    height: 100%;
+
+    .ga-modal {
+      margin: auto;
+      background: #fff;
+      border: 2pt solid #fff;
+      border-radius: .2em;
+      box-shadow: 0 2pt 3pt #999;
+      min-width: 50%;
+
+      .ga-modal-head {
+        padding: .5em 1em;
+        border-bottom: 1pt solid #ddd;
+        font-weight: bold;
+
+        .close {
+          font-weight: bold;
+          font-size: 1.2em;
+          position: relative;
+          right: -2.2em;
+          top: -1.7em;
+          background: #fff;
+          border-radius: 100%;
+          width: 24px;
+          height: 24px;
+          display: flex;
+          opacity: 1;
+          cursor: pointer;
+
+          &:after {
+            content: 'X';
+            margin: auto;
+            font-size: .85em;
+          }
+        }
+      }
+
+      .ga-modal-body {
+        padding: 1em;
+      }
+    }
+  }
+}
+
+.ga-form-input {
+  border: 1pt solid #ddd;
+  width: 100%;
+  border-radius: 3px;
+  padding: .2em;
+  color: #334e4c;
+  box-shadow: inset 0 0 2pt #f1f1f1;
+}
+
+.field-checkbox-wrapper, .field-radio-wrapper{
+  position: relative;
+   padding-left: 0px; 
+   margin-bottom: 0px; 
+}
+
+.upload-box {
+  display: flex;
+
+  .file-form {}
+
+  .file-drop-wrapper {
+    padding: 0 1em;
+
+    .drop-box {
+      background: #ecf7ff;
+      height: 100%;
+      border: 1pt solid #9E9E9E;
+      border-style: dashed;
+    }
+  }
+}
+
+::ng-deep .ui-fileupload {
+  width: 100%;
+  cursor: pointer;
+}
+
+::ng-deep .ui-fileupload-buttonbar {
+  background: $header-bg;
+  width: auto;
+}
+
+::ng-deep .ui-fileupload-content {
+  min-height: 200px;
+  width: auto;
+  padding: 5px;
+  border-top: none;
+  border-right: 3px dashed $border-common;
+  border-bottom: 3px dashed $border-common;
+  border-left: 3px dashed $border-common;
+  cursor: pointer;
+
+  &::after {
+    content: "Drag & Drop Files Here";
+    color: rgba(0, 0, 0, 0.09);
+    position: absolute;
+    top: 35%;
+    left: 5%;
+    font-size: 36px;
+  }
+}
+
+.video-input {
+  border: 1pt solid #ddd;
+  width: 100%;
+  border-radius: 3px;
+  padding: 1em;
+  color: #334e4c;
+  -webkit-box-shadow: inset 0 0 2pt #f1f1f1;
+}
+
+.btn-div {
+  float: right;
+  margin-top: 3em;
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
+
+.title{
+  font-weight: 600;
+}
+
+.black-bg{
+  background: rgba(12, 11, 11, 0.3);
+  position: fixed;
+  top: 0px;
+  height: 100%;
+  left: 0px;
+  z-index: 1000;
+  width: 100%;
+}

@@ -124,7 +124,7 @@ import { AuthGuard } from '../guards/auth.guard';
                         },
                         {
                             path: 'e-store',
-                            loadChildren: 'app/components/product-mgmt/product-mgmt.module#ProductMgmtModule'
+                            loadChildren: 'app/components/eStore-module/estore.module#EstoreModule'
                         },
                         {
                             path: 'live-classes',

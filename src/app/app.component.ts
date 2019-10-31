@@ -3,7 +3,6 @@ import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationErr
 import { Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
 import { LoginService } from './services/login-services/login.service';
 import { CommonServiceFactory } from './services/common-service';
-import { Title } from '@angular/platform-browser';
 
 
 @Component({

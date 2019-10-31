@@ -1,0 +1,247 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'"
+  *ngIf="isRippleLoad">
+</loaders-css>
+<div class="ga-modal-wrapper" *ngIf="showModal">
+  <div class="ga-modal-container">
+    <div class="ga-modal">
+      <div class="ga-modal-head">
+        <span>Upload Files</span>
+        <span class="close" (click)="clearuploadObject()"></span>
+      </div>
+      <div class="ga-modal-body">
+        <div class="row upload-box">
+          <div class="col-md-4 file-form">
+
+            <div class="form-group">
+              <select class="form-ctrl ga-form-input" [disabled]="material_dataShow" [(ngModel)]="varJson.course_types"
+                (change)="getSubjectsList($event.target.value)">
+                <option value=""> Select course</option>
+                <option *ngFor="let exam of categiesList; " [value]="exam.course_type_id">{{exam.course_type}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <select [(ngModel)]="varJson.subject_id" [disabled]="material_dataShow" class="form-ctrl ga-form-input"
+                (change)="getTopicsList($event.target.value)">
+                <option value="0">Select subject</option>
+                <option *ngFor="let subject of subjectList;" [value]="subject.subject_id">{{subject.subject_name}}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <select class="form-ctrl ga-form-input" [(ngModel)]="varJson.topic_id"
+                (change)="getSubtopicList($event.target.value)">
+                <option value="0">Select topic</option>
+                <option *ngFor="let topic of topicList; " [value]="topic.institute_topic_id">{{topic.name}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <select class="form-ctrl ga-form-input" [(ngModel)]="varJson.sub_topic_id">
+                <option value="0">Select subtopic</option>
+                <option *ngFor="let subtopic of subtopicList; " [value]="subtopic.institute_topic_id">{{subtopic.name}}
+                </option>
+              </select>
+            </div>
+
+          </div>
+          <div class="file-drop-wrapper"
+            [ngClass]="{'col-md-10': varJson.category_id==330,'col-md-8': varJson.category_id!=330}">
+            <div class="drop-box">
+              <select [(ngModel)]="varJson.category_id" (change)="setCategoryType($event.target.value)"
+                class="form-ctrl ga-form-input" style="margin-bottom: 0.8em">
+                <option value="0">Select file type</option>
+                <option *ngFor="let category of categiesTypeList; " [value]="category.category_id">
+                  {{category.category_name}}</option>
+              </select>
+              <input type="text" style="margin-bottom: 0.8em;"
+                *ngIf="varJson.category_id==235" class="form-ctrl video-input"
+                placeholder="Video Title" [(ngModel)]="varJson.title">
+
+              <input type="text" style="margin-bottom: 0.8em;" class="form-ctrl video-input"
+                *ngIf="varJson.category_id==230" placeholder="Video URL" [(ngModel)]="varJson.video_url">
+
+              <div class="btn-div" *ngIf="varJson.category_id==230">
+                <input class="btn fullBlue" type="button" value="Upload" [disabled]="varJson.video_url==''"
+                  (click)="uploadYoutubeURL($event)">
+                <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
+              </div>
+              <div style="width: 50rem; height: 20rem;    overflow-y: scroll;" class="table table-responsive table-made"
+                *ngIf="varJson.category_id==330">
+                <table>
+                  <thead>
+                    <tr>
+                      <td>#</td>
+                      <td>Title</td>
+                      <td>Size</td>
+                      <td>Date</td>                     
+                      <td>Source</td>
+                      <td>Location</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let video of existVideos;">
+                        <td>
+                          <div class="field-radio-wrapper">
+                            <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" 
+                              [(ngModel)]="jsonData.selectedVideo"  [value]="video.video_id"
+                            (ngModelChange)="onRadioButtonChange($event,video)">
+                            <label for="bothRadio"></label>
+                          </div></td>
+                        <td>{{video.video_title}}</td>
+                        <td>{{video.video_size}} MB</td>
+                        <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
+                        <td>{{getSourceName(video)}}</td>
+                        <td>{{getLocationName(video)}}</td>
+                    </tr>
+
+                  </tbody>
+
+                </table>              
+              </div>
+              <div class="btn-div" *ngIf="varJson.category_id==330" style=" position: absolute; right: 1rem; bottom: 0;">
+                <input class="btn fullBlue" type="button" value="Link Video" [disabled]="varJson.title==''"
+                  (click)="linkAlreadyUploadedVideo($event)">
+                <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
+              </div>
+              <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler2($event,values)"
+                [showCancelButton]="false"
+                *ngIf="varJson.category_id==235 && varJson.category_id!=0 && varJson.category_id!=330">
+              </p-fileUpload>
+
+              <p-fileUpload customUpload="true" multiple="multiple" type="submit"
+                (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false"
+                *ngIf="varJson.category_id!=230 && varJson.category_id!=235 && varJson.category_id!=330">
+              </p-fileUpload>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ga-modal-wrapper" *ngIf="showParentTopicModel">
+  <div class="ga-modal-container">
+    <div class="ga-modal">
+      <div class="ga-modal-head">
+        <span>Upload Files</span>
+        <span class="close" (click)="clearuploadObject()"></span>
+      </div>
+      <div class="ga-modal-body">
+        <div class="row upload-box">
+          <div class="col-md-12 file-form">
+            <div class="form-group">
+              <label>course</label>
+              <select class="form-ctrl ga-form-input" [disabled]="material_dataShow" [(ngModel)]="varJson.course_types"
+                (change)="getSubjectsList($event.target.value)">
+                <option value=""> Select course</option>
+                <option *ngFor="let exam of categiesList; " [value]="exam.course_type_id">{{exam.course_type}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12 file-form">
+            <div class="form-group">
+              <label>subject</label>
+              <select [(ngModel)]="varJson.subject_id" [disabled]="material_dataShow" class="form-ctrl ga-form-input"
+                (change)="getTopicsList($event.target.value)">
+                <option value="0">Select subject</option>
+                <option *ngFor="let subject of subjectList;" [value]="subject.subject_id">{{subject.subject_name}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row upload-box">
+          <div class="col-md-12 file-form">
+            <div class="form-group">
+              <label class="title">Parent Topic &nbsp;:&nbsp;</label>
+              <label title="{{jsonData.parentTopic}}">{{(jsonData.parentTopic?.length>30)?(jsonData.parentTopic | slice:0:30) + '...':(jsonData.parentTopic)}}
+              </label>
+
+            </div>
+          </div>
+          <div class="col-md-12 file-form">
+            <div class="form-group">
+              <label class="title">Main Topic &nbsp;:&nbsp;</label>
+              <label title="{{jsonData.parentTopic}}">{{(jsonData.mainTopic?.length>30)?(jsonData.mainTopic | slice:0:30) + '...':(jsonData.mainTopic)}}</label>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="row upload-box">
+          <div class="col-md-12 file-drop-wrapper">
+            <div class="drop-box">
+              <select [(ngModel)]="varJson.category_id" (change)="setCategoryType($event.target.value)"
+                class="form-ctrl ga-form-input" style="margin-bottom: 0.8em">
+                <option value="0">Select file type</option>
+                <option *ngFor="let category of categiesTypeList; " [value]="category.category_id">
+                  {{category.category_name}}</option>
+              </select>
+              <input type="text" style="margin-bottom: 0.8em;"
+                *ngIf="varJson.category_id==230||varJson.category_id==235" class="form-ctrl video-input"
+                placeholder="Video Title" [(ngModel)]="varJson.title">
+
+              <input type="text" style="margin-bottom: 0.8em;" class="form-ctrl video-input"
+                *ngIf="varJson.category_id==230" placeholder="Video URL" [(ngModel)]="varJson.video_url">
+
+              <div class="btn-div" *ngIf="varJson.category_id==230">
+                <input class="btn fullBlue" type="button" value="Upload" [disabled]="varJson.video_url==''"
+                  (click)="uploadYoutubeURL($event)">
+                <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
+              </div>
+              <div style="width: 50rem; height: 20rem;    overflow-y: scroll;" class="table table-responsive table-made"
+              *ngIf="varJson.category_id==330">
+              <table>
+                <thead>
+                  <tr>
+                    <td>#</td>
+                    <td>Title</td>
+                    <td>Size</td>
+                    <td>Date</td>                     
+                    <td>Source</td>
+                    <td>Location</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let video of existVideos;">
+                      <td>
+                        <div class="field-radio-wrapper">
+                          <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" 
+                            [(ngModel)]="jsonData.selectedVideo"  [value]="video.video_id"
+                          (ngModelChange)="onRadioButtonChange($event,video)">
+                          <label for="bothRadio"></label>
+                        </div></td>
+                      <td>{{video.video_title}}</td>
+                      <td>{{video.video_size}} MB</td>
+                      <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
+                      <td>{{getSourceName(video)}}</td>
+                      <td>{{getLocationName(video)}}</td>
+                  </tr>
+                </tbody>
+              </table>              
+            </div>
+            <div class="btn-div" *ngIf="varJson.category_id==330" style=" position: absolute; right: 1rem; bottom: 0;">
+              <input class="btn fullBlue" type="button" value="Link Video" 
+                (click)="linkAlreadyUploadedVideo($event)">
+              <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
+            </div>
+              <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler2($event,values)"
+                [showCancelButton]="false"
+                *ngIf="varJson.category_id==235 && varJson.category_id!=0 && varJson.category_id!=330">
+              </p-fileUpload>
+
+              <p-fileUpload customUpload="true" multiple="multiple" type="submit"
+                (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false"
+                *ngIf="varJson.category_id!=230 && varJson.category_id!=235 && varJson.category_id!=330">
+              </p-fileUpload>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

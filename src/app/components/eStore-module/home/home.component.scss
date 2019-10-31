@@ -1,0 +1,48 @@
+.middle-section{
+    padding: 0px;
+  }
+  .activity-box-container{
+    padding: 1%;
+    height: 100vh;
+    // background: #f7f7f7;
+    .activity-container{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      .activity-item-container{
+        padding: 15px 10px;
+        width: 31%;
+        background: #fff;
+        height: 120px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: left;
+        margin: 1%;
+        box-shadow: 0px 03px 6px rgba(0,0,0,0.24);
+        .img_name_container{
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+          justify-content: flex-start;
+          font-size: 14px;
+          font-weight: 600;
+          padding: 10px 5px;
+          img{
+            width: 25px;
+            height: 25px;
+          }
+          span{
+            margin-left: 10px;
+            margin-top: 5px;
+          }
+        }
+        .activity-description{
+           font-size: 12px;
+           padding: 5px;
+        }
+      }
+    }
+  
+  }
+  

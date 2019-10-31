@@ -9,7 +9,9 @@ import { FormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { LiveClassesComponent } from './live-classes/live-classes.component';
 import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap-custome';
-import { LiveClasses } from './live-class.service';
+import { LiveClasses } from '../../services/live-classes/live-class.service';
+
+
 @NgModule({
   imports: [
     CommonModule,
