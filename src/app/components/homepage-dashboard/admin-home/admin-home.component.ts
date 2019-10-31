@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
-import { LoginService } from '../../../services/login-services/login.service';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
 import * as Muuri from 'muuri/muuri';
@@ -160,7 +159,6 @@ export class AdminHomeComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private appC: AppComponent,
-    private login: LoginService,
     private rd: Renderer2,
     private enquiryService: FetchenquiryService,
     private widgetService: WidgetService,

@@ -4,7 +4,6 @@ import 'rxjs/Rx';
 import * as moment from 'moment';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { LoginService } from '../../../services/login-services/login.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
@@ -178,7 +177,6 @@ export class EnquiryEditComponent implements OnInit {
     private router: Router,
     private pops: PopupHandlerService,
     private poster: PostEnquiryDataService,
-    private login: LoginService,
     private route: ActivatedRoute,
     private auth: AuthenticatorService,
     private multiBranchService: MultiBranchDataService,

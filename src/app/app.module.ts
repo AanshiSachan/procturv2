@@ -37,13 +37,6 @@ import { SharedModule } from './components/shared/shared.module';
 import {ToasterModule} from 'angular2-toaster';
 import { HttpService } from './services/http.service';
 import { ExpensesService } from './services/expenses.service';
-// import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-
-import { MastersService } from './services/library/master/masters.service';
-import { AddBookService } from './services/library/add/add-book.service';
-import { IssueBookService } from './services/library/issue/issue-book.service';
-import { ReturnBookService } from './services/library/return/return-book.service';
-import { ProductService } from './services/products.service';
 
 
 @NgModule({
@@ -77,7 +70,6 @@ import { ProductService } from './services/products.service';
     ZendAuth,
     Title,
     MultiBranchDataService,
-    // AlertService,
     TablePreferencesService,
     PaginationService,
     CommonServiceFactory,
@@ -85,12 +77,7 @@ import { ProductService } from './services/products.service';
     HttpService,
     ToDoListService,
     ExpensesService,
-    MastersService,
-    AddBookService,
-    IssueBookService,
-    ReturnBookService,
-    ProductService
-
+    
     //   {
     //     provide: HTTP_INTERCEPTORS,
     //     useClass: I2,               // <-- I2 first

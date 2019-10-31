@@ -17,6 +17,10 @@ import { ActivityComponent } from './activity/activity.component';
 import { ReportComponent } from './report/report.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ReturnBookService } from '../../services/library/return/return-book.service';
+import { IssueBookService } from '../../services/library/issue/issue-book.service';
+import { AddBookService } from '../../services/library/add/add-book.service';
+import { MastersService } from '../../services/library/master/masters.service';
 
 
 @NgModule({
@@ -44,6 +48,12 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
   ],
   entryComponents: [
     AddBookComponent
+  ],
+  providers:[
+    ReturnBookService,
+    IssueBookService,
+    AddBookService,
+    MastersService
   ]
 })
 export class LibraryManagementModule { }

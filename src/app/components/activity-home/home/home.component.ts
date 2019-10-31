@@ -1,6 +1,5 @@
 import { Component, OnInit, } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from '../../../services/login-services/login.service';
 import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
@@ -25,7 +24,6 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private login: LoginService,
     private auth: AuthenticatorService
   ) {
     if (sessionStorage.getItem('userid') == null) {

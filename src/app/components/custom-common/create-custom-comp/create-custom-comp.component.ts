@@ -1,7 +1,6 @@
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
-import { LoginService } from '../../../services/login-services/login.service';
 import { MessageShowService } from '../../../services/message-show.service';
 
 /**  custome fields changes 
@@ -41,7 +40,6 @@ export class CreateCustomCompComponent implements OnInit {
   constructor(
     private prefill: FetchprefilldataService,
     private postdata: PostEnquiryDataService,
-    private login: LoginService,
     private msgService: MessageShowService
   ) {
   }

@@ -4,7 +4,6 @@ import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from "../../../services/authenticator.service";
 import * as moment from 'moment';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
-import { LoginService } from '../../../services/login-services/login.service';
 
 
 @Component({
@@ -101,7 +100,6 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   constructor(
-    private login: LoginService,
     private reportService: AttendanceReportServiceService,
     private appc: AppComponent,
     private auth: AuthenticatorService

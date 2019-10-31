@@ -2,8 +2,6 @@ import {  Component, OnInit ,ElementRef, Input, ViewChild } from '@angular/core'
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { LoginService } from '../../../services/login-services/login.service';
-
 @Component({
   selector: 'proctur-widget',
   templateUrl: './proctur-widget.component.html',
@@ -15,7 +13,7 @@ export class ProcturWidgetComponent implements OnInit {
   @ViewChild('popup') popup: ElementRef;
   isProfessional:boolean = false;
 
-  constructor(private router: Router, private login: LoginService, private auth: AuthenticatorService) {
+  constructor(private router: Router,  private auth: AuthenticatorService) {
   }
 
   ngOnInit() {

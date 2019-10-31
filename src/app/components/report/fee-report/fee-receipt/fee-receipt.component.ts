@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-
-import { LoginService } from '../../../../services/login-services/login.service';
 import { AppComponent } from '../../../../app.component';
 
 import { GetFeeService } from '../../../../services/report-services/fee-services/getFee.service';

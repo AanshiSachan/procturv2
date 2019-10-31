@@ -16,6 +16,7 @@ import { BasicInfoComponent, MockTestComponent, OnlineExamComponent,
 } from '.';
 import { ProductCreationComponent } from './product-creation/product-creation.component';
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
+import { ProductService } from '../../services/products.service';
 
 
 
@@ -51,7 +52,8 @@ import { RegisteredStudentComponent } from './product-registered-student/product
     ExcelService,
     ExportToPdfService,
     MessageShowService,
-    TablePreferencesService
+    TablePreferencesService,
+    ProductService
   ]
 })
 export class ProductMgmtModule { }

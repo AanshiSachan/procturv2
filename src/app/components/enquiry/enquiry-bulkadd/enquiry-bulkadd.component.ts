@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
-import { LoginService } from '../../../services/login-services/login.service';
-import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { Base64 } from 'js-base64';
 import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
@@ -26,8 +23,12 @@ export class EnquiryBulkaddComponent implements OnInit {
   bulkUploadRecords: any;
   busy: Subscription;
 
-  constructor(private fetchData: FetchenquiryService, private postData: PostEnquiryDataService,
-    private appC: AppComponent, private router: Router, private prefill: FetchprefilldataService, private login: LoginService, private auth: AuthenticatorService) {
+  constructor(
+    private fetchData: FetchenquiryService,
+    private postData: PostEnquiryDataService,
+    private appC: AppComponent, private router: Router,
+    private prefill: FetchprefilldataService,
+    private auth: AuthenticatorService) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }

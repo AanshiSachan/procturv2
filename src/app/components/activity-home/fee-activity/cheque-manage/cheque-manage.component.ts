@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { LoginService } from '../../../../services/login-services/login.service';
 import * as moment from 'moment';
 import { getCheque } from '../../../../services/cheque-manage/get-cheque.service';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
@@ -90,7 +89,7 @@ export class ChequeManageComponent implements OnInit {
     displayMessage: "Enter Detail to Search"
   };
 
-  constructor(private login: LoginService,
+  constructor(
     private getter: getCheque,
     private excelService: ExcelService,
     private ref: ChangeDetectorRef,

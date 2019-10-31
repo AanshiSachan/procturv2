@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
-import { LoginService } from '../../../../services/login-services/login.service';
 import { OnlinePaymentServiceService } from '../../../../services/online-payment/online-payment-service.service';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from "../../../../services/authenticator.service";
 import * as moment from 'moment';
-import { LoginService } from '../../../../services/login-services/login.service';
-
 import { AppComponent } from '../../../../app.component';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 import { EnquiryReportService } from '../../../../services/counsellor-service/counsellor-service.service';
@@ -67,8 +65,7 @@ export class CounsellorReportComponent implements OnInit {
 
   constructor(private counsellor: EnquiryReportService,
     private appc: AppComponent,
-    private auth: AuthenticatorService,
-    private login: LoginService) { }
+    private auth: AuthenticatorService) { }
 
   ngOnInit() {
     this.fetchAllCounsellorData();

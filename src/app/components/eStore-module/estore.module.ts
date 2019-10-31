@@ -17,6 +17,7 @@ import { BasicInfoComponent, MockTestComponent, OnlineExamComponent,
 import { ProductCreationComponent } from './product-creation/product-creation.component';
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
 import { EstoreRoutingModule } from './estore-routing.module';
+import { ProductService } from '../../services/products.service';
 
 
 
@@ -52,7 +53,8 @@ import { EstoreRoutingModule } from './estore-routing.module';
     ExcelService,
     ExportToPdfService,
     MessageShowService,
-    TablePreferencesService
+    TablePreferencesService,
+    ProductService
   ]
 })
 export class EstoreModule { }

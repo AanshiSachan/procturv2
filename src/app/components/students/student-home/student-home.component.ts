@@ -7,7 +7,6 @@ import { FetchprefilldataService } from '../../../services/fetchprefilldata.serv
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { MenuItem } from 'primeng/primeng';
 import * as moment from 'moment';
-import { LoginService } from '../../../services/login-services/login.service';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
@@ -197,7 +196,6 @@ export class StudentHomeComponent implements OnInit {
   constructor(private prefill: FetchprefilldataService,
     private router: Router,
     private studentFetch: FetchStudentService,
-    private login: LoginService,
     private appC: AppComponent,
     private studentPrefill: AddStudentPrefillService,
     private widgetService: WidgetService,

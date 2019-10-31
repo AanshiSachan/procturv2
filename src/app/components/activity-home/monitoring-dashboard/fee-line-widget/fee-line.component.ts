@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../../../../services/login-services/login.service';
-import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
 import { monitoringService } from '../services/monitoring.service'
 import * as Highcharts from 'highcharts';
