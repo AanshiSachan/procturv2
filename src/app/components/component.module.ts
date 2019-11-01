@@ -12,9 +12,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { GlobalSearchPopupComponent } from './global-search-popup/global-search-popup.component';
 import { SearchBoxComponent } from './core/search-box/search-box.component';
 import { EnquiryModule } from './enquiry/enquiry.module';
-import { StudentFeeService } from './students/student_fee.service';
 import { CourseListService } from '../services/course-services/course-list.service';
 import { SideBarComponent } from './core/side-bar/side-bar.component';
+import { StudentFeeService } from './student-module/student_fee.service';
 
 @NgModule({
     imports: [

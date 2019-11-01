@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { StudentFeeService } from '../students/student_fee.service';
 import { CommonServiceFactory } from '../../services/common-service';
+import { StudentFeeService } from '../student-module/student_fee.service';
 
 @Component({
   selector: 'app-discount-reason',

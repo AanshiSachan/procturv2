@@ -14,7 +14,8 @@ import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { CourseListService } from '../../../services/course-services/course-list.service';
-import { FeeModel, StudentFeeService } from '../../students/student_fee.service';
+import { FeeModel, StudentFeeService } from '../student_fee.service';
+
 
 
 @Component({

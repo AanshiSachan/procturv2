@@ -4,7 +4,7 @@ import { AppComponent } from '../../../app.component';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
-import { StudentFeeService } from '../../students/student_fee.service';
+import { StudentFeeService } from '../student_fee.service';
 
 @Component({
   selector: 'student-fee-table',

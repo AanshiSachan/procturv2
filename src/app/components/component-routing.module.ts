@@ -43,11 +43,11 @@ import { AuthGuard } from '../guards/auth.guard';
                             loadChildren: 'app/components/enquiry/enquiry.module#EnquiryModule',
                             canLoad: [AuthGuard]
                         },
-                        {
-                            path: 'student',
-                            loadChildren: 'app/components/students/student.module#StudentModule',
-                            canLoad: [AuthGuard]
-                        },
+                        // {
+                        //     path: 'student',
+                        //     loadChildren: 'app/components/students/student.module#StudentModule',
+                        //     canLoad: [AuthGuard]
+                        // },
                         {
                             path: 'course',
                             loadChildren: 'app/components/course/course.module#CourseModule',

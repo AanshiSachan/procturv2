@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, Output, Input, ElementRef, EventEmitter, 
 
 import { CommonServiceFactory } from '../../../services/common-service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { StudentFeeService } from '../../students/student_fee.service';
+import { StudentFeeService } from '../student_fee.service';
 
 
 @Component({
