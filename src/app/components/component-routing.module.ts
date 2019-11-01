@@ -130,6 +130,11 @@ import { AuthGuard } from '../guards/auth.guard';
                             path: 'live-classes',
                             loadChildren: 'app/components/live-classes-module/live-classes.module#LiveClassesModule'
                         },
+                        {
+                            path:'students',
+                            loadChildren:'app/components/student-module/student-module.module#StudentModule2',
+                            canLoad:[AuthGuard]
+                        }
                     ]
                 },
             ]

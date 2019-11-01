@@ -1,0 +1,804 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<section class="middle-section clearFix">
+    <!-- =============================================================================== -->
+    <!-- =============================================================================== -->
+    <aside class="middle-full" #studentPage style="padding: 0px;">
+        <!-- =============================================================================== -->
+        <!--====================================middle Top section==========================-->
+        <!-- =============================================================================== -->
+        <section class="middle-top mb0 clearFix">
+            <h1 class="pull-left">
+                Student List
+            </h1>
+            <aside class="headEnq pull-right">
+                <!-- /// For Download of report -->
+                <a id="student_download" class="hide"></a>
+                <div class="btn-container">
+                  <div class="btn-item">
+                    <p-splitButton label="{{selectedRowCount}} Student Selected" [model]="bulkActionItems" *ngIf="selectedRowCount != 0"></p-splitButton>
+                  </div>
+                  <div class="btn-item">
+                    <button type="button" class="btn pull-right" name="button" routerLink='./add'>
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                      &nbsp; Add Student
+                    </button>
+                  </div>
+                  <div class="btn-item">
+                    <button type="button" class="btn pull-right" name="button" (click)="isOptions = !isOptions">
+                       More &nbsp;
+                      <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                    </button>
+                    <div class="more-info-container" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
+                      <div class="more-info-item" (click)="downloadAllStudent()">
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        &nbsp;
+                        <span>Export</span>
+                      </div>
+                      <div class="more-info-item" routerLink='/view/students/bulk' >
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                        &nbsp;
+                        <span>Upload Student</span>
+                      </div>
+                      <div class="more-info-item" routerLink='/view/students/openUser' >
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                        &nbsp;
+                        <span>Open User</span>
+                      </div>
+                      <div class="more-info-item" routerLink='/view/students/archived_student' >
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                        &nbsp;
+                        <span>Archived Student</span>
+                      </div>
+                      <div class="more-info-item" routerLink='/view/students/archived_status' style="border-bottom: none;">
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                        &nbsp;
+                        <span>Archived Student Report</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </aside>
+
+        </section>
+        <!-- =============================================================================== -->
+        <!--====================================middle <Main> section==========================-->
+        <!-- =============================================================================== -->
+        <section class="middle-main clearFix" id="studentList">
+            <!-- =============================================================================== -->
+            <!-- Filter and seachbar section -->
+            <section class="common-search-filter" id="searchFilter">
+                <div class="filter-search">
+                    <!-- Advance Filter -->
+                    <div class="filter-box clearFix">
+                        <div class="c-lg-8 c-md-8 c-sm-8">
+                            <div id="basic-search" class="search-filter-wrapper">
+                                <input #search type="text" class="normal-field" placeholder="Search By Student Name/Contact No." style="font-size:12px; margin: 0px 5px 0px -5px;"
+                                    [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
+                                <input type="button" class="btn normal-btn fullBlue" value="Search" (click)="searchDatabase()" />
+                            </div>
+                        </div>
+
+                        <!-- Advance Filter Trigger -->
+                        <div class="c-lg-4 c-md-4 c-sm-4" style="z-index: 5;">
+                            <div class="filter-right" style="float: right;">
+                                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advance Filter
+                                </a>
+                                <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide" (click)="closeAdFilter()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
+                                        <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
+                                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                                            </g>
+                                            <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)" />
+                                        </g>
+                                    </svg>
+                                    Close Advance Filter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-fields hide" style="visibility: visible; opacity: 1;z-index: 5;border-radius: 4px;" id="advanced-filter-section">
+
+                        <div class="filter-wrapper">
+
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
+                                    <label for="masterCourse">Master Course</label>
+                                    <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
+                                        class="form-ctrl">
+                                        <option value="-1"></option>
+                                        <option [value]="std.standard_id" *ngFor="let std of standardList">
+                                            {{std.standard_name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.subject_id != '-1'}">
+                                    <label for="course">Course</label>
+                                    <select id="course" name="course" [(ngModel)]="advancedFilterForm.subject_id" class="form-ctrl">
+                                        <option value="-1"></option>
+                                        <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
+                                            {{subject.subject_name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.batch_id != '-1'}">
+                                    <label for="batch">Batch</label>
+                                    <select id="batch" name="batch" [(ngModel)]="advancedFilterForm.batch_id" class="form-ctrl">
+                                        <option value="-1"></option>
+                                        <option [value]="b.batch_id" *ngFor="let b of batchList">
+                                            {{b.batch_name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
+                                    <label for="school">Institutional/Custom2</label>
+                                    <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id" class="form-ctrl">
+                                        <option value="-1"></option>
+                                        <option [value]="sch.school_id" *ngFor="let sch of schoolList">
+                                            {{sch.school_name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.language_inst_status != '-1'}">
+                                    <label for="status">Status</label>
+                                    <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
+                                        <option value="-1"></option>
+                                        <option [value]="stdst.data_key" *ngFor="let stdst of studentStatusList">
+                                            {{stdst.data_value}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+                                <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                                    <label for="assignCourses">Slots</label>
+                                    <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
+                                </div>
+                                <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
+                                    <div class="multiselect-wrapper-inner">
+                                        <ul class="">
+                                            <li *ngFor="let slot of slots">
+                                                <div class="field-checkbox-wrapper">
+                                                    <input type="checkbox" id="{{slot.label}}" value="" name="{{slot.label}}" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)"
+                                                        class="form-checkbox">
+                                                    <label for="{{slot.label}}">{{slot.label}}</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- non professional/ academic -->
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
+                                    <label for="standard">Standard</label>
+                                    <select id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
+                                        class="form-ctrl">
+                                        <option value="-1"></option>
+                                        <option [value]="std.standard_id" *ngFor="let std of standardList">
+                                            {{std.standard_name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
+                                    <label for="masterCourse">Master Courses</label>
+                                    <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="updateSubCourse($event)"
+                                        class="form-ctrl">
+                                        <option value="-1"></option>
+                                        <option [value]="mc.master_course" *ngFor="let mc of masterCourseList">
+                                            {{mc.master_course}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
+                                    <label for="course">Course</label>
+                                    <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id" class="form-ctrl">
+                                        <option value="-1"></option>
+                                        <option [value]="course.course_id" *ngFor="let course of subCourseList">
+                                            {{course.course_name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
+                                    <label for="school">Institutional/Custom2</label>
+                                    <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id" class="form-ctrl">
+                                        <option value="-1"></option>
+                                        <option [value]="sch.school_id" *ngFor="let sch of schoolList">
+                                            {{sch.school_name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper datePickerBox">
+                                    <label>From Date</label>
+                                    <input type="text" class="form-ctrl" readonly="true" bsDatepicker [(ngModel)]="advancedFilterForm.doa_from_date">
+                                    <a (click)="advancedFilterForm.doa_from_date = ''" style="float:right;cursor: pointer;">Clear</a>
+                                </div>
+
+                            </div>
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper datePickerBox">
+                                    <label>To Date</label>
+                                    <input type="text" class="form-ctrl" readonly="true" bsDatepicker [(ngModel)]="advancedFilterForm.doa_to_date">
+                                    <a (click)="advancedFilterForm.doa_to_date = ''" style="float:right;cursor: pointer;">Clear</a>
+                                </div>
+
+                            </div>
+
+                            <!-- <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.language_inst_status != '-1'}">
+                                    <label for="status">Status</label>
+                                    <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
+                                        <option value="-1"></option>
+                                        <option [value]="stdst.data_key" *ngFor="let stdst of studentStatusList">
+                                            {{stdst.data_value}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div> -->
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper" [class.has-value]="advancedFilterForm.is_active_status != ''">
+                                    <label for="status">Is Active</label>
+                                    <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-ctrl">
+                                        <option value=""></option>
+                                        <option value="1">Active</option>
+                                        <option value="2">Inactive</option>
+                                        <option value="3">Both</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <custom-student class="c-lg-4 c-md-4 c-sm-4" [ngClass]="{'hide': component.is_searchable == 'N'}" *ngFor="let component of customComponents">
+                                <div class="" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
+                                    <div class="field-wrapper">
+                                        <label for="{{component.id}}">{{component.label}} </label>
+                                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="component.label"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
+                                    <br>
+                                    <div style="margin: 30px 0px;" class="field-checkbox-wrapper">
+                                        <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
+                                        <label for="{{component.id}}">{{component.label}} </label>
+                                    </div>
+                                </div>
+
+                                <div class="" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
+                                    <div class="field-wrapper">
+                                        <label for="{{component.id}}">{{component.label}} </label>
+                                        <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
+                                            <option value=""></option>
+                                            <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
+                                    <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                                        <label for="{{component.id}}">{{component.label}} </label>
+                                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
+                                            readonly="true" />
+                                    </div>
+                                    <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
+                                        <div class="multiselect-wrapper-inner">
+                                            <ul class="">
+                                                <li *ngFor="let opt of component.prefilled_data">
+                                                    <div class="field-checkbox-wrapper">
+                                                        <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
+                                                            class="form-checkbox">
+                                                        <label for="{{component.id}}">{{opt.data}}</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
+                                    <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                                        <label for="component.id">{{component.label}} </label>
+                                        <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
+                                            name="{{component.label}}" bsDatepicker/>
+                                    </div>
+                                </div>
+                            </custom-student>
+
+                            <div class="row adfilter-submitter">
+                                <div class="c-lg-12 c-md-12 c-sm-12">
+                                    <div  class="field-wrapper pull-left cancel">
+                                        <input style="font-size: 14px;" type="button" class="cancel-btn" value="Clear Filter" (click)='clearAdvancedFilterForm()'>
+                                    </div>
+                                    <div class="field-wrapper pull-left submit">
+                                        <input type="button"  class="search-btn" value="Search" (click)='advancedSearch()'>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+            <!-- =============================================================================== -->
+            <!-- =============================================================================== -->
+            <!-- =============================================================================== -->
+            <!-- Data table here -->
+            <section class="search-data">
+
+                <!-- Student  Table  Here-->
+                <div class="row" id="student-table">
+                    <div class="table-scroll-wrapper">
+                        <div class="table table-responsive student-table">
+                            <ng-robTable [records]="studentDataSource" [defaultSort]="sortBy" [reset]="isSideBar" [tableName]="'student'" [settings]="StudentSettings"
+                                (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="loading_message"
+                                [key1]="'isActive'" [primaryKey]="'student_id'" (rowIdArr)="getSelected($event)" (rowUserId)="getSelectedUserIDS($event)"
+                                (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
+                            </ng-robTable>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paginator Here -->
+                <div id="paginator" class="row filter-res pagination" style="width: 100%;">
+                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                            [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)">
+                        </pagination>
+                    </div>
+                </div>
+
+                <a id="hiddenAnchorTag" class="hide">Element Made For Admission Form Download</a>
+                <a id="hiddenAnchorTag2" class="hide">Element Made For fee Installment Download</a>
+
+            </section>
+            <!-- =============================================================================== -->
+            <!-- =============================================================================== -->
+            <!-- =============================================================================== -->
+        </section>
+        <!-- =============================================================================== -->
+        <!-- =============================================================================== -->
+        <!-- =============================================================================== -->
+    </aside>
+    <!-- =============================================================================== -->
+    <!-- =============================================================================== -->
+    <aside #mySidenav class="middle-full sidenav" [ngClass]="{'hide': !isSideBar}">
+        <div id="student-side" class="sidewrapper">
+            <a href="javascript:void(0)" class="closebtn" (click)="closeSideBar($event)">
+                <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                    focusable="false">
+                    <path d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" class="large-icon"
+                        style="fill: currentColor"></path>
+                </svg>
+            </a>
+
+            <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent" [studentDetails]="studentDetailsById"
+                (closeSide)="closeSideBar($event)" (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)"
+                (leaveEvent)="markStudentLeave($event)" (editNotes)="openEditComment($event)" (pdcEdit)="editFeePDCDetails($event)"
+                (invEdit)="editInventory($event)" (openCourseAssigned)="openAssignBatch($event)" (showToggleLoader)="showToggleLoader($event)">
+            </student-sidebar>
+        </div>
+    </aside>
+
+    <!-- =============================================================================== -->
+    <!-- =============================================================================== -->
+    <!-- =============================================================================== -->
+    <!-- Delete PopUp -->
+    <!-- =============================================================================== -->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="isDeleteStudentPrompt">
+        <div class="popup pos-abs">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeDeletePopup()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                            </g>
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                            />
+                        </g>
+                    </svg>
+                </span>
+                <div class="popup-content">
+                    <h2>Delete Student - Student Name: {{selectedRow.student_name}}</h2>
+                    <div class="update-enquiry-form overflowHidden">
+                        <div class="enquiry-update-history">
+                            <h4>Are you Sure you wish to delete this data, it cannot be recovered later.</h4>
+                        </div>
+                        <div class="">
+                            <div class="clearfix">
+                                <aside class="pull-right popup-btn">
+                                    <input type="button" value="Cancel" class="btn" (click)="closeDeletePopup()">
+                                    <input type="button" value="Delete" class="redBtn btn" (click)="deleteStudent()">
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- =============================================================================== -->
+    <!-- Add Comment Popup -->
+    <!-- =============================================================================== -->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="isAddComment">
+        <div class="popup pos-abs">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeEditComment()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                            </g>
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                            />
+                        </g>
+                    </svg>
+                </span>
+                <div class="popup-content">
+                    <h2>Add Comment - Student Name: {{selectedRow.student_name}}</h2>
+                    <div class="update-enquiry-form overflowHidden">
+                        <div class="enquiry-update-history" style="max-height: max-content;">
+                            <div class="field-wrapper">
+                                <textarea placeholder="Update Comment Here (max 1000 characters)" rows="1" cols="10" style="height: 60px;" id="addcommentEdit"
+                                    class="form-ctrl" [(ngModel)]="selectedRow.comments">
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="clearfix">
+                                <aside class="pull-right popup-btn">
+                                    <input type="button" value="Cancel" class="btn" (click)="closeEditComment()">
+                                    <input type="button" value="Add" class="fullBlue btn" (click)="updateComment()">
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =============================================================================== -->
+    <!-- Mark Leave -->
+    <!-- =============================================================================== -->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="isMarkLeave">
+        <div class="popup pos-abs">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeMarkLeave()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                            </g>
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                            />
+                        </g>
+                    </svg>
+                </span>
+                <div class="popup-content">
+                    <h2>Apply Student Leave</h2>
+                    <div class="update-leave-form overflowHidden">
+                        <div class="leave-wrapper">
+                            <aside class="leave-detail pull-left">
+                                <div class="header">
+                                    <h3>Leave Details</h3>
+                                    <div class="table-responsive table">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Leave From</th>
+                                                    <th>Leave To</th>
+                                                    <th>Reason</th>
+                                                    <th>Leave Days</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let row of leaveDataArray">
+                                                    <td>
+                                                        {{row.start_date}}
+                                                    </td>
+                                                    <td>
+                                                        {{row.end_date}}
+                                                    </td>
+                                                    <td>
+                                                        {{row.reason}}
+                                                    </td>
+                                                    <td>
+                                                        {{getLeaveNumber(row)}}
+                                                    </td>
+                                                    <td>
+                                                        <a [ngClass]="{'hide' : showDeleteBtn(row)}" (click)="deletePerticularLeave(row)">Delete</a>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="leaveDataArray.length == 0">
+                                                    <td colspan="5">
+                                                        No Leave Details Found
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </aside>
+                            <aside class="leave-add pull-right" style="margin-left: 0px;
+                            margin-top: 0px;">
+                                <div class="field-wrapper datePickerBox c-md-6 has-value">
+                                    <label for="">Start Date<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required [(ngModel)]="applyLeave.start_date">
+                                </div>
+                                <div class="field-wrapper datePickerBox c-md-6 has-value">
+                                    <label for="">End Date<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required [(ngModel)]="applyLeave.end_date">
+                                </div>
+                                <div class="field-wrapper c-md-12">
+                                    <textarea placeholder="Reason" rows="1" cols="1" style="height: 150px;padding: 10px;margin-top: 30px;border: 1px solid #777;"
+                                        id="reason" class="form-ctrl" [(ngModel)]="applyLeave.reason">
+                                    </textarea>
+                                </div>
+                            </aside>
+                        </div>
+                        <div class="">
+                            <div class="clearfix">
+                                <aside class="pull-right popup-btn">
+                                    <input type="button" value="Cancel" class="btn" (click)="closeMarkLeave()">
+                                    <input type="button" value="Apply" class="fullBlue btn" (click)="updateMarkLeave()">
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- =============================================================================== -->
+    <!-- Notify Student -->
+    <!-- =============================================================================== -->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="isNotifyStudent">
+        <div class="popup pos-abs">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeNotifyStudent()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                            </g>
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                            />
+                        </g>
+                    </svg>
+                </span>
+                <div class="popup-content">
+                    <h2>Send Notification</h2>
+
+                    <div class="notification-content-wrapper">
+
+                        <div class="marginTenPixel">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" [(ngModel)]="sendNotification.loginMessageChkbx" name="loginMessage" class="form-checkbox"
+                                    id="loginMessage">
+                                <label for="loginMessage">Send Login Message</label>
+                            </div>
+                        </div>
+
+                        <div id="divDeliveryOptions" *ngIf="!sendNotification.loginMessageChkbx" class="content-delivery marginTenPixel">
+                            <h3>Delivery Mode</h3>
+
+                            <div class="row marginTenPixel">
+                                <div id="" class="c-sm-4 c-md-4 c-lg-4">
+                                    <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
+                                        <input type="checkbox" [(ngModel)]="sendNotification.smsChkbx" value="" name="sms" class="form-checkbox" id="smsC">
+                                        <label for="smsC">SMS</label>
+                                    </div>
+                                    <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
+                                        <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx" name="mail" class="form-checkbox" id="mailC">
+                                        <label for="mailC">Mail</label>
+                                    </div>
+                                </div>
+                                <div id="" class="c-sm-6 c-md-6 c-lg-6">
+                                    <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                                        <input type="checkbox" [(ngModel)]="sendNotification.studentChkbx" value="" name="student" class="form-checkbox" id="studentC">
+                                        <label for="studentC">Student</label>
+                                    </div>
+                                    <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                                        <input type="checkbox" value="" name="parent" [(ngModel)]="sendNotification.parentChkbx" class="form-checkbox" id="parentC">
+                                        <label for="parentC">Parent</label>
+                                    </div>
+                                    <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                                        <input type="checkbox" value="" name="guardian" [(ngModel)]="sendNotification.gaurdianChkbx" class="form-checkbox" id="guardianC">
+                                        <label for="guardianC">Guardian</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row marginTenPixel" *ngIf="sendNotification.emailChkbx == true">
+
+                                <div class="form-wrapper datepicker c-sm-6 c-xs-6">
+                                    <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
+                                    <input type="text" id="subject" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                                        [(ngModel)]="sendNotification.subjectMessage" id="divSubjectMessage" />
+                                </div>
+
+                            </div>
+
+                            <div class="row marginTenPixel">
+                                <a (click)="getAllSavedMessages()">See All Message</a>
+
+                                <div class="message-table-wrapper">
+                                    <table class="message-table">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                </th>
+                                                <th>
+                                                    Date
+                                                </th>
+                                                <th>
+                                                    Message
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
+                                                <td>
+                                                    <div class="field-checkbox-wrapper">
+                                                        <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                                                        <label></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {{row.date}}
+                                                </td>
+                                                <td>
+                                                    {{row.message}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            <div class="marginTenPixel pull-right">
+                                <button class="btn" (click)="sendNotificationMessage()">Send</button>
+                                <button class="btn" (click)="sendPushNotification()">Send Push Notification</button>
+                            </div>
+
+                        </div>
+
+                        <div id="divSendLogin" *ngIf="sendNotification.loginMessageChkbx" class="marginTenPixel">
+
+                            <div class="marginTenPixel">
+                                <div class="radio-options">
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" [checked]="(loginField.checkBox == '0')" [(ngModel)]="loginField.checkBox" value="0" name="student" class="form-radio">
+                                        <label for="student">Student Only</label>
+                                    </div>
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" [(ngModel)]="loginField.checkBox" value="1" name="parent" class="form-radio">
+                                        <label for="parent">Parent Only</label>
+                                    </div>
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" [(ngModel)]="loginField.checkBox" value="2" name="both" class="form-radio">
+                                        <label for="both">Both</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="marginTenPixel">
+                                <button class="btn" (click)="sendSmsForApp('1')">SMS For App Download</button>
+                                <button class="btn" (click)="sendSmsForApp('2')">SMS For App Upgradation</button>
+                                <button class="btn" (click)="sendSmsForApp('3')">SMS For Alternate Login Registration</button>
+                                <button class="btn" (click)="sendSmsForApp('4')">SMS Credentials</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</section>
+
+<!-- =============== Assign Batch =============================== -->
+<student-batch-list *ngIf="isAssignBatch" [assignedBatches]="studentAddFormData.assignedBatches" (closeBatch)="closeBatchAssign($event)"
+    (assignList)="getassignedBatchList($event)" [dataList]="studentbatchList" [isEdit]="isEdit" [standardList]="standardList"
+    [academicYear]="academicYear">
+</student-batch-list>
+
+<!-- ======================================================== -->
+<proctur-popup [sizeWidth]="'small'" *ngIf="isShareDetails">
+
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isShareDetails=false" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                </g>
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                />
+            </g>
+        </svg>
+    </span>
+
+    <h2 popup-header style="padding: 10px 5px;">Send Fee Report </h2>
+
+    <div class="paymentWrapper" popup-content>
+        <div style="overflow: hidden; font-weight: 600; font-size: 14px;">
+            <div>
+                <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
+                    <input type="radio" class="form-radio" name="common" id="batch" [(ngModel)]="paymentMode" [value]="0">
+                    <label for="batch">Student</label>
+                </div>
+                <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
+                    <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" [value]="1">
+                    <label for="student">Parent</label>
+                </div>
+                <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
+                    <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" [value]="2">
+                    <label for="student">Both</label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="" popup-footer>
+        <div class="clearfix">
+            <aside class="text-center popup-btn">
+                <input type="button" value="Download" style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(-1)" class=" btn">
+                <input type="button" value="Send" style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(1)" class=" btn">
+                <input type="button" value="Cancel" style="font-size:12px; height: 30px;" class="btn" (click)="isShareDetails=false">
+
+            </aside>
+        </div>
+    </div>
+
+</proctur-popup>

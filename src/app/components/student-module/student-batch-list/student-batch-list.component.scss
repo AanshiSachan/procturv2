@@ -1,0 +1,205 @@
+.batch-wrapper {
+    table {
+        table-layout: fixed;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    tr {
+        th {
+            text-align: left;
+            padding: 15px 5px 15px 5px;
+            width: 12%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            background: #fafafa;
+            &:first-child {
+                width: 5%;
+            }
+            // &.mcourse {
+            //     width: 13%;
+            // }
+            // &.courseN {
+            //     width: 18%;
+            //     padding: 15px 5px 15px 20px;
+            // }
+        }
+        td {
+            padding: 10px 5px;
+            text-align: left;
+            width: 12%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            &:first-child {
+                width: 5%;
+            }
+            // &.mcourse {
+            //     width: 8%;
+            // }
+            // &.courseN {
+            //     width: 8%;
+            // }
+            .field-wrapper {
+                position: relative;
+                padding-top: 0px;
+                &.datePickerBox {
+                    .bsDatepicker {
+                        cursor: pointer;
+                        position: relative;
+                        z-index: 1;
+                        background: transparent;
+                        width: 120px;
+                    }
+                    &:after {
+                        content: '';
+                        background: url("../../../../assets/images/calendar.svg") no-repeat;
+                        position: absolute;
+                        left: 97px;
+                        top: 3px;
+                        width: 21px;
+                        height: 21px;
+                        z-index: 0;
+                    }
+                }
+                .date-clear {
+                    position: absolute;
+                    right: 60%;
+                    top: 50px;
+                    cursor: pointer;
+                    color: #0084f6;
+                }
+                .form-ctrl {
+                    background: transparent;
+                }
+            }
+        }
+    }
+    // .row {
+    //     margin: 0px;
+    // }
+}
+
+.radio-filter {
+    padding: 20px 5px 10px;
+    .field-radio-wrapper {
+        display: inline;
+        margin-right: 20px;
+        margin-left: 15px;
+    }
+    .field-radio-wrapper .form-radio+label {
+        vertical-align: text-top;
+    }
+}
+
+.filter-row {
+    margin-bottom: 10px;
+    padding: 0px 0px 6px 0px;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid rgba(10,10,10,0.3);
+}
+
+.batch-table {
+    height: 260px;
+    overflow-y: auto;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #efefef;
+    border-top: 1px solid #efefef;
+}
+
+.black-bg{
+  background: rgba(10,10,10,0.3);
+  position: fixed;
+  top: 0px;
+  height: 100%;
+  left: 0px;
+  z-index: 1;
+  width: 100%;
+}
+
+.confirmation_popup{
+  position: fixed;
+  top: 35%;
+  left: 40%;
+  width: 300px;
+  background: white;
+  height: auto;
+  padding: 20px;
+  z-index: 100;
+  border-radius: 6px;
+  border-top: 4px solid rgba(255,0,0,0.7);
+  box-shadow: 1px 8px 20px 5px #9c9c9c;
+}
+.confirm_title{
+  font-size: 20px;
+}
+.confirmation_msg_box{
+  margin-top: 15px;
+}
+.confirmation_popup{
+  .field-checkbox-wrapper {
+    .form-checkbox {
+     opacity: 0;
+     position: absolute;
+     left: 0;
+     top: 0;
+     width: 20px;
+     height: 20px;
+     z-index: 1;
+     border: 2px solid #0084f6;
+   }
+  }
+
+  .field-checkbox-wrapper .form-checkbox+label {
+      vertical-align: middle;
+      font-size: 14px;
+      display: inline-block;
+  }
+  .field-checkbox-wrapper .form-checkbox+label:after {
+      content: '';
+      width: 16px;
+      height: 16px;
+      border: 2px solid #ccc;
+      border-radius: 2px;
+      position: absolute;
+      left: 0;
+      top: 0;
+  }
+  .field-checkbox-wrapper .form-checkbox:checked+label:after {
+      border: 2px solid #0084f6;
+  }
+  .field-checkbox-wrapper .form-checkbox+label:before {
+      width: 1px;
+      height: 1px;
+      left: 8px;
+      top: 9px;
+      position: absolute;
+      content: '';
+      border-top: 0;
+      border-right: 0;
+      border-left: 2px solid transparent;
+      border-bottom: 2px solid transparent;
+      transform: rotate(-45deg);
+  }
+  .field-checkbox-wrapper .form-checkbox:checked+label:before {
+      border-left: 2px solid #0084f6;
+      border-bottom: 2px solid #0084f6;
+      width: 12px;
+      height: 5px;
+      left: 2px;
+      top: 5px;
+  }
+  .field-checkbox-wrapper .form-checkbox:checked+label {
+      color: #0084f6;
+  }
+}
+
+.confirmation_button_container{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  input{
+    width: 80px;
+  }
+}

@@ -1,0 +1,849 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<section class="clearfix middle-section">
+  <div class="page-wrapper">
+
+    <div class="left-div">
+
+      <div class="row profile-pic-section">
+        <div class="c-lg-4">
+
+        </div>
+        <div class="c-lg-2">
+          <proctur-image [containerWidth]="containerWidth" [isSidenav]="true" [serverImg]="displayImage" [readonly]="true" [thumbnailAvailable]="true"
+            [defaultImg]="'assets/images/student_icon.png'">
+          </proctur-image>
+        </div>
+      </div>
+
+      <div class="row basic-details">
+        <div align="center">
+          <span>#{{studentDetJson.student_disp_id}}</span>
+          <br>
+          <span>{{studentDetJson.student_name}}</span>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row other-details">
+        <div class="mobile-section">
+          <span class="icon-div">
+            <i class="fa fa-phone" aria-hidden="true"></i>
+          </span>
+          <span class="textSpan">{{studentDetJson.student_phone}}</span>
+        </div>
+
+        <br>
+
+        <div class="joining-date">
+          <span class="icon-div">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+          </span>
+          <span class="textSpan">Joining date : {{studentDetJson.doj}}</span>
+        </div>
+
+      </div>
+
+      <hr class="dotted-line">
+
+      <div class="row course-assigned">
+        <h3>Courses Assigned</h3>
+        <div style="margin-top: 5px">
+          <span class="span-circle" *ngFor="let data of coursesAssignedlist">
+            {{data}}
+          </span>
+          <h2 *ngIf="coursesAssignedlist.length == 0">
+            No Courses Assigned To Student
+          </h2>
+        </div>
+      </div>
+
+      <!-- <div class="row" style="margin: 20px 0;">
+
+        <span class="span-button" style="margin-left: 0" [routerLink]='["./analytics"]'>
+          <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            width="15px" height="15px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
+            <g>
+              <g>
+                <g>
+                  <path fill="#1385F2" d="M20.999,16.003H17c-0.553,0-1.003,0.445-1.003,0.994v12.004c0,0.553,0.45,1.002,1.003,1.002h3.998
+                    c0.553,0,0.999-0.449,0.999-1.002V16.999C21.998,16.45,21.551,16.003,20.999,16.003z" />
+                  <path fill="#1385F2" d="M12.998,22.003H9c-0.548,0-0.998,0.445-0.998,0.994v6.004c0,0.553,0.45,1.004,0.998,1.004h3.998
+                    c0.558,0,1.004-0.451,1.004-1.004v-6.004C14,22.449,13.556,22.003,12.998,22.003z" />
+                  <path fill="#1385F2" d="M29.002,10.004h-4.004c-0.549,0-0.999,0.445-0.999,0.994v18.003c0,0.553,0.45,1.004,0.999,1.004h4.004
+                    c0.553,0,0.998-0.451,0.998-1.004V10.999C30,10.45,29.555,10.004,29.002,10.004z" />
+                  <path fill="#1385F2" d="M47.413,44.592L35.477,32.646c2.824-3.443,4.521-7.851,4.521-12.649c0-11.02-8.971-19.996-19.998-19.996
+                    c-11.029,0-20,8.976-20,19.996c0,11.036,8.971,20.004,20,20.004c4.795,0,9.198-1.701,12.646-4.527l11.939,11.939
+                    c0.391,0.389,0.9,0.584,1.412,0.584c0.516,0,1.025-0.195,1.414-0.584C48.195,46.631,48.195,45.369,47.413,44.592z M20,36.004
+                    c-8.821,0-16.002-7.182-16.002-16.006C3.999,11.181,11.18,4.004,20,4.004c8.822,0,15.999,7.176,15.999,15.993
+                    C35.999,28.822,28.823,36.004,20,36.004z" />
+                </g>
+              </g>
+            </g>
+          </svg> ANALYTICS
+        </span>
+      </div> -->
+
+    </div>
+
+    <div class="right-div">
+      <section class="tab-section">
+        <div class="common-tab">
+          <ul>
+            <li id="liAttendance" #liAttendance (click)="switchActiveView('liAttendance')" class="active">
+              <a>Attendance</a>
+            </li>
+            <li id="liExam" #liExam (click)="switchActiveView('liExam')" class="">
+              <a>Exam</a>
+            </li>
+            <li id="liFee" #liFee (click)="switchActiveView('liFee')" class="">
+              <a>Fee</a>
+            </li>
+            <li id="liTable" #liTable (click)="switchActiveView('liTable')" class="">
+              <a>Time Table</a>
+            </li>
+            <li id="liPTM" #liPTM (click)="switchActiveView('liPTM')" class="">
+              <a>PTM</a>
+            </li>
+
+          </ul>
+        </div>
+
+      </section>
+
+      <section class="content-section">
+
+        <div class="attendance-tab" *ngIf="liAttendanceView">
+          <div class="row filter-section">
+            <div class="c-sm-6 c-md-6 c-lg-6">
+
+              <div class="row" style="margin-top: 20px">
+                <div class="field-radio-wrapper c-sm-4 c-md-4 c-lg-4">
+                  <input type="radio" id="idCurrentMon" [checked]="(viewAttendancePayload.type == '0')" value="0" [(ngModel)]="viewAttendancePayload.type"
+                    name="idCurrentMon" class="form-radio" (ngModelChange)="onRadioButtonSelection()">
+                  <label for="idCurrentMon">Current Month</label>
+                </div>
+                <div class="field-radio-wrapper c-sm-4 c-md-4 c-lg-4">
+                  <input type="radio" id="idtillDate" value="1" [(ngModel)]="viewAttendancePayload.type" name="idtillDate" class="form-radio"
+                    (ngModelChange)="onRadioButtonSelection()">
+                  <label for="idtillDate">Till Date</label>
+                </div>
+                <div class="field-radio-wrapper c-sm-4 c-md-4 c-lg-4">
+                  <input type="radio" id="iddateRange" value="2" [(ngModel)]="viewAttendancePayload.type" name="iddateRange" class="form-radio"
+                    (ngModelChange)="onRadioButtonSelection()">
+                  <label for="iddateRange">Date Range</label>
+                </div>
+              </div>
+
+            </div>
+            <div class="c-sm-6 c-md-6 c-lg-6" *ngIf="viewAttendancePayload.type == '2'">
+
+              <div class="row dateRangeFix">
+
+                <div class="c-sm-4 c-md-4 c-lg-4">
+                  <div class="field-wrapper datePickerBox">
+                    <label for="csd">Start Date</label>
+                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker constantHeight" [(ngModel)]="viewAttendancePayload.startdate"
+                      readonly="true" name="csd" bsDatepicker>
+                  </div>
+                </div>
+
+                <div class="c-sm-4 c-md-4 c-lg-4">
+                  <div class="field-wrapper datePickerBox">
+                    <label for="csd">End Date</label>
+                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker constantHeight" [(ngModel)]="viewAttendancePayload.enddate"
+                      readonly="true" name="csd" bsDatepicker>
+                  </div>
+                </div>
+
+                <div class="c-sm-4 c-md-4 c-lg-4">
+                  <button class="btn fullBlue" style="margin-top:15px" (click)="goBtnAttendaceClick()">GO</button>
+                </div>
+
+              </div>
+
+            </div>
+            <!-- <div style="top: 166px;position: absolute; right: 40px;" (click)="takePrint('printDiv1')">
+              <label>
+                <i class="fa fa-print" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+                Print</label>
+            </div> -->
+          </div>
+          <div class="row table-wrapper" id="printDiv1">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <span *ngIf="isLangInstitue">Batch</span>
+                    <span *ngIf="!isLangInstitue">Subject</span>
+                  </th>
+                  <th>Classes</th>
+                  <th>Present</th>
+                  <th>Absent</th>
+                  <th>Leave</th>
+                  <th>Attendance</th>
+                  <th>Active</th>
+                  <th>Admission Date</th>
+                  <th>Leaving Date</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of attendanceList" [ngClass]="{greyColor : (data.batchLeavingDate != '' && data.batchLeavingDate != null)}">
+                  <td>{{data.batch_name}}</td>
+                  <td>{{data.total_classes}}</td>
+                  <td>{{data.total_attended}}</td>
+                  <td>{{data.total_absent}}</td>
+                  <td>{{data.total_leave}}</td>
+                  <td>{{data.spent_percentage}} %</td>
+                  <td>{{data.is_batch_active}}</td>
+                  <td>{{data.batchJoiningDate}}</td>
+                  <td>{{data.batchLeavingDate}}</td>
+                  <td>
+                    <a style="cursor: pointer;" (click)="viewAttendanceDet(data)" *ngIf="data.attendanceDateList">
+                      <!-- <?xml version="1.0" encoding="utf-8"?> -->
+                      <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                      <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                        width="20px" height="20px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
+                        <path fill="#1385F2" d="M24.067,0c-13.255,0-24,10.746-24,24s10.745,24,24,24c13.252,0,23.997-10.746,23.997-24S37.319,0,24.067,0z
+	 M23.779,38.121c-1.035,0.802-2.029,1.208-2.991,1.208c-0.625,0-1.145-0.188-1.549-0.561c-0.402-0.374-0.603-0.847-0.603-1.421
+	c0-0.581,0.188-1.524,0.573-2.845l3.017-10.371c0.482-1.688,0.72-2.752,0.72-3.193c0-0.327-0.117-0.597-0.362-0.818
+	c-0.237-0.216,0.198-0.335-0.208-0.335c-0.345,0-0.376,0.088-1.376,0.263v-0.891l7.237-1.328L23.295,34.07
+	c-0.308,1.091-0.645,1.746-0.645,1.96c0,0.246-0.025,0.443,0.123,0.595c0.144,0.158,0.261,0.232,0.449,0.232
+	c0.251,0,0.509-0.123,0.817-0.374c0.874-0.688,1.756-1.671,2.663-2.96l0.79,0.547C26.439,35.663,25.195,37.016,23.779,38.121z
+	 M28.818,12.606c-0.445,0.46-0.987,0.691-1.621,0.691c-0.636,0-1.175-0.231-1.637-0.691c-0.463-0.462-0.69-0.999-0.69-1.637
+	c0-0.638,0.224-1.172,0.68-1.626c0.441-0.448,0.997-0.673,1.646-0.673c0.653,0,1.196,0.225,1.642,0.673
+	c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z" />
+                      </svg>
+                    </a>
+                  </td>
+                </tr>
+                <tr *ngIf="attendanceList.length ==0">
+                  <td colspan="10" style="text-align: center">
+                    No Attendance Data Of Student Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p *ngIf="attendanceList.length > 0" style="margin-left:10px;margin-top: 10px;">* Old/History batches are shown with grey background</p>
+
+        </div>
+
+        <div class="exam-section" *ngIf="liExamView">
+
+          <div class="row filter-section" *ngIf="!isLangInstitue">
+            <div class="c-sm-3 c-md-3 c-lg-3">
+              <div class="field-radio-wrapper">
+                <input id="idSubjectRadio" type="radio" [checked]="(examType == '0')" value="0" [(ngModel)]="examType" name="idSubjectRadio"
+                  class="form-radio" (ngModelChange)="onRadioButtonSelectionExam()">
+                <label for="idSubjectRadio">Subject Wise</label>
+              </div>
+            </div>
+            <div class="c-sm-2 c-md-2 c-lg-2">
+              <div class="field-radio-wrapper">
+                <input id="idCourseRadio" type="radio" value="1" [(ngModel)]="examType" name="idCourseRadio" class="form-radio" (ngModelChange)="onRadioButtonSelectionExam()">
+                <label for="idCourseRadio">Course Wise</label>
+              </div>
+            </div>
+            <div class="c-sm-3 c-md-3 c-lg-3">
+              <div class="field-radio-wrapper">
+                <input id="idNextWeek" type="radio" value="2" [(ngModel)]="examType" name="idNextWeek" class="form-radio" (ngModelChange)="onRadioButtonSelectionExam()">
+                <label for="idNextWeek">Upcoming Exam</label>
+              </div>
+            </div>
+            <div class="c-sm-3 c-md-3 c-lg-3">
+              <button *ngIf="examType == '1'" class="btn pull-right expand-collapse-btn" (click)="expandCollapseAll()">Expand/Collapse All</button>
+
+            </div>
+            <!-- <div style="top: 150px;position: absolute; right: 40px;" (click)="takePrint('examPrint')">
+              <label>
+                <i class="fa fa-print" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+                Print</label>
+            </div> -->
+          </div>
+
+          <div class="table-wrapper" *ngIf="examType == '0'" id="examPrint">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <span *ngIf="isLangInstitue">Batch</span>
+                    <span *ngIf="!isLangInstitue">Subject</span>
+                  </th>
+                  <th>Exam Date</th>
+                  <th>Exam Description</th>
+                  <th>Timings</th>
+                  <!-- <th>Total Marks</th> -->
+                  <th>Marks Obtained</th>
+                  <th>Grade</th>
+                  <th>Rank</th>
+                  <th>Highest Marks</th>
+                  <th>Lowest Marks</th>
+                  <th>Average Marks</th>
+                  <!-- <th>Is Active</th>    -->
+                  <!-- <th>Joining Date</th>
+                  <th>Leaving Date</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of examList">
+                  <td>{{data.batch_name}}</td>
+                  <td>{{data.exam_date}}</td>
+                  <td>{{data.exam_desc}}</td>
+                  <td>{{data.start_time}}-{{data.end_time}}</td>
+                  <!-- <td>{{data.total_marks}}</td> -->
+                  <td>
+                    <span *ngIf="data.attendance_status == 'L'">Leave</span>
+                    <span *ngIf="data.attendance_status == 'A'">Absent</span>
+                    <span *ngIf="data.attendance_status != 'L' && data.attendance_status != 'A' ">{{data.marks_obtained}}/{{data.total_marks}}</span>
+                  </td>
+                  <td>
+                    <span *ngIf="data.attendance_status == 'L' || data.attendance_status == 'A'">
+                      --
+                    </span>
+                    <span *ngIf="(data.attendance_status != 'L' && data.attendance_status != 'A')">
+                      {{data.grade}}
+                    </span>
+                  </td>
+                  <td>
+                    <span *ngIf="data.attendance_status == 'L' || data.attendance_status == 'A'">
+                      --
+                    </span>
+                    <span *ngIf="(data.attendance_status != 'L' && data.attendance_status != 'A')">
+                      {{data.rank}}
+                    </span>
+                  </td>
+                  <td>{{data.highest_marks}}</td>
+                  <td>{{data.lowest_marks}}</td>
+                  <td>{{data.average_marks}}</td>
+                  <!-- <td>{{data.is_batch_active}}</td> -->
+                  <!-- <td>{{data.batchJoiningDate}}</td>
+                  <td>{{data.batchLeavingDate}}</td> -->
+                </tr>
+                <tr *ngIf="examList.length ==0">
+                  <td colspan="12" style="text-align: center">
+                    No Exam List Of Student Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-wrapper" *ngIf="examType == '1'" id="examPrint">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 5%"></th>
+                  <th style="width: 30%">Master Course</th>
+                  <th>Course</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="outerTableTr{{i}}" *ngFor="let data of courseLevelExamList; let i = index;">
+                  <td colspan="3">
+                    <div>
+                      <table>
+                        <thead>
+                          <tr class="hide">
+                            <th style="width: 5%"></th>
+                            <th style="width: 30%">Master Course</th>
+                            <th>Course</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr (click)="showhideInnerTable(i)">
+                            <td style="width: 5%;text-align: center;">
+                              <span id="plusIcon{{i}}" class="expand-collapse">+</span>
+                              <span id="minusIcon{{i}}" class="hide expand-collapse">-</span>
+                            </td>
+                            <td style="width: 30%">{{data.master_course_name}}</td>
+                            <td>{{data.course_Name}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div id="showMarksInnerTable{{i}}" class="hide">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Exam Date</th>
+                            <th>Timing</th>
+                            <th>Marks</th>
+                            <th>Rank</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of data.pastCourseExamList">
+                            <td>{{row.exam_date}}</td>
+                            <td>{{row.start_time}} - {{row.end_time}}</td>
+                            <td>
+                              <span *ngIf="row.attendance_status == 'L'">
+                                Leave
+                              </span>
+                              <span *ngIf="row.attendance_status == 'A'">
+                                Absent
+                              </span>
+                              <span *ngIf="(row.attendance_status != 'A' && row.attendance_status != 'L')">
+                                {{row.courseLevelMarksObtain}} / {{row.courseLevelTotalMarks}}
+                              </span>
+                            </td>
+                            <td>{{row.courseLevelRank}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="courseLevelExamList.length == 0">
+                  <td colspan="3">
+                    No Exam Given By Student
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 *ngIf="examType == '2'">Next 4 weeks Exam Schedule</h3>
+
+          <div class="table-wrapper" *ngIf="examType == '2'" id="examPrint">
+            <table>
+              <thead>
+                <tr>
+                  <th>Exam Date</th>
+                  <th>Timing</th>
+                  <th>
+                    <span *ngIf="isLangInstitue">Batch</span>
+                    <span *ngIf="!isLangInstitue">Subject</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="futureExamSch.length > 0">
+                <tr *ngFor="let data of futureExamSch">
+                  <th>{{data.exam_date}}</th>
+                  <th>{{data.start_time}} - {{data.end_time}}</th>
+                  <th>{{data.batch_name}}</th>
+                </tr>
+              </tbody>
+              <tbody *ngIf="futureExamSch.length==0">
+                <tr>
+                  <td colspan="3">
+                    No Exam Schedule Available For Upcoming 4 Weeks
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <div class="fee-content-section" *ngIf="liFeeView" id="feePrint">
+          <!-- <div style="top: 140px;position: absolute; right: 40px;" (click)="takePrint('feePrint')">
+            <label>
+              <i class="fa fa-print" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+              Print</label>
+          </div> -->
+          <h2>Payment History</h2>
+          <div class="">
+            <table>
+              <thead>
+                <tr>
+                  <th>Paid On</th>
+                  <th>Installment No</th>
+                  <th>Fee Type</th>
+                  <th>Amount</th>
+                  <th>Tax</th>
+                  <th>Discount Amount</th>
+                  <th>Total Amount</th>
+                  <th>Amount Paid</th>
+                  <th>Amount Due</th>
+                  <th>Payment Mode</th>
+                  <th>Reference No</th>
+                  <th>Remark</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of PastFeeList">
+                  <td>{{data.paid_date}}</td>
+                  <td>{{data.installment_no}}</td>
+                  <td>{{data.fee_type_name}}</td>
+                  <td>{{data.total_initial_amount}}</td>
+                  <td>{{data.total_tax_applied}}</td>
+                  <td> {{data.total_discount}}</td>
+                  <td>{{data.total_amount_after_discount_after_tax}}</td>
+                  <td>{{data.total_amt_paid}}</td>
+                  <td>{{data.total_balance_amt}}</td>
+                  <td>{{data.paymentMode}}</td>
+                  <td>{{data.reference_no}}</td>
+                  <td>{{data.remarks}}</td>
+                </tr>
+                <tr *ngIf="PastFeeList.length == 0">
+                  <td colspan="11" style="text-align: center">
+                    No Record Of Payment History
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <hr>
+
+          <h2>Past Fee Due Details</h2>
+          <div class="">
+            <table>
+              <thead>
+                <tr>
+                  <th>Installment No</th>
+                  <th>Fee Type</th>
+                  <th>Due Date</th>
+                  <th>Amount</th>
+                  <th>Tax</th>
+                  <th>Discount Amount</th>
+                  <th>Total Amount</th>
+                  <th>Amount Paid</th>
+                  <th>Amount Due</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of paymentHistoryList">
+                  <td>{{data.installment_no}}</td>
+                  <td>{{data.fee_type_name}}</td>
+                  <td>{{data.due_date}}</td>
+                  <td>{{data.total_initial_amount}}</td>
+                  <td>{{data.total_tax_applied}}</td>
+                  <td> {{data.total_discount}}</td>
+                  <td>{{data.total_amount_after_discount_after_tax}}</td>
+                  <td>{{data.total_amt_paid}}</td>
+                  <td>{{data.total_balance_amt}}</td>
+                </tr>
+                <tr *ngIf="PastFeeList.length == 0">
+                  <td colspan="8" style="text-align: center">
+                    No Record Of Past Fee Due Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <hr>
+
+          <h2>Next Fee Due Details</h2>
+          <div class="">
+            <table>
+              <thead>
+                <tr>
+                  <th>Installment No</th>
+                  <th>Fee Type</th>
+                  <th>Due Date</th>
+                  <th>Amount</th>
+                  <th>Tax</th>
+                  <th>Discount Amount</th>
+                  <th>Total Amount</th>
+                  <th>Amount Paid</th>
+                  <th>Amount Due</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of FutureFeeList">
+                  <td>{{data.installment_no}}</td>
+                  <td>{{data.fee_type_name}}</td>
+                  <td>{{data.due_date}}</td>
+                  <td>{{data.total_initial_amount}}</td>
+                  <td>{{data.total_tax_applied}}</td>
+                  <td> {{data.total_discount}}</td>
+                  <td>{{data.total_amount_after_discount_after_tax}}</td>
+                  <td>{{data.total_amt_paid}}</td>
+                  <td>{{data.total_balance_amt}}</td>
+                </tr>
+                <tr *ngIf="FutureFeeList.length == 0">
+                  <td colspan="8" style="text-align: center">
+                    No Record Of Past Fee Due Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <div class="time-table-section" *ngIf="liTableView">
+
+          <div class="row filter-section">
+            <div class="c-sm-6 c-md-6 c-lg-6">
+
+              <div class="row" style="margin-top: 20px">
+                <div class="field-radio-wrapper c-sm-4 c-md-4 c-lg-4">
+                  <input type="radio" id="rdoBtnCurrent" [checked]="(timetablePayLoad.type == '0')" value="0" [(ngModel)]="timetablePayLoad.type"
+                    name="rdoBtnCurrent" class="form-radio" (ngModelChange)="onTimeTableRadioBtnChange()">
+                  <label for="rdoBtnCurrent">Current Date</label>
+                </div>
+                <div class="field-radio-wrapper c-sm-4 c-md-4 c-lg-4">
+                  <input type="radio" id="rdoBtnNextWeek" value="1" [(ngModel)]="timetablePayLoad.type" name="rdoBtnNextWeek" class="form-radio"
+                    (ngModelChange)="onTimeTableRadioBtnChange()">
+                  <label for="rdoBtnNextWeek">Next Week</label>
+                </div>
+                <div class="field-radio-wrapper c-sm-4 c-md-4 c-lg-4">
+                  <input type="radio" id="rdoBtnDateRnge" value="2" [(ngModel)]="timetablePayLoad.type" name="rdoBtnDateRnge" class="form-radio"
+                    (ngModelChange)="onTimeTableRadioBtnChange()">
+                  <label for="rdoBtnDateRnge">Date Range</label>
+                </div>
+              </div>
+
+            </div>
+            <div class="c-sm-6 c-md-6 c-lg-6" *ngIf="timetablePayLoad.type == '2'">
+
+              <div class="row dateRangeFix">
+
+                <div class="c-sm-4 c-md-4 c-lg-4">
+                  <div class="field-wrapper datePickerBox">
+                    <label for="csd">Start Date</label>
+                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker constantHeight" [(ngModel)]="timetablePayLoad.startdate"
+                      readonly="true" name="csd" bsDatepicker>
+                  </div>
+                </div>
+
+                <div class="c-sm-4 c-md-4 c-lg-4">
+                  <div class="field-wrapper datePickerBox">
+                    <label for="csd">End Date</label>
+                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker constantHeight" [(ngModel)]="timetablePayLoad.enddate"
+                      readonly="true" name="csd" bsDatepicker>
+                  </div>
+                </div>
+
+                <div class="c-sm-4 c-md-4 c-lg-4">
+                  <button class="btn fullBlue" style="margin-top:20px" (click)="getTimeTableDetails()">GO</button>
+                </div>
+
+              </div>
+
+            </div>
+            <!-- <div style="top: 166px;position: absolute; right: 40px;" (click)="takePrint('timetable')">
+              <label>
+                <i class="fa fa-print" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+                Print</label>
+            </div> -->
+          </div>
+
+          <div class="nested-table" id="timetable">
+            <table class="table-wrapper">
+              <thead>
+                <tr class="head-width">
+                  <th style="width: 10%;">Date</th>
+                  <th style="width: 20%;">Timings</th>
+                  <th style="width: 10%;">Class</th>
+                  <th style="width: 10%;">Class Room</th>
+                  <th style="width: 30%;">
+                    <span *ngIf="isLangInstitue">Batch</span>
+                    <span *ngIf="!isLangInstitue">Subject</span>
+                  </th>
+                  <th style="width: 20%;">Faculty</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let data of timeTableSchedule; let i = index">
+                <tr id="outerTr{{i}}" (click)="toggleClass(i)" style="background: white">
+                  <td colspan="6">
+                    <div>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td class="outer-tr">
+                              <span id="accodianMinus{{i}}" class="accor hide">-</span>
+                              <span id="accodianPlus{{i}}" class="accor">+</span>
+                              <span class="text-desc">{{data.date}}</span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <table id="innerTr{{i}}" class="hide inner-table">
+                      <thead class="hide">
+                        <tr class="head-width">
+                          <th style="width: 10%;">Date</th>
+                          <th style="width: 20%;">Timings</th>
+                          <th style="width: 10%;">Class</th>
+                          <th style="width: 10%;">Class Room</th>
+                          <th style="width: 30%;">
+                            <span *ngIf="isLangInstitue">Batch</span>
+                            <span *ngIf="!isLangInstitue">Subject</span>
+                          </th>
+                          <th style="width: 20%;">Faculty</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of data.schedule" class="row-width">
+                          <td style="width: 10%;"></td>
+                          <td style="width: 20%;">{{row.start_time}} - {{row.end_time}}</td>
+                          <td style="width: 10%;">
+                            <span *ngIf="isLangInstitue">
+                              <span *ngIf="(row.class_type == 'WEEK' && row.custom_class_type == '') || row.custom_class_type == 'Regular' || row.custom_class_type == 'Regular(Custom)' ">
+                                Regular
+                              </span>
+                              <span *ngIf="!((row.class_type == 'WEEK' && row.custom_class_type == '') || row.custom_class_type == 'Regular' || row.custom_class_type == 'Regular(Custom)' )">
+                                Extra
+                              </span>
+                            </span>
+                            <span *ngIf="!isLangInstitue">
+                              <span *ngIf="row.custom_class_type == 'Regular' || row.custom_class_type == 'Doubt' || row.custom_class_type == 'Revision'">
+                                {{row.custom_class_type}}
+                              </span>
+                              <span *ngIf="!(row.custom_class_type == 'Regular' || row.custom_class_type == 'Doubt' || row.custom_class_type == 'Revision') || (row.class_type == 'EXTRA' && row.custom_class_type == '')">
+                                Extra
+                              </span>
+                            </span>
+                          </td>
+                          <td style="width: 10%;">{{row.class_room_name}}</td>
+                          <td style="width: 30%;">{{row.batchName}}</td>
+                          <td style="width: 20%;">{{row.teacher_name}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="timeTableSchedule.length == 0">
+                <tr>
+                  <td colspan="6" style="text-align: center">
+                    No Schedule Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <div class="ptm-section" *ngIf="liPTMView">
+
+          <h2>PTM Details</h2>
+          <!-- <div style="top: 146px;position: absolute; right: 40px;" (click)="takePrint('PTMDetails')">
+            <label>
+              <i class="fa fa-print" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+              Print</label>
+          </div> -->
+          <div class="" id="PTMDetails">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <span *ngIf="isLangInstitue">Batch</span>
+                    <span *ngIf="!isLangInstitue">Subject</span>
+                  </th>
+                  <th>PTM Date</th>
+                  <th>Attendance</th>
+                  <th>Teacher/Institution Remarks</th>
+                  <th>Parent Remarks</th>
+                  <th>PTM Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of PTMDetList">
+                  <td>{{data.batch_name}}</td>
+                  <td>{{data.ptm_date}}</td>
+                  <td>{{data.attendance}}</td>
+                  <td>{{data.total_initial_amount}}</td>
+                  <td>{{data.parent_remark}}</td>
+                  <td>{{data.status}}</td>
+                </tr>
+                <tr *ngIf="PTMDetList.length == 0">
+                  <td colspan="6" style="text-align: center">
+                    No Record Of PTM Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ////////////////////////Attendance Details//////////////////////////// -->
+<!-- ////////////////////////Attendance Details//////////////////////////// -->
+<!-- ////////////////////////Attendance Details//////////////////////////// -->
+
+<proctur-popup *ngIf="attendanceDetPopUp">
+
+  <span class="closePopup pos-abs fbold show" (click)="closePopup()" close-button>
+    <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
+      width="24px" x="0" y="0">
+      <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+        style="fill: currentColor"></path>
+    </svg>
+  </span>
+
+  <h2 popup-header>Date Wise Attendance :
+    <span style="font-size: 18px">{{tempData.batch_name}}</span>
+  </h2>
+
+  <div popup-content>
+    <div class="row popup-table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Timing</th>
+            <th>Class</th>
+            <th>Attendance</th>
+            <th>Note/Comment</th>
+            <th>Topic Covered</th>
+            <th>Home Work Status</th>
+            <th>Home Work Assigned</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of tempData.attendanceDateList">
+            <td>{{data.date}}</td>
+            <td>{{data.start_time}} - {{data.end_time}}</td>
+            <td *ngIf="isLangInstitue">
+              <span *ngIf="(data.custom_class_type=='' && data.class_type=='WEEK' || data.custom_class_type =='Regular' || data.custom_class_type == 'Regular(Custom)')">
+                Regular
+              </span>
+              <span *ngIf="!(data.custom_class_type=='' && data.class_type=='WEEK' || data.custom_class_type=='Regular' || data.custom_class_type == 'Regular(Custom)')">
+                Extra
+              </span>
+            </td>
+            <td *ngIf="!isLangInstitue">
+              <span *ngIf="data.custom_class_type=='Regular' || data.custom_class_type == 'Doubt' || data.custom_class_type == 'Revision'">
+                {{data.custom_class_type}}
+              </span>
+              <span *ngIf="!(data.custom_class_type=='Regular' || data.custom_class_type == 'Doubt' || data.custom_class_type == 'Revision') || (data.class_type == 'EXTRA' && data.custom_class_type == '')">
+                Extra
+              </span>
+            </td>
+            <td>{{data.status}}</td>
+            <td>{{data.attendance_note}}</td>
+            <td>{{data.topics_covered}}</td>
+            <td>{{data.home_work_status}}</td>
+            <td>{{data.homework_assigned}}</td>
+          </tr>
+          <tr *ngIf="tempData.attendanceDateList.length ==0">
+            <td colspan="10" style="text-align: center">
+              No Attendance Of Student Found
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="" popup-footer>
+    <div class="clearfix">
+      <aside class="pull-right popup-btn">
+        <input type="button" value="Close" class="btn" (click)="closePopup()">
+      </aside>
+    </div>
+  </div>
+
+</proctur-popup>

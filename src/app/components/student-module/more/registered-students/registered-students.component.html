@@ -1,0 +1,53 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
+  class="blackbg" *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="middle-section clear-fix">
+
+  <section class="middle-top clearFix bulk-header">
+    <div>
+      <h1 class="pull-left">
+        <a routerLink="/view/students">
+          Student
+         </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        <span>Registered Students</span>
+      </h1>
+    </div>
+  </section>
+ 
+  <div class="filter-section">
+    <div class="row">
+      <div class="searchbox1" style="width: auto">
+        <div style="margin-top: 20px;padding-left: 1%">
+          <div class="search-filter-wrapper">
+            <input type="text" class="normal-field" placeholder="Search" name="searchData" [(ngModel)]="searchText"
+              (keyup.enter)="searchInList()"
+              style="border-radius: 4px; border: 1px solid #ccc;padding: 6px 10px;width: 200px;margin-top: 10px;margin-bottom: 10px;">
+          </div>
+        </div>
+      </div>
+      <div class="searchbox1">
+        <div style="margin-top: 20px;padding-right: 1%">
+          <!-- <div class="search-filter-wrapper" style="text-align: right;">
+            <input [(ngModel)]="dateRange" type="text" name="range" class="form-ctrl bsDatepicker" id="range" readonly="true" bsDaterangepicker style="border-radius: 4px; border: 1px solid #ccc;padding: 6px 10px;width: 200px;margin-top: 10px;margin-bottom: 10px;"><br>
+            <span class="pull-right cleat-txt" (click)="clearDateRange()">clear</span>
+          </div> -->
+          <div class="c-lg-1 btn-wrap" style="margin-top: 2%;margin-left: 0;padding-left: 0">
+            <button class="btn fullBlue" (click)="searchInList()">Search</button>
+          </div>
+        </div>
+      </div>
+      <div class="searchbox1">
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <br>
+  <data-display-table #child [displayKeys]="tableSetting" [displayData]="usersList">
+  </data-display-table>
+
+</div>
