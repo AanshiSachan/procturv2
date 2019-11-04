@@ -86,7 +86,7 @@ export class GlobalSearchPopupComponent implements OnInit, OnChanges {
 
   public studentSelected(s) {
     this.closeSearchArea();
-    this.router.navigate(['/view/student'], { queryParams: { id: s.id } });
+    this.router.navigate(['/view/students'], { queryParams: { id: s.id } });
   }
 
   public performAction(a: string, data) {
@@ -95,27 +95,27 @@ export class GlobalSearchPopupComponent implements OnInit, OnChanges {
     switch (a) {
       case 'studentEdit': {
         this.closeSearchArea();
-        this.router.navigate(['/view/student'], { queryParams: { id: d, action: a } });
+        this.router.navigate(['/view/students'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'studentFee': {
         this.closeSearchArea();
-        this.router.navigate(['/view/student'], { queryParams: { id: d, action: a } });
+        this.router.navigate(['/view/students'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'studentInventory': {
         this.closeSearchArea();
-        this.router.navigate(['/view/student'], { queryParams: { id: d, action: a } });
+        this.router.navigate(['/view/students'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'studentLeave': {
         this.closeSearchArea();
-        this.router.navigate(['/view/student'], { queryParams: { id: d, action: a } });
+        this.router.navigate(['/view/students'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'studentDelete': {
         this.closeSearchArea();
-        this.router.navigate(['/view/student'], { queryParams: { id: d, action: a } });
+        this.router.navigate(['/view/students'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'enquiryEdit': {

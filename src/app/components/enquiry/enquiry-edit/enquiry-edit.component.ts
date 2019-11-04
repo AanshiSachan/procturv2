@@ -900,7 +900,7 @@ export class EnquiryEditComponent implements OnInit {
                 }
 
                 sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
-                this.router.navigate(['/view/student/add']);
+                this.router.navigate(['/view/students/add']);
               }
               else {
                 this.clearLocalAndRoute()

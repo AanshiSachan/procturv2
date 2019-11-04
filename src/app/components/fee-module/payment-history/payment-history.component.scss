@@ -1,0 +1,29 @@
+.history-wrapper{
+    max-height: 400px;
+}
+h6{
+    font-weight: bold;
+}
+
+$color-base: #efefef;
+$color-base: #efefef;
+$color-highlight: lighten($color-base, 7%);
+
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 12px;
+    background: $color-base;
+    border-radius: 2px;
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, $color-base, $color-highlight, $color-base);
+        animation: progress 1s ease-in-out infinite;
+    }
+}

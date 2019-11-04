@@ -7,8 +7,6 @@ import { AllDataReportComponent } from './all-data-report/all-data-report.compon
 import { InactiveStudentReportComponent } from './inactive-student-report/inactive-student-report.component';
 import { GstReportComponent } from './gst-report/gst-report.component';
 import { OnlinePaymentHistoryComponent } from './online-payment-history/online-payment-history.component';
-import {ChequeReportComponent} from './cheque-report/cheque-report.component';
-import {DiscountReportComponent} from './discount-report/discount-report.component';
 import {FeeTypeReportComponent } from './fee-type-report/fee-type-report.component';
 import {PaymentHistoryMainComponent} from './payment-history-main/payment-history-main.component';
 @NgModule({
@@ -47,14 +45,14 @@ import {PaymentHistoryMainComponent} from './payment-history-main/payment-histor
                         path: 'onlinePayment',
                         component: OnlinePaymentHistoryComponent
                     },
-                    {
-                        path: 'cheque',
-                        component : ChequeReportComponent
-                    },
-                    {
-                        path:'discount',
-                        component: DiscountReportComponent
-                    },
+                    // {
+                    //     path: 'cheque',
+                    //     component : ChequeReportComponent
+                    // },
+                    // {
+                    //     path:'discount',
+                    //     component: DiscountReportComponent
+                    // },
                     {
                         path: 'feeType',
                         component : FeeTypeReportComponent 

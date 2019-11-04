@@ -39,11 +39,11 @@ import { EnquiryReportComponent } from './enquiry-report/enquiry-report.componen
                         loadChildren: 'app/components/report/sms-reports/sms-reports.module#SmsReportsModule',
                         pathMatch: 'prefix'
                     },
-                    {
-                        path: 'fee',
-                        loadChildren: 'app/components/report/fee-report/fee-report.module#FeeReportModule',
-                        pathMatch: 'prefix'
-                    },
+                    // {
+                    //     path: 'fee',
+                    //     loadChildren: 'app/components/report/fee-report/fee-report.module#FeeReportModule',
+                    //     pathMatch: 'prefix'
+                    // },
                     {
                         path: 'exam',
                         component: ExamReportComponent

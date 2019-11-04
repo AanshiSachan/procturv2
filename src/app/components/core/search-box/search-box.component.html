@@ -1,3 +1,6 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+  </loaders-css>
+
 <div class="search-dropdown-box search-item">
 
   <section *ngIf="resultStat == 0">
@@ -93,9 +96,12 @@
                 <a *ngIf="hasStudent" class="markers" (click)="performAction('studentFee', student)">
                   Manage Fee
                 </a>
-                <a *ngIf="hasStudent" class="markers" (click)="performAction('studentInventory', student)">
+                <!-- <a *ngIf="hasStudent" class="markers" (click)="performAction('studentInventory', student)">
                   Manage Inventory
-                </a>
+                </a> -->
+                <a *ngIf="hasStudent" class="markers" (click)="performAction('studentReortCard', student)">
+                    Download Report Card
+                  </a>
                 <a *ngIf="hasStudent" class="markers hide" (click)="performAction('studentLeave', student)">
                   Mark Leave
                 </a>
@@ -149,5 +155,5 @@
     </ul>
 
   </section>
-
+  <a id="downloadFileClick1"></a>
 </div>

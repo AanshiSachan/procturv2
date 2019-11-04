@@ -18,7 +18,7 @@
       <section class="search-dropdown search-item" #seachResult>
         <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat" [studentResult]="studentResult"
           (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)"
-          [enquiryResult]="enquiryResult" (actionSelected)="actionSelected($event)">
+          [enquiryResult]="enquiryResult" (actionSelected)="actionSelected($event)" (closeMenu)="closeMenu()">
         </search-box>
       </section>
     </div>
@@ -30,7 +30,7 @@
       <i class="fa fa-leanpub" aria-hidden="true"></i>
       Lead
     </span>
-    <span class="NavLink" routerLink="/view/student" id="litwo" (click)="toggler('litwo')">
+    <span class="NavLink" routerLink="/view/students" id="litwo" (click)="toggler('litwo')">
       <i class="fa fa-graduation-cap" aria-hidden="true"></i>
       Student
     </span>
@@ -39,7 +39,7 @@
       <span *ngIf="isLangInstitute" id="li3">Batch</span>
       <span *ngIf="!isLangInstitute" id="li3">Course</span>
     </span>
-    <span class="NavLink" (click)="routerLink('/view/fee')" #divFeeTag id="divFeeTag">
+    <span class="NavLink" routerLink="/view/fee" #divFeeTag id="divFeeTag">
       <i class="fa fa-money" aria-hidden="true"></i>
       Fee
     </span>

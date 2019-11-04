@@ -43,11 +43,6 @@ import { AuthGuard } from '../guards/auth.guard';
                             loadChildren: 'app/components/enquiry/enquiry.module#EnquiryModule',
                             canLoad: [AuthGuard]
                         },
-                        // {
-                        //     path: 'student',
-                        //     loadChildren: 'app/components/students/student.module#StudentModule',
-                        //     canLoad: [AuthGuard]
-                        // },
                         {
                             path: 'course',
                             loadChildren: 'app/components/course/course.module#CourseModule',
@@ -83,9 +78,15 @@ import { AuthGuard } from '../guards/auth.guard';
                             loadChildren: 'app/components/campaign/campaign.module#CampaignModule',
                             canLoad: [AuthGuard]
                         },
+                        // {
+                        //     path: 'fee',
+                        //     loadChildren: 'app/components/fee-template/fee-template.module#FeeTemplateModule',
+                        //     canLoad: [AuthGuard]
+                        // },
+                        //'app/components/fee-module/fee-module.module#FeeModule'
                         {
-                            path: 'fee',
-                            loadChildren: 'app/components/fee-template/fee-template.module#FeeTemplateModule',
+                            path:'fee',
+                            loadChildren:'app/components/fee-module/fee.module#FeeModule',
                             canLoad: [AuthGuard]
                         },
                         {

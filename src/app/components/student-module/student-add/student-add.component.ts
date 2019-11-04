@@ -1627,7 +1627,7 @@ export class StudentAddComponent implements OnInit {
       this.router.navigate(['/view/enquiry']);
     }
     else {
-      this.router.navigate(['/view/student']);
+      this.router.navigate(['/view/students']);
     }
   }
 
@@ -1645,7 +1645,7 @@ export class StudentAddComponent implements OnInit {
   }
 
   cancelStudentUpload() {
-    this.router.navigate(['/view/student']);
+    this.router.navigate(['/view/students']);
   }
 
   /* ========================================================================================================== */
@@ -2329,7 +2329,7 @@ export class StudentAddComponent implements OnInit {
 
   studentAddedNotifier() {
     this.msgToast.showErrorMessage('success', '', "Student Details Updated");
-    this.router.navigate(['/view/student']);
+    this.router.navigate(['/view/students']);
   }
 
 

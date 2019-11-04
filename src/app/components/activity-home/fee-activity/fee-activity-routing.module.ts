@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { ChequeManageComponent } from './cheque-manage/cheque-manage.component';
-import { FeeManageComponent } from './fee-manage/fee-manage.component';
 
 @NgModule({
     imports: [
@@ -19,10 +18,6 @@ import { FeeManageComponent } from './fee-manage/fee-manage.component';
                     {
                         path: 'cheque',
                         component: ChequeManageComponent
-                    },
-                    {
-                        path: 'fee',
-                        component: FeeManageComponent
                     }
                 ]
             }

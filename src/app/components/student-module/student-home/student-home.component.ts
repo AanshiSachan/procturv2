@@ -217,12 +217,12 @@ export class StudentHomeComponent implements OnInit {
     this.actRoute.queryParams.subscribe(e => {
       if (e.id != null && e.id != undefined && e.id != '') {
         if (e.action == undefined || e.action == undefined || e.action == '') {
-          this.router.navigate(['/view/student/edit/' + e.id]);
+          this.router.navigate(['/view/students/edit/' + e.id]);
         }
         else {
           switch (e.action) {
             case 'studentEdit': {
-              this.router.navigate(['/view/student/edit/' + e.id]);
+              this.router.navigate(['/view/students/edit/' + e.id]);
               break;
             }
             case 'studentFee': {
@@ -423,7 +423,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   editStudent(id) {
-    this.router.navigate(['/view/student/edit/' + id]);
+    this.router.navigate(['/view/students/edit/' + id]);
   }
 
   /* Delete the student selected or archieve the student selected */
@@ -1607,14 +1607,14 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   editFeePDCDetails(event) {
     sessionStorage.setItem('editPdc', "true");
-    this.router.navigate(['/view/student/edit/' + event]);
+    this.router.navigate(['/view/students/edit/' + event]);
   }
 
   /* =================================================================================================== */
   /* =================================================================================================== */
   editInventory(e) {
     sessionStorage.setItem('editInv', "true");
-    this.router.navigate(['/view/student/edit/' + e]);
+    this.router.navigate(['/view/students/edit/' + e]);
   }
 
   /* =================================================================================================== */

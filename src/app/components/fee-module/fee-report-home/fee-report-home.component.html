@@ -1,0 +1,132 @@
+<div class="middle-section clearFix">
+  <aside class="middle-full">
+    <section class="middle-main clearFix report-box">
+
+      <section class="chart-section">
+        <fee-widget *ngIf="showChart"></fee-widget>
+      </section>
+
+      <section>
+          <div class="c-lg-4">
+              <ul class="card" routerLink="./cheque">
+                <li>
+                  Data Setup
+                </li>
+                <li>
+                  Get the details of the fees 
+                </li>
+              </ul>
+            </div>
+        <div class="c-lg-4">
+          <ul class="card" *ngIf="jsonFlags.isFeeActivity" routerLink="./cheque">
+            <li>
+              Manage Cheque
+            </li>
+            <li>
+              Get the details of the fees paid by cheques
+            </li>
+          </ul>
+        </div>
+        <div class="c-lg-4">
+          <ul class="card" routerLink="./allDueReport">
+            <li>
+              All Due fee report
+            </li>
+            <li>
+              This Report depicts the records of all the past and present dues by range.
+            </li>
+          </ul>
+        </div>
+
+        <div class="c-lg-4">
+          <ul class="card" routerLink="./moduleReport">
+            <li>
+              {{jsonFlags.moduleState}} Wise
+            </li>
+            <li>
+              This Report depicts records of fees paid or dues of a particular {{jsonFlags.moduleState}}.
+            </li>
+          </ul>
+        </div>
+
+        <div class="c-lg-4 ">
+          <ul class="card" routerLink="./paymentHistory">
+            <li>
+              Payment History
+            </li>
+            <li>
+              This Report depicts the records of payments done by range.
+            </li>
+          </ul>
+        </div>
+
+        <!-- <div class="c-lg-4">
+          <ul class="card" routerLink="./inactive">
+            <li>
+              Inactive/Archive Student Data Report
+            </li>
+            <li>
+              This Report depicts the the records and payments of inactive and archived students
+            </li>
+          </ul>
+        </div> -->
+
+        <div class="c-lg-4">
+          <ul class="card" routerLink="./gst">
+            <li>
+              GST Report
+            </li>
+            <li>
+              This Report depicts the daily SMS sent to prospects, students and parents
+            </li>
+          </ul>
+        </div>
+
+        <div class="c-lg-4" *ngIf="enable_online_payment == 1">
+          <ul class="card" routerLink="./onlinePayment">
+            <li>
+              Online Payment History
+            </li>
+            <li>
+              This Report depicts the onlinePayment done by the students.
+            </li>
+          </ul>
+        </div>
+
+        <div class="c-lg-4 hide">
+          <ul class="card" routerLink="./cheque">
+            <li>
+              Cheque/PDC Report
+            </li>
+            <li>
+              This Report depicts the daily SMS sent to prospects, students and parents
+            </li>
+          </ul>
+        </div>
+
+        <div class="c-lg-4 hide">
+          <ul class="card" routerLink="./discount">
+            <li>
+              Discount Report
+            </li>
+            <li>
+              This Report depicts the daily SMS sent to prospects, students and parents
+            </li>
+          </ul>
+        </div>
+
+        <div class="c-lg-4 hide">
+          <ul class="card" routerLink="./feeType">
+            <li>
+              Reports Based on Fee Type
+            </li>
+            <li>
+              This Report depicts the daily SMS sent to prospects, students and parents
+            </li>
+          </ul>
+        </div>
+
+      </section>
+    </section>
+  </aside>
+</div>

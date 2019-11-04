@@ -939,7 +939,7 @@ export class SideBarComponent implements OnInit {
 
   selectedStudent(s) {
     this.closeSearch(false);
-    this.router.navigate(['/view/student'], { queryParams: { id: s.id } });
+    this.router.navigate(['/view/students'], { queryParams: { id: s.id } });
     this.searchBar = false;
   }
 
@@ -966,7 +966,7 @@ export class SideBarComponent implements OnInit {
   actionSelected(d) {
     this.closeSearch(false);
     if (d.data.source == "Student") {
-      this.router.navigate(['/view/student'], { queryParams: { id: d.data.id, action: d.action } });
+      this.router.navigate(['/view/students'], { queryParams: { id: d.data.id, action: d.action } });
       this.searchBar = false;
     }
     else if (d.data.source == "Enquiry") {

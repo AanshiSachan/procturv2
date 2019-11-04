@@ -1153,7 +1153,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   clearFormAndMove() {
-    this.router.navigate(['/view/student']);
+    this.router.navigate(['/view/students']);
   }
 
   clearFormAndRoute(form: NgForm) {
@@ -1162,7 +1162,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.router.navigate(['/view/enquiry']);
     }
     else {
-      this.router.navigate(['/view/student']);
+      this.router.navigate(['/view/students']);
     }
   }
 
@@ -1232,7 +1232,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           if ((globalInactiveStudent == 'true' && data.is_active != 'Y')
             || (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null && data.is_active != 'Y')
             || (sessionStorage.getItem('editInv') != "" && sessionStorage.getItem('editInv') != null && data.is_active != 'Y')) {
-            this.router.navigate(['/view/student']);
+            this.router.navigate(['/view/students']);
           }
         }
         /* For Batch Model Fetch the Student Batches */
@@ -1509,7 +1509,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             this.appC.popToast(alert);
             if (this.studentAddFormData.is_active == "N") {
-              this.router.navigate(['/view/student']);
+              this.router.navigate(['/view/students']);
             }
             else {
               this.navigateTo('feeDetails');
@@ -2593,13 +2593,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   cancelStudentUpload() {
-    this.router.navigate(['/view/student']);
+    this.router.navigate(['/view/students']);
   }
 
   studentAddedNotifier() {
     let msg = { type: 'success', title: 'Student Registered', body: 'Student details have been updated' };
     this.appC.popToast(msg);
-    this.router.navigate(['/view/student']);
+    this.router.navigate(['/view/students']);
   }
 
   /* Converts base64 string into a byte[] */

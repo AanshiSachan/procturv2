@@ -405,7 +405,7 @@ export class CoreHeaderComponent implements OnInit {
 
   selectedStudent(s) {
     this.closeSearch(false);
-    this.router.navigate(['/view/student'], { queryParams: { id: s.id } });
+    this.router.navigate(['/view/students'], { queryParams: { id: s.id } });
   }
 
   selectedEnquiry(e) {
@@ -429,7 +429,7 @@ export class CoreHeaderComponent implements OnInit {
   actionSelected(d) {
     this.closeSearch(false);
     if (d.data.source == "Student") {
-      this.router.navigate(['/view/student'], { queryParams: { id: d.data.id, action: d.action } });
+      this.router.navigate(['/view/students'], { queryParams: { id: d.data.id, action: d.action } });
     }
     else if (d.data.source == "Enquiry") {
       if (d.action == "enquiryUpdate") {

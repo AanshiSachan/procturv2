@@ -875,7 +875,7 @@ export class EnquiryHomeComponent implements OnInit {
                                     institute_enquiry_id: this.selectedRow.institute_enquiry_id
                                 }
                                 sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
-                                this.router.navigate(['/view/student/add']);
+                                this.router.navigate(['/view/students/add']);
                             }
                             else {
                                 this.closePopup();
@@ -1889,7 +1889,7 @@ export class EnquiryHomeComponent implements OnInit {
                 this.selectedRow.country_id = data.country_id;
                 this.selectedRow.phone = data.phone;
                 sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
-                this.router.navigate(['/view/student/add'])
+                this.router.navigate(['/view/students/add'])
                 this.closePopup();
                 this.cd.markForCheck();
 

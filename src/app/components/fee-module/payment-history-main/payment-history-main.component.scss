@@ -1,0 +1,174 @@
+@import "../../../../assets/css/style.scss";
+@import "../../../../assets/css/wrapper.scss";
+@import "../../../../assets/css/common/common.scss";
+@import "../../../../assets/css/common/grid.scss";
+@import "../../../../assets/css/common/variables.scss";
+@import "./src/assets/css/common/common-web.scss";
+
+.makeAdjust {
+    width: 33.333%;
+}
+
+.dropdown {
+    &>ul {
+       padding: 10px 19px 10px; // width: 200px;
+    }
+}
+
+.field-correspond {
+    width: 50%;
+}
+
+.field-correspond {
+    label {
+        &::before {
+            top: 3px;
+            left: 3px;
+        }
+    }
+}
+
+.makeClear:hover{
+    cursor: pointer;
+}
+.filter-wrapping {
+    height:100px;
+    padding-top: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background: white;
+    padding-bottom: 0%;
+}
+
+.report-box {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    // ul {
+    //     &.card-box {
+    //         li {
+    //             &.card-row {
+    //                 margin: 10px 0px;
+    //             }
+    //         }
+    //     }
+    //     &.card {
+    //         padding: 25px 10px;
+    //         border: 1px solid #efefef;
+    //         background: #fff;
+    //         height: 150px;
+    //         border-radius: 10px;
+    //         cursor: pointer;
+    //         text-align: left;
+    //         margin: 10px 0px;
+    //         box-shadow: 0px 0px 2px 0px;
+    //         li {
+    //             &:first-child {
+    //                 font-size: 18px;
+    //                 font-weight: 600;
+    //                 padding: 10px 5px;
+    //             }
+    //             padding: 5px;
+    //         }
+    //     }
+    // }
+
+    .report-header {
+        .field-wrapper {
+            position: relative;
+            &.datePickerBox {
+                .form-ctrl {
+                    cursor: pointer;
+                    position: relative;
+                    z-index: 1;
+                    background: transparent;
+                }
+                &:after {
+                    content: '';
+                    background: url('../../../../assets/images/calendar.svg') no-repeat;
+                    position: absolute;
+                    right: 0;
+                    top: 27px;
+                    width: 21px;
+                    height: 21px;
+                    z-index: 0;
+                }
+            }
+        }
+    }
+}
+
+.field-made {
+    position: relative;
+    .field-wrapper {
+        &.datePickerBox {
+            .form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url('../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 20px;
+                top: 33px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+.showFilter:hover{
+    cursor: pointer;
+}
+.showFilter{
+    float: right;
+}
+
+$color-base: #efefef;
+$color-base: #efefef;
+$color-highlight: lighten($color-base, 7%);
+
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 12px;
+    background: $color-base;
+    border-radius: 2px;
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, $color-base, $color-highlight, $color-base);
+        animation: progress 1s ease-in-out infinite;
+    }
+}
+.font-element{
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.made-out{
+    font-size: 12px;
+}
+
+.text-change{
+    text-transform: uppercase
+}
+
+.table-responsive{
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+.pull-right {
+    // margin-top: 26px;
+    margin-left: 122px;
+}

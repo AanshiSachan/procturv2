@@ -1,0 +1,17 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<section>
+    <div style="width: 250px;float: right;" class="field-wrapper">
+        <label for="dater">Report Type</label>
+        <select [(ngModel)]="chartType" (ngModelChange)="updateChartDate($event)" name="dater" id="dater" class="form-ctrl">
+            <option value="1">Current Calendar Year</option>
+            <option value="2">Current Financial year</option>
+            <option value="3">Previous Calendar Year</option>
+            <option value="4">Previous Financial Year</option>
+            <option value="5">Next Calendar Year</option>
+            <option value="6">Next Financial Year</option>
+        </select>
+    </div>
+</section>
+<div #chartWrap id="chartWrap">
+</div>

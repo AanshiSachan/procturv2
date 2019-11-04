@@ -109,7 +109,7 @@ export class FeeCourseReportComponent implements OnInit {
     private auth: AuthenticatorService,
     private pdf: ExportToPdfService
   ) {
-    this.switchActiveView('fee');
+    // this.switchActiveView('fee');
   }
   /* ===================================================================================================== */
   /* ===================================================================================================== */

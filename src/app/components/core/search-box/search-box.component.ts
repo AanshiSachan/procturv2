@@ -1,6 +1,8 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Renderer2, ChangeDetectorRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { Router } from '@angular/router';
+import { HttpService } from '../../../services/http.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
     selector: 'search-box',
@@ -19,19 +21,27 @@ export class SearchBoxComponent implements OnInit, OnChanges {
     @Output() enqSelected = new EventEmitter<any>();
     @Output() stuSelected = new EventEmitter<any>();
     @Output() actionSelected = new EventEmitter<any>();
+    @Output() closeMenu = new EventEmitter<any>();
     @Output() viewAll = new EventEmitter<any>();
     private searchResult: any[] = [];
     private recentlySearched = new Set;
     hasStudent: boolean = false;
     hasEnquiry: boolean = false;
+    isRippleLoad:boolean = false;
 
     constructor(
         private router: Router,
         private cd: ChangeDetectorRef,
         private renderer: Renderer2,
         private eRef: ElementRef,
-        private log: LoginService
+        private log: LoginService,
+        private _http: HttpService,
+        private commonService: CommonServiceFactory
     ) {
+
+        // this.auth.currentInstituteId.subscribe(id => {
+        //     this.institute_id = id;
+        //   });
     }
 
     ngOnInit() {
@@ -170,6 +180,15 @@ export class SearchBoxComponent implements OnInit, OnChanges {
                 this.actionSelected.emit(obj);
                 break;
             }
+            case 'studentReortCard': {
+                // let obj = {
+                //     action: a,
+                //     data: d
+                // }
+                 console.log(d.id);
+                 this.downloadStudentReportCard(d.id);
+                break;
+            }
             case 'enquiryEdit': {
                 let obj = {
                     action: a,
@@ -190,4 +209,44 @@ export class SearchBoxComponent implements OnInit, OnChanges {
         }
     }
 
+
+    downloadStudentReportCard(student_id) {
+     this.isRippleLoad = true;
+        let url='/api/v1/reports/Student/downloadReportCard/'+sessionStorage.getItem('institute_id') + '/' + student_id;
+        this._http.getData(url).subscribe(
+          (res: any) => {
+            this.isRippleLoad = false;
+            this.closeSearch.emit(false);
+            this.closeMenu.emit(false);
+            if(res.document!=""){
+              let byteArr = this.convertBase64ToArray(res.document);
+              let fileName = res.docTitle;
+              let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
+              let url = URL.createObjectURL(file);
+              let dwldLink = document.getElementById('downloadFileClick1');
+              dwldLink.setAttribute("href", url);
+              dwldLink.setAttribute("download", fileName);
+              document.body.appendChild(dwldLink);
+              dwldLink.click();          
+            }
+            else{
+              this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
+            }
+          },
+          err => {
+            this.isRippleLoad = false;
+            this.commonService.showErrorMessage('error', 'Error', err.error.message);
+          }
+        )
+       }
+    
+       convertBase64ToArray(val) {
+        var binary_string = window.atob(val);
+        var len = binary_string.length;
+        var bytes = new Uint8Array(len);
+        for (var i = 0; i < len; i++) {
+          bytes[i] = binary_string.charCodeAt(i);
+        }
+        return bytes.buffer;
+      }
 }

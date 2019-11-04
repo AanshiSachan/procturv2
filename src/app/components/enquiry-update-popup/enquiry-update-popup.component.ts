@@ -416,7 +416,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
         if (isAdmit == true) {
           this.createObjectToStoreInfo();
           this.closeEnquiryUpdate();
-          this.router.navigate(['/view/student/add']);
+          this.router.navigate(['/view/students/add']);
         } else {
           this.closeEnquiryUpdate();
         }
