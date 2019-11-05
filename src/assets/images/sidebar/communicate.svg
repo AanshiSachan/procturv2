@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Communicate" transform="translate(-0.211 0.43)">
+    <rect id="Rectangle_40" data-name="Rectangle 40" width="24" height="24" transform="translate(0.211 -0.43)" fill="none"/>
+    <g id="Group_80" data-name="Group 80" transform="translate(1.211 0.57)">
+      <path id="Path_116" data-name="Path 116" d="M9.132,11.01a8.835,8.835,0,0,0-7.684,13.2L.019,28.495a.367.367,0,0,0,.348.483.372.372,0,0,0,.094-.012l4.689-1.234A8.835,8.835,0,1,0,9.132,11.01Zm-4,10.267A1.467,1.467,0,1,1,6.6,19.81,1.468,1.468,0,0,1,5.133,21.277Zm4.034,0a1.467,1.467,0,1,1,1.467-1.467A1.468,1.468,0,0,1,9.167,21.277Zm4.034,0a1.467,1.467,0,1,1,1.467-1.467A1.468,1.468,0,0,1,13.2,21.277Z" transform="translate(0 -6.976)" fill="#fbe160"/>
+      <path id="Path_117" data-name="Path 117" d="M31.381,17.428,29.973,13.2a8.833,8.833,0,0,0-15.1-9.16A9.566,9.566,0,0,1,27.2,16.974l3.763.99a.372.372,0,0,0,.094.012h.007a.366.366,0,0,0,.318-.548Z" transform="translate(-9.428 -0.008)" fill="#fbe160"/>
+    </g>
+  </g>
+</svg>

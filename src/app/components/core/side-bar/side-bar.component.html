@@ -23,63 +23,63 @@
       </section>
     </div>
     <span class="NavLink activation-status-link" routerLink="/view/home" id="lizero" (click)="toggler('lizero')">
-      <i class="fa fa-home" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/home.svg" alt="">
       Home
     </span>
-    <span class="NavLink" routerLink="/view/enquiry" id="lione" (click)="toggler('lione')">
-      <i class="fa fa-leanpub" aria-hidden="true"></i>
+    <span class="NavLink" routerLink="/view/leads" id="lione" (click)="toggler('lione')">
+      <img src="./assets/images/sidebar/lead.svg" alt="">
       Lead
     </span>
     <span class="NavLink" routerLink="/view/students" id="litwo" (click)="toggler('litwo')">
-      <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/student.svg" alt="">
       Student
     </span>
     <span class="NavLink" routerLink="/view/course" id="lithree" (click)="toggler('lithree')">
-      <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/course.svg" alt="">
       <span *ngIf="isLangInstitute" id="li3">Batch</span>
       <span *ngIf="!isLangInstitute" id="li3">Course</span>
     </span>
     <span class="NavLink" routerLink="/view/fee" #divFeeTag id="divFeeTag">
-      <i class="fa fa-money" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/fees.svg" alt="">
       Fee
     </span>
     <span class="NavLink" routerLink="/view/live-classes" >
-      <i class="fa fa-money" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/live-class.svg" alt="">
       Live Class
     </span>
     <span class="NavLink" href="#/app/dashboard">
-      <i class="fa fa-comments" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/communicate.svg" alt="">
       Communicate
     </span>
     <span class="NavLink" routerLink="/view/library" id="liten" (click)="toggler('liten')">
-      <i class="fa fa-book" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/library.svg" alt="">
       Library
     </span>
     <span class="NavLink" routerLink="/view/e-store" id="lieleone" (click)="toggler('lieleone')">
-      <i class="fa fa-street-view" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/eStore.svg" alt="">
       eStore
     </span>
-    <span class="NavLink" href="#/app/dashboard">
-      <i class="fa fa-users" aria-hidden="true"></i>
+    <!-- <span class="NavLink" href="#/app/dashboard">
+      <img src="./assets/images/sidebar/employee.svg" alt="">
       Empolyee
     </span>
     <span class="NavLink" href="#/app/dashboard">
-      <i class="fa fa-suitcase" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/expenses.svg" alt="">
       Expense
     </span>
     <span class="NavLink" href="#/app/dashboard">
-      <i class="fa fa-tasks" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/task.svg" alt="">
       Task
     </span>
     <span class="NavLink" routerLink="/view/students">
       <i class="fa fa-money" aria-hidden="true"></i>
       Dashboard
-    </span>
+    </span> -->
   </div>
 
   <div class="setting">
     <div class="setting-item" (click)="showSubSection('help')">
-      <i class="fa fa-question-circle" title="Help" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/help.svg" title="Help"  alt="">
       <div class="side-section" id="help">
         <div class="side-section-item">
           <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
@@ -96,7 +96,7 @@
       </div>
     </div>
     <div class="setting-item" #divSettingTag id="divSettingTag" (click)="showSubSection('setting')">
-      <i class="fa fa-cog" title="Settings" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/settings.svg" title="Settings"  alt="">
       <div class="side-section" id="setting">
         <div class="side-section-item">
           <span (click)="routerLink('/view/setting')">General Settings</span>
@@ -110,7 +110,7 @@
       </div>
     </div>
     <div class="setting-item" #divMasterTag id="divMasterTag" (click)="showSubSection('setup')">
-      <i class="fa fa-wrench" title="Setup" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/setup.svg" title="Setup"  alt="">
       <div class="side-section" id="setup">
         <div class="side-section-item">
           <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
@@ -127,7 +127,7 @@
       </div>
     </div>
     <div class="setting-item" (click)="showSubSection('branches')">
-      <i class="fa fa-user" title="Branches" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/branches.svg" title="Branches"  alt="">
       <div class="side-section" id="branches">
         <div class="side-section-item">
           <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
@@ -144,10 +144,10 @@
       </div>
     </div>
     <div class="setting-item" #divManageUsers id="divManageUsers" (click)="routerLink('/view/manage')">
-      <i class="fa fa-universal-access" title="Users" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/users.svg" title="Users"  alt="">
     </div>
     <div class="setting-item" #divMyAccountTag id="divMyAccountTag" (click)="showSubSection('account')">
-      <i class="fa fa-universal-access" title="My Account" aria-hidden="true"></i>
+      <img src="./assets/images/sidebar/my-account.svg" title="My Account"  alt="">
       <div class="side-section" id="account">
         <div class="side-section-item">
           <span (click)="changePasswordClick()">Change Password</span>
@@ -160,6 +160,10 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="proctur-info">
+    <span>Powered by Proctur</span>
   </div>
 
 </section>

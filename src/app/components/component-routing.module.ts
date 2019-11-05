@@ -39,9 +39,9 @@ import { AuthGuard } from '../guards/auth.guard';
                             canLoad: [AuthGuard]
                         },
                         {
-                            path: 'enquiry',
-                            loadChildren: 'app/components/enquiry/enquiry.module#EnquiryModule',
-                            canLoad: [AuthGuard]
+                            path: 'leads',
+                            loadChildren: 'app/components/leads/leads.module#LeadsModule',
+                            // canLoad: [AuthGuard]
                         },
                         {
                             path: 'course',
@@ -71,11 +71,6 @@ import { AuthGuard } from '../guards/auth.guard';
                         {
                             path: 'expense',
                             loadChildren: 'app/components/expense-home/expense-home.module#ExpenseHomeModule',
-                            canLoad: [AuthGuard]
-                        },
-                        {
-                            path: 'campaign',
-                            loadChildren: 'app/components/campaign/campaign.module#CampaignModule',
                             canLoad: [AuthGuard]
                         },
                         {

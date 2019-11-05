@@ -1,0 +1,133 @@
+@import "./src/assets/css/common/variables.scss";
+@import "./src/assets/css/common/common-web.scss";
+/* =================================================================================== */
+
+.middle-section{
+  padding: 1%;
+}
+.status-wise-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .status-wise-header-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .header-title{
+      text-align: left;
+      font-size: 14px;
+      font-weight: 600;
+      color: $common-blue;
+    }
+    .filter-date-container{
+      .enquiry-state-date {
+          font-size: 14px;
+          color: #666;
+          margin-right: 10px;
+          padding-top: 4px;
+          display: inline-block;
+      }
+    }
+  }
+  .status-wise-dashboard-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+    .status-wise-dashboard-item{
+      display: flex;
+      flex-direction: column;
+      width: 18%;
+      text-align: center;
+      font-size: 12px;
+      border-radius: 6px;
+      color: white;
+      .count-container{
+        padding: 10px;
+        border-bottom: 1px solid white;
+        font-size: 20px;
+        font-weight: 600;
+      }
+      .dashboard-item-name{
+        font-weight: 600;
+        padding: 10px;
+      }
+    }
+  }
+  .all{
+    background: #40C7F1;
+  }
+  .pending{
+    background: darkorange;
+  }
+  .hot{
+    background: #F05050;
+  }
+  .admitted{
+    background: #29C24B;
+  }
+  .not-converted{
+    background: #528FF0;
+  }
+}
+
+.leads-menu-section-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid rgba(10,10,10,0.5);
+  width: 100%;
+  .leads-menu-item{
+    padding: 15px 10px;
+    width: 31%;
+    background: #fff;
+    height: 120px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    margin: 1%;
+    -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.24);
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.24);
+    .menu-title{
+      width: 100%;
+      justify-content: flex-start;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      flex-direction: row;
+      img{
+        width: 25px;
+        height: 25px;
+      }
+      span{
+        margin-left: 10px;
+        margin-top: 5px;
+      }
+    }
+    .menu-description{
+      padding: 10px;
+      font-size: 12px;
+    }
+  }
+}
+
+
+.widgetDatepicker {
+    position: absolute;
+    margin-left: -10%;
+    width: 1px;
+    visibility: hidden;
+    opacity: 0;
+}
+
+button {
+    background: transparent;
+    &.drag-button {
+        cursor: all-scroll;
+        margin-left: 16px;
+    }
+}

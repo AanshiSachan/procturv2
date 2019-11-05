@@ -1,0 +1,346 @@
+<div class="sidebar-wrapper">
+
+    <div class="row pull-left fixed-header" style="margin:0px">
+        <enquiry-actions [rowData]="rowData"></enquiry-actions>
+    </div>
+
+    <div class="row header-row">
+        <div class="c-lg-9 c-md-9 c-sm-9" style="padding-top: 7px;">
+            <ul>
+                <li style="border-top: none;">
+                    <h2>Enquiry No. {{rowData.enquiry_no}}</h2>
+                </li>
+                <li class="header-name" style="border-top: none;">
+                    {{rowData.name}}
+                </li>
+                <li>
+                    <span style="color: #a5a5a5;font-weight: 600">{{rowData.enquiry_date | date:'dd MMMM yyyy'}}</span>
+                    <a style="cursor: pointer;font-size: 12px;" class="pull-right" *ngIf="rowData.statusValue == 'Open' && openEnquiryFeature == '1'"
+                        (click)="onEnquiryTakeIt()">Take this Enquiry</a>
+                </li>
+            </ul>
+        </div>
+        <div class="c-lg-3 c-md-3 c-sm-3" style="padding-top: 7px;">
+        </div>
+    </div>
+
+    <div class="acc-wrapper">
+        <ul>
+            <li #one class="">
+                <div class="row lihead" (click)="toggleAccordian('one')">
+                    <i class="nav"></i>
+                    <h2>Update Enquiry</h2>
+                </div>
+                <section>
+                    <div class="update-form-wrapper AdFilter-field">
+                        <div class="form-wrap">
+                            <!-- Status -->
+                            <div class="form-wrapper ">
+                                <label for="enquiryStatusEdit">Status</label>
+                                <div class="questionInfo">
+                                    <span class="qInfoIcon notify-div">?</span>
+                                    <div class="tooltip-box-field">
+                                        Status Regarding The Enquiry
+                                    </div>
+                                </div>
+                                <select id="enquiryStatusEdit" class="side-form-ctrl" [(ngModel)]="updateFormData.statusValue" name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted'">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let status of statusArr" [value]="status.data_value" [attr.selected]="status.data_value == updateFormData.statusValue ? '' : null"
+                                        [hidden]="status.data_key == 12 ? true : false">
+                                        {{status.data_value}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Closing Reason -->
+                            <div class="form-wrapper" *ngIf="updateFormData.statusValue == 'Closed'">
+                                <label for="closingReason">Closing Reason<span class="text-danger">*</span></label>
+                                <select id="closingReason" class="side-form-ctrl" [(ngModel)]="updateFormData.closing_reason_id" name="closingReason">
+                                    <option value="0"></option>
+                                    <option *ngFor="let status of closingReasonDataSource" [value]="status.closing_reason_id">{{status.closing_desc}}</option>
+                                </select>
+                            </div>
+
+                            <!-- Priority -->
+                            <div class="form-wrapper">
+                                <label for="priorityEdit">Priority</label>
+                                <select id="priorityEdit" class="side-form-ctrl" [(ngModel)]="updateFormData.priority" name="priority">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let priority of priorityArr" [value]="priority.data_value" [attr.selected]="priority.data_value == updateFormData.priority ? '' : null">
+                                        {{priority.data_value}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Followup type -->
+                            <div class="form-wrapper ">
+                                <label for="selectFollowupEdit">Follow Up Type</label>
+                                <select id="selectFollowupEdit" class="side-form-ctrl " [(ngModel)]="updateFormData.follow_type" name="follow_type">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let followT of followupArr" [value]="followT.data_key">
+                                        {{followT.data_value}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Branch -->
+                            <div class="form-wrapper " *ngIf="mainBranchAdmin == 'Y' || subBranchAdmin == true">
+                                <label for="brchList">Branch</label>
+                                <select id="brchList" class="side-form-ctrl" name="brchList" [(ngModel)]="updateFormData.source_instituteId" (ngModelChange)="changeAssignList($event)">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let branch of branchesList" [value]="branch.institute_id">
+                                        {{ branch.institute_name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Assigned To -->
+                            <div class="form-wrapper " *ngIf="isEnquiryAdmin">
+                                <label for="assignedTo">Assigned To</label>
+                                <select id="assignedTo" class="side-form-ctrl" name="assignedTo" [(ngModel)]="updateFormData.assigned_to">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+                                        {{ assigned.name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Followup Date -->
+                            <div class="form-wrapper datepicker ">
+                                <label for="followUPdateEdit">Follow Up Date</label>
+                                <input type="text" class="side-form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate"
+                                    (ngModelChange)="isNotifyDisplayed()" id="followUPdateEdit" readonly="true" bsDatepicker/>
+                                <span class="date-clear" name="followupdate" (click)="updateFormData.followUpDate = ''">X</span>
+                            </div>
+
+
+                            <!-- Followup Time -->
+                            <div class=" wrapper-class">
+                                <div class=" followUpTime">
+                                    <div class="form-wrapper  timepick">
+                                        <label for="followuptime">Follow Up Time</label>
+                                        <div class="tbox">
+                                            <div class="times">
+                                                <select id="followuptime" class="mins side-form-ctrl" [(ngModel)]="followUpTime.hour" (change)="isNotifyDisplayed()" name="followuptime">
+                                                    <option [value]="time" *ngFor="let time of times">
+                                                        {{time}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="times">
+                                                <select id="minute" class="mers side-form-ctrl" [(ngModel)]="followUpTime.minute" name="minute" (change)="isNotifyDisplayed()">
+                                                    <option *ngFor="let minute of minuteArr" [value]="minute">
+                                                        {{minute}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="isNotifyVisible">
+                                    <div class="form-checkbox-wrapper">
+                                        <div class="field-checkbox-wrapper">
+                                            <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" style="display:inline-block;"
+                                                id="notifyMe">
+                                            <label for="notifyme">Notify Me</label>
+                                            <div class="questionInfo">
+                                                <span class="qInfoIcon">!</span>
+                                                <div class="tooltip-box-field">
+
+                                                    Follow up Time and Follow
+                                                    <br>up Date is Mandatory
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+                            <!-- Walkin Date  -->
+
+                            <div class="form-wrapper datepicker" *ngIf="updateFormData.follow_type == 'Walkin'">
+                                <label for="walkindate">Walkin Date</label>
+                                <input type="text" class="side-form-ctrl bsDatepicker" [(ngModel)]="updateFormData.walkin_followUpDate" value="" placeholder=""
+                                    id="walkindate" readonly="true" bsDatepicker/>
+                                <span class="date-clear" name="walkindate" (click)="updateFormData.walkin_followUpDate =''">X</span>
+                            </div>
+
+
+                            <!-- Walkin Time -->
+                            <div class="wrapper-class" *ngIf="updateFormData.follow_type == 'Walkin'">
+                                <div class="form-wrapper timepick">
+                                    <label for="walkintime">Walkin Time</label>
+                                    <div class="tbox">
+                                        <div class="times ">
+                                            <select id="walkintime" class="side-form-ctrl mins" [(ngModel)]="walkin_followUpTime.hour" name="walkintime">
+                                                <option [value]="time" *ngFor="let time of times">
+                                                    {{time}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="times ">
+                                            <select id="minute" class="side-form-ctrl mers" [(ngModel)]="walkin_followUpTime.minute" name="minute">
+                                                <option *ngFor="let minute of minArr" [value]="minute">
+                                                    {{minute}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Branch -->
+                            <!-- <div class="form-wrapper c-sm-6 c-xs-6">
+                                 <label for="branch">Branch</label>
+                                 <select id="branch" class="side-form-ctrl" [(ngModel)]="updateFormData.no_of_branches" name="branch">
+                                 <option value="-1"></option>
+                                 <option value=""></option>
+                                 <option value=""></option>
+                                 </select>
+                                 </div>
+                            -->
+
+                            <!-- Comments -->
+                            <div class="form-wrapper c-xs-12" style="padding-left:10px;width:68%;">
+                                <div class="field-wrapper" style="padding-top: 25px;">
+                                    <label style="top: 0px; padding-left:10px;" for="commies">Comments</label>
+                                    <textarea placeholder="Max 1000 characters" rows="1" cols="1" style="height: 85px;border: solid 2px rgba(53, 53, 53, 0.26);padding: 5px 5px 5px 0px;"
+                                        id="addcommentEdit" class="form-ctrl" [(ngModel)]="updateFormData.comment">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="footer-wrap">
+                            <!-- Submitter -->
+                            <div class="">
+                                <div class="pull-left submitter">
+                                    <div class="clearfix">
+                                        <aside class="pull-left popup-btn">
+                                            <input type="button" value="Cancel" class="btn" (click)="closeSideNav()" id="BtncloseSideNav">
+                                            <input type="button" value="Update" class="fullBlue btn" (click)="createUpdateForm()" id="BtnupdtaeForm">
+                                        </aside>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </li>
+            <li #two class="liclosed">
+                <div class="row lihead" (click)="toggleAccordian('two')">
+                    <i class="nav"></i>
+                    <h2>Previous Comments</h2>
+                </div>
+                <section>
+                    <div class="comment-wrapper" *ngIf="updateFormComments != null">
+                        <div class="comment-card" *ngFor="let comments of updateFormComments; let i = index;">
+                            <div class="comment-box">
+                                <div class="comment-head">
+                                    <i style="font-family: FontAwesome" class="far fa-user-circle"></i>
+                                    <h6 class="comment-name">
+                                        <a id="commentAnch1">{{updateFormCommentsBy[i]}}</a>
+                                    </h6>
+                                    <span>{{getCommentDate(updateFormCommentsOn[i])}}</span>
+                                </div>
+                                <div class="comment-content">
+                                    {{comments}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-wrapper" *ngIf="updateFormComments == null">
+                        <h3 style="padding: 10px;text-align: center;">No Comments Updated</h3>
+                    </div>
+                </section>
+            </li>
+            <li #three class="liclosed">
+                <div class="row lihead" (click)="toggleAccordian('three')">
+                    <i class="nav"></i>
+                    <h2>Basic Details</h2>
+                </div>
+                <section>
+                    <div class="basic-wrapper">
+                        <div class="form-wrapper ">
+                            <label for="Email">Email</label>
+                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.email" type="text" name="Email" id="Email">
+                        </div>
+
+                        <div class="form-wrapper ">
+                            <label for="Email">DOB</label>
+                            <input readonly="true" id="Email" class="side-form-ctrl blocked" [(ngModel)]="rowData.dob" type="text" name="dob">
+                        </div>
+
+                        <div class="form-wrapper ">
+                            <label for="ParentName">Parent Name</label>
+                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.parent_name" type="text" name="ParentName" id="ParentName">
+                        </div>
+
+                        <!-- Non Professional Institute -->
+                        <div *ngIf="!isLangInstitute" class="form-wrapper ">
+                            <label for="Standard">Standard</label>
+                            <input readonly="true" id="Standard" class="side-form-ctrl blocked" [(ngModel)]="rowData.standard" type="text" name="Standard">
+                        </div>
+                        <div *ngIf="!isLangInstitute" class="form-wrapper ">
+                            <label for="Subject">Subject</label>
+                            <input readonly="true" id="Subject" class="side-form-ctrl blocked" [(ngModel)]="rowData.subjects" type="text" name="Subject">
+                        </div>
+
+                        <!-- Non Professional Institute -->
+                        <div *ngIf="!isLangInstitute" class="form-wrapper ">
+                            <label for="StandardMC">Master Course</label>
+                            <input readonly="true" id="StandardMC" class="side-form-ctrl blocked" [(ngModel)]="rowData.master_course_name" type="text"
+                                name="StandardMC">
+                        </div>
+                        <div *ngIf="!isLangInstitute" class="form-wrapper ">
+                            <label for="SubjectMC">Course</label>
+                            <input readonly="true" id="SubjectMC" class="side-form-ctrl blocked" [(ngModel)]="courseIdArray" type="text" name="SubjectMC">
+                        </div>
+
+
+                        <!-- Professional institute -->
+                        <div *ngIf="isLangInstitute" class="form-wrapper ">
+                            <label for="Standard">Master Course</label>
+                            <input readonly="true" id="Standard" class="side-form-ctrl blocked" [(ngModel)]="proMc" type="text" name="Standard">
+                        </div>
+                        <div *ngIf="isLangInstitute" class="form-wrapper ">
+                            <label for="Subject">Course</label>
+                            <input readonly="true" id="Subject" class="side-form-ctrl blocked" [(ngModel)]="proC" type="text" name="Subject">
+                        </div>
+
+
+                        <div class="form-wrapper ">
+                            <label for="Subject">Source</label>
+                            <input readonly="true" id="idSource" class="side-form-ctrl blocked" [(ngModel)]="sourceName" type="text" name="Subject">
+                        </div>
+                    </div>
+                </section>
+            </li>
+            <li #four class="liclosed">
+                <div class="row lihead" (click)="toggleAccordian('four')">
+                    <i class="nav"></i>
+                    <h2>Other Details</h2>
+                </div>
+                <section>
+                    <div class="other-wrapper">
+                        <div *ngFor="let cus of customComp">
+                            <div class="form-wrapper">
+                                <label for="{{cus.label}}">{{cus.label}}</label>
+                                <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="cus.enq_custom_value" type="text" name="{{cus.label}}"
+                                    id="{{cus.label}}">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </li>
+        </ul>
+    </div>
+
+</div>

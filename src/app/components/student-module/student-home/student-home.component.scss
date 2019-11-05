@@ -1,6 +1,4 @@
 @import "./src/assets/css/common/variables.scss";
-@import "./src/app/components/enquiry/enquiry-add/enquiry-add.component.scss";
-@import "./src/app/components/enquiry/enquiry-home/enquiry-home.component.scss";
 @import "./src/app/components/student-module/student-add/student-add.component.scss";
 .notify-wrapper {
     min-height: 335px;
@@ -787,6 +785,7 @@ screen and (max-height: 768px) {
     margin-bottom: 10px;
     .print-icon {
         background: url('../../../../assets/images/print.svg') no-repeat;
+        // ../../../../assets/images/print.svg
         color: #888;
     }
     .export-icon {

@@ -31,9 +31,6 @@ import { BiometricComponent } from './biometric/biometric.component';
 import { BiometricServiceService } from '../../services/biometric-service/biometric-service.service';
 import { ReportWidgetComponent } from './report-widget/report-widget.component';
 import { ProfitLossServiceService } from '../../services/profit-loss-service/profit-loss-service.service';
-import { EnquiryReportComponent } from './enquiry-report/enquiry-report.component';
-import { EnquiryReportModule } from './enquiry-report/enquiry-report.module';
-import { EnquiryReportRoutingModule } from './enquiry-report/enquiry-report-routing.module';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome';
 import { TimepickerModule } from 'ngx-bootstrap-custome';
 import { ExcelService } from '../../services/excel.service';
@@ -50,8 +47,7 @@ import { ExportToPdfService } from '../../services/export-to-pdf.service';
         FileUploadModule,
         SplitButtonModule,
         MenuModule,
-        SharedModule,
-        EnquiryReportModule
+        SharedModule
     ],
     declarations: [
         ReportComponent,

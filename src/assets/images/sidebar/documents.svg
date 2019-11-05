@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Documents" transform="translate(-0.642 -0.657)">
+    <rect id="Rectangle_41" data-name="Rectangle 41" width="24" height="24" transform="translate(0.642 0.657)" fill="none"/>
+    <g id="Document" transform="translate(3.642 1.657)">
+      <g id="Group_107" data-name="Group 107" transform="translate(0 1.938)">
+        <path id="Path_175" data-name="Path 175" d="M22.364,30.61V12.954h-.917V31.527H34.979V30.61Z" transform="translate(-19.816 -12.954)" fill="#f05050"/>
+        <path id="Path_176" data-name="Path 176" d="M15.7,36.8V19.14h-.917V37.713H28.317V36.8Z" transform="translate(-14.785 -17.626)" fill="#f05050"/>
+      </g>
+      <path id="Path_177" data-name="Path 177" d="M65.061,5.04,70,9.978H65.061Z" transform="translate(-52.796 -5.04)" fill="#f05050"/>
+      <g id="Group_108" data-name="Group 108" transform="translate(3.347 0.05)">
+        <path id="Path_178" data-name="Path 178" d="M37.1,10.571V5.246H28.635V24.134H42.44V10.571Zm3.3,9.95H30.68v-.712H40.4v.712Zm0-2.8H30.68v-.712H40.4v.712Zm0-2.8H30.68v-.712H40.4v.712Z" transform="translate(-28.635 -5.246)" fill="#f05050"/>
+      </g>
+    </g>
+  </g>
+</svg>

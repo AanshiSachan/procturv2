@@ -27,7 +27,7 @@ import { PreferencePopupComponent } from './preference-popup/preference-popup.co
 
 import { StyleCellDirective } from './custom-table/style-cell.directive';
 import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive';
-import { EnquiryUpdatePopupComponent } from '../enquiry-update-popup/enquiry-update-popup.component';
+import { EnquiryUpdatePopupComponent } from '../leads/enquiry-update-popup/enquiry-update-popup.component';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 
 @NgModule({

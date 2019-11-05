@@ -11,7 +11,6 @@ import { CoreSidednavComponent } from './core/core-sidednav/core-sidednav.compon
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { GlobalSearchPopupComponent } from './global-search-popup/global-search-popup.component';
 import { SearchBoxComponent } from './core/search-box/search-box.component';
-import { EnquiryModule } from './enquiry/enquiry.module';
 import { CourseListService } from '../services/course-services/course-list.service';
 import { SideBarComponent } from './core/side-bar/side-bar.component';
 import { StudentFeeService } from './student-module/student_fee.service';
@@ -23,7 +22,6 @@ import { StudentFeeService } from './student-module/student_fee.service';
         BsDatepickerModule.forRoot(),
         SharedModule,
         FormsModule,
-        EnquiryModule
     ],
     declarations: [
         ComponentsComponent,
@@ -31,7 +29,7 @@ import { StudentFeeService } from './student-module/student_fee.service';
         CoreHeaderComponent,
         OverlayMenuComponent,
         ChangePasswordComponent,
-        ChangePasswordComponent,        
+        ChangePasswordComponent,
         GlobalSearchPopupComponent,
         SearchBoxComponent,
         SideBarComponent
