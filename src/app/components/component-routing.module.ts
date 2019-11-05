@@ -78,17 +78,17 @@ import { AuthGuard } from '../guards/auth.guard';
                             loadChildren: 'app/components/campaign/campaign.module#CampaignModule',
                             canLoad: [AuthGuard]
                         },
-                        // {
-                        //     path: 'fee',
-                        //     loadChildren: 'app/components/fee-template/fee-template.module#FeeTemplateModule',
-                        //     canLoad: [AuthGuard]
-                        // },
-                        //'app/components/fee-module/fee-module.module#FeeModule'
                         {
-                            path:'fee',
-                            loadChildren:'app/components/fee-module/fee.module#FeeModule',
+                            path: 'fee',
+                            loadChildren: 'app/components/fee-template/fee-template.module#FeeTemplateModule',
                             canLoad: [AuthGuard]
                         },
+
+                        // {
+                        //     path:'fee',
+                        //     loadChildren:'app/components/fee-module/fee.module#FeeModule',
+                        //     canLoad: [AuthGuard]
+                        // },
                         {
                             path: 'help',
                             loadChildren: 'app/components/help-home/help-home.module#HelpHomeModule',

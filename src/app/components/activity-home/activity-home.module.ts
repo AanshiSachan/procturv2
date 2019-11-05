@@ -15,15 +15,11 @@ import { ArchivingComponent } from './archiving/archiving.component';
 import { ArchivingModule } from './archiving/archiving.module';
 import { ExamdeskCourseAssignmentComponent } from './examdesk-course-assignment/examdesk-course-assignment.component';
 import { ExamDeskCourseAssignmentService } from '../../services/examdesk-service/examdeskcourseassignment.service';
-import { LiveClassesComponent } from './live-classes/live-classes.component';
 import { StepsModule } from 'primeng/steps';
 import { MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { LiveClasses } from '../../services/live-classes/live-class.service';
 import { TooltipModule } from 'ngx-bootstrap-custome';
-import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
-import { AddClassComponent } from './live-classes/add-class/add-class.component';
-import { EditClassComponent } from './live-classes/edit-class/edit-class.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { timeTableService } from '../../services/TimeTable/timeTable.service';
@@ -52,10 +48,6 @@ import { UserService } from '../../services/user-management/user.service';
         HomeComponent,
         PtmManagementComponent,
         ExamdeskCourseAssignmentComponent,
-        LiveClassesComponent,
-        EcourseMappingComponent,
-        AddClassComponent,
-        EditClassComponent,
         TimeTableComponent,
         tableComponent,
         RegisteredStudentsComponent
