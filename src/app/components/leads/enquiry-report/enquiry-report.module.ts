@@ -7,7 +7,7 @@ import { CounsellorReportComponent } from "./counsellor-report/counsellor-report
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 import { EnquiryReportRoutingModule } from "./enquiry-report-routing.module";
 import { EnquiryReportComponent } from "./enquiry-report.component";
-import { EnquiryReportService } from "../../../services/counsellor-service/counsellor-service.service";
+import { EnquiryReportService } from "../services/counsellor-service.service";
 import { SharedModule } from "../../shared/shared.module";
 import { BsDatepickerModule } from "ngx-bootstrap-custome";
 

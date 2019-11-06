@@ -12,7 +12,8 @@ import { CampaignAddComponent } from './campaign-add/campaign-add.component';
 import { CampaignBulkComponent } from './campaign-bulk/campaign-bulk.component';
 import { CampaignPopUpComponent } from './campaign-pop-up/campaign-pop-up.component';
 import { SharedModule } from '../../shared/shared.module';
-import { CampaignService } from '../../../services/campaign-services/campaign.service';
+import { CampaignService } from '../services/campaign.service';
+// import { ClosingReasonService } from '../services/closing-reason.service';
 
 @NgModule({
     imports: [
@@ -39,6 +40,7 @@ import { CampaignService } from '../../../services/campaign-services/campaign.se
     ],
     providers: [
         CampaignService,
+        // ClosingReasonService
     ]
 })
 export class CampaignModule {

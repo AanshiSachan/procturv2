@@ -9,11 +9,8 @@
         <input #search type="text" class="normal-field " placeholder="Search" [(ngModel)]="searchBarData" id="search" name="searchData"
           (keyup)="searchDatabase(search)">
         <input type="button" class="btn" value="Add Promotional SMS" (click)="addEditPromotionalSms()">
-        <input type="button" class="btn" value="Upload Lead" routerLink='/view/campaign/bulk'>
-        <!-- <button type="button" class="btn pull-right" name="button" >
-          <i class="fa fa-plus" aria-hidden="true"></i>
-          &nbsp; Upload Lead
-        </button> -->
+        <input type="button" class="btn" value="Upload Lead" routerLink='/view/leads/campaign/bulk'>
+
       </div>
     </div>
 

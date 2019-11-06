@@ -9,7 +9,7 @@ import { PostEnquiryDataService } from '../../../../services/enquiry-services/po
 import { PopupHandlerService } from '../../../../services/enquiry-services/popup-handler.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MultiBranchDataService } from '../../../../services/multiBranchdata.service';
-import { ClosingReasonService } from '../../../../services/closingReasons/closing-reason.service';
+import { ClosingReasonService } from '../../services/closing-reason.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
 
 @Component({
