@@ -14,7 +14,7 @@ import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { SharedModule } from '../shared/shared.module';
 import { PopupHandlerService } from '../../services/enquiry-services/popup-handler.service';
-import { ClosingReasonService } from '../../services/closingReasons/closing-reason.service';
+import { ClosingReasonService } from './services/closing-reason.service';
 import { LeadsHomeComponent } from './leads-home/leads-home.component';
 import { DataSetupComponent } from './data-setup/data-setup.component';
 

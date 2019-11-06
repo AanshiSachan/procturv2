@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EnquiryReportService } from '../../../../services/counsellor-service/counsellor-service.service';
+import { EnquiryReportService } from '../../services/counsellor-service.service';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';

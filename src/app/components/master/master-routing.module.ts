@@ -8,7 +8,6 @@ import { CityAreaMapComponent } from '../../components/city-area-map/city-area-m
 import { ClassRoomComponent } from '../../components/class-room/class-room.component';
 import { EventManagmentComponent } from '../../components/event-managment/event-managment.component';
 import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grades.component';
-import { ClosingReasonComponent } from './closing-reason/closing-reason.component';
 import { DiscountReasonComponent } from '../discount-reason/discount-reason.component';
 
 @NgModule({
@@ -43,11 +42,6 @@ import { DiscountReasonComponent } from '../discount-reason/discount-reason.comp
                         {
                             path: 'areaCity',
                             component: CityAreaMapComponent,
-                        },
-                        {
-                            path: 'closingReason',
-                            component: ClosingReasonComponent,
-                            canLoad: [AuthGuard]
                         },
                         {
                             path: 'discount-reason',

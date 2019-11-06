@@ -5,7 +5,7 @@ import { LoginService } from '../../../../services/login-services/login.service'
 
 import { AppComponent } from '../../../../app.component';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
-import { EnquiryReportService } from '../../../../services/counsellor-service/counsellor-service.service';
+import { EnquiryReportService } from '../../services/counsellor-service.service';
 
 @Component({
   selector: 'app-counsellor-report',

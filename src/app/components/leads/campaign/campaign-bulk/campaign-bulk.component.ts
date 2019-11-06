@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import 'rxjs/Rx';
 import { NgForm } from '@angular/forms';
 import { addCampaign } from '../../../../model/add-campaign';
-import { CampaignService } from '../../../../services/campaign-services/campaign.service';
+import { CampaignService } from '../../services/campaign.service';
 import { FetchprefilldataService } from '../../../../services/fetchprefilldata.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
