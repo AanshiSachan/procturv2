@@ -1,0 +1,372 @@
+<div class="middle-section clearFix code-wrapper">
+  <section class="middle-top mb0 clearFix">
+    <h1 class="pull-left" style="padding-left:7px;">
+      Add Fee Template
+      <div class="questionInfo inline-relative">
+        <span class="qInfoIcon i-class">i</span>
+        <div class="tooltip-box-field md">
+          Define Fee structure
+          <br>for a course Fee.
+          <br>For e.g Single Installment
+          <br>or 2 installments or multiples
+        </div>
+      </div>
+    </h1>
+  </section>
+
+  <section class="middle-main clearFix">
+
+    <section class="filler-setcion">
+
+      <div class="row">
+        <div class="c-sm-6 c-md-6 c-lg-6">
+
+
+          <div class="form-wrapper has-value" *ngIf="isLangInstitute">
+            <label for="masterCourse">Master Course
+              <span class="text-danger">*</span>
+            </label>
+            <select id="masterCourseDdn" class="side-form-ctrl" [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse"
+              (ngModelChange)="onMasterCourseSelection()">
+              <option value="-1"></option>
+              <option *ngFor="let opt of masterCourseList" [value]="opt.standard_id">
+                {{opt.standard_name}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-wrapper has-value" *ngIf="isLangInstitute">
+            <label for="CourseDdn">Course
+              <span class="text-danger">*</span>
+            </label>
+            <select id="CourseDdn" class="side-form-ctrl" name="CourseDdn" [(ngModel)]="addNewTemplate.course_id">
+              <option value="-1"></option>
+              <option *ngFor="let opt of CourseList" [value]="opt.subject_id">
+                {{opt.subject_name}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-wrapper has-value" *ngIf="!isLangInstitute">
+            <label for="masterCourse">Master Course
+              <span class="text-danger">*</span>
+            </label>
+            <select id="masterCourseDdn" class="side-form-ctrl" [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse"
+              (ngModelChange)="onMasterCourseSelection()">
+              <option value="-1"></option>
+              <option *ngFor="let opt of masterCourseList" [value]="opt.master_course">
+                {{opt.master_course}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-wrapper has-value" *ngIf="!isLangInstitute">
+            <label for="CourseDdn">Course
+              <span class="text-danger">*</span>
+            </label>
+            <select id="CourseDdn" class="side-form-ctrl" name="CourseDdn" [(ngModel)]="addNewTemplate.course_id">
+              <option value="-1"></option>
+              <option *ngFor="let opt of CourseList.coursesList" [value]="opt.course_id">
+                {{opt.course_name}}
+              </option>
+            </select>
+          </div>
+
+          <div class="field-checkbox-wrapper checkBoxAllignment">
+            <input type="checkbox" id="defTemplate" name="checkbx" [(ngModel)]="addNewTemplate.is_default_template"
+              class="form-checkbox">
+            <label for="defTemplate">Is Default Template
+              <div class="questionInfo inline-relative">
+                <span class="qInfoIcon i-class">i</span>
+                <div class="tooltip-box-field md">
+                  Make this a default template
+                  <br>for the course
+                </div>
+              </div>
+            </label>
+          </div>
+
+          <div class="form-wrapper  has-value">
+            <label for="templateName">Template Name
+              <span class="text-danger">*</span>
+            </label>
+            <input type="text" class="side-form-ctrl" [(ngModel)]="addNewTemplate.template_name" name="templateName">
+          </div>
+
+          <div class="form-wrapper has-value">
+            <label for="feeAmount">Fee Amount
+              <span class="text-danger">*</span>
+              <div class="questionInfo inline-relative">
+                <span class="qInfoIcon i-class">i</span>
+                <div class="tooltip-box-field md">
+                  Total fee amount defined
+                  <br> for the course
+                </div>
+              </div>
+            </label>
+            <input type="number" min="0" class="side-form-ctrl" [(ngModel)]="addNewTemplate.fee_amount" (keyup)="onAmountKeyUp()"
+              name="feeAmount">
+          </div>
+
+
+          <div class="question-wrapper" *ngIf="enableTaxOptions == '1'">
+            <fieldset>
+              <legend>
+                <div class="question">
+                  <h3>Is Fee Amount</h3>
+                </div>
+              </legend>
+              <div class="field-radio-wrapper">
+                <input type="radio" name="inclusive" class="form-radio" [(ngModel)]="addNewTemplate.tax_type"
+                  (ngModelChange)="onTaxTypeChanges($event)" value="inclusive" id="idInclusive">
+                <label for="idInclusive">Inclusive Of Tax</label>
+              </div>
+              <div class="field-radio-wrapper">
+                <input type="radio" name="exclusive" class="form-radio" [(ngModel)]="addNewTemplate.tax_type"
+                  (ngModelChange)="onTaxTypeChanges($event)" value="exclusive" id="idExclusive">
+                <label for="idExclusive">Exclusive Of Tax</label>
+              </div>
+            </fieldset>
+          </div>
+
+          <!-- <div class="form-wrapper has-value">
+            <label for="taxType">Tax Type</label>
+            <select id="" class="side-form-ctrl" name="taxType" [(ngModel)]="addNewTemplate.tax_type" (click)="onTaxTypeChanges()">
+              <option *ngIf="enableTaxOptions != '1'" value="1">Tax Out Of Scope</option>
+              <option *ngIf="enableTaxOptions == '1'" value="2">Total Fee Including Tax</option>
+              <option *ngIf="enableTaxOptions == '1'" value="3">Total Fee Excluding Tax</option>
+            </select>
+          </div> -->
+
+          <!-- <div class="field-checkbox-wrapper checkBoxAllignment">
+            <input type="checkbox" id="" name="checkbx" [disabled]="addNewTemplate.apply_tax == true && addNewTemplate.tax_type != 1"
+              [(ngModel)]="addNewTemplate.apply_tax" class="form-checkbox">
+            <label for="checkbx">Apply Tax ({{feeStructure.registeredServiceTax}}%)</label>
+          </div> -->
+
+          <div class="spanSection">
+            <span *ngIf="enableTaxOptions == '1'" class="">Tax Amount (Rs) : {{addNewTemplate.tax_amount}}</span>
+            <br>
+            <span class="">Total Fees (Rs) : {{addNewTemplate.total_fee}}</span>
+          </div>
+
+          <div class="form-wrapper has-value">
+            <label for="installment">Total Number of Installment
+              <span class="text-danger">*</span>
+            </label>
+            <input type="number" min="0" class="side-form-ctrl" name="installment" [(ngModel)]="addNewTemplate.installmentCount">
+          </div>
+
+          <button class="btn fullBlue" (click)="createInstallment()">Create Installment</button>
+
+        </div>
+      </div>
+
+    </section>
+
+    <hr>
+
+    <section class="installment-section" *ngIf="showDetails">
+
+      <section class="installmentSection">
+        <h3 style="margin-bottom:10px;">Manage Installments</h3>
+        <div class="table-scroll-wrapper">
+          <div class="table table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th> # </th>
+                  <th>Trigger Date</th>
+                  <th>No.(Days/Months)</th>
+                  <th>Fees Amount (Rs)</th>
+                  <th>Tax (Rs)</th>
+                  <th>Fees Amount (Incl Tax)(Rs)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of installMentTable; let i= index ; trackBy : index">
+                  <td>
+                    {{i + 1}}
+                  </td>
+                  <td>
+                    <div class="form-wrapper">
+                      <select [(ngModel)]="row.day_type" style="background: transparent" class="side-form-ctrl">
+                        <option value="1">Course Assign Date (CAD)</option>
+                        <option value="2">No of days after CAD</option>
+                        <option value="3">No of Month after CAD</option>
+                      </select>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-wrapper">
+                      <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-wrapper">
+                      <input type="number" min="0" [readonly]="addNewTemplate.tax_type == 'inclusive'" class="editCellInput side-form-ctrl"
+                        [(ngModel)]="row.initial_fee_amount" (ngModelChange)="userChangedInitialAmount(row ,$event)"
+                        name="label">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-wrapper">
+                      <input type="number" min="0" readonly="true" class="editCellInput side-form-ctrl" [ngModel]='row.tax'
+                        name="label">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-wrapper">
+                      <input type="number" min="0" [readonly]="addNewTemplate.tax_type == 'exclusive'" class="editCellInput"
+                        (keyup)="userChangedAmountTotalAmount(row ,$event)" [(ngModel)]="row.totalAmount" name="label"
+                        class="side-form-ctrl">
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <span style="margin-top:20px;">* Sum of final amount should match with defined fee amount.</span>
+      </section>
+      <hr>
+      <section class="additionalFeeSection">
+        <h3>Edit Additional Fees</h3>
+
+        <div class="row">
+          <div class="c-sm-2 c-md-2 c-lg-2">
+            <div class="form-wrapper has-value">
+              <label for="row.category_id">Select Fee Type</label>
+              <select id="" class="side-form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.fee_type"
+                (ngModelChange)="onAdditionalFeeSelection($event)" name="row.category_id">
+                <option *ngFor="let opt of otherFeetype; let i= index ; trackBy : index" [value]="opt.id">
+                  {{opt.value}}
+                </option>
+              </select>
+
+            </div>
+          </div>
+
+          <div class="c-sm-2 c-md-2 c-lg-2">
+            <div class="form-wrapper has-value">
+              <label for="row.category_id">Trigger Date</label>
+              <select id="" class="side-form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.day_type"
+                name="row.category_id">
+                <option value="1">Course Assign Date (CAD)</option>
+                <option value="2">No of days after CAD</option>
+                <option value="3">No of Month after CAD</option>
+              </select>
+
+            </div>
+          </div>
+
+          <div class="c-sm-2 c-md-2 c-lg-2">
+            <div class="form-wrapper has-value">
+              <label for="slotNew"> No. (Days/Months)
+              </label>
+
+              <input type="number" min="0" class="side-form-ctrl" [(ngModel)]="additionalInstallment.days" name="slotNew">
+
+
+            </div>
+          </div>
+          <div class="c-sm-2 c-md-2 c-lg-2">
+            <div class="form-wrapper has-value">
+              <label for="slotNew">Fee Amount
+              </label>
+              <input type="number" min="0" class="side-form-ctrl" [(ngModel)]="additionalInstallment.initial_fee_amount"
+                name="slotNew">
+
+            </div>
+          </div>
+          <div class="c-sm-2 c-md-2 c-lg-2">
+            <div class="form-wrapper has-value">
+              <label for="slotNew">Tax Applicable (%)
+              </label>
+              <input type="number" min="0" style="background: transparent" disabled class="side-form-ctrl" [(ngModel)]="additionalInstallment.service_tax"
+                name="slotNew">
+
+            </div>
+          </div>
+          <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top:20px;">
+            <img src="assets/images/plus.png" (click)="addAdditionalInst()" alt="Add" style="vertical-align: -webkit-baseline-middle;">
+          </div>
+        </div>
+
+        <div class="table-scroll-wrapper">
+          <div class="table table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fee Type </th>
+                  <th>Trigger Date</th>
+                  <th>No.(Days/Months)Due Date</th>
+                  <th>Amount</th>
+                  <th>Tax</th>
+                  <th>Fee Amount Incl Tax</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of otherInstList; let i= index ; trackBy : index">
+                  <td>
+                    {{row.fee_type_name}}
+                  </td>
+                  <td>
+                    <div class="form-wrapper">
+                      <select [(ngModel)]="row.day_type" style="background: transparent" class="side-form-ctrl">
+                        <option value="1">Course Assign Date (CAD)</option>
+                        <option value="2">No of days after CAD</option>
+                        <option value="3">No of Month after CAD</option>
+                      </select>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-wrapper">
+                      <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-wrapper">
+                      <input type="number" min="0" readonly="true" class="editCellInput side-form-ctrl" [(ngModel)]="row.initial_fee_amount"
+                        name="label">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-wrapper">
+                      <input type="number" min="0" readonly="true" class="editCellInput side-form-ctrl" [ngModel]='row.fees_amount - row.initial_fee_amount'
+                        name="label">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-wrapper">
+                      <input type="number" min="0" class="editCellInput" (keyup)="userChangeAdditionalFeeAmount(row , $event)"
+                        [(ngModel)]="row.fees_amount" name="label" class="side-form-ctrl">
+                    </div>
+                  </td>
+                  <td>
+                    <a style="cursor: pointer" (click)="deleteAdditionalRow(row , i)">Delete</a>
+                  </td>
+                </tr>
+                <tr *ngIf="otherInstList.length == 0">
+                  <td colspan="7">
+                    No Additional Installment
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="btnGroup pull-right">
+        <button routerLink="/view/fee" class="btn">Back</button>
+        <button (click)="createFeeTemplate()" class="btn fullBlue">Create</button>
+      </section>
+
+    </section>
+
+  </section>
+
+</div>

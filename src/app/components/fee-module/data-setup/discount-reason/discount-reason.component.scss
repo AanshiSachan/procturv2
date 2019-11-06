@@ -1,0 +1,131 @@
+@import "./src/assets/css/common/variables.scss";
+table {
+    thead {
+        tr {
+            th {
+                padding-bottom: 10px;
+                padding-top: 10px;
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                padding-bottom: 10px;
+                padding-top: 10px;
+                .editOptions li {
+                    display: inline-block;
+                }
+            }
+            .field-wrapper {
+                padding: 0px !important;
+                .form-ctrl {
+                    display: block;
+                    box-sizing: border-box;
+                    padding: 5px;
+                    outline: none;
+                    height: 30px;
+                    box-shadow: none;
+                    border-radius: 0;
+                    line-height: 25px;
+                    border: 1px solid #e4dede;
+                    width: 65%;
+                    word-break: break-word;
+                    background: #efefef;
+                    border-radius: 2px;
+                }
+            }
+        }
+        .displayComp {
+            .view-comp {}
+            .edit-comp {
+                display: none
+            }
+        }
+        .editComp {
+            .view-comp {
+                display: none
+            }
+            .edit-comp {}
+        }
+    }
+}
+
+.anchorTagCursor {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 995px),
+screen and (max-height: 768px) {
+    #divSlotTable {
+        margin-left: 0px !important;
+        margin-top: 15px;
+        margin-right: 15px !important;
+        max-height: 480px;
+        overflow: hidden;
+        width: 100%;
+        .table-scroll-wrapper {
+            max-height: 430px;
+        }
+        ::-webkit-scrollbar {
+            display: block;
+            width: 7px;
+            height: 7px;
+        }
+    }
+}
+
+.middle-section {
+    padding: 5px 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.add-edit {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    i {
+        border: 1px solid $common-blue;
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        line-height: 16px;
+        text-align: center;
+        font-size: 17px;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+    span {
+        display: inline-block;
+    }
+    .expend-box {
+        i {
+            line-height: 12px;
+            font-size: 22px;
+        }
+    }
+    a {
+        cursor: pointer;
+    }
+}
+
+.create-standard-form {
+    // margin: 10px 0;
+    padding: 10px;
+    background: #efefef;
+    border-top: 1px solid #d8d8d8;
+    .form-ctrl {
+        background: white;
+        border-bottom: solid 1px #cccccc;
+    }
+}
+
+.closeBtnClass {
+    line-height: 11px !important;
+}
+
+.editCellInput {
+    margin: auto;
+    display: block;
+}

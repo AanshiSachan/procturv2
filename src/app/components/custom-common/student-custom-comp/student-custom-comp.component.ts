@@ -1,12 +1,10 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { MessageShowService } from '../../../services/message-show.service';
 /**  custome fields changes 
  * updated by laxmi wapte
  */
-
-
 @Component({
   selector: 'student-custom-comp',
   templateUrl: './student-custom-comp.component.html',
@@ -320,34 +318,3 @@ export class StudentCustomComponent implements OnInit {
   }
 }
 
-/* Used to cconvert the input type id to text for user view purpose */
-@Pipe({ name: 'checkBoxConverter' })
-export class CheckBoxConverter implements PipeTransform {
-  transform(value: any, exponent: any): any {
-    if (value == 1) {
-      return 'textbox';
-    }
-    else if (value == 2) {
-      return "checkbox";
-    }
-    else if (value == 3) {
-      return "dropdown";
-    }
-    else if (value == 4) {
-      return "multiselect";
-    }
-  }
-}
-
-/* Converts Boolean into Y or N depending on condition for user preview */
-@Pipe({ name: 'booleanConverter' })
-export class BooleanConverter implements PipeTransform {
-  transform(value: any, exponent: any): any {
-    if (value === 'Y' || value) {
-      return "Y";
-    }
-    else if (value === 'N' || value) {
-      return "N";
-    }
-  }
-}

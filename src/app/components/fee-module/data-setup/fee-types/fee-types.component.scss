@@ -1,0 +1,116 @@
+@import "./src/assets/css/common/variables.scss";
+.middle-section {
+    padding: 5px 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.note-wrapper {
+    padding: 10px 10px;
+    background: #efefef;
+    h3 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    ul {
+        li {
+            margin-top: 5px;
+        }
+    }
+}
+
+.table-responsive{
+  overflow-x: hidden;
+}
+
+.add-edit {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    i {
+        // border: 1px solid $common-blue;
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        line-height: 16px;
+        text-align: center;
+        font-size: 17px;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+    span {
+        display: inline-block;
+    }
+    .expend-box {
+        i {
+            line-height: 12px;
+            font-size: 14px;
+        }
+    }
+    a {
+        cursor: pointer;
+    }
+}
+
+.create-standard-form {
+    margin: 10px 0;
+    padding: 10px 20px 20px;
+    background: #efefef;
+    border-top: 1px solid #d8d8d8;
+    .form-ctrl {
+        background: transparent;
+        border-bottom: solid 1px #cccccc;
+    }
+}
+
+.closeBtnClass {
+    line-height: 11px !important;
+}
+
+.editCellInput {
+    margin: auto;
+}
+
+table {
+    thead {
+        tr {
+            th {
+                padding-top: 10px !important;
+                padding-bottom: 10px !important;
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+            .field-wrapper {
+                padding: 0px !important;
+                .form-ctrl {
+                    display: block;
+                    box-sizing: border-box;
+                    padding: 0px 0px 0px 5px;
+                    outline: none;
+                    border: 0;
+                    height: 26px;
+                    box-shadow: none;
+                    border-radius: 0;
+                    line-height: 25px;
+                    background: transparent;
+                    width: 50%;
+                    text-align: center;
+                    border: 1px solid #ccc;
+                }
+            }
+        }
+    }
+}
+
+////// Turn off spinner
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

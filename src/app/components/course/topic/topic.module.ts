@@ -6,6 +6,7 @@ import { TopicListComponent } from './topic-list/topic-list.component';
 import { TopicTreeComponent } from './topic-tree/topic-tree.component';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule } from '../../../../../node_modules/@angular/forms';
+import { TopicComponent } from './topic.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { FormsModule } from '../../../../../node_modules/@angular/forms';
   ],
   declarations: [
     TopicListComponent,
-    TopicTreeComponent
+    TopicTreeComponent,
+    TopicComponent
   ]
 })
 export class TopicModule { }

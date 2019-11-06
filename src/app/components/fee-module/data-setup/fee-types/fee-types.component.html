@@ -1,0 +1,146 @@
+<div class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+    <h1 class="pull-left">
+        <a routerLink="/view/fee">
+          Fee 
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      <a routerLink="/view/fee/data-setup">
+         Data-setup
+    </a>
+    <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Manage Fee Types
+    </h1>
+  </section>
+
+  <section class="middle-main clearFix">
+
+    <!-- <div class="note-wrapper">
+      <h3>Note</h3>
+      <ul>
+        <li>
+          <span>1. Create only type of Fee.</span>
+        </li>
+        <li>
+          <span>2. No need to add amount (Amount will be added during student fee schedule).</span>
+        </li>
+        <li>
+          <span>3. Create Batch Fee Schedule if required.</span>
+        </li>
+      </ul>
+    </div> -->
+
+    <div class="clearFix add-edit">
+      <a (click)="toggleCreate()">
+        <i id="showAddBtn" class="addBtnClass">+</i>
+        <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+        <span>Add Fee Types</span>
+      </a>
+    </div>
+    <section class="clearFix create-standard-form" *ngIf="createNewFeeType">
+      <div class="row create-standard-field">
+        <div class="c-lg-3 c-md-3 c-sm-3">
+          <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type != '' }">
+            <label for="slotNew">Fee Type Name
+            </label>
+            <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type" name="slotNew">
+
+            <p>(Eg Registration Fee, Library)</p>
+          </div>
+        </div>
+        <div class="c-lg-3 c-md-3 c-sm-3">
+          <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_desc != '' }">
+            <label for="slotNew">Description
+            </label>
+            <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type_desc" name="slotNew">
+
+          </div>
+        </div>
+        <div class="c-lg-2 c-md-2 c-sm-2">
+          <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_amount != '' }">
+            <label for="slotNew">Amount
+            </label>
+            <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_amount" name="slotNew">
+
+          </div>
+        </div>
+        <div class="c-lg-2 c-md-2 c-sm-2">
+          <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_tax >= 0 }">
+            <label for="slotNew">Tax(%)
+            </label>
+            <input type="number" max="99" #idSlot class="form-ctrl" [readonly]="isTaxEnableFeeInstallments" [(ngModel)]="addNewFee.fee_type_tax"
+              name="slotNew">
+
+          </div>
+        </div>
+        <div style="margin-top: 1.5%;" class="pull-left create-cancel-small">
+          <button class="btn fullBlue" (click)="addNewFeeType()">Add</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <th>
+            Fee Type (Eg Registration Fee, Library)
+          </th>
+          <th>
+            Fee Type Description
+          </th>
+          <th>
+            Fee Amount
+          </th>
+          <th>
+            Tax(%)
+            <div class="questionInfo inline-relative">
+              <span class="qInfoIcon i-class">i</span>
+              <div class="tooltip-box-field">
+                Enable  GST
+              </div>
+            </div>
+          </th>
+          <th>
+            Action
+          </th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of feeTypeList; let i = index">
+            <td>
+              <div class="field-wrapper">
+                <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.fee_type" name="label">
+              </div>
+            </td>
+            <td>
+              <div class="field-wrapper">
+                <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.fee_type_desc" name="label">
+              </div>
+            </td>
+            <td>
+              <div class="field-wrapper">
+                <input type="number" class="form-ctrl editCellInput" style="width:25%" [(ngModel)]="row.fee_amount" name="label">
+              </div>
+            </td>
+            <td>
+              <div class="field-wrapper">
+                <input type="number" class="form-ctrl editCellInput" style="width:25%" [readonly]="isTaxEnableFeeInstallments" [(ngModel)]="row.fee_type_tax"
+                  name="tax">
+              </div>
+            </td>
+            <td>
+              <span *ngIf="row.fee_type_id == 0" class="delete-btn" style="font-family: FontAwesome; font-size: 19px" (click)="deleteRow(row , i)">
+                <i class="fa fa-trash-o " aria-hidden="true "></i>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pull-right" style="margin-top: 1.5%;">
+      <button class="btn" routerLink="/view/fee/home">Back</button>
+      <button class="btn fullBlue" (click)="updateDetails()">Update</button>
+    </div>
+
+  </section>
+
+</div>

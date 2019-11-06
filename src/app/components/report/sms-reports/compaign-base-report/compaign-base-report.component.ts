@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { getSMSService } from '../../../../services/report-services/get-sms.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ActivatedRoute } from '../../../../../../node_modules/@angular/router';
-import { Subscription } from '../../../../../../node_modules/rxjs';
 import { DataDisplayTableComponent } from '../../../shared/data-display-table/data-display-table.component';
 
 @Component({
@@ -13,7 +12,6 @@ import { DataDisplayTableComponent } from '../../../shared/data-display-table/da
 export class CompaignBaseReportComponent implements OnInit {
 
   @ViewChild('child') private child: DataDisplayTableComponent;
-  busy: Subscription;
   projectSettings: any[] = [
     { primaryKey: 'mobile', header: 'Mobile', priority: 1, allowSortingFlag: true },
     { primaryKey: 'name', header: 'Name', priority: 2, allowSortingFlag: true },

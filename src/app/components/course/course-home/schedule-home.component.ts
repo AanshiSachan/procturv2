@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
 import { StandardServices } from '../../../services/course-services/standard.service';

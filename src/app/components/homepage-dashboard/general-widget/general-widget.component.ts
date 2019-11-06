@@ -8,8 +8,6 @@ import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, Valid
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import * as Muuri from 'muuri/muuri';
 import { Chart } from 'angular-highcharts';

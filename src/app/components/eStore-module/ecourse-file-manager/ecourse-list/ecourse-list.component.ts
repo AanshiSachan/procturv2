@@ -36,7 +36,8 @@ export class EcourseListComponent implements OnInit {
     private _http: HttpService,
     private auth: AuthenticatorService,
     private msgService: MessageShowService,
-    private router: Router
+    private router: Router,
+    private cd :ChangeDetectorRef
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -50,7 +51,7 @@ export class EcourseListComponent implements OnInit {
     let obj = { routeLink: '/view/e-store/ecourse-file-manager/ecourses', name: 'E-Course', data: { data: null } };
     this._http.routeList.push(obj);
     sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
-
+      this.cd.detectChanges();
     this._http.data.subscribe(data => {
       // console.log(data);
       if (data == 'list') {

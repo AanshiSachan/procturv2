@@ -54,6 +54,10 @@ import { FeeComponent } from './fee-module.component';
                     {
                         path:'paymentHistory',
                         component : PaymentHistoryMainComponent
+                    },
+                    {
+                        path:'data-setup',
+                        loadChildren:'app/components/fee-module/data-setup/data-setup.module#DataSetupModule',
                     }
                 ]
             }

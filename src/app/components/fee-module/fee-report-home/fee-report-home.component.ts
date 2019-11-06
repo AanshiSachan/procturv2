@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
-  selector: 'app-fee-report-home',
+  selector: 'fee-module-home',
   templateUrl: './fee-report-home.component.html',
   styleUrls: ['./fee-report-home.component.scss']
 })

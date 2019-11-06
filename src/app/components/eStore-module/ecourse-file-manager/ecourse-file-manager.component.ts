@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges, ChangeDetectorRef,  AfterViewChecked } from '@angular/core';
 import { UploadFileComponent } from './core/upload-file/upload-file.component';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
@@ -10,20 +10,21 @@ import { FileService } from './file.service';
   templateUrl: './ecourse-file-manager.component.html',
   styleUrls: ['./ecourse-file-manager.component.scss']
 })
-export class EcourseFileManagerComponent implements OnInit {
+export class EcourseFileManagerComponent implements OnInit , AfterViewChecked   {
 
   @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
   showUploadFileModal: boolean = false;
   institute_id: any;
 
-  constructor(private _http: HttpService,
+  constructor(
+    private _http: HttpService,
     private auth: AuthenticatorService,
     private router: Router,
-    private _fservice:FileService
+    private _fservice:FileService,
+    private cd :ChangeDetectorRef
   ) {
     
   }
-
 
   ngOnInit() {
     this.auth.currentInstituteId.subscribe(id => {
@@ -32,6 +33,10 @@ export class EcourseFileManagerComponent implements OnInit {
     });
     }
 
+    ngAfterViewChecked(){
+      this.cd.detectChanges();
+    }
+    
   toggleFileUploadModal() {
     this.uploadFile.showModal = (this.uploadFile.showModal) ? false : true;
   }

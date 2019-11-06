@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import * as moment from 'moment';
 import { instituteInfo } from '../../../../model/instituteinfo';
@@ -26,7 +25,7 @@ export class CampaignHomeComponent implements OnInit {
   };
 
   /* Variable Declaration */
-  sourceCampaign: any[] = []; sourceCampaign_total = []; smsPopSource: any; busy: Subscription;
+  sourceCampaign: any[] = []; sourceCampaign_total = []; smsPopSource: any;
   checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = [];
   enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = [];
   enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; commentFormData: any = {};

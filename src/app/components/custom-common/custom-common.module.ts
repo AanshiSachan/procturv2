@@ -4,13 +4,12 @@ import { CommonModule } from '@angular/common';
 import { CustomCommonComponent } from './custom-common.component';
 import { StudentCustomComponent } from './student-custom-comp/student-custom-comp.component';
 import { CustomCommonRoutingModule } from './custom-common-routing.module';
-import { CheckBoxConverter } from './create-custom-comp/create-custom-comp.component';
-import { BooleanConverter } from './create-custom-comp/create-custom-comp.component';
 import { CreateCustomCompComponent } from './create-custom-comp/create-custom-comp.component';
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { SharedModule } from '../shared/shared.module'
+import { CheckBoxConverterPipe } from './check-box-converter.pipe';
 
 @NgModule({
     imports: [
@@ -25,8 +24,7 @@ import { SharedModule } from '../shared/shared.module'
         CustomCommonComponent,
         CreateCustomCompComponent,
         StudentCustomComponent,
-        CheckBoxConverter,
-        BooleanConverter,
+        CheckBoxConverterPipe
     ],
     entryComponents: [
     ],

@@ -3,21 +3,12 @@ import { CommonModule } from '@angular/common';
 
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
-
-
 import { FeeCourseReportComponent } from './fee-course-report/fee-course-report.component';
-
 import { FeeReceiptComponent } from './fee-receipt/fee-receipt.component';
 import { NextDueDetailComponent } from './next-due-detail/next-due-detail.component';
 import { PaymentHistoryComponent } from './payment-history/payment-history.component';
 import { ViewDetailComponent } from './view-detail-report/view-detail-report.component';
-
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem, Tooltip } from 'primeng/primeng';
-
-
-
-
 import { FeeReportHomeComponent } from './fee-report-home/fee-report-home.component';
 import { AllDataReportComponent } from './all-data-report/all-data-report.component';
 import { InactiveStudentReportComponent } from './inactive-student-report/inactive-student-report.component';
