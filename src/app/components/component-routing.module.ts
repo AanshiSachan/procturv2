@@ -77,9 +77,8 @@ import { AuthGuard } from '../guards/auth.guard';
                             path: 'fee',
                             loadChildren: 'app/components/fee-template/fee-template.module#FeeTemplateModule',
                             canLoad: [AuthGuard]
-                        },
-
-                        // {
+                        },    
+                                            // {
                         //     path:'fee',
                         //     loadChildren:'app/components/fee-module/fee.module#FeeModule',
                         //     canLoad: [AuthGuard]
