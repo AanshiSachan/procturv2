@@ -28,6 +28,10 @@ import { BatchModelComponent } from './exam-mark-update/batch-model/batch-model.
 import { FileUploadModule } from 'primeng/fileupload';
 import { HttpService } from '../../services/http.service';
 
+import { GetFeeService } from '../../services/report-services/fee-services/getFee.service';
+import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
+
+
 @NgModule({
     imports: [
         TreeViewModule,
@@ -38,7 +42,7 @@ import { HttpService } from '../../services/http.service';
         BsDatepickerModule,
         SharedModule,
         ChartModule,
-        FileUploadModule,
+        FileUploadModule ,     
         // MdFormFieldModule,
         // MdInputModule
     ],
@@ -55,6 +59,7 @@ import { HttpService } from '../../services/http.service';
         MarkAttendanceComponent,
         ExamMarkUpdateComponent,
         BatchModelComponent,
+        FeeWidgetComponent
     ],
     entryComponents: [
         ProcturWidgetComponent,
@@ -66,7 +71,8 @@ import { HttpService } from '../../services/http.service';
         ExcelService,
         TopicListingService,
         BiometricStatusServiceService,
-        HttpService
+        HttpService,
+        GetFeeService
     ]
 })
 export class HomepageDashboardModule {

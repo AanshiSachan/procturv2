@@ -163,7 +163,7 @@ export class GstReportComponent implements OnInit {
 
         this.getPaymentRecords = data;
         this.tempRecords = data;
-        this.records = this.tempRecords[0].totalGst;
+        this.records = this.tempRecords[0] ?this.tempRecords[0].totalGst :0;
       },
       (error: any) => {
 

@@ -9,3 +9,8 @@ export * from './payment-history-main/payment-history-main.component';
 export * from './cheque-manage/cheque-manage.component';
 export * from  './fee-module.component';
 export * from './cheque-manage/cheque-manage.component';
+export * from './fee-widget/fee-widget.component';
+export * from './fee-receipt/fee-receipt.component';
+export * from  './next-due-detail/next-due-detail.component';
+export * from   './payment-history/payment-history.component';
+export * from   './view-detail-report/view-detail-report.component';
