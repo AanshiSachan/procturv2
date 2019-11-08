@@ -12,7 +12,6 @@ import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem, Tooltip } fr
 import { FeeReportHomeComponent } from './fee-report-home/fee-report-home.component';
 import { AllDataReportComponent } from './all-data-report/all-data-report.component';
 import { InactiveStudentReportComponent } from './inactive-student-report/inactive-student-report.component';
-import { GstReportComponent } from './gst-report/gst-report.component';
 import { OnlinePaymentHistoryComponent } from './online-payment-history/online-payment-history.component';
 import { PaymentHistoryMainComponent } from './payment-history-main/payment-history-main.component';
 import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
@@ -54,7 +53,6 @@ import { FeeRoutingModule } from './fee-module-routing.module';
         FeeReportHomeComponent,
         AllDataReportComponent,
         InactiveStudentReportComponent,
-        GstReportComponent,
         OnlinePaymentHistoryComponent,
         ChequeManageComponent,
         PaymentHistoryMainComponent,

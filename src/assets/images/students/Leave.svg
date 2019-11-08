@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <g id="Leave" transform="translate(562.907 -93.093)">
+    <rect id="Rectangle_43" data-name="Rectangle 43" width="80" height="80" transform="translate(-562.907 93.093)" fill="none"/>
+    <g id="Group_81" data-name="Group 81" transform="translate(-554.885 101.141)">
+      <g id="Group_84" data-name="Group 84" transform="translate(0)">
+        <path id="Path_146" data-name="Path 146" d="M80.956,19H70.61v3.762h6.584V79.194H20.762V22.762h6.584V19H17V82.956H80.956Z" transform="translate(-17.022 -16.361)" fill="#0a346c"/>
+        <g id="Group_83" data-name="Group 83" transform="translate(14.289)">
+          <rect id="Rectangle_38" data-name="Rectangle 38" width="24" height="3.997" transform="translate(6.689 2.952)" fill="#0a346c"/>
+          <rect id="Rectangle_39" data-name="Rectangle 39" width="2" height="10" transform="translate(-0.311 -0.048)" fill="#56a6db"/>
+          <rect id="Rectangle_40" data-name="Rectangle 40" width="2" height="10" transform="translate(34.689 -0.048)" fill="#56a6db"/>
+        </g>
+      </g>
+      <g id="Group_82" data-name="Group 82" transform="translate(26.552 18.086)">
+        <rect id="Rectangle_41" data-name="Rectangle 41" width="10" height="24" transform="translate(0.426 -0.134)" fill="#56a6db"/>
+        <rect id="Rectangle_42" data-name="Rectangle 42" width="10" height="11" transform="translate(0.426 26.866)" fill="#56a6db"/>
+      </g>
+    </g>
+  </g>
+</svg>

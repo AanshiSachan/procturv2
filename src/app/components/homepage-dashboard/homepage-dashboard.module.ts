@@ -14,7 +14,6 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { ChartModule } from 'angular-highcharts';
 import { WidgetService } from '../../services/widget.service';
 import { EnquiryWidgetComponent } from "./enquiry-widget/enquiry-widget.component";
-import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
 import { GeneralWidgetComponent } from './general-widget/general-widget.component';
 import { BiometricWidgetComponent } from './biometric-widget/biometric-widget.component';
 import { BiometricStatusServiceService } from '../../services/biometric-status/biometric-status-service.service';
@@ -23,8 +22,6 @@ import { ToDoListComponent } from './to-do-list/to-do-list.component';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { ExcelService } from '../../services/excel.service';
 import { MarkAttendanceComponent } from './mark-attendance/mark-attendance.component';
-// import { MdFormFieldModule } from '@angular/material';
-// import { MdInputModule } from '@angular/material';
 import { TopicListingService } from '../../services/course-services/topic-listing.service';
 import { ExamMarkUpdateComponent } from './exam-mark-update/exam-mark-update.component';
 import { BatchModelComponent } from './exam-mark-update/batch-model/batch-model.component';
@@ -51,7 +48,6 @@ import { HttpService } from '../../services/http.service';
         AdminHomeComponent,
         ProcturWidgetComponent,
         EnquiryWidgetComponent,
-        FeeWidgetComponent,
         GeneralWidgetComponent,
         BiometricWidgetComponent,
         ToDoListComponent,
@@ -63,7 +59,6 @@ import { HttpService } from '../../services/http.service';
     entryComponents: [
         ProcturWidgetComponent,
         EnquiryWidgetComponent,
-        FeeWidgetComponent,
         GeneralWidgetComponent
     ],
     providers: [

@@ -11,7 +11,8 @@
                 </li>
                 <li style="border-top: none;text-overflow: ellipsis;cursor:pointer;" (click)="emitNotes($evnent)">
                     <h5>
-                        <i style="font-family: FontAwesome;" class="fa fa-sticky-note" aria-hidden="true" title="Add comment"></i>
+                        <i style="font-family: FontAwesome;" class="fa fa-sticky-note" aria-hidden="true"
+                            title="Add comment"></i>
                         {{studentDetails.comments}}
                     </h5>
                 </li>
@@ -34,7 +35,8 @@
                 <div aria-hidden="true" type="ellipsis-horizontal-icon">
                     <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet"
                         class="artdeco-icon" focusable="false">
-                        <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
+                        <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon"
+                            style="fill: currentColor"></path>
                     </svg>
                 </div>
             </span>
@@ -47,57 +49,52 @@
 
                         <li class="action-item" (click)="emitEdit($event)">
                             <a class="">
-                                <img src="./assets/images/edit_details.svg" height="10" width="20">Edit Student
+                                <img src="../../../../assets/images/students/Edit.svg" alt="">Edit Student
                             </a>
                         </li>
 
                         <li class="action-item" (click)="emitDelete($event)">
                             <a class="">
-                                <img src="./assets/images/delete_entry.svg" height="10" width="20">Delete Student
+                                <img src="../../../../assets/images/students/delete.svg" alt="">Delete Student
                             </a>
                         </li>
 
                         <li class="action-item" (click)="emitLeave($event)">
                             <a class="">
-                                <i style="font-family: FontAwesome;margin-right: 15px;margin-left: 8px;" class="fas fa-exclamation"
-                                    aria-hidden="true"></i>Mark Leave
+                                <img src="../../../../assets/images/students/Leave.svg" alt="">Mark Leave
                             </a>
                         </li>
 
                         <li class="action-item" (click)="emitEditLeave($event)">
                             <a class="enq-act enq-act--five">
-                                <img src="./assets/images/reciept_preview.svg" height="10" width="20">Manage Fee
+                                <img src="../../../../assets/images/students/Manage_Fee.svg" alt="">Manage Fee
                             </a>
                         </li>
 
                         <li class="action-item" (click)="emitEditInv($event)">
-                            <a>
-                                <i class="icon" id="li7" style="margin-right: 5px;">
-                                  <svg  id="li7" style="height: 15px;width: 20px;" viewBox="-29 421 28 24" xmlns="http://www.w3.org/2000/svg">
-                                      <g  data-name="Group 1182" id="Group_1182" transform="translate(-46 -16)">
-                                          <g  data-name="Group 1171" id="Group_1171" transform="translate(0)">
-                                              <ellipse  class="cls-1" cx="3.333" cy="10" data-name="Ellipse 24" id="Ellipse_24" rx="3.333" ry="10" transform="translate(28 439)"></ellipse>
-                                              <ellipse  class="cls-1" cx="3.333" cy="10" data-name="Ellipse 25" id="Ellipse_25" rx="3.333" ry="10" transform="matrix(0.5, -0.866, 0.866, 0.5, 21, 446.876)"></ellipse>
-                                              <ellipse  class="cls-1" cx="3.333" cy="10" data-name="Ellipse 26" id="Ellipse_26" rx="3.333" ry="10" transform="matrix(0.5, 0.866, -0.866, 0.5, 38.32, 441.124)"></ellipse>
-                                          </g>
-                                          <rect  class="cls-2" data-name="Rectangle 674" height="24" id="Rectangle_674" transform="translate(17 437)" width="28"></rect>
-                                      </g>
-                                  </svg>
-                                </i>
+                            <a class="enq-act enq-act--five">
+                                <img src="../../../../assets/images/students/inventory.svg" alt="">
                                 Manage Inventory
                             </a>
+
                         </li>
 
                         <li class="action-item" (click)="gotoStudentReportcard()">
                             <a class="">
-                                <img src="./assets/images/edit_details.svg" height="10" width="20">View Report 
+                                <img src="../../../../assets/images/students/delete.svg" alt="">View Report
                             </a>
                         </li>
                         <li class="action-item" (click)="downloadStudentReportCard()">
-                                <a id="downloadFileClick1"></a> 
+                            <a id="downloadFileClick1"></a>
                             <a class="">
-                                <i style="font-family: FontAwesome;margin-right: 15px;margin-left: 8px;" class="fas fa-exclamation"
-                                    aria-hidden="true"></i>Download Report Card 
+                                <img src="../../../../assets/images/students/delete.svg" alt="">Download Report Card
+                            </a>
+                        </li>
+                        <li class="action-item" (click)="downloadStudentReportCard()">
+                            <a id="downloadFileClick1"></a>
+                            <a class="">
+                                <img src="../../../../assets/images/students/delete.svg" alt="">
+                                Download ID Card
                             </a>
                         </li>
                     </ul>
@@ -133,7 +130,8 @@
                                     cursor: pointer;
                                 ">
                                         Click to edit</span></label>
-                                <div [ngClass]="{'hide': batch == ''}" class="chipped" *ngFor="let batch of getBatchListArr()">
+                                <div [ngClass]="{'hide': batch == ''}" class="chipped"
+                                    *ngFor="let batch of getBatchListArr()">
                                     {{batch}}
                                 </div>
                             </div>
@@ -155,8 +153,8 @@
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="ParentName">Parent Name</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_name" type="text"
-                                name="ParentName">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_name"
+                                type="text" name="ParentName">
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="ParentPhone">Parent Phone</label>
@@ -207,8 +205,8 @@
                     <div class="detail-wrapper" *ngFor="let custom of customComponent">
                         <div class="form-wrapper c-xs-12">
                             <label for="{{custom.label}}">{{custom.label}}</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="custom.enq_custom_value" type="text"
-                                name="{{custom.label}}">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="custom.enq_custom_value"
+                                type="text" name="{{custom.label}}">
                         </div>
                     </div>
                 </section>

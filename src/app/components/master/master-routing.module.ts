@@ -3,12 +3,11 @@ import { RouterModule } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
 
 import { MasterComponent } from './master.component';
-import { SlotComponent } from '../../components/slot/slot.component';
+import { SlotComponent } from './slot/slot.component';
 import { CityAreaMapComponent } from '../../components/city-area-map/city-area-map.component';
 import { ClassRoomComponent } from '../../components/class-room/class-room.component';
 import { EventManagmentComponent } from '../../components/event-managment/event-managment.component';
 import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grades.component';
-import { DiscountReasonComponent } from '../discount-reason/discount-reason.component';
 
 @NgModule({
     imports: [
@@ -42,10 +41,6 @@ import { DiscountReasonComponent } from '../discount-reason/discount-reason.comp
                         {
                             path: 'areaCity',
                             component: CityAreaMapComponent,
-                        },
-                        {
-                            path: 'discount-reason',
-                            component: DiscountReasonComponent
                         }
                     ]
                 }

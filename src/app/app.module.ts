@@ -1,43 +1,23 @@
-/* Components */
-import { AppComponent } from './app.component';
-
 /* Modules */
-import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserModule} from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule} from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-/* Services */
-import { FetchenquiryService } from './services/enquiry-services/fetchenquiry.service';
-import { FetchprefilldataService } from './services/fetchprefilldata.service';
-import { PostEnquiryDataService } from './services/enquiry-services/post-enquiry-data.service';
-import { AuthenticatorService } from './services/authenticator.service';
-import { LoginService } from './services/login-services/login.service';
-import { ToDoListService } from './services/to-do-list.service';
-// import { AlertService } from './services/alert.service';
-import { TablePreferencesService } from './services/table-preference/table-preferences.service';
-import { ZendAuth } from './services/Chat-bot/chatbot.service';
-import { MultiBranchDataService } from './services/multiBranchdata.service';
-import { PaginationService } from './services/pagination-service/pagination.service';
-import { CommonServiceFactory } from './services/common-service';
-import { MessageShowService } from './services/message-show.service';
-
-/* Interceptors */
-import { I1, I2 } from './interceptors/load-interceptor';
-import { AuthGuard } from './guards/auth.guard';
-
-/* Modules */
+import {ToasterModule} from 'angular2-toaster';
 import { AppRoutingModule } from './app-routing.module';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { SharedModule } from './components/shared/shared.module';
-import {ToasterModule} from 'angular2-toaster';
-import { HttpService } from './services/http.service';
-import { ExpensesService } from './services/expenses.service';
 
+/* Interceptors */
+// import { I1, I2 } from './interceptors/load-interceptor';
+import { AuthGuard } from './guards/auth.guard';
+import { FetchenquiryService, FetchprefilldataService, PostEnquiryDataService, AuthenticatorService, LoginService, 
+  ZendAuth, MultiBranchDataService, TablePreferencesService, PaginationService, CommonServiceFactory, MessageShowService, 
+  HttpService, ToDoListService, ExpensesService, AppComponent } from '.';
 
 @NgModule({
   imports: [
@@ -68,7 +48,6 @@ import { ExpensesService } from './services/expenses.service';
     LoginService,
     AuthGuard,
     ZendAuth,
-    Title,
     MultiBranchDataService,
     TablePreferencesService,
     PaginationService,
