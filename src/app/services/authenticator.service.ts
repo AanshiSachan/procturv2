@@ -3,7 +3,7 @@ import 'rxjs/add/operator/map'
 import 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Rx';
-
+import { environment } from '../../environments/environment';
 /* Method declared for future purpose for setting authorization after successfull login */
 
 @Injectable()
@@ -23,16 +23,17 @@ export class AuthenticatorService {
     course_flag = new BehaviorSubject('0');
     instituteType_name = new BehaviorSubject('LANG');
 
-    // public baseUrl: string = "https://test999.proctur.com/StdMgmtWebAPI" ;
-    public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
+    public baseUrl: string = "";
     public baseUrlStudent: string = window.location.origin;
 
     constructor() {
+        this.baseUrl = environment.production ? "https://app.proctur.com/StdMgmtWebAPI" : "https://test999.proctur.com/StdMgmtWebAPI";
         this.getAuthToken();
         this.getInstituteId();
         this.getIsMainBranchValue();
         this.getInstituteType();
     }
+
 
 
     changeInstituteId(id: string) {
