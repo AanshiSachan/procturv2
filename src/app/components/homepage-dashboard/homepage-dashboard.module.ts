@@ -27,8 +27,6 @@ import { ExamMarkUpdateComponent } from './exam-mark-update/exam-mark-update.com
 import { BatchModelComponent } from './exam-mark-update/batch-model/batch-model.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { HttpService } from '../../services/http.service';
-
-import { GetFeeService } from '../../services/report-services/fee-services/getFee.service';
 import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
 
 
@@ -71,8 +69,7 @@ import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
         ExcelService,
         TopicListingService,
         BiometricStatusServiceService,
-        HttpService,
-        GetFeeService
+        HttpService
     ]
 })
 export class HomepageDashboardModule {
