@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <g id="Add_Class" data-name="Add Class" transform="translate(1754.641 -399.101)">
+    <g id="Group_4275" data-name="Group 4275">
+      <g id="Group_4269" data-name="Group 4269" transform="translate(-1747.761 434.858)">
+        <path id="Rectangle_2027" data-name="Rectangle 2027" d="M0,0H2.807a0,0,0,0,1,0,0V11.8a1.4,1.4,0,0,1-1.4,1.4h0A1.4,1.4,0,0,1,0,11.8V0A0,0,0,0,1,0,0Z" transform="translate(16.749)" fill="#57a7dc"/>
+        <path id="Rectangle_2028" data-name="Rectangle 2028" d="M0,0H2.807a0,0,0,0,1,0,0V15.932a1.4,1.4,0,0,1-1.4,1.4h0a1.4,1.4,0,0,1-1.4-1.4V0A0,0,0,0,1,0,0Z" transform="translate(21.933 1.985) rotate(-45)" fill="#57a7dc"/>
+        <path id="Rectangle_2029" data-name="Rectangle 2029" d="M1.4,0h0a1.4,1.4,0,0,1,1.4,1.4V17.336a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V1.4A1.4,1.4,0,0,1,1.4,0Z" transform="translate(1.985 14.243) rotate(-135)" fill="#57a7dc"/>
+      </g>
+      <g id="Group_4270" data-name="Group 4270" transform="translate(-1754.641 399.101)">
+        <path id="Subtraction_6" data-name="Subtraction 6" d="M44.461,38.509H5.529a5.863,5.863,0,0,1-1.805-.449,5.978,5.978,0,0,1-1.557-.97,6.093,6.093,0,0,1-1.2-1.408,6.2,6.2,0,0,1-.745-1.761H.2c0-.016-.006-.029-.008-.044a.681.681,0,0,0-.013-.067c-.006-.023-.013-.044-.02-.065a.7.7,0,0,1-.023-.08H.148A6.152,6.152,0,0,1,0,32.378V6.152A6.237,6.237,0,0,1,.472,3.757,6.141,6.141,0,0,1,1.76,1.8,5.985,5.985,0,0,1,3.671.483,5.855,5.855,0,0,1,6.011,0H43.992a5.855,5.855,0,0,1,2.339.484A5.985,5.985,0,0,1,48.24,1.8a6.141,6.141,0,0,1,1.288,1.955A6.237,6.237,0,0,1,50,6.152h0V32.378a6.083,6.083,0,0,1-.15,1.286h.015a.852.852,0,0,1-.027.09c-.007.02-.013.04-.017.054l-.006.023h0a.363.363,0,0,0-.016.088A6.036,6.036,0,0,1,44.461,38.509ZM6.011,2.05A4.063,4.063,0,0,0,2,6.152V31.869H48V6.149a4.064,4.064,0,0,0-4.006-4.1Z" transform="translate(0 0)" fill="#0a346c"/>
+      </g>
+    </g>
+    <g id="Group_4274" data-name="Group 4274" transform="translate(-1769.469 372.272)">
+      <g id="Ellipse_13" data-name="Ellipse 13" transform="translate(27.828 31.828)" fill="none" stroke="#0a346c" stroke-width="3">
+        <circle cx="12" cy="12" r="12" stroke="none"/>
+        <circle cx="12" cy="12" r="10.5" fill="none"/>
+      </g>
+      <g id="Group_4272" data-name="Group 4272" transform="translate(32.731 36.731)">
+        <rect id="Rectangle_2032" data-name="Rectangle 2032" width="2" height="14" rx="1" transform="translate(6.097 0.097)" fill="#0a346c"/>
+        <rect id="Rectangle_2033" data-name="Rectangle 2033" width="2" height="14" rx="1" transform="translate(14.097 6.097) rotate(90)" fill="#0a346c"/>
+      </g>
+    </g>
+  </g>
+</svg>
