@@ -22,7 +22,6 @@ import { CoursesServiceService } from '../../services/archiving-service/courses-
 import { StudentReportService } from '../../services/report-services/student-report-service/student-report.service';
 
 
-
 @NgModule({
   imports: [
     CommonModule,

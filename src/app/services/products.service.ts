@@ -8,18 +8,12 @@ export class ProductService {
 
 
     baseUrl :any='';
-    // urls: any = {
-    //     // //test
-    //     // apiAdminUrl: "https://test999.proctur.com/StdMgmtWebAPI/prod/", 
-    //     // prod
-    //     apiAdminUrl: "https://app.proctur.com/StdMgmtWebAPI/prod/",
-    // }
-
     subscription: any;
 
     header: HttpHeaders = new HttpHeaders({
         "Content-Type": "application/json",
         // 'X-Platform': 'web',
+        "Authorization":this.getAuthToken(),
         "x-proc-authorization": this.getAuthToken(),
         "x-prod-inst-id": sessionStorage.getItem('institute_id'),
         "x-prod-user-id": sessionStorage.getItem('userid')
@@ -38,6 +32,7 @@ export class ProductService {
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
                 // 'X-Platform': 'web',
+                "Authorization":this.getAuthToken(),
                 "x-proc-authorization": this.getAuthToken(),
                 "x-prod-inst-id": sessionStorage.getItem('institute_id'),
                 "x-prod-user-id": sessionStorage.getItem('userid')
@@ -167,6 +162,7 @@ callMethods2(method, url, body, params, plateform) {
         headers: new HttpHeaders({
             "Content-Type": "application/json",
             // 'X-Platform': 'web',
+            "Authorization":this.getAuthToken(),
             "x-proc-authorization": this.getAuthToken(),
             "x-prod-inst-id": "100083",
             "x-prod-user-id": sessionStorage.getItem('userid')
@@ -218,6 +214,7 @@ getMethod(url, params, plateform = 'web') {
         headers: {
             "Content-Type": "application/json",
             // 'X-Platform': 'web',
+            "Authorization":this.getAuthToken(),
             "x-proc-authorization": this.getAuthToken(),
             "x-prod-inst-id": sessionStorage.getItem('institute_id'),
             "x-prod-user-id": sessionStorage.getItem('userid')

@@ -1,0 +1,150 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
+  *ngIf="jsonFlag.isRippleLoad">
+</loaders-css>
+
+<div class="middle-section clear-fix">
+  <section class="middle-top clearFix bulk-header">
+    <div>
+      <h1 class="pull-left">
+        <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional">
+          Course
+        </a>
+        <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional">
+          Batch
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        <a routerLink="/view/course/reports" style="padding:0px; ">
+          Report
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        <a routerLink="/view/course/reports/exam" style="padding:0px; ">
+          Exam Report
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        <span>Course Wise</span>
+      </h1>
+    </div>
+  </section>
+
+  <section>
+    <div class="name-container">
+      <div class="name-item">
+        <span style="font-weight: 600;">{{masterCourse}} </span>
+      </div>
+      <div class="name-item">
+        <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()"
+          *ngIf="!jsonFlag.isProfessional">
+          <option value="-1">Select Course</option>
+          <option [value]="course.course_id" *ngFor="let course of coursesList">{{course.course_name}}</option>
+        </select>
+        <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()"
+          *ngIf="jsonFlag.isProfessional">
+          <option value="-1">Select Subject</option>
+          <option [value]="subject.subject_id" *ngFor="let subject of coursesList">{{subject.subject_name}}</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Graph section -->
+  <section>
+    <div class="graph-outer-container">
+      <div class="graph-item-container">
+        <div #chartWrap id="chartWrap">
+        </div>
+      </div>
+      <div class="graph-item-container" *ngIf="!jsonFlag.isProfessional">
+        <div #subjectWise id="subjectWise">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- report container -->
+  <section>
+    <div class="report-table-container">
+      <div class="table-header-container">
+        <div class="header-item small-item">
+          <span>Exam Date</span>
+        </div>
+        <div class="header-item large-item">
+          <span>Subject</span>
+        </div>
+        <div class="header-item small-item">
+          <span>Total Students</span>
+        </div>
+        <div class="header-item small-item">
+          <span>Absent</span>
+        </div>
+        <div class="header-item small-item">
+          <span>Leave</span>
+        </div>
+        <div class="header-item small-item">
+          <span>Avg. Marks</span>
+        </div>
+        <div class="header-item small-item">
+          <span>Total Marks</span>
+        </div>
+        <div class="header-item small-item">
+          <span>Status</span>
+        </div>
+        <div class="header-item small-item align-center">
+          <span>Actions</span>
+        </div>
+      </div>
+      <div class="table-outer-container">
+        <div class="table-value-container" *ngFor="let report of courseWiseReportList"
+          [ngClass]="{'border-completed-class': report.exam_status == 'Mks. Updated', 'border-class': report.exam_status != 'Mks. Updated'}">
+          <div class="value-item small-item">
+            <span>{{report.exam_date | date: 'dd-MMM-yyyy'}}</span>
+          </div>
+          <div class="value-item large-item">
+            <span *ngIf="!jsonFlag.isProfessional"
+              title="{{report.subject_name}}">{{ (report.subject_name.length > 40) ? (report.subject_name | slice:0:40) + '...' : report.subject_name }}</span>
+            <span *ngIf="jsonFlag.isProfessional"
+              title="{{report.batch_name}}">{{ (report.batch_name.length > 40) ? (report.batch_name | slice:0:40) + '...' : report.batch_name }}</span>
+          </div>
+          <div class="value-item small-item">
+            <span>{{report.total_student}}</span>
+          </div>
+          <div class="value-item small-item">
+            <span>{{report.total_absent_student}}</span>
+          </div>
+          <div class="value-item small-item">
+            <span>{{report.total_leave_student_count}}</span>
+            <!-- <span>-</span> -->
+          </div>
+          <div class="value-item small-item">
+            <span>{{report.avarage_marks}}</span>
+          </div>
+
+          <div class="value-item small-item">
+            <span>{{report.total_marks}}</span>
+            <!-- <span>-</span> -->
+          </div>
+          <div class="value-item small-item">
+            <span [ngClass]="{'completed-class': report.exam_status == 'Mks. Updated',
+                              'pending-class': report.exam_status == 'Att. Pending',
+                              'cancelled-class': report.exam_status == 'Cancelled',
+                              'marks-pending-class': report.exam_status == 'Mks. pending',
+                              'upcoming-class': report.exam_status == 'Upcoming'}">
+              {{report.exam_status}}
+            </span>
+          </div>
+          <div class="value-item small-item align-center">
+            <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button" class="view-result-btn"
+              routerLink='/view/course/reports/exam/examWise/{{report.exam_schd_id}}'>View Result</button>
+            <span *ngIf="report.exam_status != 'Mks. Updated'">-</span>
+          </div>
+        </div>
+        <div class="table-value-container" *ngIf="courseWiseReportList?.length == 0"
+          style="justify-content: center; font-size: 14px; font-weight: 600;">
+          <span>No Result Found</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

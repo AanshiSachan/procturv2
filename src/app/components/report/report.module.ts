@@ -11,7 +11,6 @@ import 'hammerjs';
 import { FilterPipe } from './exam-report/filter.pipe';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { ReportHomeComponent } from './report-home/report-home.component';
-import { AttendanceReportComponent } from './attendance-report/attendanceReport.component';
 import { ExamReportComponent } from './exam-report/exam-report.component';
 import { EmailReportComponent } from './email-report/email-report.component';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
@@ -52,7 +51,6 @@ import { ExportToPdfService } from '../../services/export-to-pdf.service';
     declarations: [
         ReportComponent,
         ReportHomeComponent,
-        AttendanceReportComponent,
         FilterPipe,
         ExamReportComponent,
         EmailReportComponent,

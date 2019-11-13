@@ -63,8 +63,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 
     ],
     exports: [
-
         CommonModule,
+        FormsModule,
+        BsDatepickerModule,
         TableLayoutComponent,
         RobTableComponent,
         RobAdvanceTableComponent,

@@ -1,0 +1,140 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="middle-section clear-fix" id="middle-sectionId">
+  <aside class="middle-full">
+    <section class="middle-main clearFix attendance-container" id="filterWrap">
+      <section class="middle-top mb0 clearFix sms-header">
+        <h2 class="pull-left" style="font-weight: bold;">
+          <a routerLink="/view/course" *ngIf="!isProfessional" style="padding:0px; ">
+            Course
+          </a>
+          <a routerLink="/view/batch"  *ngIf="isProfessional" style="padding:0px; ">
+            Batch
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+          Time Table
+        </h2>
+        <aside class="pull-right">
+        </aside>
+      </section>
+      <div>
+        <section class="filter-form">
+          <div class="row proFilterForm" *ngIf="isProfessional">
+            <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 col-val">
+              <div class="field-radio-wrapper row-val">
+                <input class="form-radio" type="radio" name="filter" id='r1' [checked]="selectData=='all'" (change)="radiochangeData('all')">
+                <label for="r1">All</label>
+              </div>
+              <div class="field-radio-wrapper row-val">
+                <input class="form-radio" type="radio" name="filter" id='r2' [checked]="selectData=='teacher'" (change)="radiochangeData('teacher')">
+                <label for="r2">Faculty</label>
+              </div>
+              <div class="field-radio-wrapper row-val" style="margin-left: 15% !important;">
+                <input class="form-radio" type="radio" name="filter" id='r3' [checked]="selectData=='batch'" (change)="radiochangeData('batch')">
+                <label for="r3">Batch</label>
+              </div>
+            </div>
+            <div class="c-sm-8 c-xs-8 c-lg-8 c-md-8 field-wrapper teachBatch">
+              <div class="teacherBox" *ngIf="isProfessional && teacherBox">
+                <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldDataPro.teacher_id">
+                  <option value="-1"> </option>
+                  <option *ngFor="let i of getTeachersData" [value]="i.teacher_id" name="teachername">{{i.teacher_name}}</option>
+                </select>
+              </div>
+              <div class="batchBox" *ngIf="isProfessional && batchBox">
+                <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 batchcols">
+                  <label>Master Course</label>
+                  <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldDataPro.standard_id" name="masterCourse" (ngModelChange)="getCourses($event)">
+                    <option value="-1"></option>
+                    <option *ngFor="let i of masterPro" [value]="i.standard_id">{{i.standard_name}}</option>
+                  </select>
+                </div>
+                <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 batchcols">
+                  <label>Course</label>
+                  <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldDataPro.subject_id" (ngModelChange)="getSubjects($event)">
+                    <option value="-1"></option>
+                    <option *ngFor="let i of coursePro" [value]="i.subject_id" name="Course">{{i.subject_name}}</option>
+                  </select>
+                </div>
+                <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 batchcols">
+                  <label>Batch
+                    <span class="text-danger">*</span>
+                  </label>
+                  <select class="form-ctrl" id="three" [(ngModel)]="fetchFieldDataPro.batch_id">
+                    <option value="-1"></option>
+                    <option *ngFor="let i of batchPro" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="c-sm-1 c-xs-1 c-lg-1 c-md-1">
+              <input type="button" class="normal-btn fullBlue btn proViewButton" value="View" (click)="fetchTimeTableReportPro('0')" />
+            </div>
+          </div>
+          <div class="row nonProFilterForm" *ngIf="!isProfessional">
+            <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 field-wrapper">
+              <label>Master Course
+                <span class="text-danger">*</span>
+              </label>
+              <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldData.master_course" (ngModelChange)="getCourses($event)" name="masterCourse">
+                <option value="-1"></option>
+                <option *ngFor="let i of masterCoursesData" [value]="i.master_course">{{i.master_course}}</option>
+              </select>
+            </div>
+
+            <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 field-wrapper">
+              <label>Course</label>
+              <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldData.course_id" (ngModelChange)="getSubjects($event)">
+                <option value="-1"></option>
+                <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
+              </select>
+            </div>
+            <div class="c-sm-3 c-xs-2 c-lg-2 c-md-2 field-wrapper">
+              <label>Subjects</label>
+              <select class="form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id">
+                <option value="-1"></option>
+                <option *ngFor="let i of subjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
+              </select>
+            </div>
+            <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 field-wrapper">
+              <label>Faculty
+                <span class="text-danger">*</span>
+              </label>
+              <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldData.teacher_id">
+                <option value="-1"></option>
+                <option *ngFor="let i of getTeachersData" [value]="i.teacher_id" name="teachername">{{i.teacher_name}}</option>
+              </select>
+            </div>
+            <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 field-wrapper">
+              <input type="button" class="normal-btn fullBlue btn notProViewButton" value="View" (click)="fetchTimeTableReport('0')" />
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+
+    <section class="clearFix calender-view1">
+
+      <div class="grid-datadisplay text-center">
+        <a id="timeTable_download" class="hide"></a>
+        <i class="fa fa-download" style="font-size:25px;float:right;margin-right:20px;color:#1283f4;margin-top:10px;cursor: pointer;"
+          *ngIf="notProTimeTable.length > 0" (click)="printTimeTableData()"></i>
+        <i (click)="callAaPerModule('-1')" class="fa fa-angle-left" style="font-size:30px;color:#1283f4"></i>
+        <i class="dateHeader">
+          <span style="font-size: 14px;"> {{dateFormat(startdateweek)}} - {{dateFormat(enddateweek)}}</span>
+        </i>
+        <i (click)="callAaPerModule('1')" class="fa fa-angle-right" style="font-size:30px;color:#1283f4"></i>
+      </div>
+
+      <div class="timetableWrap" *ngIf="!isProfessional">
+        <time-table *ngFor="let rec of notProTimeTable; let j = index" [recordInput]="rec" [courseName]="namesArr[j]">
+        </time-table>
+      </div>
+      <div class="timetableWrap" *ngIf="isProfessional">
+        <time-table [recordInput]="timeTableArr">
+        </time-table>
+      </div>
+    </section>
+  </aside>
+</div>

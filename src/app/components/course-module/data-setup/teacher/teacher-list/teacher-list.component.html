@@ -1,0 +1,114 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix" style="margin-bottom: 15px;">
+    <div class="pull-left" style="margin-top:20px;">
+      <h1>
+        Faculty
+      </h1>
+    </div>
+    <div class="">
+      <div class="field-wrapper">
+        <div class="btnWrapper">
+          <button type="button" class="btn pull-right" name="button" routerLink='/view/course/setup/teacher/add'>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            &nbsp; Add Faculty
+          </button>
+        </div>
+      </div>
+      <div class="search-filter-wrapper">
+        <input type="text" style="width:18%" #teacherSearch class="normal-field pull-right" id="searchTeacher" placeholder="Search"
+         [(ngModel)]="searchValue" (keyup)="searchTeacher()">
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top: 10px;">
+    <div class="table-scroll-wrapper">
+      <div class="table table-responsive enquiry-table">
+        <table class="teacherTable">
+          <thead>
+            <tr>
+              <th>
+                Faculty Name
+              </th>
+              <th>
+                Contact No
+              </th>
+              <th>
+                Subject
+              </th>
+              <th>
+                Is Active
+              </th>
+              <th>
+                Edit
+              </th>
+              <th>
+                View Activity
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="teacherList.length != 0 ">
+            <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of teacherList; let i = index; trackBy: i;">
+              <td style="text-align: left;">
+                {{row.teacher_name}}
+              </td>
+              <td>
+                {{row.teacher_phone}}
+              </td>
+              <td>
+                {{row.teacher_subjects}}
+              </td>
+              <td>
+                {{row.is_active}}
+              </td>
+              <td class="anchorTags">
+                <!-- (click)="editTeacherDeatils(row)" -->
+                <a class="anchorTagCursor" [routerLink]="['/view/course/setup/teacher/edit',  row.teacher_id]" style="margin-right:5px">
+                  <i class="edit-icon" aria-hidden="true" title="Edit" style="margin-right:5px"></i>Edit
+                </a>
+                <a class="anchorTagCursor" (click)="deleteTeacherDeatils(row)">
+                  <i class="fa fa-trash" aria-hidden="true" title="Delete" style="margin-right:5px"></i>Delete
+                </a>
+              </td>
+              <td class="anchorTags">
+                  <!-- (click)="viewTeacherActivity(row)" -->
+                <a class="anchorTagCursor"   [routerLink]="['/view/course/setup/teacher/view',  row.teacher_id]"  >
+                  <i class="fas fa fa-eye" style="font-family: FontAwesome ;font-size: 19px;display: inline-block;vertical-align: middle; margin-right:5px"
+                    title="View"></i>
+                  View
+                </a>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="teacherList.length == 0 && dataStatus === 1">
+            <tr *ngFor="let dummy of dummyArr">
+              <td *ngFor="let c of columnMaps">
+                <div class="skeleton">
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="(teacherList.length == 0 && dataStatus === 2)">
+            <tr>
+              <td colspan="6">
+                No Batch List Found
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Paginator Here -->
+    <div class="filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        </pagination>
+      </div>
+    </div>
+  </section>
+
+</div>

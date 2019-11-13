@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ReportComponent } from './report.component';
 import { ReportHomeComponent } from './report-home/report-home.component'
-import { AttendanceReportComponent } from './attendance-report/attendanceReport.component';
 import { EmailReportComponent } from './email-report/email-report.component';
 import { ExamReportComponent } from './exam-report/exam-report.component';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
@@ -23,10 +22,6 @@ import { BiometricComponent } from './biometric/biometric.component';
                     {
                         path: 'home',
                         component: ReportHomeComponent
-                    },
-                    {
-                        path: 'attendance',
-                        component: AttendanceReportComponent
                     },
                     {
                         path: 'biometric',

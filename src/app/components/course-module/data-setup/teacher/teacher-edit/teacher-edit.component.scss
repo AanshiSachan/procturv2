@@ -1,0 +1,33 @@
+  ////// Turn off spinner
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+
+  .imagePreview {
+      width: 150px;
+      height: 150px;
+  }
+
+  .middle-section {
+      padding: 20px 30px;
+      width: 100%;
+      box-sizing: border-box;
+  }
+
+  .profileWrapper {
+      padding-right: 52px;
+      width: 40%;
+      height: 30%;
+  }
+
+  .imagePreview {
+      height: 150px;
+      width: 225px;
+      border-radius: 20px;
+      border: 1px solid #1f72ef;
+  }
+  .countryCallingCode{
+    float: left;
+}

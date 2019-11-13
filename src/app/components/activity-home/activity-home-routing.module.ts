@@ -4,8 +4,6 @@ import { ActivityHomeComponent } from './activity-home.component';
 import { HomeComponent } from './home/home.component';
 import { PtmManagementComponent } from './ptm-management/ptm-management.component';
 import { ExamdeskCourseAssignmentComponent } from './examdesk-course-assignment/examdesk-course-assignment.component';
-import { TimeTableComponent } from './time-table/time-table.component';
-import { CoursePlannerComponent } from './course-planner/course-planner.component';
 import { RegisteredStudentsComponent } from './registered-students/registered-students.component';
 
 
@@ -45,17 +43,8 @@ import { RegisteredStudentsComponent } from './registered-students/registered-st
                         pathMatch: "prefix"
                     },
                     {
-                        path: 'timeTable',
-                        component: TimeTableComponent
-                    },
-                    {
                         path: 'examcourse',
                         component: ExamdeskCourseAssignmentComponent,
-                        pathMatch: 'prefix'
-                    },
-                    {
-                        path: 'coursePlanner',
-                        loadChildren: 'app/components/activity-home/course-planner/course-planner.module#CoursePlannerModule',
                         pathMatch: 'prefix'
                     },
                     {

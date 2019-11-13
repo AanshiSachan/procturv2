@@ -21,10 +21,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { LiveClasses } from '../../services/live-classes/live-class.service';
 import { TooltipModule } from 'ngx-bootstrap-custome';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { TimeTableComponent } from './time-table/time-table.component';
-import { timeTableService } from '../../services/TimeTable/timeTable.service';
-import { tableComponent } from './time-table/table/table.component';
-import { CoursePlannerModule } from './course-planner/course-planner.module';
+import { timeTableService } from '../../services/TimeTable/timeTable.service';;
 import { WidgetService } from '../../services/widget.service';
 import { RegisteredStudentsComponent } from './registered-students/registered-students.component';
 import { UserService } from '../../services/user-management/user.service';
@@ -38,8 +35,7 @@ import { UserService } from '../../services/user-management/user.service';
         BsDatepickerModule,
         SharedModule,
         ArchivingModule,
-        StepsModule,
-        CoursePlannerModule,
+        StepsModule,        
         TooltipModule.forRoot(),
         NgMultiSelectDropDownModule.forRoot()
     ],
@@ -48,12 +44,9 @@ import { UserService } from '../../services/user-management/user.service';
         HomeComponent,
         PtmManagementComponent,
         ExamdeskCourseAssignmentComponent,
-        TimeTableComponent,
-        tableComponent,
         RegisteredStudentsComponent
     ],
-    entryComponents: [
-        tableComponent
+    entryComponents: [        
     ],
     providers: [
         ActivityPtmService,

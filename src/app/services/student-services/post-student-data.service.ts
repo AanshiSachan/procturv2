@@ -201,17 +201,53 @@ export class PostStudentDataService {
         return this.postData(url, obj);
     }
 
-    getFeeInstallments(obj){
+    getFeeInstallments(obj) {
         obj.institution_id = this.institute_id;
-        let url = this.baseUrl +"/api/v1/studentWise/fee/downloadStudentsFeeInstallments";
+        let url = this.baseUrl + "/api/v1/studentWise/fee/downloadStudentsFeeInstallments";
         return this.postData(url, obj);
-        
+
+    }
+
+    stdPostData(attchUrl, obj) {
+        let headers = new HttpHeaders({
+            "Content-Type": "application/json",
+            "Authorization": this.authorization,
+            "x-proc-inst-id": sessionStorage.getItem('institute_id'),
+            "x-proc-user-id": sessionStorage.getItem('userid')
+        });
+        let url = this.baseUrl +attchUrl
+        return this.http.post(url, obj, { headers: headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
     }
 
     /**
      * this method is used to call http post 
      *  written by laxmi
      */
+    stdGetData(attchUrl) {
+        let headers = new HttpHeaders({
+            "Content-Type": "application/json",
+            "Authorization": this.authorization,
+            "x-proc-inst-id": sessionStorage.getItem('institute_id'),
+            "x-proc-user-id": sessionStorage.getItem('userid')
+        });
+        let url = this.baseUrl +attchUrl
+        return this.http.get(url,  { headers: headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
     postData(url, obj) {
         return this.http.post(url, obj, { headers: this.headers }).map(
             res => {

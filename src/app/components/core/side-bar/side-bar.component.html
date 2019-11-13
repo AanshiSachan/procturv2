@@ -34,10 +34,13 @@
       <img src="./assets/images/sidebar/student.svg" alt="">
       Student
     </span>
-    <span class="NavLink" routerLink="/view/course" id="lithree" (click)="toggler('lithree')">
+    <span class="NavLink" routerLink="/view/course" *ngIf="!isLangInstitute" id="lithree" (click)="toggler('lithree')">
       <img src="./assets/images/sidebar/course.svg" alt="">
-      <span *ngIf="isLangInstitute" id="li3">Batch</span>
-      <span *ngIf="!isLangInstitute" id="li3">Course</span>
+      <span  id="li3">Course</span>
+    </span>
+    <span class="NavLink" routerLink="/view/batch" *ngIf="isLangInstitute" id="lithree" (click)="toggler('lithree')">
+      <img src="./assets/images/sidebar/course.svg" alt="">
+      <span  id="li3">Batch</span>
     </span>
     <span class="NavLink" routerLink="/view/fee" #divFeeTag id="divFeeTag">
       <img src="./assets/images/sidebar/fees.svg" alt="">
@@ -47,7 +50,7 @@
       <img src="./assets/images/sidebar/live-class.svg" alt="">
       Live Class
     </span>
-    <span class="NavLink" href="#/app/dashboard">
+    <span class="NavLink" routerLink="/view/communicate" >
       <img src="./assets/images/sidebar/communicate.svg" alt="">
       Communicate
     </span>

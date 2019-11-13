@@ -44,11 +44,6 @@ import { AuthGuard } from '../guards/auth.guard';
                             // canLoad: [AuthGuard]
                         },
                         {
-                            path: 'course',
-                            loadChildren: 'app/components/course/course.module#CourseModule',
-                            canLoad: [AuthGuard]
-                        },
-                        {
                             path: 'activity',
                             loadChildren: 'app/components/activity-home/activity-home.module#ActivityHomeModule',
                             canLoad: [AuthGuard]
@@ -79,13 +74,20 @@ import { AuthGuard } from '../guards/auth.guard';
                             canLoad: [AuthGuard]
                         },
                         {
-                            path: 'help',
-                            loadChildren: 'app/components/help-home/help-home.module#HelpHomeModule',
-                            canLoad: [AuthGuard]
+                            path:'communicate',
+                            loadChildren:'app/components/communicate/communicate.module#CommunicateModule',
                         },
                         {
-                            path: 'academic',
-                            loadChildren: 'app/components/academic-year/academic-year.module#AcademicYearModule',
+                            path:'course',
+                            loadChildren:'app/components/course-module/course-module.module#CourseModule2',
+                        },
+                        {
+                            path:'batch',
+                            loadChildren:'app/components/course-module/course-module.module#CourseModule2',
+                        },
+                        {
+                            path: 'help',
+                            loadChildren: 'app/components/help-home/help-home.module#HelpHomeModule',
                             canLoad: [AuthGuard]
                         },
                         {

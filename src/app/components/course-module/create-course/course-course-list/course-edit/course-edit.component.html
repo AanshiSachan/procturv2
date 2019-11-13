@@ -1,0 +1,218 @@
+<div class="middle-section clearFix head editCourseWrapper">
+  <section class="middle-top mb0 clearFix">
+    <h1 class="pull-left">
+      <a routerLink="/view/course/create/courselist">Course</a> / Edit
+      <u> {{selectedCourseDetails.master_course}}</u>
+    </h1>
+  </section>
+
+  <section class="middle-main clearFix">
+
+    <div class="search-wrapper row">
+      <div class="c-lg-3 c-md-3 c-sm-3">
+        <div class="field-wrapper has-value">
+          <label for="idMasterCourse">Master Course
+           <span class="text-danger">*</span>
+          </label>
+          <input type="text" id="idMasterCourse" [(ngModel)]="selectedCourseDetails.master_course
+          " name="masterCourse" class="form-ctrl" style="background: white" />
+
+        </div>
+      </div>
+      <div class="c-lg-3 c-md-3 c-sm-3">
+        <div class="field-wrapper has-value">
+          <label for="idStanadardName">Standard Name
+          </label>
+          <select id="idStanadardName" class="form-ctrl" disabled="true" [(ngModel)]="selectedCourseDetails.standard_id" style="background: white">
+            <option *ngFor="let opt of standardNameList" [value]="opt.standard_id">
+              {{opt.standard_name}}
+            </option>
+          </select>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="tableSection class-table-wrapper">
+      <div>
+        <table class="table-courseEdit">
+          <thead>
+              <tr>
+                  <th>
+                  </th>
+                  <th>
+                    Course Name
+                  </th>
+                  <th>
+                    Start Date
+                  </th>
+                  <th>
+                    End Date
+                  </th>
+                  <th >
+                      Academic Year
+                    </th>
+                  <th *ngIf="examGradeFeature == 1">
+                    Allow Exam Grades
+                  </th>
+                  <th>
+
+                  </th>
+                </tr>
+          </thead>
+          <tbody>
+            <tr id="row{{i}}" *ngFor="let row of mainTableDataSource; let i= index ; trackBy:index">
+              <td class="noborder" style="padding: 0px;" colspan="7">
+                <div id="show{{i}}" class="nestedTable nested-Table-Show-Wrapper">
+                  <div class="">
+                    <table>
+                      <tbody>
+                        <tr class="editable-wrapper">
+                          <td (click)="openSubjectTable(i)">
+                            <h4 class="clearFix">
+                              <!-- <span class="close-accor">-</span> -->
+                              <span id="spani{{i}}" style="color:blue; font-size: 20px;">+</span>
+                            </h4>
+                          </td>
+                          <td>
+                            <div class="field-wrapper has-value">
+                              <input type="text" name="masterCourse" style="background: transparent" [(ngModel)]="mainTableDataSource[i].course_name" class="form-ctrl"
+                              />
+                              <!-- <label for="masterCourse">Course Name
+                               <span class="text-danger">*</span>
+                                [ngClass]="{disableDatePicker : mainTableDataSource[i].course_id == '0' }"
+                              </label> -->
+                            </div>
+                          </td>
+                          <td>
+                            <div class="field-wrapper datePickerBox">
+                              <input type="text" value="" readonly="true" style="background: transparent" [disabled]="mainTableDataSource[i].course_id != '0'"
+                                [(ngModel)]="mainTableDataSource[i].start_date" class="form-ctrl bsDatepicker" name="startDate"
+                                bsDatepicker>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="field-wrapper has-value datePickerBox">
+                              <input type="text" value="" readonly="true" style="background: transparent" class="form-ctrl bsDatepicker" [(ngModel)]="mainTableDataSource[i].end_date"
+                                name="endDate" bsDatepicker>
+                            </div>
+                          </td>
+                          <td  style="width: 12%;">
+                              <select class="form-ctrl" [(ngModel)]="mainTableDataSource[i].academic_year_id">
+                                <option value="-1">Select</option>
+                                <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                                  {{opt.inst_acad_year}}
+                                </option>
+                              </select>
+                            </td>
+                          <td *ngIf="examGradeFeature == 1">
+                            <div class="field-checkbox-wrapper" style="margin-top: 25px;">
+                              <input type="checkbox" value="" style="background: transparent" [(ngModel)]="mainTableDataSource[i].is_exam_grad_feature"
+                                (change)="openPopup($event.target.checked,mainTableDataSource[i])" name="allow" class="form-checkbox" id="allow">
+                              <label for="allow">Allow Exam Grades</label>
+                            </div>
+                          </td>
+                          <td>
+                            <a *ngIf="row.course_id == '0'" style="cursor:pointer" (click)="removeRowFromTable(row , i)">Delete</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div id="sub{{i}}" class="tableWrapper hide subjectList-table-wrapper">
+                    <table>
+                      <thead>
+                        <tr class="teacher-list">
+                          <th>
+                            Allocate Subject
+                          </th>
+                          <th>
+                            Subject Name
+                          </th>
+                          <th>
+                            Allocate Faculty
+                          </th>
+                          <th>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="subjectListTableTbody">
+                        <tr class="teacher-list" *ngFor="let row of mainTableDataSource[i].batchesList ; let y= index; trackBy: index">
+                          <td>
+                            <div class="field-checkbox-wrapper">
+
+                              <input id="{{row.subject_id}}" [disabled]="row.uiSelected == true && row.isAssigned == 'N'" [(ngModel)]="row.uiSelected"
+                                type="checkbox" value="" class="form-checkbox">
+                              <label for="{{row.subject_id}}"></label>
+                            </div>
+                          </td>
+                          <td>
+                            {{row.subject_name}}
+                          </td>
+                          <td>
+                            <div class="field-wrapper">
+                              <select class="form-ctrl" [(ngModel)]="row.selected_teacher">
+                                <option value="-1"></option>
+                                <option *ngFor="let opt of activeTeachers" [value]="opt.teacher_id">
+                                  {{opt.teacher_name}}
+                                </option>
+                              </select>
+                            </div>
+                          </td>
+                          <td>
+                            <a *ngIf="(row.isAssigned == 'N')" (click)="deleteSubjectRow(row, i , y)">Delete</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <div>
+    <div class="pull-left btn-group">
+      <button class="btn fullBlue" (click)="addRowToMainTable()">Add Course</button>
+    </div>
+
+    <div class="row pull-right btn-group">
+      <button class="btn" routerLink='/view/course/create/courselist'>Cancel</button>
+      <button class="btn fullBlue" *ngIf="mainTableDataSource.length >0" [disabled]="!jsonVar.callApi" (click)="updateEditedDetails()">Update</button>
+    </div>
+  </div>
+
+</div>
+
+<section id="popup" class="popupWrapper fadeIn"  *ngIf="jsonVar.isallowGrading">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="jsonVar.isallowGrading=false">
+        <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+          <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <div class="">
+            <h2>Alert </h2>
+        </div>
+
+        <div class="row">
+          {{jsonVar.message}}
+        </div>
+        <br><br>
+        <div class="row" popup-footer>
+          <aside class="pull-right popup-btn" style="margin: 10px 20px 0px 0px;">
+            <input type="button" value="Cancel" class="btn" (click)="closePopup()">
+            <input type="button" value="Yes" class="fullBlue btn" (click)="allowMarksORGrades()">
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -4,6 +4,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 
 @Component({
   selector: 'student-sidebar',
@@ -63,7 +64,8 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
      private cd: ChangeDetectorRef,
      private router: Router,
      private _http: HttpService,
-     private commonService: CommonServiceFactory
+     private commonService: CommonServiceFactory,
+     private PostStudService:PostStudentDataService
     ) {
     this.auth.institute_type.subscribe(
       res => {
@@ -102,33 +104,71 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     this.router.navigateByUrl("/view/students/reportcard/"+this.rowData.student_id)
   }
 
-
-  downloadStudentReportCard() {
-    this.showToggleLoader.emit(true);
-    let url='/api/v1/reports/Student/downloadReportCard/'+ this.institute_id + '/' + this.rowData.student_id;
-    this._http.getData(url).subscribe(
-      (res: any) => {
+    downloadStudentReportCard(){
+    this.showToggleLoader.emit(true);  
+    let url='/users-file/downloadFile';
+    this.PostStudService.stdGetData(url).subscribe(
+      (res:any) => {
+        console.log(res);
         this.showToggleLoader.emit(false);
-        if(res.document!=""){
-          let byteArr = this.convertBase64ToArray(res.document);
-          let fileName = res.docTitle;
-          let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
-          let url = URL.createObjectURL(file);
-          let dwldLink = document.getElementById('downloadFileClick1');
-          dwldLink.setAttribute("href", url);
-          dwldLink.setAttribute("download", fileName);
-          document.body.appendChild(dwldLink);
-          dwldLink.click();          
+        if(res.length){
+          let resp =   res.response;
+          if(resp.document!=""){
+            let byteArr = this.convertBase64ToArray(resp.document);
+            let fileName = res.docTitle;
+            let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
+            let url = URL.createObjectURL(file);
+            let dwldLink = document.getElementById('downloadFileClick1');
+            dwldLink.setAttribute("href", url);
+            dwldLink.setAttribute("download", fileName);
+            document.body.appendChild(dwldLink);
+            dwldLink.click();          
+          }
+          else{
+            this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
+          }
         }
-        else{
+        else{ this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");}
+      },
+      err => {
+        console.log(err);
+        this.showToggleLoader.emit(false);
+      })
+}
+
+downloadStudentIDCard() {
+    this.showToggleLoader.emit(true);
+    let url='/admit-card/download';   
+    this.PostStudService.stdPostData(url,[this.rowData.student_id]).subscribe(
+      (res:any) => {
+        console.log(res);
+        this.showToggleLoader.emit(false);
+        if(res){
+          let resp = res.response;
+          if(resp.document!=""){
+            let byteArr = this.convertBase64ToArray(resp.document);
+            let fileName = 'card.pdf'; //res.docTitle;
+            let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
+            let url = URL.createObjectURL(file);
+            let dwldLink = document.getElementById('downloadFileClick1');
+            dwldLink.setAttribute("href", url);
+            dwldLink.setAttribute("download", fileName);
+            document.body.appendChild(dwldLink);
+            dwldLink.click();          
+          }
+          else{
+            this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
+          }
+        }else{
           this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
         }
       },
       err => {
+        console.log(err);
         this.showToggleLoader.emit(false);
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
+  
    }
 
    convertBase64ToArray(val) {

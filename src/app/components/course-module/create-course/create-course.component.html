@@ -1,0 +1,40 @@
+<div class="middle-section clearFix">
+
+    <section class="middle-main clearFix">
+        <div class="common-tab">
+            <ul>
+                <li id="liStandard" #liStandard (click)="switchActiveView('liStandard')" class="active">
+                    <a *ngIf="(isLangInstitue)" routerLink="/view/batch/create">Master Course</a>
+                    <a *ngIf="(!isLangInstitue)" routerLink="/view/course/create">Standard</a>
+                </li>
+                <li id="liSubject" #liSubject (click)="switchActiveView('liSubject')" class="">
+                    <a *ngIf="(isLangInstitue)" routerLink="/view/batch/create/subject">Course</a>
+                    <a *ngIf="(!isLangInstitue)" routerLink="/view/course/create/subject">Subject</a>
+                </li>
+                <!-- <li id="liCourses" (click)="switchActiveView('liCourses')" class="">
+                    <a routerLink="/view/course/courselist">Courses</a>
+                </li> -->
+                <li id="liTopic" *ngIf="(!isLangInstitue)" #liTopic (click)="switchActiveView('liTopic')" class="">
+                    <!-- <a *ngIf="(isLangInstitue)" routerLink="/view/course/managebatch">Batch</a> -->
+                    <a  routerLink="/view/course/create/topic">Topic</a>
+                </li>
+                <li id="liManageBatch" #liManageBatch (click)="switchActiveView('liManageBatch')" class="">
+                    <a *ngIf="(isLangInstitue)" routerLink="/view/batch/create/managebatch">Batch</a>
+                    <a *ngIf="(!isLangInstitue)" routerLink="/view/course/create/courselist">Courses</a>
+                </li>
+                <li id="liClass" #liClass (click)="switchActiveView('liClass')" class="" style="width:16%;">
+                    <a routerLink="/view/batch/create/class" *ngIf="(isLangInstitue)">Class</a>
+                    <a routerLink="/view/course/create/class" *ngIf="(!isLangInstitue)">Class Scheduling</a>
+                </li>
+                <li id="liExam" #liExam (click)="switchActiveView('liExam')" class="">
+                    <a routerLink="/view/course/create/exam"  *ngIf="(!isLangInstitue)">Exam</a>
+                    <a routerLink="/view/batch/create/exam"  *ngIf="(isLangInstitue)">Exam</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="router-container">
+            <router-outlet></router-outlet>
+        </div>
+    </section>
+</div>

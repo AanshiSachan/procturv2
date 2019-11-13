@@ -23,9 +23,6 @@ import { MasterRoutingModule } from './master-routing.module';
 import { TopicServiceService } from '../../services/topic-service.service';
 import { HttpService  } from '../../services/http.service';
 import { FilterPipe } from '../../components/event-managment/filterpipe';
-import { AcademicYearModule } from '../academic-year/academic-year.module';
-import { AcademicYearComponent } from '../academic-year/academic-year.component';
-import { HomeComponent } from '../academic-year/home/home.component';
 
 @NgModule({
     imports: [
