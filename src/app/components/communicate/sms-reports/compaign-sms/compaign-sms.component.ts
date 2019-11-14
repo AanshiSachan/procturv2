@@ -102,9 +102,9 @@ export class CompaignSmsComponent implements OnInit {
     let classArray = ['home', 'attendance', 'sms', 'fee', 'exam', 'report', 'time', 'email', 'profit'];
 
     classArray.forEach((classname) => {
-      document.getElementById(classname).classList.remove('active');
+      document.getElementById(classname) && document.getElementById(classname).classList.remove('active');
     });
-    document.getElementById(id).classList.add('active');
+    document.getElementById(id) && document.getElementById(id).classList.add('active');
   }
 
 
@@ -119,7 +119,8 @@ export class CompaignSmsComponent implements OnInit {
         break;
       }
       case "view": {
-        this.router.navigate(['/view/reports/sms/compaign/' + $event.data.campaign_list_message_id], { queryParams: { data: JSON.stringify($event.data) } });
+        let obejct = btoa(JSON.stringify($event.data))
+        this.router.navigate(['/view/communicate/sms/compaign/' + $event.data.campaign_list_message_id], { queryParams: { data: obejct } });
         break;
       }
     }

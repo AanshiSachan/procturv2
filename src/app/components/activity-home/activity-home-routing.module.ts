@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ActivityHomeComponent } from './activity-home.component';
 import { HomeComponent } from './home/home.component';
-import { PtmManagementComponent } from './ptm-management/ptm-management.component';
 import { ExamdeskCourseAssignmentComponent } from './examdesk-course-assignment/examdesk-course-assignment.component';
 import { RegisteredStudentsComponent } from './registered-students/registered-students.component';
 
@@ -22,10 +21,6 @@ import { RegisteredStudentsComponent } from './registered-students/registered-st
                     {
                         path: 'dashboard',
                         component: HomeComponent
-                    },
-                    {
-                        path: 'ptm',
-                        component: PtmManagementComponent
                     },
                     {
                         path: 'monitoring-dashboard',

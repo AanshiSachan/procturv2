@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { EventManagmentService } from '../../services/event-managment.service';
 import * as moment from 'moment';
-import { AuthenticatorService } from '../../services/authenticator.service';
-import { CommonServiceFactory } from '../../services/common-service';
+import { EventManagmentService } from '../../../services/event-managment.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../services/common-service';
+
 @Component({
   selector: 'app-event-managment',
   templateUrl: './event-managment.component.html',

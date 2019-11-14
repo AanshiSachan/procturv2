@@ -181,16 +181,10 @@ export class CommonServiceFactory {
     // Remove Selection From SideNav 
 
     removeSelectionFromSideNav() {
-        document.getElementById('lione').classList.remove('active');
-        document.getElementById('litwo').classList.remove('active');
-        document.getElementById('lithree').classList.remove('active');
-        document.getElementById('lifour').classList.remove('active');
-        document.getElementById('lifive').classList.remove('active');
-        document.getElementById('lisix').classList.remove('active');
-        document.getElementById('liseven').classList.remove('active');
-        document.getElementById('lieight').classList.remove('active');
-        document.getElementById('linine').classList.remove('active');
-        document.getElementById('lizero').classList.remove('active');
+        let array =['lione','litwo','lithree','lifour','lifive','lisix','liseven','lieight','linine','lizero'];
+        array.forEach((object)=>{
+            document.getElementById(object) &&  document.getElementById(object).classList.remove('active');
+        })
     }
 
     SortArray(key, array: any[]) {

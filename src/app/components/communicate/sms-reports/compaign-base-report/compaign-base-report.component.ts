@@ -55,9 +55,9 @@ export class CompaignBaseReportComponent implements OnInit {
       .queryParams
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
-        this.msgObject = JSON.parse(params['data']) ;
-        console.log(this.msgObject   );
-        
+        let objectData = atob(params['data']);
+        this.msgObject = JSON.parse(objectData) ;
+        console.log(this.msgObject);        
       });
     this.getCamapignViewMessages(this.route.snapshot.paramMap.get('id'))
   }

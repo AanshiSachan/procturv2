@@ -5,8 +5,7 @@ import { AuthGuard } from '../../guards/auth.guard';
 import { MasterComponent } from './master.component';
 import { SlotComponent } from './slot/slot.component';
 import { CityAreaMapComponent } from '../../components/city-area-map/city-area-map.component';
-import { ClassRoomComponent } from '../../components/class-room/class-room.component';
-import { EventManagmentComponent } from '../../components/event-managment/event-managment.component';
+import { ClassRoomComponent } from '../../components/class-room/class-room.component';;
 import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grades.component';
 
 @NgModule({
@@ -31,11 +30,6 @@ import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grad
                         {
                             path: 'classroom',
                             component: ClassRoomComponent,
-                            canLoad: [AuthGuard]
-                        },
-                        {
-                            path: 'eventManagment',
-                            component: EventManagmentComponent,
                             canLoad: [AuthGuard]
                         },
                         {

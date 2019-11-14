@@ -27,7 +27,7 @@ export class TransctionalSmsComponent implements OnInit {
     { primaryKey: 'sentDateTime', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
     { primaryKey: 'role', header: 'Role', priority: 5, allowSortingFlag: true },
     { primaryKey: 'sms_type', header: 'Type', priority: 6, allowSortingFlag: true },
-    { primaryKey: 'func_type', header: 'Event', priority:7 , allowSortingFlag: true },
+    { primaryKey: 'func_type', header: 'Event', priority: 7, allowSortingFlag: true },
     { primaryKey: 'sentStatus', header: 'Status', priority: 8, allowSortingFlag: true }
   ];
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
@@ -63,11 +63,11 @@ export class TransctionalSmsComponent implements OnInit {
   }
 
   tableSetting: any = {//inventory.item
-    tableDetails: { title: 'Lead SMS Report', key: 'reports.fee.LeadSMSReport', showTitle: false},
+    tableDetails: { title: 'Lead SMS Report', key: 'reports.fee.LeadSMSReport', showTitle: false },
     search: { title: 'Search', showSearch: false },
-    defaultSort: { primaryKey: 'sentDateTime', sortingType:'desc', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
+    defaultSort: { primaryKey: 'sentDateTime', sortingType: 'desc', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
     keys: this.projectSettings,
-    selectAll: { showSelectAll: false, option:'single', title: 'Send Due SMS', checked: true, key: 'name' },
+    selectAll: { showSelectAll: false, option: 'single', title: 'Send Due SMS', checked: true, key: 'name' },
     actionSetting:
     {
       showActionButton: false,
@@ -126,9 +126,9 @@ export class TransctionalSmsComponent implements OnInit {
     let classArray = ['home', 'attendance', 'sms', 'fee', 'exam', 'report', 'time', 'email', 'profit'];
 
     classArray.forEach((classname) => {
-      document.getElementById(classname).classList.remove('active');
+      document.getElementById(classname) && document.getElementById(classname).classList.remove('active');
     });
-    document.getElementById(id).classList.add('active');
+    document.getElementById(id) && document.getElementById(id).classList.add('active');
   }
 
   fetchSmsByDate() {

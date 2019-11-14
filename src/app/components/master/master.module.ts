@@ -10,7 +10,6 @@ import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grad
 import { SlotComponent } from './slot/slot.component';
 import { CityAreaMapComponent } from '../../components/city-area-map/city-area-map.component';
 import { ClassRoomComponent } from '../../components/class-room/class-room.component';
-import { EventManagmentComponent } from '../../components/event-managment/event-managment.component';
 import { TreeTableModule } from 'primeng/treetable';
 
 import { SlotApiService } from '../../services/slot-service/slot.service';
@@ -22,7 +21,6 @@ import { ClassRoomService } from '../../services/class-roomService/class-roomlis
 import { MasterRoutingModule } from './master-routing.module';
 import { TopicServiceService } from '../../services/topic-service.service';
 import { HttpService  } from '../../services/http.service';
-import { FilterPipe } from '../../components/event-managment/filterpipe';
 
 @NgModule({
     imports: [
@@ -40,8 +38,6 @@ import { FilterPipe } from '../../components/event-managment/filterpipe';
         ManageExamGradesComponent,
         SlotComponent,
         ClassRoomComponent,
-        FilterPipe,
-        EventManagmentComponent,
         CityAreaMapComponent
         ],
     providers: [

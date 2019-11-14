@@ -152,7 +152,7 @@ export class EmailReportComponent {
 
 
   switchActiveView(id) {
-    document.getElementById('email').classList.remove('active');
+    document.getElementById('email') && document.getElementById('email').classList.remove('active');
   }
  
 

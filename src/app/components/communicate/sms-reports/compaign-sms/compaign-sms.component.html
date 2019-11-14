@@ -8,41 +8,19 @@
       <div class="filter-box">
         <section class="middle-top mb0 clearFix sms-header">
 
-          <h4 class="pull-left txt_links">
-            <a routerLink="/view/reports/home">
-              Report
+          <h1 class="pull-left">
+            <a routerLink="/view/communicate">
+              Communicate
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            <a routerLink="/view/reports/sms">
+            <a routerLink="/view/communicate/sms">
               SMS
             </a>
-            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Transactional SMS Report
-          </h4>
-        </section>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Campaign SMS Report
+          </h1>
 
-        <section class="sms-filter-wrapper">
-          <div class="row">
-            <div class="c-lg-5">
-              <div class="field-wrapper datePickerBox has-value">
-                <label for="fromDate">Sent From</label>
-                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate" [(ngModel)]="smsFetchForm.from_date"
-                  (ngModelChange)="dateValidationForFuture($event) " bsDatepicker/>
-
-              </div>
-              <div class="field-wrapper datePickerBox has-value">
-                <label for="toDate">Sent To</label>
-                <input type="text" value="" id="updateDate" readonly="true" [(ngModel)]="smsFetchForm.to_date" class="form-ctrl bsDatepicker"
-                  name="toDate" (ngModelChange)="dateValidationForFuture($event)" bsDatepicker/>
-
-              </div>
-            </div>
-            <div class="c-lg-2">
-              <div class="btn-sms-search">
-                <input type="button" style="margin-top:7%;" class="normal-btn fullBlue btn" value="Go" (click)="fetchSmsByDate()" />
-              </div>
-            </div>
-            <div class="c-lg-5"></div>
-          </div>
+          <aside class="pull-right">
+          </aside>
         </section>
       </div>
 
@@ -90,7 +68,10 @@
 
       <section class="sms-table-wrapper">
         <div class="table table-responsive student-table">
-          <data-display-table  #child [displayKeys]="tableSetting" [displayData]="smsSource" >
+          <!-- <proctur-table [dataStatus]="dataStatus" [records]="smsSource" [tableName]="'sms'" [settings]="projectSettings">
+          </proctur-table> -->
+          <data-display-table  #child [displayKeys]="tableSetting" [displayData]="smsSource" (editView)='optionSelected($event)'
+            >
           </data-display-table>
         </div>
       </section>

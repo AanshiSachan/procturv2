@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <g id="Email_Report" data-name="Email Report" transform="translate(2401 959)">
+    <rect id="Rectangle_2088" data-name="Rectangle 2088" width="80" height="80" transform="translate(-2401 -959)" fill="none"/>
+    <g id="attachment" transform="translate(-2400 -958)">
+      <path id="Path_1989" data-name="Path 1989" d="M-2393.464-931.93h12.273l-5.5,5.5v22.638h-6.773Z" transform="translate(2400.097 958.098)" fill="#58a5da"/>
+      <path id="Path_1990" data-name="Path 1990" d="M14.117,31.556,26.69,18.983V31.556Z" fill="#58a5da"/>
+      <path id="Path_1988" data-name="Path 1988" d="M32.72,44.219V57.645l9.763,10.021s5.934-4.67,3.5-13.329-11.869-10.7-11.869-10.7Z" fill="#58a5da"/>
+      <path id="Path_1972" data-name="Path 1972" d="M74.594,23.014l-9.175,9.175V25.682l9.867-9.867a9.264,9.264,0,1,0-13.1-13.1L52.839,12.06V0H0V60.387H12.581V78H65.419V35.747L76.373,24.793ZM62.9,34.705l-5.051,5.051A10.307,10.307,0,0,1,43.276,25.181l5.051-5.051h6.507L46.963,28a5.706,5.706,0,1,0,8.069,8.069L62.9,28.2Zm0-10.065-9.65,9.65a3.19,3.19,0,1,1-4.511-4.511l9.65-9.65H62.9Zm1.06-20.148a6.749,6.749,0,0,1,9.544,9.544l-8.088,8.088V17.613H60.908l9.175-9.175L68.3,6.659,57.35,17.613H50.844ZM2.516,57.871V2.516H50.323v12.06l-3.037,3.037H25.9L18.35,25.162H5.032V55.355h7.548v2.516Zm10.065-5.032H7.549V27.678h8.286l-3.253,3.253ZM25.161,21.908v8.286H16.876ZM62.9,75.484H15.1V32.71H27.678V20.129H44.77L41.5,23.4A12.823,12.823,0,0,0,59.631,41.535L62.9,38.263Zm0,0" fill="#1c2d6b"/>
+      <path id="Path_1973" data-name="Path 1973" d="M127.134,272a15.134,15.134,0,1,0,15.134,15.134A15.151,15.151,0,0,0,127.134,272Zm-1.261,2.586v11.856l-9.991,6.358a12.584,12.584,0,0,1,9.991-18.214Zm-8.636,20.341,9.72-6.187,8.153,8.152a12.574,12.574,0,0,1-17.873-1.966Zm19.656.183-8.5-8.5V274.586a12.6,12.6,0,0,1,8.5,20.524Zm0,0" transform="translate(-94.415 -229.314)" fill="#1c2d6b"/>
+      <g id="Group_4346" data-name="Group 4346">
+        <path id="Path_1974" data-name="Path 1974" d="M320,448h10.09v2.522H320Zm0,0" transform="translate(-269.696 -377.567)" fill="#58a5da"/>
+        <path id="Path_1975" data-name="Path 1975" d="M320,416h10.09v2.522H320Zm0,0" transform="translate(-269.696 -350.612)" fill="#58a5da"/>
+        <path id="Path_1976" data-name="Path 1976" d="M320,384h10.09v2.522H320Zm0,0" transform="translate(-269.696 -323.618)" fill="#58a5da"/>
+        <path id="Path_1977" data-name="Path 1977" d="M320,352h10.09v2.522H320Zm0,0" transform="translate(-269.696 -296.65)" fill="#58a5da"/>
+        <path id="Path_1978" data-name="Path 1978" d="M320,320h10.09v2.522H320Zm0,0" transform="translate(-269.696 -269.681)" fill="#58a5da"/>
+        <path id="Path_1979" data-name="Path 1979" d="M112,240h17.657v2.522H112Zm0,0" transform="translate(-94.4 -202.261)" fill="#58a5da"/>
+        <path id="Path_1980" data-name="Path 1980" d="M32,32h2.522v2.522H32Zm0,0" transform="translate(-26.955 -26.955)" fill="#58a5da"/>
+        <path id="Path_1981" data-name="Path 1981" d="M64,32h37.836v2.522H64Zm0,0" transform="translate(-53.91 -26.955)" fill="#58a5da"/>
+        <path id="Path_1982" data-name="Path 1982" d="M32,64H74.881v2.522H32Zm0,0" transform="translate(-26.955 -53.91)" fill="#58a5da"/>
+        <path id="Path_1983" data-name="Path 1983" d="M32,96H44.612v2.522H32Zm0,0" transform="translate(-26.955 -80.904)" fill="#58a5da"/>
+        <path id="Path_1984" data-name="Path 1984" d="M32,128H44.612v2.522H32Zm0,0" transform="translate(-26.955 -107.872)" fill="#58a5da"/>
+        <path id="Path_1985" data-name="Path 1985" d="M192,144h5.045v2.522H192Zm0,0" transform="translate(-161.812 -121.357)" fill="#58a5da"/>
+        <path id="Path_1986" data-name="Path 1986" d="M192,176h5.045v2.522H192Zm0,0" transform="translate(-161.812 -148.325)" fill="#58a5da"/>
+        <path id="Path_1987" data-name="Path 1987" d="M192,208h5.045v2.522H192Zm0,0" transform="translate(-161.812 -175.293)" fill="#58a5da"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -9,7 +9,6 @@ import 'hammerjs';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { ActivityPtmService } from '../../services/activity-ptmservice/activity-ptm.service';
-import { PtmManagementComponent } from './ptm-management/ptm-management.component';
 import { RouterModule } from '@angular/router';
 import { ArchivingComponent } from './archiving/archiving.component';
 import { ArchivingModule } from './archiving/archiving.module';
@@ -41,8 +40,7 @@ import { UserService } from '../../services/user-management/user.service';
     ],
     declarations: [
         ActivityHomeComponent,
-        HomeComponent,
-        PtmManagementComponent,
+        HomeComponent,        
         ExamdeskCourseAssignmentComponent,
         RegisteredStudentsComponent
     ],

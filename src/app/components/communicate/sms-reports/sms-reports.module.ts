@@ -6,24 +6,22 @@ import { SmsReportsComponent } from './sms-reports.component';
 import { TransctionalSmsComponent } from './transctional-sms/transctional-sms.component';
 import { CompaignSmsComponent } from './compaign-sms/compaign-sms.component';
 import { SmsHomeComponent } from './sms-home/sms-home.component';
-import { FormsModule, ReactiveFormsModule } from '../../../../../node_modules/@angular/forms';
+import { ReactiveFormsModule } from '../../../../../node_modules/@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { CompaignBaseReportComponent } from './compaign-base-report/compaign-base-report.component';
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
     ReactiveFormsModule,
     SmsReportsRoutingModule,
     SharedModule,
     BsDatepickerModule,
   ],
   declarations: [
-    SmsReportsComponent, 
+    SmsReportsComponent,
     TransctionalSmsComponent,
-     CompaignSmsComponent, 
-    SmsHomeComponent, 
+    CompaignSmsComponent,
+    SmsHomeComponent,
     CompaignBaseReportComponent]
 })
 export class SmsReportsModule { }

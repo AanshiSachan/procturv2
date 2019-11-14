@@ -8,11 +8,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import 'moment';
 import 'hammerjs';
 
-import { FilterPipe } from './exam-report/filter.pipe';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { ReportHomeComponent } from './report-home/report-home.component';
-import { ExamReportComponent } from './exam-report/exam-report.component';
-import { EmailReportComponent } from './email-report/email-report.component';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 
 import { getSMSService } from '../../services/report-services/get-sms.service';
@@ -51,9 +48,6 @@ import { ExportToPdfService } from '../../services/export-to-pdf.service';
     declarations: [
         ReportComponent,
         ReportHomeComponent,
-        FilterPipe,
-        ExamReportComponent,
-        EmailReportComponent,
         ProfitLossComponent,
         searchPipe,
         arraySortPipe,
@@ -76,7 +70,7 @@ import { ExportToPdfService } from '../../services/export-to-pdf.service';
         ExportToPdfService
     ],
     exports: [
-        FilterPipe
+
     ]
 })
 export class ReportModule {
