@@ -1,5 +1,14 @@
+
 <section class="middle-section">
   <!-- course module -->
+  <section class="header-section"> 
+      <div>
+          <div class="header-title">
+              <span  *ngIf="(!isLangInstitue)">Course</span>
+              <span  *ngIf="(isLangInstitue)"> Batch</span>
+            </div>
+      </div>  
+    </section>
   <div class="course-menu-section-container" *ngIf="(!isLangInstitue)">
     <div class="course-menu-item" routerLink="/view/course/setup">
       <div class="menu-title">

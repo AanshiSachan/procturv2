@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ExamGradeServiceService } from '../../../../services/examgradeservice/exam-grade-service.service';
 import { AppComponent } from '../../../../app.component';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 @Component({
   selector: 'app-manage-exam-grades',
   templateUrl: './manage-exam-grades.component.html',
@@ -28,10 +29,21 @@ export class ManageExamGradesComponent implements OnInit {
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2];
   dataStatus: boolean = false;
-  constructor(private gradeService: ExamGradeServiceService, private appC: AppComponent) { }
+  type:string ='';
+  constructor(private gradeService: ExamGradeServiceService, private appC: AppComponent,
+    private auth: AuthenticatorService) { }
 
   ngOnInit() {
     this.fetchGrades();
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.type ='batch';
+        }
+        else {
+          this.type ='course';
+        }
+      })
   }
 
   // toggle for add grade div

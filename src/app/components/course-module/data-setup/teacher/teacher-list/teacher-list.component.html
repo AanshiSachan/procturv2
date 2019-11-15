@@ -3,9 +3,18 @@
 <div class="middle-section clearFix">
   <section class="middle-top mb0 clearFix" style="margin-bottom: 15px;">
     <div class="pull-left" style="margin-top:20px;">
-      <h1>
-        Faculty
-      </h1>
+      <div class="header-title">        
+          <h2>
+              <a routerLink="/view/{{type}}" style="color: #0084f6;">
+                {{ type | titlecase }}
+              </a>
+              <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i> 
+              <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
+                Data Setup
+              </a>
+              <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i>Faculty
+          </h2>
+        </div> 
     </div>
     <div class="">
       <div class="field-wrapper">

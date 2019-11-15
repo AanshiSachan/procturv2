@@ -2,13 +2,21 @@
   padding: 1%;
 }
 
+.header-section{
+  .header-title{
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
 .course-menu-section-container{
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
-  padding-top: 20px;
-  margin-top: 20px;
+  padding-top: 10px;
+  margin-top: 10px;
   border-top: 1px solid rgba(10,10,10,0.5);
   width: 100%;
   .course-menu-item{

@@ -6,7 +6,6 @@ import { ComponentsComponent } from './components.component';
 import { SharedModule } from '../components/shared/shared.module';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { OverlayMenuComponent } from './overlay-menu/overlay-menu.component';
-import { CoreHeaderComponent } from './core/core-header/core-header.component';
 import { CoreSidednavComponent } from './core/core-sidednav/core-sidednav.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { GlobalSearchPopupComponent } from './global-search-popup/global-search-popup.component';
@@ -26,7 +25,6 @@ import { StudentFeeService } from './student-module/student_fee.service';
     declarations: [
         ComponentsComponent,
         CoreSidednavComponent,
-        CoreHeaderComponent,
         OverlayMenuComponent,
         ChangePasswordComponent,
         ChangePasswordComponent,

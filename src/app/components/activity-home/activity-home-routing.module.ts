@@ -21,11 +21,11 @@ import { ExamdeskCourseAssignmentComponent } from './examdesk-course-assignment/
                         path: 'dashboard',
                         component: HomeComponent
                     },
-                    {
-                        path: 'monitoring-dashboard',
-                        loadChildren: 'app/components/activity-home/monitoring-dashboard/monitoring-dashboard.module#MonitoringDashboardModule',
-                        pathMatch: 'prefix'
-                    },
+                    // {
+                    //     path: 'monitoring-dashboard',
+                    //     loadChildren: 'app/components/activity-home/monitoring-dashboard/monitoring-dashboard.module#MonitoringDashboardModule',
+                    //     pathMatch: 'prefix'
+                    // },
                     // {
                     //     path: 'archiving',
                     //     loadChildren: 'app/components/activity-home/archiving/archiving.module#ArchivingModule',

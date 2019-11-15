@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { MessageShowService } from '../../../../../services/message-show.service';
 import { AcademicyearService } from '../../../../../services/academicYearService/academicyear.service';
+import { AuthenticatorService } from '../../../../../services/authenticator.service';
 
 @Component({
   selector: 'home',
@@ -18,6 +19,7 @@ export class HomeComponent implements OnInit {
     totalRow: 0,
     createNewAcademicYear: false
   };
+  type: string = '';
 
   addAcademicYearTemplate: any = {
     inst_acad_year: "",
@@ -31,13 +33,23 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private academicyearservice: AcademicyearService,
-    private msgService: MessageShowService
+    private msgService: MessageShowService,
+    private auth: AuthenticatorService
   ) {
   }
 
   ngOnInit() {
     this.getAllAcademicFromServer();
     this.addAcademicYearTemplate.inst_id = sessionStorage.getItem('institute_id');
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.type = 'batch';
+        } else {
+          this.type = 'course';
+        }
+      }
+    )
   }
 
   getAllAcademicFromServer() {

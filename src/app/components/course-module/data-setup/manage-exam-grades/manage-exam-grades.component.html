@@ -4,11 +4,20 @@
   <aside class="middle-full ">
     <section class="middle-main clearFix ">
       <section class="middle-top mb0 clearFix sms-header">
-
-
+          <div class="header-title">        
+              <h2>
+                  <a routerLink="/view/{{type}}" style="color: #0084f6;">
+                    {{ type | titlecase }}
+                  </a>
+                  <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i> 
+                  <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
+                    Data Setup
+                  </a>
+                  <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i>Manage Grades
+              </h2>
+            </div> 
       </section>
       <section class="filter-form attendance-container">
-        <h2>Manage Grades</h2>
         <div class="clearFix add-edit">
           <a (click)="toggleCreateNewgrade()">
             <i id="showAddBtn" class="addBtnClass">+</i>

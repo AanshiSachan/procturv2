@@ -51,7 +51,12 @@ import { FeeComponent, FeeReportHomeComponent, FeeCourseReportComponent, AllData
                     {
                         path:'data-setup',
                         loadChildren:'app/components/fee-module/data-setup/data-setup.module#DataSetupModule',
-                    }
+                    },
+                    {
+                        path: 'monitoring-dashboard',
+                        loadChildren: 'app/components/fee-module/monitoring-dashboard/monitoring-dashboard.module#MonitoringDashboardModule',
+                        pathMatch: 'prefix'
+                    },
                 ]
             }
         ])

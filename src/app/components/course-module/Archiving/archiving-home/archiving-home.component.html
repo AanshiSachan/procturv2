@@ -1,52 +1,56 @@
-<div class="middle-section clearFix">
-  <aside class="middle-full">
-    <section class="middle-main clearFix report-box">
-      <section class="">
+<section class="middle-section">
+  <section class="header-section">
+    <div>
+      <div class="header-title">
+        <h2>
+          <a routerLink="/view/{{type}}" style="color: #0084f6;">
+            {{ type | titlecase }}
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Archiving
+        </h2>
+      </div>
+    </div>
+  </section>
+  <div class="course-menu-section-container">
 
-        <div class="c-lg-4" *ngIf="isProfessional">
-          <ul class="card" routerLink="./batches">
-            <li>
-              Batches
-            </li>
-            <li>
-              Select and archive the batches.
-            </li>
-          </ul>
+      <div class="course-menu-item" *ngIf="isProfessional"  routerLink="./batches">
+        <div class="menu-title">
+          <img src="./assets/images/course/create-course.svg" alt="create course">
+          <span>  Batches</span>
         </div>
+        <div class="menu-description">
+          <span>  Select and archive the batches.</span>
+        </div>
+      </div>
+      <div class="course-menu-item" *ngIf="isProfessional" routerLink="./batchesArchivedReport">
+        <div class="menu-title">
+          <img src="./assets/images/course/create-course.svg" alt="create course">
+          <span>  Batches Archived Status Report</span>
+        </div>
+        <div class="menu-description">
+          <span>  Get the report of archived batches.</span>
+        </div>
+      </div>
 
-        <div class="c-lg-4" *ngIf="isProfessional">
-          <ul class="card" routerLink="./batchesArchivedReport">
-            <li>
-              Batches Archived Status Report
-            </li>
-            <li>
-              Get the report of archived batches.
-            </li>
-          </ul>
-        </div>
+    <div class="course-menu-item" *ngIf="!isProfessional" routerLink="./courses">
+      <div class="menu-title">
+        <img src="./assets/images/course/create-course.svg" alt="create course">
+        <span>  Courses</span>
+      </div>
+      <div class="menu-description">
+        <span>  Select and archive the courses.</span>
+      </div>
+    </div>
 
-        <div class="c-lg-4" *ngIf="!isProfessional">
-          <ul class="card" routerLink="./courses">
-            <li>
-              Courses
-            </li>
-            <li>
-              Select and archive the courses.
-            </li>
-          </ul>
-        </div>
+    <div class="course-menu-item" *ngIf="!isProfessional" routerLink="./coursesArchivedReport">
+      <div class="menu-title">
+        <img src="./assets/images/course/create-course.svg" alt="create course">
+        <span>Courses Archived Status Report</span>
+      </div>
+      <div class="menu-description">
+        <span> Get the report of archived courses.</span>
+      </div>
+    </div>
 
-        <div class="c-lg-4" *ngIf="!isProfessional">
-          <ul class="card" routerLink="./coursesArchivedReport">
-            <li>
-              Courses Archived Status Report
-            </li>
-            <li>
-              Get the report of archived courses.
-            </li>
-          </ul>
-        </div>
-      </section>
-    </section>
-  </aside>
-</div>
+  </div>
+</section>

@@ -1,4 +1,16 @@
 <section class="middle-section">
+  <section class="header-section">
+    <div>
+      <div class="header-title">
+        <h2>
+          <a routerLink="/view/{{type}}" style="color: #0084f6;">
+            {{ type | titlecase }}
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Report
+        </h2>
+      </div>
+    </div>
+  </section>
   <div class="course-menu-section-container">
     <div class="course-menu-item" routerLink="/view/{{type}}/reports/attendance">
       <div class="menu-title">

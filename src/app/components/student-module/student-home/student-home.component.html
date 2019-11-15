@@ -32,28 +32,29 @@
                             <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </button>
                         <div class="more-info-container" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
-                            <div class="more-info-item" (click)="downloadAllStudent()">
-                                <a>
-                                    <img src="../../../../assets/images/students/Export.svg" alt="">  Export
-                                </a>
-                            </div>
-                            <div class="more-info-item" routerLink='/view/students/bulk'>
-                                <a>
+                           
+                            <div class="more-info-item hand_icon" routerLink='/view/students/bulk' >
+                                <a >
                                     <img src="../../../../assets/images/students/Student_upload.svg" alt="">  Upload
                                     Student
                                 </a>
                             </div>
-                            <div class="more-info-item" routerLink='/view/students/openUser'>
+                            <div class="more-info-item hand_icon" (click)="downloadAllStudent()" >
+                                    <a >
+                                        <img src="../../../../assets/images/students/Export.svg" alt="">  Export
+                                    </a>
+                                </div>
+                            <div class="more-info-item hand_icon" routerLink='/view/students/openUser' >
                                 <a>
                                     <img src="../../../../assets/images/students/Open_user.svg" alt="">  Open User
                                 </a>
                             </div>
-                            <div class="more-info-item" routerLink='/view/students/archived_student'>
+                            <div class="more-info-item hand_icon" routerLink='/view/students/archived_student' >
                                 <a>
                                     <img src="../../../../assets/images/students/Student_archived.svg" alt="">  Archived Student
                                 </a>
                             </div>
-                            <div class="more-info-item" routerLink='/view/students/archived_status'
+                            <div class="more-info-item hand_icon" routerLink='/view/students/archived_status' 
                                 style="border-bottom: none;">
                                 <a>
                                     <img src="../../../../assets/images/students/Archived_reports.svg" alt="">  Archived Student

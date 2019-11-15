@@ -611,27 +611,6 @@ export class SideBarComponent implements OnInit {
     if (document.getElementById(routesData[pathLastURL])) {
       document.getElementById(routesData[pathLastURL]).classList.add('active');
     }
-    // if (url.includes('admin')) {
-    //   document.getElementById('lizero').classList.add('active');
-    // } else if (url.includes('enquiry')) {
-    //   document.getElementById('lione').classList.add('active');
-    // } else if (url.includes('student')) {
-    //   document.getElementById('litwo').classList.add('active');
-    // } else if (url.includes('course')) {
-    //   document.getElementById('lithree').classList.add('active');
-    // } else if (url.includes('activity')) {
-    //   document.getElementById('lifour').classList.add('active');
-    // } else if (url.includes('reports')) {
-    //   document.getElementById('lisix').classList.add('active');
-    // } else if (url.includes('inventory')) {
-    //   document.getElementById('liseven').classList.add('active');
-    // } else if (url.includes('campaign')) {
-    //   document.getElementById('linine').classList.add('active');
-    // } else if (url.includes('library')) {
-    //   document.getElementById('liten').classList.add('active');
-    //   } else if (url.includes('products')) {
-    //     document.getElementById('lieleone').classList.add('active');
-    // }
   }
 
   showSubSection(id){

@@ -93,6 +93,16 @@
           </ul>
         </div>
 
+        <div class="c-lg-4">
+            <ul class="card" *ngIf="jsonFlags.isAdmin" routerLink="/view/fee/monitoring-dashboard">
+              <li>
+                  Monitoring Dashboard
+              </li>
+              <li>
+                  Get the graphical representation of the fees details.
+              </li>
+            </ul>
+          </div>
         <div class="c-lg-4 hide">
           <ul class="card" routerLink="./cheque">
             <li>

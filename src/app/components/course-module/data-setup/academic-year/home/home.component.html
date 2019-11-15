@@ -1,8 +1,19 @@
 <div class="middle-section clearFix">
   <section class="middle-top mb0 clearFix">
-    <h1 class="pull-left">
-      Academic Year List
-    </h1>
+        <div>
+          <div class="header-title">        
+            <h2>
+                <a routerLink="/view/{{type}}" style="color: #0084f6;">
+                  {{ type | titlecase }}
+                </a>
+                <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i> 
+                <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
+                  Data Setup
+                </a>
+                <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i>  Academic Year List
+            </h2>
+          </div>
+        </div>
   </section>
 
   <section class="middle-main clearFix">

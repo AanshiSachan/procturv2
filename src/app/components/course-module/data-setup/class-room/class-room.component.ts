@@ -34,6 +34,7 @@ export class ClassRoomComponent {
   searchflag: boolean = false;
   editFlag: boolean = false;
   isProfessional: boolean;
+  type:string='';
 
   constructor
     (
@@ -53,9 +54,11 @@ export class ClassRoomComponent {
       res => {
         if (res == "LANG") {
           this.isProfessional = true;
+          this.type ='batch';
         }
         else {
           this.isProfessional = false;
+          this.type ='course';
         }
       })
     this.getClassList();

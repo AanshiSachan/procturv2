@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../../../app.component';
+import { AuthenticatorService } from '../../../../../services/authenticator.service';
 
 @Component({
   selector: 'app-teacher-list',
@@ -23,15 +24,26 @@ export class TeacherListComponent implements OnInit {
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
   selectedRow: number;
   searchValue: string = "";
+  type: string = '';
 
   constructor(
     private ApiService: TeacherAPIService,
     private route: Router,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private auth: AuthenticatorService
   ) { }
 
   ngOnInit() {
     this.getDataFromServer();
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.type = 'batch';
+        } else {
+          this.type = 'course';
+        }
+      }
+    )
   }
 
   getDataFromServer() {

@@ -9,6 +9,7 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 export class ArchivingHomeComponent implements OnInit {
 
   isProfessional: boolean;
+  type:string='';
 
   constructor(private auth: AuthenticatorService) {
     
@@ -20,8 +21,10 @@ export class ArchivingHomeComponent implements OnInit {
       res => {
         if (res == 'LANG') {
           this.isProfessional = true;
+          this.type='batch';
         } else {
           this.isProfessional = false;
+          this.type='course';
         }
       }
     )
