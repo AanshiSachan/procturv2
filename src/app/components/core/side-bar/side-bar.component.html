@@ -10,14 +10,16 @@
   <div class="nav">
     <div class="search-container">
       <form autocomplete="off" #form="ngForm">
-        <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput [ngClass]="{'has-focus': isResultDisplayed}"
-          (focus)="triggerSearchBox($event)" autocomplete="off" maxlength="20" placeholder="Search here..."
+        <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput
+          [ngClass]="{'has-focus': isResultDisplayed}" (focus)="triggerSearchBox($event)" autocomplete="off"
+          maxlength="20" placeholder="Search here..."
           class="search-input searchbox form-ctrl-head search-item searchBox">
       </form>
       <i class="fa fa-search search-icon" aria-hidden="true"></i>
       <section class="search-dropdown search-item" #seachResult>
-        <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat" [studentResult]="studentResult"
-          (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)"
+        <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat"
+          [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)"
+          (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)"
           [enquiryResult]="enquiryResult" (actionSelected)="actionSelected($event)" (closeMenu)="closeMenu()">
         </search-box>
       </section>
@@ -46,7 +48,7 @@
       <img src="./assets/images/sidebar/fees.svg" alt="">
       Fee
     </span>
-    <span class="NavLink" routerLink="/view/live-classes" >
+    <span class="NavLink" routerLink="/view/live-classes">
       <img src="./assets/images/sidebar/live-class.svg" alt="">
       Live Class
     </span>
@@ -82,13 +84,14 @@
 
   <div class="setting">
     <div class="setting-item" (click)="showSubSection('help')">
-      <img src="./assets/images/sidebar/help.svg" title="Help"  alt="">
+      <img src="./assets/images/sidebar/help.svg" title="Help" alt="">
       <div class="side-section" id="help">
         <div class="side-section-item">
           <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
         </div>
         <div class="side-section-item">
-          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')">Create Support Ticket</span>
+          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')">Create Support
+            Ticket</span>
         </div>
         <div class="side-section-item">
           <span (click)="openInNewTab('https://anydesk.com/en/downloads/')">Download Anydesk</span>
@@ -99,7 +102,7 @@
       </div>
     </div>
     <div class="setting-item" #divSettingTag id="divSettingTag" (click)="showSubSection('setting')">
-      <img src="./assets/images/sidebar/settings.svg" title="Settings"  alt="">
+      <img src="./assets/images/sidebar/settings.svg" title="Settings" alt="">
       <div class="side-section" id="setting">
         <div class="side-section-item">
           <span (click)="routerLink('/view/setting')">General Settings</span>
@@ -113,13 +116,14 @@
       </div>
     </div>
     <div class="setting-item" #divMasterTag id="divMasterTag" (click)="showSubSection('setup')">
-      <img src="./assets/images/sidebar/setup.svg" title="Setup"  alt="">
+      <img src="./assets/images/sidebar/setup.svg" title="Setup" alt="">
       <div class="side-section" id="setup">
         <div class="side-section-item">
           <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
         </div>
         <div class="side-section-item">
-          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')">Create Support Ticket</span>
+          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')">Create Support
+            Ticket</span>
         </div>
         <div class="side-section-item">
           <span (click)="openInNewTab('https://anydesk.com/en/downloads/')">Download Anydesk</span>
@@ -129,28 +133,22 @@
         </div>
       </div>
     </div>
-    <div class="setting-item" (click)="showSubSection('branches')">
-      <img src="./assets/images/sidebar/branches.svg" title="Branches"  alt="">
+    <div class="setting-item" (click)="showSubSection('branches')" *ngIf="isMainBranch == 'Y' && checkAdmin">
+      <img src="./assets/images/sidebar/branches.svg" title="Branches" alt="">
       <div class="side-section" id="branches">
-        <div class="side-section-item">
-          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
-        </div>
-        <div class="side-section-item">
-          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')">Create Support Ticket</span>
-        </div>
-        <div class="side-section-item">
-          <span (click)="openInNewTab('https://anydesk.com/en/downloads/')">Download Anydesk</span>
-        </div>
-        <div class="side-section-item">
-          <span>+91 9971839153</span>
+        <div class="side-section-item" *ngFor="let data of branchesList">
+          <span (click)="onSubBranchClick(data)">{{data.institute_name}}</span>
         </div>
       </div>
+    </div>
+    <div class="setting-item" (click)="showSubMenu('branches')" *ngIf="(showMainBranchBackBtn)">
+      <img src="./assets/images/sidebar/branches.svg" title="Back To Main Branch" alt="" (click)="loginToMainBranch()">
     </div>
     <div class="setting-item" #divManageUsers id="divManageUsers" (click)="routerLink('/view/manage')">
-      <img src="./assets/images/sidebar/users.svg" title="Users"  alt="">
+      <img src="./assets/images/sidebar/users.svg" title="Users" alt="">
     </div>
     <div class="setting-item" #divMyAccountTag id="divMyAccountTag" (click)="showSubSection('account')">
-      <img src="./assets/images/sidebar/my-account.svg" title="My Account"  alt="">
+      <img src="./assets/images/sidebar/my-account.svg" title="My Account" alt="">
       <div class="side-section" id="account">
         <div class="side-section-item">
           <span (click)="changePasswordClick()">Change Password</span>
