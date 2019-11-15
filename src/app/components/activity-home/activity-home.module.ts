@@ -10,8 +10,6 @@ import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { ActivityPtmService } from '../../services/activity-ptmservice/activity-ptm.service';
 import { RouterModule } from '@angular/router';
-import { ArchivingComponent } from './archiving/archiving.component';
-import { ArchivingModule } from './archiving/archiving.module';
 import { ExamdeskCourseAssignmentComponent } from './examdesk-course-assignment/examdesk-course-assignment.component';
 import { ExamDeskCourseAssignmentService } from '../../services/examdesk-service/examdeskcourseassignment.service';
 import { StepsModule } from 'primeng/steps';
@@ -22,7 +20,6 @@ import { TooltipModule } from 'ngx-bootstrap-custome';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { timeTableService } from '../../services/TimeTable/timeTable.service';;
 import { WidgetService } from '../../services/widget.service';
-import { RegisteredStudentsComponent } from './registered-students/registered-students.component';
 import { UserService } from '../../services/user-management/user.service';
 
 @NgModule({
@@ -33,7 +30,6 @@ import { UserService } from '../../services/user-management/user.service';
         ActivityHomeRoutingModule,
         BsDatepickerModule,
         SharedModule,
-        ArchivingModule,
         StepsModule,        
         TooltipModule.forRoot(),
         NgMultiSelectDropDownModule.forRoot()
@@ -41,8 +37,7 @@ import { UserService } from '../../services/user-management/user.service';
     declarations: [
         ActivityHomeComponent,
         HomeComponent,        
-        ExamdeskCourseAssignmentComponent,
-        RegisteredStudentsComponent
+        ExamdeskCourseAssignmentComponent
     ],
     entryComponents: [        
     ],

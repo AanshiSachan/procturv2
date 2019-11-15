@@ -1,6 +1,15 @@
 <section class="middle-section">
   <!-- course module -->
-  <div class="course-menu-section-container" *ngIf="(!isLangInstitue)" >
+  <div class="course-menu-section-container" *ngIf="(!isLangInstitue)">
+    <div class="course-menu-item" routerLink="/view/course/setup">
+      <div class="menu-title">
+        <img src="./assets/images/course/data-setup.svg" alt="data setup">
+        <span>Data Setup</span>
+      </div>
+      <div class="menu-description">
+        <span> Data setup your academic year, faculties, classrooms, etc</span>
+      </div>
+    </div>
     <div class="course-menu-item" routerLink="/view/course/create">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create course">
@@ -8,51 +17,6 @@
       </div>
       <div class="menu-description">
         <span>Create and manage courses with ease.</span>
-      </div>
-    </div>
-    <div class="course-menu-item" routerLink="/view/course/setup">
-      <div class="menu-title">
-        <img src="./assets/images/course/data-setup.svg" alt="data setup">
-        <span>Matser Data</span>
-      </div>
-      <div class="menu-description">
-        <span> Master setup your academic year, faculties, classrooms, etc</span>
-      </div>
-    </div>
-    <div class="course-menu-item" routerLink="/view/course/coursePlanner/class">
-      <div class="menu-title">
-        <img src="./assets/images/course/class-planner.svg" alt="class planner">
-        <span>Course Planner</span>
-      </div>
-      <div class="menu-description">
-        <span>Plan and manage class for all courses on the go.</span>
-      </div>
-    </div>
-    <div class="course-menu-item" routerLink="/view/course/coursePlanner/exam">
-      <div class="menu-title">
-        <img src="./assets/images/course/exam-planner.svg" alt="exam planner">
-        <span>Exam Planner</span>
-      </div>
-      <div class="menu-description">
-        <span>Plan and manage exams for all courses on the go.</span>
-      </div>
-    </div>
-    <div class="course-menu-item" routerLink="/view/course/reports">
-      <div class="menu-title">
-        <img src="./assets/images/course/reports.svg" alt="reports">
-        <span>Reports</span>
-      </div>
-      <div class="menu-description">
-        <span>Track performance on each and every aspect with detailed reports.</span>
-      </div>
-    </div>
-    <div class="course-menu-item" routerLink="/view/course/timeTable">
-      <div class="menu-title">
-        <img src="./assets/images/course/timetable.svg" alt="timetable">
-        <span>Timetable</span>
-      </div>
-      <div class="menu-description">
-        <span>Time table as per the subject on weekly basis.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/course/create/class/add">
@@ -73,10 +37,76 @@
         <span>Schedule exam for any of the courses.</span>
       </div>
     </div>
+    <div class="course-menu-item" routerLink="/view/course/file-manager">
+      <div class="menu-title">
+        <img src="./assets/images/activity/file_manager.svg" alt="file manager">
+        <span>File Manager</span>
+      </div>
+      <div class="menu-description">
+        <span>Manage Storage Of Uploaded And Downloaded Files By Category.</span>
+      </div>
+    </div>
+    <div class="course-menu-item" routerLink="/view/course/coursePlanner/class">
+      <div class="menu-title">
+        <img src="./assets/images/course/class-planner.svg" alt="class planner">
+        <span>Class Planner</span>
+      </div>
+      <div class="menu-description">
+        <span>Plan and manage class for all courses on the go.</span>
+      </div>
+    </div>
+    <div class="course-menu-item" routerLink="/view/course/coursePlanner/exam">
+      <div class="menu-title">
+        <img src="./assets/images/course/exam-planner.svg" alt="exam planner">
+        <span>Exam Planner</span>
+      </div>
+      <div class="menu-description">
+        <span>Plan and manage exams for all courses on the go.</span>
+      </div>
+    </div>
+    <div class="course-menu-item" routerLink="/view/course/timeTable">
+      <div class="menu-title">
+        <img src="./assets/images/course/timetable.svg" alt="timetable">
+        <span>Timetable</span>
+      </div>
+      <div class="menu-description">
+        <span>Time table as per the subject on weekly basis.</span>
+      </div>
+    </div>
+    <div class="course-menu-item" routerLink="/view/course/archiving">
+      <div class="menu-title">
+        <img src="./assets/images/activity/archive.svg" alt="archiving">
+        <span>Archiving</span>
+      </div>
+      <div class="menu-description">
+        <span *ngIf="(isLangInstitue)">Archive the batches, students and get the report of archived batches and
+          students.</span>
+        <span *ngIf="(!isLangInstitue)">Archive the courses, students and get the report of archived courses and
+          students.</span>
+      </div>
+    </div>
+    <div class="course-menu-item" routerLink="/view/course/reports">
+      <div class="menu-title">
+        <img src="./assets/images/course/reports.svg" alt="reports">
+        <span>Reports</span>
+      </div>
+      <div class="menu-description">
+        <span>Track performance on each and every aspect with detailed reports.</span>
+      </div>
+    </div>
   </div>
 
-    <!-- batch module -->
+  <!-- batch module -->
   <div class="course-menu-section-container" *ngIf="(isLangInstitue)">
+      <div class="course-menu-item" routerLink="/view/batch/setup">
+        <div class="menu-title">
+          <img src="./assets/images/course/data-setup.svg" alt="data setup">
+          <span>Data Setup</span>
+        </div>
+        <div class="menu-description">
+          <span> Data setup your academic year, faculties, classrooms etc</span>
+        </div>
+      </div>
     <div class="course-menu-item" routerLink="/view/batch/create">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create batch">
@@ -86,13 +116,31 @@
         <span>Create and manage batches with ease</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/setup">
+    <div class="course-menu-item" routerLink="/view/batch/create/class/add">
       <div class="menu-title">
-        <img src="./assets/images/course/data-setup.svg" alt="data setup">
-        <span>Matser Data</span>
+        <img src="./assets/images/course/add-class.svg" alt="add class">
+        <span>Add class</span>
       </div>
       <div class="menu-description">
-        <span> Master setup your academic year, faculties, classrooms, etc</span>
+        <span> Plan and schedule a class</span>
+      </div>
+    </div>
+    <div class="course-menu-item" routerLink="/view/batch/create/exam">
+      <div class="menu-title">
+        <img src="./assets/images/course/add-exam.svg" alt="add exam">
+        <span>Add Exam</span>
+      </div>
+      <div class="menu-description">
+        <span>Schedule exam for any of the batches.</span>
+      </div>
+    </div>
+    <div class="course-menu-item" routerLink="/view/batch/file-manager">
+      <div class="menu-title">
+        <img src="./assets/images/activity/file_manager.svg" alt="file manager">
+        <span>File Manager</span>
+      </div>
+      <div class="menu-description">
+        <span>Manage Storage Of Uploaded And Downloaded Files By Category.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/batch/coursePlanner/class">
@@ -113,15 +161,6 @@
         <span>Plan and manage exams for all courses on the go.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/reports">
-      <div class="menu-title">
-        <img src="./assets/images/course/reports.svg" alt="reports">
-        <span>Reports</span>
-      </div>
-      <div class="menu-description">
-        <span>Track performance on each and every aspect with detailed reports.</span>
-      </div>
-    </div>
     <div class="course-menu-item" routerLink="/view/batch/timeTable">
       <div class="menu-title">
         <img src="./assets/images/course/timetable.svg" alt="timetable">
@@ -131,22 +170,26 @@
         <span>Time table as per the subject on weekly basis.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/create/class/add">
+    <div class="course-menu-item" routerLink="/view/batch/archiving">
       <div class="menu-title">
-        <img src="./assets/images/course/add-class.svg" alt="add class">
-        <span>Add class</span>
+        <img src="./assets/images/activity/archive.svg" alt="archiving">
+        <span>Archiving</span>
       </div>
       <div class="menu-description">
-        <span> Plan and schedule a class</span>
+        <span *ngIf="(isLangInstitue)">Archive the batches, students and get the report of archived batches and
+          students.</span>
+        <span *ngIf="(!isLangInstitue)">Archive the courses, students and get the report of archived courses and
+          students.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/create/exam">
+    
+    <div class="course-menu-item" routerLink="/view/batch/reports">
       <div class="menu-title">
-        <img src="./assets/images/course/add-exam.svg" alt="add exam">
-        <span>Add Exam</span>
+        <img src="./assets/images/course/reports.svg" alt="reports">
+        <span>Reports</span>
       </div>
       <div class="menu-description">
-        <span>Schedule exam for any of the batches.</span>
+        <span>Track performance on each and every aspect with detailed reports.</span>
       </div>
     </div>
   </div>

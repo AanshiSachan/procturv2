@@ -4,8 +4,6 @@ import { NgModule } from "@angular/core";
 import { ArchivingHomeComponent } from "./archiving-home/archiving-home.component";
 import { BatchesComponent } from "./batches/batches.component";
 import { BatchesArchivedReportComponent } from "./batches-archived-report/batches-archived-report.component";
-import { StudentsComponent } from "./students/students.component";
-import { StudentsArchivedReportComponent } from "./students-archived-report/students-archived-report.component";
 import { CoursesComponent } from "./courses/courses.component";
 import { CoursesArchivedReportComponent } from './courses-archived-report/courses-archived-report.component';
 
@@ -33,14 +31,6 @@ import { CoursesArchivedReportComponent } from './courses-archived-report/course
                     {
                         path:'batchesArchivedReport',
                         component:BatchesArchivedReportComponent
-                    },
-                    {
-                        path:'students',
-                        component:StudentsComponent
-                    },
-                    {
-                        path:'studentsArchivedReport',
-                        component: StudentsArchivedReportComponent
                     },
                     {
                         path:'courses',

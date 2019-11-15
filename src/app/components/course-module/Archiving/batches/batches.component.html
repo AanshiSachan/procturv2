@@ -6,42 +6,52 @@
     <section class="middle-main clearFix">
 
       <div class="middle-top mb0 clearFix header">
-        <div class="report-header" style="padding-bottom:1% ; height:7vh;">
+        <div class="report-header" style="padding-bottom:1%">
           <h2 style="padding: 5px;" class="pull-left">
-            <a routerLink="/view/activity">
-              Activity
+            <a routerLink="/view/batch">
+              Batch
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            <a routerLink="/view/activity/archiving">
+            <a routerLink="/view/batch/archiving">
               Archiving
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="!isProfessional"></i>
-            <span *ngIf="!isProfessional">Courses Archived Report</span>
+            <span *ngIf="!isProfessional">Courses</span>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="isProfessional"></i>
-            <span *ngIf="isProfessional">Batches Archived Report</span>
+            <span *ngIf="isProfessional">Batches</span>
           </h2>
+          <div class="row">
+            <div class="c-lg-12">
+              <h2 *ngIf="!isProfessional">
+                Courses List
+              </h2>
+              <h2 *ngIf="isProfessional">
+                Batches List
+              </h2>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-
-    <section>
-      <div class="filter-box clearFix" style="margin: 6px 0px 6px 6px;float: right;">
-        <div id="basic-search" class="search-filter-wrapper">
-          <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()"
-            style="padding: 10px;">
-        </div>
+    <div class="filter-box clearFix" style="margin: 6px 0px 6px 6px;float: right;">
+      <div id="basic-search" class="search-filter-wrapper">
+        <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()"
+          style="padding: 10px;">
       </div>
-      <div class="table table-responsive" style="margin-top:5vh;">
+    </div>
+    <section>
+
+      <div class="table table-responsive table-made">
         <table>
           <thead>
             <tr>
-              <th *ngIf="!isProfessional" style="text-align: left;" (click)="sortedData('course_name') ">
-                Course &nbsp;
+              <th style="text-align: left;" *ngIf="!isProfessional" (click)="sortedData('course_name') ">
+               # &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Course &nbsp;
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('course_name') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('course_name') && direction != 1"></i>
               </th>
-              <th *ngIf="isProfessional" style="text-align: left;" (click)="sortedData('batch_name') ">
-                Batch &nbsp;
+              <th style="text-align: left;" *ngIf="isProfessional" (click)="sortedData('batch_name') ">
+               # &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Batch &nbsp;
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('batch_name') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('batch_name') && direction != 1"></i>
               </th>
@@ -56,7 +66,7 @@
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('master_course') && direction != 1"></i>
               </th>
               <th *ngIf="!isProfessional" style="text-align: left;" (click)="sortedData('standard_name') ">
-                Standard  &nbsp;
+                Standard &nbsp;
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('standard_name') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('standard_name') && direction != 1"></i>
               </th>
@@ -70,41 +80,41 @@
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('subjects') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('subjects') && direction != 1"></i>
               </th>
-              <th *ngIf="!isProfessional" style="text-align: right;"  (click)="sortedData('start_date') ">
+              <th style="text-align: right;" (click)="sortedData('start_date') ">
                 Start Date &nbsp;
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('start_date') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('start_date') && direction != 1"></i>
               </th>
-              <th *ngIf="!isProfessional" style="text-align: right;" (click)="sortedData('end_date') ">
+              <th style="text-align: right;" (click)="sortedData('end_date') ">
                 End Date &nbsp;
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('end_date') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('end_date') && direction != 1"></i>
               </th>
-              <th style="text-align: left;">
-                Status
-              </th>
-              <th style="text-align: right;" (click)="sortedData('archived_date') ">
-                Archived Date Time &nbsp;
-                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('archived_date') && direction == 1"></i>
-                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('archived_date') && direction != 1"></i>
-              </th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let i of newPaginated">
-              <td *ngIf="!isProfessional" style="text-align: left;">
+          <tbody *ngIf="newPaginated!=0">
+            <tr *ngFor="let i of newPaginated ; let j=index;">
+              <td *ngIf="!isProfessional" style="text-align: left;  padding:5px 0px 10px 5px; ">
+                <div class="field-checkbox-wrapper" style="display: inline-block;margin-top: 5px; height:16px; margin-right: 10px;">
+                  <input type="checkbox" class="form-checkbox" name={{i.course_id}} id={{i.course_id}} [(ngModel)]="i.status" (ngModelChange)="notifyMe(j)" style="height:15px; margin-right: 10px;">
+                  <label for={{i.course_id}}></label>
+                </div>
                 {{i.course_name}}
               </td>
-              <td *ngIf="isProfessional" style="text-align: left;">
+              <td *ngIf="isProfessional" style="text-align: left; padding:5px 0px 10px 5px; ">
+                <div class="field-checkbox-wrapper" style="display: inline-block;margin-top: 5px; height:16px; margin-right: 10px;">
+                  <input type="checkbox" class="form-checkbox" name={{i.batch_id}} id={{i.batch_id}} [(ngModel)]="i.status" (ngModelChange)="notifyMe(j)" >
+                  <label for={{i.batch_id}}></label>
+                </div>
                 {{i.batch_name}}
               </td>
               <td *ngIf="!isProfessional" style="text-align: left;">
                 {{i.master_course}}
               </td>
-              <td *ngIf="!isProfessional" style="text-align: left;">
+              <td *ngIf="isProfessional" style="text-align: left;">
                 {{i.standard_name}}
               </td>
-              <td *ngIf="isProfessional" style="text-align: left;">
+              <td *ngIf="!isProfessional" style="text-align: left;">
                 {{i.standard_name}}
               </td>
               <td *ngIf="!isProfessional" style="text-align: left;">
@@ -113,31 +123,56 @@
               <td *ngIf="isProfessional" style="text-align: left;">
                 {{i.subject_name}}
               </td>
-              <td *ngIf="!isProfessional" style="text-align: right;">
+              <td style="text-align: right;">
                 {{i.start_date}}
               </td>
-              <td *ngIf="!isProfessional" style="text-align: right;">
+              <td style="text-align: right;">
                 {{i.end_date}}
               </td>
-              <td style="text-align: left;">
-                {{i.status}}
+            </tr>
+            <tr *ngIf="isProfessional">
+              <td>
+
               </td>
-              <td style="text-align: right;">
-                {{i.archived_date}}
+              <td>
+
               </td>
+              <td>
+
+              </td>
+              <td>
+
+              </td>
+              <td>
+                <input type="button" class="btn fullBlue" value="Archive" (click)="archiveData($event)" style="float: right;">
+              </td>
+
+            </tr>
+            <tr *ngIf="!isProfessional">
+              <td>
+
+              </td>
+              <td>
+
+              </td>
+              <td>
+
+              </td>
+              <td>
+
+              </td>
+              <td>
+
+              </td>
+              <td>
+                <input type="button" class="btn fullBlue" value="Archive" (click)="archiveData($event)" style="float: right;">
+              </td>
+
             </tr>
           </tbody>
-          <tbody *ngIf="newPaginated.length == 0 && dataStatus === true && isProfessional">
+          <tbody *ngIf="newPaginated.length == 0 && dataStatus === true">
             <tr *ngFor="let dummy of dummyArr">
               <td *ngFor="let c of columnMaps" style="padding:10px;">
-                <div class="skeleton">
-                </div>
-              </td>
-            </tr>
-          </tbody>
-          <tbody *ngIf="newPaginated.length == 0 && dataStatus === true && !isProfessional">
-            <tr *ngFor="let dummy of dummyArr">
-              <td *ngFor="let c of columnMaps2" style="padding:10px;">
                 <div class="skeleton">
                 </div>
               </td>
