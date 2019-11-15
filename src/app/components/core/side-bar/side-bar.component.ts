@@ -55,6 +55,7 @@ export class SideBarComponent implements OnInit {
   checkAdmin: any = "";
   libraryRole: boolean = false;
   instituteId: any;
+  activeSession: any;
 
   @ViewChild('divAdminTag') divAdminTag: ElementRef;
   @ViewChild('divMyAccountTag') divMyAccountTag: ElementRef;
@@ -545,10 +546,11 @@ export class SideBarComponent implements OnInit {
 
   /* Function to set the id for setActive function to act upon */
   toggler(id) {
-    this.RemoveActiveTabs();
-    if (document.getElementById(id)) {
-      document.getElementById(id).classList.add('active');
-    }
+    this.activeSession = id;
+    // this.RemoveActiveTabs();
+    // if (document.getElementById(id)) {
+    //   document.getElementById(id).classList.add('active');
+    // }
   }
 
   checkInstituteType() {
