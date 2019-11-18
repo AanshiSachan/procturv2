@@ -288,8 +288,7 @@ export class EnquiryAddComponent implements OnInit {
   // Below three functions are written to fetch country details from the session stored at the time of login of institute
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
-    let data = atob(encryptedData);
-    data = JSON.parse(data);
+    let data = JSON.parse(encryptedData);
     if (data.length > 0) {
     this.countryDetails = data;
     console.log(this.countryDetails);

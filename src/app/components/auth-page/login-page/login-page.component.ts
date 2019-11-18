@@ -257,39 +257,15 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       (res: any) => {
         this.countryDetails = res;
         console.log(res);
-        // this.countryDetails.forEach(element => {
-        //   this.instituteCountryDetObj = {
-        //     "id": element.id,
-        //     "country_name": element.country_name,
-        //     "country_code": element.country_code,
-        //     "country_calling_code": element.country_calling_code,
-        //     "country_phone_number_length": element.country_phone_number_length
-        //   };
-        //   let obj = {
-        //     data: this.instituteCountryDetObj
-        //   }
-        //   let country_info = JSON.stringify(obj);
-        //   console.log(country_info);
-        //   sessionStorage.setItem('country_data', btoa(country_info));
-        // });
         let country_info = JSON.stringify(res);
           console.log(country_info);
-          sessionStorage.setItem('country_data', btoa(country_info));
+          sessionStorage.setItem('country_data',country_info);
         // console.log(this.instituteCountryDetObj);
       },
       err => {
         console.log(err);
       }
     )
-    // this.countryDetails.forEach(element => {
-    //   instituteCountryDetObj = {
-    //     "id": element.id,
-    //     "country_name": element.country_name,
-    //     "country_code": element.country_code,
-    //     "country_calling_code": element.country_calling_code,
-    //     "country_phone_number_length": element.country_phone_number_length
-    //   };
-    // });
   }
   //END - 0
 

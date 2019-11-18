@@ -358,13 +358,10 @@ export class StudentAddComponent implements OnInit {
 
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
-    let data = atob(encryptedData);
-    data = JSON.parse(data);
+    let data = JSON.parse(encryptedData);
     if (data.length > 0) {
       this.countryDetails = data;
-      console.log(this.countryDetails);
       if(this.checkStatusofStudent == true) {
-        console.log('hiii');
         this.studentAddFormData.country_id = this.countryDetails[0].id;
         this.instituteCountryDetObj = this.countryDetails[0];
       }

@@ -54,10 +54,9 @@ export class TeacherEditComponent implements OnInit {
   // Below two functions are written to fetch country details from the session stored at the time of login of institute
   fetchDataForCountryDetails() {
     let countryCodeEncryptedData = sessionStorage.getItem('country_data');
-    let temp = atob(countryCodeEncryptedData);
-    let Countrydata = JSON.parse(temp);
-    if (Countrydata.length > 0) {
-      this.countryDetails = Countrydata;
+    let temp = JSON.parse(countryCodeEncryptedData);
+    if (temp.length > 0) {
+      this.countryDetails = temp;
       this.maxlength = this.countryDetails[0].country_phone_number_length;
       this.instituteCountryDetObj = this.countryDetails[0];
     }
