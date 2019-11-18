@@ -44,7 +44,10 @@ export class FeeReportHomeComponent implements OnInit {
       if (permissions.indexOf('102') != -1) {
         this.jsonFlags.isFeeActivity = true;
       }
-
+      /* profit and lodd */
+      if (permissions.indexOf('208') != -1) {
+        this.jsonFlags.isProfitnloss = true;
+      }
 
     }
 
@@ -59,11 +62,6 @@ export class FeeReportHomeComponent implements OnInit {
       || sessionStorage.getItem('username') == 'admin') {
       this.showChart = true;
     }
-    let perm: any[] = JSON.parse(sessionStorage.getItem('permissions'));
-      /* profit and lodd */
-      if (perm.indexOf('208') != -1) {
-        this.jsonFlags.isProfitnloss = true;
-      }
 
     this.auth.institute_type.subscribe(
       res => {
