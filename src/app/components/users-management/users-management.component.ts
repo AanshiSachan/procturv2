@@ -33,10 +33,10 @@ export class UsersManagementComponent implements OnInit {
   }
 
   removeSelectionFromSideNav() {
-    let classArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'lizero'];
-    classArray.forEach(function (className) {
-      document.getElementById(className).classList.remove('active');
-    });
+    // let classArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'lizero'];
+    // classArray.forEach(function (className) {
+    //   document.getElementById(className).classList.remove('active');
+    // });
   }
 
 }

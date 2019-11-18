@@ -24,43 +24,53 @@
         </search-box>
       </section>
     </div>
-    <span [ngClass]="activeSession === 'lizero' ? 'active' : 'NavLink activation-status-link'" routerLink="/view/home" id="lizero" (click)="toggler('lizero')">
+    <span [ngClass]="activeSession === 'lizero' ? 'active activeClass' : 'NavLink'" routerLink="/view/home"
+      id="lizero" (click)="toggler('lizero')">
       <img src="./assets/images/sidebar/home.svg" alt="">
       Home
     </span>
-    <span [ngClass]="activeSession === 'lione' ? 'active' : 'NavLink activation-status-link'" routerLink="/view/leads" id="lione" (click)="toggler('lione')">
+    <span [ngClass]="activeSession === 'lione' ? 'active activeClass' : 'NavLink'" routerLink="/view/leads"
+      id="lione" (click)="toggler('lione')">
       <img src="./assets/images/sidebar/lead.svg" alt="">
       Lead
     </span>
-    <span [ngClass]="activeSession === 'litwo' ? 'active' : 'NavLink activation-status-link'" routerLink="/view/students" id="litwo" (click)="toggler('litwo')">
+    <span [ngClass]="activeSession === 'litwo' ? 'active activeClass' : 'NavLink'"
+      routerLink="/view/students" id="litwo" (click)="toggler('litwo')">
       <img src="./assets/images/sidebar/student.svg" alt="">
       Student
     </span>
-    <span [ngClass]="activeSession === 'lithree' ? 'active' : 'NavLink activation-status-link'" routerLink="/view/course" *ngIf="!isLangInstitute" id="lithree" (click)="toggler('lithree')">
+    <span [ngClass]="activeSession === 'lithree' ? 'active activeClass' : 'NavLink'"
+      routerLink="/view/course" *ngIf="!isLangInstitute" id="lithree" (click)="toggler('lithree')">
       <img src="./assets/images/sidebar/course.svg" alt="">
-      <span  id="li3">Course</span>
+      <span id="li3">Course</span>
     </span>
-    <span [ngClass]="activeSession === 'lithree' ? 'active' : 'NavLink activation-status-link'" routerLink="/view/batch" *ngIf="isLangInstitute" id="lithree" (click)="toggler('lithree')">
+    <span [ngClass]="activeSession === 'lithree' ? 'active activeClass' : 'NavLink'" routerLink="/view/batch"
+      *ngIf="isLangInstitute" id="lithree" (click)="toggler('lithree')">
       <img src="./assets/images/sidebar/course.svg" alt="">
-      <span  id="li3">Batch</span>
+      <span id="li3">Batch</span>
     </span>
-    <span [ngClass]="activeSession === 'lifour' ? 'active' : 'NavLink activation-status-link'" routerLink="/view/fee" #divFeeTag id="divFeeTag" (click)="toggler('lifour')">
+    <span [ngClass]="activeSession === 'lifour' ? 'active activeClass' : 'NavLink'" routerLink="/view/fee"
+      #divFeeTag id="divFeeTag" (click)="toggler('lifour')">
       <img src="./assets/images/sidebar/fees.svg" alt="">
       Fee
     </span>
-    <span [ngClass]="activeSession === 'lifive' ? 'active' : 'NavLink activation-status-link'" routerLink="/view/live-classes" (click)="toggler('lifive')">
+    <span [ngClass]="activeSession === 'lifive' ? 'active activeClass' : 'NavLink'"
+      routerLink="/view/live-classes" (click)="toggler('lifive')">
       <img src="./assets/images/sidebar/live-class.svg" alt="">
       Live Class
     </span>
-    <span [ngClass]="activeSession === 'lisix' ? 'active' : 'NavLink activation-status-link'" routerLink="/view/communicate" (click)="toggler('lisix')">
+    <span [ngClass]="activeSession === 'lisix' ? 'active activeClass' : 'NavLink'"
+      routerLink="/view/communicate" (click)="toggler('lisix')">
       <img src="./assets/images/sidebar/communicate.svg" alt="">
       Communicate
     </span>
-    <span [ngClass]="activeSession === 'liten' ? 'active' : 'NavLink activation-status-link'" routerLink="/view/library" id="liten" (click)="toggler('liten')">
+    <span [ngClass]="activeSession === 'liten' ? 'active activeClass' : 'NavLink'" routerLink="/view/library"
+      id="liten" (click)="toggler('liten')">
       <img src="./assets/images/sidebar/library.svg" alt="">
       Library
     </span>
-    <span [ngClass]="activeSession === 'lieleone' ? 'active' : 'NavLink activation-status-link'" routerLink="/view/e-store" id="lieleone" (click)="toggler('lieleone')">
+    <span [ngClass]="activeSession === 'lieleone' ? 'active activeClass' : 'NavLink'"
+      routerLink="/view/e-store" id="lieleone" (click)="toggler('lieleone')">
       <img src="./assets/images/sidebar/eStore.svg" alt="">
       eStore
     </span>
@@ -83,8 +93,8 @@
   </div>
 
   <div class="setting">
-    <div class="setting-item" (click)="showSubSection('help')">
-      <img src="./assets/images/sidebar/help.svg" title="Help" alt="">
+    <div class="setting-item">
+      <img src="./assets/images/sidebar/help.svg" title="Help" alt="" (click)="showSubSection('help')">
       <div class="side-section" id="help">
         <div class="side-section-item">
           <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
@@ -101,22 +111,23 @@
         </div>
       </div>
     </div>
-    <div class="setting-item" #divSettingTag id="divSettingTag" (click)="showSubSection('setting')">
-      <img src="./assets/images/sidebar/setup.svg" title="Settings" alt="">
+    <div class="setting-item" #divSettingTag id="divSettingTag" >
+        <img src="./assets/images/sidebar/settings.svg" title="Settings" alt="" (click)="showSubSection('setting')">
+     
       <div class="side-section" id="setting">
         <div class="side-section-item">
-          <span (click)="routerLink('/view/setting')">General Settings</span>
+          <span (click)="routerLink('/view/setting','setting')">General Settings</span>
         </div>
         <div class="side-section-item">
-          <span (click)="routerLink('/view/formField/home')">Custom Form Field</span>
+          <span (click)="routerLink('/view/formField/home','setting')">Custom Form Field</span>
         </div>
         <div class="side-section-item">
-          <span (click)="routerLink('/view/master/areaCity')">City Area Map</span>
+          <span (click)="routerLink('/view/master/areaCity','setting')">City Area Map</span>
         </div>
       </div>
     </div>
-    <div class="setting-item" #divMasterTag id="divMasterTag" (click)="showSubSection('setup')">
-       <img src="./assets/images/sidebar/settings.svg" title="Setup" alt="">
+    <div class="setting-item" #divMasterTag id="divMasterTag">
+        <img src="./assets/images/sidebar/setup.svg" title="Setup" alt="" (click)="showSubSection('setup')">
       <div class="side-section" id="setup">
         <div class="side-section-item">
           <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
@@ -144,31 +155,30 @@
     <div class="setting-item" (click)="showSubMenu('branches')" *ngIf="(showMainBranchBackBtn)">
       <img src="./assets/images/sidebar/branches.svg" title="Back To Main Branch" alt="" (click)="loginToMainBranch()">
     </div>
-    <div class="setting-item" #divManageUsers id="divManageUsers" (click)="routerLink('/view/manage')">
-      <img src="./assets/images/sidebar/users.svg" title="Users" alt="">
+    <div class="setting-item" #divManageUsers id="divManageUsers" >
+      <img src="./assets/images/sidebar/users.svg" title="Users" alt="" routerLink="/view/manage" (click)="activeSession=null">
     </div>
-    <div class="setting-item" #divMyAccountTag id="divMyAccountTag" (click)="showSubSection('account')">
-      <img src="./assets/images/sidebar/my-account.svg" title="My Account" alt="">
+    <div class="setting-item" #divMyAccountTag id="divMyAccountTag" >
+      <img src="./assets/images/sidebar/my-account.svg" title="My Account" alt="" (click)="showSubSection('account')">
       <div class="side-section" id="account">
+        <div class="side-section-item">
+          <span (click)="routerLink('/view/account','account')">My Account</span>
+        </div>
         <div class="side-section-item">
           <span (click)="changePasswordClick()">Change Password</span>
         </div>
         <div class="side-section-item">
           <span (click)="logout()">Logout</span>
         </div>
-        <div class="side-section-item">
-          <span (click)="routerLink('/view/account')">My Account</span>
-        </div>
       </div>
     </div>
   </div>
 
   <div class="proctur-info">
-   <a href="https://www.proctur.com/" target="_blank"> <span style="color:white;">Powered by Proctur</span> </a> 
+    <a href="https://www.proctur.com/" target="_blank"> <span>Powered by Proctur</span> </a>
   </div>
 
 </section>
 
-<aside class="blur-background" *ngIf="sideBar || searchBar || helpMenu" (click)="closeMenu()">
-
+<aside class="blur-background" id="blurBg" *ngIf="sideBar  || searchBar || helpMenu" (click)="closeMenu()">
 </aside>

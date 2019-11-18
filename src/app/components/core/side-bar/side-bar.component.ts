@@ -609,6 +609,7 @@ export class SideBarComponent implements OnInit {
       'products': 'lieleone'
     };
     if (document.getElementById(routesData[pathLastURL])) {
+      this.activeSession = routesData[pathLastURL];
       document.getElementById(routesData[pathLastURL]).classList.add('active');
     }
   }
@@ -617,8 +618,10 @@ export class SideBarComponent implements OnInit {
     for(let i = 0; i < 5; i++){
       document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
     }
+    document.getElementById(id).className = ' side-section';
     document.getElementById(id).classList.add('active-current-menu');
     this.helpMenu = true;
+    document.getElementById('blurBg').className = 'blur-background';
   }
 
   // From Headers section
@@ -648,9 +651,12 @@ export class SideBarComponent implements OnInit {
     this.sideBar = false;
     this.searchBar = false;
     this.helpMenu = false;
+    document.getElementById('blurBg').className = 'normal-background';
     for(let i = 0; i < 5; i++){
       document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
+      document.getElementsByClassName("side-section")[i].className = ' side-section';
     }
+
   }
 
   logout() {
@@ -761,7 +767,7 @@ export class SideBarComponent implements OnInit {
   };
 
 
-  routerLink(route) {
+  routerLink(route,id) {
     for(let i = 0; i < 5; i++){
       document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
     }
@@ -771,6 +777,9 @@ export class SideBarComponent implements OnInit {
     for (let i = 0; i < totalCurrentClasses; i++) {
       currentMenu[i].classList.remove('active-current-menu');
     }
+    document.getElementById(id).className += ' remove-current-menu';
+    document.getElementById('blurBg').className = 'normal-background';
+    this.activeSession = null;
     this.router.navigate([route]);
   }
 
@@ -966,5 +975,4 @@ export class SideBarComponent implements OnInit {
     window.open(url, "_blank");
     this.helpMenu = false;
   }
-
 }

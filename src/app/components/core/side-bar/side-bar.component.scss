@@ -12,7 +12,7 @@
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
-  padding: 0 10px;
+  padding: 5px 10px;
   border-bottom: 1px solid #b4b6bd;
   // .institute-logo-container{
   //   width: 30%;
@@ -103,6 +103,28 @@
     cursor: pointer;
   }
 }
+ .activeClass {
+  border-color: #528ff0;
+  color: #fff;
+  background-color: #252939;
+  border-left: 4px solid #528ff0;
+  line-height: 36px;
+  padding: 0 12px;
+  width: 100%;
+  cursor: pointer;
+  .fa {
+      margin-right: 10px;
+      width: 16px;
+      text-align: center;
+  }
+  img{
+    max-height: 16px;
+    max-width: 16px;
+    height: 16px;
+    margin-top: 0px;
+    cursor: pointer;
+  }
+ }
 .nav .NavLink:hover{
   border-color: #528ff0;
   color: #fff;
@@ -174,6 +196,9 @@
   }
   .active-current-menu{
     display: block;
+  }
+  .remove-current-menu{
+    display: none;
   }
 }
 
@@ -262,6 +287,14 @@
   top: 0px;
   height: 100%;
   z-index: 100;
+  width: 100%;
+}
+.normal-background{
+  background: none;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  height: 100%;
   width: 100%;
 }
 
