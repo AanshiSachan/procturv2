@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, AfterViewInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map'
@@ -13,7 +13,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })
-export class SideBarComponent implements OnInit {
+export class SideBarComponent implements OnInit, AfterViewChecked {
 
   logs: string = ''
   isLangInstitute: boolean = false;
@@ -91,7 +91,8 @@ export class SideBarComponent implements OnInit {
     private router: Router,
     private fetchService: FetchprefilldataService,
     private multiBranchService: MultiBranchDataService,
-    private commonService: CommonServiceFactory
+    private commonService: CommonServiceFactory,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -363,7 +364,7 @@ export class SideBarComponent implements OnInit {
     if (userType == 0) {
       /* admin detected */
       if (permission == null || permission == undefined || permission == '') {
-        let hideArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'lieleone'];
+        let hideArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'lieleone', 'litwelve'];
         hideArray.forEach(obj => {
           if (document.getElementById(obj)) {
             document.getElementById(obj).classList.remove('hide');
@@ -484,7 +485,7 @@ export class SideBarComponent implements OnInit {
       permissions.includes('207') || permissions.includes('208') ||
       permissions.includes('722')) {
       document.getElementById('lisix').classList.remove('hide');
-    }else{
+    } else {
       document.getElementById('lisix').classList.add('hide');
     }
   }
@@ -543,14 +544,13 @@ export class SideBarComponent implements OnInit {
     }
     else { }
   }
+  ngAfterViewChecked() {
+    this.cd.detectChanges();
+  }
 
   /* Function to set the id for setActive function to act upon */
   toggler(id) {
     this.activeSession = id;
-    // this.RemoveActiveTabs();
-    // if (document.getElementById(id)) {
-    //   document.getElementById(id).classList.add('active');
-    // }
   }
 
   checkInstituteType() {
@@ -584,7 +584,7 @@ export class SideBarComponent implements OnInit {
   }
 
   RemoveActiveTabs() {
-    let removeArray = ['lizero', 'lione', 'litwo', 'lithree', 'lifour', 'lifive','lisix', 'liseven', 'lieight', 'linine', 'liten', 'lieleone'];
+    let removeArray = ['lizero', 'lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'liten', 'lieleone', 'litwelve'];
     removeArray.forEach(object => {
       if (document.getElementById(object)) {
         document.getElementById(object).classList.remove('active');
@@ -606,7 +606,8 @@ export class SideBarComponent implements OnInit {
       'inventory': 'liseven',
       'campaign': 'linine',
       'library': 'liten',
-      'products': 'lieleone'
+      'products': 'lieleone',
+      'online-exam': 'litwelve'
     };
     if (document.getElementById(routesData[pathLastURL])) {
       this.activeSession = routesData[pathLastURL];
@@ -614,14 +615,20 @@ export class SideBarComponent implements OnInit {
     }
   }
 
-  showSubSection(id){
-    for(let i = 0; i < 5; i++){
-      document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
+  showSubSection(id) {
+    for (let i = 0; i < 5; i++) {
+      document.getElementsByClassName("side-section") && document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
     }
+   if(document.getElementById(id)){
     document.getElementById(id).className = ' side-section';
     document.getElementById(id).classList.add('active-current-menu');
+   }
+     
     this.helpMenu = true;
-    document.getElementById('blurBg').className = 'blur-background';
+    if (document.getElementById('blurBg'))
+      {
+        document.getElementById('blurBg').className = 'blur-background';
+      }
   }
 
   // From Headers section
@@ -652,7 +659,7 @@ export class SideBarComponent implements OnInit {
     this.searchBar = false;
     this.helpMenu = false;
     document.getElementById('blurBg').className = 'normal-background';
-    for(let i = 0; i < 5; i++){
+    for (let i = 0; i < 5; i++) {
       document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
       document.getElementsByClassName("side-section")[i].className = ' side-section';
     }
@@ -761,14 +768,13 @@ export class SideBarComponent implements OnInit {
 
       // document.getElementById(id+"icon").src = "./assets/images/sidebar/sideMenu/"+id+"_color.svg";
       // document.getElementById(id+"_current").classList.add('active-current-menu')
-      if (document.getElementById(id))
-        {document.getElementById(id).style.display = "block";}
+      if (document.getElementById(id)) { document.getElementById(id).style.display = "block"; }
     }
   };
 
 
-  routerLink(route,id) {
-    for(let i = 0; i < 5; i++){
+  routerLink(route, id) {
+    for (let i = 0; i < 5; i++) {
       document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
     }
     this.sideBar = false;

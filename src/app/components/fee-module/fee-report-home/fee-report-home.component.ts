@@ -15,6 +15,7 @@ export class FeeReportHomeComponent implements OnInit {
     moduleState: '',
     isFeeActivity: false,
     isAdmin: false,
+    isProfitnloss: false,
   }
 
   constructor(private auth: AuthenticatorService) { }
@@ -24,10 +25,12 @@ export class FeeReportHomeComponent implements OnInit {
     const userType = sessionStorage.getItem('userType');
     if (userType == '3') {
       this.jsonFlags.isAdmin = false;
+      this.jsonFlags.isProfitnloss = false;
     }
     else if (userType == '0') {
       if (sessionStorage.getItem('permissions') == "" || sessionStorage.getItem('permissions') == null) {
         this.jsonFlags.isAdmin = true;
+        this.jsonFlags.isProfitnloss = true;
       }
     }
     if (sessionStorage.getItem('permissions')) {
@@ -48,6 +51,7 @@ export class FeeReportHomeComponent implements OnInit {
     if (sessionStorage.getItem('userType') == '0') {
       if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
         this.jsonFlags.isFeeActivity = true;
+        this.jsonFlags.isProfitnloss = true;
 
       }
     }
@@ -55,6 +59,11 @@ export class FeeReportHomeComponent implements OnInit {
       || sessionStorage.getItem('username') == 'admin') {
       this.showChart = true;
     }
+    let perm: any[] = JSON.parse(sessionStorage.getItem('permissions'));
+      /* profit and lodd */
+      if (perm.indexOf('208') != -1) {
+        this.jsonFlags.isProfitnloss = true;
+      }
 
     this.auth.institute_type.subscribe(
       res => {

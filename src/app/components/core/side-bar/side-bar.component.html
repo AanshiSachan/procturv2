@@ -74,6 +74,11 @@
       <img src="./assets/images/sidebar/eStore.svg" alt="">
       eStore
     </span>
+    <span [ngClass]="activeSession === 'litwelve' ? 'active activeClass' : 'NavLink'"
+      routerLink="/view/online-exam" id="twelve" (click)="toggler('twelve')">
+      <img src="./assets/images/sidebar/online_exam.svg" alt="">
+      Online Exam
+    </span>
     <!-- <span class="NavLink" href="#/app/dashboard">
       <img src="./assets/images/sidebar/employee.svg" alt="">
       Empolyee

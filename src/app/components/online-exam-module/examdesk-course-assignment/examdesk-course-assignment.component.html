@@ -5,7 +5,11 @@
 
 
   <div class="row head-section">
-    <h2 class="pull-left">ExamDesk Course Assignment</h2>
+    <h2 class="pull-left">
+        <a routerLink="/view/online-exam/">
+          Online Exam
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>ExamDesk Course Assignment</h2>
     <div class="pull-right">
       <div class="search-filter-wrapper">
         <input type="text" class="normal-field" [(ngModel)]="searchValue" placeholder="Search" (keyup)="searchInList()">

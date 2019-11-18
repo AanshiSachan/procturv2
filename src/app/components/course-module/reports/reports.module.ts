@@ -18,7 +18,10 @@ import { AttendanceReportServiceService } from '../services/attendance-report-se
 import { ExamService } from '../../../services/report-services/exam.service';
 import { ExamReportMainComponent } from './exam-report-main/exam-report.component';
 import { FilterPipe } from './exam-report-main/filter.pipe';
-;
+import { ExcelService } from '../../../services/excel.service';
+import { BiometricServiceService } from '../../../services/biometric-service/biometric-service.service';
+import { BiometricComponent } from './biometric/biometric.component';
+
 
 
 @NgModule({
@@ -38,10 +41,13 @@ import { FilterPipe } from './exam-report-main/filter.pipe';
     ReportHomeComponent,
     AttendanceReportComponent,
     ExamReportMainComponent,
-    FilterPipe
+    FilterPipe,
+    BiometricComponent
   ],
   providers: [
     ExamService,
+    ExcelService,
+    BiometricServiceService,
     AttendanceReportServiceService
   ],
 })

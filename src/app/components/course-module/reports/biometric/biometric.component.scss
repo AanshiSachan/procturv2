@@ -133,7 +133,7 @@ p {
             }
             &:after {
                 content: '';
-                background: url('../../../../assets/images/calendar.svg') no-repeat;
+                background: url('../../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
                 right: 21px;
                 top: 31px;
@@ -156,7 +156,7 @@ p {
             .form-ctrl {
                 &:after {
                     content: '';
-                    background: url('../../../../assets/images/calendar.svg') no-repeat;
+                    background: url('../../../../../assets/images/calendar.svg') no-repeat;
                     position: absolute;
                     right: 21px;
                     top: 31px;
@@ -177,7 +177,7 @@ p {
             .form-ctrl {
                 &:after {
                     content: '';
-                    background: url('../../../../assets/images/calendar.svg') no-repeat;
+                    background: url('../../../../../assets/images/calendar.svg') no-repeat;
                     position: absolute;
                     right: 21px;
                     top: 32px;
@@ -203,7 +203,7 @@ p {
             }
             &:after {
                 content: '';
-                background: url('../../../../assets/images/calendar.svg') no-repeat;
+                background: url('../../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
                 right: 0;
                 top: 27px;
@@ -505,7 +505,7 @@ p {
             }
             &:after {
                 content: '';
-                background: url('../../../../assets/images/calendar.svg') no-repeat;
+                background: url('../../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
                 right: 0;
                 top: 20px;
@@ -669,7 +669,7 @@ $color-highlight: lighten($color-base,
         }
         &:after {
             content: '';
-            background: url('../../../../assets/images/calendar.svg') no-repeat;
+            background: url('../../../../../assets/images/calendar.svg') no-repeat;
             position: absolute;
             right: 0;
             top: 20px;

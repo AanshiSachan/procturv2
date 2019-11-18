@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FeeComponent, FeeReportHomeComponent, FeeCourseReportComponent, AllDataReportComponent, InactiveStudentReportComponent,
      GstReportComponent, OnlinePaymentHistoryComponent, PaymentHistoryMainComponent ,ChequeManageComponent} from '.';
+import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 
 
 @NgModule({
@@ -57,6 +58,11 @@ import { FeeComponent, FeeReportHomeComponent, FeeCourseReportComponent, AllData
                         loadChildren: 'app/components/fee-module/monitoring-dashboard/monitoring-dashboard.module#MonitoringDashboardModule',
                         pathMatch: 'prefix'
                     },
+                    {
+                        path: 'profitNloss',
+                        component: ProfitLossComponent,
+                        pathMatch: 'prefix'
+                    }
                 ]
             }
         ])

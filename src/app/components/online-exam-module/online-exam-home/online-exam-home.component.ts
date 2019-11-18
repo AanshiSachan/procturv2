@@ -1,24 +1,18 @@
-import { Component, OnInit, } from '@angular/core';
-import { Router } from '@angular/router';
-import 'rxjs/Rx';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-online-exam-home',
+  templateUrl: './online-exam-home.component.html',
+  styleUrls: ['./online-exam-home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class OnlineExamHomeComponent implements OnInit {
 
   jsonFlag = {
     isProfessional: false,
     isAdmin: false,
-    isFeeActivity: false,
-    isMonitorDashboard: false,
     showExamDesk: false,
-    showLiveClasses: false,
-    isEcourseFileManager: false,
-    isTimetable:false,
     institute_id:''
   }
 
@@ -46,11 +40,6 @@ export class HomeComponent implements OnInit {
     if (this.jsonFlag.isAdmin) {
       let type = Number(sessionStorage.getItem('institute_setup_type'));
       this.jsonFlag.showExamDesk = this.checkInstSetupType(type, 4);
-      this.jsonFlag.showLiveClasses = this.checkInstSetupType(type, 256);
-    }
-    const userType = sessionStorage.getItem('userType');
-    if (userType == '3') {
-      this.jsonFlag.showLiveClasses = true;
     }
   }
 
@@ -60,32 +49,11 @@ export class HomeComponent implements OnInit {
     const userType = sessionStorage.getItem('userType');
     if (userType == '3') {
       this.jsonFlag.isAdmin = false;
-      this.jsonFlag.isTimetable = true;
-      // if (sessionStorage.getItem('testprepEnabled') != "false") {
-      //   this.jsonFlag.showLiveClasses = true;
-      // }
     }
     else if (userType == '0') {
       if (permissionArray == "" || permissionArray == null) {
         this.jsonFlag.isAdmin = true;
-        this.jsonFlag.isFeeActivity = true;
-        this.jsonFlag.isTimetable = true;
       }
-      else {
-        let perm: any[] = JSON.parse(permissionArray);
-        
-        if (perm.indexOf('102') != -1) {
-          this.jsonFlag.isFeeActivity = true;
-        }
-
-        if (perm.indexOf('205') != -1) {
-          this.jsonFlag.isTimetable = true;
-        }
-      }
-    }
-
-    if (permittedRoles['718'] != undefined && sessionStorage.getItem('enable_eLearn_feature')=='1') {
-      this.jsonFlag.isEcourseFileManager = true;
     }
   }
 
@@ -151,6 +119,7 @@ checkInstSetupType(value, role): boolean {
       return false;
     }
   }
+
 
 
 }

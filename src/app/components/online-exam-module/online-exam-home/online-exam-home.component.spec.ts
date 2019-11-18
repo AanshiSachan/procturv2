@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewReportCardComponent } from './view-report-card.component';
+import { OnlineExamHomeComponent } from './online-exam-home.component';
 
-describe('ViewReportCardComponent', () => {
-  let component: ViewReportCardComponent;
-  let fixture: ComponentFixture<ViewReportCardComponent>;
+describe('OnlineExamHomeComponent', () => {
+  let component: OnlineExamHomeComponent;
+  let fixture: ComponentFixture<OnlineExamHomeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewReportCardComponent ]
+      declarations: [ OnlineExamHomeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewReportCardComponent);
+    fixture = TestBed.createComponent(OnlineExamHomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

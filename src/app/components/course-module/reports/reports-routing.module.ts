@@ -4,6 +4,7 @@ import { ReportsComponent } from './reports.component';
 import { ReportHomeComponent } from './report-home/report-home.component';
 import { AttendanceReportComponent } from './attendance-report/attendanceReport.component';
 import { ExamReportMainComponent } from './exam-report-main/exam-report.component';
+import { BiometricComponent } from './biometric/biometric.component';
 
 
 const routes: Routes = [];
@@ -31,7 +32,12 @@ const routes: Routes = [];
               {
                 path: 'exam',
                   component:ExamReportMainComponent
-              }
+              },
+              {
+                path:'biometric',
+                component:BiometricComponent,
+                pathMatch: 'prefix',
+            }
             //   {
             //       path: 'exam',
             //       loadChildren: 'app/components/course-module/reports/exam-report/exam-report.module#ExamReportModule',

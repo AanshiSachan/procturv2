@@ -30,7 +30,7 @@ export class AuthGuard implements CanActivate, CanLoad {
 
         if ((sessionStorage.getItem('userid') != null) && sessionStorage.getItem('institute_id') != null) {
 
-            
+
             if (string.indexOf('enquiry') >= 0) {
                 return this.hasEnquiryAccess();
             }
@@ -44,15 +44,15 @@ export class AuthGuard implements CanActivate, CanLoad {
             else if (string.indexOf('course') >= 0) {
                 return this.hasCourseAccess();
             }
-            
-            else if (string.indexOf('activity') >= 0) {
-                return this.hasActivityAccess();
+
+            else if (string.indexOf('online-exam') >= 0) {
+                return this.hasOnlineExamAcess();
             }
 
             else if (string.indexOf('employee') >= 0) {
                 return this.hasEmployeeAccess();
             }
-            
+
             else if (string.indexOf('reports') >= 0) {
                 return this.hasReportAccess();
             }
@@ -64,7 +64,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             else if (string.indexOf('expense') >= 0) {
                 return this.hasExpenseAccess();
             }
-            
+
             else if (string.indexOf('campaign') >= 0) {
                 return this.hasCampaignAccess();
             }
@@ -100,22 +100,22 @@ export class AuthGuard implements CanActivate, CanLoad {
             else if (string.indexOf('academic') >= 0) {
                 return true;
             }
-            
+
             else if (string.indexOf('master') >= 0) {
                 return true;
             }
-                        
+
             else if (string.indexOf('setting') >= 0) {
                 return true;
-            }            
+            }
 
             else if (string.indexOf('account') >= 0) {
                 return true;
-            }            
+            }
 
             else if (string.indexOf('manage') >= 0) {
                 return true;
-            }            
+            }
         }
         else {
             return false;
@@ -167,7 +167,18 @@ export class AuthGuard implements CanActivate, CanLoad {
                 JSON.parse(sessionStorage.getItem('permissions')).includes('502') ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('701') ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('702') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('704')) {
+                JSON.parse(sessionStorage.getItem('permissions')).includes('704') ||
+                JSON.parse(sessionStorage.getItem('permissions')).includes('201') ||
+                JSON.parse(sessionStorage.getItem('permissions')).includes('202') ||
+                JSON.parse(sessionStorage.getItem('permissions')).includes('203') ||
+                JSON.parse(sessionStorage.getItem('permissions')).includes('204') ||
+                JSON.parse(sessionStorage.getItem('permissions')).includes('205') ||
+                JSON.parse(sessionStorage.getItem('permissions')).includes('206') ||
+                JSON.parse(sessionStorage.getItem('permissions')).includes('207') ||
+                JSON.parse(sessionStorage.getItem('permissions')).includes('208') ||
+                JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
+
+
                 return true;
             }
             else {
@@ -176,7 +187,7 @@ export class AuthGuard implements CanActivate, CanLoad {
         }
     }
 
-    hasActivityAccess(): boolean {
+    hasOnlineExamAcess(): boolean {
         if (sessionStorage.getItem('permissions') == '') {
             return true;
         }

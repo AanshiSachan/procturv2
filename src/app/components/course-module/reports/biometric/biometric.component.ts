@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { BiometricServiceService } from '../../../services/biometric-service/biometric-service.service';
-import { AppComponent } from '../../../app.component';
-import { AuthenticatorService } from "../../../services/authenticator.service";
 import * as moment from 'moment';
-import { ExcelService } from '../../../services/excel.service';
+import { BiometricServiceService } from '../../../../services/biometric-service/biometric-service.service';
+import { AppComponent, AuthenticatorService } from '../../../..';
+import { ExcelService } from '../../../../services/excel.service';
+
 
 @Component({
   selector: 'app-biometric',

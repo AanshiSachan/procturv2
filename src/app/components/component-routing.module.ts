@@ -44,18 +44,13 @@ import { AuthGuard } from '../guards/auth.guard';
                             // canLoad: [AuthGuard]
                         },
                         {
-                            path: 'activity',
-                            loadChildren: 'app/components/activity-home/activity-home.module#ActivityHomeModule',
+                            path: 'online-exam',
+                            loadChildren: 'app/components/online-exam-module/online-exam.module#OnlineExamModule',
                             canLoad: [AuthGuard]
                         },
                         {
                             path: 'employee',
                             loadChildren: 'app/components/employee-home/employee-home.module#EmployeeHomeModule',
-                            canLoad: [AuthGuard]
-                        },
-                        {
-                            path: 'reports',
-                            loadChildren: 'app/components/report/report.module#ReportModule',
                             canLoad: [AuthGuard]
                         },
                         {
