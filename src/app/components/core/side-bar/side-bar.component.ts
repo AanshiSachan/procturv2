@@ -616,9 +616,9 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
   }
 
   showSubSection(id) {
-    for (let i = 0; i < 5; i++) {
-      document.getElementsByClassName("side-section") && document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
-    }
+    // for (let i = 0; i < 5; i++) {
+    //   document.getElementsByClassName("side-section") && document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
+    // }
    if(document.getElementById(id)){
     document.getElementById(id).className = ' side-section';
     document.getElementById(id).classList.add('active-current-menu');
@@ -774,9 +774,10 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
 
 
   routerLink(route, id) {
-    for (let i = 0; i < 5; i++) {
-      document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
-    }
+    // for (let i = 0; i < 5; i++) {
+    //   console.log(document.getElementsByClassName("side-section")[i].classList)
+    //   // document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
+    // }
     this.sideBar = false;
     let totalCurrentClasses = document.getElementsByClassName("current-menu").length;
     let currentMenu = document.getElementsByClassName("current-menu") as HTMLCollectionOf<HTMLElement>;

@@ -1200,13 +1200,13 @@
                   </div>
                 </td>
 
-                <td class="edit-view-btn" *ngIf="!sch.edit">
-                  <div class="" style="width: 72%;float: left;">
+                <td class="edit-view-btn" *ngIf="!sch.edit" style="width: 30%;">
+                  <div class="" style="width: 50%;float: left;">
                     <a (click)="editInstitute(sch.school_id)" style="cursor:pointer">
                       <i class="edit-icon cursor-icon" aria-hidden="true"></i>Edit
                     </a>
                   </div>
-                  <div class="">
+                  <div class="" style="width: 32%;float: left;">
                     <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer">
                       <i class="view-icon cursor-icon" aria-hidden="true"></i>Delete
                     </a>
