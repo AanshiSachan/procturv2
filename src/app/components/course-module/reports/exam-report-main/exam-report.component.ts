@@ -646,9 +646,9 @@ export class ExamReportMainComponent implements OnInit {
     let classArray = ['home', 'attendance', 'sms', 'fee', 'exam', 'report', 'time', 'email', 'profit'];
 
     classArray.forEach((classname) => {
-      document.getElementById(classname).classList.remove('active');
+      document.getElementById(classname) && document.getElementById(classname).classList.remove('active');
     });
-    document.getElementById(id).classList.add('active');
+    document.getElementById(id) && document.getElementById(id).classList.add('active');
   }
 
   searchDatabase() {

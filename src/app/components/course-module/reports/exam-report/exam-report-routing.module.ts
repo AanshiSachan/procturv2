@@ -6,6 +6,7 @@ import { ExamWiseComponent } from './exam-wise/exam-wise.component';
 import { TeacherPerformanceComponent } from './teacher-performance/teacher-performance.component';
 import { ExamReportHomeComponent } from './exam-report-home/exam-report-home.component';
 import { ExamReportComponent } from './exam-report.component';
+import { ExamReportMainComponent } from '../exam-report-main/exam-report.component';
 
 
 @NgModule({
@@ -25,7 +26,7 @@ import { ExamReportComponent } from './exam-report.component';
           },
           {
               path: 'exam',
-              component: ExamReportHomeComponent
+              component: ExamReportMainComponent
           },
           {
               path: 'courseWise/:id',

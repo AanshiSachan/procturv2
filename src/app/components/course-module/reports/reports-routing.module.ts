@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { ReportsComponent } from './reports.component';
 import { ReportHomeComponent } from './report-home/report-home.component';
 import { AttendanceReportComponent } from './attendance-report/attendanceReport.component';
-import { ExamReportComponent } from './exam-report/exam-report.component';
+import { ExamReportMainComponent } from './exam-report-main/exam-report.component';
+
 
 const routes: Routes = [];
 
@@ -28,10 +29,14 @@ const routes: Routes = [];
                   component: AttendanceReportComponent
               },
               {
-                  path: 'exam',
-                  loadChildren: 'app/components/course-module/reports/exam-report/exam-report.module#ExamReportModule',
-                  pathMatch: 'prefix'
-              },
+                path: 'exam',
+                  component:ExamReportMainComponent
+              }
+            //   {
+            //       path: 'exam',
+            //       loadChildren: 'app/components/course-module/reports/exam-report/exam-report.module#ExamReportModule',
+            //       pathMatch: 'prefix'
+            //   },
           ]
       }
   ]

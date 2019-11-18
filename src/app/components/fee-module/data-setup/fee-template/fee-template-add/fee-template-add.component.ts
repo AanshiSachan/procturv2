@@ -336,7 +336,7 @@ export class FeeTemplateAddComponent implements OnInit {
     this.apiService.updateFeeTemplate(data).subscribe(
       res => {
         this.commonService.showErrorMessage('success', 'Updated', 'Fee Structure created Successfully');
-        this.route.navigateByUrl('/view/fee');
+        this.route.navigateByUrl('/view/fee/data-setup/fee-template/home');
       },
       err => {
         this.commonService.showErrorMessage('error', 'Error', err.error.message);

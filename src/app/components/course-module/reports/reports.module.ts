@@ -16,6 +16,9 @@ import { AttendanceReportServiceService } from '../services/attendance-report-se
 // import { ExamReportComponent } from './exam-report/exam-report.component';
 
 import { ExamService } from '../../../services/report-services/exam.service';
+import { ExamReportMainComponent } from './exam-report-main/exam-report.component';
+import { FilterPipe } from './exam-report-main/filter.pipe';
+;
 
 
 @NgModule({
@@ -34,7 +37,8 @@ import { ExamService } from '../../../services/report-services/exam.service';
     ReportsComponent,
     ReportHomeComponent,
     AttendanceReportComponent,
-    // ExamReportComponent,
+    ExamReportMainComponent,
+    FilterPipe
   ],
   providers: [
     ExamService,
