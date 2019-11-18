@@ -6,137 +6,122 @@
         <fee-widget *ngIf="showChart"></fee-widget>
       </section>
 
-      <section>
-          <div class="c-lg-4">
-              <ul class="card" routerLink="./data-setup">
-                <li>
-                  Data Setup
-                </li>
-                <li>
-                  Get the details of the fees 
-                </li>
-              </ul>
-            </div>
-        <div class="c-lg-4">
-          <ul class="card" *ngIf="jsonFlags.isFeeActivity" routerLink="./cheque">
-            <li>
-              Manage Cheque
-            </li>
-            <li>
-              Get the details of the fees paid by cheques
-            </li>
-          </ul>
-        </div>
-        <div class="c-lg-4">
-          <ul class="card" routerLink="./allDueReport">
-            <li>
-              All Due fee report
-            </li>
-            <li>
-              This Report depicts the records of all the past and present dues by range.
-            </li>
-          </ul>
-        </div>
-
-        <div class="c-lg-4">
-          <ul class="card" routerLink="./moduleReport">
-            <li>
-              {{jsonFlags.moduleState}} Wise
-            </li>
-            <li>
-              This Report depicts records of fees paid or dues of a particular {{jsonFlags.moduleState}}.
-            </li>
-          </ul>
-        </div>
-
-        <div class="c-lg-4 ">
-          <ul class="card" routerLink="./paymentHistory">
-            <li>
-              Payment History
-            </li>
-            <li>
-              This Report depicts the records of payments done by range.
-            </li>
-          </ul>
-        </div>
-
-        <!-- <div class="c-lg-4">
-          <ul class="card" routerLink="./inactive">
-            <li>
-              Inactive/Archive Student Data Report
-            </li>
-            <li>
-              This Report depicts the the records and payments of inactive and archived students
-            </li>
-          </ul>
-        </div> -->
-
-        <div class="c-lg-4">
-          <ul class="card" routerLink="./gst">
-            <li>
-              GST Report
-            </li>
-            <li>
-              This Report depicts the daily SMS sent to prospects, students and parents
-            </li>
-          </ul>
-        </div>
-
-        <div class="c-lg-4" *ngIf="enable_online_payment == 1">
-          <ul class="card" routerLink="./onlinePayment">
-            <li>
-              Online Payment History
-            </li>
-            <li>
-              This Report depicts the onlinePayment done by the students.
-            </li>
-          </ul>
-        </div>
-
-        <div class="c-lg-4">
-            <ul class="card" *ngIf="jsonFlags.isAdmin" routerLink="/view/fee/monitoring-dashboard">
-              <li>
-                  Monitoring Dashboard
-              </li>
-              <li>
-                  Get the graphical representation of the fees details.
-              </li>
-            </ul>
+      <div class="course-menu-section-container">
+        <div class="course-menu-item" routerLink="./data-setup">
+          <div class="menu-title">
+            <img src="./assets/images/fee/data_setup.svg" alt="data setup">
+            <span>Data Setup</span>
           </div>
-        <div class="c-lg-4 hide">
-          <ul class="card" routerLink="./cheque">
-            <li>
-              Cheque/PDC Report
-            </li>
-            <li>
-              This Report depicts the daily SMS sent to prospects, students and parents
-            </li>
-          </ul>
+          <div class="menu-description">
+            <span> </span>
+          </div>
         </div>
 
-        <div class="c-lg-4 hide">
-          <ul class="card" routerLink="./discount">
-            <li>
-              Discount Report
-            </li>
-            <li>
-              This Report depicts the daily SMS sent to prospects, students and parents
-            </li>
-          </ul>
+        <div class="course-menu-item" *ngIf="jsonFlags.isFeeActivity" routerLink="./cheque">
+          <div class="menu-title">
+            <img src="./assets/images/fee/Mange_cheque.svg" alt="manage cheque">
+            <span>Manage Cheque</span>
+          </div>
+          <div class="menu-description">
+            <span> </span>
+          </div>
         </div>
 
-        <div class="c-lg-4 hide">
-          <ul class="card" routerLink="./feeType">
-            <li>
-              Reports Based on Fee Type
-            </li>
-            <li>
-              This Report depicts the daily SMS sent to prospects, students and parents
-            </li>
-          </ul>
+        <div class="course-menu-item"  routerLink="./allDueReport">
+          <div class="menu-title">
+            <img src="./assets/images/fee/Due_fees_report.svg" alt="all due fee report">
+            <span>All Due fee report</span>
+          </div>
+          <div class="menu-description">
+            <span> </span>
+          </div>
         </div>
 
-      </section>
+        <div class="course-menu-item"  routerLink="./moduleReport">
+          <div class="menu-title">
+            <img src="" alt="{{jsonFlags.moduleState}} wise">
+            <span>{{jsonFlags.moduleState}} Wise</span>
+          </div>
+          <div class="menu-description">
+            <span> </span>
+          </div>
+        </div>
+
+        <div class="course-menu-item"  routerLink="./paymentHistory">
+          <div class="menu-title">
+            <img src="./assets/images/fee/payment_history.svg" alt="payment history">
+            <span>Payment History</span>
+          </div>
+          <div class="menu-description">
+            <span> </span>
+          </div>
+        </div>
+
+        <div class="course-menu-item"  routerLink="./gst">
+          <div class="menu-title">
+            <img src="./assets/images/fee/gst_report.svg" alt="gst report">
+            <span>GST Report</span>
+          </div>
+          <div class="menu-description">
+            <span> </span>
+          </div>
+        </div>
+
+        <div class="course-menu-item"  routerLink="./onlinePayment" *ngIf="enable_online_payment == 1">
+          <div class="menu-title">
+            <img src="./assets/images/fee/online_paymen_history.svg" alt="online payment history">
+            <span>Online Payment History</span>
+          </div>
+          <div class="menu-description">
+            <span> </span>
+          </div>
+        </div>
+
+        <div class="course-menu-item" *ngIf="jsonFlags.isAdmin" routerLink="/view/fee/monitoring-dashboard">
+          <div class="menu-title">
+            <img src="./assets/images/fee/" alt="monitoring dashboard">
+            <span>Monitoring Dashboard</span>
+          </div>
+          <div class="menu-description">
+            <span> </span>
+          </div>
+        </div>
+
+        <div class="course-menu-item hide"  routerLink="./cheque">
+          <div class="menu-title">
+            <img src="./assets/images/fee/Mange_cheque.svg" alt="cheque report">
+            <span> Cheque/PDC Report</span>
+          </div>
+          <div class="menu-description">
+            <span> </span>
+          </div>
+        </div>
+
+        <div class="course-menu-item hide"  routerLink="./discount">
+          <div class="menu-title">
+            <img src="./assets/images/fee/discount.svg" alt="">
+            <span> Discount Report</span>
+          </div>
+          <div class="menu-description">
+            <span> </span>
+          </div>
+        </div>
+
+        <div class="course-menu-item hide"  routerLink="./feeType">
+          <div class="menu-title">
+            <img src="./assets/images/fee/Fee_types.svg" alt="fee types">
+            <span>Reports Based on Fee Type</span>
+          </div>
+          <div class="menu-description">
+            <span> </span>
+          </div>
+        </div>
+        
+      </div>
+    
+
+
+
     </section>
   </aside>
 </div>

@@ -13,7 +13,7 @@
 
     <div class="batch-wrapper" popup-content>
         <div class="filter-row row">
-            <div class="c-lg-5 radio-filter">
+            <div class="c-lg-5 radio-filter" style="width: 49.666667%;">
                 <!-- <p style="padding: 20px 10px 0px;">* Fee will be mapped automatically if fee schedules are defined at course level.</p> -->
                 <div class="c-lg-2">
                     <a (click)="getOnlyAssigned()" title="click to view assigned" style="cursor: pointer;">
@@ -43,7 +43,7 @@
                 </div>
 
             </div>
-            <div class="c-lg-7">
+            <div class="c-lg-7" style="width: 49.333333%;">
                 <div class="c-lg-6">
                     <div *ngIf="!isProfessional" class="field-wrapper header-select">
                         <select name="" id="" [(ngModel)]="batchFilter.currentStd" (ngModelChange)="fetchDataCustom($event)" class="form-ctrl">

@@ -179,7 +179,7 @@ export class CoursesComponent implements OnInit {
                     this.sendPayload.archived = true;
                     this.batch.courses(this.sendPayload).subscribe(
                       (data: any) => {
-                        this.router.navigateByUrl("/view/activity/archiving/coursesArchivedReport")
+                       this.router.navigateByUrl("/view/course/archiving/coursesArchivedReport")
                         let msg={
                           type:"success",
                           body:"Course(s) archived successfully"
