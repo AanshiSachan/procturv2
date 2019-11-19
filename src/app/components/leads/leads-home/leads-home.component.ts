@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
@@ -17,8 +17,17 @@ export class LeadsHomeComponent implements OnInit {
 
   jsonFlag = {
     isProfessional: false,
-    isRippleLoad: false
+    isRippleLoad: false,
   };
+
+  jsonRolesFlags = {
+    isShowManageEnquiry: false,
+    isShowDataSetup: false,
+    isShowCampaign: false,
+    isShowAddEnquiry: false,
+    isShowReport: false
+  }
+
   enquiryStatus: any[] = [];
   totalEnquiryCount: number;
 
@@ -43,13 +52,45 @@ export class LeadsHomeComponent implements OnInit {
         }
       }
     )
-    // this.fetchenquiry();
+    this.checkpermissinDetails();
   }
 
-  fetchenquiry(){
+  checkpermissinDetails() {
+    let userType = sessionStorage.getItem('userType');
+    let username = sessionStorage.getItem('username');
+    let array = Object.keys(this.jsonRolesFlags);
+    if (sessionStorage.getItem('permissions') == '' && userType == '0' && username == 'admin') {// user role is admin
+      array.forEach((flag) => {
+        this.jsonRolesFlags[flag] = true;
+      });
+    }
+    else {
+      array.forEach((flag) => {
+        this.jsonRolesFlags[flag] = false;
+      });
+      // quick enquiry  --110
+      if (JSON.parse(sessionStorage.getItem('permissions')).includes('110')) {
+        this.jsonRolesFlags.isShowManageEnquiry = true;
+        this.jsonRolesFlags.isShowAddEnquiry = true;
+      }
+      // enquiry  admin --115
+      if (JSON.parse(sessionStorage.getItem('permissions')).includes('115')) {
+        this.jsonRolesFlags.isShowCampaign = true;
+        this.jsonRolesFlags.isShowManageEnquiry = true;
+        this.jsonRolesFlags.isShowAddEnquiry = true;
+      }
+      // enquiry  report --722
+      if (JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
+        this.jsonRolesFlags.isShowReport = true;
+      }
+
+    }
+  }
+
+  fetchenquiry() {
     let obj = {
-        updateDateFrom: moment().date(1).format("YYYY-MM-DD"),
-        updateDateTo: moment().format("YYYY-MM-DD")
+      updateDateFrom: moment().date(1).format("YYYY-MM-DD"),
+      updateDateTo: moment().format("YYYY-MM-DD")
     }
     this.jsonFlag.isRippleLoad = true;
     this.enquire.fetchEnquiryWidgetView(obj).subscribe(
@@ -68,36 +109,36 @@ export class LeadsHomeComponent implements OnInit {
   }
 
   getEnqStartDate() {
-      this.cd.markForCheck();
-      let date = moment().date(1).format("YYYY-MM-DD");
-      return this.enquiryDate[0];
+    this.cd.markForCheck();
+    let date = moment().date(1).format("YYYY-MM-DD");
+    return this.enquiryDate[0];
   }
 
   getEnqEndDate() {
-      this.cd.markForCheck();
-      return this.enquiryDate[1];
+    this.cd.markForCheck();
+    return this.enquiryDate[1];
   }
 
   updateEnqChartByDate(e) {
-      this.cd.markForCheck();
-      let obj = {
-          updateDateFrom: moment(e[0]).format("YYYY-MM-DD"),
-          updateDateTo: moment(e[1]).format("YYYY-MM-DD")
+    this.cd.markForCheck();
+    let obj = {
+      updateDateFrom: moment(e[0]).format("YYYY-MM-DD"),
+      updateDateTo: moment(e[1]).format("YYYY-MM-DD")
+    }
+    this.jsonFlag.isRippleLoad = true;
+    this.enquire.fetchEnquiryWidgetView(obj).subscribe(
+      (res: any) => {
+        this.jsonFlag.isRippleLoad = false;
+        this.cd.markForCheck();
+        let result: any;
+        result = res;
+        this.enquiryStatus = result.statusMap;
+        this.totalEnquiryCount = result.totalcount;
       }
-      this.jsonFlag.isRippleLoad = true;
-      this.enquire.fetchEnquiryWidgetView(obj).subscribe(
-          (res: any) => {
-            this.jsonFlag.isRippleLoad = false;
-              this.cd.markForCheck();
-              let result: any;
-              result = res;
-              this.enquiryStatus = result.statusMap;
-              this.totalEnquiryCount = result.totalcount;
-          }
-      )
+    )
   }
 
   openCalendar(id) {
-      document.getElementById(id).click();
+    document.getElementById(id).click();
   }
 }

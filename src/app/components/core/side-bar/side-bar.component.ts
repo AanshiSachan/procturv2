@@ -370,7 +370,7 @@ export class SideBarComponent implements OnInit {
     let type = Number(sessionStorage.getItem('institute_setup_type'));
     this.isLibraryFeatureAllow(permission); // check librabry feature
     this.isOnlineExamAllow(type); // check online test is enable or not 
-
+    this.isLiveClassesAllow(type);
     /* Admin or Custom login */
     if (userType == 0) {
       /* admin detected */
@@ -392,16 +392,16 @@ export class SideBarComponent implements OnInit {
       }
       // check these new feature is enable for institute or not
       this.isElearnAllow();
-      this.isLiveClassesAllow(type);
       this.isLibraryFeatureAllow(permission);
       this.isOnlineExamAllow(type);
+      this.hasCourse(this.permissionData);
 
     }
     else if (userType == 3) {
       /* Teacher login detected */
       this.jsonFlags.isAdmin = false;
       this.teacherLoginFound();
-      this.isLiveClassesAllow(type);
+     
     }
 
   }
@@ -447,7 +447,9 @@ export class SideBarComponent implements OnInit {
     if (this.isProfessional || sessionStorage.getItem('enable_eLearn_feature') == '0') {
       this.jsonFlags.isShoweStore = false;
     }
-
+      if(sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1'){
+        this.jsonFlags.isShoweStore = true;
+      }
   }
 
   isOnlineExamAllow(type) {
@@ -543,14 +545,13 @@ export class SideBarComponent implements OnInit {
 
   hasLead(permissions) {
     this.jsonFlags.isShowLead = false;
-    if (permissions.includes('110') || permissions.includes('115')) {
+    if (permissions.includes('110') || permissions.includes('115') || permissions.includes('722')) {
       this.jsonFlags.isShowLead = true;
     }
 
   }
 
   hasStudent(permissions) {
-    debugger;
     this.jsonFlags.isShowStudent = false;
     if (permissions.includes('301') ||
       permissions.includes('302') ||

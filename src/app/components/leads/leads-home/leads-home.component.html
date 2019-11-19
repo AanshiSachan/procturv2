@@ -63,14 +63,14 @@
           <span>{{enquiryStatus.Closed}}</span>
         </div>
         <div class="dashboard-item-name">
-          <span>Not Converted</span>
+          <span>Not Converted </span>
         </div>
       </div>
     </div>
   </div>
 
   <div class="leads-menu-section-container">
-      <div class="leads-menu-item" routerLink="/view/leads/setup">
+      <div class="leads-menu-item" routerLink="/view/leads/setup" *ngIf="jsonRolesFlags.isShowDataSetup">
         <div class="menu-title">
           <img src="./assets/images/leads/data-setup.svg" alt="data setup">
           <span>Data Setup</span>
@@ -79,16 +79,16 @@
           <span>Click here to set up  sources of leads generated from and closing reasons of enquiry</span>
         </div>
       </div>
-    <div class="leads-menu-item" routerLink="/view/leads/campaign">
+    <div class="leads-menu-item" routerLink="/view/leads/campaign" *ngIf="jsonRolesFlags.isShowCampaign">
       <div class="menu-title">
-        <img src="./assets/images/leads/campaign.svg" alt="campaign">
+        <img src="./assets/images/leads/campaign.svg" alt="campaign"  >
         <span>Campaign</span>
       </div>
       <div class="menu-description">
         <span>Send SMS in bulk to students/parents for marketing or other purposes.</span>
       </div>
     </div>
-    <div class="leads-menu-item" routerLink="/view/leads/add">
+    <div class="leads-menu-item" routerLink="/view/leads/add" *ngIf="jsonRolesFlags.isShowAddEnquiry">
       <div class="menu-title">
         <img src="./assets/images/leads/add-enquiry.svg" alt="add enquiry">
         <span>Add Enquiry</span>
@@ -97,7 +97,7 @@
         <span>Quickly add single enquiry and details like basic details, academic details and contact details in the portal</span>
       </div>
     </div>
-    <div class="leads-menu-item" routerLink="/view/leads/enquiry">
+    <div class="leads-menu-item" routerLink="/view/leads/enquiry" *ngIf="jsonRolesFlags.isShowManageEnquiry">
       <div class="menu-title">
         <img src="./assets/images/leads/manage.svg" alt="manage enq">
         <span>Manage Enquiry</span>
@@ -106,8 +106,8 @@
         <span>Add enquiries in bulk and manage them where you can assign status, set priority and setup reminder for follow up.</span>
       </div>
     </div>
-    <div class="leads-menu-item" routerLink="/view/leads/enquiryReport">
-      <div class="menu-title">
+    <div class="leads-menu-item" routerLink="/view/leads/enquiryReport" *ngIf="jsonRolesFlags.isShowReport">
+      <div class="menu-title"  *ngIf="jsonRolesFlags.isShowReport" >
         <img src="./assets/images/leads/reports.svg" alt="reports">
         <span>Reports</span>
       </div>

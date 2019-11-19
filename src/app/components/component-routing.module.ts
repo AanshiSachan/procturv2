@@ -41,7 +41,7 @@ import { AuthGuard } from '../guards/auth.guard';
                         {
                             path: 'leads',
                             loadChildren: 'app/components/leads/leads.module#LeadsModule',
-                            // canLoad: [AuthGuard]
+                            canLoad: [AuthGuard]
                         },
                         {
                             path: 'online-exam',

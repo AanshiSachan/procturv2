@@ -31,17 +31,16 @@ export class AuthGuard implements CanActivate, CanLoad {
         if ((sessionStorage.getItem('userid') != null) && sessionStorage.getItem('institute_id') != null) {
 
 
-            if (string.indexOf('enquiry') >= 0) {
+            if (string.indexOf('leads') >= 0) {
                 return this.hasEnquiryAccess();
             }
 
 
             else if (string.indexOf('student') >= 0) {
-
                 return this.hasStudentAccess();
             }
 
-            else if (string.indexOf('course') >= 0) {
+            else if (string.indexOf('course') >= 0 || string.indexOf('batch') >= 0) {
                 return this.hasCourseAccess();
             }
 
@@ -53,13 +52,13 @@ export class AuthGuard implements CanActivate, CanLoad {
                 return this.hasEmployeeAccess();
             }
 
-            else if (string.indexOf('reports') >= 0) {
-                return this.hasReportAccess();
-            }
+            // else if (string.indexOf('reports') >= 0) {
+            //     return this.hasReportAccess();
+            // }
 
-            else if (string.indexOf('inventory') >= 0) {
-                return this.hasInventoryAccess();
-            }
+            // else if (string.indexOf('inventory') >= 0) {
+            //     return this.hasInventoryAccess();
+            // }
 
             else if (string.indexOf('expense') >= 0) {
                 return this.hasExpenseAccess();
@@ -128,7 +127,9 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('110') || JSON.parse(sessionStorage.getItem('permissions')).includes('115')) {
+            if (JSON.parse(sessionStorage.getItem('permissions')).includes('110') ||
+                JSON.parse(sessionStorage.getItem('permissions')).includes('115') ||
+                JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
                 return true;
             }
             else {

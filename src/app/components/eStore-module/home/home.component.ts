@@ -10,14 +10,19 @@ export class HomeComponent implements OnInit {
   jsonFlag = {
     isProfessional: false,
     isEcourseFileManager: false,
-    isAdmin: false,
+    isShowEcourseMapping: false,
   }
 
-  constructor(private auth: AuthenticatorService) { 
+
+
+  constructor(private auth: AuthenticatorService) {
 
   }
 
   ngOnInit() {
+    const permissionArray = sessionStorage.getItem('permissions');
+    const permittedRoles = sessionStorage.getItem('permitted_roles');
+    const userType = sessionStorage.getItem('userType');
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -26,17 +31,17 @@ export class HomeComponent implements OnInit {
           this.jsonFlag.isProfessional = false;
         }
       }
-    )
-    const permissionArray = sessionStorage.getItem('permissions');
-    const permittedRoles = sessionStorage.getItem('permitted_roles');
-    const userType = sessionStorage.getItem('userType');
-    if (userType == '0') {
-      if (permissionArray == "" || permissionArray == null) {
-        this.jsonFlag.isAdmin = true;
-      }
+    );
+ 
+    if (userType == '0' && (permissionArray == "" || permissionArray == null)) {
+      this.jsonFlag.isShowEcourseMapping = true;
+    }
+    
+    if (sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1') {
+      this.jsonFlag.isShowEcourseMapping = true;
     }
 
-    if (permittedRoles['718'] != undefined && sessionStorage.getItem('enable_eLearn_feature')=='1') {
+    if (permittedRoles['718'] != undefined && sessionStorage.getItem('enable_eLearn_feature') == '1') {
       this.jsonFlag.isEcourseFileManager = true;
     }
   }
