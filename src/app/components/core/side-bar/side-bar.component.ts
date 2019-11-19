@@ -168,6 +168,7 @@ export class SideBarComponent implements OnInit {
       }
       else if (usertype == '3') {
         this.jsonFlags.isAdmin = true;
+        this.jsonFlags.isShowFee = false;
         this.hideAllFields();     // Swapnil
         this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
         // this.divProfileTag.nativeElement.style.display = '';
