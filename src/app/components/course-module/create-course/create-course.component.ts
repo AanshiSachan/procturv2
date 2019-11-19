@@ -201,6 +201,7 @@ export class CreateCourseComponent implements OnInit {
     this.hideAllTabs();
     this.liManageBatch.nativeElement.classList.remove('hide');
     this.liClass.nativeElement.classList.remove('hide');
+    this.liExam.nativeElement.classList.remove('hide');
     if (this.isLangInstitue) {
       this.router.navigateByUrl('/view/course/managebatch');
       this.switchActiveView('liManageBatch');

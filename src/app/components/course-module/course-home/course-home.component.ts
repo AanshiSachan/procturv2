@@ -37,7 +37,11 @@ export class CourseHomeComponent implements OnInit {
     if ((userType=='0')&&((perm == null || perm == undefined || perm == ''))){
       this.jsonFlags.isShowSetup= true;
       this.jsonFlags.isShowFileManager = true;
-    }else{
+    }
+    else if((userType=='3')){
+      this.jsonFlags.isShowFileManager = true;
+    }
+    else{
       if (perm.includes('114')) {
         this.jsonFlags.isShowFileManager = true;
       }
