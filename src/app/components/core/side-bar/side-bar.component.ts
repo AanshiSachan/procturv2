@@ -146,7 +146,6 @@ export class SideBarComponent implements OnInit {
         this.filterGlobal(data.userInput)
       });
 
-    this.hasLibrary();
     this.checkUserHadAccess();
     this.checkInstituteType();
     this.checkManinBranch();
@@ -372,6 +371,7 @@ export class SideBarComponent implements OnInit {
     this.isLibraryFeatureAllow(permission); // check librabry feature
     this.isOnlineExamAllow(type); // check online test is enable or not 
     this.isLiveClassesAllow(type);
+    this.hasLibrary();
     /* Admin or Custom login */
     if (userType == 0) {
       /* admin detected */
@@ -394,14 +394,13 @@ export class SideBarComponent implements OnInit {
       // check these new feature is enable for institute or not
       this.isElearnAllow();
       this.isLibraryFeatureAllow(permission);
-      this.isOnlineExamAllow(type);
     }
     else if (userType == 3) {
       /* Teacher login detected */
       this.jsonFlags.isAdmin = false;
       this.teacherLoginFound();
-     
     }
+
 
   }
 
@@ -446,9 +445,9 @@ export class SideBarComponent implements OnInit {
     if (this.isProfessional || sessionStorage.getItem('enable_eLearn_feature') == '0') {
       this.jsonFlags.isShoweStore = false;
     }
-      if(sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1'){
-        this.jsonFlags.isShoweStore = true;
-      }
+    if(sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1'){
+      this.jsonFlags.isShoweStore = true;
+    }
   }
 
   isOnlineExamAllow(type) {
@@ -618,20 +617,9 @@ export class SideBarComponent implements OnInit {
 
   /// Teacher Role Found
   teacherLoginFound() {
-    let hideArray = ['litwo', 'lifive', 'linine'];
     this.jsonFlags.isShowLead = false;
-    hideArray.forEach(object => {
-      if (document.getElementById(object)) {
-        document.getElementById(object).classList.add('hide');
-      }
-    });
-
-    let removeArray = ['lithree', 'lifour', 'lisix'];
-    removeArray.forEach(object => {
-      if (document.getElementById(object)) {
-        document.getElementById(object).classList.remove('hide');
-      }
-    });
+    this.jsonFlags.isShowStudent= false;
+    this.jsonFlags.isShowModel = true;
   }
 
   // RemoveActiveTabs() {
@@ -683,8 +671,11 @@ export class SideBarComponent implements OnInit {
     this.helpMenu = false;
     document.getElementById('blurBg').className = 'normal-background';
     for (let i = 0; i < 5; i++) {
-      document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
-      document.getElementsByClassName("side-section")[i].className = ' side-section';
+      if (document.getElementsByClassName("side-section")[i]) {
+        document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
+        document.getElementsByClassName("side-section")[i].className = ' side-section';
+      }
+
     }
 
   }
@@ -798,20 +789,20 @@ export class SideBarComponent implements OnInit {
   };
 
   hasInventoryAccess() {
-    if (sessionStorage.getItem('permissions') == ''&& sessionStorage.getItem('userType')!='3') {
+    if (sessionStorage.getItem('permissions') == '' && sessionStorage.getItem('userType') != '3') {
       return true;
     }
     else if ((sessionStorage.getItem('permissions')).includes('301')) {
-          if( sessionStorage.getItem('userType')!='3'){
-              return false;
-          } else {
-            return true;
-          }
-        }
-        else {
-          return false;
-        }
-}
+      if (sessionStorage.getItem('userType') != '3') {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    else {
+      return false;
+    }
+  }
 
   routerLink(route, id) {
     // for (let i = 0; i < 5; i++) {
