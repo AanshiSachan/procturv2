@@ -56,9 +56,9 @@ export class AuthGuard implements CanActivate, CanLoad {
             //     return this.hasReportAccess();
             // }
 
-            // else if (string.indexOf('inventory') >= 0) {
-            //     return this.hasInventoryAccess();
-            // }
+            else if (string.indexOf('inventory') >= 0) {
+                return this.hasInventoryAccess();
+            }
 
             else if (string.indexOf('expense') >= 0) {
                 return this.hasExpenseAccess();
@@ -250,18 +250,17 @@ export class AuthGuard implements CanActivate, CanLoad {
     }
 
     hasInventoryAccess(): boolean {
-        /* if (sessionStorage.getItem('permissions') == '') {
+        if (sessionStorage.getItem('permissions') == '') {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('201')) {
+            if (JSON.parse(sessionStorage.getItem('permissions')).includes('301')) {
                 return true;
             }
             else {
                 return false;
             }
-        } */
-        return true;
+        } 
     }
 
     hasExpenseAccess(): boolean {

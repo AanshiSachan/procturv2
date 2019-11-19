@@ -114,36 +114,21 @@
       </div>
     </div>
     <div class="setting-item" #divSettingTag id="divSettingTag">
-      <img src="./assets/images/sidebar/settings.svg" title="Settings" alt="" (click)="showSubSection('setting')">
-
-      <div class="side-section" id="setting">
-        <div class="side-section-item">
-          <span (click)="routerLink('/view/setting','setting')">General Settings</span>
-        </div>
-        <div class="side-section-item">
-          <span (click)="routerLink('/view/formField/home','setting')">Custom Form Field</span>
-        </div>
-        <div class="side-section-item">
-          <span (click)="routerLink('/view/master/areaCity','setting')">City Area Map</span>
-        </div>
-      </div>
+      <img src="./assets/images/sidebar/settings.svg" title="Settings" alt="" routerLink="/view/setting"
+      (click)="activeSession=null">
     </div>
     <div class="setting-item" #divMasterTag id="divMasterTag">
       <img src="./assets/images/sidebar/setup.svg" title="Setup" alt="" (click)="showSubSection('setup')">
       <div class="side-section" id="setup">
-        <div class="side-section-item">
-          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
-        </div>
-        <div class="side-section-item">
-          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')">Create Support
-            Ticket</span>
-        </div>
-        <div class="side-section-item">
-          <span (click)="openInNewTab('https://anydesk.com/en/downloads/')">Download Anydesk</span>
-        </div>
-        <div class="side-section-item">
-          <span>+91 9971839153</span>
-        </div>
+          <div class="side-section-item" *ngIf="hasInventoryAccess()">
+              <span (click)="routerLink('/view/inventory','setup')">Manage Inventory</span>
+            </div>
+            <div class="side-section-item">
+              <span (click)="routerLink('/view/formField/home','setup')">Custom Form Field</span>
+            </div>
+            <div class="side-section-item">
+              <span (click)="routerLink('/view/master/areaCity','setup')">City Area Map</span>
+            </div>
       </div>
     </div>
     <div class="setting-item" (click)="showSubSection('branches')" *ngIf="isMainBranch == 'Y' && checkAdmin">
@@ -158,7 +143,7 @@
       <img src="./assets/images/sidebar/branches.svg" title="Back To Main Branch" alt="" (click)="loginToMainBranch()">
     </div>
     <div class="setting-item" #divManageUsers id="divManageUsers">
-      <img src="./assets/images/sidebar/users.svg" title="Users" alt="" routerLink="/view/manage"
+      <img src="./assets/images/sidebar/users.svg" title="Manage Users" alt="" routerLink="/view/manage"
         (click)="activeSession=null">
     </div>
     <div class="setting-item" #divMyAccountTag id="divMyAccountTag">

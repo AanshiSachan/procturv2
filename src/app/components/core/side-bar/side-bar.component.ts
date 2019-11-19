@@ -799,6 +799,21 @@ export class SideBarComponent implements OnInit {
     }
   };
 
+  hasInventoryAccess() {
+    if (sessionStorage.getItem('permissions') == ''&& sessionStorage.getItem('userType')!='3') {
+      return true;
+    }
+    else if ((sessionStorage.getItem('permissions')).includes('301')) {
+          if( sessionStorage.getItem('userType')!='3'){
+              return false;
+          } else {
+            return true;
+          }
+        }
+        else {
+          return false;
+        }
+}
 
   routerLink(route, id) {
     // for (let i = 0; i < 5; i++) {
