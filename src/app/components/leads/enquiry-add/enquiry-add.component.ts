@@ -1072,7 +1072,7 @@ export class EnquiryAddComponent implements OnInit {
       obj.standard_id = this.course_mastercourse_id;
     }
     sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
-    this.router.navigate(['/view/student/add']);
+    this.router.navigate(['/view/students/add']);
   }
 
   getFollowupTime(): any {

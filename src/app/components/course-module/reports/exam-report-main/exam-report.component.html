@@ -5,6 +5,13 @@
         <section class="middle-main clearFix attendance-container">
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left" style="font-weight: bold;">
+                        <a routerLink="/view/course" *ngIf="!isProfessional">
+                            Course
+                          </a>
+                          <a routerLink="/view/batch" *ngIf="isProfessional">
+                            Batch
+                          </a>
+                <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
                     <a routerLink="/view/course/reports" style="padding:0px; ">
                         Report
                         <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->

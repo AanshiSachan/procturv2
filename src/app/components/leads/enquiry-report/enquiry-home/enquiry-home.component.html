@@ -1,46 +1,44 @@
 <div class="middle-section clearFix">
     <aside class="middle-full">
-      <section class="middle-main clearFix report-box">
-        <section>
+        <h2 style="padding: 5px;" class="pull-left">
+            <a routerLink="/view/leads">
+              Leads
   
-          <!-- SMS -->
-          <div class="c-lg-4">
-            <ul class="card" routerLink="./counsellor">
-              <li>
-                Counsellor
-              </li>
-              <li>
-                This Report depicts the counsellor reports by date range
-              </li>
-            </ul>
-          </div>
-  
-          <div class="c-lg-4">
-            <ul class="card" routerLink="./source">
-              <li>
-                Source
-              </li>
-              <li>
-
-                This Report depicts the source reports by date range
-
-              </li>
-            </ul>
-          </div>
-  
-          <div class="c-lg-4">
-              <ul class="card" routerLink="./referredBy">
-                <li>
-                Referred By
-                </li>
-                <li>
-
-                  This Report depicts the referred by reports by date range
-
-                </li>
-              </ul>
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+             Reports
+            </h2>
+        <div class="leads-menu-section-container">
+            <div class="leads-menu-item" routerLink="./counsellor">
+              <div class="menu-title">
+                <img src="./assets/images/leads/counselor_report.svg" alt="data setup">
+                <span>Counsellor</span>
+              </div>
+              <div class="menu-description">
+                <span>This Report depicts the counsellor reports by date range</span>
+              </div>
             </div>
-        </section>
-      </section>
+
+            <div class="leads-menu-item" routerLink="./source">
+              <div class="menu-title">
+                <img src="./assets/images/leads/source_wise_report.svg" alt="data setup">
+                <span>Source</span>
+              </div>
+              <div class="menu-description">
+                <span> This Report depicts the source reports by date range</span>
+              </div>
+            </div>
+
+            <div class="leads-menu-item" routerLink="./referredBy">
+              <div class="menu-title">
+                <img src="./assets/images/leads/referred_by_reports.svg" alt="data setup">
+                <span> Referred By</span>
+              </div>
+              <div class="menu-description">
+                <span> This Report depicts the referred by reports by date range
+                  </span>
+              </div>
+            </div>
+            </div>
     </aside>
   </div>

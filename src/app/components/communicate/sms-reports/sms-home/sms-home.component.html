@@ -1,28 +1,30 @@
 <div class="middle-section clearFix">
-  <aside class="middle-full">
-    <section class="middle-main clearFix report-box">
-      <section>
-        <div class="c-lg-4 ">
-          <ul class="card" routerLink="./transaction">
-            <li>
-              Transactional SMS Report
-            </li>
-            <li>
-              This Report depicts the records of transactional SMS send information.
-            </li>
-          </ul>
-        </div>
-        <div class="c-lg-4">
-          <ul class="card" routerLink="./compaign">
-            <li>
-              Campaign SMS Report
-            </li>
-            <li>
-              This Report depicts the records of all the past and present campaign sms information.
-            </li>
-          </ul>
-        </div>
-      </section>
-    </section>
-  </aside>
+    <h1 class="pull-left">
+        <a routerLink="/view/communicate">
+          Communicate
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> SMS Report
+      </h1>
+  <div class="course-menu-section-container" >
+  <div class="course-menu-item" routerLink="./transaction">
+    <div class="menu-title">
+      <img src="./assets/images/fee/Transactional_sms_report.svg" alt="sms report">
+      <span> Transactional SMS Report </span>
+    </div>
+    <div class="menu-description">
+      <span>This Report depicts the records of transactional SMS send information.</span>
+    </div>
+  </div>
+
+  <div class="course-menu-item" routerLink="./compaign">
+    <div class="menu-title">
+      <img src="./assets/images/fee/campaign_sms_report.svg" alt="sms report">
+      <span> Campaign SMS Report </span>
+    </div>
+    <div class="menu-description">
+      <span> This Report depicts the records of all the past and present campaign sms information.</span>
+    </div>
+  </div>
+  </div>
 </div>
+

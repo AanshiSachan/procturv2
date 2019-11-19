@@ -712,6 +712,8 @@ export class SideBarComponent implements OnInit {
     for (let i = 0; i < totalExternalClasses; i++) {
       externalMenu[i].style.display = "none";
     }
+    document.getElementById('account').className = ' side-section';
+    document.getElementById('blurBg').className = ' normal-background';
   }
 
   onSubBranchClick(data) {
@@ -1004,6 +1006,7 @@ export class SideBarComponent implements OnInit {
 
   openInNewTab(url: string) {
     window.open(url, "_blank");
+    this.closeMenu();
     this.helpMenu = false;
   }
 }

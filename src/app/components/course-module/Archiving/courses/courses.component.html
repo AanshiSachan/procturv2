@@ -7,7 +7,7 @@
     <section class="middle-main clearFix">
 
       <div class="middle-top mb0 clearFix header">
-        <div class="report-header" style="padding-bottom:1%">
+        <div class="report-header" style="padding-bottom:2%">
           <h2 style="padding: 5px;" class="pull-left">
             <a routerLink="/view/course">
               Course
@@ -21,16 +21,6 @@
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="isProfessional"></i>
             <span *ngIf="isProfessional">Batches</span>
           </h2>
-          <div class="row">
-            <div class="c-lg-12">
-              <h2 *ngIf="!isProfessional">
-                Courses List
-              </h2>
-              <h2 *ngIf="isProfessional">
-                Batches List
-              </h2>
-            </div>
-          </div>
         </div>
       </div>
     </section>
