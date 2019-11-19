@@ -24,58 +24,55 @@
         </search-box>
       </section>
     </div>
-    <span [ngClass]="activeSession === 'lizero' ? 'active activeClass' : 'NavLink'" routerLink="/view/home"
-      id="lizero" (click)="toggler('lizero')">
+    <span [ngClass]="activeSession === 'lizero' ? 'active activeClass' : 'NavLink'" routerLink="/view/home" id="lizero"
+      class="" (click)="toggler('lizero')">
       <img src="./assets/images/sidebar/home.svg" alt="">
-      Home
+      Home 
     </span>
-    <span [ngClass]="activeSession === 'lione' ? 'active activeClass' : 'NavLink'" routerLink="/view/leads"
-      id="lione" (click)="toggler('lione')">
+    <span [ngClass]="activeSession === 'lione' ? 'active activeClass' : 'NavLink'" routerLink="/view/leads" id="lione"
+       (click)="toggler('lione')" *ngIf="jsonFlags.isShowLead" >
       <img src="./assets/images/sidebar/lead.svg" alt="">
       Lead
     </span>
-    <span [ngClass]="activeSession === 'litwo' ? 'active activeClass' : 'NavLink'"
-      routerLink="/view/students" id="litwo" (click)="toggler('litwo')">
+    <span [ngClass]="activeSession === 'litwo' ? 'active activeClass' : 'NavLink'" routerLink="/view/students"
+      id="litwo"  (click)="toggler('litwo')" *ngIf="jsonFlags.isShowStudent">
       <img src="./assets/images/sidebar/student.svg" alt="">
       Student
     </span>
     <span [ngClass]="activeSession === 'lithree' ? 'active activeClass' : 'NavLink'"
-      routerLink="/view/course" *ngIf="!isLangInstitute" id="lithree" (click)="toggler('lithree')">
+      [routerLink]="isLangInstitute?'/view/batch': '/view/course'"  id="lithree" 
+      (click)="toggler('lithree')" *ngIf="jsonFlags.isShowModel"> 
       <img src="./assets/images/sidebar/course.svg" alt="">
-      <span id="li3">Course</span>
+      <span id="li3" *ngIf="(!isLangInstitute)">Course</span>
+      <span id="li3" *ngIf="(isLangInstitute)">Batch</span>
     </span>
-    <span [ngClass]="activeSession === 'lithree' ? 'active activeClass' : 'NavLink'" routerLink="/view/batch"
-      *ngIf="isLangInstitute" id="lithree" (click)="toggler('lithree')">
-      <img src="./assets/images/sidebar/course.svg" alt="">
-      <span id="li3">Batch</span>
-    </span>
-    <span [ngClass]="activeSession === 'lifour' ? 'active activeClass' : 'NavLink'" routerLink="/view/fee"
-      #divFeeTag id="divFeeTag" (click)="toggler('lifour')">
+    <span [ngClass]="activeSession === 'lifour' ? 'active activeClass' : 'NavLink'" routerLink="/view/fee" #divFeeTag
+      id="lifour" (click)="toggler('lifour')"  *ngIf="jsonFlags.isShowFee">
       <img src="./assets/images/sidebar/fees.svg" alt="">
       Fee
     </span>
-    <span [ngClass]="activeSession === 'lifive' ? 'active activeClass' : 'NavLink'"
-      routerLink="/view/live-classes" (click)="toggler('lifive')">
+    <span [ngClass]="activeSession === 'lifive' ? 'active activeClass' : 'NavLink'" routerLink="/view/live-classes"
+      (click)="toggler('lifive')"  id="lifive" *ngIf="jsonFlags.isShowLiveclass">
       <img src="./assets/images/sidebar/live-class.svg" alt="">
       Live Class
     </span>
-    <span [ngClass]="activeSession === 'lisix' ? 'active activeClass' : 'NavLink'"
-      routerLink="/view/communicate" (click)="toggler('lisix')">
+    <span [ngClass]="activeSession === 'lisix' ? 'active activeClass' : 'NavLink'" routerLink="/view/communicate"
+      (click)="toggler('lisix')"  id="lisix" *ngIf="jsonFlags.isShowCommunicate">
       <img src="./assets/images/sidebar/communicate.svg" alt="">
       Communicate
     </span>
-    <span [ngClass]="activeSession === 'liten' ? 'active activeClass' : 'NavLink'" routerLink="/view/library"
-      id="liten" (click)="toggler('liten')">
+    <span  routerLink="/view/library" [ngClass]="activeSession === 'liseven' ? 'active activeClass' : 'NavLink'"   
+    *ngIf="jsonFlags.isShowLibrabry"   (click)="toggler('liseven')">
       <img src="./assets/images/sidebar/library.svg" alt="">
       Library
     </span>
-    <span [ngClass]="activeSession === 'lieleone' ? 'active activeClass' : 'NavLink'"
-      routerLink="/view/e-store" id="lieleone" (click)="toggler('lieleone')">
+    <span [ngClass]="activeSession === 'lieight' ? 'active activeClass' : 'NavLink'" routerLink="/view/e-store"
+      id="lieight"  (click)="toggler('lieight')" *ngIf="jsonFlags.isShoweStore">
       <img src="./assets/images/sidebar/eStore.svg" alt="">
       eStore
     </span>
-    <span [ngClass]="activeSession === 'litwelve' ? 'active activeClass' : 'NavLink'"
-      routerLink="/view/online-exam" id="twelve" (click)="toggler('twelve')">
+    <span [ngClass]="activeSession === 'linine' ? 'active activeClass' : 'NavLink'" routerLink="/view/online-exam"
+      id="linine"  (click)="toggler('linine')" *ngIf="jsonFlags.isShoweOnlineExam">
       <img src="./assets/images/sidebar/online_exam.svg" alt="">
       Online Exam
     </span>
@@ -116,9 +113,9 @@
         </div>
       </div>
     </div>
-    <div class="setting-item" #divSettingTag id="divSettingTag" >
-        <img src="./assets/images/sidebar/settings.svg" title="Settings" alt="" (click)="showSubSection('setting')">
-     
+    <div class="setting-item" #divSettingTag id="divSettingTag">
+      <img src="./assets/images/sidebar/settings.svg" title="Settings" alt="" (click)="showSubSection('setting')">
+
       <div class="side-section" id="setting">
         <div class="side-section-item">
           <span (click)="routerLink('/view/setting','setting')">General Settings</span>
@@ -132,7 +129,7 @@
       </div>
     </div>
     <div class="setting-item" #divMasterTag id="divMasterTag">
-        <img src="./assets/images/sidebar/setup.svg" title="Setup" alt="" (click)="showSubSection('setup')">
+      <img src="./assets/images/sidebar/setup.svg" title="Setup" alt="" (click)="showSubSection('setup')">
       <div class="side-section" id="setup">
         <div class="side-section-item">
           <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
@@ -160,10 +157,11 @@
     <div class="setting-item" (click)="showSubMenu('branches')" *ngIf="(showMainBranchBackBtn)">
       <img src="./assets/images/sidebar/branches.svg" title="Back To Main Branch" alt="" (click)="loginToMainBranch()">
     </div>
-    <div class="setting-item" #divManageUsers id="divManageUsers" >
-      <img src="./assets/images/sidebar/users.svg" title="Users" alt="" routerLink="/view/manage" (click)="activeSession=null">
+    <div class="setting-item" #divManageUsers id="divManageUsers">
+      <img src="./assets/images/sidebar/users.svg" title="Users" alt="" routerLink="/view/manage"
+        (click)="activeSession=null">
     </div>
-    <div class="setting-item" #divMyAccountTag id="divMyAccountTag" >
+    <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
       <img src="./assets/images/sidebar/my-account.svg" title="My Account" alt="" (click)="showSubSection('account')">
       <div class="side-section" id="account">
         <div class="side-section-item">

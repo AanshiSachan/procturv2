@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, AfterViewInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map'
@@ -13,49 +13,8 @@ import { CommonServiceFactory } from '../../../services/common-service';
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })
-export class SideBarComponent implements OnInit, AfterViewChecked {
+export class SideBarComponent implements OnInit {
 
-  logs: string = ''
-  isLangInstitute: boolean = false;
-  permissionData: any[] = [];
-  userType: any = '';
-  sideBar: boolean = false;
-  searchBar: boolean = false;
-  helpMenu: boolean = false;
-
-  // From Header
-  isProfessional: boolean = false;
-  isResultDisplayed: boolean;
-  instituteName: string;
-  userName: string;
-  menuToggler: boolean = false;
-  // hasEnquiry: boolean = true;
-  // hasStudent: boolean = true;
-  // hasClass: boolean = true;
-  enquiryResult: any[] = [];
-  studentResult: any[] = [];
-  inputValue: any;
-  settings: string;
-  manageExamGrades: string = "";
-  globalSearchForm: any = {
-    name: '',
-    phone: '',
-    instituteId: sessionStorage.getItem('institute_id'),
-    start_index: '0',
-    batch_size: '6'
-  };
-
-  resultStat: any = 1;
-  teacherId: any = 0;
-  private userInput: string;
-  branchesList: any = [];
-  mainBranchId: any = "";
-  isMainBranch: any = "N";
-  showMainBranchBackBtn: boolean = false;
-  checkAdmin: any = "";
-  libraryRole: boolean = false;
-  instituteId: any;
-  activeSession: any;
 
   @ViewChild('divAdminTag') divAdminTag: ElementRef;
   @ViewChild('divMyAccountTag') divMyAccountTag: ElementRef;
@@ -73,8 +32,6 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
   @ViewChild('divGeneralSettingTag') divGeneralSettingTag: ElementRef;
   @ViewChild('divManageFormTag') divManageFormTag: ElementRef;
   @ViewChild('divAreaAndMap') divAreaAndMap: ElementRef;
-
-  // Search inputValue
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('seachResult') seachResult: ElementRef;
   @ViewChild('form') form: any;
@@ -83,6 +40,54 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
   @Output() enquiryUpdateAction = new EventEmitter<any>();
   @Output() hideSearchPopup = new EventEmitter<any>();
   @Output() changePassword = new EventEmitter<any>();
+
+  permissionData: any[] = [];
+  enquiryResult: any[] = [];
+  studentResult: any[] = [];
+  branchesList: any = [];
+  userType: any = '';
+  mainBranchId: any = "";
+  isMainBranch: any = "N";
+  checkAdmin: any = "";
+  instituteId: any;
+  activeSession: any;
+  resultStat: any = 1;
+  teacherId: any = 0;
+  sideBar: boolean = false;
+  searchBar: boolean = false;
+  helpMenu: boolean = false;
+  isLangInstitute: boolean = false;
+  showMainBranchBackBtn: boolean = false;
+  isProfessional: boolean = false;
+  menuToggler: boolean = false;
+  isResultDisplayed: boolean = false;
+  instituteName: string;
+  userName: string;
+  inputValue: any;
+  settings: string;
+  manageExamGrades: string = "";
+  private userInput: string;
+  globalSearchForm: any = {
+    name: '',
+    phone: '',
+    instituteId: sessionStorage.getItem('institute_id'),
+    start_index: '0',
+    batch_size: '6'
+  };
+
+  jsonFlags = {
+    isShowLead: false,
+    isShowStudent: false,
+    isShowModel: false,
+    isShowFee: false,
+    isShowLiveclass: false,
+    isShowCommunicate: true,
+    isShowLibrabry: false,
+    isShoweStore: false,
+    isShoweOnlineExam: false,
+    isAdmin: false
+  }
+
 
   constructor(
     private login: LoginService,
@@ -96,6 +101,11 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
   ) { }
 
   ngOnInit() {
+    this.settings = sessionStorage.getItem('is_exam_grad_feature');
+    this.instituteName = sessionStorage.getItem('institute_name');
+    this.userName = sessionStorage.getItem('name');
+    this.instituteId = sessionStorage.getItem('institute_id');
+
     this.log.currentUserType.subscribe(e => {
       if (e == '' || e == null || e == undefined) {
       }
@@ -114,17 +124,6 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
       }
     )
 
-    this.settings = sessionStorage.getItem('is_exam_grad_feature');
-    this.instituteName = sessionStorage.getItem('institute_name');
-    this.userName = sessionStorage.getItem('name');
-    this.instituteId = sessionStorage.getItem('institute_id');
-
-    const permissionArray = sessionStorage.getItem('permissions');
-    let username = sessionStorage.getItem('username');
-    if (((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 100952)) || (permissionArray && permissionArray.indexOf('721') != -1)) {
-      this.libraryRole = true;
-    }
-
     this.log.currentPermissions.subscribe(e => {
       if (e == '' || e == null || e == undefined) {
       }
@@ -137,8 +136,6 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
       this.createCustomSidenav();
     });
 
-    this.checkUserHadAccess();
-
     this.form.valueChanges
       .debounceTime(1000)
       .distinctUntilChanged()
@@ -149,20 +146,28 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
         this.filterGlobal(data.userInput)
       });
 
+    this.hasLibrary();
+    this.checkUserHadAccess();
     this.checkInstituteType();
-
     this.checkManinBranch();
+  }
+
+  ngAfterViewInit() {
+    this.setActiveClassOnSideNav();
   }
 
   // USER permission
   checkUserHadAccess() {
     // this.divProfileTag.nativeElement.style.display = 'none';
     const permissionArray = sessionStorage.getItem('permissions');
+    const usertype = sessionStorage.getItem('userType');
     if (permissionArray == null || permissionArray == "") {
-      if (sessionStorage.getItem('userType') == '0') {
+      if (usertype == '0') {
+        this.jsonFlags.isAdmin = true;
         this.showAllFields();       // Swapnil
       }
-      else if (sessionStorage.getItem('userType') == '3') {
+      else if (usertype == '3') {
+        this.jsonFlags.isAdmin = true;
         this.hideAllFields();     // Swapnil
         this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
         // this.divProfileTag.nativeElement.style.display = '';
@@ -227,6 +232,30 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  setActiveClassOnSideNav() {
+    // this.RemoveActiveTabs();
+    let url: string = window.location.href;
+    let pathLastURL = url.substring(url.lastIndexOf("/") + 1, url.length);
+    let routesData = {
+      'admin': 'lizero',
+      'leads': 'lione',
+      'students': 'litwo',
+      'course': 'lithree',
+      'batch': 'lithree',
+      'fee': 'lifour',
+      'live-classes': 'lifive',
+      'communicate': 'lisix',
+      'library': 'liseven',
+      'e-store': 'lieight',
+      'online-exam': 'linine',
+    };
+    if (document.getElementById(routesData[pathLastURL])) {
+      this.activeSession = routesData[pathLastURL];
+      // document.getElementById(routesData[pathLastURL]).classList.add('active');
+    }
+  }
+
+
   showAllFields() {
     // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag', 'divFeeTag', 'divAcademicTag',
     //   'divSettingTag', 'divGeneralSettingTag', 'divManageFormTag', 'divManageUsers', 'divClassRoomTag'];
@@ -262,7 +291,6 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
   }
 
   checkManinBranch() {
-
     this.auth.isMainBranch.subscribe(
       (value: any) => {
         if (this.isMainBranch != value) {
@@ -285,7 +313,6 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
   }
 
   // Multi Branch Case Handling
-
   multiBranchInstituteFound() {
     this.mainBranchId = sessionStorage.getItem('institute_id');
     this.multiBranchService.getAllBranches().subscribe(
@@ -314,10 +341,6 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
     )
   }
 
-  ngAfterViewInit() {
-    this.setActiveClassOnSideNav();
-  }
-
   validateUsertypePermissionData() {
     let p = sessionStorage.getItem('permissions');
     let e = sessionStorage.getItem('userType');
@@ -337,11 +360,54 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
     }
   }
 
-
+  //changes by laxmi
   createCustomSidenav() {
     let p = sessionStorage.getItem('permissions');
     let e = sessionStorage.getItem('userType');
+    this.checkDefaultData(p, e);
+    let userType: any = this.userType;
+    let permission: any = this.permissionData;
+    let type = Number(sessionStorage.getItem('institute_setup_type'));
+    this.isLibraryFeatureAllow(permission); // check librabry feature
+    this.isOnlineExamAllow(type); // check online test is enable or not 
 
+    /* Admin or Custom login */
+    if (userType == 0) {
+      /* admin detected */
+      if (permission == null || permission == undefined || permission == '') {
+        this.jsonFlags.isAdmin = true;
+        let flagsArray = Object.keys(this.jsonFlags);
+        flagsArray.forEach(object => {
+          this.jsonFlags[object] = true;
+        });
+      }
+      else {
+        /* custom user detected */
+        /* array to store the user permissions, if the permission length is less than equal to one
+        remove the first and last char and validate if its admin or not */
+        this.hasLead(this.permissionData);
+        this.hasStudent(this.permissionData);
+        this.hasCourse(this.permissionData);
+        this.hasProducts(this.permissionData);
+      }
+      // check these new feature is enable for institute or not
+      this.isElearnAllow();
+      this.isLiveClassesAllow(type);
+      this.isLibraryFeatureAllow(permission);
+      this.isOnlineExamAllow(type);
+
+    }
+    else if (userType == 3) {
+      /* Teacher login detected */
+      this.jsonFlags.isAdmin = false;
+      this.teacherLoginFound();
+      this.isLiveClassesAllow(type);
+    }
+
+  }
+
+  // check only default values 
+  checkDefaultData(p, e) {
     if (p == '' || p == null || p == undefined) {
       this.permissionData = [];
     }
@@ -357,171 +423,157 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
       this.userType = e;
       this.log.changeUserType(e);
     }
+  }
 
-    let userType: any = this.userType;
-    let permission: any = this.permissionData;
-    /* Admin or Custom login */
-    if (userType == 0) {
-      /* admin detected */
-      if (permission == null || permission == undefined || permission == '') {
-        let hideArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'lieleone', 'litwelve'];
-        hideArray.forEach(obj => {
-          if (document.getElementById(obj)) {
-            document.getElementById(obj).classList.remove('hide');
-          }
-        })
-        document.getElementById('lizero').classList.remove('active');
-        if (this.isProfessional || sessionStorage.getItem('enable_eLearn_feature') == '0') {
-          document.getElementById('lieleone').classList.add('hide');
-        }
-      }
-      /* custom user detected */
-      else {
-        /* array to store the user permissions, if the permission length is less than equal to one
-        remove the first and last char and validate if its admin or not */
-        this.hasEnquiry(this.permissionData);
-        this.hasStudent(this.permissionData);
-        this.hasCourse(this.permissionData);
-        this.hasActivity(this.permissionData);
-        this.hasEmployee(this.permissionData);
-        this.hasReport(this.permissionData);
-        this.hasInventory(this.permissionData);
-        this.hasExpense(this.permissionData);
-        this.hasCampaign(this.permissionData);
-        this.hasProducts(this.permissionData);
-      }
-    }
-    /* Teacher login detected */
-    else if (userType == 3) {
-      this.teacherLoginFound();
-    }
-
+  isLibraryFeatureAllow(permission) {
+    this.jsonFlags.isShowLibrabry = false;
     let username = sessionStorage.getItem('username');
-    if ((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 101077) || (permission && permission.indexOf('721') != -1)) {
-      document.getElementById('liten').classList.remove('hide');
+    if ((username == "admin" && this.instituteId == 100127) ||
+      (username == "admin" && this.instituteId == 101077) ||
+      (permission && permission.indexOf('721') != -1)) {
+      this.jsonFlags.isShowLibrabry = true;
+    }
+  }
+
+  isLiveClassesAllow(type) {
+    this.jsonFlags.isShowLiveclass = false;
+    // if user is not admin
+    this.jsonFlags.isShowLiveclass = this.checkInstSetupType(type, 256);
+
+  }
+
+  isElearnAllow() {
+    // this senction is used for enable elearn feature
+    if (this.isProfessional || sessionStorage.getItem('enable_eLearn_feature') == '0') {
+      this.jsonFlags.isShoweStore = false;
     }
 
+  }
+
+  isOnlineExamAllow(type) {
+    if (this.jsonFlags.isAdmin) {// if user is admin
+      this.jsonFlags.isShoweOnlineExam = this.checkInstSetupType(type, 4);
+    }
+  }
+
+
+  checkInstSetupType(value, role): boolean {
+    if (value != 0) {
+      var start = 2;
+      var count = 1;
+      while (start != value) {
+        count++;
+        start = start + 2;
+      }
+      var arr = [0, 0, 0, 0, 0, 0, 0, 0];
+      var s = count.toString(2);
+      var k = 0;
+      for (var i = s.length - 1; i >= 0; i--) {
+        arr[k] = parseInt(s.charAt(i));
+        k++;
+      }
+
+      switch (role) {
+        case 2:
+          if (arr[0] == 1)
+            return true;
+          break;
+
+        case 4:
+          if (arr[1] == 1)
+            return true;
+          break;
+
+        case 8:
+          if (arr[2] == 1)
+            return true;
+          break;
+
+        case 16:
+          if (arr[3] == 1)
+            return true;
+          break;
+        case 32:
+          if (arr[4] == 1)
+            return true;
+          break;
+        case 64:
+          if (arr[5] == 1)
+            return true;
+          break;
+
+        case 128:
+          if (arr[6] == 1)
+            return true;
+          break;
+        case 256:
+          if (arr[7] == 1)
+            return true;
+          break;
+        default: return false;
+      }
+      return false;
+
+    }
+    else {
+      return false;
+    }
   }
 
   /// loggedout user
   loggedout() {
-    let hideArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine'];
-    hideArray.forEach(object => {
-      if (document.getElementById(object)) {
-        document.getElementById(object).classList.add('hide');
-      }
-    });
+    let flagsArray = Object.keys(this.jsonFlags);
+    flagsArray.forEach(object => {
+      this.jsonFlags[object] = false;
+    })
     document.getElementById('lizero').classList.add('active');
   }
 
-
-
-  hasEnquiry(permissions) {
-    if (permissions.includes('110') || permissions.includes('115')) {
-      document.getElementById('lione').classList.remove('hide');
-    }
-    else {
-      document.getElementById('lione').classList.add('hide');
+  hasLibrary() {
+    const permissionArray = sessionStorage.getItem('permissions');
+    let username = sessionStorage.getItem('username');
+    if (
+      ((username == "admin" && this.instituteId == 100127) ||
+        (username == "admin" && this.instituteId == 100952)) ||
+      (username == "admin" && this.instituteId == 100058) ||
+      (permissionArray && permissionArray.indexOf('721') != -1)) {
+      this.jsonFlags.isShowLibrabry = true;
     }
   }
 
+  hasLead(permissions) {
+    this.jsonFlags.isShowLead = false;
+    if (permissions.includes('110') || permissions.includes('115')) {
+      this.jsonFlags.isShowLead = true;
+    }
 
+  }
 
   hasStudent(permissions) {
+    debugger;
+    this.jsonFlags.isShowStudent = false;
     if (permissions.includes('301') ||
       permissions.includes('302') ||
       permissions.includes('303')) {
-      document.getElementById('litwo').classList.remove('hide');
-    }
-    else {
-      document.getElementById('litwo').classList.add('hide');
+      this.jsonFlags.isShowStudent = true;
     }
   }
 
-
-
   hasCourse(permissions) {
+    this.jsonFlags.isShowModel = false;
     if (permissions.includes('401') || permissions.includes('402')
       || permissions.includes('403') || permissions.includes('404') ||
       permissions.includes('405') || permissions.includes('406') ||
       permissions.includes('501') || permissions.includes('502') ||
       permissions.includes('505') || permissions.includes('701') ||
       permissions.includes('704') || permissions.includes('702')) {
-      document.getElementById('lithree').classList.remove('hide');
-    }
-    else {
-      document.getElementById('lithree').classList.add('hide');
+      this.jsonFlags.isShowModel = true;
     }
   }
 
-
-  hasActivity(permissions) {
-    if (permissions.includes('102') || permissions.includes('114') || permissions.includes('113')) {
-      document.getElementById('lifour').classList.remove('hide');
-    }
-    else {
-      document.getElementById('lifour').classList.add('hide');
-    }
-  }
-
-
-
-  hasEmployee(permissions) {
-    if (permissions.includes('118') || permissions.includes('119') || permissions.includes('120') || permissions.includes('121')) {
-      document.getElementById('lifive').classList.remove('hide');
-    }
-    else {
-      document.getElementById('lifive').classList.add('hide');
-    }
-  }
-
-
-
-  hasReport(permissions) {
-
-    if (permissions.includes('201') || permissions.includes('202') ||
-      permissions.includes('203') || permissions.includes('204') ||
-      permissions.includes('205') || permissions.includes('206') ||
-      permissions.includes('207') || permissions.includes('208') ||
-      permissions.includes('722')) {
-      document.getElementById('lisix').classList.remove('hide');
-    } else {
-      document.getElementById('lisix').classList.add('hide');
-    }
-  }
-
-
-
-  hasInventory(permissions) {
-    if (permissions.includes('301')) {
-      document.getElementById('liseven').classList.remove('hide');
-    }
-    else {
-      document.getElementById('liseven').classList.add('hide');
-    }
-  }
-
-
-  hasExpense(permissions) {
-    if (permissions.includes('108') || permissions.includes('109')) {
-      document.getElementById('lieight').classList.remove('hide');
-    }
-    else {
-      document.getElementById('lieight').classList.add('hide');
-    }
-  }
-
-
-  hasCampaign(permissions) {
-    if (permissions.includes('115')) {
-      document.getElementById('linine').classList.remove('hide');
-    }
-    else {
-      document.getElementById('linine').classList.add('hide');
-    }
-  }
 
   hasProducts(permissions) {
+    this.jsonFlags.isShoweStore = false;
     if (this.isProfessional) {
       if (permissions.includes('401') || permissions.includes('402')
         || permissions.includes('403') || permissions.includes('404') ||
@@ -529,10 +581,7 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
         permissions.includes('501') || permissions.includes('502') ||
         permissions.includes('505') || permissions.includes('701') ||
         permissions.includes('704') || permissions.includes('702')) {
-        document.getElementById('lieleone').classList.remove('hide');
-      }
-      else {
-        document.getElementById('lieleone').classList.add('hide');
+        this.jsonFlags.isShoweStore = true;
       }
     }
   }
@@ -544,6 +593,7 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
     }
     else { }
   }
+
   ngAfterViewChecked() {
     this.cd.detectChanges();
   }
@@ -568,7 +618,8 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
 
   /// Teacher Role Found
   teacherLoginFound() {
-    let hideArray = ['lione', 'litwo', 'lifive', 'liseven', 'lieight', 'linine'];
+    let hideArray = ['litwo', 'lifive', 'linine'];
+    this.jsonFlags.isShowLead = false;
     hideArray.forEach(object => {
       if (document.getElementById(object)) {
         document.getElementById(object).classList.add('hide');
@@ -583,62 +634,34 @@ export class SideBarComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  RemoveActiveTabs() {
-    let removeArray = ['lizero', 'lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'liten', 'lieleone', 'litwelve'];
-    removeArray.forEach(object => {
-      if (document.getElementById(object)) {
-        document.getElementById(object).classList.remove('active');
-      }
-    });
-  }
+  // RemoveActiveTabs() {
+  //   let removeArray = ['lizero', 'lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'linine'];
+  //   removeArray.forEach(object => {
+  //     if (document.getElementById(object)) {
+  //       document.getElementById(object).classList.remove('active');
+  //     }
+  //   });
+  // }
 
-  setActiveClassOnSideNav() {
-    this.RemoveActiveTabs();
-    let url: string = window.location.href;
-    let pathLastURL = url.substring(url.lastIndexOf("/") + 1, url.length);
-    let routesData = {
-      'admin': 'lizero',
-      'enquiry': 'lione',
-      'student': 'litwo',
-      'course': 'lithree',
-      'activity': 'lifour',
-      'reports': 'lisix',
-      'inventory': 'liseven',
-      'campaign': 'linine',
-      'library': 'liten',
-      'products': 'lieleone',
-      'online-exam': 'litwelve'
-    };
-    if (document.getElementById(routesData[pathLastURL])) {
-      this.activeSession = routesData[pathLastURL];
-      document.getElementById(routesData[pathLastURL]).classList.add('active');
-    }
-  }
 
   showSubSection(id) {
     // for (let i = 0; i < 5; i++) {
     //   document.getElementsByClassName("side-section") && document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
     // }
-   if(document.getElementById(id)){
-    document.getElementById(id).className = ' side-section';
-    document.getElementById(id).classList.add('active-current-menu');
-   }
-     
+    if (document.getElementById(id)) {
+      document.getElementById(id).className = ' side-section';
+      document.getElementById(id).classList.add('active-current-menu');
+    }
+
     this.helpMenu = true;
-    if (document.getElementById('blurBg'))
-      {
-        document.getElementById('blurBg').className = 'blur-background';
-      }
+    if (document.getElementById('blurBg')) {
+      document.getElementById('blurBg').className = 'blur-background';
+    }
   }
 
   // From Headers section
   showHelpMenu() {
-    if (this.helpMenu) {
-      this.helpMenu = false;
-    }
-    else {
-      this.helpMenu = true;
-    }
+    this.helpMenu = (!this.helpMenu);
     this.sideBar = false;
     this.searchBar = false;
   }
