@@ -395,8 +395,6 @@ export class SideBarComponent implements OnInit {
       this.isElearnAllow();
       this.isLibraryFeatureAllow(permission);
       this.isOnlineExamAllow(type);
-      this.hasCourse(this.permissionData);
-
     }
     else if (userType == 3) {
       /* Teacher login detected */

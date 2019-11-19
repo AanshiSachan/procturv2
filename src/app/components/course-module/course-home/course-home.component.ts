@@ -9,6 +9,11 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 export class CourseHomeComponent implements OnInit {
   isLangInstitue: boolean = false;
   
+  jsonFlags={
+    isShowSetup:false,
+    isShowFileManager:false,
+  }
+
   constructor(   private auth: AuthenticatorService) { }
 
   ngOnInit() {
@@ -20,7 +25,23 @@ export class CourseHomeComponent implements OnInit {
           this.isLangInstitue = false;
         }
       }
-    )
+    );
+
+    this.checkPermissions();
+
+  }
+
+  checkPermissions(){
+   let perm = sessionStorage.getItem('permissions');
+   let userType = sessionStorage.getItem('userType');
+    if ((userType=='0')&&((perm == null || perm == undefined || perm == ''))){
+      this.jsonFlags.isShowSetup= true;
+      this.jsonFlags.isShowFileManager = true;
+    }else{
+      if (perm.includes('114')) {
+        this.jsonFlags.isShowFileManager = true;
+      }
+    }
   }
 
 }

@@ -43,7 +43,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             else if (string.indexOf('course') >= 0 || string.indexOf('batch') >= 0) {
                 return this.hasCourseAccess();
             }
-
+  
             else if (string.indexOf('online-exam') >= 0) {
                 return this.hasOnlineExamAcess();
             }
@@ -351,7 +351,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('506')) {
+            if (JSON.parse(sessionStorage.getItem('permissions')).includes('202')) {
                 return true;
             }
             else {

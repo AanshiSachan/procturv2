@@ -10,7 +10,7 @@
       </div>  
     </section>
   <div class="course-menu-section-container" *ngIf="(!isLangInstitue)">
-    <div class="course-menu-item" routerLink="/view/course/setup">
+    <div class="course-menu-item" routerLink="/view/course/setup" *ngIf="jsonFlags.isShowSetup">
       <div class="menu-title">
         <img src="./assets/images/course/data-setup.svg" alt="data setup">
         <span>Data Setup</span>
@@ -107,7 +107,7 @@
 
   <!-- batch module -->
   <div class="course-menu-section-container" *ngIf="(isLangInstitue)">
-      <div class="course-menu-item" routerLink="/view/batch/setup">
+      <div class="course-menu-item" routerLink="/view/batch/setup" *ngIf="jsonFlags.isShowSetup">
         <div class="menu-title">
           <img src="./assets/images/course/data-setup.svg" alt="data setup">
           <span>Data Setup</span>
@@ -143,7 +143,7 @@
         <span>Schedule exam for any of the batches.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/file-manager">
+    <div class="course-menu-item" routerLink="/view/batch/file-manager" *ngIf="jsonFlags.isShowFileManager">
       <div class="menu-title">
         <img src="./assets/images/activity/file_manager.svg" alt="file manager">
         <span>File Manager</span>
