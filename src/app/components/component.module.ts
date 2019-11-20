@@ -13,6 +13,7 @@ import { SearchBoxComponent } from './core/search-box/search-box.component';
 import { CourseListService } from '../services/course-services/course-list.service';
 import { SideBarComponent } from './core/side-bar/side-bar.component';
 import { StudentFeeService } from './student-module/student_fee.service';
+import { TrainingVideoComponent } from './training-video/training-video.component';
 
 @NgModule({
     imports: [
@@ -30,7 +31,8 @@ import { StudentFeeService } from './student-module/student_fee.service';
         ChangePasswordComponent,
         GlobalSearchPopupComponent,
         SearchBoxComponent,
-        SideBarComponent
+        SideBarComponent,
+        TrainingVideoComponent
     ],
     entryComponents: [
     ],

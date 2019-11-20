@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ComponentsComponent } from './components.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { TrainingVideoComponent } from './training-video/training-video.component';
 
 @NgModule({
     imports: [
@@ -112,6 +113,10 @@ import { AuthGuard } from '../guards/auth.guard';
                         {
                             path: 'e-store',
                             loadChildren: 'app/components/eStore-module/estore.module#EstoreModule'
+                        },
+                        {
+                            path: 'training-video',
+                            component: TrainingVideoComponent,
                         },
                         {
                             path: 'live-classes',
