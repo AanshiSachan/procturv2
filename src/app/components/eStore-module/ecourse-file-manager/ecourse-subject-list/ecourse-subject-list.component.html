@@ -153,10 +153,10 @@
       {{video.size | number:'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-1 txt-font" *ngIf="video.category_name=='VDOCipher'">
-      {{video.video_time }}&nbsp;Hr
+      <span [ngClass]="{'hide': video.video_time==null}">  {{video.video_time }}&nbsp;Hr</span>
     </div>
     <div class="col-md-1 txt-font" *ngIf="video.category_name=='VDOCipher'">
-      {{video.watch_count}} &nbsp;Watched &nbsp; &nbsp;
+      {{video.watch_count}} &nbsp;<i  class="fas fa fa-eye" style="color:#2680eb;font-family: FontAwesome ;font-size: 14px;display: inline-block;vertical-align: middle; margin-right:5px" title="Watched"></i>
     </div>
     <div class="col-md-1 txt-font" style="color:blue;" *ngIf="video.category_name=='VDOCipher'">
         {{video.video_status |titlecase}} &nbsp;
@@ -166,6 +166,9 @@
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked!='N'" (click)="setRemoveDataFile(video,'unlink')">Unlink</button>
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'delete')">Delete</button>
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'unlink all')">Unlink All</button>
+      </div>
+      <div class="action-buttons" *ngIf="video.category_name!='VDOCipher'">
+        <button class="btn btn-xs btn-ga-white"  (click)="setRemoveDataFile(video,'delete')">Delete</button>
       </div>
     </div>
   </div>
@@ -378,6 +381,8 @@
     <div class="ga-modal" style="height: 460px;">
       <div class="ga-modal-head" style="text-align: left;padding:.5em 1em .5em 1em" >
         <span>{{tempData.title}}</span>
+
+
         <div class="btn_cross" > 
             <button  class="btn btn-xs btn-ga-white" style="position: absolute;right: 0;" (click)="stopVideo()">X</button>
           </div>

@@ -87,7 +87,7 @@ export class ProductListComponent implements OnInit {
         console.log(this.productDetails);
       },
       (error: any) => {
-        this.msgService.showErrorMessage('error', error.error.message, '');
+        this.msgService.showErrorMessage('error', error.message, '');
       }
     )
   }
@@ -353,7 +353,7 @@ export class ProductListComponent implements OnInit {
         return;
       }
 
-      if (this.filter.by.maxPrice < this.filter.by.minPrice) {
+      if (Number(this.filter.by.maxPrice) < Number(this.filter.by.minPrice)) {
         this.msgService.showErrorMessage('error', 'product maximum price should be grater than minimum price ', '');
         return;
       }

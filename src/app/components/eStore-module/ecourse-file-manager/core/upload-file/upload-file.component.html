@@ -1,17 +1,16 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'"
   *ngIf="isRippleLoad">
 </loaders-css>
-<div class="ga-modal-wrapper" *ngIf="showModal">
+<!-- <div class="ga-modal-wrapper" *ngIf="showModal">
   <div class="ga-modal-container">
     <div class="ga-modal">
       <div class="ga-modal-head">
-        <span>Upload Files</span>
+        <span>Upload Files {{varJson.topic_id}}</span>
         <span class="close" (click)="clearuploadObject()"></span>
       </div>
       <div class="ga-modal-body">
         <div class="row upload-box">
           <div class="col-md-4 file-form">
-
             <div class="form-group">
               <select class="form-ctrl ga-form-input" [disabled]="material_dataShow" [(ngModel)]="varJson.course_types"
                 (change)="getSubjectsList($event.target.value)">
@@ -19,7 +18,6 @@
                 <option *ngFor="let exam of categiesList; " [value]="exam.course_type_id">{{exam.course_type}}</option>
               </select>
             </div>
-
             <div class="form-group">
               <select [(ngModel)]="varJson.subject_id" [disabled]="material_dataShow" class="form-ctrl ga-form-input"
                 (change)="getTopicsList($event.target.value)">
@@ -28,7 +26,6 @@
                 </option>
               </select>
             </div>
-
             <div class="form-group">
               <select class="form-ctrl ga-form-input" [(ngModel)]="varJson.topic_id"
                 (change)="getSubtopicList($event.target.value)">
@@ -36,7 +33,6 @@
                 <option *ngFor="let topic of topicList; " [value]="topic.institute_topic_id">{{topic.name}}</option>
               </select>
             </div>
-
             <div class="form-group">
               <select class="form-ctrl ga-form-input" [(ngModel)]="varJson.sub_topic_id">
                 <option value="0">Select subtopic</option>
@@ -44,7 +40,6 @@
                 </option>
               </select>
             </div>
-
           </div>
           <div class="file-drop-wrapper"
             [ngClass]="{'col-md-10': varJson.category_id==330,'col-md-8': varJson.category_id!=330}">
@@ -55,52 +50,116 @@
                 <option *ngFor="let category of categiesTypeList; " [value]="category.category_id">
                   {{category.category_name}}</option>
               </select>
-              <input type="text" style="margin-bottom: 0.8em;"
-                *ngIf="varJson.category_id==235" class="form-ctrl video-input"
-                placeholder="Video Title" [(ngModel)]="varJson.title">
-
-              <input type="text" style="margin-bottom: 0.8em;" class="form-ctrl video-input"
+              <div class="row" *ngIf="varJson.category_id==235">
+                <div class="col-md-7">
+                  <div class="field-wrapper">
+                    <label>Privacy Settings<div class="questionInfo inline-relative">
+                        <span class="qInfoIcon i-class">i</span>
+                        <div class="tooltip-box-field">
+                          Set the video visibility mode to private or public.
+                          In private mode, video will be visible to the enrolled students.
+                          In public mode, video will be visible to guest users & enrolled students
+                        </div>
+                      </div></label>
+                    <div class="row" style="padding: 15px 30px;">
+                      <label class="toggle">
+                        <span class="toggle-label" id="unassigned"
+                          [ngClass]="(varJson.is_private)?'inactive_toggle_button':'active_toggle_button'">Private</span>
+                        <input class="toggle-checkbox" type="checkbox" [(ngModel)]="varJson.is_private">
+                        <div class="toggle-switch"></div>
+                        <span class="toggle-label" id="assigned"
+                          [ngClass]="(varJson.is_private)?'active_toggle_button':'inactive_toggle_button'">Public
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="field-wrapper" style="margin-left: -50px;">
+                    <div class="dropdown-div">
+                      <label>Enable Watermark <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field">
+                            Enable or disable the watermark visibility in the video with this setting
+                          </div>
+                        </div>&nbsp;&nbsp;
+                        <div class="row" style="padding: 15px 30px;">
+                          <label class="toggle">
+                            <span class="toggle-label" id="unassigned"
+                              [ngClass]="(varJson.enable_watermark)?'inactive_toggle_button':'active_toggle_button'">Disable
+                            </span>
+                            <input class="toggle-checkbox" type="checkbox" [(ngModel)]="varJson.enable_watermark">
+                            <div class="toggle-switch"></div>
+                            <span class="toggle-label" id="assigned"
+                              [ngClass]="(varJson.enable_watermark)?'active_toggle_button':'inactive_toggle_button'">Enable
+                            </span>
+                          </label>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input type="text" style="margin-bottom: 0.8em;" *ngIf="varJson.category_id==235"
+                class="form-ctrl video-input" placeholder="Video Title" [(ngModel)]="varJson.title">
+            
+                <input type="text" style="margin-bottom: 0.8em;" class="form-ctrl video-input"
                 *ngIf="varJson.category_id==230" placeholder="Video URL" [(ngModel)]="varJson.video_url">
-
-              <div class="btn-div" *ngIf="varJson.category_id==230">
+         
+                <div class="btn-div" *ngIf="varJson.category_id==230">
                 <input class="btn fullBlue" type="button" value="Upload" [disabled]="varJson.video_url==''"
                   (click)="uploadYoutubeURL($event)">
                 <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
               </div>
-              <div style="width: 50rem; height: 20rem;    overflow-y: scroll;" class="table table-responsive table-made"
-                *ngIf="varJson.category_id==330">
+              <div style="height: 22rem; overflow:hidden;   overflow-y: scroll;"
+                class="table table-responsive table-made" *ngIf="varJson.category_id==330">
                 <table>
                   <thead>
-                    <tr>
+                    <tr style="background:#005cbf;">
                       <td>#</td>
                       <td>Title</td>
                       <td>Size</td>
-                      <td>Date</td>                     
+                      <td>Date</td>
                       <td>Source</td>
-                      <td>Location</td>
+                      <td>Links</td>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let video of existVideos;">
-                        <td>
-                          <div class="field-radio-wrapper">
-                            <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" 
-                              [(ngModel)]="jsonData.selectedVideo"  [value]="video.video_id"
+                    <tr *ngFor="let video of existVideos; let i= index" >
+                      <td>
+                        <div class="field-radio-wrapper">
+                          <input type="radio" name="bothRadio" id="bothRadio" class="form-radio"
+                            [(ngModel)]="jsonData.selectedVideo" [value]="video.video_id"
                             (ngModelChange)="onRadioButtonChange($event,video)">
-                            <label for="bothRadio"></label>
-                          </div></td>
-                        <td>{{video.video_title}}</td>
-                        <td>{{video.video_size}} MB</td>
-                        <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
-                        <td>{{getSourceName(video)}}</td>
-                        <td>{{getLocationName(video)}}</td>
+                          <label for="bothRadio"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="txt-title text-left"
+                          title="{{video.video_title}}">{{video.video_title.length>20?(video.video_title | slice:0:20):video.video_title}}</span>
+                      </td>
+                      <td>{{video.video_size}} MB {{i}}</td>
+                      <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
+                      <td>
+                        <span class="txt-title"
+                          title="{{getSourceName(video)}}">{{(getSourceName(video)?.length>30)?(getSourceName(video) | slice:0:30) + '...':(getSourceName(video))}}</span>
+                      </td>
+                      <td>
+                        <div class="questionInfo inline-relative" *ngIf="video.link_video_list.length">
+                          <span class="qInfoIcon i-class"><b>{{video.link_video_list.length}}</b></span>
+                          <div class="tooltip-box-field text-left" >
+                            <span *ngFor="let data of video.link_video_list;let i=index"  style="padding: 5px;">
+                              {{videoGetDetails(data,i+1)}} <br>
+                            </span>
+                          </div>
+                        </div>
+                      </td>
                     </tr>
-
                   </tbody>
-
-                </table>              
+                </table>
               </div>
-              <div class="btn-div" *ngIf="varJson.category_id==330" style=" position: absolute; right: 1rem; bottom: 0;">
+              <div class="btn-div" *ngIf="varJson.category_id==330"
+                style=" position: absolute; right: 1rem; bottom: 0;">
                 <input class="btn fullBlue" type="button" value="Link Video" [disabled]="varJson.title==''"
                   (click)="linkAlreadyUploadedVideo($event)">
                 <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
@@ -109,7 +168,7 @@
                 [showCancelButton]="false"
                 *ngIf="varJson.category_id==235 && varJson.category_id!=0 && varJson.category_id!=330">
               </p-fileUpload>
-
+              
               <p-fileUpload customUpload="true" multiple="multiple" type="submit"
                 (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false"
                 *ngIf="varJson.category_id!=230 && varJson.category_id!=235 && varJson.category_id!=330">
@@ -120,7 +179,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="ga-modal-wrapper" *ngIf="showParentTopicModel">
   <div class="ga-modal-container">
@@ -133,39 +192,70 @@
         <div class="row upload-box">
           <div class="col-md-12 file-form">
             <div class="form-group">
-              <label>course</label>
+              <label class="title">Course</label>
               <select class="form-ctrl ga-form-input" [disabled]="material_dataShow" [(ngModel)]="varJson.course_types"
                 (change)="getSubjectsList($event.target.value)">
                 <option value=""> Select course</option>
-                <option *ngFor="let exam of categiesList; " [value]="exam.course_type_id">{{exam.course_type}}</option>
+                <option *ngFor="let exam of categiesList; " title="{{exam.course_type}}" [value]="exam.course_type_id">
+                 {{(exam.course_type?.length>30)?(exam.course_type | slice:0:30) + '...':(exam.course_type)}}     
+                </option>
               </select>
             </div>
           </div>
           <div class="col-md-12 file-form">
             <div class="form-group">
-              <label>subject</label>
+              <label class="title">Subject</label>
               <select [(ngModel)]="varJson.subject_id" [disabled]="material_dataShow" class="form-ctrl ga-form-input"
                 (change)="getTopicsList($event.target.value)">
                 <option value="0">Select subject</option>
-                <option *ngFor="let subject of subjectList;" [value]="subject.subject_id">{{subject.subject_name}}
+                <option *ngFor="let subject of subjectList;" title="{{subject.subject_name}}" [value]="subject.subject_id">
+                    {{(subject.subject_name?.length>30)?(subject.subject_name| slice:0:30) + '...':(subject.subject_name)}}
+  
                 </option>
               </select>
             </div>
           </div>
         </div>
-        <div class="row upload-box">
+        <div class="row upload-box" *ngIf="showModal">
+            <div class="col-md-12 file-form">
+              <div class="form-group">
+                <label class="title">Topic</label>
+                <select class="form-ctrl ga-form-input" [(ngModel)]="varJson.topic_id"
+                (change)="getSubtopicList($event.target.value)">
+                <option value="0">Select topic</option>
+                <option *ngFor="let topic of topicList; "  title="{{topic.name}}" [value]="topic.institute_topic_id">
+                   {{(topic.name?.length>30)?(topic.name| slice:0:30) + '...':(topic.name)}}
+                </option>
+              </select>
+              </div>
+            </div>
+            <div class="col-md-12 file-form">
+              <div class="form-group">
+                <label class="title">Subtopic</label>
+                <select class="form-ctrl ga-form-input" [(ngModel)]="varJson.sub_topic_id">
+                    <option value="0">Select subtopic</option>
+                    <option *ngFor="let subtopic of subtopicList; "  title="{{subtopic.name}}" [value]="subtopic.institute_topic_id">
+                        {{(subtopic.name?.length>30)?(subtopic.name| slice:0:30) + '...':(subtopic.name)}}
+                                </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        <div class="row upload-box" *ngIf="!showModal">
           <div class="col-md-12 file-form">
             <div class="form-group">
-              <label class="title">Parent Topic &nbsp;:&nbsp;</label>
-              <label title="{{jsonData.parentTopic}}">{{(jsonData.parentTopic?.length>30)?(jsonData.parentTopic | slice:0:30) + '...':(jsonData.parentTopic)}}
+              <label class="title">Topic &nbsp;:&nbsp;</label>
+              <label
+                title="{{jsonData.parentTopic}}">{{(jsonData.parentTopic?.length>30)?(jsonData.parentTopic | slice:0:30) + '...':(jsonData.parentTopic)}}
               </label>
 
             </div>
           </div>
           <div class="col-md-12 file-form">
             <div class="form-group">
-              <label class="title">Main Topic &nbsp;:&nbsp;</label>
-              <label title="{{jsonData.parentTopic}}">{{(jsonData.mainTopic?.length>30)?(jsonData.mainTopic | slice:0:30) + '...':(jsonData.mainTopic)}}</label>
+              <label class="title">Subtopic &nbsp;:&nbsp;</label>
+              <label
+                title="{{jsonData.parentTopic}}">{{(jsonData.mainTopic?.length>30)?(jsonData.mainTopic | slice:0:30) + '...':(jsonData.mainTopic)}}</label>
             </div>
           </div>
         </div>
@@ -181,8 +271,58 @@
                 <option *ngFor="let category of categiesTypeList; " [value]="category.category_id">
                   {{category.category_name}}</option>
               </select>
+              <div class="row" *ngIf="varJson.category_id==235">
+                  <div class="col-md-7">
+                    <div class="field-wrapper">
+                      <label>Privacy Settings<div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field">
+                            Set the video visibility mode to private or public.
+                            In private mode, video will be visible to the enrolled students.
+                            In public mode, video will be visible to guest users & enrolled students
+                          </div>
+                        </div></label>
+                      <div class="row" style="padding: 15px 30px;">
+                        <label class="toggle">
+                          <span class="toggle-label" id="unassigned"
+                            [ngClass]="(varJson.is_private)?'inactive_toggle_button':'active_toggle_button'">Private</span>
+                          <input class="toggle-checkbox" type="checkbox" [(ngModel)]="varJson.is_private">
+                          <div class="toggle-switch"></div>
+                          <span class="toggle-label" id="assigned"
+                            [ngClass]="(varJson.is_private)?'active_toggle_button':'inactive_toggle_button'">Public
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="field-wrapper" style="margin-left: -50px;">
+                      <div class="dropdown-div">
+                        <label>Enable Watermark <div class="questionInfo inline-relative">
+                            <span class="qInfoIcon i-class">i</span>
+                            <div class="tooltip-box-field">
+                              Enable or disable the watermark visibility in the video with this setting
+                            </div>
+                          </div>&nbsp;&nbsp;
+                          <div class="row" style="padding: 15px 30px;">
+                            <label class="toggle">
+                              <span class="toggle-label" id="unassigned"
+                                [ngClass]="(varJson.enable_watermark)?'inactive_toggle_button':'active_toggle_button'">Disable
+                              </span>
+                              <input class="toggle-checkbox" type="checkbox" [(ngModel)]="varJson.enable_watermark">
+                              <div class="toggle-switch"></div>
+                              <span class="toggle-label" id="assigned"
+                                [ngClass]="(varJson.enable_watermark)?'active_toggle_button':'inactive_toggle_button'">Enable
+                              </span>
+                            </label>
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               <input type="text" style="margin-bottom: 0.8em;"
-                *ngIf="varJson.category_id==230||varJson.category_id==235" class="form-ctrl video-input"
+                *ngIf="varJson.category_id==235" class="form-ctrl video-input"
                 placeholder="Video Title" [(ngModel)]="varJson.title">
 
               <input type="text" style="margin-bottom: 0.8em;" class="form-ctrl video-input"
@@ -193,42 +333,58 @@
                   (click)="uploadYoutubeURL($event)">
                 <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
               </div>
-              <div style="width: 50rem; height: 20rem;    overflow-y: scroll;" class="table table-responsive table-made"
-              *ngIf="varJson.category_id==330">
-              <table>
-                <thead>
-                  <tr>
-                    <td>#</td>
-                    <td>Title</td>
-                    <td>Size</td>
-                    <td>Date</td>                     
-                    <td>Source</td>
-                    <td>Location</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let video of existVideos;">
+              <div style=" height: 22rem;overflow:hidden; overflow-y: scroll;" class="table table-responsive table-made"
+                *ngIf="varJson.category_id==330">
+                <table>
+                  <thead>
+                    <tr style="background:#005cbf;">
+                      <td>#</td>
+                      <td>Title</td>
+                      <td>Size</td>
+                      <td>Date</td>
+                      <td>Source</td>
+                      <td>Links</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let video of existVideos;">
                       <td>
                         <div class="field-radio-wrapper">
-                          <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" 
-                            [(ngModel)]="jsonData.selectedVideo"  [value]="video.video_id"
-                          (ngModelChange)="onRadioButtonChange($event,video)">
+                          <input type="radio" name="bothRadio" id="bothRadio" class="form-radio"
+                            [(ngModel)]="jsonData.selectedVideo" [value]="video.video_id"
+                            (ngModelChange)="onRadioButtonChange($event,video)">
                           <label for="bothRadio"></label>
-                        </div></td>
-                      <td>{{video.video_title}}</td>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="txt-title text-left"
+                          title="{{video.video_title}}">{{video.video_title.length>20?(video.video_title | slice:0:20):video.video_title}}</span>
+                      </td>
                       <td>{{video.video_size}} MB</td>
                       <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
-                      <td>{{getSourceName(video)}}</td>
-                      <td>{{getLocationName(video)}}</td>
-                  </tr>
-                </tbody>
-              </table>              
-            </div>
-            <div class="btn-div" *ngIf="varJson.category_id==330" style=" position: absolute; right: 1rem; bottom: 0;">
-              <input class="btn fullBlue" type="button" value="Link Video" 
-                (click)="linkAlreadyUploadedVideo($event)">
-              <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
-            </div>
+                      <td><span class="txt-title"
+                          title="{{getSourceName(video)}}">{{(getSourceName(video)?.length>30)?(getSourceName(video) | slice:0:30) + '...':(getSourceName(video))}}</span>
+                      </td>
+                      <td>
+                          <span *ngIf="video.link_video_list.length==0">-</span>
+                        <div class="questionInfo inline-relative" *ngIf="video.link_video_list.length">
+                          <span class="qInfoIcon i-class"><b>{{video.link_video_list.length}}</b></span>
+                          <div class="tooltip-box-field text-left">
+                            <span *ngFor="let data of video.link_video_list;let i=index" style="padding: 5px;">
+                              {{videoGetDetails(data,i+1)}} <br>
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="btn-div" *ngIf="varJson.category_id==330"
+                style=" position: absolute; right: 1rem; bottom: -10px;">
+                <input class="btn fullBlue" type="button" value="Link Video" (click)="linkAlreadyUploadedVideo($event)">
+                <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
+              </div>
               <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler2($event,values)"
                 [showCancelButton]="false"
                 *ngIf="varJson.category_id==235 && varJson.category_id!=0 && varJson.category_id!=330">

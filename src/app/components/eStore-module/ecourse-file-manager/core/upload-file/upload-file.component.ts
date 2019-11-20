@@ -36,15 +36,15 @@ export class UploadFileComponent implements OnInit {
   file: any;
   payload = {
     "clientPayload": {
-      "policy": "eyJleHBpcmF0aW9uIjoiMjAxOS0wOC0wOVQxMzozNDowMi42NTJaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoidmRvLWFwLXNvdXRoZWFzdCJ9LHsia2V5Ijoib3JpZy9LbTdCenZibk9sQ1lLIn0seyJ4LWFtei1jcmVkZW50aWFsIjoiQUtJQUoyUzJMQldLR04zVzMzR1EvMjAxOTA4MDgvYXAtc291dGhlYXN0LTEvczMvYXdzNF9yZXF1ZXN0In0seyJ4LWFtei1hbGdvcml0aG0iOiJBV1M0LUhNQUMtU0hBMjU2In0seyJ4LWFtei1kYXRlIjoiMjAxOTA4MDhUMDAwMDAwWiJ9LFsic3RhcnRzLXdpdGgiLCIkc3VjY2Vzc19hY3Rpb25fc3RhdHVzIiwiIl0sWyJzdGFydHMtd2l0aCIsIiRzdWNjZXNzX2FjdGlvbl9yZWRpcmVjdCIsIiJdXX0=",
-      "key": "orig/Km7BzvbnOlCYK",
-      "x-amz-signature": "822fc67703da52612f3de3ffcea962ae82442f3e1df101aba3eee668b4f81757",
-      "x-amz-algorithm": "AWS4-HMAC-SHA256",
-      "x-amz-date": "20190808T000000Z",
-      "x-amz-credential": "AKIAJ2S2LBWKGN3W33GQ/20190808/ap-southeast-1/s3/aws4_request",
-      "uploadLink": "https://vdo-ap-southeast.s3-accelerate.amazonaws.com"
+      "policy": "",
+      "key": "",
+      "x-amz-signature": "",
+      "x-amz-algorithm": "",
+      "x-amz-date": "",
+      "x-amz-credential": "",
+      "uploadLink": ""
     },
-    "videoId": "d2863726e1c1407092cd9674f170719d"
+    "videoId": ""
   };
   varJson = {
     category_id: 0,
@@ -89,12 +89,15 @@ export class UploadFileComponent implements OnInit {
   getVDOCipherLinkedDate() {
     let url = "/api/v1/instFileSystem/VDOCipher/" + this.institute_id;
     this.existVideos = [];
+    this.isRippleLoad = true;
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
+      this.isRippleLoad = false;
       if (res) {
         this.existVideos = res;
       }
     }, (err) => {
+      this.isRippleLoad = false;
       this.existVideos = [];
     });
   }
@@ -660,7 +663,7 @@ export class UploadFileComponent implements OnInit {
         xmlDoc = parser.parseFromString(text, "text/xml");
         if (xmlDoc.getElementsByTagName("ETag")) {
           var videoID = xmlDoc.getElementsByTagName("ETag")[0].childNodes[0].nodeValue;
-          this.updateVideoStatus(videoID);
+          this.updateVideoStatus(this.payload['videoId']);
         }
       }
     }
@@ -668,6 +671,7 @@ export class UploadFileComponent implements OnInit {
   }
 
   updateVideoStatus(videoID) {
+
     let obj = {
       "videoID": videoID,
       "institute_id": sessionStorage.getItem('institute_id'),

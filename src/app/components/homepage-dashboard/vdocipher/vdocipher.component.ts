@@ -16,16 +16,7 @@ import { WidgetService } from '../../../services/widget.service';
   styleUrls: ['./vdocipher.component.scss']
 })
 export class VdocipherComponent implements OnInit {
-  // public storageData: any = {  };
-  @Input() storageData: any = {
-    vDOCipher_allocated_bandwidth: 0,
-    vDOCipher_allocated_storage: 0,
-    vDOCipher_used_storage: 0,
-    vDOCipher_used_bandwidth: 0
-  }
-
-
-
+  @Input() storageData: any;
 
   constructor(
     private router: Router,
@@ -38,27 +29,6 @@ export class VdocipherComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.getStorageData();
-    console.log('storageData', this.storageData);
-    this.storageData.vDOCipher_allocated_bandwidth = (Number(this.storageData.vDOCipher_allocated_bandwidth) / 1024).toFixed(3);
-    this.storageData.vDOCipher_used_bandwidth = (Number(this.storageData.vDOCipher_used_bandwidth) / 1024).toFixed(3);
-    this.storageData.vDOCipher_allocated_storage = (Number(this.storageData.vDOCipher_allocated_storage) / 1024).toFixed(3);
-    this.storageData.vDOCipher_used_storage = (Number(this.storageData.vDOCipher_used_storage) / 1024).toFixed(3);
   }
 
-
-  getStorageData() {
-    this.widgetService.getAllocatedStorageDetails().subscribe(
-      res => {
-        this.cd.markForCheck();
-        this.storageData = res;
-        console.log('res', res);
-        this.storageData.vDOCipher_allocated_bandwidth = (Number(res.vDOCipher_allocated_bandwidth) / 1024).toFixed(3);
-        this.storageData.vDOCipher_allocated_storage = (Number(res.vDOCipher_allocated_storage) / 1024).toFixed(3);
-      },
-      err => {
-        //console.log(err);
-      }
-    )
-  }
 }

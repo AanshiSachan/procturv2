@@ -376,7 +376,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('login_student_id', institute_data.login_student_id);
       sessionStorage.setItem('login_teacher_id', institute_data.teacherId);
       sessionStorage.setItem('manual_student_disp_id', institute_data.manual_student_disp_id);
-      sessionStorage.setItem('name', institute_data.name);
       sessionStorage.setItem('online_payment_feature', institute_data.online_payment_feature);
       sessionStorage.setItem('password', institute_data.password);
       sessionStorage.setItem('promoCode', institute_data.promoCode);
@@ -396,7 +395,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('userid', institute_data.userid);
       sessionStorage.setItem('message', institute_data.message);
       sessionStorage.setItem('name', institute_data.name);
-      sessionStorage.setItem('fb_page_url', institute_data.fb_page_url);
       sessionStorage.setItem('about_us_text', institute_data.about_us_text);
       sessionStorage.setItem('mobile_no', institute_data.mobile_no);
       sessionStorage.setItem('inst_announcement', institute_data.inst_announcement);

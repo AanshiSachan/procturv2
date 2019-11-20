@@ -1,15 +1,12 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { LoginService } from '../../../../../services/login-services/login.service';
-import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
-import { AuthenticatorService } from '../../../../../services/authenticator.service';
-import { MessageShowService } from '../../../../../services/message-show.service';
-import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { CheckableSettings } from '@progress/kendo-angular-treeview';
 import { of } from 'rxjs/observable/of';
-import { TopicListingService } from '../../../../../services/course-services/topic-listing.service';
 import { TreeItemLookup } from '@progress/kendo-angular-treeview';
+import { LoginService, AuthenticatorService, MessageShowService } from '../../../../..';
+import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
+import { TopicListingService } from '../../../../../services/course-services/topic-listing.service';
 
 
 @Component({
@@ -20,8 +17,6 @@ import { TreeItemLookup } from '@progress/kendo-angular-treeview';
 })
 
 export class ClassAddComponent implements OnInit {
-
-  userType: any = 0;
   public checkedKeys: any[] = [];
   customTable: any = [];
   courseModelStdList: any[] = [];
@@ -142,6 +137,16 @@ export class ClassAddComponent implements OnInit {
     minute: '00',
   }
 
+  weeklyCommonStartTime = {
+    hour: '12 PM',
+    minute: '00',
+  }
+
+  weeklyCommonEndTime = {
+    hour: '1 PM',
+    minute: '00',
+  }
+
   cancelRowSelected: any = '';
   courseStartDate: any = '';
   courseEndDate: any = '';
@@ -168,6 +173,7 @@ export class ClassAddComponent implements OnInit {
     cancel_note: '',
     is_notified: true
   }
+  weekDaysList: any[] = [];
 
   // Topic listing variables
   selectedSubId: any;
@@ -209,7 +215,6 @@ export class ClassAddComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userType = sessionStorage.getItem('userType');
     this.messages = this.msgService.object;
     /* Prerequiste loaded */
     this.auth.institute_type.subscribe(
@@ -228,6 +233,7 @@ export class ClassAddComponent implements OnInit {
     }
     this.switchActiveView();
     this.checkForCoursePlannerRoute();
+    this.getAllWeekDay();
   }
 
   checkForCoursePlannerRoute(){
@@ -252,6 +258,43 @@ export class ClassAddComponent implements OnInit {
       } else
         return true;
     }
+  }
+
+// For Weekly class schedule
+
+  // All day of the week
+  getAllWeekDay(){
+    this.isRippleLoad = true;
+    this.classService.getDayofWeekAll().subscribe(
+      res => {
+        this.isRippleLoad = false;
+        this.weekDaysList = res;
+        console.log(this.weekDaysList)
+      },
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+      }
+    )
+  }
+
+  // Apply start time and end time for all week days
+  applyTimeForAll(){
+
+    let startTime = moment(this.createTimeInFormat(this.weeklyCommonStartTime.hour, this.weeklyCommonStartTime.minute, 'comp'), 'h:mma');
+    let endTime = moment(this.createTimeInFormat(this.weeklyCommonEndTime.hour, this.weeklyCommonEndTime.minute, 'comp'), 'h:mma');
+
+    if (!(startTime.isBefore(endTime))) {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
+      return
+    }
+    else{
+      this.weekDaysList.forEach(element => {
+        element.start_time = this.getNewTimeFormatJson(this.weeklyCommonStartTime.hour.split(' ')[0] + ':' + this.weeklyCommonStartTime.minute + ' ' + this.weeklyCommonStartTime.hour.split(' ')[1]);
+        element.end_time = this.getNewTimeFormatJson(this.weeklyCommonEndTime.hour.split(' ')[0] + ':' + this.weeklyCommonEndTime.minute + ' ' + this.weeklyCommonEndTime.hour.split(' ')[1]);
+      });
+    }
+
   }
 
   public handleChecking(itemLookup: TreeItemLookup): void {
@@ -1288,24 +1331,41 @@ export class ClassAddComponent implements OnInit {
 
   customRecurrence() {
     this.getWeeklyScheduleData()
-    this.showPopUpRecurence = true;
   }
 
   //////// POPUP /////////////////////////
 
   getWeeklyScheduleData() {
+    this.isRippleLoad = true;
     this.classService.getWeeklySchedule(this.selctedScheduledClass.batch_id).subscribe(
       (res: any) => {
-        if (res.weekSchd && (res.weekSchd.length > 0)) {
-          this.selctedScheduledClass.startTime = this.getNewTimeFormatJson(res.weekSchd[0].start_time);
-          this.selctedScheduledClass.endTime = this.getNewTimeFormatJson(res.weekSchd[0].end_time);
-          res.weekSchd.forEach(element => {
-            document.getElementById('idDay-' + element.day_of_week).classList.remove('l-text');
-            document.getElementById('idDay-' + element.day_of_week).classList.add('p-text');
+        this.isRippleLoad = false;
+        // if (res.weekSchd && (res.weekSchd.length > 0)) {
+          // this.selctedScheduledClass.startTime = this.getNewTimeFormatJson(res.weekSchd[0].start_time);
+          // this.selctedScheduledClass.endTime = this.getNewTimeFormatJson(res.weekSchd[0].end_time);
+
+          this.weekDaysList.forEach(element => {
+            element.uiSelected = false;
+            element.start_time = this.getNewTimeFormatJson("12:00 PM");
+            element.end_time = this.getNewTimeFormatJson("1:00 PM");
           });
-        }
+
+         if (res.weekSchd && (res.weekSchd.length > 0)) {
+           for(let i = 0; i < this.weekDaysList.length; i++){
+             for(let l = 0; l < res.weekSchd.length; l++){
+               if(this.weekDaysList[i].data_key == res.weekSchd[l].day_of_week){
+                 this.weekDaysList[i].start_time = this.getNewTimeFormatJson(res.weekSchd[l].start_time);
+                 this.weekDaysList[i].end_time = this.getNewTimeFormatJson(res.weekSchd[l].end_time);
+                 this.weekDaysList[i].uiSelected = true;
+               }
+             }
+           }
+         }
+        this.showPopUpRecurence = true;
+        // }
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
       }
     )
@@ -1368,28 +1428,15 @@ export class ClassAddComponent implements OnInit {
     }
   }
 
+  saveCustomRecurrences(){
 
-  saveCustomRecurrences() {
-    this.weekDaysSelected = this.getSelectedDaysOfWeek();
-    if (this.weekDaysSelected.length == 0) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide days of week');
-      return;
-    }
-    if (this.selctedScheduledClass.startTime.hour == "" || this.selctedScheduledClass.startTime.minute == "") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide valid start time');
-      return false;
-    }
-    if (this.selctedScheduledClass.endTime.hour == "" || this.selctedScheduledClass.endTime.minute == "") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide valid end time');
-      return false;
-    }
     this.multiClickDisabled = true;
     this.isRippleLoad = true;
     let JsonToSend = this.makeJsonForRecurrence();
     this.classService.saveCustomRecurrenceToServer(JsonToSend).subscribe(
       res => {
         this.showPopUpRecurence = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Saved', 'Saved Successfully');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Saved Successfully');
         this.isRippleLoad = false;
         this.multiClickDisabled = false;
       },
@@ -1495,30 +1542,57 @@ export class ClassAddComponent implements OnInit {
   }
 
   makeJsonForRecurrence() {
-    let startTime = this.selctedScheduledClass.startTime.hour.split(' ')[0] + ':' + this.selctedScheduledClass.startTime.minute + ' ' + this.selctedScheduledClass.startTime.hour.split(' ')[1];
-    let endTime = this.selctedScheduledClass.endTime.hour.split(' ')[0] + ':' + this.selctedScheduledClass.endTime.minute + ' ' + this.selctedScheduledClass.endTime.hour.split(' ')[1];
-    let duration = this.getDifference(startTime, endTime);
-    let obj: any = {};
-    obj.batch_id = this.selctedScheduledClass.batch_id;
-    obj.weekSchd = [];
-    for (let t = 0; t < this.weekDaysSelected.length; t++) {
-      let test: any = {};
-      test.day_of_week = Number(this.weekDaysSelected[t]);
-      test.start_time = startTime;
-      test.end_time = endTime;
-      test.duration = duration;
-      obj.weekSchd.push(test);
+    let weekDaysSelectedCount = 0;
+    this.weekDaysList.forEach(element => {
+      if(element.uiSelected){
+        weekDaysSelectedCount++;
+      }
+    });
+    if (weekDaysSelectedCount == 0) {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide days of week');
+      return;
     }
-    obj.course_id = this.selctedScheduledClass.course_id;
-    obj.start_date = moment(this.selctedScheduledClass.start_date).format("YYYY-MM-DD");
-    obj.end_date = moment(this.selctedScheduledClass.end_date).format("YYYY-MM-DD");
-    obj.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD");
-    obj.courseClassSchdList = [{
-      class_schedule_id: this.selctedScheduledClass.class_schedule_id
-    }]
-    return obj;
-  }
+    else{
+      let obj: any = {};
+      let seletected = false;
+      obj.batch_id = this.selctedScheduledClass.batch_id;
+      obj.weekSchd = [];
 
+      for (let t = 0; t < this.weekDaysList.length; t++) {
+        if(this.weekDaysList[t].uiSelected){
+
+          let test: any = {};
+          test.day_of_week = Number(this.weekDaysList[t].data_key);
+          test.start_time = this.weekDaysList[t].start_time.hour.split(' ')[0] + ':' + this.weekDaysList[t].start_time.minute + ' ' + this.weekDaysList[t].start_time.hour.split(' ')[1];;
+          test.end_time = this.weekDaysList[t].end_time.hour.split(' ')[0] + ':' + this.weekDaysList[t].end_time.minute + ' ' + this.weekDaysList[t].end_time.hour.split(' ')[1];;
+          let duration = this.getDifference(test.start_time, test.end_time);
+          test.duration = duration;
+
+          let startTime = moment(this.createTimeInFormat(this.weekDaysList[t].start_time.hour, this.weekDaysList[t].start_time.minute, 'comp'), 'h:mma');
+          let endTime = moment(this.createTimeInFormat(this.weekDaysList[t].end_time.hour, this.weekDaysList[t].end_time.minute, 'comp'), 'h:mma');
+
+          if (!(startTime.isBefore(endTime))) {
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
+            return
+          }
+          else {
+            obj.weekSchd.push(test);
+          }
+        }
+      }
+
+      obj.course_id = this.selctedScheduledClass.course_id;
+      obj.start_date = moment(this.selctedScheduledClass.start_date).format("YYYY-MM-DD");
+      obj.end_date = moment(this.selctedScheduledClass.end_date).format("YYYY-MM-DD");
+      obj.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD");
+      obj.courseClassSchdList = [{
+        class_schedule_id: this.selctedScheduledClass.class_schedule_id
+      }]
+
+      return obj;
+    }
+
+  }
   /* =================================Batch Model=========================================================== */
 
   getWeekOfDaysFromServer() {

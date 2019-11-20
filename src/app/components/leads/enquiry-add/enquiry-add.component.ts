@@ -1029,7 +1029,7 @@ export class EnquiryAddComponent implements OnInit {
               err => {
                 this.isRippleLoad = false;
                 this.isEnquirySubmit = true;
-                this.showErrorMessage('error', 'Error', '');
+                this.showErrorMessage('error', 'Error', err.error.message);
               }
             );
           }

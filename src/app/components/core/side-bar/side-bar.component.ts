@@ -170,12 +170,12 @@ export class SideBarComponent implements OnInit {
         this.jsonFlags.isShowFee = false;
         this.hideAllFields();     // Swapnil
         this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
-        this.setNativeElementValue(['divMasterTag'], ''); 
+        this.setNativeElementValue(['divMasterTag'], '');
       }
     } else {
       if (permissionArray != undefined) {
 
-        this.setNativeElementValue(['divMasterTag'], 'none'); 
+        this.setNativeElementValue(['divMasterTag'], 'none');
 
         if (permissionArray.indexOf('503') != -1) {
           // this.divMasterTag.nativeElement.style.display = '';
@@ -212,8 +212,8 @@ export class SideBarComponent implements OnInit {
           this.setNativeElementValue(['divSettingTag'], '');      // Swapnil
 
         }
-        else{
-          this.setNativeElementValue(['divSettingTag'], 'none'); 
+        else {
+          this.setNativeElementValue(['divSettingTag'], 'none');
         }
 
         if (permissionArray.indexOf('115') != -1) {
@@ -224,9 +224,9 @@ export class SideBarComponent implements OnInit {
         if (permissionArray.indexOf('601') != -1) {
           // this.divManageUsers.nativeElement.style.display = '';
           this.setNativeElementValue(['divManageUsers'], '');       // Swapnil
-        }else{
+        } else {
           this.setNativeElementValue(['divManageUsers'], 'none');
-        } 
+        }
         if (permissionArray.indexOf('508') != -1) {
           // this.setNativeElementValue(['divClassRoomTag'], '');          // Swapnil
           // this.divClassRoomTag.nativeElement.style.display = '';
@@ -288,7 +288,9 @@ export class SideBarComponent implements OnInit {
   setNativeElementValue(tagArray: any[], value) {
     console.log(tagArray)
     for (let index in tagArray) {
-      this[tagArray[index]].nativeElement.style.display = value;
+      if (this[tagArray[index]]) {
+        this[tagArray[index]].nativeElement.style.display = value;
+      }
     }
 
   }

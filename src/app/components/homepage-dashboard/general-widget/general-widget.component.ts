@@ -8,6 +8,8 @@ import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, Valid
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import * as Muuri from 'muuri/muuri';
 import { Chart } from 'angular-highcharts';
@@ -22,13 +24,8 @@ import { WidgetService } from '../../../services/widget.service';
 })
 export class GeneralWidgetComponent implements OnInit {
 
-    @Input() storageData: any= {
-        storage_allocated: 0
-    };
+    @Input() storageData: any ;
 
-    // public storageData: any = {
-    //     storage_allocated: 0
-    // };
 
     public instituteSetting: any = {
         institute_campaign_sms_quota_available: 0,
@@ -56,13 +53,11 @@ export class GeneralWidgetComponent implements OnInit {
         private widgetService: WidgetService,
         private cd: ChangeDetectorRef
     ) {
-      
+
 
     }
 
     ngOnInit() {
-        console.log('storageData',this.storageData);
-        this.storageData.storage_allocated = (Number(this.storageData.storage_allocated) / 1024).toFixed(3);
         this.fetchWidgetPrefill();
     }
 
@@ -85,24 +80,8 @@ export class GeneralWidgetComponent implements OnInit {
             },
             err => { }
         );
-
-        // this.getStorageData();
-
     }
 
-    getStorageData() {
-        this.widgetService.getAllocatedStorageDetails().subscribe(
-            res => {
-                this.cd.markForCheck();
-                this.storageData = res;
-                console.log('res',res);
-                this.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(3);
-            },
-            err => {
-                //console.log(err);
-            }
-        )
-    }
 
 
     generatePlan() {
@@ -121,5 +100,3 @@ export class GeneralWidgetComponent implements OnInit {
 
 
 }
-
-

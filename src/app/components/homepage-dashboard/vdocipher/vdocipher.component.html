@@ -8,19 +8,19 @@
   <ul>
     <li>
       <label>Storage Capacity</label> 
-      <a>{{storageData.vDOCipher_allocated_storage}} GB</a>
+      <a>{{(storageData.vDOCipher_allocated_storage?storageData.vDOCipher_allocated_storage:0)| number:'.2-3'}} GB</a>
     </li>
     <li>
       <label>Bandwidth Capacity</label>
-      <a>{{storageData.vDOCipher_allocated_bandwidth}} GB</a>
+      <a>{{(storageData.vDOCipher_allocated_bandwidth?storageData.vDOCipher_allocated_bandwidth:0)| number:'.2-3'}} GB</a>
     </li>
     <li>
       <label>Used Storage Capacity</label> 
-      <a>{{storageData.vDOCipher_used_storage}} GB</a>
+      <a>{{(storageData.vDOCipher_used_storage?storageData.vDOCipher_used_storage:0) | number:'.2-3'}} GB</a>
     </li>
     <li>
       <label>Used Bandwidth Capacity</label>
-      <a>{{storageData.vDOCipher_used_bandwidth}} GB</a>
+      <a>{{(storageData.vDOCipher_used_bandwidth?storageData.vDOCipher_used_bandwidth:0)| number:'.2-3'}} GB</a>
     </li>
   </ul>
 </div>
