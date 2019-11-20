@@ -170,11 +170,10 @@ export class SideBarComponent implements OnInit {
         this.jsonFlags.isShowFee = false;
         this.hideAllFields();     // Swapnil
         this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
-        this.setNativeElementValue(['divMasterTag'], ''); 
+        this.setNativeElementValue(['divMyAccountTag'], ''); 
       }
     } else {
       if (permissionArray != undefined) {
-
         this.setNativeElementValue(['divMasterTag'], 'none'); 
 
         if (permissionArray.indexOf('503') != -1) {
@@ -286,9 +285,10 @@ export class SideBarComponent implements OnInit {
   }
 
   setNativeElementValue(tagArray: any[], value) {
-    console.log(tagArray)
     for (let index in tagArray) {
-      this[tagArray[index]].nativeElement.style.display = value;
+      if(this[tagArray[index]]){
+        this[tagArray[index]].nativeElement.style.display = value;
+      }     
     }
 
   }
