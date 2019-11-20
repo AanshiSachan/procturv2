@@ -46,7 +46,7 @@
       <span id="li3" *ngIf="(!isLangInstitute)" class="sideBar_centerAlign" style="padding-left: 5px">Course</span>
       <span id="li3" *ngIf="(isLangInstitute)" class="sideBar_centerAlign" style="padding-left: 5px">Batch</span>
     </span>
-    <span [ngClass]="activeSession === 'lifour' ? 'active activeClass' : 'NavLink'" routerLink="/view/fee" #divFeeTag
+    <span [ngClass]="activeSession === 'lifour' ? 'active activeClass' : 'NavLink'" routerLink="/view/fee"
       id="lifour" (click)="toggler('lifour')"  *ngIf="jsonFlags.isShowFee">
       <img src="./assets/images/sidebar/fees.svg" alt="" class="sideBar_centerAlign">
     <span class="sideBar_centerAlign" style="padding-left: 5px">Fees</span>

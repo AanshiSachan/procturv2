@@ -21,7 +21,6 @@ export class SideBarComponent implements OnInit {
   @ViewChild('divMasterTag') divMasterTag: ElementRef;
   @ViewChild('divProfileTag') divProfileTag: ElementRef;
   @ViewChild('divTeacherTag') divTeacherTag: ElementRef;
-  @ViewChild('divFeeTag') divFeeTag: ElementRef;
   @ViewChild('divSlotTag') divSlotTag: ElementRef;
   @ViewChild('divClassRoomTag') divClassRoomTag: ElementRef;
   @ViewChild('divManageTag') divManageTag: ElementRef;
@@ -183,9 +182,8 @@ export class SideBarComponent implements OnInit {
           this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
         }
         if (permissionArray.indexOf('506') != -1) {
-          // this.divMasterTag.nativeElement.style.display = '';
-          // this.divFeeTag.nativeElement.style.display = '';
-          this.setNativeElementValue(['divMasterTag', 'divFeeTag'], '');       // Swapnil
+            this.jsonFlags.isShowFee=true;
+          this.setNativeElementValue(['divMasterTag'], '');       // Swapnil
         }
         if (permissionArray.indexOf('507') != -1 && this.isProfessional) {
           // this.divMasterTag.nativeElement.style.display = '';
@@ -259,9 +257,9 @@ export class SideBarComponent implements OnInit {
 
 
   showAllFields() {
-    // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag', 'divFeeTag', 'divAcademicTag',
+    // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag',  'divAcademicTag',
     //   'divSettingTag', 'divGeneralSettingTag', 'divManageFormTag', 'divManageUsers', 'divClassRoomTag'];
-    let array = ['divMyAccountTag', 'divMasterTag', 'divFeeTag', 'divSettingTag', 'divManag'];
+    let array = ['divMyAccountTag', 'divMasterTag','divSettingTag', 'divManag','divManageUsers'];
     this.setNativeElementValue(array, '');
     // if (this.settings == '1') {
     //   this.divGradesTag.nativeElement.style.display = '';
@@ -277,10 +275,10 @@ export class SideBarComponent implements OnInit {
   }
 
   hideAllFields() {
-    // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag', 'divFeeTag',
+    // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag', 
     //   'divSlotTag', 'divAcademicTag', 'divSettingTag', 'divGeneralSettingTag', 'divManageFormTag',
     //   'divAreaAndMap', 'divManageUsers', 'divGradesTag', 'divClassRoomTag', 'divManageTag'];
-    let array = ['divMyAccountTag', 'divMasterTag', 'divFeeTag', 'divSettingTag', 'divManageUsers'];
+    let array = ['divMyAccountTag', 'divMasterTag', 'divSettingTag', 'divManageUsers'];
     this.setNativeElementValue(array, 'none');
   }
 
@@ -288,9 +286,8 @@ export class SideBarComponent implements OnInit {
     for (let index in tagArray) {
       if(this[tagArray[index]]){
         this[tagArray[index]].nativeElement.style.display = value;
-      }     
+      }
     }
-
   }
 
   checkManinBranch() {
