@@ -170,16 +170,13 @@ export class SideBarComponent implements OnInit {
         this.jsonFlags.isShowFee = false;
         this.hideAllFields();     // Swapnil
         this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
-        // this.divProfileTag.nativeElement.style.display = '';
-        // this.setNativeElementValue(['divProfileTag'], '');    // Swapnil
-
-        // this.divAdminTag.nativeElement.style.display = 'none';
-        // this.divAcademicTag.nativeElement.style.display = 'none';
-        // this.setNativeElementValue(['divAcademicTag'], 'none');     // Swapnil
+        this.setNativeElementValue(['divMasterTag'], ''); 
       }
     } else {
       if (permissionArray != undefined) {
-        // this.hideAllFields();       // Swapnil
+
+        this.setNativeElementValue(['divMasterTag'], 'none'); 
+
         if (permissionArray.indexOf('503') != -1) {
           // this.divMasterTag.nativeElement.style.display = '';
           // this.divTeacherTag.nativeElement.style.display = '';
@@ -215,6 +212,10 @@ export class SideBarComponent implements OnInit {
           this.setNativeElementValue(['divSettingTag'], '');      // Swapnil
 
         }
+        else{
+          this.setNativeElementValue(['divSettingTag'], 'none'); 
+        }
+
         if (permissionArray.indexOf('115') != -1) {
           // this.divManageFormTag.nativeElement.style.display = '';
           // this.divAreaAndMap.nativeElement.style.display = '';
@@ -223,7 +224,9 @@ export class SideBarComponent implements OnInit {
         if (permissionArray.indexOf('601') != -1) {
           // this.divManageUsers.nativeElement.style.display = '';
           this.setNativeElementValue(['divManageUsers'], '');       // Swapnil
-        }
+        }else{
+          this.setNativeElementValue(['divManageUsers'], 'none');
+        } 
         if (permissionArray.indexOf('508') != -1) {
           // this.setNativeElementValue(['divClassRoomTag'], '');          // Swapnil
           // this.divClassRoomTag.nativeElement.style.display = '';
@@ -285,7 +288,7 @@ export class SideBarComponent implements OnInit {
   setNativeElementValue(tagArray: any[], value) {
     console.log(tagArray)
     for (let index in tagArray) {
-      // this[tagArray[index]].nativeElement.style.display = value;
+      this[tagArray[index]].nativeElement.style.display = value;
     }
 
   }
@@ -445,7 +448,7 @@ export class SideBarComponent implements OnInit {
     if (this.isProfessional || sessionStorage.getItem('enable_eLearn_feature') == '0') {
       this.jsonFlags.isShoweStore = false;
     }
-    if(sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1'){
+    if (sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1') {
       this.jsonFlags.isShoweStore = true;
     }
   }
@@ -618,7 +621,7 @@ export class SideBarComponent implements OnInit {
   /// Teacher Role Found
   teacherLoginFound() {
     this.jsonFlags.isShowLead = false;
-    this.jsonFlags.isShowStudent= false;
+    this.jsonFlags.isShowStudent = false;
     this.jsonFlags.isShowModel = true;
   }
 
