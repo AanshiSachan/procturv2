@@ -57,7 +57,8 @@ export class UploadFileComponent implements OnInit {
     file_id: 0,
     is_readonly: 'N',
     title: '',
-    is_private: 'Y'
+    is_private: false,
+    enable_watermark: true
   }
 
   constructor(
@@ -89,7 +90,7 @@ export class UploadFileComponent implements OnInit {
     let url = "/api/v1/instFileSystem/VDOCipher/" + this.institute_id;
     this.existVideos = [];
     this._http.getData(url).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       if (res) {
         this.existVideos = res;
       }
@@ -99,7 +100,7 @@ export class UploadFileComponent implements OnInit {
   }
 
   linkAlreadyUploadedVideo($event) {
-    console.log($event);
+    // console.log($event);
     let url = "/api/v1/instFileSystem/linkVideos";
     let object = {
       "institute_id": this.institute_id,
@@ -115,13 +116,12 @@ export class UploadFileComponent implements OnInit {
     if (!this.isRippleLoad && (flag)) {
       this.isRippleLoad = true;
       this._http.postData(url, object).subscribe((res: any) => {
-        console.log(res);
+        // console.log(res);
         this.isRippleLoad = false;
         if (res) {
           this.clearuploadObject();
           this.refreshList();
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
-
         }
       }, (err) => {
         this.isRippleLoad = false;
@@ -133,20 +133,16 @@ export class UploadFileComponent implements OnInit {
 
   getSourceName(video) {
     //{{video.subject_name}}
-    if (video.sub_topic_name != null) {
-      return video.sub_topic_name + '  ( ' + video.ecourse_name + ' )';
-    } else {
-      if (video.parent_topic_name != null) {
-        return video.parent_topic_name + '  ( ' + video.ecourse_name + ' )';
-      } else {
-        return video.subject_name + '  ( ' + video.ecourse_name + ' )';
+    let source = video.ecourse_name + ' > ' + video.subject_name;
+    if (video.parent_topic_name != null) {
+      source += ' > ' + video.parent_topic_name;
+      if (video.sub_topic_name != null) {
+        source += ' > ' + video.sub_topic_name;
       }
     }
+    return source;
   }
 
-  getLocationName(video) {
-    return video.sub_topic_name;
-  }
   uploadYoutubeURL($event) {
     let flag = this.uploadDatavalidation();
     if (flag) {
@@ -169,7 +165,8 @@ export class UploadFileComponent implements OnInit {
         sub_topic_id: this.varJson.sub_topic_id,
         subject_id: this.varJson.subject_id,
         file_id: -1,
-        is_readonly: 'N'
+        is_readonly: 'N',
+        "size": 0
       }
 
       let base = this.auth.getBaseUrl();
@@ -224,7 +221,7 @@ export class UploadFileComponent implements OnInit {
     else {
       this._http.updatedDataSelection('list');
     }
-    console.log(this.material_dataFlag);
+    // console.log(this.material_dataFlag);
   }
 
   checkListCall() {
@@ -249,7 +246,8 @@ export class UploadFileComponent implements OnInit {
       file_id: 0,
       is_readonly: 'N',
       title: '',
-      is_private: 'Y'
+      is_private: false,
+      enable_watermark: true
     }
     this.varJson.name = '';
   }
@@ -278,7 +276,7 @@ export class UploadFileComponent implements OnInit {
 
   uploadHandler($event) {
     let flag = this.uploadDatavalidation();
-    console.log(this.material_dataFlag);
+    // console.log(this.material_dataFlag);
     if (flag && this.checkCategoriesType($event.files)) {
       const formData = new FormData();
       let fileJson = {
@@ -290,7 +288,8 @@ export class UploadFileComponent implements OnInit {
         sub_topic_id: this.varJson.sub_topic_id,
         subject_id: this.varJson.subject_id,
         file_id: -1,
-        is_readonly: 'N'
+        is_readonly: 'N',
+        size: 0
       }
       if ($event.files && $event.files.length) {
         $event.files.forEach(file => {
@@ -339,7 +338,7 @@ export class UploadFileComponent implements OnInit {
   }
 
   setCategoryType(value) {
-    console.log(value);
+    // console.log(value);
     this.categiesTypeList.forEach(element => {
       if (element.category_id == value) {
         if (element.category_id == -1) {
@@ -350,6 +349,7 @@ export class UploadFileComponent implements OnInit {
       }
     });
     if (value == '330') {
+      this.jsonData.selectedVideo = '';
       this.getVDOCipherLinkedDate();
     }
   }
@@ -377,7 +377,7 @@ export class UploadFileComponent implements OnInit {
       case "Previous Year Questions Paper": {
         for (let i = 0; i < files.length; i++) {//
           let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.xls|.xlsx|.doc|.docx|.pdf|.gif|.png|.jpg|.jpeg|.ppt|.pptx|.epub|.mp3|.wav|.aac|.wma )$/i;
-          console.log(pattern.test(files[i].name));
+          // console.log(pattern.test(files[i].name));
           if (!pattern.test(files[i].name)) {
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " in pdf, doc, docx ,gif, png, jpg , xls, xlsx  form");
             flag = false;
@@ -403,9 +403,9 @@ export class UploadFileComponent implements OnInit {
           flag = false;
         }
         for (let i = 0; i < files.length; i++) {
-          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV)$/i;
+          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV|.avi|.flv|.wmv|.mp4|.mov|.webm| .mkv |.ogv|.flv | .vob|.gifv| .mng| .avi|.gif| .drc| .ogg| .MTS| .M2TS | .TS| .mov| .qt | .wmv|.yuv| .rm|.rmvb )/i;
           if (!pattern.test(files[i].name)) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " in avi,flv,wmv,mp4 and mov form");
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " in avi,flv,wmv,mp4 ,webm, mkv ,ogv,flv , vob,gifv, mng, avi,gif, drc, ogg, MTS, M2TS , TS, mov, qt , yuv, rm,rmvb and mov form");
             flag = false;
             break;
           }
@@ -456,14 +456,24 @@ export class UploadFileComponent implements OnInit {
 
   }
 
+  videoGetDetails(video, index) {
+    let url = index + ' ) ' + video.ecourse_name + ' > ' + video.subject_name;
+    if (video.parent_topic_name) {
+      url = url + ' > ' + video.parent_topic_name;
+      if (video.sub_topic_name) {
+        url = url + ' > ' + video.sub_topic_name;
+      }
+    }
+    return url;
+  }
+
   getCategories() {
     this.categiesTypeList = [];
     // this.isRippleLoad = true;
     let url = "/api/v1/instFileSystem/v2/categories";
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
-      let temp = [];
-      // { category_id: 330, category_name: 'existing video' }
+      let temp = [{ category_id: 330, category_name: 'existing video' }];
       res.forEach(category => {
         if (category.category_id == -1) {
           category.videoCategoryList.forEach(vdoType => {
@@ -475,6 +485,16 @@ export class UploadFileComponent implements OnInit {
       });
       // this.isRippleLoad = false;
       this.categiesTypeList = temp;
+      if (sessionStorage.getItem('enable_vdoCipher_feature') != '1') {
+        temp.forEach((object, index) => {
+          if (object.category_id == 235 || object.category_id == 330) {
+            temp.splice(index, 1);
+          }
+
+        });
+      }
+
+
     }, err => {
       // this.isRippleLoad = false;
     });
@@ -485,7 +505,7 @@ export class UploadFileComponent implements OnInit {
     this.isRippleLoad = true;
     let url = "/api/v1/topic_manager/" + this.institute_id + "/subjects/" + subjectId + "/topics";
     this._http.getData(url).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       this.isRippleLoad = false;
       this.topicList = res;
       this.varJson.sub_topic_id = 0;
@@ -501,7 +521,7 @@ export class UploadFileComponent implements OnInit {
     this.isRippleLoad = true;
     let url = "/api/v1/topic_manager/subTopicList/" + this.institute_id + "/" + subjectId;
     this._http.getData(url).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       this.isRippleLoad = false;
       this.subtopicList = res;
       this.varJson.sub_topic_id = 0;
@@ -527,7 +547,7 @@ export class UploadFileComponent implements OnInit {
     this.isRippleLoad = true;
     let url = "/api/v1/ecourse/" + this.institute_id + "/" + ecourseId + "/subjects";
     this._http.getData(url).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       this.subjectList = res;
       if (this.material_dataFlag != 'material' && this.material_dataFlag != 'subject-list') {
         this.varJson.subject_id = 0;
@@ -541,16 +561,20 @@ export class UploadFileComponent implements OnInit {
   }
 
   onRadioButtonChange($event, video) {
-    console.log($event, video);
+    // console.log($event, video);
     this.varJson.title = video.video_title;
   }
 
 
   uploadHandler2($event) {
-    console.log(this.material_dataFlag);
+    // console.log(this.material_dataFlag);
     let flag = this.uploadDatavalidation();
 
     if (flag && this.checkCategoriesType($event.files)) {
+      let is_private = this.varJson.is_private == false ? 'Y' : 'N';
+      let enable_watermark = this.varJson.enable_watermark == true ? 'Y' : 'N';
+      let size = 0;
+      size = $event.files && $event.files[0] ? $event.files[0].size:0;
       let fileJson = {
         "institute_id": this.institute_id,
         "category_id": this.varJson.category_id,
@@ -561,8 +585,10 @@ export class UploadFileComponent implements OnInit {
         "subject_id": this.varJson.subject_id,
         "is_raw_data": "Y",                                             //if send only video title then this key value should be 'Y' ; else set 'N'
         "is_url": "N",                                                        //if send video url & title then this key value should be 'Y' ; else set 'N'
-        "is_private": this.varJson.is_private,                                                 // if user wants to make file as private
-        "title": this.varJson.title
+        "is_private": is_private,                                                 // if user wants to make file as private
+        "title": this.varJson.title,
+        "enable_watermark": enable_watermark,
+        "size": size / 1000000
       }
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";
@@ -591,7 +617,7 @@ export class UploadFileComponent implements OnInit {
               this.isRippleLoad = false;
               var files = $event.files;
               this.file = files[0];
-              console.log(this.file);
+              // console.log(this.file);
               let payloadObject: any = JSON.parse(newxhr.response);
               this.payload = payloadObject;
               this.upload();
@@ -650,8 +676,10 @@ export class UploadFileComponent implements OnInit {
     let url = "/api/v1/instFileSystem/updateVideoStatus";
 
     this._http.postData(url, obj).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       this.clearuploadObject();
+      this.refreshList();
+      this._http.updatedDataSelection('subject');
       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Video uploaded successfully");
     }, (err) => {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "some problem arise please check with support ");

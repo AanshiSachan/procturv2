@@ -22,9 +22,11 @@ import { WidgetService } from '../../../services/widget.service';
 })
 export class GeneralWidgetComponent implements OnInit {
 
-    public storageData: any = {
-        storage_allocated: 0
-    };
+    @Input() storageData: any;
+
+    // public storageData: any = {
+    //     storage_allocated: 0
+    // };
 
     public instituteSetting: any = {
         institute_campaign_sms_quota_available: 0,
@@ -44,11 +46,21 @@ export class GeneralWidgetComponent implements OnInit {
 
 
 
-    constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private rd: Renderer2, private widgetService: WidgetService, private cd: ChangeDetectorRef) {
+    constructor(
+        private router: Router,
+        private fb: FormBuilder,
+        private appC: AppComponent,
+        private rd: Renderer2,
+        private widgetService: WidgetService,
+        private cd: ChangeDetectorRef
+    ) {
+      
 
     }
 
     ngOnInit() {
+        console.log('storageData',this.storageData);
+        this.storageData.storage_allocated = (Number(this.storageData.storage_allocated) / 1024).toFixed(3);
         this.fetchWidgetPrefill();
     }
 
@@ -72,7 +84,7 @@ export class GeneralWidgetComponent implements OnInit {
             err => { }
         );
 
-        this.getStorageData();
+        // this.getStorageData();
 
     }
 
@@ -81,6 +93,7 @@ export class GeneralWidgetComponent implements OnInit {
             res => {
                 this.cd.markForCheck();
                 this.storageData = res;
+                console.log('res',res);
                 this.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(3);
             },
             err => {

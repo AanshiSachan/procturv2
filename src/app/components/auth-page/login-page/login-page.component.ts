@@ -347,6 +347,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('enable_fee_payment_mandatory_student_creation', institute_data.enable_fee_payment_mandatory_student_creation);
       sessionStorage.setItem('enable_fee_templates', institute_data.enable_fee_templates);
       sessionStorage.setItem('enable_tax_applicable_fee_installments', institute_data.enable_tax_applicable_fee_installments);
+      sessionStorage.setItem('enable_vdoCipher_feature', institute_data.enable_vdoCipher_feature);
       sessionStorage.setItem('exam_grading_system', institute_data.exam_grading_system);
       sessionStorage.setItem('fb_page_url', institute_data.fb_page_url);
       sessionStorage.setItem('fee_functionality', institute_data.fee_functionality);

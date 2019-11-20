@@ -28,7 +28,7 @@ import { BatchModelComponent } from './exam-mark-update/batch-model/batch-model.
 import { FileUploadModule } from 'primeng/fileupload';
 import { HttpService } from '../../services/http.service';
 import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
-
+import {VdocipherComponent} from  './vdocipher/vdocipher.component';
 
 @NgModule({
     imports: [
@@ -57,7 +57,8 @@ import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
         MarkAttendanceComponent,
         ExamMarkUpdateComponent,
         BatchModelComponent,
-        FeeWidgetComponent
+        FeeWidgetComponent,
+        VdocipherComponent
     ],
     entryComponents: [
         ProcturWidgetComponent,

@@ -25,13 +25,13 @@
             <ul class="actb-wrapper grid">
 
 
-              <li class="enquiry-state item" [ngClass]="{'hide' : checkRoleMAnagement()}" data-id="2" style="width: 45%;">
+              <li class="enquiry-state item" [ngClass]="{'hide' : checkRoleMAnagement()}" data-id="2">
                 <div class="item-content">
                   <enquiry-widget></enquiry-widget>
                 </div>
               </li>
 
-              <li class="fees-state item" [ngClass]="{'hide' : checkRoleMAnagement('709')}" data-id="3" style="width: 44%;left:-35px;">
+              <li class="fees-state item" [ngClass]="{'hide' : checkRoleMAnagement('709')}" data-id="3">
                 <div class="item-content"  >
                   <fee-widget></fee-widget>
                 </div>
@@ -299,7 +299,13 @@
 
               <li [ngClass]="{'hide' : checkRoleMAnagement() }" class="general-state item" style="height: 150px;" data-id="4">
                 <div class="item-content">
-                  <general-widget></general-widget>
+                  <general-widget [storageData]="storageData" ></general-widget>
+                </div>
+              </li>
+
+              <li [ngClass]="{'hide' : checkVdoCipherRole() }" class="general-state item" style="height: 150px;width: 48%;" data-id="4">
+                <div class="item-content">
+                  <app-vdocipher [storageData]="storageData"></app-vdocipher>
                 </div>
               </li>
 

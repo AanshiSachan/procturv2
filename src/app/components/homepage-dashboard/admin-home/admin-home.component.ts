@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
+import { LoginService } from '../../../services/login-services/login.service';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
 import * as Muuri from 'muuri/muuri';
@@ -47,7 +48,7 @@ export class AdminHomeComponent implements OnInit {
   public home_work_notifn: number = 0;
   public topics_covered_notifn: number = 0;
 
-
+  storageData:any={};
   public schedStat: any = {};
   public grid: any;
   is_notified: any = 'Y';
@@ -159,6 +160,7 @@ export class AdminHomeComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private appC: AppComponent,
+    private login: LoginService,
     private rd: Renderer2,
     private enquiryService: FetchenquiryService,
     private widgetService: WidgetService,
@@ -248,6 +250,19 @@ export class AdminHomeComponent implements OnInit {
     sessionStorage.setItem('scheduleDate', '');
   }
 
+  
+  getStorageData() {
+    this.widgetService.getAllocatedStorageDetails().subscribe(
+        res => {
+            this.storageData = res;
+            console.log('res',res);
+          
+        },
+        err => {
+            //console.log(err);
+        }
+    )
+}
 
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -271,6 +286,7 @@ export class AdminHomeComponent implements OnInit {
     )
 
     this.fetchScheduleWidgetData();
+    this.getStorageData()
 
   }
 
@@ -2352,6 +2368,10 @@ export class AdminHomeComponent implements OnInit {
     }
 
     this.getTotalCountForCourse(this.courseLevelStudentAtt);
+  }
+
+  checkVdoCipherRole() {
+    return sessionStorage.getItem('enable_vdoCipher_feature') == '1' ? false : true;
   }
 
   checkRoleMAnagement(id) {
