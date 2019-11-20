@@ -282,7 +282,7 @@
 
                       <td>
                         <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.teacher_id != '-1' && addClassDetails.teacher_id != '' }">
-                          <select id="" class="side-form-ctrl viewClass" name="row.category_id" [(ngModel)]="addClassDetails.teacher_id">
+                          <select id="" class="side-form-ctrl viewClass" name="row.category_id" [(ngModel)]="addClassDetails.teacher_id" disabled="{{userType==3}}">
                             <option value="-1"></option>
                             <option *ngFor="let opt of teacherListDataSource" [value]="opt.teacher_id">
                               {{opt.teacher_name}}
@@ -355,7 +355,7 @@
                       </td>
                       <td>
                         <div class="form-wrapper">
-                          <select id="" class="side-form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.teacher_id">
+                          <select id="" class="side-form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.teacher_id" disabled="{{userType==3}}">
                             <option value="-1"></option>
                             <option *ngFor="let opt of teacherListDataSource" [value]="opt.teacher_id">
                               {{opt.teacher_name}}

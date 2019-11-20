@@ -1,18 +1,20 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { AppComponent } from '../../../../../app.component';
 import * as moment from 'moment';
 import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
+import { AppComponent } from '../../../../../app.component';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
+
 
 @Component({
   selector: 'app-class-home',
   templateUrl: './class-home.component.html',
   styleUrls: ['./class-home.component.scss']
 })
-export class ClassHomeComponent implements OnInit {
+export class ClassHomeComponent implements OnInit, OnDestroy {
 
+  userType: any = 0;
   masterCourse: any = [];
   courseList: any = [];
   subjectList: any = [];
@@ -106,9 +108,19 @@ export class ClassHomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userType = sessionStorage.getItem('userType');
     this.checkUserPermission();
     this.checkInstituteType();
     this.getPrefillData();
+    this.checkForCoursePlannerRoute();
+  }
+
+  ngOnDestroy() {
+    sessionStorage.setItem('isFromCoursePlanner', String(false));
+  }
+
+  checkForCoursePlannerRoute(){
+    let coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner');
   }
 
   checkUserPermission() {
@@ -131,14 +143,16 @@ export class ClassHomeComponent implements OnInit {
       this.submitMasterCourse();
       this.getCombinedData();
     } else {
-      this.getMasterCourseList()
+      this.getMasterCourseList();
     }
     this.getTeachers();
   }
 
   getCombinedData() {
+    this.isRippleLoad = true;
     this.classService.getCombinedDataFromServer(this.batchData.standard_id, this.batchData.subject_id).subscribe(
       res => {
+        this.isRippleLoad = false;
         //console.log('Combined data', res);
         this.combinedData = res;
         if (res.standardLi != null) {
@@ -152,6 +166,7 @@ export class ClassHomeComponent implements OnInit {
         }
       },
       err => {
+        this.isRippleLoad =false;
         //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
@@ -159,12 +174,15 @@ export class ClassHomeComponent implements OnInit {
   }
 
   getMasterCourseList() {
+    this.isRippleLoad = true;
     this.classService.getAllMasterCourse().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.masterCourse = res;
         //console.log('master', res);
       },
       err => {
+        this.isRippleLoad = false;
         this.messageToast('error', 'Error', err.error.message);
         //console.log(err);
       }
@@ -309,14 +327,17 @@ export class ClassHomeComponent implements OnInit {
       data = this.makeJsonForSubmit();
     }
     this.weekScheduleList = [];
+    this.isRippleLoad = true;
     this.classService.getTimeTable(data).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.timeTableResponse = res;
         this.showContent = true;
         this.weekScheduleList = this.getClassList();
       },
       err => {
         //console.log(err);
+        this.isRippleLoad = false;
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -399,6 +420,7 @@ export class ClassHomeComponent implements OnInit {
           this.isLangInstitute = true;
         } else {
           this.isLangInstitute = false;
+          this.showhideAdvanceFilter('0');
         }
       }
     )
@@ -780,7 +802,7 @@ export class ClassHomeComponent implements OnInit {
       date: data.id.split('(')[0]
     }
     sessionStorage.setItem('editClass', JSON.stringify(obj));
-    this.router.navigateByUrl('/view/course/create/class/add');
+    this.router.navigateByUrl('/view/course/class/add');
   }
 
   printTimeTableData() {
@@ -837,13 +859,16 @@ export class ClassHomeComponent implements OnInit {
     let validate = this.validateAllFields();
     if (validate) {
       let dataToSend: any = this.makeJsonForAdvanceFilter();
+      this.isRippleLoad = true;
       this.classService.getTimeTable(dataToSend).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.timeTableResponse = res;
           this.showContent = true;
           this.weekScheduleList = this.getClassList();
         },
         err => {
+          this.isRippleLoad = false;
           this.messageToast('error', 'Error', err.error.message);
         }
       )
@@ -907,6 +932,9 @@ export class ClassHomeComponent implements OnInit {
         value:this.selectedRadioButton
       }}
       this.checkInputType(obj);
+      if(this.userType == '3'){
+        this.showAdvanceFilter = true;
+      }
     } else {
       this.showAdvanceFilter = true;
     }

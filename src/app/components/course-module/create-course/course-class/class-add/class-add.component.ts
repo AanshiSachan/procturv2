@@ -20,6 +20,8 @@ import { TreeItemLookup } from '@progress/kendo-angular-treeview';
 })
 
 export class ClassAddComponent implements OnInit {
+
+  userType: any = 0;
   public checkedKeys: any[] = [];
   customTable: any = [];
   courseModelStdList: any[] = [];
@@ -207,6 +209,7 @@ export class ClassAddComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userType = sessionStorage.getItem('userType');
     this.messages = this.msgService.object;
     /* Prerequiste loaded */
     this.auth.institute_type.subscribe(

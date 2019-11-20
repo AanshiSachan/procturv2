@@ -13,6 +13,7 @@ import { MessageShowService } from '../../../services/message-show.service';
 })
 export class TimeTableComponent implements OnInit {
 
+  userType: any = 0;
   courseData: any = [];
   notProTimeTable = [];
   subjectData: any = [];
@@ -101,6 +102,7 @@ export class TimeTableComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userType = sessionStorage.getItem('userType');
     if (this.isProfessional) {
       this.fetchTimeTableReportPro('0');
       this.showFilters = true;

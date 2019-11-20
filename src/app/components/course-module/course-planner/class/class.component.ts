@@ -65,7 +65,7 @@ export class ClassComponent implements OnInit {
   // for show hide table columns
   checkedColCounter: number = 2;
   dynamicColCounter: number = 2;
-
+  userType: any = 0;
   // Array Elements
   facultyList: any[] = [];
   coursePlannerData: any = [];  // saved course planner fetched data
@@ -135,6 +135,7 @@ export class ClassComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.userType = sessionStorage.getItem('userType');
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
