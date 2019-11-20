@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { EnquiryComponent } from './enquiry.component';
-import { EnquiryAddComponent } from './enquiry-add/enquiry-add.component';
 import { EnquiryBulkaddComponent } from './enquiry-bulkadd/enquiry-bulkadd.component';
 import { EnquiryRoutingModule } from "./enquiry-routing.module";
 import { ActionButtonComponent } from './enquiry-home/action-button.component';
@@ -38,14 +37,12 @@ import { ClosingReasonService } from '../services/closing-reason.service';
     ],
     declarations: [
         EnquiryComponent,
-        EnquiryAddComponent,
         EnquiryBulkaddComponent,
         ActionButtonComponent,
         SmsOptionComponent,
         EnquiryEditComponent,
         EnquiryPopUpComponent,
         UserEnquiryComponent,
-
         EnquiryHomeComponent,
         CommentTooltipComponent,
         EnquirySidebarComponent

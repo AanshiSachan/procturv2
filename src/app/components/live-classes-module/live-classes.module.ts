@@ -10,6 +10,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { LiveClassesComponent } from './live-classes/live-classes.component';
 import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap-custome';
 import { LiveClasses } from '../../services/live-classes/live-class.service';
+import { ProductService } from '../../services/products.service';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { LiveClasses } from '../../services/live-classes/live-class.service';
     EditClassComponent
   ],
   providers: [
-    LiveClasses
+    LiveClasses,
+    ProductService
   ]
 })
 export class LiveClassesModule { }

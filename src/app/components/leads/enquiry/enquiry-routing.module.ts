@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { EnquiryComponent } from './enquiry.component'
-import { EnquiryAddComponent } from './enquiry-add/enquiry-add.component';
 import { EnquiryBulkaddComponent } from './enquiry-bulkadd/enquiry-bulkadd.component';
 import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
@@ -21,11 +20,6 @@ import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
                     {
                         path: 'home',
                         component: EnquiryHomeComponent
-                    },
-                    {
-                        path: 'add',
-                        component: EnquiryAddComponent,
-                        pathMatch: 'prefix'
                     },
                     {
                         path: 'edit/:id',
