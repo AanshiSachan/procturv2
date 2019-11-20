@@ -22,7 +22,9 @@ import { WidgetService } from '../../../services/widget.service';
 })
 export class GeneralWidgetComponent implements OnInit {
 
-    @Input() storageData: any;
+    @Input() storageData: any= {
+        storage_allocated: 0
+    };
 
     // public storageData: any = {
     //     storage_allocated: 0

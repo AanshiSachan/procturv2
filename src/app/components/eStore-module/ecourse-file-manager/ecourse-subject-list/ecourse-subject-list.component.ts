@@ -14,14 +14,17 @@ export class EcourseSubjectListComponent implements OnInit {
 
   @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
   subjectList: any = [];
+  existVideos: any = [];
   institute_id: any;
   ecourse_id: any;
   isRippleLoad: boolean = false;
   showModal: boolean = false;
   showVideo: boolean = true;
-  type:string='delete';
+  videoObject: any;
+  type: string = 'delete';
   outputMessage: string = '';
   tempfile: any;
+  tempData: any = {};
 
   constructor(
     private _http: HttpService,
@@ -45,7 +48,7 @@ export class EcourseSubjectListComponent implements OnInit {
         if (sessionStorage.getItem('routeListForEcourse')) {
           this._http.routeList = JSON.parse(sessionStorage.getItem('routeListForEcourse'));
           this._http.routeList.splice(1, this._http.routeList.length);
-          let obj = { routeLink: '/view/e-store/ecourse-file-manager/ecourses/' + this.ecourse_id + '/subjects', data: { data: params['data'] }, name: name };
+          let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses/' + this.ecourse_id + '/subjects', data: { data: params['data'] }, name: name };
           this._http.routeList.push(obj);
           sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
         }
@@ -66,96 +69,92 @@ export class EcourseSubjectListComponent implements OnInit {
 
   uploadPopupOpen(topic) {
     // console.log(topic);
-    this.uploadFile.showModal = (this.uploadFile.showModal) ? false : true;
+    this.uploadFile.showParentTopicModel = (this.uploadFile.showParentTopicModel) ? false : true;
+    this.uploadFile.showModal = true;
     this.uploadFile.material_dataShow = true;
     this.uploadFile.material_dataFlag = 'subject-list';
     this.uploadFile.varJson.course_types = this.ecourse_id;
     this.uploadFile.getSubjectsList(this.ecourse_id);
     this.uploadFile.varJson.subject_id = topic.subject_id;
     this.uploadFile.getTopicsList(topic.subject_id);
-    if (topic.topic_id&& topic.topic_id != '-1') {
-      this.uploadFile.showModal = false;
+    if (topic.topic_id && topic.topic_id != '-1') {
       this.uploadTopicPopupOpen(topic);
     }
   }
 
-     // get otp details to show video 
-     getVdocipherVideoOtp(video) {
-      let obj = {
-        "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
-        "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
-    }
-    console.log(obj);
-    this.ShowVideo(obj.otp, obj.playbackInfo);
-       if(video.category_name=='VDOCipher'){
-        let url = "/api/v1/instFileSystem/videoOTP";
-        let data = {
-            "file_id": 787,
-            "institute_id": 100058
+  // get otp details to show video 
+  getVdocipherVideoOtp(video) {
+    if (video.category_name == 'VDOCipher') {
+      let url = "/api/v1/instFileSystem/videoOTP";
+      let data = {
+        "videoID": video.videoID,
+        "institute_id": sessionStorage.getItem("institute_id"),
+        "user_id": sessionStorage.getItem("userid")
+      }
+      this.tempData = video;
+
+      console.log(video);
+      this.isRippleLoad = true;
+      this._http.postData(url, data).subscribe((response) => {
+        this.isRippleLoad = false;
+        console.log(response);
+        if (response == null) {
+          let obj = {
+            "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
+            "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
+          }
+          console.log(obj);
+          this.ShowVideo(obj.otp, obj.playbackInfo);
+        } else {
+          let obj = {
+            "otp": response['otp'],
+            "playbackInfo": response['playbackInfo']
+          }
+          console.log(obj);
+          this.ShowVideo(obj.otp, obj.playbackInfo);
         }
-        this._http.postData(url, data).subscribe((response) => {
-            this.isRippleLoad = false;
-            if (response == null) {
-                let obj = {
-                    "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
-                    "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
-                }
-                console.log(obj);
-                this.ShowVideo(obj.otp, obj.playbackInfo);
-            }else{
-                let obj = {
-                    "otp":response['otp'] ,
-                    "playbackInfo":response['playbackInfo']
-                }
-                console.log(obj);
-                this.ShowVideo(obj.otp, obj.playbackInfo);
-            }
-        },
-            (err) => {
-                this.isRippleLoad = false;
-            });
-       }
-   
+      },
+        (err) => {
+          this.isRippleLoad = false;
+        });
+    }
+
   }
 
 
-     // vdocipher video show 
+   // vdocipher stop video
+   stopVideo() {
+    this.showVideo = true;
+    if(this.videoObject){
+       this.videoObject.pause(); // removes video 
+    }
+  }
 
-     ShowVideo(otpString, playbackInfoString) {
-      this.showVideo = false;
-      var video = new window.VdoPlayer({
-          otp: otpString,
-          playbackInfo: playbackInfoString,
-          theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",// please never changes 
-          container: document.querySelector("#embedBox"),
-      });
-      video.addEventListener(`mpmlLoad`, () => {
-          video.injectThemeHtml('<p class="watermark">proctur</p>');
-      });
-      var container = document.querySelector('.embedBox');
-      // get reference to all watermarks
-      var watermarks = document.querySelectorAll('.watermark');
-      setTimeout(() => {
-          for (var i = 0; i < watermarks.length; i++) {
-              var mark = watermarks[i];
-              if (mark) {
-                  var contWidth = container['offsetWidth'];
-                  var contHeight = container['offsetHeight'];
-                  mark['left'] = (contWidth - mark['offsetWidth']) * Math.random();
-                  mark['top'] = (contHeight - mark['offsetHeight']) * Math.random();
-              }
-          }
-      }, 2000);
+  // vdocipher start video
+  ShowVideo(otpString, playbackInfoString) {
+    this.showVideo = false;
+    var video = new window.VdoPlayer({
+      otp: otpString,
+      playbackInfo: playbackInfoString,
+      theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",// please never changes 
+      container: document.querySelector("#embedBox"),
+    });
+    this.videoObject = video;
+    // video.addEventListener(`mpmlLoad`, (data) => {
+    //   video.play();
+    // });
+    var container = document.querySelector('.embedBox');
+
   }
 
   uploadTopicPopupOpen(topic) {
     // console.log(topic);
     if (topic.parent_topic_id == 0) {
-      this.uploadFile.showModal = (this.uploadFile.showModal) ? false : true;
+      this.uploadFile.showModal = true;
       this.uploadFile.varJson.topic_id = topic.topic_id;// parent 
       this.uploadFile.getSubtopicList(topic.topic_id);
     } else {
-      this.uploadFile.showParentTopicModel = (this.uploadFile.showParentTopicModel) ? false : true;
+      this.uploadFile.showModal = false;
       this.uploadFile.jsonData.mainTopic = topic.topic_name;
       this.uploadFile.varJson.sub_topic_id = topic.parent_topic_id // topic
       this.uploadFile.varJson.topic_id = topic.topic_id;// parent  
@@ -239,19 +238,30 @@ export class EcourseSubjectListComponent implements OnInit {
 
   /// removed data
   removeData(key) {
+    if (key != 'unlink all') {
+      let data = [this.tempfile.file_id];
+      this.deleteFiles(key, data);
+    }
+    else {
+      this.getVDOCipherLinkedDate(key);
+    }
+
+  }
+
+  deleteFiles(key, fileIdArray) {
     this.showModal = false;
     this.isRippleLoad = true;
-    let url = "/api/v1/instFileSystem/deleteFiles?key="+key;
+    let url = "/api/v1/instFileSystem/deleteFiles?key=" + key;
     let data =
     {
       "institute_id": this.institute_id,
-      "fileIdArray": [this.tempfile.file_id]
+      "fileIdArray": fileIdArray
     }
-
+    console.log(data);
     this._http.deleteData(url, data).subscribe((res) => {
       // console.log(res);
       this.isRippleLoad = false;
-      this.msgService.showErrorMessage('success', '', "file "+this.type+" successfully");
+      this.msgService.showErrorMessage('success', '', "file " + this.type + " successfully");
       this.getSubjectList();
     },
       (err) => {
@@ -260,7 +270,49 @@ export class EcourseSubjectListComponent implements OnInit {
       });
   }
 
-  addDownloadCount(file){
+  getVDOCipherLinkedDate(key) {
+    this.isRippleLoad = true;
+    let url = "/api/v1/instFileSystem/VDOCipher/" + this.institute_id;
+    this.existVideos = [];
+    this._http.getData(url).subscribe((res: any) => {
+      console.log(res);
+      this.isRippleLoad = false;
+      if (res) {
+
+        this.existVideos = res;
+        this.UnlikeAllVideos();
+      }
+    }, (err) => {
+      this.isRippleLoad = false;
+      this.existVideos = [];
+    });
+  }
+
+  UnlikeAllVideos() {
+    let array_ids = [];
+    if (this.existVideos && this.existVideos.length) {
+      for (let i = 0; i < this.existVideos.length; i++) {
+        let object = this.existVideos[i];
+        if (object.video_id == this.tempfile.videoID) {
+
+          object && object.link_video_list && object.link_video_list.forEach((video) => {
+            array_ids.push(video.file_id);
+          });
+
+          if (array_ids.length) {
+            this.deleteFiles('unlink', array_ids);
+
+          }
+          else {
+            this.msgService.showErrorMessage('info', '', 'No data found to unlink');
+          }
+
+        }
+      }
+    }
+  }
+
+  addDownloadCount(file) {
     this.isRippleLoad = true;
     let url = "/api/v1/instFileSystem/fileDownloadCount";
     let data =
@@ -271,7 +323,7 @@ export class EcourseSubjectListComponent implements OnInit {
 
     this._http.postData(url, data).subscribe((res) => {
       // console.log(res);
-      this.isRippleLoad = false;   
+      this.isRippleLoad = false;
       file.downloads++;
 
     },
@@ -282,14 +334,15 @@ export class EcourseSubjectListComponent implements OnInit {
 
 
   getToSubjectMaterials(subject) {
-    this.router.navigate(["/view/e-store/ecourse-file-manager/ecourses/" + this.ecourse_id + "/subjects/" + subject.subject_id + "/materials"], { queryParams: { data: window.btoa(subject.subject_name) } });
+    this.router.navigate(["/view/activity/ecourse-file-manager/ecourses/" + this.ecourse_id + "/subjects/" + subject.subject_id + "/materials"], { queryParams: { data: window.btoa(subject.subject_name) } });
   }
 
-  setRemoveDataFile(file,type) {
+  setRemoveDataFile(file, type) {
     this.tempfile = file;
-    this.type=type;
+    this.type = type;
     this.showModal = true;
   }
+
 
   addMaterialExtension(object) {
     let keys = ["notesList", "assignmentList", "studyMaterialList", "imageList", "previousYearQuesList", "audioNotesList", "slidesList"];

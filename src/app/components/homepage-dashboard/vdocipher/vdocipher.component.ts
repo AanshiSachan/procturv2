@@ -17,7 +17,12 @@ import { WidgetService } from '../../../services/widget.service';
 })
 export class VdocipherComponent implements OnInit {
   // public storageData: any = {  };
-  @Input() storageData: any;
+  @Input() storageData: any = {
+    vDOCipher_allocated_bandwidth: 0,
+    vDOCipher_allocated_storage: 0,
+    vDOCipher_used_storage: 0,
+    vDOCipher_used_bandwidth: 0
+  }
 
 
 
@@ -34,7 +39,7 @@ export class VdocipherComponent implements OnInit {
 
   ngOnInit() {
     // this.getStorageData();
-    console.log('storageData',this.storageData);
+    console.log('storageData', this.storageData);
     this.storageData.vDOCipher_allocated_bandwidth = (Number(this.storageData.vDOCipher_allocated_bandwidth) / 1024).toFixed(3);
     this.storageData.vDOCipher_used_bandwidth = (Number(this.storageData.vDOCipher_used_bandwidth) / 1024).toFixed(3);
     this.storageData.vDOCipher_allocated_storage = (Number(this.storageData.vDOCipher_allocated_storage) / 1024).toFixed(3);
