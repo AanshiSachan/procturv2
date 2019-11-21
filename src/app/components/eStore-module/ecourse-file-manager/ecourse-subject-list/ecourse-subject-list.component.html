@@ -135,7 +135,9 @@
   <div class="row singleton-row material-row" *ngFor="let video of youtube">
     <div class="col-md-4 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{video.title}}">
-        <i class="fa fa-youtube-play text-red"></i>
+        <i class="fa fa-youtube-play text-red"  *ngIf="video.category_name!='VDOCipher'"></i>
+        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="video.category_name=='VDOCipher'"></i>
+
         <a [href]="video.video_url" *ngIf="video.category_name!='VDOCipher'" target="_blank" class="txt-color">
           <span class="txt-title"
             title="{{video.title}}">{{(video.title?.length>30)?(video.title | slice:0:30) + '...':(video.title)}}</span>
@@ -156,7 +158,7 @@
       <span [ngClass]="{'hide': video.video_time==null}">  {{video.video_time }}&nbsp;Hr</span>
     </div>
     <div class="col-md-1 txt-font" *ngIf="video.category_name=='VDOCipher'">
-      {{video.watch_count}} &nbsp;<i  class="fas fa fa-eye" style="color:#2680eb;font-family: FontAwesome ;font-size: 14px;display: inline-block;vertical-align: middle; margin-right:5px" title="Watched"></i>
+      {{video.watch_count}} &nbsp;<i  class="fas fa fa-eye" style="color:#2680eb;font-family: FontAwesome ;font-size: 14px;display: inline-block;vertical-align: middle; margin-right:5px" title="Watched"></i> 
     </div>
     <div class="col-md-1 txt-font" style="color:blue;" *ngIf="video.category_name=='VDOCipher'">
         {{video.video_status |titlecase}} &nbsp;
@@ -378,7 +380,7 @@
 
 <div class="ga-modal-wrapper" [hidden]="showVideo">
   <div class="ga-modal-container">
-    <div class="ga-modal" style="height: 460px;">
+    <div class="ga-modal" >
       <div class="ga-modal-head" style="text-align: left;padding:.5em 1em .5em 1em" >
         <span>{{tempData.title}}</span>
 

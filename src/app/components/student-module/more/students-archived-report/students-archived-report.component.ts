@@ -83,6 +83,10 @@ export class StudentsArchivedReportComponent implements OnInit {
     });
   }
 
+  close_popup(){
+    $("#actionProductModal").modal('hide');
+  }
+
 
   fetchArchivedListDetails(){
         let url = "/api/v1/reports/StdFee/archived_inactive?institute_id=" + sessionStorage.getItem('institute_id');
@@ -92,8 +96,9 @@ export class StudentsArchivedReportComponent implements OnInit {
         }
         this.isRippleLoad = true;
         this._http.getData(url).subscribe((res: any) => {
-          console.log("fetchArchivedListDetails", res);
+          // console.log("fetchArchivedListDetails", res);
           this.isRippleLoad = false;
+          this.close_popup();
           if(res.validate){
             let result = res.result;
             let byteArr = this.convertBase64ToArray(result.document);
@@ -113,11 +118,11 @@ export class StudentsArchivedReportComponent implements OnInit {
         }, err => {
           this.isRippleLoad = false;
           let msg = {
-            type: "error",
+            type: "info",
             body:err.error.message
           }
           this.appc.popToast(msg);
-          $("#actionProductModal").modal('hide');
+          this.close_popup();
         });
 
   }

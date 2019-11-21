@@ -3,7 +3,7 @@
 
 <div class="middle-section clearFix">
 
-  <section class="row setting-full" style="margin: 0">
+  <section class="row setting-full">
 
     <aside class="pull-left setting-left">
       <ul>
@@ -1331,12 +1331,17 @@
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_marks_not_update_notification"
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_marks_not_update_notification.teacher"
                             id="ch72">
                           <label for="ch742"></label>
                         </div>
                       </td>
                       <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_marks_not_update_notification.admin"
+                            id="ch72">
+                          <label for="ch742"></label>
+                        </div>
                       </td>
                     </tr>
                     <tr>
@@ -1362,12 +1367,17 @@
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_notification"
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_notification.teacher"
                             id="ch72">
                           <label for="ch742"></label>
                         </div>
                       </td>
                       <td>
+                          <div class="field-checkbox-wrapper">
+                              <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_notification.admin"
+                                id="ch72">
+                              <label for="ch742"></label>
+                            </div>
                       </td>
                     </tr>
 
@@ -1395,12 +1405,90 @@
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_notification"
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_notification.teacher"
                             id="ch72">
                           <label for="ch742"></label>
                         </div>
                       </td>
                       <td>
+                          <div class="field-checkbox-wrapper">
+                              <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_notification.admin"
+                                id="ch72">
+                              <label for="ch742"></label>
+                            </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Class Attendance Not Marked Daily Reminder
+                        <!-- <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+                            Enable to send reminder
+                            <br> to mark class attendance,
+                            <br> reminder will be sent after
+                            <br> 2 hours of class completion to
+                            <br> respective faculty to mark 
+                            <br> attendance
+                          </div>
+                        </div> -->
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_daily_notification.teacher"
+                            id="ch72">
+                          <label for="ch742"></label>
+                        </div>
+                      </td>
+                      <td>
+                          <div class="field-checkbox-wrapper">
+                              <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_daily_notification.admin"
+                                id="ch72">
+                              <label for="ch742"></label>
+                            </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        Exam Attendance Not Marked Daily Reminder
+                        <!-- <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+                            Enable to send reminder
+                            <br> to mark exam attendance,
+                            <br> reminder will be sent after
+                            <br> 2 hours of class completion to
+                            <br> respective faculty to mark 
+                            <br> attendance
+                          </div>
+                        </div> -->
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_daily_notification.teacher"
+                            id="ch72">
+                          <label for="ch742"></label>
+                        </div>
+                      </td>
+                      <td>
+                          <div class="field-checkbox-wrapper">
+                              <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_daily_notification.admin"
+                                id="ch72">
+                              <label for="ch742"></label>
+                            </div>
                       </td>
                     </tr>
 
@@ -2272,11 +2360,11 @@
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field md">
-                                      Enable this to 
-                                      <br>receive
-                                      <br> Absentees / Homework 
+                                    Enable this to 		                                   
+                                      <br>receive		                                   
+                                      <br> Absentees / Homework
                                       <br>Report via Email 
-                                    </div>
+                                  </div>
                                 </div>
                               </label>
                             </div>
@@ -2907,7 +2995,7 @@
     </aside>
 
 
-  </section>
+  </section>  
 
   <section class="row setting-footer">
     <div class="save-buttons">

@@ -1415,10 +1415,10 @@
                 </div>
 
                 <div class="row btn-loginGroup" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter')">
-                  <button class="btn" (click)="sendSmsForApp('1')">SMS For App Download</button>
-                  <button class="btn" (click)="sendSmsForApp('2')">SMS For App Upgradation</button>
-                  <button class="btn" (click)="sendSmsForApp('3')">SMS For Alternate Login Registration</button>
-                  <button class="btn" (click)="sendSmsForApp('4')">Send Credentials</button>
+                  <button class="btn" (click)="sendSmsForApp('1',0)">SMS For App Download</button>
+                  <button class="btn" (click)="sendSmsForApp('2',0)">SMS For App Upgradation</button>
+                  <button class="btn" (click)="sendSmsForApp('4',0)">Send Credentials via SMS</button>
+                  <button class="btn" (click)="sendSmsForApp('4',1)">Send Credentials via Email</button>
                 </div>
 
               </div>

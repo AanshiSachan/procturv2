@@ -57,7 +57,7 @@ export class ExamMarkUpdateComponent implements OnInit {
   }
 
   checkForCoursePlannerRoute(){
-    this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
+    this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner');
   }
 
   fetchWidgetPrefill() {
@@ -504,8 +504,9 @@ export class ExamMarkUpdateComponent implements OnInit {
   }
 
   closeAttendance() {
-    if(this.coursePlannerStatus){
-      this.router.navigate(['/view/activity/coursePlanner']);
+    if(this.coursePlannerStatus== 'true'){
+      this.isProfessional ? this.router.navigate(['/view/batch/coursePlanner/class']):
+      this.router.navigate(['/view/course/coursePlanner/class']);
     }
     else{
       this.router.navigate(['/view/home/admin']);
@@ -513,8 +514,9 @@ export class ExamMarkUpdateComponent implements OnInit {
   }
 
   backToHome() {
-    if(this.coursePlannerStatus){
-      this.router.navigate(['/view/activity/coursePlanner']);
+    if(this.coursePlannerStatus== 'true'){
+      this.isProfessional ? this.router.navigate(['/view/batch/coursePlanner/class']):
+      this.router.navigate(['/view/course/coursePlanner/class']);
     }
     else{
       sessionStorage.setItem('exam_info', '');

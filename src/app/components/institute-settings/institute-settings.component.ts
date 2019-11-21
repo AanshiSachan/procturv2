@@ -225,6 +225,26 @@ export class InstituteSettingsComponent implements OnInit {
       gaurdian: '',
       admin: '',
     },
+    enable_exam_marks_not_update_notification:{
+      teacher:'',
+      admin:'',
+    },
+    enable_exam_attendance_not_marked_notification:{
+      teacher:'',
+      admin:'',
+    },
+    enable_class_attendance_not_marked_notification:{
+      teacher:'',
+      admin:'',
+    },
+    enable_exam_attendance_not_marked_daily_notification:{
+      teacher:'',
+      admin:'',
+    },
+    enable_class_attendance_not_marked_daily_notification:{
+      teacher:'',
+      admin:'',
+    },
     exam_min_marks: '',
     exam_average_marks: '',
     exam_max_marks: '',
@@ -283,9 +303,6 @@ export class InstituteSettingsComponent implements OnInit {
     emailIds_for_justDail_ext_lead: '',
     enable_teacher_for_multiple_class: '',
     enable_elearn_course_mapping_feature: '',
-    enable_exam_marks_not_update_notification: 0,
-    enable_exam_attendance_not_marked_notification: 0,
-    enable_class_attendance_not_marked_notification: 0,
 
     lib_issue_for_days: '',
     lib_due_date_fine_per_day: ''
@@ -452,9 +469,11 @@ export class InstituteSettingsComponent implements OnInit {
     obj.enable_justDial_routing_report = this.convertBoolenToNumber(this.instituteSettingDet.enable_justDial_routing_report);
     obj.enable_teacher_for_multiple_class = this.convertBoolenToNumber(this.instituteSettingDet.enable_teacher_for_multiple_class);
     obj.enable_elearn_course_mapping_feature = this.convertBoolenToNumber(this.instituteSettingDet.enable_elearn_course_mapping_feature);
-    obj.enable_class_attendance_not_marked_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_class_attendance_not_marked_notification);
-    obj.enable_exam_attendance_not_marked_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_exam_attendance_not_marked_notification);
-    obj.enable_exam_marks_not_update_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_exam_marks_not_update_notification);
+    obj.enable_class_attendance_not_marked_notification = this.getSumOfTableField(this.instituteSettingDet.enable_class_attendance_not_marked_notification);
+    obj.enable_exam_attendance_not_marked_notification = this.getSumOfTableField(this.instituteSettingDet.enable_exam_attendance_not_marked_notification);
+    obj.enable_exam_marks_not_update_notification = this.getSumOfTableField(this.instituteSettingDet.enable_exam_marks_not_update_notification);
+    obj.enable_exam_attendance_not_marked_daily_notification = this.getSumOfTableField(this.instituteSettingDet.enable_exam_attendance_not_marked_daily_notification);
+    obj.enable_class_attendance_not_marked_daily_notification = this.getSumOfTableField(this.instituteSettingDet.enable_class_attendance_not_marked_daily_notification);
 
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
@@ -555,6 +574,12 @@ export class InstituteSettingsComponent implements OnInit {
     this.fillTableCheckboxValue(this.instituteSettingDet.biometric_late_sms, data.biometric_late_sms);
     this.fillTableCheckboxValue(this.instituteSettingDet.biometric_absent_sms, data.biometric_absent_sms);
     this.fillTableCheckboxValue(this.instituteSettingDet.biometric_in_out_sms, data.biometric_in_out_sms);
+    this.fillTableCheckboxValue(this.instituteSettingDet.enable_class_attendance_not_marked_notification, data.enable_class_attendance_not_marked_notification);
+    this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_attendance_not_marked_notification, data.enable_exam_attendance_not_marked_notification)
+    this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_marks_not_update_notification, data.enable_exam_marks_not_update_notification)
+    this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_attendance_not_marked_daily_notification,data.enable_exam_attendance_not_marked_daily_notification);
+    this.fillTableCheckboxValue(this.instituteSettingDet.enable_class_attendance_not_marked_daily_notification,data.enable_class_attendance_not_marked_daily_notification);
+    
     this.instituteSettingDet.biometric_late_sms_buffer = data.biometric_late_sms_buffer;
     this.instituteSettingDet.biometric_class_in_time_buffer_in_min = data.biometric_class_in_time_buffer_in_min;
     this.instituteSettingDet.biometric_class_out_time_buffer_in_min = data.biometric_class_out_time_buffer_in_min;
@@ -618,9 +643,6 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.enable_teacher_for_multiple_class = data.enable_teacher_for_multiple_class;
     this.instituteSettingDet.enable_elearn_course_mapping_feature = data.enable_elearn_course_mapping_feature;
     this.instituteSettingDet.emailIds_for_justDail_ext_lead = data.emailIds_for_justDail_ext_lead;
-    this.instituteSettingDet.enable_class_attendance_not_marked_notification = data.enable_class_attendance_not_marked_notification;
-    this.instituteSettingDet.enable_exam_attendance_not_marked_notification = data.enable_exam_attendance_not_marked_notification;
-    this.instituteSettingDet.enable_exam_marks_not_update_notification = data.enable_exam_marks_not_update_notification;
     this.fillTimeInHrAndMinute(this.instituteSettingDet.alumni_birthday_daily_schedule, data.alumni_birthday_daily_schedule);
 
     this.fillTableCheckboxValue(this.instituteSettingDet.lib_send_sms_for_book_issued, data.lib_send_sms_for_book_issued);

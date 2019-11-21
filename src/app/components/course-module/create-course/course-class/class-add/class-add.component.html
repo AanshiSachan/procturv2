@@ -987,19 +987,19 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
         <h2 style="margin-left: 10px">Custom Recurrence for class {{selctedScheduledClass.subject_name}}</h2>
 
         <div class="row extraMargin">
-          <div class=" c-sm-6 c-md-6 c-lg-6">
+          <div class="c-sm-3 c-md-3 c-lg-3">
             <div class="form-wrapper timepick">
               <label for="startTime">Start Time</label>
               <div class="tbox">
                 <div class="times ">
-                  <select id="" class="mins side-form-ctrl" [(ngModel)]="selctedScheduledClass.startTime.hour" name="startTime">
+                  <select id="" class="mins side-form-ctrl" [(ngModel)]="weeklyCommonStartTime.hour" name="startTime">
                     <option [value]="time" *ngFor="let time of times">
                       {{time}}
                     </option>
                   </select>
                 </div>
                 <div class="times">
-                  <select id="" class="mers side-form-ctrl" [(ngModel)]="selctedScheduledClass.startTime.minute" name="minute">
+                  <select id="" class="mers side-form-ctrl" [(ngModel)]="weeklyCommonStartTime.minute" name="minute">
                     <option *ngFor="let minute of minArr" [value]="minute">
                       {{minute}}
                     </option>
@@ -1008,19 +1008,19 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
               </div>
             </div>
           </div>
-          <div class=" c-sm-6 c-md-6 c-lg-6 ">
+          <div class="c-sm-3 c-md-3 c-lg-3">
             <div class="form-wrapper timepick">
               <label for="startTime">End Time</label>
               <div class="tbox">
                 <div class="times ">
-                  <select id="" class="mins side-form-ctrl" [(ngModel)]="selctedScheduledClass.endTime.hour" name="startTime">
+                  <select id="" class="mins side-form-ctrl" [(ngModel)]="weeklyCommonEndTime.hour" name="startTime">
                     <option [value]="time" *ngFor="let time of times">
                       {{time}}
                     </option>
                   </select>
                 </div>
                 <div class="times">
-                  <select id="" class="mers side-form-ctrl" [(ngModel)]="selctedScheduledClass.endTime.minute" name="minute">
+                  <select id="" class="mers side-form-ctrl" [(ngModel)]="weeklyCommonEndTime.minute" name="minute">
                     <option *ngFor="let minute of minArr" [value]="minute">
                       {{minute}}
                     </option>
@@ -1029,20 +1029,70 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
               </div>
             </div>
           </div>
+          <div class="c-sm-3 c-md-3 c-lg-3">
+            <button type="button" class="btn fullBlue" style="margin-top: 15px;" name="button" (click)="applyTimeForAll()">Apply</button>
+          </div>
         </div>
 
-        <div class="row extraMargin" style="margin:10px 15px;">
-          <h6>Repeat On</h6>
-        </div>
+        <div class="weekly-schedule-table-container">
+          <div class="table-heading-container">
+            <div class="heading-item">
+              <span>Week Days</span>
+            </div>
+            <div class="heading-item">
+              <span>Start Time</span>
+            </div>
+            <div class="heading-item">
+              <span>End Time</span>
+            </div>
+          </div>
+          <div class="table-outer-container">
+            <div class="table-value-container" *ngFor="let day of weekDaysList">
+              <div class="value-item">
+                <div class="field-checkbox-wrapper" style="margin-top: 5px">
+                  <input type="checkbox" value="" [(ngModel)]="day.uiSelected" class="form-checkbox" id="{{day.data_key}}">
+                  <label for="{{day.data_key}}">{{day.data_value}}</label>
+                </div>
+              </div>
+              <div class="value-item">
+                <div class="tbox">
+                  <div class="times ">
+                    <select id="" class="mins side-form-ctrl" [(ngModel)]="day.start_time.hour" name="startTime">
+                      <option [value]="time" *ngFor="let time of times">
+                        {{time}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="times">
+                    <select id="" class="mers side-form-ctrl" [(ngModel)]="day.start_time.minute" name="minute">
+                      <option *ngFor="let minute of minArr" [value]="minute">
+                        {{minute}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="value-item">
+                <div class="tbox">
+                  <div class="times ">
+                    <select id="" class="mins side-form-ctrl" [(ngModel)]="day.end_time.hour" name="startTime">
+                      <option [value]="time" *ngFor="let time of times">
+                        {{time}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="times">
+                    <select id="" class="mers side-form-ctrl" [(ngModel)]="day.end_time.minute" name="minute">
+                      <option *ngFor="let minute of minArr" [value]="minute">
+                        {{minute}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <div id="divWeekDays" class="row extraMargin side-circles" style="margin:10px 15px;">
-          <span id="idDay-7" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Sunday ">S</span>
-          <span id="idDay-1" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Monday ">M</span>
-          <span id="idDay-2" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Tuesday ">T</span>
-          <span id="idDay-3" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Wednesday ">W</span>
-          <span id="idDay-4" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Thursday ">T</span>
-          <span id="idDay-5" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Friday ">F</span>
-          <span id="idDay-6" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Saturday ">S</span>
         </div>
 
         <!-- <div class="row extraMargin ">

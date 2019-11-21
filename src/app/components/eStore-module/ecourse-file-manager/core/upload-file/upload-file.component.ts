@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked, Renderer2  } from '@angular/core'
 import { Tree } from 'primeng/tree';
 import { Subject } from 'rxjs/Subject';
 import { HttpService } from '../../../../../services/http.service';
@@ -12,7 +12,7 @@ import { FileService } from '../../file.service';
   templateUrl: './upload-file.component.html',
   styleUrls: ['./upload-file.component.scss']
 })
-export class UploadFileComponent implements OnInit {
+export class UploadFileComponent implements OnInit,AfterViewChecked {
 
   subjectList: any[] = [];
   topicList: any[] = [];
@@ -66,7 +66,8 @@ export class UploadFileComponent implements OnInit {
     private auth: AuthenticatorService,
     private msgService: MessageShowService,
     private router: Router,
-    private _fservice: FileService
+    private _fservice: FileService,
+    private renderer:Renderer2
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -74,7 +75,6 @@ export class UploadFileComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("UploadFileComponent");
     this.dragoverflag = true;
     this.getcategoriesList();
     this.getCategories();
@@ -84,6 +84,12 @@ export class UploadFileComponent implements OnInit {
         this._http.updatedDataSelection(null);
       }
     });
+  }
+
+  ngAfterViewChecked(){
+    // if(document.getElementsByClassName('ui-fileupload-row').length){
+    //   this.renderer.setStyle(document.getElementsByClassName('ui-fileupload-row')[0].children[2], 'display', 'none');
+    // }
   }
 
   getVDOCipherLinkedDate() {
@@ -406,9 +412,9 @@ export class UploadFileComponent implements OnInit {
           flag = false;
         }
         for (let i = 0; i < files.length; i++) {
-          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV|.avi|.flv|.wmv|.mp4|.mov|.webm| .mkv |.ogv|.flv | .vob|.gifv| .mng| .avi|.gif| .drc| .ogg| .MTS| .M2TS | .TS| .mov| .qt | .wmv|.yuv| .rm|.rmvb )/i;
+          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV|.FIV|.flv|.mp4|.mov|.webm|.WEBM|.mkv|.MKV|.ogv|.OGV|.vob|.VOB|.gifv|.GIFV|.mng|.MNG|.avi|.gif|.GIF|.drc|.DRC|.ogg|.OGG|.MTS|.mts|.M2TS|.m2ts|.TS|.ts|.qt|.QT|.wmv|.yuv|.YUV|.rm|.RM|.rmvb|.RMVB)/i;
           if (!pattern.test(files[i].name)) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " in avi,flv,wmv,mp4 ,webm, mkv ,ogv,flv , vob,gifv, mng, avi,gif, drc, ogg, MTS, M2TS , TS, mov, qt , yuv, rm,rmvb and mov form");
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " in avi,flv,wmv,mp4 ,webm, mkv ,ogv, vob,gifv, mng, avi,gif, drc, ogg, MTS, M2TS , TS, mov, qt , yuv, rm,rmvb and mov form");
             flag = false;
             break;
           }
@@ -591,7 +597,7 @@ export class UploadFileComponent implements OnInit {
         "is_private": is_private,                                                 // if user wants to make file as private
         "title": this.varJson.title,
         "enable_watermark": enable_watermark,
-        "size": size / 1000000
+        "size": (size / (1024*1024)).toFixed(3)
       }
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";

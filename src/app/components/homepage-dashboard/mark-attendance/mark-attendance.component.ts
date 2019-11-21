@@ -539,7 +539,7 @@ export class MarkAttendanceComponent implements OnInit {
     sessionStorage.setItem('batch_info', '');
     let coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner');
     if(coursePlannerStatus=='true'){
-      this.router.navigate(['/view/activity/coursePlanner']);
+      this.router.navigate(['/view/course/coursePlanner/class']);
     }
     else{
       this.router.navigate(['/view/home/admin']);

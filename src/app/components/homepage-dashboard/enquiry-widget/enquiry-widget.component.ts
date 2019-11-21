@@ -2,12 +2,15 @@ import {
     Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
     AfterViewInit, ChangeDetectionStrategy,
     OnChanges,
-    ChangeDetectorRef,Pipe, PipeTransform
+    ChangeDetectorRef
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
+import { Pipe, PipeTransform } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import * as Muuri from 'muuri/muuri';
 import { Chart } from 'angular-highcharts';
@@ -53,10 +56,10 @@ export class EnquiryWidgetComponent implements OnInit {
                 allowPointSelect: true,
                 cursor: 'pointer',
                 colors: [
-                    '#568bf4',
-                    '#f456b0',
-                    '#ffcc3c',
-                    '#56cff4'
+                    '#568bf4', //#568bf4 --open
+                    '#f456b0', //#f456b0  --in progress
+                    '#ffcc3c', //ffcc3c  admitted
+                    '#56cff4' //#56cff4;  closed
                 ],
                 size: '80%',
                 depth: 35,
@@ -74,7 +77,6 @@ export class EnquiryWidgetComponent implements OnInit {
             data: [
                 ['Open', 0],
                 ['In Progress', 0],
-                ['Registered', 0],
                 ['Admitted', 0],
                 ['Closed', 0],
             ]
@@ -127,7 +129,7 @@ export class EnquiryWidgetComponent implements OnInit {
         if (this.chart.ref && this.chart.ref.series.length > 0) {
             this.chart.ref.series[0].setData(this.generateEnqChartData());
             this.chart.ref.redraw();
-        }        
+        }
     }
 
     /* Date CHange events handled here */
@@ -156,16 +158,26 @@ export class EnquiryWidgetComponent implements OnInit {
     generateEnqChartData(): any[] {
         this.cd.markForCheck();
         let tempArr: any[] = [];
-        for (let key in this.enquiryStat.statusMap) {
-            let temp: any[] = [];
-            temp[0] = key;
-            if (this.enquiryStat.statusMap[key] == 0) {
-                temp[1] = 0;
-            } else {
-                temp[1] = Math.round(((this.enquiryStat.statusMap[key] / this.enquiryStat.totalcount) * 100));
-            }
-            tempArr.push(temp);
+        let object = {
+            "Open": 0,
+            "In Progress": 0,
+            "Student Admitted": 0,
+            "Closed": 0,
         }
+        for (let key in this.enquiryStat.statusMap) {
+            object[key] = 0;
+            if (this.enquiryStat.statusMap[key] != 0) {
+                object[key] = Math.round(((this.enquiryStat.statusMap[key] / this.enquiryStat.totalcount) * 100));
+            }
+        }
+        let keysArr = Object.keys(object);
+        tempArr = [];
+        keysArr.forEach((key) => {
+            let temp = [];
+            temp[0] = key;
+            temp[1] = object[key];
+            tempArr.push(temp);
+        });
         return tempArr;
     }
 
