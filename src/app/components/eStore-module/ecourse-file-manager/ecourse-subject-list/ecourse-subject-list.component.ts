@@ -258,10 +258,10 @@ export class EcourseSubjectListComponent implements OnInit {
       "fileIdArray": fileIdArray
     }
     console.log(data);
-    this._http.deleteData(url, data).subscribe((res) => {
+    this._http.deleteData(url, data).subscribe((res:any) => {
       // console.log(res);
       this.isRippleLoad = false;
-      this.msgService.showErrorMessage('success', '', "file " + this.type + " successfully");
+      this.msgService.showErrorMessage('success', '', res.message);
       this.getSubjectList();
     },
       (err) => {
@@ -304,6 +304,7 @@ export class EcourseSubjectListComponent implements OnInit {
 
           }
           else {
+            this.showModal = false;
             this.msgService.showErrorMessage('info', '', 'No data found to unlink');
           }
 

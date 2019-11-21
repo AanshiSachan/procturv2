@@ -134,7 +134,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         }
       }, (err) => {
         this.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       });
     }
 
@@ -408,13 +408,13 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       }
       case "VDOCipher": {
         if (this.varJson.title == '') {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please add video title");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please add video title");
           flag = false;
         }
         for (let i = 0; i < files.length; i++) {
           let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV|.FIV|.flv|.mp4|.mov|.webm|.WEBM|.mkv|.MKV|.ogv|.OGV|.vob|.VOB|.gifv|.GIFV|.mng|.MNG|.avi|.gif|.GIF|.drc|.DRC|.ogg|.OGG|.MTS|.mts|.M2TS|.m2ts|.TS|.ts|.qt|.QT|.wmv|.yuv|.YUV|.rm|.RM|.rmvb|.RMVB)/i;
           if (!pattern.test(files[i].name)) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " in avi,flv,wmv,mp4 ,webm, mkv ,ogv, vob,gifv, mng, avi,gif, drc, ogg, MTS, M2TS , TS, mov, qt , yuv, rm,rmvb and mov form");
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select " + this.varJson.name + " in avi,flv,wmv,mp4 ,webm, mkv ,ogv, vob,gifv, mng, avi,gif, drc, ogg, MTS, M2TS , TS, mov, qt , yuv, rm,rmvb and mov form");
             flag = false;
             break;
           }
@@ -482,7 +482,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
     let url = "/api/v1/instFileSystem/v2/categories";
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
-      let temp = [{ category_id: 330, category_name: 'existing video' }];
+      let temp = [{ category_id: 330, category_name: 'Existing video' }];
       res.forEach(category => {
         if (category.category_id == -1) {
           category.videoCategoryList.forEach(vdoType => {

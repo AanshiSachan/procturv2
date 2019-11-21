@@ -363,8 +363,14 @@
 <div class="ga-modal-wrapper" *ngIf="showModal">
   <div class="ga-modal-container">
     <div class="ga-modal">
-      <div class="ga-modal-head">
+      <div class="ga-modal-head" *ngIf="type!='unlink all' && type!='unlink'">
         <span>Do you want to {{type}} this file ?</span>
+      </div>
+      <div class="ga-modal-head" *ngIf="type=='unlink all'">
+        <span>Do you want to {{type}} video(s) ?</span>
+      </div>
+      <div class="ga-modal-head" *ngIf="type=='unlink'">
+        <span>Do you want to {{type}} this video ?</span>
       </div>
       <div class="ga-modal-body">
         <div class="row upload-box">
