@@ -818,7 +818,9 @@ export class SideBarComponent implements OnInit {
       currentMenu[i].classList.remove('active-current-menu');
     }
     document.getElementById(id).className += ' remove-current-menu';
+    if(document.getElementById('blurBg')){
     document.getElementById('blurBg').className = 'normal-background';
+    }
     this.activeSession = null;
     this.router.navigate([route]);
   }
