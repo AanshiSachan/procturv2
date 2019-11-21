@@ -64,7 +64,7 @@
         <span>Plan and manage class for all courses on the go.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/coursePlanner/exam">
+    <div class="course-menu-item" routerLink="/view/course/coursePlanner/exam" *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/exam-planner.svg" alt="exam planner">
         <span>Exam Planner</span>
@@ -161,7 +161,7 @@
         <span>Plan and manage class for all courses on the go.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/coursePlanner/exam" >
+    <div class="course-menu-item" routerLink="/view/batch/coursePlanner/exam"  *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/exam-planner.svg" alt="exam planner">
         <span>Exam Planner</span>

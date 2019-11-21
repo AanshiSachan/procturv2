@@ -46,11 +46,17 @@ export class CourseHomeComponent implements OnInit {
       })
     }
     else if((userType=='3')){
-      this.jsonFlags.isShowFileManager = true;
       this.jsonFlags.isShowModel = false;
       this.jsonFlags.isShowArchiving = false;
-      this.jsonFlags.isShowExam = true;
-      this.jsonFlags.isShowClass = true;      
+       let array = ['isShowFileManager','isShowExam','isShowClass','isShowClassPlanner'];
+
+        array.forEach((flag)=>{
+          this.jsonFlags[flag]=true;
+        })
+    //   this.jsonFlags.isShowFileManager = true;
+    //   this.jsonFlags.isShowExam = true;
+    //   this.jsonFlags.isShowClass = true;  
+    //   this.jsonFlags.isShowClassPlanner = true;          
     }
     else{
       this.jsonFlags.isShowModel = true;
