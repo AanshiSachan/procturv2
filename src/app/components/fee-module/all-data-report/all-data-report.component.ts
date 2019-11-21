@@ -138,6 +138,7 @@ export class AllDataReportComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scroll(0,0);
     this.due_type = "seven_days_dues"
     this.dateRangeChanges(event);
     this.getAcademicYear();
