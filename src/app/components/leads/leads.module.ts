@@ -17,6 +17,7 @@ import { PopupHandlerService } from '../../services/enquiry-services/popup-handl
 import { ClosingReasonService } from './services/closing-reason.service';
 import { LeadsHomeComponent } from './leads-home/leads-home.component';
 import { DataSetupComponent } from './data-setup/data-setup.component';
+import { UserEnquiryComponent } from './enquiry/enquiry-custom/user-enquiry.component';
 
 @NgModule({
   imports: [
@@ -35,15 +36,19 @@ import { DataSetupComponent } from './data-setup/data-setup.component';
     LeadsHomeComponent,
     EnquiryAddComponent,
     DataSetupComponent,
+    UserEnquiryComponent,
     // EnquiryReportComponent
   ],
   entryComponents: [
       LeadsComponent,
+      UserEnquiryComponent
   ],
   providers: [
       PopupHandlerService,
       ClosingReasonService
   ],
-  exports: []
+  exports: [
+    UserEnquiryComponent
+  ]
 })
 export class LeadsModule { }

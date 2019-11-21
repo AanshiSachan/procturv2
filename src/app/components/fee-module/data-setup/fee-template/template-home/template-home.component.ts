@@ -65,6 +65,7 @@ export class TemplateHomeComponent implements OnInit {
   searchText: string = '';
   addTemplatePopUp: boolean = false;
   studentList: any[] = [];
+  moduleState :any;
 
   constructor(
     private router: Router,
@@ -83,8 +84,10 @@ export class TemplateHomeComponent implements OnInit {
       res => {
         if (res == 'LANG') {
           this.isProfessional = true;
+          this.moduleState = 'Batch';
         } else {
           this.isProfessional = false;
+          this.moduleState = 'Course';
         }
       }
     )

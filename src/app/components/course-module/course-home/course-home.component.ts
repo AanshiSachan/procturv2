@@ -12,6 +12,11 @@ export class CourseHomeComponent implements OnInit {
   jsonFlags={
     isShowSetup:false,
     isShowFileManager:false,
+    isShowArchiving:false,
+    isShowModel:false,
+    isShowClass:false,
+    isShowExam:false,
+    isShowClassPlanner:false
   }
 
   constructor(   private auth: AuthenticatorService) { }
@@ -35,15 +40,38 @@ export class CourseHomeComponent implements OnInit {
    let perm = sessionStorage.getItem('permissions');
    let userType = sessionStorage.getItem('userType');
     if ((userType=='0')&&((perm == null || perm == undefined || perm == ''))){
-      this.jsonFlags.isShowSetup= true;
-      this.jsonFlags.isShowFileManager = true;
+      let array = Object.keys( this.jsonFlags);
+      array.forEach((flag)=>{
+        this.jsonFlags[flag]= true;
+      })
     }
     else if((userType=='3')){
-      this.jsonFlags.isShowFileManager = true;
+      this.jsonFlags.isShowModel = false;
+      this.jsonFlags.isShowArchiving = false;
+       let array = ['isShowFileManager','isShowExam','isShowClass','isShowClassPlanner'];
+
+        array.forEach((flag)=>{
+          this.jsonFlags[flag]=true;
+        })
+    //   this.jsonFlags.isShowFileManager = true;
+    //   this.jsonFlags.isShowExam = true;
+    //   this.jsonFlags.isShowClass = true;  
+    //   this.jsonFlags.isShowClassPlanner = true;          
     }
     else{
+      this.jsonFlags.isShowModel = true;
       if (perm.includes('114')) {
         this.jsonFlags.isShowFileManager = true;
+      }
+
+      if (perm.includes('701')) {
+        this.jsonFlags.isShowClass = true;
+      }
+      if (perm.includes('702')) {
+        this.jsonFlags.isShowExam = true;
+      }
+      if (perm.includes('704')) {
+        this.jsonFlags.isShowClassPlanner = true;
       }
     }
   }

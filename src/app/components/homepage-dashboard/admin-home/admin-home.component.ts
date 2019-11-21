@@ -77,9 +77,8 @@ export class AdminHomeComponent implements OnInit {
   biometricEnable: string = "0";
   newMessageText: string = "";
   messageCount: number = 0;
-
+  userType:number=0;
   courseCommonExamCancelPopUP = false;
-
   isCourseAttendance: boolean = false;
   isCourseCancel: boolean = false;
   isCourseReminder: boolean = false;
@@ -195,14 +194,15 @@ export class AdminHomeComponent implements OnInit {
     )
 
     this.checkForSubjectWiseView();
+    this.onChanged('subject'); // select subject by default
 
     this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
-    let userType: any = Number(sessionStorage.getItem('userType'));
+    this.userType = Number(sessionStorage.getItem('userType'));
     let username = sessionStorage.getItem('username');
     let permissionArraypermissions: any = [];
-    if (userType == 0 && username == "admin") {
+    if(this.userType == 0 && username == "admin"){
       this.userTypeForExpenses = false;
     }
     else if (this.permissionArray && (this.permissionArray.includes("715") || this.permissionArray.includes("716"))) {
@@ -1237,7 +1237,7 @@ export class AdminHomeComponent implements OnInit {
         let msg = {
           type: 'success',
           title: 'Reminder Sent',
-          body: 'The student have been notified'
+          body: 'Students have been notified'
         }
         this.appC.popToast(msg);
         this.reminderRemarks = "";
@@ -2384,8 +2384,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   checkRoleMAnagement(id) {
-    let userType: any = Number(sessionStorage.getItem('userType'));
-    if (userType != 3) {
+    if (this.userType != 3) {
       let permissionArray = sessionStorage.getItem('permissions');
       if (permissionArray == "" || permissionArray == null) {
         return false;
@@ -2771,7 +2770,7 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.sendReminder(obj).subscribe(
         res => {
           this.isRippleLoad = false;
-          this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
+          this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfully');
         },
         err => {
           this.isRippleLoad = false;

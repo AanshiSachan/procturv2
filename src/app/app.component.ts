@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
 import { LoginService } from './services/login-services/login.service';
@@ -10,7 +10,7 @@ import { CommonServiceFactory } from './services/common-service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit,AfterViewChecked {
 
   /* Toaster handlers */
   /* ToasterConfig ==> {
@@ -36,7 +36,8 @@ export class AppComponent implements OnInit {
     private toasterService: ToasterService,
     private router: Router,
     private log: LoginService,
-    private commonService: CommonServiceFactory
+    private commonService: CommonServiceFactory,
+    private cd :ChangeDetectorRef
   ) {
 
   }
@@ -47,6 +48,9 @@ export class AppComponent implements OnInit {
     this.isloggedInAdmin = this.commonService.checkUserIsAdmin();
   }
 
+  ngAfterViewChecked(){
+    this.cd.detectChanges();
+  }
   // Router Event Ripple
 
   routerEvents() {

@@ -13,10 +13,10 @@ export class MasterComponent implements OnInit {
 
   /* OnInit recheck the status of li tab and set it to active here */
   ngOnInit() {
-    let classArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'lizero'];
-    classArray.forEach(function (className) {
-      document.getElementById(className).classList.remove('active');
-    });
+    // let classArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'lizero'];
+    // classArray.forEach(function (className) {
+    //   document.getElementById(className).classList.remove('active');
+    // });
   }
 
 }

@@ -1,25 +1,32 @@
 <div class="middle-section clearFix">
-  <aside class="middle-full">
-    <section class="middle-main clearFix report-box">
+  <aside class="middle-full" style="padding: 1%">
+      <h1 class="pull-left" style="padding-bottom: 10px">
+          <a routerLink="/view/fee">
+            Fees 
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+           Data-setup
+      </h1>
+    <section class="middle-main clearFix report-box" style="padding: 0">
 
         <div class="course-menu-section-container">
             <div class="course-menu-item" routerLink="./fee-type">
               <div class="menu-title">
                 <img src="./assets/images/fee/Fee_types.svg" alt="fee types">
-                <span>Fee Type</span>
+                <span>Additional fees</span>
               </div>
               <div class="menu-description">
-                <span></span>
+                <span>Define fees for every type and add a description to it.</span>
               </div>
             </div>
 
             <div class="course-menu-item" routerLink="./fee-template">
               <div class="menu-title">
                 <img src="./assets/images/fee/Fee_template.svg" alt="fee template">
-                <span>Fee Template</span>
+                <span>{{moduleState}} wise fees</span>
               </div>
               <div class="menu-description">
-                <span></span>
+                <span>Create fee structure for {{moduleState}}. </span>
               </div>
             </div>
 
@@ -29,7 +36,7 @@
                 <span> Discount Reason</span>
               </div>
               <div class="menu-description">
-                <span></span>
+                <span>Add/Edit reasons for discounts.</span>
               </div>
             </div>
 

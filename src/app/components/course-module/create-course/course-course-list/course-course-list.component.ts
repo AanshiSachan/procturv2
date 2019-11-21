@@ -40,16 +40,51 @@ export class CourseCourseListComponent implements OnInit {
     standard_id: -1,
   }
 
+  jsonFlags = {
+    isShowAddStudent: false,
+    isShowAddCourse: false
+  }
+
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
-  ) { }
+  ) {
+
+
+  }
 
   ngOnInit() {
     this.checkTabSelection();
     this.getCourseListForTable();
     this.getStandardList();
     this.getAcademicYearDetails();
+    this.checkUserHadAccess();
+  }
+
+  // USER permission
+  checkUserHadAccess() {
+    const permissionArray = sessionStorage.getItem('permissions');
+    const usertype = sessionStorage.getItem('userType');
+    if (permissionArray == null || permissionArray == "") {
+      if (usertype == '0') {
+        this.jsonFlags.isShowAddCourse = true;
+        this.jsonFlags.isShowAddStudent = true;
+      }
+      else if (usertype == '3') {
+        this.jsonFlags.isShowAddCourse = false;
+        this.jsonFlags.isShowAddStudent = false;
+
+      } 
+    }
+    else {
+      if (permissionArray != undefined) {
+        if (permissionArray.indexOf('505') != -1) {
+          // MASTER-Course - 505 has all access
+          this.jsonFlags.isShowAddCourse = true;
+          this.jsonFlags.isShowAddStudent = true;
+        }
+      }
+    }
   }
 
   getCourseListForTable() {
@@ -88,7 +123,6 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   // pagination functions
-
   fetchTableDataByPage(index) {
     this.PageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);

@@ -21,7 +21,6 @@ export class SideBarComponent implements OnInit {
   @ViewChild('divMasterTag') divMasterTag: ElementRef;
   @ViewChild('divProfileTag') divProfileTag: ElementRef;
   @ViewChild('divTeacherTag') divTeacherTag: ElementRef;
-  @ViewChild('divFeeTag') divFeeTag: ElementRef;
   @ViewChild('divSlotTag') divSlotTag: ElementRef;
   @ViewChild('divClassRoomTag') divClassRoomTag: ElementRef;
   @ViewChild('divManageTag') divManageTag: ElementRef;
@@ -170,11 +169,10 @@ export class SideBarComponent implements OnInit {
         this.jsonFlags.isShowFee = false;
         this.hideAllFields();     // Swapnil
         this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
-        this.setNativeElementValue(['divMasterTag'], '');
+        this.setNativeElementValue(['divMyAccountTag'], '');
       }
     } else {
       if (permissionArray != undefined) {
-
         this.setNativeElementValue(['divMasterTag'], 'none');
 
         if (permissionArray.indexOf('503') != -1) {
@@ -184,9 +182,8 @@ export class SideBarComponent implements OnInit {
           this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
         }
         if (permissionArray.indexOf('506') != -1) {
-          // this.divMasterTag.nativeElement.style.display = '';
-          // this.divFeeTag.nativeElement.style.display = '';
-          this.setNativeElementValue(['divMasterTag', 'divFeeTag'], '');       // Swapnil
+          this.jsonFlags.isShowFee = true;
+          this.setNativeElementValue(['divMasterTag'], '');       // Swapnil
         }
         if (permissionArray.indexOf('507') != -1 && this.isProfessional) {
           // this.divMasterTag.nativeElement.style.display = '';
@@ -260,9 +257,9 @@ export class SideBarComponent implements OnInit {
 
 
   showAllFields() {
-    // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag', 'divFeeTag', 'divAcademicTag',
+    // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag',  'divAcademicTag',
     //   'divSettingTag', 'divGeneralSettingTag', 'divManageFormTag', 'divManageUsers', 'divClassRoomTag'];
-    let array = ['divMyAccountTag', 'divMasterTag', 'divFeeTag', 'divSettingTag', 'divManag'];
+    let array = ['divMyAccountTag', 'divMasterTag', 'divSettingTag', 'divManag', 'divManageUsers'];
     this.setNativeElementValue(array, '');
     // if (this.settings == '1') {
     //   this.divGradesTag.nativeElement.style.display = '';
@@ -278,21 +275,19 @@ export class SideBarComponent implements OnInit {
   }
 
   hideAllFields() {
-    // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag', 'divFeeTag',
+    // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag', 
     //   'divSlotTag', 'divAcademicTag', 'divSettingTag', 'divGeneralSettingTag', 'divManageFormTag',
     //   'divAreaAndMap', 'divManageUsers', 'divGradesTag', 'divClassRoomTag', 'divManageTag'];
-    let array = ['divMyAccountTag', 'divMasterTag', 'divFeeTag', 'divSettingTag', 'divManageUsers'];
+    let array = ['divMyAccountTag', 'divMasterTag', 'divSettingTag', 'divManageUsers'];
     this.setNativeElementValue(array, 'none');
   }
 
   setNativeElementValue(tagArray: any[], value) {
-    console.log(tagArray)
     for (let index in tagArray) {
       if (this[tagArray[index]]) {
         this[tagArray[index]].nativeElement.style.display = value;
       }
     }
-
   }
 
   checkManinBranch() {
@@ -433,6 +428,7 @@ export class SideBarComponent implements OnInit {
     let username = sessionStorage.getItem('username');
     if ((username == "admin" && this.instituteId == 100127) ||
       (username == "admin" && this.instituteId == 101077) ||
+      (username == "admin" && this.instituteId == 101223) ||
       (permission && permission.indexOf('721') != -1)) {
       this.jsonFlags.isShowLibrabry = true;
     }
@@ -638,11 +634,15 @@ export class SideBarComponent implements OnInit {
 
 
   showSubSection(id) {
-    // for (let i = 0; i < 5; i++) {
-    //   document.getElementsByClassName("side-section") && document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
-    // }
+    for (let i = 0; i < 6; i++) {
+      if (document.getElementsByClassName("side-section")[i]) {
+        document.getElementsByClassName("side-section") && document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
+        document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
+      }
+    }
     if (document.getElementById(id)) {
       document.getElementById(id).className = ' side-section';
+      // document.getElementById(id).className = ' active-current-menu';
       document.getElementById(id).classList.add('active-current-menu');
     }
 
@@ -675,12 +675,11 @@ export class SideBarComponent implements OnInit {
     this.searchBar = false;
     this.helpMenu = false;
     document.getElementById('blurBg').className = 'normal-background';
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
       if (document.getElementsByClassName("side-section")[i]) {
         document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
         document.getElementsByClassName("side-section")[i].className = ' side-section';
       }
-
     }
 
   }
@@ -733,7 +732,7 @@ export class SideBarComponent implements OnInit {
     this.login.getInstituteCountryDetails(institute_id).subscribe(
       (res: any) => {
         let country_info = JSON.stringify(res);
-        sessionStorage.setItem('country_data', btoa(country_info));
+        sessionStorage.setItem('country_data', country_info);
       },
       err => {
         console.log(err);
@@ -810,18 +809,21 @@ export class SideBarComponent implements OnInit {
   }
 
   routerLink(route, id) {
-    // for (let i = 0; i < 5; i++) {
-    //   console.log(document.getElementsByClassName("side-section")[i].classList)
-    //   // document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
-    // }
+    for (let i = 0; i < 6; i++) {
+      if (document.getElementsByClassName("side-section")[i]) {
+         document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
+         }
+    }
     this.sideBar = false;
     let totalCurrentClasses = document.getElementsByClassName("current-menu").length;
     let currentMenu = document.getElementsByClassName("current-menu") as HTMLCollectionOf<HTMLElement>;
     for (let i = 0; i < totalCurrentClasses; i++) {
-      currentMenu[i].classList.remove('active-current-menu');
+      currentMenu[i] && currentMenu[i].classList.remove('active-current-menu');
     }
-    document.getElementById(id).className += ' remove-current-menu';
-    document.getElementById('blurBg').className = 'normal-background';
+    if (document.getElementById(id)) { document.getElementById(id).className += ' remove-current-menu'; }
+    if (document.getElementById('blurBg')) {
+      document.getElementById('blurBg').className = 'normal-background';
+    }
     this.activeSession = null;
     this.router.navigate([route]);
   }

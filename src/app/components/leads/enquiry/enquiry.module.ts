@@ -9,7 +9,6 @@ import { CommentTooltipComponent } from './enquiry-home/comment-tooltip.componen
 import { SmsOptionComponent } from './enquiry-home/sms-option.component';
 import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
 import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component';
-import { UserEnquiryComponent } from './enquiry-custom/user-enquiry.component';
 import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-sidebar.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 /* Modules */
@@ -20,6 +19,7 @@ import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'prime
 import { SharedModule } from '../../shared/shared.module';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 import { ClosingReasonService } from '../services/closing-reason.service';
+import { LeadsModule } from '../leads.module';
 
 
 @NgModule({
@@ -33,7 +33,8 @@ import { ClosingReasonService } from '../services/closing-reason.service';
         FileUploadModule,
         SplitButtonModule,
         MenuModule,
-        SharedModule
+        SharedModule,
+        LeadsModule
     ],
     declarations: [
         EnquiryComponent,
@@ -42,7 +43,6 @@ import { ClosingReasonService } from '../services/closing-reason.service';
         SmsOptionComponent,
         EnquiryEditComponent,
         EnquiryPopUpComponent,
-        UserEnquiryComponent,
         EnquiryHomeComponent,
         CommentTooltipComponent,
         EnquirySidebarComponent
@@ -50,7 +50,6 @@ import { ClosingReasonService } from '../services/closing-reason.service';
     entryComponents: [
         ActionButtonComponent,
         SmsOptionComponent,
-        UserEnquiryComponent,
         CommentTooltipComponent,
         EnquirySidebarComponent
     ],

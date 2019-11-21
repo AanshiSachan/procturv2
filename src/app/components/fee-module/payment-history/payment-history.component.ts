@@ -50,7 +50,6 @@ export class PaymentHistoryComponent implements OnChanges {
     this.updateData();
     this.updateDataNext();
     this.updatePastDues();
-
     console.log(this.standardList);
     console.log(this.batchList);
     console.log(this.subjectList);

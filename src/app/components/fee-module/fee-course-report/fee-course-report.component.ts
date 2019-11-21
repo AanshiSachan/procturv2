@@ -116,6 +116,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   ngOnInit() {
+    window.scroll(0,0);
     this.getAcademicYear();
     this.auth.institute_type.subscribe(
       res => {

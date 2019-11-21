@@ -119,7 +119,7 @@ export class GstReportComponent implements OnInit {
 
   ngOnInit() {
     this.getGstReport(event, this.year);
-    
+    window.scroll(0,0);
   }
 
 

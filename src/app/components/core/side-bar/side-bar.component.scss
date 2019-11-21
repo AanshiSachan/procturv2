@@ -306,6 +306,15 @@
   width: 100%;
 }
 
+.sideBar_centerAlign{
+  vertical-align: middle;
+}
+.helpSection {
+  height: 15px;
+    width: 15px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
 @-webkit-keyframes slideInLeft {
   from {
     -webkit-transform: translate3d(-100%, 0, 0);
@@ -331,3 +340,4 @@
     transform: translate3d(0, 0, 0);
   }
 }
+

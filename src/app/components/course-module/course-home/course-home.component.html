@@ -19,7 +19,7 @@
         <span> Data setup your academic year, faculties, classrooms, etc</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/create">
+    <div class="course-menu-item" routerLink="/view/course/create" *ngIf="jsonFlags.isShowModel">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create course">
         <span>Create course</span>
@@ -28,16 +28,16 @@
         <span>Create and manage courses with ease. Define standards, subjects, and topics as well as schedule classes and exams for the course.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/create/class/add">
+    <div class="course-menu-item" routerLink="/view/course/create/class/add" *ngIf="jsonFlags.isShowClass">
       <div class="menu-title">
         <img src="./assets/images/course/add-class.svg" alt="add class">
-        <span>Add class</span>
+        <span>Add Class</span>
       </div>
       <div class="menu-description">
         <span>Plan and schedule a class</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/create/exam">
+    <div class="course-menu-item" routerLink="/view/course/create/exam" *ngIf="jsonFlags.isShowExam">
       <div class="menu-title">
         <img src="./assets/images/course/add-exam.svg" alt="add exam">
         <span>Add Exam</span>
@@ -55,7 +55,7 @@
         <span>Manage Storage Of Uploaded And Downloaded Files By Category.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/coursePlanner/class">
+    <div class="course-menu-item" routerLink="/view/course/coursePlanner/class" *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/class-planner.svg" alt="class planner">
         <span>Class Planner</span>
@@ -64,7 +64,7 @@
         <span>Plan and manage class for all courses on the go.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/coursePlanner/exam">
+    <div class="course-menu-item" routerLink="/view/course/coursePlanner/exam" *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/exam-planner.svg" alt="exam planner">
         <span>Exam Planner</span>
@@ -82,7 +82,7 @@
         <span>Time table as per the subject on weekly basis.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/archiving">
+    <div class="course-menu-item" routerLink="/view/course/archiving" *ngIf="jsonFlags.isShowArchiving">
       <div class="menu-title">
         <img src="./assets/images/activity/archive.svg" alt="archiving">
         <span>Archiving</span>
@@ -116,7 +116,7 @@
           <span> Data setup your academic year, faculties, classrooms etc</span>
         </div>
       </div>
-    <div class="course-menu-item" routerLink="/view/batch/create">
+    <div class="course-menu-item" routerLink="/view/batch/create" *ngIf="jsonFlags.isShowModel">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create batch">
         <span>Create Batch</span>
@@ -125,16 +125,16 @@
         <span>Create and manage batches with ease</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/create/class/add">
+    <div class="course-menu-item" routerLink="/view/batch/create/class/add" *ngIf="jsonFlags.isShowClass">
       <div class="menu-title">
         <img src="./assets/images/course/add-class.svg" alt="add class">
-        <span>Add class</span>
+        <span>Add Class</span>
       </div>
       <div class="menu-description">
         <span> Plan and schedule a class</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/create/exam">
+    <div class="course-menu-item" routerLink="/view/batch/create/exam" *ngIf="jsonFlags.isShowExam">
       <div class="menu-title">
         <img src="./assets/images/course/add-exam.svg" alt="add exam">
         <span>Add Exam</span>
@@ -152,7 +152,7 @@
         <span>Manage Storage Of Uploaded And Downloaded Files By Category.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/coursePlanner/class">
+    <div class="course-menu-item" routerLink="/view/batch/coursePlanner/class" *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/class-planner.svg" alt="class planner">
         <span>Class Planner</span>
@@ -161,7 +161,7 @@
         <span>Plan and manage class for all courses on the go.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/coursePlanner/exam">
+    <div class="course-menu-item" routerLink="/view/batch/coursePlanner/exam"  *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/exam-planner.svg" alt="exam planner">
         <span>Exam Planner</span>
@@ -179,7 +179,7 @@
         <span>Time table as per the subject on weekly basis.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/archiving">
+    <div class="course-menu-item" routerLink="/view/batch/archiving" *ngIf="jsonFlags.isShowArchiving">
       <div class="menu-title">
         <img src="./assets/images/activity/archive.svg" alt="archiving">
         <span>Archiving</span>

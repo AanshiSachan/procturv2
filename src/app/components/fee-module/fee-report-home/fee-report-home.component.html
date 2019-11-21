@@ -33,17 +33,17 @@
             <span>All Due fee report</span>
           </div>
           <div class="menu-description">
-            <span>Get records of all the past and present fees dues by academic year. Also send SMS/notification for the same. </span>
+            <span>Get records of all the past and present fee dues by academic year. Also send SMS/notification for the same.</span>
           </div>
         </div>
 
         <div class="course-menu-item"  routerLink="./moduleReport">
           <div class="menu-title">
-            <img src="" alt="{{jsonFlags.moduleState}} wise">
+            <img src="./assets/images/fee/course_wise_report.svg" alt="{{jsonFlags.moduleState}} wise">
             <span>{{jsonFlags.moduleState}} Wise</span>
           </div>
           <div class="menu-description">
-            <span>Generate reports of paid fee amount or due fee amount course-wise. </span>
+            <span>Generate reports of paid fee amount or due fee amount {{jsonFlags.moduleState}}-wise. </span>
           </div>
         </div>
 
@@ -79,11 +79,11 @@
 
         <div class="course-menu-item" *ngIf="jsonFlags.isAdmin" routerLink="/view/fee/monitoring-dashboard">
           <div class="menu-title">
-            <img src="./assets/images/fee/" alt="monitoring dashboard">
+            <img src="./assets/images/activity/dashboard.svg" alt="monitoring dashboard">
             <span>Monitoring Dashboard</span>
           </div>
           <div class="menu-description">
-            <span> </span>
+            <span>Get the graphical representation of the fees details. </span>
           </div>
         </div>
 
