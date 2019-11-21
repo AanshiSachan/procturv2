@@ -1212,7 +1212,7 @@ export class AdminHomeComponent implements OnInit {
         let msg = {
           type: 'success',
           title: 'Reminder Sent',
-          body: 'The student have been notified'
+          body: 'Students have been notified'
         }
         this.appC.popToast(msg);
         this.reminderRemarks = "";
@@ -2741,7 +2741,7 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.sendReminder(obj).subscribe(
         res => {
           this.isRippleLoad = false;
-          this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
+          this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfully');
         },
         err => {
           this.isRippleLoad = false;

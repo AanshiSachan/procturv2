@@ -1319,7 +1319,7 @@ export class EnquiryAddComponent implements OnInit {
   navigateToEdit() {
     let val: any;
     this.prefill.fetchLastDetail().subscribe(el => {
-      this.router.navigate(['/view/enquiry/edit/' + el.institute_enquiry_id]);
+      this.router.navigate(['/view/leads/enquiry/edit/' + el.institute_enquiry_id]);
     }
     )
   }

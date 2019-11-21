@@ -169,11 +169,11 @@ export class SideBarComponent implements OnInit {
         this.jsonFlags.isShowFee = false;
         this.hideAllFields();     // Swapnil
         this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
-        this.setNativeElementValue(['divMyAccountTag'], ''); 
+        this.setNativeElementValue(['divMyAccountTag'], '');
       }
     } else {
       if (permissionArray != undefined) {
-        this.setNativeElementValue(['divMasterTag'], 'none'); 
+        this.setNativeElementValue(['divMasterTag'], 'none');
 
         if (permissionArray.indexOf('503') != -1) {
           // this.divMasterTag.nativeElement.style.display = '';
@@ -182,7 +182,7 @@ export class SideBarComponent implements OnInit {
           this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
         }
         if (permissionArray.indexOf('506') != -1) {
-            this.jsonFlags.isShowFee=true;
+          this.jsonFlags.isShowFee = true;
           this.setNativeElementValue(['divMasterTag'], '');       // Swapnil
         }
         if (permissionArray.indexOf('507') != -1 && this.isProfessional) {
@@ -209,8 +209,8 @@ export class SideBarComponent implements OnInit {
           this.setNativeElementValue(['divSettingTag'], '');      // Swapnil
 
         }
-        else{
-          this.setNativeElementValue(['divSettingTag'], 'none'); 
+        else {
+          this.setNativeElementValue(['divSettingTag'], 'none');
         }
 
         if (permissionArray.indexOf('115') != -1) {
@@ -221,9 +221,9 @@ export class SideBarComponent implements OnInit {
         if (permissionArray.indexOf('601') != -1) {
           // this.divManageUsers.nativeElement.style.display = '';
           this.setNativeElementValue(['divManageUsers'], '');       // Swapnil
-        }else{
+        } else {
           this.setNativeElementValue(['divManageUsers'], 'none');
-        } 
+        }
         if (permissionArray.indexOf('508') != -1) {
           // this.setNativeElementValue(['divClassRoomTag'], '');          // Swapnil
           // this.divClassRoomTag.nativeElement.style.display = '';
@@ -259,7 +259,7 @@ export class SideBarComponent implements OnInit {
   showAllFields() {
     // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag',  'divAcademicTag',
     //   'divSettingTag', 'divGeneralSettingTag', 'divManageFormTag', 'divManageUsers', 'divClassRoomTag'];
-    let array = ['divMyAccountTag', 'divMasterTag','divSettingTag', 'divManag','divManageUsers'];
+    let array = ['divMyAccountTag', 'divMasterTag', 'divSettingTag', 'divManag', 'divManageUsers'];
     this.setNativeElementValue(array, '');
     // if (this.settings == '1') {
     //   this.divGradesTag.nativeElement.style.display = '';
@@ -284,7 +284,7 @@ export class SideBarComponent implements OnInit {
 
   setNativeElementValue(tagArray: any[], value) {
     for (let index in tagArray) {
-      if(this[tagArray[index]]){
+      if (this[tagArray[index]]) {
         this[tagArray[index]].nativeElement.style.display = value;
       }
     }
@@ -428,6 +428,7 @@ export class SideBarComponent implements OnInit {
     let username = sessionStorage.getItem('username');
     if ((username == "admin" && this.instituteId == 100127) ||
       (username == "admin" && this.instituteId == 101077) ||
+      (username == "admin" && this.instituteId == 101223) ||
       (permission && permission.indexOf('721') != -1)) {
       this.jsonFlags.isShowLibrabry = true;
     }
@@ -634,11 +635,11 @@ export class SideBarComponent implements OnInit {
 
   showSubSection(id) {
     for (let i = 0; i < 6; i++) {
-      if(document.getElementsByClassName("side-section")[i]){
+      if (document.getElementsByClassName("side-section")[i]) {
         document.getElementsByClassName("side-section") && document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
-        document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');  
+        document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
       }
-          }
+    }
     if (document.getElementById(id)) {
       document.getElementById(id).className = ' side-section';
       // document.getElementById(id).className = ' active-current-menu';
@@ -809,17 +810,19 @@ export class SideBarComponent implements OnInit {
 
   routerLink(route, id) {
     for (let i = 0; i < 6; i++) {
-      document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
+      if (document.getElementsByClassName("side-section")[i]) {
+         document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
+         }
     }
     this.sideBar = false;
     let totalCurrentClasses = document.getElementsByClassName("current-menu").length;
     let currentMenu = document.getElementsByClassName("current-menu") as HTMLCollectionOf<HTMLElement>;
     for (let i = 0; i < totalCurrentClasses; i++) {
-      currentMenu[i].classList.remove('active-current-menu');
+      currentMenu[i] && currentMenu[i].classList.remove('active-current-menu');
     }
-    document.getElementById(id).className += ' remove-current-menu';
-    if(document.getElementById('blurBg')){
-    document.getElementById('blurBg').className = 'normal-background';
+    if (document.getElementById(id)) { document.getElementById(id).className += ' remove-current-menu'; }
+    if (document.getElementById('blurBg')) {
+      document.getElementById('blurBg').className = 'normal-background';
     }
     this.activeSession = null;
     this.router.navigate([route]);

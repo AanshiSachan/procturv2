@@ -164,19 +164,19 @@ export class CreateCourseComponent implements OnInit {
 
   routeToSubTabsForLang(data) {
     if (data.indexOf('501') != -1) {
-      this.router.navigateByUrl('/view/course/standardlist');
+      this.router.navigateByUrl('/view/course/create/standardlist');
       this.switchActiveView('liStandard');
     } else if (data.indexOf('502') != -1) {
-      this.router.navigateByUrl('/view/course/subject');
+      this.router.navigateByUrl('/view/course/create/subject');
       this.switchActiveView('liSubject');
     } else if (data.indexOf('401') != -1) {
-      this.router.navigateByUrl('/view/course/managebatch');
+      this.router.navigateByUrl('/view/batch/create/managebatch');
       this.switchActiveView('liManageBatch');
     } else if (data.indexOf('402') >= 0 || data.indexOf('704') >= 0) {
-      this.router.navigateByUrl('/view/course/class');
+      this.router.navigateByUrl('view/batch/create/class/home');
       this.switchActiveView('liClass');
     } else if (data.indexOf('404') >= 0) {
-      this.router.navigateByUrl('/view/course/exam');
+      this.router.navigateByUrl('/view/course/create/exam');
       this.switchActiveView('liExam');
     }
   }
@@ -202,13 +202,14 @@ export class CreateCourseComponent implements OnInit {
     this.liManageBatch.nativeElement.classList.remove('hide');
     this.liClass.nativeElement.classList.remove('hide');
     this.liExam.nativeElement.classList.remove('hide');
-    if (this.isLangInstitue) {
-      this.router.navigateByUrl('/view/course/managebatch');
-      this.switchActiveView('liManageBatch');
-    } else {
-      this.router.navigateByUrl('/view/course/courselist');
-      this.switchActiveView('liManageBatch');
-    }
+    this.checkWhichTabIsOpen();
+    // if (this.isLangInstitue) {
+    //   this.router.navigateByUrl('/view/batch/create/managebatch');
+    //   this.switchActiveView('liManageBatch');
+    // } else {
+    //   this.router.navigateByUrl('/view/course/create/courselist');
+    //   this.switchActiveView('liManageBatch');
+    // }
   }
 
 }

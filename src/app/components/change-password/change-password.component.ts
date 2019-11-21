@@ -28,7 +28,7 @@ export class ChangePasswordComponent implements OnChanges {
 
   ngOnChanges() {
     let emailId = sessionStorage.getItem('alternate_email_id');
-    if (emailId != "" && emailId != null && emailId != undefined) {
+    if (emailId != "" && emailId != null && emailId != undefined && emailId != 'undefined') {
       this.changePass.username = emailId;
     }
     this.changePass.oldPassword = '';
