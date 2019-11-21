@@ -123,13 +123,13 @@
       <img src="./assets/images/sidebar/setup.svg" title="Setup" alt="" (click)="showSubSection('setup')">
       <div class="side-section" id="setup">
           <div class="side-section-item" *ngIf="hasInventoryAccess()">
-              <span (click)="routerLink('/view/inventory','setup')">Manage Inventory</span>
+              <span (click)="routerLink('/view/inventory','setup')"><img src="./assets/images/sidebar/inventory.svg" alt="phone" class="helpSection">Manage Inventory</span>
             </div>
             <div class="side-section-item">
-              <span (click)="routerLink('/view/formField/home','setup')">Custom Form Field</span>
+              <span (click)="routerLink('/view/formField/home','setup')"><img src="./assets/images/sidebar/custom_form_field.svg" alt="phone" class="helpSection">Custom Form Field</span>
             </div>
             <div class="side-section-item">
-              <span (click)="routerLink('/view/master/areaCity','setup')">City Area Map</span>
+              <span (click)="routerLink('/view/master/areaCity','setup')"><img src="./assets/images/sidebar/city_area_map.svg" alt="phone" class="helpSection">City Area Map</span>
             </div>
       </div>
     </div>
@@ -157,7 +157,7 @@
           <span (click)="routerLink('/view/account','account')"><img src="./assets/images/sidebar/sideMenu/account.svg" alt="icon" class="helpSection">My Account</span>
         </div>
         <div class="side-section-item">
-          <span (click)="changePasswordClick()">Change Password</span>
+          <span (click)="changePasswordClick()"><img src="./assets/images/sidebar/change_password.svg" alt="phone" class="helpSection">Change Password</span>
         </div>
         <div class="side-section-item">
           <span (click)="logout()"><img src="./assets/images/sidebar/sideMenu/logout.svg" alt="icon" class="helpSection">Logout</span>
