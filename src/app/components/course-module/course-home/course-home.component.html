@@ -19,7 +19,7 @@
         <span> Data setup your academic year, faculties, classrooms, etc</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/create">
+    <div class="course-menu-item" routerLink="/view/course/create" *ngIf="jsonFlags.isShowModel">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create course">
         <span>Create course</span>
@@ -82,7 +82,7 @@
         <span>Time table as per the subject on weekly basis.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/archiving">
+    <div class="course-menu-item" routerLink="/view/course/archiving" *ngIf="jsonFlags.isShowArchiving">
       <div class="menu-title">
         <img src="./assets/images/activity/archive.svg" alt="archiving">
         <span>Archiving</span>
@@ -116,7 +116,7 @@
           <span> Data setup your academic year, faculties, classrooms etc</span>
         </div>
       </div>
-    <div class="course-menu-item" routerLink="/view/batch/create">
+    <div class="course-menu-item" routerLink="/view/batch/create" *ngIf="jsonFlags.isShowModel">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create batch">
         <span>Create Batch</span>
@@ -179,7 +179,7 @@
         <span>Time table as per the subject on weekly basis.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/archiving">
+    <div class="course-menu-item" routerLink="/view/batch/archiving" *ngIf="jsonFlags.isShowArchiving">
       <div class="menu-title">
         <img src="./assets/images/activity/archive.svg" alt="archiving">
         <span>Archiving</span>

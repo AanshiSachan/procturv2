@@ -12,6 +12,8 @@ export class CourseHomeComponent implements OnInit {
   jsonFlags={
     isShowSetup:false,
     isShowFileManager:false,
+    isShowArchiving:false,
+    isShowModel:false
   }
 
   constructor(   private auth: AuthenticatorService) { }
@@ -40,6 +42,8 @@ export class CourseHomeComponent implements OnInit {
     }
     else if((userType=='3')){
       this.jsonFlags.isShowFileManager = true;
+      this.jsonFlags.isShowModel = false;
+      this.jsonFlags.isShowArchiving = false;
     }
     else{
       if (perm.includes('114')) {

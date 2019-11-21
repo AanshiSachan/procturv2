@@ -23,6 +23,7 @@ export class TopicTreeComponent implements OnInit {
   subjectTempData: any[] = [];
   standardData: any[] = [];
   subjectList: Topic[] = [];
+  teacher_id: any = -1;
   addTopic: Create_Topic = new Create_Topic();
   temp_object: any;
   filterData = {
@@ -41,6 +42,10 @@ export class TopicTreeComponent implements OnInit {
   }
 
   ngOnInit() {
+    let userType: any = sessionStorage.getItem('userType');
+    if(userType == 3){
+    this.teacher_id = sessionStorage.getItem('login_teacher_id');
+  }
     this.getAllStandards();
   }
 
@@ -112,7 +117,7 @@ export class TopicTreeComponent implements OnInit {
 
   // get standard
   getAllStandards() {
-    let url = "/api/v1/standards/all/" + this.institute_id + "?active=Y";
+    let url = "/api/v1/standards/all/" + this.institute_id + "?active=Y" + '&teacher_id=' + this.teacher_id;
     this.isRippleLoad = true;
     this._http.getData(url).subscribe(
       (data: any) => {

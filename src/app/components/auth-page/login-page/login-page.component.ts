@@ -373,7 +373,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('is_student_bulk_upload_byClient', institute_data.is_student_bulk_upload_byClient);
       sessionStorage.setItem('is_student_mgmt_flag', institute_data.is_student_mgmt_flag);
       sessionStorage.setItem('login_student_id', institute_data.login_student_id);
-      sessionStorage.setItem('login_teacher_id', institute_data.login_teacher_id);
+      sessionStorage.setItem('login_teacher_id', institute_data.teacherId);
       sessionStorage.setItem('manual_student_disp_id', institute_data.manual_student_disp_id);
       sessionStorage.setItem('name', institute_data.name);
       sessionStorage.setItem('online_payment_feature', institute_data.online_payment_feature);
