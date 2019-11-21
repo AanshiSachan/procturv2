@@ -28,16 +28,16 @@
         <span>Create and manage courses with ease. Define standards, subjects, and topics as well as schedule classes and exams for the course.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/create/class/add">
+    <div class="course-menu-item" routerLink="/view/course/create/class/add" *ngIf="jsonFlags.isShowClass">
       <div class="menu-title">
         <img src="./assets/images/course/add-class.svg" alt="add class">
-        <span>Add class</span>
+        <span>Add Class</span>
       </div>
       <div class="menu-description">
         <span>Plan and schedule a class</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/create/exam">
+    <div class="course-menu-item" routerLink="/view/course/create/exam" *ngIf="jsonFlags.isShowExam">
       <div class="menu-title">
         <img src="./assets/images/course/add-exam.svg" alt="add exam">
         <span>Add Exam</span>
@@ -125,16 +125,16 @@
         <span>Create and manage batches with ease</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/create/class/add">
+    <div class="course-menu-item" routerLink="/view/batch/create/class/add" *ngIf="jsonFlags.isShowClass">
       <div class="menu-title">
         <img src="./assets/images/course/add-class.svg" alt="add class">
-        <span>Add class</span>
+        <span>Add Class</span>
       </div>
       <div class="menu-description">
         <span> Plan and schedule a class</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/create/exam">
+    <div class="course-menu-item" routerLink="/view/batch/create/exam" *ngIf="jsonFlags.isShowExam">
       <div class="menu-title">
         <img src="./assets/images/course/add-exam.svg" alt="add exam">
         <span>Add Exam</span>
