@@ -99,17 +99,17 @@
       <img src="./assets/images/sidebar/help.svg" title="Help" alt="" (click)="showSubSection('help')">
       <div class="side-section" id="help">
         <div class="side-section-item">
-          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">FAQs</span>
+          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')" ><img src="./assets/images/sidebar/sideMenu/proctur.svg" alt="faqs" class="helpSection">FAQs</span>
         </div>
         <div class="side-section-item">
-          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')">Create Support
+          <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')"><img src="./assets/images/sidebar/sideMenu/support.svg" alt="ticket" class="helpSection">Create Support
             Ticket</span>
         </div>
         <div class="side-section-item">
-          <span (click)="openInNewTab('https://anydesk.com/en/downloads/')">Download Anydesk</span>
+          <span (click)="openInNewTab('https://anydesk.com/en/downloads/')"><img src="./assets/images/sidebar/sideMenu/download.svg" alt="download" class="helpSection">Download Anydesk</span>
         </div>
         <div class="side-section-item">
-          <span>+91 9971839153</span>
+          <span><img src="./assets/images/sidebar/sideMenu/call.svg" alt="phone" class="helpSection">+91 9971839153</span>
         </div>
       </div>
     </div>
@@ -154,13 +154,13 @@
       <img src="./assets/images/sidebar/my-account.svg" title="My Account" alt="" (click)="showSubSection('account')">
       <div class="side-section" id="account">
         <div class="side-section-item">
-          <span (click)="routerLink('/view/account','account')">My Account</span>
+          <span (click)="routerLink('/view/account','account')"><img src="./assets/images/sidebar/sideMenu/account.svg" alt="icon" class="helpSection">My Account</span>
         </div>
         <div class="side-section-item">
           <span (click)="changePasswordClick()">Change Password</span>
         </div>
         <div class="side-section-item">
-          <span (click)="logout()">Logout</span>
+          <span (click)="logout()"><img src="./assets/images/sidebar/sideMenu/logout.svg" alt="icon" class="helpSection">Logout</span>
         </div>
       </div>
     </div>
