@@ -55,7 +55,7 @@
         <span>Manage Storage Of Uploaded And Downloaded Files By Category.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/coursePlanner/class">
+    <div class="course-menu-item" routerLink="/view/course/coursePlanner/class" *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/class-planner.svg" alt="class planner">
         <span>Class Planner</span>
@@ -152,7 +152,7 @@
         <span>Manage Storage Of Uploaded And Downloaded Files By Category.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/coursePlanner/class">
+    <div class="course-menu-item" routerLink="/view/batch/coursePlanner/class" *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/class-planner.svg" alt="class planner">
         <span>Class Planner</span>
@@ -161,7 +161,7 @@
         <span>Plan and manage class for all courses on the go.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/coursePlanner/exam">
+    <div class="course-menu-item" routerLink="/view/batch/coursePlanner/exam" >
       <div class="menu-title">
         <img src="./assets/images/course/exam-planner.svg" alt="exam planner">
         <span>Exam Planner</span>

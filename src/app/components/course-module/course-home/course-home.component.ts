@@ -15,7 +15,8 @@ export class CourseHomeComponent implements OnInit {
     isShowArchiving:false,
     isShowModel:false,
     isShowClass:false,
-    isShowExam:false
+    isShowExam:false,
+    isShowClassPlanner:false
   }
 
   constructor(   private auth: AuthenticatorService) { }
@@ -39,8 +40,10 @@ export class CourseHomeComponent implements OnInit {
    let perm = sessionStorage.getItem('permissions');
    let userType = sessionStorage.getItem('userType');
     if ((userType=='0')&&((perm == null || perm == undefined || perm == ''))){
-      this.jsonFlags.isShowSetup= true;
-      this.jsonFlags.isShowFileManager = true;
+      let array = Object.keys( this.jsonFlags);
+      array.forEach((flag)=>{
+        this.jsonFlags[flag]= true;
+      })
     }
     else if((userType=='3')){
       this.jsonFlags.isShowFileManager = true;
@@ -60,6 +63,9 @@ export class CourseHomeComponent implements OnInit {
       }
       if (perm.includes('702')) {
         this.jsonFlags.isShowExam = true;
+      }
+      if (perm.includes('704')) {
+        this.jsonFlags.isShowClassPlanner = true;
       }
     }
   }
