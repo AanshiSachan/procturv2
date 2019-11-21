@@ -9,7 +9,7 @@ import { CommentTooltipComponent } from './enquiry-home/comment-tooltip.componen
 import { SmsOptionComponent } from './enquiry-home/sms-option.component';
 import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
 import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component';
-import { UserEnquiryComponent } from './enquiry-custom/user-enquiry.component';
+// import { UserEnquiryComponent } from './enquiry-custom/user-enquiry.component';
 import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-sidebar.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 /* Modules */
@@ -42,7 +42,7 @@ import { ClosingReasonService } from '../services/closing-reason.service';
         SmsOptionComponent,
         EnquiryEditComponent,
         EnquiryPopUpComponent,
-        UserEnquiryComponent,
+        // UserEnquiryComponent,
         EnquiryHomeComponent,
         CommentTooltipComponent,
         EnquirySidebarComponent
@@ -50,7 +50,7 @@ import { ClosingReasonService } from '../services/closing-reason.service';
     entryComponents: [
         ActionButtonComponent,
         SmsOptionComponent,
-        UserEnquiryComponent,
+        // UserEnquiryComponent,
         CommentTooltipComponent,
         EnquirySidebarComponent
     ],

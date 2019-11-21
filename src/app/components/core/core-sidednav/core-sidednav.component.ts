@@ -709,7 +709,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     this.login.getInstituteCountryDetails(institute_id).subscribe(
       (res: any) => {
         let country_info = JSON.stringify(res);
-        sessionStorage.setItem('country_data', btoa(country_info));
+        sessionStorage.setItem('country_data', country_info);
       },
       err => {
         console.log(err);

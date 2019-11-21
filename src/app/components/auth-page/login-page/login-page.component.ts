@@ -240,7 +240,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           console.log(res);
           this.checkForAuthOptions(res);
           console.log(res.institution_id);
-          this.getCountryDetails(res.institution_id);
+          if(res.institution_id!=null){
+            this.getCountryDetails(res.institution_id);
+          }          
         },
         err => {
           console.log(err);
@@ -545,6 +547,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.login.postLoginDetails(this.multiInstituteLoginInfo).subscribe(el => {
       //console.log(el);
       this.checkForAuthOptions(el);
+      if(el.institution_id!=null){
+        this.getCountryDetails(el.institution_id);
+      }
     });
   }
 
@@ -595,6 +600,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.login.postLoginDetails(this.multiUserLoginInfo).subscribe(el => {
       //console.log(el);
       this.checkForAuthOptions(el);
+      if(el.institution_id!=null){
+        this.getCountryDetails(el.institution_id);
+      }  
     });
   }
   //END - 7
