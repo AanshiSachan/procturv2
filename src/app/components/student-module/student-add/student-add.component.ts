@@ -30,7 +30,7 @@ export class StudentAddComponent implements OnInit {
   @ViewChild('btnPayment') btnPayment: ElementRef;
   allocatedItem: any = [];
   newPdcArr: any[] = [];
-  // pdcStatus: any[] = [];
+  pdcStatus: any[] = [{ data_key: '1', data_value: 'Pending' }, { data_key: '2', data_value: 'dishonoured' }];
   academicList: any = [];
   chequePdcList: any[] = [];
   savedAssignedBatch: any[] = [];
@@ -2133,8 +2133,10 @@ export class StudentAddComponent implements OnInit {
       cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('YYYY-MM-DD'),
       cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
     }
+    this.isRippleLoad = true;
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
+        this.isRippleLoad = false;
         let temp: any[] = [];
         res.forEach(el => {
           let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: el.cheque_date, cheque_date_from: el.cheque_date_from, cheque_date_to: el.cheque_date_from, cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status: el.cheque_status, cheque_status_key: el.cheque_status_key, clearing_date: el.clearing_date, genAck: el.genAck, institution_id: el.institution_id, sendAck: el.sendAck, student_id: el.student_id, student_name: el.student_name, student_phone: el.student_phone, uiSelected: false };
@@ -2174,14 +2176,17 @@ export class StudentAddComponent implements OnInit {
     this.newPdcArr = [];
     this.genPdcAck = false;
     this.sendPdcAck = false;
+    this.isRippleLoad=true;
     this.postService.addChequePdc(temp).subscribe(
       res => {
+        this.isRippleLoad=false;
         this.chequePdcList = [];
         this.newPdcArr = [];
         this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0 };
         this.getPdcChequeList();
       },
       err => {
+        this.isRippleLoad=false;
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
         this.chequePdcList = [];
         this.getPdcChequeList();
@@ -2210,11 +2215,14 @@ export class StudentAddComponent implements OnInit {
   }
 
   updatePDC(el) {
+    this.isRippleLoad = true;
     if (this.validPdc(el)) {
       let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id };
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
           // this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
+          this.isRippleLoad = false;
+          this.getPdcChequeList();
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.add('displayComp');
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.remove('editComp');
         },

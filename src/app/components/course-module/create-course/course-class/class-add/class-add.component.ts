@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { CheckableSettings } from '@progress/kendo-angular-treeview';
@@ -16,7 +16,7 @@ import { TopicListingService } from '../../../../../services/course-services/top
   // encapsulation: ViewEncapsulation.Emulated
 })
 
-export class ClassAddComponent implements OnInit {
+export class ClassAddComponent implements OnInit ,OnDestroy  {
   public checkedKeys: any[] = [];
   customTable: any = [];
   courseModelStdList: any[] = [];
@@ -235,6 +235,11 @@ export class ClassAddComponent implements OnInit {
     this.checkForCoursePlannerRoute();
     this.getAllWeekDay();
   }
+
+  ngOnDestroy() {
+    sessionStorage.setItem('isFromCoursePlanner',String(false));
+  }
+
 
   checkForCoursePlannerRoute(){
     this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')

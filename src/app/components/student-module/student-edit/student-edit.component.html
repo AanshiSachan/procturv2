@@ -1,4 +1,4 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 
 <section class="middle-section homewrap clearFix">
@@ -1506,14 +1506,14 @@
                   {{ch.cheque_status}}
                 </li>
                 <li class="edit-comp">
-                    {{ch.cheque_status}}
-                  <!-- <div class="field-wrapper">
+                    <!-- {{ch.cheque_status}} -->
+                  <div class="field-wrapper">
                     <select id="" class="form-ctrl" name="" [(ngModel)]="ch.cheque_status_key">
                       <option *ngFor="let opt of pdcStatus" [value]="opt.data_key" [hidden]="opt.data_key == '3'">
                         {{opt.data_value}}
                       </option>
                     </select>
-                  </div> -->
+                  </div>
                 </li>
 
                 <!-- Action -->

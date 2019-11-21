@@ -14,6 +14,7 @@
                 </div>
             </div>
 
+        <div *ngIf="isLangInstitue">
             <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="isLangInstitue">
                 <div class="field-wrapper">
                     <label>Master Course</label>
@@ -41,8 +42,43 @@
             <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top:15px;">
                 <button class="btn fullBlue" (click)="onGoBtnClick()">Go</button>
             </div>
-
         </div>
+
+        <div *ngIf="!isLangInstitue">
+                <!-- <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isLangInstitute">
+                        <div class="field-wrapper">
+                          <label for="smc">Select Master Course
+                          </label>
+                          <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course"
+                            (ngModelChange)="updateCourseList($event)">
+                            <option value="-1"></option>
+                            <option [value]="master.master_course" *ngFor="let  master of masterCourse">
+                              {{master.master_course}}
+                            </option>
+                          </select>
+                        </div>
+                      </div> -->
+    
+                      <!-- <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isLangInstitute">
+                        <div class="field-wrapper">
+                          <label for="sc">Select Course
+                          </label>
+                          <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="updateSubjectList($event)">
+                            <option value="-1"></option>
+                            <option [value]="course.course_id" *ngFor="let course of courseList.coursesList">
+                              {{course.course_name}}
+                            </option>
+                          </select>
+                        </div>
+                      </div> -->
+    
+    
+    
+                <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top:15px;">
+                    <button class="btn fullBlue" (click)="onGoBtnClick()">Go</button>
+                </div>
+            </div>
+    </div>
 
     </div>
 
@@ -101,3 +137,6 @@
         </table>
     </div>
 </section>
+<div style="margin-top: 1%;margin-left: 2%;">
+Total students : {{studentList.length}}
+</div>

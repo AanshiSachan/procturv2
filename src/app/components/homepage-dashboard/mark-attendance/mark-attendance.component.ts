@@ -537,8 +537,8 @@ export class MarkAttendanceComponent implements OnInit {
 
   backToHome() {
     sessionStorage.setItem('batch_info', '');
-    let coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
-    if(coursePlannerStatus){
+    let coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner');
+    if(coursePlannerStatus=='true'){
       this.router.navigate(['/view/activity/coursePlanner']);
     }
     else{

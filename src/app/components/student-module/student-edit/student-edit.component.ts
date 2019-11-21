@@ -86,7 +86,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   inventoryItemsArr: any[] = [];
   newPdcArr: any[] = [];
   chequePdcList: any[] = [];
-  // pdcStatus: any[] = [];
+  pdcStatus: any[] = [{ data_key: '1', data_value: 'Pending' }, { data_key: '2', data_value: 'dishonoured' }];
   studentPartialPaymentData: any[] = [];
   paymentStatusArr: any[] = [];
   allocatedInventoryHistory: any[] = [];
@@ -2375,6 +2375,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         res => {
           this.isRippleLoad = false;
           // this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
+          this.getPdcChequeList();
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.add('displayComp');
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.remove('editComp');
         },

@@ -371,7 +371,6 @@ export class SideBarComponent implements OnInit {
     this.isLibraryFeatureAllow(permission); // check librabry feature
     this.isOnlineExamAllow(type); // check online test is enable or not 
     this.isLiveClassesAllow(type);
-    this.hasLibrary();
     /* Admin or Custom login */
     if (userType == 0) {
       /* admin detected */
@@ -429,6 +428,8 @@ export class SideBarComponent implements OnInit {
     if ((username == "admin" && this.instituteId == 100127) ||
       (username == "admin" && this.instituteId == 101077) ||
       (username == "admin" && this.instituteId == 101223) ||
+      (username == "admin" && this.instituteId == 100058) ||
+      (username == "admin" && this.instituteId == 100952) ||
       (permission && permission.indexOf('721') != -1)) {
       this.jsonFlags.isShowLibrabry = true;
     }
@@ -528,18 +529,6 @@ export class SideBarComponent implements OnInit {
       this.jsonFlags[object] = false;
     })
     document.getElementById('lizero').classList.add('active');
-  }
-
-  hasLibrary() {
-    const permissionArray = sessionStorage.getItem('permissions');
-    let username = sessionStorage.getItem('username');
-    if (
-      ((username == "admin" && this.instituteId == 100127) ||
-        (username == "admin" && this.instituteId == 100952)) ||
-      (username == "admin" && this.instituteId == 100058) ||
-      (permissionArray && permissionArray.indexOf('721') != -1)) {
-      this.jsonFlags.isShowLibrabry = true;
-    }
   }
 
   hasLead(permissions) {

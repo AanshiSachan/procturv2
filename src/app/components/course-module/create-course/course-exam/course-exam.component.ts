@@ -139,7 +139,7 @@ export class CourseExamComponent implements OnInit {
   public hasChildren;
   public isExpanded;
 
-  coursePlannerStatus: any;
+  coursePlannerStatus: any = false;
 
   constructor(
     private apiService: ExamCourseService,

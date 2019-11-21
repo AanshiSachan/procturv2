@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit ,ChangeDetectorRef} from '@angular/core';
 import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
 import { AppComponent } from '../../../../app.component';
+import { Router } from '@angular/router';
+import * as moment from 'moment';
+import { HttpService} from '../../../../services/http.service';
+declare var $;
 
 @Component({
   selector: 'app-students-archived-report',
@@ -28,11 +31,17 @@ export class StudentsArchivedReportComponent implements OnInit {
   sortedBy: string = "";
   direction = 0;
   arr: any = [];
+  stdetchForm: any = {
+    from_date: moment().format("YYYY-MM-") + moment().daysInMonth(),
+    to_date: moment(new Date()).format('YYYY-MM-DD')
+  }
 
 
   constructor(private students: CoursesServiceService,
     private appc: AppComponent,
-    private router: Router
+    private router: Router,
+    private _http: HttpService,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -61,6 +70,67 @@ export class StudentsArchivedReportComponent implements OnInit {
       }
     )
   }
+
+  showDownloadDetails(){
+    this.stdetchForm = {
+      from_date: moment().format("YYYY-MM-01"),
+      to_date: moment(new Date()).format('YYYY-MM-DD')
+    }
+    $("#actionProductModal").modal({
+      backdrop: 'static',
+      keyboard: false,
+      show: true
+    });
+  }
+
+
+  fetchArchivedListDetails(){
+        let url = "/api/v1/reports/StdFee/archived_inactive?institute_id=" + sessionStorage.getItem('institute_id');
+        if((this.stdetchForm.to_date !='' &&this.stdetchForm.from_date !='')){
+            url = url+'&&from_date='+moment(this.stdetchForm.from_date).format('YYYY-MM-DD');
+            url = url+'&&to_date='+moment(this.stdetchForm.to_date).format('YYYY-MM-DD');
+        }
+        this.isRippleLoad = true;
+        this._http.getData(url).subscribe((res: any) => {
+          console.log("fetchArchivedListDetails", res);
+          this.isRippleLoad = false;
+          if(res.validate){
+            let result = res.result;
+            let byteArr = this.convertBase64ToArray(result.document);
+            let fileName = result.docTitle;
+            let file = new Blob([byteArr], { type: 'application/vnd.ms-excel' });
+            let url = URL.createObjectURL(file);
+            let dwldLink = document.getElementById('archived_download');
+            this.cd.markForCheck();
+            dwldLink.setAttribute("href", url);
+            dwldLink.setAttribute("download", fileName);
+            document.body.appendChild(dwldLink);
+            this.cd.markForCheck();
+            dwldLink.click();
+            this.cd.markForCheck();
+          } 
+
+        }, err => {
+          this.isRippleLoad = false;
+          let msg = {
+            type: "error",
+            body:err.error.message
+          }
+          this.appc.popToast(msg);
+          $("#actionProductModal").modal('hide');
+        });
+
+  }
+
+     /* Converts base64 string into a byte[] */
+     convertBase64ToArray(val) {
+      var binary_string = window.atob(val);
+      var len = binary_string.length;
+      var bytes = new Uint8Array(len);
+      for (var i = 0; i < len; i++) { bytes[i] = binary_string.charCodeAt(i); }
+      return bytes.buffer;
+  }
+
 
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {

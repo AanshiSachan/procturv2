@@ -1,3 +1,7 @@
+  
+@import "./src/assets/css/common/variables.scss";
+@import "./src/assets/css/common/common-web.scss";
+
 $color-base: #efefef;
 $color-base: #efefef;
 $color-highlight: lighten($color-base,
@@ -19,4 +23,9 @@ $color-highlight: lighten($color-base,
         background: linear-gradient(90deg, $color-base, $color-highlight, $color-base);
         animation: progress 1s ease-in-out infinite;
     }
+}
+
+.btn_cancel{
+    border-radius: 4px;  
+    padding: 4px 10px;
 }
