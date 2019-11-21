@@ -100,7 +100,7 @@
                                <span class="text-danger">*</span>
                             </label>
                             <input type="text" value="" id="reqDate" class="form-ctrl bsDatepicker" [(ngModel)]="courseData.requested_date" readonly="true"
-                                name="reqDate" bsDatepicker>
+                                name="reqDate" bsDatepicker style="z-index: 1;">
 
                         </div>
 
@@ -297,8 +297,8 @@
                 </div>
 
                 <div class="row btn-Group">
-                  <div class="pull-left">
-                    <button type="button" class="btn" Style="margin-left: 0px;" name="button" routerLink="/view/activity/coursePlanner" *ngIf="coursePlannerStatus">Back to Course Planner</button>
+                  <div class="pull-left" style="margin-left: 7%">
+                    <button type="button" class="btn" Style="margin-left: 0px;" name="button" routerLink="/view/course/coursePlanner/exam" *ngIf="coursePlannerStatus">Back to Exam Planner</button>
                   </div>
                     <button class="btn fullBlue pull-right" *ngIf="examSchedule.length > 0" [disabled]="isRippleLoad" (click)="addDataToExamSchedule()">Create Exam Schedule</button>
                     <!-- <button class="btn fullBlue pull-right" *ngIf="examScheduleData.otherSchd.length !=0" (click)="addDataToExamSchedule()">Update</button> -->
@@ -764,8 +764,8 @@
                     </div>
                   </div>
                     <div class="row" style="padding-right:25px;" class="save_btn_container" >
-                      <div class="pull-left">
-                        <button type="button" class="btn" Style="margin-left: 0px;" name="button" routerLink="/view/activity/coursePlanner" *ngIf="coursePlannerStatus">Back to Course Planner</button>
+                      <div class="pull-left" style="margin-left: 7%">
+                        <button type="button" class="btn" Style="margin-left: 0px;" name="button" routerLink="/view/course/coursePlanner/exam" *ngIf="coursePlannerStatus">Back to Exam Planner</button>
                       </div>
                       <div class="pull-right">
                         <button class="btn fullBlue pull-right" (click)="saveExamScheduleCourse()" [disabled]="multiClickDisabled">Save</button>

@@ -63,6 +63,7 @@ export class OnlinePaymentHistoryComponent implements OnInit {
     private excelService:ExcelService) { }
 
   ngOnInit() {
+    window.scroll(0,0);
     this.getAllPaymentRecords();
   }
 // ============================================================================

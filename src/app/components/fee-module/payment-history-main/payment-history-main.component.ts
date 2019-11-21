@@ -129,6 +129,7 @@ export class PaymentHistoryMainComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.scroll(0,0);
     this.getAllPaymentHistory();
 
     if (sessionStorage.getItem('permissions')) {

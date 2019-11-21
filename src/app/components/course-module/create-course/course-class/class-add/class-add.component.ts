@@ -191,7 +191,7 @@ export class ClassAddComponent implements OnInit {
 
   multiClickDisabled: boolean = false;
   coursePlannerStatus: any;
-
+  
   constructor(
     private router: Router,
     private login: LoginService,
