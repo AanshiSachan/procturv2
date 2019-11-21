@@ -1500,6 +1500,62 @@
 
   </proctur-widget>
 
+  <proctur-widget *ngIf="viewExamDetailsPopUp">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeExamViewDetailsPopUp()" close-button>
+      <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+        <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+      </svg>
+    </span>
+
+    <h2 widget-header>Exam Details
+      <span style="font-weight: 600;color: #9b9b9b;">{{selectedViewDet.master_course}}</span>
+      <span style="font-weight: 600;color: #9b9b9b;">→</span>
+      <span style="font-weight: 600;color: #9b9b9b;">{{selectedViewDet.course_name}}</span>
+     </h2>
+
+    <div class="viewDeatail-wrapper" widget-content>
+      <div class="table-details-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Marks</th>
+              <th>Topic</th>
+              <th>Description</th>
+              <th>Room No</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of viewExamDetTable">
+              <td>{{data.subject_name}}</td>
+              <td>{{data.start_time}}</td>
+              <td>{{data.end_time}}</td>
+              <td>{{data.total_marks}}</td>
+              <td>{{data.topic_name}}</td>
+              <td>{{data.exam_description}}</td>
+              <td>{{data.room_no}}</td>
+            </tr>
+            <tr *ngIf="viewExamDetTable.length == 0">
+              <td colspan="7">
+                No Classes Found
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="" widget-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Close" class="btn" (click)="closeExamViewDetailsPopUp()">
+        </aside>
+      </div>
+    </div>
+
+  </proctur-widget>
   <!-- Exam Popup Section -->
   <!-- Exam Popup Section -->
   <!-- Exam Popup Section -->

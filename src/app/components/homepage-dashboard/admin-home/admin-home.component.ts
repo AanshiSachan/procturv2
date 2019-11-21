@@ -12,6 +12,7 @@ import { SelectItem } from 'primeng/components/common/api';
 import { WidgetService } from '../../../services/widget.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { BiometricStatusServiceService } from '../../../services/biometric-status/biometric-status-service.service';
+import { HttpService } from '../../../services/http.service';
 // import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
@@ -39,6 +40,7 @@ export class AdminHomeComponent implements OnInit {
   courseList: any = [];
   studentList: any = [];
   viewDetTable: any = [];
+  viewExamDetTable: any = [];
   settingInfo: any = [];
   gradesList: any = [];
   openMessageList: any = [];
@@ -47,14 +49,15 @@ export class AdminHomeComponent implements OnInit {
   public teacher_id: number = -1;
   public home_work_notifn: number = 0;
   public topics_covered_notifn: number = 0;
-
-  storageData: any = {
-    vDOCipher_allocated_bandwidth: 0,
-    vDOCipher_allocated_storage: 0,
-    vDOCipher_used_storage: 0,
-    vDOCipher_used_bandwidth: 0,
-    storage_allocated: 0
+  storageData:any={
+    vDOCipher_allocated_bandwidth:0,
+    vDOCipher_allocated_storage:0,
+    vDOCipher_used_storage:0,
+    vDOCipher_used_bandwidth:0,
+    storage_allocated:0
   };
+
+
   public schedStat: any = {};
   public grid: any;
   is_notified: any = 'Y';
@@ -77,8 +80,10 @@ export class AdminHomeComponent implements OnInit {
   biometricEnable: string = "0";
   newMessageText: string = "";
   messageCount: number = 0;
-  userType:number=0;
+  userType : any = ''; 
+
   courseCommonExamCancelPopUP = false;
+
   isCourseAttendance: boolean = false;
   isCourseCancel: boolean = false;
   isCourseReminder: boolean = false;
@@ -109,6 +114,7 @@ export class AdminHomeComponent implements OnInit {
   biometricWidget: boolean;
   cancelExamPopUP: boolean = false;
   viewDetailsPopUp: boolean = false;
+  viewExamDetailsPopUp: boolean = false;
   classScheduleCount: number = 0;
   absentCount: number = 0;
   presentCount: number = 0;
@@ -170,7 +176,8 @@ export class AdminHomeComponent implements OnInit {
     private enquiryService: FetchenquiryService,
     private widgetService: WidgetService,
     private auth: AuthenticatorService,
-    private biometric: BiometricStatusServiceService
+    private biometric: BiometricStatusServiceService,
+    private httpService: HttpService
   ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
@@ -194,21 +201,20 @@ export class AdminHomeComponent implements OnInit {
     )
 
     this.checkForSubjectWiseView();
-    this.onChanged('subject'); // select subject by default
 
     this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
-    this.userType = Number(sessionStorage.getItem('userType'));
+    this.userType =  Number(sessionStorage.getItem('userType'));
     let username = sessionStorage.getItem('username');
     let permissionArraypermissions: any = [];
     if(this.userType == 0 && username == "admin"){
       this.userTypeForExpenses = false;
     }
-    else if (this.permissionArray && (this.permissionArray.includes("715") || this.permissionArray.includes("716"))) {
+    else if( this.permissionArray && (this.permissionArray.includes("715") || this.permissionArray.includes("716"))){
       this.userTypeForExpenses = false;
     }
-    else {
+    else{
       this.userTypeForExpenses = true;
     }
 
@@ -235,20 +241,20 @@ export class AdminHomeComponent implements OnInit {
     this.fetchWidgetPrefill();
   }
 
-  checkForSubjectWiseView() {
+  checkForSubjectWiseView(){
     let subjectView = sessionStorage.getItem('isSubjectView');
     let scheduleDate = sessionStorage.getItem('scheduleDate');   // For schedule date from session storage
-    if (subjectView == 'true') {
+    if(subjectView == 'true'){
       this.onChanged('subject');
       this.schedDate[0] = new Date(scheduleDate);
       this.schedDate[1] = new Date(scheduleDate);
     }
-    else if (subjectView == 'false') {
-      if (this.isProfessional) {
+    else if(subjectView == 'false'){
+      if(this.isProfessional){
         this.schedDate[0] = new Date(scheduleDate);
         this.schedDate[1] = new Date(scheduleDate);
       }
-      else {
+      else{
         this.courseLevelSchedDate = new Date(scheduleDate);
       }
     }
@@ -256,22 +262,6 @@ export class AdminHomeComponent implements OnInit {
     sessionStorage.setItem('scheduleDate', '');
   }
 
-
-  getStorageData() {
-    this.widgetService.getAllocatedStorageDetails().subscribe(
-      res => {
-        this.storageData = res;
-        this.storageData.storage_allocated = (Number(this.storageData.storage_allocated) / 1024).toFixed(3);
-        this.storageData.vDOCipher_allocated_bandwidth = (Number(this.storageData.vDOCipher_allocated_bandwidth) / 1024).toFixed(3);
-        this.storageData.vDOCipher_used_bandwidth = (Number(this.storageData.vDOCipher_used_bandwidth) / 1024).toFixed(3);
-        this.storageData.vDOCipher_allocated_storage = (Number(this.storageData.vDOCipher_allocated_storage) / 1024).toFixed(3);
-        this.storageData.vDOCipher_used_storage = (Number(this.storageData.vDOCipher_used_storage) / 1024).toFixed(3);
-      },
-      err => {
-        //console.log(err);
-      }
-    )
-  }
 
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -295,10 +285,27 @@ export class AdminHomeComponent implements OnInit {
     )
 
     this.fetchScheduleWidgetData();
-    this.getStorageData()
+    this.getStorageData();
 
   }
 
+  getStorageData() {
+    this.widgetService.getAllocatedStorageDetails().subscribe(
+        res => {
+          if(res){
+            this.storageData = res;
+            this.storageData.storage_allocated = (Number(this.storageData.storage_allocated) / 1024).toFixed(3);   
+            this.storageData.vDOCipher_allocated_bandwidth = (Number(this.storageData.vDOCipher_allocated_bandwidth) / 1024).toFixed(3);
+            this.storageData.vDOCipher_used_bandwidth = (Number(this.storageData.vDOCipher_used_bandwidth) / 1024).toFixed(3);
+            this.storageData.vDOCipher_allocated_storage = (Number(this.storageData.vDOCipher_allocated_storage) / 1024).toFixed(3);
+            this.storageData.vDOCipher_used_storage = (Number(this.storageData.vDOCipher_used_storage) / 1024).toFixed(3);
+          }
+            },
+        err => {
+            //console.log(err);
+        }
+    )
+}
   recieveData(event) {
     if (event.length == 1) {
       this.ref.nativeElement.className = "dataFirst";
@@ -356,6 +363,11 @@ export class AdminHomeComponent implements OnInit {
       });
   }
 
+  
+  checkVdoCipherRole() {
+    return sessionStorage.getItem('enable_vdoCipher_feature') == '1' ? false : true;
+  }
+  
   getCheckedStatus(id: string) {
     if (id === "notifyCancel") {
       return true;
@@ -436,25 +448,25 @@ export class AdminHomeComponent implements OnInit {
 
   initiateMarkAttendance(i, selected, subject_id, topics_covered) {
     let obj = {
-      batch_id: selected.batch_id,
-      schd_id: selected.schd_id,
-      batch_name: selected.batch_name,
-      subject_id: subject_id,
-      topics_covered: topics_covered,
-      course_name: selected.course_name,
-      master_course_name: selected.master_course_name,
-      forCourseWise: false,
-      forSubjectWise: true,
-      isExam: false,
-      is_attendance_marked: selected.is_attendance_marked
-    }
+        batch_id: selected.batch_id,
+        schd_id: selected.schd_id,
+        batch_name: selected.batch_name,
+        subject_id: subject_id,
+        topics_covered: topics_covered,
+        course_name: selected.course_name,
+        master_course_name: selected.master_course_name,
+        forCourseWise: false,
+        forSubjectWise: true,
+        isExam: false,
+        is_attendance_marked: selected.is_attendance_marked
+      }
     let batch_info = JSON.stringify(obj)
     sessionStorage.setItem('batch_info', btoa(batch_info));
     sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
-    if (this.isSubjectView || this.isProfessional) {
+    if(this.isSubjectView || this.isProfessional){
       sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
     }
-    else {
+    else{
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
     this.router.navigate(['/view/home/mark-attendance']);
@@ -1086,23 +1098,23 @@ export class AdminHomeComponent implements OnInit {
   initiateCourseMarkAttendance(i, selected) {
 
     let obj = {
-      course_id: selected.course_ids,
-      startdate: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
-      batch_name: selected.coursee_names,
-      forCourseWise: true,
-      forSubjectWise: false,
-      course_name: selected.coursee_names,
-      master_course_name: selected.master_course,
-      isExam: false,
-      is_attendance_marked: selected.is_attendance_marked
-    }
+        course_id: selected.course_ids,
+        startdate: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
+        batch_name: selected.coursee_names,
+        forCourseWise: true,
+        forSubjectWise: false,
+        course_name: selected.coursee_names,
+        master_course_name: selected.master_course,
+        isExam: false,
+        is_attendance_marked: selected.is_attendance_marked
+      }
     let batch_info = JSON.stringify(obj);
     sessionStorage.setItem('batch_info', btoa(batch_info));
     sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
-    if (this.isSubjectView || this.isProfessional) {
+    if(this.isSubjectView || this.isProfessional){
       sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
     }
-    else {
+    else{
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
     this.router.navigate(['/view/home/mark-attendance']);
@@ -1237,7 +1249,7 @@ export class AdminHomeComponent implements OnInit {
         let msg = {
           type: 'success',
           title: 'Reminder Sent',
-          body: 'Students have been notified'
+          body: 'The student have been notified'
         }
         this.appC.popToast(msg);
         this.reminderRemarks = "";
@@ -1503,10 +1515,12 @@ export class AdminHomeComponent implements OnInit {
   }
 
   onMasterCourseChange(event) {
+    if(this.userType!=3){
     document.getElementById('chkBoxActiveSelection').checked = false;
     document.getElementById('chkBoxTutorSelection').checked = false;
     document.getElementById('chkBoxInActiveSelection').checked = false;
     document.getElementById('chkBoxAluminiSelection').checked = false;
+    }
     this.flushData();
     if (this.sendNotificationCourse.master_course != "-1") {
       this.isRippleLoad = true;
@@ -1575,25 +1589,25 @@ export class AdminHomeComponent implements OnInit {
     this.addNotification = true;
   }
 
-  hasUnicode(str) {
+  hasUnicode (str) {
     for (var i = 0; i < str.length; i++) {
-      if (str.charCodeAt(i) > 127) return true;
+        if (str.charCodeAt(i) > 127) return true;
     }
     return false;
   }
-  countNumberOfMessage() {
+  countNumberOfMessage(){
     let uniCodeFlag = this.hasUnicode(this.newMessageText);
     let charLimit = 160;
-    if (uniCodeFlag) {
+    if(uniCodeFlag){
       charLimit = 70
     }
-    if (this.newMessageText.length == 0) {
+    if(this.newMessageText.length == 0){
       this.messageCount = 0;
     }
-    else if (this.newMessageText.length > 0 && this.newMessageText.length <= charLimit) {
+    else if(this.newMessageText.length > 0 && this.newMessageText.length <= charLimit){
       this.messageCount = 1;
     }
-    else {
+    else{
       let count = Math.ceil(this.newMessageText.length / charLimit);
       console.log(count);
       this.messageCount = count;
@@ -1705,10 +1719,12 @@ export class AdminHomeComponent implements OnInit {
   }
 
   onMasterCourseSelection(event) {
+    if(this.userType!=3){
     document.getElementById('chkBoxActiveSelection').checked = false;
     document.getElementById('chkBoxTutorSelection').checked = false;
     document.getElementById('chkBoxInActiveSelection').checked = false;
     document.getElementById('chkBoxAluminiSelection').checked = false;
+    }
     this.batchList = [];
     this.courseList = [];
     this.showTableFlag = false;
@@ -1719,10 +1735,12 @@ export class AdminHomeComponent implements OnInit {
   }
 
   onCourseSelection(event) {
+    if(this.userType!=3){
     document.getElementById('chkBoxActiveSelection').checked = false;
     document.getElementById('chkBoxTutorSelection').checked = false;
     document.getElementById('chkBoxInActiveSelection').checked = false;
     document.getElementById('chkBoxAluminiSelection').checked = false;
+    }
     this.showTableFlag = false;
     this.batchList = [];
     this.sendNotification.batch_id = "-1";
@@ -1730,10 +1748,12 @@ export class AdminHomeComponent implements OnInit {
   }
 
   fetchDataOnBatchBasis(event) {
+    if(this.userType!=3){
     document.getElementById('chkBoxActiveSelection').checked = false;
     document.getElementById('chkBoxTutorSelection').checked = false;
     document.getElementById('chkBoxInActiveSelection').checked = false;
     document.getElementById('chkBoxAluminiSelection').checked = false;
+    }
     if (this.sendNotification.batch_id == "-1") {
       this.showTableFlag = false;
     } else {
@@ -2213,33 +2233,26 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  sendSmsForApp(value, delivery_mode) {
-    let type = delivery_mode==0?'SMS':'Email';
-    let msg = "Are you sure you want to send "+type+' to selected users';
-    if (confirm(msg)) {
+  sendSmsForApp(value) {
+    if (confirm("Are you sure you want to send SMS to selected users?")) {
       let obj = {
         app_sms_type: Number(value),
         studentArray: this.getListOfIds('student_id'),
         userArray: this.getListOfIds('user_id'),
-        user_role: this.loginField.checkBox,
-        delivery_mode: delivery_mode
+        user_role: this.loginField.checkBox
       };
       obj.studentArray = obj.studentArray.split(",");
       obj.userArray = obj.userArray.split(",");
-      this.isRippleLoad = true;
       this.widgetService.smsForAddDownload(obj).subscribe(
         res => {
-          this.isRippleLoad = false;
-          let tempMsg=type+' Send Successfully';
           let msg = {
             type: 'success',
-            title: '',
-            body: tempMsg
+            title: 'Message',
+            body: "Send Successfully"
           };
           this.appC.popToast(msg);
         },
         err => {
-          this.isRippleLoad = false;
           //console.log(err);
           let msg = {
             type: 'error',
@@ -2272,10 +2285,55 @@ export class AdminHomeComponent implements OnInit {
     this.getDetailOfMasterCourse(data);
   }
 
+  viewExamDetails(index, data) {
+    this.selectedViewDet = data;
+    let id = Number(data.course_exam_schedule_id);
+    this.viewExamDetailsPopUp = true;
+    const url = `/api/v1/courseExamSchedule/fetch-exam-details?course_exam_schedule_id=${id}&exam_date=${data.course_exam_date}`
+    this.isRippleLoad = true;
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.isRippleLoad = false;
+          // let arr = this.constructExamJSONForTable(res.result);
+          this.viewExamDetTable = res.result;
+      },
+      err => {
+        this.isRippleLoad = false;
+        //console.log(err);
+      }
+    )
+  }
+
+  closeExamViewDetailsPopUp() {
+    this.viewExamDetailsPopUp = false;
+    this.viewExamDetTable = [];
+  }
+  // constructExamJSONForTable(data) {
+  //   let arr: any = [];
+  //   if (data != null) {
+  //     for (let i = 0; i < data.length; i++) {
+  //           let obj: any = {};
+  //           obj.class_schedule_id = data[i].course_exam_schedule_id;
+  //           obj.start_time = data[i].start_time;
+  //           obj.end_time = data[i].end_time;
+  //           obj.subject_name = data[i].subject_name;
+  //           obj.marks = data[i].total_marks;
+  //           obj.exam_desc = data[i].exam_description;
+  //           obj.room_no = data[i].room_no;
+  //           obj.batch_id = data[i].batch_id;
+  //           obj.topic_name = data[i].topic_name;
+  //           obj.exam_date = data[i].exam_date;
+  //           arr.push(obj);
+  //     }
+  //   }
+  //   return arr;
+  // }
+
   closeViewDetailsPopUp() {
     this.viewDetailsPopUp = false;
     this.viewDetTable = [];
   }
+
 
   getDetailOfMasterCourse(data) {
     this.viewDetTable = [];
@@ -2386,12 +2444,9 @@ export class AdminHomeComponent implements OnInit {
     this.getTotalCountForCourse(this.courseLevelStudentAtt);
   }
 
-  checkVdoCipherRole() {
-    return sessionStorage.getItem('enable_vdoCipher_feature') == '1' ? false : true;
-  }
-
   checkRoleMAnagement(id) {
-    if (this.userType != 3) {
+    let userType: any = Number(sessionStorage.getItem('userType'));
+    if (userType != 3) {
       let permissionArray = sessionStorage.getItem('permissions');
       if (permissionArray == "" || permissionArray == null) {
         return false;
@@ -2532,10 +2587,10 @@ export class AdminHomeComponent implements OnInit {
     let batch_info = JSON.stringify(obj);
     sessionStorage.setItem('batch_info', btoa(batch_info));
     sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
-    if (this.isSubjectView || this.isProfessional) {
+    if(this.isSubjectView || this.isProfessional){
       sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
     }
-    else {
+    else{
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
     this.router.navigate(['/view/home/mark-attendance']);
@@ -2777,7 +2832,7 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.sendReminder(obj).subscribe(
         res => {
           this.isRippleLoad = false;
-          this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfully');
+          this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
         },
         err => {
           this.isRippleLoad = false;
@@ -2792,15 +2847,15 @@ export class AdminHomeComponent implements OnInit {
 
   examMarksUpdate(data) {
     let obj = {
-      data: data
-    }
+        data: data
+      }
     let exam_info = JSON.stringify(obj)
     sessionStorage.setItem('exam_info', btoa(exam_info));
     sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
-    if (this.isSubjectView || this.isProfessional) {
+    if(this.isSubjectView || this.isProfessional){
       sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
     }
-    else {
+    else{
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
     this.router.navigate(['/view/home/exam-marks-batch']);
@@ -2983,23 +3038,23 @@ export class AdminHomeComponent implements OnInit {
 
   markAttendanceExamCourse(exam) {
     let obj = {
-      course_exam_schedule_id: exam.course_exam_schedule_id,
-      course_name: exam.course_name,
-      master_course_name: exam.master_course,
-      batch_name: exam.course_name,
-      forCourseWise: true,
-      forSubjectWise: false,
-      isExam: true,
-      schedDate: moment(this.courseLevelSchedDate).format('YYYY-MM-DD'),
-      is_attendance_marked: exam.is_attendance_marked
-    }
+        course_exam_schedule_id: exam.course_exam_schedule_id,
+        course_name: exam.course_name,
+        master_course_name: exam.master_course,
+        batch_name: exam.course_name,
+        forCourseWise: true,
+        forSubjectWise: false,
+        isExam: true,
+        schedDate: moment(this.courseLevelSchedDate).format('YYYY-MM-DD'),
+        is_attendance_marked: exam.is_attendance_marked
+      }
     let batch_info = JSON.stringify(obj);
     sessionStorage.setItem('batch_info', btoa(batch_info));
     sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
-    if (this.isSubjectView || this.isProfessional) {
+    if(this.isSubjectView || this.isProfessional){
       sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
     }
-    else {
+    else{
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
     this.router.navigate(['/view/home/mark-attendance']);
@@ -3145,15 +3200,15 @@ export class AdminHomeComponent implements OnInit {
 
   examMarksUpdateCourse(data) {
     let obj = {
-      data: data
-    }
+        data: data
+      }
     let exam_info = JSON.stringify(obj);
     sessionStorage.setItem('exam_info', btoa(exam_info));
     sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
-    if (this.isSubjectView || this.isProfessional) {
+    if(this.isSubjectView || this.isProfessional){
       sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
     }
-    else {
+    else{
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
     this.router.navigate(['/view/home/exam-marks']);
@@ -3175,7 +3230,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateMarksOnServerCourse(type) {
-    if (this.examMarksLevel == 0) {
+    if (this.examMarksLevel == 0 ) {
       this.messageNotifier('error', 'Error', 'Please provide marks updation level');
       return;
     }
@@ -3371,26 +3426,26 @@ export class AdminHomeComponent implements OnInit {
       return false;
     }
     // if (this.showReasonSection == "Course") {
-    let obj = {
-      cancel_reason: this.cancelPopUpData.reason,
-      course_exam_schedule_id: this.tempData.course_exam_schedule_id,
-      course_id: this.tempData.course_id,
-      is_cancel_notify: notify,
-      requested_date: moment(this.tempData.course_exam_date).format('YYYY-MM-DD')
-    }
-    this.isRippleLoad = true;
-    this.widgetService.cancelExamScheduleCourse(obj).subscribe(
-      res => {
-        this.isRippleLoad = false;
-        this.messageNotifier('success', 'Cancelled', 'Exam Cancelled Successfully');
-        this.generateCourseLevelWidget();
-        this.closePopUpCommon();
-      },
-      err => {
-        this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+      let obj = {
+        cancel_reason: this.cancelPopUpData.reason,
+        course_exam_schedule_id: this.tempData.course_exam_schedule_id,
+        course_id: this.tempData.course_id,
+        is_cancel_notify: notify,
+        requested_date: moment(this.tempData.course_exam_date).format('YYYY-MM-DD')
       }
-    )
+      this.isRippleLoad = true;
+      this.widgetService.cancelExamScheduleCourse(obj).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.messageNotifier('success', 'Cancelled', 'Exam Cancelled Successfully');
+          this.generateCourseLevelWidget();
+          this.closePopUpCommon();
+        },
+        err => {
+          this.isRippleLoad = false;
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
     // } else {
     //   let obj: any = {
     //     batch_id: this.tempData.batch_id,
@@ -3475,10 +3530,10 @@ export class AdminHomeComponent implements OnInit {
 
   updateMessage() {
     let obj = { message: this.newMessageText };
-    this.isRippleLoad = true;
-    this.widgetService.changesSMSStatus(obj, this.jsonFlag.messageObject.message_id).subscribe(
+    this.isRippleLoad=true;
+    this.widgetService.changesSMSStatus(obj,this.jsonFlag.messageObject.message_id ).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.isRippleLoad=false;
         let msg = {
           type: 'success',
           title: 'Message updated Successfully',
@@ -3488,7 +3543,7 @@ export class AdminHomeComponent implements OnInit {
         this.onTabChange(this.jsonFlag.smsTabType);// as per view it get the sms data --laxmi
       },
       err => {
-        this.isRippleLoad = false;
+        this.isRippleLoad=false;
         //console.log(err);
         let msg = {
           type: 'error',
@@ -3575,7 +3630,7 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  showExpensesList() {
+  showExpensesList(){
     if (this.showExpenses) {
       this.showExpenses = false;
     }
@@ -3584,11 +3639,11 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  countRemarksLimit() {
+  countRemarksLimit(){
     this.remarksLimit = 50 - this.reminderRemarks.length;
   }
 
-  closeShowList() {
+  closeShowList(){
     this.showList();
   }
 
