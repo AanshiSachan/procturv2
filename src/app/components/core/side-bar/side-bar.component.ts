@@ -234,13 +234,21 @@ export class SideBarComponent implements OnInit {
 
   setActiveClassOnSideNav() {
     // this.RemoveActiveTabs();
-    let url: string = window.location.href;
-    let pathLastURL = url.substring(url.lastIndexOf("/") + 1, url.length);
+    let pathLastURL ;
+    var str = window.location.href;
+    var res = str.substring(str.lastIndexOf("/view") + 6, str.length);
+    pathLastURL = res;
+    var get_module_name = res.substring(0,res.indexOf("/"));
+    if(get_module_name!=''){
+      pathLastURL =get_module_name;
+    }
+    
+    console.log(pathLastURL);
     let routesData = {
-      'admin': 'lizero',
+      'home': 'lizero',
       'leads': 'lione',
       'students': 'litwo',
-      'students/add':'litwo',
+      'students/add': 'litwo',
       'course': 'lithree',
       'batch': 'lithree',
       'fee': 'lifour',
@@ -252,7 +260,6 @@ export class SideBarComponent implements OnInit {
     };
     if (document.getElementById(routesData[pathLastURL])) {
       this.activeSession = routesData[pathLastURL];
-      // document.getElementById(routesData[pathLastURL]).classList.add('active');
     }
   }
 
@@ -664,8 +671,8 @@ export class SideBarComponent implements OnInit {
     this.sideBar = false;
     this.searchBar = false;
     this.helpMenu = false;
-    if(document.getElementById('blurBg')) {
-    document.getElementById('blurBg').className = 'normal-background';
+    if (document.getElementById('blurBg')) {
+      document.getElementById('blurBg').className = 'normal-background';
     }
     for (let i = 0; i < 6; i++) {
       if (document.getElementsByClassName("side-section")[i]) {
@@ -803,8 +810,8 @@ export class SideBarComponent implements OnInit {
   routerLink(route, id) {
     for (let i = 0; i < 6; i++) {
       if (document.getElementsByClassName("side-section")[i]) {
-         document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
-         }
+        document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
+      }
     }
     this.sideBar = false;
     let totalCurrentClasses = document.getElementsByClassName("current-menu").length;

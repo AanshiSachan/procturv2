@@ -52,11 +52,7 @@ export class CourseHomeComponent implements OnInit {
 
         array.forEach((flag)=>{
           this.jsonFlags[flag]=true;
-        })
-    //   this.jsonFlags.isShowFileManager = true;
-    //   this.jsonFlags.isShowExam = true;
-    //   this.jsonFlags.isShowClass = true;  
-    //   this.jsonFlags.isShowClassPlanner = true;          
+        });         
     }
     else{
       this.jsonFlags.isShowModel = true;
