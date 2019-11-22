@@ -199,7 +199,7 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
-
+    this.onChanged('subject');
     this.checkForSubjectWiseView();
 
     this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
@@ -239,6 +239,7 @@ export class AdminHomeComponent implements OnInit {
     });
 
     this.fetchWidgetPrefill();
+    
   }
 
   checkForSubjectWiseView(){

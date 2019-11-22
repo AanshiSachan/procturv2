@@ -377,8 +377,6 @@ export class SideBarComponent implements OnInit {
     let permission: any = this.permissionData;
     let type = Number(sessionStorage.getItem('institute_setup_type'));
     this.isLibraryFeatureAllow(permission); // check librabry feature
-    this.isOnlineExamAllow(type); // check online test is enable or not 
-    this.isLiveClassesAllow(type);
     /* Admin or Custom login */
     if (userType == 0) {
       /* admin detected */
@@ -407,6 +405,10 @@ export class SideBarComponent implements OnInit {
       this.jsonFlags.isAdmin = false;
       this.teacherLoginFound();
     }
+
+    // please dont chnage this  code from here 
+    this.isOnlineExamAllow(type); // check online test is enable or not 
+    this.isLiveClassesAllow(type);
 
 
   }
