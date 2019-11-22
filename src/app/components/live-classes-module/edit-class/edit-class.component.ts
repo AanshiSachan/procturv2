@@ -428,7 +428,7 @@ export class EditClassComponent implements OnInit {
         this.service.updateOnlineClass(this.updateOnlineClass, this.editSessionId).subscribe(
           (data: any) => {
             this.appC.popToast({ type: "success", body: "Live class session " + this.topicName + " " + "updated successfully" });
-            this.router.navigate(['/view/activity/liveClass']);
+            this.router.navigate(['/view/live-classes']);
             this.isRippleLoad = false;
           },
           (error: any) => {
@@ -448,7 +448,7 @@ export class EditClassComponent implements OnInit {
         this.service.getOnlineClasses(this.updateOnlineClass).subscribe(
           (data: any) => {
             this.appC.popToast({ type: "success", body: this.topicName + " " + "created successfully" });
-            this.router.navigate(['/view/activity/liveClass']);
+            this.router.navigate(['/view/live-classes']);
             this.isRippleLoad = false;
           },
           (error: any) => {
@@ -732,7 +732,7 @@ export class EditClassComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigateByUrl('/view/activity/liveClass');
+    this.router.navigateByUrl('/view/live-classes');
   }
 
   openCalendar(id) {
