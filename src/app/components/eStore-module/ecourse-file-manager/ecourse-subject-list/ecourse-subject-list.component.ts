@@ -116,6 +116,7 @@ export class EcourseSubjectListComponent implements OnInit {
       },
         (err) => {
           this.isRippleLoad = false;
+          this.msgService.showErrorMessage('error', '', err.error.message);
         });
     }
 

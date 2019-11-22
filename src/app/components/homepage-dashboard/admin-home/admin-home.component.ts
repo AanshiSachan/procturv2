@@ -2233,26 +2233,33 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  sendSmsForApp(value) {
-    if (confirm("Are you sure you want to send SMS to selected users?")) {
+  sendSmsForApp(value, delivery_mode) {
+    let type = delivery_mode==0?'SMS':'Email';
+    let msg = "Are you sure you want to send "+type+' to selected users';
+    if (confirm(msg)) {
       let obj = {
         app_sms_type: Number(value),
         studentArray: this.getListOfIds('student_id'),
         userArray: this.getListOfIds('user_id'),
-        user_role: this.loginField.checkBox
+        user_role: this.loginField.checkBox,
+        delivery_mode: delivery_mode
       };
       obj.studentArray = obj.studentArray.split(",");
       obj.userArray = obj.userArray.split(",");
+      this.isRippleLoad = true;
       this.widgetService.smsForAddDownload(obj).subscribe(
         res => {
+          this.isRippleLoad = false;
+          let tempMsg=type+' Send Successfully';
           let msg = {
             type: 'success',
-            title: 'Message',
-            body: "Send Successfully"
+            title: '',
+            body: tempMsg
           };
           this.appC.popToast(msg);
         },
         err => {
+          this.isRippleLoad = false;
           //console.log(err);
           let msg = {
             type: 'error',
@@ -2265,7 +2272,6 @@ export class AdminHomeComponent implements OnInit {
 
     }
   }
-
   onCheckBoxSelection(index, data) {
     this.messageList.map(ele => {
       if (ele.message_id == data.message_id) {

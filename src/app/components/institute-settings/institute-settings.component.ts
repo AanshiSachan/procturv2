@@ -574,12 +574,6 @@ export class InstituteSettingsComponent implements OnInit {
     this.fillTableCheckboxValue(this.instituteSettingDet.biometric_late_sms, data.biometric_late_sms);
     this.fillTableCheckboxValue(this.instituteSettingDet.biometric_absent_sms, data.biometric_absent_sms);
     this.fillTableCheckboxValue(this.instituteSettingDet.biometric_in_out_sms, data.biometric_in_out_sms);
-    this.fillTableCheckboxValue(this.instituteSettingDet.enable_class_attendance_not_marked_notification, data.enable_class_attendance_not_marked_notification);
-    this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_attendance_not_marked_notification, data.enable_exam_attendance_not_marked_notification)
-    this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_marks_not_update_notification, data.enable_exam_marks_not_update_notification)
-    this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_attendance_not_marked_daily_notification,data.enable_exam_attendance_not_marked_daily_notification);
-    this.fillTableCheckboxValue(this.instituteSettingDet.enable_class_attendance_not_marked_daily_notification,data.enable_class_attendance_not_marked_daily_notification);
-    
     this.instituteSettingDet.biometric_late_sms_buffer = data.biometric_late_sms_buffer;
     this.instituteSettingDet.biometric_class_in_time_buffer_in_min = data.biometric_class_in_time_buffer_in_min;
     this.instituteSettingDet.biometric_class_out_time_buffer_in_min = data.biometric_class_out_time_buffer_in_min;
@@ -653,6 +647,14 @@ export class InstituteSettingsComponent implements OnInit {
     this.fillTableCheckboxValue(this.instituteSettingDet.lib_send_sms_for_book_marked_lost, data.lib_send_sms_for_book_marked_lost);
     this.fillTableCheckboxValue(this.instituteSettingDet.lib_send_sms_for_book_marked_scrapped, data.lib_send_sms_for_book_marked_scrapped);
 
+
+    
+    this.fillTableCheckboxValue(this.instituteSettingDet.enable_class_attendance_not_marked_notification, data.enable_class_attendance_not_marked_notification);
+    this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_attendance_not_marked_notification, data.enable_exam_attendance_not_marked_notification)
+    this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_marks_not_update_notification, data.enable_exam_marks_not_update_notification)
+    this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_attendance_not_marked_daily_notification,data.enable_exam_attendance_not_marked_daily_notification);
+    this.fillTableCheckboxValue(this.instituteSettingDet.enable_class_attendance_not_marked_daily_notification,data.enable_class_attendance_not_marked_daily_notification);
+    
     this.instituteSettingDet.lib_issue_for_days = data.lib_issue_for_days;
     this.instituteSettingDet.lib_due_date_fine_per_day = data.lib_due_date_fine_per_day;
   }
@@ -711,66 +713,73 @@ export class InstituteSettingsComponent implements OnInit {
     }
   }
 
+
+  
   fillTableCheckboxValue(dataJSON, res) {
-    res = parseInt(res);
-    if (res > 0) {
-      let count: number = 1;
-      let i: number = 2;
-      while (i != res) {
-        i = i + 2;
-        count++;
-      }
-      let binaryConversion = count.toString(2);
-      let binaryArray: number[] = [0, 0, 0, 0, 0];
-      let k = 0;
-      for (let p = binaryConversion.length - 1; p >= 0; p--) {
-        binaryArray[k] = parseInt(binaryConversion[p]);
-        k++;
-      }
-
-      if (dataJSON.hasOwnProperty('student')) {
-        if (binaryArray[0] == 1) {
-          dataJSON.student = true;
-        } else {
-          dataJSON.student = false;
+    console.log(res);
+    if(res){
+      res = parseInt(res);
+      if (res > 0) {
+        let count: number = 1;
+        let i: number = 2;
+        while (i != res) {
+          i = i + 2;
+          count++;
         }
-      }
-
-      if (dataJSON.hasOwnProperty('parent')) {
-        if (binaryArray[1] == 1) {
-          dataJSON.parent = true;
-        } else {
-          dataJSON.parent = false;
+        let binaryConversion = count.toString(2);
+        let binaryArray: number[] = [0, 0, 0, 0, 0];
+        let k = 0;
+        for (let p = binaryConversion.length - 1; p >= 0; p--) {
+          binaryArray[k] = parseInt(binaryConversion[p]);
+          k++;
         }
-      }
-
-      if (dataJSON.hasOwnProperty('teacher')) {
-        if (binaryArray[2] == 1) {
-          dataJSON.teacher = true;
-        } else {
-          dataJSON.teacher = false;
+  
+        if (dataJSON.hasOwnProperty('student')) {
+          if (binaryArray[0] == 1) {
+            dataJSON.student = true;
+          } else {
+            dataJSON.student = false;
+          }
         }
-      }
-
-      if (dataJSON.hasOwnProperty('admin')) {
-        if (binaryArray[3] == 1) {
-          dataJSON.admin = true;
-        } else {
-          dataJSON.admin = false;
+  
+        if (dataJSON.hasOwnProperty('parent')) {
+          if (binaryArray[1] == 1) {
+            dataJSON.parent = true;
+          } else {
+            dataJSON.parent = false;
+          }
         }
-      }
-
-      if (dataJSON.hasOwnProperty('gaurdian')) {
-        if (binaryArray[4] == 1) {
-          dataJSON.gaurdian = true;
-        } else {
-          dataJSON.gaurdian = false;
+  
+        if (dataJSON.hasOwnProperty('teacher')) {
+          if (binaryArray[2] == 1) {
+            dataJSON.teacher = true;
+          } else {
+            dataJSON.teacher = false;
+          }
         }
+  
+        if (dataJSON.hasOwnProperty('admin')) {
+          if (binaryArray[3] == 1) {
+            dataJSON.admin = true;
+          } else {
+            dataJSON.admin = false;
+          }
+        }
+  
+        if (dataJSON.hasOwnProperty('gaurdian')) {
+          if (binaryArray[4] == 1) {
+            dataJSON.gaurdian = true;
+          } else {
+            dataJSON.gaurdian = false;
+          }
+        }
+  
       }
-
     }
+   
   }
 
+ 
   validatePhoneNumber(data) {
     let check: boolean = false;
     if (data) {
