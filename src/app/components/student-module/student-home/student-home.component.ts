@@ -290,6 +290,12 @@ export class StudentHomeComponent implements OnInit {
           this.studentFeeInstallment(-1) // because fee install ment at multiple student has some issues
           // this.isShareDetails = true;
         }
+      },
+      {
+        label: 'Download ID card', icon: 'fa fa-download', command: () => {
+          this.downloadStudentIDCard() // because fee install ment at multiple student has some issues
+          // this.isShareDetails = true;
+        }
       }
     ];
   }
@@ -374,6 +380,39 @@ export class StudentHomeComponent implements OnInit {
     }
   }
 
+  downloadStudentIDCard() {
+    console.log(this.selectedUserId)
+    let studentId = this.getListOfIds(this.selectedRowGroup).split(',');
+    let url='/admit-card/download';   
+    this.postService.stdPostData(url,studentId).subscribe(
+      (res:any) => {
+        console.log(res);
+        if(res){
+          let resp = res.response;
+          if(resp.document!=""){
+            let byteArr = this.convertBase64ToArray(resp.document);
+            let fileName = 'card.pdf'; //res.docTitle;
+            let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
+            let url = URL.createObjectURL(file);
+            let dwldLink = document.getElementById('downloadFileClick1');
+            dwldLink.setAttribute("href", url);
+            dwldLink.setAttribute("download", fileName);
+            document.body.appendChild(dwldLink);
+            dwldLink.click();          
+          }
+          else{
+            this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
+          }
+        }else{
+          this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  
+   }
 
   /* =================================================================================================== */
   /* =================================================================================================== */

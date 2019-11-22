@@ -59,7 +59,7 @@
             <!-- Form 1 -->
             <div class="row">
               <div class="c-lg-8 c-md-8 c-sm-8">
-                <div class="form-type1">
+                <div class="form-type1" style="max-width: 360px;" >
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_name != ''}">
                     <label for="sName">Student Name <span class="text-danger">*</span></label>
                     <input type="text" value="" class="form-ctrl" id="sName" [(ngModel)]="studentAddFormData.student_name" name="sName" maxlength="50"
@@ -189,7 +189,7 @@
             <!-- Form 2 -->
             <div class="row">
               <div class="c-lg-12 c-md-12 c-sm-12">
-                <div class="form-type2" [hidden]="!additionalBasicDetails">
+                <div class="form-type2" [hidden]="!additionalBasicDetails" style="max-width: 360px;">
                   <h2>Additional Details</h2>
 
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.dob != ''}">
@@ -423,7 +423,7 @@
         </section>
         <section class="clearFix student-flow row " id="studentFlow">
           <aside class="pull-left middle-left">
-            <div class="form-type1 other-detail-wrapper">
+            <div class="form-type1 other-detail-wrapper" style="max-width: 360px;">
               <custom-student *ngFor="let component of customComponents">
 
                 <div class="row" *ngIf="component.type == 1" input-def>

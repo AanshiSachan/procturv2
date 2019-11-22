@@ -7,7 +7,7 @@
       <span>{{instituteName}}</span>
     </div>
   </section>
-  <div class="nav">
+  <div class="nav" (click)="closeMenu()">
     <div class="search-container">
       <form autocomplete="off" #form="ngForm">
         <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput

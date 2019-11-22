@@ -2044,7 +2044,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     openEnquiryFullDetails(id) {
         this.closeAdFilter();
-        let mySidenavWidth = '29%';
+        let mySidenavWidth = '27%';
         if (window.innerWidth < 768)
             mySidenavWidth = '100%';
         this.mySidenav.nativeElement.style.width = mySidenavWidth;

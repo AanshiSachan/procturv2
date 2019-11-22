@@ -106,15 +106,14 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
     downloadStudentReportCard(){
     this.showToggleLoader.emit(true);  
-    let url='/users-file/downloadFile';
+    let url='/api/v1/reports/Student/downloadReportCard/'+sessionStorage.getItem('institute_id') + '/'+this.rowData.student_id;
     this.PostStudService.stdGetData(url).subscribe(
       (res:any) => {
         console.log(res);
         this.showToggleLoader.emit(false);
-        if(res.length){
-          let resp =   res.response;
-          if(resp.document!=""){
-            let byteArr = this.convertBase64ToArray(resp.document);
+        if(res){
+          if(res.document!=""){
+            let byteArr = this.convertBase64ToArray(res.document);
             let fileName = res.docTitle;
             let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
             let url = URL.createObjectURL(file);
@@ -132,6 +131,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
       },
       err => {
         console.log(err);
+        this.commonService.showErrorMessage('info', 'Info', err.error.message);
         this.showToggleLoader.emit(false);
       })
 }

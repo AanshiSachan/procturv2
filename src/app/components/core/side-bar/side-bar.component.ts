@@ -240,6 +240,7 @@ export class SideBarComponent implements OnInit {
       'admin': 'lizero',
       'leads': 'lione',
       'students': 'litwo',
+      'students/add':'litwo',
       'course': 'lithree',
       'batch': 'lithree',
       'fee': 'lifour',
@@ -663,7 +664,9 @@ export class SideBarComponent implements OnInit {
     this.sideBar = false;
     this.searchBar = false;
     this.helpMenu = false;
+    if(document.getElementById('blurBg')) {
     document.getElementById('blurBg').className = 'normal-background';
+    }
     for (let i = 0; i < 6; i++) {
       if (document.getElementsByClassName("side-section")[i]) {
         document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
