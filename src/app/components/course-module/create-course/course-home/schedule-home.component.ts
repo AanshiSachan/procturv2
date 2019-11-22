@@ -384,11 +384,12 @@ export class ScheduleHomeComponent implements OnInit {
   }
 
   hideAllTabs() {
-    document.getElementById('liStandard').classList.remove('active');
-    document.getElementById('liSubject').classList.remove('active');
-    document.getElementById('liManageBatch').classList.remove('active');
-    document.getElementById('liExam').classList.remove('active');
-    document.getElementById('liClass').classList.remove('active');
+    let array  = ['liStandard','liSubject','liManageBatch','liExam','liClass'];
+    array.forEach((flag)=>{
+      if(document.getElementById(flag)){
+        document.getElementById(flag).classList.remove('active');
+      }
+    });
   }
 
 }

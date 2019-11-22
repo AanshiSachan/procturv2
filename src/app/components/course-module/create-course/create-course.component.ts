@@ -112,19 +112,19 @@ export class CreateCourseComponent implements OnInit {
 
   routeToSubTabs(data) {
     if (data.indexOf('501') != -1) {
-      this.router.navigateByUrl('/view/course/standardlist');
+      this.router.navigateByUrl('/view/course/create/standardlist');
       this.switchActiveView('liStandard');
     } else if (data.indexOf('502') != -1) {
-      this.router.navigateByUrl('/view/course/subject');
+      this.router.navigateByUrl('/view/course/create/subject');
       this.switchActiveView('liSubject');
     } else if (data.indexOf('505') != -1) {
-      this.router.navigateByUrl('/view/course/courselist');
+      this.router.navigateByUrl('/view/course/create/courselist');
       this.switchActiveView('liManageBatch');
     } else if (data.indexOf('701') >= 0 || data.indexOf('704') >= 0) {
-      this.router.navigateByUrl('/view/course/class');
+      this.router.navigateByUrl('/view/course/create/class/home');
       this.switchActiveView('liClass');
     } else if (data.indexOf('702') >= 0) {
-      this.router.navigateByUrl('/view/course/exam');
+      this.router.navigateByUrl('/view/course/create/exam');
       this.switchActiveView('liExam');
     }
   }
