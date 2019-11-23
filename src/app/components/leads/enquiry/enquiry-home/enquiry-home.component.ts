@@ -2414,6 +2414,7 @@ export class EnquiryHomeComponent implements OnInit {
 
         else if (checkerObj.prop == "Walkin") {
             if (checkerObj.checked) {
+                this.statusString =[];
                 let stat = this.statusString.join(',');
                 this.advancedFilterForm.followUpDate = this.getDateFormated(new Date(), "YYYY-MM-DD");
                 this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "Walkin", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_statuses: stat, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
