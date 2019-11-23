@@ -12,7 +12,7 @@
     </div>
   </section>
   <div class="course-menu-section-container">
-    <div class="course-menu-item" routerLink="/view/{{type}}/reports/attendance">
+    <div class="course-menu-item" *ngIf="JsonFlags.isShowAttendanceReport" routerLink="/view/{{type}}/reports/attendance">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create course">
         <span>Attendance Report </span>
@@ -21,7 +21,7 @@
         <span>Attendance report for students.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/{{type}}/reports/exam">
+    <div class="course-menu-item" *ngIf="JsonFlags.isShowExamReport" routerLink="/view/{{type}}/reports/exam">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create course">
         <span>Exam Report</span>
@@ -30,7 +30,7 @@
         <span>Exam report of student as per their performance.</span>
       </div>
     </div>
-    <div class="course-menu-item"  routerLink="/view/{{type}}/reports/biometric">
+    <div class="course-menu-item"   routerLink="/view/{{type}}/reports/biometric">
       <div class="menu-title">
         <img src="./assets/images/course/reports.svg" alt="reports">
         <span>    Biometric Attendance</span>

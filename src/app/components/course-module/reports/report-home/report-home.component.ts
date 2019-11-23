@@ -8,10 +8,11 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 })
 export class ReportHomeComponent implements OnInit {
 
-  type:any='';
-  JsonFlags={
-    isBiometric:false,
-    biometricAttendanceEnable:false
+  type: any = '';
+  JsonFlags = {
+    biometricAttendanceEnable: false,
+    isShowAttendanceReport: false,
+    isShowExamReport: false
 
   }
   constructor(private auth: AuthenticatorService) { }
@@ -27,28 +28,35 @@ export class ReportHomeComponent implements OnInit {
         }
       });
 
-      this.fetchAndUpdatePermissions();
+    this.fetchAndUpdatePermissions();
   }
-  
+
   fetchAndUpdatePermissions() {
     let permissions = sessionStorage.getItem('permissions');
 
     /* Admin Account Detected */
     if (permissions == '' || permissions == null || permissions == undefined) {
       if (sessionStorage.getItem('userType') == '0') {
-        this.JsonFlags.isBiometric = true;
+        this.JsonFlags.isShowExamReport = true;
+        this.JsonFlags.isShowAttendanceReport = true;
       }
-      else if (sessionStorage.getItem('userType') == '3') {
-        this.JsonFlags.isBiometric = true;
+      else if (sessionStorage.getItem('userType') == '3') { // reaport 
+        this.JsonFlags.isShowExamReport = true;
+        this.JsonFlags.isShowAttendanceReport = true;
       }
     }
     else {
       let perm: any[] = JSON.parse(permissions);
 
       /* attendance */
-      if (perm.indexOf('201') != -1) {
-        this.JsonFlags.isBiometric = true;
+      if (perm.indexOf('201') != -1 || perm.indexOf('101') != -1) {
+        this.JsonFlags.isShowAttendanceReport = true;        
       }
+
+      if (perm.indexOf('203') != -1) {
+        this.JsonFlags.isShowExamReport = true;
+      }
+     
     }
   }
 
