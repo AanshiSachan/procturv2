@@ -93,7 +93,16 @@
       Dashboard
     </span> -->
   </div>
-
+  <div style="bottom: 20%;position: absolute;margin-left: 45%;">
+    <span class="badge" (click)="showVideo('https://www.youtube.com/embed/kkA-D0i3HeQ')">v3.0</span>
+  </div>
+  <div class="videoplayer" *ngIf="videoplayer">
+      <iframe width="650" height="400"
+        [src]="currentProjectUrl"
+        frameborder="0" style="border-radius: 10px;"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+      </iframe>
+    </div>
   <div class="setting">
     <div class="setting-item">
       <img src="./assets/images/sidebar/help.svg" title="Help" alt="" (click)="showSubSection('help')">
@@ -175,5 +184,5 @@
 
 </section>
 
-<aside class="blur-background" id="blurBg" *ngIf="sideBar  || searchBar || helpMenu" (click)="closeMenu()">
+<aside class="blur-background" id="blurBg" *ngIf="sideBar  || searchBar || helpMenu || videoplayer" (click)="closeMenu()">
 </aside>

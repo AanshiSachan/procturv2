@@ -1,9 +1,9 @@
 .middle-section{
-    padding: 0px;
+    padding: 1%;
   }
   .activity-box-container{
     padding: 1%;
-    height: 100vh;
+    height: 100%;
     // background: #f7f7f7;
     .activity-container{
       display: flex;
@@ -45,4 +45,13 @@
     }
   
   }
-  
+  .header-section{
+    .header-title{
+      text-align: left;
+      font-size: 14px;
+      font-weight: 600;
+      color: #0084f6;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(10, 10, 10, 0.5);
+    }
+  }
