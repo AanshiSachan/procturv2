@@ -86,7 +86,7 @@ export class EcourseMappingComponent implements OnInit {
           this.tableSetting.actionSetting.editOptions = [{ title: "update", class: 'fa fa-check updateCss', optionType: 'update' }];
           if (this.jsonflag.allowMapping == '1') { // if assign Standard enabled
             this.getListOfBatches();
-            this.tableSetting.keys.push({ primaryKey: 'assignCourses', header: 'Standard', priority: 2, allowSortingFlag: true, amountValue: true, inputType: 'noEdit' });
+            this.tableSetting.keys.push({ primaryKey: 'assignCourses', header: 'Standard', priority: 2, allowSortingFlag: true, inputType: 'noEdit' });
             this.tableSetting.actionSetting.options.push({ title: "Assign Standard", class: 'fa fa-check updateCss', optionType: 'assign' });
             this.tableSetting.actionSetting.editOptions.push({ title: "Assign Standard", class: 'fa fa-check updateCss', optionType: 'assign' });
           }
@@ -100,7 +100,7 @@ export class EcourseMappingComponent implements OnInit {
 
           if (this.jsonflag.allowMapping == '1') { // if assign course enabled
             this.getListOfCourses();
-            this.tableSetting.keys.push({ primaryKey: 'assignCourses', header: 'Courses', priority: 2, allowSortingFlag: true, amountValue: true, inputType: 'noEdit' });
+            this.tableSetting.keys.push({ primaryKey: 'assignCourses', header: 'Courses', priority: 2, allowSortingFlag: true, inputType: 'noEdit' });
             this.tableSetting.actionSetting.options.push({ title: "Assign Courses", class: 'fa fa-check updateCss', optionType: 'assign' });
             this.tableSetting.actionSetting.editOptions.push({ title: "Assign Courses", class: 'fa fa-check updateCss', optionType: 'assign' });
           }

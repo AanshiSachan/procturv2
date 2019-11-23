@@ -7,6 +7,7 @@ import { FetchprefilldataService } from '../../../services/fetchprefilldata.serv
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-side-bar',
@@ -66,6 +67,9 @@ export class SideBarComponent implements OnInit {
   settings: string;
   manageExamGrades: string = "";
   private userInput: string;
+  videoplayer:boolean = false;
+  currentProjectUrl: any;
+
   globalSearchForm: any = {
     name: '',
     phone: '',
@@ -96,7 +100,8 @@ export class SideBarComponent implements OnInit {
     private fetchService: FetchprefilldataService,
     private multiBranchService: MultiBranchDataService,
     private commonService: CommonServiceFactory,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    public sanitizer:DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -673,6 +678,7 @@ export class SideBarComponent implements OnInit {
     this.sideBar = false;
     this.searchBar = false;
     this.helpMenu = false;
+    this.videoplayer = false;
     if (document.getElementById('blurBg')) {
       document.getElementById('blurBg').className = 'normal-background';
     }
@@ -1021,5 +1027,11 @@ export class SideBarComponent implements OnInit {
     window.open(url, "_blank");
     this.closeMenu();
     this.helpMenu = false;
+  }
+
+  showVideo(url){
+    this.videoplayer = true;
+    this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url)
+    // this.currentProjectUrl = url;
   }
 }
