@@ -160,6 +160,7 @@ export class EnquiryAddComponent implements OnInit {
   isEnquirySubmit: boolean = true;
   instituteCountryDetObj: any = {};
   maxlength: any = 10;
+  country_id: any = null;
   walkinTime: any = {
     hour: '',
     minute: ''
@@ -294,6 +295,8 @@ export class EnquiryAddComponent implements OnInit {
     console.log(this.countryDetails);
     this.newEnqData.country_id = this.countryDetails[0].id;
     this.instituteCountryDetObj=this.countryDetails[0];
+    this.maxlength = this.countryDetails[0].country_phone_number_length;
+    this.country_id = this.countryDetails[0].id;
     }
   }
 
@@ -305,6 +308,7 @@ export class EnquiryAddComponent implements OnInit {
         this.instituteCountryDetObj = element;
         this.newEnqData.country_id = element.id;
         this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
+        this.country_id = element.id;
       }
     }
     );
@@ -1179,8 +1183,8 @@ export class EnquiryAddComponent implements OnInit {
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
     let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
-    let phoneFlag = this.commonServiceFactory.validatePhone(this.newEnqData.phone, this.maxlength)
-    if (phoneFlag == 'noNumber' || phoneFlag == 'lessThanTen') {
+    let phoneFlag = this.commonServiceFactory.phonenumberCheck(this.newEnqData.phone, this.maxlength,this.country_id)
+    if (phoneFlag == false || phoneFlag == 'noNumber') {
       if (phoneFlag == 'noNumber') {
         return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
       }
@@ -1199,10 +1203,10 @@ export class EnquiryAddComponent implements OnInit {
     }
     else {
       if (this.validateEnquiryDate()) {//newEnqData.parent_phone
-        if (this.newEnqData.parent_phone.length != this.maxlength && this.newEnqData.parent_phone != "") {
+        if (this.commonServiceFactory.phonenumberCheck(this.newEnqData.parent_phone, this.maxlength, this.country_id)==false && this.newEnqData.parent_phone != "") {
           return this.showErrorMessage('error', msg, '');
         }
-        if (this.newEnqData.phone2.length != this.maxlength && this.newEnqData.phone2 != "") {
+        if (this.commonServiceFactory.phonenumberCheck(this.newEnqData.phone2, this.maxlength,this.country_id)==false && this.newEnqData.phone2 != "") {
           return this.showErrorMessage('error', msg, '');
         }
         if (this.hour == '' && Number(this.minute) > 0) {

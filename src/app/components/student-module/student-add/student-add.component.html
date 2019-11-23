@@ -100,8 +100,6 @@
                     </span>
                     <input type="text" value="" id="cNumber" class="form-ctrl"
                       [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
-                      maxlength={{instituteCountryDetObj.country_phone_number_length}}
-                      minlength={{instituteCountryDetObj.country_phone_number_length}}
                       onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #cNumber="ngModel" required
                       style="width: 78%" />
                     <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
@@ -185,8 +183,6 @@
                     </span>
                     <input type="text" value="" id="parentContactNo" class="form-ctrl"
                       [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
-                      maxlength={{instituteCountryDetObj.country_phone_number_length}}
-                      minlength={{instituteCountryDetObj.country_phone_number_length}}
                       onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel"
                       style="width: 78%;" />
                   </div>
@@ -267,8 +263,6 @@
                       </select>
                     </span>
                     <input type="text" value="" id="guardianContact" class="form-ctrl"
-                      maxlength={{instituteCountryDetObj.country_phone_number_length}}
-                      minlength={{instituteCountryDetObj.country_phone_number_length}}
                       [(ngModel)]="studentAddFormData.guardian_phone" name="guardianContact"
                       onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #guardianContact="ngModel"
                       style="width: 76%">

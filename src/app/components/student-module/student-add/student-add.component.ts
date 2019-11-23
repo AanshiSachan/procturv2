@@ -276,6 +276,7 @@ export class StudentAddComponent implements OnInit {
   totalAmountToPay: number = 0;
   instituteCountryDetObj: any = {};
   checkStatusofStudent :boolean = false;
+  country_id:number=null;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -364,6 +365,8 @@ export class StudentAddComponent implements OnInit {
       if(this.checkStatusofStudent == true) {
         this.studentAddFormData.country_id = this.countryDetails[0].id;
         this.instituteCountryDetObj = this.countryDetails[0];
+        this.country_id = this.countryDetails[0].id;
+        this.maxlegth = this.countryDetails[0].country_phone_number_length;
       }
     }
     else{
@@ -382,6 +385,7 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.country_id = element.id;
         this.instituteCountryDetObj = element;
         this.maxlegth = this.instituteCountryDetObj.country_phone_number_length;
+        this.country_id = this.instituteCountryDetObj.id;
       }
     }
     );
@@ -1161,9 +1165,9 @@ export class StudentAddComponent implements OnInit {
         }
       }
 
-      if ((this.studentAddFormData.parent_phone.length < this.maxlegth &&
+      if ((this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone,this.maxlegth, this.country_id)==false &&
         this.studentAddFormData.parent_phone != "")
-        || (this.studentAddFormData.guardian_phone.length < this.maxlegth &&
+        || (this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone,this.maxlegth,this.country_id)==false &&
           this.studentAddFormData.guardian_phone != "")) {
         this.msgToast.showErrorMessage('error', 'Invalid Input', "Please enter valid Parent / Guardian mobile number");
         return;
@@ -1333,18 +1337,24 @@ export class StudentAddComponent implements OnInit {
 
   formfullValidator() {
     let msg = 'Enter '.concat( this.maxlegth ).concat(' Digit Contact Number');
-    let flag = this.commonServiceFactory.validatePhone(this.studentAddFormData.student_phone.trim(), this.maxlegth) == false ? false : true;
-    if (!flag) {
+    let flag = this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.student_phone.trim(), this.maxlegth,this.country_id);
+    if (flag==true) {
       if (this.studentAddFormData.student_name == null || this.studentAddFormData.student_name == "") {
         this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', 'Please enter Name');
         return false;
       } else {
+        
         return true;
       }
     }
     else {
+      if(flag=='noNumber'){
+        this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', 'Phone Number Is Mandatory');
+        return false;
+      } else {
       this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', msg);
       return false;
+      }
     }
   }
 

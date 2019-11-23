@@ -41,8 +41,8 @@
                               </select>
                         </span>
                         
-                        <input type="text" maxlength={{instituteCountryDetObj.country_phone_number_length}} onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                        minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 70%"  class="form-ctrl" formControlName="teacher_phone" name="contNumber" required>
+                        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                         style="width: 70%"  class="form-ctrl" formControlName="teacher_phone" name="contNumber" required>
 
                         <div *ngIf="editTeacherForm.controls['teacher_phone'].invalid && (editTeacherForm.controls['teacher_phone'].dirty || editTeacherForm.controls['teacher_phone'].touched)"
                             class="alert alert-danger">

@@ -86,8 +86,7 @@
                       </select>
                     </span> 
                     <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
-                      maxlength={{instituteCountryDetObj.country_phone_number_length}}
-                      minlength={{instituteCountryDetObj.country_phone_number_length}} #cNumber="ngModel" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                      #cNumber="ngModel" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                       required style="width: 78%">
                     <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
                       <div *ngIf="cNumber.errors.required">
@@ -158,8 +157,7 @@
                       </select>
                     </span>
                     <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
-                    maxlength={{instituteCountryDetObj.country_phone_number_length}}
-                    minlength={{instituteCountryDetObjcountry_phone_number_length}} style="width: 78%" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel"
+                    style="width: 78%" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel"
                     />
                   </div>
 
@@ -225,8 +223,7 @@
                         </option>
                       </select>
                     </span>
-                    <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength={{instituteCountryDetObj.country_phone_number_length}}
-                    minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 76%" [(ngModel)]="studentAddFormData.guardian_phone"
+                    <input type="text" value="" id="guardianContact" class="form-ctrl" style="width: 76%" [(ngModel)]="studentAddFormData.guardian_phone"
                       name="guardianContact" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #guardianContact="ngModel">
                     <div class="questionInfo pos-rel">
                       <span class="qInfoIcon">?</span>

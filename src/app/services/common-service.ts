@@ -167,6 +167,27 @@ export class CommonServiceFactory {
         return false;
     }
 
+
+    phonenumberCheck(inputtxt, maxlength, country_id) {
+        if (country_id == 1) {
+            if (inputtxt.length == maxlength) {
+                return true;
+            } 
+            else if(inputtxt.length==0){
+                return 'noNumber';
+            } 
+            else {
+                return false;
+            }
+        }
+        else {
+            if(inputtxt.length==0){
+                return 'noNumber';
+            } else {
+            return true;
+            }
+        }
+    }
     // toast function 
     showErrorMessage(objType, massage, body) {
         var toast: Toast = {

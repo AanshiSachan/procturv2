@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../../services/user-management/user.service';
 import { AppComponent } from '../../../../app.component';
+import { CommonServiceFactory } from './../../../../services/common-service';
 
 @Component({
   selector: 'app-add-edit-user',
@@ -28,12 +29,14 @@ export class AddEditUserComponent implements OnInit {
   instituteCountryDetObj: any = {};
   countryDetails: any = [];
   maxlength: number = null;
+  country_id:number = null;
 
   constructor(
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private apiService: UserService,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private commonService: CommonServiceFactory
   ) { }
 
   ngOnInit() {
@@ -74,6 +77,7 @@ export class AddEditUserComponent implements OnInit {
       this.instituteCountryDetObj = this.countryDetails[0];
       this.roleDetails.country_id = this.countryDetails[0].id;
       this.maxlength = this.countryDetails[0].country_phone_number_length;
+      this.country_id = this.countryDetails[0].id;
     }
   }
 
@@ -85,6 +89,7 @@ export class AddEditUserComponent implements OnInit {
         this.instituteCountryDetObj = element;
         // this.phonenumberCheck(this.instituteCountryDetObj.country_phone_number_length);
         this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
+        this.country_id = element.id;
       }
       this.roleDetails.country_id = this.instituteCountryDetObj.id;
     }
@@ -112,6 +117,7 @@ export class AddEditUserComponent implements OnInit {
             this.instituteCountryDetObj = element;
             // this.phonenumberCheck(this.instituteCountryDetObj.country_phone_number_length);
             this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
+            this.country_id = this.instituteCountryDetObj.id;
           }
         }
         );
@@ -146,8 +152,8 @@ export class AddEditUserComponent implements OnInit {
       phone: this.roleDetails.username,
       country_id: this.roleDetails.country_id,
       role_id: this.roleDetails.role_id,
-      username: this.roleDetails.username
-    }
+      username: this.roleDetails.username,
+      alternate_email_id: this.roleDetails.alternate_email_id    }
     console.log(obj);
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
@@ -184,7 +190,8 @@ export class AddEditUserComponent implements OnInit {
       name: this.roleDetails.name,
       phone: this.roleDetails.username,
       country_id: this.roleDetails.country_id,
-      role_id: this.roleDetails.role_id
+      role_id: this.roleDetails.role_id,
+      alternate_email_id: this.roleDetails.alternate_email_id
     }
     console.log(obj);
     if (!this.isRippleLoad) {
@@ -205,15 +212,19 @@ export class AddEditUserComponent implements OnInit {
   }
 
   validateUserDetails(obj) {
-    let check = false;
+    let check:any = false;
     if (obj.name.trim() == "") {
       this.messageNotifier('error', 'Error', 'Please provide name');
       return false;
     }
     console.log(this.maxlength);
-    check = this.phonenumberCheck(obj.username, this.maxlength);
+    check = this.commonService.phonenumberCheck(obj.username, this.maxlength, this.country_id);
     if (check == false) {
       this.messageNotifier('error', 'Error', 'Please check the number you have provided');
+      return false;
+    }
+    if(check == 'noNumber'){
+      this.messageNotifier('error', 'Error', 'Phone Number Is Mandatory');
       return false;
     }
     if (obj.alternate_email_id.trim() != "") {

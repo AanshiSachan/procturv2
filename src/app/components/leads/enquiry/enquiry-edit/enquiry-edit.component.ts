@@ -171,6 +171,7 @@ export class EnquiryEditComponent implements OnInit {
   minuteArr: any[] = ['', '00', '15', '30', '45'];
   countryDetails: any=[];
   maxlength: any = 10;
+  country_id:any=null;
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(
@@ -246,6 +247,8 @@ export class EnquiryEditComponent implements OnInit {
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
     this.countryDetails = data;
+    this.maxlength = this.countryDetails[0].country_phone_number_length;
+    this.country_id = this.countryDetails[0].id;
     console.log(this.countryDetails);
     }
   }
@@ -269,6 +272,7 @@ export class EnquiryEditComponent implements OnInit {
       if (element.id == event) {
         this.instituteCountryDetObj = element;
         this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
+        this.country_id = element.id;
       }
     }
     );
@@ -303,6 +307,7 @@ export class EnquiryEditComponent implements OnInit {
           if (element.id == this.editEnqData.country_id) {
             this.instituteCountryDetObj = element;
             this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
+            this.country_id=element.id;
           }
         }
         );
@@ -901,7 +906,7 @@ export class EnquiryEditComponent implements OnInit {
                 }
 
                 sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
-                this.router.navigate(['/view/student/add']);
+                this.router.navigate(['/view/students/add']);
               }
               else {
                 this.clearLocalAndRoute()
@@ -1007,12 +1012,12 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
-    let phoneFlag = this.commonServiceFactory.validatePhone(this.editEnqData.phone, this.maxlength);
+    let phoneFlag = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone, this.maxlength,this.country_id);
     // if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
     //   return this.showErrorMessage('error', 'Enquirer Name Is Mandatory', '');
     // }
     // else
-    if (phoneFlag == 'noNumber' || phoneFlag == 'lessThanTen') {
+    if (phoneFlag == false || phoneFlag == 'noNumber') {
       if (phoneFlag == 'noNumber') {
         return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
       }
@@ -1029,8 +1034,8 @@ export class EnquiryEditComponent implements OnInit {
       return this.showErrorMessage('error', 'Enquiry Source Is Mandatory', '');
     }
     else if (this.editEnqData.parent_phone != "" || this.editEnqData.parent_phone != null){
-      let parentPhoneCheck = this.commonServiceFactory.validatePhone(this.editEnqData.parent_phone, this.maxlength);
-      if (parentPhoneCheck == 'lessThanTen') {
+      let parentPhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.parent_phone, this.maxlength,this.country_id);
+      if (parentPhoneCheck == false) {
           let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
           return this.showErrorMessage('error', msg, '');
       }
@@ -1039,10 +1044,15 @@ export class EnquiryEditComponent implements OnInit {
       }
     }
     else if (this.editEnqData.phone2 != "" || this.editEnqData.phone2 != null){
-      let alternatePhoneCheck = this.commonServiceFactory.validatePhone(this.editEnqData.phone2, this.maxlength);
-      if (alternatePhoneCheck == 'lessThanTen') {
+      let alternatePhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone2, this.maxlength,this.country_id);
+      if (alternatePhoneCheck == false || phoneFlag == 'noNumber') {
+        if (alternatePhoneCheck == 'noNumber') {
+          return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
+        }
+        else {
           let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
           return this.showErrorMessage('error', msg, '');
+        }
       }
       else{
         return true;

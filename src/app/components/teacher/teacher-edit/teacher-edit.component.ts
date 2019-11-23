@@ -4,6 +4,8 @@ import { TeacherAPIService } from '../../../services/teacherService/teacherApi.s
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { AppComponent } from '../../../app.component';
+import { CommonServiceFactory } from './../../../services/common-service';
+
 
 @Component({
   selector: 'app-teacher-edit',
@@ -25,6 +27,8 @@ export class TeacherEditComponent implements OnInit {
   instituteCountryDetObj: any = {};
   countryDetails: any = [];
   maxlength: number = 10;
+  country_id: number = null;
+
 
 
   constructor(
@@ -32,7 +36,8 @@ export class TeacherEditComponent implements OnInit {
     private ApiService: TeacherAPIService,
     private fb: FormBuilder,
     private toastCtrl: AppComponent,
-    private routeParam: ActivatedRoute
+    private routeParam: ActivatedRoute,
+    private commonService: CommonServiceFactory
   ) {
     this.routeParam.params.subscribe(params => {
       this.selectedTeacherId = params['id'];
@@ -59,6 +64,7 @@ export class TeacherEditComponent implements OnInit {
       this.countryDetails = temp;
       this.maxlength = this.countryDetails[0].country_phone_number_length;
       this.instituteCountryDetObj = this.countryDetails[0];
+      this.country_id = this.countryDetails[0].id;
     }
   }
 
@@ -67,6 +73,7 @@ export class TeacherEditComponent implements OnInit {
       if (this.countryDetails[i].id == event) {
         this.instituteCountryDetObj = this.countryDetails[i];
         this.maxlength = this.countryDetails[i].country_phone_number_length;
+        this.country_id = this.countryDetails[i].id;
         this.editTeacherForm.setValue({
           country_id : this.countryDetails[i].id,
           teacher_name : this.editTeacherForm.value.teacher_name,
@@ -166,12 +173,17 @@ export class TeacherEditComponent implements OnInit {
       this.messageToast('error', 'Error', 'Please provide valid email address.');
       return;
     }
-    if (!(this.validateNumber(formData.teacher_phone, this.maxlength))) {
+    let phoneCheck = this.commonService.phonenumberCheck(formData.teacher_phone, this.maxlength,this.country_id);
+    if (phoneCheck == false) {
       this.messageToast('error', 'Error', 'Please provide valid phone number.');
       return;
     }
+    if(phoneCheck == 'noNumber') {
+      this.messageToast('error', 'Error', 'Phone Number Is Mandatory');
+      return
+    }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
-      if (!(this.validateNumber(formData.teacher_alt_phone, this.maxlength))) {
+      if (!(this.commonService.phonenumberCheck(formData.teacher_alt_phone, this.maxlength,this.country_id))) {
         this.messageToast('error', 'Error', 'Please provide valid alternate phone number.');
         return;
       }
@@ -232,12 +244,17 @@ export class TeacherEditComponent implements OnInit {
       this.messageToast('error', 'Error', 'Please provide valid email address.');
       return;
     }
-    if (!(this.validateNumber(formData.teacher_phone, this.maxlength))) {
+    let phoneCheck = this.commonService.phonenumberCheck(formData.teacher_phone, this.maxlength,this.country_id);
+    if (phoneCheck == false) {
       this.messageToast('error', 'Error', 'Please provide valid phone number.');
       return;
     }
+    if(phoneCheck == 'noNumber') {
+      this.messageToast('error', 'Error', 'Phone Number Is Mandatory');
+      return;
+    }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
-      if (!(this.validateNumber(formData.teacher_alt_phone, this.maxlength))) {
+      if (!(this.commonService.phonenumberCheck(formData.teacher_alt_phone, this.maxlength,this.country_id))) {
         this.messageToast('error', 'Error', 'Please provide valid alternate phone number.');
         return;
       }

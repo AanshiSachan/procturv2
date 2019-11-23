@@ -32,8 +32,8 @@
               </select>
             </span> 
             <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.username" id="contactNO" name="contactNO"
-              maxlength={{instituteCountryDetObj.country_phone_number_length}} onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-              minlength={{instituteCountryDetObj.country_phone_number_length}} style="width: 80%">
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+               style="width: 80%">
           </div>
         </div>
       </div>
@@ -41,9 +41,9 @@
       <div class="row">
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="field-wrapper">
-            <label for="emailID" *ngIf="userId == '-1'">Email ID</label>
-            <label for="emailID" *ngIf="userId != '-1'">Alternate Login Email ID</label>
-            <input type="text" class="form-ctrl" [disabled]="userId != '-1'"
+              <label for="emailID">Email ID</label>
+              <!-- <label for="emailID" *ngIf="userId != '-1'">Alternate Login Email ID</label> -->
+              <input type="text" class="form-ctrl"
               [(ngModel)]="roleDetails.alternate_email_id" id="emailID" name="emailID">
           </div>
         </div>

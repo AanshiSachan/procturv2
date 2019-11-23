@@ -125,6 +125,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   academicYearFilter: any;
   instituteCountryDetObj:any={};
   maxlength:number=10;
+  country_id: number = null;
 
   studentAddFormData: StudentForm = {
     student_name: "",
@@ -342,6 +343,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
     this.countryDetails = data;
+    this.country_id = this.countryDetails[0].id;
+    this.maxlength = this.countryDetails[0].country_phone_number_length;
     console.log(this.countryDetails);
     }
   }
@@ -352,6 +355,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       if(element.id==event){
         this.instituteCountryDetObj = element;
         this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
+        this.country_id = element.id;
       }
     }
     );
@@ -1207,6 +1211,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           if (element.id == this.studentAddFormData.country_id) {
             this.instituteCountryDetObj = element;
             this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
+            this.country_id = element.id;
           }
         }
         );
@@ -1346,11 +1351,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   formValidator(): boolean {
 
     if (this.studentAddFormData.student_phone != null && this.studentAddFormData.student_phone != "") {
-      if (isNaN(this.studentAddFormData.student_phone) == false && this.studentAddFormData.student_phone.trim().length == this.maxlength) {
+      if (isNaN(this.studentAddFormData.student_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.student_phone,this.maxlength,this.country_id)==true) {
         if(this.studentAddFormData.parent_phone != null && this.studentAddFormData.parent_phone != ""){
-          if (isNaN(this.studentAddFormData.parent_phone) == false && this.studentAddFormData.parent_phone.trim().length == this.maxlength) {
+          if (isNaN(this.studentAddFormData.parent_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone, this.maxlength,this.country_id)==true) {
             if(this.studentAddFormData.guardian_phone !=null && this.studentAddFormData.guardian_phone != ""){
-              if (isNaN(this.studentAddFormData.guardian_phone) == false && this.studentAddFormData.guardian_phone.trim().length == this.maxlength) {
+              if (isNaN(this.studentAddFormData.guardian_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone, this.maxlength,this.country_id)==true) {
                 return true;
               } else {
                 this.commonServiceFactory.showErrorMessage('error', 'Phone Number error', 'Please provide valid phone number');

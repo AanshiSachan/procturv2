@@ -67,8 +67,6 @@
                         </select>
                     </span>
                     <input type="text" value="" id="phone" class="form-ctrl" [(ngModel)]="newEnqData.phone" name="phone"
-                      maxlength={{instituteCountryDetObj.country_phone_number_length}}
-                      minlength={{instituteCountryDetObj.country_phone_number_length}}
                       onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                       style="width: 78%" />
                   </div>
@@ -185,8 +183,6 @@
                     </span>
                     <input type="text" value="" id="altContact" #phone2="ngModel" class="form-ctrl"
                       [(ngModel)]="newEnqData.phone2" name="phone2"
-                      maxlength={{instituteCountryDetObj.country_phone_number_length}}
-                      minlength={{instituteCountryDetObj.country_phone_number_length}}
                       style="width: 78%"
                       onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
 
@@ -235,8 +231,6 @@
                     </span>
                     <input type="text" value="" id="guardianContact" class="form-ctrl"
                       [(ngModel)]="newEnqData.parent_phone" name="guardianContact"
-                      maxlength={{instituteCountryDetObj.country_phone_number_length}}
-                      minlength={{instituteCountryDetObj.country_phone_number_length}}
                       onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                       style="width: 78%" />
                   </div>
