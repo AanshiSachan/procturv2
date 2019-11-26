@@ -52,4 +52,5 @@ export interface instituteInfo {
     list_id?: any;
     city?: any;
     area?: any;
+    referred_by?:any;
 }

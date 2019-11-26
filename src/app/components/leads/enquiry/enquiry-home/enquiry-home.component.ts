@@ -17,6 +17,7 @@ import { MultiBranchDataService } from '../../../../services/multiBranchdata.ser
 import { CommonServiceFactory } from '../../../../services/common-service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { TablePreferencesService } from '../../../../services/table-preference/table-preferences.service';
+import { HttpService } from '../../../../services/http.service';
 
 @Component({
     selector: 'app-enquiry-home',
@@ -69,6 +70,7 @@ export class EnquiryHomeComponent implements OnInit {
     course_subject: any[] = [];
     course_course: any[] = [];
     masterCourseData: any[] = [];
+    referredByData: any[] = [];
     sizeArr: any[] = [25, 50, 100, 150, 200, 500];
     commentFormData: any = {};
 
@@ -281,7 +283,8 @@ export class EnquiryHomeComponent implements OnInit {
         school_id: "-1",
         list_id: "-1",
         city: '',
-        area: ''
+        area: '',
+        referred_by: ''
     };
     enquiryFullDetail: any;
     enquirySettings: ColumnSetting[] = [
@@ -295,7 +298,9 @@ export class EnquiryHomeComponent implements OnInit {
         { primaryKey: 'updateDate', header: 'Last Updated', priority: 8 },
         { primaryKey: 'assigned_name', header: 'Asignee Name', priority: 9 },
         { primaryKey: 'follow_type', header: 'Follow Up Type', priority: 10 },
-        { primaryKey: 'standard', header: 'Standard', priority: 11 }
+        { primaryKey: 'standard', header: 'Standard', priority: 11 },
+        { primaryKey: 'referred_by_name', header: 'Referred By', priority: 12},
+        { primaryKey: 'noOfCoursesAssigned', header: 'No. of Courses Assigned', priority: 12}
     ];
     assignMultipleForm: any = {
         enqLi: [],
@@ -330,6 +335,7 @@ export class EnquiryHomeComponent implements OnInit {
         private commonServiceFactory: CommonServiceFactory,
         private messageService: MessageShowService,
         private _tablePreferencesService: TablePreferencesService,
+        private httpService: HttpService
     ) {
         if (commonServiceFactory.valueCheck(sessionStorage.getItem('userid'))) {
             this.router.navigate(['/authPage']);
@@ -592,6 +598,22 @@ export class EnquiryHomeComponent implements OnInit {
         // Closing Reason //
 
         this.prefill.getClosingReasons().subscribe(res => { this.closingReasonDataSource = res; })
+
+        //  Referred By //
+
+        this.fetchReferredByData();
+    }
+
+    fetchReferredByData() {
+        let url = '/api/v1/enquiry_campaign/master/lead_referred_by/'+sessionStorage.getItem('institute_id')+'/all'
+        this.httpService.getData(url).subscribe(
+            (res:any)=>{
+                this.referredByData = res;
+            },
+            err =>{
+                console.log(err);
+            }
+        )
 
     }
 
