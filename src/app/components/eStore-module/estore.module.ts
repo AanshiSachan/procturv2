@@ -55,6 +55,7 @@ import { ProductService } from '../../services/products.service';
     MessageShowService,
     TablePreferencesService,
     ProductService
-  ]
+  ],
+  exports:[EcourseMappingComponent]
 })
 export class EstoreModule { }

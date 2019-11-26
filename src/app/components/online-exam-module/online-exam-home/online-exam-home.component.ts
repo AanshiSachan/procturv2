@@ -13,7 +13,8 @@ export class OnlineExamHomeComponent implements OnInit {
     isProfessional: false,
     isAdmin: false,
     showExamDesk: false,
-    institute_id:''
+    institute_id:'',
+    isShowEcourseMapping:false
   }
 
   constructor(
@@ -40,7 +41,7 @@ export class OnlineExamHomeComponent implements OnInit {
     if (this.jsonFlag.isAdmin) {
       let type = Number(sessionStorage.getItem('institute_setup_type'));
       this.jsonFlag.showExamDesk = this.checkInstSetupType(type, 4);
-    }
+    }  
   }
 
   checkUserAccess() {
@@ -53,7 +54,12 @@ export class OnlineExamHomeComponent implements OnInit {
     else if (userType == '0') {
       if (permissionArray == "" || permissionArray == null) {
         this.jsonFlag.isAdmin = true;
+        this.jsonFlag.isShowEcourseMapping = true;
       }
+    }
+ 
+    if (sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1') {
+      this.jsonFlag.isShowEcourseMapping = true;
     }
   }
 

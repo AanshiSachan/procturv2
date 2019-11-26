@@ -5,12 +5,14 @@ import { OnlineExamModuleRoutingModule } from './online-exam-module-routing.modu
 import { OnlineExamModuleComponent, OnlineExamHomeComponent, ExamdeskCourseAssignmentComponent } from '.';
 import { SharedModule } from '../shared/shared.module';
 import { ExamDeskCourseAssignmentService } from '../../services/examdesk-service/examdeskcourseassignment.service';
+import { EstoreModule } from '../eStore-module/estore.module';
 
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
+    EstoreModule,
     OnlineExamModuleRoutingModule
   ],
   declarations: [
