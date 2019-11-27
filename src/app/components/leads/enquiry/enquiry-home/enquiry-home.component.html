@@ -395,6 +395,17 @@
                 </select>
               </div>
             </div>
+            
+            <!-- Referred By -->
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper">
+                <label for="ReferredBy">Referred By</label>
+                <select id="ReferredBy" class="form-ctrl" [(ngModel)]="advancedFilterForm.referred_by" name="referred_by">
+                  <option value="-1"></option>
+                  <option *ngFor="let source of referredByData" [value]="source.id">{{source.name}}</option>
+                </select>
+              </div>
+            </div>
 
             <!-- Custom Component -->
             <custom-enquiry *ngFor="let component of customComponents">
@@ -460,6 +471,7 @@
 
                 </div>
               </div>
+
 
             </custom-enquiry>
 
