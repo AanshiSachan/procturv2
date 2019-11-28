@@ -41,7 +41,7 @@
                                         </li>
                                         <li title="{{ record[map.access(record)] | formatCell:map.primaryKey }}" class="{{map.primaryKey}} {{ map.header }}" *ngFor="let map of columnMaps"
                                             (click)="userRowClicked($event, i, record)" [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])">
-                                            <div *ngIf="map.primaryKey != 'batchesAssigned'" [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])">
+                                            <div *ngIf="map.primaryKey != 'batchesAssigned'&& map.primaryKey != 'noOfCoursesAssigned'" [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])">
                                                 {{ record[map.access(record)] | formatCell:map.primaryKey }}
                                             </div>
                                             <div *ngIf="map.primaryKey == 'batchesAssigned'">
@@ -49,7 +49,16 @@
                                                     {{batch}}
                                                 </div>
                                             </div>
+
+                                            <div *ngIf="map.primaryKey=='noOfCoursesAssigned' && isLangInstitue" title="{{record.subjects}}">
+                                                {{ record[map.access(record)] | formatCell:map.primaryKey }} 
+                                            </div>
+
+                                            <div *ngIf="map.primaryKey=='noOfCoursesAssigned' && !isLangInstitue" title="{{record.coursesName}}">
+                                                {{ record[map.access(record)] | formatCell:map.primaryKey }} 
+                                            </div>
                                         </li>
+
                                     </ul>
                                 </div>
                                 <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus === 1">

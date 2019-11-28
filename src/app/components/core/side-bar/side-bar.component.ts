@@ -67,7 +67,7 @@ export class SideBarComponent implements OnInit {
   settings: string;
   manageExamGrades: string = "";
   private userInput: string;
-  videoplayer:boolean = false;
+  videoplayer: boolean = false;
   currentProjectUrl: any;
 
   globalSearchForm: any = {
@@ -88,7 +88,8 @@ export class SideBarComponent implements OnInit {
     isShowLibrabry: false,
     isShoweStore: false,
     isShoweOnlineExam: false,
-    isAdmin: false
+    isAdmin: false,
+    isShowPowerBy: false
   }
 
 
@@ -101,7 +102,7 @@ export class SideBarComponent implements OnInit {
     private multiBranchService: MultiBranchDataService,
     private commonService: CommonServiceFactory,
     private cd: ChangeDetectorRef,
-    public sanitizer:DomSanitizer
+    public sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -153,12 +154,27 @@ export class SideBarComponent implements OnInit {
     this.checkUserHadAccess();
     this.checkInstituteType();
     this.checkManinBranch();
+    this.hidePowerBy()
   }
 
   ngAfterViewInit() {
     this.setActiveClassOnSideNav();
   }
 
+  hidePowerBy() {
+    let institute_id = this.globalSearchForm.instituteId;
+    this.jsonFlags.isShowPowerBy = true;
+    if (institute_id == '101132' ||
+      institute_id == '101133' ||
+      institute_id == '101134' ||
+      institute_id == '101135' ||
+      institute_id == '101149' ||
+      institute_id == '101150' ||
+      institute_id == '101151') {
+      this.jsonFlags.isShowPowerBy = false;
+    }
+
+  }
   // USER permission
   checkUserHadAccess() {
     // this.divProfileTag.nativeElement.style.display = 'none';
@@ -239,15 +255,15 @@ export class SideBarComponent implements OnInit {
 
   setActiveClassOnSideNav() {
     // this.RemoveActiveTabs();
-    let pathLastURL ;
+    let pathLastURL;
     var str = window.location.href;
     var res = str.substring(str.lastIndexOf("/view") + 6, str.length);
     pathLastURL = res;
-    var get_module_name = res.substring(0,res.indexOf("/"));
-    if(get_module_name!=''){
-      pathLastURL =get_module_name;
+    var get_module_name = res.substring(0, res.indexOf("/"));
+    if (get_module_name != '') {
+      pathLastURL = get_module_name;
     }
-    
+
     console.log(pathLastURL);
     let routesData = {
       'home': 'lizero',
@@ -1029,7 +1045,7 @@ export class SideBarComponent implements OnInit {
     this.helpMenu = false;
   }
 
-  showVideo(url){
+  showVideo(url) {
     this.videoplayer = true;
     this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url)
     // this.currentProjectUrl = url;

@@ -7,8 +7,8 @@ import { RegisteredStudentComponent } from './product-registered-student/product
 
 const routes: Routes = [
     {
-        path: '',
-        component: HomeComponent
+        path: 'home',
+        component: HomeComponent,
     },
     {
         path: 'details',

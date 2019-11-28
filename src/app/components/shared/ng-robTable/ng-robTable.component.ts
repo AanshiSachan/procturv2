@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, ElementRef, Renderer2, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, DoCheck } from '@angular/core';
 import { ColumnSetting, ColumnMap } from './ng-robTable-layout.model';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../..';
 
 @Component({
     selector: 'ng-robTable',
@@ -41,13 +42,15 @@ export class RobTableComponent implements OnChanges, DoCheck {
     userIdArray: any = [];
     asc: boolean = false;
     caret = true;
+    isLangInstitue:boolean = false;
 
     @ViewChild('headerCheckbox') hc: ElementRef;
 
     constructor(
         private rd: Renderer2,
         private cd: ChangeDetectorRef,
-        private eleRef: ElementRef
+        private eleRef: ElementRef,
+        private auth: AuthenticatorService
     ) { }
 
 
@@ -69,6 +72,15 @@ export class RobTableComponent implements OnChanges, DoCheck {
         }
         this.cd.detectChanges();
         this.cd.detach();
+        this.auth.institute_type.subscribe(
+            res => {
+              if (res == "LANG") {
+                this.isLangInstitue = true;
+              } else {
+                this.isLangInstitue = false;
+              }
+            }
+          );
     }
 
     ngDoCheck() {

@@ -21,7 +21,8 @@ export class EcourseMappingComponent implements OnInit {
     isUpadted: false,
     isProfessional: false,
     isAssignBatch: false,
-    allowMapping: ''
+    allowMapping: '',
+    isShowOnlineExam:false,
   }
 
   updateEcourseObject: any = {};
@@ -71,6 +72,8 @@ export class EcourseMappingComponent implements OnInit {
       this.institute_id = id;
     });
     this.jsonflag.allowMapping = sessionStorage.getItem('enable_elearn_course_mapping_feature');
+    let url = window.location.href;
+    this.jsonflag.isShowOnlineExam =url.includes('online-exam');
   }
 
 

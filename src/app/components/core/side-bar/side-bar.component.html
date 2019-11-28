@@ -66,7 +66,7 @@
       <img src="./assets/images/sidebar/library.svg" alt="" class="sideBar_centerAlign">
     <span class="sideBar_centerAlign" style="padding-left: 5px">Library</span>
     </span>
-    <span [ngClass]="activeSession === 'lieight' ? 'active activeClass' : 'NavLink'" routerLink="/view/e-store"
+    <span [ngClass]="activeSession === 'lieight' ? 'active activeClass' : 'NavLink'" routerLink="/view/e-store/home"
       id="lieight"  (click)="toggler('lieight')" *ngIf="jsonFlags.isShoweStore">
       <img src="./assets/images/sidebar/eStore.svg" alt="" class="sideBar_centerAlign">
     <span class="sideBar_centerAlign" style="padding-left: 5px">eStore</span>
@@ -103,7 +103,7 @@
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
       </iframe>
     </div>
-  <div class="setting">
+  <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" >
     <div class="setting-item">
       <img src="./assets/images/sidebar/help.svg" title="Help" alt="" (click)="showSubSection('help')">
       <div class="side-section" id="help">
@@ -162,7 +162,7 @@
         <div class="side-section" id="user">
           </div>
     </div>
-    <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
+    <div class="setting-item"  #divMyAccountTag id="divMyAccountTag">
       <img src="./assets/images/sidebar/my-account.svg" title="My Account" alt="" (click)="showSubSection('account')">
       <div class="side-section" id="account">
         <div class="side-section-item">
@@ -178,7 +178,7 @@
     </div>
   </div>
 
-  <div class="proctur-info">
+  <div class="proctur-info"  *ngIf="jsonFlags.isShowPowerBy">
     <a href="https://www.proctur.com/" target="_blank"> <span>Powered by Proctur</span> </a>
   </div>
 

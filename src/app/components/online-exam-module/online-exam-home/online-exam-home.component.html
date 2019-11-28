@@ -18,5 +18,16 @@
         <span> Data setup your academic year, faculties, classrooms, etc</span>
       </div>
     </div>
+
+    <div class="course-menu-item"*ngIf="jsonFlag.isShowEcourseMapping" routerLink="/view/online-exam/ecoursemapping">
+      <div class="menu-title">
+        <img src="./assets/images/activity/ecourse.svg" alt="">
+        <span>E-course Mapping</span>
+      </div>
+      <div class="menu-description">
+        <span *ngIf="!jsonFlag.isProfessional">Create E-courses and assign multiple standards to the E-courses.</span>
+        <span *ngIf="jsonFlag.isProfessional">Create E-courses and assign multiple batches to the E-courses</span>
+      </div>
+    </div>
   </div>
 </section>
