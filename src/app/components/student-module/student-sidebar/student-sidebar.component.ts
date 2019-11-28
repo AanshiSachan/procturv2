@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
-
+ 
 @Component({
   selector: 'student-sidebar',
   templateUrl: './student-sidebar.component.html',
@@ -27,6 +27,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   @Output() pdcEdit = new EventEmitter<any>();
   @Output() invEdit = new EventEmitter<any>();
   @Output() showToggleLoader = new EventEmitter<any>();
+  @Output() downloadCertificate = new EventEmitter<any>();
 
   @Output() openCourseAssigned = new EventEmitter<boolean>();
 
@@ -37,6 +38,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
   @ViewChild('imgDisp') im: ElementRef;
   private showMenu: boolean = false;
+  certificate:boolean = false;
   containerWidth: string = "50px";
   studentServerImage: any = '';
   readonly: boolean = true;
@@ -57,7 +59,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     course_id: -1,
   };
 
-
+ 
   constructor(
     private eRef: ElementRef, 
     private auth: AuthenticatorService,
@@ -102,6 +104,13 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
   gotoStudentReportcard(){
     this.router.navigateByUrl("/view/students/reportcard/"+this.rowData.student_id)
+  }
+
+  gotodownloadCertificate() {
+    // this.cd.markForCheck();
+    this.showMenu = false;
+    this.downloadCertificate.emit(this.rowData.student_id);
+    // this.closeMenu();
   }
 
     downloadStudentReportCard(){

@@ -16,6 +16,8 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { StudentForm } from '../../../model/student-add-form';
 import { ISubscription } from "rxjs/Subscription";
 import { CommonServiceFactory } from '../../../services/common-service';
+import { ProductService } from '../../../services/products.service';
+var jsPDF = require('jspdf');
 
 @Component({
   selector: 'app-student-home',
@@ -152,6 +154,17 @@ export class StudentHomeComponent implements OnInit {
   }
   loginField = { checkBox: 0 };
 
+  studentData: any = {
+    studentName: '',
+    batchName: '',
+    projectName: '',
+    dateFrom: '',
+    dateTo: '',
+    trainingLocation: ''
+  };
+
+  @ViewChild('content') content: ElementRef;
+
   private studentAddFormData: StudentForm = {
     student_name: "",
     student_sex: "",
@@ -202,7 +215,9 @@ export class StudentHomeComponent implements OnInit {
     private postService: PostStudentDataService,
     private actRoute: ActivatedRoute,
     private auth: AuthenticatorService,
-    private commonService: CommonServiceFactory) {
+    private commonService: CommonServiceFactory,
+    private http: ProductService
+  ) {
 
     this.auth.institute_type.subscribe(
       res => {
@@ -383,13 +398,13 @@ export class StudentHomeComponent implements OnInit {
   downloadStudentIDCard() {
     console.log(this.selectedUserId)
     let studentId = this.getListOfIds(this.selectedRowGroup).split(',');
-    let url='/admit-card/download';   
-    this.postService.stdPostData(url,studentId).subscribe(
-      (res:any) => {
+    const url = '/admit-card/download';
+    this.postService.stdPostData(url, studentId).subscribe(
+      (res: any) => {
         console.log(res);
-        if(res){
+        if (res) {
           let resp = res.response;
-          if(resp.document!=""){
+          if (resp.document != "") {
             let byteArr = this.convertBase64ToArray(resp.document);
             let fileName = 'card.pdf'; //res.docTitle;
             let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
@@ -398,12 +413,12 @@ export class StudentHomeComponent implements OnInit {
             dwldLink.setAttribute("href", url);
             dwldLink.setAttribute("download", fileName);
             document.body.appendChild(dwldLink);
-            dwldLink.click();          
+            dwldLink.click();
           }
-          else{
+          else {
             this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
           }
-        }else{
+        } else {
           this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
         }
       },
@@ -411,8 +426,8 @@ export class StudentHomeComponent implements OnInit {
         console.log(err);
       }
     )
-  
-   }
+
+  }
 
   /* =================================================================================================== */
   /* =================================================================================================== */
@@ -1251,7 +1266,7 @@ export class StudentHomeComponent implements OnInit {
                   selectedString: '',
                   type: el.type,
                   value: el.enq_custom_value,
-                  comp_length:el.comp_length
+                  comp_length: el.comp_length
                 }
                 if (el.type == 4) {
                   obj = {
@@ -1265,7 +1280,7 @@ export class StudentHomeComponent implements OnInit {
                     selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
                     type: el.type,
                     value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
-                    comp_length:el.comp_length
+                    comp_length: el.comp_length
                   }
                 }
                 if (el.type == 3) {
@@ -1280,7 +1295,7 @@ export class StudentHomeComponent implements OnInit {
                     selectedString: "",
                     type: el.type,
                     value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
-                    comp_length:el.comp_length
+                    comp_length: el.comp_length
                   }
                 }
                 if (el.type == 2) {
@@ -1295,7 +1310,7 @@ export class StudentHomeComponent implements OnInit {
                     selectedString: '',
                     type: el.type,
                     value: this.getCustomComponentCheckboxValue(el.enq_custom_value),
-                    comp_length:el.comp_length
+                    comp_length: el.comp_length
                   }
                 }
                 else if (el.type != 2 && el.type != 4 && el.type != 3) {
@@ -1310,7 +1325,7 @@ export class StudentHomeComponent implements OnInit {
                     selectedString: '',
                     type: el.type,
                     value: el.enq_custom_value,
-                    comp_length:el.comp_length
+                    comp_length: el.comp_length
                   }
                 }
                 this.studentByIdcustomComponents.push(obj);
@@ -1958,8 +1973,8 @@ export class StudentHomeComponent implements OnInit {
     this.isAssignBatch = true;
   }
 
-  showToggleLoader($event){
-    this.isRippleLoad =$event;
+  showToggleLoader($event) {
+    this.isRippleLoad = $event;
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -2014,10 +2029,10 @@ export class StudentHomeComponent implements OnInit {
     let customArr = [];
 
     this.studentByIdcustomComponents.forEach(el => {
-      let max_length =  el.comp_length==0?100:el.comp_length;
+      let max_length = el.comp_length == 0 ? 100 : el.comp_length;
       /* Not Checkbox and value not empty */
       if (el.value != '' && el.type != 2 && el.type != 5) {
-        
+
         let obj = {
           component_id: el.id,
           enq_custom_id: el.data.enq_custom_id,
@@ -2025,7 +2040,7 @@ export class StudentHomeComponent implements OnInit {
           type: el.type,
           value: el.enq_custom_value,
           label: el.label,
-          comp_length:max_length
+          comp_length: max_length
         }
         customArr.push(obj);
       }
@@ -2039,7 +2054,7 @@ export class StudentHomeComponent implements OnInit {
             type: el.type,
             value: el.enq_custom_value,
             label: el.label,
-            comp_length:max_length
+            comp_length: max_length
           }
           customArr.push(obj);
         }
@@ -2051,7 +2066,7 @@ export class StudentHomeComponent implements OnInit {
             type: el.type,
             value: el.enq_custom_value,
             label: el.label,
-            comp_length:max_length
+            comp_length: max_length
           }
           customArr.push(obj);
         }
@@ -2065,7 +2080,7 @@ export class StudentHomeComponent implements OnInit {
           type: el.type,
           value: el.enq_custom_value,
           label: el.label,
-          comp_length:max_length
+          comp_length: max_length
         }
         customArr.push(obj);
       }
@@ -2163,9 +2178,8 @@ export class StudentHomeComponent implements OnInit {
         document.body.appendChild(dwldLink);
         dwldLink.click();
       }
-      else
-      {
-        this.isShareDetails=false;
+      else {
+        this.isShareDetails = false;
         let obj = {
           type: 'success',
           title: "Mails send successfully",
@@ -2178,5 +2192,45 @@ export class StudentHomeComponent implements OnInit {
         this.isRippleLoad = false;
         this.commonService.showErrorMessage('error', 'Error', err.error.message);
       })
+  }
+
+  getCertificateData(event) {
+    // this.certificate = true;
+    this.isRippleLoad = true;
+    let url = `/api/v1/students/studentCertificateDetails/?studentId=${event}`;
+    this.http.getCertificateData(url).subscribe(
+      (res: any) => {
+        this.studentData = res;
+        if (this.studentData.dateFrom != null) {
+          this.studentData.dateFrom = moment(this.studentData.dateFrom).format('DD-MM-YYYY');
+        }
+        if (this.studentData.dateTo != null) {
+          this.studentData.dateTo = moment(this.studentData.dateTo).format('DD-MM-YYYY');
+        }
+        setTimeout(() => {
+          this.printDiv();
+        }, 2000);
+        this.isRippleLoad = false;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  printDiv() {
+    document.getElementById('dvContainer').className = 'outer-container';
+    const doc = new jsPDF('l', 'in', 'a4');
+    console.log(doc);
+    doc.internal.scaleFactor = 1;
+
+    // window.html2pdf(this.content.nativeElement, pdf, function (doc) {
+    //   doc.save('certificate.pdf');
+    // });
+
+    doc.addHTML(this.content.nativeElement, function () {
+      doc.save("certificate.pdf");
+    });
+    document.getElementById('dvContainer').className = 'hide';
   }
 }
