@@ -143,6 +143,9 @@
             <div class="side-section-item">
               <span (click)="routerLink('/view/master/areaCity','setup')"><img src="./assets/images/sidebar/city_area_map.svg" alt="phone" class="helpSection">City Area Map</span>
             </div>
+            <div class="side-section-item" *ngIf="jsonFlags.isShowLibrabry">
+                <span (click)="routerLink('/view/library/master','setup')"><img src="./assets/images/sidebar/inventory.svg" alt="phone" class="helpSection">Library</span>
+              </div>
       </div>
     </div>
     <div class="setting-item" (click)="showSubSection('branches')" *ngIf="isMainBranch == 'Y' && checkAdmin">
