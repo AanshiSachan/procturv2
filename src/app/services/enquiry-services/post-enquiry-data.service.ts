@@ -123,6 +123,17 @@ export class PostEnquiryDataService {
     );
   }
 
+  addNewEmailTemplate(object) {
+    // https://test999.proctur.com/StdMgmtWebAPI/api/v1/enquiry_manager/sendEmail/100058
+   const urlUploadEmailTemplate = this.baseUrl + "/api/v1/enquiry_manager/sendEmail/" + this.institute_id;
+    return this.http.post(urlUploadEmailTemplate, object, { headers: this.headers }).map(
+      res => {
+        return res
+      },
+      err => { return err }
+    );
+  }
+
   saveEditedSms(id, data) {
     let urlEditedSms = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id + '/' + id
     return this.http.put(urlEditedSms, data, { headers: this.headers }).map(
