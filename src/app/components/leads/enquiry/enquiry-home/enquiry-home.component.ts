@@ -1197,8 +1197,7 @@ export class EnquiryHomeComponent implements OnInit {
                 },
                 err => {
                     this.flagJSON.isRippleLoad = false;
-                    let msg = err.error.error && err.error.error[0].errorMessage
-                    this.showErrorMessage('error', 'Error', msg);
+                    this.showErrorMessage('error', 'Error', 'Notification sender Id not approved. Please contact support team.');
                 }
             )
         }

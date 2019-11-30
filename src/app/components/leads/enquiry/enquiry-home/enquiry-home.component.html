@@ -1092,7 +1092,7 @@
         </span>
 
         <div class="popup-content">
-          <h2>Send Notification 2</h2>
+          <h2>Send Notification </h2>
           <div class="common-tab">
               <div class="row">
                 <div class="menu_list c-lg-6 c-md-6 c-sm-6" [ngClass]="{'active':flagJSON.notificationType=='SMS'?true:false}" (click)="sendNotificationType('SMS')">
@@ -1127,7 +1127,7 @@
                         <div class="c-lg-8 pull-left new-sms-wrapper">
                           <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="Enter your SMS here"
                             [(ngModel)]="newSmsString.data" aria-haspopup="true" value="" id="listTxt" (ngModelChange)="countNumberOfMessage()"></textarea>
-                          <div style="width=100%; display:flex; justify-content:space-between;">
+                          <div style="width:100%; display:flex; justify-content:space-between;">
                             <span>Character Count : {{newSmsString.data.length}}</span>
                             <span>Message Count :
                               <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span>
@@ -1271,7 +1271,7 @@
                   <div class="field-sms-wrapper">
                     <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
                       id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!flagJSON.smsBtnToggle" (ngModelChange)="countNumberOfMessageForEdit()"></textarea>
-                    <div style="width=100%; display:flex; justify-content:space-between;font-size:12px">
+                    <div style="width:100%; display:flex; justify-content:space-between;font-size:12px">
                       <span>Character Count : {{selectedSMS.message.length}}</span>
                       <span>Message Count :
                         <span [ngClass]="{'red' : messageCountForEdit >= 2}">{{messageCountForEdit}}</span>
