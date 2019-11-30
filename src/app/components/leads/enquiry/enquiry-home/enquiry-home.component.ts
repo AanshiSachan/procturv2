@@ -1361,6 +1361,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Close Bulk Enquiry Popup and clear the field records and state */
     closeBulkSms() {
+        this.emailSubject='';
         this.flagJSON.isMultiSms = false;
         this.flagJSON.isMessageAddOpen = false;
         this.flagJSON.smsBtnToggle = false;
