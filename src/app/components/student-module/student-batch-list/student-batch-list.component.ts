@@ -35,6 +35,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     @Input() isEdit: boolean = false;
     @Input() standardList: any[] = [];
     @Input() defaultAcadYear: any;
+    @Input() courseId: any;
 
     @Output() assignList = new EventEmitter<any>();
     @Output() closeBatch = new EventEmitter<boolean>();
@@ -70,9 +71,11 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
     ngOnChanges() {
         this.batchList = [];
-        this.batchList = this.dataList.map(e => {
+       this.dataList.map(e => {
             e.data.deleteCourse_SubjectUnPaidFeeSchedules = false;
-            return e;
+            if(e.data.course_id==this.courseId){
+                 this.batchList.push(e);
+            }         
         });
         this.clonedArray = this.commonService.keepCloning(this.batchList);
         if (this.defaultAcadYear == null && this.defaultAcadYear == undefined) {

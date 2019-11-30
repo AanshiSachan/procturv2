@@ -1232,7 +1232,7 @@
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
   <student-batch-list (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)"
-    *ngIf="isAssignBatch" [dataList]="batchList" [defaultAcadYear]="defaultAcadYear" [academicYear]="academicYear"
+    *ngIf="isAssignBatch" [courseId]="instituteCountryDetObj.country_calling_code" [dataList]="batchList" [defaultAcadYear]="defaultAcadYear" [academicYear]="academicYear"
     [standardList]="standardList"></student-batch-list>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
