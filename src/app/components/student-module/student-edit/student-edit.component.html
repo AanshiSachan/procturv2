@@ -77,8 +77,9 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
                     <label for="cNumber">Contact Number<span class="text-danger">*</span></label><br>
                     <span class="countryCallingCode"style="width: 22%">
+                        <!-- [disabled]="countryDetails.length<=1"  -->
                         <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id"
-                        [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
+                        [disabled]="true" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
                         <option value=""></option>
                         <option [value]="data.id" selected *ngFor='let data of countryDetails'>
                           {{data.country_code}} +{{data.country_calling_code}}
@@ -148,8 +149,9 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
                     <label for="parentContactNo">Parent Contact Number</label><br>
                     <span class="countryCallingCode"style="width: 22%">
+                      <!-- [disabled]="countryDetails.length<=1"  -->
                         <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id"
-                        [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
+                        disabled="true" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
                         <option value=""></option>
                         <option [value]="data.id" selected *ngFor='let data of countryDetails'>
                           {{data.country_code}} +{{data.country_calling_code}}
@@ -215,8 +217,9 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_phone != ''}">
                     <label for="guardianContact">Guardian Contact Number</label><br>
                     <span class="countryCallingCode"style="width: 24%">
+                          <!-- [disabled]="countryDetails.length<=1"  -->
                         <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id"
-                        [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
+                        disabled="true" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
                         <option value=""></option>
                         <option [value]="data.id" selected *ngFor='let data of countryDetails'>
                           {{data.country_code}} +{{data.country_calling_code}}

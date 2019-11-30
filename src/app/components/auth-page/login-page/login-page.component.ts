@@ -258,9 +258,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.login.getInstituteCountryDetails(institute_id).subscribe(
       (res: any) => {
         this.countryDetails = res;
-        console.log(res);
         let country_info = JSON.stringify(res);
-          console.log(country_info);
+          // console.log(country_info);
           sessionStorage.setItem('country_data',country_info);
         // console.log(this.instituteCountryDetObj);
       },

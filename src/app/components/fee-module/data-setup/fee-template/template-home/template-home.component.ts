@@ -22,6 +22,7 @@ export class TemplateHomeComponent implements OnInit {
   installmentList: any = [];
   otherInstList: any = [];
   otherFeetype: any = [];
+  countryDetails: any = [];
   AddInstallment = {
     days: 0,
     day_type: 1,
@@ -97,8 +98,17 @@ export class TemplateHomeComponent implements OnInit {
 
   fetchPrefill() {
     this.getFeeStructures();
+    this.fetchDataForCountryDetails();
   }
 
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data.length > 0) {
+      this.countryDetails = data;
+    }
+    // console.log(data);
+  }
 
   getFeeStructures() {
     this.isRippleLoad = true;

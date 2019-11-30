@@ -40,6 +40,7 @@
                 <th>Fee Structure</th>
                 <th>Master Course</th>
                 <th>Course</th>
+                <th>Country</th>
                 <th>Students assigned</th>
                 <th>Action</th>
               </tr>
@@ -57,7 +58,9 @@
                 <td>
                   {{fee.course_subject_name}}
                 </td>
-
+                <td>
+                  {{fee.country_name}}
+                </td>
                 <td>
                   <a (click)="studentsAssigned(fee)">
                     {{fee.totalAssignedStudent}}
@@ -75,7 +78,7 @@
                 </td>
               </tr>
               <tr *ngIf="tabkeList.length == 0">
-                <td colspan="5">
+                <td colspan="6">
                   No Fee Structure Available
                 </td>
               </tr>
@@ -146,7 +149,7 @@
             <div class="row" style="margin-top: 10px;margin-bottom: 10px">
               <div class="c-sm-3 c-md-3 c-lg-3">
                 <div class="field-wrapper has-value">
-                  <label for="slotNew">Total Amount (Rs)*
+                  <label for="slotNew">Total Amount (Rs) <span class="text-danger">*</span>
                   </label>
                   <input type="number" min="0" readonly="true" class="form-ctrl" [(ngModel)]="totalAmountCal" name="slotNew">
 
@@ -154,9 +157,23 @@
               </div>
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper has-value">
-                  <label for="slotNew">Total No of Installments*
+                  <label for="slotNew">Total No of Installments <span class="text-danger">*</span>
                   </label>
                   <input type="number" min="0" readonly="true" #idSlot [value]="installmentList.length" class="form-ctrl" name="slotNew">
+
+                </div>
+              </div>
+              <div class="c-sm-3 c-md-3 c-lg-3">
+                <div class="field-wrapper has-value">
+                  <label for="CourseDdn">Country
+                    <span class="text-danger">*</span>
+                  </label>
+                  <select id="" [disabled]="true" class="form-ctrl" style="background: transparent" name="selectedTemplate.country_id" [(ngModel)]="selectedTemplate.country_id">
+                    <option value="-1"></option>
+                    <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                      (+{{data.country_calling_code}} )&nbsp; {{data.country_name}}
+                    </option>
+                  </select>
 
                 </div>
               </div>
@@ -165,9 +182,6 @@
                   <input type="checkbox" id="checkBoxtaxes" name="checkbx" class="form-checkbox" (click)="onApplyTaxChechbox($event)">
                   <label for="checkbx">Apply Tax({{feeStructure.registeredServiceTax}}%)</label>
                 </div>
-              </div>
-              <div class="c-sm-3 c-md-3 c-lg-3">
-
               </div>
             </div>
 
@@ -219,9 +233,10 @@
                       <tr>
                         <th>Installment # </th>
                         <th>Due Date</th>
-                        <th>Amount</th>
-                        <th>Tax</th>
-                        <th>Fee Amount Incl Tax</th>
+                        <th *ngIf="selectedTemplate.country_id=='1'">Amount</th>
+                        <th *ngIf="selectedTemplate.country_id=='1'">Tax</th>
+                        <th *ngIf="selectedTemplate.country_id!='1'">Fee Amount</th>
+                        <th *ngIf="selectedTemplate.country_id=='1'">Fee Amount Incl Tax</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -239,12 +254,12 @@
                             <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label">
                           </div>
                         </td>
-                        <td>
+                        <td *ngIf="selectedTemplate.country_id=='1'">
                           <div class="field-wrapper">
                             <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
                           </div>
                         </td>
-                        <td>
+                        <td *ngIf="selectedTemplate.country_id=='1'">
                           <div class="field-wrapper">
                             <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.tax' name="label">
                           </div>
@@ -313,7 +328,7 @@
                 </div>
               </div>
 
-              <div class="c-sm-2 c-md-2 c-lg-2">
+              <div class="c-sm-2 c-md-2 c-lg-2" *ngIf="selectedTemplate.country_id=='1'">
                 <div class="field-wrapper has-value">
                   <label for="slotNew">Tax Applicable (%)
                   </label>
@@ -336,9 +351,10 @@
                         <th>Fee Type </th>
                         <th>Trigger Date</th>
                         <th>No.(Days/Months)Due Date</th>
-                        <th>Amount</th>
-                        <th>Tax</th>
-                        <th>Fee Amount Incl Tax</th>
+                        <th *ngIf="selectedTemplate.country_id=='1'">Amount</th>
+                        <th *ngIf="selectedTemplate.country_id=='1'">Tax</th>
+                        <th *ngIf="selectedTemplate.country_id!='1'">Fee Amount</th>
+                        <th *ngIf="selectedTemplate.country_id=='1'">Fee Amount Incl Tax</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -359,12 +375,12 @@
                             <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label">
                           </div>
                         </td>
-                        <td>
+                        <td *ngIf="selectedTemplate.country_id=='1'">
                           <div class="field-wrapper">
                             <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
                           </div>
                         </td>
-                        <td>
+                        <td *ngIf="selectedTemplate.country_id=='1'">
                           <div class="field-wrapper">
                             <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.fees_amount - row.initial_fee_amount' name="label">
                           </div>
