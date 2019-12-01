@@ -1,0 +1,58 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="jsonFlag.isRippleLoad">
+</loaders-css>
+
+<section>
+  <div class="table-container">
+    <div class="heading-container">
+      <div class="heading-item">
+        <span>Book Title</span>
+      </div>
+      <div class="heading-item">
+        <span>Book Count</span>
+      </div>
+      <div class="heading-item">
+        <span>Added Date</span>
+      </div>
+      <div class="heading-item">
+        <span>Edition</span>
+      </div>
+      <div class="heading-item">
+        <span>Publication</span>
+      </div>
+      <div class="heading-item">
+        <span>Subject</span>
+      </div>
+      <div class="heading-item">
+        <span>Volume</span>
+      </div>
+    </div>
+    <div class="value-outer-container">
+      <div class="value-container" *ngFor="let report of neverIssuedBookReportList">
+        <div class="value-item">
+          <span>{{report.book.title}}</span>
+        </div>
+        <div class="value-item">
+          <span>{{report.count}}</span>
+        </div>
+        <div class="value-item">
+          <span>{{report.book.createdDate | date: 'dd MMM yyyy'}}</span>
+        </div>
+        <div class="value-item">
+          <span>{{report.book.edition}}</span>
+        </div>
+        <div class="value-item">
+          <span>{{report.book.publication.name}}</span>
+        </div>
+        <div class="value-item">
+          <span>{{report.book.subject.name}}</span>
+        </div>
+        <div class="value-item">
+          <span>{{report.book.volume}}</span>
+        </div>
+      </div>
+      <div class="no-records" *ngIf="neverIssuedBookReportList.length == 0">
+        <span>No Records Found</span>
+      </div>
+    </div>
+  </div>
+</section>

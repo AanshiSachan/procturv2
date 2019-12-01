@@ -1,3 +1,29 @@
-<div class="coming_soon">
-  <span>Coming soon</span>
-</div>
+<section>
+  <div class="horizontal-menu">
+    <div class="horizontal-menu-item active-menu" id="lost">
+      <span routerLink="/view/library/report/lost" (click)="toggle('lost')">Lost Books</span>
+    </div>
+    <div class="horizontal-menu-item hide" id="scrap">
+      <span routerLink="/view/library/report/scrap" (click)="toggle('scrap')">Scrap Books</span>
+    </div>
+    <div class="horizontal-menu-item" id="fine">
+      <span routerLink="/view/library/report/fine" (click)="toggle('fine')">Fine Collection</span>
+    </div>
+    <div class="horizontal-menu-item" id="issued">
+      <span routerLink="/view/library/report/issued" (click)="toggle('issued')">Issued Books</span>
+    </div>
+    <div class="horizontal-menu-item" id="overdue">
+      <span routerLink="/view/library/report/overdue" (click)="toggle('overdue')">Overdue Books</span>
+    </div>
+    <div class="horizontal-menu-item" id="never">
+      <span routerLink="/view/library/report/never-issued" (click)="toggle('never')">Never Issued Books</span>
+    </div>
+    <div class="horizontal-menu-item" id="return">
+      <span routerLink="/view/library/report/retrun-book" (click)="toggle('return')">Return Books</span>
+    </div>
+  </div>
+</section>
+
+<section class="report-sction">
+  <router-outlet></router-outlet>
+</section>

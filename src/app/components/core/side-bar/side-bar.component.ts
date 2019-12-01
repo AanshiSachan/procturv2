@@ -14,7 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })
-export class SideBarComponent implements OnInit {
+export class SideBarComponent implements OnInit , AfterViewInit{
 
 
   @ViewChild('divAdminTag') divAdminTag: ElementRef;

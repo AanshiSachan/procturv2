@@ -124,7 +124,7 @@
             <div class="book_more_info">
               <span>Publication - {{ suggestion.publications.publication_name | slice:0:12 }}</span>
               <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-              <span>Author(s) - <span *ngFor="let author of suggestion.authorObjects | slice:0:1;">{{author.author_name | slice:0:12}} <span *ngIf="suggestion.authorObjects.length > 1">...</span></span></span>
+              <span>Author(s) - <span *ngFor="let author of suggestion.authorObjects | slice:0:1;">{{author.author_name | slice:0:12}} <span *ngIf="suggestion?.authorObjects?.length > 1">...</span></span></span>
             </div>
           </div>
         </div>
@@ -185,7 +185,7 @@
         <div class="value_item1">
           <span title="{{concatString(book.authorObjects)}}">
             <span *ngFor="let author of book.authorObjects | slice:start:end let i = index">
-              <span *ngIf="i < 2">{{author.author_name | slice:0:10}}<span *ngIf="book.authorObjects.length > 1 && i < 2">,&nbsp;</span>
+              <span *ngIf="i < 2">{{author.author_name | slice:0:10}}<span *ngIf="book.authorObjects?.length > 1 && i < 2">,&nbsp;</span>
                 <span *ngIf="i < 3 && i == 1">...</span>
               </span>
             </span>
@@ -230,7 +230,7 @@
           <span class="title">Author</span>
           <span title="{{concatAuthorList(bookDataForIssue.authorObjects)}}">
             <span class="more_info_value" *ngFor="let author of bookDataForIssue.authorObjects | slice:start:end let p = index;">
-              <span *ngIf="p < 2">{{author.author_name | slice:0:10}}<span *ngIf="bookDataForIssue.authorObjects.length > 1">,&nbsp;</span><span *ngIf="p < 3 && p == 1">...</span>
+              <span *ngIf="p < 2">{{author.author_name | slice:0:10}}<span *ngIf="bookDataForIssue?.authorObjects?.length > 1">,&nbsp;</span><span *ngIf="p < 3 && p == 1">...</span>
 
               </span>
              </span>

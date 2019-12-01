@@ -18,6 +18,11 @@ import { AuthGuard } from './guards/auth.guard';
 import { FetchenquiryService, FetchprefilldataService, PostEnquiryDataService, AuthenticatorService, LoginService, 
   ZendAuth, MultiBranchDataService, TablePreferencesService, PaginationService, CommonServiceFactory, MessageShowService, 
   HttpService, ToDoListService, ExpensesService, AppComponent } from '.';
+import { ProductService } from './services/products.service';
+import { ReturnBookService } from './services/library/return/return-book.service';
+import { IssueBookService } from './services/library/issue/issue-book.service';
+import { MastersService } from './services/library/master/masters.service';
+import { AddBookService } from './services/library/add/add-book.service';
 
 @NgModule({
   imports: [
@@ -56,6 +61,12 @@ import { FetchenquiryService, FetchprefilldataService, PostEnquiryDataService, A
     HttpService,
     ToDoListService,
     ExpensesService,
+    MastersService,
+    AddBookService,
+    IssueBookService,
+    ReturnBookService,
+    ProductService
+
     
     //   {
     //     provide: HTTP_INTERCEPTORS,
