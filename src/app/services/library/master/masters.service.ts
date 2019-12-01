@@ -359,4 +359,16 @@ export class MastersService {
    //     }
    //   )
    // }
+
+   fetchDashboardMonitor(){
+    let url = this.baseUrl + "/library/book/dashboard";
+    return this.http.get(url, { headers: this.headers }).map(
+      response => {
+        return response;
+      },
+      errorResponse => {
+        return errorResponse;
+      }
+    )
+  }
 }

@@ -1,0 +1,58 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="jsonFlag.isRippleLoad">
+</loaders-css>
+
+<section>
+  <div class="table-container">
+    <div class="heading-container">
+      <div class="heading-item">
+        <span>Book Title</span>
+      </div>
+      <div class="heading-item">
+        <span>Borrower Name</span>
+      </div>
+      <div class="heading-item">
+        <span>Issued Date</span>
+      </div>
+      <div class="heading-item">
+        <span>Return Date</span>
+      </div>
+      <div class="heading-item" style="text-align:center;">
+        <span>No of Late Days</span>
+      </div>
+      <div class="heading-item" style="text-align:center;">
+        <span>Total Fine</span>
+      </div>
+      <!-- <div class="heading-item" style="text-align:center;">
+        <span>Action</span>
+      </div> -->
+    </div>
+    <div class="value-outer-container">
+      <div class="value-container" *ngFor="let report of overdueBookReportList">
+        <div class="value-item">
+          <span>{{report.title}}</span>
+        </div>
+        <div class="value-item">
+          <span>{{report.borrower}}</span>
+        </div>
+        <div class="value-item">
+          <span>{{report.issuedDate | date: 'dd MMM yyyy'}}</span>
+        </div>
+        <div class="value-item">
+          <span>{{report.returnDate | date: 'dd MMM yyyy'}}</span>
+        </div>
+        <div class="value-item"  style="text-align:center;">
+          <span>{{report.noOfLateDays}}</span>
+        </div>
+        <div class="value-item"  style="text-align:center;">
+          <span>{{report.totalFine}}</span>
+        </div>
+        <!-- <div class="value-item"  style="text-align:center;">
+          <i class="fa fa-download" aria-hidden="true"  style="cursor: pointer;" (click)=printFeeReceipt(report.issueBookId)></i>
+        </div> -->
+      </div>
+      <div class="no-records" *ngIf="overdueBookReportList.length == 0">
+        <span>No Records Found</span>
+      </div>
+    </div>
+  </div>
+</section>
