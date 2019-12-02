@@ -883,7 +883,7 @@ export class EnquiryEditComponent implements OnInit {
           (data: any) => {
             this.isEnquirySubmit = false;
             if (data.statusCode == 200) {
-              this.showErrorMessage('success', "Enquiry edit successful", 'Your enquiry has been successfully edited');
+              this.showErrorMessage('success', "", 'Enquiry updated successfully');
               if (this.isConvertToStudent) {
                 let obj: any = {
                   name: this.editEnqData.name,
@@ -1159,7 +1159,7 @@ export class EnquiryEditComponent implements OnInit {
   clearLocalAndRoute() {
     this.clearFormData();
     sessionStorage.removeItem('institute_enquiry_id');
-    this.router.navigateByUrl('/view/enquiry');
+    this.router.navigateByUrl('/view/leads/enquiry');
   }
 
 

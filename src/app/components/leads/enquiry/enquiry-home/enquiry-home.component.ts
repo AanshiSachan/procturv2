@@ -101,6 +101,7 @@ export class EnquiryHomeComponent implements OnInit {
     timeJson = { hour: '', minute: '', meridian: '' };
     isMainBranch: any = 'N';
     // smsSearchData: string = "";
+    emailSubject:string="";
     emptyCustomComponent: any;
     smsSelectedRowsLength: number = 0;
     flagJSON: any = {
@@ -125,7 +126,8 @@ export class EnquiryHomeComponent implements OnInit {
         subBranchSelected: false,
         summaryOptions: false,
         showDateRange: false,
-        showPreference: false
+        showPreference: false,
+        notificationType: 'SMS'
     }
     newSmsString = { data: "", type: "", };
     messageCount: number = 0;
@@ -299,8 +301,8 @@ export class EnquiryHomeComponent implements OnInit {
         { primaryKey: 'assigned_name', header: 'Asignee Name', priority: 9 },
         { primaryKey: 'follow_type', header: 'Follow Up Type', priority: 10 },
         { primaryKey: 'standard', header: 'Standard', priority: 11 },
-        { primaryKey: 'referred_by_name', header: 'Referred By', priority: 12},
-        { primaryKey: 'noOfCoursesAssigned', header: 'No. of Courses Assigned', priority: 12}
+        { primaryKey: 'referred_by_name', header: 'Referred By', priority: 12 },
+        { primaryKey: 'noOfCoursesAssigned', header: 'No. of Courses Assigned', priority: 12 }
     ];
     assignMultipleForm: any = {
         enqLi: [],
@@ -315,7 +317,7 @@ export class EnquiryHomeComponent implements OnInit {
         tableDetails: { title: 'Enquiry List', key: 'enquiry.home', showTitle: false },
         search: { title: 'Search', showSearch: false },
         keys: this.displayKeys,
-        selectAll: { showSelectAll: true,  option:'single',title: 'Select Enquiry', checked: false, key: 'enquiry_no' },
+        selectAll: { showSelectAll: true, option: 'single', title: 'Select Enquiry', checked: false, key: 'enquiry_no' },
         actionSetting: {},
         displayMessage: "Enter Detail to Search"
     };
@@ -605,12 +607,12 @@ export class EnquiryHomeComponent implements OnInit {
     }
 
     fetchReferredByData() {
-        let url = '/api/v1/enquiry_campaign/master/lead_referred_by/'+sessionStorage.getItem('institute_id')+'/all'
+        let url = '/api/v1/enquiry_campaign/master/lead_referred_by/' + sessionStorage.getItem('institute_id') + '/all'
         this.httpService.getData(url).subscribe(
-            (res:any)=>{
+            (res: any) => {
                 this.referredByData = res;
             },
-            err =>{
+            err => {
                 console.log(err);
             }
         )
@@ -785,6 +787,11 @@ export class EnquiryHomeComponent implements OnInit {
         removeClassNames.forEach(function (className) {
             document.getElementById(className).classList.remove('hide');
         });
+    }
+
+    /** set notification type */
+    sendNotificationType(type) {
+        this.flagJSON.notificationType = type;
     }
 
     /* Function to close advanced filter */
@@ -1137,7 +1144,64 @@ export class EnquiryHomeComponent implements OnInit {
         }
     }
 
- 
+     /* push new sms template to server and update the table */
+     addNewEmailTemplate() {
+        if (this.selectedSMS.message.trim() == '') {
+            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter a valid text message');
+        }
+        if (this.emailSubject.trim() == '') {
+            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter the subject');
+        }
+        else {
+            let messageId = [];
+            messageId.push((this.selectedSMS.message_id).toString());
+            let email = {
+                "baseIds":this.selectedRowGroup,
+                "messageArray": messageId,
+                "subject": this.emailSubject
+            }
+            this.flagJSON.isRippleLoad = true;
+            this.postdata.addNewEmailTemplate(email).subscribe(
+                (res: any) => {
+                    this.flagJSON.isRippleLoad = false;
+                    if (res.statusCode == 200) {
+                        this.showErrorMessage(this.messageService.toastTypes.success,res.message, '');
+                        this.cd.markForCheck();
+                        this.emailSubject = '';
+                        this.cd.markForCheck();
+                        this.enquire.fetchAllSms().subscribe(
+                            (data: any) => {
+                                this.cd.markForCheck();
+                                this.smsSourceApproved = [];
+                                this.smsSourceOpen = [];
+                                this.varJson.smsDataLength = data.length;
+                                this.varJson.availableSMS = data[0].institute_sms_quota_available
+                                this.cd.markForCheck();
+                                data.forEach(el => {
+                                    if (el.status == 1) {
+                                        this.cd.markForCheck();
+                                        this.smsSourceApproved.push(el);
+                                    }
+                                    else {
+                                        this.cd.markForCheck();
+                                        this.smsSourceOpen.push(el);
+                                    }
+                                })
+                            },
+                            err => {
+                                this.showErrorMessage('error', 'Error', err.error.message);
+                            }
+                        );
+                        this.cd.markForCheck();
+                    }
+                },
+                err => {
+                    this.flagJSON.isRippleLoad = false;
+                    this.showErrorMessage('error', 'Error', 'Notification sender id not approved. Please contact to support team.');
+                }
+            )
+        }
+    }
 
     /* Stores data for row user has clicked of selected */
     appSmsSelected(row, id) {
@@ -1297,6 +1361,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Close Bulk Enquiry Popup and clear the field records and state */
     closeBulkSms() {
+        this.emailSubject='';
         this.flagJSON.isMultiSms = false;
         this.flagJSON.isMessageAddOpen = false;
         this.flagJSON.smsBtnToggle = false;
@@ -2207,7 +2272,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     giveFullPermisionOfBulfAction() {
         this.bulkAddItems = [
-            { label: 'Send SMS', icon: 'fa-envelope-o', command: () => { this.sendBulkSms(); } },
+            { label: 'Send Notification', icon: 'fa-envelope-o', command: () => { this.sendBulkSms(); } },
             { label: 'Delete Enquiries', icon: 'fa-trash-o', command: () => { this.bulkDeleteEnquiries(); } },
             { label: 'Assign Enquiries', icon: 'fa-buysellads', command: () => { this.bulkAssignEnquiriesOpen(); } }
         ];
@@ -2438,7 +2503,7 @@ export class EnquiryHomeComponent implements OnInit {
 
         else if (checkerObj.prop == "Walkin") {
             if (checkerObj.checked) {
-                this.statusString =[];
+                this.statusString = [];
                 let stat = this.statusString.join(',');
                 this.advancedFilterForm.followUpDate = this.getDateFormated(new Date(), "YYYY-MM-DD");
                 this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "Walkin", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_statuses: stat, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
