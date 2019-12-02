@@ -30,13 +30,13 @@
       <div class="heading-item">
         <span>Borrower</span>
       </div>
-      <div class="heading-item">
+      <div class="heading-item" style="width: 15%;">
         <span>Issue Date</span>
       </div>
-      <div class="heading-item">
+      <div class="heading-item" style="width: 15%;">
         <span>Return Date</span>
       </div>
-      <div class="heading-item">
+      <div class="heading-item" style="width: 22%;">
         <span>Actual Returned Date</span>
       </div>
       <div class="heading-item">
@@ -47,39 +47,39 @@
       </div>
       <div class="heading-item">
         <span>Total Fine</span>
-      </div>
+      </div> 
     </div>
     <div class="value-outer-container">
       <div class="value-container" *ngFor="let report of fineCollectionReportList.results">
         <div class="value-item">
-          <span>{{report.title}}</span>
+            <span title="{{report.title}}">{{ (report.title.length > 20) ? (report.title | slice:0:20) + '...' : report.title }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.borrower}}</span>
+            <span title="{{report.borrower}}">{{ (report.borrower.length > 20) ? (report.borrower | slice:0:20) + '...' : report.borrower }}</span>
+        </div>
+        <div class="value-item" style="width: 15%;">
+          <span title="{{report.issuedDate | date: 'dd MMM yyyy'}}">{{report.issuedDate | date: 'dd MMM yyyy'}}</span>
+        </div>
+        <div class="value-item" style="width: 15%;">
+          <span title="{{report.returnDate | date: 'dd MMM yyyy'}}">{{report.returnDate | date: 'dd MMM yyyy'}}</span>
+        </div>
+        <div class="value-item" style="width: 22%;">
+          <span title="{{report.actualReturnDate | date: 'dd MMM yyyy'}}">{{report.actualReturnDate | date: 'dd MMM yyyy'}}</span>
         </div>
         <div class="value-item">
-          <span>{{report.issuedDate | date: 'dd MMM yyyy'}}</span>
+          <span title="{{report.noOfLateDays==0 ?'-':report.noOfLateDays}}">{{report.noOfLateDays==0 ?'-':report.noOfLateDays}}</span>
         </div>
         <div class="value-item">
-          <span>{{report.returnDate | date: 'dd MMM yyyy'}}</span>
+          <span *ngIf="report.status==10" title="Issued">Issued</span>            
+          <span *ngIf="report.status==20" title="Returned">Returned</span>
+          <span *ngIf="report.status==30" title="Overdue">Overdue</span>
+          <span *ngIf="report.status==40" title="Lost By Student">Lost By Student</span>
+          <span *ngIf="report.status==50" title="Scrapped By Student">Scrapped By Student</span>
+          <span *ngIf="report.status==60" title="Lost In Library">Lost In Library</span>
+          <span *ngIf="report.status==70" title="Scrapped In Library">Scrapped In Library</span>
         </div>
         <div class="value-item">
-          <span>{{report.actualReturnDate | date: 'dd MMM yyyy'}}</span>
-        </div>
-        <div class="value-item">
-          <span>{{report.noOfLateDays==0 ?'-':report.noOfLateDays}}</span>
-        </div>
-        <div class="value-item">
-          <span *ngIf="report.status==10">Issued</span>            
-          <span *ngIf="report.status==20">Returned</span>
-          <span *ngIf="report.status==30">Overdue</span>
-          <span *ngIf="report.status==40">Lost By Student</span>
-          <span *ngIf="report.status==50">Scrapped By Student</span>
-          <span *ngIf="report.status==60">Lost In Library</span>
-          <span *ngIf="report.status==70">Scrapped In Library</span>
-        </div>
-        <div class="value-item">
-          <span>{{report.totalFine}}</span>
+          <span title="{{report.totalFine}}">{{report.totalFine}}</span>
         </div>
       </div>
       <div class="no-records" *ngIf="fineCollectionReportList.totalRecords == 0">
@@ -88,3 +88,11 @@
     </div>
   </div>
 </section>
+<div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+      <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+        (sizeChange)="updateTableBatchSize($event)" [count]="totalCount">
+      </pagination>
+    </div>
+  </div>

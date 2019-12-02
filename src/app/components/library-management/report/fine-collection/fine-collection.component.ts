@@ -16,6 +16,13 @@ export class FineCollectionComponent implements OnInit {
   };
   fineCollectionReportList: any[] = [];
   fineCollectionRange: any[] = [];
+  sort:any=false;
+
+   // FOR PAGINATION
+   pageIndex: number = 1;
+   displayBatchSize: number = 10;
+   totalCount: number = 0;
+   sizeArr: any[] = [10, 25, 50, 100, 150, 200, 500];
 
   constructor(
     private router: Router,
@@ -37,10 +44,10 @@ export class FineCollectionComponent implements OnInit {
     	"to": endDate
     	},
     	"sortBy":{
-    		"assending": false
+    		"assending": this.sort
     	},
-    	"pageNo": 1,
-    	"noOfRecords": 1000
+      "pageNo": this.pageIndex,
+  	  "noOfRecords": this.displayBatchSize
     }
 
     this.jsonFlag.isRippleLoad = true;
@@ -50,7 +57,7 @@ export class FineCollectionComponent implements OnInit {
         let res: any;
         res = response
         this.fineCollectionReportList = res;
-        console.log(this.fineCollectionReportList)
+        this.totalCount = res.totalRecords;
       },
       errorResponse => {
         this.jsonFlag.isRippleLoad = false;
@@ -80,4 +87,38 @@ export class FineCollectionComponent implements OnInit {
     document.getElementById(id).click();
   }
 
+  sortTable(obj) {
+    this.sort = ! this.sort;
+    // this.fineCollectionRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
+    // this.fineCollectionRange[1] = new Date();
+    // console.log(this.fineCollectionRange)
+    this.getFineCollectionReport(moment(this.fineCollectionRange[0]).format("YYYY-MM-DD"),moment(this.fineCollectionRange[1]).format("YYYY-MM-DD"));
+  }
+
+  /*** pagination functions */
+  /* Fetch next set of data from server and update table */
+  fetchNext() {
+    this.pageIndex++;
+    this.fectchTableDataByPage(this.pageIndex);
+}
+
+/* Fetch previous set of data from server and update table */
+fetchPrevious() {
+    this.pageIndex--;
+    this.fectchTableDataByPage(this.pageIndex);
+}
+
+/* Fetch table data by page index */
+fectchTableDataByPage(index) {
+  this.pageIndex = index;
+  let startindex = this.displayBatchSize * (index - 1);
+  this.getFineCollectionReport(moment(this.fineCollectionRange[0]).format("YYYY-MM-DD"),moment(this.fineCollectionRange[1]).format("YYYY-MM-DD"));
+}
+
+/* Fetches Data as per the user selected batch size */
+updateTableBatchSize(num) {
+  this.pageIndex = 1;
+  this.displayBatchSize = parseInt(num);
+  this.getFineCollectionReport(moment(this.fineCollectionRange[0]).format("YYYY-MM-DD"),moment(this.fineCollectionRange[1]).format("YYYY-MM-DD"));
+}
 }

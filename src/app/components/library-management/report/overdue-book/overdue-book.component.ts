@@ -17,9 +17,9 @@ export class OverdueBookComponent implements OnInit {
 
    // FOR PAGINATION
    pageIndex: number = 1;
-   displayBatchSize: number = 20;
+   displayBatchSize: number = 10;
    totalCount: number = 0;
-   sizeArr: any[] = [20, 50, 100, 150, 200, 500];
+   sizeArr: any[] = [10, 25, 50, 100, 150, 200, 500];
 
   constructor(
     private reportService: ReportService

@@ -19,6 +19,13 @@ export class IssuedBookComponent implements OnInit {
   issueBookRange: any[] = [];
   searchText: string;
 
+   // FOR PAGINATION
+   pageIndex: number = 1;
+   displayBatchSize: number = 10;
+   totalCount: number = 0;
+   sizeArr: any[] = [10, 25, 50, 100, 150, 200, 500];
+
+
   constructor(
     private router: Router,
     private cd: ChangeDetectorRef,
@@ -44,8 +51,8 @@ export class IssuedBookComponent implements OnInit {
     			"values":[10]
     		}
     	],
-      "pageNo": 1,
-      "noOfRecords": 1000
+      "pageNo": this.pageIndex,
+  	  "noOfRecords": this.displayBatchSize
     }
 
     this.jsonFlag.isRippleLoad = true;
@@ -56,6 +63,7 @@ export class IssuedBookComponent implements OnInit {
         res = response
         this.issueBookReportList = res.results;
         this.fixedIssueBookList = res.results;
+        this.totalCount = res.totalRecords;
       },
       errorResponse => {
         this.jsonFlag.isRippleLoad = false;
@@ -99,5 +107,31 @@ export class IssuedBookComponent implements OnInit {
   openCalendar(id) {
     document.getElementById(id).click();
   }
+   /*** pagination functions */
+  /* Fetch next set of data from server and update table */
+  fetchNext() {
+    this.pageIndex++;
+    this.fectchTableDataByPage(this.pageIndex);
+}
+
+/* Fetch previous set of data from server and update table */
+fetchPrevious() {
+    this.pageIndex--;
+    this.fectchTableDataByPage(this.pageIndex);
+}
+
+/* Fetch table data by page index */
+fectchTableDataByPage(index) {
+  this.pageIndex = index;
+  let startindex = this.displayBatchSize * (index - 1);
+  this.getIssueBookReport(moment(this.issueBookRange[0]).format("YYYY-MM-DD"), moment(this.issueBookRange[1]).format("YYYY-MM-DD"));
+}
+
+/* Fetches Data as per the user selected batch size */
+updateTableBatchSize(num) {
+  this.pageIndex = 1;
+  this.displayBatchSize = parseInt(num);
+  this.getIssueBookReport(moment(this.issueBookRange[0]).format("YYYY-MM-DD"), moment(this.issueBookRange[1]).format("YYYY-MM-DD"));
+}
 
 }

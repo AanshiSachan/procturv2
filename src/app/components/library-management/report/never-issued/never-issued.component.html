@@ -29,25 +29,25 @@
     <div class="value-outer-container">
       <div class="value-container" *ngFor="let report of neverIssuedBookReportList">
         <div class="value-item">
-          <span>{{report.book.title}}</span>
+            <span title="{{report.book.title}}">{{ (report.book.title.length > 20) ? (report.book.title | slice:0:20) + '...' : report.book.title }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.count}}</span>
+            <span title="{{report.count}}">{{ (report.count.length > 20) ? (report.count | slice:0:20) + '...' : report.count }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.book.createdDate | date: 'dd MMM yyyy'}}</span>
+          <span title="{{report.book.createdDate | date: 'dd MMM yyyy'}}">{{report.book.createdDate | date: 'dd MMM yyyy'}}</span>
         </div>
         <div class="value-item">
-          <span>{{report.book.edition}}</span>
+            <span title="{{report.book.edition}}">{{ (report.book.edition.length > 20) ? (report.book.edition | slice:0:20) + '...' : report.book.edition }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.book.publication.name}}</span>
+            <span title="{{report.book.publication.name}}">{{ (report.book.publication.name.length > 20) ? (report.book.publication.name | slice:0:20) + '...' : report.book.publication.name }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.book.subject.name}}</span>
+            <span title="{{report.book.subject.name}}">{{ (report.book.subject.name.length > 20) ? (report.book.subject.name | slice:0:20) + '...' : report.book.subject.name }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.book.volume}}</span>
+            <span title="{{report.book.volume}}">{{ (report.book.volume.length > 20) ? (report.book.volume | slice:0:20) + '...' : report.book.volume }}</span>
         </div>
       </div>
       <div class="no-records" *ngIf="neverIssuedBookReportList.length == 0">
