@@ -837,6 +837,10 @@ export class EnquiryEditComponent implements OnInit {
           this.editEnqData.courseIdArray=null;
         }
 
+        if(this.editEnqData.subjectIdArray=='-1'){
+          this.editEnqData.courseIdArray=null;
+        }
+
         /* isMainBranch,subBranchSelected */
         if (this.isMainBranch == "N" && this.subBranchSelected == false) {
           this.editEnqData.source_instituteId = '-1';
