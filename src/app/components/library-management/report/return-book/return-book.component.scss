@@ -83,3 +83,16 @@ button {
   }
 
 }
+
+.search-box {
+  border: 1px solid #ccc;
+  padding: 5px;
+  width: 20%;
+  float: right;
+  margin-right: 25px;
+  margin-bottom: 10px;
+}
+
+::ng-deep bs-datepicker-container, bs-daterangepicker-container{
+  left: 850 !important; 
+}

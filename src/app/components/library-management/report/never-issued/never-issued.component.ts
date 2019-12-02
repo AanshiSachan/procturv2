@@ -1,6 +1,6 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import { ReportService } from '../../../../services/library/report/report.service';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-never-issued',
@@ -14,14 +14,31 @@ export class NeverIssuedComponent implements OnInit {
     isRippleLoad: false
   };
   neverIssuedBookReportList: any[] = [];
-
+  lostbookrange: any[] = [];
+  lostBookReportList: any[] = [];
+  fineCollectionRange: any[] = [];
+  searchText: string;
   constructor(
-    private reportService: ReportService
+    private reportService: ReportService,
+    private cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
+    this.lostbookrange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
+    this.lostbookrange[1] = new Date(moment().format("YYYY-MM-DD"));
     this.getNeverIssuedBookReport();
   }
+
+  getStartDate() {
+    this.cd.markForCheck();
+    let date = moment().date(1).format("YYYY-MM-DD");
+    return this.fineCollectionRange[0];
+}
+
+getEndDate() {
+    this.cd.markForCheck();
+    return this.fineCollectionRange[1];
+}
 
   getNeverIssuedBookReport(){
 

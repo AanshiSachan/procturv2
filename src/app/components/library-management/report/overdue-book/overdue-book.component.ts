@@ -14,7 +14,7 @@ export class OverdueBookComponent implements OnInit {
     isRippleLoad: false
   };
   overdueBookReportList: any[] = [];
-
+  searchText: string;
    // FOR PAGINATION
    pageIndex: number = 1;
    displayBatchSize: number = 20;

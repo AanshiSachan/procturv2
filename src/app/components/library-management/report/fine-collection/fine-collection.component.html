@@ -19,6 +19,9 @@
         {{getStartDate()| date: 'dd MMM yyyy'}} To {{getEndDate()| date: 'dd MMM yyyy'}}
     </span>
   </div>
+  <div class="filter-search-container">
+    <input class="search-box form-ctrl" type="text" placeholder="Search" (keyup)="searchDatabase()" [(ngModel)]="searchText">
+  </div>
 </section>
 
 <section>
@@ -50,7 +53,7 @@
       </div>
     </div>
     <div class="value-outer-container">
-      <div class="value-container" *ngFor="let report of fineCollectionReportList.results">
+      <div class="value-container" *ngFor="let report of tempFineCollectionReportList">
         <div class="value-item">
           <span>{{report.title}}</span>
         </div>
@@ -82,7 +85,7 @@
           <span>{{report.totalFine}}</span>
         </div>
       </div>
-      <div class="no-records" *ngIf="fineCollectionReportList.totalRecords == 0">
+      <div class="no-records" *ngIf="tempFineCollectionReportList?.length == 0">
         <span>No Records Found</span>
       </div>
     </div>

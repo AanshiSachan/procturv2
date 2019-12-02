@@ -14,8 +14,13 @@ export class FineCollectionComponent implements OnInit {
     isProfessional: false,
     isRippleLoad: false
   };
-  fineCollectionReportList: any[] = [];
+  fineCollectionReportList: any={
+    results:[],
+    totalRecords:0
+  };
+  tempFineCollectionReportList:any=[];
   fineCollectionRange: any[] = [];
+  searchText: string;
 
   constructor(
     private router: Router,
@@ -28,6 +33,22 @@ export class FineCollectionComponent implements OnInit {
     this.fineCollectionRange[1] = new Date();
 
     this.getFineCollectionReport(this.fineCollectionRange[0], this.fineCollectionRange[1]);
+  }
+
+  searchDatabase() {
+    if (this.searchText != "" && this.searchText != null) {
+      let searchData: any;
+      let data = this.fineCollectionReportList.results;
+      const peopleArray = Object.keys(data).map(i => data[i])
+      searchData = peopleArray.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+      );
+      this.tempFineCollectionReportList = searchData;
+    }
+    else {
+      this.tempFineCollectionReportList = this.fineCollectionReportList.results;
+    }
   }
 
   getFineCollectionReport(startDate, endDate){
@@ -50,7 +71,7 @@ export class FineCollectionComponent implements OnInit {
         let res: any;
         res = response
         this.fineCollectionReportList = res;
-        console.log(this.fineCollectionReportList)
+        this.tempFineCollectionReportList = res.results;
       },
       errorResponse => {
         this.jsonFlag.isRippleLoad = false;
@@ -71,7 +92,6 @@ export class FineCollectionComponent implements OnInit {
 
   updateDateRange(e) {
     this.cd.markForCheck();
-
     this.getFineCollectionReport(moment(e[0]).format("YYYY-MM-DD"),moment(e[1]).format("YYYY-MM-DD"));
 
   }
