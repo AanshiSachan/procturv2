@@ -1,6 +1,6 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import { ReportService } from '../../../../services/library/report/report.service';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-overdue-book',
@@ -14,21 +14,57 @@ export class OverdueBookComponent implements OnInit {
     isRippleLoad: false
   };
   overdueBookReportList: any[] = [];
+  tempOverdueBookReportList: any= {};
+  overdueCollectionRange: any[] = [];
   searchText: string;
    // FOR PAGINATION
    pageIndex: number = 1;
-   displayBatchSize: number = 20;
+   displayBatchSize: number = 10;
    totalCount: number = 0;
-   sizeArr: any[] = [20, 50, 100, 150, 200, 500];
+   sizeArr: any[] = [10, 25, 50, 100, 150, 200, 500];
 
   constructor(
+    private cd: ChangeDetectorRef,
     private reportService: ReportService
   ) { }
 
 
   ngOnInit() {
+    this.overdueCollectionRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
+    this.overdueCollectionRange[1] = new Date();
       this.getOverDueBookReport();
   }
+
+  searchDatabase() {
+    if (this.searchText != "" && this.searchText != null) {
+      let searchData: any;
+      let data = this.tempOverdueBookReportList;
+      const peopleArray = Object.keys(data).map(i => data[i])
+      searchData = peopleArray.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+      );
+      this.tempOverdueBookReportList = searchData;
+    }
+    else {
+      this.overdueBookReportList = this.tempOverdueBookReportList;
+    }
+  }
+
+  openCalendar(id) {
+    document.getElementById(id).click();
+  }
+
+  getStartDate() {
+    this.cd.markForCheck();
+    let date = moment().date(1).format("YYYY-MM-DD");
+    return this.overdueCollectionRange[0];
+}
+
+getEndDate() {
+    this.cd.markForCheck();
+    return this.overdueCollectionRange[1];
+}
 
   getOverDueBookReport(){
     let obj = {
@@ -44,6 +80,7 @@ export class OverdueBookComponent implements OnInit {
         res = response
         if(res.results.length > 0){
           this.overdueBookReportList = res.results;
+          this.tempOverdueBookReportList = res;
           this.totalCount = res.totalRecords;
         }
       },

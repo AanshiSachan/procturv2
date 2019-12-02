@@ -1,9 +1,9 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="jsonFlag.isRippleLoad">
 </loaders-css>
 
-<section>
+<!-- <section>
   <div class="filter-date-container">
-    <button class="pull-right" (click)="openCalendar('fineCollectionRange')">
+    <button class="pull-right" (click)="openCalendar('neverIssueCollectionRange')">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <g fill="#0084F6" fill-rule="nonzero">
                 <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
@@ -13,13 +13,13 @@
             </g>
         </svg>
     </button>
-    <input type="text" value="" id="fineCollectionRange" class="widgetDatepicker bsDatepicker" name="fineCollectionRange" [(ngModel)]="fineCollectionRange"
+    <input type="text" value="" id="neverIssueCollectionRange" class="widgetDatepicker bsDatepicker" name="fineCollectionRange" [(ngModel)]="neverIssueCollectionRange"
         (ngModelChange)="updateDateRange($event)" readonly="true" bsDaterangepicker/>
     <span class="enquiry-state-date pull-right">
         {{getStartDate()| date: 'dd MMM yyyy'}} To {{getEndDate()| date: 'dd MMM yyyy'}}
     </span>
   </div>
-</section>
+</section> -->
 <section>
   <div class="table-container">
     <div class="heading-container">
@@ -48,25 +48,25 @@
     <div class="value-outer-container">
       <div class="value-container" *ngFor="let report of neverIssuedBookReportList">
         <div class="value-item">
-          <span>{{report.book.title}}</span>
+            <span title="{{report.book.title}}">{{ (report.book.title.length > 20) ? (report.book.title | slice:0:20) + '...' : report.book.title }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.count}}</span>
+            <span title="{{report.count}}">{{ (report.count.length > 20) ? (report.count | slice:0:20) + '...' : report.count }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.book.createdDate | date: 'dd MMM yyyy'}}</span>
+          <span title="{{report.book.createdDate | date: 'dd MMM yyyy'}}">{{report.book.createdDate | date: 'dd MMM yyyy'}}</span>
         </div>
         <div class="value-item">
-          <span>{{report.book.edition}}</span>
+            <span title="{{report.book.edition}}">{{ (report.book.edition.length > 20) ? (report.book.edition | slice:0:20) + '...' : report.book.edition }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.book.publication.name}}</span>
+            <span title="{{report.book.publication.name}}">{{ (report.book.publication.name.length > 20) ? (report.book.publication.name | slice:0:20) + '...' : report.book.publication.name }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.book.subject.name}}</span>
+            <span title="{{report.book.subject.name}}">{{ (report.book.subject.name.length > 20) ? (report.book.subject.name | slice:0:20) + '...' : report.book.subject.name }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.book.volume}}</span>
+            <span title="{{report.book.volume}}">{{ (report.book.volume.length > 20) ? (report.book.volume | slice:0:20) + '...' : report.book.volume }}</span>
         </div>
       </div>
       <div class="no-records" *ngIf="neverIssuedBookReportList.length == 0">

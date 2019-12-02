@@ -43,16 +43,17 @@
     <div class="value-outer-container">
       <div class="value-container" *ngFor="let report of scrapBookReportList">
         <div class="value-item">
-          <span>{{report.title}}</span>
+            <span title="{{report.title}}">{{ (report.title.length > 20) ? (report.title | slice:0:20) + '...' : report.title }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.borrower}}</span>
+            <span title="{{report.borrower}}">{{ (report.borrower.length > 20) ? (report.borrower | slice:0:20) + '...' : report.borrower }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.date | date: 'dd MMM yyyy'}}</span>
+
+          <span title="{{report.date | date: 'dd MMM yyyy'}}">{{report.date | date: 'dd MMM yyyy'}}</span>
         </div>
         <div class="value-item">
-          <span>{{report.remark}}</span>
+            <span title="{{report.remark}}">{{ (report.remark.length > 20) ? (report.remark | slice:0:20) + '...' : report.remark }}</span>
         </div>
       </div>
       <div class="no-records" *ngIf="scrapBookReportList.length == 0">

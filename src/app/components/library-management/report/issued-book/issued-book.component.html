@@ -43,16 +43,16 @@
     <div class="value-outer-container">
       <div class="value-container" *ngFor="let report of issueBookReportList">
         <div class="value-item">
-          <span>{{report.title}}</span>
+            <span title="{{report.title}}">{{ (report.title.length > 20) ? (report.title | slice:0:20) + '...' : report.title }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.borrower}}</span>
+            <span title="{{report.borrower}}">{{ (report.borrower.length > 20) ? (report.borrower | slice:0:20) + '...' : report.borrower }}</span>
         </div>
         <div class="value-item">
-          <span>{{report.issuedDate | date: 'dd MMM yyyy'}}</span>
+          <span title="{{report.issuedDate | date: 'dd MMM yyyy'}}">{{report.issuedDate | date: 'dd MMM yyyy'}}</span>
         </div>
         <div class="value-item">
-          <span>{{report.returnDate | date: 'dd MMM yyyy'}}</span>
+          <span title="{{report.returnDate | date: 'dd MMM yyyy'}}">{{report.returnDate | date: 'dd MMM yyyy'}}</span>
         </div>
       </div>
       <div class="no-records" *ngIf="issueBookReportList?.length == 0 ||issueBookReportList==null ">
@@ -61,3 +61,11 @@
     </div>
   </div>
 </section>
+<div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+      <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+        (sizeChange)="updateTableBatchSize($event)" [count]="totalCount">
+      </pagination>
+    </div>
+  </div>
