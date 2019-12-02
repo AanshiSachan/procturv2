@@ -85,7 +85,7 @@
           <span title="{{report.totalFine}}">{{report.totalFine}}</span>
         </div>
       </div>
-      <div class="no-records" *ngIf="tempFineCollectionReportList?.length == 0">
+      <div class="no-records" *ngIf="tempFineCollectionReportList?.length == 0 || tempFineCollectionReportList==null">
         <span>No Records Found</span>
       </div>
     </div>
