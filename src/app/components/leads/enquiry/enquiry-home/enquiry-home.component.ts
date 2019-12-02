@@ -1137,6 +1137,8 @@ export class EnquiryHomeComponent implements OnInit {
         }
     }
 
+ 
+
     /* Stores data for row user has clicked of selected */
     appSmsSelected(row, id) {
         this.cd.markForCheck();
@@ -1263,10 +1265,10 @@ export class EnquiryHomeComponent implements OnInit {
                         this.varJson.sendSmsFormData.messageArray = messageId;
                         this.postdata.sendSmsToEnquirer(this.varJson.sendSmsFormData).subscribe(
                             res => {
-                                this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.sendSMS, "Your sms has been sent and will be delivered shortly");
+                                this.showErrorMessage(this.messageService.toastTypes.success, '', "SMS send successfully");
                             },
                             err => {
-                                this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.notSend, "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
+                                this.showErrorMessage(this.messageService.toastTypes.error, '', "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
                             }
                         )
                     }

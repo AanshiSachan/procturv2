@@ -47,6 +47,11 @@
   }
 }
 
+::ng-deep bs-datepicker-container, bs-daterangepicker-container{
+  left: 160px !important; 
+}
+
+
 .search_box_filter_container{
   margin-left: 2%;
   width: 420px;
@@ -58,6 +63,7 @@
   flex-direction: column;
   padding: 16px 26px;
   position: fixed;
+  z-index: 1000;
   .filter_item{
     display: flex;
     flex-direction: row;

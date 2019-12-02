@@ -3,11 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { LibraryManagementComponent } from './library-management.component';
 import { MastersComponent } from './masters/masters.component';
 import { AddBookComponent } from './add-book/add-book.component';
-import { IssueBookComponent } from './issue-book/issue-book.component';
 import { ReturnBookComponent } from './return-book/return-book.component';
-import { LibraryHomeComponent } from './library-home/library-home.component';
-
-const routes: Routes = [];
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { IssueBookComponent } from './issue-book/issue-book.component';
 
 @NgModule({
   imports: [
@@ -19,12 +17,12 @@ const routes: Routes = [];
             children: [
                 {
                     path: '',
-                    component: LibraryHomeComponent,
+                    component: IssueBookComponent,
                     pathMatch: 'prefix'
                 },
                 {
-                    path: 'home',
-                    component: LibraryHomeComponent,
+                    path: 'issue',
+                    component: IssueBookComponent,
                     pathMatch: 'prefix'
                 },
                 {
@@ -38,14 +36,19 @@ const routes: Routes = [];
                     pathMatch: 'prefix'
                 },
                 {
-                    path: 'issue',
-                    component: IssueBookComponent,
-                    pathMatch: 'prefix'
-                },
-                {
                     path: 'return',
                     component: ReturnBookComponent,
                     pathMatch: 'prefix'
+                },
+                {
+                    path: 'dashboard',
+                    component: DashboardComponent,
+                    pathMatch: 'prefix'
+                },
+                {
+                    path: 'report',
+                    loadChildren: "app/components/library-management/report/report.module#ReportModule",
+                    pathMatch: 'prefix',
                 }
             ]
         }

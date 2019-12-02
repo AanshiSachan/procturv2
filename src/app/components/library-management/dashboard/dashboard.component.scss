@@ -1,8 +1,12 @@
-.coming_soon{
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #9b9b9b;
+.pie-wrapper{
+    box-shadow: 0px 0px 2px 1px;
+    background: #fff;
+    .row{
+        margin: 0px;
+    }
+    .field-wrapper{
+        width: 200px;
+        float: right;
+        margin-right: 10px;
+    }
 }

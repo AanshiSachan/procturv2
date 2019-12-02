@@ -1,8 +1,30 @@
-.coming_soon{
+.horizontal-menu{
   display: flex;
-  justify-content: center;
-  margin-top: 50px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #9b9b9b;
+  flex-direction: row;
+  .horizontal-menu-item{
+    display: inline-block;
+    margin: 0 16px;
+    font-weight: bold;
+    position: relative;
+    bottom: -1px;
+    span{
+      color: #9b9b9b;
+      padding-bottom: 8px;
+      cursor: pointer;
+    }
+  }
+  .active-menu span{
+    border-bottom: 3px solid #528ff0;
+    color: #528ff0;
+  }
+  .horizontal-menu-item span:hover{
+      color: #528ff0;
+      border-bottom: 3px solid #528ff0;
+      padding-bottom: 10px;
+      cursor: pointer;
+    }
+}
+
+.report-sction{
+  margin-top: 20px;
 }

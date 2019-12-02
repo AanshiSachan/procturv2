@@ -1,0 +1,91 @@
+.filter-date-container{
+  .enquiry-state-date {
+      font-size: 14px;
+      color: #666;
+      margin-right: 10px;
+      padding-top: 4px;
+      display: inline-block;
+  }
+}
+.widgetDatepicker {
+    position: absolute;
+    margin-left: -10%;
+    width: 1px;
+    visibility: hidden;
+    opacity: 0;
+}
+
+button {
+    background: transparent;
+    &.drag-button {
+        cursor: all-scroll;
+        margin-left: 16px;
+    }
+}
+
+.search-box {
+  border: 1px solid #ccc;
+  padding: 5px;
+  width: 20%;
+  float: right;
+  margin-right: 25px;
+  margin-bottom: 10px;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .heading-container {
+    background: #e0eaec;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ccc;
+    .heading-item {
+      width: 20%;
+    }
+  }
+  .value-outer-container {
+    display: flex;
+    flex-direction: column;
+    .value-container {
+      display: flex;
+      flex-direction: row;
+      text-align: left;
+      padding: 10px;
+      font-size: 12px;
+      border: 1px solid #ccc;
+      border-top: none;
+      .value-item {
+        width: 20%;
+      }
+    }
+    .no-records{
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1px solid #ccc;
+      border-top: none;
+    }
+  }
+
+}
+
+.search-box {
+  border: 1px solid #ccc;
+  padding: 5px;
+  width: 20%;
+  float: right;
+  margin-right: 25px;
+  margin-bottom: 10px;
+}
+
+::ng-deep bs-datepicker-container, bs-daterangepicker-container{
+  left: 650 !important; 
+}

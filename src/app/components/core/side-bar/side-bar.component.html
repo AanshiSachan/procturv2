@@ -61,7 +61,7 @@
       <img src="./assets/images/sidebar/communicate.svg" alt="" class="sideBar_centerAlign">
     <span class="sideBar_centerAlign" style="padding-left: 5px">Communicate</span>
     </span>
-    <span  routerLink="/view/library" [ngClass]="activeSession === 'liseven' ? 'active activeClass' : 'NavLink'"   
+    <span  routerLink="/view/library/issue" [ngClass]="activeSession === 'liseven' ? 'active activeClass' : 'NavLink'"   
     *ngIf="jsonFlags.isShowLibrabry"   (click)="toggler('liseven')">
       <img src="./assets/images/sidebar/library.svg" alt="" class="sideBar_centerAlign">
     <span class="sideBar_centerAlign" style="padding-left: 5px">Library</span>
