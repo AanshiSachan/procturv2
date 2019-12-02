@@ -369,6 +369,7 @@
                     <label for="forSubject">Course</label>
                     <select id="forSubject" class="form-ctrl form-ctrl-multiple"
                       [(ngModel)]="editEnqData.subjectIdArray" name="subject" multiple>
+                      <option value="-1"></option>
                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}
                       </option>
                     </select>
