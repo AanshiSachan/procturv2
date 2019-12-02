@@ -833,7 +833,7 @@ export class EnquiryEditComponent implements OnInit {
         this.editEnqData.enquiry_date = this.fetchDate(this.editEnqData.enquiry_date);
         this.editEnqData.followUpDate = this.fetchDate(this.editEnqData.followUpDate);
 
-        if(this.editEnqData.courseIdArray[0]=='-1'){
+        if(this.editEnqData.courseIdArray=='-1'){
           this.editEnqData.courseIdArray=null;
         }
 
@@ -1163,7 +1163,7 @@ export class EnquiryEditComponent implements OnInit {
   clearLocalAndRoute() {
     this.clearFormData();
     sessionStorage.removeItem('institute_enquiry_id');
-    this.router.navigateByUrl('/view/enquiry');
+    this.router.navigateByUrl('/view/leads/enquiry');
   }
 
 
