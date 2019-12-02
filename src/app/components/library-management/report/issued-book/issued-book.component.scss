@@ -8,6 +8,12 @@
       display: inline-block;
   }
 }
+
+::ng-deep bs-datepicker-container, bs-daterangepicker-container{
+  left: 850 !important; 
+}
+
+
 .widgetDatepicker {
     position: absolute;
     right: 30%;

@@ -42,3 +42,29 @@
   }
 
 }
+
+
+.search-box {
+  border: 1px solid #ccc;
+  padding: 5px;
+  width: 20%;
+  float: right;
+  margin-right: 25px;
+  margin-bottom: 10px;
+}
+
+::ng-deep bs-datepicker-container, bs-daterangepicker-container{
+  left: 850 !important; 
+}
+
+.filter-date-container{
+  position: relative;
+  .enquiry-state-date {
+      font-size: 14px;
+      color: #666;
+      margin-right: 10px;
+      padding-top: 4px;
+      display: inline-block;
+  }
+}
+

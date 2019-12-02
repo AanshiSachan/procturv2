@@ -71,3 +71,16 @@ button {
   }
 
 }
+
+::ng-deep bs-daterangepicker-container {
+  z-index: 1100;
+  left: 850px !important;
+}
+.search-box {
+  border: 1px solid #ccc;
+  padding: 5px;
+  width: 20%;
+  float: right;
+  margin-right: 25px;
+  margin-bottom: 10px;
+}
