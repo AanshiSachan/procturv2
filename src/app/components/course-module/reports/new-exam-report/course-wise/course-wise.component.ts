@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ExamService } from '../../../../../services/report-services/exam.service';
-import { CourseListService } from '../../../../../services/course-services/course-list.service';
-import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
-import { AppComponent } from '../../../../../app.component';
-import { AuthenticatorService } from '../../../../../services/authenticator.service';
-import { MessageShowService } from '../../../../../services/message-show.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
-import * as Highcharts from 'highcharts';
+import * as Highcharts from "highcharts";
+import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
+import { MessageShowService } from '../../../../../services/message-show.service';
+import { AuthenticatorService } from '../../../../../services/authenticator.service';
+import { CourseListService } from '../../../../../services/course-services/course-list.service';
+import { ExamService } from '../../../../../services/report-services/exam.service';
 
 @Component({
   selector: 'app-course-wise',
@@ -22,7 +21,8 @@ export class CourseWiseComponent implements OnInit {
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
-    isRippleLoad: false
+    isRippleLoad: false,
+    type:'batch'
   };
 
   course_id: String;
@@ -47,8 +47,10 @@ export class CourseWiseComponent implements OnInit {
       res => {
         if (res == 'LANG') {
           this.jsonFlag.isProfessional = true;
+          this.jsonFlag.type='batch';
         } else {
           this.jsonFlag.isProfessional = false;
+          this.jsonFlag.type='course';
         }
       }
     )
@@ -125,40 +127,41 @@ export class CourseWiseComponent implements OnInit {
   generateChartData(res) {
     let dateMap: any[] = [];
     let feeMap: any[] = [];
+    let totalMarksMap: any = [];
     let subjectWiseMarks: any[] = [];
 
     res.map(e => {
-      // if(e.avarage_marks > 0){
-      //
-      // }
-      dateMap.push(moment(e.exam_date).format('DD-MMM-YYYY'));
+      dateMap.push(moment(e.exam_date).format('DD-MMM'));
       feeMap.push(e.avarage_marks);
+      totalMarksMap.push(e.total_marks);
       subjectWiseMarks.push(e.subject_wise_statatics)
     });
 
-    this.createChart(dateMap, feeMap);
+    this.createChart(dateMap, feeMap, totalMarksMap);
     this.subjectWiseChart(dateMap, feeMap,subjectWiseMarks);
   }
 
-  createChart(d: any[], f: any[]){
+  createChart(d: any[], f: any[], t: any[]){
 
-    Highcharts.chart('chartWrap', {
+    (Highcharts as any).chart('chartWrap', {
       chart : {
           renderTo : 'container',
           type : 'spline',
-         //  scrollablePlotArea: {
-         //   minWidth: 700,
-         //   scrollPositionX: 0
-         // }
+          scrollablePlotArea: {
+              minWidth: 1800
+          }
         },
         title : {
           text : ''
         },
         xAxis : {
           type : 'datetime',
-          // dateTimeLabelFormats : {
-          //   month : '%e. %b',
-          //   year : '%b'
+          labels: {
+            overflow: 'justify'
+          },
+          // min: 10,
+          // scrollbar: {
+          //     enabled: true
           // },
           title : {
             text : 'Date'
@@ -169,13 +172,31 @@ export class CourseWiseComponent implements OnInit {
           title : {
             text : 'Percentage (%)'
           },
-          min : 0
+          min : 0,
+          max : 100
         },
         tooltip : {
+          // shared: true,
+          useHTML: true,
           formatter : function () {
-            return '<b>' + this.series.name + '</b><br/>' +
-            Highcharts.dateFormat('%e. %b', this.x) + ': ' + this.y + ' marks';
+            var point = this.point
+            let tool = '';
+            tool += 'Avg Marks: ' + this.y + ' marks';
+            for(let i = 0; i < t.length; i++){
+              tool += '<br>'+'Total Marks: ' + t[this.point.index] + ' marks';
+              break;
+            }
+            return tool;
+          },
+          positioner: function(labelWidth, labelHeight, point) {
+              var tooltipX = point.plotX + 0;
+              var tooltipY = point.plotY - 50;
+              return {
+                  x: tooltipX,
+                  y: tooltipY
+              };
           }
+
         },
         plotOptions : {
           area : {
@@ -185,7 +206,7 @@ export class CourseWiseComponent implements OnInit {
               states : {
                 hover : {
                   enabled : true,
-                  radius : 5
+                  radius : 2
                 }
               }
             },
@@ -195,19 +216,19 @@ export class CourseWiseComponent implements OnInit {
                 lineWidth : 1
               }
             }
+          },
+          series: {
+            pointWidth: 20
           }
         },
+
         series : [{
             name : '',
-            type : "area",
-            // showInLegend: false,
-            // fillColor : {
-            //   linearGradient : [0, 0, 0, 300],
-            //   stops : [
-            //     [0, Highcharts.getOptions().colors[2]],
-            //     [1, 'rgba(2,0,0,0)']
-            //   ]
-            // },
+            type : "spline",
+            marker: {
+               radius: 5
+             },
+            showInLegend: false,
             data : f
           }]
     })
@@ -273,9 +294,13 @@ export class CourseWiseComponent implements OnInit {
       subject_series.push(subject);
     }
 
-    Highcharts.chart('subjectWise', {
+    (Highcharts as any).chart('subjectWise', {
       chart: {
-          type: 'column'
+        renderTo : 'container',
+        type: 'column',
+      },
+      scrollablePlotArea: {
+          minWidth: 1800
       },
       title: {
           text: ''
@@ -285,12 +310,18 @@ export class CourseWiseComponent implements OnInit {
           crosshair: true,
           title: {
               text: 'Date'
-          }
+          },
+          type : 'datetime',
+          labels: {
+            overflow: 'justify'
+          },
       },
       yAxis: {
           min: 0,
+          visible: true,
+          tickAmount: 5,
           title: {
-              text: 'Percentage (%)'
+              text: 'Marks'
           }
       },
       tooltip: {
@@ -302,30 +333,11 @@ export class CourseWiseComponent implements OnInit {
           useHTML: true
       },
       plotOptions: {
-          column: {
-              pointPadding: 0.2,
-              borderWidth: 0
-          }
+        series: {
+          pointWidth: 20
+        }
       },
       series: subject_series,
-      // series: [
-      //   {
-      //     name: subjectName1,
-      //     data: subjectA
-      //   },
-      //   {
-      //     name: subjectName2,
-      //     data: subjectB
-      //   },
-      //   {
-      //     name: subjectName3,
-      //     data: subjectC
-      //   },
-      //   {
-      //     name: subjectName4,
-      //     data: subjectD
-      //   }
-      // ]
     })
   }
 

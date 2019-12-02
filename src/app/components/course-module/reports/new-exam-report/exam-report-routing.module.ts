@@ -1,19 +1,16 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-
+import { Routes, RouterModule } from '@angular/router';
+import { NewExamReportComponent } from './new-exam-report.component';
 import { CourseWiseComponent } from './course-wise/course-wise.component';
 import { ExamWiseComponent } from './exam-wise/exam-wise.component';
 import { TeacherPerformanceComponent } from './teacher-performance/teacher-performance.component';
 import { ExamReportHomeComponent } from './exam-report-home/exam-report-home.component';
-import { ExamReportComponent } from './exam-report.component';
-import { ExamReportMainComponent } from '../exam-report-main/exam-report.component';
-
 
 @NgModule({
   imports: [RouterModule.forChild([
     {
       path: '',
-      component: ExamReportComponent,
+      component: NewExamReportComponent,
       pathMatch: 'prefix',
       children: [
           {
@@ -26,7 +23,7 @@ import { ExamReportMainComponent } from '../exam-report-main/exam-report.compone
           },
           {
               path: 'exam',
-              component: ExamReportMainComponent
+              component: ExamReportHomeComponent
           },
           {
               path: 'courseWise/:id',
@@ -45,8 +42,9 @@ import { ExamReportMainComponent } from '../exam-report-main/exam-report.compone
           },
       ]
     }
+  ])],
+  exports: [
+    RouterModule
   ]
-)],
-  exports: [RouterModule]
 })
 export class ExamReportRoutingModule { }

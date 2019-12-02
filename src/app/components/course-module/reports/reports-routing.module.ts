@@ -10,43 +10,43 @@ import { BiometricComponent } from './biometric/biometric.component';
 const routes: Routes = [];
 
 @NgModule({
-  imports: [RouterModule.forChild([
-      {
-          path: '',
-          component: ReportsComponent,
-          pathMatch: 'prefix',
-          children: [
-              {
-                  path: '',
-                  component: ReportHomeComponent,
-              },
-              {
-                  path: 'home',
-                  component: ReportHomeComponent,
-                  pathMatch: 'prefix',
-              },
-              {
-                  path: 'attendance',
-                  component: AttendanceReportComponent
-              },
-              {
-                path: 'exam',
-                  component:ExamReportMainComponent
-              },
-              {
-                path:'biometric',
-                component:BiometricComponent,
-                pathMatch: 'prefix',
-            }
-            //   {
-            //       path: 'exam',
-            //       loadChildren: 'app/components/course-module/reports/exam-report/exam-report.module#ExamReportModule',
-            //       pathMatch: 'prefix'
-            //   },
-          ]
-      }
-  ]
-)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild([
+        {
+            path: '',
+            component: ReportsComponent,
+            pathMatch: 'prefix',
+            children: [
+                {
+                    path: '',
+                    component: ReportHomeComponent,
+                },
+                {
+                    path: 'home',
+                    component: ReportHomeComponent,
+                    pathMatch: 'prefix',
+                },
+                {
+                    path: 'attendance',
+                    component: AttendanceReportComponent
+                },
+                {
+                    path: 'exam',
+                    component: ExamReportMainComponent
+                },
+                {
+                    path: 'biometric',
+                    component: BiometricComponent,
+                    pathMatch: 'prefix',
+                },
+                {
+                    path: 'new-exam',
+                    loadChildren: 'app/components/course-module/reports/new-exam-report/exam-report.module#ExamReportModule',
+                    pathMatch: 'prefix'
+                },
+            ]
+        }
+    ]
+    )],
+    exports: [RouterModule]
 })
 export class ReportsRoutingModule { }

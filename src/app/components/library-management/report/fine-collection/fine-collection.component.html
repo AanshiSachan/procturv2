@@ -37,10 +37,13 @@
         <span>Return Date</span>
       </div>
       <div class="heading-item">
-        <span>Actual Return Date</span>
+        <span>Actual Returned Date</span>
       </div>
       <div class="heading-item">
         <span>No Of Late Days</span>
+      </div>
+      <div class="heading-item">
+        <span>Status</span>
       </div>
       <div class="heading-item">
         <span>Total Fine</span>
@@ -64,7 +67,16 @@
           <span>{{report.actualReturnDate | date: 'dd MMM yyyy'}}</span>
         </div>
         <div class="value-item">
-          <span>{{report.noOfLateDays}}</span>
+          <span>{{report.noOfLateDays==0 ?'-':report.noOfLateDays}}</span>
+        </div>
+        <div class="value-item">
+          <span *ngIf="report.status==10">Issued</span>            
+          <span *ngIf="report.status==20">Returned</span>
+          <span *ngIf="report.status==30">Overdue</span>
+          <span *ngIf="report.status==40">Lost By Student</span>
+          <span *ngIf="report.status==50">Scrapped By Student</span>
+          <span *ngIf="report.status==60">Lost In Library</span>
+          <span *ngIf="report.status==70">Scrapped In Library</span>
         </div>
         <div class="value-item">
           <span>{{report.totalFine}}</span>

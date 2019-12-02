@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ExamService } from '../../../../../services/report-services/exam.service';
-import { CourseListService } from '../../../../../services/course-services/course-list.service';
-import { AppComponent } from '../../../../../app.component';
-import { AuthenticatorService } from '../../../../../services/authenticator.service';
-import { MessageShowService } from '../../../../../services/message-show.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { ExamService } from '../../../../../services/report-services/exam.service';
+import { CourseListService } from '../../../../../services/course-services/course-list.service';
+import { AuthenticatorService } from '../../../../../services/authenticator.service';
+import { MessageShowService } from '../../../../../services/message-show.service';
 @Component({
   selector: 'app-teacher-performance',
   templateUrl: './teacher-performance.component.html',
@@ -16,7 +15,8 @@ export class TeacherPerformanceComponent implements OnInit {
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
-    isRippleLoad: false
+    isRippleLoad: false,
+    type:'batch'
   };
 
   subject_id: string;
@@ -39,8 +39,10 @@ export class TeacherPerformanceComponent implements OnInit {
       res => {
         if (res == 'LANG') {
           this.jsonFlag.isProfessional = true;
+          this.jsonFlag.type='batch';
         } else {
           this.jsonFlag.isProfessional = false;
+          this.jsonFlag.type='course';
         }
       }
     )
@@ -86,7 +88,7 @@ export class TeacherPerformanceComponent implements OnInit {
 
   routeTo(exam_schd_id){
     sessionStorage.setItem('examSchdType', "true");
-    this.router.navigate(['/view/course/reports/exam/examWise/'+exam_schd_id]);
+    this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/new-exam/examWise/'+exam_schd_id]);
   }
 
 }
