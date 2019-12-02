@@ -322,7 +322,7 @@ export class ReturnBookComponent implements OnInit {
 
 
   showReturnBook(returnBookData){
-    this.lostBookAmt = 0;
+    this.lostBookAmt = returnBookData.book_complete_details.book_lost_fine;
     this.noOfLateDays = 0;
     this.totalLateFine = 0;
     this.returnBookRemarks = "";
@@ -334,6 +334,18 @@ export class ReturnBookComponent implements OnInit {
     this.returnIssueBookId = returnBookData.issued_book.issue_book_id;
     this.bookId = returnBookData.book_complete_details.book_id;
     this.checkForReturnDate(moment(returnBookData.issued_book.to_return_on_date).format("DD MMM YYYY"));
+    let timeDiff: any = "";
+    let givenDate = new Date(this.returnBookReturnDate);
+    let tempDate = new Date(this.tempReturnDate);
+    if(givenDate > tempDate){
+      this.noOfLateDays = 0;
+    } else {
+    timeDiff =  Math.abs(moment(this.returnBookReturnDate).diff(moment(this.tempReturnDate), 'days'));
+    if(timeDiff > 0){
+      this.noOfLateDays = timeDiff;
+      this.totalLateFine = this.perDayFine * this.noOfLateDays;
+    }
+  }
     // this.checkForReturnDate(moment(returnBookData.issued_book.to_return_on_date).format("DD MMM YYYY"));
   }
 
@@ -354,7 +366,7 @@ export class ReturnBookComponent implements OnInit {
       }
     }
     else{
-      if(this.noOfLateDays == 0 || this.noOfLateDays == null && !this.disableReturnAmt){
+      if(this.noOfLateDays == null && !this.disableReturnAmt){
         this.messageHandler('error', 'Enter number of late days', '');
         return;
       }
@@ -411,12 +423,19 @@ export class ReturnBookComponent implements OnInit {
   }
 
   selectReturnDate(){
-    let fromDateNotGreaterThanToday = this.graterThanToday(this.returnDate);
-    if(fromDateNotGreaterThanToday){
+    let fromDateNotGreaterThanToday = this.lessThanReturnDate(this.returnDate);
+    if(fromDateNotGreaterThanToday == 'true'){
       this.tempReturnDate = moment(this.returnDate).format("DD MMM YYYY");
+      let timeDiff: any = "";
+      timeDiff =  Math.abs(moment(this.returnBookReturnDate).diff(moment(this.returnDate), 'days'));
+        this.noOfLateDays = timeDiff;
+        this.totalLateFine = this.perDayFine * this.noOfLateDays;
     }
-    else{
+    else if (fromDateNotGreaterThanToday == 'greaterthan'){
       this.messageHandler('error', 'Return date cannot be future date', '');
+      return;
+    } else if (fromDateNotGreaterThanToday == 'lessthan'){
+      this.messageHandler('error', 'It cannot be less than return date', '');
       return;
     }
   }
@@ -441,6 +460,21 @@ export class ReturnBookComponent implements OnInit {
     }
     else{
       return true;
+    }
+  }
+  lessThanReturnDate(givenDate){
+    let currentDate = new Date();
+    givenDate = new Date(givenDate);
+    let tempDate = this.returnBookReturnDate;
+    tempDate = new Date(tempDate);
+    if(givenDate < tempDate){
+      return 'lessthan';
+    } 
+    else if(givenDate > currentDate){
+      return 'greaterthan'
+    }
+    else{
+      return 'true';
     }
   }
 
