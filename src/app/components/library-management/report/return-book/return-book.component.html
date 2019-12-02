@@ -1,8 +1,12 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="jsonFlag.isRippleLoad">
 </loaders-css>
 
+
 <section>
-  <div class="filter-date-container">
+
+    <div style="text-align: center;color: #9b9b9b;font-size: 18px;margin-top: 10%;">Comming Soon</div>
+
+  <!-- <div class="filter-date-container">
     <button class="pull-right" (click)="openCalendar('returnbookrange')">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
         <g fill="#0084F6" fill-rule="nonzero">
@@ -21,10 +25,10 @@
   </div>
   <div class="filter-search-container">
     <input class="search-box form-ctrl" type="text" placeholder="Search" (keyup)="searchDatabase()" [(ngModel)]="searchText">
-  </div>
+  </div> -->
 </section>
 
-<section>
+<!-- <section>
   <div class="table-container">
     <div class="heading-container">
       <div class="heading-item">
@@ -45,9 +49,6 @@
       <div class="heading-item" style="text-align:center;">
         <span>Total Fine</span>
       </div>
-      <!-- <div class="heading-item" style="text-align:center;">
-        <span>Action</span>
-      </div> -->
     </div>
     <div class="value-outer-container">
       <div class="value-container" *ngFor="let report of returnBookReportList">
@@ -69,13 +70,10 @@
         <div class="value-item"  style="text-align:center;">
           <span>{{report.totalFine}}</span>
         </div>
-        <!-- <div class="value-item"  style="text-align:center;">
-          <i class="fa fa-download" aria-hidden="true"  style="cursor: pointer;" (click)=printFeeReceipt(report.issueBookId)></i>
-        </div> -->
       </div>
       <div class="no-records" *ngIf="returnBookReportList.length == 0">
         <span>No Records Found</span>
       </div>
     </div>
   </div>
-</section>
+</section> -->

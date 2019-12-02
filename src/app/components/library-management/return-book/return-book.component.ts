@@ -334,6 +334,7 @@ export class ReturnBookComponent implements OnInit {
     this.returnIssueBookId = returnBookData.issued_book.issue_book_id;
     this.bookId = returnBookData.book_complete_details.book_id;
     this.checkForReturnDate(moment(returnBookData.issued_book.to_return_on_date).format("DD MMM YYYY"));
+    // this.checkForReturnDate(moment(returnBookData.issued_book.to_return_on_date).format("DD MMM YYYY"));
   }
 
   returnBook(){
