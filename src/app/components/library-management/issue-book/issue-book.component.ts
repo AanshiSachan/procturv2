@@ -1,15 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { AddBookService } from '../../../services/library/add/add-book.service';
 import { IssueBookService } from '../../../services/library/issue/issue-book.service';
-
 import * as moment from 'moment';
-import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/merge';
 
 @Component({
@@ -17,7 +13,7 @@ import 'rxjs/add/observable/merge';
   templateUrl: './issue-book.component.html',
   styleUrls: ['./issue-book.component.scss']
 })
-export class IssueBookComponent implements OnInit {
+export class IssueBookComponent implements OnInit , AfterContentChecked{
 
   filter: boolean = false;
   searchResult: boolean = false;
@@ -88,9 +84,15 @@ export class IssueBookComponent implements OnInit {
   ngOnInit() {
 
     this.tempFromDate = moment(new Date()).format("DD MMM YYYY");
-
     this.getAllMasterData();
     this.getInstituteData();
+  }
+
+  ngAfterContentChecked(){
+    if(document.getElementsByTagName('bs-datepicker-container')&&document.getElementsByTagName('bs-datepicker-container')[0]){
+      let element = document.getElementsByTagName('bs-datepicker-container')[0];
+      element['style'].cssText ="position: absolute; display: block; top: 303px; left: 160px !important;";
+    }
   }
 
   getInstituteData(){
@@ -316,6 +318,9 @@ export class IssueBookComponent implements OnInit {
         this.isRippleLoad = false;
         let res: any;
         res = response;
+        this.bookSearchData = [];
+        this.totalCount =0;
+        this.searchResult = true;
         if(res.response.results.length  > 0){
           console.log(response)
           this.bookSearchData = res.response.results;
@@ -323,7 +328,7 @@ export class IssueBookComponent implements OnInit {
           this.searchResult = true;
         }
         else{
-          this.messageHandler('error', 'No data found', '');
+          this.messageHandler('info', 'No data found', '');
           // if(res.errorResponse[0].errorCode == 700){
           //   this.messageHandler('error', 'No data found', '');
           // }
