@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ExamService } from '../../../../../services/report-services/exam.service';
-import { CourseListService } from '../../../../../services/course-services/course-list.service';
-import { AppComponent } from '../../../../../app.component';
-import { AuthenticatorService } from '../../../../../services/authenticator.service';
-import { MessageShowService } from '../../../../../services/message-show.service';
-import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
+import { MessageShowService } from '../../../../../services/message-show.service';
+import { AuthenticatorService } from '../../../../../services/authenticator.service';
+import { CourseListService } from '../../../../../services/course-services/course-list.service';
+import { ExamService } from '../../../../../services/report-services/exam.service';
 
 @Component({
   selector: 'app-exam-report-home',
@@ -18,7 +17,8 @@ export class ExamReportHomeComponent implements OnInit {
     jsonFlag = {
       isProfessional: false,
       institute_id: '',
-      isRippleLoad: false
+      isRippleLoad: false,
+      type:'batch'
     };
     reportJSON: any = {
       master_course_name: "",
@@ -55,8 +55,10 @@ export class ExamReportHomeComponent implements OnInit {
         res => {
           if (res == 'LANG') {
             this.jsonFlag.isProfessional = true;
+            this.jsonFlag.type='batch';
           } else {
             this.jsonFlag.isProfessional = false;
+            this.jsonFlag.type='course';
           }
         }
       )
@@ -87,6 +89,13 @@ export class ExamReportHomeComponent implements OnInit {
         res => {
           this.jsonFlag.isRippleLoad = false;
           this.masterCourseList = res;
+          // this.mastercourse = "12th commer";
+          let master = sessionStorage.getItem('masterCourseForReport');
+          if(master != "" && master != null && master != undefined){
+              this.mastercourse = master;
+              sessionStorage.setItem('masterCourseForReport', '');
+              this.getExamReportForMasterCourse()
+          }
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
@@ -99,6 +108,12 @@ export class ExamReportHomeComponent implements OnInit {
         res => {
           this.jsonFlag.isRippleLoad = false;
           this.standardtList = res;
+          let stand = sessionStorage.getItem('standaradForReport');
+          if(stand != "" && stand != null && stand != undefined ){
+              this.standard = stand;
+              sessionStorage.setItem('standaradForReport', '');
+              this.getExamReportForStandard();
+          }
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
@@ -141,6 +156,7 @@ export class ExamReportHomeComponent implements OnInit {
       this.clearJSON();
       this.reportJSON.master_course_name = this.mastercourse;
       this.examReport = [];
+      this.masterCourseExamReportData = [];
       this.jsonFlag.isRippleLoad = true;
       this.examdata.getAllExamReport(this.reportJSON).subscribe(
         res => {
@@ -233,7 +249,12 @@ export class ExamReportHomeComponent implements OnInit {
       else{
         sessionStorage.setItem('masterCourseForReport', this.mastercourse);
       }
-      this.router.navigate(['/view/course/reports/exam/courseWise/'+course_id]);
+      this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/new-exam/courseWise/'+course_id]);
+    }
+
+    routeForStandard(subject_id){
+      sessionStorage.setItem('standaradForReport', this.standard);
+      this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/new-exam/teacherWise/'+subject_id]);
     }
 
 

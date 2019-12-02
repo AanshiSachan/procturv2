@@ -188,7 +188,27 @@ export class ExamService {
       )
     }
 
-
-
+    downloadExamReport(exam_schd_id, examSchdlType){
+        let url = "";
+        if(!this.isProfessional){
+            if(examSchdlType){
+              url = this.baseUrl + "/api/v1/reports/StdExam/downloadExamReport/examWise/" + this.institute_id +"?exam_schedule_id="+exam_schd_id; // for course model
+            }
+            else{
+              url = this.baseUrl + "/api/v1/reports/StdExam/downloadExamReport/examWise/" + this.institute_id +"?course_exam_schedule_id="+exam_schd_id; // for course model
+            }
+          }
+          else{
+            url = this.baseUrl + "/api/v1/reports/StdExam/downloadExamReport/examWise/" + this.institute_id +"?exam_schedule_id="+exam_schd_id; // for course model
+          }
+        return this.http.get(url, { headers: this.headers }).map(
+          data => {
+              return data;
+          },
+          error => {
+              return error;
+          }
+        )
+      }
 
 }
