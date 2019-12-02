@@ -280,6 +280,49 @@ getCertificateData(objecturl) {
             return err;
         }
     )
+
+}
+
+getUploadFileData(Objecturl) {
+    let url = this._auth.baseUrl + Objecturl;
+    return this._http.get(url, {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization":this.getAuthToken(),
+            "x-proc-authorization": this.getAuthToken(),
+            "x-proc-inst-id": sessionStorage.getItem('institute_id'),
+            "x-proc-user-id": sessionStorage.getItem('userid')
+        }
+    }).map(
+        data => {
+            return data;
+        },
+        err => {
+            return err;
+        }
+    )
+
+}
+
+deleteFile(Objecturl) {
+    let url = this._auth.baseUrl + Objecturl;
+    return this._http.delete(url, {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization":this.getAuthToken(),
+            "x-proc-authorization": this.getAuthToken(),
+            "x-proc-inst-id": sessionStorage.getItem('institute_id'),
+            "x-proc-user-id": sessionStorage.getItem('userid')
+        }
+    }).map(
+        data => {
+            return data;
+        },
+        err => {
+            return err;
+        }
+    )
+
 }
 
 }
