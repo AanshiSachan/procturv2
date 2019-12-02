@@ -20,7 +20,6 @@ export class FineCollectionComponent implements OnInit {
   };
   tempFineCollectionReportList:any=[];
   fineCollectionRange: any[] = [];
-<<<<<<< HEAD
   sort:any=false;
 
    // FOR PAGINATION
@@ -28,9 +27,8 @@ export class FineCollectionComponent implements OnInit {
    displayBatchSize: number = 10;
    totalCount: number = 0;
    sizeArr: any[] = [10, 25, 50, 100, 150, 200, 500];
-=======
+
   searchText: string;
->>>>>>> c092ecf39957a55137a48d9a19de383e3ec8f27b
 
   constructor(
     private router: Router,
@@ -81,12 +79,9 @@ export class FineCollectionComponent implements OnInit {
         let res: any;
         res = response
         this.fineCollectionReportList = res;
-<<<<<<< HEAD
         this.totalCount = res.totalRecords;
-=======
         this.tempFineCollectionReportList = res.results;
->>>>>>> c092ecf39957a55137a48d9a19de383e3ec8f27b
-      },
+     },
       errorResponse => {
         this.jsonFlag.isRippleLoad = false;
       }
