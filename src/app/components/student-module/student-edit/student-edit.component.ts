@@ -15,6 +15,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { CourseListService } from '../../../services/course-services/course-list.service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
+import { ProductService } from '../../../services/products.service';
 
 
 
@@ -126,6 +127,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   instituteCountryDetObj:any={};
   maxlength:number=10;
   country_id: number = null;
+  selectedFiles: any[] = [];
+  customFileArr: any[] = [];
+  category_id: number | string = "";
+  uploadedFileData: any[] = [];
 
   studentAddFormData: StudentForm = {
     student_name: "",
@@ -292,6 +297,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     private commonServiceFactory: CommonServiceFactory,
     private feeService: StudentFeeService,
     private apiService: CourseListService,
+    private productService: ProductService
   ) {
     this.isRippleLoad = true;
     this.getInstType();
@@ -336,6 +342,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     }
     this.fetchDataForCountryDetails();
+    this.getUploadedFileData();
   }
 
   fetchDataForCountryDetails() {
@@ -2625,4 +2632,134 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     document.getElementById('menuList').classList.add('hide');
   }
 
+  storeFiles() {
+      let manualUploadedFileList = (<HTMLInputElement>document.getElementById('uploadFileControl')).files;
+      let filesArr = Array.from(manualUploadedFileList);
+      this.selectedFiles = filesArr;
+  }
+
+  uploadHandler() {
+    if (this.category_id != '') {
+      if (this.selectedFiles.length == 0) {
+        this.appC.popToast({ type: "error", body: "No file selected" })
+        return
+      }
+
+      const path: string = "";
+      let formData = new FormData();
+
+      let arr = Array.from(this.selectedFiles)
+      arr.map((ele, index) => {
+        formData.append("files", ele);
+      })
+      const base = this.auth.getBaseUrl();
+      const fileJson = {title:this.category_id,studentId:this.student_id,documentNumber:""}
+      const urlPostXlsDocument = base + `/users-file/uploadFile?fileJson=${JSON.stringify(fileJson)}`;
+      const newxhr = new XMLHttpRequest();
+      const auths: any = {
+        userid: sessionStorage.getItem('userid'),
+        userType: sessionStorage.getItem('userType'),
+        password: sessionStorage.getItem('password'),
+        institution_id: sessionStorage.getItem('institute_id'),
+      }
+      let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
+
+      newxhr.open("POST", urlPostXlsDocument, true);
+      newxhr.setRequestHeader("x-proc-user-id", sessionStorage.getItem('userid'));
+      newxhr.setRequestHeader("institute_id", sessionStorage.getItem('institute_id'));
+      newxhr.setRequestHeader("Authorization", Authorization);
+      newxhr.setRequestHeader("enctype", "multipart/form-data;");
+      newxhr.setRequestHeader("keyName", path);
+      newxhr.setRequestHeader("Accept", "application/json, text/javascript");
+      newxhr.setRequestHeader("x-proc-inst-id", sessionStorage.getItem('institute_id'));
+      newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      this.isRippleLoad = true;
+      newxhr.onreadystatechange = () => {
+        this.isRippleLoad = false;
+        if (newxhr.readyState == 4) {
+          if (newxhr.status >= 200 && newxhr.status < 300) {
+            let data = {
+              type: 'success',
+              title: "File uploaded successfully",
+              body: newxhr.response.fileName
+            }
+            this.appC.popToast(data);
+            this.getUploadedFileData();
+          } else {
+            let data = {
+              type: 'info',
+              title: "File upload Failed",
+              body: newxhr.response.fileName
+            }
+            this.appC.popToast(data);
+          }
+        }
+      }
+      newxhr.send(formData);
+    } else {
+      if (this.selectedFiles.length == 0) {
+        this.appC.popToast({ type: "error", body: "No file selected" })
+        return
+      }
+
+    }
+    this.category_id = '';
+    (<HTMLInputElement>document.getElementById('uploadFileControl')).value=null;
+  }
+
+  getUploadedFileData() {
+    this.isRippleLoad = true;
+    const url = `/users-file/downloadFile/?studentId=${this.student_id}`;
+    this.productService.getUploadFileData(url).subscribe(
+      (res:any) => {
+        this.uploadedFileData = res;
+        this.isRippleLoad = false;
+      },
+      err => {
+        this.isRippleLoad = false;
+      }
+    )
+  }
+
+  downloadFile(object) {
+    const url = object.fileUrl;
+      var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
+      hiddenDownload.href = url;
+      hiddenDownload.download = object.title;
+      // hiddenDownload.download = this.getOriginalFileName(fileObj.res.file_name);
+      hiddenDownload.click();     
+    this.updateDownloadCount(object);
+  }
+
+  updateDownloadCount(object) {
+    this.isRippleLoad = true;
+    const url = `/users-file/update-File-download-count/?studentId=${this.student_id}&id=${object.id}`;
+    this.productService.getUploadFileData(url).subscribe(
+      (res:any) => {
+        this.isRippleLoad = false;
+      },
+      err => {
+        this.isRippleLoad = false;
+      }
+    )
+  }
+
+  deletefile(id) {
+    if (confirm('Are you sure, you want to delete File?')) {
+    this.isRippleLoad = true;
+    const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
+    this.productService.deleteFile(url).subscribe(
+      (res:any) => {
+        this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "File Deleted Successfully" });      
+        if(res){
+          this.getUploadedFileData();
+        }
+          this.isRippleLoad = false;
+      },
+      err => {
+        this.isRippleLoad = false;
+      }
+    )
+  }
+  }
 }
