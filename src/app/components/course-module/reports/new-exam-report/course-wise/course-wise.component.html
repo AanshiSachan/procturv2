@@ -84,7 +84,7 @@
           <span>Actions</span>
         </div>
       </div>
-      <div class="table-outer-container">
+      <div class="table-outer-container" style="max-height: 70vh;">
         <div class="table-value-container" *ngFor="let report of courseWiseReportList"
         [ngClass]="{'border-completed-class': report.exam_status == 'Mks. Updated', 'border-class': report.exam_status != 'Mks. Updated'}">
           <div class="value-item small-item">

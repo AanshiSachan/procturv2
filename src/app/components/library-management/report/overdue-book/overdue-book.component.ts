@@ -15,6 +15,12 @@ export class OverdueBookComponent implements OnInit {
   };
   overdueBookReportList: any[] = [];
 
+   // FOR PAGINATION
+   pageIndex: number = 1;
+   displayBatchSize: number = 20;
+   totalCount: number = 0;
+   sizeArr: any[] = [20, 50, 100, 150, 200, 500];
+
   constructor(
     private reportService: ReportService
   ) { }
@@ -26,8 +32,8 @@ export class OverdueBookComponent implements OnInit {
 
   getOverDueBookReport(){
     let obj = {
-      "pageNo": 1,
-  	  "noOfRecords": 10
+      "pageNo": this.pageIndex,
+  	  "noOfRecords": this.displayBatchSize
 
     }
     this.jsonFlag.isRippleLoad = true;
@@ -38,6 +44,7 @@ export class OverdueBookComponent implements OnInit {
         res = response
         if(res.results.length > 0){
           this.overdueBookReportList = res.results;
+          this.totalCount = res.totalRecords;
         }
       },
       errorResponse => {
@@ -76,5 +83,32 @@ export class OverdueBookComponent implements OnInit {
   //   return bytes.buffer;
   //
   // }
+
+  /*** pagination functions */
+  /* Fetch next set of data from server and update table */
+  fetchNext() {
+    this.pageIndex++;
+    this.fectchTableDataByPage(this.pageIndex);
+}
+
+/* Fetch previous set of data from server and update table */
+fetchPrevious() {
+    this.pageIndex--;
+    this.fectchTableDataByPage(this.pageIndex);
+}
+
+/* Fetch table data by page index */
+fectchTableDataByPage(index) {
+  this.pageIndex = index;
+  let startindex = this.displayBatchSize * (index - 1);
+  this.getOverDueBookReport();
+}
+
+/* Fetches Data as per the user selected batch size */
+updateTableBatchSize(num) {
+  this.pageIndex = 1;
+  this.displayBatchSize = parseInt(num);
+  this.getOverDueBookReport();
+}
 
 }

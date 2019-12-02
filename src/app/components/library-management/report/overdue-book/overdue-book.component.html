@@ -55,4 +55,13 @@
       </div>
     </div>
   </div>
+
 </section>
+<div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+  <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+    <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+      [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+      (sizeChange)="updateTableBatchSize($event)" [count]="totalCount">
+    </pagination>
+  </div>
+</div>

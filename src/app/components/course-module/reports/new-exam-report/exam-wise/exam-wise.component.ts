@@ -114,7 +114,8 @@ export class ExamWiseComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        // info type msg will be displayed as it will be displayed if no. of subjects are more than 5 
+        this.msgService.showErrorMessage('info', '', err.error.message);
       }
     )
 
