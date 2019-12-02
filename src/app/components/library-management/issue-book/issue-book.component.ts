@@ -13,7 +13,7 @@ import 'rxjs/add/observable/merge';
   templateUrl: './issue-book.component.html',
   styleUrls: ['./issue-book.component.scss']
 })
-export class IssueBookComponent implements OnInit , AfterContentChecked{
+export class IssueBookComponent implements OnInit {
 
   filter: boolean = false;
   searchResult: boolean = false;
@@ -86,13 +86,6 @@ export class IssueBookComponent implements OnInit , AfterContentChecked{
     this.tempFromDate = moment(new Date()).format("DD MMM YYYY");
     this.getAllMasterData();
     this.getInstituteData();
-  }
-
-  ngAfterContentChecked(){
-    if(document.getElementsByTagName('bs-datepicker-container')&&document.getElementsByTagName('bs-datepicker-container')[0]){
-      let element = document.getElementsByTagName('bs-datepicker-container')[0];
-      element['style'].cssText ="position: absolute; display: block; top: 303px; left: 160px !important;";
-    }
   }
 
   getInstituteData(){
