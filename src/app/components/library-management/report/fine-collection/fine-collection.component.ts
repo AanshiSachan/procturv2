@@ -14,8 +14,13 @@ export class FineCollectionComponent implements OnInit {
     isProfessional: false,
     isRippleLoad: false
   };
-  fineCollectionReportList: any[] = [];
+  fineCollectionReportList: any={
+    results:[],
+    totalRecords:0
+  };
+  tempFineCollectionReportList:any=[];
   fineCollectionRange: any[] = [];
+<<<<<<< HEAD
   sort:any=false;
 
    // FOR PAGINATION
@@ -23,6 +28,9 @@ export class FineCollectionComponent implements OnInit {
    displayBatchSize: number = 10;
    totalCount: number = 0;
    sizeArr: any[] = [10, 25, 50, 100, 150, 200, 500];
+=======
+  searchText: string;
+>>>>>>> c092ecf39957a55137a48d9a19de383e3ec8f27b
 
   constructor(
     private router: Router,
@@ -35,6 +43,22 @@ export class FineCollectionComponent implements OnInit {
     this.fineCollectionRange[1] = new Date();
 
     this.getFineCollectionReport(this.fineCollectionRange[0], this.fineCollectionRange[1]);
+  }
+
+  searchDatabase() {
+    if (this.searchText != "" && this.searchText != null) {
+      let searchData: any;
+      let data = this.fineCollectionReportList.results;
+      const peopleArray = Object.keys(data).map(i => data[i])
+      searchData = peopleArray.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+      );
+      this.tempFineCollectionReportList = searchData;
+    }
+    else {
+      this.tempFineCollectionReportList = this.fineCollectionReportList.results;
+    }
   }
 
   getFineCollectionReport(startDate, endDate){
@@ -57,7 +81,11 @@ export class FineCollectionComponent implements OnInit {
         let res: any;
         res = response
         this.fineCollectionReportList = res;
+<<<<<<< HEAD
         this.totalCount = res.totalRecords;
+=======
+        this.tempFineCollectionReportList = res.results;
+>>>>>>> c092ecf39957a55137a48d9a19de383e3ec8f27b
       },
       errorResponse => {
         this.jsonFlag.isRippleLoad = false;
@@ -78,7 +106,6 @@ export class FineCollectionComponent implements OnInit {
 
   updateDateRange(e) {
     this.cd.markForCheck();
-
     this.getFineCollectionReport(moment(e[0]).format("YYYY-MM-DD"),moment(e[1]).format("YYYY-MM-DD"));
 
   }
