@@ -120,7 +120,8 @@ export class GlobalSearchPopupComponent implements OnInit, OnChanges {
       }
       case 'enquiryEdit': {
         this.closeSearchArea();
-        this.router.navigate(['/view/enquiry'], { queryParams: { id: d, action: a } });
+        // this.router.navigate(['/view/leads/enquiry/edit'], { queryParams: { id: d, action: a } });
+        this.router.navigate(['/view/leads/enquiry/edit/' + d]);
         break;
       }
       case 'enquiryUpdate': {
@@ -138,7 +139,8 @@ export class GlobalSearchPopupComponent implements OnInit, OnChanges {
 
   public enquirySelected(e) {
     this.closeSearchArea();
-    this.router.navigate(['/view/enquiry'], { queryParams: { id: e.id } });
+    this.router.navigate(['/view/leads/enquiry/edit/' + e.id ]);
+    // this.router.navigate(['/view/enquiry'], { queryParams: { id: e.id } });
   }
 
   closeSearchArea() {

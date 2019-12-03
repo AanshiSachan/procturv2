@@ -1003,7 +1003,7 @@ export class SideBarComponent implements OnInit , AfterViewInit{
 
   selectedEnquiry(e) {
     this.closeSearch(false);
-    this.router.navigate(['/view/enquiry'], { queryParams: { id: e.id } });
+    this.router.navigate(['/view/leads'], { queryParams: { id: e.id } });
     this.searchBar = false;
   }
 
@@ -1032,8 +1032,9 @@ export class SideBarComponent implements OnInit , AfterViewInit{
         this.enquiryUpdateAction.emit(d);
         this.searchBar = false;
       }
-      else {
-        this.router.navigate(['/view/enquiry'], { queryParams: { id: d.data.id, action: d.action } });
+      else 
+      this.router.navigate(['/view/leads/enquiry/edit/' +d.data.id]);{
+        // this.router.navigate(['/view/leads'], { queryParams: { id: d.data.id, action: d.action } });
         this.searchBar = false;
       }
     }

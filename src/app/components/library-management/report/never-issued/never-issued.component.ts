@@ -16,7 +16,7 @@ export class NeverIssuedComponent implements OnInit {
   neverIssuedBookReportList: any[] = [];
   lostbookrange: any[] = [];
   lostBookReportList: any[] = [];
-  fineCollectionRange: any[] = [];
+  neverIssueCollectionRange: any[] = [];
   searchText: string;
   constructor(
     private reportService: ReportService,
@@ -29,15 +29,19 @@ export class NeverIssuedComponent implements OnInit {
     this.getNeverIssuedBookReport();
   }
 
+  openCalendar(id) {
+    document.getElementById(id).click();
+  }
+  
   getStartDate() {
     this.cd.markForCheck();
     let date = moment().date(1).format("YYYY-MM-DD");
-    return this.fineCollectionRange[0];
+    return this.neverIssueCollectionRange[0];
 }
 
 getEndDate() {
     this.cd.markForCheck();
-    return this.fineCollectionRange[1];
+    return this.neverIssueCollectionRange[1];
 }
 
   getNeverIssuedBookReport(){
