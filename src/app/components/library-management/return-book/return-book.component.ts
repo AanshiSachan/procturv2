@@ -320,6 +320,37 @@ export class ReturnBookComponent implements OnInit {
       })
   }
 
+  downloadReceipt(issueBookId){
+    this.isRippleLoad = true;
+    this.returnBookService.downloadReceipt(issueBookId).subscribe(
+      response => {
+        let res: any;
+        res = response;
+        this.isRippleLoad = false;
+        let byteArr = this.convertBase64ToArray(res.document);
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('feeReceipt_download');
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        dwldLink.click();
+      })
+  }
+
+  convertBase64ToArray(val) {
+
+    var binary_string = window.atob(val);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+
+  }
+
 
   showReturnBook(returnBookData){
     this.lostBookAmt = returnBookData.book_complete_details.book_lost_fine;
@@ -396,6 +427,7 @@ export class ReturnBookComponent implements OnInit {
         this.multiClickDisabled = false;
         console.log(res.response)
         if(res.statusCode == 200){
+          this.downloadReceipt(this.returnIssueBookId)
           this.bookSuggestion = false
           this.searchResult = false;
           this.searchInput = "";
