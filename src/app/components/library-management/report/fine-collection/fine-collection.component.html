@@ -37,10 +37,10 @@
         <span>Issue Date</span>
       </div>
       <div class="heading-item" style="width: 15%;">
-        <span>Return Date</span>
+        <span>Due Date</span>
       </div>
       <div class="heading-item" style="width: 22%;">
-        <span>Actual Returned Date</span>
+        <span>Return Date</span>
       </div>
       <div class="heading-item">
         <span>No Of Late Days</span>
@@ -67,7 +67,8 @@
           <span title="{{report.returnDate | date: 'dd MMM yyyy'}}">{{report.returnDate | date: 'dd MMM yyyy'}}</span>
         </div>
         <div class="value-item" style="width: 22%;">
-          <span title="{{report.actualReturnDate | date: 'dd MMM yyyy'}}">{{report.actualReturnDate | date: 'dd MMM yyyy'}}</span>
+          <span *ngIf="(report.status !== 40 && report.status !== 60)" title="{{report.actualReturnDate | date: 'dd MMM yyyy'}}">{{report.actualReturnDate | date: 'dd MMM yyyy'}}</span>
+          <span title="-" *ngIf="(report.status === 40 || report.status === 60)">-</span>
         </div>
         <div class="value-item">
           <span title="{{report.noOfLateDays==0 ?'-':report.noOfLateDays}}">{{report.noOfLateDays==0 ?'-':report.noOfLateDays}}</span>
