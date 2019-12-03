@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit {
         text: ''
       },
       tooltip: {
-        pointFormat: '<span style="color:{series.color}">●</span> {series.name}: <b>  {point.y} </b>'
+        pointFormat: '<span style="color:{series.color}">●</span> Books: <b>  {point.y} </b>'
       },
       plotOptions: {
         pie: {
