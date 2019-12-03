@@ -90,4 +90,17 @@ export class ReturnBookService {
     )
   }
 
+  downloadReceipt(issueBookId){
+    let url = this.baseUrl + "/library/book/download?issueBookId="+issueBookId;
+    return this.http.get(url, { headers: this.headers }).map(
+      response => {
+        return response;
+      },
+      errorResponse => {
+        return errorResponse;
+      }
+    )
+  }
+
 }
+
