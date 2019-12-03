@@ -1097,7 +1097,7 @@ export class EnquiryHomeComponent implements OnInit {
     /* push new sms template to server and update the table */
     addNewSmsTemplate() {
         if (this.newSmsString.data.trim() == '') {
-            this.showErrorMessage(this.messageService.toastTypes.error, 'Empty Input', 'Please enter a valid text message');
+            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter a valid text message');
         }
         else {
             let sms = { feature_type: 2, message: this.newSmsString.data, sms_type: "Transactional" };
@@ -1147,10 +1147,10 @@ export class EnquiryHomeComponent implements OnInit {
     /* push new sms template to server and update the table */
     addNewEmailTemplate() {
         if (this.selectedSMS.message.trim() == '') {
-            this.showErrorMessage(this.messageService.toastTypes.error, 'Empty Input', 'Please enter a valid text message');
+            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter a valid text message');
         }
         if (this.emailSubject.trim() == '') {
-            this.showErrorMessage(this.messageService.toastTypes.error, 'Empty Input', 'Please enter a subject');
+            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter the subject');
         }
         else {
             let messageId = [];
@@ -1161,9 +1161,11 @@ export class EnquiryHomeComponent implements OnInit {
                 "subject": this.emailSubject
             }
             this.flagJSON.isRippleLoad = true;
+            this.cd.markForCheck();
             this.postdata.addNewEmailTemplate(email).subscribe(
                 (res: any) => {
                     this.flagJSON.isRippleLoad = false;
+                    this.cd.markForCheck();
                     if (res.statusCode == 200) {
                         this.showErrorMessage(this.messageService.toastTypes.success,res.message, '');
                         this.cd.markForCheck();
@@ -1197,7 +1199,8 @@ export class EnquiryHomeComponent implements OnInit {
                 },
                 err => {
                     this.flagJSON.isRippleLoad = false;
-                    this.showErrorMessage('error', 'Error', 'Notification sender Id not approved. Please contact support team.');
+                    this.cd.markForCheck();
+                    this.showErrorMessage('error', 'Error', 'Notification sender id not approved. Please contact to support team.');
                 }
             )
         }
@@ -1290,12 +1293,12 @@ export class EnquiryHomeComponent implements OnInit {
 
             switch (this.selectedSMS.statusValue) {
                 case 'Open': {
-                    this.showErrorMessage(this.messageService.toastTypes.warning, this.messageService.object.SMSMessages.notSend, 'Your sms template is pending approval, kindly contact support');
+                    this.showErrorMessage(this.messageService.toastTypes.warning, '', 'Your sms template is pending approval, kindly contact support');
                     this.cd.markForCheck();
                     break;
                 }
                 case 'Rejected': {
-                    this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.notSend, 'Your sms template has been rejected, kindly contact support');
+                    this.showErrorMessage(this.messageService.toastTypes.error, '', 'Your sms template has been rejected, kindly contact support');
                     this.cd.markForCheck();
                     break;
                 }
@@ -1307,13 +1310,16 @@ export class EnquiryHomeComponent implements OnInit {
                         this.varJson.sendSmsFormData.baseIds = this.selectedRowGroup;
                         this.varJson.sendSmsFormData.messageArray = messageId;
                         this.cd.markForCheck();
+                        this.flagJSON.isRippleLoad = true;
                         this.postdata.sendSmsToEnquirer(this.varJson.sendSmsFormData).subscribe(
                             res => {
-                                this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.sendSMS, "Your sms has been sent and will be delivered shortly");
+                                this.flagJSON.isRippleLoad = false;
+                                this.showErrorMessage(this.messageService.toastTypes.success,'', "SMS send successfully");
                                 this.cd.markForCheck();
                             },
                             err => {
-                                this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.notSend, "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
+                                this.flagJSON.isRippleLoad = false;
+                                this.showErrorMessage(this.messageService.toastTypes.error,'', "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
                                 this.cd.markForCheck();
                             }
                         )
