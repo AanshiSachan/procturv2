@@ -5,6 +5,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { AppComponent } from '../../../../../app.component';
 import { CommonServiceFactory } from '../../../../..';
+import moment = require('moment');
 
 @Component({
   selector: 'app-teacher-edit',
@@ -84,7 +85,9 @@ export class TeacherEditComponent implements OnInit {
           attendance_device_id: this.editTeacherForm.value.attendance_device_id,
           is_active: this.editTeacherForm.value.is_active,
           is_allow_teacher_to_only_mark_attendance: this.editTeacherForm.value.is_allow_teacher_to_only_mark_attendance,
-          is_student_mgmt_flag: this.editTeacherForm.value.is_student_mgmt_flag
+          is_student_mgmt_flag: this.editTeacherForm.value.is_student_mgmt_flag,
+          dob: this.editTeacherForm.value.dob,
+          date_of_joining: this.editTeacherForm.value.date_of_joining
         });
         return;
       }
@@ -120,7 +123,9 @@ export class TeacherEditComponent implements OnInit {
       attendance_device_id: [''],
       is_active: [true],
       is_allow_teacher_to_only_mark_attendance: [false],
-      is_student_mgmt_flag: [true]
+      is_student_mgmt_flag: [true],
+      dob:[''],
+      date_of_joining:['']
     })
   }
 
@@ -161,6 +166,12 @@ export class TeacherEditComponent implements OnInit {
     }
     dataToBind.attendance_device_id = data.attendance_device_id;
     dataToBind.country_id = data.country_id;
+    // dataToBind.dob = '1998-2-2';
+    // dataToBind.date_of_joining = '1998-2-2'
+    dataToBind.dob = data.dob;
+    dataToBind.date_of_joining = data.date_of_joining;
+    this.country_id = data.country_id;
+    console.log(dataToBind)
     return dataToBind;
   }
 
@@ -215,6 +226,8 @@ export class TeacherEditComponent implements OnInit {
     }
     formData.is_employee_to_be_create = "N";
     formData.country_id = this.instituteCountryDetObj.id;
+    formData.dob = moment(formData.dob).format('YYYY-MM-DD');
+    formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD')
     this.ApiService.addNewTeacherDetails(formData).subscribe(
       data => {
         this.messageToast('success', 'Added', 'Faculty Added Successfully.');
@@ -294,6 +307,8 @@ export class TeacherEditComponent implements OnInit {
       formData.id_file = null;
       formData.id_fileType = "";
     }
+    formData.dob = moment(formData.dob).format('YYYY-MM-DD');
+    formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD')
     this.ApiService.saveEditTeacherInformation(this.selectedTeacherInfo.teacher_id, formData).subscribe(
       data => {
         this.messageToast('success', 'Updated', 'Details Updated Successfully.');
