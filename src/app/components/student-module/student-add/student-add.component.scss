@@ -2721,3 +2721,27 @@ input[type=number]::-webkit-outer-spin-button {
     z-index: 2000;
     width: 100%;
   }
+
+  .add-batch-section {
+    margin: 0px 0px 10px -15px;
+    padding: 0px 15px 5px 15px;
+    margin-bottom: 10px;
+    .halfwidth {
+        width: 200px;
+        &.bsDatepicker {
+            background: white;
+        }
+    }
+    .field-wrapper {
+        &.datePickerBox:after {
+            content: '';
+            background: url(/./assets/images/calendar.svg) no-repeat;
+            position: absolute;
+            left: 175px;
+            top: 19px;
+            width: 21px;
+            height: 21px;
+            z-index: 999999;
+        }
+    }
+}

@@ -167,7 +167,11 @@ export class StudentAddComponent implements OnInit {
   addInventory: any = {
     alloted_units: 0,
     item_id: -1,
-    available_units: ''
+    available_units: '',
+    date_of_dispatch: '',
+    name_of_courier_service:'',
+    docket_id:'',
+    date_of_delivery_of_sm:'',
   };
   pdcSearchObj = {
     cheque_status: '-1',
@@ -2393,7 +2397,11 @@ export class StudentAddComponent implements OnInit {
             alloted_units: this.addInventory.alloted_units.toString(),
             institution_id: sessionStorage.getItem('institute_id'),
             item_id: this.addInventory.item_id,
-            student_id: this.student_id
+            student_id: this.student_id,
+            date_of_dispatch: moment(this.addInventory.date_of_dispatch).format('YYYY-MM-DD'),
+            name_of_courier_service: this.addInventory.name_of_courier_service,
+            docket_id:this.addInventory.docket_id,
+            date_of_delivery_of_sm:moment(this.addInventory.date_of_delivery_of_sm).format('YYYY-MM-DD'),
           };
           this.isRippleLoad = true;
           this.postService.allocateInventory(obj).subscribe(
@@ -2403,7 +2411,11 @@ export class StudentAddComponent implements OnInit {
               this.addInventory = {
                 alloted_units: 0,
                 item_id: -1,
-                available_units: ''
+                available_units: '',
+                date_of_dispatch: '',
+                name_of_courier_service:'',
+                docket_id:'',
+                date_of_delivery_of_sm:'',
               };
               this.getAllocatedHistory();
               this.fetchInventoryList();
