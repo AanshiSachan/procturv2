@@ -5,7 +5,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { AppComponent } from '../../../../../app.component';
 import { CommonServiceFactory } from '../../../../..';
-import moment = require('moment');
+import * as  moment from 'moment';
 
 @Component({
   selector: 'app-teacher-edit',
@@ -28,6 +28,7 @@ export class TeacherEditComponent implements OnInit {
   countryDetails: any = [];
   maxlength: number = 10;
   country_id: number = null;
+  isRippleLoad: boolean = false;
 
   constructor(
     private route: Router,
@@ -95,8 +96,10 @@ export class TeacherEditComponent implements OnInit {
   }
 
   getTeacherInfo() {
+    this.isRippleLoad = true;
     this.ApiService.getSelectedTeacherInfo(this.selectedTeacherId).subscribe(
       (data: any) => {
+        this.isRippleLoad = false;
         this.selectedTeacherInfo = data;
         let setFormData = this.getFormFieldsdata(data);
         this.editTeacherForm.setValue(setFormData);
@@ -104,6 +107,7 @@ export class TeacherEditComponent implements OnInit {
         this.hasIdCard = data.hasIDCard;
       },
       error => {
+        this.isRippleLoad = false;
         console.log(error);
       }
     );
@@ -227,13 +231,16 @@ export class TeacherEditComponent implements OnInit {
     formData.is_employee_to_be_create = "N";
     formData.country_id = this.instituteCountryDetObj.id;
     formData.dob = moment(formData.dob).format('YYYY-MM-DD');
-    formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD')
+    formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD');
+    this.isRippleLoad = true;
     this.ApiService.addNewTeacherDetails(formData).subscribe(
       data => {
+        this.isRippleLoad = false;
         this.messageToast('success', 'Added', 'Faculty Added Successfully.');
         this.route.navigateByUrl('/view/course/setup/teacher');
       },
       err => {
+        this.isRippleLoad = false;
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -309,8 +316,10 @@ export class TeacherEditComponent implements OnInit {
     }
     formData.dob = moment(formData.dob).format('YYYY-MM-DD');
     formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD')
+    this.isRippleLoad = true;
     this.ApiService.saveEditTeacherInformation(this.selectedTeacherInfo.teacher_id, formData).subscribe(
       data => {
+        this.isRippleLoad = false;
         this.messageToast('success', 'Updated', 'Details Updated Successfully.');
         if (sessionStorage.getItem('userType') == '3') {
           this.route.navigateByUrl('/view/home/admin');
@@ -319,6 +328,7 @@ export class TeacherEditComponent implements OnInit {
         }
       },
       err => {
+        this.isRippleLoad = false;
         this.messageToast('error', 'Error', err.error.message);
       }
     )
