@@ -11,6 +11,7 @@ export class PartialPayHistoryComponent implements OnInit, OnChanges {
     @Input() schedule_id: any;
     @Input() studentid: any[] = [];
     @Input() defaultAcadYear: any = "";
+    @Input() instituteCountryDetObj: any;
 
     @Output() closeHist = new EventEmitter<boolean>(false);
 

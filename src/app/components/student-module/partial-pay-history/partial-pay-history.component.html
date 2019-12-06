@@ -27,7 +27,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let h of studentPartialPaymentData">
-                        <td>{{h.amount_paid | commaSeprator}}</td>
+                        <td>{{h.amount_paid | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</td>
                         <td>{{h.paid_date | procturDate}}</td>
                         <td>
                             <a id="partialHistory{{h.invoice_no}}" (click)="download(h)">{{h.display_receipt_no}}</a>

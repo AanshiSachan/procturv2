@@ -322,9 +322,9 @@ export class AddStudentPrefillService {
     )
   }
 
-  fetchStudentCourseDetails(id, stndrid): Observable<any> {
+  fetchStudentCourseDetails(id, stndrid,country_id='-1'): Observable<any> {
     stndrid = stndrid == 0 ? -1 : stndrid;
-    let urlCourseById = this.baseUrl + "/api/v1/courseMaster/fetchAssignedCoursesForStudent/" + id + "?standard_id=" + stndrid;
+    let urlCourseById = this.baseUrl + "/api/v1/courseMaster/fetchAssignedCoursesForStudent/" + id + "?standard_id=" + stndrid+'&country_id='+country_id;
     return this.http.get(urlCourseById, { headers: this.headers }).map(
       res => {
         if (res != null) {

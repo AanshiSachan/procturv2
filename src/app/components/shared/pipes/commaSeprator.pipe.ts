@@ -2,12 +2,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: "commaSeprator" })
 export class CommaSeprationAmount implements PipeTransform {
-  transform(value: number, exponent: string): any {
+  transform(value: number,currency:string='INR',lang:string='en-IN'): any {
     if (value != null) {
-      let formatted = value.toLocaleString('en-IN', {
+      let formatted = value.toLocaleString(lang, {
         maximumFractionDigits: 2,
         style: 'currency',
-        currency: 'INR'
+        currency: currency
       }).slice(0, -3);
 
       return formatted;

@@ -56,7 +56,7 @@
                         <option value="percentage">Percentage</option>
                     </select>
                     <p *ngIf="discountPopUpForm.type == 'percentage'">Discount amount is calculated based on the
-                        percentage of actual initial fee amount i.e {{totalFeesAmount | commaSeprator}}</p>
+                        percentage of actual initial fee amount i.e {{totalFeesAmount | commaSeprator:countryDetails.currency_code:countryDetails.country_code}}</p>
 
                 </div>
 
@@ -85,12 +85,12 @@
             <div class="c-lg-8 c-md-8 c-sm-8 c-xs-8 table-section">
                 <h3 *ngIf="showTab ==  'addDiscountTab'">
                     Select Installment(s) to apply discount of {{discountPopUpForm.discountAmount |
-                    commaSeprator}}
+                        commaSeprator:countryDetails.currency_code:countryDetails.country_code}}
                 </h3>
 
                 <h3 *ngIf="showTab ==  'removeDiscountTab'">
                     Select Installment(s) to remove discount of {{discountPopUpForm.discountAmount |
-                    commaSeprator}}
+                        commaSeprator:countryDetails.currency_code:countryDetails.country_code}}
                 </h3>
 
                 <table>
@@ -121,11 +121,11 @@
                             </td>
                             <td>{{item.installment_no}}</td>
                             <td>{{item.course_subject_name}}</td>
-                            <td class="textAllignRight">{{item.discount | commaSeprator}}</td>
+                            <td class="textAllignRight">{{item.discount | commaSeprator:countryDetails.currency_code:countryDetails.country_code}}</td>
                             <td class="textAllignRight" *ngIf="item.balance_amount == 0">
-                                {{item.fees_amount | commaSeprator}}</td>
+                                {{item.fees_amount | commaSeprator:countryDetails.currency_code:countryDetails.country_code}}</td>
                             <td class="textAllignRight" *ngIf="item.balance_amount != 0">
-                                {{item.balance_amount |commaSeprator}}</td>
+                                {{item.balance_amount | commaSeprator:countryDetails.currency_code:countryDetails.country_code}}</td>
                             <td class="status-amount" *ngIf="item.balance_amount == 0">
                                 <span class="due">Unpaid</span></td>
                             <td class="status-amount" *ngIf="item.balance_amount != 0">
@@ -170,7 +170,7 @@
                             <span *ngIf="item.discount_status == 2">Discount Removed</span>
                         </td>
                         <!-- <td>{{item.total_discount_amount}}</td> -->
-                        <td class="textAllignRight">{{item.discount_amount | commaSeprator}}</td>
+                        <td class="textAllignRight">{{item.discount_amount | commaSeprator:countryDetails.currency_code:countryDetails.country_code}}</td>
                     </tr>
                     <tr *ngIf="discountHistory.length == 0">
                         <td colspan="6">

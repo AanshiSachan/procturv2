@@ -343,17 +343,19 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
     this.countryDetails = data;
-    this.country_id = this.countryDetails[0].id;
-    this.maxlength = this.countryDetails[0].country_phone_number_length;
-    console.log(this.countryDetails);
+    let defacult_Country = this.countryDetails.filter((country)=>{
+       return country.is_default=='Y';
+     })
+    this.country_id = defacult_Country[0].id;
+    this.maxlength = defacult_Country[0].country_phone_number_length;
     }
   }
 
   onChangeObj(event){
-    console.log(event);
     this.countryDetails.forEach(element => {
       if(element.id==event){
         this.instituteCountryDetObj = element;
+        this.studentAddFormData.country_id = element.id;
         this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
         this.country_id = element.id;
       }
@@ -367,7 +369,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       res => {
         this.isRippleLoad = false;
         this.academicList = res;
-        console.log("academicList", this.academicList);
+        // console.log("academicList", this.academicList);
       },
       err => {
         this.isRippleLoad = false;
@@ -927,7 +929,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.slots.push(obj);
         });
         this.getlangStudentStatus();
-        console.log(this.slots);
+        // console.log(this.slots);
 
       },
       err => {
@@ -1048,7 +1050,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     return test;
   }
 
-  fetchCourseFromMaster(student_id) {
+  fetchCourseFromMaster(student_id,country_id) {
     let id = "-1";
     if (id == null || id == '') {
       this.courseList = [];
@@ -1066,9 +1068,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       else {
         this.batchList = [];
         this.isRippleLoad = true;
-        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, '-1').subscribe(
+        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, '-1',country_id).subscribe(
           res => {
-            console.log(res);
+            // console.log(res);
             if (res.coursesList != null) {
               res.coursesList.forEach(el => {
                 if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
@@ -1090,7 +1092,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               });
               this.updateAssignedBatches(this.batchList);
               this.isRippleLoad = false;
-              console.log(this.batchList);
+              // console.log(this.batchList);
             }else{
               this.JsonFlags.isDisabled = false;
             }
@@ -1200,13 +1202,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     /* Fetching Student Details from server */
     this.fetchService.getStudentById(id).subscribe(
       (data: any) => {
-        console.log(data);
+        // console.log(data);
         this.isRippleLoad = false;
         this.studentName = data.student_name;
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
-        this.fetchCourseFromMaster(this.studentAddFormData.standard_id);
+        this.fetchCourseFromMaster(this.studentAddFormData.standard_id,this.studentAddFormData.country_id);
         this.countryDetails.forEach(element => {
           if (element.id == this.studentAddFormData.country_id) {
             this.instituteCountryDetObj = element;
@@ -1486,7 +1488,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.studentAddFormData.stuCustomLi = customArr;
       this.studentAddFormData.photo = this.studentServerImage;
       // this.studentAddFormData.country_id=this.instituteCountryDetObj.id;
-      console.log(this.studentAddFormData);
+      // console.log(this.studentAddFormData);
       this.additionalBasicDetails = false;
       if (this.studentAddFormData.assignedBatches == null || this.studentAddFormData.assignedBatches.length == 0) {
         this.studentAddFormData.assignedBatches = null
@@ -1499,7 +1501,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       this.btnSaveAndContinue.nativeElement.disabled = true;
       this.isRippleLoad = true;
-      console.log(this.studentAddFormData);
+      // console.log(this.studentAddFormData);
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         (res: any) => {
           this.isRippleLoad = false;
@@ -1803,10 +1805,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
-          console.log('cardObject', this.cardAmountObject);
+          // console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
           this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax);
-          console.log('subjectWise', this.subjectWiseInstallmentArray);
+          // console.log('subjectWise', this.subjectWiseInstallmentArray);
           this.onPaidOrUnpaidCheckbox();
         } else {
           this.showFeeSection = false;
@@ -2290,6 +2292,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
     }
     this.isRippleLoad = true;
+    this.pdcAddForm.country_id = this.studentAddFormData.country_id;
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
         this.isRippleLoad = false;
