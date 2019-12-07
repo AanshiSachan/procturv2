@@ -38,5 +38,6 @@ export interface StudentForm {
 	language_inst_status?: any, // null,
 	stuCustomLi?: any, //
 	deleteCourse_SubjectUnPaidFeeSchedules: any,
-	archivedStudent?: any
+	archivedStudent?: any,
+	studentFileUploadJson?:any
 }
