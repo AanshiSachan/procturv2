@@ -1015,31 +1015,71 @@
             </h1>
           </section>
 
-          <section class="row invertory-add">
+          <section class="row invertory-add" style="margin-left: 10px;">
 
-            <div class="c-sm-3 c-md-3 c-lg-3">
-              <div class="field-wrapper">
-                <label for="itemInventory">Inventory Item</label>
-                <select id="itemInventory" [(ngModel)]="addInventory.item_id" name="itemInventory" class="form-ctrl"
-                  (ngModelChange)="onInventoryItemSelction()">
-                  <option value="-1"></option>
-                  <option *ngFor="let item of inventoryItemsArr" [value]="item.item_id">
-                    {{item.item_name}}
-                  </option>
-                </select>
-                <p *ngIf="addInventory.item_id != '-1'">Available Units : {{addInventory.available_units}}</p>
-              </div>
-            </div>
 
-            <div class="c-sm-2 c-md-2 c-lg-2">
-              <div class="field-wrapper">
-                <label>Allocate Units</label>
-                <input type="number" class="form-ctrl" [(ngModel)]="addInventory.alloted_units" min="0">
-              </div>
-            </div>
+              <section class="clearFix add-batch-section">
+                  <div class="row">
+                      <div class="c-lg-4 c-sm-4 c-md-4">
+                        <div class="field-wrapper">
+                          <label>Inventory Item
+                          </label>
+                          <select id="itemInventory" class="form-ctrl halfwidth" name="itemInventory" [(ngModel)]="addInventory.item_id"  (ngModelChange)="onInventoryItemSelction()">
+                            <option value="-1"></option>
+                            <option *ngFor="let item of inventoryItemsArr" [value]="item.item_id" title="{{item.item_name}}">
+                                {{ (item.item_name.length > 30) ? (item.item_name | slice:0:30) + '...' : item.item_name }}
+                              </option>
+                          </select>
+                          <p *ngIf="addInventory.item_id != '-1'">Available Units : {{addInventory.available_units}}</p>
+                        </div>
+                      </div>
 
-            <div class="c-sm-2 c-md-2 c-lg-2 btn-section">
-              <button class="btn fullBlue" (click)="allocateInventoryToStudent()">Allocate</button>
+                      <div class="c-lg-4 c-sm-4 c-md-4">
+                          <div class="field-wrapper">
+                            <label>Allocate Units
+                            </label>
+                            <input type="number" class="form-ctrl halfwidth" [(ngModel)]="addInventory.alloted_units" min="0">
+                          </div>
+                        </div>
+
+                        <div class="c-lg-4 c-sm-4 c-md-4">
+                            <div class="field-wrapper">
+                              <label>Name of courier service
+                              </label>
+                              <input type="text" class="form-ctrl halfwidth" [(ngModel)]="addInventory.name_of_courier_service">
+                            </div>
+                          </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="c-lg-4 c-sm-4 c-md-4">
+                            <div class="field-wrapper">
+                              <label>Docket Id
+                              </label>
+                              <input type="text" class="form-ctrl halfwidth" [(ngModel)]="addInventory.docket_id">
+                            </div>
+                          </div>
+  
+                          <div class="c-lg-4 c-sm-4 c-md-4">
+                              <div class="field-wrapper datePickerBox">
+                                <label>Date of dispatch
+                                </label>
+                                <input type="text" class="form-ctrl bsDatepicker halfwidth" readonly="true" [(ngModel)]="addInventory.date_of_dispatch" name="dob" bsDatepicker/>          
+                              </div>
+                            </div>
+
+                            <div class="c-lg-4 c-sm-4 c-md-4">
+                                <div class="field-wrapper datePickerBox">
+                                  <label>Date of delivery of SM
+                                  </label>
+                                  <input type="text" class="form-ctrl bsDatepicker halfwidth" readonly="true" [(ngModel)]="addInventory.date_of_delivery_of_sm" name="dob" bsDatepicker/>          
+                                </div>
+                              </div>
+                      </div>
+                    </section>
+
+            <div class="c-sm-2 c-md-2 c-lg-2 btn-section" style="padding-left: 0;padding-top: 0;">
+              <button class="btn fullBlue" (click)="allocateInventoryToStudent()" style="margin-left: 0;">Allocate</button>
             </div>
 
           </section>
@@ -1061,30 +1101,54 @@
                         Allocated Units
                       </th>
                       <th>
+                          Name of Courier Service
+                      </th>
+                      <th>
+                          Docket ID
+                      </th>
+                      <th>
+                          Date of Dispatch
+                      </th>
+                      <th>
+                          Date of Delivery of SM
+                      </th>
+                      <th>
                         Action
                       </th>
                     </tr>
                   </thead>
                   <tbody *ngIf="allocatedItem.length > 0">
                     <tr *ngFor="let item of allocatedItem;let i = index">
-                      <td>
-                        {{item.item_name}}
-                      </td>
-                      <td>
-                        {{item.category_name}}
-                      </td>
-                      <td>
-                        {{item.alloted_units}}
-                      </td>
+                        <td title="{{item.item_name}}">
+                            {{item.item_name!=''?item.item_name:'-'}}
+                           </td>
+                           <td title="{{item.category_name}}">
+                               {{item.category_name!=''?item.category_name:'-'}}
+                           </td>
+                           <td title="{{item.alloted_units}}">
+                               {{item.alloted_units!=''?item.alloted_units:'-'}}
+                           </td>
+                           <td title="{{item.name_of_courier_service}}">
+                               {{item.name_of_courier_service!=''?item.name_of_courier_service:'-'}}                              
+                             </td>
+                             <td title="{{item.docket_id}}">
+                                 {{item.docket_id!=''?item.docket_id:'-'}}
+                             </td>
+                             <td title="{{item.date_of_dispatch}}">
+                                 {{item.date_of_dispatch!=''?item.date_of_dispatch:'-'}}
+                             </td>
+                              <td title="{{item.date_of_delivery_of_sm}}">
+                                 {{item.date_of_delivery_of_sm!=''?item.date_of_delivery_of_sm:'-'}}
+                              </td>
                       <td>
                         <a *ngIf="item.alloted_units > 0" style="cursor: pointer;"
-                          (click)="deleteInventory(item)">Delete</a>
+                          (click)="deleteInventory(item)" class="fa fa-trash"></a>
                       </td>
                     </tr>
                   </tbody>
                   <tbody *ngIf="allocatedItem.length == 0">
                     <tr>
-                      <td colspan="5" style="text-align: left">
+                      <td colspan="8" style="text-align: left">
                         <h2>No Inventory Allocated</h2>
                       </td>
                     </tr>

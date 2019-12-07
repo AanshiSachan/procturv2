@@ -3,6 +3,7 @@ import { TeacherAPIService } from '../../../../../services/teacherService/teache
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../../../app.component';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-teacher-list',
@@ -55,6 +56,11 @@ export class TeacherListComponent implements OnInit {
         this.isRippleLoad = false;
         this.totalRow = data.length;
         this.teacherListDataSource = data;
+        this.teacherListDataSource.forEach(element => {
+          if(element.date_of_joining !=""){
+          element.date_of_joining =  moment(element.date_of_joining).format('DD-MMM-YYYY');
+          }
+        });
         this.fetchTableDataByPage(this.PageIndex);
       },
       error => {
@@ -62,7 +68,7 @@ export class TeacherListComponent implements OnInit {
         this.isRippleLoad = false;
         let data = {
           type: "error",
-          title: "Error",
+          title: "",
           body: error.error.message
         }
         this.toastCtrl.popToast(data);
@@ -78,7 +84,7 @@ export class TeacherListComponent implements OnInit {
           this.searchDataFlag = false;
           let data = {
             type: "success",
-            title: "Deleted",
+            title: "",
             body: "Faculty Deleted Successfully"
           }
           this.toastCtrl.popToast(data);
@@ -88,7 +94,7 @@ export class TeacherListComponent implements OnInit {
           //console.log(err);
           let data = {
             type: "error",
-            title: "Error",
+            title: "",
             body: err.error.message
           }
           this.toastCtrl.popToast(data);
