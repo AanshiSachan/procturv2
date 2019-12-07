@@ -2763,12 +2763,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   deletefile(id) {
-    if (confirm('Are you sure, you want to delete File?')) {
+    if (confirm('Are you sure, you want to delete file?')) {
     this.isRippleLoad = true;
     const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
     this.productService.deleteFile(url).subscribe(
       (res:any) => {
-        this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "File Deleted Successfully" });      
+        this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "File deleted successfully" });      
         if(res){
           this.getUploadedFileData();
         }
