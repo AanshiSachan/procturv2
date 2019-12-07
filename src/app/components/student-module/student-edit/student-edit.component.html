@@ -1174,7 +1174,7 @@
                                  {{item.date_of_delivery_of_sm!=''?item.date_of_delivery_of_sm:'-'}}
                               </td>
                       <td>
-                        <a *ngIf="item.alloted_units > 0" style="cursor: pointer;" (click)="deleteInventory(item)" class="fa fa-trash"></a>
+                        <a *ngIf="item.alloted_units > 0" style="cursor: pointer;" (click)="deleteInventory(item)" class="fa fa-trash" title="Delete"></a>
                       </td>
                     </tr>
                   </tbody>

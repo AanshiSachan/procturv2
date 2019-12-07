@@ -78,7 +78,8 @@
               <li>
                 <!-- (click)="studentSelected(student)" -->
                 <a>
-                  <img src="" alt="" />
+                  <!-- <img src="" alt="" /> -->
+                  <img [src]="student.thumbnail_url" alt="profile" class="profile_img" title="{{student.name}}">
                   <span class="sdb-right">
                     <label>
                       <strong>{{student.name}}</strong>
