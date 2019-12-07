@@ -172,7 +172,7 @@
                         <!-- <td>{{item.total_discount_amount}}</td> -->
                         <td class="textAllignRight">{{item.discount_amount | commaSeprator:countryDetails.currency_code:countryDetails.country_code}}</td>
                     </tr>
-                    <tr *ngIf="discountHistory.length == 0">
+                    <tr *ngIf="discountHistory?.length == 0">
                         <td colspan="6">
                             No Discount Applied or Removed
                         </td>
