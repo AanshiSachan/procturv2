@@ -482,6 +482,27 @@
         <section class="clearFix student-flow row " id="studentFlow">
           <aside class="pull-left middle-left">
             <div class="form-type1 other-detail-wrapper" style="max-width: 360px;">
+              <div> 
+                <div class="uploadText">
+                    <span style="font-weight: 600;">Upload Doument</span>
+                    </div>
+                    <div class="documentUploadDiv">
+                      <div class="row" style="padding-bottom:5px;padding-top: 5px;">
+                        <div class="field-wrapper">
+                          <label>Document Title <span style="color: red;">*</span></label>
+                            <input type="text" id="category_id" [(ngModel)]="category_id" class="form-ctrl" name="category_id"
+                              [maxlength]="30" />
+                        </div>
+                      </div>  
+                      <div class="row">
+                        <div class="field-wrapper">
+                          <label>Choose File(Ctrl + ) To Upload</label>
+                            <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox" style="width: 75%;float: left;"/>
+                            <a class="btn fullBlue" style="float: left;margin-left:10px ;" (click)="uploadHandler();" >Upload</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
               <custom-student *ngFor="let component of customComponents">
 
                 <div class="row" *ngIf="component.type == 1" input-def>
@@ -559,6 +580,27 @@
             </div>
 
           </aside>
+          <aside class="pull-right middle-right" id="studentRightSideBar" style="height: 62vh;overflow-y: auto;">
+            <div class="common-right-section">
+            </div>
+        <section class="enquiry-detail common-right-section">
+            <h4>
+              <strong>Document Details</strong> 
+            </h4>
+            <div style="min-height: 345px;padding: 0;" class="box-shadow-lite">
+              <div class="document_header">
+              <div class="uploadedData">File Name</div>
+              <div style="width: 25%;float: left;"></div>
+            </div>
+            <div class="document_data" *ngFor='let data of selectedFiles;let i = index' style="height: 30px;border-bottom: 1px solid #ccc;margin-bottom: 5px;">
+              <div style="padding-top: 5px;" class="uploadedData">{{data.title}} </div>
+              <div style="width: 25%;float: left;text-align: right;">
+                  <i  class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;" title="Delete File" (click)="deletefile(data,i)"></i>
+              </div>
+            </div>
+            </div>
+        </section>
+        </aside>
         </section>
         <section class="middle-bottom clearFix ">
           <aside class="pull-left">
@@ -1026,8 +1068,8 @@
                           </label>
                           <select id="itemInventory" class="form-ctrl halfwidth" name="itemInventory" [(ngModel)]="addInventory.item_id"  (ngModelChange)="onInventoryItemSelction()">
                             <option value="-1"></option>
-                            <option *ngFor="let item of inventoryItemsArr" [value]="item.item_id">
-                                {{item.item_name}}
+                            <option *ngFor="let item of inventoryItemsArr" [value]="item.item_id" title="{{item.item_name}}">
+                                {{ (item.item_name.length > 30) ? (item.item_name | slice:0:30) + '...' : item.item_name }}
                               </option>
                           </select>
                           <p *ngIf="addInventory.item_id != '-1'">Available Units : {{addInventory.available_units}}</p>
@@ -1119,30 +1161,30 @@
                   </thead>
                   <tbody *ngIf="allocatedItem.length > 0">
                     <tr *ngFor="let item of allocatedItem;let i = index">
-                      <td>
-                        {{item.item_name}}
-                      </td>
-                      <td>
-                        {{item.category_name}}
-                      </td>
-                      <td>
-                        {{item.alloted_units}}
-                      </td>
-                      <td>
-                          {{item.name_of_courier_service}}
-                        </td>
-                        <td>
-                            {{item.docket_id}}
-                        </td>
-                        <td>
-                            {{item.date_of_dispatch}}
-                        </td>
-                         <td>
-                             {{item.date_of_delivery_of_sm}}
-                         </td>
+                        <td title="{{item.item_name}}">
+                            {{item.item_name!=''?item.item_name:'-'}}
+                           </td>
+                           <td title="{{item.category_name}}">
+                               {{item.category_name!=''?item.category_name:'-'}}
+                           </td>
+                           <td title="{{item.alloted_units}}">
+                               {{item.alloted_units!=''?item.alloted_units:'-'}}
+                           </td>
+                           <td title="{{item.name_of_courier_service}}">
+                               {{item.name_of_courier_service!=''?item.name_of_courier_service:'-'}}                              
+                             </td>
+                             <td title="{{item.docket_id}}">
+                                 {{item.docket_id!=''?item.docket_id:'-'}}
+                             </td>
+                             <td title="{{item.date_of_dispatch}}">
+                                 {{item.date_of_dispatch!=''?item.date_of_dispatch:'-'}}
+                             </td>
+                              <td title="{{item.date_of_delivery_of_sm}}">
+                                 {{item.date_of_delivery_of_sm!=''?item.date_of_delivery_of_sm:'-'}}
+                              </td>
                       <td>
                         <a *ngIf="item.alloted_units > 0" style="cursor: pointer;"
-                          (click)="deleteInventory(item)">Delete</a>
+                          (click)="deleteInventory(item)" class="fa fa-trash" title="Delete"></a>
                       </td>
                     </tr>
                   </tbody>

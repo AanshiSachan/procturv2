@@ -2547,15 +2547,21 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.appC.popToast({ type: "error", title: "Error", body: "Please provide allocated unit less than available units" });
           return;
         } else {
+          if(this.addInventory.date_of_dispatch!=''){
+            this.addInventory.date_of_dispatch = moment(this.addInventory.date_of_dispatch).format('YYYY-MM-DD')
+          }
+          if(this.addInventory.date_of_delivery_of_sm!=''){
+            this.addInventory.date_of_delivery_of_sm = moment(this.addInventory.date_of_delivery_of_sm).format('YYYY-MM-DD')
+          }
           let obj: any = {
             alloted_units: this.addInventory.alloted_units.toString(),
             institution_id: sessionStorage.getItem('institute_id'),
             item_id: this.addInventory.item_id,
             student_id: this.student_id,
-            date_of_dispatch: moment(this.addInventory.date_of_dispatch).format('YYYY-MM-DD'),
+            date_of_dispatch:this.addInventory.date_of_dispatch,
             name_of_courier_service: this.addInventory.name_of_courier_service,
             docket_id:this.addInventory.docket_id,
-            date_of_delivery_of_sm:moment(this.addInventory.date_of_delivery_of_sm).format('YYYY-MM-DD'),
+            date_of_delivery_of_sm:this.addInventory.date_of_delivery_of_sm,
           };
           this.isRippleLoad = true;
           this.postService.allocateInventory(obj).subscribe(
@@ -2757,12 +2763,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   deletefile(id) {
-    if (confirm('Are you sure, you want to delete File?')) {
+    if (confirm('Are you sure, you want to delete file?')) {
     this.isRippleLoad = true;
     const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
     this.productService.deleteFile(url).subscribe(
       (res:any) => {
-        this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "File Deleted Successfully" });      
+        this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "File deleted successfully" });      
         if(res){
           this.getUploadedFileData();
         }

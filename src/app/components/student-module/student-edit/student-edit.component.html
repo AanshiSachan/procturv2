@@ -1059,8 +1059,8 @@
                           </label>
                           <select id="itemInventory" class="form-ctrl halfwidth" name="itemInventory" [(ngModel)]="addInventory.item_id"  (ngModelChange)="onInventoryItemSelction()">
                             <option value="-1"></option>
-                            <option *ngFor="let item of inventoryItemsArr" [value]="item.item_id">
-                                {{item.item_name}}
+                            <option *ngFor="let item of inventoryItemsArr" [value]="item.item_id" title="{{item.item_name}}">
+                                {{ (item.item_name.length > 30) ? (item.item_name | slice:0:30) + '...' : item.item_name }}
                               </option>
                           </select>
                           <p *ngIf="addInventory.item_id != '-1'">Available Units : {{addInventory.available_units}}</p>
@@ -1152,29 +1152,29 @@
                   </thead>
                   <tbody *ngIf="allocatedItem.length > 0">
                     <tr *ngFor="let item of allocatedItem;let i = index">
+                        <td title="{{item.item_name}}">
+                            {{ item.item_name!='' ? item.item_name : '-' }}
+                           </td>
+                           <td title="{{item.category_name}}">
+                               {{item.category_name!=''?item.category_name:'-'}}
+                           </td>
+                           <td title="{{item.alloted_units}}">
+                               {{item.alloted_units!=''?item.alloted_units:'-'}}
+                           </td>
+                           <td title="{{item.name_of_courier_service}}">
+                               {{item.name_of_courier_service!=''?item.name_of_courier_service:'-'}}                              
+                             </td>
+                             <td title="{{item.docket_id}}">
+                                 {{item.docket_id!=''?item.docket_id:'-'}}
+                             </td>
+                             <td title="{{item.date_of_dispatch}}">
+                                 {{item.date_of_dispatch!=''?item.date_of_dispatch:'-'}}
+                             </td>
+                              <td title="{{item.date_of_delivery_of_sm}}">
+                                 {{item.date_of_delivery_of_sm!=''?item.date_of_delivery_of_sm:'-'}}
+                              </td>
                       <td>
-                        {{item.item_name}}
-                      </td>
-                      <td>
-                        {{item.category_name}}
-                      </td>
-                      <td>
-                        {{item.alloted_units}}
-                      </td>
-                      <td>
-                          {{item.name_of_courier_service}}
-                        </td>
-                        <td>
-                            {{item.docket_id}}
-                        </td>
-                        <td>
-                            {{item.date_of_dispatch}}
-                        </td>
-                         <td>
-                             {{item.date_of_delivery_of_sm}}
-                         </td>
-                      <td>
-                        <a *ngIf="item.alloted_units > 0" style="cursor: pointer;" (click)="deleteInventory(item)">Delete</a>
+                        <a *ngIf="item.alloted_units > 0" style="cursor: pointer;" (click)="deleteInventory(item)" class="fa fa-trash" title="Delete"></a>
                       </td>
                     </tr>
                   </tbody>
