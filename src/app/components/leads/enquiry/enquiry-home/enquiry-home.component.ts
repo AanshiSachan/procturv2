@@ -804,7 +804,7 @@ export class EnquiryHomeComponent implements OnInit {
         const url= `/api/v1/alerts/config/sendGrid/emailTemplate/${sessionStorage.getItem('institute_id')}`
         this.httpService.getData(url).subscribe(
             (res:any)=> {
-                this.emailGridData = res;
+                this.emailGridData = res.result;
             },
             err => {
                 console.log(err);
