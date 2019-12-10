@@ -1761,7 +1761,18 @@ ul.customDropdown li:hover {
 
     .field-radio-wrapper .form-radio:checked+label {
       color: $common-blue;
-    }
+    }    
+  }
+
+  .sms-grid-table {
+    min-height: 300px;
+    max-height: 450px;
+    border-top: 1px solid $border-common;
+    border-right: 1px solid $border-common;
+    width: 100%;
+    padding-left: 2px;
+    overflow-y: hidden;
+    overflow-x: hidden;
   }
 
   .sms-preview {
@@ -1770,6 +1781,19 @@ ul.customDropdown li:hover {
     width: 30%;
     padding: 0 5px;
     position: absolute;
+    right: 9px;
+    // top: 35px;
+
+    .sms-preview-header {
+      margin-bottom: 25px;
+    }
+  }
+  .sms-grid-preview {
+    min-height: 450px;
+    border-top: 1px solid $border-common;
+    width: 100%;
+    padding: 0 5px;
+    // position: absolute;
     right: 9px;
     // top: 35px;
 
@@ -2267,7 +2291,7 @@ ul.customDropdown li:hover {
 }
 
 .common-tab {
-  width: 30%;
+  width: 100%;
 
   .menu_list {
     cursor: pointer;
@@ -2277,6 +2301,7 @@ ul.customDropdown li:hover {
     font-weight: normal;
     padding: 10px 5px;
     text-align: center;
+    width: 15%;
 
     &:hover {
       background: #0084f6;
@@ -2289,4 +2314,71 @@ ul.customDropdown li:hover {
     }
   }
 
+}
+.emailGridImgHeader{
+  border: none;
+  padding: 10px;
+  padding-right: 15px;
+  padding-bottom: 0;
+}
+.emailGridImg{
+  width: 80%;
+  height: 50%;
+  max-width: 80%;
+  max-height: 50%;
+  padding-bottom:5px ;
+  margin-left: 10%;
+}
+
+table tr.selected {
+  background: #dceff7 !important;
+  box-shadow: 0 11px 8px -10px #CCC, 0 -11px 13px -9px #CCC;
+  transform: scale(1);
+}
+.absent_popup{
+  position: fixed;
+  top: 2%;
+  left: 25%;
+  right: 25%;
+  width: 50%;
+  z-index: 550;
+  background: white;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  border-radius: 6px;
+  .absent_student{
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    .header{
+      // display: flex;
+      flex-direction: row;
+      padding: 10px;
+      justify-content: right;
+      // border-bottom: 1px solid rgba(10,10,10,0.3);
+      .close-btn{
+        color: #b1b1b1;
+      }
+    }
+    .main_container{
+      display: flex;
+      flex-direction: column;
+      // padding: 15px;
+      .for_absent{
+        display: flex;
+        flex-direction: row;
+        // margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+
+.black-bg1 {
+  background: rgba(10,10,10,0.3);
+  position: fixed;
+  top: 0;
+  height: 100%;
+  left: 0;
+  z-index: 500;
+  width: 100%;
 }

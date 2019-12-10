@@ -1101,9 +1101,12 @@
                 <div class="menu_list c-lg-6 c-md-6 c-sm-6" [ngClass]="{'active':flagJSON.notificationType=='Email'?true:false}" (click)="sendNotificationType('Email')">
                   Send Email
                 </div>
+                <div class="menu_list c-lg-6 c-md-6 c-sm-6" [ngClass]="{'active':flagJSON.notificationType=='sendGrid'?true:false}" (click)="showSendGridData('sendGrid')" style="width: 25%;"  *ngIf="isSendGridEnable"> 
+                    Send Email using SendGrid
+                  </div>
               </div>
           </div>
-          <div class="sms-form sms-popup-content">
+          <div class="sms-form sms-popup-content" *ngIf="flagJSON.notificationType=='Email'|| flagJSON.notificationType=='SMS'">
             <div class="sms-update">
 
               <aside class="pull-left sms-table">
@@ -1296,6 +1299,84 @@
 
             </div>
           </div>
+
+          <div *ngIf="flagJSON.notificationType=='sendGrid'">
+              <div class="sms-form sms-popup-content">
+                  <div class="sms-update">
+      
+                    <aside class="pull-left sms-grid-table">
+                      <div class="sms-top-section">
+                        <h3 style="margin-top: 15px;margin-bottom: 15px;">Template List</h3>
+                      </div>
+      
+                      <div class="sms-middle-section">
+                        <div class="table table-responsive table-container table-data-overflow">
+                          <table>
+                              <tr>
+                                <th style="width: 30%;">
+                                  <label>
+                                    <a class="cursor-icon" id="cursorAnch11">Template Name</a>
+                                  </label>
+                                </th>
+                                <th style="width: 30%;">
+                                  <label>
+                                    <a class="cursor-icon" id="cursorAnch12">Version Name</a>
+                                  </label>
+                                </th>
+                                <th style="width: 25%;">
+                                    <label>
+                                      <a class="cursor-icon" id="cursorAnch12">Updated Date</a>
+                                    </label>
+                                  </th>
+                                <th style="width: 15%;">
+                                  <label>
+                                    <a class="cursor-icon" id="cursorAnch13">Action</a>
+                                  </label>
+                                </th>
+                              </tr>
+                               <tr  id="row{{i}}" *ngFor="let row of emailGridData; let i = index;" (click)="opEmailGridSelected(row,i)" [class.selected]="i == selectedTableRow">
+                                <td style="width: 30%;">
+                                  <span title="{{row.template_name}}">{{ (row.template_name.length > 20) ? (row.template_name | slice:0:20) + '...' : row.template_name }}</span>
+                                </td>
+                                <td style="width: 30%;">
+                                  <span title="{{row.version_name}}">{{ (row.version_name.length > 20) ? (row.version_name | slice:0:20) + '...' : row.version_name }}</span>
+                                </td>
+                                <td style="width: 25%;">
+                                  <span title="{{row.template_updated_date}}">{{row.template_updated_date}}</span>
+                                  </td>
+                                <td style="width: 15%;" (click)="viewThumbnailUrl(row.template_subject_thumbnail_url)">
+                                    <a class="cursor">View</a>
+                                  </td>
+                              </tr>
+                              <tr *ngIf="emailGridData?.length==0">
+                                <td colspan="4" style="padding: 10px;text-align: center;font-weight: 600;">
+                                  No Data Found
+                                </td>
+                              </tr>
+                          </table>
+                        </div>
+                      </div>
+                        
+                    </aside>
+      
+      
+                    <aside class="pull-right sms-grid-preview">
+                      <div class="sms-preview-footer" style="float: right;">
+                        <div class="">
+                          <div class="clearfix">
+                            <aside class="popup-btn">
+                              <input type="button" value="Cancel" class="btn" (click)="closeBulkSms()" id="Btncancel0">
+                              <input type="button" value="Send" class="fullBlue btn" (click)="sendEmailGrid()" id="btn0">                              
+                            </aside>
+                          </div>
+                        </div>
+                      </div>
+                    </aside>
+      
+                  </div>
+                </div>
+                </div>
+
         </div>
 
       </div>
@@ -1303,6 +1384,21 @@
 
   </section>
 
+ 
+  <section class="absent_popup" *ngIf="viewPopUp">
+      <div class="absent_student">
+        <div class="header">
+          <span style="font-weight: 600; cursor: pointer;" (click)="closeViewPopUp()">X</span>
+        </div>
+        <div class="main_container">
+          <div class="for_absent">
+              <img [src]="EmailThumbnailUrl" class="emailGridImg">
+          </div>
+        </div>
+      </div>
+    </section>
+    
+<div class="black-bg1" id="black-bg1" *ngIf="viewPopUp" (click)="closeViewPopUp()"></div>
   <!-- Download Summary Report Options PopUp Single-->
   <section id="" class="popupWrapper fadeIn" *ngIf="flagJSON.summaryOptions">
     <!-- -->
