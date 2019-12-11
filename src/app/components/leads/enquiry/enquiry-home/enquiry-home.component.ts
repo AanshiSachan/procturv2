@@ -803,10 +803,12 @@ export class EnquiryHomeComponent implements OnInit {
         this.flagJSON.notificationType = type;
         const url= `/api/v1/alerts/config/sendGrid/emailTemplate/${sessionStorage.getItem('institute_id')}`;
         this.flagJSON.isRippleLoad = true;
+        this.emailGridData = [];
         this.httpService.getData(url).subscribe(
             (res:any)=> {
                 this.flagJSON.isRippleLoad = false;
                 this.emailGridData = res.result;
+                this.cd.markForCheck();
             },
             err => {
                 this.flagJSON.isRippleLoad = false;
@@ -846,6 +848,7 @@ export class EnquiryHomeComponent implements OnInit {
             (res:any) =>{
                 this.flagJSON.isRippleLoad = false;
                 this.showErrorMessage(this.messageService.toastTypes.success,'', res.message);
+                this.cd.markForCheck();
             },
             err =>{
                 this.flagJSON.isRippleLoad = false;
