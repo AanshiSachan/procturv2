@@ -801,12 +801,15 @@ export class EnquiryHomeComponent implements OnInit {
 
     showSendGridData(type) {
         this.flagJSON.notificationType = type;
-        const url= `/api/v1/alerts/config/sendGrid/emailTemplate/${sessionStorage.getItem('institute_id')}`
+        const url= `/api/v1/alerts/config/sendGrid/emailTemplate/${sessionStorage.getItem('institute_id')}`;
+        this.flagJSON.isRippleLoad = true;
         this.httpService.getData(url).subscribe(
             (res:any)=> {
+                this.flagJSON.isRippleLoad = false;
                 this.emailGridData = res.result;
             },
             err => {
+                this.flagJSON.isRippleLoad = false;
                 console.log(err);
             }
         )
@@ -818,7 +821,6 @@ export class EnquiryHomeComponent implements OnInit {
     }
 
     opEmailGridSelected(object,i){
-        console.log(object);
         this.selectedTableRow = i;
         this.EmailGridSelectedObject = object;
     }
@@ -839,12 +841,14 @@ export class EnquiryHomeComponent implements OnInit {
             baseIds: this.selectedRowGroup,
             sendGridTemplateId:this.EmailGridSelectedObject.template_id
         }
-        console.log(obj);
+        this.flagJSON.isRippleLoad = true;
         this.httpService.postData(url,obj).subscribe(
             (res:any) =>{
+                this.flagJSON.isRippleLoad = false;
                 this.showErrorMessage(this.messageService.toastTypes.success,'', res.message);
             },
             err =>{
+                this.flagJSON.isRippleLoad = false;
                 console.log(err);
             }
         )
