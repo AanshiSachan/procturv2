@@ -53,7 +53,7 @@
 
             <div class="field-wrapper datePickerBox" style="width: 25%;">
               <label for="date">Date<span class="text-danger">*</span></label>
-              <input type="text" class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="scheduledateFrom" (ngModelChange)="getEvent($event)" id="date">
+              <input type="text" class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="scheduledateFrom" (ngModelChange)="getEvent($event)" id="date" style="height: 36px;">
               <!-- <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('date')"></i> -->
             </div>
 
@@ -142,7 +142,7 @@
               <!-- <button type="button" name="button" class="back-btn" (click)="cancel()">Back</button> -->
             </div>
             <div class="action-btn-item-2">
-              <button type="button" name="button" class="cancel-btn" (click)="cancel()">Cancel</button>
+              <button type="button" name="button" class="cancel-btn" (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
               <button type="button" name="button" class="next-btn" (click)="checkMandatoryFields()">Next</button>
             </div>
           </div>
@@ -182,9 +182,11 @@
             </select>
           </div>
 
-          <div class="field-wrapper student_list_container">
-            <label for="students">Student Name(s)<span class="text-danger">*</span> </label>
-            <ng-multiselect-dropdown class="container disabled"
+          <div class="field-wrapper student_list_container" style="width: 85%;border-radius: 4px;margin-top: 5px;border-color: #c5c5cc;font-size: 14px;">
+            <label for="students" style="margin-bottom: 5px;">Student Name(s)<span class="text-danger">*</span> </label>
+            <ng-multiselect-dropdown class="container disabled" style="color: #000;
+            font-weight: bold;
+            cursor: not-allowed;"
               [disabled]="true"
               [placeholder]="'Select Students'"
               [data]="studentList"
@@ -193,18 +195,82 @@
             </ng-multiselect-dropdown>
           </div>
 
-          <div class="field-checkbox-wrapper" style="display: inline-block;margin:5px;margin-top: 20px;">
-            <input type="checkbox" name="expenses" [(ngModel)]="editData.sent_notification_flag" [value]="0" class="form-checkbox" id="qun">
-            <label for="qun">Send Notification</label>
-            <!-- <i class="fa fa-commenting" aria-hidden="true" style="color: #1283f4;margin-left: 5px;"></i> -->
-          </div>
+          <div style="margin-top:10px"> 
+              <div class="AdvanceSetting">
+                  <span style="font-weight: 600;">Advance settings</span>
+              </div>
+                  <div class="AdvanceSettingDiv">
+                          <div class="field-checkbox-wrapper" style="display: inline-block;margin:5px;margin-top: 20px;margin-left: 10px;">
+                              <input type="checkbox" name="expenses" [(ngModel)]="editData.sent_notification_flag" [value]="0" class="form-checkbox" id="qun">
+                              <label for="qun">Send Notification</label>
+                              <div class="questionInfo inline-relative">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field">
+                                    All the members in 
+                                    <br>meeting will recieve
+                                    <br>sms notification for 
+                                    <br>the session.
+                                </div>
+                              </div>
+                          </div>
+            
+                        <!-- Private Access -->
+                        <div class="field-checkbox-wrapper" style="display: inline-block;margin:5px;margin-top: 20px;">
+                          <input type="checkbox" name="private_access" [(ngModel)]="editData.private_access" [value]="0" class="form-checkbox" id="private_access">
+                          <label for="private_access">Private Access</label>
+                          <div class="questionInfo inline-relative">
+                            <span class="qInfoIcon i-class">i</span>
+                            <div class="tooltip-box-field">
+                                Only the users invited
+                                <br> using e-mail ID would
+                                <br> be able to join. Direct
+                                <br> link sharing of session 
+                                <br>won't work.
+                            </div>
+                          </div>
+                        </div>
+            
+                        <!-- Enable lobby -->
+                        <div class="field-checkbox-wrapper" style="display: inline-block;margin:5px;margin-top: 20px;margin-left: 10px;">
+                          <input type="checkbox" name="access_enable_lobby" [(ngModel)]="editData.access_enable_lobby" [value]="0" class="form-checkbox" id="access_enable_lobby">
+                          <label for="access_enable_lobby">Access Enable Lobby</label>
+                          <div class="questionInfo inline-relative">
+                            <span class="qInfoIcon i-class">i</span>
+                            <div class="tooltip-box-field">
+                                All the students will 
+                                <br>wait in waiting room
+                                <br> after joining the 
+                                <br> session. Teachers will
+                                <br> have access to allow
+                                <br> students in the 
+                                <br>meeting.
+                            </div>
+                          </div>
+                        </div>
+            
+                        <!-- Access before start -->
+                        <div class="field-checkbox-wrapper" style="display: inline-block;margin:5px;margin-top: 20px;">
+                            <input type="checkbox" name="access_before_start" [(ngModel)]="editData.access_before_start" [value]="0" class="form-checkbox" id="access_before_start">
+                            <label for="access_before_start">Access before start</label>
+                            <div class="questionInfo inline-relative">
+                              <span class="qInfoIcon i-class">i</span>
+                              <div class="tooltip-box-field">
+                                  The meeting can only 
+                                  <br> be started one minute
+                                  <br> before the start time 
+                                  <br>of the session.
+                              </div>
+                            </div>
+                          </div>
+                  </div>
+              </div>
 
           <div class="action-button-container">
             <div class="action-btn-item-1">
               <button type="button" name="button" class="back-btn" (click)="navigateTo('classDetails')">Back</button>
             </div>
             <div class="action-btn-item-2">
-              <button type="button" name="button" class="cancel-btn" (click)="cancel()">Cancel</button>
+              <button type="button" name="button" class="cancel-btn" (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
               <button type="button" name="button" class="next-btn" (click)="scheduleClass()">Submit</button>
             </div>
           </div>
