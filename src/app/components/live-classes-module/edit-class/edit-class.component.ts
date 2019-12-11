@@ -21,7 +21,7 @@ export class EditClassComponent implements OnInit {
   isBasicActive: boolean = true;
   isOtherActive: boolean = false;
   class_id: any = 0;
-  hour = ['01 AM', '02 AM', '03 AM', '04 AM', '05 AM', '06 AM', '07 AM', '08 AM', '09 AM', '10 AM', '11 AM', '12 AM', '01 PM', '02 PM', '03 PM', '04 PM', '05 PM', '06 PM', '07 PM', '08 PM', '09 PM', '10 PM', '11 PM', '12 PM'];
+  hour = ['01 AM', '02 AM', '03 AM', '04 AM', '05 AM', '06 AM', '07 AM', '08 AM', '09 AM', '10 AM', '11 AM', '12 PM', '01 PM', '02 PM', '03 PM', '04 PM', '05 PM', '06 PM', '07 PM', '08 PM', '09 PM', '10 PM', '11 PM', '12 AM'];
   minutes = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']
 
 
@@ -83,7 +83,10 @@ export class EditClassComponent implements OnInit {
     studentIds: null,
     teacherIds: [],
     product_id: [],
-    eLearnCustUserIDs: []
+    eLearnCustUserIDs: [],
+    private_access: false,
+    access_enable_lobby: false,
+    access_before_start: 0,
   }
 
   editSessionId: any;
@@ -207,6 +210,13 @@ export class EditClassComponent implements OnInit {
         }
         else {
           this.editData.sent_notification_flag = false;
+        }
+
+        if (this.editData.access_before_start == 1) {
+          this.editData.access_before_start = true;
+        }
+        else {
+          this.editData.access_before_start = false;
         }
 
         if (this.repeat_session == 0) {
@@ -410,17 +420,24 @@ export class EditClassComponent implements OnInit {
 
       this.updateOnlineClass.session_name = this.topicName;
       this.updateOnlineClass.custUserIds = this.custUserIds;
-      // this.updateOnlineClass.studentIds = this.studentsId;
+      this.updateOnlineClass.studentIds = this.studentsId;
       this.updateOnlineClass.teacherIds = this.facultyId;
       this.updateOnlineClass.start_datetime = moment(this.scheduledateFrom).format('YYYY-MM-DD') + " " + this.hoursFrom.split(' ')[0] + "" + ":" + this.minuteFrom + " " + this.hoursFrom.split(' ')[1];
       this.updateOnlineClass.end_datetime = moment(this.scheduledateFrom).format('YYYY-MM-DD') + " " + this.hoursTo.split(' ')[0] + "" + ":" + this.minuteTo + " " + this.hoursTo.split(' ')[1];
-      this.updateOnlineClass.eLearnCustUserIDs = null;
+      this.updateOnlineClass.eLearnCustUserIDs = this.eLearnCustUserIDs;
       this.updateOnlineClass.product_id = null;
       if (this.editData.sent_notification_flag) {
         this.updateOnlineClass.sent_notification_flag = 1;
       }
       else {
         this.updateOnlineClass.sent_notification_flag = 0;
+      }
+
+      if (this.editData.access_before_start) {
+        this.updateOnlineClass.access_before_start = 1;
+      }
+      else {
+        this.updateOnlineClass.access_before_start = 0;
       }
 
       if (this.repeat_session == 0) {
@@ -481,7 +498,10 @@ export class EditClassComponent implements OnInit {
       studentIds: [],
       teacherIds: [],
       product_id: [],
-      eLearnCustUserIDs : []
+      eLearnCustUserIDs : [],
+      access_before_start:0,
+      access_enable_lobby:false,
+      private_access:false
     }
 
     this.topicName = "";

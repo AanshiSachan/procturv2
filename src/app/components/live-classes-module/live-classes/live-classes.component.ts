@@ -118,6 +118,8 @@ export class LiveClassesComponent implements OnInit {
   sendSMSNotification: boolean = false;
   sendPushNotification: boolean = false;
   forUser: boolean = false;
+  proctur_live_expiry_date : boolean = false;
+  live_class_recorded_session_visibility : any;
 
 
   constructor(
@@ -144,6 +146,18 @@ export class LiveClassesComponent implements OnInit {
     }
 
     this.getClassesList();
+    this.checkLiveClassExpiry();
+    this.live_class_recorded_session_visibility = sessionStorage.getItem('live_class_recorded_session_visibility');
+  }
+
+  checkLiveClassExpiry() {
+    let proctur_live_expiry_date:any = sessionStorage.getItem('proctur_live_expiry_date');
+    let currentDate = new Date();
+    proctur_live_expiry_date = new Date(proctur_live_expiry_date);
+    console.log(currentDate,proctur_live_expiry_date);
+    if(proctur_live_expiry_date < currentDate){
+      this.proctur_live_expiry_date = true;
+    } 
   }
 
   getClassesList() {
@@ -183,7 +197,6 @@ export class LiveClassesComponent implements OnInit {
 
   forTeacher(teachersUserIds) {
     let userId = sessionStorage.getItem('userid');
-
     if (teachersUserIds.includes(userId)) {
       return true;
     }
@@ -579,4 +592,14 @@ export class LiveClassesComponent implements OnInit {
       }
     )
   }
+
+  downloadFile(object) {
+    const url = object.download_link;
+      var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
+      hiddenDownload.href = url;
+      hiddenDownload.download = object.session_name;
+      // hiddenDownload.download = this.getOriginalFileName(fileObj.res.file_name);
+      hiddenDownload.click();     
+  }
+
 }

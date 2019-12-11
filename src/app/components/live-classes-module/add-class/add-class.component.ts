@@ -20,7 +20,7 @@ export class AddClassComponent implements OnInit {
   isBasicActive: boolean = true;
   isOtherActive: boolean = false;
   class_id: any = 0;
-  hour = ['01 AM', '02 AM', '03 AM', '04 AM', '05 AM', '06 AM', '07 AM', '08 AM', '09 AM', '10 AM', '11 AM', '12 AM', '01 PM', '02 PM', '03 PM', '04 PM', '05 PM', '06 PM', '07 PM', '08 PM', '09 PM', '10 PM', '11 PM', '12 PM'];
+  hour = ['01 AM', '02 AM', '03 AM', '04 AM', '05 AM', '06 AM', '07 AM', '08 AM', '09 AM', '10 AM', '11 AM', '12 PM', '01 PM', '02 PM', '03 PM', '04 PM', '05 PM', '06 PM', '07 PM', '08 PM', '09 PM', '10 PM', '11 PM', '12 AM'];
   minutes = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']
 
 
@@ -80,6 +80,9 @@ export class AddClassComponent implements OnInit {
     teacherIds: [],
     eLearnCustUserIDs: [],
     product_id: null,
+    private_access: false,
+    access_enable_lobby: false,
+    access_before_start: 0,
   }
 
   constructor(
@@ -321,7 +324,7 @@ export class AddClassComponent implements OnInit {
           );
           this.addOnlineClass.eLearnCustUserIDs = this.eLearnCustUserIDs;
         } else {
-        this.addOnlineClass.eLearnCustUserIDs = null;
+        this.addOnlineClass.eLearnCustUserIDs = [];
       }
       this.addOnlineClass.session_name = this.topicName;
       this.addOnlineClass.custUserIds = this.custUserIds;
@@ -340,6 +343,14 @@ export class AddClassComponent implements OnInit {
       }
       else if (!this.addOnlineClass.sent_notification_flag) {
         this.addOnlineClass.sent_notification_flag = 0;
+      }
+
+      if (this.addOnlineClass.access_before_start) {
+        this.addOnlineClass.access_before_start = 1;
+      }
+
+      if (!this.addOnlineClass.access_before_start) {
+        this.addOnlineClass.access_before_start = 0;
       }
       console.log(this.addOnlineClass)
 
@@ -380,7 +391,10 @@ export class AddClassComponent implements OnInit {
       studentIds: [],
       teacherIds: [],
       product_id: [],
-      eLearnCustUserIDs: []
+      eLearnCustUserIDs: [],
+      private_access:false,
+      access_enable_lobby:false,
+      access_before_start:0
     };
 
     this.topicName = "";
