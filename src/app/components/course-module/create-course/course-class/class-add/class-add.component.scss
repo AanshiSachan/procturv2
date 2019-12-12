@@ -2004,3 +2004,28 @@
   .field-checkbox-wrapper .form-checkbox:checked+label {
       color: #0084f6;
   }
+.topic-container{
+    margin-right: 0!important; 
+    margin-left: 0!important;
+    display: flex;
+    flex-direction: row;
+}
+.arrow-icon{
+    padding: 0 5px;
+}
+.level1Topic{
+    padding: 10px;
+}
+.subTopicLevel{
+    padding-top: 4px;
+}
+.pt-4{
+    padding-top:4px!important
+}
+.topic-lbl{
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.77);
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+}

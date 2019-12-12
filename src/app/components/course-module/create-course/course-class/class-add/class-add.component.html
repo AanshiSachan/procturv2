@@ -468,6 +468,7 @@
                       bsDatepicker>
                   </div>
                 </div>
+                
                 <div class="c-sm-2 c-md-2 c-lg-2">
                   <div class="form-wrapper timepick">
                     <label for="startTime">Start Time</label>
@@ -517,7 +518,7 @@
               </div>
 
               <div class="table-scroll-wrapper">
-                <div class="table-responsive">
+                <div class="table-responsive ">
                   <table>
                     <thead>
                       <tr>
@@ -620,6 +621,20 @@
 
                 </div>
               </div>
+              <div class="c-lg-2 c-md-2 c-sm-2" style="margin-top: 10px;padding: 0;width: 10%;">
+                <label>
+                  <span class="topic-lbl">Topic</span></label><br>
+                 <div class="form-wrapper" style="margin:0px !important;border:1px solid #0084f6" *ngIf="selectedTopicsListObj.length">
+                  <input type="textbox" class="side-form-ctrl topic-link" name="label" style="height: 30px;color:#0084f6" id="classDetailsTxt9" placeholder="Linked"
+                    readonly (click)="fetchSelectedTopics()">
+                  <i class="fa fa-link" aria-hidden="true" (click)="fetchSelectedTopics()"  style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 8px; right: 15px;color: #0084f6"></i>
+                </div>
+                <div class="form-wrapper" style="margin:0px !important;border:1px solid rgba(119, 119, 119, 0);" *ngIf="!selectedTopicsListObj.length">
+                  <input type="textbox" class="side-form-ctrl topic-link" name="label" style="height: 30px;" id="classDetailsTxt9" placeholder="Link"
+                    readonly (click)="fetchTopics()">
+                  <i class="fa fa-link" aria-hidden="true" (click)="fetchTopics()"  style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 8px; right: 15px;"></i>
+                </div>
+              </div>
 
               <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 10px">
                 <div class="form-wrapper timepick">
@@ -705,6 +720,9 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                         Date
                       </th>
                       <th>
+                        Topics
+                      </th>  
+                      <th>
                         Start Time
                       </th>
                       <th>
@@ -723,6 +741,17 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                       <td>
                         {{row.class_date}}
                       </td>
+                       <td>
+                         
+                        <input type="textbox" class="side-form-ctrl topic-link" *ngIf="row.topics_covered != '' && row.topics_covered != null" name="label" style="height: 30px;border:1px solid blue;text-align:center;cursor:pointer" id="classDetailsTxt9" placeholder="Linked"
+                        readonly (click)="editTopics(row)" />
+                        <i class="fa fa-link" (click)="editTopics(row)" *ngIf="row.topics_covered != '' && row.topics_covered != null" style="cursor: pointer;font-size: 15px;margin-left: -30px;margin-top:6px;color:#0084f6"></i>
+
+                        <input type="textbox" class="side-form-ctrl topic-link" *ngIf="row.topics_covered == '' || row.topics_covered == null" name="label" style="height: 30px;cursor:pointer;text-align:center;border:1px solid lightgrey" id="classDetailsTxt9" placeholder="Link"
+                        readonly (click)="editTopics(row)"/>
+                        <i class="fa fa-link" (click)="editTopics(row)" *ngIf="row.topics_covered == '' || row.topics_covered == null" style="cursor: pointer;color: #bdbdbd;font-size: 15px;margin-left: -30px;margin-top:6px"></i>
+                         
+                       </td>                      
                       <td>
                         {{row.start_time}}
                       </td>
@@ -778,6 +807,20 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                     <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="addExtraClass.date" readonly="true" name="csd"
                       bsDatepicker>
 
+                  </div>
+                </div>
+                <div class="c-lg-2 c-md-2 c-sm-2" style="margin-top: 10px;padding: 0;width: 10%;">
+                  <label>
+                    <span class="topic-lbl">Topic</span></label><br>
+                   <div class="form-wrapper" style="margin:0px !important;border:1px solid #0084f6" *ngIf="selectedTopicsListObj.length">
+                    <input type="textbox" class="side-form-ctrl topic-link" name="label" style="height: 30px;color:#0084f6" id="classDetailsTxt9" placeholder="Linked"
+                      readonly (click)="fetchSelectedTopics()">
+                    <i class="fa fa-link" aria-hidden="true" (click)="fetchSelectedTopics()"  style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 8px; right: 15px;color: #0084f6"></i>
+                  </div>
+                  <div class="form-wrapper" style="margin:0px !important;border:1px solid rgba(119, 119, 119, 0);" *ngIf="!selectedTopicsListObj.length">
+                    <input type="textbox" class="side-form-ctrl topic-link" name="label" style="height: 30px;" id="classDetailsTxt9" placeholder="Link"
+                      readonly (click)="fetchTopics()">
+                    <i class="fa fa-link" aria-hidden="true" (click)="fetchTopics()"  style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 8px; right: 15px;"></i>
                   </div>
                 </div>
 
@@ -849,6 +892,9 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                             Date
                           </th>
                           <th>
+                            Topics
+                          </th>
+                          <th>
                             Start Time
                           </th>
                           <th>
@@ -867,6 +913,17 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                           <td>
                             {{row.class_date}}
                           </td>
+                          <td>
+                         
+                            <input type="textbox" class="side-form-ctrl topic-link" *ngIf="row.topics_covered != '' && row.topics_covered != null" name="label" style="height: 30px;border:1px solid blue;text-align:center;cursor:pointer" id="classDetailsTxt9" placeholder="Linked"
+                            readonly (click)="editTopics(row)" />
+                            <i class="fa fa-link" (click)="editTopics(row)" *ngIf="row.topics_covered != '' && row.topics_covered != null" style="cursor: pointer;font-size: 15px;margin-left: -30px;margin-top:6px;color:#0084f6"></i>
+    
+                            <input type="textbox" class="side-form-ctrl topic-link" *ngIf="row.topics_covered == '' || row.topics_covered == null" name="label" style="height: 30px;cursor:pointer;text-align:center;border:1px solid lightgrey" id="classDetailsTxt9" placeholder="Link"
+                            readonly (click)="editTopics(row)"/>
+                            <i class="fa fa-link" (click)="editTopics(row)" *ngIf="row.topics_covered == '' || row.topics_covered == null" style="cursor: pointer;color: #bdbdbd;font-size: 15px;margin-left: -30px;margin-top:6px"></i>
+                             
+                           </td>
                           <td>
                             {{row.start_time}}
                           </td>
@@ -1556,6 +1613,51 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
     </div>
   </div>
 </section>
+
+<section *ngIf="showTopicsModal">
+  <div class="topicBox">
+    <div class="close-btn">
+      <span (click)="closeTopicModal()">X</span>
+    </div>
+    <div class="header-container">
+      <div class="sub-header">
+        <span style="font-weight: 600;">Subject : </span>
+        <span id="topicSubName">{{selectedSubjectInBatch}}</span>
+      </div>
+     
+    </div>
+    <div class="topic-listing-container" style="min-height: 110px;overflow-x: hidden;">
+       <ng-container *ngTemplateOutlet="topicsRecursiveList; context:{$implicit: topicsList, level: 1 }"></ng-container> 
+    </div>
+    <div class="extraMargin row  pull-right" style="margin: 15px">
+      <button class="btn" (click)="closeTopicModal()">Cancel</button>
+      <button class="btn fullBlue" *ngIf="showTopicsModal && !showCustomEditModal" (click)="saveSelectedTopics()">Save</button>
+      <button class="btn fullBlue" *ngIf="showCustomEditModal" (click)="linkTopics()">Save</button>
+    </div>
+  </div>
+</section>
+
+
+
+
+<ng-template #topicsRecursiveList let-topicsList let-level="level">
+  <div *ngFor="let topic of topicsList">
+    <div class="topic-container" [ngClass]="level == 1 ? 'level1Topic': 'subTopicLevel'">
+      <div class="arrow-icon"  [style.visibility]="topic.subTopic.length ? 'visible':'hidden'" (click)="toggleArrow(topic)">
+        <i [ngClass]="topic.isExpand ? 'fa fa-caret-down': 'fa fa-caret-right'"></i>
+      </div>
+      <div class="field-checkbox-wrapper" style="margin-bottom: 5px !important;">
+      <input type="checkbox" [(ngModel)]="topic.checked"  class="form-checkbox" value="{{topic.checked}}" (click)="selectTopics(topic,$event)" id="topic-{{topic.topicId}}" />
+      <label for="topic-{{topic.topicId}}">{{topic.topicName}}</label>
+      <div *ngIf="topic.isExpand" class="pt-4">
+          <ng-container  *ngTemplateOutlet="topicsRecursiveList; context:{ $implicit: topic.subTopic, level: level + 1  }">
+          </ng-container>
+        </div>
+      </div>
+      
+    </div> 
+  </div>
+</ng-template>
 
 <div class="black-bg" id="black-bg" [hidden]="topicBox" (click)="closeAlert()">
 
