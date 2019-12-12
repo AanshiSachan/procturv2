@@ -74,7 +74,7 @@
 
           </div>
         </div>
-        <div class="c-lg-2 c-md-2 c-sm-2">
+        <div class="c-lg-2 c-md-2 c-sm-2" *ngIf="addNewFee.country_id==1">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_tax >= 0 }">
             <label for="slotNew">Tax(%)
             </label>
