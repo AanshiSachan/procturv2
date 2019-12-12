@@ -210,9 +210,8 @@
             </thead>
             <tbody *ngIf="(tableData.length != 0)">
               <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" class="displayComp" *ngFor="let row of tableData; let i=index; trackBy: i; ">
-
                 <td class="view-comp">
-                  {{row.batch_name}}
+                  <span title="{{row.batch_name}}">{{row.batch_name.length>20?(row.batch_name | slice:0:20):row.batch_name}}</span>
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper editCellAllignment">
@@ -451,6 +450,9 @@
                   Name
                 </th>
                 <th>
+                  Country
+                </th>
+                <th>
                   Contact No.
                 </th>
                 <!-- <th>
@@ -483,6 +485,9 @@
                   {{row.student_name}}
                 </td>
                 <td>
+                  {{row.country_code}}
+                </td>
+                <td>
                   {{row.student_phone}}
                 </td>
                 <!-- <td>
@@ -506,7 +511,7 @@
                   <div class="field-wrapper">
                     <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.assigned_fee_template_id" style="background: transparent">
                       <option value="-1">Select</option>
-                      <option *ngFor="let opt of feeTemplateDataSource" [value]="opt.template_id">
+                      <option *ngFor="let opt of setDefaultTemplate(row.country_id,feeTemplateDataSource,row) " [value]="opt.template_id">
                         {{opt.template_name}}
                       </option>
                     </select>
@@ -514,7 +519,7 @@
                 </td>
               </tr>
               <tr *ngIf="(dataTable.length == 0)">
-                <td colspan="7">
+                <td colspan="8">
                   No Student Found
                 </td>
               </tr>

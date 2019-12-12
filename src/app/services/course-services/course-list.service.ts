@@ -100,7 +100,8 @@ export class CourseListService {
     }
 
     getFeeTemplate(course_id) {
-        let url = this.baseURL + "/api/v1/student_wise/feeStructure/" + this.institute_id + "/course/" + course_id + "/fetch";
+        //https://test999.proctur.com/StdMgmtWebAPI/api/v1/studentWise/fee/fee_template_country_wise/100135?course_id=432&subject_id=-1
+        let url = this.baseURL + "/api/v1/studentWise/fee/fee_template_country_wise/" + this.institute_id + "?course_id=" + course_id + "&subject_id=-1";
         return this.http.get(url, { headers: this.headers }).map(
             res => {
                 return res;
