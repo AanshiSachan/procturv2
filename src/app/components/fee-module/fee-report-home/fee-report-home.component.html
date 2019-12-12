@@ -7,7 +7,7 @@
       </section>
 
       <div class="course-menu-section-container">
-        <div class="course-menu-item" routerLink="./data-setup">
+        <div class="course-menu-item" routerLink="/view/fee/data-setup">
           <div class="menu-title">
             <img src="./assets/images/fee/data_setup.svg" alt="data setup">
             <span>Data Setup</span>
@@ -17,7 +17,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item" *ngIf="jsonFlags.isFeeActivity" routerLink="./cheque">
+        <div class="course-menu-item" *ngIf="jsonFlags.isFeeActivity" routerLink="/view/fee/cheque">
           <div class="menu-title">
             <img src="./assets/images/fee/Mange_cheque.svg" alt="manage cheque">
             <span>Manage Cheque</span>
@@ -27,7 +27,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item"  routerLink="./allDueReport">
+        <div class="course-menu-item"  routerLink="/view/fee/allDueReport">
           <div class="menu-title">
             <img src="./assets/images/fee/Due_fees_report.svg" alt="all due fee report">
             <span>All Due fee report</span>
@@ -37,7 +37,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item"  routerLink="./moduleReport">
+        <div class="course-menu-item"  routerLink="/view/fee/moduleReport">
           <div class="menu-title">
             <img src="./assets/images/fee/course_wise_report.svg" alt="{{jsonFlags.moduleState}} wise">
             <span>{{jsonFlags.moduleState}} Wise</span>
@@ -47,7 +47,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item"  routerLink="./paymentHistory">
+        <div class="course-menu-item"  routerLink="/view/fee/paymentHistory">
           <div class="menu-title">
             <img src="./assets/images/fee/payment_history.svg" alt="payment history">
             <span>Payment History</span>
@@ -57,7 +57,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item"  routerLink="./gst">
+        <div class="course-menu-item"  routerLink="/view/fee/gst">
           <div class="menu-title">
             <img src="./assets/images/fee/gst_report.svg" alt="gst report">
             <span>GST Report</span>
@@ -67,7 +67,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item"  routerLink="./onlinePayment" *ngIf="enable_online_payment == 1">
+        <div class="course-menu-item"  routerLink="/view/fee/onlinePayment" *ngIf="enable_online_payment == 1">
           <div class="menu-title">
             <img src="./assets/images/fee/online_paymen_history.svg" alt="online payment history">
             <span>Online Payment History</span>
@@ -87,7 +87,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item hide"  routerLink="./cheque">
+        <div class="course-menu-item hide"  routerLink="/view/fee/cheque">
           <div class="menu-title">
             <img src="./assets/images/fee/Mange_cheque.svg" alt="cheque report">
             <span> Cheque/PDC Report</span>
@@ -97,7 +97,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item hide"  routerLink="./discount">
+        <div class="course-menu-item hide"  routerLink="/view/fee/discount">
           <div class="menu-title">
             <img src="./assets/images/fee/discount.svg" alt="">
             <span> Discount Report</span>
@@ -107,7 +107,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item hide"  routerLink="./feeType">
+        <div class="course-menu-item hide"  routerLink="/view/fee/feeType">
           <div class="menu-title">
             <img src="./assets/images/fee/Fee_types.svg" alt="fee types">
             <span>Reports Based on Fee Type</span>
@@ -116,7 +116,7 @@
             <span> </span>
           </div>
         </div>
-        <div class="course-menu-item hide"   *ngIf="jsonFlags.isProfitnloss" routerLink="./profitNloss">
+        <div class="course-menu-item hide"   *ngIf="jsonFlags.isProfitnloss" routerLink="/view/fee/profitNloss">
           <div class="menu-title">
             <img src="./assets/images/fee/Fee_types.svg" alt="fee types">
             <span>   Profit and Loss</span>
@@ -125,12 +125,7 @@
             <span>  Detailed report of amount earned as profit or loses.</span>
           </div>
         </div>
-        
       </div>
-    
-
-
-
     </section>
   </aside>
 </div>

@@ -258,9 +258,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.login.getInstituteCountryDetails(institute_id).subscribe(
       (res: any) => {
         this.countryDetails = res;
-        console.log(res);
         let country_info = JSON.stringify(res);
-          console.log(country_info);
+          // console.log(country_info);
           sessionStorage.setItem('country_data',country_info);
         // console.log(this.instituteCountryDetObj);
       },
@@ -395,7 +394,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('user_type_name', institute_data.user_type_name);
       sessionStorage.setItem('username', institute_data.username);
       sessionStorage.setItem('userid', institute_data.userid);
-      sessionStorage.setItem('message', institute_data.message);
       sessionStorage.setItem('name', institute_data.name);
       sessionStorage.setItem('about_us_text', institute_data.about_us_text);
       sessionStorage.setItem('mobile_no', institute_data.mobile_no);

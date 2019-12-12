@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'student-batch-list',
@@ -35,6 +36,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     @Input() isEdit: boolean = false;
     @Input() standardList: any[] = [];
     @Input() defaultAcadYear: any;
+    @Input() countryId: any;
 
     @Output() assignList = new EventEmitter<any>();
     @Output() closeBatch = new EventEmitter<boolean>();
@@ -70,15 +72,25 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
     ngOnChanges() {
         this.batchList = [];
-        this.batchList = this.dataList.map(e => {
+        this.dataList.map(e => {
             e.data.deleteCourse_SubjectUnPaidFeeSchedules = false;
-            return e;
+             this.batchList.push(e);   
         });
         this.clonedArray = this.commonService.keepCloning(this.batchList);
         if (this.defaultAcadYear == null && this.defaultAcadYear == undefined) {
             this.defaultAcadYear = "-1";
         }
         this.getAssignedCount();
+    }
+
+
+    getFeeTemplateCountryWisw(feeTemplateList) {
+        let templates = [];
+        templates = feeTemplateList.filter((template) => {
+            // return template.country_id === 0;
+           return template.country_id ===this.countryId
+        });
+        return templates;
     }
 
     closeBatchAssign() {
@@ -246,21 +258,21 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
     }
 
-    unassign_course(){
-      this.alertBox = true;
-      this.dataList[this.unselected_checkbox_id].isSelected = false;
-      this.dataList[this.unselected_checkbox_id].data.deleteCourse_SubjectUnPaidFeeSchedules = this.delete_unpaid_fee;
+    unassign_course() {
+        this.alertBox = true;
+        this.dataList[this.unselected_checkbox_id].isSelected = false;
+        this.dataList[this.unselected_checkbox_id].data.deleteCourse_SubjectUnPaidFeeSchedules = this.delete_unpaid_fee;
 
-      this.getAssignedCount();
-      this.cd.markForCheck();
-      this.cd.detectChanges();
-      
+        this.getAssignedCount();
+        this.cd.markForCheck();
+        this.cd.detectChanges();
+
     }
-    closeAlert(){
-      this.alertBox = true;
-      this.delete_unpaid_fee = false;
-      this.dataList[this.unselected_checkbox_id].isSelected = true;
-      (document.getElementById("batchcheck"+this.unselected_checkbox_id) as HTMLInputElement).checked = true;
+    closeAlert() {
+        this.alertBox = true;
+        this.delete_unpaid_fee = false;
+        this.dataList[this.unselected_checkbox_id].isSelected = true;
+        (document.getElementById("batchcheck" + this.unselected_checkbox_id) as HTMLInputElement).checked = true;
     }
 
     changed(text: string) {

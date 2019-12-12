@@ -32,7 +32,6 @@ export class ManageBatchComponent implements OnInit {
   dataStatus: number = 1;
   selectedRow: number;
   unselected_checkbox_id: number;
-  deafultTemplate: any;
   examGradeFeature: any = "";
   searchData: any = "";
   radioOption: string = '0';
@@ -148,6 +147,16 @@ export class ManageBatchComponent implements OnInit {
       document.getElementById('showAddBtn').style.display = '';
     }
   }
+
+ // set default template and set 
+ setDefaultTemplate(country_id, templates, data) {
+  templates[country_id] && templates[country_id].forEach(object => {
+    if (object.is_default == 'Y'&& data.assigned_fee_template_id == -1) {
+      data.assigned_fee_template_id = object.template_id;
+    }
+  });
+  return templates[country_id];
+}
 
   getAllClassRoom() {
     this.isRippleLoad = true;
@@ -388,23 +397,14 @@ export class ManageBatchComponent implements OnInit {
   }
 
   getAllFeeTemplate() {
-    this.apiService.getFeeTemplate(this.batchDetails.batch_id).subscribe(
+    this.apiService.getFeeTemplate(this.batchDetails.subject_id).subscribe(
       res => {
         this.feeTemplateDataSource = res;
-        this.defaultTemplateDet(res);
       },
       err => {
         //console.log(err);
       }
     )
-  }
-
-  defaultTemplateDet(data) {
-    data.forEach(element => {
-      if (element.is_default == 1) {
-        this.deafultTemplate = element;
-      }
-    });
   }
 
   getAllStudentList(rowDetails) {
@@ -413,11 +413,6 @@ export class ManageBatchComponent implements OnInit {
       (res: any) => {
         this.radioOption = '0';
         res.map(element => {
-          if (element.assigned_fee_template_id == -1) {
-            if (this.deafultTemplate != null && this.deafultTemplate != "") {
-              element.assigned_fee_template_id = this.deafultTemplate.template_id;
-            }
-          }
           element.immutableKey = element.assigned;
         });
         this.studentListDataSource = res;

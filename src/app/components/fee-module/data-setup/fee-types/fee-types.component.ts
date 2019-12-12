@@ -18,8 +18,10 @@ export class FeeTypesComponent implements OnInit {
     fee_amount: '',
     fee_type_tax: 0,
     fee_type_id: 0,
+    country_id: ''
   }
   feeTypeList: any = [];
+  countryDetails: any = [];
 
   constructor(
     private apiService: FeeStrucService,
@@ -28,14 +30,27 @@ export class FeeTypesComponent implements OnInit {
 
   ngOnInit() {
     this.getListOfFeeType();
+    this.fetchDataForCountryDetails();
     this.isTaxEnableFeeInstallments = sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0' ? true : false;
 
+  }
+
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data.length > 0) {
+      this.countryDetails = data;
+    }
+    console.log(data);
   }
 
   getListOfFeeType() {
     this.apiService.getAllFeeType().subscribe(
       res => {
         this.feeTypeList = res;
+        this.feeTypeList.forEach(element => {
+          element.country_id =element.countryId.country_id;
+        });
       },
       err => {
         this.commonService.showErrorMessage('error', 'Error', err.error.message);
@@ -64,6 +79,7 @@ export class FeeTypesComponent implements OnInit {
       obj.fee_type = this.feeTypeList[t].fee_type;
       obj.fee_type_desc = this.feeTypeList[t].fee_type_desc;
       obj.fee_type_id = this.feeTypeList[t].fee_type_id;
+      obj.country_id = this.feeTypeList[t].country_id;
       if (this.feeTypeList[t].fee_type_tax == "" || this.feeTypeList[t].fee_type_tax == null) {
         this.feeTypeList[t].fee_type_tax = 0;
       }
@@ -75,13 +91,20 @@ export class FeeTypesComponent implements OnInit {
 
   addNewFeeType() {
     if (this.addNewFee.fee_type.trim() != "") {
-      this.feeTypeList.push(this.addNewFee);
-      this.addNewFee = {
-        fee_type: '',
-        fee_type_desc: '',
-        fee_amount: '',
-        fee_type_tax: 0,
-        fee_type_id: 0,
+      if (this.addNewFee.country_id != "") {
+        let obj: any= this.addNewFee;
+        obj.country_id =Number(this.addNewFee.country_id);
+        this.feeTypeList.push(obj);
+        this.addNewFee = {
+          fee_type: '',
+          fee_type_desc: '',
+          fee_amount: '',
+          fee_type_tax: 0,
+          fee_type_id: 0,
+          country_id: ''
+        }
+      } else {
+        this.commonService.showErrorMessage('error', 'Country Required', 'Please select country of Fee Type');
       }
     } else {
       this.commonService.showErrorMessage('error', 'Name Required', 'Please give name of Fee Type');
