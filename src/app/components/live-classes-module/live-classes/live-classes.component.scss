@@ -434,7 +434,7 @@ html {
             height: 40px;
           }
           .item_type_2{
-            width: 15%;
+            width: 12%;
             display: flex;
             justify-content: flex-end;
             .start_session{
@@ -466,7 +466,7 @@ html {
             }
           }
           .item_type_3{
-            width: 15%;
+            width: 12%;
             display: flex;
             justify-content: space-evenly;
             flex-direction: column;
@@ -699,10 +699,100 @@ html {
   }
 }
 
-.disabled {
-  color: gray;
+.viewAction{
+  // margin-top: 10px;
+  background: white;
+    border-radius: 4px;
+    border: 1px solid #0084f6;
+    outline: none;
+    text-align: center;
+    padding: 8px 20px;
+    height: 35px;
+    font-weight: 600;
+    color: #0084f6;
+    box-shadow: 0px 0px 1px #0084f6;
+}
+.download_popup{
+  border: none;
+    width: 40%;
+    top: 20%;
+    left: 35%;
 }
 
-.border-cancelled-class{
-  color: gray;
+.table-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .heading-container {
+    background: #e0eaec;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ccc;
+    .heading-item {
+      width: 40%;
+    }
+  }
+  .value-outer-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 40vh;
+    max-height: 40vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    .value-container {
+      display: flex;
+      flex-direction: row;
+      text-align: left;
+      padding: 10px;
+      font-size: 12px;
+      border-bottom: 1px solid #ccc;
+      border-top: none;
+      .value-item {
+        width: 40%;
+      }
+    }
+  }
+
+}
+
+.ga-modal-wrapper {
+  right: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(136, 136, 136, 0.6);
+  z-index: 999;
+
+  .ga-modal-container {
+    display: flex;
+    overflow-y: auto;
+    height: 100%;
+
+    .ga-modal {
+      margin: auto;
+      background: #fff;
+      border: 2pt solid #fff;
+      border-radius: .2em;
+      box-shadow: 0 2pt 3pt #999;
+      min-width: 30%;
+
+      .ga-modal-head {
+        padding: .5em 1em;
+        border-bottom: 1pt solid #ddd;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .ga-modal-body {
+        padding: 1em;
+        text-align: center;
+      }
+    }
+  }
 }

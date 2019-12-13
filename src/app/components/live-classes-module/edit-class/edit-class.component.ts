@@ -7,6 +7,7 @@ import { AppComponent } from '../../../app.component';
 import { LiveClasses } from '../../../services/live-classes/live-class.service';
 import { ProductService } from '../../../services/products.service';
 import { HttpService } from '../../../services/http.service';
+import { MessageShowService } from '../../..';
 
 
 @Component({
@@ -99,7 +100,8 @@ export class EditClassComponent implements OnInit {
     private service: LiveClasses,
     private route: ActivatedRoute,
     private product_service: ProductService,
-    private http_service: HttpService
+    private http_service: HttpService,
+    private msgService: MessageShowService
   ) { }
 
   ngOnInit() {
@@ -212,12 +214,13 @@ export class EditClassComponent implements OnInit {
           this.editData.sent_notification_flag = false;
         }
 
-        if (this.editData.access_before_start == 1) {
-          this.editData.access_before_start = true;
-        }
-        else {
+        // if (this.editData.access_before_start == 1) {
+        //   this.editData.access_before_start = true;
+        // }
+        // else {
           this.editData.access_before_start = false;
-        }
+          this.editData.private_access = 0;
+        // }
 
         if (this.repeat_session == 0) {
           this.scheduledateFrom = moment(this.editData.start_datetime).format('YYYY-MM-DD');
@@ -248,12 +251,17 @@ export class EditClassComponent implements OnInit {
 
 
   getEvent(event) {
+    let proctur_live_expiry_date:any = sessionStorage.getItem('proctur_live_expiry_date');
     if (moment(event).diff(moment(), 'days') < 0) {
       let msg = {
         type: "info",
         body: "You cannot select past date"
       }
       this.appC.popToast(msg);
+      this.scheduledateFrom = moment().format('YYYY-MM-DD')
+    }
+    if(new Date(proctur_live_expiry_date)<new Date(event) && new Date(proctur_live_expiry_date)!=new Date(event)){
+      this.msgService.showErrorMessage('info','' , 'Expiry date');
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
     }
   }
