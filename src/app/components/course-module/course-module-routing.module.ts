@@ -46,11 +46,6 @@ import { TimeTableComponent } from './time-table/time-table.component';
                   pathMatch: 'prefix',
               },
               {
-                  path: 'coursePlanner',
-                  loadChildren: 'app/components/course-module/course-planner/course-planner.module#CoursePlannerModule',
-                  pathMatch: 'prefix',
-              },
-              {
                   path:'file-manager',
                   loadChildren: 'app/components/course-module/file-manager/file-manager.module#FileManagerModule',
                   pathMatch: 'prefix',

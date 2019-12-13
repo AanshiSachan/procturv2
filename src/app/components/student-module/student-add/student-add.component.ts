@@ -1,4 +1,4 @@
-import { Component, OnInit, Pipe, PipeTransform, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Pipe,  ViewChild, ElementRef } from '@angular/core';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
@@ -15,6 +15,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 import { CourseListService } from '../../../services/course-services/course-list.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-student-add',
@@ -370,17 +371,16 @@ export class StudentAddComponent implements OnInit {
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
       this.countryDetails = data;
-      if(this.checkStatusofStudent == true) {
-        this.studentAddFormData.country_id = this.countryDetails[0].id;
-        this.instituteCountryDetObj = this.countryDetails[0];
+     let defacult_Country = this.countryDetails.filter((country)=>{
+        return country.is_default=='Y';
+      })
+
+      this.studentAddFormData.country_id = defacult_Country[0].id;
+      this.instituteCountryDetObj = defacult_Country[0];
+      if(this.checkStatusofStudent == true) { // when enquiry is convert to student it  false else true
         this.country_id = this.countryDetails[0].id;
         this.maxlegth = this.countryDetails[0].country_phone_number_length;
       }
-    }
-    else{
-      this.countryDetails = data;
-      this.studentAddFormData.country_id = this.countryDetails[0].id;
-      this.instituteCountryDetObj = this.countryDetails[0];
     }
   } 
 
@@ -2154,6 +2154,7 @@ export class StudentAddComponent implements OnInit {
       cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('YYYY-MM-DD'),
       cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
     }
+    this.pdcAddForm.country_id = this.studentAddFormData.country_id;
     this.isRippleLoad = true;
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {

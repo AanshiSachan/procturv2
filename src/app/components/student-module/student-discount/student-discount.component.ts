@@ -45,6 +45,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     @Input() totalDiscountApplied: number = 0;
     @Input() initialAmountWithoutTax: number = 0;
     @Input() student_id: any;
+    @Input() countryDetails: any;
 
     @Output() closePopup = new EventEmitter<any>();
 
@@ -318,7 +319,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         this.feeService.getDiscountHistory(this.student_id).subscribe(
             (res: any) => {
                 this.cd.detectChanges();
-                this.discountHistory = res.discountInstllmentList;
+                this.discountHistory = res && res.discountInstllmentList;
                 this.cd.markForCheck();
             },
             err => {

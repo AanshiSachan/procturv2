@@ -264,7 +264,7 @@ export class EnquiryWidgetComponent implements OnInit {
         }
 
         sessionStorage.setItem('dashBoardParam', JSON.stringify(obj));
-        this.router.navigateByUrl('/view/enquiry');
+        this.router.navigateByUrl('/view/leads');
     }
 
 }

@@ -130,7 +130,8 @@ export class ManageBatchService {
     }
 
     getFeeTemplate(batch_id) {
-        let url = this.baseURL + "/api/v1/student_wise/feeStructure/" + this.institute_id + "/batch/" + batch_id + "/fetch";
+        // https://test999.proctur.com/StdMgmtWebAPI/api/v1/studentWise/fee/fee_template_country_wise/100135?course_id=-1&subject_id=1372
+        let url = this.baseURL + "/api/v1/studentWise/fee/fee_template_country_wise/" + this.institute_id + "?course_id=-1&subject_id=" + batch_id ;
         return this.http.get(url, { headers: this.headers }).map(
             res => {
                 return res;

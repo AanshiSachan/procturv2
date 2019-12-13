@@ -138,7 +138,7 @@
 
                 <div class="row examAdder" *ngIf="jsonVar.isSheduleBatch">
 
-                    <div class="c-lg-2 c-md-2 c-sm-2">
+                    <div class="c-lg-2 c-md-2 c-sm-2 ">
                         <div class="form-wrapper datePickerBox">
                             <label for="csd">Date
                                <span class="text-danger">*</span>
@@ -147,6 +147,21 @@
                                 readonly="true" name="csd" bsDatepicker>
                         </div>
                     </div>
+
+                     <div class="c-lg-1 c-md-1 c-sm-1" style="padding: 0;">
+                        <div class="form-wrapper topicsBox">
+                            <label>
+                                <span>Topic</span>
+                            </label><br>
+                            <input type="text" class="side-form-ctrl text-center" *ngIf="!selectedTopicsListObj.length" (click)="fetchTopics()" style="height: 30px;cursor:pointer" value="" placeholder="Link"/>
+                            <i class="fa fa-link" (click)="fetchTopics()" *ngIf="!selectedTopicsListObj.length" style="position: absolute;  top: 28px; right: 10px;cursor: pointer"></i>
+
+                            <!--when topics are not linked-->
+                            <input type="text" class="side-form-ctrl text-center" *ngIf="selectedTopicsListObj.length" (click)="fetchSelectedTopics()" style="height: 30px;cursor:pointer;    border-color: blue;
+                            color: blue;" value="" placeholder="Linked"/>
+                            <i class="fa fa-link" (click)="fetchSelectedTopics()" *ngIf="selectedTopicsListObj.length" style="position: absolute;  top: 28px; right: 10px;cursor: pointer;color:blue"></i>
+                        </div>
+                    </div> 
 
                     <div class="c-sm-2 c-lg-2 c-md-2">
 
@@ -229,6 +244,9 @@
                                         Date
                                     </th>
                                     <th>
+                                        Topics
+                                    </th>
+                                    <th>
                                         Start Time
                                     </th>
                                     <th>
@@ -249,6 +267,15 @@
                                 <tr *ngFor="let row of examSchedule ; let i= index ; trackBy : index">
                                     <td>
                                         {{row.exam_date | dateMonthYear}}
+                                    </td>
+                                    <td>
+                                        <input type="textbox" class="side-form-ctrl topic-link" *ngIf="row.topics_covered != '' && row.topics_covered != null" name="label" style="height: 30px;border:1px solid blue;text-align:center;cursor:pointer" id="classDetailsTxt9" placeholder="Linked"
+                        readonly (click)="editTopics(row)" />
+                        <i class="fa fa-link" (click)="editTopics(row)" *ngIf="row.topics_covered != '' && row.topics_covered != null" style="cursor: pointer;font-size: 15px;margin-left: -30px;margin-top:6px;color:#0084f6"></i>
+
+                        <input type="textbox" class="side-form-ctrl topic-link" *ngIf="row.topics_covered == '' || row.topics_covered == null" name="label" style="height: 30px;cursor:pointer;text-align:center;border:1px solid lightgrey" id="classDetailsTxt9" placeholder="Link"
+                        readonly (click)="editTopics(row)"/>
+                        <i class="fa fa-link" (click)="editTopics(row)" *ngIf="row.topics_covered == '' || row.topics_covered == null" style="cursor: pointer;color: #bdbdbd;font-size: 15px;margin-left: -30px;margin-top:6px"></i>
                                     </td>
                                     <td>
                                         {{row.start_time}}
@@ -826,10 +853,51 @@
        </div> -->
     <div class="extraMargin row  pull-right" style="margin: 15px">
       <button class="btn" (click)="closeAlert()">Cancel</button>
-      <button class="btn fullBlue" (click)="saveTopic()">Save</button>
+      <button class="btn fullBlue"  (click)="saveTopic()">Save</button>
     </div>
   </div>
 </section>
+
+<section *ngIf="showTopicsPopUp">
+    <div class="topicBox">
+        <div class="close-btn">
+          <span (click)="closeTopicModal()">X</span>
+        </div>
+        <div class="header-container">
+          <div class="sub-header">
+            <span style="font-weight: 600;">Subject : </span>
+            <span id="topicSubName">{{selectedCourseName}}</span>
+          </div>
+         
+        </div>
+        <div class="topic-listing-container" style="min-height: 110px;overflow-x: hidden;">
+           <ng-container *ngTemplateOutlet="topicsRecursiveList; context:{$implicit: topicsList, level: 1 }"></ng-container> 
+        </div>
+        <div class="extraMargin row  pull-right" style="margin: 15px">
+          <button class="btn" (click)="closeTopicModal()">Cancel</button>
+          <button class="btn fullBlue" *ngIf="showTopicsPopUp && !showExamEditModal" (click)="saveSelectedTopics()">Save</button>
+          <button class="btn fullBlue" *ngIf="showExamEditModal" (click)="linkTopics()">Save</button>
+        </div>
+      </div>
+</section>
+<ng-template #topicsRecursiveList let-topicsList let-level="level">
+ <div *ngFor="let topic of topicsList">
+    <div class="topic-container" [ngClass]="level == 1 ? 'level1Topic': 'subTopicLevel'">
+        <div class="arrow-icon"  [style.visibility]="topic.subTopic.length ? 'visible':'hidden'" (click)="toggleArrow(topic)">
+          <i [ngClass]="topic.isExpand ? 'fa fa-caret-down': 'fa fa-caret-right'"></i>
+        </div>
+        <div class="field-checkbox-wrapper" style="margin-bottom: 5px !important;">
+        <input type="checkbox" [(ngModel)]="topic.checked"  class="form-checkbox" value="{{topic.checked}}" (click)="selectTopics(topic,$event)" id="topic-{{topic.topicId}}" />
+        <label for="topic-{{topic.topicId}}">{{topic.topicName}}</label>
+        <div *ngIf="topic.isExpand" class="pt-4">
+            <ng-container  *ngTemplateOutlet="topicsRecursiveList; context:{ $implicit: topic.subTopic, level: level + 1  }">
+            </ng-container>
+          </div>
+        </div>
+        
+      </div> 
+ </div>
+</ng-template>
 
 <div class="black-bg" id="black-bg" [hidden]="topicBox" (click)="closeAlert()">
 

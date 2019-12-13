@@ -11,7 +11,6 @@ import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { CheckableSettings } from '@progress/kendo-angular-treeview';
 import { of } from 'rxjs/observable/of';
 import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
-import { Observable } from 'rxjs/Observable';
 import { TreeItemLookup } from '@progress/kendo-angular-treeview';
 
 
@@ -60,7 +59,8 @@ export class CourseExamComponent implements OnInit {
       hour: "1 PM",
       minute: "00"
     },
-    total_marks: 0
+    total_marks: 0,
+    topics_covered: ''
   }
 
   batchData = {
@@ -124,6 +124,17 @@ export class CourseExamComponent implements OnInit {
   // Topic listing variables
   topicBox: boolean = true;
   selectAllTopics: boolean = false;
+  
+  showTopicsPopUp: boolean = false;
+  topicsList: any = [];
+  totalTopicsList: any = [];
+  subjectsList: any = [];
+  selectedCourseName: any;
+  selectedTopicsListObj: any = [];
+  selectedTopics: any = '';
+  getSubjectObject: any = '';
+  showExamEditModal: boolean = false;
+
   public enableCheck: boolean = true;
   public checkChildren: boolean = true;
   public checkParents: boolean = true;
@@ -138,6 +149,9 @@ export class CourseExamComponent implements OnInit {
   public children;
   public hasChildren;
   public isExpanded;
+
+
+  
 
   coursePlannerStatus: any = false;
 
@@ -187,9 +201,11 @@ export class CourseExamComponent implements OnInit {
         }
         if (res.batchLi != null && res.batchLi.length > 0) {
           this.batchesList = res.batchLi;
+          this.subjectsList = res.subjectLi;
         }
         if (res.subjectLi != null && res.subjectLi.length > 0) {
           this.courseList = res.subjectLi;
+          this.subjectsList = res.subjectLi;
         }
       },
       err => {
@@ -198,6 +214,225 @@ export class CourseExamComponent implements OnInit {
       }
     )
   }
+
+  fetchTopics(){
+    this.isRippleLoad = true;
+    this.totalTopicsList = [];
+    this.selectedTopics = '';
+    this.selectedTopicsListObj = [];
+    this.topicService.getAllTopicsSubTopics(this.batchData.subject_id).subscribe(data =>{
+      this.topicsList = [];
+      this.topicsList = data;
+      if(this.topicsList.length && this.topicsList != null){
+        this.showTopicsPopUp = true;
+        this.isRippleLoad = false;
+        this.topicsList.forEach(tpc =>{
+          this.totalTopicsList.push(tpc);
+          tpc.checked = false;
+          if(tpc.subTopic.length){
+            this.getAllTopics(tpc.subTopic)
+          }
+        })
+      }
+      else{
+        this.isRippleLoad = false;
+        this.messageNotifier('info', 'Info', 'No topics available to link !');      }
+    }, err=>{
+      this.isRippleLoad = false;
+      this.messageNotifier('error','Error', err.error.message)
+    })
+  }
+
+  saveSelectedTopics(){
+    if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
+      this.messageNotifier('info','Info', 'Please select topics to save !')    }
+    else {
+      this.isRippleLoad = true;
+     this.selectedTopicsListObj = [];
+     this.selectedTopicsListObj = this.totalTopicsList.filter(obj => obj.checked == true);
+     this.selectedTopics = this.selectedTopicsListObj.map(obj=>{
+       return obj.topicId;
+     })
+     this.selectedTopics = this.selectedTopics.join('|');
+     this.messageNotifier('success','Success', 'Topics saved successfully');
+     this.isRippleLoad = false;
+     this.showTopicsPopUp = false;
+    }
+  }
+
+  fetchSelectedTopics(){
+    this.isRippleLoad = true;
+    this.showTopicsPopUp= true;
+    this.selectedTopicsListObj.forEach(obj =>{
+      var getTopicObject = this.totalTopicsList.find(ele => ele.topicId == obj.topicId);
+      getTopicObject.checked = true;
+    });
+    this.isRippleLoad = false;
+  }
+
+  getAllTopics(topic){
+    topic.forEach(obj =>{
+      this.totalTopicsList.push(obj);
+      obj.checked = false;
+      if(obj.subTopic.length){
+        this.getAllTopics(obj.subTopic)
+      }
+    })
+  }
+
+  toggleArrow(topic){
+    topic.isExpand = !(topic.isExpand);
+  }
+  closeTopicModal(topic){
+    this.showTopicsPopUp = false;
+    this.showExamEditModal = false;
+  }
+  linkTopics(){
+    if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
+     // this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics selected");
+     this.messageNotifier('info','Info','No topics selected')
+    }
+    else {
+      this.isRippleLoad = true;
+      var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
+      var getTopicIds;
+      getTopicIds = getSelectedTopics.map(obj =>{
+        return obj.topicId;
+      })
+      getTopicIds = getTopicIds.join('|')
+      this.getSubjectObject.topics_covered = getTopicIds;
+      this.examSchedule.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
+      this.showTopicsPopUp = false;
+      this.isRippleLoad = false;
+      this.showExamEditModal = false;
+      this.messageNotifier('success','Success','Topics updated successfully')
+
+    }
+  }
+
+  //on checkbox check
+  selectTopics(topic,event){  
+    topic.checked = !topic.checked;
+      if(topic.subTopic.length){
+        this.checkAllSubTopics(topic.subTopic, event.target.checked);
+      } 
+      if(!event.target.checked){
+        if(topic.parentTopicId != 0){
+          this.uncheckParent(topic);
+        }
+      }
+      this.checkParent(topic);      
+      
+  }
+  // check/uncheck all subtopics if parent is checked/unchecked
+  checkAllSubTopics(topic,param){
+    topic.forEach(obj =>{
+      if(param){
+      obj.checked = true;
+      }
+      else{
+        obj.checked = false
+      }
+      if(obj.subTopic.length){
+        this.checkAllSubTopics(obj.subTopic,param);
+      }
+    })
+  }
+
+  
+  //check parent if all subtopics are checked
+  checkParent(topic){
+    var checkAll: boolean = true;
+    if(this.totalTopicsList.find(el => el.topicId == topic.topicId) != undefined){
+      var parentTopic = this.totalTopicsList.find(ele => ele.topicId == topic.parentTopicId);
+      if(parentTopic != undefined){
+      if(parentTopic.subTopic.length){
+        parentTopic.subTopic.forEach(subTpc =>{
+          if(!subTpc.checked){
+            checkAll = false;
+          }
+        });
+        if(checkAll){
+          parentTopic.checked = true;
+          if(parentTopic.parentTopicId != 0){
+            this.checkParent(parentTopic.subTopic)
+          }
+        }
+      }
+    }
+    }
+  }
+
+   //uncheck parent if any of the child is deselected
+   uncheckParent(topic){
+    var getParentTopic = this.totalTopicsList.find(obj => obj.topicId == topic.parentTopicId);
+    if(getParentTopic !=undefined){
+      getParentTopic.checked = false;
+      if(getParentTopic.parentTopicId !=0){
+        this.uncheckParent(getParentTopic)
+      }
+    }
+  }
+
+  editTopics(row){
+    console.log('inside edit topics:',row);
+    this.getSubjectObject = '';
+    this.getSubjectObject = row;
+    this.isRippleLoad = true;
+    if(row.topics_covered != '' && row.topics_covered != null){
+    var selectedTopicIds = row.topics_covered.split('|');
+    }
+    var list = [];
+    this.topicService.getAllTopicsSubTopics(this.batchData.subject_id).subscribe(res =>{
+      this.topicsList = [];
+      this.topicsList = res;
+      if(this.topicsList != null && this.topicsList.length){
+       this.showTopicsPopUp = true;
+       this.showExamEditModal = true;
+        this.isRippleLoad = false;
+        this.topicsList.forEach(obj =>{
+         list.push(obj);
+         if(selectedTopicIds !=undefined){
+          if(selectedTopicIds.indexOf((obj.topicId).toString()) > -1){
+            obj.checked = true;
+          }
+         }
+          if(obj.subTopic.length){
+            this.fetchAllTopics(obj.subTopic,list,selectedTopicIds);
+          }
+         
+        });  
+        this.totalTopicsList = [];
+        this.totalTopicsList = list     
+      }
+      else {
+       this.isRippleLoad = false;
+      // this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', "No topics available to Link");
+      this.messageNotifier('info','Info','No topics available to link')
+      }
+    },err => {
+     this.isRippleLoad = false;
+    // this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+    this.messageNotifier('error', 'Error', err.error.message);
+   })
+  }
+
+  fetchAllTopics(topic,list,idList){
+    topic.forEach(key =>{
+      if(idList !=undefined && idList != null){
+      if(idList.indexOf((key.topicId).toString()) > -1){
+        key.checked = true;
+      }
+    }
+      list.push(key);  
+      if(key.subTopic.length){
+        this.fetchAllTopics(key.subTopic,list,idList)
+      }
+     
+    });
+    
+  }
+
 
   onBatchMasterCourseSelection(event) {
     this.batchData.subject_id = -1;
@@ -213,6 +448,11 @@ export class CourseExamComponent implements OnInit {
       this.batchesList = [];
       this.getMasterCourseBatchData();
     }
+    this.getCourseName(event)
+  }
+  getCourseName(eve){
+    this.selectedCourseName = '';
+    this.selectedCourseName = this.subjectsList.find(ob => ob.subject_id == eve).subject_name;
   }
 
   batchModelGoClick() {
@@ -286,6 +526,7 @@ export class CourseExamComponent implements OnInit {
       obj.duration = end_time.diff(start_time, 'minutes');
     }
     obj.exam_desc = this.batchAdderData.exam_desc;
+    obj.topics_covered = this.selectedTopics;
     obj.schd_id = 0;
     obj.isReferenced = "Y";
     this.examSchedule.push(obj);
@@ -300,8 +541,12 @@ export class CourseExamComponent implements OnInit {
         hour: "1 PM",
         minute: "00"
       },
-      total_marks: 0
+      total_marks: 0,
+      topics_covered: ''
     }
+    this.selectedTopics = '';
+    this.selectedTopicsListObj = [];
+
   }
 
   addDataToExamSchedule() {
@@ -334,6 +579,8 @@ export class CourseExamComponent implements OnInit {
         }
       )
     }
+    this.selectedTopics = '';
+    this.selectedTopicsListObj = [];
   }
 
   makeJsonToSendData() {
@@ -345,13 +592,14 @@ export class CourseExamComponent implements OnInit {
       for (let i = 0; i < this.examSchedule.length; i++) {
         let test: any = {};
         test.exam_date = moment(this.examSchedule[i].exam_date).format('YYYY-MM-DD'),
-          test.start_time = this.examSchedule[i].start_time;
+        test.start_time = this.examSchedule[i].start_time;
         test.end_time = this.examSchedule[i].end_time;
         test.total_marks = this.examSchedule[i].total_marks;
         test.exam_desc = this.examSchedule[i].exam_desc;
         test.isReferenced = this.examSchedule[i].isReferenced;
         test.duration = this.examSchedule[i].duration;
         test.schd_id = this.examSchedule[i].schd_id;
+        test.topics_covered = this.examSchedule[i].topics_covered;
         obj.otherSchd.push(test);
       }
     }
