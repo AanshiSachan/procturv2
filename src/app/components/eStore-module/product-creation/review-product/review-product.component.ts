@@ -3,6 +3,7 @@ import { ProductService } from '../../../../services/products.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class ReviewProductComponent implements OnInit {
   mock_count: number = 0;
   online_count: number = 0;
   isRippleLoad: boolean = false;
+  image_url:any;
   moderatorSettings: any = {
     singleSelection: false,
     idField: 'course_type_id',
@@ -34,7 +36,8 @@ export class ReviewProductComponent implements OnInit {
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
-    private router: Router
+    private router: Router,
+    private auth: AuthenticatorService
   ) { }
 
 
@@ -133,9 +136,12 @@ export class ReviewProductComponent implements OnInit {
             this.prodForm = productData;
             this.prodForm.is_paid = this.prodForm.is_paid == 'Y' ? 0 : 1;
             this.prodForm.is_duration = this.prodForm.duration == 0 ? false : true;
-            this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date ).format('DD-MMM-YYYY');
+            this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date).format('DD-MMM-YYYY');
             this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date).format('DD-MMM-YYYY');
             this.prodForm.product_item_stats = {};
+            this.image_url = response.photo_url;
+            this.prodForm.logo_url = response.logo_url;
+            this.prodForm.photo_url = response.photo_url;
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
@@ -168,6 +174,53 @@ export class ReviewProductComponent implements OnInit {
     }
   }
 
+  uploadHandler(Input) {
+    // this.image_url = ;
+    this.prodForm.logo_url = null;
+    this.prodForm.photo_url == null;
+    let fileInfoJson: any = { "institute_id": sessionStorage.getItem("institute_id"), "product_id": this.prodForm.entity_id };
+    let formData = new FormData();
+    formData.append("file", Input.target.files[0]);
+    formData.append("fileInfoJson", JSON.stringify(fileInfoJson));
+    const base = this.auth.getBaseUrl();
+    const urlPostXlsDocument = base + "/api/v1/instFileSystem/fileUpload";
+    let newxhr = new XMLHttpRequest();
+    let auths: any = {
+      userid: sessionStorage.getItem('userid'),
+      userType: sessionStorage.getItem('userType'),
+      password: sessionStorage.getItem('password'),
+      institution_id: sessionStorage.getItem('institute_id'),
+    }
+    const Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
+    newxhr.open("POST", urlPostXlsDocument, true);
+    newxhr.setRequestHeader("Authorization", Authorization);
+    newxhr.setRequestHeader("enctype", "multipart/form-data;");
+    newxhr.setRequestHeader("Accept", "application/json, text/javascript");
+    newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    this.isRippleLoad = true;
+    newxhr.onreadystatechange = () => {
+      if (newxhr.readyState == 4) {
+        if (newxhr.status >= 200 && newxhr.status < 300) {
+          this.isRippleLoad = false;
+          let res = JSON.parse(newxhr.response);
+          
+          this.prodForm.logo_url = res.thumbnail_url;
+          this.prodForm.photo_url = res.photo_url;
+          this.msgService.showErrorMessage('success', '', 'File uploaded successfully');
+
+        } else {
+          this.isRippleLoad = false;
+          // this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+
+        }
+      }
+    }
+    newxhr.send(formData);
+
+
+
+  }
+
   saveProduct() {
     if (this.prodForm.title == "" ||
       this.prodForm.title == null) {
@@ -184,7 +237,7 @@ export class ReviewProductComponent implements OnInit {
       return;
     }
 
-    if (this.prodForm.about.length > 1500 ) {
+    if (this.prodForm.about.length > 1500) {
       this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
       return;
     }
@@ -200,12 +253,13 @@ export class ReviewProductComponent implements OnInit {
 
 
     this.prodForm.is_paid = (this.prodForm.price) ? 'Y' : 'N';
-    this.prodForm.price = this.prodForm.price ?  this.prodForm.price:0;
+    this.prodForm.price = this.prodForm.price ? this.prodForm.price : 0;
     let object = {
       "entity_id": this.prodForm.entity_id,
       "title": this.prodForm.title,
       "institute_id": sessionStorage.getItem('institute_id'),
-      "logoUrl": "",
+      "logo_url": this.prodForm.logo_url,
+      "photo_url": this.prodForm.photo_url,
       "about": this.prodForm.about,
       "is_paid": this.prodForm.is_paid,
       "price": this.prodForm.price,
