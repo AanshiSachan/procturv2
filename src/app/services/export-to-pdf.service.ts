@@ -14,10 +14,13 @@ export class ExportToPdfService {
       head: rows,
       body: columns,
       styles: {
-        cellWidth: 20
-      }
+        cellWidth: 20,
+        overflow: 'linebreak',
+        cellPadding: 10,
+        valign: 'middle',
+      },
     });
     pdf.save(fileName + '_export_' + new Date().getTime() + '.pdf');
-    
+
   }
 }
