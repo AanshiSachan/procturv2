@@ -70,6 +70,17 @@ export class FeeStrucService {
         )
     }
 
+    
+    additionalFeeTypeDetail(country_ids) {
+        let url = this.baseUrl + "/api/v1/batchFeeSched/" + this.institute_id + "/country?country_ids=" + country_ids;
+
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+
+        )
+    }
+
     fetchFeeDetail(id) {
         let url = this.baseUrl + "/api/v1/student_wise/feeStructure/fetch/" + this.institute_id + "/" + id;
 

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FeeStrucService } from '../../../../../services/feeStruc.service';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../../services/common-service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-fee-template-add',
@@ -13,6 +14,7 @@ export class FeeTemplateAddComponent implements OnInit {
 
   masterCourseList: any = [];
   CourseList: any = [];
+  countryAdditioalFeeTypes: any ={};
   addNewTemplate = {
     template_name: '',
     fee_amount: "",
@@ -24,7 +26,7 @@ export class FeeTemplateAddComponent implements OnInit {
     total_fee: 0,
     installmentCount: '',
     is_default_template: false,
-    country_id:-1
+    country_id: -1
   }
   additionalInstallment = {
     days: 0,
@@ -37,7 +39,7 @@ export class FeeTemplateAddComponent implements OnInit {
     service_tax: 0,
     service_tax_applicable: 'N',
     fee_type_name: '',
-    country_id:-1
+    country_id: -1
   }
 
   feeStructure: any = [];
@@ -51,7 +53,7 @@ export class FeeTemplateAddComponent implements OnInit {
   enableTaxOptions: any = 0;
   isLangInstitute: boolean = false;
   moduleState: any;
-  selectedCountry:any;
+  selectedCountry: any;
 
   constructor(
     private apiService: FeeStrucService,
@@ -80,10 +82,30 @@ export class FeeTemplateAddComponent implements OnInit {
   }
 
   fetchDataForCountryDetails() {
+    this.countryAdditioalFeeTypes = {};
     let encryptedData = sessionStorage.getItem('country_data');
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
       this.countryDetails = data;
+      let country_ids = [];
+      this.countryDetails.forEach((item)=> {
+        this.countryAdditioalFeeTypes[item.id] = [];
+        country_ids.push(item.id);
+      })
+      
+      this.apiService.additionalFeeTypeDetail(country_ids.join()).subscribe(
+        (res: any) => {
+          res && res.forEach(fee => {
+            const country_id = fee.countryId.country_id;
+            let fee_details = {};
+            fee_details[fee.fee_type_id] = fee.fee_type;
+            this.countryAdditioalFeeTypes[country_id].push(fee_details);
+          });
+        },
+        err => {
+          this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        }
+      )
     }
     // console.log(data);
   }
@@ -92,7 +114,6 @@ export class FeeTemplateAddComponent implements OnInit {
     this.apiService.fetchFeeDetail(0).subscribe(
       (res: any) => {
         this.feeStructure = res;
-        this.fillFeeType(res.feeTypeMap);
       },
       err => {
         this.commonService.showErrorMessage('error', 'Error', err.error.message);
@@ -197,13 +218,15 @@ export class FeeTemplateAddComponent implements OnInit {
     this.createInstallmentTable();
   }
 
-  selectedCountryCode($event){
-    this.selectedCountry =null;
+  selectedCountryCode($event) {
+    this.selectedCountry = null;
     this.countryDetails.forEach(country => {
-      if(country.id==Number($event)){
+      if (country.id == Number($event)) {
         this.selectedCountry = country;
-      }      
+      }
     });
+    console.log("this.countryAdditioalFeeTypes[$event]", this.countryAdditioalFeeTypes[$event])
+    this.fillFeeType(this.countryAdditioalFeeTypes[$event]);
   }
 
   createInstallmentTable() {
@@ -212,7 +235,7 @@ export class FeeTemplateAddComponent implements OnInit {
     let totalAmount: number = 0;
     let taxAmount: number = 0;
     let obj = [];
-   this.additionalInstallment.country_id = this.addNewTemplate.country_id;
+    this.additionalInstallment.country_id = this.addNewTemplate.country_id;
     for (let i = 0; i < Number(this.addNewTemplate.installmentCount); i++) {
       let test: any = {};
       test.day_type = 1;
@@ -262,7 +285,7 @@ export class FeeTemplateAddComponent implements OnInit {
         this.additionalInstallment.initial_fee_amount = res.fee_amount;
         this.additionalInstallment.service_tax = res.fee_type_tax;
         this.additionalInstallment.fee_type = res.fee_type_id;
-        this.additionalInstallment.country_id =this.addNewTemplate.country_id;
+        this.additionalInstallment.country_id = this.addNewTemplate.country_id;
         if (res.fee_type_tax > 0) {
           this.additionalInstallment.service_tax_applicable = "Y";
         }
@@ -327,19 +350,23 @@ export class FeeTemplateAddComponent implements OnInit {
         service_tax: 0,
         service_tax_applicable: 'N',
         fee_type_name: '',
-        country_id:-1
+        country_id: -1
       }
     }
   }
 
   fillFeeType(data) {
-    let keys = Object.keys(data);
-    for (let i = 0; i < keys.length; i++) {
+    this.otherFeetype=[];
+    
+    data.forEach(object => {      
+      let keys = Object.keys(object);
       let test: any = {};
-      test.id = keys[i];
-      test.value = data[keys[i]];
+      test.id = keys[0];
+      test.value = object[keys[0]];
       this.otherFeetype.push(test);
-    }
+      
+    });
+  
   }
 
   createFeeTemplate() {

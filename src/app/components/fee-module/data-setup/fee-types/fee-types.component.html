@@ -60,7 +60,7 @@
             <select id="country_id" class="form-ctrl" [(ngModel)]="addNewFee.country_id" name="country_id" style="height: 29px;padding: 0">
               <option value=""></option>
               <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                {{data.country_code}} +{{data.country_calling_code}}
+                (+{{data.country_calling_code}}) &nbsp;{{data.country_name}}
               </option>
             </select>
           </div>
@@ -137,9 +137,10 @@
               </select>
     </td>
     <td>
-      <div class="field-wrapper">
-        <input type="number" class="form-ctrl editCellInput" style="width:25%" [(ngModel)]="row.fee_amount" name="label">
-      </div>
+        <span>{{getCurrencyDetails(row.fee_amount,row.countryId.currency_code,row.countryId.country_code)}}</span>
+      <span class="field-wrapper">
+       <input type="number" class="form-ctrl editCellInput" style="width:25%;display: inherit;" [(ngModel)]="row.fee_amount" name="label">
+      </span>
     </td>
     <td>
       <div class="field-wrapper">

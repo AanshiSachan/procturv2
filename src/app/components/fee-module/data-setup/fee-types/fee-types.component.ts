@@ -35,6 +35,17 @@ export class FeeTypesComponent implements OnInit {
 
   }
 
+  getCurrencyDetails(value,currency,lang){
+    let formatted = value.toLocaleString(lang, {
+      maximumFractionDigits: 2,
+      style: 'currency',
+      currency: currency
+    }).slice(0, -3);
+
+    return formatted.replace(/[0-9]/g, '');
+  }
+
+
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
     let data = JSON.parse(encryptedData);
