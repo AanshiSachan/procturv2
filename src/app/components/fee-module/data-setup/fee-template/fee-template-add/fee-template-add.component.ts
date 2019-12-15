@@ -14,7 +14,7 @@ export class FeeTemplateAddComponent implements OnInit {
 
   masterCourseList: any = [];
   CourseList: any = [];
-  countryAdditioalFeeTypes: any ={};
+  countryAdditioalFeeTypes: any = {};
   addNewTemplate = {
     template_name: '',
     fee_amount: "",
@@ -88,11 +88,11 @@ export class FeeTemplateAddComponent implements OnInit {
     if (data.length > 0) {
       this.countryDetails = data;
       let country_ids = [];
-      this.countryDetails.forEach((item)=> {
+      this.countryDetails.forEach((item) => {
         this.countryAdditioalFeeTypes[item.id] = [];
         country_ids.push(item.id);
       })
-      
+
       this.apiService.additionalFeeTypeDetail(country_ids.join()).subscribe(
         (res: any) => {
           res && res.forEach(fee => {
@@ -218,18 +218,24 @@ export class FeeTemplateAddComponent implements OnInit {
     this.createInstallmentTable();
   }
 
-  selectedCountryCode($event) {
+  // set editional fee as per country --laxmi 
+  selectedCountryCode(country_id) {
     this.selectedCountry = null;
     this.countryDetails.forEach(country => {
-      if (country.id == Number($event)) {
+      if (country.id == Number(country_id)) {
         this.selectedCountry = country;
       }
     });
-    console.log("this.countryAdditioalFeeTypes[$event]", this.countryAdditioalFeeTypes[$event])
-    this.fillFeeType(this.countryAdditioalFeeTypes[$event]);
+    this.fillFeeType(this.countryAdditioalFeeTypes[country_id]);
+    this.additionalInstallment.country_id = this.addNewTemplate.country_id = country_id;
+    this.installMentTable && this.installMentTable.length && this.installMentTable.forEach(installement => {
+      installement.country_id =country_id;
+    });
+
   }
 
   createInstallmentTable() {
+    this.installMentTable=[];
     let amount: any = Math.floor(Number(this.addNewTemplate.fee_amount) / Number(this.addNewTemplate.installmentCount));
     let tax_amount = Math.floor(this.addNewTemplate.tax_amount / Number(this.addNewTemplate.installmentCount));
     let totalAmount: number = 0;
@@ -356,17 +362,17 @@ export class FeeTemplateAddComponent implements OnInit {
   }
 
   fillFeeType(data) {
-    this.otherFeetype=[];
-    
-    data.forEach(object => {      
+    this.otherFeetype = [];
+
+    data.forEach(object => {
       let keys = Object.keys(object);
       let test: any = {};
       test.id = keys[0];
       test.value = object[keys[0]];
       this.otherFeetype.push(test);
-      
+
     });
-  
+
   }
 
   createFeeTemplate() {

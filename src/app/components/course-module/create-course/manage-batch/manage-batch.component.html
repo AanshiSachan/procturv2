@@ -124,11 +124,11 @@
           <div class="field-wrapper">
             <label>Academic Year </label>
             <select id="" class="form-ctrl halfwidth" name="row.class_room_id" [(ngModel)]="addNewBatch.academic_year_id">
-                <option value="-1">Select</option>
+              <option value="-1">Select</option>
               <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                 {{opt.inst_acad_year}}
               </option>
-              </select>
+            </select>
           </div>
         </div>
 
@@ -286,8 +286,8 @@
                   </div>
                 </td>
                 <td class="view-comp">
-                  <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}" [(ngModel)]="row.academic_year_id"
-                    style="background: transparent">
+                  <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}"
+                    [(ngModel)]="row.academic_year_id" style="background: transparent">
                     <option value="-1">Select</option>
                     <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                       {{opt.inst_acad_year}}
@@ -299,15 +299,15 @@
                   {{row.class_room_name}}
                 </td>
                 <td class="edit-comp">
-                    <div class="field-wrapper">
-                      <select id="" class="form-ctrl " name="row.academic_year_id" [(ngModel)]="editRowDetails.academic_year_id">
-                          <option value="-1">Select</option>
-                        <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
-                          {{opt.inst_acad_year}}
-                        </option>
-                      </select>
-                    </div>
-                  </td>
+                  <div class="field-wrapper">
+                    <select id="" class="form-ctrl " name="row.academic_year_id" [(ngModel)]="editRowDetails.academic_year_id">
+                      <option value="-1">Select</option>
+                      <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                        {{opt.inst_acad_year}}
+                      </option>
+                    </select>
+                  </div>
+                </td>
                 <td class="edit-comp">
                   <div class="field-wrapper">
                     <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="editRowDetails.class_room_id">
@@ -484,7 +484,7 @@
                 <td>
                   {{row.student_name}}
                 </td>
-                <td>
+                <td [title]="row.country_name">
                   {{row.country_code}}
                 </td>
                 <td>
@@ -498,8 +498,8 @@
                 </td>
                 <td>
                   <div class="field-wrapper">
-                    <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}" [(ngModel)]="batchDetails.academic_year_id"
-                      style="background: transparent">
+                    <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}"
+                      [(ngModel)]="batchDetails.academic_year_id" style="background: transparent">
                       <option value="-1">Select</option>
                       <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                         {{opt.inst_acad_year}}

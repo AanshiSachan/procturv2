@@ -35,14 +35,19 @@ export class FeeTypesComponent implements OnInit {
 
   }
 
-  getCurrencyDetails(value,currency,lang){
-    let formatted = value.toLocaleString(lang, {
-      maximumFractionDigits: 2,
-      style: 'currency',
-      currency: currency
-    }).slice(0, -3);
+  getCurrencyDetails(value, currency, lang) {
+    if (value && currency && lang) {
+      let formatted = value.toLocaleString(lang, {
+        maximumFractionDigits: 2,
+        style: 'currency',
+        currency: currency
+      }).slice(0, -3);
 
-    return formatted.replace(/[0-9]/g, '');
+      return formatted.replace(/[0-9]/g, '');
+    }
+   else{
+    return lang;
+   }  
   }
 
 
@@ -60,7 +65,7 @@ export class FeeTypesComponent implements OnInit {
       res => {
         this.feeTypeList = res;
         this.feeTypeList.forEach(element => {
-          element.country_id =element.countryId.country_id;
+          element.country_id = element.countryId.country_id;
         });
       },
       err => {
@@ -103,8 +108,8 @@ export class FeeTypesComponent implements OnInit {
   addNewFeeType() {
     if (this.addNewFee.fee_type.trim() != "") {
       if (this.addNewFee.country_id != "") {
-        let obj: any= this.addNewFee;
-        obj.country_id =Number(this.addNewFee.country_id);
+        let obj: any = this.addNewFee;
+        obj.country_id = Number(this.addNewFee.country_id);
         this.feeTypeList.push(obj);
         this.addNewFee = {
           fee_type: '',
