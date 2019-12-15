@@ -936,6 +936,7 @@ export class StudentFeeService {
         )
     }
 
+    
     getFeeDetailsById(i): Observable<any> {
         let urlFeebyId = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + i + "/details";
         return this.http.get(urlFeebyId, { headers: this.headers }).map(

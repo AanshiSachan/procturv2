@@ -53,20 +53,19 @@ export class TemplateHomeComponent implements OnInit {
   discountAmount: any = '';
   isRippleLoad: boolean = false;
   feeTyeDetails: any = [];
+  tabkeList: any = [];
+  searchedData: any = [];
+  studentList: any[] = [];
   enableTax: any;
   totalAmountCal: number = 0;
   templateName: any = "";
-
   PageIndex: number = 0;
-  displayBatchSize: number = 20;
-  tabkeList: any = [];
-  searchDataFlag: boolean = false;
-  searchedData: any = [];
+  displayBatchSize: number = 20;  
+  moduleState :any;
   totalRow: number = 0;
   searchText: string = '';
   addTemplatePopUp: boolean = false;
-  studentList: any[] = [];
-  moduleState :any;
+  searchDataFlag: boolean = false;
 
   constructor(
     private router: Router,
@@ -203,13 +202,13 @@ export class TemplateHomeComponent implements OnInit {
     } else {
       taxApplicable = "N";
     }
+    let set_is_default ='0';
     if (this.feeStructure.is_default == '1' || this.feeStructure.is_default == true) {
-      this.feeStructure.is_default = '1';
-    } else {
-      this.feeStructure.is_default = '0';
-    }
+      set_is_default = '1';
+    } 
     let data: any = {
-      is_default: this.feeStructure.is_default,
+      is_default: set_is_default,
+      country_id: this.selectedTemplate.country_id,
       customFeeSchedules: this.makeJSONForCustomFee(),
       studentwise_total_fees_amount: this.totalAmount.toString(),
       studentwise_total_fees_discount: this.discountAmount,

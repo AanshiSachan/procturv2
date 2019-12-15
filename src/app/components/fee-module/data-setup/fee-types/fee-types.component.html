@@ -60,14 +60,14 @@
             <select id="country_id" class="form-ctrl" [(ngModel)]="addNewFee.country_id" name="country_id" style="height: 29px;padding: 0">
               <option value=""></option>
               <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                {{data.country_code}} +{{data.country_calling_code}}
+                {{data.country_name}}
               </option>
             </select>
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_amount != '' }">
-            <label for="slotNew">Amount
+            <label for="slotNew">Fee Amount
             </label>
             <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_amount"
               name="slotNew">
@@ -132,14 +132,15 @@
             <td>
               <select id="country_id" class="form-ctrl" [(ngModel)]="row.country_id" name="country_id" style="height: 29px;padding: 0;border: 1px solid #ccc; background: transparent;">
                 <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                  {{data.country_code}} +{{data.country_calling_code}}
+                  {{data.country_name}}
                 </option>
               </select>
     </td>
     <td>
-      <div class="field-wrapper">
-        <input type="number" class="form-ctrl editCellInput" style="width:25%" [(ngModel)]="row.fee_amount" name="label">
-      </div>
+        <span>{{getCurrencyDetails(row.fee_amount,row.countryId.currency_code,row.countryId.country_code)}}</span>
+      <span class="field-wrapper">
+       <input type="number" class="form-ctrl editCellInput" style="width:25%;display: inherit;" [(ngModel)]="row.fee_amount" name="label">
+      </span>
     </td>
     <td>
       <div class="field-wrapper">

@@ -79,7 +79,7 @@
             <select id="CourseDdn" class="side-form-ctrl" name="CourseCountry" [(ngModel)]="addNewTemplate.country_id" (ngModelChange)="selectedCountryCode($event)">
               <option value="-1"></option>
               <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                (+{{data.country_calling_code}} )&nbsp; {{data.country_name}}
+                 {{data.country_name}}
               </option>
             </select>
           </div>
@@ -226,16 +226,16 @@
                   </td>
                   <td>
                     <div class="form-wrapper" style="background: transparent;">
-                      <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
+                      <input type="number" min="0"  style="background: transparent;" class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
                     </div>
                   </td>
                   <td>
                     <div class="form-wrapper">
-                      <select id="CourseDdn" style="background: transparent;margin: 5px 0px;
-                        width: 100%;" class="side-form-ctrl" name="CourseCountry" [(ngModel)]="row.country_id">
+                      <select id="CourseDdn" style="background: transparent;margin: 5px 0px; 
+                        width: 100%;" disabled class="side-form-ctrl" name="CourseCountry" [(ngModel)]="row.country_id">
                         <option value="-1"></option>
-                        <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                          (+{{data.country_calling_code}})&nbsp; {{data.country_name}}
+                        <option [value]="data.id"  selected *ngFor='let data of countryDetails'>
+                           {{data.country_name}}
                         </option>
                       </select>
                     </div>
@@ -254,7 +254,7 @@
                   </td>
                   <td>
                     <div class="form-wrapper" style="background: transparent;">
-                      <input type="number" min="0" [readonly]="addNewTemplate.tax_type == 'exclusive'" class="editCellInput" (keyup)="userChangedAmountTotalAmount(row ,$event)"
+                      <input type="number" min="0" style="background: transparent;" [readonly]="addNewTemplate.tax_type == 'exclusive'" class="editCellInput" (keyup)="userChangedAmountTotalAmount(row ,$event)"
                         [(ngModel)]="row.totalAmount" name="label" class="side-form-ctrl">
                     </div>
                   </td>
@@ -267,7 +267,7 @@
       </section>
       <hr>
       <section class="additionalFeeSection">
-        <h3>Edit Additional Fees</h3>
+        <h3>Manage Additional Fees</h3>
 
         <div class="row">
           <div class="c-sm-2 c-md-2 c-lg-2">
@@ -308,7 +308,7 @@
                 name="row.country_id">
                 <option value="-1"></option>
                 <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                  (+{{data.country_calling_code}})&nbsp; {{data.country_name}}
+                   {{data.country_name}}
                 </option>
               </select>
             </div>
@@ -382,7 +382,7 @@
                       <select disabled style="width:100%;background: transparent" id="CourseDdn" class="side-form-ctrl" name="CourseCountry" [(ngModel)]="row.country_id">
                         <option value="-1"></option>
                         <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                          (+{{data.country_calling_code}})&nbsp; {{data.country_name}}
+                           {{data.country_name}}
                         </option>
                       </select>
                     </div>
@@ -406,7 +406,9 @@
                     </div>
                   </td>
                   <td>
-                    <a style="cursor: pointer" (click)="deleteAdditionalRow(row , i)">Delete</a>
+                    <a style="cursor: pointer" (click)="deleteAdditionalRow(row , i)">
+                      <i class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;" title="Delete"></i>
+                    </a>
                   </td>
                 </tr>
                 <tr *ngIf="otherInstList.length == 0">
@@ -422,7 +424,7 @@
       </section>
 
       <section class="btnGroup pull-right">
-        <button routerLink="/view/fee" class="btn">Back</button>
+        <button routerLink="/view/fee/data-setup/fee-template/home" class="btn">Back</button>
         <button (click)="createFeeTemplate()" class="btn fullBlue">Create</button>
       </section>
 
