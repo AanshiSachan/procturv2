@@ -61,7 +61,7 @@
       </section>
 
       <section class="live-class">
-        <div class="live-class-list-container" *ngIf="getClasses.length !=0">
+        <div class="live-class-list-container" *ngIf="getClasses?.length !=0">
           <div class="live-class-item" *ngFor="let class of getClasses">
             <div class="sub-item-1">
               <div class="session_name_and_id_container" >
@@ -209,18 +209,18 @@
                     </div>
             
               </div>
-              <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0" style="margin-top: 7px;">
-                <!-- &nbsp;&nbsp; -->
-                  <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" style="cursor: pointer;" [disabled]="class.download_links?.length==0" [ngStyle]="{'opacity':class.download_links?.length==0 ? '0.5' : '1' }">
+              <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0" >
+                &nbsp;&nbsp;
+                  <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0" [ngClass]="{'disabledButton': class.download_links?.length==0}">
                   <!-- <i class="fa fa-repeat" aria-hidden="true" ></i> &nbsp; -->
-                  view 
+                  View Recording
                   </button>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="live-class-list-container" *ngIf="getClasses.length ==0 && !liveClassFor" style="margin-top: 3%;">
+        <div class="live-class-list-container" *ngIf="getClasses?.length ==0 && !liveClassFor && !JsonVars.isRippleLoad" style="margin-top: 3%;">
           <div style="min-height: 60px;text-align: center;font-weight: 600;">
             No Upcoming Scheduled Found!
           </div>
@@ -288,9 +288,6 @@
         <div class="heading-item">
           <span>Title</span>
         </div>
-        <div class="heading-item">
-          <span>Created Date</span>
-        </div>
         <div class="heading-item" style="width: 20%;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility == 2|| proctur_live_view_or_download_visibility == 3">
           <span>Action</span>
         </div>
@@ -299,20 +296,18 @@
         <div class="value-container" *ngFor="let data of download_links.download_links" >
           <div class="value-item">
             <!-- <span>{{data.sessionName}}</span> -->
-            <span title="{{data.session_name}}">{{(data.session_name.length > 20) ? (data.session_name | slice:0:20) + '...' : data.session_name}}</span>
+            <span title="{{data.session_name}}">{{(data.session_name.length > 80) ? (data.session_name | slice:0:80) + '...' : data.session_name}}</span>
             <!-- *ngFor="let data of getClasses.download_links" -->
-          </div>
-          <div class="value-item">
-              <span>-</span>
           </div>
           <div class="value-item" style="width: 20%;text-align: center;">
             <div style="float: left;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3">
             <button class="fa fa-download" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="Download" (click)="downloadFile(data);"
-            id="downloadFile"></button>
+            id="downloadFile" [disabled]="data.download_link==null" [ngStyle]="{'opacity':data.download_link==null ? '0.5' : '1' }"></button>
             <a id="downloadFileClick" class="hide"></a>        
             </div>
             <div (click)="getVdocipherVideoOtp(data)" *ngIf="proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3">
-              <button class="fa fa-eye" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="View">
+              <button class="fa fa-eye" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="View" 
+              [disabled]="data.video_id==null" [ngStyle]="{'opacity':data.video_id==null ? '0.5' : '1' }">
               </button>
             </div>
           </div>

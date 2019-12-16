@@ -261,7 +261,8 @@ export class EditClassComponent implements OnInit {
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
     }
     if(new Date(proctur_live_expiry_date)<new Date(event) && new Date(proctur_live_expiry_date)!=new Date(event)){
-      this.msgService.showErrorMessage('info','' , 'Expiry date');
+      const tempMsg = 'Your live class subscription is over on '.concat(proctur_live_expiry_date).concat('. So you cannot edit live class after expiry date');
+      this.msgService.showErrorMessage('info','' , tempMsg);
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
     }
   }

@@ -707,10 +707,11 @@ html {
     outline: none;
     text-align: center;
     padding: 8px 20px;
-    height: 35px;
+    height: 52px;
     font-weight: 600;
     color: #0084f6;
     box-shadow: 0px 0px 1px #0084f6;
+    cursor: pointer;
 }
 .download_popup{
   border: none;
@@ -733,7 +734,7 @@ html {
     padding: 10px;
     border: 1px solid #ccc;
     .heading-item {
-      width: 40%;
+      width: 80%;
     }
   }
   .value-outer-container {
@@ -753,7 +754,7 @@ html {
       border-bottom: 1px solid #ccc;
       border-top: none;
       .value-item {
-        width: 40%;
+        width: 80%;
       }
     }
   }
@@ -795,4 +796,8 @@ html {
       }
     }
   }
+}
+.disabledButton{
+ cursor:no-drop;
+ opacity: 0.5;
 }
