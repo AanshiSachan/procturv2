@@ -976,7 +976,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     var getParentTopic = this.totalTopicsList.find(obj => obj.topicId == topic.parentTopicId);
     if(getParentTopic !=undefined){
       getParentTopic.checked = false;
-      if(getParentTopic.parentTopicId !=0){
+      if(getParentTopic.parentTopicId != 0){
         this.uncheckParent(getParentTopic)
       }
     }
@@ -996,7 +996,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         if(checkAll){
           parentTopic.checked = true;
           if(parentTopic.parentTopicId != 0){
-            this.checkParents(parentTopic.subTopic)
+            this.checkParents(parentTopic)
           }
         }
       }
@@ -1015,13 +1015,14 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   }
 
   saveSelectedTopics(){
-    if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
+    /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics selected");
     }
-    else {
-      this.isRippleLoad = true;
+    else { */
+     this.isRippleLoad = true;
      this.selectedTopicsListObj = [];
      this.selectedTopicsListObj = this.totalTopicsList.filter(obj => obj.checked == true);
+     if(this.selectedTopicsListObj !=undefined){
      this.selectedTopics = this.selectedTopicsListObj.map(obj=>{
        return obj.topicId;
      })
@@ -1030,10 +1031,11 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
        return obj.topicName;
      });
      this.selectedTopicsNames = this.selectedTopicsNames.join(',');
+    }
      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Topics saved successfully!");
      this.isRippleLoad = false;
      this.showTopicsModal = false;
-    }
+   // }
   }
   // check/uncheck all subtopics if parent is checked/unchecked
   checkAllSubTopics(topic,param){
@@ -1058,29 +1060,32 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     topic.isExpand = !(topic.isExpand);
   }
   linkTopics(){
-    if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
+    /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics selected");
-    }
-    else {
+    } 
+    else { */
       this.isRippleLoad = true;
       var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
       var getTopicIds;
+      if(getSelectedTopics != undefined){
       getTopicIds = getSelectedTopics.map(obj =>{
         return obj.topicId;
       })
       getTopicIds = getTopicIds.join('|')
       this.getSubjectObject.topics_covered = getTopicIds;
+    
       if(this.batchFrequency == 2){
        this.customTable.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
       }
       else {
         this.extraClassTable.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
       }
-      this.msgService.showErrorMessage('success', 'Success', "Topics updated successfully");
+    }
+      this.msgService.showErrorMessage('success', '', "Topics updated successfully");
       this.showTopicsModal = false;
       this.isRippleLoad = false;
 
-    }
+    //}
   }
 
   editTopics(row){
