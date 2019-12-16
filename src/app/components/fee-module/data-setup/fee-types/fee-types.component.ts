@@ -12,6 +12,7 @@ export class FeeTypesComponent implements OnInit {
 
   createNewFeeType: boolean = false;
   isTaxEnableFeeInstallments: boolean = false;
+  isRippleLoad:boolean=false;
   addNewFee = {
     fee_type: '',
     fee_type_desc: '',
@@ -22,6 +23,7 @@ export class FeeTypesComponent implements OnInit {
   }
   feeTypeList: any = [];
   countryDetails: any = [];
+
 
   constructor(
     private apiService: FeeStrucService,
@@ -43,6 +45,7 @@ export class FeeTypesComponent implements OnInit {
         currency: currency
       }).slice(0, -3);
 
+      formatted = formatted.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
       return formatted.replace(/[0-9]/g, '');
     }
    else{
@@ -61,27 +64,38 @@ export class FeeTypesComponent implements OnInit {
   }
 
   getListOfFeeType() {
+    this.isRippleLoad=true;
     this.apiService.getAllFeeType().subscribe(
       res => {
+        this.isRippleLoad=false;
         this.feeTypeList = res;
         this.feeTypeList.forEach(element => {
-          element.country_id = element.countryId.country_id;
+          if(element.countryId){
+            element.country_id = element.countryId.country_id;
+            element.currency_code =element.countryId.currency_code;
+            element.country_code =element.countryId.country_code;
+          }
+          
         });
       },
       err => {
+        this.isRippleLoad=false;
         this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
 
   updateDetails() {
+    this.isRippleLoad=true;
     let data = this.makeDataJson();
     this.apiService.upadateFeeType(data).subscribe(
       res => {
+        this.isRippleLoad=false;
         this.commonService.showErrorMessage('success', 'Updated', 'Details Updated Successfully');
         this.getListOfFeeType();
       },
       err => {
+        this.isRippleLoad=false;
         this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )

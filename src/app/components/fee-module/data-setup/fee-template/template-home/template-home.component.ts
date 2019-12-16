@@ -60,8 +60,8 @@ export class TemplateHomeComponent implements OnInit {
   totalAmountCal: number = 0;
   templateName: any = "";
   PageIndex: number = 0;
-  displayBatchSize: number = 20;  
-  moduleState :any;
+  displayBatchSize: number = 20;
+  moduleState: any;
   totalRow: number = 0;
   searchText: string = '';
   addTemplatePopUp: boolean = false;
@@ -143,7 +143,8 @@ export class TemplateHomeComponent implements OnInit {
         this.fillFeeType(res.feeTypeMap);
         this.fillDataInYTable(res.customFeeSchedules);
         if (res.studentwise_fees_tax_applicable == "Y") {
-          if (this.enableTax == "1") {
+          if (this.enableTax == "1" &&
+            document.getElementById('checkBoxtaxes')) {
             document.getElementById('checkBoxtaxes').checked = true;
             this.showTaxFields();
           }
@@ -202,10 +203,10 @@ export class TemplateHomeComponent implements OnInit {
     } else {
       taxApplicable = "N";
     }
-    let set_is_default ='0';
+    let set_is_default = '0';
     if (this.feeStructure.is_default == '1' || this.feeStructure.is_default == true) {
       set_is_default = '1';
-    } 
+    }
     let data: any = {
       is_default: set_is_default,
       country_id: this.selectedTemplate.country_id,
@@ -625,7 +626,7 @@ export class TemplateHomeComponent implements OnInit {
         err => {
           this.isRippleLoad = false;
 
-          if(err.error.message.includes("Fee template(s) are assigned to student(s).")){
+          if (err.error.message.includes("Fee template(s) are assigned to student(s).")) {
             if (confirm('Fee template(s) are assigned to student(s). Do you wish to delete it ?')) {
               is_archived = "Y";
               this.isRippleLoad = true;
@@ -635,14 +636,14 @@ export class TemplateHomeComponent implements OnInit {
                   this.commonService.showErrorMessage('success', 'Deleted', 'Fee Structure Deleted Successfully');
                   this.getFeeStructures();
                 },
-                  err => {
-                    this.isRippleLoad = false;
-                    this.commonService.showErrorMessage('error', 'Error', err.error.message);
-                  }
+                err => {
+                  this.isRippleLoad = false;
+                  this.commonService.showErrorMessage('error', 'Error', err.error.message);
+                }
               )
             }
           }
-          else{
+          else {
             this.commonService.showErrorMessage('error', 'Error', err.error.message);
           }
         }
