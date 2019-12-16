@@ -74,7 +74,7 @@ export class GlobalSearchPopupComponent implements OnInit, OnChanges {
             }
           },
           err => {
-            this.messageNotifier('error', 'Error', err.error.message);
+            this.messageNotifier('error', '', err.error.message);
           }
         )
       }

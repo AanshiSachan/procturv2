@@ -50,7 +50,7 @@ export class TeacherListComponent implements OnInit {
         this.isRippleLoad = false;
         let data = {
           type: "error",
-          title: "Error",
+          title: '',
           body: error.error.message
         }
         this.toastCtrl.popToast(data);
@@ -76,7 +76,7 @@ export class TeacherListComponent implements OnInit {
           //console.log(err);
           let data = {
             type: "error",
-            title: "Error",
+            title: '',
             body: err.error.message
           }
           this.toastCtrl.popToast(data);

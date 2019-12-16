@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+  </loaders-css>
 <div class="middle-section clearFix code-wrapper">
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left" style="padding-left:7px;">
@@ -204,7 +206,8 @@
                       (
                       <img src="{{selectedCountry?.currency_symbol}}" style="max-height: 9px" />)</span>
                   </th>
-                  <th>Fees Amount (Incl Tax)
+                  <th>Fees Amount
+                    <span *ngIf="addNewTemplate.country_id=='1'"> (Incl Tax)</span>
                     <span *ngIf="selectedCountry">
                       (
                       <img src="{{selectedCountry?.currency_symbol}}" style="max-height: 9px" />)</span>
@@ -226,7 +229,7 @@
                   </td>
                   <td>
                     <div class="form-wrapper" style="background: transparent;">
-                      <input type="number" min="0"  style="background: transparent;" class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
+                      <input type="number" min="0"  [disabled]="row.day_type=='1'" style="background: transparent;" class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
                     </div>
                   </td>
                   <td>
@@ -337,7 +340,7 @@
               </div>
             </div>
           </div>
-          <div class="c-sm-1 c-md-1 c-lg-1" style="margin-top:20px;">
+          <div class="c-sm-1 c-md-1 c-lg-1" style="margin-top:20px;cursor: pointer;">
             <img src="assets/images/plus.png" (click)="addAdditionalInst()" alt="Add" style="vertical-align: -webkit-baseline-middle;">
           </div>
         </div>
@@ -365,7 +368,7 @@
                   </td>
                   <td>
                     <div class="form-wrapper">
-                      <select [(ngModel)]="row.day_type" style="background: transparent" class="side-form-ctrl">
+                      <select [(ngModel)]="row.day_type" style="background: transparent" (ngModelChnage)="changesValuesAsPerType(row)" class="side-form-ctrl">
                         <option value="1">Course Assign Date (CAD)</option>
                         <option value="2">No of days after CAD</option>
                         <option value="3">No of Month after CAD</option>

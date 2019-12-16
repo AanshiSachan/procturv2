@@ -79,7 +79,7 @@ export class RegisteredStudentComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this._msgService.showErrorMessage('error', 'Error', err.error.message);
+        this._msgService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -92,7 +92,7 @@ export class RegisteredStudentComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this._msgService.showErrorMessage('error', 'Error', err.error.message);
+        this._msgService.showErrorMessage('error', '', err.error.message);
       }
     );
   }
@@ -135,12 +135,12 @@ export class RegisteredStudentComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          this._msgService.showErrorMessage('error', 'Error', err.error.message);
+          this._msgService.showErrorMessage('error', '', err.error.message);
         }
       );
     }
     else {
-      this._msgService.showErrorMessage('error', 'Error', 'Please select Product/ Item type');
+      this._msgService.showErrorMessage('error', '', 'Please select Product/ Item type');
     }
   }
 }

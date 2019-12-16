@@ -1910,7 +1910,7 @@ export class StudentAddComponent implements OnInit {
         this.downloadDocument(res);
       },
       err => {
-        this.commonServiceFactory.showErrorMessage('error', 'Error', err.error.message);
+        this.commonServiceFactory.showErrorMessage('error', '', err.error.message);
       });
   }
 
@@ -2417,11 +2417,11 @@ export class StudentAddComponent implements OnInit {
 
         }
       } else {
-        this.msgToast.showErrorMessage('error', 'Error', "Please provide valid unit to allocate");
+        this.msgToast.showErrorMessage('error', '', "Please provide valid unit to allocate");
         return;
       }
     } else {
-      this.msgToast.showErrorMessage('error', 'Error', "Please provide inventory item to allocate");
+      this.msgToast.showErrorMessage('error', '', "Please provide inventory item to allocate");
       return;
     }
 

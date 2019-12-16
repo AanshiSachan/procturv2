@@ -1600,7 +1600,7 @@ export class StudentHomeComponent implements OnInit {
         this.isRippleLoad = false;
         let msg = {
           type: 'error',
-          title: 'Error',
+          title: '',
           body: JSON.parse(err._body).message
         }
         this.appC.popToast(msg);
@@ -1739,7 +1739,7 @@ export class StudentHomeComponent implements OnInit {
     if (this.sendNotification.smsChkbx == false && this.sendNotification.emailChkbx == false) {
       let msg = {
         type: 'error',
-        title: 'Error',
+        title: '',
         body: "Please select Delivery Mode(SMS , Email)"
       };
       this.appC.popToast(msg);
@@ -1750,7 +1750,7 @@ export class StudentHomeComponent implements OnInit {
       if (this.sendNotification.subjectMessage.trim() == "" || this.sendNotification.subjectMessage.trim() == null) {
         let msg = {
           type: 'error',
-          title: 'Error',
+          title: '',
           body: "Please provide Email Subject"
         };
         this.appC.popToast(msg);
@@ -1761,7 +1761,7 @@ export class StudentHomeComponent implements OnInit {
     if ((this.sendNotification.studentChkbx == false) && (this.sendNotification.parentChkbx == false) && (this.sendNotification.gaurdianChkbx == false)) {
       let msg = {
         type: 'error',
-        title: 'Error',
+        title: '',
         body: "Please correct option in Send SMS To.."
       };
       this.appC.popToast(msg);
@@ -1786,7 +1786,7 @@ export class StudentHomeComponent implements OnInit {
     if (this.messageList.length == count) {
       let msg = {
         type: 'error',
-        title: 'Error',
+        title: '',
         body: "Please select message"
       };
       this.appC.popToast(msg);
@@ -2132,7 +2132,7 @@ export class StudentHomeComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -2176,7 +2176,7 @@ export class StudentHomeComponent implements OnInit {
     },
       (err) => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       })
   }
 }

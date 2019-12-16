@@ -86,7 +86,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
       err => {
         this.dataStatus = 2;
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -100,7 +100,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -137,7 +137,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
       err => {
         this.dataStatus = 2;
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       });
   }
 
@@ -161,7 +161,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
       err => {
         this.dataStatus = 2;
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -273,7 +273,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   addStudentToCourse() {
     let data: any = this.getSelectedStudent();
     if (data.length == 0) {
-      this.messageNotifier('error', 'Error', 'Please select student to assign in course');
+      this.messageNotifier('error', '', 'Please select student to assign in course');
       return;
     }
     let obj: any = {
@@ -289,7 +289,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
 
@@ -352,7 +352,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     
       },
       err => {
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }

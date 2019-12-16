@@ -507,7 +507,7 @@ export class CampaignHomeComponent implements OnInit {
         },
         errorResponce => {
           //console.log(error);
-          this.showErrorMessage(this.msgService.toastTypes.error,"Error", errorResponce.error.message);
+          this.showErrorMessage(this.msgService.toastTypes.error,'', errorResponce.error.message);
         }
       );
     }
@@ -766,7 +766,7 @@ export class CampaignHomeComponent implements OnInit {
         },
         err => {
           //console.log(err);
-          this.showErrorMessage(this.msgService.toastTypes.error, "Error", JSON.parse(err._body).message);
+          this.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(err._body).message);
         }
       )
     }
@@ -784,7 +784,7 @@ export class CampaignHomeComponent implements OnInit {
           this.getSMSList('');
         },
         err => {
-          this.showErrorMessage(this.msgService.toastTypes.error, "Error", JSON.parse(err._body).message);
+          this.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(err._body).message);
         }
       )
     }
@@ -840,11 +840,11 @@ export class CampaignHomeComponent implements OnInit {
         },
         err => {
           //console.log(err);
-          this.showErrorMessage(this.msgService.toastTypes.error, "Error", err.error.message);
+          this.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
     } else {
-      this.showErrorMessage(this.msgService.toastTypes.error, "Error", "Please provide message text");
+      this.showErrorMessage(this.msgService.toastTypes.error, '', "Please provide message text");
     }
   }
 
@@ -859,7 +859,7 @@ export class CampaignHomeComponent implements OnInit {
         },
         err => {
           //console.log(err);
-          this.showErrorMessage(this.msgService.toastTypes.error, "Error", err.error.message);
+          this.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
     }

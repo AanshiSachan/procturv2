@@ -89,7 +89,7 @@ export class ExamReportHomeComponent implements OnInit {
           this.masterCourseList = res;
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
           this.jsonFlag.isRippleLoad = false;
         }
       );
@@ -101,7 +101,7 @@ export class ExamReportHomeComponent implements OnInit {
           this.standardtList = res;
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
           this.jsonFlag.isRippleLoad = false;
         }
       );
@@ -132,7 +132,7 @@ export class ExamReportHomeComponent implements OnInit {
         );
       }
       else{
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Date difference should not more than a month');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Date difference should not more than a month');
       }
 
     }
@@ -149,7 +149,7 @@ export class ExamReportHomeComponent implements OnInit {
           this.masterCourseExamReportData = this.examReport;
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           this.jsonFlag.isRippleLoad = false;
         }
       );
@@ -168,7 +168,7 @@ export class ExamReportHomeComponent implements OnInit {
             this.standardExamReportData = this.examReport;
           },
           err => {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
             this.jsonFlag.isRippleLoad = false;
           }
         );
@@ -183,7 +183,7 @@ export class ExamReportHomeComponent implements OnInit {
           },
           err => {
             this.jsonFlag.isRippleLoad = false;
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
            }
         );
       }
@@ -202,7 +202,7 @@ export class ExamReportHomeComponent implements OnInit {
           this.standardExamReportData = this.examReport;
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           this.jsonFlag.isRippleLoad = false;
         }
       );

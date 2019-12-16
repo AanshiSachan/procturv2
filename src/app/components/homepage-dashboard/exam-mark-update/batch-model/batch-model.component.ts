@@ -190,7 +190,7 @@ export class BatchModelComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -243,13 +243,13 @@ export class BatchModelComponent implements OnInit {
   updateMarksOnServer(sendSms) {
     let dataToSend = this.makeJsonForMarks(sendSms);
     if (dataToSend.studLi.length == 0) {
-      this.messageNotifier('error', 'Error', 'Please Select Student');
+      this.messageNotifier('error', '', 'Please Select Student');
       return;
     } else {
       for (let i = 0; i < dataToSend.studLi.length; i++) {
         let object = dataToSend.studLi[i];
         if (this.examData.is_exam_grad_feature == 1 && object.grade_id == -1 && object.attendance=='P') {
-          this.messageNotifier('error', 'Error', 'Please Select grades');
+          this.messageNotifier('error', '', 'Please Select grades');
           dataToSend = false;
           break;
         }
@@ -267,7 +267,7 @@ export class BatchModelComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -297,7 +297,7 @@ export class BatchModelComponent implements OnInit {
         }
         if (this.examData.is_exam_grad_feature == 0) {
           if (student.marks_obtained > this.examData.total_marks) {
-            this.messageNotifier('error', 'Error', 'Please check marks you have provided');
+            this.messageNotifier('error', '', 'Please check marks you have provided');
             return false;
           } else {
             if (this.studentList[i].attendance == 'P') {

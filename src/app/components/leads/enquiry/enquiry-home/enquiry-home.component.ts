@@ -1123,7 +1123,7 @@ export class EnquiryHomeComponent implements OnInit {
                                 })
                             },
                             err => {
-                                this.showErrorMessage('error', 'Error', err.error.message);
+                                this.showErrorMessage('error', '', err.error.message);
                             }
                         );
                         this.cd.markForCheck();
@@ -1131,7 +1131,7 @@ export class EnquiryHomeComponent implements OnInit {
                 },
                 err => {
                     this.flagJSON.isRippleLoad = false;
-                    this.showErrorMessage('error', 'Error', err.error.message);
+                    this.showErrorMessage('error', '', err.error.message);
                 }
             )
         }
@@ -1524,17 +1524,17 @@ export class EnquiryHomeComponent implements OnInit {
                 this.advancedFilterForm.updateDateFrom = this.getDateFormated(this.advancedFilterForm.updateDateFrom, 'YYYY-MM-DD');
                 this.advancedFilterForm.updateDateTo = this.getDateFormated(this.advancedFilterForm.updateDateTo, 'YYYY-MM-DD');
             } else {
-                this.showErrorMessage(this.messageService.toastTypes.error, 'Error', 'Please provide valid Enquiry Changes From and To Dates');
+                this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please provide valid Enquiry Changes From and To Dates');
                 return;
             }
         } else if (this.advancedFilterForm.updateDateFrom != "" && this.advancedFilterForm.updateDateFrom != null) {
             if (this.advancedFilterForm.updateDateTo == "" || this.advancedFilterForm.updateDateTo == null) {
-                this.showErrorMessage(this.messageService.toastTypes.error, 'Error', 'Please provide valid Enquiry Changes To Dates');
+                this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please provide valid Enquiry Changes To Dates');
                 return;
             }
         } else if (this.advancedFilterForm.updateDateTo != "" && this.advancedFilterForm.updateDateTo != null) {
             if (this.advancedFilterForm.updateDateFrom == "" || this.advancedFilterForm.updateDateFrom == null) {
-                this.showErrorMessage(this.messageService.toastTypes.error, 'Error', 'Please provide valid Enquiry Changes From Dates');
+                this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please provide valid Enquiry Changes From Dates');
                 return;
             }
         }
@@ -1566,7 +1566,7 @@ export class EnquiryHomeComponent implements OnInit {
                 }
                 else {
                     this.varJson.fetchingDataMessage = 2;
-                    // this.showErrorMessage(this.messageService.toastTypes.error, 'Error', 'We did not find any enquiry for the specified query');
+                    // this.showErrorMessage(this.messageService.toastTypes.error, '', 'We did not find any enquiry for the specified query');
                     this.varJson.totalEnquiry = 0;
                     this.cd.markForCheck();
                     this.closeAdFilter();
@@ -1869,7 +1869,7 @@ export class EnquiryHomeComponent implements OnInit {
             );
         }
         else {
-            this.showErrorMessage(this.messageService.toastTypes.error, 'Error', 'Please provide dates');
+            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please provide dates');
         }
     }
 
@@ -2564,7 +2564,7 @@ export class EnquiryHomeComponent implements OnInit {
                     this.showErrorMessage(this.messageService.toastTypes.success, msg.title, '');
                 },
                 err => {
-                    this.showErrorMessage(this.messageService.toastTypes.error, 'Error', err.error.message);
+                    this.showErrorMessage(this.messageService.toastTypes.error, '', err.error.message);
                 }
             )
         }

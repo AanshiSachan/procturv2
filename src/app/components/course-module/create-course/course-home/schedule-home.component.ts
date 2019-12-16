@@ -231,7 +231,7 @@ export class ScheduleHomeComponent implements OnInit {
           this.isRippleLoad = false;
           let data = {
             type: "error",
-            title: "Error",
+            title: '',
             body: err.error.message
           }
           this.toastCtrl.popToast(data);

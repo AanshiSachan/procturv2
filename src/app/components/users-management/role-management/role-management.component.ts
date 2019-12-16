@@ -52,7 +52,7 @@ export class RoleManagementComponent implements OnInit {
         },
         err => {
           //console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -67,11 +67,11 @@ export class RoleManagementComponent implements OnInit {
         },
         err => {
           //console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     } else {
-      this.messageNotifier('error', 'Error', 'No user is assigned to this role');
+      this.messageNotifier('error', '', 'No user is assigned to this role');
     }
   }
 

@@ -225,7 +225,7 @@ export class ExamComponent implements OnInit {
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
          }
       );
     }
@@ -243,7 +243,7 @@ export class ExamComponent implements OnInit {
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
          }
       );
     }
@@ -255,7 +255,7 @@ export class ExamComponent implements OnInit {
         this.facultyList = res;
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
       }
     );
   }
@@ -322,7 +322,7 @@ export class ExamComponent implements OnInit {
           },
           err => {
             this.jsonFlag.isRippleLoad = false;
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
            }
         );
       }
@@ -363,7 +363,7 @@ export class ExamComponent implements OnInit {
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
           this.clearFilters();
          }
       );
@@ -481,7 +481,7 @@ export class ExamComponent implements OnInit {
     // Course/bacth model and master course is selected check
     if((!this.jsonFlag.isProfessional && this.coursePlannerFilters.master_course_name == "-1") ||
        (this.jsonFlag.isProfessional && this.coursePlannerFilters.standard_id == "-1")) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please select master course');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select master course');
       this.jsonFlag.isRippleLoad = false;
       return;
     }
@@ -502,7 +502,7 @@ export class ExamComponent implements OnInit {
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       );
     }
@@ -597,7 +597,7 @@ export class ExamComponent implements OnInit {
         err => {
           this.jsonFlag.isRippleLoad = false;
           console.log(err);
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
     }
@@ -658,7 +658,7 @@ export class ExamComponent implements OnInit {
       notify = 'N';
     }
     if (this.cancelPopUpData.reason.trim() == "" || null) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide reason');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please provide reason');
       return false;
     }
       let obj = {
@@ -678,7 +678,7 @@ export class ExamComponent implements OnInit {
         },
         err => {
           // this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
   }
@@ -712,7 +712,7 @@ export class ExamComponent implements OnInit {
 
   cancelExamClassSchedule() {
     if (this.cancelPopUpData.reason.trim() == "" || null) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide cancellation reason');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please provide cancellation reason');
       return;
     }
     let notify: any = "";
@@ -740,7 +740,7 @@ export class ExamComponent implements OnInit {
       },
       err => {
         // this.jsonFlag.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }

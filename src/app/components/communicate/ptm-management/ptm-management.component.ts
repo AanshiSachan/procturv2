@@ -115,7 +115,7 @@ export class PtmManagementComponent implements OnInit {
         this.jsonFlag.isRippleLoad = false;
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
         this.jsonFlag.isRippleLoad = false;
        }
     );
@@ -187,21 +187,21 @@ export class PtmManagementComponent implements OnInit {
     let validation: boolean = true;
     if(this.jsonFlag.isProfessional){
       if(this.inputElements.batch_id == "-1"){
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please select all mandatory field(s)');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select all mandatory field(s)');
         validation = false;
       }
       else if(this.inputElements.ptmId == "-1"){
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please select PTM schedule');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select PTM schedule');
         validation = false;
       }
     }
     else{
       if(this.inputElements.masterCourse == "-1" || this.inputElements.course == "-1" || this.inputElements.subject == "-1"){
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please select all mandatory field(s)');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select all mandatory field(s)');
         validation = false;
       }
       else if(this.inputElements.ptmId == "-1"){
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please select PTM schedule');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select PTM schedule');
         validation = false;
       }
     }
@@ -253,12 +253,12 @@ export class PtmManagementComponent implements OnInit {
         },
         (error: any) => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', error);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', error);
         }
       )
     }
     else{
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please select PTM schedule');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select PTM schedule');
     }
   }
 
@@ -283,7 +283,7 @@ export class PtmManagementComponent implements OnInit {
           },
           err => {
             this.jsonFlag.isRippleLoad = false;
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           }
         )
       }
@@ -367,13 +367,13 @@ export class PtmManagementComponent implements OnInit {
         let startTime = moment(time1+":"+batch.startMM, "HH:mm");
         let endTime = moment(time2+":"+batch.endMM, "HH:mm");
         if(startTime.isAfter(endTime)){
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Start time should not be greater than end time');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Start time should not be greater than end time');
         }
         else if(endTime.isBefore(startTime)){
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'End time should not be lesser than start time');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'End time should not be lesser than start time');
         }
         else if(startTime == endTime){
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Start time and end time should not be same');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Start time and end time should not be same');
         }
 
         this.createPTM.startTimeArray[j] = batch.startHH+":"+batch.startMM+" "+batch.startMed;
@@ -391,11 +391,11 @@ export class PtmManagementComponent implements OnInit {
       let endTime = moment(this.createPTM.endTimeArray[j], "HH:mm A");
       if(startTime.isAfter(endTime)){
         validation = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Start time should not be greater than end time');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Start time should not be greater than end time');
       }
       else if(endTime.isBefore(startTime)){
         validation = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'End time should not be lesser than start time');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'End time should not be lesser than start time');
       }
     }
 
@@ -408,7 +408,7 @@ export class PtmManagementComponent implements OnInit {
           this.createPTMShow = false;
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           this.jsonFlag.isRippleLoad = false;
         }
       )
@@ -423,7 +423,7 @@ export class PtmManagementComponent implements OnInit {
     let currentDate = moment().format("YYYY-MM-DD");
     let scheDate = moment(this.ptmScheduleDate).format("YYYY-MM-DD");
     if(moment(scheDate).isBefore(currentDate)){
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'PTM schedule date can not be past date');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'PTM schedule date can not be past date');
     }
     else{
       document.getElementById("changeDate").innerHTML = moment(this.ptmScheduleDate).format("DD MMM YYYY");
@@ -463,7 +463,7 @@ export class PtmManagementComponent implements OnInit {
         this.viewStudentsData();
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         this.jsonFlag.isRippleLoad = false;
       }
     )

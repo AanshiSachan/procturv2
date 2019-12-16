@@ -166,7 +166,7 @@ export class AddEditUserComponent implements OnInit {
         err => {
           this.isRippleLoad = false;
           console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -205,7 +205,7 @@ export class AddEditUserComponent implements OnInit {
         err => {
           this.isRippleLoad = false;
           console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -214,29 +214,29 @@ export class AddEditUserComponent implements OnInit {
   validateUserDetails(obj) {
     let check:any = false;
     if (obj.name.trim() == "") {
-      this.messageNotifier('error', 'Error', 'Please provide name');
+      this.messageNotifier('error', '', 'Please provide name');
       return false;
     }
     console.log(this.maxlength);
     check = this.commonService.phonenumberCheck(obj.username, this.maxlength, this.country_id);
     if (check == false) {
-      this.messageNotifier('error', 'Error', 'Please check the number you have provided');
+      this.messageNotifier('error', '', 'Please check the number you have provided');
       return false;
     }
     if(check == 'noNumber'){
-      this.messageNotifier('error', 'Error', 'Phone Number Is Mandatory');
+      this.messageNotifier('error', '', 'Phone Number Is Mandatory');
       return false;
     }
     if (obj.alternate_email_id.trim() != "") {
       check = this.ValidateEmail(obj.alternate_email_id);
       if (check == false) {
-        this.messageNotifier('error', 'Error', 'Please check the email you have provided');
+        this.messageNotifier('error', '', 'Please check the email you have provided');
         return false;
       }
     }
     if (this.userId == "-1") {
       if (obj.role_id == '-1') {
-        this.messageNotifier('error', 'Error', 'Please assign role to user');
+        this.messageNotifier('error', '', 'Please assign role to user');
         return false;
       }
     }

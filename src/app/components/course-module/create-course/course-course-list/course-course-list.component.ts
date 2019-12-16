@@ -106,7 +106,7 @@ export class CourseCourseListComponent implements OnInit {
       error => {
         this.dataStatus = 2;
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', error.error.message);
+        this.messageToast('error', '', error.error.message);
       }
     )
   }
@@ -330,7 +330,7 @@ export class CourseCourseListComponent implements OnInit {
     // console.log(dataToSend)
     this.apiService.saveUpdatedList(dataToSend, this.courseDetails.course_id).subscribe(
       res => {
-        this.messageToast('success', 'Saved', 'Changes saved successfully.');
+        this.messageToast('success', '', 'Student\'(s) added successfully');
         this.studentList = [];
         this.addStudentPopUp = false;
         this.isRippleLoad = false;
@@ -338,7 +338,7 @@ export class CourseCourseListComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', '', err.error.message);
       }
     )
   }

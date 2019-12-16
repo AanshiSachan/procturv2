@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
           this.getAllAcademicFromServer();
         },
         err => {
-          this.showErrorMessage(this.msgService.toastTypes.error, "Error", err.error.message);
+          this.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
     }
