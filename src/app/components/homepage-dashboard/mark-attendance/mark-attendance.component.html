@@ -6,8 +6,8 @@
   <section class="middle-top mb0 clearFix sms-header">
     <h2 class="pull-left" style="font-weight: bold;">
       <span>Mark
-      <span *ngIf="batch_info.is_attendance_marked == 'Y'">/ Update</span>
-      Attendance</span>
+        <span *ngIf="batch_info.is_attendance_marked == 'Y'">/ Update</span>
+        Attendance</span>
     </h2>
     <aside class="pull-right" style="margin-right: 20px;">
       <!-- <span style="font-weight: normal; font-size: 1em; color: #969696;">Last edited by : Mr. Ankush Bajaj</span> -->
@@ -46,6 +46,9 @@
 
     <div class="header_item2" *ngIf="batch_info.forSubjectWise && !isProfessional">
       <button type="button" name="button" class="fullBlue btn" style="height:30px;padding: 2px 12px;" (click)="topicListing()">Update Topic</button>
+    </div>
+    <div class="header_item2" *ngIf="isProfessional && !batch_info.isExam">
+      <button type="button" name="button" class="fullBlue btn" style="height:30px;padding: 2px 12px;" (click)="showTopicsListingOfBatch()">Update Topic</button>
     </div>
   </div>
 
@@ -409,5 +412,50 @@
 </section>
 
 <div class="black-bg" id="black-bg" [hidden]="topicBox" (click)="closeAlert()">
+
+</div>
+
+
+<section *ngIf="showTopicsModal">
+  <div class="topicBox">
+    <div class="close-btn">
+      <span (click)="closeTopicModal()">X</span>
+    </div>
+    <div class="header-container">
+      <div class="sub-header">
+        <span style="font-weight: 600;">Subject : </span>
+        <span id="topicSubName">{{batch_info.subjectName}}</span>
+      </div>
+    </div>
+    <div>
+      <ng-container  *ngTemplateOutlet="topicsRecursiveList; context:{$implicit: topicsList, level: 1 }">
+      </ng-container>
+    </div>
+    <div class="extraMargin row pull-right" style="margin:15px">
+      <button class="btn" (click)="closeTopicModal()">Cancel</button>
+      <button class="btn fullBlue" (click)="updateBatchTopics()">Save</button>
+    </div>
+  </div>
+</section>
+
+<ng-template #topicsRecursiveList let-topicsList let-level="level">
+  <div style="margin:2px !important" *ngFor="let topic of topicsList">
+    <div class="topic-container" [ngClass]="level == 1 ? 'level1Topic': 'subTopicLevel'">
+      <div class="arrow-icon" *ngIf="topic.subTopic.length" (click)="onArrowToggle(topic)">
+        <i [ngClass]="topic.isExpand ? 'fa fa-caret-down': 'fa fa-caret-right'" style="font-size: 15px!important;"></i>
+      </div>
+      <div class="field-checkbox-wrapper" style="margin-bottom: 5px !important;padding-left:0px !important">
+        <input type="checkbox" class="form-checkbox" style="-webkit-appearance: checkbox !important;margin-top:2px" [(ngModel)]="topic.checked" id="topic-{{topic.topicId}}" value="{{topic.checked}}" (click)="selectTopics(topic)">
+        <label for="topic-{{topic.topicId}}" style="margin-left:30px !important">{{topic.topicName}}</label>
+        <div *ngIf="topic.isExpand">
+          <ng-container *ngTemplateOutlet="topicsRecursiveList; context:{ $implicit: topic.subTopic, level: level + 1  }">
+
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<div class="black-bg" id="black-bg" [hidden]="!showTopicsModal">
 
 </div>

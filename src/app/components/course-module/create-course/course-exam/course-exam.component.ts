@@ -239,25 +239,27 @@ export class CourseExamComponent implements OnInit {
         this.messageNotifier('info', 'Info', 'No topics available to link !');      }
     }, err=>{
       this.isRippleLoad = false;
-      this.messageNotifier('error','Error', err.error.message)
+      this.messageNotifier('error','', err.error.message)
     })
   }
 
   saveSelectedTopics(){
-    if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
+    /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
       this.messageNotifier('info','Info', 'Please select topics to save !')    }
-    else {
-      this.isRippleLoad = true;
+    else { */
+     this.isRippleLoad = true;
      this.selectedTopicsListObj = [];
      this.selectedTopicsListObj = this.totalTopicsList.filter(obj => obj.checked == true);
-     this.selectedTopics = this.selectedTopicsListObj.map(obj=>{
-       return obj.topicId;
-     })
-     this.selectedTopics = this.selectedTopics.join('|');
-     this.messageNotifier('success','Success', 'Topics saved successfully');
+      if(this.selectedTopicsListObj != undefined){
+      this.selectedTopics = this.selectedTopicsListObj.map(obj=>{
+        return obj.topicId;
+      })
+      this.selectedTopics = this.selectedTopics.join('|');
+      }
+     this.messageNotifier('success','', 'Topics saved successfully');
      this.isRippleLoad = false;
      this.showTopicsPopUp = false;
-    }
+   // }
   }
 
   fetchSelectedTopics(){
@@ -288,26 +290,26 @@ export class CourseExamComponent implements OnInit {
     this.showExamEditModal = false;
   }
   linkTopics(){
-    if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
-     // this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics selected");
+    /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
      this.messageNotifier('info','Info','No topics selected')
     }
-    else {
+    else { */
       this.isRippleLoad = true;
       var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
-      var getTopicIds;
-      getTopicIds = getSelectedTopics.map(obj =>{
-        return obj.topicId;
-      })
-      getTopicIds = getTopicIds.join('|')
-      this.getSubjectObject.topics_covered = getTopicIds;
-      this.examSchedule.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
+      var getTopicIds ;;
+      if(getSelectedTopics !=undefined){
+          getTopicIds = getSelectedTopics.map(obj =>{
+            return obj.topicId;
+          })
+          getTopicIds = getTopicIds.join('|')
+          this.getSubjectObject.topics_covered = getTopicIds;
+          this.examSchedule.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
+      }
       this.showTopicsPopUp = false;
       this.isRippleLoad = false;
       this.showExamEditModal = false;
-      this.messageNotifier('success','Success','Topics updated successfully')
-
-    }
+      this.messageNotifier('success','','Topics updated successfully');
+   // }
   }
 
   //on checkbox check
@@ -355,7 +357,7 @@ export class CourseExamComponent implements OnInit {
         if(checkAll){
           parentTopic.checked = true;
           if(parentTopic.parentTopicId != 0){
-            this.checkParent(parentTopic.subTopic)
+            this.checkParent(parentTopic)
           }
         }
       }
@@ -413,7 +415,7 @@ export class CourseExamComponent implements OnInit {
     },err => {
      this.isRippleLoad = false;
     // this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
-    this.messageNotifier('error', 'Error', err.error.message);
+    this.messageNotifier('error', '', err.error.message);
    })
   }
 
