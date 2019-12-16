@@ -2372,6 +2372,9 @@ table tr.selected {
   }
 }
 
+input[type=radio]{
+  appearance: radio;
+}
 
 .black-bg1 {
   background: rgba(10,10,10,0.3);
