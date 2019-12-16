@@ -5,7 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core'
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { LiveClasses } from '../../../services/live-classes/live-class.service';
 import { AppComponent } from '../../../app.component';
-
+import { MessageShowService, HttpService } from '../../..';
+declare var window;
 
 @Component({
   selector: 'app-live-classes',
@@ -36,6 +37,7 @@ export class LiveClassesComponent implements OnInit {
   classListDataSource: any = [];
   classList: any = [];
   searchData: any = [];
+  download_links:any=[];
   searchDataFlag: boolean = false;
 
   JsonVars: any = {
@@ -118,15 +120,23 @@ export class LiveClassesComponent implements OnInit {
   sendSMSNotification: boolean = false;
   sendPushNotification: boolean = false;
   forUser: boolean = false;
-  proctur_live_expiry_date : boolean = false;
-  live_class_recorded_session_visibility : any;
+  proctur_live_expiry_date_check : boolean = false;
+  viewDownloadPopup:boolean = false;
+  tempVideoData: any ={};
+  showVideo: boolean = true;
+  videoObject: any;
+  proctur_live_view_or_download_visibility:any=0;
+  searchText: any = "";
 
 
   constructor(
     private auth: AuthenticatorService,
     private service: LiveClasses,
     private appC: AppComponent,
-    private router: Router) {
+    private router: Router,
+    private _http: HttpService,
+    private msgService: MessageShowService
+    ) {
   }
 
   ngOnInit() {
@@ -146,17 +156,16 @@ export class LiveClassesComponent implements OnInit {
     }
 
     this.getClassesList();
-    this.checkLiveClassExpiry();
-    this.live_class_recorded_session_visibility = sessionStorage.getItem('live_class_recorded_session_visibility');
   }
 
-  checkLiveClassExpiry() {
-    let proctur_live_expiry_date:any = sessionStorage.getItem('proctur_live_expiry_date');
-    let currentDate = new Date();
-    proctur_live_expiry_date = new Date(proctur_live_expiry_date);
-    console.log(currentDate,proctur_live_expiry_date);
+  checkLiveClassExpiry(proctur_live_expiry_date) {
+    let currentDate = moment(new Date()).format('DD-MM-YYYY');
+    proctur_live_expiry_date = moment(new Date(proctur_live_expiry_date)).format('DD-MM-YYYY');
     if(proctur_live_expiry_date < currentDate){
-      this.proctur_live_expiry_date = true;
+      this.proctur_live_expiry_date_check = true;
+    }
+    if(proctur_live_expiry_date == currentDate){
+      this.proctur_live_expiry_date_check = false;
     } 
   }
 
@@ -176,6 +185,12 @@ export class LiveClassesComponent implements OnInit {
         this.JsonVars.isRippleLoad = false;
         this.previosLiveClasses = data.pastLiveClasses;
         this.futureLiveClasses = data.upcomingLiveClasses;
+        const proctur_live_expiry_date = data.proctur_live_expiry_date;
+        sessionStorage.setItem('proctur_live_expiry_date',proctur_live_expiry_date);
+        if(proctur_live_expiry_date!=null) {
+          this.checkLiveClassExpiry(proctur_live_expiry_date);
+        }
+        this.proctur_live_view_or_download_visibility = data.proctur_live_view_or_download_visibility;
         this.getClassesFor();
         // console.log(this.getClasses)
         this.totalRow = this.getClasses.length;
@@ -373,13 +388,15 @@ export class LiveClassesComponent implements OnInit {
 
   }
 
-  searchInList(element) {
-    if (element.value != "" && element.value != null) {
-      let searchData = this.getClasses.filter(item =>
+  searchInList() {
+    console.log(1)
+    if (this.searchText != "" && this.searchText != null) {
+      let searchData = this.classListDataSource.filter(item =>
         Object.keys(item).some(
-          k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
       );
       this.searchData = searchData;
+      console.log(this.searchData);
       this.totalRow = searchData.length;
       this.searchDataFlag = true;
       this.PageIndex = 1;
@@ -387,7 +404,7 @@ export class LiveClassesComponent implements OnInit {
     } else {
       this.searchDataFlag = false;
       this.fetchTableDataByPage(this.PageIndex);
-      this.totalRow = this.getClasses.length;
+      this.totalRow = this.classListDataSource.length;
     }
   }
 
@@ -598,8 +615,68 @@ export class LiveClassesComponent implements OnInit {
       var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
       hiddenDownload.href = url;
       hiddenDownload.download = object.session_name;
-      // hiddenDownload.download = this.getOriginalFileName(fileObj.res.file_name);
       hiddenDownload.click();     
+  }
+
+  // Live class integration with VDOCipher
+  getVdocipherVideoOtp(obj) {
+    this.viewDownloadPopup  = false;
+      let url = "/api/v1/instFileSystem/videoOTP";
+      let data = {
+        "videoID": obj.videoId,
+        "institute_id": sessionStorage.getItem("institute_id"),
+        "user_id": sessionStorage.getItem("userid")
+      }
+      this.tempVideoData = obj;
+      this.JsonVars.isRippleLoad = true;
+      this._http.postData(url, data).subscribe((response) => {
+        this.JsonVars.isRippleLoad = false;
+        if (response == null) {
+          let obj = {
+            "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
+            "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
+          }
+          this.ShowVideo(obj.otp, obj.playbackInfo);
+        } else {
+          let obj = {
+            "otp": response['otp'],
+            "playbackInfo": response['playbackInfo']
+          }
+          this.ShowVideo(obj.otp, obj.playbackInfo);
+        }
+      },
+        (err) => {
+          this.JsonVars.isRippleLoad = false;
+          this.msgService.showErrorMessage('error', '', err.error.message);
+        });
+  }
+
+  ShowVideo(otpString, playbackInfoString) {
+    this.showVideo = false;
+    var video = new window.VdoPlayer({
+      otp: otpString,
+      playbackInfo: playbackInfoString,
+      theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",// please never changes 
+      container: document.querySelector("#embedBox"),
+    });
+    this.videoObject = video;
+    // video.addEventListener(`mpmlLoad`, (data) => {
+    //   video.play();
+    // });
+    var container = document.querySelector('.embedBox');
+
+  }
+
+  stopVideo() {
+    this.showVideo = true;
+    if(this.videoObject){
+       this.videoObject.pause(); // removes video 
+    }
+  }
+
+  viewdownload_links(obj){
+    this.viewDownloadPopup = true;
+    this.download_links = obj;
   }
 
 }

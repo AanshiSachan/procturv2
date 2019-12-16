@@ -6,6 +6,7 @@ import { AppComponent } from '../../../app.component';
 import { LiveClasses } from '../../../services/live-classes/live-class.service';
 import { ProductService } from '../../../services/products.service';
 import { HttpService } from '../../../services/http.service';
+import { MessageShowService } from '../../..';
 
 
 @Component({
@@ -91,7 +92,8 @@ export class AddClassComponent implements OnInit {
     private appC: AppComponent,
     private service: LiveClasses,
     private product_service: ProductService,
-    private http_service: HttpService
+    private http_service: HttpService,
+    private msgService: MessageShowService
   ) { }
 
   ngOnInit() {
@@ -193,12 +195,17 @@ export class AddClassComponent implements OnInit {
 
 
   getEvent(event) {
+    const proctur_live_expiry_date:any = sessionStorage.getItem('proctur_live_expiry_date');
     if (moment(event).diff(moment(), 'days') < 0) {
       let msg = {
         type: "info",
         body: "You cannot select past date"
       }
       this.appC.popToast(msg);
+      this.scheduledateFrom = moment().format('YYYY-MM-DD')
+    }
+    if(new Date(proctur_live_expiry_date)<new Date(event) && new Date(proctur_live_expiry_date)!=new Date(event)){
+      this.msgService.showErrorMessage('info','' , 'Expiry date');
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
     }
   }
