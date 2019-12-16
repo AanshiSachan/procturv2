@@ -623,7 +623,7 @@ export class LiveClassesComponent implements OnInit {
     this.viewDownloadPopup  = false;
       let url = "/api/v1/instFileSystem/videoOTP";
       let data = {
-        "videoID": obj.videoId,
+        "videoID": obj.video_id,
         "institute_id": sessionStorage.getItem("institute_id"),
         "user_id": sessionStorage.getItem("userid")
       }
