@@ -82,12 +82,12 @@ export class CityAreaMapComponent implements OnInit {
           this.toggleCreateNewSlot();
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error,"Error", err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error,'', err.error.message);
           //console.log(err);
         }
       )
     } else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error,"Error","Please provide city name");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error,'',"Please provide city name");
     }
   }
 

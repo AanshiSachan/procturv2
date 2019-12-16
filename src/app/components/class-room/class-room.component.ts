@@ -118,14 +118,14 @@ export class ClassRoomComponent {
       }
       for (var i = 0; i < this.classRoomData.length; i++) {
         if (this.classRoomData[i].class_room_name == classRoomobj.class_room_name) {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", 'Duplicate Entries are not Allowed');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Duplicate Entries are not Allowed');
           return;
         }
 
       }
 
       if (Desc_ele.length > 500) {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", 'Description should not be greater than 500 Characters');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Description should not be greater than 500 Characters');
         return;
       }
       this.ClassList.saveClassroomDetail(classRoomobj).subscribe(
@@ -138,14 +138,14 @@ export class ClassRoomComponent {
 
         },
         error => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", error.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', error.error.message);
 
         }
       )
     }
 
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", 'Please fill Mandatory Fields');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please fill Mandatory Fields');
       this.enterclassdata = "";
       this.enterclassdataDesc = "";
       return;
@@ -167,14 +167,14 @@ export class ClassRoomComponent {
         continue;
       }
       else if (this.classRoomData[j].class_room_name === row.class_room_name) {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", 'Duplicate Entries are not Allowed');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Duplicate Entries are not Allowed');
         return;
       }
     }
 
     if (data.class_room_name != "" && data.class_room_name != null && data.class_room_desc != "" && data.class_room_desc != null) {
       if (data.class_room_desc.length > 500) {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", 'Description should not be greater than 500');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Description should not be greater than 500');
         return;
       }
       this.ClassList.updateclassListData(data).subscribe(
@@ -191,7 +191,7 @@ export class ClassRoomComponent {
       );
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", 'Please fill classRoom name and Description');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please fill classRoom name and Description');
     }
   }
   /*===================================Search============================================ */

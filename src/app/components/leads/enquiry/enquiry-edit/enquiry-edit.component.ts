@@ -815,7 +815,7 @@ export class EnquiryEditComponent implements OnInit {
     // Validate if closing reason is given for closed enquiry
     if (this.editEnqData.status == '1') {
       if (this.editEnqData.closing_reason_id == "0" || this.editEnqData.closing_reason_id == '-1') {
-        this.showErrorMessage('error', 'Error', 'Please provide closing reason of enquiry.');
+        this.showErrorMessage('error', '', 'Please provide closing reason of enquiry.');
         return;
       }
     }
@@ -873,12 +873,12 @@ export class EnquiryEditComponent implements OnInit {
 
         if (this.editEnqData.follow_type == "Walkin") {
           if (this.editEnqData.walkin_followUpDate == "") {
-            this.showErrorMessage('error', 'Error', 'Please provide walkin date for follow up type walkin');
+            this.showErrorMessage('error', '', 'Please provide walkin date for follow up type walkin');
             return;
           }
 
           if (this.editEnqData.walkin_followUpTime == "") {
-            this.showErrorMessage('error', 'Error', 'Please provide walkin time for follow up type walkin');
+            this.showErrorMessage('error', '', 'Please provide walkin time for follow up type walkin');
             return;
           }
         }
@@ -925,7 +925,7 @@ export class EnquiryEditComponent implements OnInit {
               }
             }
             else if (data.statusCode != 200) {
-              this.showErrorMessage('error', "Error", data.message);
+              this.showErrorMessage('error', '', data.message);
             }
           },
           err => {

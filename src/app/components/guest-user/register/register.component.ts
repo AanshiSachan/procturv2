@@ -131,7 +131,7 @@ export class RegisterComponent implements OnInit {
                     console.log(err);
                     this.isView = 'register';
                     this.isRippleLoad= false;
-                    this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", err.message);
+                    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.message);
                   }
                 );
 

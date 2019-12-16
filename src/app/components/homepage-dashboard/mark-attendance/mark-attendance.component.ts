@@ -130,7 +130,7 @@ export class MarkAttendanceComponent implements OnInit {
     if (this.subject_id == '' || this.subject_id == null || this.subject_id == '-1' || this.subject_id == undefined) {
       let obj = {
         type: 'error',
-        title: 'Error',
+        title: '',
         body: 'Please Select Subject'
       }
       this.appC.popToast(obj);
@@ -157,7 +157,7 @@ export class MarkAttendanceComponent implements OnInit {
           else {
             let obj = {
               type: 'info',
-              title: 'Error',
+              title: '',
               body: 'No topics available to Link'
             }
             this.appC.popToast(obj);
@@ -167,7 +167,7 @@ export class MarkAttendanceComponent implements OnInit {
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
-            title: 'Error',
+            title: '',
             body: err.error.message
           }
           this.appC.popToast(obj);
@@ -505,7 +505,7 @@ closeTopicModal(){
             this.isRippleLoad = false;
             let msg = {
               type: 'error',
-              title: 'Error',
+              title: '',
               body: err.error.message
             }
             this.appC.popToast(msg);
@@ -538,7 +538,7 @@ closeTopicModal(){
           err => {
             let msg = {
               type: 'error',
-              title: 'Error',
+              title: '',
               body: err.error.message
             }
             this.appC.popToast(msg);
@@ -599,7 +599,7 @@ closeTopicModal(){
         console.log(err);
         let msg = {
           type: 'error',
-          title: 'Error',
+          title: '',
           body: err.error.message
         }
         this.appC.popToast(msg);
@@ -624,7 +624,7 @@ closeTopicModal(){
         console.log(err);
         let msg = {
           type: 'error',
-          title: 'Error',
+          title: '',
           body: err.error.message
         }
         this.appC.popToast(msg);
@@ -829,7 +829,7 @@ closeTopicModal(){
         } else {
           let obj = {
             type: 'error',
-            title: 'Error',
+            title: '',
             body: 'Special characters are not allowed in homework field'
           }
           this.appC.popToast(obj);
@@ -1246,7 +1246,7 @@ closeTopicModal(){
     if (data.length == 0) {
       let msg = {
         type: 'error',
-        title: 'Error',
+        title: '',
         body: 'Please select student from student list'
       }
       this.appC.popToast(msg);
@@ -1270,7 +1270,7 @@ closeTopicModal(){
           this.isRippleLoad = false;
           let msg = {
             type: 'error',
-            title: 'Error',
+            title: '',
             body: err.error.message
           }
           this.appC.popToast(msg);
@@ -1294,7 +1294,7 @@ closeTopicModal(){
           this.isRippleLoad = false;
           let msg = {
             type: 'error',
-            title: 'Error',
+            title: '',
             body: err.error.message
           }
           this.appC.popToast(msg);

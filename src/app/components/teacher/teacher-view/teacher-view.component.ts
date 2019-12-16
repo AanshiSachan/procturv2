@@ -80,11 +80,11 @@ export class TeacherViewComponent implements OnInit {
 
   searchTeacherInfo() {
     if (moment() < moment(this.selectedFromDate)) {
-      this.messageNotifier('error', 'Error', 'Please provide valid date');
+      this.messageNotifier('error', '', 'Please provide valid date');
       return;
     }
     if (moment() < moment(this.selectedToDate)) {
-      this.messageNotifier('error', 'Error', 'Please provide valid date');
+      this.messageNotifier('error', '', 'Please provide valid date');
       return;
     }
     let data: any = {};

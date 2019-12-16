@@ -62,7 +62,7 @@ export class DiscountReasonComponent implements OnInit {
         }
       )
     } else {
-      this.commonService.showErrorMessage('error', 'Error', 'Please provide discount reason');
+      this.commonService.showErrorMessage('error', '', 'Please provide discount reason');
     }
   }
 
@@ -82,11 +82,11 @@ export class DiscountReasonComponent implements OnInit {
           this.getDiscountReson();
         },
         (error: any) => {
-          this.commonService.showErrorMessage('error', 'Error', error.error.message);
+          this.commonService.showErrorMessage('error', '', error.error.message);
         }
       )
     } else {
-      this.commonService.showErrorMessage('error', 'Error', 'Please provide discount reason');
+      this.commonService.showErrorMessage('error', '', 'Please provide discount reason');
     }
   }
 

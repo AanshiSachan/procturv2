@@ -362,7 +362,7 @@ export class ExamMarkUpdateComponent implements OnInit {
         obj.course_exam_marks_obtained = this.studentAttList[i].course_exam_marks_obtained;
       } else {
         // if (this.studentAttList[i].grade_id == '-1') {
-        //   this.messageNotifier('error', 'Error', 'Please provide total grades');
+        //   this.messageNotifier('error', '', 'Please provide total grades');
         //   return false;
         // }
         obj.grade_id = this.studentAttList[i].grade_id;
@@ -408,7 +408,7 @@ export class ExamMarkUpdateComponent implements OnInit {
         obj.course_exam_marks_obtained = this.studentAttList[i].course_exam_marks_obtained;
       } else {
         // if (this.studentAttList[i].grade_id == '-1') {
-        //   this.messageNotifier('error', 'Error', 'Please provide total grades');
+        //   this.messageNotifier('error', '', 'Please provide total grades');
         //   return false;
         // }
         obj.grade_id = this.studentAttList[i].grade_id;
@@ -436,7 +436,7 @@ export class ExamMarkUpdateComponent implements OnInit {
       } else {
         obj.grade_id = data[i].grade_id;
         // if (obj.grade_id == "-1" && this.examMarksLevel == "1" && attendance == 'P') {
-        //   this.messageNotifier('error', 'Error', 'Please provide grades of subject');
+        //   this.messageNotifier('error', '', 'Please provide grades of subject');
         //   return false;
         // }
       }

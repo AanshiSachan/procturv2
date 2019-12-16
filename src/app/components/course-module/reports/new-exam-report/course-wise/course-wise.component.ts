@@ -77,7 +77,7 @@ export class CourseWiseComponent implements OnInit {
         this.generateChartData(res);
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         this.jsonFlag.isRippleLoad = false;
       }
     );
@@ -96,7 +96,7 @@ export class CourseWiseComponent implements OnInit {
         }
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
         this.jsonFlag.isRippleLoad = false;
       }
     );
@@ -118,7 +118,7 @@ export class CourseWiseComponent implements OnInit {
       },
       err => {
         this.jsonFlag.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
        }
     );
   }

@@ -238,7 +238,7 @@ export class ClassComponent implements OnInit {
           this.jsonFlag.isRippleLoad = false;
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
           this.jsonFlag.isRippleLoad = false;
         }
       );
@@ -257,7 +257,7 @@ export class ClassComponent implements OnInit {
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
          }
       );
     }
@@ -268,7 +268,7 @@ export class ClassComponent implements OnInit {
         this.facultyList = res;
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
       }
     );
   }
@@ -336,7 +336,7 @@ export class ClassComponent implements OnInit {
           },
           err => {
             this.jsonFlag.isRippleLoad = false;
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
            }
         );
       }
@@ -379,7 +379,7 @@ export class ClassComponent implements OnInit {
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
          }
       );
     }
@@ -490,7 +490,7 @@ export class ClassComponent implements OnInit {
     // Course/bacth model and master course is selected
     if((!this.jsonFlag.isProfessional && this.coursePlannerFilters.master_course_name == "-1") ||
        (this.jsonFlag.isProfessional && this.coursePlannerFilters.standard_id == "-1")) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please select master course');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select master course');
       this.jsonFlag.isRippleLoad = false;
       return;
     }
@@ -510,7 +510,7 @@ export class ClassComponent implements OnInit {
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       );
     }
@@ -644,12 +644,12 @@ export class ClassComponent implements OnInit {
   rescheduleClass() {   // Reschdule Class
 
     if (this.reschedReason == null || this.reschedReason == "") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide reschedule reason');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please provide reschedule reason');
       return;
     }
 
     if (moment().format('YYYY-MM-DD') > moment(this.reschedDate).format('YYYY-MM-DD')) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide future reschedule date');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please provide future reschedule date');
       return;
     }
 
@@ -710,7 +710,7 @@ export class ClassComponent implements OnInit {
 
   checkIfTimeProvided(data) {
     if (data == "" || data == null) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please provide correct time');
       return false;
     } else {
       return true;

@@ -11,7 +11,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./fee-template-add.component.scss']
 })
 export class FeeTemplateAddComponent implements OnInit {
-
+  isRippleLoad:boolean=false;
   masterCourseList: any = [];
   CourseList: any = [];
   countryAdditioalFeeTypes: any = {};
@@ -81,6 +81,12 @@ export class FeeTemplateAddComponent implements OnInit {
     this.fetchDataForCountryDetails();
   }
 
+  changesValuesAsPerType(row){
+    if(row.day_type==1){
+      row.days=0;
+    }
+  }
+
   fetchDataForCountryDetails() {
     this.countryAdditioalFeeTypes = {};
     let encryptedData = sessionStorage.getItem('country_data');
@@ -103,7 +109,7 @@ export class FeeTemplateAddComponent implements OnInit {
           });
         },
         err => {
-          this.commonService.showErrorMessage('error', 'Error', err.error.message);
+          this.commonService.showErrorMessage('error', '', err.error.message);
         }
       )
     }
@@ -116,7 +122,7 @@ export class FeeTemplateAddComponent implements OnInit {
         this.feeStructure = res;
       },
       err => {
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -137,7 +143,7 @@ export class FeeTemplateAddComponent implements OnInit {
           this.masterCourseList = res;
         },
         err => {
-          this.commonService.showErrorMessage('error', 'Error', err.error.message);
+          this.commonService.showErrorMessage('error', '', err.error.message);
         }
       )
     }
@@ -162,7 +168,7 @@ export class FeeTemplateAddComponent implements OnInit {
             this.CourseList = res;
           },
           err => {
-            this.commonService.showErrorMessage('error', 'Error', err.error.message);
+            this.commonService.showErrorMessage('error', '', err.error.message);
           }
         )
       }
@@ -300,27 +306,27 @@ export class FeeTemplateAddComponent implements OnInit {
         this.additionalInstallment.fee_type_name = res.fee_type;
       },
       err => {
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
 
   validateAllFields() {
     if (this.addNewTemplate.template_name == "" || null) {
-      this.commonService.showErrorMessage('error', 'Error', 'Template name can not be null');
+      this.commonService.showErrorMessage('error', '', 'Template name can not be null');
       return false;
     }
     if (this.addNewTemplate.fee_amount == "" || 0) {
-      this.commonService.showErrorMessage('error', 'Error', 'Please enter valid amount');
+      this.commonService.showErrorMessage('error', '', 'Please enter valid amount');
       return false;
     }
     if (this.addNewTemplate.installmentCount == "" || 0) {
-      this.commonService.showErrorMessage('error', 'Error', 'Installment Count can not be zero');
+      this.commonService.showErrorMessage('error', '', 'Installment Count can not be zero');
       return false;
     }
     if (this.addNewTemplate.is_default_template) {
       if (this.addNewTemplate.master_course_name == "" || this.addNewTemplate.course_id == -1) {
-        this.commonService.showErrorMessage('error', 'Error', 'Please provide Master Course and Course to use is default template.');
+        this.commonService.showErrorMessage('error', '', 'Please provide Master Course and Course to use is default template.');
         return false;
       }
     }
@@ -329,7 +335,7 @@ export class FeeTemplateAddComponent implements OnInit {
 
   addAdditionalInst() {
     if (this.additionalInstallment.fee_type == -1) {
-      this.commonService.showErrorMessage('error', 'Error', 'Please Select Fee Type');
+      this.commonService.showErrorMessage('error', '', 'Please Select Fee Type');
       return;
     }
     if (Number(this.additionalInstallment.initial_fee_amount) > 0) {
@@ -356,7 +362,7 @@ export class FeeTemplateAddComponent implements OnInit {
         service_tax: 0,
         service_tax_applicable: 'N',
         fee_type_name: '',
-        country_id: -1
+        country_id: this.additionalInstallment.country_id
       }
     }
   }
@@ -370,7 +376,6 @@ export class FeeTemplateAddComponent implements OnInit {
       test.id = keys[0];
       test.value = object[keys[0]];
       this.otherFeetype.push(test);
-
     });
 
   }
@@ -408,15 +413,22 @@ export class FeeTemplateAddComponent implements OnInit {
     } else {
       data.course_id = this.addNewTemplate.course_id;
     }
-    this.apiService.updateFeeTemplate(data).subscribe(
-      res => {
-        this.commonService.showErrorMessage('success', 'Updated', 'Fee Structure created Successfully');
-        this.route.navigateByUrl('/view/fee/data-setup/fee-template/home');
-      },
-      err => {
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
-      }
-    )
+
+     if(!this.isRippleLoad){
+      this.isRippleLoad= true;
+      this.apiService.updateFeeTemplate(data).subscribe(
+        res => {
+          this.isRippleLoad= false;
+          this.commonService.showErrorMessage('success', 'Updated', 'Fee Structure created Successfully');
+          this.route.navigateByUrl('/view/fee/data-setup/fee-template/home');
+        },
+        err => {
+          this.isRippleLoad= false;
+          this.commonService.showErrorMessage('error', '', err.error.message);
+        }
+      )
+     }
+  
   }
 
   makeJSONForCustomFee() {
@@ -435,7 +447,7 @@ export class FeeTemplateAddComponent implements OnInit {
       data.push(test);
     }
     if (this.totalAmount != this.addNewTemplate.total_fee) {
-      this.commonService.showErrorMessage('error', 'Error', 'Amount provided in installments doesnot match with total Amount');
+      this.commonService.showErrorMessage('error', '', 'Amount provided in installments doesnot match with total Amount');
       return false;
     }
     for (let t = 0; t < this.otherInstList.length; t++) {

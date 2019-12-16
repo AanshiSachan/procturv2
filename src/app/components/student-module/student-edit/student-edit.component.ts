@@ -498,7 +498,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     },
       (err: any) => {
         this.isRippleLoad = false;
-        // this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        // this.commonService.showErrorMessage('error', '', err.error.message);
         let obj = {
           type: 'error',
           title: err.error.message,
@@ -1388,7 +1388,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         return false;
       }
     } else {
-      this.commonServiceFactory.showErrorMessage('error', 'Error', 'Please provide contact number');
+      this.commonServiceFactory.showErrorMessage('error', '', 'Please provide contact number');
       return false;
     }
 
@@ -2030,7 +2030,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.downloadDocument(res);
       },
       err => {
-        this.commonServiceFactory.showErrorMessage('error', 'Error', err.error.message);
+        this.commonServiceFactory.showErrorMessage('error', '', err.error.message);
       });
   }
 
@@ -2547,7 +2547,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (this.addInventory.item_id != '-1') {
       if (this.addInventory.alloted_units > 0) {
         if (this.addInventory.alloted_units > this.addInventory.available_units) {
-          this.appC.popToast({ type: "error", title: "Error", body: "Please provide allocated unit less than available units" });
+          this.appC.popToast({ type: "error", title: '', body: "Please provide allocated unit less than available units" });
           return;
         } else {
           if(this.addInventory.date_of_dispatch!=''){
@@ -2585,17 +2585,17 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             },
             err => {
               this.isRippleLoad = false;
-              this.appC.popToast({ type: "error", title: "Error", body: err.error.message });
+              this.appC.popToast({ type: "error", title: '', body: err.error.message });
             }
           )
 
         }
       } else {
-        this.appC.popToast({ type: "error", title: "Error", body: "Please provide valid unit to allocate" });
+        this.appC.popToast({ type: "error", title: '', body: "Please provide valid unit to allocate" });
         return;
       }
     } else {
-      this.appC.popToast({ type: "error", title: "Error", body: "Please provide inventory item to add" });
+      this.appC.popToast({ type: "error", title: '', body: "Please provide inventory item to add" });
       return;
     }
   }

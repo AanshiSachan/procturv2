@@ -451,7 +451,7 @@ export class StudentFeeService {
             return true;
         } else {
             if (data.payingAmount != data.pdcSelectedForm.cheque_amount) {
-                this.commonService.showErrorMessage('error', 'Error', 'Please provide paying amount equals to cheque amount');
+                this.commonService.showErrorMessage('error', '', 'Please provide paying amount equals to cheque amount');
                 return false;
             } else {
                 return this.validateChequePDCJSon(data.pdcSelectedForm);
@@ -780,7 +780,7 @@ export class StudentFeeService {
                 if (element.balance_amount == 0) {
 
                     if (element.fees_amount <= perInstallmentDiscount) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
+                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
                         return false;
                     } else {
                         obj.discount_amount = perInstallmentDiscount;
@@ -788,14 +788,14 @@ export class StudentFeeService {
                         obj.balance_amount = 0;
                     }
                     if (obj.final_amount == 0) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
+                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
                         return false;
                     }
 
                 } else {
 
                     if (element.balance_amount <= perInstallmentDiscount) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
+                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
                         return false;
                     } else {
                         obj.discount_amount = perInstallmentDiscount;
@@ -804,7 +804,7 @@ export class StudentFeeService {
                     }
 
                     if (obj.balance_amount == 0) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
+                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
                         return false;
                     }
 
@@ -882,7 +882,7 @@ export class StudentFeeService {
             }
 
             if (element.discount < perInstallmentDiscount) {
-                this.commonService.showErrorMessage('error', 'Error', 'Installment No. ' + element.installment_no + ':  discount amount to be removed can not be more than discount provided in installment.');
+                this.commonService.showErrorMessage('error', '', 'Installment No. ' + element.installment_no + ':  discount amount to be removed can not be more than discount provided in installment.');
                 return false;
             }
 

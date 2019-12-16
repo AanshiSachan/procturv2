@@ -204,7 +204,7 @@ export class CourseAddComponent implements OnInit {
     if (selected == 0) {
       let err = {
         type: "error",
-        title: "Error",
+        title: '',
         body: "You have not selected any subject."
       }
       this.toastCtrl.popToast(err);
@@ -256,7 +256,7 @@ export class CourseAddComponent implements OnInit {
           this.isRippleLoad = false;
           let warning = {
             type: "error",
-            title: "Error",
+            title: '',
             body: error.error.message
           }
           this.toastCtrl.popToast(warning);
@@ -299,7 +299,7 @@ export class CourseAddComponent implements OnInit {
       if (selectedSubjectRow.length == 0) {
         let err = {
           type: "error",
-          title: "Error",
+          title: '',
           body: "You have not selected any subject"
         }
         this.toastCtrl.popToast(err);
@@ -312,7 +312,7 @@ export class CourseAddComponent implements OnInit {
         if (selectedSubjectRow[y].selected_teacher == "" || selectedSubjectRow[y].selected_teacher == null || selectedSubjectRow[y].selected_teacher == "-1") {
           let err = {
             type: "error",
-            title: "Error",
+            title: '',
             body: "Please provide teacher for the subject."
           }
           this.toastCtrl.popToast(err);

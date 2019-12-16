@@ -101,7 +101,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                 this.discountReason = res;
             },
             err => {
-                this.commonService.showErrorMessage('error', 'Error', err.error.message);
+                this.commonService.showErrorMessage('error', '', err.error.message);
             }
         )
     }
@@ -265,7 +265,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
             },
             err => {
                 this.btnApplyDiscount.nativeElement.disabled = false;
-                this.commonService.showErrorMessage('error', 'Error', err.error.message);
+                this.commonService.showErrorMessage('error', '', err.error.message);
             }
         )
 
@@ -274,7 +274,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     removeDiscountAction() {
 
         if (this.discountPopUpForm.discountAmount > this.totalDiscountApplied) {
-            this.commonService.showErrorMessage('error', 'Error', 'Discount Amount is greater then discount given to student');
+            this.commonService.showErrorMessage('error', '', 'Discount Amount is greater then discount given to student');
             return false;
         }
 
@@ -309,7 +309,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
             },
             err => {
                 this.btnRemoveDiscount.nativeElement.disabled = false;
-                this.commonService.showErrorMessage('error', 'Error', err.error.message);
+                this.commonService.showErrorMessage('error', '', err.error.message);
             }
         )
     }
@@ -323,7 +323,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                 this.cd.markForCheck();
             },
             err => {
-                this.commonService.showErrorMessage('error', 'Error', err.error.message);
+                this.commonService.showErrorMessage('error', '', err.error.message);
             }
         )
     }

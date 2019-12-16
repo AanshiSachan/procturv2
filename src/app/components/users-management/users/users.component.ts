@@ -58,7 +58,7 @@ export class UsersComponent implements OnInit {
 
   getAllUserList() {
     if (this.dataFilter.role == "-1") {
-      this.messageNotifier('error', 'Error', 'Please Select User Type');
+      this.messageNotifier('error', '', 'Please Select User Type');
       return;
     }
     this.PageIndex = 1;
@@ -88,7 +88,7 @@ export class UsersComponent implements OnInit {
         this.isRippleLoad = false;
         this.showUserTable = false;
         console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -107,7 +107,7 @@ export class UsersComponent implements OnInit {
         userArray: this.getSelectedUser()
       };
       if (data.userArray.length == 0) {
-        this.messageNotifier('error', 'Error', 'Please select user');
+        this.messageNotifier('error', '', 'Please select user');
         return;
       }
       this.apiService.sendSmS(data).subscribe(
@@ -116,7 +116,7 @@ export class UsersComponent implements OnInit {
         },
         err => {
           console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -169,16 +169,16 @@ export class UsersComponent implements OnInit {
 
   allocateItem() {
     if (this.allocateInventory.item_id == -1) {
-      this.messageNotifier('error', 'Error', 'Please prvide item details');
+      this.messageNotifier('error', '', 'Please prvide item details');
       return;
     }
     let unit: number = Number(this.allocateInventory.alloted_units);
     if (unit < 0) {
-      this.messageNotifier('error', 'Error', 'Please give valid unit');
+      this.messageNotifier('error', '', 'Please give valid unit');
       return;
     }
     if (this.availableunit < unit) {
-      this.messageNotifier('error', 'Error', 'Allocatd unit can not be greater than available unit');
+      this.messageNotifier('error', '', 'Allocatd unit can not be greater than available unit');
       return;
     }
     let obj: any = {
@@ -231,7 +231,7 @@ export class UsersComponent implements OnInit {
         err => {
           this.isRippleLoad = false;
           console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }

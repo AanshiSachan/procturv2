@@ -314,7 +314,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
       // Closing reason mandatory
       if (this.updateFormData.statusValue == 'Closed') {
         if (this.updateFormData.closing_reason_id == '0' || this.updateFormData.closing_reason_id == '-1') {
-          this.appC.popToast({ type: 'error', title: 'Error', body: 'Please provide closing reason' });
+          this.appC.popToast({ type: 'error', title: '', body: 'Please provide closing reason' });
           return;
         }
         this.updateFormData.followUpDate = ""; // closed enquiry should not have a follow up date --laxmi
@@ -324,13 +324,13 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
       if (this.updateFormData.follow_type == 'Walkin') {
 
         if (this.updateFormData.walkin_followUpDate == "" || this.updateFormData.walkin_followUpDate == null || this.updateFormData.walkin_followUpDate == "Invalid Date") {
-          this.appC.popToast({ type: 'error', title: 'Error', body: 'Please provide Walkin Date for follow up type walkin.' });
+          this.appC.popToast({ type: 'error', title: '', body: 'Please provide Walkin Date for follow up type walkin.' });
           return;
         } else {
           this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
         }
         if (this.walkin_followUpTime.hour == "" || this.walkin_followUpTime.minute == "") {
-          this.appC.popToast({ type: 'error', title: 'Error', body: 'Please provide walkin time for follow up type walkin.' });
+          this.appC.popToast({ type: 'error', title: '', body: 'Please provide walkin time for follow up type walkin.' });
           return;
         } else {
           let time = this.walkin_followUpTime.hour.split(' ');

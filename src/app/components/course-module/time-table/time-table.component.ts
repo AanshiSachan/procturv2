@@ -483,7 +483,7 @@ export class TimeTableComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     );
 

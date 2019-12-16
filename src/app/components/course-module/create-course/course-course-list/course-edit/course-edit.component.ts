@@ -89,7 +89,7 @@ export class CourseEditComponent implements OnInit {
       },
       error => {
         //console.log(error);
-        this.messageToast('error', 'Error', error.error.message);
+        this.messageToast('error', '', error.error.message);
       }
     )
   }
@@ -101,7 +101,7 @@ export class CourseEditComponent implements OnInit {
       },
       error => {
         //console.log(error);
-        this.messageToast('error', 'Error', 'Please refresh the page.');
+        this.messageToast('error', '', 'Please refresh the page.');
       }
     )
   }
@@ -118,7 +118,7 @@ export class CourseEditComponent implements OnInit {
       },
       error => {
         //console.log(error);
-        this.messageToast('error', 'Error', 'Please refresh the page.');
+        this.messageToast('error', '', 'Please refresh the page.');
       }
     )
   }
@@ -133,7 +133,7 @@ export class CourseEditComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.messageToast('error', 'Error', 'Please refresh the page.');
+        this.messageToast('error', '', 'Please refresh the page.');
       }
     )
   }
@@ -180,7 +180,7 @@ export class CourseEditComponent implements OnInit {
         err => {
           this.jsonVar.callApi = true;
           //console.log(err);
-          this.messageToast('error', 'Error', err.error.message);
+          this.messageToast('error', '', err.error.message);
         }
       )
     }
@@ -201,7 +201,7 @@ export class CourseEditComponent implements OnInit {
             this.messageToast('success', 'Deleted', 'Sucessfully deleted from the list.');
           },
           error => {
-            this.messageToast('error', 'Error', error.error.message);
+            this.messageToast('error', '', error.error.message);
           }
         )
       }
@@ -240,7 +240,7 @@ export class CourseEditComponent implements OnInit {
     for (let i = 0; i < this.mainTableDataSource.length; i++) {
       let test: any = {};
       if (this.mainTableDataSource[i].course_name == "" || this.mainTableDataSource[i].course_name == null) {
-        this.messageToast('error', 'Error', "Please Fill Mandatory Details");
+        this.messageToast('error', '', "Please Fill Mandatory Details");
         return false;
       }
       test.course_name = this.mainTableDataSource[i].course_name;
@@ -249,14 +249,14 @@ export class CourseEditComponent implements OnInit {
       if (this.mainTableDataSource[i].start_date != "" && this.mainTableDataSource[i].start_date != null && this.mainTableDataSource[i].start_date != "Invalid date") {
         test.start_date = moment(this.mainTableDataSource[i].start_date).format("YYYY-MM-DD");
       } else {
-        this.messageToast('error', 'Error', 'Please Provide start date');
+        this.messageToast('error', '', 'Please Provide start date');
         return false;
       }
 
       if (this.mainTableDataSource[i].end_date != "" && this.mainTableDataSource[i].end_date != null && this.mainTableDataSource[i].end_date != "Invalid date") {
         test.end_date = moment(this.mainTableDataSource[i].end_date).format("YYYY-MM-DD");
       } else {
-        this.messageToast('error', 'Error', 'Please Provide end date');
+        this.messageToast('error', '', 'Please Provide end date');
         return false;
       }
 
@@ -269,7 +269,7 @@ export class CourseEditComponent implements OnInit {
       test.batchesList = [];
       let selectedSubjectRow = this.checkIfAnySubjectSelected(this.mainTableDataSource[i].batchesList);
       if (selectedSubjectRow.length == 0) {
-        this.messageToast('error', 'Error', "You haven't selected any Subject");
+        this.messageToast('error', '', "You haven't selected any Subject");
         return false;
       }
       for (let y = 0; y < selectedSubjectRow.length; y++) {
@@ -282,7 +282,7 @@ export class CourseEditComponent implements OnInit {
         trp.batch_name = this.selectedCourseDetails.master_course + '-' + this.mainTableDataSource[i].course_name + '-' + selectedSubjectRow[y].subject_name;
         trp.subject_id = selectedSubjectRow[y].subject_id.toString();
         if (selectedSubjectRow[y].selected_teacher == "" || selectedSubjectRow[y].selected_teacher == '-1') {
-          this.messageToast('error', 'Error', 'Please provide teacher');
+          this.messageToast('error', '', 'Please provide teacher');
           return false;
         }
         trp.teacher_id = selectedSubjectRow[y].selected_teacher.toString();

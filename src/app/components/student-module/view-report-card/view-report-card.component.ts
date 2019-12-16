@@ -167,7 +167,7 @@ export class ViewReportCardComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -206,7 +206,7 @@ export class ViewReportCardComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -220,7 +220,7 @@ export class ViewReportCardComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -234,7 +234,7 @@ export class ViewReportCardComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -242,13 +242,13 @@ export class ViewReportCardComponent implements OnInit {
   validateAllField() {
     if (this.timetablePayLoad.type == '2') {
       if (this.timetablePayLoad.startdate == "" || this.timetablePayLoad.startdate == null) {
-        this.messageNotifier('error', 'Error', 'Please provide start date');
+        this.messageNotifier('error', '', 'Please provide start date');
         return false;
       } else {
         this.timetablePayLoad.startdate = moment(this.timetablePayLoad.startdate).format('YYYY-MM-DD');
       }
       if (this.timetablePayLoad.enddate == "" || this.timetablePayLoad.enddate == null) {
-        this.messageNotifier('error', 'Error', 'Please provide end date');
+        this.messageNotifier('error', '', 'Please provide end date');
         return false;
       } else {
         this.timetablePayLoad.enddate = moment(this.timetablePayLoad.enddate).format('YYYY-MM-DD');
@@ -284,7 +284,7 @@ export class ViewReportCardComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -319,7 +319,7 @@ export class ViewReportCardComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -387,7 +387,7 @@ export class ViewReportCardComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     } else {
@@ -398,13 +398,13 @@ export class ViewReportCardComponent implements OnInit {
   validateDataAttendance(data) {
     if (data.type == '2') {
       if (data.startdate == "" || data.startdate == null) {
-        this.messageNotifier('error', 'Error', 'Please provide start date');
+        this.messageNotifier('error', '', 'Please provide start date');
         return false;
       } else {
         data.startdate = moment(data.startdate).format('YYYY-MM-DD');
       }
       if (data.enddate == "" || data.enddate == null) {
-        this.messageNotifier('error', 'Error', 'Please provide end date');
+        this.messageNotifier('error', '', 'Please provide end date');
         return false;
       } else {
         data.enddate = moment(data.enddate).format('YYYY-MM-DD');

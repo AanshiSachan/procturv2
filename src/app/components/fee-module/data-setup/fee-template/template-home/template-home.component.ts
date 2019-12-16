@@ -14,6 +14,7 @@ import { CommonServiceFactory } from '../../../../../services/common-service';
 export class TemplateHomeComponent implements OnInit {
 
   isProfessional: boolean = false;
+  countryAdditioalFeeTypes: any = {};
   source: any[] = [];
   selectedTemplate: any;
   isHeaderEdit: boolean = false;
@@ -101,10 +102,30 @@ export class TemplateHomeComponent implements OnInit {
   }
 
   fetchDataForCountryDetails() {
+    this.countryAdditioalFeeTypes = {};
     let encryptedData = sessionStorage.getItem('country_data');
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
       this.countryDetails = data;
+      let country_ids = [];
+      this.countryDetails.forEach((item) => {
+        this.countryAdditioalFeeTypes[item.id] = [];
+        country_ids.push(item.id);
+      })
+
+      this.fetchService.additionalFeeTypeDetail(country_ids.join()).subscribe(
+        (res: any) => {
+          res && res.forEach(fee => {
+            const country_id = fee.countryId.country_id;
+            let fee_details = {};
+            fee_details[fee.fee_type_id] = fee.fee_type;
+            this.countryAdditioalFeeTypes[country_id].push(fee_details);
+          });
+        },
+        err => {
+          this.commonService.showErrorMessage('error', '', err.error.message);
+        }
+      )
     }
     // console.log(data);
   }
@@ -127,7 +148,7 @@ export class TemplateHomeComponent implements OnInit {
 
   editFee(fee) {
     this.templateName = fee.template_name;
-    this.selectedTemplate = fee;
+    this.selectedTemplate = fee;    
     this.feeStructure = [];
     this.isEditFee = true;
     this.isRippleLoad = true;
@@ -140,7 +161,7 @@ export class TemplateHomeComponent implements OnInit {
         } else {
           this.feeStructure.is_default = false;
         }
-        this.fillFeeType(res.feeTypeMap);
+        this.fillFeeType(this.countryAdditioalFeeTypes[this.selectedTemplate.country_id]);
         this.fillDataInYTable(res.customFeeSchedules);
         if (res.studentwise_fees_tax_applicable == "Y") {
           if (this.enableTax == "1" &&
@@ -168,13 +189,15 @@ export class TemplateHomeComponent implements OnInit {
 
   fillFeeType(data) {
     this.otherFeetype = [];
-    let keys = Object.keys(data);
-    for (let i = 0; i < keys.length; i++) {
+
+    data.forEach(object => {
+      let keys = Object.keys(object);
       let test: any = {};
-      test.id = keys[i];
-      test.value = data[keys[i]];
+      test.id = keys[0];
+      test.value = object[keys[0]];
       this.otherFeetype.push(test);
-    }
+    });
+
   }
 
   fillDataInYTable(data) {
@@ -226,7 +249,7 @@ export class TemplateHomeComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
 
       }
     )
@@ -284,7 +307,7 @@ export class TemplateHomeComponent implements OnInit {
 
   onApplyTaxChechbox(event) {
     if (this.enableTax == "0") {
-      this.commonService.showErrorMessage('error', 'Error', 'Please define Tax (%age) in Institute Settings');
+      this.commonService.showErrorMessage('error', '', 'Please define Tax (%age) in Institute Settings');
       event.target.checked = false;
       return;
     }
@@ -356,7 +379,7 @@ export class TemplateHomeComponent implements OnInit {
   //   } else {
   //     let msg = {
   //       type: 'error',
-  //       title: 'Error',
+  //       title: '',
   //       body: "Please define Tax (%age) in Institute Settings"
   //     }
   //     this.appC.popToast(msg);
@@ -405,7 +428,7 @@ export class TemplateHomeComponent implements OnInit {
   //       this.totalAmountCal = this.totalAmountCal + this.otherInstList.map(fee => fee.fees_amount).reduce((acc, val) => val + acc);
   //     }
   //   }
-  // }
+  // }  
 
   deleteRow(row, i) {
     this.installmentList.splice(i, 1);
@@ -452,11 +475,11 @@ export class TemplateHomeComponent implements OnInit {
       }
     } else {
       if (this.AddInstallment.initial_fee_amount == null || this.AddInstallment.initial_fee_amount == 0) {
-        this.commonService.showErrorMessage('error', 'Error', 'Please provide Amount');
+        this.commonService.showErrorMessage('error', '', 'Please provide Amount');
         return;
       }
       if (this.AddInstallment.days == null) {
-        this.commonService.showErrorMessage('error', 'Error', 'Please provide days/month');
+        this.commonService.showErrorMessage('error', '', 'Please provide days/month');
         return;
       }
     }
@@ -466,7 +489,7 @@ export class TemplateHomeComponent implements OnInit {
 
   addAdditionalInst() {
     if (this.additionalInstallment.fee_type == -1) {
-      this.commonService.showErrorMessage('error', 'Error', 'Please provide fee type');
+      this.commonService.showErrorMessage('error', '', 'Please provide fee type');
       return;
     }
     if (Number(this.additionalInstallment.initial_fee_amount) > 0 && this.additionalInstallment.days != null) {
@@ -497,11 +520,11 @@ export class TemplateHomeComponent implements OnInit {
       }
     } else {
       if (this.additionalInstallment.initial_fee_amount == 0 || this.additionalInstallment.initial_fee_amount == null) {
-        this.commonService.showErrorMessage('error', 'Error', 'Please provide Amount');
+        this.commonService.showErrorMessage('error', '', 'Please provide Amount');
         return;
       }
       if (this.additionalInstallment.days == null) {
-        this.commonService.showErrorMessage('error', 'Error', 'Please provide days');
+        this.commonService.showErrorMessage('error', '', 'Please provide days');
         return;
       }
     }
@@ -525,7 +548,7 @@ export class TemplateHomeComponent implements OnInit {
         this.additionalInstallment.fee_type_name = res.fee_type;
       },
       err => {
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -638,13 +661,13 @@ export class TemplateHomeComponent implements OnInit {
                 },
                 err => {
                   this.isRippleLoad = false;
-                  this.commonService.showErrorMessage('error', 'Error', err.error.message);
+                  this.commonService.showErrorMessage('error', '', err.error.message);
                 }
               )
             }
           }
           else {
-            this.commonService.showErrorMessage('error', 'Error', err.error.message);
+            this.commonService.showErrorMessage('error', '', err.error.message);
           }
         }
       )

@@ -168,7 +168,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       err => {
         this.isRippleLoad =false;
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', '', err.error.message);
       }
     )
   }
@@ -183,7 +183,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', '', err.error.message);
         //console.log(err);
       }
     )
@@ -205,7 +205,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', '', err.error.message);
       }
     )
   }
@@ -229,7 +229,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         //console.log(err);
         this.courseList = [];
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', '', err.error.message);
       }
     )
   }
@@ -244,7 +244,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         this.subjectList = res.batchesList;
       },
       err => {
-        this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', '', err.error.message);
         this.isRippleLoad = false;
         //console.log(err);
       }
@@ -338,7 +338,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       err => {
         //console.log(err);
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', '', err.error.message);
       }
     )
   }
@@ -380,7 +380,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       if (this.batchData.batch_id != -1) {
         return true;
       } else {
-        this.messageToast('error', 'Error', 'Please provide batch details');
+        this.messageToast('error', '', 'Please provide batch details');
         return false;
       }
     }
@@ -494,7 +494,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         },
         err => {
           //console.log(err);
-          this.messageToast('error', 'Error', err.error.message);
+          this.messageToast('error', '', err.error.message);
         }
       )
     };
@@ -552,7 +552,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     if (data == "" || data == null) {
       let msg = {
         type: 'error',
-        title: 'Error',
+        title: '',
         body: 'Please provide correct time'
       }
       this.toastCtrl.popToast(msg);
@@ -822,7 +822,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
 
   updateTeacher(data) {
     if (this.allotedTeacher == "-1" || this.allotedTeacher == null) {
-      this.messageToast('error', 'Error', 'Please provide teacher');
+      this.messageToast('error', '', 'Please provide teacher');
       return false;
     } else {
       if (confirm('Are you sure you want to change the teacher?')) {
@@ -846,7 +846,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
           },
           err => {
             console.log(err);
-            this.messageToast('error', 'Error', err.error.message);
+            this.messageToast('error', '', err.error.message);
           }
         )
       }
@@ -869,7 +869,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         },
         err => {
           this.isRippleLoad = false;
-          this.messageToast('error', 'Error', err.error.message);
+          this.messageToast('error', '', err.error.message);
         }
       )
     }
@@ -892,7 +892,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     let days: number = 0;
     days = moment(this.advanceFilter.enddate).diff(moment(this.advanceFilter.startdate), 'days');
     if (days > 31) {
-      this.messageToast('error', 'Error', 'Please provide date range of 30 days only');
+      this.messageToast('error', '', 'Please provide date range of 30 days only');
       return false;
     } else {
       this.advanceFilter.startdate = moment(this.advanceFilter.startdate).format('YYYY-MM-DD');
@@ -900,24 +900,24 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     }
     if (this.isLangInstitute) {
       if (this.batchData.standard_id == -1) {
-        this.messageToast('error', 'Error', 'Please provide Master Course');
+        this.messageToast('error', '', 'Please provide Master Course');
         return false;
       }
       if (this.batchData.subject_id == -1) {
-        this.messageToast('error', 'Error', 'Please provide Course');
+        this.messageToast('error', '', 'Please provide Course');
         return false;
       }
       if (this.batchData.batch_id == -1) {
-        this.messageToast('error', 'Error', 'Please provide Batch');
+        this.messageToast('error', '', 'Please provide Batch');
         return false;
       }
     } else {
       if (this.fetchMasterCourseModule.master_course == "-1") {
-        this.messageToast('error', 'Error', 'Please provide Master Course');
+        this.messageToast('error', '', 'Please provide Master Course');
         return false
       }
       if (this.fetchMasterCourseModule.course_id == "-1") {
-        this.messageToast('error', 'Error', 'Please provide Course');
+        this.messageToast('error', '', 'Please provide Course');
         return false;
       }
     }
@@ -978,7 +978,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
           };
         },
         err => {
-          this.messageToast('error', 'Error', err.error.message);
+          this.messageToast('error', '', err.error.message);
         }
       )
     }
@@ -1001,7 +1001,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
                 obj.classSchldId.push(data[i].schd_id);
               }
             } else {
-              this.messageToast('error', 'Error', "Past Date Schedule Can't Deleted");
+              this.messageToast('error', '', "Past Date Schedule Can't Deleted");
               return false;
             }
           }
@@ -1009,7 +1009,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       }
     }
     if (obj.examSchldId.length == 0 && obj.classSchldId.length == 0) {
-      this.messageToast('error', 'Error', "You haven't selected any future schedule");
+      this.messageToast('error', '', "You haven't selected any future schedule");
       return false;
     }
     return obj;

@@ -1003,7 +1003,7 @@ export class EnquiryAddComponent implements OnInit {
             err => {
               this.isRippleLoad = false;
               this.isEnquirySubmit = true;
-              this.showErrorMessage('error', "Error", err.error.message);
+              this.showErrorMessage('error', '', err.error.message);
             }
           );
         }
@@ -1041,7 +1041,7 @@ export class EnquiryAddComponent implements OnInit {
               err => {
                 this.isRippleLoad = false;
                 this.isEnquirySubmit = true;
-                this.showErrorMessage('error', 'Error', err.error.message);
+                this.showErrorMessage('error', '', err.error.message);
               }
             );
           }
@@ -1919,11 +1919,11 @@ export class EnquiryAddComponent implements OnInit {
           this.toggleCityAreaAdd();
         },
         err => {
-          this.commonServiceFactory.showErrorMessage('error', "Error", err.error.message);
+          this.commonServiceFactory.showErrorMessage('error', '', err.error.message);
         }
       )
     } else {
-      this.commonServiceFactory.showErrorMessage('error', "Error", "Please provide city name");
+      this.commonServiceFactory.showErrorMessage('error', '', "Please provide city name");
     }
   }
 

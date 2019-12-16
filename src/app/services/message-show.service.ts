@@ -82,11 +82,11 @@ export class MessageShowService {
         body: "Please specify Email ID/Phone No"
       },
       invalidPass: {
-        title: "Error",
+        title: '',
         body: "Please specify Password"
       },
       notRegister: {
-        title: "Error",
+        title: '',
         body: "Invalid Login Credentials"
       },
       instituteNotRegister: {

@@ -42,7 +42,7 @@
       <div class="row create-standard-field">
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type != '' }">
-            <label for="slotNew">Fee Type Name
+            <label for="slotNew">Fee Type <span class="text-danger">*</span>
             </label>
             <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type" name="slotNew">
 
@@ -58,7 +58,7 @@
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.country_id != '' }">
-            <label for="slotNew">Country <span class="danger">*</span></label>
+            <label for="slotNew">Country <span class="text-danger">*</span></label>
             <select id="country_id" class="form-ctrl" [(ngModel)]="addNewFee.country_id" name="country_id" style="height: 29px;padding: 0">
               <option value=""></option>
               <option [value]="data.id" selected *ngFor='let data of countryDetails'>
@@ -69,7 +69,7 @@
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_amount != '' }">
-            <label for="slotNew">Fee Amount
+            <label for="slotNew">Fee Amount <span class="text-danger">*</span>
             </label>
             <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_amount"
               name="slotNew">
@@ -146,7 +146,8 @@
     </td>
     <td>
       <div class="field-wrapper">
-        <input type="number" class="form-ctrl editCellInput" style="width:25%" [readonly]="isTaxEnableFeeInstallments" [(ngModel)]="row.fee_type_tax"
+        <!-- disabled =row.country_id!='1' && isTaxEnableFeeInstallments -->
+    <input type="number" [disabled]="true" class="form-ctrl editCellInput" style="width:25%" [(ngModel)]="row.fee_type_tax"
           name="tax">
       </div>
     </td>
