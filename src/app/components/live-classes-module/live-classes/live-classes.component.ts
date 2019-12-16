@@ -159,9 +159,8 @@ export class LiveClassesComponent implements OnInit {
   }
 
   checkLiveClassExpiry(proctur_live_expiry_date) {
-    let currentDate = new Date();
-    proctur_live_expiry_date = new Date(proctur_live_expiry_date);
-    console.log(currentDate,proctur_live_expiry_date);
+    let currentDate = moment(new Date()).format('DD-MM-YYYY');
+    proctur_live_expiry_date = moment(new Date(proctur_live_expiry_date)).format('DD-MM-YYYY');
     if(proctur_live_expiry_date < currentDate){
       this.proctur_live_expiry_date_check = true;
     }
@@ -187,6 +186,7 @@ export class LiveClassesComponent implements OnInit {
         this.previosLiveClasses = data.pastLiveClasses;
         this.futureLiveClasses = data.upcomingLiveClasses;
         const proctur_live_expiry_date = data.proctur_live_expiry_date;
+        sessionStorage.setItem('proctur_live_expiry_date',proctur_live_expiry_date);
         if(proctur_live_expiry_date!=null) {
           this.checkLiveClassExpiry(proctur_live_expiry_date);
         }
@@ -611,42 +611,37 @@ export class LiveClassesComponent implements OnInit {
   }
 
   downloadFile(object) {
-    const url = object.downloadLink;
+    const url = object.download_link;
       var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
       hiddenDownload.href = url;
-      hiddenDownload.download = object.sessionName;
-      // hiddenDownload.download = this.getOriginalFileName(fileObj.res.file_name);
+      hiddenDownload.download = object.session_name;
       hiddenDownload.click();     
   }
 
-  getVdocipherVideoOtp(videoId) {
+  // Live class integration with VDOCipher
+  getVdocipherVideoOtp(obj) {
     this.viewDownloadPopup  = false;
       let url = "/api/v1/instFileSystem/videoOTP";
       let data = {
-        "videoID": videoId,
+        "videoID": obj.videoId,
         "institute_id": sessionStorage.getItem("institute_id"),
         "user_id": sessionStorage.getItem("userid")
       }
-      // this.tempVideoData = video;
-
-      // console.log(video);
+      this.tempVideoData = obj;
       this.JsonVars.isRippleLoad = true;
       this._http.postData(url, data).subscribe((response) => {
         this.JsonVars.isRippleLoad = false;
-        console.log(response);
         if (response == null) {
           let obj = {
             "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
             "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
           }
-          console.log(obj);
           this.ShowVideo(obj.otp, obj.playbackInfo);
         } else {
           let obj = {
             "otp": response['otp'],
             "playbackInfo": response['playbackInfo']
           }
-          console.log(obj);
           this.ShowVideo(obj.otp, obj.playbackInfo);
         }
       },

@@ -279,7 +279,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.OTPVerification(res);
         break;
       case 4:
-        this.alternateLoginFailure();
+        this.alternateLoginFailure(res.login_error_message);
         break;
       case 3:
         this.alternateLoginSuccess(res);
@@ -299,8 +299,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   //End - 1
 
   //if login is fails ( Start - 2)
-  alternateLoginFailure() {
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.notRegister.title, this.messages.loginMsg.notRegister.body);
+  alternateLoginFailure(obj) {
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', obj);
   }
   //End -2
 
@@ -410,7 +410,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('enable_elearn_course_mapping_feature', institute_data.enable_elearn_course_mapping_feature);
       sessionStorage.setItem('enable_eLearn_feature', institute_data.enable_eLearn_feature);
       sessionStorage.setItem('website_url', institute_data.website_url);
-      sessionStorage.setItem('proctur_live_expiry_date',institute_data.proctur_live_expiry_date);
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
         this.login.changePermissions('');
@@ -704,7 +703,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '3') {
           this.login.storeInstituteInfoToSession().subscribe(
             (res: any) => {
-              sessionStorage.setItem('live_class_recorded_session_visibility', res.live_class_recorded_session_visibility);
               sessionStorage.setItem('manual_student_disp_id', res.is_student_displayId_manual);
               this.login.changeSidenavStatus('authorized');
               this.route.navigateByUrl('/view/home');
