@@ -28,7 +28,7 @@
         </div>
         <div class="col-md-4 form-group image-upload">
               <label for="file-input">
-                  <img src="{{prodForm.photo_url==null?'https://cdn.vox-cdn.com/thumbor/30bQJLedP0p2KHehrHJyPc2dZ5A=/0x0:600x579/920x0/filters:focal(0x0:600x579):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/16019250/log_2048.png':prodForm.photo_url}}"/>
+                  <img src="{{image_url==null?'https://cdn.vox-cdn.com/thumbor/30bQJLedP0p2KHehrHJyPc2dZ5A=/0x0:600x579/920x0/filters:focal(0x0:600x579):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/16019250/log_2048.png':image_url}}"/>
               </label>          
               <input id="file-input" type="file" (change)="uploadHandler($event)"/>
         </div>
