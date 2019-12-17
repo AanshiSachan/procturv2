@@ -582,7 +582,7 @@ export class CampaignHomeComponent implements OnInit {
       );
     }
     else {
-      this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.generalMessages.invalidNumber, "Please provide the correct mobile number");
+      this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.generalMessages.invalidNumber, "Please enter the correct mobile number");
     }
   }
 
@@ -844,7 +844,7 @@ export class CampaignHomeComponent implements OnInit {
         }
       )
     } else {
-      this.showErrorMessage(this.msgService.toastTypes.error, '', "Please provide message text");
+      this.showErrorMessage(this.msgService.toastTypes.error, '', "Please enter message text");
     }
   }
 

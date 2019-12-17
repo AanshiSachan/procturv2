@@ -174,7 +174,7 @@ export class CourseEditComponent implements OnInit {
         res => {
           this.jsonVar.callApi = true;
           this.router.navigateByUrl('/view/course/create/courselist');
-          this.messageToast('success', 'Course Updated', 'Course updated sucessfully.');
+          this.messageToast('success', '', 'Course updated successfully.');
 
         },
         err => {
@@ -282,7 +282,7 @@ export class CourseEditComponent implements OnInit {
         trp.batch_name = this.selectedCourseDetails.master_course + '-' + this.mainTableDataSource[i].course_name + '-' + selectedSubjectRow[y].subject_name;
         trp.subject_id = selectedSubjectRow[y].subject_id.toString();
         if (selectedSubjectRow[y].selected_teacher == "" || selectedSubjectRow[y].selected_teacher == '-1') {
-          this.messageToast('error', '', 'Please provide teacher');
+          this.messageToast('error', '', 'Please enter teacher');
           return false;
         }
         trp.teacher_id = selectedSubjectRow[y].selected_teacher.toString();

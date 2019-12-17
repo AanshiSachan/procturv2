@@ -898,12 +898,12 @@ export class EnquiryAddComponent implements OnInit {
 
         if (this.newEnqData.follow_type == "Walkin") {
           if (this.newEnqData.walkin_followUpDate == "") {
-            this.showErrorMessage('error', 'Please provide walkin date for follow up type walkin', '');
+            this.showErrorMessage('error', '', 'Please enter walkin date for follow up type walkin');
             return;
           }
 
           if (this.newEnqData.walkin_followUpTime == "") {
-            this.showErrorMessage('error', 'Please provide walkin time for follow up type walkin', '');
+            this.showErrorMessage('error', '', 'Please enter walkin time for follow up type walkin');
             return;
           }
         }
@@ -978,7 +978,7 @@ export class EnquiryAddComponent implements OnInit {
                 else {
                   if (this.addNextCheck) {
                     //form.reset();
-                    this.showErrorMessage('success', "New Enquiry Added", "Your enquiry has been submitted");
+                    this.showErrorMessage('success', "", "Enquiry added successfully");
                     this.clearFormData();
                   }
                   else {
@@ -1016,7 +1016,7 @@ export class EnquiryAddComponent implements OnInit {
                   else {
                     if (this.addNextCheck) {
                       //form.reset();
-                      this.showErrorMessage('success', "New Enquiry Added", "Your enquiry has been submitted");
+                      this.showErrorMessage('success', "", "Enquiry added successfully");
                       this.clearFormData();
                     }
                     else {
@@ -1041,7 +1041,7 @@ export class EnquiryAddComponent implements OnInit {
       }
       else {
         this.isEnquirySubmit = true;
-        this.showErrorMessage('error', 'Invalid Time Input', 'Please select a valid time for follow up');
+        this.showErrorMessage('error', '', 'Please select a valid time for follow up');
       }
     }
     else {
@@ -1122,7 +1122,7 @@ export class EnquiryAddComponent implements OnInit {
   validateAreaAndCityFields() {
     if (this.isCityMandatory == 1) {
       if (this.newEnqData.city == '-1') {
-        return this.showErrorMessage('error', 'City Is Mandatory', 'Please provide city details.');
+        return this.showErrorMessage('error', '', 'Please enter city details');
       } else {
         return true;
       }
@@ -1165,7 +1165,7 @@ export class EnquiryAddComponent implements OnInit {
           return true;
         }
         else {
-          return this.showErrorMessage('error', 'Required Details Not Filled On Academics Details', '');
+          return this.showErrorMessage('error','', 'Please add required field(s) in academics details section');
         }
       }
       else {
@@ -1173,7 +1173,7 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
     else if (element.is_required == "Y" && element.value == "") {
-      return this.showErrorMessage('error', 'Required Details Not Filled On Academics Details', '');
+      return this.showErrorMessage('error', '','Please add required field(s) in academics details section');
     }
     else if (element.is_required == "N") {
       return true;
@@ -1186,36 +1186,36 @@ export class EnquiryAddComponent implements OnInit {
     let phoneFlag = this.commonServiceFactory.phonenumberCheck(this.newEnqData.phone, this.maxlength,this.country_id)
     if (phoneFlag == false || phoneFlag == 'noNumber') {
       if (phoneFlag == 'noNumber') {
-        return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
+        return this.showErrorMessage('error', 'Please enter valid contact no.', '');
       }
       else {
         return this.showErrorMessage('error', msg , '');
       }
     }
     else if (this.commonServiceFactory.checkValueType(this.newEnqData.enquiry_date)) {
-      return this.showErrorMessage('error', 'Enquiry Date Is Mandatory', '');
+      return this.showErrorMessage('error', '', 'Please select enquiry date ');
     }
     else if (this.commonServiceFactory.sourceValueCheck(this.newEnqData.source_id)) {
-      return this.showErrorMessage('error', 'Enquiry Source Is Mandatory', '');
+      return this.showErrorMessage('error', '', 'Please select enquiry source');
     }
     else if(this.newEnqData.name == '' || this.newEnqData.name ==null){
-      return this.showErrorMessage('error', 'Name Is Mandatory' , '');
+      return this.showErrorMessage('error',  '','Please enter name');
     }
     else {
       if (this.validateEnquiryDate()) {//newEnqData.parent_phone
         if (this.commonServiceFactory.phonenumberCheck(this.newEnqData.parent_phone, this.maxlength, this.country_id)==false && this.newEnqData.parent_phone != "") {
-          return this.showErrorMessage('error', msg, '');
+          return this.showErrorMessage('error', '', msg);
         }
         if (this.commonServiceFactory.phonenumberCheck(this.newEnqData.phone2, this.maxlength,this.country_id)==false && this.newEnqData.phone2 != "") {
-          return this.showErrorMessage('error', msg, '');
+          return this.showErrorMessage('error',  '',msg);
         }
         if (this.hour == '' && Number(this.minute) > 0) {
-          return this.showErrorMessage('error', 'Please select time', '');
+          return this.showErrorMessage('error', '', 'Please select time');
         }
         return true;
       }
       else {
-        return this.showErrorMessage('error', 'Cannot Set Future Enquiry Date', '');
+        return this.showErrorMessage('error', '', 'Cannot set future enquiry date');
       }
     }
   }
@@ -1371,7 +1371,7 @@ export class EnquiryAddComponent implements OnInit {
               this.closeAddInstitute();
             },
             err => {
-              this.showErrorMessage('error', 'Failed To Add Institute', err.error.message);
+              this.showErrorMessage('error', '', err.error.message);
             }
           );
           // console.log("institute Added");
@@ -1382,7 +1382,7 @@ export class EnquiryAddComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.showErrorMessage('error', 'Failed To Add Institute', err.error.message);
+        this.showErrorMessage('error', '', err.error.message);
       }
     );
   }
@@ -1443,11 +1443,11 @@ export class EnquiryAddComponent implements OnInit {
       if (el.school_id == id) {
         this.poster.updateInstituteDetails(id, el).subscribe(
           res => {
-            this.showErrorMessage('success', 'institute Name Updated', '');
+            this.showErrorMessage('success', '', 'Institute name updated');
             this.fetchInstituteInfo();
           },
           err => {
-            this.showErrorMessage('error', 'We coudn\'t process your request', err.error.message);
+            this.showErrorMessage('error', 'We couldn\'t process your request', err.error.message);
             this.fetchInstituteInfo();
           }
         )
@@ -1459,11 +1459,11 @@ export class EnquiryAddComponent implements OnInit {
   deleteInstitute(id) {
     this.poster.deleteInstitute(id).subscribe(
       res => {
-        this.showErrorMessage('success', 'Institute Record Deleted', " The institute data has been removed from your account");
+        this.showErrorMessage('success', '', " Institute record deleted successfully");
         this.fetchInstituteInfo();
       },
       err => {
-        this.showErrorMessage('error', 'Your Delete Request Has Been Denied', err.error.message);
+        this.showErrorMessage('error', 'Your request has been denied', err.error.message);
         this.fetchInstituteInfo();
       }
     )
@@ -1569,11 +1569,11 @@ export class EnquiryAddComponent implements OnInit {
         };
         this.poster.updateReferDetails(data).subscribe(
           res => {
-            this.showErrorMessage('success', 'Reference Updated', '');
+            this.showErrorMessage('success', '', 'Reference updated');
             this.fetchReferInfo();
           },
           err => {
-            this.showErrorMessage('error', 'Failed To Update Reference', err.error.message);
+            this.showErrorMessage('error', '', err.error.message);
           }
         )
       }
@@ -1591,11 +1591,11 @@ export class EnquiryAddComponent implements OnInit {
         };
         this.poster.deleteRefer(data).subscribe(
           res => {
-            this.showErrorMessage('success', 'Reference Deleted', '');
+            this.showErrorMessage('success', '', 'Reference deleted');
             this.fetchReferInfo();
           },
           err => {
-            this.showErrorMessage('error', 'Failed To Delete Reference', err.error.message);
+            this.showErrorMessage('error', '', err.error.message);
           }
         )
       }
@@ -1701,11 +1701,11 @@ export class EnquiryAddComponent implements OnInit {
         }
         this.poster.updateSourceDetails(data).subscribe(
           res => {
-            this.showErrorMessage('success', 'Source Updated', '');
+            this.showErrorMessage('success', '', 'Source updated');
             this.fetchSourceInfo();
           },
           err => {
-            this.showErrorMessage('error', 'Failed To Update Source', err.error.message);
+            this.showErrorMessage('error', '', err.error.message);
 
           }
         )
@@ -1739,11 +1739,11 @@ export class EnquiryAddComponent implements OnInit {
         }
         this.poster.deleteSource(data).subscribe(
           res => {
-            this.showErrorMessage('success', 'Source Deleted', 'Your request has been processed');
+            this.showErrorMessage('success', '', 'Source deleted successfully');
             this.fetchSourceInfo();
           },
           err => {
-            this.showErrorMessage('error', 'Failed To Delete Source', err.error.message);
+            this.showErrorMessage('error', '', err.error.message);
           }
         )
       }
@@ -1906,7 +1906,7 @@ export class EnquiryAddComponent implements OnInit {
       }
       this.poster.saveNewCity(obj).subscribe(
         res => {
-          this.commonServiceFactory.showErrorMessage('success', "Success", "Added Successfully");
+          this.commonServiceFactory.showErrorMessage('success', '', "Added successfully");
           this.getCityAreaList();
           this.toggleCityAreaAdd();
         },
@@ -1915,7 +1915,7 @@ export class EnquiryAddComponent implements OnInit {
         }
       )
     } else {
-      this.commonServiceFactory.showErrorMessage('error', '', "Please provide city name");
+      this.commonServiceFactory.showErrorMessage('error', '', "Please enter city name");
     }
   }
 

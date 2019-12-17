@@ -91,7 +91,7 @@ export class StudentCustomComponent implements OnInit {
               },
               err => {
                 this.isRippleLoad = false;
-                this.msgService.showErrorMessage('error', 'Failed To Add Form-Field', 'Label name is already created with the same name');
+                this.msgService.showErrorMessage('error', '', 'Label name is already created with the same name');
               }
             );
           }
@@ -117,7 +117,7 @@ export class StudentCustomComponent implements OnInit {
             },
             err => {
               this.isRippleLoad = false;
-              this.msgService.showErrorMessage('error', 'Failed To Add Form-Field', 'There was an error processing your request' +err.error.message);
+              this.msgService.showErrorMessage('error', '', 'There was an error processing your request' +err.error.message);
             }
           );
         }
@@ -137,14 +137,14 @@ export class StudentCustomComponent implements OnInit {
           },
           err => {
             this.isRippleLoad = false;
-            this.msgService.showErrorMessage('error', 'Failed To Add Form-Field', 'Label name is already created with the same name');
+            this.msgService.showErrorMessage('error', '', 'Label name is already created with the same name');
           }
         );
       }
 
     }
     else {
-      this.msgService.showErrorMessage('error', 'Invalid Input', 'Please mention a Label/Type');
+      this.msgService.showErrorMessage('error', '', 'Please mention a Label/Type');
     }
   }
 
@@ -213,7 +213,7 @@ export class StudentCustomComponent implements OnInit {
                 this.cancelEditRow();
               },
               err => {
-                this.msgService.showErrorMessage('error', 'Failed To Update Form-Field', err.error.message);
+                this.msgService.showErrorMessage('error', '', err.error.message);
               }
             );
           }
@@ -236,7 +236,7 @@ export class StudentCustomComponent implements OnInit {
               this.cancelEditRow();
             },
             err => {
-              this.msgService.showErrorMessage('error', 'Failed To Update Component', err.error.message);
+              this.msgService.showErrorMessage('error', '', err.error.message);
             }
           );
         }
@@ -256,14 +256,14 @@ export class StudentCustomComponent implements OnInit {
           },
           err => {
             this.isRippleLoad = false;
-            this.msgService.showErrorMessage('error', 'Failed To Update Form-Field', err.error.message);
+            this.msgService.showErrorMessage('error', '', err.error.message);
           }
         );
       }
 
     }
     else {
-      this.msgService.showErrorMessage('error', 'Invalid Input', 'Please mention a Label/Type');
+      this.msgService.showErrorMessage('error', '', 'Please mention a Label/Type');
     }
   }
 
@@ -311,7 +311,7 @@ export class StudentCustomComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.msgService.showErrorMessage('error', 'Failed To Delete Form-Field', err.error.message);
+        this.msgService.showErrorMessage('error', '', err.error.message);
         this.cancelRow();
       }
     );

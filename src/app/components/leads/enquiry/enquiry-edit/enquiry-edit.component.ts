@@ -777,7 +777,7 @@ export class EnquiryEditComponent implements OnInit {
   validateAreaAndCityFields() {
     if (this.isCityMandatory == 1) {
       if (this.editEnqData.city == '-1') {
-        this.showErrorMessage('error', 'City Is Mandatory', 'Please provide city details');
+        this.showErrorMessage('error', 'City Is Mandatory', 'Please enter city details');
         return false;
       } else {
         return true;
@@ -815,7 +815,7 @@ export class EnquiryEditComponent implements OnInit {
     // Validate if closing reason is given for closed enquiry
     if (this.editEnqData.status == '1') {
       if (this.editEnqData.closing_reason_id == "0" || this.editEnqData.closing_reason_id == '-1') {
-        this.showErrorMessage('error', '', 'Please provide closing reason of enquiry.');
+        this.showErrorMessage('error', '', 'Please enter closing reason of enquiry.');
         return;
       }
     }
@@ -861,12 +861,12 @@ export class EnquiryEditComponent implements OnInit {
 
         if (this.editEnqData.follow_type == "Walkin") {
           if (this.editEnqData.walkin_followUpDate == "") {
-            this.showErrorMessage('error', '', 'Please provide walkin date for follow up type walkin');
+            this.showErrorMessage('error', '', 'Please enter walkin date for follow up type walkin');
             return;
           }
 
           if (this.editEnqData.walkin_followUpTime == "") {
-            this.showErrorMessage('error', '', 'Please provide walkin time for follow up type walkin');
+            this.showErrorMessage('error', '', 'Please enter walkin time for follow up type walkin');
             return;
           }
         }
@@ -925,7 +925,7 @@ export class EnquiryEditComponent implements OnInit {
       }
       else {
 
-        this.showErrorMessage('error', 'Invalid Time Input', 'Please select a valid time for follow up');
+        this.showErrorMessage('error', '', 'Please select a valid time for follow up');
       }
     }
     /* Do Nothing if the formData is Still Invalid  */
@@ -1004,7 +1004,7 @@ export class EnquiryEditComponent implements OnInit {
     });
 
     if (!temp) {
-      this.showErrorMessage('error', 'Required Details Not Filled On Academics Details', '');
+      this.showErrorMessage('error', 'Please add required field(s) in academics details section', '');
     }
 
     return temp;
@@ -1014,12 +1014,12 @@ export class EnquiryEditComponent implements OnInit {
   ValidateFormDataBeforeSubmit(): boolean {
     let phoneFlag = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone, this.maxlength,this.country_id);
     // if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
-    //   return this.showErrorMessage('error', 'Enquirer Name Is Mandatory', '');
+    //   return this.showErrorMessage('error', 'Enquirer Please enter name', '');
     // }
     // else
     if (phoneFlag == false || phoneFlag == 'noNumber') {
       if (phoneFlag == 'noNumber') {
-        return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
+        return this.showErrorMessage('error', 'Please enter valid contact no.', '');
       }
       else {
         let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
@@ -1027,11 +1027,11 @@ export class EnquiryEditComponent implements OnInit {
       }
     }
     else if (this.commonServiceFactory.checkValueType(this.editEnqData.enquiry_date)) {
-      return this.showErrorMessage('error', 'Enquiry Date Is Mandatory', '');
+      return this.showErrorMessage('error', 'Please select enquiry date ', '');
     }
 
     else if (this.commonServiceFactory.sourceValueCheck(this.editEnqData.source_id)) {
-      return this.showErrorMessage('error', 'Enquiry Source Is Mandatory', '');
+      return this.showErrorMessage('error', 'Please select enquiry source', '');
     }
     else if (this.editEnqData.parent_phone != "" || this.editEnqData.parent_phone != null){
       let parentPhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.parent_phone, this.maxlength,this.country_id);
@@ -1047,7 +1047,7 @@ export class EnquiryEditComponent implements OnInit {
       let alternatePhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone2, this.maxlength,this.country_id);
       if (alternatePhoneCheck == false || phoneFlag == 'noNumber') {
         if (alternatePhoneCheck == 'noNumber') {
-          return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
+          return this.showErrorMessage('error', 'Please enter valid contact no.', '');
         }
         else {
           let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
@@ -1063,7 +1063,7 @@ export class EnquiryEditComponent implements OnInit {
         return true;
       }
       else {
-        return this.showErrorMessage('error', 'Cannot Set Future Enquiry Date', '');
+        return this.showErrorMessage('error', '', 'Cannot set future enquiry date');
       }
     }
   }
@@ -1382,7 +1382,7 @@ export class EnquiryEditComponent implements OnInit {
     else {
       this.service.createReason(this.createNewReasonObj).subscribe(
         (data: any) => {
-          this.showErrorMessage('success', '', 'Reason Created Successfully');
+          this.showErrorMessage('success', '', 'Reason created successfully');
           this.getClosingReasons();
           this.isNewRefer = false;
           document.getElementById('add-refer-icon').innerHTML = '+';

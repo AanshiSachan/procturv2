@@ -454,7 +454,7 @@ export class AttendanceReportComponent implements OnInit {
             else {
               let msg = {
                 type: "info",
-                title: "No Data Found",
+                title: "No data found",
                 body: "We did not find any attendance marked for the selected dates "
               }
               this.appc.popToast(msg);
@@ -541,7 +541,7 @@ export class AttendanceReportComponent implements OnInit {
             else {
               let msg = {
                 type: "info",
-                title: "No Data Found",
+                title: "No data found",
                 body: "We did not find any attendance marked for the selected dates "
               }
               this.appc.popToast(msg);

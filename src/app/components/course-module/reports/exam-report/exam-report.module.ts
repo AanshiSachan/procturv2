@@ -15,7 +15,7 @@ import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'prime
 
 @NgModule({
   imports: [
-    CommonModule,
+    CommonModule,    
     ExamReportRoutingModule,
     FormsModule,
     ReactiveFormsModule,

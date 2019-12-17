@@ -570,7 +570,7 @@ export class FeeCourseReportComponent implements OnInit {
             return true;
           }
           else {
-            this._msgService.showErrorMessage("error", 'Batch not Selected', "Please select a valid batch for the selected course");
+            this._msgService.showErrorMessage("error", '', "Please select a valid batch for the specific course");
             return false;
           }
         }

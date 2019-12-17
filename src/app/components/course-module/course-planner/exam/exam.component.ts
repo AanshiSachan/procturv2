@@ -658,7 +658,7 @@ export class ExamComponent implements OnInit {
       notify = 'N';
     }
     if (this.cancelPopUpData.reason.trim() == "" || null) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please provide reason');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter reason');
       return false;
     }
       let obj = {
@@ -712,7 +712,7 @@ export class ExamComponent implements OnInit {
 
   cancelExamClassSchedule() {
     if (this.cancelPopUpData.reason.trim() == "" || null) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please provide cancellation reason');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter cancellation reason');
       return;
     }
     let notify: any = "";
@@ -776,7 +776,7 @@ export class ExamComponent implements OnInit {
           },
           err => {
             this.jsonFlag.isRippleLoad = false;
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Notify', err.error.message);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           }
         )
       }

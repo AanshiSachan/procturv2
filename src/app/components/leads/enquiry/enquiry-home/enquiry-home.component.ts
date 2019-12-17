@@ -730,7 +730,7 @@ export class EnquiryHomeComponent implements OnInit {
                     this.loadTableDatatoSource(this.instituteData);
                 }
                 else {
-                    this.showErrorMessage(this.messageService.toastTypes.info, 'Invalid Input', 'Please enter a valid name or number');
+                    this.showErrorMessage(this.messageService.toastTypes.info, '', 'Please enter a valid name or number');
                 }
 
             }
@@ -993,7 +993,7 @@ export class EnquiryHomeComponent implements OnInit {
             },
             err => {
                 this.flagJSON.isRippleLoad = false;
-                this.showErrorMessage(this.messageService.toastTypes.error, 'Failed To Update Registration Fee', 'There was an error processing your request');
+                this.showErrorMessage(this.messageService.toastTypes.error, '', 'There was an error processing your request');
             }
         );
     }
@@ -1524,17 +1524,17 @@ export class EnquiryHomeComponent implements OnInit {
                 this.advancedFilterForm.updateDateFrom = this.getDateFormated(this.advancedFilterForm.updateDateFrom, 'YYYY-MM-DD');
                 this.advancedFilterForm.updateDateTo = this.getDateFormated(this.advancedFilterForm.updateDateTo, 'YYYY-MM-DD');
             } else {
-                this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please provide valid Enquiry Changes From and To Dates');
+                this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes From and To Dates');
                 return;
             }
         } else if (this.advancedFilterForm.updateDateFrom != "" && this.advancedFilterForm.updateDateFrom != null) {
             if (this.advancedFilterForm.updateDateTo == "" || this.advancedFilterForm.updateDateTo == null) {
-                this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please provide valid Enquiry Changes To Dates');
+                this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes To Dates');
                 return;
             }
         } else if (this.advancedFilterForm.updateDateTo != "" && this.advancedFilterForm.updateDateTo != null) {
             if (this.advancedFilterForm.updateDateFrom == "" || this.advancedFilterForm.updateDateFrom == null) {
-                this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please provide valid Enquiry Changes From Dates');
+                this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes From Dates');
                 return;
             }
         }
@@ -1869,7 +1869,7 @@ export class EnquiryHomeComponent implements OnInit {
             );
         }
         else {
-            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please provide dates');
+            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter dates');
         }
     }
 

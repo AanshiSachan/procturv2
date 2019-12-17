@@ -125,7 +125,7 @@ export class MarkAttendanceComponent implements OnInit {
       let obj = {
         type: 'error',
         title: '',
-        body: 'Please Select Subject'
+        body: 'Please select subject'
       }
       this.appC.popToast(obj);
       return;
@@ -152,7 +152,7 @@ export class MarkAttendanceComponent implements OnInit {
             let obj = {
               type: 'info',
               title: '',
-              body: 'No topics available to Link'
+              body: 'No topic(s) available to link'
             }
             this.appC.popToast(obj);
           }
@@ -315,8 +315,8 @@ export class MarkAttendanceComponent implements OnInit {
             this.isRippleLoad = false;
             let obj = {
               type: 'info',
-              title: 'No Student In Batch',
-              body: ""
+              title: '',
+              body: "No student(s) in the batch"
             }
             this.appC.popToast(obj);
           }
@@ -777,7 +777,7 @@ export class MarkAttendanceComponent implements OnInit {
         this.isRippleLoad = false;
         let msg = {
           type: 'success',
-          title: 'Attendance Updated Successfully',
+          title: 'Attendance updated successfully',
           body: res.message
         }
         this.appC.popToast(msg);
@@ -789,7 +789,7 @@ export class MarkAttendanceComponent implements OnInit {
         this.isRippleLoad = false;
         let msg = {
           type: 'error',
-          title: 'Failed To Update Attendance',
+          title: '',
           body: err.error.message
         }
         this.appC.popToast(msg);
@@ -900,7 +900,7 @@ export class MarkAttendanceComponent implements OnInit {
       res => {
         let msg = {
           type: 'success',
-          title: 'Attendance Updated',
+          title: 'Attendance updated',
           body: res.message
         }
         this.isRippleLoad = false;
@@ -910,7 +910,7 @@ export class MarkAttendanceComponent implements OnInit {
       err => {
         let msg = {
           type: 'error',
-          title: 'Failed To Update Attendance',
+          title: '',
           body: err.message
         }
         this.isRippleLoad = false;
@@ -1112,8 +1112,8 @@ export class MarkAttendanceComponent implements OnInit {
           this.isRippleLoad = false;
           let msg = {
             type: 'success',
-            title: 'Marked',
-            body: 'Attendance Marked Successfully'
+            title: '',
+            body: 'Attendance marked successfully'
           }
           this.appC.popToast(msg);
           this.backToHome();
@@ -1136,8 +1136,8 @@ export class MarkAttendanceComponent implements OnInit {
           this.isRippleLoad = false;
           let msg = {
             type: 'success',
-            title: 'Marked',
-            body: 'Attendance Marked Successfully'
+            title: '',
+            body: 'Attendance marked successfully'
           }
           this.appC.popToast(msg);
           this.backToHome();

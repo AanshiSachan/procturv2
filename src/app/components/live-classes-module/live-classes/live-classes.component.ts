@@ -559,7 +559,7 @@ export class LiveClassesComponent implements OnInit {
 
     this.service.rescheduleClass(this.rescheduleclass).subscribe(
       (data: any) => {
-        this.appC.popToast({ type: "success", body: "Class Reschedule Successfully" })
+        this.appC.popToast({ type: "success", body: "Class rescheduled successfully" })
         this.rescheduleClass = false;
         this.openClassPopup = false;
         this.rescheduleclass = {

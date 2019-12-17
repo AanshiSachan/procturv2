@@ -323,7 +323,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (!this.validInstituteCheck(res)) {
       this.route.navigateByUrl('/authPage');
       //console.log('Institute ID Not Found');
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, "Success Alert", "There is no access for Open User login in web..Kindly access the same through APP");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "There is no access for Open User login in web..Kindly access the same through APP");
       sessionStorage.clear();
       localStorage.clear();
       return
@@ -632,7 +632,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     //console.log("##### in Regenerate Method ######");
     //console.log(this.OTPRegenerateData);
     this.login.regenerateOTP(this.OTPRegenerateData).subscribe(el => {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'OTP sent successfully');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'OTP sent successfully');
 
       //console.log("OTP Regenerate Success");
       //console.log(el);
@@ -654,10 +654,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         forgotPasswordData.alternate_email_id = this.loginDataForm.alternate_email_id;
         this.login.forgotPassowrdServiceMethod(forgotPasswordData).subscribe(
           el => {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, this.messages.loginMsg.success.title, this.messages.loginMsg.success.body);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', this.messages.loginMsg.success.body);
           },
           err => {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error In Forget Password", err.error.message);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", err.error.message);
           })
       }
     }

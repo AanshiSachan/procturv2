@@ -278,7 +278,7 @@ export class CourseExamComponent implements OnInit {
     let start_time = moment(this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, 'comp'), 'h:mma');
     let end_time = moment(this.createTimeInFormat(this.batchAdderData.end_time.hour, this.batchAdderData.end_time.minute, 'comp'), 'h:mma');
     if (!(start_time.isBefore(end_time))) {
-      this.messageNotifier('error', '', 'Please provide correct start time and end time');
+      this.messageNotifier('error', '', 'Please enter correct start time and end time');
       return false;
     } else {
       obj.start_time = this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, '');
@@ -493,7 +493,7 @@ export class CourseExamComponent implements OnInit {
 
   cancelExamClassSchedule() {
     if (this.cancelPopUpData.reason.trim() == "" || null) {
-      this.messageNotifier('error', '', 'Please provide cancellation reason');
+      this.messageNotifier('error', '', 'Please enter cancellation reason');
       return;
     }
     let notify: any = "";
@@ -1894,7 +1894,7 @@ export class CourseExamComponent implements OnInit {
     let start_time = moment(this.createTimeInFormat(start.hour, start.minute, 'comp'), 'h:mma');
     let end_time = moment(this.createTimeInFormat(end.hour, end.minute, 'comp'), 'h:mma');
     if (!(start_time.isBefore(end_time))) {
-      this.messageNotifier('error', '', 'Please provide correct start time and end time');
+      this.messageNotifier('error', '', 'Please enter correct start time and end time');
       return false;
     } else {
       let duration = end_time.diff(start_time, 'minutes');
@@ -1906,7 +1906,7 @@ export class CourseExamComponent implements OnInit {
     let start_time = moment(this.createTimeInFormat(this.newExamData.startTimeHrs, this.newExamData.startTimeMins, 'comp'), 'h:mma');
     let end_time = moment(this.createTimeInFormat(this.newExamData.endTimeHrs, this.newExamData.endTimeMins, 'comp'), 'h:mma');
     if (!(start_time.isBefore(end_time))) {
-      this.messageNotifier('error', '', 'Please provide correct start time and end time');
+      this.messageNotifier('error', '', 'Please enter correct start time and end time');
       return false;
     } else {
       let duration = end_time.diff(start_time, 'minutes');

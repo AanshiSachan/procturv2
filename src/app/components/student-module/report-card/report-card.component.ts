@@ -148,11 +148,11 @@ export class ReportCardComponent implements OnInit {
     if (this.payLoad.name == "") {
         // if (this.isLangInstitue) {
       //   if (this.payLoad.standard_id == -1 && this.payLoad.subject_id == -1) {
-      //     this.messageToast('error', '', 'Please provide fields');
+      //     this.messageToast('error', '', 'Please enter fields');
       //     return false;
       //   }
       // } else {
-      //   this.messageToast('error', '', 'Please provide fields to search');
+      //   this.messageToast('error', '', 'Please enter fields to search');
       //   return false;
       // }
       obj.name = null;

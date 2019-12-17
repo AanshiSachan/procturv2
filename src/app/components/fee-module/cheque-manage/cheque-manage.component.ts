@@ -560,7 +560,7 @@ export class ChequeManageComponent implements OnInit {
 
   validatePaymentAmount(i) {
     if (parseInt(this.studentUnpaid[i].toPay) > parseInt(this.studentUnpaid[i].total_balance_amt)) {
-      this._msgService.showErrorMessage('info', "Invalid Payment Amount", "Amount cannot be greater than the total balance amount");
+      this._msgService.showErrorMessage('info', "", "Amount cannot be greater than the total balance amount");
       this.studentUnpaid[i].toPay = this.studentUnpaid[i].total_balance_amt;
     }
     else if (parseInt(this.studentUnpaid[i].toPay) == parseInt(this.studentUnpaid[i].total_balance_amt)) {

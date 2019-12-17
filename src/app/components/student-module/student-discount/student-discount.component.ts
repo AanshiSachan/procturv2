@@ -185,14 +185,14 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     onDiscountAmountChange(event) {
         event = Number(event)
         if (event < 0) {
-            this.commonService.showErrorMessage('error', 'Invalid Discount', 'Please provide valid discount');
+            this.commonService.showErrorMessage('error', 'Invalid Discount', 'Please enter valid discount');
             this.discountPopUpForm.value = 0;
             this.discountPopUpForm.discountAmount = 0;
             return
         }
         if (this.discountPopUpForm.type == "percentage") {
             if (event >= 100) {
-                this.commonService.showErrorMessage('error', 'Invalid Discount Percentage', 'Please provide valid discount percentage');
+                this.commonService.showErrorMessage('error', 'Invalid Discount Percentage', 'Please enter valid discount percentage');
                 this.discountPopUpForm.value = 0;
                 this.discountPopUpForm.discountAmount = 0;
                 return;

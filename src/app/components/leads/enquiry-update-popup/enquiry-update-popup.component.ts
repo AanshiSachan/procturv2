@@ -331,21 +331,21 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
       // Validate Walkin Time
       let walkinCheck = this.commonService.validateTimeAndMinute(this.updateFormData.walkin_followUpTime);
       if (walkinCheck == false) {
-        this.messageNotifier('error', '', 'Please provide valid walk-in time.');
+        this.messageNotifier('error', '', 'Please enter valid walk-in time.');
         return false;
       }
     }
     // Validate Follow Up Time
     let followUpCheck = this.commonService.validateTimeAndMinute(this.updateFormData.followUpTime);
     if (followUpCheck == false) {
-      this.messageNotifier('error', '', 'Please provide valid follow-up time.');
+      this.messageNotifier('error', '', 'Please enter valid follow-up time.');
       return false;
     }
 
     // Validate Closing Reason
     if (this.updateFormData.status == '1') {
       if (this.updateFormData.closing_reason_id == '0' || this.updateFormData.closing_reason_id == '-1') {
-        this.messageNotifier('error', '', 'Please provide closing reason');
+        this.messageNotifier('error', '', 'Please enter closing reason');
         return false;
       }
     }
@@ -371,13 +371,13 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
       if (this.updateFormData.follow_type == "Walkin") {
         // Validate Walkin Date
         if (this.updateFormData.walkin_followUpDate == "") {
-          this.messageNotifier('error', '', 'Please provide walkin date for follow up type walkin.');
+          this.messageNotifier('error', '', 'Please enter walkin date for follow up type walkin.');
           return false;
         }
 
         // Validate Walkin Time
         if (this.updateFormData.walkin_followUpTime.hour == "" && this.updateFormData.walkin_followUpTime.minute == "") {
-          this.messageNotifier('error', '', 'Please provide walkin time for follow up type walkin.');
+          this.messageNotifier('error', '', 'Please enter walkin time for follow up type walkin.');
           return false;
         }
       }

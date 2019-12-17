@@ -380,7 +380,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       if (this.batchData.batch_id != -1) {
         return true;
       } else {
-        this.messageToast('error', '', 'Please provide batch details');
+        this.messageToast('error', '', 'Please enter batch details');
         return false;
       }
     }
@@ -465,15 +465,15 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         res => {
           let msg = {
             type: 'success',
-            title: 'Reminder Sent',
-            body: 'The student have been notified'
+            title: '',
+            body: 'Student(s) has been notified'
           }
           this.toastCtrl.popToast(msg);
         },
         err => {
           let msg = {
             type: 'error',
-            title: 'Unable to Send Reminder',
+            title: '',
             body: 'please contact support@proctur.com'
           }
           this.toastCtrl.popToast(msg);
@@ -553,7 +553,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       let msg = {
         type: 'error',
         title: '',
-        body: 'Please provide correct time'
+        body: 'Please enter correct time'
       }
       this.toastCtrl.popToast(msg);
       return false;
@@ -605,7 +605,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         res => {
           let msg = {
             type: 'success',
-            title: 'Class Rescheduled',
+            title: '',
             body: 'The request has been processed'
           }
           this.toastCtrl.popToast(msg);
@@ -614,7 +614,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         err => {
           let msg = {
             type: 'error',
-            title: 'Failed To Reschedule',
+            title: '',
             body: err.message
           }
           this.toastCtrl.popToast(msg);
@@ -650,8 +650,8 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         else {
           let msg = {
             type: 'error',
-            title: 'Invalid Time',
-            body: 'Please provide a complete start and end time for rescheduling'
+            title: '',
+            body: 'Please enter a complete start and end time for rescheduling'
           }
           this.toastCtrl.popToast(msg);
           return false;
@@ -768,7 +768,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       res => {
         let msg = {
           type: 'success',
-          title: 'Course Schedule Cancelled',
+          title: '',
           body: 'The requested scheduled has been cancelled'
         }
         this.toastCtrl.popToast(msg);
@@ -777,7 +777,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       err => {
         let msg = {
           type: 'error',
-          title: 'Failed To Cancel Schedule',
+          title: '',
           body: err.cancelResponseMessage
         }
         this.toastCtrl.popToast(msg);
@@ -822,7 +822,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
 
   updateTeacher(data) {
     if (this.allotedTeacher == "-1" || this.allotedTeacher == null) {
-      this.messageToast('error', '', 'Please provide teacher');
+      this.messageToast('error', '', 'Please enter teacher');
       return false;
     } else {
       if (confirm('Are you sure you want to change the teacher?')) {
@@ -892,7 +892,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     let days: number = 0;
     days = moment(this.advanceFilter.enddate).diff(moment(this.advanceFilter.startdate), 'days');
     if (days > 31) {
-      this.messageToast('error', '', 'Please provide date range of 30 days only');
+      this.messageToast('error', '', 'Please enter date range of 30 days only');
       return false;
     } else {
       this.advanceFilter.startdate = moment(this.advanceFilter.startdate).format('YYYY-MM-DD');
@@ -900,24 +900,24 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     }
     if (this.isLangInstitute) {
       if (this.batchData.standard_id == -1) {
-        this.messageToast('error', '', 'Please provide Master Course');
+        this.messageToast('error', '', 'Please enter Master Course');
         return false;
       }
       if (this.batchData.subject_id == -1) {
-        this.messageToast('error', '', 'Please provide Course');
+        this.messageToast('error', '', 'Please enter Course');
         return false;
       }
       if (this.batchData.batch_id == -1) {
-        this.messageToast('error', '', 'Please provide Batch');
+        this.messageToast('error', '', 'Please enter Batch');
         return false;
       }
     } else {
       if (this.fetchMasterCourseModule.master_course == "-1") {
-        this.messageToast('error', '', 'Please provide Master Course');
+        this.messageToast('error', '', 'Please enter Master Course');
         return false
       }
       if (this.fetchMasterCourseModule.course_id == "-1") {
-        this.messageToast('error', '', 'Please provide Course');
+        this.messageToast('error', '', 'Please enter Course');
         return false;
       }
     }

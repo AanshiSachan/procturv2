@@ -189,8 +189,8 @@ export class ExamReportComponent implements OnInit {
           if (this.batchCourseData == null) {
             let obj = {
               type: "info",
-              title: "No Exam Schedule Found",
-              body: ""
+              title: "",
+              body: "No exam schedule found"
             }
             this.appC.popToast(obj);
             this.isRippleLoad = false;
@@ -214,8 +214,8 @@ export class ExamReportComponent implements OnInit {
           if (this.courseData == null) {
             let obj = {
               type: "info",
-              title: "No Exam Schedule Found",
-              body: ""
+              title: "",
+              body: "No exam schedule found"
             }
             this.appC.popToast(obj);
             this.isRippleLoad = false;
@@ -227,8 +227,8 @@ export class ExamReportComponent implements OnInit {
 
           let obj = {
             type: "error",
-            title: "Unable to Fetch Report",
-            body: "Please check your internet connection and if the issue persist contact support@proctur.com"
+            title: "",
+            body: "Please check your internet connection and if the issue persists then please contact to support@proctur.com"
           }
           this.appC.popToast(obj);
         }
@@ -252,8 +252,8 @@ export class ExamReportComponent implements OnInit {
           if (this.getSubjectData == null) {
             let obj = {
               type: "info",
-              title: "No Exam Schedule Found",
-              body: ""
+              title: "",
+              body: "No exam schedule found"
             }
             this.appC.popToast(obj);
 
@@ -272,8 +272,8 @@ export class ExamReportComponent implements OnInit {
         if (this.subjectData == null) {
           let obj = {
             type: "info",
-            title: "No Exam Schedule Found",
-            body: ""
+            title: "",
+            body: "No exam schedule found"
           }
           this.appC.popToast(obj);
           this.isRippleLoad = false;
@@ -302,8 +302,8 @@ export class ExamReportComponent implements OnInit {
       if (this.exam_Sch_Data == null) {
         let obj = {
           type: "info",
-          title: "No Exam Schedule Found",
-          body: ""
+          title: "",
+          body: "No exam schedule found"
         }
         this.appC.popToast(obj);
         this.isRippleLoad = false;
@@ -322,8 +322,8 @@ export class ExamReportComponent implements OnInit {
 
         let msg = {
           type: "error",
-          title: "Invalid Data Range Selected",
-          body: "All field must be filled"
+          title: "",
+          body: "All field(s) are required"
         }
         this.appC.popToast(msg);
         this.isRippleLoad = false;
@@ -375,7 +375,7 @@ export class ExamReportComponent implements OnInit {
             else {
               let msg = {
                 type: "info",
-                body: "No Data Found"
+                body: "No data found"
               }
               this.examSource = [];
 
@@ -399,8 +399,8 @@ export class ExamReportComponent implements OnInit {
 
         let msg = {
           type: "error",
-          title: "Invalid Data Range Selected",
-          body: "All fields must be filled"
+          title: "",
+          body: "All field(s) are required"
         }
 
         this.appC.popToast(msg);
@@ -452,7 +452,7 @@ export class ExamReportComponent implements OnInit {
             else {
               let msg = {
                 type: "info",
-                body: "No Data Found"
+                body: "No data found"
               }
               this.examSource = [];
               this.totalRecords = this.examSource.length;
@@ -478,7 +478,7 @@ export class ExamReportComponent implements OnInit {
       if (this.fetchFieldData.batch_id == "") {
         let msg = {
           type: "error",
-          body: "All field must be filled"
+          body: "All field(s) are required "
         }
         this.appC.popToast(msg);
         this.isRippleLoad = false;
@@ -501,7 +501,7 @@ export class ExamReportComponent implements OnInit {
               else {
                 let msg = {
                   type: "info",
-                  title: "No Data Found",
+                  title: "No data found",
                   body: ""
                 }
 
@@ -542,7 +542,7 @@ export class ExamReportComponent implements OnInit {
               else {
                 let msg = {
                   type: "info",
-                  title: "No Data Found",
+                  title: "No data found",
                   body: ""
                 }
                 this.appC.popToast(msg);

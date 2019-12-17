@@ -38,15 +38,15 @@ export class ChangePasswordComponent implements OnChanges {
 
   changeUserPassword() {
     if (this.changePass.oldPassword.trim() == "" || this.changePass.oldPassword.trim() == null) {
-      this.messageNotifier(this.msgService.toastTypes.error, '', 'Please provide old password');
+      this.messageNotifier(this.msgService.toastTypes.error, '', 'Please enter old password');
       return true;
     }
     if (this.changePass.newPassword.trim() == "" || this.changePass.newPassword.trim() == null) {
-      this.messageNotifier(this.msgService.toastTypes.error, '', 'Please provide new password');
+      this.messageNotifier(this.msgService.toastTypes.error, '', 'Please enter new password');
       return true;
     }
     if (this.changePass.confirmPassword.trim() == "" || this.changePass.confirmPassword == null) {
-      this.messageNotifier(this.msgService.toastTypes.error, '', 'Please provide password in confirm password');
+      this.messageNotifier(this.msgService.toastTypes.error, '', 'Please enter password in confirm password');
       return true;
     }
     if (this.changePass.newPassword.trim() != this.changePass.confirmPassword.trim()) {
@@ -63,7 +63,7 @@ export class ChangePasswordComponent implements OnChanges {
     }
     this.log.changePasswordService(dataToSend).subscribe(
       res => {
-        this.messageNotifier(this.msgService.toastTypes.success, 'Password Changed', 'Password Changed Successfully');
+        this.messageNotifier(this.msgService.toastTypes.success, '', 'Password changed successfully');
         this.closeChangePasswordPopup();
         if (this.log.logoutUser()) {
           this.router.navigateByUrl('/authPage');

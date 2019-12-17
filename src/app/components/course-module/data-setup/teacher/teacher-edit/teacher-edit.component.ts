@@ -167,21 +167,21 @@ export class TeacherEditComponent implements OnInit {
   addNewTeacherInfo() {
     let formData = this.editTeacherForm.value;
     if (!this.validateCaseSensitiveEmail(formData.teacher_email)) {
-      this.messageToast('error', '', 'Please provide valid email address.');
+      this.messageToast('error', '', 'Please enter valid email address.');
       return;
     }
     let phoneCheck = this.commonService.phonenumberCheck(formData.teacher_phone, this.maxlength,this.country_id);
     if (phoneCheck == false) {
-      this.messageToast('error', '', 'Please provide valid phone number.');
+      this.messageToast('error', '', 'Please enter valid contact number.');
       return;
     }
     if(phoneCheck == 'noNumber') {
-      this.messageToast('error', '', 'Phone Number Is Mandatory');
+      this.messageToast('error', '', 'Please enter valid contact no.');
       return
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
       if (!(this.commonService.phonenumberCheck(formData.teacher_alt_phone, this.maxlength,this.country_id))) {
-        this.messageToast('error', '', 'Please provide valid alternate phone number.');
+        this.messageToast('error', '', 'Please enter valid alternate phone number.');
         return;
       }
     }
@@ -238,21 +238,21 @@ export class TeacherEditComponent implements OnInit {
   saveTeacherInfo() {
     let formData = this.editTeacherForm.value;
     if (!this.validateCaseSensitiveEmail(formData.teacher_email)) {
-      this.messageToast('error', '', 'Please provide valid email address.');
+      this.messageToast('error', '', 'Please enter valid email address.');
       return;
     }
     let phoneCheck = this.commonService.phonenumberCheck(formData.teacher_phone, this.maxlength,this.country_id);
     if (phoneCheck == false) {
-      this.messageToast('error', '', 'Please provide valid phone number.');
+      this.messageToast('error', '', 'Please enter valid contact number.');
       return;
     }
     if(phoneCheck == 'noNumber') {
-      this.messageToast('error', '', 'Phone Number Is Mandatory');
+      this.messageToast('error', '', 'Please enter valid contact no.');
       return;
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
       if (!(this.commonService.phonenumberCheck(formData.teacher_alt_phone, this.maxlength,this.country_id))) {
-        this.messageToast('error', '', 'Please provide valid alternate phone number.');
+        this.messageToast('error', '', 'Please enter valid alternate phone number.');
         return;
       }
     }

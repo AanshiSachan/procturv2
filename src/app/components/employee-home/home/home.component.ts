@@ -210,7 +210,7 @@ export class HomeComponent implements OnInit {
 
   saveNewMessage() {
     if (this.addNewMessageText.trim() == "") {
-      this.messageNotifier('error', '', "Please provide text");
+      this.messageNotifier('error', '', "Please enter text");
       return;
     } else {
       if (this.addNewMessageText.length > 500) {
@@ -348,7 +348,7 @@ export class HomeComponent implements OnInit {
         }
         this.apiService.sendNotificationToUser(obj).subscribe(
           res => {
-            this.messageNotifier('success', 'SMS Send Successfully', '');
+            this.messageNotifier('success', 'SMS Sent successfully', '');
             this.closePopup();
           }
         )

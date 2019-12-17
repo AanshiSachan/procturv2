@@ -326,7 +326,7 @@ export class FeeTemplateAddComponent implements OnInit {
     }
     if (this.addNewTemplate.is_default_template) {
       if (this.addNewTemplate.master_course_name == "" || this.addNewTemplate.course_id == -1) {
-        this.commonService.showErrorMessage('error', '', 'Please provide Master Course and Course to use is default template.');
+        this.commonService.showErrorMessage('error', '', 'Please enter Master Course and Course to use is default template.');
         return false;
       }
     }

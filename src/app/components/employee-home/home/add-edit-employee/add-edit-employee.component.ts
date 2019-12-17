@@ -273,49 +273,49 @@ export class AddEditEmployeeComponent implements OnInit {
 
   makeJsonToSend(data) {
     if (data.emp_name.trim() == "" || data.emp_name.trim() == null) {
-      this.messageNotifier('error', '', 'Please provide Employee Name');
+      this.messageNotifier('error', '', 'Please enter Employee Name');
       return false;
     }
     if (data.phone_pro.trim() == "" || data.phone_pro.trim() == null) {
-      this.messageNotifier('error', '', 'Please provide contact number');
+      this.messageNotifier('error', '', 'Please enter contact number');
       return false;
     } else {
       if (!this.validateNumber(data.phone_pro)) {
-        this.messageNotifier('error', '', 'Please provide correct contact number');
+        this.messageNotifier('error', '', 'Please enter correct contact number');
         return false;
       }
     }
     if (data.email_pri.trim() != "" && data.email_pri.trim() == null) {
       if (!this.validateCaseSensitiveEmail(data.email_pri)) {
-        this.messageNotifier('error', '', 'Please provide correct email');
+        this.messageNotifier('error', '', 'Please enter correct email');
         return false;
       }
     }
     if (data.dob == "" || data.dob == null) {
-      this.messageNotifier('error', '', 'Please provide date of birth');
+      this.messageNotifier('error', '', 'Please enter date of birth');
       return false;
     }
     if (data.emp_type == '2') {
       if (data.role_id == '-1') {
-        this.messageNotifier('error', '', 'Please provide role');
+        this.messageNotifier('error', '', 'Please enter role');
         return false;
       }
     } else {
       data.role_id = "";
     }
     if (data.joining_date == "" || data.joining_date == null) {
-      this.messageNotifier('error', '', 'Please provide joining date');
+      this.messageNotifier('error', '', 'Please enter joining date');
       return false;
     }
     if (data.aadhar_card_no != "" && data.aadhar_card_no != null) {
       if (data.aadhar_card_no.trim().length != 12) {
-        this.messageNotifier('error', '', 'Please provide valid aadhar card number');
+        this.messageNotifier('error', '', 'Please enter valid aadhar card number');
         return false;
       }
     }
     if (data.pan_card_no != "" && data.pan_card_no != null) {
       if (data.pan_card_no.trim().length != 10) {
-        this.messageNotifier('error', '', 'Please provide valid PAN card number');
+        this.messageNotifier('error', '', 'Please enter valid PAN card number');
         return false;
       }
     }
@@ -426,7 +426,7 @@ export class AddEditEmployeeComponent implements OnInit {
     let obj: any = {};
     if (data.salary_type == "1") {
       if (Number(data.basic) == 0 || Number(data.basic) < 0) {
-        this.messageNotifier('error', '', 'Please provide basic salary');
+        this.messageNotifier('error', '', 'Please enter basic salary');
         return false;
       }
       obj = {
@@ -446,7 +446,7 @@ export class AddEditEmployeeComponent implements OnInit {
       }
     } else {
       if (Number(data.class_hour_rate) == 0 || Number(data.class_hour_rate) < 0) {
-        this.messageNotifier('error', '', 'Please provide hourly class rate');
+        this.messageNotifier('error', '', 'Please enter hourly class rate');
         return false;
       }
       obj = {
@@ -712,7 +712,7 @@ export class AddEditEmployeeComponent implements OnInit {
     let start_Time = moment(this.breakTimeIntoHrMin(startTime.hr, startTime.minute), 'h:mma');
     let end_Time = moment(this.breakTimeIntoHrMin(endTime.hr, endTime.minute), 'h:mma');
     if (!(start_Time.isBefore(end_Time))) {
-      this.messageNotifier('error', '', 'Please provide correct start time and end time');
+      this.messageNotifier('error', '', 'Please enter correct start time and end time');
       return false;
     }
   }
