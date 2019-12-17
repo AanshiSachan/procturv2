@@ -279,7 +279,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.OTPVerification(res);
         break;
       case 4:
-        this.alternateLoginFailure();
+        this.alternateLoginFailure(res.login_error_message);
         break;
       case 3:
         this.alternateLoginSuccess(res);
@@ -299,8 +299,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   //End - 1
 
   //if login is fails ( Start - 2)
-  alternateLoginFailure() {
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.notRegister.title, this.messages.loginMsg.notRegister.body);
+  alternateLoginFailure(obj) {
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', obj);
   }
   //End -2
 

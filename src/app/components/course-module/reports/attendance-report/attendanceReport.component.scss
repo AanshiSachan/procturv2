@@ -150,13 +150,20 @@ $color-highlight: lighten($color-base, 7%);
         .form-btn{
             .btn{
                 margin:0px 10px;
+                // margin:0px;
             }
         }
         .inner-btn {
             display: inline-block;
+            // width: auto;
+            // padding-left: 20px;
+            // padding-right: 20px;
         }
         .outer-btn {
             display: inline-block;
+            // width: auto;
+            // padding-left: 20px;
+            // padding-right: 20px;
         }
     }
     .records {
