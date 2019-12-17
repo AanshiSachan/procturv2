@@ -205,7 +205,7 @@ export class AddClassComponent implements OnInit {
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
     }
     if(new Date(proctur_live_expiry_date)<new Date(event) && new Date(proctur_live_expiry_date)!=new Date(event)){
-      const tempMsg = 'Your live class subscription is over on '.concat(proctur_live_expiry_date).concat('. So you cannot create live class after expiry date');
+      const tempMsg = 'Your live class subscription got expired on '.concat(proctur_live_expiry_date).concat(' hence you will not be able create live class! Renew your subscription to conduct live classes again!');
       this.msgService.showErrorMessage('info','' , tempMsg);
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
     }
