@@ -1508,7 +1508,7 @@
                   disabled="true" style="height: 29px;padding: 0">
                   <option value=""></option>
                   <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                    {{data.country_calling_code}} - {{data.country_name}}
+                   {{data.country_name}}
                   </option>
                 </select>
                 </div>
@@ -1556,12 +1556,12 @@
               <li>Clearing Date</li>
               <li>Cheque Amount<span class="text-danger" style="padding: 7px 30px 7px 2px;">*</span></li>
               <li>Status</li>
-              <li>Action</li>
+              <li style="width: 11%;">Action</li>
             </ul>
 
             <div class="table-data" *ngIf="chequePdcList.length != 0">
               <ul class="table-row displayComp" [id]='ch.student_id +ch.cheque_id' *ngFor="let ch of chequePdcList; let i = index;">
-                <li>
+                <li style="width: 4%;">
                   <div class="field-checkbox-wrapper">
                     <input type="checkbox" name="pdcGen" class="form-checkbox" [(ngModel)]="ch.uiSelected" id="pdcEditlist{{i}}">
                     <label for="pdcEditlist{{i}}"></label>
