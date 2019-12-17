@@ -219,7 +219,7 @@ export class SearchBoxComponent implements OnInit, OnChanges {
             this.closeSearch.emit(false);
             this.closeMenu.emit(false);
             if(res.document!=""){
-              let byteArr = this.convertBase64ToArray(res.document);
+              let byteArr = this.commonService.convertBase64ToArray(res.document);
               let fileName = res.docTitle;
               let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
               let url = URL.createObjectURL(file);
@@ -239,14 +239,4 @@ export class SearchBoxComponent implements OnInit, OnChanges {
           }
         )
        }
-    
-       convertBase64ToArray(val) {
-        var binary_string = window.atob(val);
-        var len = binary_string.length;
-        var bytes = new Uint8Array(len);
-        for (var i = 0; i < len; i++) {
-          bytes[i] = binary_string.charCodeAt(i);
-        }
-        return bytes.buffer;
-      }
 }

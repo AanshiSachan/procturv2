@@ -5,6 +5,7 @@ import { MessageShowService } from '../../../../../services/message-show.service
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { CourseListService } from '../../../../../services/course-services/course-list.service';
 import { ExamService } from '../../../../../services/report-services/exam.service';
+import { CommonServiceFactory } from '../../../../../services/common-service';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class ExamWiseComponent implements OnInit {
     private courseList: CourseListService,
     private auth: AuthenticatorService,
     private msgService: MessageShowService,
+    private commonService: CommonServiceFactory
   ) {}
 
   ngOnInit() {
@@ -79,16 +81,6 @@ export class ExamWiseComponent implements OnInit {
     );
   }
 
-  convertBase64ToArray(val) {
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-  }
-
   downloadReportCard() {
     this.examdata.downloadExamReport(this.exam_schd_id,this.examSchdlType).subscribe(
       (res:any) => {
@@ -96,7 +88,7 @@ export class ExamWiseComponent implements OnInit {
         if(res){
           // let resp = res.response;
           if(res.document!=""){
-            let byteArr = this.convertBase64ToArray(res.document);
+            let byteArr = this.commonService.convertBase64ToArray(res.document);
             let fileName = 'report.pdf'; //res.docTitle;
             let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
             let url = URL.createObjectURL(file);

@@ -26,7 +26,7 @@
                 <div class="row">
 
                     <!-- Master Course / Standard  -->
-                    <div class="c-lg-4">
+                    <div class="c-lg-4" style="width: 28%;">
                         <div class="form-wrapper" *ngIf=!isProfessional>
                             <label>Master Course</label>
                             <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.master_course_name" (ngModelChange)="getCourseData($event)"
@@ -45,7 +45,7 @@
                     </div>
 
                     <!-- Standard/ Subject -->
-                    <div class="c-lg-4">
+                    <div class="c-lg-4" style="width: 28%;">
                         <div class="form-wrapper" *ngIf=!isProfessional>
                             <label> Course</label>
                             <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.course_id" (ngModelChange)="getSubjectData($event)">
@@ -64,7 +64,7 @@
 
                     </div>
 
-                    <div class="c-lg-4">
+                    <div class="c-lg-4" style="width: 28%;">
                         <div class="form-wrapper" *ngIf=!isProfessional>
                             <label>Subject</label>
                             <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.batch_id" (ngModelChange)="getBatchData($event)">
@@ -85,7 +85,7 @@
 
                 <div class="row">
 
-                    <div class="c-lg-4">
+                    <div class="c-lg-4" style="width: 28%;">
                         <div class="form-date form-wrapper datePickerBox" *ngIf="!isProfessional">
                             <label>From date</label>
                             <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.from_date" (ngModelChange)="futureDateValid($event)"
@@ -101,7 +101,7 @@
                         </div>
                     </div>
 
-                    <div class="c-lg-4">
+                    <div class="c-lg-4" style="width: 29%;">
                         <div class="form-date form-wrapper datePickerBox" *ngIf="!isProfessional">
                             <label>To date</label>
                             <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.to_date" (ngModelChange)="futureDateValid($event)"
@@ -116,7 +116,7 @@
                             <i style="float:right;  color:blue;" (click)="clearToDate()" class="showCursor">Clear</i>
                         </div>
                     </div>
-                    <div class="c-lg-4 inner-main">
+                    <div class="c-lg-4 inner-main" style="width: 42%;">
                         <div class="form-btn">
                             <div *ngIf="!isProfessional">
                                 <div class="c-lg-6 inner-btn">
@@ -136,6 +136,12 @@
                             <div *ngIf="!isProfessional">
                                 <div class="c-lg-6 outer-btn">
                                     <button class="btn fullBlue" (click)="postDetails()">Detail Report</button>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="c-lg-6 outer-btn" style="padding-right: 0;">
+                                    <button class="btn fullBlue" (click)="downloadReport()">Download Report</button>
+                                    <a id="downloadFileClick"></a>
                                 </div>
                             </div>
                         </div>
