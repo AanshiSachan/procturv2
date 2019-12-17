@@ -5,11 +5,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --environment=dev",
+    "build": "ng build --environment=dev --output-hashing",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "prod": "ng build --prod --aot=false --environment=prod --named-chunks --output-hashing=false  --base-href ./"
+    "prod": "ng build --prod --aot=false --environment=prod --named-chunks --output-hashing  --base-href ./"
   },
   "private": true,
   "dependencies": {
