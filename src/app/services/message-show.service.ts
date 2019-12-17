@@ -23,7 +23,7 @@ export class MessageShowService {
       saveSMS: "SMS Template saved",
       failSMS: "Failed To Edit SMS Template",
       notSend: 'Unable To Send SMS',
-      sendSMS: 'Test Message Send Successfully!',
+      sendSMS: 'Test Message Sent successfully!',
       blankSMS: "Cannot Send Blank SMS",
       addNewSMS: "New SMS Added",
       notMultiSMS: 'Cannot Send Multiple Test SMS',
@@ -68,7 +68,7 @@ export class MessageShowService {
       invalidType: "Invalid File Type",
       uploaded: "File uploaded successfully!",
       sameName: "Name already exist",
-      mandatoryInfo: "Please provide mandatory information"
+      mandatoryInfo: "Please enter mandatory information"
     },
     batchMsg: {
       notSelect: "Batch Not Selected",
@@ -78,7 +78,7 @@ export class MessageShowService {
     },
     loginMsg: {
       invalid: {
-        title: "Invalid Input",
+        title: "",
         body: "Please specify Email ID/Phone No"
       },
       invalidPass: {

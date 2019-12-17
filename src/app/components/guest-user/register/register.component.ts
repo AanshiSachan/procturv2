@@ -137,25 +137,25 @@ export class RegisterComponent implements OnInit {
 
               }
               else {
-                this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "Password should be same  ");
+                this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Password should be same  ");
               }
             }
             else {
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "Password must be atleast 5 characters long");
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Password must be atleast 5 characters long");
             }
           } else {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "Please enter 10 digit mobile number");
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Please enter 10 digit mobile number");
           }
         } else {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "Please enter valid email id");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Please enter valid email id");
         }
       }
       else {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "Please enter name");
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Please enter name");
       }
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "Please fill the details");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Please fill the details");
     }
 
   }

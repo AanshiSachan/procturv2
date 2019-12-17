@@ -170,21 +170,21 @@ export class TeacherEditComponent implements OnInit {
   addNewTeacherInfo() {
     let formData = this.editTeacherForm.value;
     if (!this.validateCaseSensitiveEmail(formData.teacher_email)) {
-      this.messageToast('error', '', 'Please provide valid email address.');
+      this.messageToast('error', '', 'Please enter valid email address.');
       return;
     }
     let phoneCheck = this.commonService.phonenumberCheck(formData.teacher_phone, this.maxlength,this.country_id);
     if (phoneCheck == false) {
-      this.messageToast('error', '', 'Please provide valid phone number.');
+      this.messageToast('error', '', 'Please enter valid contact number.');
       return;
     }
     if(phoneCheck == 'noNumber') {
-      this.messageToast('error', '', 'Phone Number Is Mandatory');
+      this.messageToast('error', '', 'Please enter valid contact no.');
       return
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
       if (!(this.commonService.phonenumberCheck(formData.teacher_alt_phone, this.maxlength,this.country_id))) {
-        this.messageToast('error', '', 'Please provide valid alternate phone number.');
+        this.messageToast('error', '', 'Please enter valid alternate phone number.');
         return;
       }
     }
@@ -220,7 +220,7 @@ export class TeacherEditComponent implements OnInit {
     formData.country_id = this.instituteCountryDetObj.id;
     this.ApiService.addNewTeacherDetails(formData).subscribe(
       data => {
-        this.messageToast('success', 'Added', 'Faculty Added Successfully.');
+        this.messageToast('success', '', 'Faculty added successfully.');
         this.route.navigateByUrl('/view/teacher');
       },
       err => {
@@ -241,21 +241,21 @@ export class TeacherEditComponent implements OnInit {
   saveTeacherInfo() {
     let formData = this.editTeacherForm.value;
     if (!this.validateCaseSensitiveEmail(formData.teacher_email)) {
-      this.messageToast('error', '', 'Please provide valid email address.');
+      this.messageToast('error', '', 'Please enter valid email address.');
       return;
     }
     let phoneCheck = this.commonService.phonenumberCheck(formData.teacher_phone, this.maxlength,this.country_id);
     if (phoneCheck == false) {
-      this.messageToast('error', '', 'Please provide valid phone number.');
+      this.messageToast('error', '', 'Please enter valid contact number.');
       return;
     }
     if(phoneCheck == 'noNumber') {
-      this.messageToast('error', '', 'Phone Number Is Mandatory');
+      this.messageToast('error', '', 'Please enter valid contact no.');
       return;
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
       if (!(this.commonService.phonenumberCheck(formData.teacher_alt_phone, this.maxlength,this.country_id))) {
-        this.messageToast('error', '', 'Please provide valid alternate phone number.');
+        this.messageToast('error', '', 'Please enter valid alternate phone number.');
         return;
       }
     }
@@ -299,7 +299,7 @@ export class TeacherEditComponent implements OnInit {
     }
     this.ApiService.saveEditTeacherInformation(this.selectedTeacherInfo.teacher_id, formData).subscribe(
       data => {
-        this.messageToast('success', 'Updated', 'Details Updated Successfully.');
+        this.messageToast('success', 'Updated', 'Details Updated successfully.');
         if (sessionStorage.getItem('userType') == '3') {
           this.route.navigateByUrl('/view/home/admin');
         } else {

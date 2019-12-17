@@ -475,11 +475,11 @@ export class TemplateHomeComponent implements OnInit {
       }
     } else {
       if (this.AddInstallment.initial_fee_amount == null || this.AddInstallment.initial_fee_amount == 0) {
-        this.commonService.showErrorMessage('error', '', 'Please provide Amount');
+        this.commonService.showErrorMessage('error', '', 'Please enter Amount');
         return;
       }
       if (this.AddInstallment.days == null) {
-        this.commonService.showErrorMessage('error', '', 'Please provide days/month');
+        this.commonService.showErrorMessage('error', '', 'Please enter days/month');
         return;
       }
     }
@@ -489,7 +489,7 @@ export class TemplateHomeComponent implements OnInit {
 
   addAdditionalInst() {
     if (this.additionalInstallment.fee_type == -1) {
-      this.commonService.showErrorMessage('error', '', 'Please provide fee type');
+      this.commonService.showErrorMessage('error', '', 'Please enter fee type');
       return;
     }
     if (Number(this.additionalInstallment.initial_fee_amount) > 0 && this.additionalInstallment.days != null) {
@@ -520,11 +520,11 @@ export class TemplateHomeComponent implements OnInit {
       }
     } else {
       if (this.additionalInstallment.initial_fee_amount == 0 || this.additionalInstallment.initial_fee_amount == null) {
-        this.commonService.showErrorMessage('error', '', 'Please provide Amount');
+        this.commonService.showErrorMessage('error', '', 'Please enter Amount');
         return;
       }
       if (this.additionalInstallment.days == null) {
-        this.commonService.showErrorMessage('error', '', 'Please provide days');
+        this.commonService.showErrorMessage('error', '', 'Please enter days');
         return;
       }
     }

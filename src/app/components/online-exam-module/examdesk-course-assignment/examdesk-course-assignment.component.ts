@@ -283,7 +283,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     this.apiService.assignStudentToCourse(obj, this.tempData.course_type_id).subscribe(
       res => {
         this.isRippleLoad = false;
-        this.messageNotifier('success', 'Student Assigned Successfully', '');
+        this.messageNotifier('success', 'Student assigned successfully', '');
         this.fetchCoursesList();
         this.closePopup();
       },

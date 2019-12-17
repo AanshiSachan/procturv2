@@ -481,7 +481,7 @@ export class InstituteSettingsComponent implements OnInit {
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', '', 'Please provide valid phone number.');
+        this.commonService.showErrorMessage('error', '', 'Please enter valid contact number.');
         return;
       }
     }
@@ -516,7 +516,7 @@ export class InstituteSettingsComponent implements OnInit {
     obj.new_student_addmission_email_notification = this.instituteSettingDet.new_student_addmission_email_notification;
     obj.new_student_addmission_sms_notification = this.instituteSettingDet.new_student_addmission_sms_notification;
     if (this.checkPhoneValidation(this.instituteSettingDet.new_student_addmission_sms_notification) == false) {
-      this.commonService.showErrorMessage('error', '', 'Please provide valid phone number.');
+      this.commonService.showErrorMessage('error', '', 'Please enter valid contact number.');
     } else {
       return obj;
     }

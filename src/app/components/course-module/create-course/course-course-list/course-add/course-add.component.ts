@@ -155,7 +155,7 @@ export class CourseAddComponent implements OnInit {
         let err = {
           type: "error",
           title: "Date Selection",
-          body: "Please provide valid dates."
+          body: "Please enter valid dates."
         }
         this.toastCtrl.popToast(err);
         return
@@ -278,14 +278,14 @@ export class CourseAddComponent implements OnInit {
       if (this.mainArrayForTable[i].start_Date != "" && this.mainArrayForTable[i].start_Date != null && this.mainArrayForTable[i].start_Date != "Invalid date") {
         test.start_date = moment(this.mainArrayForTable[i].start_Date).format('YYYY-MM-DD');
       } else {
-        this.toastCtrl.popToast({ type: "error", title: "Date Error", body: "Please provide start date" });
+        this.toastCtrl.popToast({ type: "error", title: "Date Error", body: "Please enter start date" });
         return false;
       }
 
       if (this.mainArrayForTable[i].end_Date != "" && this.mainArrayForTable[i].end_Date != null && this.mainArrayForTable[i].end_Date != "Invalid date") {
         test.end_date = moment(this.mainArrayForTable[i].end_Date).format('YYYY-MM-DD');
       } else {
-        this.toastCtrl.popToast({ type: "error", title: "Date Error", body: "Please provide end date" });
+        this.toastCtrl.popToast({ type: "error", title: "Date Error", body: "Please enter end date" });
         return false;
       }
 
@@ -313,7 +313,7 @@ export class CourseAddComponent implements OnInit {
           let err = {
             type: "error",
             title: '',
-            body: "Please provide teacher for the subject."
+            body: "Please enter teacher for the subject."
           }
           this.toastCtrl.popToast(err);
           return false;
@@ -377,7 +377,7 @@ export class CourseAddComponent implements OnInit {
         let err = {
           type: "error",
           title: "Date Selection",
-          body: "Please provide valid dates."
+          body: "Please enter valid dates."
         }
         this.toastCtrl.popToast(err);
         return

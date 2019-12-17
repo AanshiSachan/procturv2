@@ -49,16 +49,16 @@ export class TeacherAddComponent implements OnInit {
   addNewTeacherInfo() {
     let formData = this.addTeacherForm.value;
     if (!this.validateCaseSensitiveEmail(formData.teacher_email)) {
-      this.messageToast('error', '', 'Please provide valid email address.');
+      this.messageToast('error', '', 'Please enter valid email address.');
       return;
     }
     if (!(this.validateNumber(formData.teacher_phone))) {
-      this.messageToast('error', '', 'Please provide valid phone number.');
+      this.messageToast('error', '', 'Please enter valid contact number.');
       return;
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
       if (!(this.validateNumber(formData.teacher_alt_phone))) {
-        this.messageToast('error', '', 'Please provide valid alternate phone number.');
+        this.messageToast('error', '', 'Please enter valid alternate phone number.');
         return;
       }
     }

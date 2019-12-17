@@ -221,7 +221,7 @@ export class ScheduleHomeComponent implements OnInit {
           this.isRippleLoad = false;
           let data = {
             type: "success",
-            title: "Success",
+            title: '',
             body: "Deleted Successfully"
           }
           this.toastCtrl.popToast(data);

@@ -128,7 +128,7 @@ export class EcourseListComponent implements OnInit {
       this.isRippleLoad = false;
       this.categiesList = res;
       if (this.categiesList.length == 0) {
-        this.outputMessage = 'No Data Found';
+        this.outputMessage = 'No data found';
       }
 
     }, err => {

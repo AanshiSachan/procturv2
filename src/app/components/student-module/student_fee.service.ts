@@ -416,11 +416,11 @@ export class StudentFeeService {
 
     validatePaymentDetails(data) {
         if (Number(data.payingAmount) <= 0) {
-            this.commonService.showErrorMessage('error', 'Paying Amount', 'Please provide payment amount');
+            this.commonService.showErrorMessage('error', 'Paying Amount', 'Please enter payment amount');
             return false;
         }
         if (data.paid_date == null || data.paid_date == "") {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide payment date');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter payment date');
             return false;
         }
         if (sessionStorage.getItem('permissions')) {
@@ -440,18 +440,18 @@ export class StudentFeeService {
         }
 
         if (data.payment_mode == "" || data.payment_mode == null) {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide payment date');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter payment date');
             return false;
         }
         if (data.payingAmount > data.immutableAmount) {
-            this.commonService.showErrorMessage('error', '', 'Please provide paying amount less than total amount to pay.');
+            this.commonService.showErrorMessage('error', '', 'Please enter paying amount less than total amount to pay.');
             return false;
         }
         if (data.payment_mode != "Cheque/PDC/DD No.") {
             return true;
         } else {
             if (data.payingAmount != data.pdcSelectedForm.cheque_amount) {
-                this.commonService.showErrorMessage('error', '', 'Please provide paying amount equals to cheque amount');
+                this.commonService.showErrorMessage('error', '', 'Please enter paying amount equals to cheque amount');
                 return false;
             } else {
                 return this.validateChequePDCJSon(data.pdcSelectedForm);
@@ -461,22 +461,22 @@ export class StudentFeeService {
 
     validateChequePDCJSon(data) {
         if (data.bank_name.trim() == '') {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide Bank Name');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter Bank Name');
             return false;
         }
 
         if (data.cheque_date == null || data.cheque_date == "") {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide Cheque Date');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter Cheque Date');
             return false;
         }
 
         if (data.cheque_no.trim() == "") {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide a Cheque Number');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter a Cheque Number');
             return false;
         }
 
         if (data.cheque_no.trim().length != 6) {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide a valid Cheque Number');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter a valid Cheque Number');
             return false;
         }
 
@@ -698,7 +698,7 @@ export class StudentFeeService {
     checkDiscountValidations(discountJson, amount, condition) {
 
         if (Number(discountJson.discountAmount) <= 0) {
-            this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Please provide valid discount amount');
+            this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Please enter valid discount amount');
             return false;
         }
 
@@ -721,7 +721,7 @@ export class StudentFeeService {
         }
 
         if (discountJson.reason == '-1') {
-            this.commonService.showErrorMessage('error', 'Discount Reason', 'Please provide discount reason');
+            this.commonService.showErrorMessage('error', 'Discount Reason', 'Please enter discount reason');
             return false;
         }
 

@@ -644,12 +644,12 @@ export class ClassComponent implements OnInit {
   rescheduleClass() {   // Reschdule Class
 
     if (this.reschedReason == null || this.reschedReason == "") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please provide reschedule reason');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter reschedule reason');
       return;
     }
 
     if (moment().format('YYYY-MM-DD') > moment(this.reschedDate).format('YYYY-MM-DD')) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please provide future reschedule date');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter future reschedule date');
       return;
     }
 
@@ -693,13 +693,13 @@ export class ClassComponent implements OnInit {
       this.widgetService.reScheduleClass(obj).subscribe(
         res => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Class Rescheduled', 'The request has been processed');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'The request has been processed');
           this.closeRescheduleClass();
           this.getData();
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Reschedule', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
     } else {
@@ -710,7 +710,7 @@ export class ClassComponent implements OnInit {
 
   checkIfTimeProvided(data) {
     if (data == "" || data == null) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please provide correct time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct time');
       return false;
     } else {
       return true;
@@ -761,7 +761,7 @@ export class ClassComponent implements OnInit {
           return true;
         }
         else {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Invalid Time', 'Please provide a complete start and end time for rescheduling');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter a complete start and end time for rescheduling');
           return false;
         }
       }
@@ -805,7 +805,7 @@ export class ClassComponent implements OnInit {
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Notify', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
   }
@@ -856,13 +856,13 @@ export class ClassComponent implements OnInit {
     this.widgetService.cancelClassSchedule(obj).subscribe(
       res => {
         // this.jsonFlag.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Schedule Cancelled', 'The requested scheduled has been cancelled');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'The requested scheduled has been cancelled');
         this.closeCancelClass();
         this.getData();
       },
       err => {
         // this.jsonFlag.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Cancel Schedule', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
@@ -897,20 +897,20 @@ export class ClassComponent implements OnInit {
     this.widgetService.cancelCourseSchedule(obj).subscribe(
       res => {
         // this.jsonFlag.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Course Schedule Cancelled', 'The requested scheduled has been cancelled');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Course ', 'The requested scheduled has been cancelled');
         this.closeCourseCancelClass();
         this.getData();
       },
       err => {
         // this.jsonFlag.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Cancel Schedule', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
 
   cancelBatchClass() {
     if (this.cancellationReason == "" || this.cancellationReason == null) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Cancellation Reason', 'Please provide cancellation reason');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Cancellation Reason', 'Please enter cancellation reason');
       return;
     }
     let obj = {
@@ -921,13 +921,13 @@ export class ClassComponent implements OnInit {
     this.widgetService.cancelBatchSchedule(obj).subscribe(
       res => {
         this.jsonFlag.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Batch Schedule Cancelled', 'The requested scheduled has been cancelled');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Batch ', 'The requested scheduled has been cancelled');
         this.closeCourseCancelClass();
         this.getData();
       },
       err => {
         this.jsonFlag.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Cancel Schedule', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
@@ -973,7 +973,7 @@ export class ClassComponent implements OnInit {
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Notify', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
     }

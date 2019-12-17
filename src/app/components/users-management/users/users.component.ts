@@ -112,7 +112,7 @@ export class UsersComponent implements OnInit {
       }
       this.apiService.sendSmS(data).subscribe(
         res => {
-          this.messageNotifier('success', 'Send Successfully', 'SMS Sent Successfully');
+          this.messageNotifier('success', 'Sent successfully', 'SMS Sent Successfully');
         },
         err => {
           console.log(err);

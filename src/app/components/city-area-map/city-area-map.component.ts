@@ -77,7 +77,7 @@ export class CityAreaMapComponent implements OnInit {
       }
       this.apiService.saveNewCity(obj).subscribe(
         res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success,"Success","Added Successfully");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success,'',"Added Successfully");
           this.getCityAreaList();
           this.toggleCreateNewSlot();
         },
@@ -87,7 +87,7 @@ export class CityAreaMapComponent implements OnInit {
         }
       )
     } else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error,'',"Please provide city name");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error,'',"Please enter city name");
     }
   }
 

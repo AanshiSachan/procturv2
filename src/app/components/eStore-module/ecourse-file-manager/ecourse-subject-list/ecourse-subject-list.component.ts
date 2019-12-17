@@ -190,7 +190,7 @@ export class EcourseSubjectListComponent implements OnInit {
 
       }
       if (this.subjectList.length == 0) {
-        this.outputMessage = 'No Data Found';
+        this.outputMessage = 'No data found';
       }
       this.subjectList = array;
     }, err => {
@@ -220,7 +220,7 @@ export class EcourseSubjectListComponent implements OnInit {
       this.isRippleLoad = false;
       subject.subTopics = res;
       if (subject.subTopics.length == 0) {
-        this.outputMessage = 'No Data Found';
+        this.outputMessage = 'No data found';
       } else {
         subject.subTopics.forEach(element => {
           element.parent_topic_name = subject.topic_id == '-1' ? null : subject.topic_name;

@@ -319,8 +319,8 @@ export class ToDoListComponent implements OnInit {
           console.log(err)
           let msg = {
             type: 'error',
-            title: 'Failed To Update',
-            body: ''
+            title: '',
+            body: 'Failed to update'
           }
           this.appC.popToast(msg);
           document.getElementById("name_"+toDo.task_id).style.display = "block";
@@ -378,7 +378,7 @@ export class ToDoListComponent implements OnInit {
           console.log(err)
           let msg = {
             type: 'error',
-            title: 'Failed To Add',
+            title: 'Failed to add',
             body: ''
           }
           this.appC.popToast(msg);

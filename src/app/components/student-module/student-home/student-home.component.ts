@@ -562,7 +562,7 @@ export class StudentHomeComponent implements OnInit {
       else {
         let msg = {
           type: 'warning',
-          title: 'No Rows Selected',
+          title: '',
           body: 'Please select atleast one row to perform bulk action'
         }
         this.appC.popToast(msg);
@@ -575,7 +575,7 @@ export class StudentHomeComponent implements OnInit {
       else {
         let msg = {
           type: 'warning',
-          title: 'No Rows Selected',
+          title: '',
           body: 'Please select atleast one row to perform bulk action'
         }
         this.appC.popToast(msg);
@@ -1766,7 +1766,7 @@ export class StudentHomeComponent implements OnInit {
         let msg = {
           type: 'error',
           title: '',
-          body: "Please provide Email Subject"
+          body: "Please enter Email Subject"
         };
         this.appC.popToast(msg);
         return false;
@@ -1862,7 +1862,7 @@ export class StudentHomeComponent implements OnInit {
         let msg = {
           type: 'success',
           title: 'Message',
-          body: "Send Successfully"
+          body: "Sent successfully"
         };
         this.appC.popToast(msg);
       },
@@ -1896,7 +1896,7 @@ export class StudentHomeComponent implements OnInit {
         let msg = {
           type: 'success',
           title: 'Message',
-          body: "Send Successfully"
+          body: "Sent successfully"
         };
         this.appC.popToast(msg);
       },
@@ -1927,7 +1927,7 @@ export class StudentHomeComponent implements OnInit {
           let msg = {
             type: 'success',
             title: 'Message',
-            body: "Send Successfully"
+            body: "Sent successfully"
           };
           this.appC.popToast(msg);
         },

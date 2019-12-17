@@ -93,12 +93,12 @@ export class CreateCustomCompComponent implements OnInit {
               this.postdata.addNewCustomComponent(this.editCustomComponentForm).subscribe(
                 res => {
                   this.isRippleLoad = false;
-                  this.msgService.showErrorMessage('success', '', 'Form-Field Added Successfully');
+                  this.msgService.showErrorMessage('success', '', 'Form-Field added successfully');
                   this.cancelEditRow();
                 },
                 err => {
                   this.isRippleLoad = false;
-                  this.msgService.showErrorMessage('error', 'Failed To Add Form-Field', 'Label name is already created with the same name');
+                  this.msgService.showErrorMessage('error', '', 'Label name is already created with the same name');
                 });
             }
             else {
@@ -117,12 +117,12 @@ export class CreateCustomCompComponent implements OnInit {
             this.postdata.addNewCustomComponent(this.editCustomComponentForm).subscribe(
               res => {
                 this.isRippleLoad = false;
-                this.msgService.showErrorMessage('success', '', 'Form-Field Added Successfully');
+                this.msgService.showErrorMessage('success', '', 'Form-Field added successfully');
                 this.cancelEditRow();
               },
               err => {
                 this.isRippleLoad = false;
-                this.msgService.showErrorMessage('error', 'Failed To Add Form-Field', 'There was an error processing your request' + err.error.message);
+                this.msgService.showErrorMessage('error', '', 'There was an error processing your request' + err.error.message);
               });
           }
           else {
@@ -135,21 +135,21 @@ export class CreateCustomCompComponent implements OnInit {
           this.postdata.addNewCustomComponent(this.editCustomComponentForm).subscribe(
             res => {
               this.isRippleLoad = false;
-              this.msgService.showErrorMessage('success', '', 'Form-Field Added Successfully');
+              this.msgService.showErrorMessage('success', '', 'Form-Field added successfully');
               this.cancelEditRow();
             },
             err => {
               this.isRippleLoad = false;
-              this.msgService.showErrorMessage('error', 'Failed To Add Form-Field', 'Label name is already created with the same name');
+              this.msgService.showErrorMessage('error', '', 'Label name already exists');
             });
         }
       }
       else {
-        this.msgService.showErrorMessage('error', 'Invalid Input', 'Please mention a Type');
+        this.msgService.showErrorMessage('error', '', 'Please mention a type');
       }
     }
     else {
-      this.msgService.showErrorMessage('error', 'Invalid Input', 'Please mention a Label');
+      this.msgService.showErrorMessage('error', '', 'Please mention a Label');
     }
   }
 
@@ -240,7 +240,7 @@ export class CreateCustomCompComponent implements OnInit {
               },
               err => {
                 this.isRippleLoad = false;
-                this.msgService.showErrorMessage('error', 'Failed To Update Form-Field', err.error.message);
+                this.msgService.showErrorMessage('error', '', err.error.message);
               }
             );
           }
@@ -262,16 +262,16 @@ export class CreateCustomCompComponent implements OnInit {
             res => {
               this.isRippleLoad = false;
               this.cancelEditRow();
-              this.msgService.showErrorMessage('success', 'Form-Field Updated Successfully', '');
+              this.msgService.showErrorMessage('success', '', 'Form-Field updated successfully');
             },
             err => {
               this.isRippleLoad = false;
-              this.msgService.showErrorMessage('error', 'Failed To Update Component', err.error.message);
+              this.msgService.showErrorMessage('error', '', err.error.message);
             }
           );
         }
         else {
-          this.msgService.showErrorMessage('error', 'Date Field Cannot Be Searchable Or have any default value', '');
+          this.msgService.showErrorMessage('error', 'Date field cannot be searchable Or have any default value', '');
         }
       }
       /* Textbox and Checkbox */
@@ -281,17 +281,17 @@ export class CreateCustomCompComponent implements OnInit {
           res => {
             this.isRippleLoad = false;
             this.cancelEditRow();
-            this.msgService.showErrorMessage('success', 'Form-Field Updated Successfully', '');
+            this.msgService.showErrorMessage('success', '', 'Form-Field updated successfully');
           },
           err => {
             this.isRippleLoad = false;
-            this.msgService.showErrorMessage('error', 'Failed To Update Form-Field', err.error.message);
+            this.msgService.showErrorMessage('error', '', err.error.message);
           }
         );
       }
     }
     else {
-      this.msgService.showErrorMessage('error', 'Invalid Input', 'Please mention a Label/Type');
+      this.msgService.showErrorMessage('error', '', 'Please mention a label/type');
     }
   }
 
@@ -324,7 +324,7 @@ export class CreateCustomCompComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.msgService.showErrorMessage('error', 'Failed To Delete Form-Field', err.error.message);
+        this.msgService.showErrorMessage('error', '', err.error.message);
         this.cancelRow();
       }
     );
