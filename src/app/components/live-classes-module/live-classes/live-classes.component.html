@@ -301,7 +301,7 @@
             <span title="{{data.session_name}}">{{(data.session_name.length > 80) ? (data.session_name | slice:0:80) + '...' : data.session_name}}</span>
           </div>
           <div class="value-item" style="width: 15%;">
-            <span title="{{data.video_size}}" *ngIf="data.video_size!=null">{{data.video_size}}(MB)</span>
+            <span title="{{data.video_size}}" *ngIf="data.video_size!=null">{{data.video_size}}&nbsp;MB</span>
             <span *ngIf="data.video_size==null">-</span>
           </div>
           <div class="value-item" style="width: 15%;text-align: center;">
