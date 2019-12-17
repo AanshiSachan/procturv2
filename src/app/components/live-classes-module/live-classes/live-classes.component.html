@@ -288,18 +288,23 @@
         <div class="heading-item">
           <span>Title</span>
         </div>
-        <div class="heading-item" style="width: 20%;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility == 2|| proctur_live_view_or_download_visibility == 3">
+        <div class="heading-item" style="width: 15%;">
+          <span>Video Size</span>
+        </div>
+        <div class="heading-item" style="width: 15%;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility == 2|| proctur_live_view_or_download_visibility == 3">
           <span>Action</span>
         </div>
       </div>
       <div class="value-outer-container">
         <div class="value-container" *ngFor="let data of download_links.download_links" >
           <div class="value-item">
-            <!-- <span>{{data.sessionName}}</span> -->
             <span title="{{data.session_name}}">{{(data.session_name.length > 80) ? (data.session_name | slice:0:80) + '...' : data.session_name}}</span>
-            <!-- *ngFor="let data of getClasses.download_links" -->
           </div>
-          <div class="value-item" style="width: 20%;text-align: center;">
+          <div class="value-item" style="width: 15%;">
+            <span title="{{data.video_size}}" *ngIf="data.video_size!=null">{{data.video_size}}&nbsp;MB</span>
+            <span *ngIf="data.video_size==null">-</span>
+          </div>
+          <div class="value-item" style="width: 15%;text-align: center;">
             <div style="float: left;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3">
             <button class="fa fa-download" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="Download" (click)="downloadFile(data);"
             id="downloadFile" [disabled]="data.download_link==null" [ngStyle]="{'opacity':data.download_link==null ? '0.5' : '1' }"></button>
