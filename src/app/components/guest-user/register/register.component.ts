@@ -83,7 +83,7 @@ export class RegisterComponent implements OnInit {
       err => {
         console.log(err);
         this.isRippleLoad= false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Somthing went wrong ! please try again");
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     );
   }
@@ -131,7 +131,7 @@ export class RegisterComponent implements OnInit {
                     console.log(err);
                     this.isView = 'register';
                     this.isRippleLoad= false;
-                    this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", err.message);
+                    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
                   }
                 );
 
@@ -179,6 +179,7 @@ export class RegisterComponent implements OnInit {
       err => {
         console.log(err);
         this.isRippleLoad= false;
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     );
   }
