@@ -771,3 +771,11 @@ $color-highlight: lighten($color-base, 7%);
         }
     }
 }
+
+.profile_img {
+    border-radius: 25px;
+    height: 40px;
+    width: 42px;
+    max-width: 40px;
+    max-height: 40px;
+}

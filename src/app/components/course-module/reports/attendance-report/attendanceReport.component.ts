@@ -4,6 +4,9 @@ import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from "../../../../services/authenticator.service";
 import * as moment from 'moment';
 import { ColumnSetting } from '../../../shared/custom-table/layout.model';
+import { HttpService } from '../../../../services/http.service';
+import { MessageShowService } from '../../../..';
+import { CommonServiceFactory } from '../../../../services/common-service';
 
 
 @Component({
@@ -102,7 +105,10 @@ export class AttendanceReportComponent implements OnInit {
   constructor(
     private reportService: AttendanceReportServiceService,
     private appc: AppComponent,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private _httpService: HttpService,
+    private msgService: MessageShowService,
+    private commonService: CommonServiceFactory
   ) {
     //console.log(moment(moment().format('DD-MM-YYYY')).diff(moment('03-02-2018'),'months'));
   }
@@ -809,4 +815,41 @@ export class AttendanceReportComponent implements OnInit {
     this.queryParams.to_date = "";
   }
 
+  downloadReport() {
+    console.log(this.queryParams);
+      this.isRippleLoad=true;
+    this.queryParams.to_date =  moment(this.queryParams.to_date).format('YYYY-MM-DD');
+    this.queryParams.from_date =  moment(this.queryParams.from_date).format('YYYY-MM-DD');
+    let url='/api/v1/reports/attendance/downloadAttendanceReport';   
+    this._httpService.postData(url, this.queryParams).subscribe(
+      (res:any) => {
+        console.log(res);
+        this.isRippleLoad = false;
+        if(res){
+          let resp = res;
+          console.log(resp)
+          if(resp.document!=""){
+            let byteArr = this.commonService.convertBase64ToArray(resp.document);
+            let fileName = 'attenance_report.pdf'; //res.docTitle;
+            let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
+            let url = URL.createObjectURL(file);
+            let dwldLink = document.getElementById('downloadFileClick');
+            dwldLink.setAttribute("href", url);
+            dwldLink.setAttribute("download", fileName);
+            document.body.appendChild(dwldLink);
+            dwldLink.click();          
+          }
+          else{
+            this.msgService.showErrorMessage('info', '', "Document does not have any data!");
+          }
+        }else{
+          this.msgService.showErrorMessage('info', '', "Document does not have any data!");
+        }
+      },
+      err => {
+        this.msgService.showErrorMessage('error', '', err.error.message);
+        this.isRippleLoad = false;
+      }
+    )
+   }
 }

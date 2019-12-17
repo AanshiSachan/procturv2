@@ -73,7 +73,12 @@ export class EnquiryHomeComponent implements OnInit {
     referredByData: any[] = [];
     sizeArr: any[] = [25, 50, 100, 150, 200, 500];
     commentFormData: any = {};
-
+    emailGridData: any = [];
+    EmailThumbnailUrl : any = '';
+    EmailGridSelectedObject: any = null;
+    selectedTableRow:any;
+    viewPopUp = false;
+    isSendGridEnable : boolean = false;
     /* Variable to handle popups */
     varJson: any = {
         message: '',
@@ -794,6 +799,68 @@ export class EnquiryHomeComponent implements OnInit {
         this.flagJSON.notificationType = type;
     }
 
+    showSendGridData(type) {
+        this.flagJSON.notificationType = type;
+        const url= `/api/v1/alerts/config/sendGrid/emailTemplate/${sessionStorage.getItem('institute_id')}`;
+        this.flagJSON.isRippleLoad = true;
+        this.emailGridData = [];
+        this.httpService.getData(url).subscribe(
+            (res:any)=> {
+                this.flagJSON.isRippleLoad = false;
+                this.emailGridData = res.result;
+                this.cd.markForCheck();
+            },
+            err => {
+                this.flagJSON.isRippleLoad = false;
+                console.log(err);
+            }
+        )
+        this.emailGridData.forEach(element => {
+            if(element.template_updated_date!=null || element.template_updated_date!=''){
+                element.template_updated_date = moment(element.template_updated_date).format('DD-MMM-YYYY');
+            }
+        });
+    }
+
+    opEmailGridSelected(object,i){
+        this.selectedTableRow = i;
+        this.EmailGridSelectedObject = object;
+    }
+
+    viewThumbnailUrl(url){
+        this.viewPopUp = true;
+        this.EmailThumbnailUrl = url;
+    }
+
+    closeViewPopUp() {
+        this.viewPopUp = false;
+      }
+
+    sendEmailGrid(){
+        if(this.EmailGridSelectedObject!=null || this.EmailGridSelectedObject!=undefined){
+        const url = `/api/v1/enquiry_manager/sendEmail/${sessionStorage.getItem('institute_id')}`;
+        const obj = {
+            baseIds: this.selectedRowGroup,
+            sendGridTemplateId:this.EmailGridSelectedObject.template_id
+        }
+        this.flagJSON.isRippleLoad = true;
+        this.httpService.postData(url,obj).subscribe(
+            (res:any) =>{
+                this.flagJSON.isRippleLoad = false;
+                this.showErrorMessage(this.messageService.toastTypes.success,'', res.message);
+                this.cd.markForCheck();
+            },
+            err =>{
+                this.flagJSON.isRippleLoad = false;
+                console.log(err);
+            }
+        )
+        } else{
+            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please select email template');
+        }
+        // this.httpService.postData(url,)
+    }
+
     /* Function to close advanced filter */
     closeAdFilter() {
         let hideClassNames = ['adFilterExitVisible', 'qfilt', 'adFilterOpen', 'customizableTableSection'];
@@ -1013,6 +1080,7 @@ export class EnquiryHomeComponent implements OnInit {
         this.enquire.fetchAllSms().subscribe(
             (data: any) => {
                 this.flagJSON.isRippleLoad = false;
+                this.isSendGridEnable = data[0].is_sendGrid_enable;
                 this.cd.markForCheck();
                 this.smsSourceApproved = [];
                 this.smsSourceOpen = [];
@@ -1047,10 +1115,12 @@ export class EnquiryHomeComponent implements OnInit {
                 this.flagJSON.smsBtnToggle = false;
                 this.flagJSON.isAllSelected = false;
                 this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
+                if(document.getElementById(id).classList){
                 if (!document.getElementById(id).classList.contains('active')) {
                     document.getElementById(id).classList.add('active');
                     document.getElementById('openSms').classList.remove('active');
                 }
+            }
             }
                 break;
             case 'openSms': {
@@ -1059,10 +1129,12 @@ export class EnquiryHomeComponent implements OnInit {
                 this.flagJSON.smsBtnToggle = false;
                 this.flagJSON.isAllSelected = true;
                 this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
+                if(document.getElementById(id).classList){
                 if (!document.getElementById(id).classList.contains('active')) {
                     document.getElementById(id).classList.add('active');
                     document.getElementById('approvedSms').classList.remove('active');
                 }
+            }
             }
                 break;
             default:

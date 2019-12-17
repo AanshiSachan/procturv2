@@ -170,6 +170,7 @@ export class SideBarComponent implements OnInit , AfterViewInit{
       institute_id == '101135' ||
       institute_id == '101149' ||
       institute_id == '101150' ||
+      institute_id == '101140' ||
       institute_id == '101151') {
       this.jsonFlags.isShowPowerBy = false;
     }

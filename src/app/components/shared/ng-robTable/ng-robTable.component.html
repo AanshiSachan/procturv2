@@ -15,6 +15,9 @@
                                             <label></label>
                                         </div>
                                     </li>
+                                    <li *ngIf="tableName=='student'" style="width: 6%;padding-left: 0;">
+                                        #
+                                    </li>
                                     <li class="{{map.primaryKey}} {{ map.header }}" *ngFor="let map of columnMaps" (click)="requestSort(map.primaryKey)" [ctStyleCell]="getStyle(map.primaryKey, '')">
                                         {{ map.header }}
                                         <section *ngIf="isSorted(map)" style="display: inline-block">
@@ -39,6 +42,11 @@
                                                 <label></label>
                                             </div>
                                         </li>
+                                        <li style="padding-top: 3px;width: 6%;padding-left: 0;" *ngIf="tableName=='student'">
+                                        <span>
+                                            <img [src]="record.thumbnail_url" alt="profile" class="profile_img" title="{{record.student_name}}">
+                                        </span>
+                                    </li>
                                         <li title="{{ record[map.access(record)] | formatCell:map.primaryKey }}" class="{{map.primaryKey}} {{ map.header }}" *ngFor="let map of columnMaps"
                                             (click)="userRowClicked($event, i, record)" [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])">
                                             <div *ngIf="map.primaryKey != 'batchesAssigned'&& map.primaryKey != 'noOfCoursesAssigned'" [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])">
