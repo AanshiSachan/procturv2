@@ -43,7 +43,7 @@ export class FeeTypesComponent implements OnInit {
         maximumFractionDigits: 2,
         style: 'currency',
         currency: currency
-      }).slice(0, -3);
+      });
 
       formatted = formatted.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
       return formatted.replace(/[0-9]/g, '');

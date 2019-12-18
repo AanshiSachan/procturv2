@@ -238,6 +238,9 @@ export class FeeTemplateAddComponent implements OnInit {
       installement.country_id =country_id;
     });
 
+    if(this.otherFeetype[0]){
+      this.onAdditionalFeeSelection(this.otherFeetype[0].id);
+    } 
   }
 
   createInstallmentTable() {
