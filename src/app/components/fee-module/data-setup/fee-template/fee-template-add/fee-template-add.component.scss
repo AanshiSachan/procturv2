@@ -202,6 +202,11 @@ hr {
     }
 }
 
+.disable_input{
+    background: lightgrey !important;
+    cursor: not-allowed;
+}
+
 .qInfoIcon {
     width: 20px;
     margin-left: 5px;

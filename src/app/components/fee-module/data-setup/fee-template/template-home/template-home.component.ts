@@ -146,6 +146,12 @@ export class TemplateHomeComponent implements OnInit {
     )
   }
 
+  changesValuesAsPerType(row){
+    if(row.day_type==1){
+      row.days=0;
+    }
+  }
+
   editFee(fee) {
     this.templateName = fee.template_name;
     this.selectedTemplate = fee;    

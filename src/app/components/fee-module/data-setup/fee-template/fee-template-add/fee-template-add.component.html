@@ -220,7 +220,7 @@
                     {{i + 1}} </td>
                   <td>
                     <div class="form-wrapper">
-                      <select [(ngModel)]="row.day_type" style="background: transparent" class="side-form-ctrl">
+                      <select [(ngModel)]="row.day_type" (ngModelChange)="changesValuesAsPerType(row)" style="background: transparent" class="side-form-ctrl">
                         <option value="1">Course Assign Date (CAD)</option>
                         <option value="2">No of days after CAD</option>
                         <option value="3">No of Month after CAD</option>
@@ -229,13 +229,13 @@
                   </td>
                   <td>
                     <div class="form-wrapper" style="background: transparent;">
-                      <input type="number" min="0"  [disabled]="row.day_type=='1'" style="background: transparent;" class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
+                      <input type="number" min="0" style="background: transparent;" [disabled]="row.day_type=='1'" [ngClass]="{'disable_input': row.day_type=='1'}"  class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
                     </div>
                   </td>
                   <td>
                     <div class="form-wrapper">
                       <select id="CourseDdn" style="background: transparent;margin: 5px 0px; 
-                        width: 100%;" disabled class="side-form-ctrl" name="CourseCountry" [(ngModel)]="row.country_id">
+                        width: 100%;" disabled class="side-form-ctrl disable_input" name="CourseCountry" [(ngModel)]="row.country_id">
                         <option value="-1"></option>
                         <option [value]="data.id"  selected *ngFor='let data of countryDetails'>
                            {{data.country_name}}
@@ -288,7 +288,7 @@
           <div class="c-sm-2 c-md-2 c-lg-2">
             <div class="form-wrapper has-value">
               <label for="row.category_id">Trigger Date</label>
-              <select id="" class="side-form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.day_type" name="row.category_id">
+              <select id="" class="side-form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.day_type" (ngModelChange)="changesValuesAsPerType(additionalInstallment)" name="row.category_id">
                 <option value="1">Course Assign Date (CAD)</option>
                 <option value="2">No of days after CAD</option>
                 <option value="3">No of Month after CAD</option>
@@ -300,14 +300,14 @@
             <div class="form-wrapper has-value">
               <label for="slotNew"> No. (Days/Months)
               </label>
-              <input type="number" min="0" style="background: transparent;" class="side-form-ctrl" [(ngModel)]="additionalInstallment.days"
+              <input type="number" min="0" style="background: transparent;" class="side-form-ctrl" [disabled]="additionalInstallment.day_type=='1'" [ngClass]="{'disable_input': additionalInstallment.day_type=='1'}" [(ngModel)]="additionalInstallment.days"
                 name="slotNew">
             </div>
           </div>
           <div class="c-sm-2 c-md-2 c-lg-2">
             <div class="form-wrapper has-value">
               <label for="row.country_id">Country</label>
-              <select disabled class="side-form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.country_id" 
+              <select disabled class="side-form-ctrl disable_input"  [(ngModel)]="additionalInstallment.country_id" 
                 name="row.country_id">
                 <option value="-1"></option>
                 <option [value]="data.id" selected *ngFor='let data of countryDetails'>
@@ -335,7 +335,7 @@
               <div class="c-sm-7 c-md-7 c-lg-7  form-wrapper has-value"  style=" width: 60%;" >
                 <label for="slotNew">Tax Applicable (%)
                 </label>
-                <input type="number" min="0" style="background: transparent" disabled class="side-form-ctrl" [(ngModel)]="additionalInstallment.service_tax"
+                <input type="number" min="0"  disabled class="side-form-ctrl disable_input" [(ngModel)]="additionalInstallment.service_tax"
                   name="slotNew">
               </div>
             </div>
@@ -368,7 +368,7 @@
                   </td>
                   <td>
                     <div class="form-wrapper">
-                      <select [(ngModel)]="row.day_type" style="background: transparent" (ngModelChnage)="changesValuesAsPerType(row)" class="side-form-ctrl">
+                      <select [(ngModel)]="row.day_type" style="background: transparent" (ngModelChange)="changesValuesAsPerType(row)" class="side-form-ctrl">
                         <option value="1">Course Assign Date (CAD)</option>
                         <option value="2">No of days after CAD</option>
                         <option value="3">No of Month after CAD</option>
@@ -377,12 +377,12 @@
                   </td>
                   <td>
                     <div class="form-wrapper">
-                      <input type="number" style="background: transparent" min="0" class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
+                      <input type="number" style="background: transparent" min="0" [disabled]="row.day_type=='1'" [ngClass]="{'disable_input': row.day_type=='1'}" class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
                     </div>
                   </td>
                   <td>
                     <div class="form-wrapper">
-                      <select disabled style="width:100%;background: transparent" id="CourseDdn" class="side-form-ctrl" name="CourseCountry" [(ngModel)]="row.country_id">
+                      <select disabled style="width:100%;" id="CourseDdn" class="side-form-ctrl disable_input" name="CourseCountry" [(ngModel)]="row.country_id">
                         <option value="-1"></option>
                         <option [value]="data.id" selected *ngFor='let data of countryDetails'>
                            {{data.country_name}}
