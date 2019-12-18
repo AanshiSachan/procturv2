@@ -38,12 +38,12 @@ export class FeeTypesComponent implements OnInit {
   }
 
   getCurrencyDetails(value, currency, lang) {
-    if (value && currency && lang) {
-      let formatted = value.toLocaleString(lang, {
+  if (value && currency && lang) {
+      let formatted  = value.toLocaleString(lang, {
         maximumFractionDigits: 2,
         style: 'currency',
         currency: currency
-      }).slice(0, -3);
+      });
 
       formatted = formatted.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
       return formatted.replace(/[0-9]/g, '');

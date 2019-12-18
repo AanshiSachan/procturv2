@@ -237,7 +237,9 @@ export class FeeTemplateAddComponent implements OnInit {
     this.installMentTable && this.installMentTable.length && this.installMentTable.forEach(installement => {
       installement.country_id =country_id;
     });
-
+    if(this.otherFeetype[0]){
+      this.onAdditionalFeeSelection(this.otherFeetype[0].id);
+    }    
   }
 
   createInstallmentTable() {
