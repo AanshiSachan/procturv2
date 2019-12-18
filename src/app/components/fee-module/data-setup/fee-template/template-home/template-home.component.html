@@ -139,7 +139,7 @@
       <div class="feeManager" popup-content>
         <div class="fee-content">
           <fieldset class="installment">
-            <h1>EDIT FEE INSTALLMENTS</h1>
+            <h1>MANAGE FEE INSTALLMENTS</h1>
             <div class="row data-adder">
               <div class="outer">
                 <div class="c-lg-3 c-md-3 pull-left"></div>
@@ -169,7 +169,7 @@
                   <label for="CourseDdn">Country
                     <span class="text-danger">*</span>
                   </label>
-                  <select id="" [disabled]="true" class="form-ctrl" style="background: transparent" name="country_id" [(ngModel)]="selectedTemplate.country_id">
+                  <select id="" [disabled]="true" class="form-ctrl disable_input " style="background: transparent" name="country_id" [(ngModel)]="selectedTemplate.country_id">
                     <option value="-1"></option>
                     <option [value]="data.id" selected *ngFor='let data of countryDetails'>
                        {{data.country_name}}
@@ -192,7 +192,7 @@
               <div class="c-sm-3 c-md-3 c-lg-3">
                 <div class="field-wrapper has-value">
                   <label for="row.category_id">Trigger Date</label>
-                  <select id="" class="form-ctrl" style="background: transparent" name="AddInstallment.day_type" [(ngModel)]="AddInstallment.day_type">
+                  <select id="" class="form-ctrl" style="background: transparent" name="AddInstallment.day_type" (ngModelChange)="changesValuesAsPerType(AddInstallment)" [(ngModel)]="AddInstallment.day_type">
                     <option value="1">Course Assign Date (CAD)</option>
                     <option value="2">No of days after CAD</option>
                     <option value="3">No of Month after CAD</option>
@@ -205,7 +205,8 @@
                 <div class="field-wrapper has-value">
                   <label for="slotNew"> No.
                   </label>
-                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="AddInstallment.days" name="slotNew">
+                  <input type="number" min="0" class="form-ctrl" [disabled]="AddInstallment.day_type=='1'" [ngClass]="{'disable_input': AddInstallment.day_type=='1'}"
+                   [(ngModel)]="AddInstallment.days" name="slotNew">
 
                   <p>(Days/Months)</p>
                 </div>
@@ -220,7 +221,7 @@
                 </div>
               </div>
 
-              <div class="c-sm-2 c-md-2 c-lg-2" style="margin: auto">
+              <div class="c-sm-2 c-md-2 c-lg-2" style="margin: auto;cursor: pointer">
                 <img src="assets/images/plus.png" (click)="addInstallmentInTable()" alt="Add" style="vertical-align: -webkit-baseline-middle;">
               </div>
             </div>
@@ -244,7 +245,7 @@
                     <tbody>
                       <tr *ngFor="let row of installmentList; let i= index ; trackBy : index">
                         <td>
-                          <select [(ngModel)]="row.day_type" style="background: transparent">
+                          <select [(ngModel)]="row.day_type" (ngModelChange)="changesValuesAsPerType(row)" style="background: transparent">
                             <option value="1">Course Assign Date (CAD)</option>
                             <option value="2">No of days after CAD</option>
                             <option value="3">No of Month after CAD</option>
@@ -252,7 +253,7 @@
                         </td>
                         <td>
                           <div class="field-wrapper">
-                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label">
+                            <input type="number" min="0" class="editCellInput" [disabled]="row.day_type=='1'" [ngClass]="{'disable_input': row.day_type=='1'}" [(ngModel)]="row.days" name="label">
                           </div>
                         </td>
                         <td *ngIf="selectedTemplate.country_id=='1'">
@@ -282,7 +283,7 @@
           </fieldset>
 
           <fieldset class="additional">
-            <h1>Edit Additional Fees</h1>
+            <h1>Manage Additional Fees</h1>
 
             <div class="row" style="display: flex;">
               <div class="c-sm-2 c-md-2 c-lg-2">
@@ -301,7 +302,7 @@
               <div class="c-sm-2 c-md-2 c-lg-2">
                 <div class="field-wrapper has-value">
                   <label for="row.category_id">Trigger Date</label>
-                  <select id="" class="form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.day_type" name="row.category_id">
+                  <select id="" class="form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.day_type" (ngModelChange)="changesValuesAsPerType(additionalInstallment)" name="row.category_id">
                     <option value="1">Course Assign Date (CAD)</option>
                     <option value="2">No of days after CAD</option>
                     <option value="3">No of Month after CAD</option>
@@ -314,7 +315,7 @@
                 <div class="field-wrapper has-value">
                   <label for="slotNew"> No.
                   </label>
-                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.days" name="slotNew">
+                  <input type="number" min="0" class="form-ctrl" [disabled]="additionalInstallment.day_type=='1'" [ngClass]="{'disable_input': additionalInstallment.day_type=='1'}" [(ngModel)]="additionalInstallment.days" name="slotNew">
 
                   <p>(Days/Months)</p>
                 </div>
@@ -338,7 +339,7 @@
                 </div>
               </div>
 
-              <div class="c-sm-2 c-md-2 c-lg-2" style="margin: auto">
+              <div class="c-sm-2 c-md-2 c-lg-2" style="margin: auto;cursor: pointer">
                 <img src="assets/images/plus.png" (click)="addAdditionalInst()" alt="Add" style="vertical-align: -webkit-baseline-middle;">
               </div>
             </div>
@@ -365,7 +366,7 @@
                           {{row.fee_type_name}}
                         </td>
                         <td>
-                          <select [(ngModel)]="row.day_type" style="background: transparent">
+                          <select [(ngModel)]="row.day_type" (ngModelChange)="changesValuesAsPerType(row)" style="background: transparent">
                             <option value="1">Course Assign Date (CAD)</option>
                             <option value="2">No of days after CAD</option>
                             <option value="3">No of Month after CAD</option>
@@ -373,7 +374,7 @@
                         </td>
                         <td>
                           <div class="field-wrapper">
-                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label">
+                            <input type="number" min="0" class="editCellInput" [disabled]="row.day_type=='1'" [ngClass]="{'disable_input': row.day_type=='1'}" [(ngModel)]="row.days" name="label">
                           </div>
                         </td>
                         <td *ngIf="selectedTemplate.country_id=='1'">

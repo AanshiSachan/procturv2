@@ -1183,7 +1183,6 @@ export class StudentHomeComponent implements OnInit {
   getRowCount(ev) {
     //console.log(ev);
     this.selectedRowCount = ev;
-    console.log(this.selectedRowCount);
   }
 
   /* =================================================================================================== */
