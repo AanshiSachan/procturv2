@@ -8,9 +8,11 @@ export class CommaSeprationAmount implements PipeTransform {
         maximumFractionDigits: 2,
         style: 'currency',
         currency: currency
-      });
-      console.log(formatted);
-      return formatted.replace(/[0-9 &\/\\#,+()$~%.'":*?<>{}\s]+/g,'') + ' ' + formatted.replace(/[&\/\\#,+()$~%.'":*?<>{}\s a-zA-Z]/g, '');
+      }).slice(0, -3);
+
+      return formatted;
+      //.replace(/[0-9 &\/\\#,+()$~%.'":*?<>{}\s]+/g,'') + ' ' + formatted.replace(/[&\/\\#,+()$~%.'":*?<>{}\s a-zA-Z]/g, '');
+      //return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     else {
       return lang + ' ' + value;
