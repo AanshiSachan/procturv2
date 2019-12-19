@@ -132,7 +132,8 @@
               </div>
             </td>
             <td>
-              <select id="country_id" class="form-ctrl" [(ngModel)]="row.country_id" name="country_id" style="height: 29px;padding: 0;border: 1px solid #ccc; background: transparent;">
+              <select id="country_id" class="form-ctrl input_txt" [(ngModel)]="row.country_id" 
+              name="country_id"  (ngModelChange)="onRowDataChange($event,row)">
                 <option [value]="data.id" selected *ngFor='let data of countryDetails'>
                   {{data.country_name}}
                 </option>
