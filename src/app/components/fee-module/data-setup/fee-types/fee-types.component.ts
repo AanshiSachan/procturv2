@@ -54,6 +54,15 @@ export class FeeTypesComponent implements OnInit {
   }
 
 
+  onRowDataChange(country_id, row) {
+    this.countryDetails.forEach(countryId => {
+        if(countryId.id==country_id){
+          row.currency_code = countryId.currency_code;
+          row.country_code = countryId.country_code;
+        }
+    });;
+  }
+
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
     let data = JSON.parse(encryptedData);
@@ -70,8 +79,8 @@ export class FeeTypesComponent implements OnInit {
         this.isRippleLoad = false;
         this.feeTypeList = res;
         this.feeTypeList.forEach(element => {
-          element.currency_code=null;
-          element.country_code=null;
+          element.currency_code = null;
+          element.country_code = null;
           if (element.countryId) {
             element.country_id = element.countryId.country_id;
             element.currency_code = element.countryId.currency_code;
