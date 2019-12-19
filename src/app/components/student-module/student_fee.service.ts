@@ -34,6 +34,7 @@ export interface FeeModel {
     reference_no?: string;
     invoice_no?: any;
     course_id?: any;
+    country_id?:any;
     subject_id?: any;
     standard_id?: any;
     master_course?: any;
@@ -164,12 +165,12 @@ export class StudentFeeService {
 
 
     public fetchStudentFeeSchedule(id, is_archived): Observable<FeeModel> {
-      let url;
-        if(is_archived != "" && is_archived != null){
-          url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id + "?is_archived="+is_archived;
+        let url;
+        if (is_archived != "" && is_archived != null) {
+            url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id + "?is_archived=" + is_archived;
         }
-        else{
-          url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id;
+        else {
+            url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id;
         }
 
         // let url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id;
@@ -204,7 +205,7 @@ export class StudentFeeService {
         return distinct;
     }
 
-    categoriseCourseWise(data, tax) {
+    categoriseCourseWise(data, tax, country_id) {
         tax = Number(tax);
         let subjectWiseSchduleArray = [];
         let uniqueCourseName = Array.from(new Set(data.map(el => el[this.filterForModel.course_id_filter])));
@@ -231,7 +232,7 @@ export class StudentFeeService {
                     unPaidAmount = unPaidAmount + amountDue;
                     totalFeeAmount = totalFeeAmount + amountDue + instal.amount_paid;
                     amountOfInstallment = amountOfInstallment + amountDue + instal.amount_paid;
-                    instal.tax = Math.round(Number(amountDue + instal.amount_paid) - this.calculateInitialAmountOfRemainingAmount(Number(amountDue + instal.amount_paid), tax));
+                    instal.tax = Math.round(Number(amountDue + instal.amount_paid) - this.calculateInitialAmountOfRemainingAmount(Number(amountDue + instal.amount_paid), tax,country_id));
                 } else {
                     if (instal.paid_full == "N" && instal.balance_amount > 0) {
                         amountDue = Number(instal.balance_amount);
@@ -240,7 +241,7 @@ export class StudentFeeService {
                     }
                     unPaidAmount = unPaidAmount + amountDue;
                     totalFeeAmount = totalFeeAmount + amountDue + instal.amount_paid;
-                    instal.tax = this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax) - instal.initial_fee_amount_before_disocunt_before_tax;
+                    instal.tax = this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax, country_id) - instal.initial_fee_amount_before_disocunt_before_tax;
                 }
                 instal.uiSelected = false;
                 master_course_name = instal[this.filterForModel.master_course_name];
@@ -259,7 +260,7 @@ export class StudentFeeService {
             obj.feeAmountIncludingTax = totalFeeAmount;
             obj.paidAmount = Number(paidAmount);
             obj.discount = discount;
-            let initAmout: number = this.calculateInitialAmountOfRemainingAmount(amountOfInstallment, tax);
+            let initAmout: number = this.calculateInitialAmountOfRemainingAmount(amountOfInstallment, tax,country_id);
             obj.taxAmount = Math.floor(amountOfInstallment - initAmout);
             obj.dueAmount = unPaidAmount;
             if (obj.dueAmount == 0) {
@@ -275,7 +276,7 @@ export class StudentFeeService {
         return subjectWiseSchduleArray;
     }
 
-    makeCardLayoutJson(data, tax) {
+    makeCardLayoutJson(data, tax,country_id) {
         let obj: any = {
             feeAmountInclTax: 0,
             feeAmountExclTax: 0,
@@ -306,7 +307,7 @@ export class StudentFeeService {
                     } else if (installment.paid_full == "N" && installment.balance_amount == 0) {
                         obj.amountDue = obj.amountDue + Number(installment.fees_amount);
                     }
-                    initialAmount = this.calucalteAmountAfterApplyingTax(installment.initial_fee_amount_before_disocunt_before_tax, installment.service_tax);
+                    initialAmount = this.calucalteAmountAfterApplyingTax(installment.initial_fee_amount_before_disocunt_before_tax, installment.service_tax, country_id);
                     obj.additionalFees = obj.additionalFees + initialAmount;
                 }
                 obj.discountAmount = obj.discountAmount + Number(installment.discount);
@@ -316,7 +317,7 @@ export class StudentFeeService {
         );
 
 
-        let initialAmountWithoutTax: number = this.calculateInitialAmountOfRemainingAmount(Number(installmentDueAmount), tax);
+        let initialAmountWithoutTax: number = this.calculateInitialAmountOfRemainingAmount(Number(installmentDueAmount), tax,country_id);
         obj.taxAmount = installmentDueAmount - initialAmountWithoutTax;
 
 
@@ -831,8 +832,9 @@ export class StudentFeeService {
         return discountArray;
     }
 
-    calculateInitialAmountOfRemainingAmount(amount: number, tax: number) {
-        if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+    calculateInitialAmountOfRemainingAmount(amount: number, tax: number,country_id) {
+        if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1' &&
+        country_id==1) {
             let initialAmount: number = (amount * 100) / (100 + tax);
             return initialAmount;
         } else {
@@ -840,8 +842,9 @@ export class StudentFeeService {
         }
     }
 
-    calucalteAmountAfterApplyingTax(amount, tax) {
-        if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+    calucalteAmountAfterApplyingTax(amount, tax, country_id) {
+        if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1' &&
+            country_id == 1) {
             let taxAmount: number = (amount * tax) / 100;
             return amount + taxAmount;
         } else {
@@ -936,7 +939,7 @@ export class StudentFeeService {
         )
     }
 
-    
+
     getFeeDetailsById(i): Observable<any> {
         let urlFeebyId = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + i + "/details";
         return this.http.get(urlFeebyId, { headers: this.headers }).map(

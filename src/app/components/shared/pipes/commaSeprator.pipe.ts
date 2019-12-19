@@ -10,7 +10,8 @@ export class CommaSeprationAmount implements PipeTransform {
         currency: currency
       }).slice(0, -3);
 
-      return formatted.replace(/[0-9 &\/\\#,+()$~%.'":*?<>{}\s]+/g,'') + ' ' + formatted.replace(/[&\/\\#,+()$~%.'":*?<>{}\s a-zA-Z]/g, '');
+      return formatted;
+      //.replace(/[0-9 &\/\\#,+()$~%.'":*?<>{}\s]+/g,'') + ' ' + formatted.replace(/[&\/\\#,+()$~%.'":*?<>{}\s a-zA-Z]/g, '');
       //return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     else{ 
