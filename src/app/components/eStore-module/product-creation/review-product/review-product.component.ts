@@ -141,7 +141,7 @@ export class ReviewProductComponent implements OnInit {
             this.prodForm.product_item_stats = {};
               // -- added by laxmi
           // this code is used to laod image url dynamically not save in locally dont remove it
-            this.image_url = response.logo_url? response.logo_url +"?t="+new Date().getTime():null; 
+            this.image_url = response.photo_url? response.photo_url +"?t="+new Date().getTime():null; 
             this.prodForm.logo_url = response.logo_url;
             this.prodForm.photo_url = response.photo_url
             this.prodForm.product_items_types.forEach(element => {
@@ -209,7 +209,7 @@ export class ReviewProductComponent implements OnInit {
           if (newxhr.status >= 200 && newxhr.status < 300) {
             this.isRippleLoad = false;
             let res = JSON.parse(newxhr.response);
-            this.image_url = res.logo_url? res.logo_url +"?t="+new Date().getTime():null;
+            this.image_url = res.photo_url? res.photo_url +"?t="+new Date().getTime():null;
             this.prodForm.logo_url = res.thumbnail_url;
             this.prodForm.photo_url = res.photo_url;
             this.msgService.showErrorMessage('success', '', 'File uploaded successfully');
