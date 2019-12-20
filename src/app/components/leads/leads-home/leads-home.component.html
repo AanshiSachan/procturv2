@@ -86,7 +86,16 @@
     <div class="leads-menu-item" routerLink="/view/leads/campaign" *ngIf="jsonRolesFlags.isShowCampaign">
       <div class="menu-title">
         <img src="./assets/images/leads/campaign.svg" alt="campaign">
-        <span>Campaign</span>
+        <span>Add Campaign</span>
+      </div>
+      <div class="menu-description">
+        <span>Send SMS in bulk to students/parents for marketing or other purposes.</span>
+      </div>
+    </div>
+    <div class="leads-menu-item" routerLink="/view/leads/manage-campaign" *ngIf="jsonRolesFlags.isShowCampaign">
+      <div class="menu-title">
+        <img src="./assets/images/leads/campaign.svg" alt="campaign">
+        <span>Manage Campaign</span>
       </div>
       <div class="menu-description">
         <span>Send SMS in bulk to students/parents for marketing or other purposes.</span>

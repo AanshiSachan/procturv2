@@ -171,4 +171,106 @@ export class CampaignService {
     );
   }
 
+  // manage campaign services
+  getAllSources(){
+    this.url = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_source/"+this.institute_id+"/all";
+    return this.http.get(this.url, { headers: this.headers }).map(
+      data => { return data },
+      err => { return err; }
+    );
+  }
+
+  getAssignedList(){
+    let obj = {
+      "user_Type": 0
+    };
+    this.url = this.baseUrl + "/api/v1/profiles/"+this.institute_id;
+    return this.http.post(this.url, obj, { headers: this.headers }).map(
+      data => { return data },
+      err => { return err; }
+    );
+  }
+
+  getReferredByList(){
+    this.url = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_referred_by/"+this.institute_id+"/all";
+    return this.http.get(this.url, { headers: this.headers }).map(
+      data => { return data },
+      err => { return err; }
+    );
+  }
+
+  getCampaignList(){
+    let obj = {};
+    this.url = this.baseUrl + "/api/v1/campaign/list/"+this.institute_id;
+    return this.http.post(this.url, obj, { headers: this.headers }).map(
+      data => { return data },
+      err => { return err; }
+    );
+  }
+
+  searchLeads(obj){
+    this.url = this.baseUrl + "/api/v1/lead_manager/search/"+this.institute_id;
+    return this.http.post(this.url, obj, { headers: this.headers }).map(
+      data => { return data },
+      err => { return err; }
+    );
+  }
+
+  convertToEnq(obj){
+    this.url = this.baseUrl + "/api/v1/enquiry_manager/convertToEnquiry/"+this.institute_id;
+    return this.http.put(this.url, obj, { headers: this.headers }).map(
+      data => { return data },
+      err => { return err; }
+    );
+  }
+
+  getPromoSMS(obj){
+    this.url = this.baseUrl + "/api/v1/campaign/message/"+this.institute_id+"/all";
+    return this.http.post(this.url, obj, { headers: this.headers }).map(
+      data => { return data },
+      err => { return err; }
+    );
+  }
+
+  sendPromoSMS(obj){
+    this.url = this.baseUrl + "/api/v1/lead_manager/sendPromotionalSMS/"+this.institute_id;
+    return this.http.post(this.url, obj, { headers: this.headers }).map(
+      data => { return data },
+      err => { return err; }
+    );
+  }
+
+  createLead(obj){
+    this.url = this.baseUrl + "/api/v1/campaign/list/"+this.institute_id+"/createLead";
+    return this.http.post(this.url, obj, { headers: this.headers }).map(
+      data => { return data },
+      err => { return err; }
+    );
+  }
+
+  updateLead(obj, list_id, base_id){
+    this.url = this.baseUrl + "/api/v1/campaign/list/"+this.institute_id+"/base/"+list_id+"/"+base_id;
+    return this.http.put(this.url, obj, { headers: this.headers }).map(
+      data => { return data },
+      err => { return err; }
+    );
+  }
+
+  deleteLead(list_id, base_id){
+    this.url = this.baseUrl + "/api/v1/campaign/list/"+this.institute_id+"/base/delete/"+list_id+"/"+base_id;
+    return this.http.delete(this.url, { headers: this.headers }).map(
+      data => { return data },
+      err => { return err; }
+    );
+  }
+
+  deleteMultiLeads(obj){
+    this.url = this.baseUrl + "/api/v1/campaign/list/"+this.institute_id+"/bulkDeleteLeads";
+    return this.http.post(this.url, obj, { headers: this.headers }).map(
+      data => { return data },
+      err => { return err; }
+    );
+  }
+
+
 }
