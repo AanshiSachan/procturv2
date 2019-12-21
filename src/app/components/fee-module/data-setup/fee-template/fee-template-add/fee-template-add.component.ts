@@ -227,12 +227,15 @@ export class FeeTemplateAddComponent implements OnInit {
   // set editional fee as per country --laxmi 
   selectedCountryCode(country_id) {
     this.selectedCountry = null;
+    this.showDetails = false;
     this.countryDetails.forEach(country => {
       if (country.id == Number(country_id)) {
         this.selectedCountry = country;
       }
     });
+    console.log(this.selectedCountry);
     this.fillFeeType(this.countryAdditioalFeeTypes[country_id]);
+    this.clearManageFee();
     this.additionalInstallment.country_id = this.addNewTemplate.country_id = country_id;
     this.installMentTable && this.installMentTable.length && this.installMentTable.forEach(installement => {
       installement.country_id =country_id;
@@ -354,21 +357,26 @@ export class FeeTemplateAddComponent implements OnInit {
         }
       }
       this.otherInstList.push(this.additionalInstallment);
-      this.additionalInstallment = {
-        days: 0,
-        day_type: 1,
-        fee_type: -1,
-        fees_amount: 0,
-        initial_fee_amount: 0,
-        is_referenced: 'N',
-        schedule_id: 0,
-        service_tax: 0,
-        service_tax_applicable: 'N',
-        fee_type_name: '',
-        country_id: this.additionalInstallment.country_id
-      }
+      this.clearManageFee();
     }
   }
+
+  clearManageFee(){
+    this.additionalInstallment = {
+      days: 0,
+      day_type: 1,
+      fee_type: -1,
+      fees_amount: 0,
+      initial_fee_amount: 0,
+      is_referenced: 'N',
+      schedule_id: 0,
+      service_tax: 0,
+      service_tax_applicable: 'N',
+      fee_type_name: '',
+      country_id: this.additionalInstallment.country_id
+    }
+  }
+
 
   fillFeeType(data) {
     this.otherFeetype = [];

@@ -241,6 +241,8 @@ export class StudentFeeService {
                     }
                     unPaidAmount = unPaidAmount + amountDue;
                     totalFeeAmount = totalFeeAmount + amountDue + instal.amount_paid;
+                    console.log('tax',this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax, country_id));
+                    console.log('value',instal.initial_fee_amount_before_disocunt_before_tax);
                     instal.tax = this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax, country_id) - instal.initial_fee_amount_before_disocunt_before_tax;
                 }
                 instal.uiSelected = false;
@@ -273,6 +275,7 @@ export class StudentFeeService {
             }
             subjectWiseSchduleArray.push(obj);
         })
+        console.log(subjectWiseSchduleArray);
         return subjectWiseSchduleArray;
     }
 

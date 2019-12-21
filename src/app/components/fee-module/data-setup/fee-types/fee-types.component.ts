@@ -19,7 +19,7 @@ export class FeeTypesComponent implements OnInit {
     fee_amount: '',
     fee_type_tax: 0,
     fee_type_id: 0,
-    country_id: ''
+    country_id: '' 
   }
   feeTypeList: any = [];
   countryDetails: any = [];
@@ -45,7 +45,7 @@ export class FeeTypesComponent implements OnInit {
         currency: currency
       });
 
-      formatted = formatted.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+      formatted = formatted.replace(/[,.]/g, '');
       return formatted.replace(/[0-9]/g, '');
     }
     else {
@@ -53,14 +53,19 @@ export class FeeTypesComponent implements OnInit {
     }
   }
 
-
   onRowDataChange(country_id, row) {
     this.countryDetails.forEach(countryId => {
         if(countryId.id==country_id){
           row.currency_code = countryId.currency_code;
           row.country_code = countryId.country_code;
         }
-    });;
+    });
+
+
+    if(country_id!='1'){
+      row.fee_type_tax=0;
+    }
+    
   }
 
   fetchDataForCountryDetails() {
@@ -140,6 +145,7 @@ export class FeeTypesComponent implements OnInit {
         if (this.addNewFee.fee_amount != "" && Number(this.addNewFee.fee_amount) > 0) {
           let obj: any = this.addNewFee;
           obj.country_id = Number(this.addNewFee.country_id);
+          this.onRowDataChange(obj.country_id, obj);
           this.feeTypeList.push(obj);
           this.addNewFee = {
             fee_type: '',
@@ -147,7 +153,7 @@ export class FeeTypesComponent implements OnInit {
             fee_amount: '',
             fee_type_tax: 0,
             fee_type_id: 0,
-            country_id: ''
+            country_id: ''            
           }
         }
         else {
