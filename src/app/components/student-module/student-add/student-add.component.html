@@ -643,7 +643,7 @@
                 introduced.
               </span>
             </div>
-            <div class="tax-Amount tooltipDiv">
+            <div class="tax-Amount tooltipDiv" *ngIf="studentAddFormData.country_id==1">
               <span class="label">Tax on Installment</span>
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
@@ -654,13 +654,13 @@
             </div>
 
             <div class="discount-Amount" *ngIf="cardAmountObject.additionalFees > 0">
-              <span class="label">Additional Fee (Incl of Tax)</span>
+              <span class="label">Additional Fee <span *ngIf="studentAddFormData.country_id==1"> (Incl of Tax)</span> </span>
               <br />
               <span class="amount-Value">{{cardAmountObject.additionalFees |commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
             </div>
 
             <div class="total-Amount">
-              <span class="label">Total Fee (Incl. of tax)</span>
+              <span class="label">Total Fee  <span *ngIf="studentAddFormData.country_id==1"> (Incl. of tax)</span></span>
               <br />
               <span class="amount-Value">{{cardAmountObject.feeAmountInclTax |commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
             </div>
@@ -699,7 +699,7 @@
             </div>
           </div>
 
-          <div class="table-section" *ngIf="subjectWiseInstallmentArray.length > 0">
+          <div class="table-section0" style="padding-bottom: 60px" *ngIf="subjectWiseInstallmentArray.length > 0">
             <ul>
               <li class="table-rows title-section">
 
@@ -713,14 +713,14 @@
 
                 <aside class="column-name">
                   <div class="fee-amount amount">
-                    <span>Fee (Incl. Tax)</span>
+                    <span>Fee  <span *ngIf="studentAddFormData.country_id==1">(Incl. Tax)</span></span>
                   </div>
 
                   <div class="discount-amount amount">
                     <span>Discount</span>
                   </div>
 
-                  <div class="tax-amount amount">
+                  <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1">
                     <span>Tax</span>
                   </div>
 
@@ -808,7 +808,7 @@
                           <span>Amount</span>
                         </div>
 
-                        <div class="Tax">
+                        <div class="Tax" *ngIf="studentAddFormData.country_id==1">
                           <span>Tax</span>
                         </div>
 
@@ -860,7 +860,7 @@
                           <span>{{installment.initial_fee_amount_before_disocunt_before_tax |commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
                         </div>
 
-                        <div class="Tax">
+                        <div class="Tax" *ngIf="studentAddFormData.country_id==1">
                           <span>{{installment.tax |commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
                         </div>
 
