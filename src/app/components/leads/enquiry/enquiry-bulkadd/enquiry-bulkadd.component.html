@@ -87,7 +87,7 @@
                 <th>Total Count</th>
                 <th>Success Count</th>
                 <th>Failure Count</th>
-                <th>Action</th>
+                <th *ngIf="downloadEnquiryReportAccess">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -97,7 +97,7 @@
                 <td>{{record.total_count}}</td>
                 <td>{{record.success_count}}</td>
                 <td>{{record.failure_count}}</td>
-                <td>
+                <td *ngIf="downloadEnquiryReportAccess">
                   <a *ngIf="record.failure_count != 0" [id]="record.list_id" class="download-icon" (click)="downloadBulkStatusReport(record)" id="generateAnch5">
                     Generate Report
                   </a>

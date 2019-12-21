@@ -86,6 +86,9 @@ export class SearchBoxComponent implements OnInit, OnChanges {
         this.enquiryResult;
         this.searchValue;
         this.updateResult();
+        this.studentResult.forEach((student)=>{
+            student.thumbnail_url= student.thumbnail_url+ '?' + Math.random().toFixed(2);; 
+        })
     }
 
     @HostListener("document:click", ['$event'])
