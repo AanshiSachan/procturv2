@@ -4,6 +4,7 @@ import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.m
 import { PaymentHistoryMainService } from '../../../services/payment-history/payment-history-main.service';
 import { ExcelService } from '../../../services/excel.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
+import { CommonServiceFactory } from '../../..';
 
 @Component({
   selector: 'app-gst-report',
@@ -67,6 +68,7 @@ export class GstReportComponent implements OnInit {
   getYear: number;
 
   dataStatus: number;
+  downloadFeeReportAccess:boolean = false;
 
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
@@ -115,13 +117,23 @@ export class GstReportComponent implements OnInit {
   tempRecords: any[] = [];
   records: string;
   year: number
-  constructor(private gst: PaymentHistoryMainService, private excelService: ExcelService, private cd: ChangeDetectorRef ,private pdf:ExportToPdfService) { }
+  constructor(private gst: PaymentHistoryMainService,
+     private excelService: ExcelService,
+     private cd: ChangeDetectorRef, 
+     private pdf:ExportToPdfService,
+     private commonService: CommonServiceFactory) { }
 
   ngOnInit() {
     this.getGstReport(event, this.year);
     window.scroll(0,0);
+    this.checkDownloadRoleAccess();
   }
 
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
+        this.downloadFeeReportAccess = true;
+    }
+}
 
   getGstReport(event, f) {
 
@@ -190,7 +202,7 @@ export class GstReportComponent implements OnInit {
     this.gst.downloadData(this.downloadService).subscribe(
 
       (data: any) => {
-        let byteArr = this.convertBase64ToArray(data.document);
+        let byteArr = this.commonService.convertBase64ToArray(data.document);
         let format = data.format;
         let fileName = data.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
@@ -206,17 +218,6 @@ export class GstReportComponent implements OnInit {
       }
     )
   }
-
-  convertBase64ToArray(val) {
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-  }
-
 
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {

@@ -69,7 +69,7 @@ export class InstituteDetailsComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         //console.log(err);
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     );
   }
@@ -82,7 +82,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     );
   }
@@ -95,7 +95,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     );
   }
@@ -110,7 +110,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     );
   }
@@ -126,7 +126,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -144,7 +144,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -162,7 +162,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -181,7 +181,7 @@ export class InstituteDetailsComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         //console.log(err);
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -195,7 +195,7 @@ export class InstituteDetailsComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         //console.log(err);
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -240,11 +240,11 @@ export class InstituteDetailsComponent implements OnInit {
     obj.owner_primary_phone = this.instDetails.owner_primary_phone;
     obj.admin_name = this.instDetails.admin_name;
     if (!(this.validatePhoneNumber(this.instDetails.admin_primary_phone))) {
-      this.commonService.showErrorMessage('error', 'Error', 'Please check contact number');
+      this.commonService.showErrorMessage('error', '', 'Please check contact number');
       return
     }
     if (!(this.validateCaseSensitiveEmail(this.instDetails.admin_primary_email))) {
-      this.commonService.showErrorMessage('error', 'Error', 'Please check email address');
+      this.commonService.showErrorMessage('error', '', 'Please check email address');
       return
     }
     obj.admin_primary_phone = this.instDetails.admin_primary_phone;

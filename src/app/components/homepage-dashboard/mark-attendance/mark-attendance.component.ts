@@ -13,6 +13,7 @@ import { of } from 'rxjs/observable/of';
 import { TopicListingService } from '../../../services/course-services/topic-listing.service';
 import { Observable } from 'rxjs/Observable';
 import { TreeItemLookup } from '@progress/kendo-angular-treeview';
+import { element } from 'protractor';
 
 
 @Component({
@@ -64,6 +65,11 @@ export class MarkAttendanceComponent implements OnInit {
   public children;
   public hasChildren;
   public isExpanded;
+
+
+  showTopicsModal: boolean = false;
+  topicsList : any = [];
+  totalTopicsList: any = [];
 
   constructor(
     private router: Router,
@@ -124,8 +130,8 @@ export class MarkAttendanceComponent implements OnInit {
     if (this.subject_id == '' || this.subject_id == null || this.subject_id == '-1' || this.subject_id == undefined) {
       let obj = {
         type: 'error',
-        title: 'Error',
-        body: 'Please Select Subject'
+        title: '',
+        body: 'Please select subject'
       }
       this.appC.popToast(obj);
       return;
@@ -151,8 +157,8 @@ export class MarkAttendanceComponent implements OnInit {
           else {
             let obj = {
               type: 'info',
-              title: 'Error',
-              body: 'No topics available to Link'
+              title: '',
+              body: 'No topic(s) available to link'
             }
             this.appC.popToast(obj);
           }
@@ -161,7 +167,7 @@ export class MarkAttendanceComponent implements OnInit {
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
-            title: 'Error',
+            title: '',
             body: err.error.message
           }
           this.appC.popToast(obj);
@@ -170,7 +176,149 @@ export class MarkAttendanceComponent implements OnInit {
     }
   }
 
+  // update topics in batch model
+  showTopicsListingOfBatch(){
+    if(this.subject_id == null || this.subject_id == undefined || this.subject_id == '' || this.subject_id == -1){
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: 'Please select subject'
+      }
+      this.appC.popToast(msg);
+  }
+  else {
+    if(!this.topicUpdated){
+      this.topicService.getAllTopicsSubTopics(this.subject_id).subscribe(data =>{
+        let responseDate : any;
+        responseDate = data;
+        this.topicsList = [];
+        this.totalTopicsList = [];
+        if(responseDate.length && responseDate != null){
+          this.showTopicsModal = true;
+          this.topicsList = responseDate;
+          var selectedTopicIdsArr = (this.batch_info.topics_covered != null && this.batch_info.topics_covered != '') ? this.batch_info.topics_covered.split('|') : '';
+          this.topicsList.forEach((el,index)=>{
+            this.totalTopicsList.push(el);
+            if(selectedTopicIdsArr != '' && selectedTopicIdsArr.indexOf((el.topicId).toString()) > -1){
+              el.checked= true;
+            }
+            if(el.subTopic.length){
+              this.fetchAllTopics(el.subTopic,selectedTopicIdsArr);
+            }
+          })
+          /* if(this.batch_info.topics_covered != null && this.batch_info.topics_covered != ''){
+            var selectedTopicIdsArr = this.batch_info.topics_covered.split('|');
+            selectedTopicIdsArr.forEach((id,index) =>{
+              
+            })
+          } */
+          console.log('total topic list:',this.topicsList)
+          console.log('topics covered',this.batch_info.topics_covered);
+        }
+        else {
+          let obj = {
+            type: 'info',
+            title: '',
+            body: 'No topics available to link'
+          }
+          this.appC.popToast(obj);
+        }
+      })
+    }
+  }
+}
 
+fetchAllTopics(topic,selectedTopicIdsArr){
+  topic.forEach((ele,ind)=>{
+    this.totalTopicsList.push(ele);
+    if(selectedTopicIdsArr != '' && selectedTopicIdsArr.indexOf((ele.topicId).toString()) > -1){
+      ele.checked= true;
+    }
+    if(ele.subTopic.length){
+      this.fetchAllTopics(ele.subTopic,selectedTopicIdsArr);
+    }
+  })
+}
+
+onArrowToggle(topic){
+  topic.isExpand = !(topic.isExpand);
+}
+closeTopicModal(){
+  this.showTopicsModal = false;
+}
+  selectTopics(topic){
+  if(topic.subTopic.length){
+    this.checkAllSubTopics(topic.subTopic,topic.checked);
+   }
+   if(!topic.checked){
+     if(topic.parentTopicId != 0){
+       this.uncheckParent(topic)
+     }
+   }
+   this.checkParent(topic)
+}
+  checkAllSubTopics(topic,checkedKey){
+      topic.forEach((item,index)=>{
+        if(checkedKey){
+          item.checked = true;
+        }
+        else {
+          item.checked = false;
+        }
+        if(item.subTopic.length){
+          this.checkAllSubTopics(item.subTopic, checkedKey)
+        }
+      })
+  }
+  checkParent(topic){
+    var checkAll: boolean = true;
+    if(this.totalTopicsList.find(el => el.topicId == topic.topicId) != undefined){
+      var parentTopic = this.totalTopicsList.find(ele => ele.topicId == topic.parentTopicId);
+      if(parentTopic != undefined){
+      if(parentTopic.subTopic.length){
+        parentTopic.subTopic.forEach(subTpc =>{
+          if(!subTpc.checked){
+            checkAll = false;
+          }
+        });
+        if(checkAll){
+          parentTopic.checked = true;
+          if(parentTopic.parentTopicId != 0){
+            this.checkParent(parentTopic)
+          }
+        }
+      }
+    }
+    }
+  }
+  uncheckParent(topic){
+  var getParentId = this.totalTopicsList.find(el => el.topicId == topic.parentTopicId);
+  if(getParentId != undefined){
+    getParentId.checked = false;
+    if(getParentId.parentTopicId !=0){
+      this.uncheckParent(getParentId)
+    }
+  }
+  }
+  updateBatchTopics(){
+    this.isRippleLoad = true;
+    var checkedTopics = this.totalTopicsList.filter(el => el.checked == true);
+    if(checkedTopics != undefined){
+     var  getTopicIds = checkedTopics.map(obj =>{
+      return obj.topicId
+      });
+      getTopicIds = getTopicIds.join('|');
+      this.batch_info.topics_covered = getTopicIds;     
+        let obj = {
+          type: 'success',
+          title: '',
+          body: 'Topics updated successfully'
+        }
+        this.appC.popToast(obj);
+        this.showTopicsModal = false;
+        this.isRippleLoad = false
+    }
+  }
   public handleChecking(itemLookup: TreeItemLookup): void {
     let subTopic = itemLookup.item.dataItem.subTopic;
     let arrayIndex = this.checkedKeys.indexOf(itemLookup.item.dataItem.topicId);
@@ -315,8 +463,8 @@ export class MarkAttendanceComponent implements OnInit {
             this.isRippleLoad = false;
             let obj = {
               type: 'info',
-              title: 'No Student In Batch',
-              body: ""
+              title: '',
+              body: "No student(s) in the batch"
             }
             this.appC.popToast(obj);
           }
@@ -357,7 +505,7 @@ export class MarkAttendanceComponent implements OnInit {
             this.isRippleLoad = false;
             let msg = {
               type: 'error',
-              title: 'Error',
+              title: '',
               body: err.error.message
             }
             this.appC.popToast(msg);
@@ -390,7 +538,7 @@ export class MarkAttendanceComponent implements OnInit {
           err => {
             let msg = {
               type: 'error',
-              title: 'Error',
+              title: '',
               body: err.error.message
             }
             this.appC.popToast(msg);
@@ -451,7 +599,7 @@ export class MarkAttendanceComponent implements OnInit {
         console.log(err);
         let msg = {
           type: 'error',
-          title: 'Error',
+          title: '',
           body: err.error.message
         }
         this.appC.popToast(msg);
@@ -476,7 +624,7 @@ export class MarkAttendanceComponent implements OnInit {
         console.log(err);
         let msg = {
           type: 'error',
-          title: 'Error',
+          title: '',
           body: err.error.message
         }
         this.appC.popToast(msg);
@@ -681,7 +829,7 @@ export class MarkAttendanceComponent implements OnInit {
         } else {
           let obj = {
             type: 'error',
-            title: 'Error',
+            title: '',
             body: 'Special characters are not allowed in homework field'
           }
           this.appC.popToast(obj);
@@ -741,7 +889,7 @@ export class MarkAttendanceComponent implements OnInit {
 
       if (this.batch_info.forSubjectWise) {
         let topic_covered_notification = 0;
-        if (e.dateLi[0].status == 'A' && e.dateLi[0].isStatusModified == 'Y') {
+        if (e.dateLi[0].status == 'A' && e.dateLi[0].isStatusModified == 'Y' && this.batch_info.topics_covered != null && this.batch_info.topics_covered != undefined && this.batch_info.topics_covered != '') {
           topic_covered_notification = 1;
         }
         let temp = {
@@ -777,7 +925,7 @@ export class MarkAttendanceComponent implements OnInit {
         this.isRippleLoad = false;
         let msg = {
           type: 'success',
-          title: 'Attendance Updated Successfully',
+          title: 'Attendance updated successfully',
           body: res.message
         }
         this.appC.popToast(msg);
@@ -789,7 +937,7 @@ export class MarkAttendanceComponent implements OnInit {
         this.isRippleLoad = false;
         let msg = {
           type: 'error',
-          title: 'Failed To Update Attendance',
+          title: '',
           body: err.error.message
         }
         this.appC.popToast(msg);
@@ -900,7 +1048,7 @@ export class MarkAttendanceComponent implements OnInit {
       res => {
         let msg = {
           type: 'success',
-          title: 'Attendance Updated',
+          title: 'Attendance updated',
           body: res.message
         }
         this.isRippleLoad = false;
@@ -910,7 +1058,7 @@ export class MarkAttendanceComponent implements OnInit {
       err => {
         let msg = {
           type: 'error',
-          title: 'Failed To Update Attendance',
+          title: '',
           body: err.message
         }
         this.isRippleLoad = false;
@@ -1098,7 +1246,7 @@ export class MarkAttendanceComponent implements OnInit {
     if (data.length == 0) {
       let msg = {
         type: 'error',
-        title: 'Error',
+        title: '',
         body: 'Please select student from student list'
       }
       this.appC.popToast(msg);
@@ -1112,8 +1260,8 @@ export class MarkAttendanceComponent implements OnInit {
           this.isRippleLoad = false;
           let msg = {
             type: 'success',
-            title: 'Marked',
-            body: 'Attendance Marked Successfully'
+            title: '',
+            body: 'Attendance marked successfully'
           }
           this.appC.popToast(msg);
           this.backToHome();
@@ -1122,7 +1270,7 @@ export class MarkAttendanceComponent implements OnInit {
           this.isRippleLoad = false;
           let msg = {
             type: 'error',
-            title: 'Error',
+            title: '',
             body: err.error.message
           }
           this.appC.popToast(msg);
@@ -1136,8 +1284,8 @@ export class MarkAttendanceComponent implements OnInit {
           this.isRippleLoad = false;
           let msg = {
             type: 'success',
-            title: 'Marked',
-            body: 'Attendance Marked Successfully'
+            title: '',
+            body: 'Attendance marked successfully'
           }
           this.appC.popToast(msg);
           this.backToHome();
@@ -1146,7 +1294,7 @@ export class MarkAttendanceComponent implements OnInit {
           this.isRippleLoad = false;
           let msg = {
             type: 'error',
-            title: 'Error',
+            title: '',
             body: err.error.message
           }
           this.appC.popToast(msg);

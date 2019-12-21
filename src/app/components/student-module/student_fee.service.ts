@@ -34,6 +34,7 @@ export interface FeeModel {
     reference_no?: string;
     invoice_no?: any;
     course_id?: any;
+    country_id?:any;
     subject_id?: any;
     standard_id?: any;
     master_course?: any;
@@ -164,12 +165,12 @@ export class StudentFeeService {
 
 
     public fetchStudentFeeSchedule(id, is_archived): Observable<FeeModel> {
-      let url;
-        if(is_archived != "" && is_archived != null){
-          url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id + "?is_archived="+is_archived;
+        let url;
+        if (is_archived != "" && is_archived != null) {
+            url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id + "?is_archived=" + is_archived;
         }
-        else{
-          url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id;
+        else {
+            url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id;
         }
 
         // let url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id;
@@ -204,7 +205,7 @@ export class StudentFeeService {
         return distinct;
     }
 
-    categoriseCourseWise(data, tax) {
+    categoriseCourseWise(data, tax, country_id) {
         tax = Number(tax);
         let subjectWiseSchduleArray = [];
         let uniqueCourseName = Array.from(new Set(data.map(el => el[this.filterForModel.course_id_filter])));
@@ -231,7 +232,7 @@ export class StudentFeeService {
                     unPaidAmount = unPaidAmount + amountDue;
                     totalFeeAmount = totalFeeAmount + amountDue + instal.amount_paid;
                     amountOfInstallment = amountOfInstallment + amountDue + instal.amount_paid;
-                    instal.tax = Math.round(Number(amountDue + instal.amount_paid) - this.calculateInitialAmountOfRemainingAmount(Number(amountDue + instal.amount_paid), tax));
+                    instal.tax = Math.round(Number(amountDue + instal.amount_paid) - this.calculateInitialAmountOfRemainingAmount(Number(amountDue + instal.amount_paid), tax,country_id));
                 } else {
                     if (instal.paid_full == "N" && instal.balance_amount > 0) {
                         amountDue = Number(instal.balance_amount);
@@ -240,7 +241,9 @@ export class StudentFeeService {
                     }
                     unPaidAmount = unPaidAmount + amountDue;
                     totalFeeAmount = totalFeeAmount + amountDue + instal.amount_paid;
-                    instal.tax = this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax) - instal.initial_fee_amount_before_disocunt_before_tax;
+                    console.log('tax',this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax, country_id));
+                    console.log('value',instal.initial_fee_amount_before_disocunt_before_tax);
+                    instal.tax = this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax, country_id) - instal.initial_fee_amount_before_disocunt_before_tax;
                 }
                 instal.uiSelected = false;
                 master_course_name = instal[this.filterForModel.master_course_name];
@@ -259,7 +262,7 @@ export class StudentFeeService {
             obj.feeAmountIncludingTax = totalFeeAmount;
             obj.paidAmount = Number(paidAmount);
             obj.discount = discount;
-            let initAmout: number = this.calculateInitialAmountOfRemainingAmount(amountOfInstallment, tax);
+            let initAmout: number = this.calculateInitialAmountOfRemainingAmount(amountOfInstallment, tax,country_id);
             obj.taxAmount = Math.floor(amountOfInstallment - initAmout);
             obj.dueAmount = unPaidAmount;
             if (obj.dueAmount == 0) {
@@ -272,10 +275,11 @@ export class StudentFeeService {
             }
             subjectWiseSchduleArray.push(obj);
         })
+        console.log(subjectWiseSchduleArray);
         return subjectWiseSchduleArray;
     }
 
-    makeCardLayoutJson(data, tax) {
+    makeCardLayoutJson(data, tax,country_id) {
         let obj: any = {
             feeAmountInclTax: 0,
             feeAmountExclTax: 0,
@@ -306,7 +310,7 @@ export class StudentFeeService {
                     } else if (installment.paid_full == "N" && installment.balance_amount == 0) {
                         obj.amountDue = obj.amountDue + Number(installment.fees_amount);
                     }
-                    initialAmount = this.calucalteAmountAfterApplyingTax(installment.initial_fee_amount_before_disocunt_before_tax, installment.service_tax);
+                    initialAmount = this.calucalteAmountAfterApplyingTax(installment.initial_fee_amount_before_disocunt_before_tax, installment.service_tax, country_id);
                     obj.additionalFees = obj.additionalFees + initialAmount;
                 }
                 obj.discountAmount = obj.discountAmount + Number(installment.discount);
@@ -316,7 +320,7 @@ export class StudentFeeService {
         );
 
 
-        let initialAmountWithoutTax: number = this.calculateInitialAmountOfRemainingAmount(Number(installmentDueAmount), tax);
+        let initialAmountWithoutTax: number = this.calculateInitialAmountOfRemainingAmount(Number(installmentDueAmount), tax,country_id);
         obj.taxAmount = installmentDueAmount - initialAmountWithoutTax;
 
 
@@ -416,11 +420,11 @@ export class StudentFeeService {
 
     validatePaymentDetails(data) {
         if (Number(data.payingAmount) <= 0) {
-            this.commonService.showErrorMessage('error', 'Paying Amount', 'Please provide payment amount');
+            this.commonService.showErrorMessage('error', 'Paying Amount', 'Please enter payment amount');
             return false;
         }
         if (data.paid_date == null || data.paid_date == "") {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide payment date');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter payment date');
             return false;
         }
         if (sessionStorage.getItem('permissions')) {
@@ -440,18 +444,18 @@ export class StudentFeeService {
         }
 
         if (data.payment_mode == "" || data.payment_mode == null) {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide payment date');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter payment date');
             return false;
         }
         if (data.payingAmount > data.immutableAmount) {
-            this.commonService.showErrorMessage('error', '', 'Please provide paying amount less than total amount to pay.');
+            this.commonService.showErrorMessage('error', '', 'Please enter paying amount less than total amount to pay.');
             return false;
         }
         if (data.payment_mode != "Cheque/PDC/DD No.") {
             return true;
         } else {
             if (data.payingAmount != data.pdcSelectedForm.cheque_amount) {
-                this.commonService.showErrorMessage('error', 'Error', 'Please provide paying amount equals to cheque amount');
+                this.commonService.showErrorMessage('error', '', 'Please enter paying amount equals to cheque amount');
                 return false;
             } else {
                 return this.validateChequePDCJSon(data.pdcSelectedForm);
@@ -461,22 +465,22 @@ export class StudentFeeService {
 
     validateChequePDCJSon(data) {
         if (data.bank_name.trim() == '') {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide Bank Name');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter Bank Name');
             return false;
         }
 
         if (data.cheque_date == null || data.cheque_date == "") {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide Cheque Date');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter Cheque Date');
             return false;
         }
 
         if (data.cheque_no.trim() == "") {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide a Cheque Number');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter a Cheque Number');
             return false;
         }
 
         if (data.cheque_no.trim().length != 6) {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide a valid Cheque Number');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter a valid Cheque Number');
             return false;
         }
 
@@ -698,7 +702,7 @@ export class StudentFeeService {
     checkDiscountValidations(discountJson, amount, condition) {
 
         if (Number(discountJson.discountAmount) <= 0) {
-            this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Please provide valid discount amount');
+            this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Please enter valid discount amount');
             return false;
         }
 
@@ -721,7 +725,7 @@ export class StudentFeeService {
         }
 
         if (discountJson.reason == '-1') {
-            this.commonService.showErrorMessage('error', 'Discount Reason', 'Please provide discount reason');
+            this.commonService.showErrorMessage('error', 'Discount Reason', 'Please enter discount reason');
             return false;
         }
 
@@ -780,7 +784,7 @@ export class StudentFeeService {
                 if (element.balance_amount == 0) {
 
                     if (element.fees_amount <= perInstallmentDiscount) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
+                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
                         return false;
                     } else {
                         obj.discount_amount = perInstallmentDiscount;
@@ -788,14 +792,14 @@ export class StudentFeeService {
                         obj.balance_amount = 0;
                     }
                     if (obj.final_amount == 0) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
+                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
                         return false;
                     }
 
                 } else {
 
                     if (element.balance_amount <= perInstallmentDiscount) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
+                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
                         return false;
                     } else {
                         obj.discount_amount = perInstallmentDiscount;
@@ -804,7 +808,7 @@ export class StudentFeeService {
                     }
 
                     if (obj.balance_amount == 0) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
+                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
                         return false;
                     }
 
@@ -831,8 +835,9 @@ export class StudentFeeService {
         return discountArray;
     }
 
-    calculateInitialAmountOfRemainingAmount(amount: number, tax: number) {
-        if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+    calculateInitialAmountOfRemainingAmount(amount: number, tax: number,country_id) {
+        if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1' &&
+        country_id==1) {
             let initialAmount: number = (amount * 100) / (100 + tax);
             return initialAmount;
         } else {
@@ -840,8 +845,9 @@ export class StudentFeeService {
         }
     }
 
-    calucalteAmountAfterApplyingTax(amount, tax) {
-        if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+    calucalteAmountAfterApplyingTax(amount, tax, country_id) {
+        if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1' &&
+            country_id == 1) {
             let taxAmount: number = (amount * tax) / 100;
             return amount + taxAmount;
         } else {
@@ -882,7 +888,7 @@ export class StudentFeeService {
             }
 
             if (element.discount < perInstallmentDiscount) {
-                this.commonService.showErrorMessage('error', 'Error', 'Installment No. ' + element.installment_no + ':  discount amount to be removed can not be more than discount provided in installment.');
+                this.commonService.showErrorMessage('error', '', 'Installment No. ' + element.installment_no + ':  discount amount to be removed can not be more than discount provided in installment.');
                 return false;
             }
 
@@ -935,6 +941,7 @@ export class StudentFeeService {
             err => { return err }
         )
     }
+
 
     getFeeDetailsById(i): Observable<any> {
         let urlFeebyId = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + i + "/details";

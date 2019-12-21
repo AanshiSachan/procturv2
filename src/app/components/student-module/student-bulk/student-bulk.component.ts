@@ -23,6 +23,7 @@ export class StudentBulkComponent implements OnInit {
   isBulkUploadStatus: boolean = false;
   bulkUploadRecords: any[] = [];
   studentUploadForm: any;
+  downloadStudentReportAccess: boolean = false;
 
   constructor(private fetchData: FetchStudentService, private postData: PostStudentDataService,
     private appC: AppComponent, private router: Router, private auth: AuthenticatorService) {
@@ -33,7 +34,14 @@ export class StudentBulkComponent implements OnInit {
 
   ngOnInit() {
     this.fetchBulkUploadStatusData();
+    this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadStudentReportAccess')=='true'){
+        this.downloadStudentReportAccess = true;
+    }
+}
 
 
   /* base64 data to be converted to xls file */
@@ -109,7 +117,7 @@ export class StudentBulkComponent implements OnInit {
         let msg = {
           type: 'error',
           title: 'Invalid File Selected',
-          body: 'Please provide a valid excel document'
+          body: 'Please enter a valid excel document'
         }
         this.appC.popToast(msg);
       }
@@ -129,8 +137,8 @@ export class StudentBulkComponent implements OnInit {
       res => {
         let msg = {
           type: 'success',
-          title: 'Student Details Uploaded',
-          body: 'The selected file(s) have been uploaded, and will be updated shortly'
+          title: '',
+          body: 'Selected file(s) has been uploaded'
         }
         this.appC.popToast(msg);
         this.isRippleLoad = false;
@@ -138,7 +146,7 @@ export class StudentBulkComponent implements OnInit {
       err => {
         let msg = {
           type: 'error',
-          title: 'Failed To Upload Student(s)',
+          title: 'Failed to upload student(s)',
           body: err.message
         }
         this.appC.popToast(msg);
@@ -199,7 +207,7 @@ export class StudentBulkComponent implements OnInit {
           this.isUploadingXls = false;
           let data = {
             type: 'error',
-            title: "File uploaded Failed",
+            title: "File uploaded failed",
             body: xhr.response.fileName
           }
           this.appC.popToast(data);

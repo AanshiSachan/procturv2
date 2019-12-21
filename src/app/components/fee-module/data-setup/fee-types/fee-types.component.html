@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <div class="middle-section clearFix">
   <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
     <h1 class="pull-left">
@@ -40,7 +42,7 @@
       <div class="row create-standard-field">
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type != '' }">
-            <label for="slotNew">Fee Type Name
+            <label for="slotNew">Fee Type <span class="text-danger">*</span>
             </label>
             <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type" name="slotNew">
 
@@ -56,18 +58,18 @@
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.country_id != '' }">
-            <label for="slotNew">Country <span class="danger">*</span></label>
+            <label for="slotNew">Country <span class="text-danger">*</span></label>
             <select id="country_id" class="form-ctrl" [(ngModel)]="addNewFee.country_id" name="country_id" style="height: 29px;padding: 0">
               <option value=""></option>
               <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                {{data.country_code}} +{{data.country_calling_code}}
+                {{data.country_name}}
               </option>
             </select>
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_amount != '' }">
-            <label for="slotNew">Amount
+            <label for="slotNew">Fee Amount <span class="text-danger">*</span>
             </label>
             <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_amount"
               name="slotNew">
@@ -130,20 +132,23 @@
               </div>
             </td>
             <td>
-              <select id="country_id" class="form-ctrl" [(ngModel)]="row.country_id" name="country_id" style="height: 29px;padding: 0;border: 1px solid #ccc; background: transparent;">
+              <select id="country_id" class="form-ctrl input_txt" [(ngModel)]="row.country_id" 
+              name="country_id"  (ngModelChange)="onRowDataChange($event,row)">
                 <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                  {{data.country_code}} +{{data.country_calling_code}}
+                  {{data.country_name}}
                 </option>
               </select>
     </td>
     <td>
-      <div class="field-wrapper">
-        <input type="number" class="form-ctrl editCellInput" style="width:25%" [(ngModel)]="row.fee_amount" name="label">
-      </div>
+        <span>{{getCurrencyDetails(row.fee_amount,row.currency_code,row.country_code)}}</span>
+      <span class="field-wrapper">
+       <input type="number" class="form-ctrl editCellInput" style="width:25%;display: inherit;" [(ngModel)]="row.fee_amount" name="label">
+      </span>
     </td>
     <td>
       <div class="field-wrapper">
-        <input type="number" class="form-ctrl editCellInput" style="width:25%" [readonly]="isTaxEnableFeeInstallments" [(ngModel)]="row.fee_type_tax"
+        <!-- disabled =row.country_id!='1' && isTaxEnableFeeInstallments -->
+    <input type="number"  class="form-ctrl editCellInput" [disabled]="row.country_id!='1'" [ngClass]="{'disable_input': row.country_id!='1'}" style="width:25%" [(ngModel)]="row.fee_type_tax"
           name="tax">
       </div>
     </td>

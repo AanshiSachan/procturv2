@@ -81,6 +81,12 @@ export class RobTableComponent implements OnChanges, DoCheck {
               }
             }
           );
+          
+          if(this.tableName=='student'){
+              this.records.forEach((record)=>{
+                record.thumbnail_url = record.thumbnail_url  + '?' + Math.random().toFixed(2);
+              }) // dont remove this code it loads image dynamically             
+          }
     }
 
     ngDoCheck() {

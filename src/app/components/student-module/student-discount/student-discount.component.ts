@@ -101,7 +101,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                 this.discountReason = res;
             },
             err => {
-                this.commonService.showErrorMessage('error', 'Error', err.error.message);
+                this.commonService.showErrorMessage('error', '', err.error.message);
             }
         )
     }
@@ -185,14 +185,14 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     onDiscountAmountChange(event) {
         event = Number(event)
         if (event < 0) {
-            this.commonService.showErrorMessage('error', 'Invalid Discount', 'Please provide valid discount');
+            this.commonService.showErrorMessage('error', 'Invalid Discount', 'Please enter valid discount');
             this.discountPopUpForm.value = 0;
             this.discountPopUpForm.discountAmount = 0;
             return
         }
         if (this.discountPopUpForm.type == "percentage") {
             if (event >= 100) {
-                this.commonService.showErrorMessage('error', 'Invalid Discount Percentage', 'Please provide valid discount percentage');
+                this.commonService.showErrorMessage('error', 'Invalid Discount Percentage', 'Please enter valid discount percentage');
                 this.discountPopUpForm.value = 0;
                 this.discountPopUpForm.discountAmount = 0;
                 return;
@@ -265,7 +265,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
             },
             err => {
                 this.btnApplyDiscount.nativeElement.disabled = false;
-                this.commonService.showErrorMessage('error', 'Error', err.error.message);
+                this.commonService.showErrorMessage('error', '', err.error.message);
             }
         )
 
@@ -274,7 +274,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     removeDiscountAction() {
 
         if (this.discountPopUpForm.discountAmount > this.totalDiscountApplied) {
-            this.commonService.showErrorMessage('error', 'Error', 'Discount Amount is greater then discount given to student');
+            this.commonService.showErrorMessage('error', '', 'Discount Amount is greater then discount given to student');
             return false;
         }
 
@@ -309,7 +309,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
             },
             err => {
                 this.btnRemoveDiscount.nativeElement.disabled = false;
-                this.commonService.showErrorMessage('error', 'Error', err.error.message);
+                this.commonService.showErrorMessage('error', '', err.error.message);
             }
         )
     }
@@ -323,7 +323,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                 this.cd.markForCheck();
             },
             err => {
-                this.commonService.showErrorMessage('error', 'Error', err.error.message);
+                this.commonService.showErrorMessage('error', '', err.error.message);
             }
         )
     }

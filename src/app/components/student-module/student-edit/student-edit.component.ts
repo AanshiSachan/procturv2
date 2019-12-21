@@ -131,6 +131,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   customFileArr: any[] = [];
   category_id: number | string = "";
   uploadedFileData: any[] = [];
+  downloadStudentReportAccess : boolean = false;
 
   studentAddFormData: StudentForm = {
     student_name: "",
@@ -347,7 +348,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     this.fetchDataForCountryDetails();
     this.getUploadedFileData();
+    this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadStudentReportAccess')=='true'){
+        this.downloadStudentReportAccess = true;
+    }
+}
 
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
@@ -498,7 +506,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     },
       (err: any) => {
         this.isRippleLoad = false;
-        // this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        // this.commonService.showErrorMessage('error', '', err.error.message);
         let obj = {
           type: 'error',
           title: err.error.message,
@@ -865,8 +873,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       err => {
         let msg = {
           type: 'info',
-          title: 'No Course Assigned For Standard',
-          body: ''
+          title: '',
+          body: 'No course assigned for standard'
         }
         this.appC.popToast(msg);
       });
@@ -1147,8 +1155,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         else {
           let alert = {
             type: 'error',
-            title: 'Failed To Add Student',
-            body: ''
+            title: '',
+            body: 'Failed to add student'
           }
           this.appC.popToast(alert);
           this.isDuplicateContactClose();
@@ -1198,7 +1206,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         let obj = {
           type: 'error',
           title: 'Student Roll Number Missing',
-          body: "Please provide a valid roll number"
+          body: "Please enter a valid roll number"
         };
         this.appC.popToast(obj);
       }
@@ -1371,24 +1379,24 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               if (isNaN(this.studentAddFormData.guardian_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone, this.maxlength,this.country_id)==true) {
                 return true;
               } else {
-                this.commonServiceFactory.showErrorMessage('error', 'Phone Number error', 'Please provide valid phone number');
+                this.commonServiceFactory.showErrorMessage('error', '', 'Please enter valid contact number');
                 return false;
               }
             }
             return true;
           }
           else{
-            this.commonServiceFactory.showErrorMessage('error', 'Phone Number error', 'Please provide valid phone number');
+            this.commonServiceFactory.showErrorMessage('error', '', 'Please enter valid contact number');
             return false;
           }
         }
         return true;
       } else {
-        this.commonServiceFactory.showErrorMessage('error', 'Phone Number error', 'Please provide valid phone number');
+        this.commonServiceFactory.showErrorMessage('error', '', 'Please enter valid contact number');
         return false;
       }
     } else {
-      this.commonServiceFactory.showErrorMessage('error', 'Error', 'Please provide contact number');
+      this.commonServiceFactory.showErrorMessage('error', '', 'Please enter contact number');
       return false;
     }
 
@@ -1463,7 +1471,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (!email.test(this.studentAddFormData.student_email)) {
           let alert = {
             type: 'error',
-            title: 'Invalid Input',
+            title: '',
             body: 'Please enter valid email id'
           }
           this.appC.popToast(alert);
@@ -1474,7 +1482,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (!email.test(this.studentAddFormData.parent_email)) {
           let alert = {
             type: 'error',
-            title: 'Invalid Input',
+            title: '',
             body: 'Please enter valid parent email id'
           }
           this.appC.popToast(alert);
@@ -1486,7 +1494,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (!email.test(this.studentAddFormData.guardian_email)) {
           let alert = {
             type: 'error',
-            title: 'Invalid Input',
+            title: '',
             body: 'Please enter valid guardian email id'
           }
           this.appC.popToast(alert);
@@ -1563,7 +1571,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     else {
       let alert = {
         type: 'error',
-        title: 'Required Fields not filled',
+        title: '',
         body: 'Please fill all the required fields'
       }
       this.appC.popToast(alert);
@@ -1689,7 +1697,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         let alert = {
           type: 'success',
           title: 'Institute Record Deleted',
-          body: " The institute data has been removed from your account"
+          body: " Institute record deleted successfully"
         }
         this.appC.popToast(alert);
         this.fetchInstituteInfo();
@@ -1697,7 +1705,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       err => {
         let alert = {
           type: 'error',
-          title: 'Your Delete Request Has Been Denied',
+          title: '',
           body: "The requested institute is currently in use and cannot be deleted"
         }
         this.appC.popToast(alert);
@@ -1814,13 +1822,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
 
           }
-          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
+          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax,res.country_id);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           // console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
-          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax);
-          // console.log('subjectWise', this.subjectWiseInstallmentArray);
-          this.onPaidOrUnpaidCheckbox();
+          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax,res.country_id);
+           console.log('subjectWise', this.subjectWiseInstallmentArray);
+          this.onPaidOrUnpaidCheckbox(res.country_id);
         } else {
           this.showFeeSection = false;
           this.checkBoxGroup.hideReconfigure = false;
@@ -1891,24 +1899,24 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
 
-  onPaidOrUnpaidCheckbox() {
+  onPaidOrUnpaidCheckbox(country_id) {
     if (this.checkBoxGroup.unpaidInstallment && this.checkBoxGroup.paidInstallment) {
       let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
-      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(installment, this.clonedFeeObject.registeredServiceTax);
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(installment, this.clonedFeeObject.registeredServiceTax,country_id);
       return;
     }
 
     if (this.checkBoxGroup.unpaidInstallment) {
       let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
       let unpaidInstallment = installment.filter(el => el.paid_full == "N");
-      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax);
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax,country_id);
       return;
     }
 
     if (this.checkBoxGroup.paidInstallment) {
       let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
       let unpaidInstallment = installment.filter(el => el.paid_full == "Y");
-      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax);
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax,country_id);
       return;
     }
 
@@ -2006,7 +2014,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       res => {
         this.btnPayment.nativeElement.disabled = false;
         this.isRippleLoad = false;
-        this.commonServiceFactory.showErrorMessage('success', 'Fees Updated', 'Fee details has been updated');
+        this.commonServiceFactory.showErrorMessage('success', '', 'Fee details has been updated');
         if (this.paymentPopUpJson.genFeeRecipt) {
           this.generateFeeRecipt(res);
         }
@@ -2030,14 +2038,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.downloadDocument(res);
       },
       err => {
-        this.commonServiceFactory.showErrorMessage('error', 'Error', err.error.message);
+        this.commonServiceFactory.showErrorMessage('error', '', err.error.message);
       });
   }
 
   emailFeeReceipt(res) {
     this.fetchService.emailReceiptById(this.student_id, res.other).subscribe(
       res => {
-        this.commonServiceFactory.showErrorMessage('success', 'Reciept Sent', 'Receipt has been sent to student/parent email ID');
+        this.commonServiceFactory.showErrorMessage('success', '', 'Receipt has been sent to student/parent email ID');
       }
     )
   }
@@ -2060,7 +2068,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   totalPartialChange(e) {
     e = Number(e.target.value);
     if (e == 0) {
-      this.commonServiceFactory.showErrorMessage('warning', 'Invalid Payment Amount', '');
+      this.commonServiceFactory.showErrorMessage('warning', '', 'Invalid payment amount');
       this.paymentPopUpJson.payingAmount = this.paymentPopUpJson.immutableAmount;
       this.paymentPopUpJson.pdcSelectedForm.cheque_amount = this.paymentPopUpJson.immutableAmount;
     }
@@ -2069,11 +2077,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
 
     // if (e > this.paymentPopUpJson.immutableAmount) {
-    //   this.commonServiceFactory.showErrorMessage('warning', 'Invalid Payment Amount', '');
+    //   this.commonServiceFactory.showErrorMessage('warning', 'Invalid payment amount', '');
     //   this.paymentPopUpJson.payingAmount = this.paymentPopUpJson.immutableAmount;
     //   this.paymentPopUpJson.pdcSelectedForm.cheque_amount = this.paymentPopUpJson.immutableAmount;
     // } else if (e <= 0) {
-    //   this.commonServiceFactory.showErrorMessage('warning', 'Invalid Payment Amount', '');
+    //   this.commonServiceFactory.showErrorMessage('warning', 'Invalid payment amount', '');
     //   this.paymentPopUpJson.payingAmount = this.paymentPopUpJson.immutableAmount;
     //   this.paymentPopUpJson.pdcSelectedForm.cheque_amount = this.paymentPopUpJson.immutableAmount;
     // }
@@ -2147,6 +2155,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       template_effective_date: ""
     }
     this.feeTempSelected = "";
+  }
+
+  getInstasllemttDetails(installment){
+    console.log(installment);
   }
 
   applyConfiguredFees($event) {
@@ -2242,7 +2254,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       let msg = {
         type: 'error',
         title: 'Invalid Date',
-        body: 'Please provide a valid date'
+        body: 'Please enter a valid date'
       }
       this.appC.popToast(msg);
     }
@@ -2446,7 +2458,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.generateAcknowledgeAPi(chequeId, this.student_id, 'undefined');
     }
     else {
-      this.commonServiceFactory.showErrorMessage('error', 'No PDC Selected', '')
+      this.commonServiceFactory.showErrorMessage('error', 'No PDC selected', '')
     }
   }
 
@@ -2467,7 +2479,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.isRippleLoad = false;
         if (key == 'Y') {
           // this.commonServiceFactory.showErrorMessage('success', 'Send Successfullly', '');
-          this.commonServiceFactory.showErrorMessage('success', 'Acknowledgement receipt sent to ' + this.studentAddFormData.student_email, '');
+          this.commonServiceFactory.showErrorMessage('success', '', 'Acknowledgement receipt sent to ' + this.studentAddFormData.student_email);
         } else if (key == "undefined") {
           this.downloadDocument(res);
         }
@@ -2547,7 +2559,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (this.addInventory.item_id != '-1') {
       if (this.addInventory.alloted_units > 0) {
         if (this.addInventory.alloted_units > this.addInventory.available_units) {
-          this.appC.popToast({ type: "error", title: "Error", body: "Please provide allocated unit less than available units" });
+          this.appC.popToast({ type: "error", title: '', body: "Please enter allocated unit less than available units" });
           return;
         } else {
           if(this.addInventory.date_of_dispatch!=''){
@@ -2570,7 +2582,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.postService.allocateInventory(obj).subscribe(
             res => {
               this.isRippleLoad = false;
-              this.appC.popToast({ type: "success", title: "Allocated Inventory", body: "Inventory Item Allocated Successfully" });
+              this.appC.popToast({ type: "success", title: "", body: "Inventory Item Allocated Successfully" });
               this.addInventory = {
                 alloted_units: 0,
                 item_id: -1,
@@ -2585,17 +2597,17 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             },
             err => {
               this.isRippleLoad = false;
-              this.appC.popToast({ type: "error", title: "Error", body: err.error.message });
+              this.appC.popToast({ type: "error", title: '', body: err.error.message });
             }
           )
 
         }
       } else {
-        this.appC.popToast({ type: "error", title: "Error", body: "Please provide valid unit to allocate" });
+        this.appC.popToast({ type: "error", title: '', body: "Please enter valid unit to allocate" });
         return;
       }
     } else {
-      this.appC.popToast({ type: "error", title: "Error", body: "Please provide inventory item to add" });
+      this.appC.popToast({ type: "error", title: '', body: "Please enter inventory item to add" });
       return;
     }
   }
@@ -2617,7 +2629,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (confirm('Are you sure, you want to delete inventory?')) {
       this.postService.deleteInventory(data.allocation_id).subscribe(
         res => {
-          this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "Deleted Successfully Inventory" });
+          this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "Inventory deleted successfully" });
           this.getAllocatedHistory();
           this.fetchInventoryList();
         }

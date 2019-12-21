@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+  </loaders-css>
 <div class="middle-section clearFix code-wrapper">
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left" style="padding-left:7px;">
@@ -79,7 +81,7 @@
             <select id="CourseDdn" class="side-form-ctrl" name="CourseCountry" [(ngModel)]="addNewTemplate.country_id" (ngModelChange)="selectedCountryCode($event)">
               <option value="-1"></option>
               <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                (+{{data.country_calling_code}} )&nbsp; {{data.country_name}}
+                 {{data.country_name}}
               </option>
             </select>
           </div>
@@ -204,7 +206,8 @@
                       (
                       <img src="{{selectedCountry?.currency_symbol}}" style="max-height: 9px" />)</span>
                   </th>
-                  <th>Fees Amount (Incl Tax)
+                  <th>Fees Amount
+                    <span *ngIf="addNewTemplate.country_id=='1'"> (Incl Tax)</span>
                     <span *ngIf="selectedCountry">
                       (
                       <img src="{{selectedCountry?.currency_symbol}}" style="max-height: 9px" />)</span>
@@ -217,7 +220,7 @@
                     {{i + 1}} </td>
                   <td>
                     <div class="form-wrapper">
-                      <select [(ngModel)]="row.day_type" style="background: transparent" class="side-form-ctrl">
+                      <select [(ngModel)]="row.day_type" (ngModelChange)="changesValuesAsPerType(row)" style="background: transparent" class="side-form-ctrl">
                         <option value="1">Course Assign Date (CAD)</option>
                         <option value="2">No of days after CAD</option>
                         <option value="3">No of Month after CAD</option>
@@ -226,16 +229,16 @@
                   </td>
                   <td>
                     <div class="form-wrapper" style="background: transparent;">
-                      <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
+                      <input type="number" min="0" style="background: transparent;" [disabled]="row.day_type=='1'" [ngClass]="{'disable_input': row.day_type=='1'}"  class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
                     </div>
                   </td>
                   <td>
                     <div class="form-wrapper">
-                      <select id="CourseDdn" style="background: transparent;margin: 5px 0px;
-                        width: 100%;" class="side-form-ctrl" name="CourseCountry" [(ngModel)]="row.country_id">
+                      <select id="CourseDdn" style="background: transparent;margin: 5px 0px; 
+                        width: 100%;" disabled class="side-form-ctrl disable_input" name="CourseCountry" [(ngModel)]="row.country_id">
                         <option value="-1"></option>
-                        <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                          (+{{data.country_calling_code}})&nbsp; {{data.country_name}}
+                        <option [value]="data.id"  selected *ngFor='let data of countryDetails'>
+                           {{data.country_name}}
                         </option>
                       </select>
                     </div>
@@ -254,7 +257,7 @@
                   </td>
                   <td>
                     <div class="form-wrapper" style="background: transparent;">
-                      <input type="number" min="0" [readonly]="addNewTemplate.tax_type == 'exclusive'" class="editCellInput" (keyup)="userChangedAmountTotalAmount(row ,$event)"
+                      <input type="number" min="0" style="background: transparent;" [readonly]="addNewTemplate.tax_type == 'exclusive'" class="editCellInput" (keyup)="userChangedAmountTotalAmount(row ,$event)"
                         [(ngModel)]="row.totalAmount" name="label" class="side-form-ctrl">
                     </div>
                   </td>
@@ -267,7 +270,7 @@
       </section>
       <hr>
       <section class="additionalFeeSection">
-        <h3>Edit Additional Fees</h3>
+        <h3>Manage Additional Fees</h3>
 
         <div class="row">
           <div class="c-sm-2 c-md-2 c-lg-2">
@@ -285,7 +288,7 @@
           <div class="c-sm-2 c-md-2 c-lg-2">
             <div class="form-wrapper has-value">
               <label for="row.category_id">Trigger Date</label>
-              <select id="" class="side-form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.day_type" name="row.category_id">
+              <select id="" class="side-form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.day_type" (ngModelChange)="changesValuesAsPerType(additionalInstallment)" name="row.category_id">
                 <option value="1">Course Assign Date (CAD)</option>
                 <option value="2">No of days after CAD</option>
                 <option value="3">No of Month after CAD</option>
@@ -297,18 +300,18 @@
             <div class="form-wrapper has-value">
               <label for="slotNew"> No. (Days/Months)
               </label>
-              <input type="number" min="0" style="background: transparent;" class="side-form-ctrl" [(ngModel)]="additionalInstallment.days"
+              <input type="number" min="0" style="background: transparent;" class="side-form-ctrl" [disabled]="additionalInstallment.day_type=='1'" [ngClass]="{'disable_input': additionalInstallment.day_type=='1'}" [(ngModel)]="additionalInstallment.days"
                 name="slotNew">
             </div>
           </div>
           <div class="c-sm-2 c-md-2 c-lg-2">
             <div class="form-wrapper has-value">
               <label for="row.country_id">Country</label>
-              <select disabled class="side-form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.country_id" 
+              <select disabled class="side-form-ctrl disable_input"  [(ngModel)]="additionalInstallment.country_id" 
                 name="row.country_id">
                 <option value="-1"></option>
                 <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                  (+{{data.country_calling_code}})&nbsp; {{data.country_name}}
+                   {{data.country_name}}
                 </option>
               </select>
             </div>
@@ -332,12 +335,12 @@
               <div class="c-sm-7 c-md-7 c-lg-7  form-wrapper has-value"  style=" width: 60%;" >
                 <label for="slotNew">Tax Applicable (%)
                 </label>
-                <input type="number" min="0" style="background: transparent" disabled class="side-form-ctrl" [(ngModel)]="additionalInstallment.service_tax"
+                <input type="number" min="0"  disabled class="side-form-ctrl disable_input" [(ngModel)]="additionalInstallment.service_tax"
                   name="slotNew">
               </div>
             </div>
           </div>
-          <div class="c-sm-1 c-md-1 c-lg-1" style="margin-top:20px;">
+          <div class="c-sm-1 c-md-1 c-lg-1" style="margin-top:20px;cursor: pointer;">
             <img src="assets/images/plus.png" (click)="addAdditionalInst()" alt="Add" style="vertical-align: -webkit-baseline-middle;">
           </div>
         </div>
@@ -365,7 +368,7 @@
                   </td>
                   <td>
                     <div class="form-wrapper">
-                      <select [(ngModel)]="row.day_type" style="background: transparent" class="side-form-ctrl">
+                      <select [(ngModel)]="row.day_type" style="background: transparent" (ngModelChange)="changesValuesAsPerType(row)" class="side-form-ctrl">
                         <option value="1">Course Assign Date (CAD)</option>
                         <option value="2">No of days after CAD</option>
                         <option value="3">No of Month after CAD</option>
@@ -374,15 +377,15 @@
                   </td>
                   <td>
                     <div class="form-wrapper">
-                      <input type="number" style="background: transparent" min="0" class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
+                      <input type="number" style="background: transparent" min="0" [disabled]="row.day_type=='1'" [ngClass]="{'disable_input': row.day_type=='1'}" class="editCellInput" [(ngModel)]="row.days" name="label" class="side-form-ctrl">
                     </div>
                   </td>
                   <td>
                     <div class="form-wrapper">
-                      <select disabled style="width:100%;background: transparent" id="CourseDdn" class="side-form-ctrl" name="CourseCountry" [(ngModel)]="row.country_id">
+                      <select disabled style="width:100%;" id="CourseDdn" class="side-form-ctrl disable_input" name="CourseCountry" [(ngModel)]="row.country_id">
                         <option value="-1"></option>
                         <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                          (+{{data.country_calling_code}})&nbsp; {{data.country_name}}
+                           {{data.country_name}}
                         </option>
                       </select>
                     </div>
@@ -406,7 +409,9 @@
                     </div>
                   </td>
                   <td>
-                    <a style="cursor: pointer" (click)="deleteAdditionalRow(row , i)">Delete</a>
+                    <a style="cursor: pointer" (click)="deleteAdditionalRow(row , i)">
+                      <i class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;" title="Delete"></i>
+                    </a>
                   </td>
                 </tr>
                 <tr *ngIf="otherInstList.length == 0">
@@ -422,7 +427,7 @@
       </section>
 
       <section class="btnGroup pull-right">
-        <button routerLink="/view/fee" class="btn">Back</button>
+        <button routerLink="/view/fee/data-setup/fee-template/home" class="btn">Back</button>
         <button (click)="createFeeTemplate()" class="btn fullBlue">Create</button>
       </section>
 

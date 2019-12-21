@@ -29,7 +29,7 @@
             </button>
             <div class="more-info-container" [ngClass]="{'visibiltyClass':(flagJSON.isEnquiryAdmin == false)}" *ngIf="flagJSON.isEnquiryOptions"
               (mouseleave)="flagJSON.isEnquiryOptions = false" #optMenu>
-              <div class="more-info-item" (click)="downloadAllEnquiries()">
+              <div class="more-info-item" (click)="downloadAllEnquiries()" *ngIf="downloadEnquiryReportAccess">
                 <i class="fa fa-file-excel-o" aria-hidden="true"></i>
                 &nbsp;
                 <span>Export</span>
@@ -39,7 +39,7 @@
                 &nbsp;
                 <span>Upload Enquiry</span>
               </div>
-              <div *ngIf="varJson.showDownloadSummary" class="more-info-item" (click)="downloadSummaryReport()" style="border-bottom: none;">
+              <div *ngIf="varJson.showDownloadSummary && downloadEnquiryReportAccess" class="more-info-item" (click)="downloadSummaryReport()" style="border-bottom: none;">
                 <i class="fa fa-download" aria-hidden="true"></i>
                 &nbsp;
                 <span>Download Summary Report</span>
@@ -1313,6 +1313,9 @@
                         <div class="table table-responsive table-container table-data-overflow">
                           <table>
                               <tr>
+                                <th>
+
+                                </th>
                                 <th style="width: 30%;">
                                   <label>
                                     <a class="cursor-icon" id="cursorAnch11">Template Name</a>
@@ -1330,11 +1333,19 @@
                                   </th>
                                 <th style="width: 15%;">
                                   <label>
-                                    <a class="cursor-icon" id="cursorAnch13">Action</a>
+                                    <a class="cursor-icon" id="cursorAnch13">Preview</a>
                                   </label>
                                 </th>
                               </tr>
                                <tr  id="row{{i}}" *ngFor="let row of emailGridData; let i = index;" (click)="opEmailGridSelected(row,i)" [class.selected]="i == selectedTableRow">
+                                 <td>
+                                    <!-- <div class="c-sm-1 c-md-1 c-lg-1"> -->
+                                        <!-- <div class="field-radio-wrapper"> -->
+                                          <input type="radio" name="bothRadio" [id]="'bothRadio-'+i" class="form-radio" [value]="i" [(ngModel)]="selectedTableRow">
+                                          <!-- <label [for]="'bothRadio-'+i">{{smsDetails.total_sms}}</label> -->
+                                        <!-- </div> -->
+                                      <!-- </div> -->
+                                 </td>
                                 <td style="width: 30%;">
                                   <span title="{{row.template_name}}">{{ (row.template_name.length > 20) ? (row.template_name | slice:0:20) + '...' : row.template_name }}</span>
                                 </td>
@@ -1349,7 +1360,7 @@
                                   </td>
                               </tr>
                               <tr *ngIf="emailGridData?.length==0">
-                                <td colspan="4" style="padding: 10px;text-align: center;font-weight: 600;">
+                                <td colspan="5" style="padding: 10px;text-align: center;font-weight: 600;">
                                   No Data Found
                                 </td>
                               </tr>

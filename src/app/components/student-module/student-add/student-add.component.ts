@@ -460,7 +460,7 @@ export class StudentAddComponent implements OnInit {
         }
       },
       err => {
-        this.msgToast.showErrorMessage('info', '', 'No Course Assigned For Standard');
+        this.msgToast.showErrorMessage('info', '', 'No course assigned for standard');
       });
   }
 
@@ -965,18 +965,18 @@ export class StudentAddComponent implements OnInit {
               this.closeAddInstitute();
             },
             err => {
-              this.msgToast.showErrorMessage('error', 'Failed To Add Institute', 'There was an error processing your request');
+              this.msgToast.showErrorMessage('error', '', 'There was an error processing your request');
             }
           );
         }
         else {
           err => {
-            this.msgToast.showErrorMessage('error', 'Failed To Add Institute', 'There was an error processing your request');
+            this.msgToast.showErrorMessage('error', '', 'There was an error processing your request');
           }
         }
       },
       err => {
-        this.msgToast.showErrorMessage('error', 'Failed To Add Institute', 'There was an error processing your request');
+        this.msgToast.showErrorMessage('error', '', 'There was an error processing your request');
       });
   }
 
@@ -1025,11 +1025,11 @@ export class StudentAddComponent implements OnInit {
   deleteInstitute(id) {
     this.postService.deleteInstitute(id).subscribe(
       res => {
-        this.msgToast.showErrorMessage('success', 'Institute Record Deleted', "The institute data has been removed from your account");
+        this.msgToast.showErrorMessage('success', 'Institute Record Deleted', "Institute record deleted successfully");
         this.fetchInstituteInfo();
       },
       err => {
-        this.msgToast.showErrorMessage('error', 'Your Delete Request Has Been Denied', "The requested institute is currently in use and cannot be deleted");
+        this.msgToast.showErrorMessage('error', 'Your request has been denied', "The requested institute is currently in use and cannot be deleted");
         this.fetchInstituteInfo();
       }
     )
@@ -1092,7 +1092,7 @@ export class StudentAddComponent implements OnInit {
         this.studentQuickAdder(values);
       }
       else {
-        this.msgToast.showErrorMessage('error', 'Student Roll Number Missing', "Please provide a valid roll number");
+        this.msgToast.showErrorMessage('error', 'Student Roll Number Missing', "Please enter a valid roll number");
       }
     }
     else {
@@ -1154,21 +1154,21 @@ export class StudentAddComponent implements OnInit {
       let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/;
       if (this.studentAddFormData.student_email != "") {
         if (!email.test(this.studentAddFormData.student_email)) {
-          this.msgToast.showErrorMessage('error', 'Invalid Input', "Please enter valid email id");
+          this.msgToast.showErrorMessage('error', '', "Please enter valid email id");
           return;
         }
       }
 
       if (this.studentAddFormData.parent_email != "") {
         if (!email.test(this.studentAddFormData.parent_email)) {
-          this.msgToast.showErrorMessage('error', 'Invalid Input', "Please enter valid email id");
+          this.msgToast.showErrorMessage('error', '', "Please enter valid email ID");
           return;
         }
 
       }
       if (this.studentAddFormData.guardian_email != "") {
         if (!email.test(this.studentAddFormData.guardian_email)) {
-          this.msgToast.showErrorMessage('error', 'Invalid Input', "Please enter valid guardian email id");
+          this.msgToast.showErrorMessage('error', '', "Please enter valid guardian email ID");
           return;
         }
       }
@@ -1177,7 +1177,7 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.parent_phone != "")
         || (this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone,this.maxlegth,this.country_id)==false &&
           this.studentAddFormData.guardian_phone != "")) {
-        this.msgToast.showErrorMessage('error', 'Invalid Input', "Please enter valid Parent / Guardian mobile number");
+        this.msgToast.showErrorMessage('error', '', "Please enter valid parent/guardian mobile number");
         return;
       }
 
@@ -1200,7 +1200,7 @@ export class StudentAddComponent implements OnInit {
             if (statusCode == 200) {
               this.removeImage = true;
               this.student_id = res.generated_id;
-              this.msgToast.showErrorMessage('success', 'Student Added', "Student details Updated Successfully");
+              this.msgToast.showErrorMessage('success', '', "Student details updated successfully");
               this.getCourseDropdown(res.generated_id);
               if (this.studentAddnMove) {
                 this.updateStudentFeeDetails();
@@ -1209,7 +1209,7 @@ export class StudentAddComponent implements OnInit {
             }
             else if (statusCode == 2) {
               this.removeImage = true;
-              this.msgToast.showErrorMessage('error', 'Contact Number In Use', "An enquiry with the same contact number seems to exist");
+              this.msgToast.showErrorMessage('error', '', "An enquiry with the same contact number already exists");
               this.isDuplicateContactOpen();
             }
             else if (status_code == 202) {
@@ -1229,10 +1229,10 @@ export class StudentAddComponent implements OnInit {
 
     else {
       if (!isCustomComponentValid) {
-        this.msgToast.showErrorMessage('error', 'Required Fields not filled', "Please fill all the required fields on other details tab");
+        this.msgToast.showErrorMessage('error', '', "Please fill all the required fields on other details section");
       }
       // else if (!formValid) {
-      //   this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', "Please provide valid name and contact number on personal details tab");
+      //   this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', "Please enter valid name and contact number on personal details tab");
       // }
     }
 
@@ -1268,7 +1268,7 @@ export class StudentAddComponent implements OnInit {
             }
           }
           else {
-            this.msgToast.showErrorMessage('error', '', "Failed To Add Student");
+            this.msgToast.showErrorMessage('error', '', "Failed to add student");
             this.isDuplicateContactOpen();
           }
           this.closeAlert();
@@ -1298,7 +1298,7 @@ export class StudentAddComponent implements OnInit {
         if (statusCode == 200) {
           this.removeImage = true;
           this.student_id = res.generated_id;
-          this.msgToast.showErrorMessage('success', 'Student Added', "Student details Updated Successfully");
+          this.msgToast.showErrorMessage('success', '', "Student details updated successfully");
 
           this.getCourseDropdown(res.generated_id);
           if (this.studentAddnMove) {
@@ -1308,7 +1308,7 @@ export class StudentAddComponent implements OnInit {
         }
         else if (statusCode == 2) {
           this.removeImage = true;
-          this.msgToast.showErrorMessage('error', 'Contact Number In Use', "An enquiry with the same contact number seems to exist");
+          this.msgToast.showErrorMessage('error', '', "An enquiry with the same contact number already exists");
           this.isDuplicateContactOpen();
         }
         this.closeAlert();
@@ -1359,7 +1359,7 @@ export class StudentAddComponent implements OnInit {
     }
     else {
       if(flag=='noNumber'){
-        this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', 'Phone Number Is Mandatory');
+        this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', 'Please enter valid contact no.');
         return false;
       } else {
       this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', msg);
@@ -1461,7 +1461,7 @@ export class StudentAddComponent implements OnInit {
           if (statusCode == 200) {
             this.removeImage = true;
             this.student_id = res.generated_id;
-            this.msgToast.showErrorMessage('success', 'Student Added', "Student details Updated Successfully");
+            this.msgToast.showErrorMessage('success', '', "Student details Updated Successfully");
             this.getCourseDropdown(res.generated_id);
             if (this.studentAddnMove) {
               this.updateStudentFeeDetails();
@@ -1470,7 +1470,7 @@ export class StudentAddComponent implements OnInit {
           }
           else if (statusCode == 2) {
             this.removeImage = true;
-            this.msgToast.showErrorMessage('error', 'Contact Number In Use', "A student with the same contact number seems to exist");
+            this.msgToast.showErrorMessage('error', '', "A student with the same contact number already exists");
             this.isDuplicateContactClose();
           }
         },
@@ -1482,10 +1482,10 @@ export class StudentAddComponent implements OnInit {
     else {
       if (!isCustomComponentValid) {
         // console.log("invalid custom component");
-        this.msgToast.showErrorMessage('error', 'Required Fields not filled', "Please fill all the required fields on other details tab");
+        this.msgToast.showErrorMessage('error', '', "Please fill all the required fields on other details section");
       }
       else if (!formValid) {
-        this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', "Please provide valid name and contact number on personal details tab");
+        this.msgToast.showErrorMessage('error', '', "Please enter valid name and contact number on personal details section");
       }
     }
   }
@@ -1719,13 +1719,13 @@ export class StudentAddComponent implements OnInit {
               this.getAcademicYearDetails();
             }
           }
-          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
+          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax,res.country_id);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
-          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax);
+          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax, res.country_id);
           console.log('subjectWise', this.subjectWiseInstallmentArray);
-          this.onPaidOrUnpaidCheckbox();
+          this.onPaidOrUnpaidCheckbox(res.country_id);
         } else {
           this.checkBoxGroup.showFeeSection = false;
           this.checkBoxGroup.hideReconfigure = false;
@@ -1783,24 +1783,24 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  onPaidOrUnpaidCheckbox() {
+  onPaidOrUnpaidCheckbox(country_id) {
     if (this.checkBoxGroup.unpaidInstallment && this.checkBoxGroup.paidInstallment) {
       let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
-      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(installment, this.clonedFeeObject.registeredServiceTax);
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(installment, this.clonedFeeObject.registeredServiceTax,country_id);
       return;
     }
 
     if (this.checkBoxGroup.unpaidInstallment) {
       let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
       let unpaidInstallment = installment.filter(el => el.paid_full == "N");
-      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax);
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax,country_id);
       return;
     }
 
     if (this.checkBoxGroup.paidInstallment) {
       let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
       let unpaidInstallment = installment.filter(el => el.paid_full == "Y");
-      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax);
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax,country_id);
       return;
     }
 
@@ -1897,7 +1897,7 @@ export class StudentAddComponent implements OnInit {
       res => {
         this.btnPayment.nativeElement.disabled = false;
         this.isRippleLoad = false;
-        this.commonServiceFactory.showErrorMessage('success', 'Fees Updated', 'Fee details has been updated');
+        this.commonServiceFactory.showErrorMessage('success', '', 'Fee details has been updated');
         if (this.paymentPopUpJson.genFeeRecipt) {
           this.generateFeeRecipt(res);
         }
@@ -1921,14 +1921,14 @@ export class StudentAddComponent implements OnInit {
         this.downloadDocument(res);
       },
       err => {
-        this.commonServiceFactory.showErrorMessage('error', 'Error', err.error.message);
+        this.commonServiceFactory.showErrorMessage('error', '', err.error.message);
       });
   }
 
   emailFeeReceipt(res) {
     this.fetchService.emailReceiptById(this.student_id, res.other).subscribe(
       res => {
-        this.commonServiceFactory.showErrorMessage('success', 'Reciept Sent', 'Receipt has been sent to student/parent email ID');
+        this.commonServiceFactory.showErrorMessage('success', '', 'Receipt has been sent to student/parent email ID');
       }
     )
   }
@@ -1951,7 +1951,7 @@ export class StudentAddComponent implements OnInit {
   totalPartialChange(e) {
     e = Number(e.target.value);
     if (e == 0) {
-      this.commonServiceFactory.showErrorMessage('warning', 'Invalid Payment Amount', '');
+      this.commonServiceFactory.showErrorMessage('warning', '', 'Invalid payment amount');
       this.paymentPopUpJson.payingAmount = this.paymentPopUpJson.immutableAmount;
       this.paymentPopUpJson.pdcSelectedForm.cheque_amount = this.paymentPopUpJson.immutableAmount;
     }
@@ -1962,11 +1962,11 @@ export class StudentAddComponent implements OnInit {
 
     // e = Number(e);
     // if (e > this.paymentPopUpJson.immutableAmount) {
-    //   this.commonServiceFactory.showErrorMessage('warning', 'Invalid Payment Amount', '');
+    //   this.commonServiceFactory.showErrorMessage('warning', 'Invalid payment amount', '');
     //   this.paymentPopUpJson.payingAmount = this.paymentPopUpJson.immutableAmount;
     //   this.paymentPopUpJson.pdcSelectedForm.cheque_amount = this.paymentPopUpJson.immutableAmount;
     // } else if (e <= 0) {
-    //   this.commonServiceFactory.showErrorMessage('warning', 'Invalid Payment Amount', '');
+    //   this.commonServiceFactory.showErrorMessage('warning', 'Invalid payment amount', '');
     //   this.paymentPopUpJson.payingAmount = this.paymentPopUpJson.immutableAmount;
     //   this.paymentPopUpJson.pdcSelectedForm.cheque_amount = this.paymentPopUpJson.immutableAmount;
     // }
@@ -2103,11 +2103,11 @@ export class StudentAddComponent implements OnInit {
     }
     /* fee id not found */
     else if ((this.feeTempSelected == "" || this.feeTempSelected == null)) {
-      this.msgToast.showErrorMessage('error', 'No Template Selected', "Please select a template from dropdown list");
+      this.msgToast.showErrorMessage('error', '', "Please select a template from dropdown list");
     }
     /* date invalid not selected */
     else if (dd == "" || dd == null || dd == "Invalid date") {
-      this.msgToast.showErrorMessage('error', 'Invalid Date', "Please provide a valid date");
+      this.msgToast.showErrorMessage('error', '', "Please enter a valid date");
     }
   }
 
@@ -2265,13 +2265,13 @@ export class StudentAddComponent implements OnInit {
   validPdc(obj): boolean {
     if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
       if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '') {
-        this.msgToast.showErrorMessage('error', 'Invalid Cheque Details', "Please enter a valid cheque date");
+        this.msgToast.showErrorMessage('error', '', "Please enter a valid cheque date");
       }
       if (obj.cheque_no.toString().length != 6) {
-        this.msgToast.showErrorMessage('error', 'Invalid Cheque Details', "Please enter a valid cheque number");
+        this.msgToast.showErrorMessage('error', '', "Please enter a valid cheque number");
       }
       if (obj.cheque_amount <= 0) {
-        this.msgToast.showErrorMessage('error', 'Invalid Cheque Details', "Please enter a valid amount");
+        this.msgToast.showErrorMessage('error', '', "Please enter a valid amount");
       }
       return false;
     }
@@ -2287,7 +2287,7 @@ export class StudentAddComponent implements OnInit {
       this.generateAcknowledgeAPi(chequeId, this.student_id, 'undefined');
     }
     else {
-      this.commonServiceFactory.showErrorMessage('error', 'No PDC Selected', '')
+      this.commonServiceFactory.showErrorMessage('error', '', 'No PDC selected')
     }
   }
 
@@ -2297,7 +2297,7 @@ export class StudentAddComponent implements OnInit {
       let chequeId = selectedChqueId.join(',');
       this.generateAcknowledgeAPi(chequeId, this.student_id, "Y");
     } else {
-      this.commonServiceFactory.showErrorMessage('error', 'No PDC Selected', '')
+      this.commonServiceFactory.showErrorMessage('error', 'No PDC selected', '')
     }
   }
 
@@ -2307,7 +2307,7 @@ export class StudentAddComponent implements OnInit {
       res => {
         this.isRippleLoad = false;
         if (key == 'Y') {
-          this.commonServiceFactory.showErrorMessage('success', 'Send Successfullly', '');
+          this.commonServiceFactory.showErrorMessage('success', '', 'Sent successfullly');
         } else if (key == "undefined") {
           this.downloadDocument(res);
         }
@@ -2355,7 +2355,7 @@ export class StudentAddComponent implements OnInit {
 
 
   studentAddedNotifier() {
-    this.msgToast.showErrorMessage('success', '', "Student Details Updated");
+    this.msgToast.showErrorMessage('success', '', "Student details updated");
     this.router.navigate(['/view/students']);
   }
 
@@ -2398,7 +2398,7 @@ export class StudentAddComponent implements OnInit {
     if (this.addInventory.item_id != '-1') {
       if (this.addInventory.alloted_units > 0) {
         if (this.addInventory.alloted_units > this.addInventory.available_units) {
-          this.msgToast.showErrorMessage('error', '', 'Please provide allocated unit less than available units');
+          this.msgToast.showErrorMessage('error', '', 'Please enter allocated unit less than available units');
           return;
         } else {
           if(this.addInventory.date_of_dispatch!=''){
@@ -2421,7 +2421,7 @@ export class StudentAddComponent implements OnInit {
           this.postService.allocateInventory(obj).subscribe(
             res => {
               this.isRippleLoad = false;
-              this.msgToast.showErrorMessage('success', 'Allocated Inventory', "Inventory Item Allocated Successfully");
+              this.msgToast.showErrorMessage('success', '', "Inventory item allocated successfully");
               this.addInventory = {
                 alloted_units: 0,
                 item_id: -1,
@@ -2442,11 +2442,11 @@ export class StudentAddComponent implements OnInit {
 
         }
       } else {
-        this.msgToast.showErrorMessage('error', 'Error', "Please provide valid unit to allocate");
+        this.msgToast.showErrorMessage('error', '', "Please enter valid unit to allocate");
         return;
       }
     } else {
-      this.msgToast.showErrorMessage('error', 'Error', "Please provide inventory item to allocate");
+      this.msgToast.showErrorMessage('error', '', "Please enter inventory item to allocate");
       return;
     }
 
@@ -2468,7 +2468,7 @@ export class StudentAddComponent implements OnInit {
     if (confirm('Are you sure, you want to delete inventory?')) {
       this.postService.deleteInventory(data.allocation_id).subscribe(
         res => {
-          this.msgToast.showErrorMessage('success', '', "Deleted Successfully Inventory");
+          this.msgToast.showErrorMessage('success', '', "Inventory deleted successfully");
           this.getAllocatedHistory();
           this.fetchInventoryList();
         }

@@ -93,7 +93,7 @@ export class RegisteredStudentsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this._msgService.showErrorMessage('error', 'Error', err.error.message);
+        this._msgService.showErrorMessage('error', '', err.error.message);
       }
     );
   }

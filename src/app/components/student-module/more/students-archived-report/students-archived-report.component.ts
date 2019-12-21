@@ -35,6 +35,7 @@ export class StudentsArchivedReportComponent implements OnInit {
     from_date: moment().format("YYYY-MM-") + moment().daysInMonth(),
     to_date: moment(new Date()).format('YYYY-MM-DD')
   }
+  downloadStudentReportAccess: boolean = false;
 
 
   constructor(private students: CoursesServiceService,
@@ -46,7 +47,14 @@ export class StudentsArchivedReportComponent implements OnInit {
 
   ngOnInit() {
     this.studentsArchivedData();
+    this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadStudentReportAccess')=='true'){
+        this.downloadStudentReportAccess = true;
+    }
+}
 
   studentsArchivedData() {
     this.isRippleLoad = true;

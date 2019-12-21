@@ -20,6 +20,7 @@ export class EnquiryBulkaddComponent implements OnInit {
   fileLoading: string = "";
   isBulkUploadStatus: boolean = false;
   bulkUploadRecords: any;
+  downloadEnquiryReportAccess: boolean = false;
 
   constructor(
     private fetchData: FetchenquiryService, 
@@ -37,7 +38,14 @@ export class EnquiryBulkaddComponent implements OnInit {
 
   ngOnInit() {
     this.fetchBulkUploadStatusData();
+    this.checkRoleAccess();
   }
+
+  checkRoleAccess() {
+    if(sessionStorage.getItem('downloadEnquiryReportAccess')=='true'){
+        this.downloadEnquiryReportAccess = true;
+    }
+}
 
 
   /* base64 data to be converted to xls file */
@@ -122,7 +130,7 @@ export class EnquiryBulkaddComponent implements OnInit {
             this.isUploadingXls = false;
             let data = {
               type: 'success',
-              title: "File uploaded",
+              title: "",
               body: xhr.response.fileName
             }
             this.appC.popToast(data);
@@ -131,7 +139,7 @@ export class EnquiryBulkaddComponent implements OnInit {
             this.isUploadingXls = false;
             let data = {
               type: 'error',
-              title: "File uploaded Failed",
+              title: "File couldn\'t be uploaded",
               body: xhr.response.fileName
             }
             this.appC.popToast(data);

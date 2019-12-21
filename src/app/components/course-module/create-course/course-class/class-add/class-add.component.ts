@@ -301,7 +301,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     let endTime = moment(this.createTimeInFormat(this.weeklyCommonEndTime.hour, this.weeklyCommonEndTime.minute, 'comp'), 'h:mma');
 
     if (!(startTime.isBefore(endTime))) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct start time and end time');
       return
     }
     else{
@@ -482,7 +482,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     if (this.fetchMasterCourseModule.master_course == '-1' || this.fetchMasterCourseModule.course_id == '-1' ||
       this.fetchMasterCourseModule.requested_date == '' || this.fetchMasterCourseModule.requested_date == 'Invalid date'
       || this.fetchMasterCourseModule.requested_date == null) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide all mandatory details');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter all mandatory details');
       return;
     }
     else {
@@ -493,7 +493,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         this.getCustomList();
         this.getTeacherList();
       } else {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provides date in between course start and end date');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please provides date in between course start and end date');
         return;
       }
     }
@@ -731,7 +731,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       },
       err => {
         //console.log(err);
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     );
   }
@@ -760,7 +760,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       err => {
         //console.log(err);
         this.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
@@ -819,7 +819,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       err => {
         //console.log(err);
         this.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
@@ -834,7 +834,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       err => {
         //console.log(err);
         this.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
@@ -877,7 +877,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
 
   topicListing() {
     if (this.addClassDetails.subject_id == '' || this.addClassDetails.subject_id == null || this.addClassDetails.subject_id == '-1') {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please Select Subject');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please Select Subject');
       return;
     }
     else {
@@ -913,7 +913,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
           },
           err => {
             this.isRippleLoad = false;
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           }
         )
       }
@@ -976,7 +976,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     var getParentTopic = this.totalTopicsList.find(obj => obj.topicId == topic.parentTopicId);
     if(getParentTopic !=undefined){
       getParentTopic.checked = false;
-      if(getParentTopic.parentTopicId !=0){
+      if(getParentTopic.parentTopicId != 0){
         this.uncheckParent(getParentTopic)
       }
     }
@@ -996,7 +996,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         if(checkAll){
           parentTopic.checked = true;
           if(parentTopic.parentTopicId != 0){
-            this.checkParents(parentTopic.subTopic)
+            this.checkParents(parentTopic)
           }
         }
       }
@@ -1015,13 +1015,14 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   }
 
   saveSelectedTopics(){
-    if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
+    /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics selected");
     }
-    else {
-      this.isRippleLoad = true;
+    else { */
+     this.isRippleLoad = true;
      this.selectedTopicsListObj = [];
      this.selectedTopicsListObj = this.totalTopicsList.filter(obj => obj.checked == true);
+     if(this.selectedTopicsListObj !=undefined){
      this.selectedTopics = this.selectedTopicsListObj.map(obj=>{
        return obj.topicId;
      })
@@ -1030,10 +1031,11 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
        return obj.topicName;
      });
      this.selectedTopicsNames = this.selectedTopicsNames.join(',');
+    }
      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Topics saved successfully!");
      this.isRippleLoad = false;
      this.showTopicsModal = false;
-    }
+   // }
   }
   // check/uncheck all subtopics if parent is checked/unchecked
   checkAllSubTopics(topic,param){
@@ -1058,29 +1060,32 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     topic.isExpand = !(topic.isExpand);
   }
   linkTopics(){
-    if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
+    /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics selected");
-    }
-    else {
+    } 
+    else { */
       this.isRippleLoad = true;
       var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
       var getTopicIds;
+      if(getSelectedTopics != undefined){
       getTopicIds = getSelectedTopics.map(obj =>{
         return obj.topicId;
       })
       getTopicIds = getTopicIds.join('|')
       this.getSubjectObject.topics_covered = getTopicIds;
+    
       if(this.batchFrequency == 2){
        this.customTable.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
       }
       else {
         this.extraClassTable.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
       }
-      this.msgService.showErrorMessage('success', 'Success', "Topics updated successfully");
+    }
+      this.msgService.showErrorMessage('success', '', "Topics updated successfully");
       this.showTopicsModal = false;
       this.isRippleLoad = false;
 
-    }
+    //}
   }
 
   editTopics(row){
@@ -1171,13 +1176,13 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
           }
           else {
             this.isRippleLoad = false;
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', "No topics available to Link");
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "No topics available to Link");
           }
 
         },
         err => {
           this.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
     }
@@ -1253,7 +1258,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     this.addLinkStatus = ''
     let obj: any = {};
     if (this.addClassDetails.subject_id == '' || this.addClassDetails.subject_id == null || this.addClassDetails.subject_id == '-1') {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please Select Subject');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please Select Subject');
       return;
     } else {
       obj.subject_id = this.addClassDetails.subject_id;
@@ -1268,17 +1273,17 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     this.timeChanges(this.addClassDetails.start_hour, "addClassDetails.start_hour");
     this.timeChanges(this.addClassDetails.end_hour, "addClassDetails.end_hour");
     if (this.addClassDetails.start_hour == "" && this.addClassDetails.start_minute == "") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct start time');
       return
     }
     if (this.addClassDetails.end_hour == "" && this.addClassDetails.end_minute == "") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct end time');
       return
     }
     let startTime = moment(this.addClassDetails.start_hour + ':' + this.addClassDetails.start_minute + this.addClassDetails.start_meridian, 'h:mma');
     let endTime = moment(this.addClassDetails.end_hour + ':' + this.addClassDetails.end_minute + this.addClassDetails.end_meridian, 'h:mma');
     if (!(startTime.isBefore(endTime))) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct start time and end time');
       this.convertTimeToBindableFormat();
       return
     } else {
@@ -1290,7 +1295,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     obj.duration = this.getDifference(startTime, endTime);
     obj.subject_name = this.getValueFromArray(this.subjectListDataSource, 'subject_id', obj.subject_id, 'subject_name');
     if (this.addClassDetails.teacher_id == "" || this.addClassDetails.teacher_id == '-1') {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct teacher name');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct teacher name');
       this.convertTimeToBindableFormat();
       return
     } else {
@@ -1421,7 +1426,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         err => {
           //console.log(err);
           this.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
     }
@@ -1430,7 +1435,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   makeCancelClassJson() {
     let text = (<HTMLInputElement>document.getElementById('idTexboxReason')).value;
     if (text == "" || text == null || text == undefined) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide cancellation reason');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter cancellation reason');
       return false;
     }
     let chkbxValue: any = (<HTMLInputElement>document.getElementById('idChkbxEnable')).checked;
@@ -1463,7 +1468,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         },
         err => {
           //console.log(err);
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
     };
@@ -1472,7 +1477,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
 
   saveCourseSchedule() {
     if (this.classScheduleArray.length == 0) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'No Schedule to create/update');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No Schedule to create/update');
       return;
     }
     let obj = this.makeJsonForCourseSave();
@@ -1486,7 +1491,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       },
       err => {
         this.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
 
@@ -1688,7 +1693,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         //console.log(err);
         this.isRippleLoad = false;
         this.multiClickDisabled = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
 
@@ -1715,7 +1720,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       },
       err => {
         //console.log(err);
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
@@ -1733,19 +1738,19 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
 
   validateAllFields() {
     if (this.selctedScheduledClass.startTime.hour == "" || this.selctedScheduledClass.startTime.minute == "") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide valid start time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter valid start time');
       return false;
     }
     if (this.selctedScheduledClass.endTime.hour == "" || this.selctedScheduledClass.endTime.minute == "") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide valid end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter valid end time');
       return false;
     }
     if (this.selctedScheduledClass.subject_id == "-1" || this.selctedScheduledClass.subject_id == " ") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide subject name');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter subject name');
       return false;
     }
     if (this.selctedScheduledClass.teacher_id == "-1" || this.selctedScheduledClass.teacher_id == " ") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide teacher name');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter teacher name');
       return false;
     }
     return true;
@@ -1779,7 +1784,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         }
       }
     } else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide date');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter date');
       return
     }
     return arr;
@@ -1793,7 +1798,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       }
     });
     if (weekDaysSelectedCount == 0) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide days of week');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter days of week');
       return;
     }
     else{
@@ -1816,7 +1821,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
           let endTime = moment(this.createTimeInFormat(this.weekDaysList[t].end_time.hour, this.weekDaysList[t].end_time.minute, 'comp'), 'h:mma');
 
           if (!(startTime.isBefore(endTime))) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct start time and end time');
             return
           }
           else {
@@ -1936,7 +1941,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     let data = this.prepareJSONDATA();
 
     if (data == false) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please specify at least one day to create a schedule');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify at least one day to create a schedule');
       return;
     }
 
@@ -1945,7 +1950,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     }
     else {
       if (moment(this.custom.date).valueOf() < moment(this.batchDetails.batch_start_date).valueOf()) {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'selected date should be greater than or equal to batch start date ' + moment(this.batchDetails.batch_start_date).format("DD-MMM-YYYY"));
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'selected date should be greater than or equal to batch start date ' + moment(this.batchDetails.batch_start_date).format("DD-MMM-YYYY"));
         return;
       } else {
         data.request_date = moment(this.custom.date).format("YYYY-MM-DD");
@@ -1983,7 +1988,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         let startTime = moment(this.createTimeInFormat(this.weekDaysTable[i].start_time.hour, this.weekDaysTable[i].start_time.minute, 'comp'), 'h:mma');
         let endTime = moment(this.createTimeInFormat(this.weekDaysTable[i].end_time.hour, this.weekDaysTable[i].end_time.minute, 'comp'), 'h:mma');
         if (!(startTime.isBefore(endTime))) {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct start time and end time');
           return
         } else {
           test.start_time = this.createTimeInFormat(this.weekDaysTable[i].start_time.hour, this.weekDaysTable[i].start_time.minute, '');
@@ -2006,7 +2011,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     let startTime = moment(this.createTimeInFormat(this.mainStartTime.hour, this.mainStartTime.minute, 'comp'), 'h:mma');
     let endTime = moment(this.createTimeInFormat(this.mainEndTime.hour, this.mainEndTime.minute, 'comp'), 'h:mma');
     if (!(startTime.isBefore(endTime))) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct start time and end time');
       return
     } else {
       for (let t = 0; t < this.weekDaysTable.length; t++) {
@@ -2052,7 +2057,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         this.updateTableDataAgain();
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         //console.log(err);
       }
     )
@@ -2065,13 +2070,13 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     let obj: any = {};
     obj.class_date = moment(this.custom.date).format("YYYY-MM-DD");
     if (moment(this.custom.date).valueOf() < moment(this.batchDetails.batch_start_date).valueOf()) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide valid date');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter valid date');
       return
     }
     let startTime = moment(this.createTimeInFormat(this.custom.start_hour, this.custom.start_minute, 'comp'), 'h:mma');
     let endTime = moment(this.createTimeInFormat(this.custom.end_hour, this.custom.end_minute, 'comp'), 'h:mma');
     if (!(startTime.isBefore(endTime))) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct start time and end time');
       return
     } else {
       obj.start_time = this.createTimeInFormat(this.custom.start_hour, this.custom.start_minute, '');
@@ -2175,7 +2180,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         },
         err => {
           this.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           //console.log(err);
         }
       )
@@ -2194,7 +2199,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         },
         err => {
           this.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           //console.log(err);
         }
       )
@@ -2219,7 +2224,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     let startTime = moment(this.createTimeInFormat(this.addExtraClass.start_hour, this.addExtraClass.start_minute, 'comp'), 'h:mma');
     let endTime = moment(this.createTimeInFormat(this.addExtraClass.end_hour, this.addExtraClass.end_minute, 'comp'), 'h:mma');
     if (!(startTime.isBefore(endTime))) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct start time and end time');
       return
     } else {
       obj.start_time = this.createTimeInFormat(this.addExtraClass.start_hour, this.addExtraClass.start_minute, '');
@@ -2325,7 +2330,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         },
         err => {
           //console.log(err);
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
     }
@@ -2346,7 +2351,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       },
       err => {
         //console.log(err);
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
@@ -2355,7 +2360,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   makeJSONToSendBatchDet() {
     let text = (<HTMLInputElement>document.getElementById('idTexboxReason')).value;
     if (text == "" || text == null || text == undefined) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide cancellation reason');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter cancellation reason');
       return false;
     }
     let chkbxValue: any = (<HTMLInputElement>document.getElementById('idChkbxEnable')).checked;
@@ -2386,7 +2391,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       },
       err => {
         //console.log(err);
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }

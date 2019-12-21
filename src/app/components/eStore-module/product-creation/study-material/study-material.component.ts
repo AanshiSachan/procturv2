@@ -73,11 +73,11 @@ export class StudyMaterialComponent implements OnInit {
       return
     }
 
-    if (this.prodForm.about.length > 1500 ) {
+    if (this.prodForm.about.length > 1500) {
       this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
       return;
     }
-    
+
     if ((!this.isRippleLoad)) {
       //update test List
       let obj = {
@@ -351,7 +351,9 @@ export class StudyMaterialComponent implements OnInit {
             this.prodForm.product_items_types = productData.product_items_types;
             this.prodForm.product_item_stats = {};
             this.testlist = this.prodForm.product_item_list;
-            this.description = response.page_description['Study_Material']
+            this.prodForm.logo_url =  productData.logo_url;
+              this.prodForm.photo_url = productData.photo_url;
+              this.description = response.page_description['Study_Material']
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });

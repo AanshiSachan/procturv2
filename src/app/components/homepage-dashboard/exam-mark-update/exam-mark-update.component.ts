@@ -181,7 +181,7 @@ export class ExamMarkUpdateComponent implements OnInit {
    */
   updateGradesOption() {
     if (this.examMarksLevel == "0" || Number(this.examMarksLevel) == 3) {
-      this.messageNotifier('error', '', 'Please provide marks updation level');
+      this.messageNotifier('error', '', 'Please enter marks updation level');
       return;
     }
     $("#myModal").modal("show");
@@ -273,7 +273,7 @@ export class ExamMarkUpdateComponent implements OnInit {
 
   updateMarksOnServerCourse(type) {
     if (this.examMarksLevel == "0" || Number(this.examMarksLevel) == 3) {
-      this.messageNotifier('error', '', 'Please provide marks updation level');
+      this.messageNotifier('error', '', 'Please enter marks updation level');
       return;
     }
     let data: any;
@@ -362,7 +362,7 @@ export class ExamMarkUpdateComponent implements OnInit {
         obj.course_exam_marks_obtained = this.studentAttList[i].course_exam_marks_obtained;
       } else {
         // if (this.studentAttList[i].grade_id == '-1') {
-        //   this.messageNotifier('error', 'Error', 'Please provide total grades');
+        //   this.messageNotifier('error', '', 'Please enter total grades');
         //   return false;
         // }
         obj.grade_id = this.studentAttList[i].grade_id;
@@ -408,7 +408,7 @@ export class ExamMarkUpdateComponent implements OnInit {
         obj.course_exam_marks_obtained = this.studentAttList[i].course_exam_marks_obtained;
       } else {
         // if (this.studentAttList[i].grade_id == '-1') {
-        //   this.messageNotifier('error', 'Error', 'Please provide total grades');
+        //   this.messageNotifier('error', '', 'Please enter total grades');
         //   return false;
         // }
         obj.grade_id = this.studentAttList[i].grade_id;
@@ -436,7 +436,7 @@ export class ExamMarkUpdateComponent implements OnInit {
       } else {
         obj.grade_id = data[i].grade_id;
         // if (obj.grade_id == "-1" && this.examMarksLevel == "1" && attendance == 'P') {
-        //   this.messageNotifier('error', 'Error', 'Please provide grades of subject');
+        //   this.messageNotifier('error', '', 'Please enter grades of subject');
         //   return false;
         // }
       }
@@ -449,7 +449,7 @@ export class ExamMarkUpdateComponent implements OnInit {
     let total: number = 0;
     let number = Number(data.marks_obtained);
     if (data.total_marks < number) {
-      this.messageNotifier('error', '', 'Please provide mark less than subject total marks');
+      this.messageNotifier('error', '', 'Please enter mark less than subject total marks');
       data.marks_obtained = 0;
     } else {
       for (let i = 0; i < student.batchExamMarksLi.length; i++) {
@@ -463,7 +463,7 @@ export class ExamMarkUpdateComponent implements OnInit {
   checkTotalMarks(data, event) {
     let number = Number(data.course_exam_marks_obtained);
     if (data.cours_exam_total_marks < number) {
-      this.messageNotifier('error', '', 'Please provide mark less than total marks');
+      this.messageNotifier('error', '', 'Please enter mark less than total marks');
       data.course_exam_marks_obtained = 0;
     }
     data.isUpdated = "Y";

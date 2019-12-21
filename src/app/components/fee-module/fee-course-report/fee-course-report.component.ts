@@ -41,6 +41,7 @@ export class FeeCourseReportComponent implements OnInit {
   isProfessional: boolean = false;
   isRippleLoad: boolean = false;
   isCourseSelected: boolean = false;
+  downloadFeeReportAccess:boolean = false;
   private slotIdArr: any[] = [];
   private selectedSlots: any[] = [];
   private selectedSlotsString: string = '';
@@ -135,7 +136,14 @@ export class FeeCourseReportComponent implements OnInit {
       .subscribe(data => {
         this.searchDB();
       });
+      this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
+        this.downloadFeeReportAccess = true;
+    }
+}
 
   getAcademicYear() {
     this.getter.getAcademicYear().subscribe(
@@ -570,7 +578,7 @@ export class FeeCourseReportComponent implements OnInit {
             return true;
           }
           else {
-            this._msgService.showErrorMessage("error", 'Batch not Selected', "Please select a valid batch for the selected course");
+            this._msgService.showErrorMessage("error", '', "Please select a valid batch for the specific course");
             return false;
           }
         }

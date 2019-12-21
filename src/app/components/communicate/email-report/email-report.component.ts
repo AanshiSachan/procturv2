@@ -92,7 +92,7 @@ export class EmailReportComponent {
     else {
       let obj = {
         type: "error",
-        title: "Invalid Date Range Selected",
+        title: "",
         Body: "From date cannot be greater than To date"
       }
       this.appC.popToast(obj);

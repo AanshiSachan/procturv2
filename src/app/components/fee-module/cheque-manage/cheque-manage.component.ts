@@ -7,6 +7,7 @@ import { ExcelService } from '../../../services/excel.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { MessageShowService } from '../../../services/message-show.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 
 @Component({
@@ -28,6 +29,8 @@ export class ChequeManageComponent implements OnInit {
   chequeDataSource: any[] = [];
   tempRecords: any[] = [];
   displayKeys: any = [];
+  downloadFeeReportAccess:boolean = false;
+  
   chequeFetchForm: any = {
     from_date: moment().date(1).format("YYYY-MM-DD"),
     to_date: moment().format("YYYY-MM-DD"),
@@ -93,7 +96,9 @@ export class ChequeManageComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private pdf: ExportToPdfService,
     private _tablePreferencesService: TablePreferencesService,
-    private _msgService: MessageShowService ) {
+    private _msgService: MessageShowService ,
+    private commonService: CommonServiceFactory
+    ) {
     this.dateRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
     this.dateRange[1] = new Date();
   }
@@ -111,7 +116,14 @@ export class ChequeManageComponent implements OnInit {
     else {
       this.setDefaultValues();
     }
+    this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
+        this.downloadFeeReportAccess = true;
+    }
+}
 
   searchDatabase() {
     console.log(this.flagJson.searchText);
@@ -560,7 +572,7 @@ export class ChequeManageComponent implements OnInit {
 
   validatePaymentAmount(i) {
     if (parseInt(this.studentUnpaid[i].toPay) > parseInt(this.studentUnpaid[i].total_balance_amt)) {
-      this._msgService.showErrorMessage('info', "Invalid Payment Amount", "Amount cannot be greater than the total balance amount");
+      this._msgService.showErrorMessage('info', "", "Amount cannot be greater than the total balance amount");
       this.studentUnpaid[i].toPay = this.studentUnpaid[i].total_balance_amt;
     }
     else if (parseInt(this.studentUnpaid[i].toPay) == parseInt(this.studentUnpaid[i].total_balance_amt)) {
@@ -597,7 +609,7 @@ export class ChequeManageComponent implements OnInit {
   downloadReceipt(r) {
     let link = document.getElementById("invoiceDownloader");
     let body = r;
-    let byteArr = this.convertBase64ToArray(body.document);
+    let byteArr = this.commonService.convertBase64ToArray(body.document);
     let format = body.format;
     let fileName = body.docTitle;
     let file = new Blob([byteArr], { type: 'application/pdf' });
@@ -609,17 +621,6 @@ export class ChequeManageComponent implements OnInit {
     }
   }
 
-  /* Converts base64 string into a byte[] */
-  convertBase64ToArray(val) {
-
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-
-  }
+  
 
 }

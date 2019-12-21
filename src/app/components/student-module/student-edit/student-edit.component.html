@@ -529,7 +529,7 @@
                 <div style="padding-top: 5px;" class="uploadedData">{{data.title}} </div>
                 <div style="width: 25%;float: left;text-align: right;">
                     <i  class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;" title="Delete File" (click)="deletefile(data.id)"></i>
-                    <a class="fa fa-download" id="downloadFile" style="font-size: 17px; color: #0084f6; margin-left: 1%;cursor: pointer;" title="Download File" (click)="downloadFile(data)"></a>
+                    <a class="fa fa-download" id="downloadFile" style="font-size: 17px; color: #0084f6; margin-left: 1%;cursor: pointer;" title="Download File" (click)="downloadFile(data)" *ngIf="downloadStudentReportAccess"></a>
                     <a id="downloadFileClick" class="hide"></a>
                 </div>
               </div>
@@ -693,7 +693,7 @@
                 introduced.</span>
             </div>
 
-            <div class="tax-Amount tooltipDiv">
+            <div class="tax-Amount tooltipDiv"  *ngIf="studentAddFormData.country_id==1">
               <span class="label">Tax On Installment</span>
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
@@ -703,13 +703,13 @@
             </div>
 
             <div class="additional-Amount" *ngIf="cardAmountObject.additionalFees > 0">
-              <span class="label">Additional Fee (Incl of Tax)</span>
+              <span class="label">Additional Fee <span *ngIf="studentAddFormData.country_id==1">(Incl of Tax)</span> </span>
               <br />
               <span class="amount-Value">{{cardAmountObject.additionalFees | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
             </div>
 
             <div class="total-Amount">
-              <span class="label">Total Fee (Incl. of tax)</span>
+              <span class="label">Total Fee <span *ngIf="studentAddFormData.country_id==1"> (Incl. of tax)</span></span>
               <br />
               <span class="amount-Value">{{cardAmountObject.feeAmountInclTax | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
             </div>
@@ -765,7 +765,7 @@
             </div>
           </div>
 
-          <div class="table-section" *ngIf="subjectWiseInstallmentArray.length > 0">
+          <div class="table-section" style="padding-bottom: 60px" *ngIf="subjectWiseInstallmentArray.length > 0">
             <ul>
               <li class="table-rows title-section">
 
@@ -779,14 +779,14 @@
 
                 <aside class="column-name">
                   <div class="fee-amount amount">
-                    <span>Fee (Incl. Tax)</span>
+                    <span>Fee <span *ngIf="studentAddFormData.country_id==1">(Incl. Tax)</span></span>
                   </div>
 
                   <div class="discount-amount amount">
                     <span>Discount</span>
                   </div>
 
-                  <div class="tax-amount amount">
+                  <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1">
                     <span>Tax</span>
                   </div>
 
@@ -873,7 +873,7 @@
                           <span>Amount</span>
                         </div>
 
-                        <div class="Tax">
+                        <div class="Tax" *ngIf="studentAddFormData.country_id==1">
                           <span>Tax</span>
                         </div>
 
@@ -930,7 +930,7 @@
                           <span>{{installment.initial_fee_amount_before_disocunt_before_tax | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
                         </div>
 
-                        <div class="Tax">
+                        <div class="Tax" *ngIf="studentAddFormData.country_id==1">
                           <span>{{installment.tax | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
                         </div>
 
@@ -940,8 +940,8 @@
 
                         <div class="balance" style="margin-right:5px">
                           <span *ngIf="installment.paid_full == 'Y'">{{ 0 | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
-                          <span *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">{{installment.balance_amount | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
-                          <span *ngIf="installment.balance_amount == 0 && installment.paid_full == 'N'">{{installment.fees_amount | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
+                          <span *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">1 {{getInstasllemttDetails(installment)}} &nbsp;{{installment.balance_amount | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
+                          <span *ngIf="installment.balance_amount == 0 && installment.paid_full == 'N'"> 2 &nbsp;{{installment.fees_amount | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
                         </div>
 
                         <div class="dueDate">
@@ -1508,7 +1508,7 @@
                   disabled="true" style="height: 29px;padding: 0">
                   <option value=""></option>
                   <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                    {{data.country_calling_code}} - {{data.country_name}}
+                   {{data.country_name}}
                   </option>
                 </select>
                 </div>
@@ -1556,12 +1556,12 @@
               <li>Clearing Date</li>
               <li>Cheque Amount<span class="text-danger" style="padding: 7px 30px 7px 2px;">*</span></li>
               <li>Status</li>
-              <li>Action</li>
+              <li style="width: 11%;">Action</li>
             </ul>
 
             <div class="table-data" *ngIf="chequePdcList.length != 0">
               <ul class="table-row displayComp" [id]='ch.student_id +ch.cheque_id' *ngFor="let ch of chequePdcList; let i = index;">
-                <li>
+                <li style="width: 4%;">
                   <div class="field-checkbox-wrapper">
                     <input type="checkbox" name="pdcGen" class="form-checkbox" [(ngModel)]="ch.uiSelected" id="pdcEditlist{{i}}">
                     <label for="pdcEditlist{{i}}"></label>

@@ -155,7 +155,7 @@ export class CourseAddComponent implements OnInit {
         let err = {
           type: "error",
           title: "Date Selection",
-          body: "Please provide valid dates."
+          body: "Please enter valid dates."
         }
         this.toastCtrl.popToast(err);
         return
@@ -204,7 +204,7 @@ export class CourseAddComponent implements OnInit {
     if (selected == 0) {
       let err = {
         type: "error",
-        title: "Error",
+        title: '',
         body: "You have not selected any subject."
       }
       this.toastCtrl.popToast(err);
@@ -256,7 +256,7 @@ export class CourseAddComponent implements OnInit {
           this.isRippleLoad = false;
           let warning = {
             type: "error",
-            title: "Error",
+            title: '',
             body: error.error.message
           }
           this.toastCtrl.popToast(warning);
@@ -278,14 +278,14 @@ export class CourseAddComponent implements OnInit {
       if (this.mainArrayForTable[i].start_Date != "" && this.mainArrayForTable[i].start_Date != null && this.mainArrayForTable[i].start_Date != "Invalid date") {
         test.start_date = moment(this.mainArrayForTable[i].start_Date).format('YYYY-MM-DD');
       } else {
-        this.toastCtrl.popToast({ type: "error", title: "Date Error", body: "Please provide start date" });
+        this.toastCtrl.popToast({ type: "error", title: "Date Error", body: "Please enter start date" });
         return false;
       }
 
       if (this.mainArrayForTable[i].end_Date != "" && this.mainArrayForTable[i].end_Date != null && this.mainArrayForTable[i].end_Date != "Invalid date") {
         test.end_date = moment(this.mainArrayForTable[i].end_Date).format('YYYY-MM-DD');
       } else {
-        this.toastCtrl.popToast({ type: "error", title: "Date Error", body: "Please provide end date" });
+        this.toastCtrl.popToast({ type: "error", title: "Date Error", body: "Please enter end date" });
         return false;
       }
 
@@ -299,7 +299,7 @@ export class CourseAddComponent implements OnInit {
       if (selectedSubjectRow.length == 0) {
         let err = {
           type: "error",
-          title: "Error",
+          title: '',
           body: "You have not selected any subject"
         }
         this.toastCtrl.popToast(err);
@@ -312,8 +312,8 @@ export class CourseAddComponent implements OnInit {
         if (selectedSubjectRow[y].selected_teacher == "" || selectedSubjectRow[y].selected_teacher == null || selectedSubjectRow[y].selected_teacher == "-1") {
           let err = {
             type: "error",
-            title: "Error",
-            body: "Please provide teacher for the subject."
+            title: '',
+            body: "Please enter teacher for the subject."
           }
           this.toastCtrl.popToast(err);
           return false;
@@ -377,7 +377,7 @@ export class CourseAddComponent implements OnInit {
         let err = {
           type: "error",
           title: "Date Selection",
-          body: "Please provide valid dates."
+          body: "Please enter valid dates."
         }
         this.toastCtrl.popToast(err);
         return

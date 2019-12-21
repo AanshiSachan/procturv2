@@ -38,19 +38,19 @@ export class ChangePasswordComponent implements OnChanges {
 
   changeUserPassword() {
     if (this.changePass.oldPassword.trim() == "" || this.changePass.oldPassword.trim() == null) {
-      this.messageNotifier(this.msgService.toastTypes.error, 'Error', 'Please provide old password');
+      this.messageNotifier(this.msgService.toastTypes.error, '', 'Please enter old password');
       return true;
     }
     if (this.changePass.newPassword.trim() == "" || this.changePass.newPassword.trim() == null) {
-      this.messageNotifier(this.msgService.toastTypes.error, 'Error', 'Please provide new password');
+      this.messageNotifier(this.msgService.toastTypes.error, '', 'Please enter new password');
       return true;
     }
     if (this.changePass.confirmPassword.trim() == "" || this.changePass.confirmPassword == null) {
-      this.messageNotifier(this.msgService.toastTypes.error, 'Error', 'Please provide password in confirm password');
+      this.messageNotifier(this.msgService.toastTypes.error, '', 'Please enter password in confirm password');
       return true;
     }
     if (this.changePass.newPassword.trim() != this.changePass.confirmPassword.trim()) {
-      this.messageNotifier(this.msgService.toastTypes.error, 'Error', 'Please check password provided in confirm password field');
+      this.messageNotifier(this.msgService.toastTypes.error, '', 'Please check password provided in confirm password field');
       return true;
     }
     let userId = sessionStorage.getItem('userid') + '|' + sessionStorage.getItem('userType');
@@ -63,7 +63,7 @@ export class ChangePasswordComponent implements OnChanges {
     }
     this.log.changePasswordService(dataToSend).subscribe(
       res => {
-        this.messageNotifier(this.msgService.toastTypes.success, 'Password Changed', 'Password Changed Successfully');
+        this.messageNotifier(this.msgService.toastTypes.success, '', 'Password changed successfully');
         this.closeChangePasswordPopup();
         if (this.log.logoutUser()) {
           this.router.navigateByUrl('/authPage');
@@ -71,7 +71,7 @@ export class ChangePasswordComponent implements OnChanges {
       },
       err => {
         console.log(err);
-        this.messageNotifier(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.messageNotifier(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }

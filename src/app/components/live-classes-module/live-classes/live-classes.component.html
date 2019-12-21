@@ -61,7 +61,7 @@
       </section>
 
       <section class="live-class">
-        <div class="live-class-list-container" *ngIf="getClasses.length !=0">
+        <div class="live-class-list-container" *ngIf="getClasses?.length !=0">
           <div class="live-class-item" *ngFor="let class of getClasses">
             <div class="sub-item-1">
               <div class="session_name_and_id_container" >
@@ -209,18 +209,18 @@
                     </div>
             
               </div>
-              <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0">
+              <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0" >
                 &nbsp;&nbsp;
-                  <button class="viewAction" title="download/view" (click)="viewdownload_links(class.download_links)" style="cursor: pointer;" [disabled]="class.download_links?.length==0" [ngStyle]="{'opacity':class.download_links?.length==0 ? '0.5' : '1' }">
-                  <i class="fa fa-repeat" aria-hidden="true" ></i>
-                  &nbsp; view 
+                  <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0" [ngClass]="{'disabledButton': class.download_links?.length==0}">
+                  <!-- <i class="fa fa-repeat" aria-hidden="true" ></i> &nbsp; -->
+                  View Recording
                   </button>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="live-class-list-container" *ngIf="getClasses.length ==0 && !liveClassFor">
+        <div class="live-class-list-container" *ngIf="getClasses?.length ==0 && !liveClassFor && !JsonVars.isRippleLoad" style="margin-top: 3%;">
           <div style="min-height: 60px;text-align: center;font-weight: 600;">
             No Upcoming Scheduled Found!
           </div>
@@ -278,8 +278,9 @@
 
 <section *ngIf="viewDownloadPopup">
     <div class="confirmation_popup download_popup">
-      <div class="confirm_title" (click)="viewDownloadPopup=false" style="text-align: right;cursor: pointer;font-size: 14px;margin-bottom: 10px;">
-        <span>X</span>
+      <div class="confirm_title"style="font-size: 14px;margin-bottom: 10px;">
+        <span>{{download_links.session_name}}</span>
+        <span style="cursor: pointer;float:right"  (click)="viewDownloadPopup=false" >X</span>
       </div>
     <section>
       <div class="table-container">
@@ -287,31 +288,38 @@
         <div class="heading-item">
           <span>Title</span>
         </div>
-        <div class="heading-item">
-          <span>Created Date</span>
+        <div class="heading-item" style="width: 17%;">
+          <span>Size</span>
         </div>
-        <div class="heading-item" style="width: 20%;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility == 2|| proctur_live_view_or_download_visibility == 3">
+        <div class="heading-item" style="width: 17%;">
+          <span>Duration</span>
+        </div>
+        <div class="heading-item" style="width: 11%;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility == 2|| proctur_live_view_or_download_visibility == 3">
           <span>Action</span>
         </div>
       </div>
       <div class="value-outer-container">
-        <div class="value-container" *ngFor="let data of download_links" >
+        <div class="value-container" *ngFor="let data of download_links.download_links" >
           <div class="value-item">
-            <!-- <span>{{data.sessionName}}</span> -->
-            <span title="{{data.sessionName}}">{{(data.sessionName.length > 20) ? (data.sessionName | slice:0:20) + '...' : data.sessionName}}</span>
-            <!-- *ngFor="let data of getClasses.download_links" -->
+            <span title="{{data.session_name}}">{{(data.session_name.length > 80) ? (data.session_name | slice:0:80) + '...' : data.session_name}}</span>
           </div>
-          <div class="value-item">
-              <span>-</span>
+          <div class="value-item" style="width: 17%;">
+            <span title="{{data.video_size}}" *ngIf="data.video_size!=null">{{data.video_size}}&nbsp;MB</span>
+            <span *ngIf="data.video_size==null">-</span>
           </div>
-          <div class="value-item" style="width: 20%;text-align: center;">
+          <div class="value-item" style="width: 17%;">
+            <span title="{{data.video_duration}}" *ngIf="data.video_duration!=null">{{data.video_duration}}&nbsp;mins</span>
+            <span *ngIf="data.video_duration==null">-</span>
+          </div>
+          <div class="value-item" style="width: 11%;text-align: center;">
             <div style="float: left;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3">
             <button class="fa fa-download" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="Download" (click)="downloadFile(data);"
-            id="downloadFile"></button>
+            id="downloadFile" [disabled]="data.download_link==null" [ngStyle]="{'opacity':data.download_link==null ? '0.5' : '1' }"></button>
             <a id="downloadFileClick" class="hide"></a>        
             </div>
-            <div (click)="getVdocipherVideoOtp(data.videoId)" *ngIf="proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3">
-              <button class="fa fa-eye" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="View">
+            <div (click)="getVdocipherVideoOtp(data)" *ngIf="proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3">
+              <button class="fa fa-eye" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="View" 
+              [disabled]="data.video_id==null" [ngStyle]="{'opacity':data.video_id==null ? '0.5' : '1' }">
               </button>
             </div>
           </div>
@@ -327,13 +335,11 @@
 <div class="ga-modal-wrapper" [hidden]="showVideo">
   <div class="ga-modal-container">
     <div class="ga-modal" >
-      <div class="ga-modal-head" style="text-align: left;padding:.5em 1em .5em 1em" >
-        <!-- <span>{{tempVideoData.title}}</span> -->
-
-
-        <div class="btn_cross" style="text-align: right;"> 
-            <button  class="btn btn-xs btn-ga-white" (click)="stopVideo()">X</button>
-          </div>
+      <div style="font-size: 14px;padding: 5px;font-weight: 600;">
+        <span>{{tempVideoData.session_name}}</span>
+          <span (click)="stopVideo()" style="float: right;cursor: pointer;padding-right: 5px;">
+            <span >X</span>
+          </span>
       </div>
       <div class="ga-modal-body">
         <div class="row upload-box">

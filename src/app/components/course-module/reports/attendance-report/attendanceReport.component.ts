@@ -4,6 +4,9 @@ import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from "../../../../services/authenticator.service";
 import * as moment from 'moment';
 import { ColumnSetting } from '../../../shared/custom-table/layout.model';
+import { HttpService } from '../../../../services/http.service';
+import { MessageShowService } from '../../../..';
+import { CommonServiceFactory } from '../../../../services/common-service';
 
 
 @Component({
@@ -71,8 +74,8 @@ export class AttendanceReportComponent implements OnInit {
     standard_id: "",
     subject_id: "",
     institution_id: sessionStorage.getItem('institute_id'),
-    course_id: "",
-    batch_id: "",
+    course_id: "-1",
+    batch_id: "-1",
     master_course_name: "",
     from_date: moment(new Date()).format('YYYY-MM-DD'),
     to_date: moment(new Date()).format('YYYY-MM-DD')
@@ -91,6 +94,7 @@ export class AttendanceReportComponent implements OnInit {
 
   searchText: string = "";
   searchflag: boolean = false;
+  showDownloadReport: boolean = false;
   searchData: any = [];
 
 
@@ -102,7 +106,10 @@ export class AttendanceReportComponent implements OnInit {
   constructor(
     private reportService: AttendanceReportServiceService,
     private appc: AppComponent,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private _httpService: HttpService,
+    private msgService: MessageShowService,
+    private commonService: CommonServiceFactory
   ) {
     //console.log(moment(moment().format('DD-MM-YYYY')).diff(moment('03-02-2018'),'months'));
   }
@@ -172,6 +179,9 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   getCourseData(i) {
+    this.attendanceFetchForm.batch_id = "-1";
+    this.queryParams.batch_id="-1";
+    this.isShowDownloadReport();
     this.isRippleLoad = true;
     this.dataStatus = true;
     this.queryParams.standard_id = i;
@@ -239,6 +249,7 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   getSubjectData(i) {
+    this.isShowDownloadReport();
     this.isRippleLoad = true;
     this.dataStatus = true;
     this.queryParams.standard_id = this.queryParams.standard_id;
@@ -288,6 +299,7 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   getBatchData(i) {
+    this.isShowDownloadReport();
     this.dataStatus = true;
     this.isRippleLoad = true;
     this.queryParams.standard_id = this.queryParams.standard_id;
@@ -454,7 +466,7 @@ export class AttendanceReportComponent implements OnInit {
             else {
               let msg = {
                 type: "info",
-                title: "No Data Found",
+                title: "No data found",
                 body: "We did not find any attendance marked for the selected dates "
               }
               this.appc.popToast(msg);
@@ -541,7 +553,7 @@ export class AttendanceReportComponent implements OnInit {
             else {
               let msg = {
                 type: "info",
-                title: "No Data Found",
+                title: "No data found",
                 body: "We did not find any attendance marked for the selected dates "
               }
               this.appc.popToast(msg);
@@ -809,4 +821,56 @@ export class AttendanceReportComponent implements OnInit {
     this.queryParams.to_date = "";
   }
 
+  isShowDownloadReport(){
+    this.showDownloadReport = false;
+    if(this.isProfessional){
+      if((this.queryParams.standard_id!='-1' && this.queryParams.subject_id!='-1') || (this.queryParams.batch_id!='-1')){
+        this.showDownloadReport = true;
+      }
+    } else{
+      if((this.attendanceFetchForm.master_course_name!='-1' && this.attendanceFetchForm.course_id!='-1')||(this.attendanceFetchForm.batch_id!='-1' && this.attendanceFetchForm.batch_id!="")){
+        this.showDownloadReport = true;
+      }
+    }
+  }
+
+  downloadReport() {
+      this.isRippleLoad=true;
+      let obj:any;
+      if(this.isProfessional){
+        obj = this.queryParams;
+      } else{
+        obj = this.attendanceFetchForm;
+      }
+      console.log(obj);
+    let url='/api/v1/reports/attendance/downloadAttendanceReport';   
+    this._httpService.postData(url, obj).subscribe(
+      (res:any) => {
+        this.isRippleLoad = false;
+        if(res){
+          let resp = res;
+          if(resp.document!=""){
+            let byteArr = this.commonService.convertBase64ToArray(resp.document);
+            let fileName = 'attenance_report.pdf'; //res.docTitle;
+            let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
+            let url = URL.createObjectURL(file);
+            let dwldLink = document.getElementById('downloadFileClick');
+            dwldLink.setAttribute("href", url);
+            dwldLink.setAttribute("download", fileName);
+            document.body.appendChild(dwldLink);
+            dwldLink.click();          
+          }
+          else{
+            this.msgService.showErrorMessage('info', '', "Document does not have any data!");
+          }
+        }else{
+          this.msgService.showErrorMessage('info', '', "Document does not have any data!");
+        }
+      },
+      err => {
+        this.msgService.showErrorMessage('error', '', err.error.message);
+        this.isRippleLoad = false;
+      }
+    )
+   }
 }

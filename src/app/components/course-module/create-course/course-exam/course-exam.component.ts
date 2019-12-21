@@ -239,25 +239,27 @@ export class CourseExamComponent implements OnInit {
         this.messageNotifier('info', 'Info', 'No topics available to link !');      }
     }, err=>{
       this.isRippleLoad = false;
-      this.messageNotifier('error','Error', err.error.message)
+      this.messageNotifier('error','', err.error.message)
     })
   }
 
   saveSelectedTopics(){
-    if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
+    /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
       this.messageNotifier('info','Info', 'Please select topics to save !')    }
-    else {
-      this.isRippleLoad = true;
+    else { */
+     this.isRippleLoad = true;
      this.selectedTopicsListObj = [];
      this.selectedTopicsListObj = this.totalTopicsList.filter(obj => obj.checked == true);
-     this.selectedTopics = this.selectedTopicsListObj.map(obj=>{
-       return obj.topicId;
-     })
-     this.selectedTopics = this.selectedTopics.join('|');
-     this.messageNotifier('success','Success', 'Topics saved successfully');
+      if(this.selectedTopicsListObj != undefined){
+      this.selectedTopics = this.selectedTopicsListObj.map(obj=>{
+        return obj.topicId;
+      })
+      this.selectedTopics = this.selectedTopics.join('|');
+      }
+     this.messageNotifier('success','', 'Topics saved successfully');
      this.isRippleLoad = false;
      this.showTopicsPopUp = false;
-    }
+   // }
   }
 
   fetchSelectedTopics(){
@@ -288,26 +290,26 @@ export class CourseExamComponent implements OnInit {
     this.showExamEditModal = false;
   }
   linkTopics(){
-    if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
-     // this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics selected");
+    /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
      this.messageNotifier('info','Info','No topics selected')
     }
-    else {
+    else { */
       this.isRippleLoad = true;
       var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
-      var getTopicIds;
-      getTopicIds = getSelectedTopics.map(obj =>{
-        return obj.topicId;
-      })
-      getTopicIds = getTopicIds.join('|')
-      this.getSubjectObject.topics_covered = getTopicIds;
-      this.examSchedule.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
+      var getTopicIds ;;
+      if(getSelectedTopics !=undefined){
+          getTopicIds = getSelectedTopics.map(obj =>{
+            return obj.topicId;
+          })
+          getTopicIds = getTopicIds.join('|')
+          this.getSubjectObject.topics_covered = getTopicIds;
+          this.examSchedule.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
+      }
       this.showTopicsPopUp = false;
       this.isRippleLoad = false;
       this.showExamEditModal = false;
-      this.messageNotifier('success','Success','Topics updated successfully')
-
-    }
+      this.messageNotifier('success','','Topics updated successfully');
+   // }
   }
 
   //on checkbox check
@@ -355,7 +357,7 @@ export class CourseExamComponent implements OnInit {
         if(checkAll){
           parentTopic.checked = true;
           if(parentTopic.parentTopicId != 0){
-            this.checkParent(parentTopic.subTopic)
+            this.checkParent(parentTopic)
           }
         }
       }
@@ -413,7 +415,7 @@ export class CourseExamComponent implements OnInit {
     },err => {
      this.isRippleLoad = false;
     // this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
-    this.messageNotifier('error', 'Error', err.error.message);
+    this.messageNotifier('error', '', err.error.message);
    })
   }
 
@@ -488,18 +490,18 @@ export class CourseExamComponent implements OnInit {
         err => {
           this.isRippleLoad = false;
           //console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     } else {
       if (this.batchData.standard_id == -1) {
-        this.messageNotifier('error', 'Error', 'Please Select Master Course, Course and then Batch or Batch');
+        this.messageNotifier('error', '', 'Please Select Master Course, Course and then Batch or Batch');
       }
       else if (this.batchData.subject_id == -1) {
-        this.messageNotifier('error', 'Error', 'Please Select Course and then Batch or Batch');
+        this.messageNotifier('error', '', 'Please Select Course and then Batch or Batch');
       }
       else if (this.batchData.batch_id == -1) {
-        this.messageNotifier('error', 'Error', 'Please Select Batch');
+        this.messageNotifier('error', '', 'Please Select Batch');
       }
     }
   }
@@ -508,7 +510,7 @@ export class CourseExamComponent implements OnInit {
     if (this.examScheduleData.is_exam_grad_feature <= 0) {
       this.batchAdderData.total_marks = Number(this.batchAdderData.total_marks);
       if (this.batchAdderData.total_marks == 0) {
-        this.messageNotifier('error', 'Error', 'Please Provide Total Marks');
+        this.messageNotifier('error', '', 'Please Provide Total Marks');
         return;
       }
     }
@@ -518,7 +520,7 @@ export class CourseExamComponent implements OnInit {
     let start_time = moment(this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, 'comp'), 'h:mma');
     let end_time = moment(this.createTimeInFormat(this.batchAdderData.end_time.hour, this.batchAdderData.end_time.minute, 'comp'), 'h:mma');
     if (!(start_time.isBefore(end_time))) {
-      this.messageNotifier('error', 'Error', 'Please provide correct start time and end time');
+      this.messageNotifier('error', '', 'Please enter correct start time and end time');
       return false;
     } else {
       obj.start_time = this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, '');
@@ -575,7 +577,7 @@ export class CourseExamComponent implements OnInit {
         err => {
           this.isRippleLoad = false;
           //console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -614,7 +616,7 @@ export class CourseExamComponent implements OnInit {
       this.clearAllField();
     }
     else {
-      this.messageNotifier('error', 'Error', "Only class present");
+      this.messageNotifier('error', '', "Only class present");
     }
   }
 
@@ -652,11 +654,11 @@ export class CourseExamComponent implements OnInit {
   updateSubject(row_no, subject_data) {
 
     if (this.edit_subject_id == null || this.edit_subject_id == '') {
-      this.messageNotifier('error', 'Error', 'No subject(s) added!');
+      this.messageNotifier('error', '', 'No subject(s) added!');
       return;
     }
     if (this.edit_exam_marks == '' || this.edit_exam_marks == null) {
-      this.messageNotifier('error', 'Error', 'Please Provide Marks');
+      this.messageNotifier('error', '', 'Please Provide Marks');
       return;
     }
 
@@ -716,7 +718,7 @@ export class CourseExamComponent implements OnInit {
         },
         err => {
           //console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -741,7 +743,7 @@ export class CourseExamComponent implements OnInit {
 
   cancelExamClassSchedule() {
     if (this.cancelPopUpData.reason.trim() == "" || null) {
-      this.messageNotifier('error', 'Error', 'Please provide cancellation reason');
+      this.messageNotifier('error', '', 'Please enter cancellation reason');
       return;
     }
     let notify: any = "";
@@ -773,7 +775,7 @@ export class CourseExamComponent implements OnInit {
         err => {
           //console.log(err);
           this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -806,7 +808,7 @@ export class CourseExamComponent implements OnInit {
       err => {
         //console.log(err);
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
         this.closeCourseLevelAttendance();
       }
     )
@@ -947,7 +949,7 @@ export class CourseExamComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         //console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -993,7 +995,7 @@ export class CourseExamComponent implements OnInit {
         },
         err => {
           //console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -1014,7 +1016,7 @@ export class CourseExamComponent implements OnInit {
         },
         err => {
           //console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -1105,11 +1107,11 @@ export class CourseExamComponent implements OnInit {
         err => {
           this.isRippleLoad = false;
           //console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     } else {
-      this.messageNotifier('error', 'Error', 'Please Provide Mandatory Fields');
+      this.messageNotifier('error', '', 'Please Provide Mandatory Fields');
     }
   }
 
@@ -1177,7 +1179,7 @@ export class CourseExamComponent implements OnInit {
   checkNgetiveValue($event) {
     // console.log($event);
     if ($event < 0) {
-      this.messageNotifier('error', 'Error', 'Negative mark not allowed');
+      this.messageNotifier('error', '', 'Negative mark not allowed');
     }
   }
 
@@ -1192,7 +1194,7 @@ export class CourseExamComponent implements OnInit {
     }
 
     if (subject_id == '' || subject_id == null || subject_id == '-1' || subject_id == undefined) {
-      this.messageNotifier('error', 'Error', 'Please Select Subject');
+      this.messageNotifier('error', '', 'Please Select Subject');
       return;
     }
     else {
@@ -1228,7 +1230,7 @@ export class CourseExamComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -1237,7 +1239,7 @@ export class CourseExamComponent implements OnInit {
   topicLinkingForPreSelectedTopics(subjectData) {
 
     if (this.row_edit_subject_id == '' || this.row_edit_subject_id == null || this.row_edit_subject_id == '-1' || this.row_edit_subject_id == undefined) {
-      this.messageNotifier('error', 'Error', 'Please Select Subject');
+      this.messageNotifier('error', '', 'Please Select Subject');
       return;
     }
     else {
@@ -1288,7 +1290,7 @@ export class CourseExamComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -1296,7 +1298,7 @@ export class CourseExamComponent implements OnInit {
 
   topicListing() {
     if (this.subject_id == '' || this.subject_id == null || this.subject_id == '-1' || this.subject_id == undefined) {
-      this.messageNotifier('error', 'Error', 'Please Select Subject');
+      this.messageNotifier('error', '', 'Please Select Subject');
       return;
     }
     else {
@@ -1329,7 +1331,7 @@ export class CourseExamComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -1392,7 +1394,7 @@ export class CourseExamComponent implements OnInit {
   preSelectedTopicListing() {
 
     if (this.edit_subject_id == '' || this.edit_subject_id == null || this.edit_subject_id == '-1' || this.edit_subject_id == undefined) {
-      this.messageNotifier('error', 'Error', 'Please Select Subject');
+      this.messageNotifier('error', '', 'Please Select Subject');
       return;
     }
     else {
@@ -1424,7 +1426,7 @@ export class CourseExamComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -1486,21 +1488,21 @@ export class CourseExamComponent implements OnInit {
   addNewExamSubject() {
     if (this.newExamData.startTimeHrs == this.newExamData.endTimeHrs
       && this.newExamData.startTimeMins == this.newExamData.endTimeMins) {
-      this.messageNotifier('error', 'Error', 'Exam  start time and end time cannot be same !');
+      this.messageNotifier('error', '', 'Exam  start time and end time cannot be same !');
       return;
     }
     if (this.subject_id == null || this.subject_id == '') {
-      this.messageNotifier('error', 'Error', 'No subject(s) added!');
+      this.messageNotifier('error', '', 'No subject(s) added!');
       return;
     }
     if (this.exam_marks == '' || this.exam_marks == null) {
-      this.messageNotifier('error', 'Error', 'Please Provide Marks');
+      this.messageNotifier('error', '', 'Please Provide Marks');
       return;
     }
 
     for (let i = 0; i < this.newExamSubjectData.length; i++) {
       if (this.newExamSubjectData[i].subject_id == this.subject_id) {
-        this.messageNotifier('error', 'Error', 'Selected subject already added!');
+        this.messageNotifier('error', '', 'Selected subject already added!');
         return;
       }
     }
@@ -1555,12 +1557,12 @@ export class CourseExamComponent implements OnInit {
 
   addNewExamSubjectCourse(index) {
     if (this.viewList[index].coursetableAdder.batch_id == -1) {
-      this.messageNotifier('error', 'Error', 'No subject(s) added!');
+      this.messageNotifier('error', '', 'No subject(s) added!');
       return;
     };
     if (this.viewList[index].selectedCourseList.is_exam_grad_feature == '0') {
       if (this.viewList[index].coursetableAdder.total_marks == 0) {
-        this.messageNotifier('error', 'Error', 'Please Provide Marks');
+        this.messageNotifier('error', '', 'Please Provide Marks');
         return;
       }
     }
@@ -1569,7 +1571,7 @@ export class CourseExamComponent implements OnInit {
 
     for (let i = 0; i < this.viewList[index].courseTableList.length; i++) {
       if (this.viewList[index].courseTableList[i].subject_name == selectedSubjectDemo.subject_name) {
-        this.messageNotifier('error', 'Error', 'Selected subject already added!');
+        this.messageNotifier('error', '', 'Selected subject already added!');
         return;
       }
     }
@@ -1622,7 +1624,7 @@ export class CourseExamComponent implements OnInit {
   deleteFromCourse(data, index, j) {
 
     if (this.viewList[j].courseTableList.length == 1) {
-      this.messageNotifier('error', 'Error', "Subject can't be deleted from the scheduled exam since only one subject is left!");
+      this.messageNotifier('error', '', "Subject can't be deleted from the scheduled exam since only one subject is left!");
       return;
     }
     else {
@@ -1682,7 +1684,7 @@ export class CourseExamComponent implements OnInit {
   updateEditedSubject(row, index, j) {
 
     if (this.row_edit_exam_marks == '' || this.row_edit_exam_marks == null) {
-      this.messageNotifier('error', 'Error', 'Please Provide Marks');
+      this.messageNotifier('error', '', 'Please Provide Marks');
       return;
     }
 
@@ -1778,14 +1780,14 @@ export class CourseExamComponent implements OnInit {
               this.getExamSchedule();
             }
             else {
-              this.messageNotifier('error', 'Error', res.message);
+              this.messageNotifier('error', '', res.message);
             }
           },
           err => {
             this.isRippleLoad = false;
             this.multiClickDisabled = false;
             console.log(err);
-            this.messageNotifier('error', 'Error', err.error.message);
+            this.messageNotifier('error', '', err.error.message);
           }
         )
       }
@@ -1793,7 +1795,7 @@ export class CourseExamComponent implements OnInit {
     else {
       this.multiClickDisabled = false;
       this.isRippleLoad = false;
-      this.messageNotifier('error', 'Error', 'Required fields not mentioned!');
+      this.messageNotifier('error', '', 'Required fields not mentioned!');
     }
 
   }
@@ -1833,7 +1835,7 @@ export class CourseExamComponent implements OnInit {
         for (let j = 0; j < this.viewList[i].courseTableList.length; j++) {
           let classLi: any = {};
           if (this.viewList[i].courseTableList[j].total_marks == undefined) {
-            this.messageNotifier('error', 'Error', 'please enter total marks');
+            this.messageNotifier('error', '', 'please enter total marks');
             return false;
           }
           let topics = this.viewList[i].courseTableList[j].topics_covered;
@@ -1860,7 +1862,7 @@ export class CourseExamComponent implements OnInit {
           test.courseClassSchdList.push(classLi);
         }
         if (total != this.viewList[i].courseModelAdder.total_marks) {
-          this.messageNotifier('error', 'Error', 'Please check total marks provided');
+          this.messageNotifier('error', '', 'Please check total marks provided');
           return false;
         }
 
@@ -1911,7 +1913,7 @@ export class CourseExamComponent implements OnInit {
           test.courseClassSchdList.push(classLi);
         }
         // if (total != this.viewList[i].courseModelAdder.total_marks) {
-        //   this.messageNotifier('error', 'Error', 'Please check total marks provided');
+        //   this.messageNotifier('error', '', 'Please check total marks provided');
         //   return false;
         // }
       }
@@ -2021,7 +2023,7 @@ export class CourseExamComponent implements OnInit {
 
   cancelCourseExam() {
     if (this.cancelPopUpData.reason.trim() == "" || null) {
-      this.messageNotifier('error', 'Error', 'Please Provide Cancellation Reason');
+      this.messageNotifier('error', '', 'Please Provide Cancellation Reason');
       return;
     }
     let notify: any = "";
@@ -2051,7 +2053,7 @@ export class CourseExamComponent implements OnInit {
         err => {
           //console.log(err);
           this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -2067,7 +2069,7 @@ export class CourseExamComponent implements OnInit {
 
   cancelCourseLevelExam() {
     if (this.cancelPopUpData.reason.trim() == "" || null) {
-      this.messageNotifier('error', 'Error', 'Please Provide Cancellation Reason');
+      this.messageNotifier('error', '', 'Please Provide Cancellation Reason');
       return;
     }
     let notify: any = "";
@@ -2096,7 +2098,7 @@ export class CourseExamComponent implements OnInit {
         err => {
           //console.log(err);
           this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -2126,7 +2128,7 @@ export class CourseExamComponent implements OnInit {
         },
         err => {
           //console.log(err);
-          this.messageNotifier('error', 'Error', "SMS notification can't be sent due to any of the following reasons: SMS setting is not enabled for the institute. SMS quota is not sufficient for the institute. No student(s) assigned in the course to notify");
+          this.messageNotifier('error', '', "SMS notification can't be sent due to any of the following reasons: SMS setting is not enabled for the institute. SMS quota is not sufficient for the institute. No student(s) assigned in the course to notify");
         }
       )
     }
@@ -2142,7 +2144,7 @@ export class CourseExamComponent implements OnInit {
     let start_time = moment(this.createTimeInFormat(start.hour, start.minute, 'comp'), 'h:mma');
     let end_time = moment(this.createTimeInFormat(end.hour, end.minute, 'comp'), 'h:mma');
     if (!(start_time.isBefore(end_time))) {
-      this.messageNotifier('error', 'Error', 'Please provide correct start time and end time');
+      this.messageNotifier('error', '', 'Please enter correct start time and end time');
       return false;
     } else {
       let duration = end_time.diff(start_time, 'minutes');
@@ -2154,7 +2156,7 @@ export class CourseExamComponent implements OnInit {
     let start_time = moment(this.createTimeInFormat(this.newExamData.startTimeHrs, this.newExamData.startTimeMins, 'comp'), 'h:mma');
     let end_time = moment(this.createTimeInFormat(this.newExamData.endTimeHrs, this.newExamData.endTimeMins, 'comp'), 'h:mma');
     if (!(start_time.isBefore(end_time))) {
-      this.messageNotifier('error', 'Error', 'Please provide correct start time and end time');
+      this.messageNotifier('error', '', 'Please enter correct start time and end time');
       return false;
     } else {
       let duration = end_time.diff(start_time, 'minutes');

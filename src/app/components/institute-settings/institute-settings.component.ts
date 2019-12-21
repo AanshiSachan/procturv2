@@ -378,7 +378,7 @@ export class InstituteSettingsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -387,7 +387,7 @@ export class InstituteSettingsComponent implements OnInit {
     let dataToSend: any = {};
     if (this.instituteSettingDet.gst_enabled) {
       if (this.instituteSettingDet.gst_no == "" || this.instituteSettingDet.gst_no == null) {
-        this.commonService.showErrorMessage('error', 'Error', "Please specify GST NO.");
+        this.commonService.showErrorMessage('error', '', "Please specify GST NO.");
         return;
       }
     }
@@ -400,7 +400,7 @@ export class InstituteSettingsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -481,7 +481,7 @@ export class InstituteSettingsComponent implements OnInit {
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', 'Please provide valid phone number.');
+        this.commonService.showErrorMessage('error', '', 'Please enter valid contact number.');
         return;
       }
     }
@@ -516,7 +516,7 @@ export class InstituteSettingsComponent implements OnInit {
     obj.new_student_addmission_email_notification = this.instituteSettingDet.new_student_addmission_email_notification;
     obj.new_student_addmission_sms_notification = this.instituteSettingDet.new_student_addmission_sms_notification;
     if (this.checkPhoneValidation(this.instituteSettingDet.new_student_addmission_sms_notification) == false) {
-      this.commonService.showErrorMessage('error', 'Error', 'Please provide valid phone number.');
+      this.commonService.showErrorMessage('error', '', 'Please enter valid contact number.');
     } else {
       return obj;
     }
@@ -674,7 +674,7 @@ export class InstituteSettingsComponent implements OnInit {
 
   checkDropDownSelection(data) {
     if (data == "-1") {
-      this.commonService.showErrorMessage('error', 'Error', 'You have selected wrong option in DropDown')
+      this.commonService.showErrorMessage('error', '', 'You have selected wrong option in DropDown')
       return false;
     } else {
       return true;

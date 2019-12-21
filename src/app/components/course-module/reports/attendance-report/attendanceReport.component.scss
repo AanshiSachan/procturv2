@@ -146,17 +146,24 @@ $color-highlight: lighten($color-base, 7%);
     }
     .inner-main {
         display: inline;
-        padding: 20px 0px 12px 0px;
+        padding: 25px 0px 12px 0px;
         .form-btn{
             .btn{
                 margin:0px 10px;
+                // margin:0px;
             }
         }
         .inner-btn {
             display: inline-block;
+            // width: auto;
+            // padding-left: 20px;
+            // padding-right: 20px;
         }
         .outer-btn {
             display: inline-block;
+            // width: auto;
+            // padding-left: 20px;
+            // padding-right: 20px;
         }
     }
     .records {
