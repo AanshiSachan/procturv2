@@ -79,6 +79,7 @@ export class EnquiryHomeComponent implements OnInit {
     selectedTableRow:any;
     viewPopUp = false;
     isSendGridEnable : boolean = false;
+    downloadEnquiryReportAccess : boolean = false;
     /* Variable to handle popups */
     varJson: any = {
         message: '',
@@ -470,6 +471,13 @@ export class EnquiryHomeComponent implements OnInit {
             sessionStorage.getItem('permissions') == ''
             || sessionStorage.getItem('username') == 'admin') {
             this.varJson.showDownloadSummary = true;
+        }
+       this.checkRoleAccess();
+    }
+
+    checkRoleAccess() {
+        if(sessionStorage.getItem('downloadEnquiryReportAccess')=='true'){
+            this.downloadEnquiryReportAccess = true;
         }
     }
 

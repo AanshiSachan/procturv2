@@ -43,6 +43,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   studentServerImage: any = '';
   readonly: boolean = true;
   institute_id:any;
+  downloadStudentReportAccess:boolean = false;
 
   /* Model for institute Data for fetching student enquiry */
   currRow: instituteInfo = {
@@ -93,7 +94,14 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     this.customComponent;
     this.cd.markForCheck();
     this.fetchStudentDetails(this.studentDetails);
+    this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadStudentReportAccess')=='true'){
+        this.downloadStudentReportAccess = true;
+    }
+}
 
 
   emitEdit() {

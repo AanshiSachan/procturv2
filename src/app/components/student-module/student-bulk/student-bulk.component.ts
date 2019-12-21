@@ -23,6 +23,7 @@ export class StudentBulkComponent implements OnInit {
   isBulkUploadStatus: boolean = false;
   bulkUploadRecords: any[] = [];
   studentUploadForm: any;
+  downloadStudentReportAccess: boolean = false;
 
   constructor(private fetchData: FetchStudentService, private postData: PostStudentDataService,
     private appC: AppComponent, private router: Router, private auth: AuthenticatorService) {
@@ -33,7 +34,14 @@ export class StudentBulkComponent implements OnInit {
 
   ngOnInit() {
     this.fetchBulkUploadStatusData();
+    this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadStudentReportAccess')=='true'){
+        this.downloadStudentReportAccess = true;
+    }
+}
 
 
   /* base64 data to be converted to xls file */

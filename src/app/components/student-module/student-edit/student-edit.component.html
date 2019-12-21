@@ -526,7 +526,7 @@
                 <div style="padding-top: 5px;" class="uploadedData">{{data.title}} </div>
                 <div style="width: 25%;float: left;text-align: right;">
                     <i  class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;" title="Delete File" (click)="deletefile(data.id)"></i>
-                    <a class="fa fa-download" id="downloadFile" style="font-size: 17px; color: #0084f6; margin-left: 1%;cursor: pointer;" title="Download File" (click)="downloadFile(data)"></a>
+                    <a class="fa fa-download" id="downloadFile" style="font-size: 17px; color: #0084f6; margin-left: 1%;cursor: pointer;" title="Download File" (click)="downloadFile(data)" *ngIf="downloadStudentReportAccess"></a>
                     <a id="downloadFileClick" class="hide"></a>
                 </div>
               </div>

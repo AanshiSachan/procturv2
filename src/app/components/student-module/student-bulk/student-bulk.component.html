@@ -89,7 +89,10 @@
                 <td>{{record.statusValue}}</td>
                 <td>{{record.total_count}}</td>
                 <td>
-                  <a *ngIf="record.success_count != 0" id="success{{record.list_id}}" class="download-icon" (click)="downloadSuccess(record)">
+                  <a *ngIf="record.success_count != 0 && downloadStudentReportAccess" id="success{{record.list_id}}" class="download-icon" (click)="downloadSuccess(record)">
+                    {{record.success_count}}
+                  </a>
+                  <a *ngIf="record.success_count != 0 && !downloadStudentReportAccess" id="success{{record.list_id}}">
                     {{record.success_count}}
                   </a>
                   <span *ngIf="record.success_count == 0">
@@ -97,7 +100,10 @@
                   </span>
                 </td>
                 <td>
-                  <a *ngIf="record.failure_count != 0" id="failure{{record.list_id}}" class="download-icon" (click)="downloadFailure(record)">
+                  <a *ngIf="record.failure_count != 0 && downloadStudentReportAccess" id="failure{{record.list_id}}" class="download-icon" (click)="downloadFailure(record)">
+                    {{record.failure_count}}
+                  </a>
+                  <a *ngIf="record.failure_count != 0 && !downloadStudentReportAccess" id="failure{{record.list_id}}">
                     {{record.failure_count}}
                   </a>
                   <span *ngIf="record.failure_count == 0">
