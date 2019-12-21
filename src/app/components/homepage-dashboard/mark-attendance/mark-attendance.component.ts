@@ -307,6 +307,7 @@ closeTopicModal(){
      var  getTopicIds = checkedTopics.map(obj =>{
       return obj.topicId
       });
+      this.checkedKeys = getTopicIds;
       getTopicIds = getTopicIds.join('|');
       this.batch_info.topics_covered = getTopicIds;     
         let obj = {
