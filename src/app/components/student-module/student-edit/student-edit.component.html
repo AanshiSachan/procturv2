@@ -895,8 +895,8 @@
 
                         <div class="balance" style="margin-right:5px">
                           <span *ngIf="installment.paid_full == 'Y'">{{ 0 | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
-                          <span *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">{{installment.balance_amount | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
-                          <span *ngIf="installment.balance_amount == 0 && installment.paid_full == 'N'">{{installment.fees_amount | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
+                          <span *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">1 {{getInstasllemttDetails(installment)}} &nbsp;{{installment.balance_amount | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
+                          <span *ngIf="installment.balance_amount == 0 && installment.paid_full == 'N'"> 2 &nbsp;{{installment.fees_amount | commaSeprator:instituteCountryDetObj.currency_code:instituteCountryDetObj.country_code}}</span>
                         </div>
 
                         <div class="dueDate">

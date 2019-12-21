@@ -30,6 +30,11 @@
   overflow-x: hidden;
 }
 
+.disable_input{
+    background: lightgrey !important;
+    cursor: not-allowed;
+}
+
 .add-edit {
     margin-bottom: 15px;
     margin-top: 15px;

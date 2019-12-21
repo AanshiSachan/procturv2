@@ -1808,7 +1808,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           // console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
           this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax,res.country_id);
-          // console.log('subjectWise', this.subjectWiseInstallmentArray);
+           console.log('subjectWise', this.subjectWiseInstallmentArray);
           this.onPaidOrUnpaidCheckbox(res.country_id);
         } else {
           this.showFeeSection = false;
@@ -2136,6 +2136,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       template_effective_date: ""
     }
     this.feeTempSelected = "";
+  }
+
+  getInstasllemttDetails(installment){
+    console.log(installment);
   }
 
   applyConfiguredFees($event) {
