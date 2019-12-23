@@ -377,10 +377,12 @@ export class StudentAddComponent implements OnInit {
 
       this.studentAddFormData.country_id = defacult_Country[0].id;
       this.instituteCountryDetObj = defacult_Country[0];
+      this.instituteCountryDetObj.symbol= this.getCurrencyDetails(1000,this.instituteCountryDetObj.currency_code,this.instituteCountryDetObj.country_code);
       if(this.checkStatusofStudent == true) { // when enquiry is convert to student it  false else true
         this.country_id = this.countryDetails[0].id;
         this.maxlegth = this.countryDetails[0].country_phone_number_length;
       }
+      console.log(this.instituteCountryDetObj);
     }
   } 
 
@@ -392,12 +394,37 @@ export class StudentAddComponent implements OnInit {
         console.log(element.id);
         this.studentAddFormData.country_id = element.id;
         this.instituteCountryDetObj = element;
+        this.instituteCountryDetObj.symbol= this.getCurrencyDetails(1000,element.currency_code,element.country_code);
         this.maxlegth = this.instituteCountryDetObj.country_phone_number_length;
         this.country_id = this.instituteCountryDetObj.id;
-      }
-    }
-    );
+        console.log(this.instituteCountryDetObj);
+      }      
+    });
   }
+
+   //get country extension 
+   getCurrencyDetails(value, currency, lang) {
+    if (value && currency && lang) {
+      let formatted = value.toLocaleString(lang, {
+        maximumFractionDigits: 2,
+        style: 'currency',
+        currency: currency
+      });
+
+      formatted = formatted.replace(/[,.]/g, '');
+      formatted = formatted.replace(/[0-9]/g, '');
+      if(formatted==''){        
+        return lang;
+      }
+       else{
+        return formatted;
+      }        
+    }
+    else {
+      return lang;
+    }
+  }
+
   /* ========================================================================================================== */
   /* ===================================== Data Prefill Method and General Methods ============================ */
   /* ========================================================================================================== */
@@ -1719,6 +1746,15 @@ export class StudentAddComponent implements OnInit {
               this.getAcademicYearDetails();
             }
           }
+          this.countryDetails.forEach(element => {
+            if (element.id == this.studentAddFormData.country_id) {
+              this.instituteCountryDetObj = element;
+              this.instituteCountryDetObj.symbol= this.getCurrencyDetails(1000,element.currency_code,element.country_code);
+              this.maxlegth =this.instituteCountryDetObj.country_phone_number_length;
+              this.country_id = element.id;
+              console.log(this.instituteCountryDetObj);
+            }
+          });
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax,res.country_id);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);

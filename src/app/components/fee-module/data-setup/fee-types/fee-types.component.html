@@ -135,12 +135,12 @@
               <select id="country_id" class="form-ctrl input_txt" [(ngModel)]="row.country_id" 
               name="country_id"  (ngModelChange)="onRowDataChange($event,row)">
                 <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                  {{data.country_name}}
+                  {{data.country_name}}   
                 </option>
               </select>
     </td>
     <td>
-        <span>{{getCurrencyDetails(row.fee_amount,row.currency_code,row.country_code)}}</span>
+        <span>{{getCountryDetails(row.fee_amount,row.country_id)}}</span>
       <span class="field-wrapper">
        <input type="number" class="form-ctrl editCellInput" style="width:25%;display: inherit;" [(ngModel)]="row.fee_amount" name="label">
       </span>

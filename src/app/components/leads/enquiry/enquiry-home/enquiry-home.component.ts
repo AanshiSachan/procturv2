@@ -340,18 +340,18 @@ export class EnquiryHomeComponent implements OnInit {
         private actRoute: ActivatedRoute,
         private auth: AuthenticatorService,
         private multiBranchService: MultiBranchDataService,
-        private commonServiceFactory: CommonServiceFactory,
+        private _commService: CommonServiceFactory,
         private messageService: MessageShowService,
         private _tablePreferencesService: TablePreferencesService,
         private httpService: HttpService
     ) {
-        if (commonServiceFactory.valueCheck(sessionStorage.getItem('userid'))) {
+        if (_commService.valueCheck(sessionStorage.getItem('userid'))) {
             this.router.navigate(['/authPage']);
         }
 
         this.actRoute.queryParams.subscribe(e => {
-            if ((!this.commonServiceFactory.valueCheck(e.id))) {
-                if (this.commonServiceFactory.valueCheck(e.action)) {
+            if ((!this._commService.valueCheck(e.id))) {
+                if (this._commService.valueCheck(e.action)) {
                     this.router.navigate(['/view/enquiry/edit/' + e.id]);
                 }
                 else {
@@ -498,10 +498,10 @@ export class EnquiryHomeComponent implements OnInit {
     }
 
     isEnquiryAdministrator() {
-        if (this.commonServiceFactory.checkUserIsAdmin()) {
+        if (this._commService.checkUserIsAdmin()) {
             this.flagJSON.isEnquiryAdmin = true;
         } else {
-            if (this.commonServiceFactory.checkUserHadPermission('115')) {
+            if (this._commService.checkUserHadPermission('115')) {
                 this.flagJSON.isEnquiryAdmin = true;
             } else {
                 this.flagJSON.isEnquiryAdmin = false;
@@ -673,7 +673,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     createPrefilledDataType4(dataArr: any[], selected: any[], def: any[]): any[] {
         let customPrefilled: any[] = [];
-        if (selected.length != 0 && (!this.commonServiceFactory.valueCheck(selected[0]))) {
+        if (selected.length != 0 && (!this._commService.valueCheck(selected[0]))) {
             dataArr.forEach(el => { let obj = { data: el, checked: selected.includes(el) }; customPrefilled.push(obj); });
         }
         else {
@@ -730,13 +730,13 @@ export class EnquiryHomeComponent implements OnInit {
         this.varJson.PageIndex = 1;
 
         /* Searchbar empty */
-        if (this.commonServiceFactory.valueCheck(this.varJson.searchBarData)) {
+        if (this._commService.valueCheck(this.varJson.searchBarData)) {
             this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
             this.loadTableDatatoSource(this.instituteData);
         }
 
         /* Searchbar filled */
-        else if (!this.commonServiceFactory.valueCheck(this.varJson.searchBarData)) {
+        else if (!this._commService.valueCheck(this.varJson.searchBarData)) {
             if (isNaN(this.varJson.searchBarData)) {
 
                 /* Valid string entered */
@@ -925,7 +925,7 @@ export class EnquiryHomeComponent implements OnInit {
 
                 let followupdateTime: string = "";
 
-                if (!this.commonServiceFactory.valueCheck(this.timeJson.hour)) {
+                if (!this._commService.valueCheck(this.timeJson.hour)) {
                     let time = this.timeChanges(this.timeJson.hour);
                     let followUpTime = time.hour + ":" + this.timeJson.minute + " " + time.meridian;
                     followupdateTime = this.getDateFormated(this.updateFormData.followUpDate, 'DD-MMM-YY') + " " + followUpTime;
@@ -935,7 +935,7 @@ export class EnquiryHomeComponent implements OnInit {
                 followupdateTime = this.getDateFormated(this.updateFormData.followUpDate, 'DD-MMM-YY');
 
                 if (this.flagJSON.isConvertToStudent === false) {
-                    if (!this.commonServiceFactory.valueCheck(this.updateFormData.walkin_followUpTime.hour)) {
+                    if (!this._commService.valueCheck(this.updateFormData.walkin_followUpTime.hour)) {
                         let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
                         let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
                         this.updateFormData.walkin_followUpTime = walkin_followUpTime;
@@ -943,7 +943,7 @@ export class EnquiryHomeComponent implements OnInit {
                     else {
                         this.updateFormData.walkin_followUpTime = "";
                     }
-                    if (this.commonServiceFactory.valueCheck(this.updateFormData.walkin_followUpDate)) {
+                    if (this._commService.valueCheck(this.updateFormData.walkin_followUpDate)) {
                         let walkinfollowUpDate = this.getDateFormated(this.updateFormData.walkin_followUpDate, 'YYYY-MM-DD')
                         this.updateFormData.walkin_followUpDate = walkinfollowUpDate;
                     }
@@ -1434,7 +1434,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Trigger Bulk Send SMS PopUp */
     sendBulkSms() {
-        if ((!this.commonServiceFactory.valueCheck(this.selectedRowGroup)) && (this.selectedRowGroup.length != 0)) {
+        if ((!this._commService.valueCheck(this.selectedRowGroup)) && (this.selectedRowGroup.length != 0)) {
             this.flagJSON.isMultiSms = true;
             this.smsServicesInvoked();
             this.smsSelectedRowsLength = this.selectedRowGroup.length;
@@ -2746,7 +2746,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     // toast function
     showErrorMessage(objType, massage, body) {
-        this.commonServiceFactory.showErrorMessage(objType, massage, body);
+        this._commService.showErrorMessage(objType, massage, body);
     }
 
     // Customizable Table Function
