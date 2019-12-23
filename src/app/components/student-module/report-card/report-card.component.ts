@@ -34,7 +34,7 @@ export class ReportCardComponent implements OnInit {
     private appC: AppComponent,
     private auth: AuthenticatorService,
     private _http: HttpService,
-    private commonService: CommonServiceFactory
+    private _commService: CommonServiceFactory
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -79,12 +79,12 @@ export class ReportCardComponent implements OnInit {
           dwldLink.click();
         }
         else{
-          this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
+          this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
         }
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', '', err.error.message);
+        this._commService.showErrorMessage('error', '', err.error.message);
       }
     )
    }
