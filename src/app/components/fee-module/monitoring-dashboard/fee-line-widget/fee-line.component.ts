@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { monitoringService } from '../services/monitoring.service'
 import * as Highcharts from 'highcharts';
+import { CommonServiceFactory } from '../../../../services/common-service';
 
 @Component({
   selector: 'fee-line',
@@ -14,7 +15,8 @@ export class FeeLineComponent {
   rangelineSelected: any = '2';
   rangeType: string = 'This Month'
   isDataLoaded: boolean = false;
-  constructor(private getService: monitoringService) {
+  constructor(private getService: monitoringService,
+    private _commService:CommonServiceFactory) {
     this.datelineRange[0] = moment(new Date()).startOf('month').format('DD-MMM-YYYY');
     this.datelineRange[1] = moment(new Date()).endOf('month').format('DD-MMM-YYYY');
   }
@@ -113,7 +115,7 @@ export class FeeLineComponent {
         }
       },
       tooltip: {
-        pointFormat: '<span style="color:{series.color}">●</span> {series.name}: <b> ₹ {point.y} </b>'
+        pointFormat: '<span style="color:{series.color}">●</span> {series.name}: <b> '+ this._commService.currency_default_symbol+' {point.y} </b>'
       },
       plotOptions: {
         area: {
@@ -143,7 +145,7 @@ export class FeeLineComponent {
         line: {
           dataLabels: {
             enabled: true,
-            format: '₹ {y}'
+            format: this._commService.currency_default_symbol+' {y}'
           },
           enableMouseTracking: true
         }

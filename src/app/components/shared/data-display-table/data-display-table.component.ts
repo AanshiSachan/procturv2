@@ -2,6 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output, OnChanges, ChangeDetect
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { PaginationService } from '../../../services/pagination-service/pagination.service';
 import * as moment from 'moment';
+import { CommonServiceFactory } from '../../../services/common-service';
 declare var $;
 @Component({
   selector: 'data-display-table',
@@ -24,7 +25,8 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   isCourse: boolean = true;
   constructor(
     private _tablePreferencesService: TablePreferencesService,
-    private _paginationService: PaginationService
+    private _paginationService: PaginationService,
+    private _commService:CommonServiceFactory
   ) { }
 
   ngOnInit() {
@@ -309,7 +311,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     if ((!isNaN(value)) && (value != '') && (value != null)||(key.amountValue)) {
       // return value ;
       if (key.amountValue) {
-        return '₹ ' + value.toLocaleString('en-IN');
+        return this._commService.currency_default_symbol + value.toLocaleString('en-IN');
       } 
       else {
         if(key.dataType=='array'){

@@ -49,7 +49,7 @@
                         <ul *ngIf="records.length !=0" class="made">
                             <li>
                                 <span class="made-out">Total GST</span>
-                                <span class="made-in"> : ₹{{records.toLocaleString('en-IN')}}</span>
+                                <span class="made-in"> : {{ _commService.currency_default_symbol}}{{records.toLocaleString('en-IN')}}</span>
                             </li>
                         </ul>
                     </div>

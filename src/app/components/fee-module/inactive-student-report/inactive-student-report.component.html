@@ -113,14 +113,14 @@
                                                 <li style="margin:4%">
                                                     <span *ngIf="newData[0].hasOwnProperty('Cheque/PDC/DD No.')">
                                                         <span class="bold"> Cheque/PDC/DD No</span>
-                                                        <span class="made-in">₹{{newData[0]['Cheque/PDC/DD No.'].toLocaleString('en-IN')}}</span>
+                                                        <span class="made-in">{{ _commService.currency_default_symbol}}{{newData[0]['Cheque/PDC/DD No.'].toLocaleString('en-IN')}}</span>
                                                     </span>
                                                     <!-- <span> Cheque/PDC/DD No: {{collectionData.pdcNo}}</span> -->
                                                 </li>
                                                 <li style="margin:4%">
                                                     <span *ngIf="newData[0].hasOwnProperty('Caution Deposit(Refundable)')">
                                                         <span class="bold"> Caution Deposit(Refundable)</span>
-                                                        <span class="made-in"> ₹{{newData[0]['Caution Deposit(Refundable)'].toLocaleString('en-IN')}}</span>
+                                                        <span class="made-in"> {{ _commService.currency_default_symbol}}{{newData[0]['Caution Deposit(Refundable)'].toLocaleString('en-IN')}}</span>
                                                     </span>
                                                     <!-- <span> Caution Deposit(Refundable) : {{refundValue}}</span> -->
                                                 </li>
@@ -131,14 +131,14 @@
                                                 <li style="margin:4%">
                                                     <span *ngIf="newData[0].hasOwnProperty('Cash')">
                                                         <span class="bold">Cash</span>
-                                                        <span class="made-in"> ₹{{newData[0].Cash.toLocaleString('en-IN')}}</span>
+                                                        <span class="made-in"> {{ _commService.currency_default_symbol}}{{newData[0].Cash.toLocaleString('en-IN')}}</span>
                                                     </span>
                                                     <!-- Cash : {{collectionData.cash}} -->
                                                 </li>
                                                 <li style="margin:4%">
                                                     <span *ngIf="newData[0].hasOwnProperty('Online Payment')">
                                                         <span class="bold">Online Payments</span>
-                                                        <span class="made-in">₹{{newData[0]['Online Payment'].toLocaleString('en-IN')}}</span>
+                                                        <span class="made-in">{{ _commService.currency_default_symbol}}{{newData[0]['Online Payment'].toLocaleString('en-IN')}}</span>
                                                     </span>
                                                 </li>
                                             </ul>
@@ -148,7 +148,7 @@
                                                 <li style="margin:4%">
                                                     <span *ngIf="newData[0].hasOwnProperty('Credit/Debit Card')">
                                                         <span class="bold">Credit/Debit Card </span>
-                                                        <span class="made-in">₹{{newData[0]['Credit/Debit Card'].toLocaleString('en-IN') }}
+                                                        <span class="made-in">{{ _commService.currency_default_symbol}}{{newData[0]['Credit/Debit Card'].toLocaleString('en-IN') }}
                                                         </span>
                                                     </span>
                                                     <!-- <span> Credit/Debit Card : {{collectionData.cardValue}}</span> -->
@@ -156,7 +156,7 @@
                                                 <li style="margin:4%">
                                                     <span class="bold">
                                                         Total Fees Collection </span>
-                                                    <span class="made-in">₹{{temporaryRecords[0].fees_amount.toLocaleString('en-IN')}}</span>
+                                                    <span class="made-in">{{ _commService.currency_default_symbol}}{{temporaryRecords[0].fees_amount.toLocaleString('en-IN')}}</span>
                                                     <!-- Total Fees Collection : {{collectionData.fees_amount}} -->
                                                 </li>
                                             </ul>

@@ -7,6 +7,7 @@ import { Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
 
 export class CommonServiceFactory {
 
+    currency_default_symbol:any='Rs';
 
     constructor(private toasterService: ToasterService) { }
 
@@ -271,5 +272,9 @@ export class CommonServiceFactory {
         }
         return bytes.buffer;
       }
+
+       setDefaultCurrencySymbol(symbol){
+           this.currency_default_symbol=symbol;
+       }
 
 }

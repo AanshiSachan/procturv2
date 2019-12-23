@@ -832,7 +832,7 @@
                 </td>
                 <td>
                   <span *ngIf="row.amount_with_tax!=null">
-                    ₹{{row.amount_with_tax.toLocaleString()}}
+                    {{ commonService.currency_default_symbol}}{{row.amount_with_tax.toLocaleString()}}
                   </span>
                 </td>
                 <td>

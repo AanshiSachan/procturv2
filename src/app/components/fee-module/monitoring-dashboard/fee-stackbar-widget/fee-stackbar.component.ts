@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges,  ElementRef } from '@angular/core';
 import * as moment from 'moment';
 import { monitoringService } from '../services/monitoring.service'
 import * as Highcharts from 'highcharts';
+import { CommonServiceFactory } from '../../../../services/common-service';
 
 @Component({
   selector: 'fee-stackbar',
@@ -12,7 +13,8 @@ export class FeeStackbarComponent implements OnInit {
 
   isDataLoaded: boolean = false;
 
-  constructor(private getService: monitoringService) {
+  constructor(private getService: monitoringService,
+    private _commService:CommonServiceFactory) {
   }
 
   FeeDataData: any[] = [0, 0, 0, 0];
@@ -79,14 +81,14 @@ export class FeeStackbarComponent implements OnInit {
       },
       tooltip: {
         headerFormat: '<b>{point.key}</b><br>',
-        pointFormat: '{series.name}: ₹ {point.y}'
+        pointFormat: '{series.name}: '+this._commService.currency_default_symbol+' {point.y}'
       },
       plotOptions: {
         column: {
           dataLabels: {
             enabled: true,
             color: '#FFF',
-            format: '₹ {y}',
+            format: this._commService.currency_default_symbol+' {y}',
             x: 0
           },
           stacking: 'normal',

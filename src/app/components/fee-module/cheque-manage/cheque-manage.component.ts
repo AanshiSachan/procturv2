@@ -97,8 +97,7 @@ export class ChequeManageComponent implements OnInit {
     private pdf: ExportToPdfService,
     private _tablePreferencesService: TablePreferencesService,
     private _msgService: MessageShowService ,
-    private commonService: CommonServiceFactory
-    ) {
+    private _commService:CommonServiceFactory) {
     this.dateRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
     this.dateRange[1] = new Date();
   }
@@ -609,7 +608,7 @@ export class ChequeManageComponent implements OnInit {
   downloadReceipt(r) {
     let link = document.getElementById("invoiceDownloader");
     let body = r;
-    let byteArr = this.commonService.convertBase64ToArray(body.document);
+    let byteArr = this._commService.convertBase64ToArray(body.document);
     let format = body.format;
     let fileName = body.docTitle;
     let file = new Blob([byteArr], { type: 'application/pdf' });

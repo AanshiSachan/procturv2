@@ -4,7 +4,7 @@ import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.m
 import { PaymentHistoryMainService } from '../../../services/payment-history/payment-history-main.service';
 import { ExcelService } from '../../../services/excel.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
-import { CommonServiceFactory } from '../../..';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'app-gst-report',
@@ -12,7 +12,6 @@ import { CommonServiceFactory } from '../../..';
   styleUrls: ['./gst-report.component.scss']
 })
 export class GstReportComponent implements OnInit {
-
 
   selectMonth: any[] = [
     {
@@ -117,11 +116,12 @@ export class GstReportComponent implements OnInit {
   tempRecords: any[] = [];
   records: string;
   year: number
-  constructor(private gst: PaymentHistoryMainService,
-     private excelService: ExcelService,
-     private cd: ChangeDetectorRef, 
-     private pdf:ExportToPdfService,
-     private commonService: CommonServiceFactory) { }
+  constructor(
+    private gst: PaymentHistoryMainService, 
+    private excelService: ExcelService, 
+    private cd: ChangeDetectorRef ,
+    private pdf:ExportToPdfService,
+  private _commService:CommonServiceFactory) { }
 
   ngOnInit() {
     this.getGstReport(event, this.year);
@@ -202,7 +202,7 @@ export class GstReportComponent implements OnInit {
     this.gst.downloadData(this.downloadService).subscribe(
 
       (data: any) => {
-        let byteArr = this.commonService.convertBase64ToArray(data.document);
+        let byteArr = this._commService.convertBase64ToArray(data.document);
         let format = data.format;
         let fileName = data.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
