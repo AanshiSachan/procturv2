@@ -148,7 +148,9 @@
           </div>
 
           <div class="form-item field-wrapper">
-            <label for="source">Source</label>
+            <label for="source">Source
+              <span class="text-danger">*</span>
+            </label>
             <select class="form-ctrl" name="source" [(ngModel)]="addLead.source">
               <option value="-1">Select Source</option>
               <option [value]="source.id" *ngFor="let source of sourceList">{{source.name}}</option>
@@ -200,7 +202,18 @@
   </div>
 </div>
 
+
 <section class="middle-section clearFix">
+  <!-- Header and Navigation -->
+  <section class="middle-top mb0 clearFix">
+    <h1 class="pull-left">
+      <a routerLink="/view/leads">
+        Lead
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      Manage Campaign
+    </h1>
+  </section>
 
   <section>
     <div class="filter-container">
@@ -217,10 +230,10 @@
             <option [value]="campaign.list_id" *ngFor="let campaign of campaignList">{{campaign.list_name}}</option>
           </select>
         </div>
-        <div class="filter-item" style="width: 8%;">
+        <div class="filter-item" style="width: 8%;" id="searchBtn1">
           <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign()">Search</button>
         </div>
-        <div class="filter-item">
+        <div class="filter-item" id="advBtn1">
           <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Advance Filter</button>
         </div>
       </div>
@@ -242,6 +255,12 @@
             <option value="-1">Select Assigned To</option>
             <option [value]="assigned.userid" *ngFor="let assigned of assignedToList">{{assigned.name}}</option>
           </select>
+        </div>
+        <div class="filter-item" style="width: 8%;" id="searchBtn2">
+          <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign()">Search</button>
+        </div>
+        <div class="filter-item" id="advBtn2">
+          <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Advance Filter</button>
         </div>
       </div>
     </div>
@@ -336,9 +355,9 @@
             <i class="fa fa-trash delete-lead" *ngIf="lead.converted == 0" aria-hidden="true" (click)="deleteLead(lead)"></i>
           </div>
         </div>
-        <!-- <div class="no-records" *ngIf="leadsList.length == 0">
+        <div class="no-records" *ngIf="leadsList?.length == 0">
           <span>No Records Found</span>
-        </div> -->
+        </div>
       </div>
     </div>
   </section>

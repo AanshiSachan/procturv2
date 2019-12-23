@@ -93,7 +93,7 @@ export class ManageCampaignComponent implements OnInit {
         this.sourceList = res;
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
         this.jsonFlag.isRippleLoad = false;
       }
     );
@@ -103,7 +103,7 @@ export class ManageCampaignComponent implements OnInit {
         this.assignedToList = res;
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         this.jsonFlag.isRippleLoad = false;
       }
     );
@@ -113,7 +113,7 @@ export class ManageCampaignComponent implements OnInit {
         this.referredByList = res;
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         this.jsonFlag.isRippleLoad = false;
       }
     );
@@ -123,7 +123,7 @@ export class ManageCampaignComponent implements OnInit {
         this.campaignList = res;
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         this.jsonFlag.isRippleLoad = false;
       }
     );
@@ -131,15 +131,16 @@ export class ManageCampaignComponent implements OnInit {
   }
 
   searchCampaign(){
+    this.pageIndex = 1;
     this.jsonFlag.isRippleLoad = true;
     let obj = {
       "assigned_to": this.filters.assignedTo,
-    	"name": this.filters.stundetName,
+    	"name": "" + this.filters.stundetName + "",
     	"mobile": this.filters.contactNumber,
     	"list_id":  this.filters.campaignName,
     	"source_id": this.filters.source,
     	"referred_by": this.filters.referredBy,
-      "start_index": this.pageIndex,
+      "start_index": 0,
       "batch_size": 100
 
     }
@@ -148,15 +149,16 @@ export class ManageCampaignComponent implements OnInit {
       res => {
         let result: any;
         result = res;
+        this.jsonFlag.isRippleLoad = false;
+        this.leadsList = res;
+        this.tempLeadlist = res;
+        this.totalCount = 0;
         if(result.length > 0){
-          this.leadsList = res;
-          this.tempLeadlist = res;
-          this.jsonFlag.isRippleLoad = false;
           this.totalCount = this.leadsList[0].totalCount;
         }
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         this.jsonFlag.isRippleLoad = false;
       }
     );
@@ -178,6 +180,12 @@ export class ManageCampaignComponent implements OnInit {
 
   downloadPdf(){
     let arr = [];
+    for(let i = 0; i < this.tempLeadlist.length; i++){
+      this.tempLeadlist[i].converted_status = "-";
+      if(this.tempLeadlist[i].converted == 1){
+        this.tempLeadlist[i].converted_status = "Converted";
+      }
+    }
     this.tempLeadlist.map(
       (ele: any) => {
         let json = [
@@ -189,13 +197,13 @@ export class ManageCampaignComponent implements OnInit {
           ele.gender,
           ele.referred_name,
           ele.source_name,
-          ele.assigned_to_name
+          ele.converted_status
         ]
         arr.push(json);
       })
 
     let rows = [];
-    rows = [['Mobile', 'Name', 'Email', 'Address', 'City', 'Gender', 'Referred By', 'Source', 'Assigned To']]
+    rows = [['Mobile', 'Name', 'Email', 'Address', 'City', 'Gender', 'Referred By', 'Source', 'Status']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Leads List');
   }
@@ -233,7 +241,7 @@ export class ManageCampaignComponent implements OnInit {
 
   showPromoSMS(){
     if(this.checkedIds.length == 0){
-      this.msgService.showErrorMessage('error', 'Error', 'No lead is selected. Kindly select at least one!');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No lead is selected. Kindly select at least one!');
       this.showSMS = false;
     }
     else{
@@ -249,7 +257,7 @@ export class ManageCampaignComponent implements OnInit {
           this.jsonFlag.isRippleLoad = false;
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           this.jsonFlag.isRippleLoad = false;
         }
       );
@@ -271,7 +279,7 @@ export class ManageCampaignComponent implements OnInit {
 
   sendSMS(){
     if(this.selectedSMSList.length == 0){
-      this.msgService.showErrorMessage('error', 'Error', 'No SMS is selected. Kindly select at least one!')
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No SMS is selected. Kindly select at least one!')
     }
     else{
       let obj = {
@@ -281,18 +289,20 @@ export class ManageCampaignComponent implements OnInit {
       this.jsonFlag.isRippleLoad = true;
       this.campaignService.sendPromoSMS(obj).subscribe(
         res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Sucess', 'Message has been sent sucessfully.');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Message has been sent successfully.');
           this.jsonFlag.isRippleLoad = false;
           this.showSMS = false;
+          this.selectedSMSList = [];
           let element = document.getElementsByClassName('modal-backdrop') as HTMLCollectionOf<HTMLElement>;
           for(let i = 0; i < element.length; i++){
             element[i].style.display = "none";
           }
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           this.jsonFlag.isRippleLoad = false;
           this.showSMS = false;
+          this.selectedSMSList = [];
           let element = document.getElementsByClassName('modal-backdrop') as HTMLCollectionOf<HTMLElement>;
           for(let i = 0; i < element.length; i++){
             element[i].style.display = "none";
@@ -304,7 +314,7 @@ export class ManageCampaignComponent implements OnInit {
 
   convertToEnq(){
     if(this.checkedIds.length == 0){
-      this.msgService.showErrorMessage('error', 'Error', 'No lead is selected. Kindly select at least one!')
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No lead is selected. Kindly select at least one!')
     }
     else{
       let obj = {
@@ -317,7 +327,7 @@ export class ManageCampaignComponent implements OnInit {
           this.jsonFlag.isRippleLoad = false;
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           this.jsonFlag.isRippleLoad = false;
         }
       );
@@ -326,7 +336,7 @@ export class ManageCampaignComponent implements OnInit {
 
   deleteMultipleLeads(){
     if(this.checkedIds.length == 0){
-      this.msgService.showErrorMessage('error', 'Error', 'No lead is selected. Kindly select at least one!')
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No lead is selected. Kindly select at least one!')
     }
     else{
       let obj = {
@@ -335,11 +345,12 @@ export class ManageCampaignComponent implements OnInit {
       this.jsonFlag.isRippleLoad = true;
       this.campaignService.deleteMultiLeads(obj).subscribe(
         res => {
-          this.searchCampaign();
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead(s) archived successfully');
           this.jsonFlag.isRippleLoad = false;
+          this.searchCampaign();
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           this.jsonFlag.isRippleLoad = false;
         }
       );
@@ -352,12 +363,17 @@ export class ManageCampaignComponent implements OnInit {
     var validation_flag = true;
     if (this.addLead.phone != null && this.addLead.phone != "") {
       if(this.addLead.phone.length != 10){
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Enter valid phone number');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter valid phone number');
         validation_flag = false;
       }
     }
     else{
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Enter contact details');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter contact details');
+      validation_flag = false;
+    }
+
+    if(this.addLead.source == "-1"){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select source details');
       validation_flag = false;
     }
     // if(!this.validateEmail(this.addLead.emailId)){
@@ -377,7 +393,7 @@ export class ManageCampaignComponent implements OnInit {
       this.jsonFlag.isRippleLoad = true;
       this.campaignService.createLead(obj).subscribe(
         res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Sucess', 'Lead added sucessfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead added successfully');
           this.jsonFlag.isRippleLoad = false;
           document.getElementById("addLead").style.display = "none";
           let element = document.getElementsByClassName('modal-backdrop') as HTMLCollectionOf<HTMLElement>;
@@ -388,7 +404,7 @@ export class ManageCampaignComponent implements OnInit {
           this.searchCampaign();
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           this.jsonFlag.isRippleLoad = false;
         }
       );
@@ -415,12 +431,12 @@ export class ManageCampaignComponent implements OnInit {
     var validation_flag = true;
     if (this.editLead.phone != null && this.editLead.phone != "") {
       if(this.editLead.phone.length != 10){
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Enter valid phone number');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter valid phone number');
         validation_flag = false;
       }
     }
     else{
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Enter contact details');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter contact details');
       validation_flag = false;
     }
     // if(!this.validateEmail(this.editLead.emailId)){
@@ -441,7 +457,7 @@ export class ManageCampaignComponent implements OnInit {
       this.jsonFlag.isRippleLoad = true;
       this.campaignService.updateLead(obj, this.editLead.list_id, this.editLead.base_id).subscribe(
         res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Sucess', 'Lead updated sucessfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead updated successfully');
           this.jsonFlag.isRippleLoad = false;
           this.showEditLead = false;
           document.getElementById("editLead").style.display = "none";
@@ -453,7 +469,7 @@ export class ManageCampaignComponent implements OnInit {
           this.searchCampaign();
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           this.jsonFlag.isRippleLoad = false;
         }
       );
@@ -461,16 +477,16 @@ export class ManageCampaignComponent implements OnInit {
   }
 
   deleteLead(row){
-    if (confirm('Are you sure u want to delete lead?')){
+    if (confirm('Are you sure you want to delete lead?')){
       this.jsonFlag.isRippleLoad = true;
       this.campaignService.deleteLead(row.list_id, row.base_id).subscribe(
         res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Sucess', 'Lead deleted sucessfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead deleted successfully');
           this.jsonFlag.isRippleLoad = false;
           this.searchCampaign();
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           this.jsonFlag.isRippleLoad = false;
         }
       );
@@ -535,7 +551,7 @@ export class ManageCampaignComponent implements OnInit {
         return true;
       }
       else {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Enter valid email address');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter valid email address');
         return false;
       }
     } else {
@@ -547,10 +563,18 @@ export class ManageCampaignComponent implements OnInit {
     var x = document.getElementById("advance_filter");
     if (x.style.display == "none" || x.style.display == "") {
       x.style.display = "flex";
+      document.getElementById("searchBtn1").style.display = "none";
+      document.getElementById("advBtn1").style.display = "none";
+      document.getElementById("searchBtn2").style.display = "block";
+      document.getElementById("advBtn2").style.display = "block";
       document.getElementById("lead-value-container").style.minHeight = "57vh";
     } else {
       x.style.display = "none";
-      document.getElementById("lead-value-container").style.minHeight = "63vh";
+      document.getElementById("searchBtn1").style.display = "block";
+      document.getElementById("advBtn1").style.display = "block";
+      document.getElementById("searchBtn2").style.display = "none";
+      document.getElementById("advBtn2").style.display = "none";
+      document.getElementById("lead-value-container").style.minHeight = "61vh";
     }
   }
 }
