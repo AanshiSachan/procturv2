@@ -344,3 +344,7 @@
     width: 100%;
   }
 }
+
+::ng-deep bs-datepicker-container, bs-daterangepicker-container{
+  margin-left:5% !important;
+  }

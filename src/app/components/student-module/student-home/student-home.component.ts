@@ -216,7 +216,7 @@ export class StudentHomeComponent implements OnInit {
     private postService: PostStudentDataService,
     private actRoute: ActivatedRoute,
     private auth: AuthenticatorService,
-    private commonService: CommonServiceFactory,
+    private _commService: CommonServiceFactory,
     private http: ProductService
   ) {
 
@@ -415,7 +415,7 @@ export class StudentHomeComponent implements OnInit {
         if (res) {
           let resp = res.response;
           if (resp.document != "") {
-            let byteArr = this.convertBase64ToArray(resp.document);
+            let byteArr = this._commService.convertBase64ToArray(resp.document);
             let fileName = 'card.pdf'; //res.docTitle;
             let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
             let url = URL.createObjectURL(file);
@@ -426,10 +426,10 @@ export class StudentHomeComponent implements OnInit {
             dwldLink.click();
           }
           else {
-            this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
+            this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
           }
         } else {
-          this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
+          this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
         }
       },
       err => {
@@ -652,8 +652,8 @@ export class StudentHomeComponent implements OnInit {
       return false;
     }
     else {
-      this.advancedFilterForm.doa_from_date = this.commonService.sourceValueCheck(this.advancedFilterForm.doa_from_date) ? '' : moment(this.advancedFilterForm.doa_from_date).format('YYYY-MM-DD');
-      this.advancedFilterForm.doa_to_date = this.commonService.sourceValueCheck(this.advancedFilterForm.doa_to_date) ? '' : moment(this.advancedFilterForm.doa_to_date).format('YYYY-MM-DD');
+      this.advancedFilterForm.doa_from_date = this._commService.sourceValueCheck(this.advancedFilterForm.doa_from_date) ? '' : moment(this.advancedFilterForm.doa_from_date).format('YYYY-MM-DD');
+      this.advancedFilterForm.doa_to_date = this._commService.sourceValueCheck(this.advancedFilterForm.doa_to_date) ? '' : moment(this.advancedFilterForm.doa_to_date).format('YYYY-MM-DD');
     }
 
 
@@ -732,7 +732,7 @@ export class StudentHomeComponent implements OnInit {
 
     this.studentFetch.downloadStudentTableasXls(data).subscribe(
       (res: any) => {
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this._commService.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
@@ -752,21 +752,6 @@ export class StudentHomeComponent implements OnInit {
         this.appC.popToast(msg);
       }
     );
-  }
-
-  /* Converts base64 string into a byte[] */
-  /* =================================================================================================== */
-  /* =================================================================================================== */
-  convertBase64ToArray(val) {
-
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-
   }
 
   /* Store the prefill data for student add form component */
@@ -2144,7 +2129,7 @@ export class StudentHomeComponent implements OnInit {
     this.postService.downloadAdmissionForm(obj).subscribe(
       (res: any) => {
         this.isRippleLoad = false;
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this._commService.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
@@ -2156,7 +2141,7 @@ export class StudentHomeComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', '', err.error.message);
+        this._commService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -2177,7 +2162,7 @@ export class StudentHomeComponent implements OnInit {
     this.postService.getFeeInstallments(object).subscribe((res: any) => {
       this.isRippleLoad = false;
       if (userType == -1) {
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this._commService.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
@@ -2199,7 +2184,7 @@ export class StudentHomeComponent implements OnInit {
     },
       (err) => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', '', err.error.message);
+        this._commService.showErrorMessage('error', '', err.error.message);
       })
   }
 
