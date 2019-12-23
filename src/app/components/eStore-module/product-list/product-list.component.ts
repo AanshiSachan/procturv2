@@ -110,8 +110,8 @@ export class ProductListComponent implements OnInit {
           // -- added by laxmi
           // this code is used to laod image url dynamically not save in locally dont remove it 
           this.productList.forEach(obj => {
-            if(obj.photo_url){
-              obj.photo_url =obj.photo_url+"?t="+new Date().getTime();// 
+            if(obj.logo_url){
+              obj.logo_url =obj.logo_url+"?t="+new Date().getTime();// 
             }            
           });
 
