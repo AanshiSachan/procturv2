@@ -3,11 +3,7 @@ import * as moment from 'moment';
 import { GetFeeService } from '../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
 import { AppComponent } from '../../../app.component';
-<<<<<<< HEAD
-import { CommonServiceFactory } from '../../..';
-=======
 import { CommonServiceFactory } from '../../../services/common-service';
->>>>>>> v3_multicurrency
 
 @Component({
   selector: 'fee-receipt',
@@ -24,11 +20,7 @@ export class FeeReceiptComponent implements OnChanges {
     private getter: GetFeeService, 
     private putter: PostFeeService , 
     private appc:AppComponent,
-<<<<<<< HEAD
-    private commonService: CommonServiceFactory
-=======
     private _commService:CommonServiceFactory
->>>>>>> v3_multicurrency
     ) { }
 
   ngOnChanges() {
@@ -58,7 +50,7 @@ export class FeeReceiptComponent implements OnChanges {
     this.getter.getReceiptById(obj).subscribe(
       res => {
         let body:any = res;
-        let byteArr = this.commonService.convertBase64ToArray(body.document);
+        let byteArr = this._commService.convertBase64ToArray(body.document);
         let format = body.format;
         let fileName = body.docTitle;
         let file = new Blob([byteArr], { type: 'application/pdf' });
