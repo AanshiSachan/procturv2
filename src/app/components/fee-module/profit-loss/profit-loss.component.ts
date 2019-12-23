@@ -3,6 +3,7 @@ import { ProfitLossServiceService } from '../../../services/profit-loss-service/
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import * as moment from 'moment';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'app-profit-loss',
@@ -36,7 +37,8 @@ export class ProfitLossComponent implements OnInit {
 
   constructor(private profitLoss: ProfitLossServiceService,
     private appc: AppComponent,
-    private institute_id: AuthenticatorService) {
+    private institute_id: AuthenticatorService,
+    private _commService:CommonServiceFactory) {
   }
 
 

@@ -7,6 +7,7 @@ import { PaymentHistoryMainService } from '../../../services/payment-history/pay
 import { ExcelService } from '../../../services/excel.service';
 import { AppComponent } from '../../../app.component';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
+import { CommonServiceFactory } from './../../../services/common-service';
 
 @Component({
   selector: 'app-inactive-student-report',
@@ -77,7 +78,13 @@ export class InactiveStudentReportComponent implements OnInit {
 
   temporaryRecords: any[] = [];
 
-  constructor(private payment: PaymentHistoryMainService, private excelService: ExcelService, private appc: AppComponent, private pdf: ExportToPdfService) { }
+  constructor(
+    private payment: PaymentHistoryMainService, 
+    private excelService: ExcelService, 
+    private appc: AppComponent, 
+    private pdf: ExportToPdfService,
+    private commonService:CommonServiceFactory
+  ) { }
 
 
   ngOnInit() {

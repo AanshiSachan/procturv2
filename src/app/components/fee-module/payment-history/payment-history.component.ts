@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { GetFeeService } from '../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
-
+import {CommonServiceFactory} from '../../../services/common-service'
 @Component({
   selector: 'payment-history',
   templateUrl: './payment-history.component.html',
@@ -43,7 +43,9 @@ export class PaymentHistoryComponent implements OnChanges {
     academic_year_id: ""
   }
 
-  constructor(private getter: GetFeeService, private putter: PostFeeService) { }
+  constructor(private getter: GetFeeService,
+     private putter: PostFeeService,
+     private _commService:CommonServiceFactory) { }
 
   ngOnChanges() {
     this.feeData;

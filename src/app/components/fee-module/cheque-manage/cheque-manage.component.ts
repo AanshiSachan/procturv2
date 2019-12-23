@@ -7,6 +7,7 @@ import { ExcelService } from '../../../services/excel.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { MessageShowService } from '../../../services/message-show.service';
+import { CommonServiceFactory } from '../../..';
 
 
 @Component({
@@ -93,7 +94,8 @@ export class ChequeManageComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private pdf: ExportToPdfService,
     private _tablePreferencesService: TablePreferencesService,
-    private _msgService: MessageShowService ) {
+    private _msgService: MessageShowService ,
+    private _commService:CommonServiceFactory) {
     this.dateRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
     this.dateRange[1] = new Date();
   }

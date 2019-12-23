@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { GetFeeService } from '../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
 import { AppComponent } from '../../../app.component';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'fee-receipt',
@@ -15,11 +16,11 @@ export class FeeReceiptComponent implements OnChanges {
   @Output() closeButton = new EventEmitter<any>()
 
   receiptData: any[] = [];
-
   constructor(
     private getter: GetFeeService, 
     private putter: PostFeeService , 
-    private appc:AppComponent
+    private appc:AppComponent,
+    private _commService:CommonServiceFactory
     ) { }
 
   ngOnChanges() {

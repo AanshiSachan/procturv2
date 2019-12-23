@@ -41,6 +41,7 @@ export class FeeCourseReportComponent implements OnInit {
   isProfessional: boolean = false;
   isRippleLoad: boolean = false;
   isCourseSelected: boolean = false;
+  downloadFeeReportAccess:boolean = false;
   private slotIdArr: any[] = [];
   private selectedSlots: any[] = [];
   private selectedSlotsString: string = '';

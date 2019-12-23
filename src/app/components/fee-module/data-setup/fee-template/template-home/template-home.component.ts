@@ -19,6 +19,7 @@ export class TemplateHomeComponent implements OnInit {
   selectedTemplate: any;
   isHeaderEdit: boolean = false;
   isEditFee: boolean = false;
+  selectedCountry:any;
   feeStructure: any;
   installmentList: any = [];
   otherInstList: any = [];
@@ -168,6 +169,15 @@ export class TemplateHomeComponent implements OnInit {
           this.feeStructure.is_default = false;
         }
         this.fillFeeType(this.countryAdditioalFeeTypes[this.selectedTemplate.country_id]);
+        let encryptedData = sessionStorage.getItem('country_data');
+        let data = JSON.parse(encryptedData);
+        if (data.length > 0) {
+          data.forEach((country) => {
+            if(this.selectedTemplate.country_id==country.id){
+              this.selectedCountry=country;
+            }
+          })
+        }
         this.fillDataInYTable(res.customFeeSchedules);
         if (res.studentwise_fees_tax_applicable == "Y") {
           if (this.enableTax == "1" &&
