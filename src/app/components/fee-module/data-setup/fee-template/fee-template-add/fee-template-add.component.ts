@@ -227,6 +227,7 @@ export class FeeTemplateAddComponent implements OnInit {
   // set editional fee as per country --laxmi 
   selectedCountryCode(country_id) {
     this.selectedCountry = null;
+    this.otherInstList=[];
     this.showDetails = false;
     this.countryDetails.forEach(country => {
       if (country.id == Number(country_id)) {
