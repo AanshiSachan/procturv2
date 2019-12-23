@@ -1212,6 +1212,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.countryDetails.forEach(element => {
           if (element.id == this.studentAddFormData.country_id) {
             this.instituteCountryDetObj = element;
+            this.instituteCountryDetObj.symbol= this.getCurrencyDetails(1000,element.currency_code,element.country_code);
             this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
             this.country_id = element.id;
           }
@@ -1805,7 +1806,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax,res.country_id);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
-          // console.log('cardObject', this.cardAmountObject);
+          console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
           this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax,res.country_id);
            console.log('subjectWise', this.subjectWiseInstallmentArray);
@@ -1820,6 +1821,30 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.isRippleLoad = false;
       }
     )
+  }
+
+
+  //get country extension 
+  getCurrencyDetails(value, currency, lang) {
+    if (value && currency && lang) {
+      let formatted = value.toLocaleString(lang, {
+        maximumFractionDigits: 2,
+        style: 'currency',
+        currency: currency
+      });
+
+      formatted = formatted.replace(/[,.]/g, '');
+      formatted = formatted.replace(/[0-9]/g, '');
+      if(formatted==''){        
+        return lang;
+      }
+       else{
+        return formatted;
+      }        
+    }
+    else {
+      return lang;
+    }
   }
 
   openInstallmentListOfCourse(index, operation, event) {
