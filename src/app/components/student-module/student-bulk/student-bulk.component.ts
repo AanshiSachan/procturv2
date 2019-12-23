@@ -8,6 +8,7 @@ import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'app-student-bulk',
@@ -25,7 +26,8 @@ export class StudentBulkComponent implements OnInit {
   studentUploadForm: any;
 
   constructor(private fetchData: FetchStudentService, private postData: PostStudentDataService,
-    private appC: AppComponent, private router: Router, private auth: AuthenticatorService) {
+    private appC: AppComponent, private router: Router, private auth: AuthenticatorService,
+    private commonService: CommonServiceFactory) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -41,7 +43,7 @@ export class StudentBulkComponent implements OnInit {
     this.isRippleLoad = true;
     this.fetchData.fetchDownloadTemplate().subscribe(
       res => {
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this.commonService.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
@@ -63,21 +65,6 @@ export class StudentBulkComponent implements OnInit {
       }
     )
   }
-
-
-  /* convert base64 string to byte array */
-  convertBase64ToArray(val) {
-
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-
-  }
-
 
 
   /* function to upload the xls file as formdata */
@@ -239,7 +226,7 @@ export class StudentBulkComponent implements OnInit {
     this.isRippleLoad = true;
     this.fetchData.fetchSuccess(el.list_id).subscribe(
       res => {
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this.commonService.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
         let fileId: string = el.list_id.toString();
@@ -265,7 +252,7 @@ export class StudentBulkComponent implements OnInit {
     this.isRippleLoad = true;
     this.fetchData.fetchFailure(el.list_id).subscribe(
       res => {
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this.commonService.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
         let fileId: string = el.list_id.toString();

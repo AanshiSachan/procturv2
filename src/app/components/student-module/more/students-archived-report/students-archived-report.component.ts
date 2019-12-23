@@ -4,6 +4,7 @@ import { AppComponent } from '../../../../app.component';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { HttpService} from '../../../../services/http.service';
+import { CommonServiceFactory } from '../../../../services/common-service';
 declare var $;
 
 @Component({
@@ -41,7 +42,8 @@ export class StudentsArchivedReportComponent implements OnInit {
     private appc: AppComponent,
     private router: Router,
     private _http: HttpService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private _commService: CommonServiceFactory
   ) { }
 
   ngOnInit() {
@@ -101,7 +103,7 @@ export class StudentsArchivedReportComponent implements OnInit {
           this.close_popup();
           if(res.validate){
             let result = res.result;
-            let byteArr = this.convertBase64ToArray(result.document);
+            let byteArr = this._commService.convertBase64ToArray(result.document);
             let fileName = result.docTitle;
             let file = new Blob([byteArr], { type: 'application/vnd.ms-excel' });
             let url = URL.createObjectURL(file);
@@ -127,14 +129,6 @@ export class StudentsArchivedReportComponent implements OnInit {
 
   }
 
-     /* Converts base64 string into a byte[] */
-     convertBase64ToArray(val) {
-      var binary_string = window.atob(val);
-      var len = binary_string.length;
-      var bytes = new Uint8Array(len);
-      for (var i = 0; i < len; i++) { bytes[i] = binary_string.charCodeAt(i); }
-      return bytes.buffer;
-  }
 
 
   searchDatabase() {

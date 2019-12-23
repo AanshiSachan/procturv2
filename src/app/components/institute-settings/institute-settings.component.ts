@@ -157,6 +157,8 @@ export class InstituteSettingsComponent implements OnInit {
       student: '',
       parent: '',
       gaurdian: '',
+      teacher: '',
+      admin: '',
     },
     biometric_first_in_time_sms: {
       student: '',

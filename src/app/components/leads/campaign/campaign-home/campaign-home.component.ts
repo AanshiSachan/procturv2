@@ -8,6 +8,7 @@ import { SmsOptionComponent } from './sms-option.component';
 import { NgForm } from '@angular/forms';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { CommonServiceFactory } from '../../../../services/common-service';
 
 
 @Component({
@@ -167,7 +168,8 @@ export class CampaignHomeComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private postData: CampaignService,
     private auth: AuthenticatorService,
-    private msgService: MessageShowService
+    private msgService: MessageShowService,
+    private _commService: CommonServiceFactory
   ) { }
 
   ngOnInit() {
@@ -625,7 +627,7 @@ export class CampaignHomeComponent implements OnInit {
   downloadFailureListFile(data) {
     this.postData.downloadFailureListFile(data.data.list_id).subscribe(
       (res: any) => {
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this._commService.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
@@ -642,19 +644,6 @@ export class CampaignHomeComponent implements OnInit {
       })
   }
 
-
-  /* convert base64 string to byte array */
-  convertBase64ToArray(val) {
-
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-
-  }
 
 
   search_function(nameKey, myArray) {

@@ -75,7 +75,7 @@ export class ReturnBookComponent implements OnInit {
   constructor(
     private router: Router,
     private auth: AuthenticatorService,
-    private commonService : CommonServiceFactory,
+    private _commService : CommonServiceFactory,
     private appC: AppComponent,
     private addBookService: AddBookService,
     private issueBookService: IssueBookService,
@@ -327,7 +327,7 @@ export class ReturnBookComponent implements OnInit {
         let res: any;
         res = response;
         this.isRippleLoad = false;
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this._commService.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
@@ -337,18 +337,6 @@ export class ReturnBookComponent implements OnInit {
         document.body.appendChild(dwldLink);
         dwldLink.click();
       })
-  }
-
-  convertBase64ToArray(val) {
-
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-
   }
 
 

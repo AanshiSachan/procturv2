@@ -6,6 +6,7 @@ import { PostEnquiryDataService } from '../../../../services/enquiry-services/po
 import { LoginService } from '../../../../services/login-services/login.service';
 import { FetchprefilldataService } from '../../../../services/fetchprefilldata.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../../services/common-service';
 
 @Component({
   selector: 'app-enquiry-bulkadd',
@@ -28,7 +29,8 @@ export class EnquiryBulkaddComponent implements OnInit {
     private router: Router, 
     private prefill: FetchprefilldataService, 
     private login: LoginService, 
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private _commService: CommonServiceFactory
     ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
@@ -45,7 +47,7 @@ export class EnquiryBulkaddComponent implements OnInit {
     this.fetchData.fetchDownloadTemplate().subscribe(
       (res: any) => {
 
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this._commService.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
@@ -60,19 +62,6 @@ export class EnquiryBulkaddComponent implements OnInit {
       })
   }
 
-
-  /* convert base64 string to byte array */
-  convertBase64ToArray(val) {
-
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-
-  }
 
 
   /* update xhr header for uploading formdata */
@@ -173,7 +162,7 @@ export class EnquiryBulkaddComponent implements OnInit {
     let dwldLink = document.getElementById(fileId);
     this.fetchData.fetchBulkReport(el.list_id).subscribe(
       (res: any) => {
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this._commService.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
