@@ -1,14 +1,16 @@
 @import "./src/assets/css/common/variables.scss";
 
-
+.middle-section{
+  padding: 1%;
+}
 .bulk-update-report{
      max-height: 400px !important;
-     overflow-y: scroll !important; 
-     overflow-x: hidden !important; 
+     overflow-y: scroll !important;
+     overflow-x: hidden !important;
     max-width: 98% !important;
   }
 #bulk-head{
-    padding-top: 20px;   
+    padding-top: 20px;
 }
 
 .bulk-enquiry-form{
@@ -92,11 +94,16 @@
     visibility: visible;
 }
 
-  
+
 .bulk-header{
     .row{
         margin: 0px 15px;
     }
+}
+
+.row{
+  padding: 0px !important;
+  margin: 0px !important;
 }
 
 

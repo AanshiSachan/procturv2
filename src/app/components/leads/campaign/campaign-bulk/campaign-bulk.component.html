@@ -61,14 +61,15 @@
       <div class="row" style="padding-left:15px">
         <div class="c-lg-6 c-md-6 c-sm-6">
           <div class="field-wrapper" [ngClass]="{'has-value': campaignAddFormData.source != ''}">
-            <label for="source">Source</label>
+            <label for="source">Source
+              <span class="text-danger">*</span>
+            </label>
             <select id="source" class="form-ctrl" [(ngModel)]="campaignAddFormData.source" name="source" style="width: 75%">
               <option value=""></option>
               <option [value]="source.id" *ngFor="let source of sourceList">
                 {{source.name}}
               </option>
             </select>
-
           </div>
         </div>
       </div>
