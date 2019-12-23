@@ -98,7 +98,7 @@
          </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn" style="color: indianred;" (click)="deleteTopicObject()">Delete </button>
+        <button type="button" class="btn" style="color: indianred;" [disabled]="disableDeleteBtn" (click)="deleteTopicObject()">Delete </button>
         <button type="button" class="btn" data-dismiss="modal" (click)="clearObject()">Cancel</button>
       </div>
     </div>

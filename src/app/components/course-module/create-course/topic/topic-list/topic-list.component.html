@@ -36,7 +36,7 @@
         </div>
         <div class="col-md-4"></div>
         <div class="pull-right" style=" padding-right: 1em;">
-          <button class="btn" (click)="addEditSubtopicDetails(topic,'Subtopic')" style="padding: 0px 7px; font-size: 12px; height: 25px;">
+          <button class="btn" [disabled]="disableAddBtn" (click)="addEditSubtopicDetails(topic,'Subtopic')" style="padding: 0px 7px; font-size: 12px; height: 25px;">
             <i class="fa fa-plus" style="padding: 0px 5px" aria-hidden="true"></i>Add</button>
           <button class="btn_delete">
             <i aria-hidden="true" (click)="cancelAdd(topicData)" class="fa fa-times-circle delete_icon"  title="Cancel"></i>

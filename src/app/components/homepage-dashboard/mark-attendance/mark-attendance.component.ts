@@ -212,8 +212,8 @@ export class MarkAttendanceComponent implements OnInit {
               
             })
           } */
-          console.log('total topic list:',this.topicsList)
-          console.log('topics covered',this.batch_info.topics_covered);
+         // console.log('total topic list:',this.topicsList)
+         // console.log('topics covered',this.batch_info.topics_covered);
         }
         else {
           let obj = {
@@ -247,6 +247,7 @@ closeTopicModal(){
   this.showTopicsModal = false;
 }
   selectTopics(topic){
+    topic.checked = !(topic.checked);
   if(topic.subTopic.length){
     this.checkAllSubTopics(topic.subTopic,topic.checked);
    }
@@ -307,6 +308,7 @@ closeTopicModal(){
      var  getTopicIds = checkedTopics.map(obj =>{
       return obj.topicId
       });
+      this.checkedKeys = getTopicIds;
       getTopicIds = getTopicIds.join('|');
       this.batch_info.topics_covered = getTopicIds;     
         let obj = {

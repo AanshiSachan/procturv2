@@ -25,6 +25,7 @@ export class TopicTreeComponent implements OnInit {
   subjectList: Topic[] = [];
   teacher_id: any = -1;
   addTopic: Create_Topic = new Create_Topic();
+  disableDeleteBtn: boolean = false;
   temp_object: any;
   filterData = {
     standard_id: -1,
@@ -173,22 +174,23 @@ export class TopicTreeComponent implements OnInit {
         break;
       }
       case 'Subtopic': {
+        this.isRippleLoad = true;
         let object = $event.data;
         object.subject_id = this.filterData.subject_id;
         object.standard_id = this.filterData.standard_id;
-        this.isRippleLoad = true;
+       // this.isRippleLoad = true;
         let url = "/api/v1/topic_manager/add/" + this.institute_id;
         this._http.postData(url, object).subscribe(
           (data: any) => {
             this.isRippleLoad = false;
-            this._toastPopup.showErrorMessage('success', '', "Topic Subtopic Successfully");
+            this._toastPopup.showErrorMessage('success', '', "Subtopic added successfully");
             if ((this.filterData.standard_id != -1) && (this.filterData.subject_id != -1)) {
               this.getTopicDetails(null);
             }
           },
           (error: any) => {
             this.isRippleLoad = false;
-            this._toastPopup.showErrorMessage('error', '', "Something went wrong try again ");
+            this._toastPopup.showErrorMessage('error', '', error.error.message);
             console.log(error);
           }
         );
@@ -198,6 +200,7 @@ export class TopicTreeComponent implements OnInit {
 
   //delete object
   deleteTopicObject() {
+    this.disableDeleteBtn = true;
     let url = "/api/v1/topic_manager/" + this.institute_id + "/" + this.temp_object.topicId;
     this._http.deleteData(url, null).subscribe(
       (res: any) => {
@@ -205,11 +208,13 @@ export class TopicTreeComponent implements OnInit {
         $('#DeleteTopic').modal('hide');
         this._toastPopup.showErrorMessage('success', '', "Topic Deleted Successfully");
         this.getTopicDetails(null);
+        this.disableDeleteBtn = false;
       },
       (err: any) => {
         this.isRippleLoad = false;
         console.log(err);
         this._toastPopup.showErrorMessage('error', '', err.error.message);
+        this.disableDeleteBtn = false;
       });
 
   }
