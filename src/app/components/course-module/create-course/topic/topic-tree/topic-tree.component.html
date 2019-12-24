@@ -48,7 +48,8 @@
       <div class="modal-body">
         <div class="model_body_div">
           <div class="field-wrapper">
-            <label>Standard Name<span class="text-danger">*</span></label>
+            <label *ngIf="!isProfessional">Standard Name<span class="text-danger">*</span></label>
+            <label *ngIf="isProfessional">Master Course<span class="text-danger">*</span></label>
             <div class="dropdown-div">
               <select class="dropdown" [(ngModel)]="addTopic.standard_id" (change)="getAllSubjectList($event.target.value)">
                 <option value="-1">   Select Standard </option>
@@ -57,7 +58,8 @@
             </div>
           </div>
           <div class="field-wrapper">
-            <label>Subject Name<span class="text-danger">*</span></label>
+            <label *ngIf="!isProfessional">Subject Name<span class="text-danger">*</span></label>
+            <label *ngIf="isProfessional">Course<span class="text-danger">*</span></label>
             <div class="dropdown-div">
               <select class="dropdown"  [(ngModel)]="addTopic.subject_id">
                 <option value="-1"> Select Subject </option>
