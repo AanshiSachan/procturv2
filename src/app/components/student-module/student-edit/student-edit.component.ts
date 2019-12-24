@@ -1234,9 +1234,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.instituteCountryDetObj.symbol= this.getCurrencyDetails(1000,element.currency_code,element.country_code);
             this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
             this.country_id = element.id;
-          }
-        }
-        );
+          }});
         if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
           this.studentAddFormData.assignedBatchescademicYearArray = [];
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [];

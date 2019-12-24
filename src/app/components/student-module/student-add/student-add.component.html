@@ -673,13 +673,13 @@
             <div class="actual-Amount">
               <span class="label">Fee Amount</span>
               <br />
-              <span class="amount-Value">{{instituteCountryDetObj.symbol}}{{cardAmountObject.feeAmountExclTax}}</span>
+              <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountExclTax}}</span>
             </div>
             <div class="discount-Amount tooltipDiv" *ngIf="checkBoxGroup.feeDiscouting">
               <span class="label">Discount</span>
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
-              <span class="amount-Value">{{instituteCountryDetObj.symbol}}{{cardAmountObject.discountAmount }}</span>
+              <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.discountAmount }}</span>
               <span class="tooltip-content">The discount value is the total discount applied to the student across all its course(s). This value is the
                 combination of previous discount and the new discount applied post the release of new discount feature recently
                 introduced.
@@ -689,7 +689,7 @@
               <span class="label">Tax on Installment</span>
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
-              <span class="amount-Value">{{instituteCountryDetObj.symbol}}{{cardAmountObject.taxAmount }}</span>
+              <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.taxAmount }}</span>
               <span class="tooltip-content">Tax component in Summary card and total tax in individual Instalments may differ due to rounding off decimal
                 values.
               </span>
@@ -698,25 +698,25 @@
             <div class="discount-Amount" *ngIf="cardAmountObject.additionalFees > 0">
               <span class="label">Additional Fee <span *ngIf="studentAddFormData.country_id==1"> (Incl of Tax)</span> </span>
               <br />
-              <span class="amount-Value">{{instituteCountryDetObj.symbol}}{{cardAmountObject.additionalFees }}</span>
+              <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.additionalFees }}</span>
             </div>
 
             <div class="total-Amount">
               <span class="label">Total Fee  <span *ngIf="studentAddFormData.country_id==1"> (Incl. of tax)</span></span>
               <br />
-              <span class="amount-Value">{{instituteCountryDetObj.symbol}}{{cardAmountObject.feeAmountInclTax }}</span>
+              <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountInclTax }}</span>
             </div>
 
             <div class="amount-Paid">
               <span class="label">Amount Paid</span>
               <br />
-              <span class="amount-Value">{{instituteCountryDetObj.symbol}}{{cardAmountObject.amountPaid }}</span>
+              <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.amountPaid }}</span>
             </div>
 
             <div class="amount-Due">
               <span class="label">Amount Due</span>
               <br />
-              <span class="amount-Value">{{instituteCountryDetObj.symbol}}{{cardAmountObject.amountDue }}</span>
+              <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.amountDue }}</span>
             </div>
 
           </div>
@@ -802,23 +802,23 @@
 
                   <div class="column-name">
                     <div class="fee-amount amount">
-                      <span>{{instituteCountryDetObj.symbol}} {{data.feeAmountIncludingTax}}</span>
+                      <span>{{instituteCountryDetObj.symbol}}&nbsp; {{data.feeAmountIncludingTax}}</span>
                     </div>
 
                     <div class="discount-amount amount">
-                      <span>{{instituteCountryDetObj.symbol}}{{data.discount }}</span>
+                      <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.discount }}</span>
                     </div>
 
                     <div class="tax-amount amount">
-                      <span>{{instituteCountryDetObj.symbol}}{{data.taxAmount }}</span>
+                      <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.taxAmount }}</span>
                     </div>
 
                     <div class="paid-amount amount">
-                      <span>{{instituteCountryDetObj.symbol}}{{data.paidAmount }}</span>
+                      <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.paidAmount }}</span>
                     </div>
 
                     <div class="due-amount amount">
-                      <span>{{instituteCountryDetObj.symbol}}{{data.dueAmount }}</span>
+                      <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.dueAmount }}</span>
                     </div>
 
                     <div class="status-amount">
@@ -899,21 +899,21 @@
                         </div>
 
                         <div class="amount">
-                          <span>{{instituteCountryDetObj.symbol}}{{installment.initial_fee_amount_before_disocunt_before_tax }}</span>
+                          <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.initial_fee_amount_before_disocunt_before_tax }}</span>
                         </div>
 
                         <div class="Tax" *ngIf="studentAddFormData.country_id==1">
-                          <span>{{instituteCountryDetObj.symbol}}{{installment.tax }}</span>
+                          <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.tax }}</span>
                         </div>
 
                         <div class="discount">
-                          <span>{{instituteCountryDetObj.symbol}}{{installment.discount }}</span>
+                          <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.discount }}</span>
                         </div>
 
                         <div class="balance" style="margin-right:5px">
-                          <span *ngIf="installment.paid_full == 'Y'">{{instituteCountryDetObj.symbol}}{{ 0 }}</span>
-                          <span *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">{{instituteCountryDetObj.symbol}}{{installment.balance_amount }}</span>
-                          <span *ngIf="installment.balance_amount == 0 && installment.paid_full == 'N'">{{instituteCountryDetObj.symbol}}{{installment.fees_amount }}</span>
+                          <span *ngIf="installment.paid_full == 'Y'">{{instituteCountryDetObj.symbol}}&nbsp;{{ 0 }}</span>
+                          <span *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">{{instituteCountryDetObj.symbol}}&nbsp;{{installment.balance_amount }}</span>
+                          <span *ngIf="installment.balance_amount == 0 && installment.paid_full == 'N'">{{instituteCountryDetObj.symbol}}&nbsp;{{installment.fees_amount }}</span>
                         </div>
 
                         <div class="dueDate">
@@ -966,7 +966,7 @@
 
           <aside class="pull-right">
             <div style="display: inline-block;" class="fd-btm-label" *ngIf="totalAmountToPay != 0">
-              Payment for {{instituteCountryDetObj.symbol}}{{totalAmountToPay }}
+              Payment for {{instituteCountryDetObj.symbol}}&nbsp;{{totalAmountToPay }}
               to be updated
             </div>
             <div style="display: inline-block;" class="">
@@ -1643,7 +1643,7 @@
     </span>
 
     <h2 popup-header style="padding: 10px 5px;">Student Fee Payment
-      <span>(Payment Details for {{instituteCountryDetObj.symbol}}{{paymentPopUpJson.immutableAmount}})</span>
+      <span>(Payment Details for {{instituteCountryDetObj.symbol}}&nbsp;{{paymentPopUpJson.immutableAmount}})</span>
     </h2>
 
     <div class="paymentWrapper" popup-content>
@@ -1710,7 +1710,7 @@
                 <select id="pMode" name="pMode" [(ngModel)]="paymentPopUpJson.selectedPdcId" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
                   <option value=""></option>
                   <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
-                    {{opt.cheque_date| procturDate}} ( {{instituteCountryDetObj.symbol}}{{opt.cheque_amount}}
+                    {{opt.cheque_date| procturDate}} ( {{instituteCountryDetObj.symbol}}&nbsp;{{opt.cheque_amount}}
                     )
                   </option>
                 </select>
