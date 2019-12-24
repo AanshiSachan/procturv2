@@ -261,7 +261,7 @@ export class FeeTemplateAddComponent implements OnInit {
       let test: any = {};
       test.day_type = 1;
       test.days = 0;
-      if (this.enableTaxOptions == "1") {
+      if (this.enableTaxOptions == "1" && this.addNewTemplate.country_id == 1) {
         if (this.addNewTemplate.tax_type == "inclusive") {
           test.initial_fee_amount = amount - tax_amount;
           test.tax = tax_amount;
@@ -283,7 +283,7 @@ export class FeeTemplateAddComponent implements OnInit {
     if (Number(this.addNewTemplate.total_fee) != totalAmount) {
       let lastInstallment: any = obj[obj.length - 1];
       lastInstallment.totalAmount = lastInstallment.totalAmount + Number(this.addNewTemplate.total_fee) - totalAmount;
-      if (this.enableTaxOptions == '1') {
+      if (this.enableTaxOptions == '1' && this.addNewTemplate.country_id == 1) {
         lastInstallment.initial_fee_amount = Math.floor(Number(lastInstallment.totalAmount * 100 / (100 + this.feeStructure.registeredServiceTax)))
         lastInstallment.tax = lastInstallment.totalAmount - lastInstallment.initial_fee_amount;
       } else {
