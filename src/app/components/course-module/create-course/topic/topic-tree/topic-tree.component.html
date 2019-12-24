@@ -52,7 +52,8 @@
             <label *ngIf="isProfessional">Master Course<span class="text-danger">*</span></label>
             <div class="dropdown-div">
               <select class="dropdown" [(ngModel)]="addTopic.standard_id" (change)="getAllSubjectList($event.target.value)">
-                <option value="-1">   Select Standard </option>
+                <option value="-1" *ngIf="!isProfessional">   Select Standard </option>
+                <option value="-1" *ngIf="isProfessional">   Select Master Course </option>
                 <option *ngFor="let standard of standardData;let i=index; " [value]="standard.standard_id">{{standard.standard_name}}</option>
               </select>
             </div>
@@ -62,7 +63,8 @@
             <label *ngIf="isProfessional">Course<span class="text-danger">*</span></label>
             <div class="dropdown-div">
               <select class="dropdown"  [(ngModel)]="addTopic.subject_id">
-                <option value="-1"> Select Subject </option>
+                <option value="-1" *ngIf="!isProfessional"> Select Subject </option>
+                <option value="-1" *ngIf="isProfessional"> Select Course </option>
                 <option *ngFor="let subject of subjectTempData;let i=index; " [value]="subject.subject_id">{{subject.subject_name}}</option>
               </select>
             </div>
