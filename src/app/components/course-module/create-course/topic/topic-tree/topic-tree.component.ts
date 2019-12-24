@@ -4,6 +4,7 @@ import { HttpService } from '../../../../../services/http.service'
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { Subject } from 'rxjs/Subject';
 import { MessageShowService } from '../../../../../services/message-show.service';
+
 declare var $;
 
 /**
@@ -17,6 +18,7 @@ declare var $;
 export class TopicTreeComponent implements OnInit {
 
   isRippleLoad: boolean = false;
+  isProfessional: boolean = false;
   option_type: string = 'Add';
   institute_id: any;
   subjectData: any[] = [];
@@ -40,6 +42,16 @@ export class TopicTreeComponent implements OnInit {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
     });
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isProfessional = true;
+        }
+        else {
+          this.isProfessional = false;
+        }
+      })
+      console.log('model typ:',this.isProfessional);
   }
 
   ngOnInit() {
@@ -304,7 +316,9 @@ export class TopicTreeComponent implements OnInit {
             this.subjectList = data;
           }
         }
-        console.log(data);
+        if(!data.length || data == null){
+          this._toastPopup.showErrorMessage('info','', 'No topics linked')
+        }
       },
       (error: any) => {
         this.isRippleLoad = false;
@@ -320,7 +334,7 @@ export class TopicTreeComponent implements OnInit {
     else {
       for (let i = 0; i < topic.subTopic.length; i++) {
         let object = topic.subTopic[i];
-        let subject = subjectList.subTopic[i];
+        let subject = subjectList != undefined ?  subjectList.subTopic[i] : '';
         object.addSubtopic = subject && subject.addSubtopic ? subject.addSubtopic : [];
         if (subject && subject.addSubtopic && subject.addSubtopic[0]) {
           let add_sub_object = subject.addSubtopic[0];
