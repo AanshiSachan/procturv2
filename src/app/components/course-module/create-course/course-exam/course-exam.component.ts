@@ -256,7 +256,7 @@ export class CourseExamComponent implements OnInit {
       })
       this.selectedTopics = this.selectedTopics.join('|');
       }
-     this.messageNotifier('success','', 'Topics saved successfully');
+     this.messageNotifier('success','', 'Topics linked successfully');
      this.isRippleLoad = false;
      this.showTopicsPopUp = false;
    // }

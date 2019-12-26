@@ -259,7 +259,7 @@ export class ManageBatchComponent implements OnInit {
                     }
                     this.apiService.addNewBatch(this.addNewBatch).subscribe(
                       res => {
-                        this.messageToast('success', 'Added Batch', "Successfully created batch");
+                        this.messageToast('success', 'Added Batch', "Batch created successfully!");
                         this.clearFormData();
                         this.getAllBatchesList();
                         this.togglecreateNewBatch();

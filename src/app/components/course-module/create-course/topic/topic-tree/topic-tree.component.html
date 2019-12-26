@@ -6,7 +6,8 @@
   </div>
   <div class="filter_div">
     <div class="field-wrapper">
-      <label>Standard<span class="text-danger">*</span></label>
+      <label *ngIf="!isProfessional">Standard<span class="text-danger">*</span></label>
+      <label *ngIf="isProfessional">Master Course<span class="text-danger">*</span></label>
       <div class="dropdown-div">
         <select class="dropdown" [(ngModel)]="filterData.standard_id" (change)="getAllSubjectListFromServer($event.target.value)"> 
           <option value="-1"></option>
@@ -15,7 +16,8 @@
       </div>
     </div>
     <div class="field-wrapper">
-      <label>Subject<span class="text-danger">*</span></label>
+      <label *ngIf="!isProfessional">Subject<span class="text-danger">*</span></label>
+      <label *ngIf="isProfessional">Course<span class="text-danger">*</span></label>
       <div class="dropdown-div">
         <select class="dropdown" [(ngModel)]="filterData.subject_id">
             <option value="-1"></option>
