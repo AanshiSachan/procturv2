@@ -9,6 +9,7 @@ import { GetFeeService } from '../../../services/report-services/fee-services/ge
 import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'app-fee-course-report',
@@ -109,7 +110,8 @@ export class FeeCourseReportComponent implements OnInit {
     private getter: GetFeeService,
     private putter: PostFeeService,
     private auth: AuthenticatorService,
-    private pdf: ExportToPdfService
+    private pdf: ExportToPdfService,
+    private _commService:CommonServiceFactory
   ) {
     // this.switchActiveView('fee');
   }
