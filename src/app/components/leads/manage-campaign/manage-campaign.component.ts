@@ -131,7 +131,8 @@ export class ManageCampaignComponent implements OnInit {
   }
 
   searchCampaign(){
-    this.pageIndex = 1;
+    // this.pageIndex = 1;
+    this.checkedIds = [];
     this.jsonFlag.isRippleLoad = true;
     let obj = {
       "assigned_to": this.filters.assignedTo,
@@ -140,7 +141,7 @@ export class ManageCampaignComponent implements OnInit {
     	"list_id":  this.filters.campaignName,
     	"source_id": this.filters.source,
     	"referred_by": this.filters.referredBy,
-      "start_index": 0,
+      "start_index": this.pageIndex,
       "batch_size": 100
 
     }
@@ -163,6 +164,41 @@ export class ManageCampaignComponent implements OnInit {
       }
     );
   }
+
+  searchCampaign1(){
+    this.pageIndex = 1;
+    this.checkedIds = [];
+    this.jsonFlag.isRippleLoad = true;
+    let obj = {
+      "assigned_to": this.filters.assignedTo,
+      "name": "" + this.filters.stundetName + "",
+      "mobile": this.filters.contactNumber,
+      "list_id":  this.filters.campaignName,
+      "source_id": this.filters.source,
+      "referred_by": this.filters.referredBy,
+      "start_index": 1,
+      "batch_size": 100
+    }
+    this.campaignService.searchLeads(obj).subscribe(
+      res => {
+        let result: any;
+        result = res;
+        this.jsonFlag.isRippleLoad = false;
+        this.leadsList = res;
+        this.tempLeadlist = res;
+        this.totalCount = 0;
+        if(result.length > 0){
+          this.totalCount = this.leadsList[0].totalCount;
+        }
+      },
+      err => {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+        this.jsonFlag.isRippleLoad = false;
+      }
+    );
+  }
+
+
 
   searchDatabase(){   // search in the array for search input string
     this.leadsList = this.tempLeadlist;
@@ -297,6 +333,8 @@ export class ManageCampaignComponent implements OnInit {
           for(let i = 0; i < element.length; i++){
             element[i].style.display = "none";
           }
+          this.checkedIds = [];
+          this.searchCampaign();
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
@@ -323,8 +361,9 @@ export class ManageCampaignComponent implements OnInit {
       this.jsonFlag.isRippleLoad = true;
       this.campaignService.convertToEnq(obj).subscribe(
         res => {
-          this.searchCampaign();
           this.jsonFlag.isRippleLoad = false;
+          this.checkedIds = [];
+          this.searchCampaign();
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
@@ -347,6 +386,7 @@ export class ManageCampaignComponent implements OnInit {
         res => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead(s) archived successfully');
           this.jsonFlag.isRippleLoad = false;
+          this.checkedIds = [];
           this.searchCampaign();
         },
         err => {

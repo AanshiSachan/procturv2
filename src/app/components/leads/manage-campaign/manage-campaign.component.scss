@@ -83,6 +83,7 @@
     background: #e0eaec;
     font-weight: 600;
     text-align: left;
+    border-left: 3px solid #e0eaec;
     .heading-item{
       padding: 10px;
     }
@@ -98,6 +99,7 @@
     .list-value-container{
       display: flex;
       flex-direction: row;
+      border-left: 3px solid white;
       text-align: left;
       .value-item{
         padding: 10px;

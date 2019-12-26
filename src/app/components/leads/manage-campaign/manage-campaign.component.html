@@ -231,10 +231,10 @@
           </select>
         </div>
         <div class="filter-item" style="width: 8%;" id="searchBtn1">
-          <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign()">Search</button>
+          <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign1()">Search</button>
         </div>
         <div class="filter-item" id="advBtn1">
-          <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Advance Filter</button>
+          <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Show Advance Filter</button>
         </div>
       </div>
       <div class="filter-second-row-container" id="advance_filter">
@@ -257,10 +257,10 @@
           </select>
         </div>
         <div class="filter-item" style="width: 8%;" id="searchBtn2">
-          <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign()">Search</button>
+          <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign1()">Search</button>
         </div>
         <div class="filter-item" id="advBtn2">
-          <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Advance Filter</button>
+          <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Hide Advance Filter</button>
         </div>
       </div>
     </div>
@@ -303,7 +303,7 @@
         <div class="heading-item lg-item">
           <span>City</span>
         </div>
-        <div class="heading-item lg-item align-center">
+        <div class="heading-item lg-item">
           <span>Address</span>
         </div>
         <div class="heading-item sm-item align-center">
@@ -330,16 +330,16 @@
             <span>{{lead.mobile}}</span>
           </div>
           <div class="value-item lg-item">
-            <span title="{{lead.name}}">{{ (lead.name.length > 20) ? (lead.name | slice:0:20) + '...' : lead.name }}</span>
+            <span title="{{lead.name}}">{{ (lead.name.length > 15) ? (lead.name | slice:0:15) + '...' : lead.name }}</span>
           </div>
           <div class="value-item lg-item">
-            <span title="{{lead.email}}">{{ (lead.email.length > 20) ? (lead.email | slice:0:20) + '...' : lead.email }}</span>
+            <span title="{{lead.email}}">{{ (lead.email.length > 15) ? (lead.email | slice:0:15) + '...' : lead.email }}</span>
           </div>
           <div class="value-item lg-item">
             <span>{{lead.city}}</span>
           </div>
-          <div class="value-item lg-item align-center">
-            <span title="{{lead.address}}">{{ (lead.address.length > 20) ? (lead.address | slice:0:20) + '...' : lead.address }}</span>
+          <div class="value-item lg-item">
+            <span title="{{lead.address}}">{{ (lead.address.length > 15) ? (lead.address | slice:0:15) + '...' : lead.address }}</span>
           </div>
           <div class="value-item sm-item align-center">
             <span>{{lead.gender}}</span>
@@ -382,7 +382,7 @@
           <button type="button" name="button" class="action-btn" (click)="convertToEnq()">Convert to Enquiry</button>
         </div>
         <div class="action-btn-item">
-          <button type="button" name="button" class="action-btn" (click)="deleteMultipleLeads()">Archive Leads</button>
+          <button type="button" name="button" class="action-btn" (click)="deleteMultipleLeads()">Delete Leads</button>
         </div>
       </div>
     </div>
