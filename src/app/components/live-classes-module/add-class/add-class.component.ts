@@ -3,7 +3,6 @@ import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { AppComponent } from '../../../app.component';
-import { LiveClasses } from '../../../services/live-classes/live-class.service';
 import { ProductService } from '../../../services/products.service';
 import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../..';
@@ -65,15 +64,16 @@ export class AddClassComponent implements OnInit {
   minuteTo: string = '';
   isShowProductOption: boolean = false;
   scheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
+  institution_id:any=sessionStorage.getItem('institution_id');
   getPayloadBatch = {
-    inst_id: this.service.institute_id,
+    inst_id: this.institution_id,
     coursesArray: [''],
     role: 'student'
   }
   addOnlineClass = {
     custUserIds: [],
     end_datetime: "",
-    institution_id: this.service.institute_id,
+    institution_id: this.institution_id,
     sent_notification_flag: 0,
     session_name: "",
     start_datetime: "",
@@ -90,14 +90,13 @@ export class AddClassComponent implements OnInit {
     private auth: AuthenticatorService,
     private router: Router,
     private appC: AppComponent,
-    private service: LiveClasses,
     private product_service: ProductService,
     private http_service: HttpService,
     private msgService: MessageShowService
   ) { }
 
   ngOnInit() {
-
+    this.institution_id = sessionStorage.getItem('institution_id');
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
@@ -364,7 +363,8 @@ export class AddClassComponent implements OnInit {
 
       this.isRippleLoad = true;
       console.log(this.addOnlineClass);
-      this.service.getOnlineClasses(this.addOnlineClass).subscribe(
+      const url = '/api/v1/meeting_manager/create'
+      this.http_service.putData(url,this.addOnlineClass).subscribe(
         (data: any) => {
           this.appC.popToast({ type: "success", body: "Live class session " + this.topicName + " " + "created successfully" });
           this.navigateTo("studentForm");
@@ -392,7 +392,7 @@ export class AddClassComponent implements OnInit {
     this.addOnlineClass = {
       custUserIds: [],
       end_datetime: "",
-      institution_id: this.service.institute_id,
+      institution_id: this.institution_id,
       sent_notification_flag: 0,
       session_name: "",
       start_datetime: "",
@@ -429,7 +429,8 @@ export class AddClassComponent implements OnInit {
   /** this function is used to fetch teacher details */
   getTeachers() {
     this.isRippleLoad = true;
-    this.service.fetchTeachers().subscribe(
+    let url = '/api/v1/teachers/all/' + this.institution_id
+    this.http_service.getData(url).subscribe(
       (data: any) => {
         this.teachersAssigned = data;
         console.log(this.teachersAssigned)
@@ -447,7 +448,8 @@ export class AddClassComponent implements OnInit {
   /** this function is used to fetch customer details */
   getCustomUsers() {
     this.isRippleLoad = true;
-    this.service.fetchUsers().subscribe(
+    const url = '/api/v1/profiles/custUsers/' + this.institution_id
+    this.http_service.getData(url).subscribe(
       (data: any) => {
         this.userAssigned = data;
         console.log(this.userAssigned)
@@ -478,7 +480,8 @@ export class AddClassComponent implements OnInit {
   getBatchesCourses() {
     this.isRippleLoad = true;
     if (this.isProfessional) {
-      this.service.fetchBatches().subscribe(
+      const url =  '/api/v1/batches/all/' + this.institution_id + '?active=Y'
+      this.http_service.getData(url).subscribe(
         (data: any) => {
           this.batches = data;
           console.log(this.batches)
@@ -491,7 +494,8 @@ export class AddClassComponent implements OnInit {
       )
     }
     else {
-      this.service.fetchMasters().subscribe(
+      const url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all'
+      this.http_service.getData(url).subscribe(
         (data: any) => {
           this.masters = data;
           // console.log(this.masters)
@@ -512,7 +516,8 @@ export class AddClassComponent implements OnInit {
     }
     else {
       this.isRippleLoad = true;
-      this.service.fetchCourses(master_course_name).subscribe(
+      const url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/' + master_course_name;
+      this.http_service.getData(url).subscribe(
         (data: any) => {
           this.isRippleLoad = false;
           this.courses = data.coursesList;
@@ -551,7 +556,8 @@ export class AddClassComponent implements OnInit {
   fetchStudentsApi(courseArray) {
     this.isRippleLoad = true;
     this.getPayloadBatch.coursesArray = [courseArray];
-    this.service.fetchStudents(this.getPayloadBatch).subscribe(
+    const url = '/api/v1/courseMaster/onlineClass/fetch/users'
+    this.http_service.postData(url,this.getPayloadBatch).subscribe(
       (data: any) => {
         this.studentList = data.studentsAssigned;
         console.log(data.studentsAssigned)

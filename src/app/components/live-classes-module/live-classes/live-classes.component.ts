@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core'
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { LiveClasses } from '../../../services/live-classes/live-class.service';
 import { AppComponent } from '../../../app.component';
 import { MessageShowService, HttpService } from '../../..';
+import { DomSanitizer } from '@angular/platform-browser';
 declare var window;
 
 @Component({
@@ -39,6 +39,8 @@ export class LiveClassesComponent implements OnInit {
   searchData: any = [];
   download_links:any=[];
   searchDataFlag: boolean = false;
+  fileUrl:any=null;
+  fileName:any=null;
 
   JsonVars: any = {
     isRippleLoad: false,
@@ -80,16 +82,17 @@ export class LiveClassesComponent implements OnInit {
   dateToday = moment().format('YYYY-MM-DD');
   dateFrom = moment(new Date()).format('YYYY-MM-DD');
   rescheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
+  institution_id:any=sessionStorage.getItem('institution_id');
   rescheduleclass = {
     end_datetime: "",
-    institution_id: this.service.institute_id,
+    institution_id: this.institution_id,
     session_id: "",
     start_datetime: ""
   }
   getOnlineClasses = {
     custUserIds: [],
     end_datetime: "",
-    institution_id: this.service.institute_id,
+    institution_id: this.institution_id,
     sent_notification_flag: 0,
     session_name: "",
     start_datetime: "",
@@ -97,7 +100,7 @@ export class LiveClassesComponent implements OnInit {
     teacherIds: []
   }
   getPayloadBatch = {
-    inst_id: this.service.institute_id,
+    inst_id: this.institution_id,
     coursesArray: [''],
     role: 'student'
   }
@@ -131,11 +134,11 @@ export class LiveClassesComponent implements OnInit {
 
   constructor(
     private auth: AuthenticatorService,
-    private service: LiveClasses,
     private appC: AppComponent,
     private router: Router,
     private _http: HttpService,
-    private msgService: MessageShowService
+    private msgService: MessageShowService,
+    private sanitizer: DomSanitizer
     ) {
   }
 
@@ -156,11 +159,14 @@ export class LiveClassesComponent implements OnInit {
     }
 
     this.getClassesList();
+    this.institution_id = sessionStorage.getItem('institution_id')
   }
 
   checkLiveClassExpiry(proctur_live_expiry_date) {
-    let currentDate = moment(new Date()).format('DD-MM-YYYY');
-    proctur_live_expiry_date = moment(new Date(proctur_live_expiry_date)).format('DD-MM-YYYY');
+    let currentDate = (new Date());
+    proctur_live_expiry_date = (new Date(proctur_live_expiry_date));
+    currentDate.setHours(0,0,0,0);
+    proctur_live_expiry_date.setHours(0,0,0,0);
     if(proctur_live_expiry_date < currentDate){
       this.proctur_live_expiry_date_check = true;
     }
@@ -173,14 +179,15 @@ export class LiveClassesComponent implements OnInit {
     this.PageIndex = 1;
     this.JsonVars.isRippleLoad = true;
     this.obj = {
-      institution_id: this.service.institute_id,
+      institution_id:this.institution_id,
     }
     const userType: any = sessionStorage.getItem('userType');
     if (userType != 0) {
       const userid: any = sessionStorage.getItem('userid');
       this.obj.user_id = userid;
     }
-    this.service.fetchOnlineClasses(this.obj).subscribe(
+    const url = '/api/v1/meeting_manager/getMeeting/' + this.institution_id;
+    this._http.postData(url,this.obj).subscribe(
       (data: any) => {
         this.JsonVars.isRippleLoad = false;
         this.previosLiveClasses = data.pastLiveClasses;
@@ -490,7 +497,8 @@ export class LiveClassesComponent implements OnInit {
 
     }
     if (confirm("Are you sure you want to send SMS notification ? ")) {
-      this.service.smsNotification(id, obj).subscribe(
+      const url = "/api/v1/meeting_manager/sendSMSNotification/" + id;
+      this._http.postData(url, obj).subscribe(
         (data: any) => {
           this.appC.popToast({ type: "success", body: "SMS notification sent successfully" })
           // this.getClassesList();
@@ -505,7 +513,8 @@ export class LiveClassesComponent implements OnInit {
   pushNotification(id) {
     let obj = {};
     if (confirm("Are you sure you want to send push notification ?")) {
-      this.service.pushNotification(id, obj).subscribe(
+      let url = "/api/v1/meeting_manager/sendPushNotification/" + id;
+      this._http.postData(url, obj).subscribe(
         (data: any) => {
           this.appC.popToast({ type: "success", body: "Push notification sent successfully" })
           // this.getClassesList();
@@ -523,7 +532,8 @@ export class LiveClassesComponent implements OnInit {
   }
 
   cancelSession() {
-    this.service.cancelSchedule(this.cancelSessionId).subscribe(
+    let url = "/api/v1/meeting_manager/delete/" + sessionStorage.getItem('institution_id') + "/" + this.cancelSessionId;
+    this._http.deleteData(url,this.cancelSessionId).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: "Live class session cancelled successfully" })
         this.alertBox = true;
@@ -587,14 +597,15 @@ export class LiveClassesComponent implements OnInit {
     this.rescheduleclass.end_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
     this.rescheduleclass.start_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourToReschedule.split(' ')[1]
 
-    this.service.rescheduleClass(this.rescheduleclass).subscribe(
+    const url ="/api/v1/meeting_manager/reschedule/" + sessionStorage.getItem('institution_id') + "/" + this.rescheduleclass.session_id;
+    this._http.postData(url,this.rescheduleclass).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: "Class Reschedule Successfully" })
         this.rescheduleClass = false;
         this.openClassPopup = false;
         this.rescheduleclass = {
           end_datetime: "",
-          institution_id: this.service.institute_id,
+          institution_id: sessionStorage.getItem('institution_id'),
           session_id: "",
           start_datetime: ""
         }
@@ -611,11 +622,31 @@ export class LiveClassesComponent implements OnInit {
   }
 
   downloadFile(object) {
-    const url = object.download_link;
-      var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
-      hiddenDownload.href = url;
-      hiddenDownload.download = object.session_name;
-      hiddenDownload.click();     
+    const url = `/api/v1/meeting_manager/recording/download/${sessionStorage.getItem('institution_id')}/${object.download_id}`
+    this.JsonVars.isRippleLoad = true;
+    this._http.downloadRecording(url).subscribe(
+      (response:any)=>{
+        this.JsonVars.isRippleLoad = false;
+        if(response){
+        const blob = new Blob([response], { type: 'video/mp4' });
+        this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+        if(this.fileUrl!=null){
+          this.fileName = object.session_name.concat('.mp4');
+          document.getElementById('downloadFileClick').className = '';
+       
+        setTimeout(() => {
+          var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
+          hiddenDownload.download = this.fileName;
+          hiddenDownload.click();
+        }, 500);
+        }
+        }     
+    },
+     err=>{
+      this.JsonVars.isRippleLoad = false;
+      console.log(err);
+    }
+    )
   }
 
   // Live class integration with VDOCipher
