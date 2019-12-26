@@ -1032,7 +1032,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
      });
      this.selectedTopicsNames = this.selectedTopicsNames.join(',');
     }
-     this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Topics saved successfully!");
+     this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Topics linked successfully!");
      this.isRippleLoad = false;
      this.showTopicsModal = false;
    // }
@@ -2174,7 +2174,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       this.classService.createCustomBatchPUT(data).subscribe(
         res => {
           this.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Details Updated Successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Class scheduled successfully!');
           this.showWarningPopup = false;
           this.updateTableDataAgain();
         },
@@ -2192,7 +2192,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       this.isRippleLoad = true;
       this.classService.createWeeklyBatchPost(data).subscribe(
         res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Details Updated Successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Class scheduled successfully!');
           this.showWarningPopup = false
           this.isRippleLoad = false;
           this.updateTableDataAgain();
