@@ -92,15 +92,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     otp_validate_mode: 1
   }
 
-  instituteCountryDetObj: any = {
-    "id": "",
-    "country_name": "",
-    "country_code": "",
-    "country_calling_code": "",
-    "country_phone_number_length": ""
-  };
-
-
   constructor(
     private login: LoginService,
     private route: Router,
@@ -270,7 +261,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             this._commService.setDefaultCurrencySymbol(symbol);
           }
         }
-        // console.log(this.instituteCountryDetObj);
       },
       err => {
         console.log(err);
