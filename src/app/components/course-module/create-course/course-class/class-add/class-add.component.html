@@ -762,7 +762,7 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                         {{row.note}}
                       </td>
                       <td>
-                        <a *ngIf="checkCurrentDate(row,row.class_date) || row.schd_id =='0'" style="cursor:pointer; margin-right: 5px" (click)="deleteFromCustomTable(row , i)"
+                        <a *ngIf="checkCurrentDate(row,row.class_date)" style="cursor:pointer; margin-right: 5px" (click)="deleteFromCustomTable(row , i)"
                           id="deleteAnch1">Delete</a>
                         <a style="cursor:pointer; margin-right: 5px" *ngIf="row.schd_id !='0' && row.is_attendance_marked=='N' && checkNotifyDate(row)" (click)="notifyOfCustomClass(row , index)"
                           id="notifyAnch2">  Notify</a>
@@ -938,7 +938,7 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                               id="cancelAnch4">Cancel</a>
                             <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0' && row.is_attendance_marked=='N'" (click)="notifyExtraClassSchedule(row)"
                               id="notifyAnch5"> Notify</a>
-                            <a *ngIf="checkCurrentDate(row,row.class_date) || row.schd_id == '0'" style="cursor:pointer" (click)="deleteExtraClassSchedule(row , i)" id="deleteAnch6">Delete</a>
+                            <a *ngIf="checkCurrentDate(row,row.class_date)" style="cursor:pointer" (click)="deleteExtraClassSchedule(row , i)" id="deleteAnch6">Delete</a>
                           </td>
                         </tr>
                         <tr *ngIf="extraClassTable.length == 0">
