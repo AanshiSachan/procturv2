@@ -14,6 +14,7 @@ export class FeeWidgetComponent implements OnInit {
     @ViewChild('chartWrap') chartWrap: ElementRef;
     chartType: any = "1";
     isRippleLoad: boolean = false;
+    default_symbol:any="IND";
     chartDate: any = {
         from_date: moment().startOf("year").format("YYYY-MM-DD"),
         to_date: moment().endOf("year").format("YYYY-MM-DD")
@@ -28,6 +29,19 @@ export class FeeWidgetComponent implements OnInit {
         this.fetchAllFeeData();
     }
 
+    fetchDataForCountryDetails() {
+        let countryCodeEncryptedData = sessionStorage.getItem('country_data');
+        let temp = JSON.parse(countryCodeEncryptedData);
+          if (temp.length > 0) {
+            temp.forEach(element => {
+                if(element.is_default=='Y'){                    
+                    this.default_symbol =element.country_code;
+                }
+            });         
+        }else{
+            this.default_symbol =   "IND";
+        }
+      }
     updateChartDate(e) {
         switch (parseInt(e)) {
             /* Current calendar year */
@@ -114,6 +128,7 @@ export class FeeWidgetComponent implements OnInit {
 
 
     createCompareChart(fc: any[], fd: any[], up: any[], m: any[]) {
+        var self =this;
         Highcharts.chart('chartWrap', {
             chart: {
                 type: 'column'
@@ -130,19 +145,19 @@ export class FeeWidgetComponent implements OnInit {
                 visible: true,
                 tickAmount: 5,
                 title: {
-                    text: 'Amount (Rs)'
+                    text: 'Amount ('+this.default_symbol+')'
                 }
             },
             tooltip: {
                 shared: true,
                 pointFormatter: function () {
                     var pointer = function (x) {
-                        var formatted = x.toLocaleString('en-IN', {
-                            maximumFractionDigits: 2,
-                            style: 'currency',
-                            currency: 'INR'
-                        }).slice(0, -3);
-                        return this.symbol + formatted;
+                        // var formatted = x.toLocaleString('en-IN', {
+                        //     maximumFractionDigits: 2,
+                        //     style: 'currency',
+                        //     currency: 'INR'
+                        // }).slice(0, -3);
+                        return self.default_symbol+' ' +x;
                     }, localVar = { symbol: " " };
                     var text = pointer.call(localVar, this.y);
                     return '<span style="font-size:10px"></span><table><tr><td style="color:' + this.series.color + ';padding:5px">' + this.series.name + '</td><td style="padding:5px"><b> ' + text + '</b></td></tr></table>';
