@@ -402,7 +402,7 @@ export class FeeTemplateAddComponent implements OnInit {
     } else {
       defaultValue = '0';
     }
-    if (this.addNewTemplate.apply_tax) {
+    if (this.addNewTemplate.apply_tax && this.addNewTemplate.country_id == 1) {
       tax = "Y";
     } else {
       tax = "N";
@@ -448,11 +448,16 @@ export class FeeTemplateAddComponent implements OnInit {
   makeJSONForCustomFee() {
     this.totalAmount = 0;
     let data: any = [];
+    let registeredServiceTax = 0;
+    if (this.addNewTemplate.apply_tax && this.addNewTemplate.country_id == 1) {
+      registeredServiceTax = this.feeStructure.registeredServiceTax;
+    }
+
     for (let t = 0; t < this.installMentTable.length; t++) {
       let test: any = {};
       test.fee_type = 0;
       test.initial_fee_amount = this.installMentTable[t].initial_fee_amount.toString();
-      test.service_tax = this.feeStructure.registeredServiceTax;
+      test.service_tax = registeredServiceTax;
       test.fees_amount = this.installMentTable[t].totalAmount;
       test.service_tax_applicable = this.installMentTable[t].service_tax_applicable;
       test.day_type = this.installMentTable[t].day_type.toString();
@@ -470,7 +475,10 @@ export class FeeTemplateAddComponent implements OnInit {
       test.initial_fee_amount = this.otherInstList[t].initial_fee_amount.toString();
       test.service_tax = this.otherInstList[t].service_tax.toString();
       test.fees_amount = this.otherInstList[t].fees_amount.toString();
-      test.service_tax_applicable = this.otherInstList[t].service_tax_applicable;
+      test.service_tax_applicable = 0;
+      if (this.addNewTemplate.apply_tax && this.addNewTemplate.country_id == 1) {
+        test.service_tax_applicable = this.otherInstList[t].service_tax_applicable;
+      }
       test.schedule_id = this.otherInstList[t].schedule_id.toString();
       test.is_referenced = this.otherInstList[t].is_referenced;
       test.day_type = this.otherInstList[t].day_type.toString();

@@ -828,7 +828,7 @@
                           <span>Amount</span>
                         </div>
 
-                        <div class="Tax" >
+                        <div class="Tax" *ngIf="studentAddFormData.country_id==1">
                           <span>Tax</span>
                         </div>
 
@@ -885,7 +885,7 @@
                           <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.initial_fee_amount_before_disocunt_before_tax }}</span>
                         </div>
 
-                        <div class="Tax">
+                        <div class="Tax" *ngIf="studentAddFormData.country_id==1">
                           <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.tax }}</span>
                         </div>
 
