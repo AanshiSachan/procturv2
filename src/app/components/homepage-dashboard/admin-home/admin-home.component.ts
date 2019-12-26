@@ -773,8 +773,8 @@ export class AdminHomeComponent implements OnInit {
           this.isRippleLoad = false;
           let msg = {
             type: 'success',
-            title: 'Reminder Sent',
-            body: 'Students have been notified'
+           /*  title: 'Reminder Sent', */
+            body: 'Notification sent successfully!'
           }
           this.appC.popToast(msg);
           this.closeRemiderClass();
@@ -885,8 +885,8 @@ export class AdminHomeComponent implements OnInit {
           this.isRippleLoad = false;
           let msg = {
             type: 'success',
-            title: 'Class Rescheduled',
-            body: 'The request has been processed'
+            /* title: 'Class Rescheduled', */
+            body: 'Class rescheduled successfully!'
           }
           this.appC.popToast(msg);
           this.closeRescheduleClass();
@@ -1205,8 +1205,8 @@ export class AdminHomeComponent implements OnInit {
         this.isRippleLoad = false;
         let msg = {
           type: 'success',
-          title: 'Batch Schedule Cancelled',
-          body: 'The requested scheduled has been cancelled'
+          /* title: 'Batch Schedule Cancelled', */
+          body: 'Scheduled batch cancelled successfully!'
         }
         this.appC.popToast(msg);
         this.closeCourseCancelClass();

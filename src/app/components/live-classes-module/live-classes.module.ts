@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { LiveClassesComponent } from './live-classes/live-classes.component';
 import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap-custome';
-import { LiveClasses } from '../../services/live-classes/live-class.service';
 import { ProductService } from '../../services/products.service';
 
 
@@ -30,7 +29,6 @@ import { ProductService } from '../../services/products.service';
     EditClassComponent
   ],
   providers: [
-    LiveClasses,
     ProductService
   ]
 })

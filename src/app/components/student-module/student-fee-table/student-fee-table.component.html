@@ -84,9 +84,12 @@
                         <li class="date" [ngStyle]="{'width':isProfessional? '15% ':'15%'}">Due Date</li>
                         <li class="course" [ngStyle]="{'width':isProfessional? '15% ':'15%'}" [ngClass]="{'bigger': taxEnableCheck == '0'}">Course</li>
                         <li class="course" [ngStyle]="{'width':isProfessional? '15% ':'14%'}">Academic Year</li>
-                        <li class="amount" [ngStyle]="{'width':isProfessional? '12% ':'10%'}" [ngClass]="{'hide': taxEnableCheck == '0'}">Amount</li>
+                        <li class="amount" [ngStyle]="{'width':isProfessional? '12% ':'10%'}" *ngIf="countryDetails.id==1" [ngClass]="{'hide': taxEnableCheck == '0'}">Amount</li>
                         <li class="tax" [ngStyle]="{'width':isProfessional? '9% ':'7%'}" *ngIf="countryDetails.id==1" [ngClass]="{'hide': taxEnableCheck == '0'}">Tax</li>
-                        <li class="feeTax" [ngStyle]="{'width':isProfessional? '11% ':'13%'}" *ngIf="countryDetails.id==1" style="width: 11% !important" [ngClass]="{'bigger': taxEnableCheck == '0'}">Fee Incl Tax</li>
+                        <li class="feeTax" [ngStyle]="{'width':isProfessional? '11% ':'13%'}"  style="width: 11% !important" [ngClass]="{'bigger': taxEnableCheck == '0'}">
+                           <span *ngIf="countryDetails.id==1"> Fee Incl Tax</span>
+                           <span *ngIf="countryDetails.id!=1"> Amount</span>
+                        </li>
                         <li class="action" [ngStyle]="{'width':isProfessional? '8% ':'10%'}" [ngClass]="{'bigger': taxEnableCheck == '0'}">Action</li>
                     </ul>
                     <div class="table-data">
@@ -117,7 +120,7 @@
                                 </select>
                             </li>
 
-                            <li  class="amount" [ngStyle]="{'width':isProfessional? '12% ':'10%'}" [ngClass]="{'hide': taxEnableCheck == '0'}">
+                            <li *ngIf="countryDetails.id==1" class="amount" [ngStyle]="{'width':isProfessional? '12% ':'10%'}" [ngClass]="{'hide': taxEnableCheck == '0'}">
                                 <div class="form-wrapper disable">
                                     <input *ngIf="fee.discount == 0" type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
                                         readonly="true" name="amt" [ngModel]="updateInitialAmount(fee.fees_amount, i)">
@@ -131,7 +134,7 @@
                                         [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
                                 </div>
                             </li>
-                            <li *ngIf="countryDetails.id==1" class="feeTax" [ngStyle]="{'width':isProfessional? '11% ':'13%'}" [ngClass]="{'bigger': taxEnableCheck == '0'}">
+                            <li  class="feeTax" [ngStyle]="{'width':isProfessional? '11% ':'13%'}" [ngClass]="{'bigger': taxEnableCheck == '0'}">
                                 <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
                                     <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                                         class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">

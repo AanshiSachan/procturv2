@@ -84,7 +84,7 @@ export class ReportCardComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this._commService.showErrorMessage('error', 'Error', err.error.message);
+        this._commService.showErrorMessage('error', '', err.error.message);
       }
     )
    }

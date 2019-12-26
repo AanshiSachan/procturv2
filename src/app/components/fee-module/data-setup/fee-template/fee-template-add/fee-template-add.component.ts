@@ -11,7 +11,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./fee-template-add.component.scss']
 })
 export class FeeTemplateAddComponent implements OnInit {
-  isRippleLoad:boolean=false;
+  isRippleLoad: boolean = false;
   masterCourseList: any = [];
   CourseList: any = [];
   countryAdditioalFeeTypes: any = {};
@@ -81,9 +81,9 @@ export class FeeTemplateAddComponent implements OnInit {
     this.fetchDataForCountryDetails();
   }
 
-  changesValuesAsPerType(row){
-    if(row.day_type==1){
-      row.days=0;
+  changesValuesAsPerType(row) {
+    if (row.day_type == 1) {
+      row.days = 0;
     }
   }
 
@@ -227,7 +227,7 @@ export class FeeTemplateAddComponent implements OnInit {
   // set editional fee as per country --laxmi 
   selectedCountryCode(country_id) {
     this.selectedCountry = null;
-    this.otherInstList=[];
+    this.otherInstList = [];
     this.showDetails = false;
     this.countryDetails.forEach(country => {
       if (country.id == Number(country_id)) {
@@ -238,17 +238,19 @@ export class FeeTemplateAddComponent implements OnInit {
     this.fillFeeType(this.countryAdditioalFeeTypes[country_id]);
     this.clearManageFee();
     this.additionalInstallment.country_id = this.addNewTemplate.country_id = country_id;
+    this.addNewTemplate.tax_type = 'inclusive';
+    this.calculateAmount(true);
     this.installMentTable && this.installMentTable.length && this.installMentTable.forEach(installement => {
-      installement.country_id =country_id;
+      installement.country_id = country_id;
     });
 
-    if(this.otherFeetype[0]){
+    if (this.otherFeetype[0]) {
       this.onAdditionalFeeSelection(this.otherFeetype[0].id);
-    } 
+    }
   }
 
   createInstallmentTable() {
-    this.installMentTable=[];
+    this.installMentTable = [];
     let amount: any = Math.floor(Number(this.addNewTemplate.fee_amount) / Number(this.addNewTemplate.installmentCount));
     let tax_amount = Math.floor(this.addNewTemplate.tax_amount / Number(this.addNewTemplate.installmentCount));
     let totalAmount: number = 0;
@@ -259,7 +261,7 @@ export class FeeTemplateAddComponent implements OnInit {
       let test: any = {};
       test.day_type = 1;
       test.days = 0;
-      if (this.enableTaxOptions == "1") {
+      if (this.enableTaxOptions == "1" && this.addNewTemplate.country_id == 1) {
         if (this.addNewTemplate.tax_type == "inclusive") {
           test.initial_fee_amount = amount - tax_amount;
           test.tax = tax_amount;
@@ -281,7 +283,7 @@ export class FeeTemplateAddComponent implements OnInit {
     if (Number(this.addNewTemplate.total_fee) != totalAmount) {
       let lastInstallment: any = obj[obj.length - 1];
       lastInstallment.totalAmount = lastInstallment.totalAmount + Number(this.addNewTemplate.total_fee) - totalAmount;
-      if (this.enableTaxOptions == '1') {
+      if (this.enableTaxOptions == '1' && this.addNewTemplate.country_id == 1) {
         lastInstallment.initial_fee_amount = Math.floor(Number(lastInstallment.totalAmount * 100 / (100 + this.feeStructure.registeredServiceTax)))
         lastInstallment.tax = lastInstallment.totalAmount - lastInstallment.initial_fee_amount;
       } else {
@@ -362,7 +364,7 @@ export class FeeTemplateAddComponent implements OnInit {
     }
   }
 
-  clearManageFee(){
+  clearManageFee() {
     this.additionalInstallment = {
       days: 0,
       day_type: 1,
@@ -400,7 +402,7 @@ export class FeeTemplateAddComponent implements OnInit {
     } else {
       defaultValue = '0';
     }
-    if (this.addNewTemplate.apply_tax) {
+    if (this.addNewTemplate.apply_tax && this.addNewTemplate.country_id == 1) {
       tax = "Y";
     } else {
       tax = "N";
@@ -426,31 +428,36 @@ export class FeeTemplateAddComponent implements OnInit {
       data.course_id = this.addNewTemplate.course_id;
     }
 
-     if(!this.isRippleLoad){
-      this.isRippleLoad= true;
+    if (!this.isRippleLoad) {
+      this.isRippleLoad = true;
       this.apiService.updateFeeTemplate(data).subscribe(
         res => {
-          this.isRippleLoad= false;
+          this.isRippleLoad = false;
           this.commonService.showErrorMessage('success', 'Updated', 'Fee Structure created Successfully');
           this.route.navigateByUrl('/view/fee/data-setup/fee-template/home');
         },
         err => {
-          this.isRippleLoad= false;
+          this.isRippleLoad = false;
           this.commonService.showErrorMessage('error', '', err.error.message);
         }
       )
-     }
-  
+    }
+
   }
 
   makeJSONForCustomFee() {
     this.totalAmount = 0;
     let data: any = [];
+    let registeredServiceTax = 0;
+    if (this.addNewTemplate.apply_tax && this.addNewTemplate.country_id == 1) {
+      registeredServiceTax = this.feeStructure.registeredServiceTax;
+    }
+
     for (let t = 0; t < this.installMentTable.length; t++) {
       let test: any = {};
       test.fee_type = 0;
       test.initial_fee_amount = this.installMentTable[t].initial_fee_amount.toString();
-      test.service_tax = this.feeStructure.registeredServiceTax;
+      test.service_tax = registeredServiceTax;
       test.fees_amount = this.installMentTable[t].totalAmount;
       test.service_tax_applicable = this.installMentTable[t].service_tax_applicable;
       test.day_type = this.installMentTable[t].day_type.toString();
@@ -468,7 +475,10 @@ export class FeeTemplateAddComponent implements OnInit {
       test.initial_fee_amount = this.otherInstList[t].initial_fee_amount.toString();
       test.service_tax = this.otherInstList[t].service_tax.toString();
       test.fees_amount = this.otherInstList[t].fees_amount.toString();
-      test.service_tax_applicable = this.otherInstList[t].service_tax_applicable;
+      test.service_tax_applicable = 0;
+      if (this.addNewTemplate.apply_tax && this.addNewTemplate.country_id == 1) {
+        test.service_tax_applicable = this.otherInstList[t].service_tax_applicable;
+      }
       test.schedule_id = this.otherInstList[t].schedule_id.toString();
       test.is_referenced = this.otherInstList[t].is_referenced;
       test.day_type = this.otherInstList[t].day_type.toString();

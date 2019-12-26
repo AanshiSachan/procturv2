@@ -315,7 +315,7 @@
             <div style="float: left;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3">
             <button class="fa fa-download" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="Download" (click)="downloadFile(data);"
             id="downloadFile" [disabled]="data.download_id==null" [ngStyle]="{'opacity':data.download_id==null ? '0.5' : '1' }"></button>
-            <a id="downloadFileClick" class="hide"></a>        
+            <a id="downloadFileClick" [href]="fileUrl" class="hide"></a>
             </div>
             <div (click)="getVdocipherVideoOtp(data)" *ngIf="proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3">
               <button class="fa fa-eye" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="View" 

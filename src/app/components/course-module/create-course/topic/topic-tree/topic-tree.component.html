@@ -6,7 +6,8 @@
   </div>
   <div class="filter_div">
     <div class="field-wrapper">
-      <label>Standard<span class="text-danger">*</span></label>
+      <label *ngIf="!isProfessional">Standard<span class="text-danger">*</span></label>
+      <label *ngIf="isProfessional">Master Course<span class="text-danger">*</span></label>
       <div class="dropdown-div">
         <select class="dropdown" [(ngModel)]="filterData.standard_id" (change)="getAllSubjectListFromServer($event.target.value)"> 
           <option value="-1"></option>
@@ -15,7 +16,8 @@
       </div>
     </div>
     <div class="field-wrapper">
-      <label>Subject<span class="text-danger">*</span></label>
+      <label *ngIf="!isProfessional">Subject<span class="text-danger">*</span></label>
+      <label *ngIf="isProfessional">Course<span class="text-danger">*</span></label>
       <div class="dropdown-div">
         <select class="dropdown" [(ngModel)]="filterData.subject_id">
             <option value="-1"></option>
@@ -48,19 +50,23 @@
       <div class="modal-body">
         <div class="model_body_div">
           <div class="field-wrapper">
-            <label>Standard Name<span class="text-danger">*</span></label>
+            <label *ngIf="!isProfessional">Standard Name<span class="text-danger">*</span></label>
+            <label *ngIf="isProfessional">Master Course<span class="text-danger">*</span></label>
             <div class="dropdown-div">
               <select class="dropdown" [(ngModel)]="addTopic.standard_id" (change)="getAllSubjectList($event.target.value)">
-                <option value="-1">   Select Standard </option>
+                <option value="-1" *ngIf="!isProfessional">   Select Standard </option>
+                <option value="-1" *ngIf="isProfessional">   Select Master Course </option>
                 <option *ngFor="let standard of standardData;let i=index; " [value]="standard.standard_id">{{standard.standard_name}}</option>
               </select>
             </div>
           </div>
           <div class="field-wrapper">
-            <label>Subject Name<span class="text-danger">*</span></label>
+            <label *ngIf="!isProfessional">Subject Name<span class="text-danger">*</span></label>
+            <label *ngIf="isProfessional">Course<span class="text-danger">*</span></label>
             <div class="dropdown-div">
               <select class="dropdown"  [(ngModel)]="addTopic.subject_id">
-                <option value="-1"> Select Subject </option>
+                <option value="-1" *ngIf="!isProfessional"> Select Subject </option>
+                <option value="-1" *ngIf="isProfessional"> Select Course </option>
                 <option *ngFor="let subject of subjectTempData;let i=index; " [value]="subject.subject_id">{{subject.subject_name}}</option>
               </select>
             </div>

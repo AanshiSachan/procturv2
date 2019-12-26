@@ -56,16 +56,25 @@ export class FeeTypesComponent implements OnInit {
   onRowDataChange(country_id, row) {
     this.countryDetails.forEach(countryId => {
         if(countryId.id==country_id){
-          row.currency_code = countryId.currency_code;
-          row.country_code = countryId.country_code;
+          row.country_id = countryId.id;
         }
     });
 
 
     if(country_id!='1'){
       row.fee_type_tax=0;
+    } 
+  }
+
+  getCountryDetails(amount,country_id){
+    let symbol;
+    for(let i=0;i<this.countryDetails.length;i++){
+      if(this.countryDetails[i].id==country_id){
+        symbol = this.countryDetails[i].symbol;
+      } 
     }
-    
+
+    return symbol;
   }
 
   fetchDataForCountryDetails() {
@@ -73,6 +82,12 @@ export class FeeTypesComponent implements OnInit {
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
       this.countryDetails = data;
+      this.countryDetails.forEach(country => {
+        if(country){
+          country.symbol = this.getCurrencyDetails(1000,country.currency_code,country.country_code);
+          console.log ('symbol',country.symbol);
+        }        
+      });
     }
     console.log(data);
   }
@@ -84,14 +99,9 @@ export class FeeTypesComponent implements OnInit {
         this.isRippleLoad = false;
         this.feeTypeList = res;
         this.feeTypeList.forEach(element => {
-          element.currency_code = null;
-          element.country_code = null;
           if (element.countryId) {
             element.country_id = element.countryId.country_id;
-            element.currency_code = element.countryId.currency_code;
-            element.country_code = element.countryId.country_code;
           }
-
         });
       },
       err => {
