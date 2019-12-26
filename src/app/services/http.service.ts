@@ -86,5 +86,18 @@ export class HttpService {
     )
   }
 
+  downloadRecording(objecturl) {
+    let url = this.baseUrl + objecturl;
+    let headers = new HttpHeaders({ "Content-Type": "video/mp4", "Authorization": this.Authorization, "Accept":"video/mp4" });
+    return this.http.get(url, { headers: headers , "responseType": 'blob'}).map(
+      data => {
+        return data;
+      },
+      err => {
+        return err;
+      }
+    )
+  }
+
 
 }
