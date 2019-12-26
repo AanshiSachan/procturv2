@@ -277,6 +277,7 @@ export class ChequeManageComponent implements OnInit {
   optionSelected(e) {
     this.selectedRecord = e.data;
     this.decidePopup(e.data);
+    console.log(e.data);
   }
 
   cancelUpdate() {
@@ -359,6 +360,7 @@ export class ChequeManageComponent implements OnInit {
     this.getter.fetchAllChequeStudent(this.selectedRecord.student_id).subscribe(
       res => {
         this.studentFeeDues = res;
+        console.log(this.selectedRecord);
       },
       err => { }
     )
