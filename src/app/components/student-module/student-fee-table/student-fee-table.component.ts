@@ -393,16 +393,12 @@ export class StudentFeeTableComponent implements OnInit {
       }
     }
     else if (this.addFeeInstallment.due_date != "" && !isNaN(this.addFeeInstallment.initial_fee_amount)) {
-
-      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      this.addFeeInstallment.service_tax = 0;
+      this.addFeeInstallment.service_tax_applicable = 'N';
+      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1' &&this.countryDetails.id==1) {
         this.addFeeInstallment.service_tax = this.feeTemplateData.registeredServiceTax;
         this.addFeeInstallment.service_tax_applicable = 'Y';
       }
-      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-        this.addFeeInstallment.service_tax = 0;
-        this.addFeeInstallment.service_tax_applicable = 'N';
-      }
-
       this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
       this.addFeeInstallment.fee_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
       this.addFeeInstallment.fee_type = 0;

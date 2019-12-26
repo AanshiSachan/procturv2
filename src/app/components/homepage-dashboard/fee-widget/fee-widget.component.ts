@@ -43,7 +43,7 @@ export class FeeWidgetComponent implements OnInit {
 
     ngOnInit() {
         this.cd.markForCheck();
-        // this.fetchFeeWidgetData();
+        this.fetchDataForCountryDetails();
     }
 
     fetchDataForCountryDetails() {
