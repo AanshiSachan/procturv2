@@ -1,5 +1,4 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'"
-  *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 
 <div class="container-fluid product-wrapper p-0">
@@ -24,65 +23,69 @@
   <div class="row m-0 action-bar">
     <div class="col-md-12 col-sm-12 container">
 
-        <div class="form-group field-wrapper form-el-width datePickerBox">
-            <label class="text-bold">Sales From Date</label>
-            <input type="text" value="" id="FromDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="filter.between.from"
-            name="FD" bsDatepicker readonly="true" />
-          </div>
+      <div class="form-group field-wrapper form-el-width datePickerBox">
+        <label class="text-bold">Sales From Date</label>
+        <input type="text" value="" id="FromDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="filter.between.from" name="FD"
+          bsDatepicker readonly="true" />
+      </div>
 
-          <div class="form-group field-wrapper form-el-width datePickerBox">
-              <label class="text-bold">Sales To Date</label>
-              <input type="text" value="" id="ToDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="filter.between.to"
-              name="FD" bsDatepicker readonly="true" />
-            </div>
-            <div class="form-group field-wrapper form-el-width datePickerBox">
-              <label class="text-bold">Publish Date</label>
-              <input type="text" value="" id="publishDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="filter.by.publishDate"
-              name="FD" bsDatepicker readonly="true" />
-            </div>
+      <div class="form-group field-wrapper form-el-width datePickerBox">
+        <label class="text-bold">Sales To Date</label>
+        <input type="text" value="" id="ToDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="filter.between.to" name="FD"
+          bsDatepicker readonly="true" />
+      </div>
+      <div class="form-group field-wrapper form-el-width datePickerBox">
+        <label class="text-bold">Publish Date</label>
+        <input type="text" value="" id="publishDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="filter.by.publishDate"
+          name="FD" bsDatepicker readonly="true" />
+      </div>
 
-            <div class="form-group field-wrapper form-el-width">
-                <label class="text-bold">Product</label>
-                <select [(ngModel)]="filter.by.title" class="form-ctrl" (change)="getPublishedDate($event.target.value)">
-                  <option *ngFor="let product of productDetails" title="{{product.title}}" [value]="product.title">
-                      {{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}
-                    
-                  </option>
-                </select>
-              </div> 
-              <div class="form-group field-wrapper form-el-width">
-                <label class="text-bold">Status</label>
-                <select [(ngModel)]="filter.by.status" class="form-ctrl">
-                  <option value=10 >Draft</option>
-                  <option value=20>Ready </option>
-                  <option value=30>Published</option>
-                  <option value=40>Unpublished</option>
-                  <option value=50>Closed</option>
-                </select>
-              </div>
- 
-            <div class="form-group field-wrapper form-el-width">
-                <label class="text-bold">Is Paid</label>
-                <select [(ngModel)]="filter.by.isPaid" class="form-ctrl">
-                  <option value="true" >True</option>
-                  <option value="false" >False</option>
-                </select>
-              </div>
+      <div class="form-group field-wrapper form-el-width">
+        <label class="text-bold">Product</label>
+        <select [(ngModel)]="filter.by.title" class="form-ctrl" (change)="getPublishedDate($event.target.value)">
+          <option *ngFor="let product of productDetails" title="{{product.title}}" [value]="product.title">
+            {{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}
 
-              <div class="form-group field-wrapper form-el-width" *ngIf="filter.by.isPaid=='true'">
-                  <label class="text-bold">Minimum Price<span class="text-danger">*</span></label>
-                  <input type="text"   onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="minPrice" class="form-ctrl" [(ngModel)]="filter.by.minPrice"
-                  name="minPrice"/>
-                </div>
+          </option>
+        </select>
+      </div>
+      <div class="form-group field-wrapper form-el-width">
+        <label class="text-bold">Status</label>
+        <select [(ngModel)]="filter.by.status" class="form-ctrl">
+          <option value=10>Draft</option>
+          <option value=20>Ready </option>
+          <option value=30>Published</option>
+          <option value=40>Unpublished</option>
+          <option value=50>Closed</option>
+        </select>
+      </div>
 
-                <div class="form-group field-wrapper form-el-width" *ngIf="filter.by.isPaid=='true'">
-                    <label class="text-bold">Maximum Price <span class="text-danger">*</span></label>
-                    <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="maxPrice" class="form-ctrl" [(ngModel)]="filter.by.maxPrice"
-                    name="maxPrice"/>
-                  </div>
-              
-                 
-<!-- 
+      <div class="form-group field-wrapper form-el-width">
+        <label class="text-bold">Is Paid</label>
+        <select [(ngModel)]="filter.by.isPaid" class="form-ctrl">
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </select>
+      </div>
+
+      <div class="form-group field-wrapper form-el-width" *ngIf="filter.by.isPaid=='true'">
+        <label class="text-bold">Minimum Price
+          <span class="text-danger">*</span>
+        </label>
+        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="minPrice" class="form-ctrl" [(ngModel)]="filter.by.minPrice"
+          name="minPrice" />
+      </div>
+
+      <div class="form-group field-wrapper form-el-width" *ngIf="filter.by.isPaid=='true'">
+        <label class="text-bold">Maximum Price
+          <span class="text-danger">*</span>
+        </label>
+        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="maxPrice" class="form-ctrl" [(ngModel)]="filter.by.maxPrice"
+          name="maxPrice" />
+      </div>
+
+
+      <!-- 
       <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">E-course</label>
         <select [(ngModel)]="filter.ecourse_id" class="form-ctrl" (ngModelChange)="getSubjectList()">
@@ -93,7 +96,7 @@
           </option>
         </select>
       </div> -->
-   
+
       <!-- <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">Standard</label>
         <select [(ngModel)]="filter.standard_id" class="form-ctrl" (ngModelChange)="getSubjectList()" name="cc" id="cc">
@@ -133,7 +136,8 @@
               </div>
             </th> -->
             <th width="5%">ID</th>
-            <th width="15%" class="text-left" style="text-align: left">Product Name</th>
+            <th width="5%">#</th>
+            <th width="10%" class="text-left" style="text-align: left">Product Name</th>
             <th class="text-left">E-course</th>
             <th class="text-center">Status</th>
             <th class="text-center">Sale Start Date</th>
@@ -159,9 +163,14 @@
               [src]="item.product_image" 
             </td> -->
             <td>{{i+1}}</td>
+            <td>
+              <span>
+                <img alt="product" class="profile_img" [src]="item.logo_url==null?'https://cdn.vox-cdn.com/thumbor/30bQJLedP0p2KHehrHJyPc2dZ5A=/0x0:600x579/920x0/filters:focal(0x0:600x579):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/16019250/log_2048.png':item.logo_url" title="{{item.title}}">
+              </span>
+            </td>
             <td style="text-align: left">
-              <label  title="{{item.title}}">
-                {{ (item.title.length > 30) ? (item.title | slice:0:30) + '...' : item.title }}
+              <label title="{{item.title}}">
+                {{ (item.title.length > 20) ? (item.title | slice:0:20) + '...' : item.title }}
               </label>
             </td>
             <td style="width:20%;text-align: left;">
@@ -177,17 +186,17 @@
               <span *ngIf="item.status == 50" class="text-secondary">Closed</span>
             </td>
             <td class="text-center">
-              <p class="m-0 text-bold">{{item.sales_from_date  | date :'d MMM y'}}</p>
+              <p class="m-0 text-bold">{{item.sales_from_date | date :'d MMM y'}}</p>
               <!-- , HH:mm -->
             </td>
             <td class="text-center">
-              <p class="m-0 text-bold">{{item.sales_to_date    | date :'d MMM y'}}</p>
+              <p class="m-0 text-bold">{{item.sales_to_date | date :'d MMM y'}}</p>
             </td>
             <td class="text-center">
               <p class="m-0 text-bold">{{ (!item.publish_date)? '-' : item.publish_date | date :'d MMM y'}}</p>
             </td>
             <td class="text-center">
-              <p class="m-0 text-bold">{{item.updated_date    | date :'d MMM y'}}</p>
+              <p class="m-0 text-bold">{{item.updated_date | date :'d MMM y'}}</p>
             </td>
             <td class="text-center">
               <span *ngIf="item.price <= 0" class="text-active text-bold">Free</span>
@@ -203,24 +212,17 @@
               </td> -->
             <td class="text-center">
               <div class="dropdown dropleft" *ngIf="item.status!=50">
-                <button class="btn btn-light btn-xs dropdown-toggle" type="button" (click)="toggleActionMenu($event)"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp;
-                  Action 
+                <button class="btn btn-light btn-xs dropdown-toggle" type="button" (click)="toggleActionMenu($event)" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
                 </button>
                 <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
-                  <a class="dropdown-item" *ngIf="item.status < 30 "
-                    [routerLink]="['/view/e-store/create/'+item.entity_id+'/basic']">Edit</a>
-                  <a class="dropdown-item" *ngIf="item.status < 30 "
-                    (click)="actionProductModal('delete', item.entity_id)">Delete</a>
-                  <a class="dropdown-item" (click)="actionProductModal('ready', item.entity_id)"
-                    *ngIf="item.status == 10">Ready</a>
-                  <a class="dropdown-item" (click)="actionProductModal('publish', item.entity_id)"
-                    *ngIf="item.status == 20">Publish</a>
-                  <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)"
-                    style="border: none;" *ngIf="item.status == 30">Unpublished</a>
-                  <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;"
-                    *ngIf="item.status == 40">Closed</a>
+                  <a class="dropdown-item" *ngIf="item.status < 30 " [routerLink]="['/view/e-store/create/'+item.entity_id+'/basic']">Edit</a>
+                  <a class="dropdown-item" *ngIf="item.status < 30 " (click)="actionProductModal('delete', item.entity_id)">Delete</a>
+                  <a class="dropdown-item" (click)="actionProductModal('ready', item.entity_id)" *ngIf="item.status == 10">Ready</a>
+                  <a class="dropdown-item" (click)="actionProductModal('publish', item.entity_id)" *ngIf="item.status == 20">Publish</a>
+                  <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)" style="border: none;" *ngIf="item.status == 30">Unpublished</a>
+                  <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;" *ngIf="item.status == 40">Closed</a>
                 </div>
               </div>
             </td>
@@ -245,9 +247,9 @@
 
     <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-          [pagesToShow]="10" [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="varJson.sizeArr"
-          (sizeChange)="updateTableBatchSize($event)" [count]="varJson.total_items">
+        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="varJson.sizeArr" (sizeChange)="updateTableBatchSize($event)"
+          [count]="varJson.total_items">
         </pagination>
       </div>
     </div>
@@ -256,8 +258,7 @@
 
 
 <!-- Delete/Publish Product Modal -->
-<div class="modal fade" id="actionProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true">
+<div class="modal fade" id="actionProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body text-center">
@@ -267,8 +268,7 @@
         <div class="form-group m-0">
           <button type="button" class="btn btn-sm" data-dismiss="modal">No</button>
           &nbsp;
-          <button type="submit" class="btn {{deleteItem.btnClass}} btn-sm" [disabled]="isRippleLoad"
-            (click)="confirmAction(deleteItem.operation, deleteItem.entity_id)">Yes</button>
+          <button type="submit" class="btn {{deleteItem.btnClass}} btn-sm" [disabled]="isRippleLoad" (click)="confirmAction(deleteItem.operation, deleteItem.entity_id)">Yes</button>
         </div>
       </div>
     </div>

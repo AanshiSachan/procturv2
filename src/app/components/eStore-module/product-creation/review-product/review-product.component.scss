@@ -1,61 +1,108 @@
 @import "./src/assets/css/common/variables.scss";
-.review-title{
-    font-size: 14px;
-    font-weight: 600;
-    padding-bottom: 10px;
+
+.review-title {
+  font-size: 14px;
+  font-weight: 600;
+  padding-bottom: 10px;
 }
 
-.basic-info-footer{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-top: 1pt solid #f3f3f3;
-    padding: 0.5em 0.8em;
-    background: #fff;
-    box-shadow: 0pt -2pt 6pt #e6e6e6;
-    z-index: 5;
-    .btn-round{
-        padding: 0.2em 1em;
-        border-radius: 2em;
-        margin: 0.2em;
-    }
+.basic-info-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 1pt solid #f3f3f3;
+  padding: .5em .8em;
+  background: #fff;
+  box-shadow: 0 -2pt 6pt #e6e6e6;
+  z-index: 5;
+
+  .btn-round {
+    padding: .2em 1em;
+    border-radius: 2em;
+    margin: .2em;
+  }
 }
 
 .row {
-    margin-left: 0px;
-    margin-right: 0px;
-} 
-
-.qInfoIcon {
-    width: 20px;
-    margin-left: 5px;
-    height: 20px;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    display: block;
-    text-align: center;
-    box-sizing: border-box;
-    line-height: 20px;
-    font-weight: 600;
-    font-size: 12px;
-    cursor: pointer;
-    box-shadow: 0px 0px 1px 0px #ccc inset;
-    color: #888;
-    transition: all 0.2s linear;
-    &:hover {
-        border-color: $header-bg;
-        box-shadow: 0px 0px 1px 0px $header-bg inset;
-        color: $header-bg;
-    }
+  margin-left: 0;
+  margin-right: 0;
 }
 
-.black-bg{
-    background: rgba(12, 11, 11, 0.3);
-    position: fixed;
-    top: 0px;
-    height: 100%;
-    left: 0px;
-    z-index: 6;
-    width: 100%;
+.qInfoIcon {
+  width: 20px;
+  margin-left: 5px;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  line-height: 20px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 1px 0 #ccc inset;
+  color: #888;
+  transition: all .2s linear;
+
+  &:hover {
+    border-color: $header-bg;
+    box-shadow: 0 0 1px 0 $header-bg inset;
+    color: $header-bg;
   }
+}
+
+.black-bg {
+  background: rgba(12, 11, 11, 0.3);
+  position: fixed;
+  top: 0;
+  height: 100%;
+  left: 0;
+  z-index: 6;
+  width: 100%;
+}
+
+.prod-image {
+  max-height: 150px;
+}
+
+.datePickerBox {
+  .form-ctrl {
+    position: relative;
+    z-index: 1;
+    float: left;
+    // border-right: 0;
+    // height: 35px;
+    font: 400 12px 'Open sans',sans-serif;
+    width: 100% !important;
+  }
+
+  &:after {
+    content: '';
+    background: url('../../../../../assets/images/calendar.svg') no-repeat;
+    position: absolute;
+    left: 87% !important;
+    top: 22px !important;
+    width: 21px;
+    height: 21px;
+    z-index: 0;
+  }
+}
+
+.image-upload > input
+{
+    display: none;
+}
+
+.image-upload img
+{
+    width: 150px;
+    cursor: pointer;
+    height: 100px;
+    border-radius: 10px;
+}
+
+.image-upload:hover .overlay {
+  opacity: .5;
+}

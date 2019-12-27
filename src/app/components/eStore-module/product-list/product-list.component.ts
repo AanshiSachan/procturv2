@@ -104,10 +104,16 @@ export class ProductListComponent implements OnInit {
       (resp: any) => {
         let response = resp['body'];
         this.isRippleLoad = false;
-        console.log(response);
         if (response.validate) {
           this.productList = response.result.results;
           this.varJson.total_items = response.result.total_records;
+          // -- added by laxmi
+          // this code is used to laod image url dynamically not save in locally dont remove it 
+          this.productList.forEach(obj => {
+            if(obj.logo_url){
+              obj.logo_url =obj.logo_url+"?t="+new Date().getTime();// 
+            }            
+          });
 
         }
         else {

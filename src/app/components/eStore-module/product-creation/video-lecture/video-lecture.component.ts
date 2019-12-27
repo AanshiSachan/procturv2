@@ -231,7 +231,7 @@ export class VideoLectureComponent implements OnInit {
               console.log(response);
               this.materialData = response;
               console.log(this.materialData);
-              this.materialData.forEach(element => {
+              this.materialData && this.materialData.forEach(element => {
                 element.isExpand = false;
                 if (element.subjectsList) {
                   element.subjectsList.forEach((subject) => {
