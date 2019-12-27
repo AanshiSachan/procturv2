@@ -793,6 +793,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   closeRemiderClass() {
+    this.reminderRemarks = '';
     this.isReminderPop = false;
   }
 
