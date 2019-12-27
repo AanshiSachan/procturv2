@@ -1216,8 +1216,8 @@ export class EnquiryHomeComponent implements OnInit {
         }
     }
 
-     /* push new sms template to server and update the table */
-     addNewEmailTemplate() {
+    /* push new sms template to server and update the table */
+    addNewEmailTemplate() {
         if (this.selectedSMS.message.trim() == '') {
             this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter a valid text message');
         }

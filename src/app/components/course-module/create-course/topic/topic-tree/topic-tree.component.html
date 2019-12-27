@@ -6,7 +6,8 @@
   </div>
   <div class="filter_div">
     <div class="field-wrapper">
-      <label>Standard<span class="text-danger">*</span></label>
+      <label *ngIf="!isProfessional">Standard<span class="text-danger">*</span></label>
+      <label *ngIf="isProfessional">Master Course<span class="text-danger">*</span></label>
       <div class="dropdown-div">
         <select class="dropdown" [(ngModel)]="filterData.standard_id" (change)="getAllSubjectListFromServer($event.target.value)"> 
           <option value="-1"></option>
@@ -15,7 +16,8 @@
       </div>
     </div>
     <div class="field-wrapper">
-      <label>Subject<span class="text-danger">*</span></label>
+      <label *ngIf="!isProfessional">Subject<span class="text-danger">*</span></label>
+      <label *ngIf="isProfessional">Course<span class="text-danger">*</span></label>
       <div class="dropdown-div">
         <select class="dropdown" [(ngModel)]="filterData.subject_id">
             <option value="-1"></option>
@@ -48,7 +50,8 @@
       <div class="modal-body">
         <div class="model_body_div">
           <div class="field-wrapper">
-            <label>Standard Name<span class="text-danger">*</span></label>
+            <label *ngIf="!isProfessional">Standard Name<span class="text-danger">*</span></label>
+            <label *ngIf="isProfessional">Master Course<span class="text-danger">*</span></label>
             <div class="dropdown-div">
               <select class="dropdown" [(ngModel)]="addTopic.standard_id" (change)="getAllSubjectList($event.target.value)">
                 <option value="-1">   Select Standard </option>
@@ -57,7 +60,8 @@
             </div>
           </div>
           <div class="field-wrapper">
-            <label>Subject Name<span class="text-danger">*</span></label>
+            <label *ngIf="!isProfessional">Subject Name<span class="text-danger">*</span></label>
+            <label *ngIf="isProfessional">Course<span class="text-danger">*</span></label>
             <div class="dropdown-div">
               <select class="dropdown"  [(ngModel)]="addTopic.subject_id">
                 <option value="-1"> Select Subject </option>
@@ -98,7 +102,7 @@
          </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn" style="color: indianred;" (click)="deleteTopicObject()">Delete </button>
+        <button type="button" class="btn" style="color: indianred;" [disabled]="disableDeleteBtn" (click)="deleteTopicObject()">Delete </button>
         <button type="button" class="btn" data-dismiss="modal" (click)="clearObject()">Cancel</button>
       </div>
     </div>

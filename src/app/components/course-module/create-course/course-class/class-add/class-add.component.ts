@@ -118,6 +118,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     end_hour: '1 PM',
     end_minute: '00',
     desc: '',
+    topics_covered: '',
   }
   addExtraClass = {
     date: moment().format("YYYY-MM-DD"),
@@ -126,6 +127,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     end_hour: '1 PM',
     end_minute: '00',
     desc: '',
+    topics_covered: '',
   }
 
   mainStartTime = {
@@ -168,6 +170,15 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   IsTopicSelectedMode: string = 'add';
   subject_name = '';
 
+  topicsList : any = [];
+  showTopicsModal = false;
+  totalTopicsList: any = [];
+  selectedTopics: any = '' //join ids by '|'
+  selectedTopicsNames: any = '';
+  selectedTopicsListObj: any = []; //checked item list --> batch modal
+  selectedSubjectInBatch: any ;
+  showCustomEditModal: boolean = false;
+  getSubjectObject: any ='';
   weeklyScheduleCan = {
     date: moment().format("YYYY-MM-DD"),
     cancel_note: '',
@@ -586,6 +597,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
 
 
   filterSubjectBatches(ev) {
+    console.log(ev);
     this.isRippleLoad = true;
     this.classService.getStandardSubjectList(this.fetchMasterBatchModule.standard_id, ev, this.fetchMasterBatchModule.assigned).subscribe(
       res => {
@@ -608,11 +620,17 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         }
         else {
         }
+        this.getSubjectName(ev);
       },
       err => {
 
       }
     )
+  }
+
+  getSubjectName(ev){
+    this.selectedSubjectInBatch = '';
+    this.selectedSubjectInBatch = this.courseModelSubList.find(elem => elem.subject_id == ev).subject_name;
   }
 
 
@@ -900,6 +918,232 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         )
       }
     }
+  }
+
+  fetchTopics(){
+    this.isRippleLoad = true;
+    this.totalTopicsList = [];
+    this.topicService.getAllTopicsSubTopics(this.fetchMasterBatchModule.subject_id).subscribe((resp)=>{
+      this.topicsList = [];
+      this.topicsList = resp;
+      if(this.topicsList.length && this.topicsList != null){
+        this.showTopicsModal = true;
+        this.isRippleLoad = false;
+        this.topicsList.forEach(tpc =>{
+          this.totalTopicsList.push(tpc);
+          tpc.checked = false;
+          if(tpc.subTopic.length){
+            this.getAllTopics(tpc.subTopic)
+          }
+        })
+        
+      }
+      else {
+        this.isRippleLoad = false;        
+        this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to Link");
+      }
+    },err =>{
+      this.isRippleLoad = false;
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+    })
+  }
+
+  getAllTopics(topic){
+    topic.forEach(obj =>{
+      this.totalTopicsList.push(obj);
+      obj.checked = false;
+      if(obj.subTopic.length){
+        this.getAllTopics(obj.subTopic)
+      }
+    })
+  }
+
+  selectTopics(topic,event){  
+    topic.checked = !topic.checked;
+      if(topic.subTopic.length){
+        this.checkAllSubTopics(topic.subTopic, event.target.checked);
+      } 
+      if(!event.target.checked){
+        if(topic.parentTopicId != 0){
+          this.uncheckParent(topic);
+        }
+      }
+      this.checkParents(topic);      
+  }
+  
+  //uncheck parent if any of the child is deselected
+  uncheckParent(topic){
+    var getParentTopic = this.totalTopicsList.find(obj => obj.topicId == topic.parentTopicId);
+    if(getParentTopic !=undefined){
+      getParentTopic.checked = false;
+      if(getParentTopic.parentTopicId != 0){
+        this.uncheckParent(getParentTopic)
+      }
+    }
+  }
+  //check parent if all subtopics are checked
+  checkParents(topic){
+    var checkAll: boolean = true;
+    if(this.totalTopicsList.find(el => el.topicId == topic.topicId) != undefined){
+      var parentTopic = this.totalTopicsList.find(ele => ele.topicId == topic.parentTopicId);
+      if(parentTopic != undefined){
+      if(parentTopic.subTopic.length){
+        parentTopic.subTopic.forEach(subTpc =>{
+          if(!subTpc.checked){
+            checkAll = false;
+          }
+        });
+        if(checkAll){
+          parentTopic.checked = true;
+          if(parentTopic.parentTopicId != 0){
+            this.checkParents(parentTopic)
+          }
+        }
+      }
+    }
+    }
+  }
+ 
+  fetchSelectedTopics(){
+    this.isRippleLoad = true;
+    this.showTopicsModal= true;
+    this.selectedTopicsListObj.forEach(obj =>{
+      var getTopicObject = this.totalTopicsList.find(ele => ele.topicId == obj.topicId);
+      getTopicObject.checked = true;
+    });
+    this.isRippleLoad = false;
+  }
+
+  saveSelectedTopics(){
+    /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics selected");
+    }
+    else { */
+     this.isRippleLoad = true;
+     this.selectedTopicsListObj = [];
+     this.selectedTopicsListObj = this.totalTopicsList.filter(obj => obj.checked == true);
+     if(this.selectedTopicsListObj !=undefined){
+     this.selectedTopics = this.selectedTopicsListObj.map(obj=>{
+       return obj.topicId;
+     })
+     this.selectedTopics = this.selectedTopics.join('|');
+     this.selectedTopicsNames = this.selectedTopicsListObj.map(obj =>{
+       return obj.topicName;
+     });
+     this.selectedTopicsNames = this.selectedTopicsNames.join(',');
+    }
+     this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Topics linked successfully!");
+     this.isRippleLoad = false;
+     this.showTopicsModal = false;
+   // }
+  }
+  // check/uncheck all subtopics if parent is checked/unchecked
+  checkAllSubTopics(topic,param){
+    topic.forEach(obj =>{
+      if(param){
+      obj.checked = true;
+      }
+      else{
+        obj.checked = false
+      }
+      if(obj.subTopic.length){
+        this.checkAllSubTopics(obj.subTopic,param);
+      }
+    })
+  }
+
+  
+  closeTopicModal(){
+    this.showTopicsModal = false;
+  }
+  toggleArrow(topic){
+    topic.isExpand = !(topic.isExpand);
+  }
+  linkTopics(){
+    /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics selected");
+    } 
+    else { */
+      this.isRippleLoad = true;
+      var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
+      var getTopicIds;
+      if(getSelectedTopics != undefined){
+      getTopicIds = getSelectedTopics.map(obj =>{
+        return obj.topicId;
+      })
+      getTopicIds = getTopicIds.join('|')
+      this.getSubjectObject.topics_covered = getTopicIds;
+    
+      if(this.batchFrequency == 2){
+       this.customTable.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
+      }
+      else {
+        this.extraClassTable.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
+      }
+    }
+      this.msgService.showErrorMessage('success', '', "Topics updated successfully");
+      this.showTopicsModal = false;
+      this.isRippleLoad = false;
+
+    //}
+  }
+
+  editTopics(row){
+   console.log('inside edit topics:',row);
+   this.getSubjectObject = '';
+   this.getSubjectObject = row;
+   this.isRippleLoad = true;
+   if(row.topics_covered != '' && row.topics_covered != null){
+   var selectedTopicIds = row.topics_covered.split('|');
+   }
+   var list = [];
+   this.topicService.getAllTopicsSubTopics(this.fetchMasterBatchModule.subject_id).subscribe(res =>{
+     this.topicsList = [];
+     this.topicsList = res;
+     if(this.topicsList != null && this.topicsList.length){
+      this.showTopicsModal = true;
+      this.showCustomEditModal = true;
+       this.isRippleLoad = false;
+       this.topicsList.forEach(obj =>{
+        list.push(obj);
+        if(selectedTopicIds !=undefined){
+         if(selectedTopicIds.indexOf((obj.topicId).toString()) > -1){
+           obj.checked = true;
+         }
+        }
+         if(obj.subTopic.length){
+           this.fetchAllTopics(obj.subTopic,list,selectedTopicIds);
+         }
+        
+       });  
+       this.totalTopicsList = [];
+       this.totalTopicsList = list     
+     }
+     else {
+      this.isRippleLoad = false;
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', "No topics available to Link");
+     }
+   },err => {
+    this.isRippleLoad = false;
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+  })
+  }
+
+ 
+  fetchAllTopics(topic,list,idList){
+    topic.forEach(key =>{
+      if(idList !=undefined && idList != null){
+      if(idList.indexOf((key.topicId).toString()) > -1){
+        key.checked = true;
+      }
+    }
+      list.push(key);  
+      if(key.subTopic.length){
+        this.fetchAllTopics(key.subTopic,list,idList)
+      }
+     
+    });
+    
   }
 
   topicListingForAlreadyLinkedTopics(row, subject_id, preSelectedTopics) {
@@ -1843,6 +2087,8 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     obj.batch_id = this.batchDetails.batch_id;
     obj.schd_id = 0;
     obj.is_attendance_marked = 'N';
+    obj.topics_covered = this.selectedTopics;
+    obj.topicName= this.selectedTopicsNames;
     this.customTable.push(obj);
     this.custom = {
       date: moment().format("YYYY-MM-DD"),
@@ -1850,8 +2096,12 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       start_minute: '00',
       end_hour: '1 PM',
       end_minute: '00',
-      desc: ''
+      desc: '',
+      topics_covered: ''
     }
+    this.selectedTopicsListObj = [];
+    this.selectedTopics = '';
+    this.selectedTopicsNames = '';
   }
 
 
@@ -1871,6 +2121,8 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     } else {
       this.createCustomClasses();
     }
+    this.selectedTopics = '';
+    this.selectedTopicsListObj = [];
   }
 
   makeJsonForCustomClass() {
@@ -1886,6 +2138,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         t.start_time = this.customTable[i].start_time;
         t.end_time = this.customTable[i].end_time;
         t.note = this.customTable[i].note;
+        t.topics_covered = this.customTable[i].topics_covered;
         t.schd_id = this.customTable[i].schd_id;
         let testStart: any = this.convertTimeToHourMinMeridian(t.start_time);
         let testStart1: any = this.convertTimeToHourMinMeridian(t.end_time);
@@ -1921,7 +2174,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       this.classService.createCustomBatchPUT(data).subscribe(
         res => {
           this.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Details Updated Successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Class scheduled successfully!');
           this.showWarningPopup = false;
           this.updateTableDataAgain();
         },
@@ -1939,7 +2192,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       this.isRippleLoad = true;
       this.classService.createWeeklyBatchPost(data).subscribe(
         res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Details Updated Successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Class scheduled successfully!');
           this.showWarningPopup = false
           this.isRippleLoad = false;
           this.updateTableDataAgain();
@@ -1981,6 +2234,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     obj.batch_id = this.batchDetails.batch_id;
     obj.schd_id = 0;
     obj.is_attendance_marked = 'N';
+    obj.topics_covered = this.selectedTopics;
     this.extraClassTable.push(obj);
     this.addExtraClass = {
       date: moment().format("YYYY-MM-DD"),
@@ -1989,7 +2243,10 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       end_hour: '1 PM',
       end_minute: '00',
       desc: '',
+      topics_covered: '',
     }
+    this.selectedTopics = '';
+    this.selectedTopicsListObj = [];
   }
 
   updateExtraClass() {
@@ -2005,6 +2262,8 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     } else {
       this.serverCallPOST(data);
     }
+    this.selectedTopicsListObj = [];
+    this.selectedTopics = '';
   }
 
   makeJsonForExtraClass() {
@@ -2021,6 +2280,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         t.end_time = this.extraClassTable[i].end_time;
         t.note = this.extraClassTable[i].note;
         t.schd_id = this.extraClassTable[i].schd_id;
+        t.topics_covered = this.extraClassTable[i].topics_covered
         let testStart: any = this.convertTimeToHourMinMeridian(t.start_time);
         let testStart1: any = this.convertTimeToHourMinMeridian(t.end_time);
         let start = this.convertIntoFullClock(testStart.hour, testStart.minute, testStart.meridian);

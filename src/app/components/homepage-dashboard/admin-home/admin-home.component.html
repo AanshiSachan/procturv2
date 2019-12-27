@@ -127,8 +127,8 @@
                       <ul class="sche-head" *ngIf="isProfessional">
                         <li class="timings">Timings</li>
                         <li class="cls-type">Class type</li>
-                        <li class="class_room">Class Room</li>
                         <li class="batch">Batch</li>
+                        <li class="class_room">Linked Topic</li>
                         <li class="faculty">Faculty</li>
                         <li class="action" style="text-align: center;">Action</li>
                       </ul>
@@ -260,15 +260,18 @@
                                 <!-- <span class="class-type-status" [ngClass]="getClassStatus(class)" >ongoing</span> -->
                               </div>
                             </li>
+                           
+                            <li class="batch">
+                              <div><span title="{{class.batch_name}}">{{ (class.batch_name.length > 15) ? (class.batch_name | slice:0:15)+'..':(class.batch_name) }} </span></div>
+                            </li>
                             <li class="class_room">
-                              <div>
+                              <!-- <div>
                                 <span>
                                   {{class.class_room_name}}
                                 </span>
-                              </div>
-                            </li>
-                            <li class="batch">
-                              <div><span title="{{class.batch_name}}">{{ (class.batch_name.length > 15) ? (class.batch_name | slice:0:15)+'..':(class.batch_name) }} </span></div>
+                              </div> -->
+                              <div title="{{class.topicName}}" *ngIf="class.topicName != null && class.topicName != ''">{{(class.topicName.length > 15) ? (class.topicName | slice:0:15)+ '..':(class.topicName)}}</div>
+                              <div *ngIf="class.topicName == '' || class.topicName == null">-</div>
                             </li>
                             <li class="faculty">
                               <div>{{class.teacher_name}}</div>

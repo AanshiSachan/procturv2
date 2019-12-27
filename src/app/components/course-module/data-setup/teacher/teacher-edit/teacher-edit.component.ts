@@ -240,8 +240,8 @@ export class TeacherEditComponent implements OnInit {
         this.route.navigateByUrl('/view/course/setup/teacher');
       },
       err => {
-        this.messageToast('error', '', err.error.message);
         this.isRippleLoad = false;
+        this.messageToast('error', '', err.error.message);
       }
     )
   }
@@ -328,8 +328,8 @@ export class TeacherEditComponent implements OnInit {
         }
       },
       err => {
-        this.messageToast('error', '', err.error.message);
         this.isRippleLoad = false;
+        this.messageToast('error', '', err.error.message);
       }
     )
   }

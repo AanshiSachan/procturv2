@@ -14,6 +14,8 @@ export class TopicListComponent implements OnInit {
   @Output() eventHandler = new EventEmitter<any>();
   @Output() editView = new EventEmitter();
 
+  disableAddBtn: boolean = false;
+
   constructor(private _toastPopup: MessageShowService) { }
 
   ngOnInit() {
@@ -61,15 +63,19 @@ export class TopicListComponent implements OnInit {
 
 
   addEditSubtopicDetails(topic, type) {
+    this.disableAddBtn = true;
     if (topic.name == "") {
       this._toastPopup.showErrorMessage('error', '', "please add subtopic name");
+    this.disableAddBtn = false;
       return;
     }
     this.eventAction(type, topic);
   }
 
   eventAction(type, topic) {
+  
     this.editView.emit({ 'data': topic, option: type });
+    this.disableAddBtn = false;
     // console.log(topic);
   }
 

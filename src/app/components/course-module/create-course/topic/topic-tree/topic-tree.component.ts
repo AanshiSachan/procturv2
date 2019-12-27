@@ -4,6 +4,7 @@ import { HttpService } from '../../../../../services/http.service'
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { Subject } from 'rxjs/Subject';
 import { MessageShowService } from '../../../../../services/message-show.service';
+
 declare var $;
 
 /**
@@ -17,6 +18,7 @@ declare var $;
 export class TopicTreeComponent implements OnInit {
 
   isRippleLoad: boolean = false;
+  isProfessional: boolean = false;
   option_type: string = 'Add';
   institute_id: any;
   subjectData: any[] = [];
@@ -25,6 +27,7 @@ export class TopicTreeComponent implements OnInit {
   subjectList: Topic[] = [];
   teacher_id: any = -1;
   addTopic: Create_Topic = new Create_Topic();
+  disableDeleteBtn: boolean = false;
   temp_object: any;
   filterData = {
     standard_id: -1,
@@ -39,6 +42,16 @@ export class TopicTreeComponent implements OnInit {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
     });
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isProfessional = true;
+        }
+        else {
+          this.isProfessional = false;
+        }
+      })
+      console.log('model typ:',this.isProfessional);
   }
 
   ngOnInit() {
@@ -173,22 +186,23 @@ export class TopicTreeComponent implements OnInit {
         break;
       }
       case 'Subtopic': {
+        this.isRippleLoad = true;
         let object = $event.data;
         object.subject_id = this.filterData.subject_id;
         object.standard_id = this.filterData.standard_id;
-        this.isRippleLoad = true;
+       // this.isRippleLoad = true;
         let url = "/api/v1/topic_manager/add/" + this.institute_id;
         this._http.postData(url, object).subscribe(
           (data: any) => {
             this.isRippleLoad = false;
-            this._toastPopup.showErrorMessage('success', '', "Topic Subtopic Successfully");
+            this._toastPopup.showErrorMessage('success', '', "Subtopic added successfully");
             if ((this.filterData.standard_id != -1) && (this.filterData.subject_id != -1)) {
               this.getTopicDetails(null);
             }
           },
           (error: any) => {
             this.isRippleLoad = false;
-            this._toastPopup.showErrorMessage('error', '', "Something went wrong try again ");
+            this._toastPopup.showErrorMessage('error', '', error.error.message);
             console.log(error);
           }
         );
@@ -198,6 +212,7 @@ export class TopicTreeComponent implements OnInit {
 
   //delete object
   deleteTopicObject() {
+    this.disableDeleteBtn = true;
     let url = "/api/v1/topic_manager/" + this.institute_id + "/" + this.temp_object.topicId;
     this._http.deleteData(url, null).subscribe(
       (res: any) => {
@@ -205,11 +220,13 @@ export class TopicTreeComponent implements OnInit {
         $('#DeleteTopic').modal('hide');
         this._toastPopup.showErrorMessage('success', '', "Topic Deleted Successfully");
         this.getTopicDetails(null);
+        this.disableDeleteBtn = false;
       },
       (err: any) => {
         this.isRippleLoad = false;
         console.log(err);
         this._toastPopup.showErrorMessage('error', '', err.error.message);
+        this.disableDeleteBtn = false;
       });
 
   }
@@ -299,7 +316,9 @@ export class TopicTreeComponent implements OnInit {
             this.subjectList = data;
           }
         }
-        console.log(data);
+        if(!data.length || data == null){
+          this._toastPopup.showErrorMessage('info','', 'No topics linked')
+        }
       },
       (error: any) => {
         this.isRippleLoad = false;
@@ -315,7 +334,7 @@ export class TopicTreeComponent implements OnInit {
     else {
       for (let i = 0; i < topic.subTopic.length; i++) {
         let object = topic.subTopic[i];
-        let subject = subjectList.subTopic[i];
+        let subject = subjectList != undefined ?  subjectList.subTopic[i] : '';
         object.addSubtopic = subject && subject.addSubtopic ? subject.addSubtopic : [];
         if (subject && subject.addSubtopic && subject.addSubtopic[0]) {
           let add_sub_object = subject.addSubtopic[0];
