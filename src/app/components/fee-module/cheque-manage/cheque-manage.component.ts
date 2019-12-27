@@ -636,7 +636,7 @@ export class ChequeManageComponent implements OnInit {
   downloadReceipt(r) {
     let link = document.getElementById("invoiceDownloader");
     let body = r;
-    let byteArr = this.commonService.convertBase64ToArray(body.document);
+    let byteArr = this._commService.convertBase64ToArray(body.document);
     let format = body.format;
     let fileName = body.docTitle;
     let file = new Blob([byteArr], { type: 'application/pdf' });
