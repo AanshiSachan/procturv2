@@ -201,6 +201,24 @@ export class ManageCampaignComponent implements OnInit {
       if(this.tempLeadlist[i].converted == 1){
         this.tempLeadlist[i].converted_status = "Converted";
       }
+      if(this.tempLeadlist[i].name.length == 0){
+        this.tempLeadlist[i].name = "-";
+      }
+      if(this.tempLeadlist[i].email.length == 0){
+        this.tempLeadlist[i].email = "-";
+      }
+      if(this.tempLeadlist[i].address.length == 0){
+        this.tempLeadlist[i].address = "-";
+      }
+      if(this.tempLeadlist[i].city.length == 0){
+        this.tempLeadlist[i].city = "-";
+      }
+      if(this.tempLeadlist[i].referred_name.length == 0){
+        this.tempLeadlist[i].referred_name = "-";
+      }
+      if(this.tempLeadlist[i].source_name.length == 0){
+        this.tempLeadlist[i].source_name = "-";
+      }
     }
     this.tempLeadlist.map(
       (ele: any) => {
@@ -549,8 +567,10 @@ export class ManageCampaignComponent implements OnInit {
   toggleFilter(){
     var x = document.getElementById("advance_filter");
     if (x.style.display == "none" || x.style.display == "") {
+      x.style.display = "flex";
       this.jsonFlag.toggle = true;
     } else {
+      x.style.display = "none";
       this.jsonFlag.toggle = false;
     }
   }
