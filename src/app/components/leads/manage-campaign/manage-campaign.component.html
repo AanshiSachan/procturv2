@@ -219,7 +219,7 @@
 
   <section>
     <div class="filter-container">
-      <div class="filter-first-row-container" [ngClass]="(toggle)? 'show-filter' : 'hide-filter'">
+      <div class="filter-first-row-container" [ngClass]="(jsonFlag.toggle)? 'show-filter' : 'hide-filter'">
         <div class="filter-item field-wrapper">
           <input type="text" class="form-ctrl" name="" value="" placeholder="Name" [(ngModel)]="filters.stundetName">
         </div>
@@ -229,7 +229,7 @@
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filters.campaignName">
             <option value="-1">Select Campaign</option>
-            <option title="{{campaign.list_name}}" [value]="campaign.list_id" *ngFor="let campaign of campaignList">{{ (campaign.list_name.length > 20) ? (campaign.list_name | slice:0:20) + '...' : campaign.list_name }}</option>
+            <option title="{{campaign.list_name}}" [value]="campaign.list_id" *ngFor="let campaign of campaignList">{{ (campaign.list_name.length > 30) ? (campaign.list_name | slice:0:30) + '...' : campaign.list_name }}</option>
           </select>
         </div>
         <div class="filter-item" style="width: 8%;" id="searchBtn1">
@@ -239,17 +239,17 @@
           <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Show Advance Filter</button>
         </div>
       </div>
-      <div class="filter-second-row-container" id="advance_filter" [ngClass]="(toggle)? 'show-filter' : 'hide-filter'">
+      <div class="filter-second-row-container" id="advance_filter" [ngClass]="(jsonFlag.toggle)? 'show-filter' : 'hide-filter'">
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filters.referredBy">
             <option value="-1">Select Referred By</option>
-            <option title="{{referred.name}}" [value]="referred.id" *ngFor="let referred of referredByList">{{ (referred.name.length > 20) ? (referred.name | slice:0:20) + '...' : referred.name }}</option>
+            <option title="{{referred.name}}" [value]="referred.id" *ngFor="let referred of referredByList">{{ (referred.name.length > 30) ? (referred.name | slice:0:30) + '...' : referred.name }}</option>
           </select>
         </div>
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filters.source">
             <option value="-1">Select Source</option>
-            <option title="{{source.name}}" [value]="source.id" *ngFor="let source of sourceList">{{source.name}} {{ (source.name.length > 20) ? (source.name | slice:0:20) + '...' : source.name }}</option>
+            <option title="{{source.name}}" [value]="source.id" *ngFor="let source of sourceList">{{ (source.name.length > 30) ? (source.name | slice:0:30) + '...' : source.name }}</option>
           </select>
         </div>
         <div class="filter-item field-wrapper">
@@ -332,29 +332,41 @@
             <span>{{lead.mobile}}</span>
           </div>
           <div class="value-item lg-item">
-            <span title="{{lead.name}}">{{ (lead.name.length > 15) ? (lead.name | slice:0:15) + '...' : lead.name }}</span>
+            <span *ngIf="lead.name.length == 0">-</span>
+            <span *ngIf="lead.name.length != 0" title="{{lead.name}}">{{ (lead.name.length > 15) ? (lead.name | slice:0:15) + '...' : lead.name }}</span>
           </div>
           <div class="value-item lg-item">
-            <span title="{{lead.email}}">{{ (lead.email.length > 15) ? (lead.email | slice:0:15) + '...' : lead.email }}</span>
+            <span *ngIf="lead.email.length == 0">-</span>
+            <span *ngIf="lead.email.length != 0" title="{{lead.email}}">{{ (lead.email.length > 15) ? (lead.email | slice:0:15) + '...' : lead.email }}</span>
           </div>
           <div class="value-item lg-item">
-            <span>{{lead.city}}</span>
+            <span *ngIf="lead.city.length == 0">-</span>
+            <span *ngIf="lead.city.length != 0">{{lead.city}}</span>
           </div>
           <div class="value-item lg-item">
-            <span title="{{lead.address}}">{{ (lead.address.length > 15) ? (lead.address | slice:0:15) + '...' : lead.address }}</span>
+            <span *ngIf="lead.address.length == 0">-</span>
+            <span *ngIf="lead.address.length != 0" title="{{lead.address}}">{{ (lead.address.length > 15) ? (lead.address | slice:0:15) + '...' : lead.address }}</span>
           </div>
           <div class="value-item sm-item align-center">
-            <span>{{lead.gender}}</span>
+            <span *ngIf="lead.gender.length == 0">-</span>
+            <span *ngIf="lead.gender.length != 0">{{lead.gender}}</span>
           </div>
           <div class="value-item lg-item align-center">
-            <span>{{lead.referred_name}}</span>
+            <span *ngIf="lead.referred_name.length == 0">-</span>
+            <span *ngIf="lead.referred_name.length != 0">{{lead.referred_name}}</span>
           </div>
           <div class="value-item lg-item align-center">
-            <span>{{lead.source_name}}</span>
+            <span *ngIf="lead.source_name.length == 0">-</span>
+            <span *ngIf="lead.source_name.length != 0">{{lead.source_name}}</span>
           </div>
           <div class="value-item lg-item align-center">
-            <i class="fa fa-pencil edit-lead" title="Edit Lead" *ngIf="lead.converted == 0" data-toggle="modal" data-target="#editLead" aria-hidden="true" (click)="editLeadRow(lead)"></i>
-            <i class="fa fa-trash delete-lead" title="Delete Lead" *ngIf="lead.converted == 0" aria-hidden="true" (click)="deleteLead(lead)"></i>
+            <div *ngIf="lead.converted == 0">
+              <i class="fa fa-pencil edit-lead" title="Edit Lead" *ngIf="lead.converted == 0" data-toggle="modal" data-target="#editLead" aria-hidden="true" (click)="editLeadRow(lead)"></i>
+              <i class="fa fa-trash delete-lead" title="Delete Lead" *ngIf="lead.converted == 0" aria-hidden="true" (click)="deleteLead(lead)"></i>
+            </div>
+            <div *ngIf="lead.converted != 0">
+              <span >-</span>
+            </div>
           </div>
         </div>
         <div class="no-records" *ngIf="leadsList?.length == 0">
