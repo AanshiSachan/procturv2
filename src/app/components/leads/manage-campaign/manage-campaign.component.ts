@@ -18,6 +18,7 @@ export class ManageCampaignComponent implements OnInit {
     isRippleLoad: false,
   };
 
+  // Search filter variables
   filters = {
     stundetName: "",
     contactNumber: "",
@@ -28,7 +29,6 @@ export class ManageCampaignComponent implements OnInit {
   };
 
   leadSearchInput: any;
-
   campaignList: any;
   referredByList: any;
   sourceList: any;
@@ -41,6 +41,7 @@ export class ManageCampaignComponent implements OnInit {
   selectedSMSList: any[] = [];
 
   // leads variables
+  //Add lead
   addLead = {
     phone: "",
     name: "",
@@ -51,7 +52,7 @@ export class ManageCampaignComponent implements OnInit {
     referredBy: "-1",
     source: "-1"
   };
-
+  // Edit lead
   editLead = {
     phone: "",
     name: "",
@@ -65,6 +66,7 @@ export class ManageCampaignComponent implements OnInit {
     base_id: ""
   };
 
+  // remove
   showEditLead: boolean = false;
   showSMS: boolean = false;
 
@@ -73,7 +75,7 @@ export class ManageCampaignComponent implements OnInit {
   displayBatchSize: number = 100;
   totalCount: number = 0;
   sizeArr: any[] = [20, 50, 100, 150, 200, 500];
-
+  startindex: number = 0;
 
   constructor(
     private campaignService: CampaignService,
@@ -127,11 +129,13 @@ export class ManageCampaignComponent implements OnInit {
         this.jsonFlag.isRippleLoad = false;
       }
     );
-    this.searchCampaign();
+    this.searchCampaign(this.startindex);
   }
 
-  searchCampaign(){
-    // this.pageIndex = 1;
+  searchCampaign(index){
+    if(index == 0){
+      this.pageIndex = 1;
+    }
     this.checkedIds = [];
     this.jsonFlag.isRippleLoad = true;
     let obj = {
@@ -141,42 +145,7 @@ export class ManageCampaignComponent implements OnInit {
     	"list_id":  this.filters.campaignName,
     	"source_id": this.filters.source,
     	"referred_by": this.filters.referredBy,
-      "start_index": this.pageIndex,
-      "batch_size": 100
-
-    }
-
-    this.campaignService.searchLeads(obj).subscribe(
-      res => {
-        let result: any;
-        result = res;
-        this.jsonFlag.isRippleLoad = false;
-        this.leadsList = res;
-        this.tempLeadlist = res;
-        this.totalCount = 0;
-        if(result.length > 0){
-          this.totalCount = this.leadsList[0].totalCount;
-        }
-      },
-      err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        this.jsonFlag.isRippleLoad = false;
-      }
-    );
-  }
-
-  searchCampaign1(){
-    this.pageIndex = 1;
-    this.checkedIds = [];
-    this.jsonFlag.isRippleLoad = true;
-    let obj = {
-      "assigned_to": this.filters.assignedTo,
-      "name": "" + this.filters.stundetName + "",
-      "mobile": this.filters.contactNumber,
-      "list_id":  this.filters.campaignName,
-      "source_id": this.filters.source,
-      "referred_by": this.filters.referredBy,
-      "start_index": 1,
+      "start_index": index,
       "batch_size": 100
     }
     this.campaignService.searchLeads(obj).subscribe(
@@ -198,9 +167,7 @@ export class ManageCampaignComponent implements OnInit {
     );
   }
 
-
-
-  searchDatabase(){   // search in the array for search input string
+  searchDatabase(){   // quick search
     this.leadsList = this.tempLeadlist;
     if (this.leadSearchInput == undefined || this.leadSearchInput == null) {
       this.leadSearchInput = "";
@@ -244,9 +211,9 @@ export class ManageCampaignComponent implements OnInit {
     this._pdfService.exportToPdf(rows, columns, 'Leads List');
   }
 
+  // checkbox checked/unchecked activiity
   rowCheckBoxClick(row){
     let validate_check = false;
-
     for(let i = 0; i < this.checkedIds.length; i++){
       if(this.checkedIds[i] == row.base_id){
         this.checkedIds.splice(i,1);
@@ -260,6 +227,7 @@ export class ManageCampaignComponent implements OnInit {
     }
   }
 
+  // check all checkbox
   checkAllLead(event){
     this.checkedIds = [];
     let event_flag = event.target.checked;
@@ -274,7 +242,7 @@ export class ManageCampaignComponent implements OnInit {
     }
   }
 
-
+  // fetch promotional msg and show pop up
   showPromoSMS(){
     if(this.checkedIds.length == 0){
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No lead is selected. Kindly select at least one!');
@@ -313,6 +281,7 @@ export class ManageCampaignComponent implements OnInit {
     }
   }
 
+// Send checked msg
   sendSMS(){
     if(this.selectedSMSList.length == 0){
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No SMS is selected. Kindly select at least one!')
@@ -334,7 +303,7 @@ export class ManageCampaignComponent implements OnInit {
             element[i].style.display = "none";
           }
           this.checkedIds = [];
-          this.searchCampaign();
+          this.searchCampaign(this.startindex);
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
@@ -350,6 +319,7 @@ export class ManageCampaignComponent implements OnInit {
     }
   }
 
+  // Convert lead to enq
   convertToEnq(){
     if(this.checkedIds.length == 0){
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No lead is selected. Kindly select at least one!')
@@ -363,7 +333,7 @@ export class ManageCampaignComponent implements OnInit {
         res => {
           this.jsonFlag.isRippleLoad = false;
           this.checkedIds = [];
-          this.searchCampaign();
+          this.searchCampaign(this.startindex);
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
@@ -373,6 +343,7 @@ export class ManageCampaignComponent implements OnInit {
     }
   }
 
+  //  Delete multiple leads
   deleteMultipleLeads(){
     if(this.checkedIds.length == 0){
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No lead is selected. Kindly select at least one!')
@@ -384,10 +355,10 @@ export class ManageCampaignComponent implements OnInit {
       this.jsonFlag.isRippleLoad = true;
       this.campaignService.deleteMultiLeads(obj).subscribe(
         res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead(s) archived successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead(s) deleted successfully!');
           this.jsonFlag.isRippleLoad = false;
           this.checkedIds = [];
-          this.searchCampaign();
+          this.searchCampaign(this.startindex);
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
@@ -397,60 +368,58 @@ export class ManageCampaignComponent implements OnInit {
     }
   }
 
-  // CRUD of leads
+  // CRUD operation on leads
 
-  saveNewLead(){
-    var validation_flag = true;
+  saveNewLead(){   // validation
+
     if (this.addLead.phone != null && this.addLead.phone != "") {
-      if(this.addLead.phone.length != 10){
+      if(this.addLead.phone.length == 10){
+        if(this.addLead.source != "-1"){
+          this.addNewLead()
+        }
+        else{
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select source details');
+        }
+      }
+      else{
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter valid phone number');
-        validation_flag = false;
       }
     }
     else{
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter contact details');
-      validation_flag = false;
-    }
-
-    if(this.addLead.source == "-1"){
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select source details');
-      validation_flag = false;
-    }
-    // if(!this.validateEmail(this.addLead.emailId)){
-    //   validation_flag = this.validateEmail(this.addLead.emailId)
-    // }
-    if(validation_flag){
-      let obj = {
-        "name": this.addLead.name,
-      	"mobile": this.addLead.phone,
-      	"address": this.addLead.address,
-      	"email": this.addLead.emailId,
-      	"gender": this.addLead.gender,
-      	"city": this.addLead.city,
-      	"source_id": this.addLead.source,
-      	"referred_by": this.addLead.referredBy
-      };
-      this.jsonFlag.isRippleLoad = true;
-      this.campaignService.createLead(obj).subscribe(
-        res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead added successfully');
-          this.jsonFlag.isRippleLoad = false;
-          document.getElementById("addLead").style.display = "none";
-          let element = document.getElementsByClassName('modal-backdrop') as HTMLCollectionOf<HTMLElement>;
-          for(let i = 0; i < element.length; i++){
-            element[i].style.display = "none";
-          }
-          this.clearLeadForm();
-          this.searchCampaign();
-        },
-        err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          this.jsonFlag.isRippleLoad = false;
-        }
-      );
     }
   }
 
+  addNewLead(){
+    let obj = {
+      "name": this.addLead.name,
+      "mobile": this.addLead.phone,
+      "address": this.addLead.address,
+      "email": this.addLead.emailId,
+      "gender": this.addLead.gender,
+      "city": this.addLead.city,
+      "source_id": this.addLead.source,
+      "referred_by": this.addLead.referredBy
+    };
+    this.jsonFlag.isRippleLoad = true;
+    this.campaignService.createLead(obj).subscribe(
+      res => {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead added successfully');
+        this.jsonFlag.isRippleLoad = false;
+        document.getElementById("addLead").style.display = "none";
+        let element = document.getElementsByClassName('modal-backdrop') as HTMLCollectionOf<HTMLElement>;
+        for(let i = 0; i < element.length; i++){
+          element[i].style.display = "none";
+        }
+        this.clearLeadForm();
+        this.searchCampaign(this.startindex);
+      },
+      err => {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+        this.jsonFlag.isRippleLoad = false;
+      }
+    );
+  }
 
   editLeadRow(row){
     this.editLead.name = row.name;
@@ -463,7 +432,6 @@ export class ManageCampaignComponent implements OnInit {
     this.editLead.referredBy = row.referred_by;
     this.editLead.list_id = row.list_id;
     this.editLead.base_id = row.base_id;
-
     this.showEditLead = true;
   }
 
@@ -479,9 +447,6 @@ export class ManageCampaignComponent implements OnInit {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter contact details');
       validation_flag = false;
     }
-    // if(!this.validateEmail(this.editLead.emailId)){
-    //   validation_flag = this.validateEmail(this.editLead.emailId)
-    // }
     if(validation_flag){
       let obj = {
         "name": this.editLead.name,
@@ -506,7 +471,7 @@ export class ManageCampaignComponent implements OnInit {
             element[i].style.display = "none";
           }
           this.clearEditLeadForm();
-          this.searchCampaign();
+          this.searchCampaign(this.startindex);
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
@@ -523,7 +488,7 @@ export class ManageCampaignComponent implements OnInit {
         res => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead deleted successfully');
           this.jsonFlag.isRippleLoad = false;
-          this.searchCampaign();
+          this.searchCampaign(this.startindex);
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
@@ -574,32 +539,18 @@ export class ManageCampaignComponent implements OnInit {
   fectchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
-    this.searchCampaign();
+    this.searchCampaign(startindex);
   }
 
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
     this.pageIndex = 1;
     this.displayBatchSize = parseInt(num);
-    this.searchCampaign();
-  }
-
-  validateEmail(email) {
-    if (email != '' && email != null) {
-      var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-      if (reg.test(email)) {
-        return true;
-      }
-      else {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter valid email address');
-        return false;
-      }
-    } else {
-      return true;
-    }
+    this.searchCampaign(this.startindex);
   }
 
   toggleFilter(){
+    // ngClass
     var x = document.getElementById("advance_filter");
     if (x.style.display == "none" || x.style.display == "") {
       x.style.display = "flex";

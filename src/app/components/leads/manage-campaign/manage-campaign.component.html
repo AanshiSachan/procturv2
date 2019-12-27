@@ -179,7 +179,9 @@
         <h4 class="modal-title">Send Promotional SMS</h4>
       </div>
       <div class="modal-body">
-        <p>Message*</p>
+        <p>Message
+          <span class="text-danger">*</span>
+        </p>
         <div class="msg-list-container">
           <div class="msg-item" *ngFor="let msg of promoSMSList; let i = index;">
             <div class="msg-checkbox field-checkbox-wrapper">
@@ -227,11 +229,11 @@
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filters.campaignName">
             <option value="-1">Select Campaign</option>
-            <option [value]="campaign.list_id" *ngFor="let campaign of campaignList">{{campaign.list_name}}</option>
+            <option title="{{campaign.list_name}}" [value]="campaign.list_id" *ngFor="let campaign of campaignList">{{ (campaign.list_name.length > 15) ? (campaign.list_name | slice:0:15) + '...' : campaign.list_name }}</option>
           </select>
         </div>
         <div class="filter-item" style="width: 8%;" id="searchBtn1">
-          <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign1()">Search</button>
+          <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign(0)">Search</button>
         </div>
         <div class="filter-item" id="advBtn1">
           <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Show Advance Filter</button>
@@ -241,13 +243,13 @@
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filters.referredBy">
             <option value="-1">Select Referred By</option>
-            <option [value]="referred.id" *ngFor="let referred of referredByList">{{referred.name}}</option>
+            <option title="{{referred.name}}" [value]="referred.id" *ngFor="let referred of referredByList">{{ (referred.name.length > 15) ? (referred.name | slice:0:15) + '...' : referred.name }}</option>
           </select>
         </div>
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filters.source">
             <option value="-1">Select Source</option>
-            <option [value]="source.id" *ngFor="let source of sourceList">{{source.name}}</option>
+            <option title="{{source.name}}" [value]="source.id" *ngFor="let source of sourceList">{{source.name}} {{ (source.name.length > 15) ? (source.name | slice:0:15) + '...' : source.name }}</option>
           </select>
         </div>
         <div class="filter-item field-wrapper">
@@ -257,7 +259,7 @@
           </select>
         </div>
         <div class="filter-item" style="width: 8%;" id="searchBtn2">
-          <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign1()">Search</button>
+          <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign(0)">Search</button>
         </div>
         <div class="filter-item" id="advBtn2">
           <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Hide Advance Filter</button>
@@ -276,7 +278,7 @@
         <button type="button" name="button" class="add-student-btn" data-toggle="modal" data-target="#addLead">Add Lead</button>
       </div>
       <div class="activity-item">
-        <button type="button" name="button" class="download-btn" (click)="downloadPdf()">
+        <button type="button" title="Download PDF" name="button" class="download-btn" (click)="downloadPdf()">
           <i class="fa fa-download" aria-hidden="true"></i>
           PDF
         </button>
@@ -351,8 +353,8 @@
             <span>{{lead.source_name}}</span>
           </div>
           <div class="value-item lg-item align-center">
-            <i class="fa fa-pencil edit-lead" *ngIf="lead.converted == 0" data-toggle="modal" data-target="#editLead" aria-hidden="true" (click)="editLeadRow(lead)"></i>
-            <i class="fa fa-trash delete-lead" *ngIf="lead.converted == 0" aria-hidden="true" (click)="deleteLead(lead)"></i>
+            <i class="fa fa-pencil edit-lead" title="Edit Lead" *ngIf="lead.converted == 0" data-toggle="modal" data-target="#editLead" aria-hidden="true" (click)="editLeadRow(lead)"></i>
+            <i class="fa fa-trash delete-lead" title="Delete Lead" *ngIf="lead.converted == 0" aria-hidden="true" (click)="deleteLead(lead)"></i>
           </div>
         </div>
         <div class="no-records" *ngIf="leadsList?.length == 0">

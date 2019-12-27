@@ -152,7 +152,7 @@ export class CampaignHomeComponent implements OnInit {
     { id: 'subjects', name: 'Subject' }
   ]
 
-  studentdisplaysize: number = 10;
+  studentdisplaysize: number = 15;
   searchDataFlag: boolean = false;
   sourceCampaignDataSource: any = [];
   totalRow: number = 0;
