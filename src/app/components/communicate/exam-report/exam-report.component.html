@@ -94,7 +94,7 @@
 
                     <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
                         [tableName]="'Exam'" [settings]="projectSettings" (sortData)="sortedData($event)" [direction]="direction"
-                        [sortingEnabled]="sortingEnabled">
+                        [sortingEnabled]="sortingEnabled" [loaderState]="isRippleLoad">
                     </proctur-table>
                 </div>
                 <div class="row filter-res pagination" style="width: 100%;" *ngIf="!isProfessional">
@@ -126,7 +126,7 @@
                 <div class="poor">
                     <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name:pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
                         [tableName]="'Exam'" [settings]="projectSettings" [text]="examDesc" [viewText]="showTitle" (sortData)="sortedData($event)"
-                        [direction]="direction" [sortingEnabled]="sortingEnabled">
+                        [direction]="direction" [sortingEnabled]="sortingEnabled" [loaderState]="isRippleLoad">
                     </proctur-table>
                 </div>
 

@@ -45,7 +45,12 @@ export class PaymentHistoryComponent implements OnChanges {
 
   constructor(private getter: GetFeeService,
      private putter: PostFeeService,
+<<<<<<< HEAD
      private _commService:CommonServiceFactory) { }
+=======
+     private _commService: CommonServiceFactory
+     ) { }
+>>>>>>> v3attendance_report
 
   ngOnChanges() {
     this.feeData;
@@ -98,7 +103,7 @@ export class PaymentHistoryComponent implements OnChanges {
     this.getter.getReceiptById(obj).subscribe(
       res => {
         let body: any = res;
-        let byteArr = this.convertBase64ToArray(body.document);
+        let byteArr = this._commService.convertBase64ToArray(body.document);
         let format = body.format;
         let fileName = body.docTitle;
         let file = new Blob([byteArr], { type: 'application/pdf' });
@@ -115,16 +120,6 @@ export class PaymentHistoryComponent implements OnChanges {
     )
   }
 
-
-  convertBase64ToArray(val) {
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-  }
 
   getSubjectList(i) {
     console.log(i);

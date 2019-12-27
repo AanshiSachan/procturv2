@@ -67,7 +67,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
      private cd: ChangeDetectorRef,
      private router: Router,
      private _http: HttpService,
-     private commonService: CommonServiceFactory,
+     private _commService: CommonServiceFactory,
      private PostStudService:PostStudentDataService
     ) {
     this.auth.institute_type.subscribe(
@@ -130,7 +130,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
         this.showToggleLoader.emit(false);
         if(res){
           if(res.document!=""){
-            let byteArr = this.convertBase64ToArray(res.document);
+            let byteArr = this._commService.convertBase64ToArray(res.document);
             let fileName = res.docTitle;
             let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
             let url = URL.createObjectURL(file);
@@ -141,14 +141,14 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
             dwldLink.click();          
           }
           else{
-            this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
+            this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
           }
         }
-        else{ this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");}
+        else{ this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");}
       },
       err => {
         console.log(err);
-        this.commonService.showErrorMessage('info', 'Info', err.error.message);
+        this._commService.showErrorMessage('info', 'Info', err.error.message);
         this.showToggleLoader.emit(false);
       })
 }
@@ -163,7 +163,7 @@ downloadStudentIDCard() {
         if(res){
           let resp = res.response;
           if(resp.document!=""){
-            let byteArr = this.convertBase64ToArray(resp.document);
+            let byteArr = this._commService.convertBase64ToArray(resp.document);
             let fileName = 'card.pdf'; //res.docTitle;
             let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
             let url = URL.createObjectURL(file);
@@ -174,10 +174,10 @@ downloadStudentIDCard() {
             dwldLink.click();          
           }
           else{
-            this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
+            this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
           }
         }else{
-          this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
+          this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
         }
       },
       err => {
@@ -188,15 +188,6 @@ downloadStudentIDCard() {
   
    }
 
-   convertBase64ToArray(val) {
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-  }
 
   emitDelete() {
     this.cd.markForCheck();

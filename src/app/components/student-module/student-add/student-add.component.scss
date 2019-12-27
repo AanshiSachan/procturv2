@@ -2015,6 +2015,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .middle-right {
+  height: 62vh;
+  overflow-y: auto;
   width: 30%;
   box-sizing: $border-box;
   padding: 0 15px;

@@ -69,7 +69,7 @@
       <section class="sms-table-wrapper">
 
         <div class="table table-responsive student-table">
-          <proctur-table [dataStatus]="dataStatus" [records]="emailSource" [tableName]="'Email'" [settings]="projectSettings">
+          <proctur-table [dataStatus]="dataStatus" [loaderState]="isRippleLoad" [records]="emailSource" [tableName]="'Email'" [settings]="projectSettings">
           </proctur-table>
         </div>
 
