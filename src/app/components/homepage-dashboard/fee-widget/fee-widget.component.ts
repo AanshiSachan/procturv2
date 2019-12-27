@@ -54,7 +54,7 @@ export class FeeWidgetComponent implements OnInit {
     fetchDataForCountryDetails() {
         let countryCodeEncryptedData = sessionStorage.getItem('country_data');
         let temp = JSON.parse(countryCodeEncryptedData);
-          if (temp.length > 0) {
+          if (temp && temp.length > 0) {
             temp.forEach(element => {
                 if(element.is_default=='Y'){
                     this.instituteCountryDetObj =element;

@@ -232,7 +232,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         res => {
           console.log(res);
           this.checkForAuthOptions(res);
-          console.log(res.institution_id);
           if (res.institution_id != null) {
             this.getCountryDetails(res.institution_id);
           }
