@@ -46,6 +46,11 @@ export class FeeWidgetComponent implements OnInit {
         this.fetchDataForCountryDetails();
     }
 
+    ngOnChanges(){
+        this.cd.markForCheck();
+        this.fetchDataForCountryDetails();
+    }
+
     fetchDataForCountryDetails() {
         let countryCodeEncryptedData = sessionStorage.getItem('country_data');
         let temp = JSON.parse(countryCodeEncryptedData);
