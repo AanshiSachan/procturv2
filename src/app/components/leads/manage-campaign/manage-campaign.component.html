@@ -3,7 +3,7 @@
 </loaders-css>
 
 <!-- Modal -->
-<div id="editLead" class="modal" tabindex="-1" role="dialog" *ngIf="showEditLead" aria-hidden="true">
+<div id="editLead" class="modal" role="dialog">
   <div class="modal-dialog" role="document">
 
     <!-- Modal content-->
@@ -12,7 +12,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Update Lead</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="padding-top: 0px;">
         <div class="form-container">
 
           <div class="form-item field-wrapper">
@@ -94,7 +94,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Create Lead</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="padding-top: 0px;">
         <div class="form-container">
 
           <div class="form-item field-wrapper">
@@ -169,7 +169,7 @@
 </div>
 
 <!-- Modal -->
-<div id="SMS" class="modal" role="dialog" *ngIf="showSMS">
+<div id="SMS" class="modal" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -219,7 +219,7 @@
 
   <section>
     <div class="filter-container">
-      <div class="filter-first-row-container">
+      <div class="filter-first-row-container" [ngClass]="(toggle)? 'show-filter' : 'hide-filter'">
         <div class="filter-item field-wrapper">
           <input type="text" class="form-ctrl" name="" value="" placeholder="Name" [(ngModel)]="filters.stundetName">
         </div>
@@ -229,7 +229,7 @@
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filters.campaignName">
             <option value="-1">Select Campaign</option>
-            <option title="{{campaign.list_name}}" [value]="campaign.list_id" *ngFor="let campaign of campaignList">{{ (campaign.list_name.length > 15) ? (campaign.list_name | slice:0:15) + '...' : campaign.list_name }}</option>
+            <option title="{{campaign.list_name}}" [value]="campaign.list_id" *ngFor="let campaign of campaignList">{{ (campaign.list_name.length > 20) ? (campaign.list_name | slice:0:20) + '...' : campaign.list_name }}</option>
           </select>
         </div>
         <div class="filter-item" style="width: 8%;" id="searchBtn1">
@@ -239,17 +239,17 @@
           <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Show Advance Filter</button>
         </div>
       </div>
-      <div class="filter-second-row-container" id="advance_filter">
+      <div class="filter-second-row-container" id="advance_filter" [ngClass]="(toggle)? 'show-filter' : 'hide-filter'">
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filters.referredBy">
             <option value="-1">Select Referred By</option>
-            <option title="{{referred.name}}" [value]="referred.id" *ngFor="let referred of referredByList">{{ (referred.name.length > 15) ? (referred.name | slice:0:15) + '...' : referred.name }}</option>
+            <option title="{{referred.name}}" [value]="referred.id" *ngFor="let referred of referredByList">{{ (referred.name.length > 20) ? (referred.name | slice:0:20) + '...' : referred.name }}</option>
           </select>
         </div>
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filters.source">
             <option value="-1">Select Source</option>
-            <option title="{{source.name}}" [value]="source.id" *ngFor="let source of sourceList">{{source.name}} {{ (source.name.length > 15) ? (source.name | slice:0:15) + '...' : source.name }}</option>
+            <option title="{{source.name}}" [value]="source.id" *ngFor="let source of sourceList">{{source.name}} {{ (source.name.length > 20) ? (source.name | slice:0:20) + '...' : source.name }}</option>
           </select>
         </div>
         <div class="filter-item field-wrapper">
@@ -277,7 +277,7 @@
       <div class="activity-item">
         <button type="button" name="button" class="add-student-btn" data-toggle="modal" data-target="#addLead">Add Lead</button>
       </div>
-      <div class="activity-item">
+      <div class="activity-item" *ngIf="downloadEnquiryReportAccess">
         <button type="button" title="Download PDF" name="button" class="download-btn" (click)="downloadPdf()">
           <i class="fa fa-download" aria-hidden="true"></i>
           PDF
@@ -290,7 +290,7 @@
     <div class="student-list-table-container">
       <div class="list-heading-container">
         <div class="heading-item sm-item field-checkbox-wrapper" style="margin-top: 8px;">
-          <input type="checkbox" value="" id="check_all" name="check_all" class="form-checkbox" (click)="checkAllLead($event)">
+          <input type="checkbox" value="" id="check_all" name="check_all" class="form-checkbox" (click)="checkAllLead($event)" [(ngModel)]="checkAll">
           <label for="check_all"></label>
         </div>
         <div class="heading-item md-item">
@@ -325,7 +325,7 @@
         <div class="list-value-container" *ngFor="let lead of leadsList; let i = index; trackBy: i;" [ngClass]="{'converted-lead': lead.converted != '0'}">
           <div class="value-item sm-item field-checkbox-wrapper" style="margin-top: 8px;" >
             <input type="checkbox" (click)="rowCheckBoxClick(lead)" id="check{{i}}"
-              value="" name="" class="form-checkbox" *ngIf="lead.converted == 0">
+              value="" name="" class="form-checkbox" *ngIf="lead.converted == 0" [(ngModel)]="lead.select">
               <label for="check{{i}}" *ngIf="lead.converted == 0"></label>
           </div>
           <div class="value-item md-item">
@@ -378,7 +378,7 @@
       </div>
       <div class="campaign-action-btn-container">
         <div class="action-btn-item">
-          <button type="button" name="button" class="action-btn" data-toggle="modal" data-target="#SMS" (click)="showPromoSMS()">Send Promotional SMS</button>
+          <button type="button" name="button" class="action-btn" (click)="showPromoSMS()">Send Promotional SMS</button>
         </div>
         <div class="action-btn-item">
           <button type="button" name="button" class="action-btn" (click)="convertToEnq()">Convert to Enquiry</button>

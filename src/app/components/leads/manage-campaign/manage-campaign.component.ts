@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { MessageShowService } from '../../../services/message-show.service';
 import { CampaignService } from '../services/campaign.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
+declare var $;
 
 @Component({
   selector: 'app-manage-campaign',
@@ -16,6 +17,7 @@ export class ManageCampaignComponent implements OnInit {
     isProfessional: false,
     institute_id: '',
     isRippleLoad: false,
+    toggle: false
   };
 
   // Search filter variables
@@ -66,9 +68,8 @@ export class ManageCampaignComponent implements OnInit {
     base_id: ""
   };
 
-  // remove
-  showEditLead: boolean = false;
-  showSMS: boolean = false;
+  checkAll: boolean = false;
+  downloadEnquiryReportAccess = false;
 
   // FOR PAGINATION
   pageIndex: number = 1;
@@ -85,6 +86,13 @@ export class ManageCampaignComponent implements OnInit {
 
   ngOnInit() {
     this.fetchPreFillData();
+    this.checkRoleAccess();
+  }
+
+  checkRoleAccess() {
+    if(sessionStorage.getItem('downloadEnquiryReportAccess') == 'true'){
+        this.downloadEnquiryReportAccess = true;
+    }
   }
 
   fetchPreFillData(){
@@ -140,7 +148,7 @@ export class ManageCampaignComponent implements OnInit {
     this.jsonFlag.isRippleLoad = true;
     let obj = {
       "assigned_to": this.filters.assignedTo,
-    	"name": "" + this.filters.stundetName + "",
+    	"name": this.filters.stundetName,
     	"mobile": this.filters.contactNumber,
     	"list_id":  this.filters.campaignName,
     	"source_id": this.filters.source,
@@ -157,6 +165,11 @@ export class ManageCampaignComponent implements OnInit {
         this.tempLeadlist = res;
         this.totalCount = 0;
         if(result.length > 0){
+          for(let i = 0; i < this.leadsList.length; i++){
+            if(this.leadsList[i].converted == 0){
+              this.leadsList[i].select = false;
+            }
+          }
           this.totalCount = this.leadsList[0].totalCount;
         }
       },
@@ -217,8 +230,7 @@ export class ManageCampaignComponent implements OnInit {
     for(let i = 0; i < this.checkedIds.length; i++){
       if(this.checkedIds[i] == row.base_id){
         this.checkedIds.splice(i,1);
-        const ele = document.getElementById("check_all") as HTMLInputElement;
-        ele.checked = false;
+        this.checkAll = false;
         return validate_check = true;
       }
     }
@@ -232,9 +244,8 @@ export class ManageCampaignComponent implements OnInit {
     this.checkedIds = [];
     let event_flag = event.target.checked;
     for(let i = 0; i < this.leadsList.length; i++){
+      this.leadsList[i].select = event_flag;
       if(this.leadsList[i].converted == 0){
-        const ele = document.getElementById("check"+i) as HTMLInputElement;
-        ele.checked = event_flag;
         if(event_flag){
           this.checkedIds.push(this.leadsList[i].base_id)
         }
@@ -246,7 +257,7 @@ export class ManageCampaignComponent implements OnInit {
   showPromoSMS(){
     if(this.checkedIds.length == 0){
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No lead is selected. Kindly select at least one!');
-      this.showSMS = false;
+      $('#SMS').modal('hide');
     }
     else{
       let obj = {
@@ -254,7 +265,7 @@ export class ManageCampaignComponent implements OnInit {
   	     "sms_type": "Promotional"
       }
       this.jsonFlag.isRippleLoad = true;
-      this.showSMS = true;
+      $('#SMS').modal('show');
       this.campaignService.getPromoSMS(obj).subscribe(
         res => {
           this.promoSMSList = res;
@@ -296,24 +307,16 @@ export class ManageCampaignComponent implements OnInit {
         res => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Message has been sent successfully.');
           this.jsonFlag.isRippleLoad = false;
-          this.showSMS = false;
           this.selectedSMSList = [];
-          let element = document.getElementsByClassName('modal-backdrop') as HTMLCollectionOf<HTMLElement>;
-          for(let i = 0; i < element.length; i++){
-            element[i].style.display = "none";
-          }
+          $('#SMS').modal('hide');
           this.checkedIds = [];
           this.searchCampaign(this.startindex);
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           this.jsonFlag.isRippleLoad = false;
-          this.showSMS = false;
           this.selectedSMSList = [];
-          let element = document.getElementsByClassName('modal-backdrop') as HTMLCollectionOf<HTMLElement>;
-          for(let i = 0; i < element.length; i++){
-            element[i].style.display = "none";
-          }
+          $('#SMS').modal('hide');
         }
       );
     }
@@ -369,9 +372,7 @@ export class ManageCampaignComponent implements OnInit {
   }
 
   // CRUD operation on leads
-
   saveNewLead(){   // validation
-
     if (this.addLead.phone != null && this.addLead.phone != "") {
       if(this.addLead.phone.length == 10){
         if(this.addLead.source != "-1"){
@@ -406,11 +407,7 @@ export class ManageCampaignComponent implements OnInit {
       res => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead added successfully');
         this.jsonFlag.isRippleLoad = false;
-        document.getElementById("addLead").style.display = "none";
-        let element = document.getElementsByClassName('modal-backdrop') as HTMLCollectionOf<HTMLElement>;
-        for(let i = 0; i < element.length; i++){
-          element[i].style.display = "none";
-        }
+        $('#addLead').modal('hide');
         this.clearLeadForm();
         this.searchCampaign(this.startindex);
       },
@@ -432,53 +429,53 @@ export class ManageCampaignComponent implements OnInit {
     this.editLead.referredBy = row.referred_by;
     this.editLead.list_id = row.list_id;
     this.editLead.base_id = row.base_id;
-    this.showEditLead = true;
   }
 
   updateLead(){
-    var validation_flag = true;
     if (this.editLead.phone != null && this.editLead.phone != "") {
-      if(this.editLead.phone.length != 10){
+      if(this.editLead.phone.length == 10){
+        if(this.editLead.source != "-1"){
+          this.modifyLead();
+        }
+        else{
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select source details');
+        }
+      }
+      else{
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter valid phone number');
-        validation_flag = false;
       }
     }
     else{
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter contact details');
-      validation_flag = false;
     }
-    if(validation_flag){
-      let obj = {
-        "name": this.editLead.name,
-      	"mobile": this.editLead.phone,
-      	"address": this.editLead.address,
-      	"email": this.editLead.emailId,
-      	"gender": this.editLead.gender,
-      	"city": this.editLead.city,
-      	"source_id": this.editLead.source,
-      	"referred_by": this.editLead.referredBy,
-        "is_active": "Y"
-      };
-      this.jsonFlag.isRippleLoad = true;
-      this.campaignService.updateLead(obj, this.editLead.list_id, this.editLead.base_id).subscribe(
-        res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead updated successfully');
-          this.jsonFlag.isRippleLoad = false;
-          this.showEditLead = false;
-          document.getElementById("editLead").style.display = "none";
-          let element = document.getElementsByClassName('modal-backdrop') as HTMLCollectionOf<HTMLElement>;
-          for(let i = 0; i < element.length; i++){
-            element[i].style.display = "none";
-          }
-          this.clearEditLeadForm();
-          this.searchCampaign(this.startindex);
-        },
-        err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          this.jsonFlag.isRippleLoad = false;
-        }
-      );
-    }
+  }
+
+  modifyLead(){
+    let obj = {
+      "name": this.editLead.name,
+      "mobile": this.editLead.phone,
+      "address": this.editLead.address,
+      "email": this.editLead.emailId,
+      "gender": this.editLead.gender,
+      "city": this.editLead.city,
+      "source_id": this.editLead.source,
+      "referred_by": this.editLead.referredBy,
+      "is_active": "Y"
+    };
+    this.jsonFlag.isRippleLoad = true;
+    this.campaignService.updateLead(obj, this.editLead.list_id, this.editLead.base_id).subscribe(
+      res => {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead updated successfully');
+        this.jsonFlag.isRippleLoad = false;
+        $('#editLead').modal('hide');
+        this.clearEditLeadForm();
+        this.searchCampaign(this.startindex);
+      },
+      err => {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+        this.jsonFlag.isRippleLoad = false;
+      }
+    );
   }
 
   deleteLead(row){
@@ -550,22 +547,11 @@ export class ManageCampaignComponent implements OnInit {
   }
 
   toggleFilter(){
-    // ngClass
     var x = document.getElementById("advance_filter");
     if (x.style.display == "none" || x.style.display == "") {
-      x.style.display = "flex";
-      document.getElementById("searchBtn1").style.display = "none";
-      document.getElementById("advBtn1").style.display = "none";
-      document.getElementById("searchBtn2").style.display = "block";
-      document.getElementById("advBtn2").style.display = "block";
-      document.getElementById("lead-value-container").style.minHeight = "57vh";
+      this.jsonFlag.toggle = true;
     } else {
-      x.style.display = "none";
-      document.getElementById("searchBtn1").style.display = "block";
-      document.getElementById("advBtn1").style.display = "block";
-      document.getElementById("searchBtn2").style.display = "none";
-      document.getElementById("advBtn2").style.display = "none";
-      document.getElementById("lead-value-container").style.minHeight = "61vh";
+      this.jsonFlag.toggle = false;
     }
   }
 }

@@ -38,6 +38,35 @@
   }
 }
 
+.show-filter{
+  #searchBtn1, #advBtn1{
+    display: none;
+  }
+  #searchBtn2, #advBtn2{
+    display: block;
+  }
+  #lead-value-container{
+    min-height: 57vh;
+  }
+  #advance_filter{
+    display: flex;
+  }
+}
+.hide-filter{
+  #searchBtn1, #advBtn1{
+    display: block;
+  }
+  #searchBtn2, #advBtn2{
+    display: none;
+  }
+  #lead-value-container{
+    min-height: 61vh;
+  }
+  #advance_filter{
+    display: none;
+  }
+}
+
 .campaign-activity-container{
   display: flex;
   flex-direction: row;
@@ -280,5 +309,4 @@
       border: 1px solid #ccc;
     }
   }
-
 }
