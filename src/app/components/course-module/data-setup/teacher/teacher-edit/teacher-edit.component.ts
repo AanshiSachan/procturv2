@@ -241,6 +241,7 @@ export class TeacherEditComponent implements OnInit {
       },
       err => {
         this.messageToast('error', '', err.error.message);
+        this.isRippleLoad = false;
       }
     )
   }
@@ -327,12 +328,8 @@ export class TeacherEditComponent implements OnInit {
         }
       },
       err => {
-<<<<<<< HEAD
         this.messageToast('error', '', err.error.message);
-=======
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', err.error.message);
->>>>>>> e5b43c559147123dffbe1d8781c6ec79e90da444
       }
     )
   }
