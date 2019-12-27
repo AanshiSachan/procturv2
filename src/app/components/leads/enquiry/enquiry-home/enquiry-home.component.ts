@@ -73,7 +73,12 @@ export class EnquiryHomeComponent implements OnInit {
     referredByData: any[] = [];
     sizeArr: any[] = [25, 50, 100, 150, 200, 500];
     commentFormData: any = {};
-
+    emailGridData: any = [];
+    EmailThumbnailUrl : any = '';
+    EmailGridSelectedObject: any = null;
+    selectedTableRow:any;
+    viewPopUp = false;
+    isSendGridEnable : boolean = false;
     /* Variable to handle popups */
     varJson: any = {
         message: '',
@@ -101,6 +106,7 @@ export class EnquiryHomeComponent implements OnInit {
     timeJson = { hour: '', minute: '', meridian: '' };
     isMainBranch: any = 'N';
     // smsSearchData: string = "";
+    emailSubject:string="";
     emptyCustomComponent: any;
     smsSelectedRowsLength: number = 0;
     flagJSON: any = {
@@ -125,7 +131,8 @@ export class EnquiryHomeComponent implements OnInit {
         subBranchSelected: false,
         summaryOptions: false,
         showDateRange: false,
-        showPreference: false
+        showPreference: false,
+        notificationType: 'SMS'
     }
     newSmsString = { data: "", type: "", };
     messageCount: number = 0;
@@ -299,8 +306,8 @@ export class EnquiryHomeComponent implements OnInit {
         { primaryKey: 'assigned_name', header: 'Asignee Name', priority: 9 },
         { primaryKey: 'follow_type', header: 'Follow Up Type', priority: 10 },
         { primaryKey: 'standard', header: 'Standard', priority: 11 },
-        { primaryKey: 'referred_by_name', header: 'Referred By', priority: 12},
-        { primaryKey: 'noOfCoursesAssigned', header: 'No. of Courses Assigned', priority: 12}
+        { primaryKey: 'referred_by_name', header: 'Referred By', priority: 12 },
+        { primaryKey: 'noOfCoursesAssigned', header: 'No. of Courses Assigned', priority: 12 }
     ];
     assignMultipleForm: any = {
         enqLi: [],
@@ -315,7 +322,7 @@ export class EnquiryHomeComponent implements OnInit {
         tableDetails: { title: 'Enquiry List', key: 'enquiry.home', showTitle: false },
         search: { title: 'Search', showSearch: false },
         keys: this.displayKeys,
-        selectAll: { showSelectAll: true,  option:'single',title: 'Select Enquiry', checked: false, key: 'enquiry_no' },
+        selectAll: { showSelectAll: true, option: 'single', title: 'Select Enquiry', checked: false, key: 'enquiry_no' },
         actionSetting: {},
         displayMessage: "Enter Detail to Search"
     };
@@ -605,12 +612,12 @@ export class EnquiryHomeComponent implements OnInit {
     }
 
     fetchReferredByData() {
-        let url = '/api/v1/enquiry_campaign/master/lead_referred_by/'+sessionStorage.getItem('institute_id')+'/all'
+        let url = '/api/v1/enquiry_campaign/master/lead_referred_by/' + sessionStorage.getItem('institute_id') + '/all'
         this.httpService.getData(url).subscribe(
-            (res:any)=>{
+            (res: any) => {
                 this.referredByData = res;
             },
-            err =>{
+            err => {
                 console.log(err);
             }
         )
@@ -785,6 +792,73 @@ export class EnquiryHomeComponent implements OnInit {
         removeClassNames.forEach(function (className) {
             document.getElementById(className).classList.remove('hide');
         });
+    }
+
+    /** set notification type */
+    sendNotificationType(type) {
+        this.flagJSON.notificationType = type;
+    }
+
+    showSendGridData(type) {
+        this.flagJSON.notificationType = type;
+        const url= `/api/v1/alerts/config/sendGrid/emailTemplate/${sessionStorage.getItem('institute_id')}`;
+        this.flagJSON.isRippleLoad = true;
+        this.emailGridData = [];
+        this.httpService.getData(url).subscribe(
+            (res:any)=> {
+                this.flagJSON.isRippleLoad = false;
+                this.emailGridData = res.result;
+                this.cd.markForCheck();
+            },
+            err => {
+                this.flagJSON.isRippleLoad = false;
+                console.log(err);
+            }
+        )
+        this.emailGridData.forEach(element => {
+            if(element.template_updated_date!=null || element.template_updated_date!=''){
+                element.template_updated_date = moment(element.template_updated_date).format('DD-MMM-YYYY');
+            }
+        });
+    }
+
+    opEmailGridSelected(object,i){
+        this.selectedTableRow = i;
+        this.EmailGridSelectedObject = object;
+    }
+
+    viewThumbnailUrl(url){
+        this.viewPopUp = true;
+        this.EmailThumbnailUrl = url;
+    }
+
+    closeViewPopUp() {
+        this.viewPopUp = false;
+      }
+
+    sendEmailGrid(){
+        if(this.EmailGridSelectedObject!=null || this.EmailGridSelectedObject!=undefined){
+        const url = `/api/v1/enquiry_manager/sendEmail/${sessionStorage.getItem('institute_id')}`;
+        const obj = {
+            baseIds: this.selectedRowGroup,
+            sendGridTemplateId:this.EmailGridSelectedObject.template_id
+        }
+        this.flagJSON.isRippleLoad = true;
+        this.httpService.postData(url,obj).subscribe(
+            (res:any) =>{
+                this.flagJSON.isRippleLoad = false;
+                this.showErrorMessage(this.messageService.toastTypes.success,'', res.message);
+                this.cd.markForCheck();
+            },
+            err =>{
+                this.flagJSON.isRippleLoad = false;
+                console.log(err);
+            }
+        )
+        } else{
+            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please select email template');
+        }
+        // this.httpService.postData(url,)
     }
 
     /* Function to close advanced filter */
@@ -1006,6 +1080,7 @@ export class EnquiryHomeComponent implements OnInit {
         this.enquire.fetchAllSms().subscribe(
             (data: any) => {
                 this.flagJSON.isRippleLoad = false;
+                this.isSendGridEnable = data[0].is_sendGrid_enable;
                 this.cd.markForCheck();
                 this.smsSourceApproved = [];
                 this.smsSourceOpen = [];
@@ -1040,10 +1115,12 @@ export class EnquiryHomeComponent implements OnInit {
                 this.flagJSON.smsBtnToggle = false;
                 this.flagJSON.isAllSelected = false;
                 this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
+                if(document.getElementById(id).classList){
                 if (!document.getElementById(id).classList.contains('active')) {
                     document.getElementById(id).classList.add('active');
                     document.getElementById('openSms').classList.remove('active');
                 }
+            }
             }
                 break;
             case 'openSms': {
@@ -1052,10 +1129,12 @@ export class EnquiryHomeComponent implements OnInit {
                 this.flagJSON.smsBtnToggle = false;
                 this.flagJSON.isAllSelected = true;
                 this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
+                if(document.getElementById(id).classList){
                 if (!document.getElementById(id).classList.contains('active')) {
                     document.getElementById(id).classList.add('active');
                     document.getElementById('approvedSms').classList.remove('active');
                 }
+            }
             }
                 break;
             default:
@@ -1090,7 +1169,7 @@ export class EnquiryHomeComponent implements OnInit {
     /* push new sms template to server and update the table */
     addNewSmsTemplate() {
         if (this.newSmsString.data.trim() == '') {
-            this.showErrorMessage(this.messageService.toastTypes.error, 'Empty Input', 'Please enter a valid text message');
+            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter a valid text message');
         }
         else {
             let sms = { feature_type: 2, message: this.newSmsString.data, sms_type: "Transactional" };
@@ -1132,6 +1211,68 @@ export class EnquiryHomeComponent implements OnInit {
                 err => {
                     this.flagJSON.isRippleLoad = false;
                     this.showErrorMessage('error', '', err.error.message);
+                }
+            )
+        }
+    }
+
+     /* push new sms template to server and update the table */
+     addNewEmailTemplate() {
+        if (this.selectedSMS.message.trim() == '') {
+            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter a valid text message');
+        }
+        if (this.emailSubject.trim() == '') {
+            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter the subject');
+        }
+        else {
+            let messageId = [];
+            messageId.push((this.selectedSMS.message_id).toString());
+            let email = {
+                "baseIds":this.selectedRowGroup,
+                "messageArray": messageId,
+                "subject": this.emailSubject
+            }
+            this.flagJSON.isRippleLoad = true;
+            this.cd.markForCheck();
+            this.postdata.addNewEmailTemplate(email).subscribe(
+                (res: any) => {
+                    this.flagJSON.isRippleLoad = false;
+                    this.cd.markForCheck();
+                    if (res.statusCode == 200) {
+                        this.showErrorMessage(this.messageService.toastTypes.success,res.message, '');
+                        this.cd.markForCheck();
+                        this.emailSubject = '';
+                        this.cd.markForCheck();
+                        this.enquire.fetchAllSms().subscribe(
+                            (data: any) => {
+                                this.cd.markForCheck();
+                                this.smsSourceApproved = [];
+                                this.smsSourceOpen = [];
+                                this.varJson.smsDataLength = data.length;
+                                this.varJson.availableSMS = data[0].institute_sms_quota_available
+                                this.cd.markForCheck();
+                                data.forEach(el => {
+                                    if (el.status == 1) {
+                                        this.cd.markForCheck();
+                                        this.smsSourceApproved.push(el);
+                                    }
+                                    else {
+                                        this.cd.markForCheck();
+                                        this.smsSourceOpen.push(el);
+                                    }
+                                })
+                            },
+                            err => {
+                                this.showErrorMessage('error', 'Error', err.error.message);
+                            }
+                        );
+                        this.cd.markForCheck();
+                    }
+                },
+                err => {
+                    this.flagJSON.isRippleLoad = false;
+                    this.cd.markForCheck();
+                    this.showErrorMessage('error', 'Error', 'Notification sender id not approved. Please contact to support team.');
                 }
             )
         }
@@ -1224,12 +1365,12 @@ export class EnquiryHomeComponent implements OnInit {
 
             switch (this.selectedSMS.statusValue) {
                 case 'Open': {
-                    this.showErrorMessage(this.messageService.toastTypes.warning, this.messageService.object.SMSMessages.notSend, 'Your sms template is pending approval, kindly contact support');
+                    this.showErrorMessage(this.messageService.toastTypes.warning, '', 'Your sms template is pending approval, kindly contact support');
                     this.cd.markForCheck();
                     break;
                 }
                 case 'Rejected': {
-                    this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.notSend, 'Your sms template has been rejected, kindly contact support');
+                    this.showErrorMessage(this.messageService.toastTypes.error, '', 'Your sms template has been rejected, kindly contact support');
                     this.cd.markForCheck();
                     break;
                 }
@@ -1241,13 +1382,16 @@ export class EnquiryHomeComponent implements OnInit {
                         this.varJson.sendSmsFormData.baseIds = this.selectedRowGroup;
                         this.varJson.sendSmsFormData.messageArray = messageId;
                         this.cd.markForCheck();
+                        this.flagJSON.isRippleLoad = true;
                         this.postdata.sendSmsToEnquirer(this.varJson.sendSmsFormData).subscribe(
                             res => {
-                                this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.sendSMS, "Your sms has been sent and will be delivered shortly");
+                                this.flagJSON.isRippleLoad = false;
+                                this.showErrorMessage(this.messageService.toastTypes.success,'', "SMS send successfully");
                                 this.cd.markForCheck();
                             },
                             err => {
-                                this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.notSend, "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
+                                this.flagJSON.isRippleLoad = false;
+                                this.showErrorMessage(this.messageService.toastTypes.error,'', "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
                                 this.cd.markForCheck();
                             }
                         )
@@ -1263,10 +1407,10 @@ export class EnquiryHomeComponent implements OnInit {
                         this.varJson.sendSmsFormData.messageArray = messageId;
                         this.postdata.sendSmsToEnquirer(this.varJson.sendSmsFormData).subscribe(
                             res => {
-                                this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.sendSMS, "Your sms has been sent and will be delivered shortly");
+                                this.showErrorMessage(this.messageService.toastTypes.success, '', "SMS send successfully");
                             },
                             err => {
-                                this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.notSend, "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
+                                this.showErrorMessage(this.messageService.toastTypes.error, '', "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
                             }
                         )
                     }
@@ -1295,6 +1439,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Close Bulk Enquiry Popup and clear the field records and state */
     closeBulkSms() {
+        this.emailSubject='';
         this.flagJSON.isMultiSms = false;
         this.flagJSON.isMessageAddOpen = false;
         this.flagJSON.smsBtnToggle = false;
@@ -2205,7 +2350,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     giveFullPermisionOfBulfAction() {
         this.bulkAddItems = [
-            { label: 'Send SMS', icon: 'fa-envelope-o', command: () => { this.sendBulkSms(); } },
+            { label: 'Send Notification', icon: 'fa-envelope-o', command: () => { this.sendBulkSms(); } },
             { label: 'Delete Enquiries', icon: 'fa-trash-o', command: () => { this.bulkDeleteEnquiries(); } },
             { label: 'Assign Enquiries', icon: 'fa-buysellads', command: () => { this.bulkAssignEnquiriesOpen(); } }
         ];
@@ -2436,7 +2581,7 @@ export class EnquiryHomeComponent implements OnInit {
 
         else if (checkerObj.prop == "Walkin") {
             if (checkerObj.checked) {
-                this.statusString =[];
+                this.statusString = [];
                 let stat = this.statusString.join(',');
                 this.advancedFilterForm.followUpDate = this.getDateFormated(new Date(), "YYYY-MM-DD");
                 this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "Walkin", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_statuses: stat, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };

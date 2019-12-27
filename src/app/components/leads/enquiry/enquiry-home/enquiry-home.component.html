@@ -24,10 +24,11 @@
           </div>
           <div class="btn-item">
             <button type="button" class="btn pull-right" name="button" (click)="flagJSON.isEnquiryOptions = !flagJSON.isEnquiryOptions">
-               More &nbsp;
+              More &nbsp;
               <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
             </button>
-            <div class="more-info-container"  [ngClass]="{'visibiltyClass':(flagJSON.isEnquiryAdmin == false)}"  *ngIf="flagJSON.isEnquiryOptions" (mouseleave)="flagJSON.isEnquiryOptions = false" #optMenu>
+            <div class="more-info-container" [ngClass]="{'visibiltyClass':(flagJSON.isEnquiryAdmin == false)}" *ngIf="flagJSON.isEnquiryOptions"
+              (mouseleave)="flagJSON.isEnquiryOptions = false" #optMenu>
               <div class="more-info-item" (click)="downloadAllEnquiries()">
                 <i class="fa fa-file-excel-o" aria-hidden="true"></i>
                 &nbsp;
@@ -75,8 +76,8 @@
             <!-- Advance Filter Trigger -->
             <div class="c-lg-3 c-md-3 c-sm-3">
               <span class="filter-right" style="float: right;margin-right: 20px;margin-top: 10px;">
-                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advance
-                  Filter</a>
+                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advance Filter
+                </a>
                 <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide" (click)="closeAdFilter()">
                   <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
                       <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
@@ -87,15 +88,31 @@
                           <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)" />
                       </g>
                   </svg> -->
-                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 469.785 469.785" style="enable-background:new 0 0 469.785 469.785;" xml:space="preserve">
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                    viewBox="0 0 469.785 469.785" style="enable-background:new 0 0 469.785 469.785;" xml:space="preserve">
                     <g transform="matrix(1.25 0 0 -1.25 0 45)">
-                    	<g>
-                    		<g>
-                    			<path style="fill:#DD2E44;" d="M228.294-151.753L367.489-12.558c11.116,11.105,11.116,29.116,0,40.22     c-11.105,11.116-29.104,11.116-40.22,0L188.073-111.533L48.866,27.663c-11.093,11.116-29.116,11.116-40.22,0     c-11.105-11.105-11.105-29.116,0-40.22l139.207-139.196L8.338-291.268c-11.116-11.116-11.116-29.116,0-40.22     c5.552-5.564,12.834-8.34,20.116-8.34c7.27,0,14.552,2.776,20.105,8.34l139.514,139.514l139.196-139.196     c5.564-5.552,12.834-8.34,20.116-8.34c7.27,0,14.552,2.788,20.105,8.34c11.116,11.105,11.116,29.104,0,40.22L228.294-151.753z"/>
-                    		</g>
-                    	</g>
+                      <g>
+                        <g>
+                          <path style="fill:#DD2E44;" d="M228.294-151.753L367.489-12.558c11.116,11.105,11.116,29.116,0,40.22     c-11.105,11.116-29.104,11.116-40.22,0L188.073-111.533L48.866,27.663c-11.093,11.116-29.116,11.116-40.22,0     c-11.105-11.105-11.105-29.116,0-40.22l139.207-139.196L8.338-291.268c-11.116-11.116-11.116-29.116,0-40.22     c5.552-5.564,12.834-8.34,20.116-8.34c7.27,0,14.552,2.776,20.105,8.34l139.514,139.514l139.196-139.196     c5.564-5.552,12.834-8.34,20.116-8.34c7.27,0,14.552,2.788,20.105,8.34c11.116,11.105,11.116,29.104,0,40.22L228.294-151.753z"
+                          />
+                        </g>
+                      </g>
                     </g>
-                    <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g>
                     </g>
                   </svg>
                   Close Advance Filter
@@ -182,8 +199,7 @@
             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="flagJSON.isProfessional">
               <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                 <label for="assignCourses">Slots</label>
-                <input id="slot" type="text" [ngModel]="varJson.selectedSlotsString" name="slots" class="form-ctrl"
-                  readonly="true" />
+                <input id="slot" type="text" [ngModel]="varJson.selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
 
               </div>
               <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
@@ -192,8 +208,8 @@
                     <li *ngFor="let slot of slots">
                       <div class="field-checkbox-wrapper">
 
-                        <input type="checkbox" value="" name="slotLabel" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)"
-                          class="form-checkbox" id="slotLabel">
+                        <input type="checkbox" value="" name="slotLabel" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox"
+                          id="slotLabel">
                         <label for="slotLabel">{{slot.label}}</label>
                       </div>
                     </li>
@@ -308,8 +324,7 @@
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper">
                 <label for="cityList">City</label>
-                <select id="cityList" class="form-ctrl" [(ngModel)]="advancedFilterForm.city" name="cityList"
-                  (ngModelChange)="onCitySelection($event)">
+                <select id="cityList" class="form-ctrl" [(ngModel)]="advancedFilterForm.city" name="cityList" (ngModelChange)="onCitySelection($event)">
                   <option value=""></option>
                   <option *ngFor="let obj of cityList" [value]="obj.city">{{obj.city}}</option>
                 </select>
@@ -331,8 +346,8 @@
             <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper">
                 <label for="editStandard">Standard</label>
-                <select id="editStandard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id"
-                  (ngModelChange)="fetchEnquirySubject($event)" name="editStandard">
+                <select id="editStandard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchEnquirySubject($event)"
+                  name="editStandard">
                   <option value="-1"></option>
                   <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                 </select>
@@ -343,8 +358,7 @@
               <!-- subject Course -->
               <div class="field-wrapper">
                 <label for="forSubject">Subject</label>
-                <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.subjectIdArray"
-                  name="subject">
+                <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject">
                   <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">{{subject.subject_name}}</option>
                 </select>
               </div>
@@ -354,8 +368,7 @@
               <!-- masterCourse course -->
               <div class="field-wrapper">
                 <label for="editMc">Master Course</label>
-                <select id="editMc" class="form-ctrl" name="editMc" [(ngModel)]="advancedFilterForm.master_course_name"
-                  (ngModelChange)="courseMasterChange($event)">
+                <select id="editMc" class="form-ctrl" name="editMc" [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="courseMasterChange($event)">
                   <option value="-1"></option>
                   <option *ngFor="let master of masterCourseData" [value]="master.master_course">{{master.master_course}}</option>
                 </select>
@@ -366,8 +379,7 @@
               <!-- course course-->
               <div class="field-wrapper">
                 <label for="editCC">Course</label>
-                <select id="editCC" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.courseIdArray"
-                  name="editCC" multiple>
+                <select id="editCC" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.courseIdArray" name="editCC" multiple>
                   <option *ngFor="let cc of course_course" [value]="cc.course_id">{{cc.course_name}}</option>
                 </select>
               </div>
@@ -377,8 +389,8 @@
               <!-- master Professional -->
               <div class="field-wrapper">
                 <label for="editStandard">Master Course</label>
-                <select id="editStandard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id"
-                  (ngModelChange)="fetchEnquirySubject($event)" name="editStandard">
+                <select id="editStandard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchEnquirySubject($event)"
+                  name="editStandard">
                   <option value="-1"></option>
                   <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                 </select>
@@ -389,13 +401,13 @@
               <!-- course Professional -->
               <div class="field-wrapper">
                 <label for="forSubject">Course</label>
-                <select id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.subjectIdArray"
-                  name="subject" multiple>
+                <select id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject"
+                  multiple>
                   <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">{{subject.subject_name}}</option>
                 </select>
               </div>
             </div>
-            
+
             <!-- Referred By -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper">
@@ -413,8 +425,8 @@
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
                 <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
                   <label for="{{component.id}}">{{component.label}} </label>
-                  <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl"
-                    name="{{component.label}}" />
+                  <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
+                  />
 
                 </div>
               </div>
@@ -443,8 +455,8 @@
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
                 <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                   <label for="{{component.id}}">{{component.label}} </label>
-                  <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}"
-                    class="form-ctrl" readonly="true" />
+                  <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
+                    readonly="true" />
 
                 </div>
                 <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
@@ -479,12 +491,12 @@
             <div class="row">
               <div class="c-lg-12 c-md-12 c-sm-12">
                 <div class="field-wrapper pull-left">
-                  <input type="button" class="btn filterSearchBtn" value="Clear Filter" (click)="clearFilterAdvanced()"
-                    id="BtnClearAdvance" />
+                  <input type="button" class="btn filterSearchBtn" value="Clear Filter" (click)="clearFilterAdvanced()" id="BtnClearAdvance"
+                  />
                 </div>
                 <div class="field-wrapper pull-left">
-                  <input type="button" class="btn filterSearchBtn fullBlue" value="Search Now" (click)="filterAdvanced()"
-                    id="BtnFilterAdvance" />
+                  <input type="button" class="btn filterSearchBtn fullBlue" value="Search Now" (click)="filterAdvanced()" id="BtnFilterAdvance"
+                  />
                 </div>
 
               </div>
@@ -501,10 +513,10 @@
         <div class="" id="table-main" #tablemain>
           <div class="table-scroll-wrapper">
             <div class="">
-              <ng-robTable [records]="sourceEnquiry" [reset]="flagJSON.isSideBar" [defaultSort]="varJson.sortBy"
-                [tableName]="'enquiry'" [settings]="displayKeys" (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)"
-                [dataStatus]="varJson.fetchingDataMessage" [key1]="'followUpDate'" [primaryKey]="'institute_enquiry_id'"
-                (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
+              <ng-robTable [records]="sourceEnquiry" [reset]="flagJSON.isSideBar" [defaultSort]="varJson.sortBy" [tableName]="'enquiry'"
+                [settings]="displayKeys" (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="varJson.fetchingDataMessage"
+                [key1]="'followUpDate'" [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)"
+                (sortDirection)="getDirection($event)">
               </ng-robTable>
             </div>
           </div>
@@ -513,9 +525,9 @@
         <!-- Paginator Here -->
         <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-              [pagesToShow]="10" [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="sizeArr"
-              (sizeChange)="updateTableBatchSize($event)" [count]="varJson.totalEnquiry">
+            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+              [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)"
+              [count]="varJson.totalEnquiry">
             </pagination>
           </div>
 
@@ -531,16 +543,16 @@
         id="closeAnch1">
         <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
           focusable="false">
-          <path d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
-            class="large-icon" style="fill: currentColor"></path>
+          <path d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" class="large-icon"
+            style="fill: currentColor"></path>
         </svg>
       </a>
       <enquiry-sidebar *ngIf="flagJSON.isSideBar" [enqAssignTo]="enqAssignTo" [enquiryRow]="enquiryFullDetail" [row]="selectedRow"
-        [priorityArr]="enqPriority" [sourceList]="sources" [statusArr]="enqstatus" [customComp]="customCompid"
-        [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)" (cancelUpdate)="closeEnquiryFullDetails($event); false; $event.stopPropagation()"
-        [mainBranchAdmin]="isMainBranch" [subBranchAdmin]="flagJSON.subBranchSelected" [branchesList]="branchesList"
-        (getUserList)="branchUpdated($event)" [masterCourseData]="masterCourseData" [standardArr]="enqStd" [subjectArr]="enqSubject"
-        (fullEnquiryDetails)="completeEnquiryDeatils($event)" [closingReasonDataSource]="closingReasonDataSource">
+        [priorityArr]="enqPriority" [sourceList]="sources" [statusArr]="enqstatus" [customComp]="customCompid" [followupArr]="enqFollowType"
+        (updateEnq)="virtualUpdateEnquiry($event)" (cancelUpdate)="closeEnquiryFullDetails($event); false; $event.stopPropagation()"
+        [mainBranchAdmin]="isMainBranch" [subBranchAdmin]="flagJSON.subBranchSelected" [branchesList]="branchesList" (getUserList)="branchUpdated($event)"
+        [masterCourseData]="masterCourseData" [standardArr]="enqStd" [subjectArr]="enqSubject" (fullEnquiryDetails)="completeEnquiryDeatils($event)"
+        [closingReasonDataSource]="closingReasonDataSource">
       </enquiry-sidebar>
     </div>
   </aside>
@@ -554,8 +566,10 @@
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
-          <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-            <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+          <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
+            width="24px" x="0" y="0">
+            <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+              style="fill: currentColor"></path>
           </svg>
         </span>
         <div class="popup-content">
@@ -583,8 +597,10 @@
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
-          <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-            <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+          <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
+            width="24px" x="0" y="0">
+            <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+              style="fill: currentColor"></path>
           </svg>
         </span>
 
@@ -640,8 +656,8 @@
                 <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
                 <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
               </g>
-              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
-                transform="translate(1012 297)" />
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
             </g>
           </svg>
         </span>
@@ -653,8 +669,7 @@
               <!-- student has invoice and registered with status 11 -->
               <div class="enquiry-update-history" *ngIf="flagJSON.hasReceipt">
                 <h4>
-                  A payment towards the selected enquiry has been updated, you may download the receipt for your
-                  reference
+                  A payment towards the selected enquiry has been updated, you may download the receipt for your reference
                 </h4>
               </div>
 
@@ -667,8 +682,8 @@
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper has-value">
                         <label for="pDate">Payment Date</label>
-                        <input type="text" value="" id="pDate" class="form-ctrl bsDatepicker" [ngModel]="registrationForm.paymentDate"
-                          name="pDate" bsDatepicker readonly="true" />
+                        <input type="text" value="" id="pDate" class="form-ctrl bsDatepicker" [ngModel]="registrationForm.paymentDate" name="pDate"
+                          bsDatepicker readonly="true" />
                       </div>
                     </div>
                     <div class="c-lg-6 c-md-6 c-sm-6">
@@ -689,15 +704,14 @@
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper">
                         <label for="remark">Amount</label>
-                        <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount"
-                          name="remark" />
+                        <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount" name="remark" />
                       </div>
                     </div>
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper">
                         <label for="referenceNo">Reference No.</label>
-                        <input type="text" value="" id="referenceNo" class="form-ctrl" [(ngModel)]="registrationForm.reference"
-                          name="reference" />
+                        <input type="text" value="" id="referenceNo" class="form-ctrl" [(ngModel)]="registrationForm.reference" name="reference"
+                        />
                       </div>
                     </div>
                   </div>
@@ -705,8 +719,7 @@
 
                 <!-- status open, inprogress or converted but not closed-->
                 <h4 *ngIf="flagJSON.notClosednAdmitted">
-                  The requested enquiry has not yet been converted to student, please select the convert to student
-                  option from menu.
+                  The requested enquiry has not yet been converted to student, please select the convert to student option from menu.
                 </h4>
 
                 <!-- status closed-->
@@ -750,12 +763,12 @@
                     <li class="svg-icon" (click)="downloadReceiptPdf()">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="14362 435 26 22">
                         <g id="Group_1230" data-name="Group 1230" transform="translate(13654 -6)">
-                          <rect id="Rectangle_695" data-name="Rectangle 695" class="cls-1" width="26" height="22"
-                            transform="translate(708 441)" style="stroke:none" />
+                          <rect id="Rectangle_695" data-name="Rectangle 695" class="cls-1" width="26" height="22" transform="translate(708 441)" style="stroke:none"
+                          />
                           <g id="Symbol_12_5" data-name="Symbol 12 – 5" transform="translate(53 -16)">
                             <path id="Path_161" data-name="Path 161" class="cls-2" d="M21,32v3.158H1V32" transform="translate(657 442.842)" />
-                            <path id="Path_162" data-name="Path 162" class="cls-2" d="M8,19l6.316,6.316L20.632,19"
-                              transform="translate(653.684 449)" />
+                            <path id="Path_162" data-name="Path 162" class="cls-2" d="M8,19l6.316,6.316L20.632,19" transform="translate(653.684 449)"
+                            />
                             <line id="Line_124" data-name="Line 124" class="cls-2" y1="16.316" transform="translate(668 458)" />
                           </g>
                         </g>
@@ -819,8 +832,8 @@
                 <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
                 <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
               </g>
-              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
-                transform="translate(1012 297)" />
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
             </g>
           </svg>
         </span>
@@ -829,38 +842,38 @@
           <div class="update-enquiry-form overflowHidden">
             <div class="enquiry-update-history">
               <div class="field-wrapper" *ngIf="isMainBranch == 'Y' || flagJSON.subBranchSelected == true">
-                <div class="row" >
-                  <div class="c-lg-6 c-md-6 c-sm-6" >
-                      <label for="brchList">Branch</label>
-                      <select id="brchList" class="form-ctrl" name="brchList" [(ngModel)]="assignMultipleForm.source_instituteId" (ngModelChange)="branchUpdated(assignMultipleForm.source_instituteId)">
-                          <option value="-1"></option>
-                          <option *ngFor="let branch of branchesList" [value]="branch.institute_id">
-                              {{ branch.institute_name }}
-                          </option>
-                      </select>
+                <div class="row">
+                  <div class="c-lg-6 c-md-6 c-sm-6">
+                    <label for="brchList">Branch</label>
+                    <select id="brchList" class="form-ctrl" name="brchList" [(ngModel)]="assignMultipleForm.source_instituteId" (ngModelChange)="branchUpdated(assignMultipleForm.source_instituteId)">
+                      <option value="-1"></option>
+                      <option *ngFor="let branch of branchesList" [value]="branch.institute_id">
+                        {{ branch.institute_name }}
+                      </option>
+                    </select>
                   </div>
                   <div class="c-lg-4 c-md-4 c-sm-4">
-                      <label for="assignTo">Assign To</label>
-                      <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
-                        <option></option>
-                        <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
-                          {{ assigned.name }}
-                        </option>
-                      </select>
+                    <label for="assignTo">Assign To</label>
+                    <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
+                      <option></option>
+                      <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+                        {{ assigned.name }}
+                      </option>
+                    </select>
                   </div>
                 </div>
               </div>
               <div class="field-wrapper" style="max-width: 70%" *ngIf="isMainBranch=='N'">
-                  <div class="row" >
-                          <label for="assignTo">Assign To</label>
-                          <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
-                            <option></option>
-                            <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
-                              {{ assigned.name }}
-                            </option>
-                          </select>
-                    </div>
+                <div class="row">
+                  <label for="assignTo">Assign To</label>
+                  <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
+                    <option></option>
+                    <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+                      {{ assigned.name }}
+                    </option>
+                  </select>
                 </div>
+              </div>
             </div>
             <div class="">
               <div class="clearfix">
@@ -883,23 +896,17 @@
       <div class="popup-wrapper pos-rel" style="height: 80%;">
 
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-              </g>
-              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
-                transform="translate(1012 297)" />
-            </g>
+          <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px"
+            x="0" y="0">
+            <path class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+              style="fill: currentColor"></path>
           </svg>
         </span>
 
-        <div class="popup-content" >
-          <h2>Send SMS </h2>
+        <div class="popup-content">
+          <h2>Send SMS</h2>
           <div class="sms-form sms-popup-content">
             <div class="sms-update">
-
               <aside class="pull-left sms-table">
                 <div class="sms-top-section">
                   <!-- Create New SMS Toggler -->
@@ -919,9 +926,8 @@
                     <section class="clearFix new-sms-form">
                       <div class="row">
                         <div class="c-lg-8 pull-left new-sms-wrapper">
-                          <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox"
-                            aria-autocomplete="list" placeholder="Enter your SMS here" [(ngModel)]="newSmsString.data"
-                            aria-haspopup="true" value="" id="listTxt"></textarea>
+                          <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="Enter your SMS here"
+                            [(ngModel)]="newSmsString.data" aria-haspopup="true" value="" id="listTxt"></textarea>
                           <p>Message characters : {{newSmsString.data.length}}</p>
                         </div>
 
@@ -1044,23 +1050,19 @@
                 </div>
                 <div class="sms-preview-content">
                   <div class="field-sms-wrapper">
-                    <textarea placeholder="Select SMS to preview or edit to update template" rows="20" cols="1"
-                      autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" id="sms-content"
-                      value="" [(ngModel)]="selectedSMS.message" [disabled]="!flagJSON.smsBtnToggle"></textarea>
+                    <textarea placeholder="Select SMS to preview or edit to update template" rows="20" cols="1" autocomplete="off" role="textbox"
+                      aria-autocomplete="list" aria-haspopup="true" id="sms-content" value="" [(ngModel)]="selectedSMS.message"
+                      [disabled]="!flagJSON.smsBtnToggle"></textarea>
                   </div>
                 </div>
                 <div class="sms-preview-footer">
                   <div class="">
                     <div class="clearfix">
                       <aside class="popup-btn">
-                        <input type="button" value="Cancel Edit" class="btn" *ngIf="flagJSON.smsBtnToggle" (click)="cancelSmsEdit()"
-                          id="BtncancelSmsEdit">
-                        <input type="button" value="Save Template" class="fullBlue btn" *ngIf="flagJSON.smsBtnToggle"
-                          (click)="saveEditedSms()" id="BtnsaveEditedSms">
-                        <input type="button" value="Cancel" class="btn" *ngIf="!flagJSON.smsBtnToggle" (click)="closePopup()"
-                          id="Btncancel8">
-                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!flagJSON.smsBtnToggle"
-                          (click)="sendSmsTemplate()" id="BtnsendSms5">
+                        <input type="button" value="Cancel Edit" class="btn" *ngIf="flagJSON.smsBtnToggle" (click)="cancelSmsEdit()" id="BtncancelSmsEdit">
+                        <input type="button" value="Save Template" class="fullBlue btn" *ngIf="flagJSON.smsBtnToggle" (click)="saveEditedSms()" id="BtnsaveEditedSms">
+                        <input type="button" value="Cancel" class="btn" *ngIf="!flagJSON.smsBtnToggle" (click)="closePopup()" id="Btncancel8">
+                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!flagJSON.smsBtnToggle" (click)="sendSmsTemplate()" id="BtnsendSms5">
                       </aside>
                     </div>
                   </div>
@@ -1079,24 +1081,32 @@
   <section id="popup" class="popupWrapper fadeIn" *ngIf="flagJSON.isMultiSms">
     <!--  -->
     <div class="popup pos-abs popup-body-container">
-      <div class="popup-wrapper pos-rel" style="height: 80%;">
+      <div class="popup-wrapper pos-rel" style="height: 86%;">
 
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBulkSms()">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-              </g>
-              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
-                transform="translate(1012 297)" />
-            </g>
+            <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px"
+            x="0" y="0">
+            <path class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+              style="fill: currentColor"></path>
           </svg>
         </span>
 
         <div class="popup-content">
-          <h2>Send SMS </h2>
-          <div class="sms-form sms-popup-content">
+          <h2>Send Notification </h2>
+          <div class="common-tab">
+              <div class="row">
+                <div class="menu_list c-lg-6 c-md-6 c-sm-6" [ngClass]="{'active':flagJSON.notificationType=='SMS'?true:false}" (click)="sendNotificationType('SMS')">
+                  Send SMS
+                </div>
+                <div class="menu_list c-lg-6 c-md-6 c-sm-6" [ngClass]="{'active':flagJSON.notificationType=='Email'?true:false}" (click)="sendNotificationType('Email')">
+                  Send Email
+                </div>
+                <div class="menu_list c-lg-6 c-md-6 c-sm-6" [ngClass]="{'active':flagJSON.notificationType=='sendGrid'?true:false}" (click)="showSendGridData('sendGrid')" style="width: 25%;"  *ngIf="isSendGridEnable"> 
+                    Send Email using SendGrid
+                  </div>
+              </div>
+          </div>
+          <div class="sms-form sms-popup-content" *ngIf="flagJSON.notificationType=='Email'|| flagJSON.notificationType=='SMS'">
             <div class="sms-update">
 
               <aside class="pull-left sms-table">
@@ -1118,19 +1128,20 @@
                     <section class="clearFix new-sms-form">
                       <div class="row">
                         <div class="c-lg-8 pull-left new-sms-wrapper">
-                          <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox"
-                            aria-autocomplete="list" placeholder="Enter your SMS here" [(ngModel)]="newSmsString.data"
-                            aria-haspopup="true" value="" id="listTxt" (ngModelChange)="countNumberOfMessage()"></textarea>
-                          <div style="width=100%; display:flex; justify-content:space-between;">
+                          <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="Enter your SMS here"
+                            [(ngModel)]="newSmsString.data" aria-haspopup="true" value="" id="listTxt" (ngModelChange)="countNumberOfMessage()"></textarea>
+                          <div style="width:100%; display:flex; justify-content:space-between;">
                             <span>Character Count : {{newSmsString.data.length}}</span>
-                            <span>Message Count : <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></span>
+                            <span>Message Count :
+                              <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span>
+                            </span>
                           </div>
                         </div>
 
                         <div class="c-lg-4 pull-right" style="margin-top: 16px;">
                           <aside class="pull-left create-cancel-small">
-                            <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()" id="BtnaddNewMessage">
-                            <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()" id="BtnsaveSms">
+                            <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()" >
+                            <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()" >
                           </aside>
                         </div>
 
@@ -1237,7 +1248,7 @@
 
 
               <aside class="pull-right sms-preview">
-                <div class="sms-preview-header">
+                <div style="    margin-bottom: 5px;">
                   <div class="row">
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <h4>{{smsSelectedRowsLength}} Users Selected</h4>
@@ -1251,30 +1262,35 @@
                       Available SMS Quota: {{varJson.availableSMS}}
                     </div>
                   </div>
+                  <div class="row" style="padding: 10px 0px; " *ngIf="flagJSON.notificationType=='Email'">
+                      <div class="c-lg-12 c-md-12 c-sm-12" style="padding-bottom: 5px"><label>Subject <span class="danger">*</span></label></div>
+                        <div class="c-lg-12 c-md-12 c-sm-12">
+                            <input type="text" placeholder="Email Subject" [(ngModel)]="emailSubject" 
+                            name="searchEmailData">
+                        </div>
+                      </div>
                 </div>
                 <div class="sms-preview-content">
                   <div class="field-sms-wrapper">
-                    <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox"
-                      aria-autocomplete="list" aria-haspopup="true" id="sms-content" value="" [(ngModel)]="selectedSMS.message"
-                      [disabled]="!flagJSON.smsBtnToggle" (ngModelChange)="countNumberOfMessageForEdit()"></textarea>
-                      <div style="width=100%; display:flex; justify-content:space-between;font-size:12px">
-                        <span>Character Count : {{selectedSMS.message.length}}</span>
-                        <span>Message Count : <span [ngClass]="{'red' : messageCountForEdit >= 2}">{{messageCountForEdit}}</span></span>
-                      </div>
+                    <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
+                      id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!flagJSON.smsBtnToggle" (ngModelChange)="countNumberOfMessageForEdit()"></textarea>
+                    <div style="width:100%; display:flex; justify-content:space-between;font-size:12px">
+                      <span>Character Count : {{selectedSMS.message.length}}</span>
+                      <span>Message Count :
+                        <span [ngClass]="{'red' : messageCountForEdit >= 2}">{{messageCountForEdit}}</span>
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div class="sms-preview-footer">
                   <div class="">
                     <div class="clearfix">
                       <aside class="popup-btn">
-                        <input type="button" value="Cancel" class="btn" *ngIf="flagJSON.smsBtnToggle" (click)="cancelSmsEdit()"
-                          id="BtncancelEditSms">
-                        <input type="button" value="Save" class="fullBlue btn" *ngIf="flagJSON.smsBtnToggle" (click)="saveEditedSms()"
-                          id="BtnsaveSmsEdited">
-                        <input type="button" value="Cancel" class="btn" *ngIf="!flagJSON.smsBtnToggle" (click)="closeBulkSms()"
-                          id="Btncancel0">
-                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!flagJSON.smsBtnToggle"
-                          (click)="sendSmsTemplate()" id="btn0">
+                        <input type="button" value="Cancel" class="btn" *ngIf="flagJSON.smsBtnToggle" (click)="cancelSmsEdit()" id="BtncancelEditSms">
+                        <input type="button" value="Save" class="fullBlue btn" *ngIf="flagJSON.smsBtnToggle" (click)="saveEditedSms()" id="BtnsaveSmsEdited">
+                        <input type="button" value="Cancel" class="btn" *ngIf="!flagJSON.smsBtnToggle" (click)="closeBulkSms()" id="Btncancel0">
+                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="(!flagJSON.smsBtnToggle)&&(flagJSON.notificationType=='SMS')" (click)="sendSmsTemplate()" id="btn0">
+                        <input type="button" value="Send Email" class="btn fullBlue"  *ngIf="(!flagJSON.smsBtnToggle)&&(flagJSON.notificationType=='Email')"  (click)="addNewEmailTemplate()">
                       </aside>
                     </div>
                   </div>
@@ -1283,6 +1299,95 @@
 
             </div>
           </div>
+
+          <div *ngIf="flagJSON.notificationType=='sendGrid'">
+              <div class="sms-form sms-popup-content">
+                  <div class="sms-update">
+      
+                    <aside class="pull-left sms-grid-table">
+                      <div class="sms-top-section">
+                        <h3 style="margin-top: 15px;margin-bottom: 15px;">Template List</h3>
+                      </div>
+      
+                      <div class="sms-middle-section">
+                        <div class="table table-responsive table-container table-data-overflow">
+                          <table>
+                              <tr>
+                                <th>
+
+                                </th>
+                                <th style="width: 30%;">
+                                  <label>
+                                    <a class="cursor-icon" id="cursorAnch11">Template Name</a>
+                                  </label>
+                                </th>
+                                <th style="width: 30%;">
+                                  <label>
+                                    <a class="cursor-icon" id="cursorAnch12">Version Name</a>
+                                  </label>
+                                </th>
+                                <th style="width: 25%;">
+                                    <label>
+                                      <a class="cursor-icon" id="cursorAnch12">Updated Date</a>
+                                    </label>
+                                  </th>
+                                <th style="width: 15%;">
+                                  <label>
+                                    <a class="cursor-icon" id="cursorAnch13">Preview</a>
+                                  </label>
+                                </th>
+                              </tr>
+                               <tr  id="row{{i}}" *ngFor="let row of emailGridData; let i = index;" (click)="opEmailGridSelected(row,i)" [class.selected]="i == selectedTableRow">
+                                 <td>
+                                    <!-- <div class="c-sm-1 c-md-1 c-lg-1"> -->
+                                        <!-- <div class="field-radio-wrapper"> -->
+                                          <input type="radio" name="bothRadio" [id]="'bothRadio-'+i" class="form-radio" [value]="i" [(ngModel)]="selectedTableRow">
+                                          <!-- <label [for]="'bothRadio-'+i">{{smsDetails.total_sms}}</label> -->
+                                        <!-- </div> -->
+                                      <!-- </div> -->
+                                 </td>
+                                <td style="width: 30%;">
+                                  <span title="{{row.template_name}}">{{ (row.template_name.length > 20) ? (row.template_name | slice:0:20) + '...' : row.template_name }}</span>
+                                </td>
+                                <td style="width: 30%;">
+                                  <span title="{{row.version_name}}">{{ (row.version_name.length > 20) ? (row.version_name | slice:0:20) + '...' : row.version_name }}</span>
+                                </td>
+                                <td style="width: 25%;">
+                                  <span title="{{row.template_updated_date}}">{{row.template_updated_date}}</span>
+                                  </td>
+                                <td style="width: 15%;" (click)="viewThumbnailUrl(row.template_subject_thumbnail_url)">
+                                    <a class="cursor">View</a>
+                                  </td>
+                              </tr>
+                              <tr *ngIf="emailGridData?.length==0">
+                                <td colspan="5" style="padding: 10px;text-align: center;font-weight: 600;">
+                                  No Data Found
+                                </td>
+                              </tr>
+                          </table>
+                        </div>
+                      </div>
+                        
+                    </aside>
+      
+      
+                    <aside class="pull-right sms-grid-preview">
+                      <div class="sms-preview-footer" style="float: right;">
+                        <div class="">
+                          <div class="clearfix">
+                            <aside class="popup-btn">
+                              <input type="button" value="Cancel" class="btn" (click)="closeBulkSms()" id="Btncancel0">
+                              <input type="button" value="Send" class="fullBlue btn" (click)="sendEmailGrid()" id="btn0">                              
+                            </aside>
+                          </div>
+                        </div>
+                      </div>
+                    </aside>
+      
+                  </div>
+                </div>
+                </div>
+
         </div>
 
       </div>
@@ -1290,6 +1395,21 @@
 
   </section>
 
+ 
+  <section class="absent_popup" *ngIf="viewPopUp">
+      <div class="absent_student">
+        <div class="header">
+          <span style="font-weight: 600; cursor: pointer;" (click)="closeViewPopUp()">X</span>
+        </div>
+        <div class="main_container">
+          <div class="for_absent">
+              <img [src]="EmailThumbnailUrl" class="emailGridImg">
+          </div>
+        </div>
+      </div>
+    </section>
+    
+<div class="black-bg1" id="black-bg1" *ngIf="viewPopUp" (click)="closeViewPopUp()"></div>
   <!-- Download Summary Report Options PopUp Single-->
   <section id="" class="popupWrapper fadeIn" *ngIf="flagJSON.summaryOptions">
     <!-- -->
@@ -1304,8 +1424,8 @@
                 <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
                 <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
               </g>
-              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
-                transform="translate(1012 297)" />
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
             </g>
           </svg>
         </span>
@@ -1333,16 +1453,16 @@
               <div class="c-sm-4 c-lg-4 c-lg-4">
                 <div class="field-wrapper datePickerBox">
                   <label for="fromDate">From Date</label>
-                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.from_date"
-                    name="fromDate" readonly="true" bsDatepicker />
+                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.from_date" name="fromDate"
+                    readonly="true" bsDatepicker />
 
                 </div>
               </div>
               <div class="c-sm-4 c-lg-4 c-lg-4">
                 <div class="field-wrapper datePickerBox">
                   <label for="toDate">To Date</label>
-                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.to_date"
-                    name="toDate" readonly="true" bsDatepicker />
+                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.to_date" name="toDate"
+                    readonly="true" bsDatepicker />
 
                 </div>
               </div>
@@ -1350,8 +1470,7 @@
                 <button class="btn fullBlue" (click)="downloadSummaryReportXlDateWise()" style="margin-top: 10px; padding: 5px" id="btnDownloadDatewise">Download</button>
               </div>
             </div>
-            <a id="anchTagToggle" class="pull-right" (click)="toggleDateSection()" style="cursor: pointer;margin-top: 10px;">Download
-              By Date Range</a>
+            <a id="anchTagToggle" class="pull-right" (click)="toggleDateSection()" style="cursor: pointer;margin-top: 10px;">Download By Date Range</a>
             <a id="downloadSummaryReport121" class="hide"></a>
           </div>
         </div>

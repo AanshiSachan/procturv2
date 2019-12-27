@@ -48,6 +48,9 @@
                 Subject
               </th>
               <th>
+                  Date of Joining
+              </th>
+              <th>
                 Is Active
               </th>
               <th>
@@ -69,6 +72,10 @@
               <td>
                 {{row.teacher_subjects}}
               </td>
+              <td>
+                <span *ngIf="row.date_of_joining==''"> - </span>
+                <span *ngIf="row.date_of_joining!=''">{{row.date_of_joining}}</span>  
+                </td>
               <td>
                 {{row.is_active}}
               </td>
@@ -101,7 +108,7 @@
           </tbody>
           <tbody *ngIf="(teacherList.length == 0 && dataStatus === 2)">
             <tr>
-              <td colspan="6">
+              <td colspan="7">
                 No Batch List Found
               </td>
             </tr>

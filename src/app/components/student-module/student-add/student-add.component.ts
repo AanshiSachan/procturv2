@@ -168,7 +168,11 @@ export class StudentAddComponent implements OnInit {
   addInventory: any = {
     alloted_units: 0,
     item_id: -1,
-    available_units: ''
+    available_units: '',
+    date_of_dispatch: '',
+    name_of_courier_service:'',
+    docket_id:'',
+    date_of_delivery_of_sm:'',
   };
   pdcSearchObj = {
     cheque_status: '-1',
@@ -214,7 +218,8 @@ export class StudentAddComponent implements OnInit {
     language_inst_status: "admitted",
     stuCustomLi: [],
     deleteCourse_SubjectUnPaidFeeSchedules: false,
-    archivedStudent: false
+    archivedStudent: false,
+    studentFileUploadJson:[]
   };
 
   checkBoxGroup: any = {
@@ -278,6 +283,9 @@ export class StudentAddComponent implements OnInit {
   instituteCountryDetObj: any = {};
   checkStatusofStudent :boolean = false;
   country_id:number=null;
+  category_id: number | string = "";
+  selectedFiles: any[] = [];
+
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -1204,6 +1212,7 @@ export class StudentAddComponent implements OnInit {
       // this.studentAddFormData.country_id=this.instituteCountryDetObj.id;
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
+      this.studentAddFormData.studentFileUploadJson = this.selectedFiles;
       console.log(this.studentAddFormData);
       this.btnSaveAndContinue.nativeElement.disabled = true;
       if (!this.isRippleLoad) {
@@ -1307,6 +1316,7 @@ export class StudentAddComponent implements OnInit {
 
   addDuplicateStudent() {
     this.studentAddFormData.archivedStudent = true;
+    this.studentAddFormData.studentFileUploadJson = this.selectedFiles;
     this.postService.quickAddStudent(this.studentAddFormData).subscribe(
       (res: any) => {
         let result: any = res;
@@ -1469,6 +1479,7 @@ export class StudentAddComponent implements OnInit {
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
+      this.studentAddFormData.studentFileUploadJson = this.selectedFiles;
       this.isRippleLoad = true;
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         (res: any) => {
@@ -2426,11 +2437,21 @@ export class StudentAddComponent implements OnInit {
           this.msgToast.showErrorMessage('error', '', 'Please enter allocated unit less than available units');
           return;
         } else {
+          if(this.addInventory.date_of_dispatch!=''){
+            this.addInventory.date_of_dispatch = moment(this.addInventory.date_of_dispatch).format('YYYY-MM-DD')
+          }
+          if(this.addInventory.date_of_delivery_of_sm!=''){
+            this.addInventory.date_of_delivery_of_sm = moment(this.addInventory.date_of_delivery_of_sm).format('YYYY-MM-DD')
+          }
           let obj: any = {
             alloted_units: this.addInventory.alloted_units.toString(),
             institution_id: sessionStorage.getItem('institute_id'),
             item_id: this.addInventory.item_id,
-            student_id: this.student_id
+            student_id: this.student_id,
+            date_of_dispatch: this.addInventory.date_of_dispatch,
+            name_of_courier_service: this.addInventory.name_of_courier_service,
+            docket_id:this.addInventory.docket_id,
+            date_of_delivery_of_sm:this.addInventory.date_of_delivery_of_sm,
           };
           this.isRippleLoad = true;
           this.postService.allocateInventory(obj).subscribe(
@@ -2440,7 +2461,11 @@ export class StudentAddComponent implements OnInit {
               this.addInventory = {
                 alloted_units: 0,
                 item_id: -1,
-                available_units: ''
+                available_units: '',
+                date_of_dispatch: '',
+                name_of_courier_service:'',
+                docket_id:'',
+                date_of_delivery_of_sm:'',
               };
               this.getAllocatedHistory();
               this.fetchInventoryList();
@@ -2497,6 +2522,39 @@ export class StudentAddComponent implements OnInit {
     }
     return bytes.buffer;
   }
+
+uploadHandler() {
+  if (this.category_id != '') {
+    const preview = (<HTMLInputElement>document.getElementById('uploadFileControl')).files[0];
+    if(preview!=null || preview!=undefined){
+      var myReader:FileReader = new FileReader();
+    let temp:any={};
+    myReader.readAsDataURL(preview);
+    myReader.onloadend = () => {
+      temp={
+        "title": this.category_id,
+        "fileName": preview.name,
+        "encodedFile": myReader.result.split(',')[1]
+      }
+      this.selectedFiles.push(temp);
+      this.msgToast.showErrorMessage('success', '', "File uploaded successfully");
+       this.category_id = '';
+      (<HTMLInputElement>document.getElementById('uploadFileControl')).value=null;
+    }
+  } else {
+    this.msgToast.showErrorMessage('error', '', "No file selected");
+  }
+  } else {
+    this.msgToast.showErrorMessage('error', '', "Document title is mandatory");
+  }
+}
+
+deletefile(obj,id){
+  if (confirm('Are you sure, you want to delete file?')) {
+    this.selectedFiles.splice(id,1);
+    this.msgToast.showErrorMessage('success', '', "File deleted successfully");
+  }
+}
 
 }
 

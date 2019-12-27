@@ -471,7 +471,7 @@ export class TimeTableComponent implements OnInit {
     this.timeTableServ.downloadTimeTable(this.forDownloadPDF).subscribe(
       (res: any) => {
         this.isRippleLoad = false;
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this.commonService.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
@@ -487,17 +487,6 @@ export class TimeTableComponent implements OnInit {
       }
     );
 
-
-  }
-  convertBase64ToArray(val) {
-
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
 
   }
 

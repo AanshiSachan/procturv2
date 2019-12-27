@@ -216,3 +216,86 @@ html {
   z-index: 6;
   width: 100%;
 }
+.field-checkbox-wrapper, .field-radio-wrapper {
+  position: relative;
+  padding-left: 25px;
+  width: 40%;
+}
+
+.qInfoIcon {
+  width: 17px;
+  margin-left: 4px;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  line-height: 20px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0px 0px 1px 0px #ccc inset;
+  color: #888;
+  transition: all 0.2s linear;
+  &:hover {
+      // border-color: $header-bg;
+      // box-shadow: 0px 0px 1px 0px $header-bg inset;
+      // color: $header-bg;
+  }
+}
+
+.tooltip-box-field {
+// width: 170px;
+white-space: nowrap;
+min-height: 41px;
+line-height: 12px;
+padding: 5px 5px;
+overflow: visible;
+color: black;
+font-weight: bold;
+top: 30px;
+&.lg {
+    width: 200px;
+    white-space: nowrap;
+    min-height: 50px;
+    line-height: 20px;
+    padding: 5px 5px;
+}
+&.sm {
+    width: 100px;
+    white-space: nowrap;
+    min-height: 40px;
+    padding: 5px 5px;
+}
+}
+.AdvanceSetting {
+  position: relative;
+}
+
+.AdvanceSetting span {
+  background-color: white;
+  padding-right: 10px;
+  padding-left: 5px;
+  margin-left: 10px;
+}
+
+.AdvanceSetting:after,
+.AdvanceSetting:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: .5em;
+  border-top: 1px solid #ccc;
+  z-index: -1;
+}
+.AdvanceSettingDiv {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  margin-top: -1%;
+  padding-bottom: 5%;
+  margin-bottom: 1%;
+}

@@ -1,4 +1,6 @@
 <div class="middle-section clearFix">
+    <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+    </loaders-css>
     <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
         <h1 class="pull-left" *ngIf="selectedTeacherId==undefined">
             Add Faculty
@@ -68,6 +70,19 @@
                         <input type="text" class="form-ctrl" formControlName="teacher_curr_addr" name="CurrentAddress">
 
                     </div>
+
+                    <div class="row field-wrapper datePickerBox">
+                        <label for="CurrentAddress">Date of Birth
+                        </label>
+                        <input type="text" class="form-ctrl" readonly="true" formControlName="dob" name="dob" bsDatepicker/>          
+                    </div>
+
+                    <div class="row field-wrapper datePickerBox">
+                            <label for="CurrentAddress">Date of Joining
+                            </label>
+                            <input type="text" class="form-ctrl" readonly="true" formControlName="date_of_joining" name="date_of_joining" bsDatepicker/>                   
+                    </div>
+
                     <div class="row field-wrapper">
                         <label for="alternateNo">Alternate Contact Number
                         </label><br>

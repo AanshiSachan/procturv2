@@ -286,7 +286,7 @@
         <div class="return_info_item">
           <span>Number of late days<span class="text-danger">*</span></span>
           <div class="input_container_for_days">
-            <input type="number" name="" value="" placeholder="" style="width: 30%;" [(ngModel)]="noOfLateDays" (ngModelChange)="calculateLateFine()" [disabled]="disableReturnAmt">
+            <input type="number" name="" value="" placeholder="" style="width: 30%;" [(ngModel)]="noOfLateDays" (ngModelChange)="calculateLateFine()" [disabled]="true">
             <span>X</span>
             <span>{{perDayFine}}/- per day</span>
           </div>
@@ -331,6 +331,7 @@
     </div>
   </div>
 </section>
+<a id="feeReceipt_download" href="" class="hide"></a>
 
 <div class="black-bg" id="black-bg" *ngIf="returnBookPopup" (click)="closePopup()">
 

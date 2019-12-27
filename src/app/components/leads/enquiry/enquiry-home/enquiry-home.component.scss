@@ -179,13 +179,15 @@
   }
 }
 
-.btn-container{
+.btn-container {
   display: flex;
   flex-direction: row;
-  .btn-item{
+
+  .btn-item {
     position: relative;
   }
-  .more-info-container{
+
+  .more-info-container {
     z-index: 100;
     background: white;
     position: absolute;
@@ -194,8 +196,9 @@
     border: 1px solid #0084f6;
     min-width: 195px;
     width: 100%;
-    right: 0px;
-    .more-info-item{
+    right: 0;
+
+    .more-info-item {
       cursor: pointer;
       padding: 5px;
       font-size: 12px;
@@ -204,7 +207,6 @@
     }
   }
 }
-
 
 /* =================================================================================== */
 
@@ -390,8 +392,8 @@
   }
 }
 
-.field-wrapper{
-  .btn{
+.field-wrapper {
+  .btn {
     padding: 4px 10px;
     height: 30px;
   }
@@ -721,7 +723,7 @@
 .filter-search {
   position: relative;
   border-bottom: 1px solid #d3d4d5;
-  margin: 0px 10px 10px 10px;
+  margin: 0 10px 10px;
 }
 
 .filter-fields {
@@ -848,7 +850,8 @@
 }
 
 .pagination {
-  margin: 0px 0px;
+  margin: 0;
+
   .first {
     &:before {
       content: "« ";
@@ -907,12 +910,13 @@
   position: absolute;
   height: 78vh;
   overflow-y: auto;
+
   .field-wrapper {
     // margin: 5px 0;
 
     .date-clear {
       position: absolute;
-      right: 0px;
+      right: 0;
       top: 58px;
       cursor: pointer;
       color: #0084f6;
@@ -1231,7 +1235,7 @@ ul.customDropdown li:hover {
   width: 100%;
   height: 100%;
   bottom: 0;
-  top: 0px;
+  top: 0;
   right: 0;
   left: 0;
   background: rgba(230, 230, 230, 0.5);
@@ -1666,7 +1670,7 @@ ul.customDropdown li:hover {
     max-width: 100%;
     min-height: 200px;
     overflow: auto;
-    max-height: 220px;
+    max-height: 250px;
   }
 }
 
@@ -1757,7 +1761,18 @@ ul.customDropdown li:hover {
 
     .field-radio-wrapper .form-radio:checked+label {
       color: $common-blue;
-    }
+    }    
+  }
+
+  .sms-grid-table {
+    min-height: 300px;
+    max-height: 450px;
+    border-top: 1px solid $border-common;
+    border-right: 1px solid $border-common;
+    width: 100%;
+    padding-left: 2px;
+    overflow-y: hidden;
+    overflow-x: hidden;
   }
 
   .sms-preview {
@@ -1767,7 +1782,20 @@ ul.customDropdown li:hover {
     padding: 0 5px;
     position: absolute;
     right: 9px;
-    top: 35px;
+    // top: 35px;
+
+    .sms-preview-header {
+      margin-bottom: 25px;
+    }
+  }
+  .sms-grid-preview {
+    min-height: 450px;
+    border-top: 1px solid $border-common;
+    width: 100%;
+    padding: 0 5px;
+    // position: absolute;
+    right: 9px;
+    // top: 35px;
 
     .sms-preview-header {
       margin-bottom: 25px;
@@ -1808,7 +1836,8 @@ ul.customDropdown li:hover {
       border: 1px solid $border-common;
       padding: 5px;
     }
-    .red{
+
+    .red {
       color: red;
     }
   }
@@ -1821,7 +1850,7 @@ ul.customDropdown li:hover {
   }
 }
 
-.red{
+.red {
   color: red;
 }
 
@@ -2251,12 +2280,108 @@ ul.customDropdown li:hover {
   min-width: 205px;
 }
 
-.black-bg{
+.black-bg {
   background: rgba(10,10,10,0.3);
   position: fixed;
-  top: 0px;
+  top: 0;
   height: 100%;
-  left: 0px;
+  left: 0;
   z-index: 1;
+  width: 100%;
+}
+
+.common-tab {
+  width: 100%;
+
+  .menu_list {
+    cursor: pointer;
+    color: #0084f6;
+    background: #fff;
+    border-color: #0084f6;
+    font-weight: normal;
+    padding: 10px 5px;
+    text-align: center;
+    width: 15%;
+
+    &:hover {
+      background: #0084f6;
+      color: #fff;
+    }
+
+    &.active {
+      background: #0084f6;
+      color: #ffffff;
+    }
+  }
+
+}
+.emailGridImgHeader{
+  border: none;
+  padding: 10px;
+  padding-right: 15px;
+  padding-bottom: 0;
+}
+.emailGridImg{
+  width: 80%;
+  height: 50%;
+  max-width: 80%;
+  max-height: 50%;
+  padding-bottom:5px ;
+  margin-left: 10%;
+}
+
+table tr.selected {
+  background: #dceff7 !important;
+  box-shadow: 0 11px 8px -10px #CCC, 0 -11px 13px -9px #CCC;
+  transform: scale(1);
+}
+.absent_popup{
+  position: fixed;
+  top: 2%;
+  left: 25%;
+  right: 25%;
+  width: 50%;
+  z-index: 550;
+  background: white;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  border-radius: 6px;
+  .absent_student{
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    .header{
+      // display: flex;
+      flex-direction: row;
+      padding: 10px;
+      justify-content: right;
+      // border-bottom: 1px solid rgba(10,10,10,0.3);
+      .close-btn{
+        color: #b1b1b1;
+      }
+    }
+    .main_container{
+      display: flex;
+      flex-direction: column;
+      // padding: 15px;
+      .for_absent{
+        display: flex;
+        flex-direction: row;
+        // margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+input[type=radio]{
+  appearance: radio;
+}
+
+.black-bg1 {
+  background: rgba(10,10,10,0.3);
+  position: fixed;
+  top: 0;
+  height: 100%;
+  left: 0;
+  z-index: 500;
   width: 100%;
 }

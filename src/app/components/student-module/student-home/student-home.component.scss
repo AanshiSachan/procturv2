@@ -1391,3 +1391,108 @@ ul.customDropdown li:hover {
   z-index: 6;
   width: 100%;
 }
+// Certificate css
+
+  @font-face {
+    font-family: "OldEnglish";
+    src: url("../../../../assets/fonts/OldEnglishFive.ttf");
+  }
+  .outer-container{
+    background-image: url("../../../../assets/images/certificate/bg1.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100vh;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 845px;
+    width: 100%;
+  }
+  .partner-logo-container{
+    padding: 20px 0px;
+    display: flex;
+    margin-left: 75%;
+  }
+  .partner-logo-container img {
+    width: 120px;
+  }
+  .institute-name-container{
+    text-align: center;
+    width: 100%;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .certificate-title{
+    font-family: OldEnglish;
+    color: #D5922A;
+    font-size: 26px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  .certificate-issuer-name{
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 20px;
+    margin-top: 30px;
+    font-style: italic;
+    margin-left: 30%;
+  }
+  .course-info-container{
+    margin: 10px;
+    font-size: 22px;
+    margin-left:25%;
+  display: flex;
+  flex-direction:column;
+  }
+  .logos-container{
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+  }
+  .logos-container img{
+    width: 100px;
+    margin: 0px 10px;
+  }
+  .sign-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 70%;
+    margin: 10px 15%;
+    color: #D5922A;
+    position: absolute;
+    bottom: 20px;
+  }
+  .sign-item{
+    display: flex;
+    justify-content: center;
+    margin-left:7%;
+  }
+  .sign-item-container{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: 16px;
+  }
+  .data_content{
+      width:50%;
+      border-bottom: 1px solid black;
+      font-size:16px;
+      margin-top: 3px;
+      min-height: 20px;
+  }
+  * {
+    -webkit-print-color-adjust: exact;
+    -webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
+    color-adjust: exact !important;       
+}
+  @media print {
+      * {
+          -webkit-print-color-adjust: exact;
+          -webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
+      }
+
+  }

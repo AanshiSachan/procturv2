@@ -195,7 +195,7 @@ export class GstReportComponent implements OnInit {
     this.gst.downloadData(this.downloadService).subscribe(
 
       (data: any) => {
-        let byteArr = this.convertBase64ToArray(data.document);
+        let byteArr = this._commService.convertBase64ToArray(data.document);
         let format = data.format;
         let fileName = data.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
@@ -211,17 +211,6 @@ export class GstReportComponent implements OnInit {
       }
     )
   }
-
-  convertBase64ToArray(val) {
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-  }
-
 
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {

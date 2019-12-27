@@ -230,6 +230,7 @@
                                 <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Exam Attendance" title="Update Exam Attendance" *ngIf="class.course_marks_update_level != '0'" (click)="markAttendanceExamCourse(class)">
                                 <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer" *ngIf="class.course_marks_update_level != '0' && class.course_marks_update_level != '1' && class.course_marks_update_level != '2'" (click)="examMarksUpdateCourse(class)">
                                 <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Update Exam Marks" style="cursor:pointer" *ngIf="class.course_marks_update_level == '1' || class.course_marks_update_level == '2'" (click)="examMarksUpdateCourse(class)">
+                                <i class="fa fa-eye" aria-hidden="true" style="color: #1283f4;cursor:pointer" (click)="viewExamDetails(i, class)" title="View Details"></i>
                                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;ursor:pointer" title="Notify" (click)="sendReminderForCourse(class)" *ngIf='class.course_marks_update_level == "0"'></i>
                                 <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel Exam" *ngIf="class.course_marks_update_level == '0'" (click)="onCancelExamClickCourse(class)"></i>
                               </div>
@@ -891,8 +892,8 @@
 
   <proctur-widget *ngIf="notificationPopUp">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeNotificationPopUp()" close-button>
-      <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-        <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+      <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+        <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
       </svg>
     </span>
 

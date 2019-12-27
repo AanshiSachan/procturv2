@@ -225,25 +225,25 @@ export class InstituteSettingsComponent implements OnInit {
       gaurdian: '',
       admin: '',
     },
-    enable_exam_marks_not_update_notification:{
-      teacher:'',
-      admin:'',
+    enable_exam_marks_not_update_notification: {
+      teacher: '',
+      admin: '',
     },
-    enable_exam_attendance_not_marked_notification:{
-      teacher:'',
-      admin:'',
+    enable_exam_attendance_not_marked_notification: {
+      teacher: '',
+      admin: '',
     },
-    enable_class_attendance_not_marked_notification:{
-      teacher:'',
-      admin:'',
+    enable_class_attendance_not_marked_notification: {
+      teacher: '',
+      admin: '',
     },
-    enable_exam_attendance_not_marked_daily_notification:{
-      teacher:'',
-      admin:'',
+    enable_exam_attendance_not_marked_daily_notification: {
+      teacher: '',
+      admin: '',
     },
-    enable_class_attendance_not_marked_daily_notification:{
-      teacher:'',
-      admin:'',
+    enable_class_attendance_not_marked_daily_notification: {
+      teacher: '',
+      admin: '',
     },
     exam_min_marks: '',
     exam_average_marks: '',
@@ -340,7 +340,10 @@ export class InstituteSettingsComponent implements OnInit {
   libraryRoleSetting() {
     const permissionArray = sessionStorage.getItem('permissions');
     let username = sessionStorage.getItem('username');
-    if (((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 101077)) || permissionArray.indexOf('721') != -1) {
+    if (((username == "admin" && this.instituteId == 100127) ||
+      (username == "admin" && this.instituteId == 100058) ||
+      (username == "admin" && this.instituteId == 101077)) ||
+      permissionArray.indexOf('721') != -1) {
       this.libraryRole = true;
     }
   }
@@ -648,13 +651,13 @@ export class InstituteSettingsComponent implements OnInit {
     this.fillTableCheckboxValue(this.instituteSettingDet.lib_send_sms_for_book_marked_scrapped, data.lib_send_sms_for_book_marked_scrapped);
 
 
-    
+
     this.fillTableCheckboxValue(this.instituteSettingDet.enable_class_attendance_not_marked_notification, data.enable_class_attendance_not_marked_notification);
     this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_attendance_not_marked_notification, data.enable_exam_attendance_not_marked_notification)
     this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_marks_not_update_notification, data.enable_exam_marks_not_update_notification)
-    this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_attendance_not_marked_daily_notification,data.enable_exam_attendance_not_marked_daily_notification);
-    this.fillTableCheckboxValue(this.instituteSettingDet.enable_class_attendance_not_marked_daily_notification,data.enable_class_attendance_not_marked_daily_notification);
-    
+    this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_attendance_not_marked_daily_notification, data.enable_exam_attendance_not_marked_daily_notification);
+    this.fillTableCheckboxValue(this.instituteSettingDet.enable_class_attendance_not_marked_daily_notification, data.enable_class_attendance_not_marked_daily_notification);
+
     this.instituteSettingDet.lib_issue_for_days = data.lib_issue_for_days;
     this.instituteSettingDet.lib_due_date_fine_per_day = data.lib_due_date_fine_per_day;
   }
@@ -714,10 +717,10 @@ export class InstituteSettingsComponent implements OnInit {
   }
 
 
-  
+
   fillTableCheckboxValue(dataJSON, res) {
-    console.log(res);
-    if(res){
+    // console.log(res);
+    if (res) {
       res = parseInt(res);
       if (res > 0) {
         let count: number = 1;
@@ -733,7 +736,7 @@ export class InstituteSettingsComponent implements OnInit {
           binaryArray[k] = parseInt(binaryConversion[p]);
           k++;
         }
-  
+
         if (dataJSON.hasOwnProperty('student')) {
           if (binaryArray[0] == 1) {
             dataJSON.student = true;
@@ -741,7 +744,7 @@ export class InstituteSettingsComponent implements OnInit {
             dataJSON.student = false;
           }
         }
-  
+
         if (dataJSON.hasOwnProperty('parent')) {
           if (binaryArray[1] == 1) {
             dataJSON.parent = true;
@@ -749,7 +752,7 @@ export class InstituteSettingsComponent implements OnInit {
             dataJSON.parent = false;
           }
         }
-  
+
         if (dataJSON.hasOwnProperty('teacher')) {
           if (binaryArray[2] == 1) {
             dataJSON.teacher = true;
@@ -757,7 +760,7 @@ export class InstituteSettingsComponent implements OnInit {
             dataJSON.teacher = false;
           }
         }
-  
+
         if (dataJSON.hasOwnProperty('admin')) {
           if (binaryArray[3] == 1) {
             dataJSON.admin = true;
@@ -765,7 +768,7 @@ export class InstituteSettingsComponent implements OnInit {
             dataJSON.admin = false;
           }
         }
-  
+
         if (dataJSON.hasOwnProperty('gaurdian')) {
           if (binaryArray[4] == 1) {
             dataJSON.gaurdian = true;
@@ -773,13 +776,13 @@ export class InstituteSettingsComponent implements OnInit {
             dataJSON.gaurdian = false;
           }
         }
-  
+
       }
     }
-   
+
   }
 
- 
+
   validatePhoneNumber(data) {
     let check: boolean = false;
     if (data) {

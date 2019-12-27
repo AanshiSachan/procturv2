@@ -12,7 +12,6 @@ import { MastersComponent } from './masters/masters.component';
 import { AddBookComponent } from './add-book/add-book.component';
 import { IssueBookComponent } from './issue-book/issue-book.component';
 import { ReturnBookComponent } from './return-book/return-book.component';
-import { LibraryHomeComponent } from './library-home/library-home.component';
 import { ActivityComponent } from './activity/activity.component';
 import { ReportComponent } from './report/report.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -41,9 +40,7 @@ import { MastersService } from '../../services/library/master/masters.service';
     AddBookComponent,
     IssueBookComponent,
     ReturnBookComponent,
-    LibraryHomeComponent,
     ActivityComponent,
-    ReportComponent,
     DashboardComponent
   ],
   entryComponents: [

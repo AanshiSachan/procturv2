@@ -154,7 +154,7 @@ export class CreateCourseComponent implements OnInit {
           if (permissionArray.indexOf('404') >= 0) {
             this.liExam.nativeElement.classList.remove('hide');
           }
-          this.routeToSubTabsForLang(permissionArray);
+          // this.routeToSubTabsForLang(permissionArray);
         }
       }
     } else {
@@ -162,24 +162,24 @@ export class CreateCourseComponent implements OnInit {
     }
   }
 
-  routeToSubTabsForLang(data) {
-    if (data.indexOf('501') != -1) {
-      this.router.navigateByUrl('/view/course/create/standardlist');
-      this.switchActiveView('liStandard');
-    } else if (data.indexOf('502') != -1) {
-      this.router.navigateByUrl('/view/course/create/subject');
-      this.switchActiveView('liSubject');
-    } else if (data.indexOf('401') != -1) {
-      this.router.navigateByUrl('/view/batch/create/managebatch');
-      this.switchActiveView('liManageBatch');
-    } else if (data.indexOf('402') >= 0 || data.indexOf('704') >= 0) {
-      this.router.navigateByUrl('view/batch/create/class/home');
-      this.switchActiveView('liClass');
-    } else if (data.indexOf('404') >= 0) {
-      this.router.navigateByUrl('/view/course/create/exam');
-      this.switchActiveView('liExam');
-    }
-  }
+  // routeToSubTabsForLang(data) {
+  //   if (data.indexOf('501') != -1) {
+  //     this.router.navigateByUrl('/view/course/create/standardlist');
+  //     this.switchActiveView('liStandard');
+  //   } else if (data.indexOf('502') != -1) {
+  //     this.router.navigateByUrl('/view/course/create/subject');
+  //     this.switchActiveView('liSubject');
+  //   } else if (data.indexOf('401') != -1) {
+  //     this.router.navigateByUrl('/view/batch/create/managebatch');
+  //     this.switchActiveView('liManageBatch');
+  //   } else if (data.indexOf('402') >= 0 || data.indexOf('704') >= 0) {
+  //     this.router.navigateByUrl('view/batch/create/class/home');
+  //     this.switchActiveView('liClass');
+  //   } else if (data.indexOf('404') >= 0) {
+  //     this.router.navigateByUrl('/view/course/create/exam');
+  //     this.switchActiveView('liExam');
+  //   }
+  // }
 
   showAllTabs() {
     this.liStandard.nativeElement.classList.remove('hide');

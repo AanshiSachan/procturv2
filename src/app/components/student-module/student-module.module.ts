@@ -20,6 +20,7 @@ import { SharedModule } from '../shared/shared.module';
 import { UserService } from '../../services/user-management/user.service';
 import { CoursesServiceService } from '../../services/archiving-service/courses-service.service';
 import { StudentReportService } from '../../services/report-services/student-report-service/student-report.service';
+import { ProductService } from '../../services/products.service';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { StudentReportService } from '../../services/report-services/student-rep
     PostStudentDataService,
     UserService,
     CoursesServiceService,
-    StudentReportService
+    StudentReportService,
+    ProductService
   ],
   entryComponents: [
     UserStudentComponent,

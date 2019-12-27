@@ -273,7 +273,7 @@
                 </div>
             </li>
             <!-- Academic Form 2-->
-            <li class="data-filled" id="academicDetails">
+            <li class="data-filled" id="academicDetails" style="padding-bottom: 60px;">
               <div class="accordian-heading">
                 <h4>
                   <span class="circle-accor">2</span> Academics Details
@@ -316,6 +316,7 @@
                     <label for="forSubject">Subject</label>
                     <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple"
                       [(ngModel)]="editEnqData.subjectIdArray" name="subject">
+                      <option value="-1"></option>
                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}
                       </option>
                     </select>
@@ -343,6 +344,7 @@
                     <label for="editCC">Course</label>
                     <select id="editCC" class="form-ctrl form-ctrl-multiple" [(ngModel)]="editEnqData.courseIdArray"
                       name="editCC" multiple>
+                      <option value="-1"></option>
                       <option *ngFor="let cc of course_course" [value]="cc.course_id">{{cc.course_name}}</option>
                     </select>
                   </div>
@@ -368,6 +370,7 @@
                     <label for="forSubject">Course</label>
                     <select id="forSubject" class="form-ctrl form-ctrl-multiple"
                       [(ngModel)]="editEnqData.subjectIdArray" name="subject" multiple>
+                      <option value="-1"></option>
                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}
                       </option>
                     </select>

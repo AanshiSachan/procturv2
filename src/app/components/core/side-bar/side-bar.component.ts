@@ -14,7 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })
-export class SideBarComponent implements OnInit {
+export class SideBarComponent implements OnInit , AfterViewInit{
 
 
   @ViewChild('divAdminTag') divAdminTag: ElementRef;
@@ -170,6 +170,7 @@ export class SideBarComponent implements OnInit {
       institute_id == '101135' ||
       institute_id == '101149' ||
       institute_id == '101150' ||
+      institute_id == '101140' ||
       institute_id == '101151') {
       this.jsonFlags.isShowPowerBy = false;
     }
@@ -1003,7 +1004,7 @@ export class SideBarComponent implements OnInit {
 
   selectedEnquiry(e) {
     this.closeSearch(false);
-    this.router.navigate(['/view/enquiry'], { queryParams: { id: e.id } });
+    this.router.navigate(['/view/leads'], { queryParams: { id: e.id } });
     this.searchBar = false;
   }
 
@@ -1032,8 +1033,9 @@ export class SideBarComponent implements OnInit {
         this.enquiryUpdateAction.emit(d);
         this.searchBar = false;
       }
-      else {
-        this.router.navigate(['/view/enquiry'], { queryParams: { id: d.data.id, action: d.action } });
+      else 
+      this.router.navigate(['/view/leads/enquiry/edit/' +d.data.id]);{
+        // this.router.navigate(['/view/leads'], { queryParams: { id: d.data.id, action: d.action } });
         this.searchBar = false;
       }
     }

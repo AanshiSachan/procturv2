@@ -50,7 +50,7 @@ export class FeeReceiptComponent implements OnChanges {
     this.getter.getReceiptById(obj).subscribe(
       res => {
         let body:any = res;
-        let byteArr = this.convertBase64ToArray(body.document);
+        let byteArr = this._commService.convertBase64ToArray(body.document);
         let format = body.format;
         let fileName = body.docTitle;
         let file = new Blob([byteArr], { type: 'application/pdf' });
@@ -88,18 +88,6 @@ export class FeeReceiptComponent implements OnChanges {
 
   closePopups(){
     this.closeButton.emit(null);
-  }
-
-  convertBase64ToArray(val) {
-
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-
   }
 
 }

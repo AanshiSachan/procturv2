@@ -61,7 +61,7 @@
       <img src="./assets/images/sidebar/communicate.svg" alt="" class="sideBar_centerAlign">
     <span class="sideBar_centerAlign" style="padding-left: 5px">Communicate</span>
     </span>
-    <span  routerLink="/view/library" [ngClass]="activeSession === 'liseven' ? 'active activeClass' : 'NavLink'"   
+    <span  routerLink="/view/library/issue" [ngClass]="activeSession === 'liseven' ? 'active activeClass' : 'NavLink'"   
     *ngIf="jsonFlags.isShowLibrabry"   (click)="toggler('liseven')">
       <img src="./assets/images/sidebar/library.svg" alt="" class="sideBar_centerAlign">
     <span class="sideBar_centerAlign" style="padding-left: 5px">Library</span>
@@ -143,6 +143,9 @@
             <div class="side-section-item">
               <span (click)="routerLink('/view/master/areaCity','setup')"><img src="./assets/images/sidebar/city_area_map.svg" alt="phone" class="helpSection">City Area Map</span>
             </div>
+            <div class="side-section-item" *ngIf="jsonFlags.isShowLibrabry">
+                <span (click)="routerLink('/view/library/master','setup')"><img src="./assets/images/sidebar/master_data.svg" alt="phone" class="helpSection">Library</span>
+              </div>
       </div>
     </div>
     <div class="setting-item" (click)="showSubSection('branches')" *ngIf="isMainBranch == 'Y' && checkAdmin">

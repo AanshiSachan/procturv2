@@ -907,7 +907,15 @@ export class EnquiryAddComponent implements OnInit {
             return;
           }
         }
-
+        if(this.selectedSubjectIds == '-1'){
+          this.selectedSubjectIds = null;
+        } 
+        if(this.selectedCourseIds == '-1') {
+          this.selectedCourseIds = null;
+        }
+        if(this.newEnqData.subjectIdArray == '-1') {
+          this.selectedCourseIds = null;
+        }
         if (this.newEnqData.is_follow_up_time_notification == true) {
           this.newEnqData.is_follow_up_time_notification = 1;
         }

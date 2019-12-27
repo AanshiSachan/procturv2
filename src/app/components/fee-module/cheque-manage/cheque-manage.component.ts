@@ -7,7 +7,7 @@ import { ExcelService } from '../../../services/excel.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { MessageShowService } from '../../../services/message-show.service';
-import { CommonServiceFactory } from '../../..';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 
 @Component({
@@ -636,7 +636,7 @@ export class ChequeManageComponent implements OnInit {
   downloadReceipt(r) {
     let link = document.getElementById("invoiceDownloader");
     let body = r;
-    let byteArr = this.convertBase64ToArray(body.document);
+    let byteArr = this.commonService.convertBase64ToArray(body.document);
     let format = body.format;
     let fileName = body.docTitle;
     let file = new Blob([byteArr], { type: 'application/pdf' });
@@ -648,17 +648,6 @@ export class ChequeManageComponent implements OnInit {
     }
   }
 
-  /* Converts base64 string into a byte[] */
-  convertBase64ToArray(val) {
-
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-
-  }
+  
 
 }

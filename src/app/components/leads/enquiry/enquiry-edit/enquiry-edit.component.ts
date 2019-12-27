@@ -833,6 +833,18 @@ export class EnquiryEditComponent implements OnInit {
         this.editEnqData.enquiry_date = this.fetchDate(this.editEnqData.enquiry_date);
         this.editEnqData.followUpDate = this.fetchDate(this.editEnqData.followUpDate);
 
+        if(this.editEnqData.courseIdArray=='-1'){
+          this.editEnqData.courseIdArray=null;
+        }
+
+        if(this.editEnqData.subjectIdArray=='-1'){
+          this.editEnqData.courseIdArray=null;
+        }
+
+        if(this.editEnqData.standard_id == '-1'){
+          this.editEnqData.standard_id = null;
+        }
+
         /* isMainBranch,subBranchSelected */
         if (this.isMainBranch == "N" && this.subBranchSelected == false) {
           this.editEnqData.source_instituteId = '-1';
@@ -883,7 +895,7 @@ export class EnquiryEditComponent implements OnInit {
           (data: any) => {
             this.isEnquirySubmit = false;
             if (data.statusCode == 200) {
-              this.showErrorMessage('success', "Enquiry edit successful", 'Your enquiry has been successfully edited');
+              this.showErrorMessage('success', "", 'Enquiry updated successfully');
               if (this.isConvertToStudent) {
                 let obj: any = {
                   name: this.editEnqData.name,
@@ -1159,7 +1171,7 @@ export class EnquiryEditComponent implements OnInit {
   clearLocalAndRoute() {
     this.clearFormData();
     sessionStorage.removeItem('institute_enquiry_id');
-    this.router.navigateByUrl('/view/enquiry');
+    this.router.navigateByUrl('/view/leads/enquiry');
   }
 
 
