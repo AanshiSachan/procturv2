@@ -167,12 +167,12 @@
                         <div *ngIf=!isProfessional>
                             <proctur-table [records]="pagedPostData" (sortData)="sortedData($event)" [tableName]="'sms'" [settings]="projectSettings"
                                 [dataStatus]="dataStatus" [sortingEnabled]="sortingEnabled" [columnMap]="columnMaps" [dummyArr]="dummyArr"
-                                [direction]="direction">
+                                [direction]="direction" [loaderState]="isRippleLoad">
                             </proctur-table>
                         </div>
                         <div *ngIf=isProfessional>
                             <proctur-table [records]="pagedPostDataPro" [tableName]="'sms'" [settings]="projectSettings" [dataStatus]="dataStatus" [columnMap]="columnMaps"
-                                (sortData)="sortedData($event)" [dummyArr]="dummyArr" [direction]="direction" [sortingEnabled]="sortingEnabled">
+                                (sortData)="sortedData($event)" [dummyArr]="dummyArr" [direction]="direction" [sortingEnabled]="sortingEnabled" [loaderState]="isRippleLoad">
                             </proctur-table>
 
                         </div>

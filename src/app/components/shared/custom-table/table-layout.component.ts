@@ -20,6 +20,7 @@ export class TableLayoutComponent implements OnChanges {
     @Input() dataStatus: boolean;
     @Input() direction: number;
     @Input() sortingEnabled: boolean;
+    @Input() loaderState:boolean;
     @Output() sortData = new EventEmitter<String>();
     isAllSelected: boolean = false;
     columnMaps: ColumnMap[];

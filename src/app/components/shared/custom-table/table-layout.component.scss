@@ -24,12 +24,12 @@ $color-highlight: lighten($color-base,
 .table {
     tr {
         th{
-            text-align: left;
+            text-align: left !important;
             &.Message    {
                 width: 20% !important;
             }
             &.Contact{
-                text-align: right !important;
+                // text-align: left !important;
                 width: 15% !important;
             }
             &.Date{
@@ -49,12 +49,12 @@ $color-highlight: lighten($color-base,
             }
         }
         td {
-            text-align: left;
+            text-align: left !important;
             &.Message    {
                 width: 20% !important;
             }
             &.Contact{
-                text-align: right !important;
+                // text-align: left !important;
                 width: 15%;
             }
             &.Date{
