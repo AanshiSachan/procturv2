@@ -165,6 +165,10 @@
             .field-checkbox-wrapper .form-checkbox:checked+label {
                 color: $common-blue;
             }
+            th{
+              background: #e0eaec;
+              padding: 10px 10px;
+            }
         }
         .empty-table-wrapper {
             height: 100px;
