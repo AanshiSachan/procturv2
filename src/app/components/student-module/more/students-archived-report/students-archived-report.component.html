@@ -22,16 +22,15 @@
       <nav>
           <ul class="login-nav">
               <li class="pos-rel">
-                <i class="icons" style="font-size: 20px;">
+                <i class="icons" style="font-size: 20px;" *ngIf="downloadStudentReportAccess">
                   <i class="fa fa-download" aria-hidden="true"></i>
                   </i>
                   <div class="dropdown">
                       <ul class="user-detail text-left">
                             <li (click)="showDownloadDetails()" class="asHover">
-                              <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;"></i>
+                              <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;" ></i>
                               <strong style="display: inline-block;">Export as Excel</strong>
                           </li>
-                         
                       </ul>
 
                   </div>

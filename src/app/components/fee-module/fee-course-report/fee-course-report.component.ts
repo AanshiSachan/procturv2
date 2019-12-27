@@ -138,7 +138,14 @@ export class FeeCourseReportComponent implements OnInit {
       .subscribe(data => {
         this.searchDB();
       });
+      this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
+        this.downloadFeeReportAccess = true;
+    }
+}
 
   getAcademicYear() {
     this.getter.getAcademicYear().subscribe(

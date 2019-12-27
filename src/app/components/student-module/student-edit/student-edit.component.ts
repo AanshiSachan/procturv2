@@ -131,6 +131,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   customFileArr: any[] = [];
   category_id: number | string = "";
   uploadedFileData: any[] = [];
+  downloadStudentReportAccess : boolean = false;
 
   studentAddFormData: StudentForm = {
     student_name: "",
@@ -347,7 +348,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     this.fetchDataForCountryDetails();
     this.getUploadedFileData();
+    this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadStudentReportAccess')=='true'){
+        this.downloadStudentReportAccess = true;
+    }
+}
 
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');

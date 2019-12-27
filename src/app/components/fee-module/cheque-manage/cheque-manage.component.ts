@@ -29,6 +29,8 @@ export class ChequeManageComponent implements OnInit {
   chequeDataSource: any[] = [];
   tempRecords: any[] = [];
   displayKeys: any = [];
+  downloadFeeReportAccess:boolean = false;
+  
   chequeFetchForm: any = {
     from_date: moment().date(1).format("YYYY-MM-DD"),
     to_date: moment().format("YYYY-MM-DD"),
@@ -113,7 +115,14 @@ export class ChequeManageComponent implements OnInit {
     else {
       this.setDefaultValues();
     }
+    this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
+        this.downloadFeeReportAccess = true;
+    }
+}
 
   searchDatabase() {
     console.log(this.flagJson.searchText);

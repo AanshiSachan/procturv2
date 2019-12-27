@@ -159,8 +159,10 @@ export class LiveClassesComponent implements OnInit {
   }
 
   checkLiveClassExpiry(proctur_live_expiry_date) {
-    let currentDate = moment(new Date()).format('DD-MM-YYYY');
-    proctur_live_expiry_date = moment(new Date(proctur_live_expiry_date)).format('DD-MM-YYYY');
+    let currentDate = (new Date());
+    proctur_live_expiry_date = (new Date(proctur_live_expiry_date));
+    currentDate.setHours(0,0,0,0);
+    proctur_live_expiry_date.setHours(0,0,0,0);
     if(proctur_live_expiry_date < currentDate){
       this.proctur_live_expiry_date_check = true;
     }

@@ -42,7 +42,7 @@
                                     Student
                                 </a>
                             </div>
-                            <div class="more-info-item hand_icon" (click)="downloadAllStudent()" >
+                            <div class="more-info-item hand_icon" (click)="downloadAllStudent()" *ngIf="downloadStudentReportAccess">
                                     <a >
                                         <img src="../../../../assets/images/students/Export.svg" alt="">  Export
                                     </a>

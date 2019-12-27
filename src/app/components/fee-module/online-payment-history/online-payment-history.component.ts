@@ -50,6 +50,7 @@ export class OnlinePaymentHistoryComponent implements OnInit {
   searchName:string = "";
   searchText:string = "";
   tempRecords:any[]=[];
+  downloadFeeReportAccess:boolean = false;
   helpMsg: string = "Total fee collected from Inactive/Archived students or students whose fee structure is changed."
   helpMsg3: string = " Fee(s) collected from active students";
   helpMsg4: string = " Fee(s) collected from inactive students";
@@ -65,7 +66,14 @@ export class OnlinePaymentHistoryComponent implements OnInit {
   ngOnInit() {
     window.scroll(0,0);
     this.getAllPaymentRecords();
+    this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
+        this.downloadFeeReportAccess = true;
+    }
+}
 // ============================================================================
 // ============================================================================
 // for fetching data

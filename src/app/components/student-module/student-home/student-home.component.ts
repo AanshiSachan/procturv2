@@ -90,6 +90,7 @@ export class StudentHomeComponent implements OnInit {
   private assignedBatchString: string = '';
   currentDirection: string = 'asc';
   sortBy: string = "student_name";
+  downloadStudentReportAccess: boolean = false;
 
 
   private editForm: any = {
@@ -313,7 +314,16 @@ export class StudentHomeComponent implements OnInit {
         }
       }
     ];
+    this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadStudentReportAccess')=='true'){
+        this.downloadStudentReportAccess = true;
+    }else{
+      this.bulkActionItems.splice(3,1);
+    }
+}
 
   /* Fetch data from server and convert to custom array */
   loadTableDataSource(obj) {

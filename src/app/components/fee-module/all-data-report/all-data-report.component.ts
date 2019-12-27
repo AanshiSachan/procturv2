@@ -54,7 +54,8 @@ export class AllDataReportComponent implements OnInit {
     isCustomDate: false,
     isFilterReversed: true,
     isProfessional: false,
-    isRippleLoad: false
+    isRippleLoad: false,
+    downloadFeeReportAccess:false
   };
 
   searchBy: string = 'check';
@@ -172,8 +173,15 @@ export class AllDataReportComponent implements OnInit {
     else {
       this.setDefaultValues();
     }
-    console.log(this.tableSetting)
+    console.log(this.tableSetting);
+    this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
+        this.showPopupKeys.downloadFeeReportAccess = true;
+    }
+}
 
   setDefaultValues() {
     this.tableSetting.keys = [

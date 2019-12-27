@@ -29,7 +29,7 @@
             </button>
             <div class="more-info-container" [ngClass]="{'visibiltyClass':(flagJSON.isEnquiryAdmin == false)}" *ngIf="flagJSON.isEnquiryOptions"
               (mouseleave)="flagJSON.isEnquiryOptions = false" #optMenu>
-              <div class="more-info-item" (click)="downloadAllEnquiries()">
+              <div class="more-info-item" (click)="downloadAllEnquiries()" *ngIf="downloadEnquiryReportAccess">
                 <i class="fa fa-file-excel-o" aria-hidden="true"></i>
                 &nbsp;
                 <span>Export</span>
@@ -39,7 +39,7 @@
                 &nbsp;
                 <span>Upload Enquiry</span>
               </div>
-              <div *ngIf="varJson.showDownloadSummary" class="more-info-item" (click)="downloadSummaryReport()" style="border-bottom: none;">
+              <div *ngIf="varJson.showDownloadSummary && downloadEnquiryReportAccess" class="more-info-item" (click)="downloadSummaryReport()" style="border-bottom: none;">
                 <i class="fa fa-download" aria-hidden="true"></i>
                 &nbsp;
                 <span>Download Summary Report</span>

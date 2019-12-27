@@ -67,6 +67,7 @@ export class GstReportComponent implements OnInit {
   getYear: number;
 
   dataStatus: number;
+  downloadFeeReportAccess:boolean = false;
 
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
@@ -125,8 +126,14 @@ export class GstReportComponent implements OnInit {
   ngOnInit() {
     this.getGstReport(event, this.year);
     window.scroll(0,0);
+    this.checkDownloadRoleAccess();
   }
 
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
+        this.downloadFeeReportAccess = true;
+    }
+}
 
   getGstReport(event, f) {
 

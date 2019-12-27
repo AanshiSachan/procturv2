@@ -18,6 +18,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 export class PaymentHistoryMainComponent implements OnInit {
 
   @ViewChild('child') private child: DataDisplayTableComponent;
+  downloadFeeReportAccess:boolean = false;
   allPaymentRecords: any[] = [];
   tempRecords: any[] = [];
   newData: any[] = [];
@@ -192,8 +193,15 @@ export class PaymentHistoryMainComponent implements OnInit {
       this.setDefaultValues();
     }
     // console.log(this.tableSetting)
-
+    this.checkDownloadRoleAccess();
   }
+
+  checkDownloadRoleAccess() {
+    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
+        this.downloadFeeReportAccess = true;
+    }
+}
+
   // set default preferences to payment history table
   setDefaultValues() {
     this.tableSetting.keys = [

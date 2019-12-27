@@ -131,9 +131,9 @@
                 </div>
 
                 <div class="table-content">
-                    <div style="margin: 10px;">
+                    <div style="margin: 10px;" *ngIf="downloadFeeReportAccess">
 
-                        <a (click)="exportToExcel()" class="download" style="margin-top: 10px;" class="showFilter">Download To Excel</a>
+                        <a (click)="exportToExcel()" class="download" style="margin-top: 10px;" class="showFilter" >Download To Excel</a>
                         <span class="fa fa-cloud-download">
                         </span>
                     </div>
