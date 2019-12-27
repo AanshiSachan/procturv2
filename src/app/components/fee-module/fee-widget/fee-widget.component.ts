@@ -14,34 +14,52 @@ export class FeeWidgetComponent implements OnInit {
     @ViewChild('chartWrap') chartWrap: ElementRef;
     chartType: any = "1";
     isRippleLoad: boolean = false;
-    default_symbol:any="IND";
+    default_symbol: any = "Rs";
     chartDate: any = {
         from_date: moment().startOf("year").format("YYYY-MM-DD"),
         to_date: moment().endOf("year").format("YYYY-MM-DD")
     }
 
- 
+
 
     constructor(private getService: GetFeeService) {
     }
 
     ngOnInit() {
         this.fetchAllFeeData();
+        this.fetchDataForCountryDetails();
     }
 
     fetchDataForCountryDetails() {
         let countryCodeEncryptedData = sessionStorage.getItem('country_data');
         let temp = JSON.parse(countryCodeEncryptedData);
-          if (temp.length > 0) {
+        if (temp && temp.length > 0) {
             temp.forEach(element => {
-                if(element.is_default=='Y'){                    
-                    this.default_symbol =element.country_code;
+                if (element.is_default == 'Y') {
+                    let value = 100;
+                    let formatted = value.toLocaleString(element.country_code, {
+                        maximumFractionDigits: 2,
+                        style: 'currency',
+                        currency: element.currency_code
+                    });
+
+                    formatted = formatted.replace(/[,.]/g, '');
+                    formatted = formatted.replace(/[0-9]/g, '');
+                    if (formatted == '') {
+                        this.default_symbol = element.country_code;
+                    }
+                    else {
+                        this.default_symbol = formatted;
+                    }
                 }
-            });         
-        }else{
-            this.default_symbol =   "IND";
+            });
+        } else {
+            this.default_symbol = "Rs";
         }
-      }
+    }
+
+
+
     updateChartDate(e) {
         switch (parseInt(e)) {
             /* Current calendar year */
@@ -128,7 +146,7 @@ export class FeeWidgetComponent implements OnInit {
 
 
     createCompareChart(fc: any[], fd: any[], up: any[], m: any[]) {
-        var self =this;
+        var self = this;
         Highcharts.chart('chartWrap', {
             chart: {
                 type: 'column'
@@ -145,7 +163,7 @@ export class FeeWidgetComponent implements OnInit {
                 visible: true,
                 tickAmount: 5,
                 title: {
-                    text: 'Amount ('+this.default_symbol+')'
+                    text: 'Amount (' + this.default_symbol + ')'
                 }
             },
             tooltip: {
@@ -157,7 +175,7 @@ export class FeeWidgetComponent implements OnInit {
                         //     style: 'currency',
                         //     currency: 'INR'
                         // }).slice(0, -3);
-                        return self.default_symbol+' ' +x;
+                        return self.default_symbol + ' ' + x;
                     }, localVar = { symbol: " " };
                     var text = pointer.call(localVar, this.y);
                     return '<span style="font-size:10px"></span><table><tr><td style="color:' + this.series.color + ';padding:5px">' + this.series.name + '</td><td style="padding:5px"><b> ' + text + '</b></td></tr></table>';
