@@ -45,12 +45,8 @@ export class PaymentHistoryComponent implements OnChanges {
 
   constructor(private getter: GetFeeService,
      private putter: PostFeeService,
-<<<<<<< HEAD
-     private _commService:CommonServiceFactory) { }
-=======
      private _commService: CommonServiceFactory
      ) { }
->>>>>>> v3attendance_report
 
   ngOnChanges() {
     this.feeData;
