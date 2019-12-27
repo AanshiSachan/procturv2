@@ -625,3 +625,22 @@ table tr:nth-child(even):hover{
 table tr:nth-child(odd):hover{
     background: white;
 }
+
+.procturSiliconDiv{
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #0084f6;
+   :hover{
+    text-decoration: underline;
+    color: #0084f6;
+   } 
+   .procturSiliconImg{
+    min-height: 30%;
+    max-height: 30%;
+    min-width: 30%;
+    max-width: 30%;
+    vertical-align: middle;
+}
+}
