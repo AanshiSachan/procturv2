@@ -27,6 +27,7 @@ export class FeeWidgetComponent implements OnInit {
 
     ngOnInit() {
         this.fetchAllFeeData();
+        this.fetchDataForCountryDetails();
     }
 
     fetchDataForCountryDetails() {
