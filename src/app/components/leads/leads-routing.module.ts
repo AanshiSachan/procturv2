@@ -4,6 +4,7 @@ import { LeadsComponent } from './leads.component'
 import { LeadsHomeComponent } from './leads-home/leads-home.component';
 import { EnquiryAddComponent } from './enquiry-add/enquiry-add.component';
 import { DataSetupComponent } from './data-setup/data-setup.component';
+import { ManageCampaignComponent } from './manage-campaign/manage-campaign.component';
 
 
 @NgModule({
@@ -27,6 +28,12 @@ import { DataSetupComponent } from './data-setup/data-setup.component';
                   loadChildren: 'app/components/leads/campaign/campaign.module#CampaignModule',
                   pathMatch: 'prefix'
               },
+              {
+                  path: 'manage-campaign',
+                  component: ManageCampaignComponent,
+                  pathMatch: 'prefix'
+              },
+
               {
                   path: 'add',
                   component: EnquiryAddComponent,
