@@ -95,8 +95,7 @@ export class ChequeManageComponent implements OnInit {
     private pdf: ExportToPdfService,
     private _tablePreferencesService: TablePreferencesService,
     private _msgService: MessageShowService ,
-    private commonService: CommonServiceFactory
-    ) {
+    private _commService:CommonServiceFactory) {
     this.dateRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
     this.dateRange[1] = new Date();
   }
@@ -277,8 +276,44 @@ export class ChequeManageComponent implements OnInit {
 
   optionSelected(e) {
     this.selectedRecord = e.data;
+    this.selectedRecord.symbol =this.getCurrencyDetails(1000,this.selectedRecord.currency_code,this.selectedRecord.country_code);
     this.decidePopup(e.data);
+    console.log(e.data);
   }
+
+   //get country extension 
+   getCurrencyDetails(value, currency, lang) {
+    let countryCodeEncryptedData = sessionStorage.getItem('country_data');
+    let temp = JSON.parse(countryCodeEncryptedData);
+    let object;
+      if (temp&& temp.length > 0) {
+        temp.forEach(element => {
+          if(element.country_code==lang){                    
+            object =element;
+          }
+      });
+      }
+    if (object) {
+      let formatted = value.toLocaleString(lang, {
+        maximumFractionDigits: 2,
+        style: 'currency',
+        currency: object.currency_code
+      });
+
+      formatted = formatted.replace(/[,.]/g, '');
+      formatted = formatted.replace(/[0-9]/g, '');
+      if(formatted==''){        
+        return lang;
+      }
+       else{
+        return formatted;
+      }        
+    }
+    else {
+      return lang;
+    }
+  }
+
 
   cancelUpdate() {
     this.flagJson.isUpdatePopup = false;
@@ -360,6 +395,7 @@ export class ChequeManageComponent implements OnInit {
     this.getter.fetchAllChequeStudent(this.selectedRecord.student_id).subscribe(
       res => {
         this.studentFeeDues = res;
+        console.log(this.selectedRecord);
       },
       err => { }
     )
@@ -563,7 +599,7 @@ export class ChequeManageComponent implements OnInit {
 
   validatePaymentAmount(i) {
     if (parseInt(this.studentUnpaid[i].toPay) > parseInt(this.studentUnpaid[i].total_balance_amt)) {
-      this._msgService.showErrorMessage('info', "Invalid Payment Amount", "Amount cannot be greater than the total balance amount");
+      this._msgService.showErrorMessage('info', "", "Amount cannot be greater than the total balance amount");
       this.studentUnpaid[i].toPay = this.studentUnpaid[i].total_balance_amt;
     }
     else if (parseInt(this.studentUnpaid[i].toPay) == parseInt(this.studentUnpaid[i].total_balance_amt)) {

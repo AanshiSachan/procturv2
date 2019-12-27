@@ -82,7 +82,7 @@ export class HomeComponent implements OnInit {
       err => {
         this.dataStatus = 2;
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
 
@@ -180,7 +180,7 @@ export class HomeComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -210,11 +210,11 @@ export class HomeComponent implements OnInit {
 
   saveNewMessage() {
     if (this.addNewMessageText.trim() == "") {
-      this.messageNotifier('error', 'Error', "Please provide text");
+      this.messageNotifier('error', '', "Please enter text");
       return;
     } else {
       if (this.addNewMessageText.length > 500) {
-        this.messageNotifier('error', 'Error', "Message can't exceed 500 character length");
+        this.messageNotifier('error', '', "Message can't exceed 500 character length");
         return;
       } else {
         let obj = {
@@ -232,7 +232,7 @@ export class HomeComponent implements OnInit {
           },
           err => {
             this.isRippleLoad = false;
-            this.messageList('error', 'Error', err.error.message);
+            this.messageList('error', '', err.error.message);
           }
         )
       }
@@ -263,7 +263,7 @@ export class HomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -280,7 +280,7 @@ export class HomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -313,7 +313,7 @@ export class HomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -335,7 +335,7 @@ export class HomeComponent implements OnInit {
   sendSMSToEmployees() {
     let selectedMsg: any = this.getContent(this.approvedMessageList, 'selected', true);
     if (selectedMsg.length == 0) {
-      this.messageNotifier('error', 'Error', 'Please select a message');
+      this.messageNotifier('error', '', 'Please select a message');
       return;
     } else {
       if (this.selectedEmployeeID.length > 0) {
@@ -348,12 +348,12 @@ export class HomeComponent implements OnInit {
         }
         this.apiService.sendNotificationToUser(obj).subscribe(
           res => {
-            this.messageNotifier('success', 'SMS Send Successfully', '');
+            this.messageNotifier('success', 'SMS Sent successfully', '');
             this.closePopup();
           }
         )
       } else {
-        this.messageNotifier('error', 'Error', 'Please select a user');
+        this.messageNotifier('error', '', 'Please select a user');
         return;
       }
     }

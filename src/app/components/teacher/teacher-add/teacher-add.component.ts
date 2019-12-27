@@ -49,16 +49,16 @@ export class TeacherAddComponent implements OnInit {
   addNewTeacherInfo() {
     let formData = this.addTeacherForm.value;
     if (!this.validateCaseSensitiveEmail(formData.teacher_email)) {
-      this.messageToast('error', 'Error', 'Please provide valid email address.');
+      this.messageToast('error', '', 'Please enter valid email address.');
       return;
     }
     if (!(this.validateNumber(formData.teacher_phone))) {
-      this.messageToast('error', 'Error', 'Please provide valid phone number.');
+      this.messageToast('error', '', 'Please enter valid contact number.');
       return;
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
       if (!(this.validateNumber(formData.teacher_alt_phone))) {
-        this.messageToast('error', 'Error', 'Please provide valid alternate phone number.');
+        this.messageToast('error', '', 'Please enter valid alternate phone number.');
         return;
       }
     }
@@ -89,11 +89,11 @@ export class TeacherAddComponent implements OnInit {
     formData.is_employee_to_be_create = "N";
     this.teacherAPIService.addNewTeacherDetails(formData).subscribe(
       data => {
-        this.messageToast('success', 'Added', 'Faculty Added Successfully.');
+        this.messageToast('success', 'Added', 'Faculty added successfully.');
         this.route.navigateByUrl('/view/teacher');
       },
       err => {
-        this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', '', err.error.message);
       }
     )
   }

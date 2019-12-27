@@ -12,14 +12,18 @@ export class FeeTypesComponent implements OnInit {
 
   createNewFeeType: boolean = false;
   isTaxEnableFeeInstallments: boolean = false;
+  isRippleLoad: boolean = false;
   addNewFee = {
     fee_type: '',
     fee_type_desc: '',
     fee_amount: '',
     fee_type_tax: 0,
     fee_type_id: 0,
+    country_id: '' 
   }
   feeTypeList: any = [];
+  countryDetails: any = [];
+
 
   constructor(
     private apiService: FeeStrucService,
@@ -28,32 +32,102 @@ export class FeeTypesComponent implements OnInit {
 
   ngOnInit() {
     this.getListOfFeeType();
+    this.fetchDataForCountryDetails();
     this.isTaxEnableFeeInstallments = sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0' ? true : false;
 
   }
 
+  getCurrencyDetails(value, currency, lang) {
+    if (value && currency && lang) {
+      let formatted = value.toLocaleString(lang, {
+        maximumFractionDigits: 2,
+        style: 'currency',
+        currency: currency
+      });
+
+      formatted = formatted.replace(/[,.]/g, '');
+      return formatted.replace(/[0-9]/g, '');
+    }
+    else {
+      return lang;
+    }
+  }
+
+  onRowDataChange(country_id, row) {
+    this.countryDetails.forEach(countryId => {
+        if(countryId.id==country_id){
+          row.country_id = countryId.id;
+        }
+    });
+
+
+    if(country_id!='1'){
+      row.fee_type_tax=0;
+    } 
+  }
+
+  getCountryDetails(amount,country_id){
+    let symbol;
+    for(let i=0;i<this.countryDetails.length;i++){
+      if(this.countryDetails[i].id==country_id){
+        symbol = this.countryDetails[i].symbol;
+      } 
+    }
+
+    return symbol;
+  }
+
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      this.countryDetails.forEach(country => {
+        if(country){
+          country.symbol = this.getCurrencyDetails(1000,country.currency_code,country.country_code);
+          console.log ('symbol',country.symbol);
+        }        
+      });
+    }
+    console.log(data);
+  }
+
   getListOfFeeType() {
+    this.isRippleLoad = true;
     this.apiService.getAllFeeType().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.feeTypeList = res;
+        this.feeTypeList.forEach(element => {
+          if (element.countryId) {
+            element.country_id = element.countryId.country_id;
+          }
+        });
       },
       err => {
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.isRippleLoad = false;
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
 
   updateDetails() {
     let data = this.makeDataJson();
-    this.apiService.upadateFeeType(data).subscribe(
-      res => {
-        this.commonService.showErrorMessage('success', 'Updated', 'Details Updated Successfully');
-        this.getListOfFeeType();
-      },
-      err => {
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
-      }
-    )
+    if (!this.isRippleLoad) {
+      this.isRippleLoad = true;
+      this.apiService.upadateFeeType(data).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.commonService.showErrorMessage('success', 'Updated', 'Details Updated Successfully');
+          this.getListOfFeeType();
+        },
+        err => {
+          this.isRippleLoad = false;
+          this.commonService.showErrorMessage('error', '', err.error.message);
+        }
+      )
+    }
+
   }
 
   makeDataJson() {
@@ -64,6 +138,7 @@ export class FeeTypesComponent implements OnInit {
       obj.fee_type = this.feeTypeList[t].fee_type;
       obj.fee_type_desc = this.feeTypeList[t].fee_type_desc;
       obj.fee_type_id = this.feeTypeList[t].fee_type_id;
+      obj.country_id = this.feeTypeList[t].country_id;
       if (this.feeTypeList[t].fee_type_tax == "" || this.feeTypeList[t].fee_type_tax == null) {
         this.feeTypeList[t].fee_type_tax = 0;
       }
@@ -75,16 +150,31 @@ export class FeeTypesComponent implements OnInit {
 
   addNewFeeType() {
     if (this.addNewFee.fee_type.trim() != "") {
-      this.feeTypeList.push(this.addNewFee);
-      this.addNewFee = {
-        fee_type: '',
-        fee_type_desc: '',
-        fee_amount: '',
-        fee_type_tax: 0,
-        fee_type_id: 0,
+      if (this.addNewFee.country_id != "") {
+
+        if (this.addNewFee.fee_amount != "" && Number(this.addNewFee.fee_amount) > 0) {
+          let obj: any = this.addNewFee;
+          obj.country_id = Number(this.addNewFee.country_id);
+          this.onRowDataChange(obj.country_id, obj);
+          this.feeTypeList.push(obj);
+          this.addNewFee = {
+            fee_type: '',
+            fee_type_desc: '',
+            fee_amount: '',
+            fee_type_tax: 0,
+            fee_type_id: 0,
+            country_id: ''            
+          }
+        }
+        else {
+          this.commonService.showErrorMessage('error', '', 'Please enter fee amount');
+        }
+
+      } else {
+        this.commonService.showErrorMessage('error', '', 'Please select the country');
       }
     } else {
-      this.commonService.showErrorMessage('error', 'Name Required', 'Please give name of Fee Type');
+      this.commonService.showErrorMessage('error', '', 'Please enter fee type');
     }
   }
 

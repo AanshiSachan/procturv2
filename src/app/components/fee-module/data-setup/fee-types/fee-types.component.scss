@@ -5,6 +5,13 @@
     box-sizing: border-box;
 }
 
+.input_txt{
+    height: 29px;
+    padding: 0;
+    border: 1px solid #ccc; 
+    background: transparent;
+}
+
 .note-wrapper {
     padding: 10px 10px;
     background: #efefef;
@@ -21,6 +28,11 @@
 
 .table-responsive{
   overflow-x: hidden;
+}
+
+.disable_input{
+    background: lightgrey !important;
+    cursor: not-allowed;
 }
 
 .add-edit {

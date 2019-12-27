@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FeeStrucService } from '../../../../../services/feeStruc.service';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../../services/common-service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-fee-template-add',
@@ -10,9 +11,10 @@ import { CommonServiceFactory } from '../../../../../services/common-service';
   styleUrls: ['./fee-template-add.component.scss']
 })
 export class FeeTemplateAddComponent implements OnInit {
-
+  isRippleLoad: boolean = false;
   masterCourseList: any = [];
   CourseList: any = [];
+  countryAdditioalFeeTypes: any = {};
   addNewTemplate = {
     template_name: '',
     fee_amount: "",
@@ -23,7 +25,8 @@ export class FeeTemplateAddComponent implements OnInit {
     tax_amount: 0,
     total_fee: 0,
     installmentCount: '',
-    is_default_template: false
+    is_default_template: false,
+    country_id: -1
   }
   additionalInstallment = {
     days: 0,
@@ -35,17 +38,22 @@ export class FeeTemplateAddComponent implements OnInit {
     schedule_id: 0,
     service_tax: 0,
     service_tax_applicable: 'N',
-    fee_type_name: ''
+    fee_type_name: '',
+    country_id: -1
   }
+
   feeStructure: any = [];
   installMentTable: any = [];
   otherInstList: any = [];
   otherFeetype: any = [];
+  countryDetails: any = [];
   totalAmount: any = 0;
   discountAmount: any = 0
   showDetails: boolean = false;
   enableTaxOptions: any = 0;
   isLangInstitute: boolean = false;
+  moduleState: any;
+  selectedCountry: any;
 
   constructor(
     private apiService: FeeStrucService,
@@ -60,24 +68,61 @@ export class FeeTemplateAddComponent implements OnInit {
       res => {
         if (res == 'LANG') {
           this.isLangInstitute = true;
+          this.moduleState = 'Batch';
         } else {
           this.isLangInstitute = false;
+          this.moduleState = 'Course';
         }
       }
     )
     this.enableTaxOptions = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     this.getAllMasterCourseList();
-    this.getDetailOfFeeStructur()
+    this.getDetailOfFeeStructur();
+    this.fetchDataForCountryDetails();
+  }
+
+  changesValuesAsPerType(row) {
+    if (row.day_type == 1) {
+      row.days = 0;
+    }
+  }
+
+  fetchDataForCountryDetails() {
+    this.countryAdditioalFeeTypes = {};
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      let country_ids = [];
+      this.countryDetails.forEach((item) => {
+        this.countryAdditioalFeeTypes[item.id] = [];
+        country_ids.push(item.id);
+      })
+
+      this.apiService.additionalFeeTypeDetail(country_ids.join()).subscribe(
+        (res: any) => {
+          res && res.forEach(fee => {
+            const country_id = fee.countryId.country_id;
+            let fee_details = {};
+            fee_details[fee.fee_type_id] = fee.fee_type;
+            this.countryAdditioalFeeTypes[country_id].push(fee_details);
+          });
+        },
+        err => {
+          this.commonService.showErrorMessage('error', '', err.error.message);
+        }
+      )
+    }
+    // console.log(data);
   }
 
   getDetailOfFeeStructur() {
     this.apiService.fetchFeeDetail(0).subscribe(
       (res: any) => {
         this.feeStructure = res;
-        this.fillFeeType(res.feeTypeMap);
       },
       err => {
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -98,7 +143,7 @@ export class FeeTemplateAddComponent implements OnInit {
           this.masterCourseList = res;
         },
         err => {
-          this.commonService.showErrorMessage('error', 'Error', err.error.message);
+          this.commonService.showErrorMessage('error', '', err.error.message);
         }
       )
     }
@@ -123,7 +168,7 @@ export class FeeTemplateAddComponent implements OnInit {
             this.CourseList = res;
           },
           err => {
-            this.commonService.showErrorMessage('error', 'Error', err.error.message);
+            this.commonService.showErrorMessage('error', '', err.error.message);
           }
         )
       }
@@ -131,20 +176,30 @@ export class FeeTemplateAddComponent implements OnInit {
   }
 
   onAmountKeyUp() {
-    if (this.addNewTemplate.tax_type == "inclusive") {
-      this.calculateAmount(true);
-    } else {
-      this.calculateAmount(false);
+    switch (this.addNewTemplate.tax_type) {
+      case 'inclusive': {
+        this.calculateAmount(true);
+        break;
+      }
+      case 'exclusive': {
+        this.calculateAmount(false);
+        break;
+      }
     }
   }
 
   onTaxTypeChanges() {
-    if (this.addNewTemplate.tax_type == "inclusive") {
-      this.addNewTemplate.apply_tax = true;
-      this.calculateAmount(true);
-    } else {
-      this.addNewTemplate.apply_tax = true;
-      this.calculateAmount(false);
+    switch (this.addNewTemplate.tax_type) {
+      case 'inclusive': {
+        this.addNewTemplate.apply_tax = true;
+        this.calculateAmount(true);
+        break;
+      }
+      case 'exclusive': {
+        this.addNewTemplate.apply_tax = true;
+        this.calculateAmount(false);
+        break;
+      }
     }
   }
 
@@ -163,23 +218,50 @@ export class FeeTemplateAddComponent implements OnInit {
     let check = this.validateAllFields();
     if (!check) {
       this.showDetails = false;
-      return
+      return;
     }
     this.showDetails = true;
     this.createInstallmentTable();
   }
 
+  // set editional fee as per country --laxmi 
+  selectedCountryCode(country_id) {
+    this.selectedCountry = null;
+    this.otherInstList = [];
+    this.showDetails = false;
+    this.countryDetails.forEach(country => {
+      if (country.id == Number(country_id)) {
+        this.selectedCountry = country;
+      }
+    });
+    console.log(this.selectedCountry);
+    this.fillFeeType(this.countryAdditioalFeeTypes[country_id]);
+    this.clearManageFee();
+    this.additionalInstallment.country_id = this.addNewTemplate.country_id = country_id;
+    this.addNewTemplate.tax_type = 'inclusive';
+    this.calculateAmount(true);
+    this.installMentTable && this.installMentTable.length && this.installMentTable.forEach(installement => {
+      installement.country_id = country_id;
+    });
+
+    if (this.otherFeetype[0]) {
+      this.onAdditionalFeeSelection(this.otherFeetype[0].id);
+    }
+  }
+
   createInstallmentTable() {
+    this.installMentTable = [];
     let amount: any = Math.floor(Number(this.addNewTemplate.fee_amount) / Number(this.addNewTemplate.installmentCount));
     let tax_amount = Math.floor(this.addNewTemplate.tax_amount / Number(this.addNewTemplate.installmentCount));
     let totalAmount: number = 0;
     let taxAmount: number = 0;
     let obj = [];
+    this.additionalInstallment.country_id = this.addNewTemplate.country_id;
     for (let i = 0; i < Number(this.addNewTemplate.installmentCount); i++) {
       let test: any = {};
       test.day_type = 1;
       test.days = 0;
-      if (this.enableTaxOptions == "1") {
+      if (this.enableTaxOptions == "1" && this.addNewTemplate.country_id == 1) {
         if (this.addNewTemplate.tax_type == "inclusive") {
           test.initial_fee_amount = amount - tax_amount;
           test.tax = tax_amount;
@@ -195,12 +277,13 @@ export class FeeTemplateAddComponent implements OnInit {
       test.totalAmount = test.tax + test.initial_fee_amount;
       taxAmount = taxAmount + test.tax;
       totalAmount = totalAmount + test.totalAmount;
+      test.country_id = Number(this.addNewTemplate.country_id);
       obj.push(test);
     }
     if (Number(this.addNewTemplate.total_fee) != totalAmount) {
       let lastInstallment: any = obj[obj.length - 1];
       lastInstallment.totalAmount = lastInstallment.totalAmount + Number(this.addNewTemplate.total_fee) - totalAmount;
-      if (this.enableTaxOptions == '1') {
+      if (this.enableTaxOptions == '1' && this.addNewTemplate.country_id == 1) {
         lastInstallment.initial_fee_amount = Math.floor(Number(lastInstallment.totalAmount * 100 / (100 + this.feeStructure.registeredServiceTax)))
         lastInstallment.tax = lastInstallment.totalAmount - lastInstallment.initial_fee_amount;
       } else {
@@ -223,6 +306,7 @@ export class FeeTemplateAddComponent implements OnInit {
         this.additionalInstallment.initial_fee_amount = res.fee_amount;
         this.additionalInstallment.service_tax = res.fee_type_tax;
         this.additionalInstallment.fee_type = res.fee_type_id;
+        this.additionalInstallment.country_id = this.addNewTemplate.country_id;
         if (res.fee_type_tax > 0) {
           this.additionalInstallment.service_tax_applicable = "Y";
         }
@@ -231,27 +315,27 @@ export class FeeTemplateAddComponent implements OnInit {
         this.additionalInstallment.fee_type_name = res.fee_type;
       },
       err => {
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
 
   validateAllFields() {
     if (this.addNewTemplate.template_name == "" || null) {
-      this.commonService.showErrorMessage('error', 'Error', 'Template name can not be null');
+      this.commonService.showErrorMessage('error', '', 'Template name can not be null');
       return false;
     }
     if (this.addNewTemplate.fee_amount == "" || 0) {
-      this.commonService.showErrorMessage('error', 'Error', 'Please enter valid amount');
+      this.commonService.showErrorMessage('error', '', 'Please enter valid amount');
       return false;
     }
     if (this.addNewTemplate.installmentCount == "" || 0) {
-      this.commonService.showErrorMessage('error', 'Error', 'Installment Count can not be zero');
+      this.commonService.showErrorMessage('error', '', 'Installment Count can not be zero');
       return false;
     }
     if (this.addNewTemplate.is_default_template) {
       if (this.addNewTemplate.master_course_name == "" || this.addNewTemplate.course_id == -1) {
-        this.commonService.showErrorMessage('error', 'Error', 'Please provide Master Course and Course to use is default template.');
+        this.commonService.showErrorMessage('error', '', 'Please enter Master Course and Course to use is default template.');
         return false;
       }
     }
@@ -260,7 +344,7 @@ export class FeeTemplateAddComponent implements OnInit {
 
   addAdditionalInst() {
     if (this.additionalInstallment.fee_type == -1) {
-      this.commonService.showErrorMessage('error', 'Error', 'Please Select Fee Type');
+      this.commonService.showErrorMessage('error', '', 'Please Select Fee Type');
       return;
     }
     if (Number(this.additionalInstallment.initial_fee_amount) > 0) {
@@ -276,29 +360,38 @@ export class FeeTemplateAddComponent implements OnInit {
         }
       }
       this.otherInstList.push(this.additionalInstallment);
-      this.additionalInstallment = {
-        days: 0,
-        day_type: 1,
-        fee_type: -1,
-        fees_amount: 0,
-        initial_fee_amount: 0,
-        is_referenced: 'N',
-        schedule_id: 0,
-        service_tax: 0,
-        service_tax_applicable: 'N',
-        fee_type_name: ''
-      }
+      this.clearManageFee();
     }
   }
 
-  fillFeeType(data) {
-    let keys = Object.keys(data);
-    for (let i = 0; i < keys.length; i++) {
-      let test: any = {};
-      test.id = keys[i];
-      test.value = data[keys[i]];
-      this.otherFeetype.push(test);
+  clearManageFee() {
+    this.additionalInstallment = {
+      days: 0,
+      day_type: 1,
+      fee_type: -1,
+      fees_amount: 0,
+      initial_fee_amount: 0,
+      is_referenced: 'N',
+      schedule_id: 0,
+      service_tax: 0,
+      service_tax_applicable: 'N',
+      fee_type_name: '',
+      country_id: this.additionalInstallment.country_id
     }
+  }
+
+
+  fillFeeType(data) {
+    this.otherFeetype = [];
+
+    data.forEach(object => {
+      let keys = Object.keys(object);
+      let test: any = {};
+      test.id = keys[0];
+      test.value = object[keys[0]];
+      this.otherFeetype.push(test);
+    });
+
   }
 
   createFeeTemplate() {
@@ -309,7 +402,7 @@ export class FeeTemplateAddComponent implements OnInit {
     } else {
       defaultValue = '0';
     }
-    if (this.addNewTemplate.apply_tax) {
+    if (this.addNewTemplate.apply_tax && this.addNewTemplate.country_id == 1) {
       tax = "Y";
     } else {
       tax = "N";
@@ -320,6 +413,7 @@ export class FeeTemplateAddComponent implements OnInit {
     }
     let data: any = {
       is_default: defaultValue,
+      country_id: this.addNewTemplate.country_id,
       customFeeSchedules: feeSch,
       studentwise_total_fees_amount: this.totalAmount.toString(),
       studentwise_total_fees_discount: 0,
@@ -333,25 +427,37 @@ export class FeeTemplateAddComponent implements OnInit {
     } else {
       data.course_id = this.addNewTemplate.course_id;
     }
-    this.apiService.updateFeeTemplate(data).subscribe(
-      res => {
-        this.commonService.showErrorMessage('success', 'Updated', 'Fee Structure created Successfully');
-        this.route.navigateByUrl('/view/fee/data-setup/fee-template/home');
-      },
-      err => {
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
-      }
-    )
+
+    if (!this.isRippleLoad) {
+      this.isRippleLoad = true;
+      this.apiService.updateFeeTemplate(data).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.commonService.showErrorMessage('success', 'Updated', 'Fee Structure created Successfully');
+          this.route.navigateByUrl('/view/fee/data-setup/fee-template/home');
+        },
+        err => {
+          this.isRippleLoad = false;
+          this.commonService.showErrorMessage('error', '', err.error.message);
+        }
+      )
+    }
+
   }
 
   makeJSONForCustomFee() {
     this.totalAmount = 0;
     let data: any = [];
+    let registeredServiceTax = 0;
+    if (this.addNewTemplate.apply_tax && this.addNewTemplate.country_id == 1) {
+      registeredServiceTax = this.feeStructure.registeredServiceTax;
+    }
+
     for (let t = 0; t < this.installMentTable.length; t++) {
       let test: any = {};
       test.fee_type = 0;
       test.initial_fee_amount = this.installMentTable[t].initial_fee_amount.toString();
-      test.service_tax = this.feeStructure.registeredServiceTax;
+      test.service_tax = registeredServiceTax;
       test.fees_amount = this.installMentTable[t].totalAmount;
       test.service_tax_applicable = this.installMentTable[t].service_tax_applicable;
       test.day_type = this.installMentTable[t].day_type.toString();
@@ -360,7 +466,7 @@ export class FeeTemplateAddComponent implements OnInit {
       data.push(test);
     }
     if (this.totalAmount != this.addNewTemplate.total_fee) {
-      this.commonService.showErrorMessage('error', 'Error', 'Amount provided in installments doesnot match with total Amount');
+      this.commonService.showErrorMessage('error', '', 'Amount provided in installments doesnot match with total Amount');
       return false;
     }
     for (let t = 0; t < this.otherInstList.length; t++) {
@@ -369,7 +475,10 @@ export class FeeTemplateAddComponent implements OnInit {
       test.initial_fee_amount = this.otherInstList[t].initial_fee_amount.toString();
       test.service_tax = this.otherInstList[t].service_tax.toString();
       test.fees_amount = this.otherInstList[t].fees_amount.toString();
-      test.service_tax_applicable = this.otherInstList[t].service_tax_applicable;
+      test.service_tax_applicable = 0;
+      if (this.addNewTemplate.apply_tax && this.addNewTemplate.country_id == 1) {
+        test.service_tax_applicable = this.otherInstList[t].service_tax_applicable;
+      }
       test.schedule_id = this.otherInstList[t].schedule_id.toString();
       test.is_referenced = this.otherInstList[t].is_referenced;
       test.day_type = this.otherInstList[t].day_type.toString();

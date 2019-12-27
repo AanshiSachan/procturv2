@@ -20,6 +20,7 @@ export class StudentFeeTableComponent implements OnInit {
   @Input() student_id: any;
   @Input() resultForUnAssigned: boolean;
   @Input() academicListData: any = [];
+  @Input() countryDetails: any;
   @Output() closePopup = new EventEmitter<boolean>();
   otherFeeType: any[] = [];
   installmentData: any = [];
@@ -392,16 +393,12 @@ export class StudentFeeTableComponent implements OnInit {
       }
     }
     else if (this.addFeeInstallment.due_date != "" && !isNaN(this.addFeeInstallment.initial_fee_amount)) {
-
-      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      this.addFeeInstallment.service_tax = 0;
+      this.addFeeInstallment.service_tax_applicable = 'N';
+      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1' &&this.countryDetails.id==1) {
         this.addFeeInstallment.service_tax = this.feeTemplateData.registeredServiceTax;
         this.addFeeInstallment.service_tax_applicable = 'Y';
       }
-      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-        this.addFeeInstallment.service_tax = 0;
-        this.addFeeInstallment.service_tax_applicable = 'N';
-      }
-
       this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
       this.addFeeInstallment.fee_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
       this.addFeeInstallment.fee_type = 0;
@@ -539,7 +536,7 @@ export class StudentFeeTableComponent implements OnInit {
     }
     else {
       this.addFeeOther.due_date = moment(this.addFeeOther.due_date).format("YYYY-MM-DD");
-      if (this.addFeeOther.service_tax>0 && this.addFeeOther.fee_type_name!="INSTALLMENT") {
+      if (this.addFeeOther.service_tax > 0 && this.addFeeOther.fee_type_name != "INSTALLMENT") {
         this.addFeeInstallment.service_tax_applicable = 'Y';
         this.addFeeInstallment.service_tax = this.feeTemplateData.registeredServiceTax;
         this.addFeeOther.fees_amount = parseInt(this.addFeeOther.initial_fee_amount) + (this.precisionRound(((this.addFeeOther.service_tax / 100) * parseInt(this.addFeeOther.initial_fee_amount)), -1));

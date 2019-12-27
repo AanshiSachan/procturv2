@@ -271,7 +271,7 @@ export class TimeTableComponent implements OnInit {
   fetchTimeTableReport(flag) {
     this.isRippleLoad = true;
     if (this.fetchFieldData.master_course == "-1" && this.fetchFieldData.teacher_id == "-1") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Unable to Fetch Report", " Please Select a Master Course or Teacher");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", " Please Select a Master Course or Teacher");
       this.isRippleLoad = false;
       return;
     }
@@ -354,7 +354,7 @@ export class TimeTableComponent implements OnInit {
     this.isRippleLoad = true;
     if (this.selectData == "teacher") {
       if (this.fetchFieldDataPro.teacher_id == "-1") {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Unable to Fetch Report", "Please Select a Teacher");
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Please Select a Teacher");
         this.isRippleLoad = false;
         return;
       }
@@ -362,7 +362,7 @@ export class TimeTableComponent implements OnInit {
     else if (this.selectData == "batch") {
       if (this.fetchFieldDataPro.batch_id == "-1") {
         this.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Unable to Fetch Report", "Please Select a Batch");
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Please Select a Batch");
         this.isRippleLoad = false;
         return;
       }
@@ -483,7 +483,7 @@ export class TimeTableComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     );
 

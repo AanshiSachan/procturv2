@@ -48,12 +48,12 @@
                             <td><a (click)="downloadReceipt(p, i)"  id="customreceipt{{i}}">{{p.display_invoice_no}}</a></td>
                             <td>{{p.installment_no}}</td>
                             <td>{{p.fee_type_name}}</td>
-                            <td> ₹{{p.total_initial_amount.toLocaleString('en-IN')}}</td>
+                            <td> {{ _commService.currency_default_symbol}}{{p.total_initial_amount.toLocaleString('en-IN')}}</td>
                             <td> {{p.total_tax_applied}}</td>
                             <td> {{p.total_discount}}</td>
-                            <td> ₹{{p.total_amount_after_discount_after_tax.toLocaleString('en-IN')}}</td>
-                            <td> ₹{{p.total_amt_paid.toLocaleString('en-IN')}}</td>
-                            <td> ₹{{p.total_balance_amt.toLocaleString('en-IN')}}</td>
+                            <td> {{ _commService.currency_default_symbol}}{{p.total_amount_after_discount_after_tax.toLocaleString('en-IN')}}</td>
+                            <td> {{ _commService.currency_default_symbol}}{{p.total_amt_paid.toLocaleString('en-IN')}}</td>
+                            <td> {{ _commService.currency_default_symbol}}{{p.total_balance_amt.toLocaleString('en-IN')}}</td>
                             <td>{{p.paymentMode}}</td>
                             <td>{{p.reference_no}}</td>
                             <td>{{p.remarks}}</td>
@@ -69,7 +69,7 @@
                     </tbody>
                     <tbody *ngIf="pastHIstoryData.length == 0 && dataStatus === false">
                         <tr>
-                            <td colspan="14">No Data Found</td>
+                            <td colspan="14">No data found</td>
                         </tr>
                     </tbody>
                 </table>
@@ -97,12 +97,12 @@
                             <td>{{d.academic_year}}</td>
                             <td>{{d.fee_type_name}}</td>
                             <td>{{d.due_date}}</td>
-                            <td>₹{{d.total_initial_amount.toLocaleString('en-IN')}}</td>
+                            <td>{{ _commService.currency_default_symbol}}{{d.total_initial_amount.toLocaleString('en-IN')}}</td>
                             <td>{{d.total_tax_applied}}</td>
                             <td> {{d.total_discount}}</td>
-                            <td>₹{{d.total_amount_after_discount_after_tax.toLocaleString('en-IN')}}</td>
-                            <td>₹{{(d.total_amount_after_discount_after_tax - d.total_balance_amt).toLocaleString('en-IN')}}</td>
-                            <td>₹{{d.total_balance_amt.toLocaleString('en-IN')}}</td>
+                            <td>{{ _commService.currency_default_symbol}}{{d.total_amount_after_discount_after_tax.toLocaleString('en-IN')}}</td>
+                            <td>{{ _commService.currency_default_symbol}}{{(d.total_amount_after_discount_after_tax - d.total_balance_amt).toLocaleString('en-IN')}}</td>
+                            <td>{{ _commService.currency_default_symbol}}{{d.total_balance_amt.toLocaleString('en-IN')}}</td>
                         </tr>
                     </tbody>
                     <tbody *ngIf="nextDuesData.length == 0 && dataStatus === true">
@@ -115,7 +115,7 @@
                     </tbody>
                     <tbody *ngIf="nextDuesData.length == 0 && dataStatus === false">
                         <tr>
-                            <td colspan="10">No Data Found</td>
+                            <td colspan="10">No data found</td>
                         </tr>
                     </tbody>
                 </table>
@@ -143,12 +143,12 @@
                             <td>{{d.academic_year}}</td>
                             <td>{{d.fee_type_name}}</td>
                             <td>{{d.due_date}}</td>
-                            <td>₹{{d.total_initial_amount.toLocaleString('en-IN')}}</td>
+                            <td>{{ _commService.currency_default_symbol}}{{d.total_initial_amount.toLocaleString('en-IN')}}</td>
                             <td>{{d.total_tax_applied}}</td>
                             <td> {{d.total_discount}}</td>
-                            <td>₹{{d.total_amount_after_discount_after_tax.toLocaleString('en-IN')}}</td>
-                            <td>₹{{(d.total_amount_after_discount_after_tax - d.total_balance_amt).toLocaleString('en-IN')}}</td>
-                            <td>₹{{d.total_balance_amt.toLocaleString('en-IN')}}</td>
+                            <td>{{ _commService.currency_default_symbol}}{{d.total_amount_after_discount_after_tax.toLocaleString('en-IN')}}</td>
+                            <td>{{ _commService.currency_default_symbol}}{{(d.total_amount_after_discount_after_tax - d.total_balance_amt).toLocaleString('en-IN')}}</td>
+                            <td>{{ _commService.currency_default_symbol}}{{d.total_balance_amt.toLocaleString('en-IN')}}</td>
                         </tr>
                     </tbody>
                     <tbody *ngIf="pastDues.length == 0 && dataStatus === true">
@@ -161,7 +161,7 @@
                     </tbody>
                     <tbody *ngIf="pastDues.length == 0 && dataStatus === false">
                         <tr>
-                            <td colspan="10">No Data Found</td>
+                            <td colspan="10">No data found</td>
                         </tr>
                     </tbody>
                 </table>

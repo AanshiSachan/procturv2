@@ -36,7 +36,7 @@ export class SlotComponent implements OnInit {
         this.fetchTableDataByPage(this.PageIndex);
       },
       error => {
-        this.commonService.showErrorMessage('error', 'Error', error.error.message);
+        this.commonService.showErrorMessage('error', '', error.error.message);
       }
     )
   }
@@ -50,11 +50,11 @@ export class SlotComponent implements OnInit {
           this.getAllSlotsFromServer();
         },
         error => {
-          this.commonService.showErrorMessage('error', 'Error', error.error.message);
+          this.commonService.showErrorMessage('error', '', error.error.message);
         }
       )
     } else {
-      this.commonService.showErrorMessage('error', 'Error', "Please fill Slot Name");
+      this.commonService.showErrorMessage('error', '', "Please fill Slot Name");
     }
   }
 
@@ -71,7 +71,7 @@ export class SlotComponent implements OnInit {
         this.getAllSlotsFromServer();
       },
       error => {
-        this.commonService.showErrorMessage('error', 'Error', error.error.message);
+        this.commonService.showErrorMessage('error', '', error.error.message);
       }
     )
   }

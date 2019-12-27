@@ -7,6 +7,7 @@ import { ExcelService } from '../../../services/excel.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 
 @Component({
@@ -118,7 +119,6 @@ export class PaymentHistoryMainComponent implements OnInit {
     cheque_status_id: "1"
   }
 
-
   constructor(
     private payment: PaymentHistoryMainService,
     private excelService: ExcelService,
@@ -126,6 +126,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     private pdf: ExportToPdfService,
     private ref: ChangeDetectorRef,
     private _tablePreferencesService: TablePreferencesService,
+    private _commService:CommonServiceFactory
   ) { }
 
   ngOnInit() {

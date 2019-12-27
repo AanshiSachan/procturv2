@@ -162,7 +162,7 @@ export class EventManagmentComponent implements OnInit {
     let file = (<HTMLFormElement>document.getElementById('fileAdd')).files[0];
     this.type = file.name.split('.')[1];
     if (file.size > 1048576) {
-      this.commonService.showErrorMessage('error', 'Error', 'Uploaded File Exceeds 1Mb');
+      this.commonService.showErrorMessage('error', '', 'Uploaded File Exceeds 1Mb');
       (<HTMLFormElement>document.getElementById('fileAdd')).value = "";
       return;
     }
@@ -179,22 +179,22 @@ export class EventManagmentComponent implements OnInit {
   saveEventData() {
 
     if (this.saveDataObj.holiday_name == "" || this.saveDataObj.holiday_desc == "") {
-      this.commonService.showErrorMessage('error', 'Error', 'Please Provide Mandatory Fields');
+      this.commonService.showErrorMessage('error', '', 'Please Provide Mandatory Fields');
       return;
     }
     if (this.saveDataObj.event_end_date != "") {
       if (!this.isTimeValid()) {
-        this.commonService.showErrorMessage('error', 'Error', 'Please check date provided');
+        this.commonService.showErrorMessage('error', '', 'Please check date provided');
         return;
       }
       this.saveDataObj.event_end_date = moment(this.saveDataObj.event_end_date).format('YYYY-MM-DD');
     }
     if (this.saveDataObj.holiday_desc.length > 80) {
-      this.commonService.showErrorMessage('error', 'Error', 'Description should not be greater than 80');
+      this.commonService.showErrorMessage('error', '', 'Description should not be greater than 80');
       return;
     }
     if (this.saveDataObj.holiday_long_desc.length > 300) {
-      this.commonService.showErrorMessage('error', 'Error', 'Long Description should not be greater than 300');
+      this.commonService.showErrorMessage('error', '', 'Long Description should not be greater than 300');
       return;
     }
 
@@ -240,22 +240,22 @@ export class EventManagmentComponent implements OnInit {
 
   updatePopupData() {
     if (this.newUpdateObj.holiday_name == "" || this.newUpdateObj.holiday_desc == "") {
-      this.commonService.showErrorMessage('error', 'Error', 'Please Provide Mandatory Fields');
+      this.commonService.showErrorMessage('error', '', 'Please Provide Mandatory Fields');
       return;
     }
     if (this.newUpdateObj.event_end_date != "") {
       this.newUpdateObj.event_end_date = moment(this.newUpdateObj.event_end_date).format('YYYY-MM-DD');
       if (!this.validateDate(this.newUpdateObj.holiday_date, this.newUpdateObj.event_end_date)) {
-        this.commonService.showErrorMessage('error', 'Error', 'Please check date provided');
+        this.commonService.showErrorMessage('error', '', 'Please check date provided');
         return;
       }
     }
     if (this.newUpdateObj.holiday_desc.length > 80) {
-      this.commonService.showErrorMessage('error', 'Error', 'Description should not be greater than 80');
+      this.commonService.showErrorMessage('error', '', 'Description should not be greater than 80');
       return;
     }
     if (this.newUpdateObj.holiday_long_desc.length > 300) {
-      this.commonService.showErrorMessage('error', 'Error', 'Long description should not be greater than 300');
+      this.commonService.showErrorMessage('error', '', 'Long description should not be greater than 300');
       return;
     }
     this.newUpdateObj.holiday_date = moment(this.newUpdateObj.holiday_date).format('YYYY-MM-DD');
@@ -442,7 +442,7 @@ export class EventManagmentComponent implements OnInit {
   }
 
   errorMessage(error) {
-    this.commonService.showErrorMessage('error', 'Error', error);
+    this.commonService.showErrorMessage('error', '', error);
   }
 
 }

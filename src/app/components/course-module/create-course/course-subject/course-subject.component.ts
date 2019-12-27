@@ -87,7 +87,7 @@ export class CourseSubjectComponent implements OnInit {
       let msg = {
         type: "error",
         title: "",
-        body: "Please provide Subject Name"
+        body: "Please enter Subject Name"
       }
       this.toastCtrl.popToast(msg);
       return;
@@ -133,7 +133,7 @@ export class CourseSubjectComponent implements OnInit {
       let data = {
         type: "error",
         title: "",
-        body: "Please provide value of mandatory fields."
+        body: "Please enter value of mandatory fields."
       }
       this.toastCtrl.popToast(data);
       return false;
@@ -220,7 +220,7 @@ export class CourseSubjectComponent implements OnInit {
         this.isRippleLoad = false;
         let data = {
           type: "success",
-          title: "Success",
+          title: '',
           body: "Deleted Successfully"
         }
         this.toastCtrl.popToast(data);

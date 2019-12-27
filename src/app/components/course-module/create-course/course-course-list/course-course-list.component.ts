@@ -26,7 +26,6 @@ export class CourseCourseListComponent implements OnInit {
   showTable: boolean = false;
   alertBox: boolean = true;
   delete_unpaid_fee: boolean = false;
-  deafultTemplate: any;
   searchData: any = "";
   courseDetails: any;
   selectedRow: number;
@@ -74,7 +73,7 @@ export class CourseCourseListComponent implements OnInit {
         this.jsonFlags.isShowAddCourse = false;
         this.jsonFlags.isShowAddStudent = false;
 
-      } 
+      }
     }
     else {
       if (permissionArray != undefined) {
@@ -107,7 +106,7 @@ export class CourseCourseListComponent implements OnInit {
       error => {
         this.dataStatus = 2;
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', error.error.message);
+        this.messageToast('error', '', error.error.message);
       }
     )
   }
@@ -171,9 +170,21 @@ export class CourseCourseListComponent implements OnInit {
   addStudentToBatch(rowDetails) {
     this.addStudentPopUp = true;
     this.courseDetails = rowDetails;
+    console.log("courseDetails", rowDetails);
     // this.getAllStudentList();
     this.getAllFeeTemplate();
   }
+
+  // set default template and set 
+  setDefaultTemplate(country_id, templates, data) {
+    templates[country_id] && templates[country_id].forEach(object => {
+      if (object.is_default == 'Y' && data.assigned_fee_template_id == -1) {
+        data.assigned_fee_template_id = object.template_id;
+      }
+    });
+    return templates[country_id];
+  }
+
 
   getAcademicYearDetails() {
     this.academicList = [];
@@ -222,58 +233,25 @@ export class CourseCourseListComponent implements OnInit {
 
   makeTableJson(res) {
     if (this.searchFilter.unassignFlag == '0') {
-      res.forEach(element => {
-        if (element.assigned_fee_template_id == -1) {
-          if (this.deafultTemplate != null && this.deafultTemplate != "") {
-            element.assigned_fee_template_id = this.deafultTemplate.template_id;
-          }
-        }
-      });
       return res;
     } else if (this.searchFilter.unassignFlag == '1') {
       let data = [];
       res.forEach(element => {
-        if (element.assigned) {
-          if (element.assigned_fee_template_id == -1) {
-            if (this.deafultTemplate != null && this.deafultTemplate != "") {
-              element.assigned_fee_template_id = this.deafultTemplate.template_id;
-              data.push(element);
-            } else {
-              // tHIS CASE IF FEE TEMPLATE IS NOT MADE FOR COURSE
-              data.push(element);
-            }
-          } else {
-            data.push(element);
-          }
+        if (element.assigned) {   
+            data.push(element);          
         }
       });
       return data;
     } else {
-      res.forEach(element => {
-        if (element.assigned_fee_template_id == -1) {
-          if (this.deafultTemplate != null && this.deafultTemplate != "") {
-            element.assigned_fee_template_id = this.deafultTemplate.template_id;
-          }
-        }
-      });
       return res;
     }
   }
 
 
-  defaultTemplateDet(data) {
-    data.forEach(element => {
-      if (element.is_default == 1) {
-        this.deafultTemplate = element;
-      }
-    });
-  }
-
   getAllFeeTemplate() {
     this.apiService.getFeeTemplate(this.courseDetails.course_id).subscribe(
       res => {
         this.feeTemplateDataSource = res;
-        this.defaultTemplateDet(res);
       },
       err => {
         //console.log(err);
@@ -352,7 +330,7 @@ export class CourseCourseListComponent implements OnInit {
     // console.log(dataToSend)
     this.apiService.saveUpdatedList(dataToSend, this.courseDetails.course_id).subscribe(
       res => {
-        this.messageToast('success', 'Saved', 'Changes saved successfully.');
+        this.messageToast('success', '', 'Student\'(s) added successfully');
         this.studentList = [];
         this.addStudentPopUp = false;
         this.isRippleLoad = false;
@@ -360,7 +338,7 @@ export class CourseCourseListComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', '', err.error.message);
       }
     )
   }

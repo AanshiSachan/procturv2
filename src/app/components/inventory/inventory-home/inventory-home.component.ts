@@ -217,7 +217,7 @@ export class HomeComponent implements OnInit {
         error => {
           this.isRippleLoad = false;
           this.subtractFlag = false;
-          this.msg.showErrorMessage("error" , "Error" , error.error.message);
+          this.msg.showErrorMessage("error" , '' , error.error.message);
           this.loadTableDatatoSource();
           //console.log('Add Stock Error', error);
         }
@@ -255,7 +255,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;      
-        this.msg.showErrorMessage("error" , "Error" , error.error.message);
+        this.msg.showErrorMessage("error" , '' , error.error.message);
       }
     )
   }
@@ -280,7 +280,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;   
-        this.msg.showErrorMessage("error" , "Error" , error.error.message);
+        this.msg.showErrorMessage("error" , '' , error.error.message);
       }
     )
   }
@@ -298,7 +298,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        this.msg.showErrorMessage("error" , "Error" , error.error.message);
+        this.msg.showErrorMessage("error" , '' , error.error.message);
       }
     )
   }
@@ -394,7 +394,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        //console.log("Error", error);
+        //console.log('', error);
       }
     )
   }
@@ -404,7 +404,7 @@ export class HomeComponent implements OnInit {
     data.alloted_units = this.addItemForm.value.alloted_units.toString();
     data.category_id = this.addItemForm.value.categoryDet;
     if (data.category_id == -1) {    
-      this.msg.showErrorMessage("error" , "Error" ,"Please provide category");
+      this.msg.showErrorMessage("error" , '' ,"Please enter category");
       return;
     }
     data.created_date = this.addItemForm.value.created_date;
@@ -430,7 +430,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        this.msg.showErrorMessage("error" , "Error" , error.error.message);
+        this.msg.showErrorMessage("error" , '' , error.error.message);
       }
     )
 
@@ -470,7 +470,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        this.msg.showErrorMessage("error" , "Error" , error.error.message);
+        this.msg.showErrorMessage("error" , '' , error.error.message);
       }
     )
   }
@@ -501,7 +501,7 @@ export class HomeComponent implements OnInit {
         },
         error => {
           this.isRippleLoad = false;
-          console.log('Error', error);
+          console.log('', error);
         }
       )
     } else {
@@ -553,15 +553,15 @@ export class HomeComponent implements OnInit {
 
   validateMandatoryFields() {
     if (this.allocateItemForm.value.sub_branch_id == "" || this.allocateItemForm.value.sub_branch_id == null || this.allocateItemForm.value.sub_branch_id == '-1') {
-           this.msg.showErrorMessage("error" , "Error" , "Please provide sub branch");
+           this.msg.showErrorMessage("error" , '' , "Please enter sub branch");
       return false;
     }
     if (this.allocateItemForm.value.sub_branch_item_id == "" || this.allocateItemForm.value.sub_branch_item_id == null) {
-         this.msg.showErrorMessage("error" , "Error" , "Please provide sub branch item");
+         this.msg.showErrorMessage("error" , '' , "Please enter sub branch item");
       return false;
     }
     if (this.allocateItemForm.value.alloted_units == "" || this.allocateItemForm.value.alloted_units == null) {
-        this.msg.showErrorMessage("error" , "Error" , "Please provide no of allocation units");
+        this.msg.showErrorMessage("error" , '' , "Please enter no of allocation units");
       return false;
     }
     return true;
@@ -584,13 +584,13 @@ export class HomeComponent implements OnInit {
     data.item_id = this.allocateItemRowClicked.item_id.toString();
     this.inventoryApi.allocateItemToSubBranch(data).subscribe(
       data => {   
-        this.msg.showErrorMessage("success" , "Success" , "Successfully allocated to sub branch");
+        this.msg.showErrorMessage("success" , '' , "Successfully allocated to sub branch");
         this.showAllocationBranchPopUp = false;
         this.loadTableDatatoSource();
       },
       error => {
         //console.log("Allocate Item", error);
-        this.msg.showErrorMessage("error" , "Error" , error.error.message);
+        this.msg.showErrorMessage("error" , '' , error.error.message);
       }
     )
   }

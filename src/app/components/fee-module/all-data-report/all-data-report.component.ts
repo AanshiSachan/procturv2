@@ -11,6 +11,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { MessageShowService } from '../../../services/message-show.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 /**  models imports*/
 
 
@@ -131,7 +132,8 @@ export class AllDataReportComponent implements OnInit {
     private _tablePreferencesService: TablePreferencesService,
     private ref: ChangeDetectorRef,
     private pdf: ExportToPdfService,
-    private _msgService: MessageShowService
+    private _msgService: MessageShowService,
+    private _commService:CommonServiceFactory
   ) {
     this.excelService = excelService;
     // this.switchActiveView('fee');
@@ -139,7 +141,7 @@ export class AllDataReportComponent implements OnInit {
 
   ngOnInit() {
     window.scroll(0,0);
-    this.due_type = "seven_days_dues"
+    this.due_type = "seven_days_dues";
     this.dateRangeChanges(event);
     this.getAcademicYear();
     this.auth.institute_type.subscribe(

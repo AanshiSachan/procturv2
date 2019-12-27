@@ -187,31 +187,31 @@
                             <div class="c-lg-2">
                                 <li style="display: inline-block; margin-left: 10%;">
                                     <span class="made-out">Total Fees</span>
-                                    <div class="made-in">₹{{feeDataSource1[0].total_fees.toLocaleString('en-IN')}}</div>
+                                    <div class="made-in">{{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_fees.toLocaleString('en-IN')}}</div>
                                 </li>
                             </div>
                             <div class="c-lg-2">
                                 <li style=" margin-left: 11px; display: inline-block;">
                                     <span class="made-out"> Collected</span>
-                                    <div class="made-in">₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</div>
+                                    <div class="made-in">{{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</div>
                                 </li>
                             </div>
                             <div class="c-lg-2">
                                 <li style="display: inline-block; margin-left: 10%;">
                                     <span class="made-out">Past dues</span>
-                                    <div class="made-in">₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</div>
+                                    <div class="made-in">{{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</div>
                                 </li>
                             </div>
                             <div class="c-lg-2">
                                 <li style=" margin-left: 11px; display: inline-block;">
                                     <span class="made-out"> Future Dues</span>
-                                    <div class="made-in"> ₹{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}</div>
+                                    <div class="made-in"> {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}</div>
                                 </li>
                             </div>
                             <div class="c-lg-2">
                                 <li style=" margin-left: 11px; display: inline-block;">
                                     <span class="made-out"> Total Dues</span>
-                                    <div class="made-in"> ₹{{ (feeDataSource1[0].total_dues_pending+feeDataSource1[0].total_future_dues).toLocaleString('en-IN')}}</div>
+                                    <div class="made-in"> {{ _commService.currency_default_symbol}}{{ (feeDataSource1[0].total_dues_pending+feeDataSource1[0].total_future_dues).toLocaleString('en-IN')}}</div>
                                 </li>
                             </div>
                         

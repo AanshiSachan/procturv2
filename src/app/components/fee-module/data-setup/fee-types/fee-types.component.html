@@ -1,14 +1,16 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <div class="middle-section clearFix">
   <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
     <h1 class="pull-left">
-        <a routerLink="/view/fee">
-          Fees 
+      <a routerLink="/view/fee">
+        Fees
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       <a routerLink="/view/fee/data-setup">
-         Data-setup
-    </a>
-    <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Additional fees
+        Data-setup
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Additional fees
     </h1>
   </section>
 
@@ -38,32 +40,43 @@
     </div>
     <section class="clearFix create-standard-form" *ngIf="createNewFeeType">
       <div class="row create-standard-field">
-        <div class="c-lg-3 c-md-3 c-sm-3">
+        <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type != '' }">
-            <label for="slotNew">Fee Type Name
+            <label for="slotNew">Fee Type <span class="text-danger">*</span>
             </label>
             <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type" name="slotNew">
 
             <p>(Eg Registration Fee, Library)</p>
           </div>
         </div>
-        <div class="c-lg-3 c-md-3 c-sm-3">
+        <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_desc != '' }">
             <label for="slotNew">Description
             </label>
             <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type_desc" name="slotNew">
-
+          </div>
+        </div>
+        <div class="c-lg-2 c-md-2 c-sm-2">
+          <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.country_id != '' }">
+            <label for="slotNew">Country <span class="text-danger">*</span></label>
+            <select id="country_id" class="form-ctrl" [(ngModel)]="addNewFee.country_id" name="country_id" style="height: 29px;padding: 0">
+              <option value=""></option>
+              <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                {{data.country_name}}
+              </option>
+            </select>
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_amount != '' }">
-            <label for="slotNew">Amount
+            <label for="slotNew">Fee Amount <span class="text-danger">*</span>
             </label>
-            <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_amount" name="slotNew">
+            <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_amount"
+              name="slotNew">
 
           </div>
         </div>
-        <div class="c-lg-2 c-md-2 c-sm-2">
+        <div class="c-lg-2 c-md-2 c-sm-2" *ngIf="addNewFee.country_id==1">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_tax >= 0 }">
             <label for="slotNew">Tax(%)
             </label>
@@ -88,6 +101,9 @@
             Fee Type Description
           </th>
           <th>
+            Country
+          </th>
+          <th>
             Fee Amount
           </th>
           <th>
@@ -95,7 +111,7 @@
             <div class="questionInfo inline-relative">
               <span class="qInfoIcon i-class">i</span>
               <div class="tooltip-box-field">
-                Enable  GST
+                Enable GST
               </div>
             </div>
           </th>
@@ -116,31 +132,41 @@
               </div>
             </td>
             <td>
-              <div class="field-wrapper">
-                <input type="number" class="form-ctrl editCellInput" style="width:25%" [(ngModel)]="row.fee_amount" name="label">
-              </div>
-            </td>
-            <td>
-              <div class="field-wrapper">
-                <input type="number" class="form-ctrl editCellInput" style="width:25%" [readonly]="isTaxEnableFeeInstallments" [(ngModel)]="row.fee_type_tax"
-                  name="tax">
-              </div>
-            </td>
-            <td>
-              <span *ngIf="row.fee_type_id == 0" class="delete-btn" style="font-family: FontAwesome; font-size: 19px" (click)="deleteRow(row , i)">
-                <i class="fa fa-trash-o " aria-hidden="true "></i>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+              <select id="country_id" class="form-ctrl input_txt" [(ngModel)]="row.country_id" 
+              name="country_id"  (ngModelChange)="onRowDataChange($event,row)">
+                <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                  {{data.country_name}}   
+                </option>
+              </select>
+    </td>
+    <td>
+        <span>{{getCountryDetails(row.fee_amount,row.country_id)}}</span>
+      <span class="field-wrapper">
+       <input type="number" class="form-ctrl editCellInput" style="width:25%;display: inherit;" [(ngModel)]="row.fee_amount" name="label">
+      </span>
+    </td>
+    <td>
+      <div class="field-wrapper">
+        <!-- disabled =row.country_id!='1' && isTaxEnableFeeInstallments -->
+    <input type="number"  class="form-ctrl editCellInput" [disabled]="row.country_id!='1'" [ngClass]="{'disable_input': row.country_id!='1'}" style="width:25%" [(ngModel)]="row.fee_type_tax"
+          name="tax">
+      </div>
+    </td>
+    <td>
+      <span *ngIf="row.fee_type_id == 0" class="delete-btn" style="font-family: FontAwesome; font-size: 19px" (click)="deleteRow(row , i)">
+        <i class="fa fa-trash-o " aria-hidden="true "></i>
+      </span>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+</div>
 
-    <div class="pull-right" style="margin-top: 1.5%;">
-      <button class="btn" routerLink="/view/fee/home">Back</button>
-      <button class="btn fullBlue" (click)="updateDetails()">Update</button>
-    </div>
+<div class="pull-right" style="margin-top: 1.5%;">
+  <button class="btn" routerLink="/view/fee/home">Back</button>
+  <button class="btn fullBlue" (click)="updateDetails()">Update</button>
+</div>
 
-  </section>
+</section>
 
 </div>

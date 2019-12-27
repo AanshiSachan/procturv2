@@ -80,7 +80,7 @@ export class TeacherPerformanceComponent implements OnInit {
         }
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         this.jsonFlag.isRippleLoad = false;
       }
     );

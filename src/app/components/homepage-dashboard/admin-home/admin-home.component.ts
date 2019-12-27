@@ -585,7 +585,7 @@ export class AdminHomeComponent implements OnInit {
       if (this.validateSpecialCharacters(this.homework)) {
         // Do nothing
       } else {
-        this.messageNotifier('error', 'Error', 'Special characters are not allowed in homework field');
+        this.messageNotifier('error', '', 'Special characters are not allowed in homework field');
         return
       }
     }
@@ -811,8 +811,8 @@ export class AdminHomeComponent implements OnInit {
     if (data == "" || data == null) {
       let msg = {
         type: 'error',
-        title: 'Error',
-        body: 'Please provide correct time'
+        title: '',
+        body: 'Please enter correct time'
       }
       this.appC.popToast(msg);
       return false;
@@ -826,8 +826,8 @@ export class AdminHomeComponent implements OnInit {
     if (this.reschedReason == null || this.reschedReason == "") {
       let msg = {
         type: 'error',
-        title: 'Error',
-        body: 'Please provide reschedule reason'
+        title: '',
+        body: 'Please enter reschedule reason'
       }
       this.appC.popToast(msg);
       return;
@@ -836,8 +836,8 @@ export class AdminHomeComponent implements OnInit {
     if (moment().format('YYYY-MM-DD') > moment(this.reschedDate).format('YYYY-MM-DD')) {
       let msg = {
         type: 'error',
-        title: 'Error',
-        body: 'Please provide future reschedule date'
+        title: '',
+        body: 'Please enter future reschedule date'
       }
       this.appC.popToast(msg);
       return;
@@ -932,8 +932,8 @@ export class AdminHomeComponent implements OnInit {
         else {
           let msg = {
             type: 'error',
-            title: 'Invalid Time',
-            body: 'Please provide a complete start and end time for rescheduling'
+            title: '',
+            body: 'Please enter a complete start and end time for rescheduling'
           }
           this.appC.popToast(msg);
           return false;
@@ -1190,7 +1190,7 @@ export class AdminHomeComponent implements OnInit {
       let msg = {
         type: 'error',
         title: 'Cancellation Reason',
-        body: 'Please provide cancellation reason'
+        body: 'Please enter cancellation reason'
       }
       this.appC.popToast(msg);
       return;
@@ -1342,7 +1342,7 @@ export class AdminHomeComponent implements OnInit {
         if (res.length == 0) {
           let msg = {
             type: 'error',
-            title: 'Error',
+            title: '',
             body: "No toppics list found"
           }
           this.appC.popToast(msg);
@@ -1991,7 +1991,7 @@ export class AdminHomeComponent implements OnInit {
     if (text.trim() == "" && text.trim() == null) {
       let msg = {
         type: 'error',
-        title: 'Error',
+        title: '',
         body: "Please enter subject for email"
       };
       this.appC.popToast(msg);
@@ -2006,7 +2006,7 @@ export class AdminHomeComponent implements OnInit {
     if (text.trim() == "" && text.trim() == null) {
       let msg = {
         type: 'error',
-        title: 'Error',
+        title: '',
         body: "Please enter subject for email"
       };
       this.appC.popToast(msg);
@@ -2041,7 +2041,7 @@ export class AdminHomeComponent implements OnInit {
     if (this.messageList.length == count) {
       let msg = {
         type: 'error',
-        title: 'Error',
+        title: '',
         body: "Please select message"
       };
       this.appC.popToast(msg);
@@ -2061,7 +2061,7 @@ export class AdminHomeComponent implements OnInit {
     } else {
       let msg = {
         type: 'error',
-        title: 'Error',
+        title: '',
         body: "Please select Delivery Mode(SMS , Email)"
       };
       this.appC.popToast(msg);
@@ -2092,7 +2092,7 @@ export class AdminHomeComponent implements OnInit {
     } else {
       let msg = {
         type: 'error',
-        title: 'Error',
+        title: '',
         body: "Please correct option in Send SMS To.."
       };
       this.appC.popToast(msg);
@@ -2166,7 +2166,7 @@ export class AdminHomeComponent implements OnInit {
         let msg = {
           type: 'success',
           title: 'Message',
-          body: "Send Successfully"
+          body: "Sent successfully"
         };
         this.appC.popToast(msg);
         this.closeNotificationPopUp();
@@ -2175,7 +2175,7 @@ export class AdminHomeComponent implements OnInit {
         //console.log(err);
         let msg = {
           type: 'error',
-          title: 'Error',
+          title: '',
           body: err.error.message
         };
         this.appC.popToast(msg);
@@ -2204,7 +2204,7 @@ export class AdminHomeComponent implements OnInit {
         let msg = {
           type: 'success',
           title: 'Message',
-          body: "Send Successfully"
+          body: "Sent successfully"
         };
         this.appC.popToast(msg);
       },
@@ -2212,7 +2212,7 @@ export class AdminHomeComponent implements OnInit {
         //console.log(err);
         let msg = {
           type: 'error',
-          title: 'Error',
+          title: '',
           body: err.error.message
         };
         this.appC.popToast(msg);
@@ -2251,7 +2251,7 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.smsForAddDownload(obj).subscribe(
         res => {
           this.isRippleLoad = false;
-          let tempMsg=type+' Send Successfully';
+          let tempMsg=type+' Sent successfully';
           let msg = {
             type: 'success',
             title: '',
@@ -2264,7 +2264,7 @@ export class AdminHomeComponent implements OnInit {
           //console.log(err);
           let msg = {
             type: 'error',
-            title: 'Error',
+            title: '',
             body: err.error.message
           };
           this.appC.popToast(msg);
@@ -2626,7 +2626,7 @@ export class AdminHomeComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -2729,7 +2729,7 @@ export class AdminHomeComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -2773,7 +2773,7 @@ export class AdminHomeComponent implements OnInit {
   // Lang Model
   cancelExamClassSchedule() {
     if (this.cancelPopUpData.reason.trim() == "" || null) {
-      this.messageNotifier('error', 'Error', 'Please provide cancellation reason');
+      this.messageNotifier('error', '', 'Please enter cancellation reason');
       return;
     }
     let notify: any = "";
@@ -2802,7 +2802,7 @@ export class AdminHomeComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         //console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -2844,7 +2844,7 @@ export class AdminHomeComponent implements OnInit {
         err => {
           this.isRippleLoad = false;
           console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -2892,7 +2892,7 @@ export class AdminHomeComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -2938,7 +2938,7 @@ export class AdminHomeComponent implements OnInit {
   updateMarksOnServer(sendSms) {
     let dataToSend = this.makeJsonForMarks(sendSms);
     if (dataToSend.studLi.length == 0) {
-      this.messageNotifier('error', 'Error', 'Please Select Student');
+      this.messageNotifier('error', '', 'Please Select Student');
       return;
     }
     if (dataToSend == false) {
@@ -2952,7 +2952,7 @@ export class AdminHomeComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -2980,7 +2980,7 @@ export class AdminHomeComponent implements OnInit {
         student.grade_id = this.studentList[i].grade_id;
         if (this.examData.is_exam_grad_feature == 0) {
           if (student.marks_obtained > this.examData.total_marks) {
-            this.messageNotifier('error', 'Error', 'Please check marks you have provided');
+            this.messageNotifier('error', '', 'Please check marks you have provided');
             return false;
           } else {
             if (this.studentList[i].attendance == 'P') {
@@ -3081,7 +3081,7 @@ export class AdminHomeComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -3135,7 +3135,7 @@ export class AdminHomeComponent implements OnInit {
   makeServerCallForExamUpdate(notify) {
     let data = this.constructJsonForAttendance(notify);
     if (data.length == 0) {
-      this.messageNotifier('error', 'Error', 'Please select student from student list');
+      this.messageNotifier('error', '', 'Please select student from student list');
       return;
     }
     this.widgetService.markStudentAttendance(data).subscribe(
@@ -3147,7 +3147,7 @@ export class AdminHomeComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -3238,7 +3238,7 @@ export class AdminHomeComponent implements OnInit {
 
   updateMarksOnServerCourse(type) {
     if (this.examMarksLevel == 0 ) {
-      this.messageNotifier('error', 'Error', 'Please provide marks updation level');
+      this.messageNotifier('error', '', 'Please enter marks updation level');
       return;
     }
     let data: any;
@@ -3248,7 +3248,7 @@ export class AdminHomeComponent implements OnInit {
       data = this.fetchAllStudentJson();
     }
     if (data.length == 0) {
-      this.messageNotifier('error', 'Error', 'Please select student from student list');
+      this.messageNotifier('error', '', 'Please select student from student list');
       return;
     }
     if (data == false) {
@@ -3261,7 +3261,7 @@ export class AdminHomeComponent implements OnInit {
         this.generateCourseLevelWidget();
       },
       err => {
-        this.messageNotifier('error', 'Error', err.error.message);
+        this.messageNotifier('error', '', err.error.message);
       }
     )
   }
@@ -3295,7 +3295,7 @@ export class AdminHomeComponent implements OnInit {
         obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
       } else {
         if (this.studentList[i].grade_id == '-1') {
-          this.messageNotifier('error', 'Error', 'Please provide total grades');
+          this.messageNotifier('error', '', 'Please enter total grades');
           return false;
         }
         obj.grade_id = this.studentList[i].grade_id;
@@ -3330,7 +3330,7 @@ export class AdminHomeComponent implements OnInit {
         obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
       } else {
         if (this.studentList[i].grade_id == '-1') {
-          this.messageNotifier('error', 'Error', 'Please provide total grades');
+          this.messageNotifier('error', '', 'Please enter total grades');
           return false;
         }
         obj.grade_id = this.studentList[i].grade_id;
@@ -3352,7 +3352,7 @@ export class AdminHomeComponent implements OnInit {
       } else {
         obj.grade_id = data[i].grade_id;
         if (obj.grade_id == "-1" && this.examMarksLevel == 1 && attendance == 'P') {
-          this.messageNotifier('error', 'Error', 'Please provide grades of subject');
+          this.messageNotifier('error', '', 'Please enter grades of subject');
           return false;
         }
       }
@@ -3365,7 +3365,7 @@ export class AdminHomeComponent implements OnInit {
     let total: number = 0;
     let number = Number(data.marks_obtained);
     if (data.total_marks < number) {
-      this.messageNotifier('error', 'Error', 'Please provide mark less than total marks');
+      this.messageNotifier('error', '', 'Please enter mark less than total marks');
       data.marks_obtained = 0;
     } else {
       for (let i = 0; i < student.batchExamMarksLi.length; i++) {
@@ -3379,7 +3379,7 @@ export class AdminHomeComponent implements OnInit {
   checkTotalMarks(data, event) {
     let number = Number(data.course_exam_marks_obtained);
     if (data.cours_exam_total_marks < number) {
-      this.messageNotifier('error', 'Error', 'Please provide mark less than total marks');
+      this.messageNotifier('error', '', 'Please enter mark less than total marks');
       data.course_exam_marks_obtained = 0;
     }
     data.isUpdated = "Y";
@@ -3429,7 +3429,7 @@ export class AdminHomeComponent implements OnInit {
       notify = 'N';
     }
     if (this.cancelPopUpData.reason.trim() == "" || null) {
-      this.messageNotifier('error', 'Error', 'Please provide reason');
+      this.messageNotifier('error', '', 'Please enter reason');
       return false;
     }
     // if (this.showReasonSection == "Course") {
@@ -3450,7 +3450,7 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     // } else {
@@ -3473,7 +3473,7 @@ export class AdminHomeComponent implements OnInit {
     //     },
     //     err => {
     //       this.isRippleLoad = false;
-    //       this.messageNotifier('error', 'Error', err.error.message);
+    //       this.messageNotifier('error', '', err.error.message);
     //     }
     //   )
     // }
@@ -3589,7 +3589,7 @@ export class AdminHomeComponent implements OnInit {
         err => {
           let msg = {
             type: 'error',
-            title: 'Error',
+            title: '',
             body: err.error.message
           }
           this.appC.popToast(msg);

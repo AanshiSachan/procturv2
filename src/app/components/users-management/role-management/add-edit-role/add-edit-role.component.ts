@@ -112,11 +112,11 @@ export class AddEditRoleComponent implements OnInit {
   createNewRole() {
     let data: any = this.makeJsonTOSend();
     if (data.role_name == "" || data.role_name == null) {
-      this.messageNotifier('error', 'Error', 'Please Provide Role Name');
+      this.messageNotifier('error', '', 'Please Provide Role Name');
       return;
     }
     else if (data.feautreList.length == 0) {
-      this.messageNotifier('error', 'Error', 'Please Select Role');
+      this.messageNotifier('error', '', 'Please Select Role');
       return;
     }
     else {
@@ -136,7 +136,7 @@ export class AddEditRoleComponent implements OnInit {
   updateRole() {
     let data: any = this.makeJsonTOSend();
     if (data.feautreList.length == 0) {
-      this.messageNotifier('error', 'Error', 'Please Select Role');
+      this.messageNotifier('error', '', 'Please Select Role');
       return;
     } else {
       this.apiService.updateRole(data, this.userData.role_id).subscribe(

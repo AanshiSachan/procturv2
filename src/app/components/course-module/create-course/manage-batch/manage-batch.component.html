@@ -124,11 +124,11 @@
           <div class="field-wrapper">
             <label>Academic Year </label>
             <select id="" class="form-ctrl halfwidth" name="row.class_room_id" [(ngModel)]="addNewBatch.academic_year_id">
-                <option value="-1">Select</option>
+              <option value="-1">Select</option>
               <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                 {{opt.inst_acad_year}}
               </option>
-              </select>
+            </select>
           </div>
         </div>
 
@@ -210,9 +210,8 @@
             </thead>
             <tbody *ngIf="(tableData.length != 0)">
               <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" class="displayComp" *ngFor="let row of tableData; let i=index; trackBy: i; ">
-
                 <td class="view-comp">
-                  {{row.batch_name}}
+                  <span title="{{row.batch_name}}">{{row.batch_name.length>20?(row.batch_name | slice:0:20):row.batch_name}}</span>
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper editCellAllignment">
@@ -287,8 +286,8 @@
                   </div>
                 </td>
                 <td class="view-comp">
-                  <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}" [(ngModel)]="row.academic_year_id"
-                    style="background: transparent">
+                  <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}"
+                    [(ngModel)]="row.academic_year_id" style="background: transparent">
                     <option value="-1">Select</option>
                     <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                       {{opt.inst_acad_year}}
@@ -300,15 +299,15 @@
                   {{row.class_room_name}}
                 </td>
                 <td class="edit-comp">
-                    <div class="field-wrapper">
-                      <select id="" class="form-ctrl " name="row.academic_year_id" [(ngModel)]="editRowDetails.academic_year_id">
-                          <option value="-1">Select</option>
-                        <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
-                          {{opt.inst_acad_year}}
-                        </option>
-                      </select>
-                    </div>
-                  </td>
+                  <div class="field-wrapper">
+                    <select id="" class="form-ctrl " name="row.academic_year_id" [(ngModel)]="editRowDetails.academic_year_id">
+                      <option value="-1">Select</option>
+                      <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                        {{opt.inst_acad_year}}
+                      </option>
+                    </select>
+                  </div>
+                </td>
                 <td class="edit-comp">
                   <div class="field-wrapper">
                     <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="editRowDetails.class_room_id">
@@ -451,6 +450,9 @@
                   Name
                 </th>
                 <th>
+                  Country
+                </th>
+                <th>
                   Contact No.
                 </th>
                 <!-- <th>
@@ -482,6 +484,9 @@
                 <td>
                   {{row.student_name}}
                 </td>
+                <td [title]="row.country_name">
+                  {{row.country_code}}
+                </td>
                 <td>
                   {{row.student_phone}}
                 </td>
@@ -493,8 +498,8 @@
                 </td>
                 <td>
                   <div class="field-wrapper">
-                    <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}" [(ngModel)]="batchDetails.academic_year_id"
-                      style="background: transparent">
+                    <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}"
+                      [(ngModel)]="batchDetails.academic_year_id" style="background: transparent">
                       <option value="-1">Select</option>
                       <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                         {{opt.inst_acad_year}}
@@ -506,7 +511,7 @@
                   <div class="field-wrapper">
                     <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.assigned_fee_template_id" style="background: transparent">
                       <option value="-1">Select</option>
-                      <option *ngFor="let opt of feeTemplateDataSource" [value]="opt.template_id">
+                      <option *ngFor="let opt of setDefaultTemplate(row.country_id,feeTemplateDataSource,row) " [value]="opt.template_id">
                         {{opt.template_name}}
                       </option>
                     </select>
@@ -514,7 +519,7 @@
                 </td>
               </tr>
               <tr *ngIf="(dataTable.length == 0)">
-                <td colspan="7">
+                <td colspan="8">
                   No Student Found
                 </td>
               </tr>

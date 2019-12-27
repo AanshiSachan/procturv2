@@ -32,7 +32,6 @@ export class ManageBatchComponent implements OnInit {
   dataStatus: number = 1;
   selectedRow: number;
   unselected_checkbox_id: number;
-  deafultTemplate: any;
   examGradeFeature: any = "";
   searchData: any = "";
   radioOption: string = '0';
@@ -95,7 +94,7 @@ export class ManageBatchComponent implements OnInit {
       error => {
         this.isRippleLoad = false;
         //console.log(error);
-        this.messageToast('error', 'Error', error.error.message);
+        this.messageToast('error', '', error.error.message);
       }
     )
   }
@@ -114,7 +113,7 @@ export class ManageBatchComponent implements OnInit {
       error => {
         this.isRippleLoad = false;
         //console.log(error);
-        this.messageToast('error', 'Error', error.error.message);
+        this.messageToast('error', '', error.error.message);
       }
     )
   }
@@ -149,6 +148,16 @@ export class ManageBatchComponent implements OnInit {
     }
   }
 
+ // set default template and set 
+ setDefaultTemplate(country_id, templates, data) {
+  templates[country_id] && templates[country_id].forEach(object => {
+    if (object.is_default == 'Y'&& data.assigned_fee_template_id == -1) {
+      data.assigned_fee_template_id = object.template_id;
+    }
+  });
+  return templates[country_id];
+}
+
   getAllClassRoom() {
     this.isRippleLoad = true;
     this.apiService.getBatchClassRoomListFromServer().subscribe(
@@ -159,7 +168,7 @@ export class ManageBatchComponent implements OnInit {
       error => {
         this.isRippleLoad = false;
         //console.log(error);
-        this.messageToast('error', 'Error', error.error.message);
+        this.messageToast('error', '', error.error.message);
       }
     )
   }
@@ -174,7 +183,7 @@ export class ManageBatchComponent implements OnInit {
       error => {
         this.isRippleLoad = false;
         //console.log(error);
-        this.messageToast('error', 'Error', error.error.message);
+        this.messageToast('error', '', error.error.message);
       }
     )
   }
@@ -189,7 +198,7 @@ export class ManageBatchComponent implements OnInit {
       error => {
         this.isRippleLoad = false;
         //console.log(error);
-        this.messageToast('error', 'Error', error.error.message);
+        this.messageToast('error', '', error.error.message);
       }
     )
   }
@@ -208,13 +217,13 @@ export class ManageBatchComponent implements OnInit {
         error => {
           this.isRippleLoad = false;
           //console.log(error);
-          this.messageToast('error', 'Error', error.error.message);
+          this.messageToast('error', '', error.error.message);
         }
       )
     } else {
       this.isRippleLoad = false;
 
-      this.messageToast('error', 'Error', 'You Can not select empty value');
+      this.messageToast('error', '', 'You Can not select empty value');
       return;
     }
   }
@@ -257,44 +266,44 @@ export class ManageBatchComponent implements OnInit {
                       },
                       error => {
                         //console.log(error);
-                        this.messageToast('error', 'Error', error.error.message);
+                        this.messageToast('error', '', error.error.message);
                       }
                     )
                   }
                   else {
-                    this.messageToast('error', 'Error', 'Provide valid details of Start Date');
+                    this.messageToast('error', '', 'Provide valid details of Start Date');
                     return;
                   }
                 } else {
-                  this.messageToast('error', 'Error', 'Please Provide End Date');
+                  this.messageToast('error', '', 'Please Provide End Date');
                   return;
                 }
               } else {
-                this.messageToast('error', 'Error', 'Please Provide Start Date');
+                this.messageToast('error', '', 'Please Provide Start Date');
                 return;
               }
             }
             else {
-              this.messageToast('error', 'Error', 'Batch Code can not be greater than 4 alphabet');
+              this.messageToast('error', '', 'Batch Code can not be greater than 4 alphabet');
               return;
             }
           }
           else {
-            this.messageToast('error', 'Error', 'Provide batch name');
+            this.messageToast('error', '', 'Provide batch name');
             return;
           }
         } else {
-          this.messageToast('error', 'Error', 'Provide  faculty name');
+          this.messageToast('error', '', 'Provide  faculty name');
           return;
         }
       }
       else {
-        this.messageToast('error', 'Error', 'select course');
+        this.messageToast('error', '', 'select course');
         return;
       }
     }
     else {
-      this.messageToast('error', 'Error', 'Select master course');
+      this.messageToast('error', '', 'Select master course');
     }
 
   }
@@ -314,20 +323,20 @@ export class ManageBatchComponent implements OnInit {
       academic_year_id:this.editRowDetails.academic_year_id
     };
     if (dataToSend.start_date > dataToSend.end_date) {
-      this.messageToast('error', 'Error', 'Provide valid dates.');
+      this.messageToast('error', '', 'Provide valid dates.');
       return;
     }
     let endDate = moment(this.editRowDetails.end_date).format("YYYY-MM-DD");
     if (!(dataToSend.end_date >= endDate)) {
-      this.messageToast('error', 'Error', 'Batch end date can only be extended.');
+      this.messageToast('error', '', 'Batch end date can only be extended.');
       return;
     }
     if (rowDetails.batch_code.length > 4) {
-      this.messageToast('error', 'Error', 'Batch Code can not be greater than 4 digits.');
+      this.messageToast('error', '', 'Batch Code can not be greater than 4 digits.');
       return;
     }
     if (rowDetails.teacher_id == 0 || rowDetails.teacher_id == null || rowDetails.teacher_id == "") {
-      this.messageToast('error', 'Error', 'Please provide the faculty for the batch.');
+      this.messageToast('error', '', 'Please enter the faculty for the batch.');
       return;
     }
     this.isRippleLoad = true;
@@ -341,7 +350,7 @@ export class ManageBatchComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', error.error.message);
+        this.messageToast('error', '', error.error.message);
       }
     )
   }
@@ -388,23 +397,14 @@ export class ManageBatchComponent implements OnInit {
   }
 
   getAllFeeTemplate() {
-    this.apiService.getFeeTemplate(this.batchDetails.batch_id).subscribe(
+    this.apiService.getFeeTemplate(this.batchDetails.subject_id).subscribe(
       res => {
         this.feeTemplateDataSource = res;
-        this.defaultTemplateDet(res);
       },
       err => {
         //console.log(err);
       }
     )
-  }
-
-  defaultTemplateDet(data) {
-    data.forEach(element => {
-      if (element.is_default == 1) {
-        this.deafultTemplate = element;
-      }
-    });
   }
 
   getAllStudentList(rowDetails) {
@@ -413,11 +413,6 @@ export class ManageBatchComponent implements OnInit {
       (res: any) => {
         this.radioOption = '0';
         res.map(element => {
-          if (element.assigned_fee_template_id == -1) {
-            if (this.deafultTemplate != null && this.deafultTemplate != "") {
-              element.assigned_fee_template_id = this.deafultTemplate.template_id;
-            }
-          }
           element.immutableKey = element.assigned;
         });
         this.studentListDataSource = res;
@@ -428,7 +423,7 @@ export class ManageBatchComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', error.error.message);
+        this.messageToast('error', '', error.error.message);
       }
     )
   }
@@ -516,7 +511,7 @@ export class ManageBatchComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', '', err.error.message);
       }
     )
   }

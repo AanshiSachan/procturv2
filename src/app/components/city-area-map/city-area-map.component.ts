@@ -77,17 +77,17 @@ export class CityAreaMapComponent implements OnInit {
       }
       this.apiService.saveNewCity(obj).subscribe(
         res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success,"Success","Added Successfully");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success,'',"Added Successfully");
           this.getCityAreaList();
           this.toggleCreateNewSlot();
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error,"Error", err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error,'', err.error.message);
           //console.log(err);
         }
       )
     } else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error,"Error","Please provide city name");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error,'',"Please enter city name");
     }
   }
 

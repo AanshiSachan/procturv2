@@ -364,7 +364,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
             this.isUploadingXls = false;
             let data = {
               type: 'error',
-              title: "File uploaded Failed",
+              title: "File uploaded failed",
               body: newxhr.response.fileName
             }
             this.appC.popToast(data);
@@ -401,7 +401,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       for (let i = 0; i < this.selectedFiles.length; i++) {
         let type = this.getType(this.selectedFiles[i].name);
         if (this.acceptedFiles[this.category_id].hasOwnProperty(type) == false) {
-          this.createErrorToast("File Does Not Match The Category Selected");
+          this.createErrorToast("File doesn\'t match with the selected category ");
           return false;
         }
       }

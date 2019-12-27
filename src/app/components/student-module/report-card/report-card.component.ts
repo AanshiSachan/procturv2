@@ -34,7 +34,7 @@ export class ReportCardComponent implements OnInit {
     private appC: AppComponent,
     private auth: AuthenticatorService,
     private _http: HttpService,
-    private commonService: CommonServiceFactory
+    private _commService: CommonServiceFactory
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -79,12 +79,12 @@ export class ReportCardComponent implements OnInit {
           dwldLink.click();
         }
         else{
-          this.commonService.showErrorMessage('info', 'Info', "Document does not have any data.");
+          this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
         }
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this._commService.showErrorMessage('error', '', err.error.message);
       }
     )
    }
@@ -116,7 +116,7 @@ export class ReportCardComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', '', err.error.message);
       }
     )
   }
@@ -138,7 +138,7 @@ export class ReportCardComponent implements OnInit {
       err => {
         this.dataStatus = 2;
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', '', err.error.message);
       }
     )
   }
@@ -148,11 +148,11 @@ export class ReportCardComponent implements OnInit {
     if (this.payLoad.name == "") {
         // if (this.isLangInstitue) {
       //   if (this.payLoad.standard_id == -1 && this.payLoad.subject_id == -1) {
-      //     this.messageToast('error', 'Error', 'Please provide fields');
+      //     this.messageToast('error', '', 'Please enter fields');
       //     return false;
       //   }
       // } else {
-      //   this.messageToast('error', 'Error', 'Please provide fields to search');
+      //   this.messageToast('error', '', 'Please enter fields to search');
       //   return false;
       // }
       obj.name = null;

@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { GetFeeService } from '../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
 import { AppComponent } from '../../../app.component';
-import { CommonServiceFactory } from '../../..';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'fee-receipt',
@@ -16,12 +16,11 @@ export class FeeReceiptComponent implements OnChanges {
   @Output() closeButton = new EventEmitter<any>()
 
   receiptData: any[] = [];
-
   constructor(
     private getter: GetFeeService, 
     private putter: PostFeeService , 
     private appc:AppComponent,
-    private commonService: CommonServiceFactory
+    private _commService:CommonServiceFactory
     ) { }
 
   ngOnChanges() {
@@ -51,7 +50,7 @@ export class FeeReceiptComponent implements OnChanges {
     this.getter.getReceiptById(obj).subscribe(
       res => {
         let body:any = res;
-        let byteArr = this.commonService.convertBase64ToArray(body.document);
+        let byteArr = this._commService.convertBase64ToArray(body.document);
         let format = body.format;
         let fileName = body.docTitle;
         let file = new Blob([byteArr], { type: 'application/pdf' });

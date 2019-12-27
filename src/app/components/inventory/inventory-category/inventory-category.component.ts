@@ -43,7 +43,7 @@ export class InventoryCategoryComponent implements OnInit {
     if (data.category_name == "" || data.category_name == null) {
       let data = {
         type: 'error',
-        title: "Error",
+        title: '',
         body: "Please fill Category Name."
       }
       this.appC.popToast(data);

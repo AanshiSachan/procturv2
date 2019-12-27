@@ -14,14 +14,17 @@ import { CommonServiceFactory } from '../../../../../services/common-service';
 export class TemplateHomeComponent implements OnInit {
 
   isProfessional: boolean = false;
+  countryAdditioalFeeTypes: any = {};
   source: any[] = [];
   selectedTemplate: any;
   isHeaderEdit: boolean = false;
   isEditFee: boolean = false;
+  selectedCountry:any;
   feeStructure: any;
   installmentList: any = [];
   otherInstList: any = [];
   otherFeetype: any = [];
+  countryDetails: any = [];
   AddInstallment = {
     days: 0,
     day_type: 1,
@@ -52,20 +55,19 @@ export class TemplateHomeComponent implements OnInit {
   discountAmount: any = '';
   isRippleLoad: boolean = false;
   feeTyeDetails: any = [];
+  tabkeList: any = [];
+  searchedData: any = [];
+  studentList: any[] = [];
   enableTax: any;
   totalAmountCal: number = 0;
   templateName: any = "";
-
   PageIndex: number = 0;
   displayBatchSize: number = 20;
-  tabkeList: any = [];
-  searchDataFlag: boolean = false;
-  searchedData: any = [];
+  moduleState: any;
   totalRow: number = 0;
   searchText: string = '';
   addTemplatePopUp: boolean = false;
-  studentList: any[] = [];
-  moduleState :any;
+  searchDataFlag: boolean = false;
 
   constructor(
     private router: Router,
@@ -97,8 +99,37 @@ export class TemplateHomeComponent implements OnInit {
 
   fetchPrefill() {
     this.getFeeStructures();
+    this.fetchDataForCountryDetails();
   }
 
+  fetchDataForCountryDetails() {
+    this.countryAdditioalFeeTypes = {};
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      let country_ids = [];
+      this.countryDetails.forEach((item) => {
+        this.countryAdditioalFeeTypes[item.id] = [];
+        country_ids.push(item.id);
+      })
+
+      this.fetchService.additionalFeeTypeDetail(country_ids.join()).subscribe(
+        (res: any) => {
+          res && res.forEach(fee => {
+            const country_id = fee.countryId.country_id;
+            let fee_details = {};
+            fee_details[fee.fee_type_id] = fee.fee_type;
+            this.countryAdditioalFeeTypes[country_id].push(fee_details);
+          });
+        },
+        err => {
+          this.commonService.showErrorMessage('error', '', err.error.message);
+        }
+      )
+    }
+    // console.log(data);
+  }
 
   getFeeStructures() {
     this.isRippleLoad = true;
@@ -116,9 +147,15 @@ export class TemplateHomeComponent implements OnInit {
     )
   }
 
+  changesValuesAsPerType(row){
+    if(row.day_type==1){
+      row.days=0;
+    }
+  }
+
   editFee(fee) {
     this.templateName = fee.template_name;
-    this.selectedTemplate = fee;
+    this.selectedTemplate = fee;    
     this.feeStructure = [];
     this.isEditFee = true;
     this.isRippleLoad = true;
@@ -131,10 +168,20 @@ export class TemplateHomeComponent implements OnInit {
         } else {
           this.feeStructure.is_default = false;
         }
-        this.fillFeeType(res.feeTypeMap);
+        this.fillFeeType(this.countryAdditioalFeeTypes[this.selectedTemplate.country_id]);
+        let encryptedData = sessionStorage.getItem('country_data');
+        let data = JSON.parse(encryptedData);
+        if (data.length > 0) {
+          data.forEach((country) => {
+            if(this.selectedTemplate.country_id==country.id){
+              this.selectedCountry=country;
+            }
+          })
+        }
         this.fillDataInYTable(res.customFeeSchedules);
         if (res.studentwise_fees_tax_applicable == "Y") {
-          if (this.enableTax == "1") {
+          if (this.enableTax == "1" &&
+            document.getElementById('checkBoxtaxes')) {
             document.getElementById('checkBoxtaxes').checked = true;
             this.showTaxFields();
           }
@@ -158,13 +205,15 @@ export class TemplateHomeComponent implements OnInit {
 
   fillFeeType(data) {
     this.otherFeetype = [];
-    let keys = Object.keys(data);
-    for (let i = 0; i < keys.length; i++) {
+
+    data.forEach(object => {
+      let keys = Object.keys(object);
       let test: any = {};
-      test.id = keys[i];
-      test.value = data[keys[i]];
+      test.id = keys[0];
+      test.value = object[keys[0]];
       this.otherFeetype.push(test);
-    }
+    });
+
   }
 
   fillDataInYTable(data) {
@@ -193,13 +242,13 @@ export class TemplateHomeComponent implements OnInit {
     } else {
       taxApplicable = "N";
     }
+    let set_is_default = '0';
     if (this.feeStructure.is_default == '1' || this.feeStructure.is_default == true) {
-      this.feeStructure.is_default = '1';
-    } else {
-      this.feeStructure.is_default = '0';
+      set_is_default = '1';
     }
     let data: any = {
-      is_default: this.feeStructure.is_default,
+      is_default: set_is_default,
+      country_id: this.selectedTemplate.country_id,
       customFeeSchedules: this.makeJSONForCustomFee(),
       studentwise_total_fees_amount: this.totalAmount.toString(),
       studentwise_total_fees_discount: this.discountAmount,
@@ -216,7 +265,7 @@ export class TemplateHomeComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
 
       }
     )
@@ -274,7 +323,7 @@ export class TemplateHomeComponent implements OnInit {
 
   onApplyTaxChechbox(event) {
     if (this.enableTax == "0") {
-      this.commonService.showErrorMessage('error', 'Error', 'Please define Tax (%age) in Institute Settings');
+      this.commonService.showErrorMessage('error', '', 'Please define Tax (%age) in Institute Settings');
       event.target.checked = false;
       return;
     }
@@ -346,7 +395,7 @@ export class TemplateHomeComponent implements OnInit {
   //   } else {
   //     let msg = {
   //       type: 'error',
-  //       title: 'Error',
+  //       title: '',
   //       body: "Please define Tax (%age) in Institute Settings"
   //     }
   //     this.appC.popToast(msg);
@@ -395,7 +444,7 @@ export class TemplateHomeComponent implements OnInit {
   //       this.totalAmountCal = this.totalAmountCal + this.otherInstList.map(fee => fee.fees_amount).reduce((acc, val) => val + acc);
   //     }
   //   }
-  // }
+  // }  
 
   deleteRow(row, i) {
     this.installmentList.splice(i, 1);
@@ -442,11 +491,11 @@ export class TemplateHomeComponent implements OnInit {
       }
     } else {
       if (this.AddInstallment.initial_fee_amount == null || this.AddInstallment.initial_fee_amount == 0) {
-        this.commonService.showErrorMessage('error', 'Error', 'Please provide Amount');
+        this.commonService.showErrorMessage('error', '', 'Please enter Amount');
         return;
       }
       if (this.AddInstallment.days == null) {
-        this.commonService.showErrorMessage('error', 'Error', 'Please provide days/month');
+        this.commonService.showErrorMessage('error', '', 'Please enter days/month');
         return;
       }
     }
@@ -456,7 +505,7 @@ export class TemplateHomeComponent implements OnInit {
 
   addAdditionalInst() {
     if (this.additionalInstallment.fee_type == -1) {
-      this.commonService.showErrorMessage('error', 'Error', 'Please provide fee type');
+      this.commonService.showErrorMessage('error', '', 'Please enter fee type');
       return;
     }
     if (Number(this.additionalInstallment.initial_fee_amount) > 0 && this.additionalInstallment.days != null) {
@@ -487,11 +536,11 @@ export class TemplateHomeComponent implements OnInit {
       }
     } else {
       if (this.additionalInstallment.initial_fee_amount == 0 || this.additionalInstallment.initial_fee_amount == null) {
-        this.commonService.showErrorMessage('error', 'Error', 'Please provide Amount');
+        this.commonService.showErrorMessage('error', '', 'Please enter Amount');
         return;
       }
       if (this.additionalInstallment.days == null) {
-        this.commonService.showErrorMessage('error', 'Error', 'Please provide days');
+        this.commonService.showErrorMessage('error', '', 'Please enter days');
         return;
       }
     }
@@ -515,7 +564,7 @@ export class TemplateHomeComponent implements OnInit {
         this.additionalInstallment.fee_type_name = res.fee_type;
       },
       err => {
-        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -616,7 +665,7 @@ export class TemplateHomeComponent implements OnInit {
         err => {
           this.isRippleLoad = false;
 
-          if(err.error.message.includes("Fee template(s) are assigned to student(s).")){
+          if (err.error.message.includes("Fee template(s) are assigned to student(s).")) {
             if (confirm('Fee template(s) are assigned to student(s). Do you wish to delete it ?')) {
               is_archived = "Y";
               this.isRippleLoad = true;
@@ -626,15 +675,15 @@ export class TemplateHomeComponent implements OnInit {
                   this.commonService.showErrorMessage('success', 'Deleted', 'Fee Structure Deleted Successfully');
                   this.getFeeStructures();
                 },
-                  err => {
-                    this.isRippleLoad = false;
-                    this.commonService.showErrorMessage('error', 'Error', err.error.message);
-                  }
+                err => {
+                  this.isRippleLoad = false;
+                  this.commonService.showErrorMessage('error', '', err.error.message);
+                }
               )
             }
           }
-          else{
-            this.commonService.showErrorMessage('error', 'Error', err.error.message);
+          else {
+            this.commonService.showErrorMessage('error', '', err.error.message);
           }
         }
       )

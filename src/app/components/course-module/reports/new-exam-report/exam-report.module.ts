@@ -19,7 +19,8 @@ import { ClassScheduleService } from '../../../../services/course-services/class
 
 @NgModule({
   imports: [
-    CommonModule,
+    CommonModule,    
+    ExamReportRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     ExamReportRoutingModule,

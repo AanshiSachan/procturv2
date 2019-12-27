@@ -10,6 +10,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { MessageShowService } from '../../../services/message-show.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'app-login-page',
@@ -91,15 +92,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     otp_validate_mode: 1
   }
 
-  instituteCountryDetObj: any = {
-    "id": "",
-    "country_name": "",
-    "country_code": "",
-    "country_calling_code": "",
-    "country_phone_number_length": ""
-  };
-
-
   constructor(
     private login: LoginService,
     private route: Router,
@@ -107,7 +99,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     private auth: AuthenticatorService,
     private titleService: Title,
     private _tablePreferencesService: TablePreferencesService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private _commService: CommonServiceFactory
   ) {
     this.messages = msgService.getMessages();
     if (sessionStorage.getItem('userid') != null) {
@@ -240,9 +233,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           console.log(res);
           this.checkForAuthOptions(res);
           console.log(res.institution_id);
-          if(res.institution_id!=null){
+          if (res.institution_id != null) {
             this.getCountryDetails(res.institution_id);
-          }          
+          }
         },
         err => {
           console.log(err);
@@ -258,19 +251,40 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.login.getInstituteCountryDetails(institute_id).subscribe(
       (res: any) => {
         this.countryDetails = res;
-        console.log(res);
         let country_info = JSON.stringify(res);
-          console.log(country_info);
-          sessionStorage.setItem('country_data',country_info);
-        // console.log(this.instituteCountryDetObj);
+        // console.log(country_info);
+        sessionStorage.setItem('country_data', country_info);
+        for (let i = 0; i < this.countryDetails.length; i++) {
+          let row: any = this.countryDetails[i];
+          if (row.is_default == 'Y') {
+            let symbol = this.getCurrencyDetails(900, row.currency_code, row.country_code);
+            this._commService.setDefaultCurrencySymbol(symbol);
+          }
+        }
       },
       err => {
         console.log(err);
       }
     )
   }
-  //END - 0
 
+  getCurrencyDetails(value, currency, lang) {
+    if (value && currency && lang) {
+      let formatted = value.toLocaleString(lang, {
+        maximumFractionDigits: 2,
+        style: 'currency',
+        currency: currency
+      });
+
+      formatted = formatted.replace(/[,.]/g, '');
+      return formatted.replace(/[0-9]/g, '');
+    }
+    else {
+      return lang;
+    }
+  }
+
+  //END - 0
   //Method to decide where to take user when he/she Logs in (START - 1)
   checkForAuthOptions(res) {
     let login_option: number = res.login_option;
@@ -324,7 +338,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (!this.validInstituteCheck(res)) {
       this.route.navigateByUrl('/authPage');
       //console.log('Institute ID Not Found');
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, "Success Alert", "There is no access for Open User login in web..Kindly access the same through APP");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "There is no access for Open User login in web..Kindly access the same through APP");
       sessionStorage.clear();
       localStorage.clear();
       return
@@ -395,7 +409,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('user_type_name', institute_data.user_type_name);
       sessionStorage.setItem('username', institute_data.username);
       sessionStorage.setItem('userid', institute_data.userid);
-      sessionStorage.setItem('message', institute_data.message);
       sessionStorage.setItem('name', institute_data.name);
       sessionStorage.setItem('about_us_text', institute_data.about_us_text);
       sessionStorage.setItem('mobile_no', institute_data.mobile_no);
@@ -547,7 +560,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.login.postLoginDetails(this.multiInstituteLoginInfo).subscribe(el => {
       //console.log(el);
       this.checkForAuthOptions(el);
-      if(el.institution_id!=null){
+      if (el.institution_id != null) {
         this.getCountryDetails(el.institution_id);
       }
     });
@@ -600,9 +613,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.login.postLoginDetails(this.multiUserLoginInfo).subscribe(el => {
       //console.log(el);
       this.checkForAuthOptions(el);
-      if(el.institution_id!=null){
+      if (el.institution_id != null) {
         this.getCountryDetails(el.institution_id);
-      }  
+      }
     });
   }
   //END - 7
@@ -634,7 +647,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     //console.log("##### in Regenerate Method ######");
     //console.log(this.OTPRegenerateData);
     this.login.regenerateOTP(this.OTPRegenerateData).subscribe(el => {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'OTP sent successfully');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'OTP sent successfully');
 
       //console.log("OTP Regenerate Success");
       //console.log(el);
@@ -656,10 +669,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         forgotPasswordData.alternate_email_id = this.loginDataForm.alternate_email_id;
         this.login.forgotPassowrdServiceMethod(forgotPasswordData).subscribe(
           el => {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, this.messages.loginMsg.success.title, this.messages.loginMsg.success.body);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', this.messages.loginMsg.success.body);
           },
           err => {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error In Forget Password", err.error.message);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", err.error.message);
           })
       }
     }

@@ -96,7 +96,7 @@
                                     </ul>
                                     <ul class="table-format">
                                         <li class="table-formation">
-                                            ₹{{(i.amount).toLocaleString('en-IN')}}
+                                            {{ _commService.currency_default_symbol}}{{(i.amount).toLocaleString('en-IN')}}
                                             <hr class="hrTag">
                                         </li>
                                     </ul>
@@ -114,13 +114,13 @@
                                 <ul *ngFor="let i of profitLossData">
                                     <ul class="table-form">
                                         <li class="table-for">
-                                            Expense On Inventories : ₹{{(i.expense_inventory).toLocaleString('en-IN')}}
+                                            Expense On Inventories : {{ _commService.currency_default_symbol}}{{(i.expense_inventory).toLocaleString('en-IN')}}
                                         </li>
                                     </ul>
                                     <hr style="margin: 0px;">
                                     <ul class="table-form">
                                         <li class="table-for" *ngFor="let k of expenseData">
-                                            Total Expenses : ₹{{(i.expense_inventory + k.amount).toLocaleString('en-IN')}}
+                                            Total Expenses : {{ _commService.currency_default_symbol}}{{(i.expense_inventory + k.amount).toLocaleString('en-IN')}}
                                         </li>
                                     </ul>
                                     <hr style="margin:0px;">
@@ -159,7 +159,7 @@
                                     </ul>
                                     <ul class="table-format">
                                         <li class="table-formation">
-                                            ₹{{(i.amount).toLocaleString('en-IN')}}
+                                            {{ _commService.currency_default_symbol}}{{(i.amount).toLocaleString('en-IN')}}
                                         </li>
                                     </ul>
                                     <hr style="margin: 0px;">
@@ -177,7 +177,7 @@
                                 <ul *ngFor="let i of collectionData">
                                     <ul class="table-form">
                                         <li class="table-for">
-                                            Total Fees Collected : ₹{{(i.total_fees_collected).toLocaleString('en-IN')}}
+                                            Total Fees Collected : {{ _commService.currency_default_symbol}}{{(i.total_fees_collected).toLocaleString('en-IN')}}
                                         </li>
                                     </ul>
                                     <hr style="margin: 0px;">
@@ -187,7 +187,7 @@
                                             <aside class="pull-left" style="position: relative; top: -1vh; left:55%;">
                                                 <rob-tooltip [textMessage]="'?'" [message]="helpMsg4" [placement]="'left'" [customClass]="'left'">
                                                 </rob-tooltip>
-                                            </aside>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ₹{{(i.total_fees_collected_other).toLocaleString('en-IN')}}
+                                            </aside>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : {{ _commService.currency_default_symbol}}{{(i.total_fees_collected_other).toLocaleString('en-IN')}}
                                         </li>
                                     </ul>
                                     <hr style="margin:0px;">
@@ -197,7 +197,7 @@
                                             <aside class="pull-left" style="position: relative; top: -1vh; left: 48vw;">
                                                 <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
                                                 </rob-tooltip>
-                                            </aside>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ₹{{(sum + i.total_fees_collected
+                                            </aside>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : {{ _commService.currency_default_symbol}}{{(sum + i.total_fees_collected
                                             + i.total_fees_collected_other).toLocaleString('en-IN')}}
                                         </li>
                                     </ul>
@@ -209,7 +209,7 @@
                                                 <rob-tooltip [textMessage]="'?'" [message]="helpMsg3" [placement]="'left'" [customClass]="'left'">
                                                 </rob-tooltip>
                                             </aside>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <span style="color: green; font-weight: bold;">:₹{{((sum + i.total_fees_collected + i.total_fees_collected_other) - (k.expense_inventory
+                                            <span style="color: green; font-weight: bold;">:{{ _commService.currency_default_symbol}}{{((sum + i.total_fees_collected + i.total_fees_collected_other) - (k.expense_inventory
                                                 + sumExpense)).toLocaleString('en-IN')}} </span>
                                         </li>
                                         <li class="table-for" *ngIf="((sum + i.total_fees_collected + i.total_fees_collected_other) - (k.expense_inventory + sumExpense)) < 0">
@@ -218,7 +218,7 @@
                                                 <rob-tooltip [textMessage]="'?'" [message]="helpMsg2" [placement]="'left'" [customClass]="'left'">
                                                 </rob-tooltip>
                                             </aside>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <span style="color: red; font-weight: bold;">:₹{{((sum + i.total_fees_collected + i.total_fees_collected_other) - (k.expense_inventory
+                                            <span style="color: red; font-weight: bold;">:{{ _commService.currency_default_symbol}}{{((sum + i.total_fees_collected + i.total_fees_collected_other) - (k.expense_inventory
                                                 + sumExpense)).toLocaleString('en-IN')}} </span>
                                         </li>
                                     </ul>

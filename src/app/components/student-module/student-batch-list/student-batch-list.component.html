@@ -125,7 +125,7 @@
                         <td>
                             <div class="field-wrapper">
                                 <select name="feetm" id="feetm" [(ngModel)]="batch.data.selected_fee_template_id" class="form-ctrl" (ngModelChange)="onFeeTemplateChanges(batch.data)">
-                                    <option [value]="fee.template_id" [selected]="batch.data.selected_fee_template_id == fee.template_id" *ngFor="let fee of batch.data.feeTemplateList">{{fee.template_name}}</option>
+                                    <option [value]="fee.template_id" [selected]="batch.data.selected_fee_template_id == fee.template_id" *ngFor="let fee of getFeeTemplateCountryWisw(batch.data.feeTemplateList)">{{fee.template_name}}</option>
                                 </select>
                             </div>
                         </td>
@@ -134,7 +134,7 @@
                 <tbody *ngIf="batchList.length == 0">
                     <tr>
                         <td colspan="7">
-                            No Data Found
+                            No data found
                         </td>
                     </tr>
                 </tbody>

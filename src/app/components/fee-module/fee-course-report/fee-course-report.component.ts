@@ -9,6 +9,7 @@ import { GetFeeService } from '../../../services/report-services/fee-services/ge
 import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'app-fee-course-report',
@@ -41,6 +42,7 @@ export class FeeCourseReportComponent implements OnInit {
   isProfessional: boolean = false;
   isRippleLoad: boolean = false;
   isCourseSelected: boolean = false;
+  downloadFeeReportAccess:boolean = false;
   private slotIdArr: any[] = [];
   private selectedSlots: any[] = [];
   private selectedSlotsString: string = '';
@@ -108,7 +110,8 @@ export class FeeCourseReportComponent implements OnInit {
     private getter: GetFeeService,
     private putter: PostFeeService,
     private auth: AuthenticatorService,
-    private pdf: ExportToPdfService
+    private pdf: ExportToPdfService,
+    private _commService:CommonServiceFactory
   ) {
     // this.switchActiveView('fee');
   }
@@ -570,7 +573,7 @@ export class FeeCourseReportComponent implements OnInit {
             return true;
           }
           else {
-            this._msgService.showErrorMessage("error", 'Batch not Selected', "Please select a valid batch for the selected course");
+            this._msgService.showErrorMessage("error", '', "Please select a valid batch for the specific course");
             return false;
           }
         }

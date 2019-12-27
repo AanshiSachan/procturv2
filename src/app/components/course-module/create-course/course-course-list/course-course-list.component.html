@@ -202,6 +202,9 @@
                   ID
                 </th>
                 <th>
+                  Country
+                </th>
+                <th>
                   Name
                 </th>
                 <th>
@@ -228,8 +231,11 @@
                   <td>
                     {{row.student_disp_id}}
                   </td>
+                  <td [title]="row.country_name">
+                   {{row.country_code}}
+                    </td>
                   <td>
-                    {{row.student_name}}
+              {{row.student_name}}
                   </td>
                   <td>
                     {{row.student_phone}}
@@ -252,7 +258,7 @@
                       <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.assigned_fee_template_id"
                         style="background: transparent">
                         <option value="-1">Select</option>
-                        <option *ngFor="let opt of feeTemplateDataSource" [value]="opt.template_id">
+                        <option *ngFor="let opt of setDefaultTemplate(row.country_id,feeTemplateDataSource,row)" [value]="opt.template_id">
                           {{opt.template_name}}
                         </option>
                       </select>
