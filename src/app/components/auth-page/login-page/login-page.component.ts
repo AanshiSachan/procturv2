@@ -140,6 +140,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       }
     }
     this.checkWebUrlForGenerics();
+    this.auth.clearStoredData();
+    this.auth.changeAuthenticationKey(null);
+    this.auth.changeInstituteId(null);
   }
 
   ngOnDestroy() {

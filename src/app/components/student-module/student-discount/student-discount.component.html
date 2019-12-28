@@ -71,7 +71,9 @@
                     <select id="discReason" name="discReason" [(ngModel)]="discountPopUpForm.reason" class="form-ctrl"
                         placeholder="Discount Reason">
                         <option value="-1">Discount Reason</option>
-                        <option *ngFor="let item of discountReason" [value]="item.discount_reason_id">{{item.reason}}</option>
+                        <option *ngFor="let item of discountReason" [value]="item.discount_reason_id" title={{item.reason}}>
+                            {{ (item.reason.length > 30) ? (item.reason | slice:0:30) + '...' : item.reason }}
+                        </option>
                     </select>
                 </div>
 
