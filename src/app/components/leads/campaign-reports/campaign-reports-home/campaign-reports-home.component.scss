@@ -1,0 +1,42 @@
+.middle-section{
+  padding: 1%;
+}
+.leads-menu-section-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  .leads-menu-item{
+    padding: 15px 10px;
+    width: 31%;
+    background: #fff;
+    height: 120px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    margin: 1%;
+    -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.24);
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.24);
+    .menu-title{
+      width: 100%;
+      justify-content: flex-start;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      flex-direction: row;
+      img{
+        width: 25px;
+        height: 25px;
+      }
+      span{
+        margin-left: 10px;
+        margin-top: 5px;
+      }
+    }
+    .menu-description{
+      padding: 10px;
+      font-size: 12px;
+    }
+  }
+}

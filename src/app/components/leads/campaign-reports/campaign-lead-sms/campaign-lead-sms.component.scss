@@ -1,0 +1,32 @@
+.middle-section {
+  padding: 1%;
+}
+
+.date-filter-container{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 15px 0px;
+  .date-filter-item{
+    width: 13%;
+    margin-right: 20px;
+    .field-wrapper {
+      width: 100%;
+      padding: 0;
+      display: inline-block;
+      .form-ctrl{
+        border-radius: 4px;
+      }
+    }
+    .field-wrapper.datePickerBox:after {
+      content: '';
+      background: url(/./assets/images/calendar.svg) no-repeat;
+      position: absolute;
+      right: 5px;
+      top: 20px;
+      width: 21px;
+      height: 21px;
+      z-index: 0;
+    }
+  }
+}

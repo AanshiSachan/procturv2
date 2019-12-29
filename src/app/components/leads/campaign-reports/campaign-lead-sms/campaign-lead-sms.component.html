@@ -1,0 +1,43 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<section class="middle-section clearFix">
+
+  <section class="middle-top mb0 clearFix">
+    <h1 class="pull-left">
+      <a routerLink="/view/leads">
+        Lead
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      <a routerLink="/view/leads/campaign-reports">
+        Campaign Reports
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Lead SMS Report
+    </h1>
+  </section>
+
+  <section>
+    <div class="date-filter-container">
+      <div class="date-filter-item">
+        <div class="field-wrapper datePickerBox has-value">
+          <label for="fromDate">From Date</label>
+          <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate" [(ngModel)]="dateFilter.from_date"
+            (ngModelChange)="dateValidationForFuture($event) " bsDatepicker/>
+        </div>
+      </div>
+      <div class="date-filter-item">
+        <div class="field-wrapper datePickerBox has-value">
+          <label for="toDate">To Date</label>
+          <input type="text" value="" id="updateDate" readonly="true" [(ngModel)]="dateFilter.to_date" class="form-ctrl bsDatepicker"
+            name="toDate" (ngModelChange)="dateValidationForFuture($event)" bsDatepicker/>
+        </div>
+      </div>
+      <div class="date-filter-item">
+        <div class="btn-sms-search">
+          <input type="button" style="margin-top:7%;" class="normal-btn fullBlue btn" value="Go" (click)="fetchSmsByDate()" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+</section>

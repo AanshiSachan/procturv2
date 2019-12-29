@@ -33,7 +33,6 @@ import { ManageCampaignComponent } from './manage-campaign/manage-campaign.compo
                   component: ManageCampaignComponent,
                   pathMatch: 'prefix'
               },
-
               {
                   path: 'add',
                   component: EnquiryAddComponent,
@@ -53,7 +52,12 @@ import { ManageCampaignComponent } from './manage-campaign/manage-campaign.compo
                   path: 'setup',
                   component: DataSetupComponent,
                   pathMatch: 'prefix'
-              }
+              },
+              {
+                  path: 'campaign-reports',
+                  loadChildren: 'app/components/leads/campaign-reports/campaign-reports.module#CampaignReportsModule',
+                  pathMatch: 'prefix'
+              },
           ]
       }
   ]
