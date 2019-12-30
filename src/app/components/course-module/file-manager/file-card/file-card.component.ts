@@ -240,7 +240,7 @@ export class FileCardComponent implements OnChanges {
   getFileDownloaded(fileObj) {
     let file_type = fileObj.type
     const url = "/api/v1/instFileSystem/downloadFile/" + this.fileService.institute_id + "?fileId=" + fileObj.res.file_id;
-    this._http.downloadRecording(url, file_type).subscribe(
+    this._http.downloadItem(url, file_type).subscribe(
       (response:any)=>{
         if(response){
           const blob = new Blob([response], { type: file_type });
