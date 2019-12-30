@@ -2,7 +2,7 @@
   <div #fileImage class="file__img"></div>
   <div class="file__info" *ngIf="fileDisplayArr.length!=0">
     <h2 class="file__title" title="{{getFileName(fileObj.name)}}">
-      {{getOriginalFileName(fileObj.res.file_name)}} 
+      {{getOriginalFileName(fileObj.res.file_name)}}
     </h2>
 
     <div class="file__made" title="{{fileObj.res.category_name}}">
@@ -21,10 +21,10 @@
     <i class="fa fa-share-alt" style="font-size: 17px; color: #52454596; margin-left: 1%;" title="Share File" (click)="getPopupOpen(fileObj)"></i>
     <a class="fa fa-download" style="font-size: 17px; color: #52454596; margin-left: 1%;" title="Download File" (click)="getFileDownloaded(fileObj);"
       id="downloadFile" ></a>
-    <a id="downloadFileClick" class="hide"></a>
+    <a [href]='fileURL' id="downloadFileClick" class="hide" ></a>
   </div>
   <!-- <div *ngIf="fileDisplayArr.length == 0" class="file__info">
-    <h2 class="file__title">  
+    <h2 class="file__title">
       No Files Found !!
     </h2>
   </div> -->

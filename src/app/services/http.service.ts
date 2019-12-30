@@ -73,7 +73,7 @@ export class HttpService {
   deleteData(objecturl, obj) {
     let url = this.baseUrl + objecturl;
     let object = {
-      headers: this.headers, 
+      headers: this.headers,
       body: obj
     }
     return this.http.delete(url, object).map(
@@ -86,5 +86,17 @@ export class HttpService {
     )
   }
 
+  downloadRecording(objecturl, file_type) {
+    let url = this.baseUrl + objecturl;
+    let headers = new HttpHeaders({ "Content-Type": file_type, "Authorization": this.Authorization });
+    return this.http.get(url, { headers: headers , "responseType": 'blob'}).map(
+      data => {
+        return data;
+      },
+      err => {
+        return err;
+      }
+    )
+  }
 
 }

@@ -334,6 +334,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
 
 
       this.isUploadingXls = true;
+      document.getElementById('progress-bar-wrapper').style.display = "block";
       for (let file of this.tempArr) {
         newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
           if (e.lengthComputable) {
@@ -362,6 +363,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
 
           } else {
             this.isUploadingXls = false;
+            document.getElementById('progress-bar-wrapper').style.display = "none";
             let data = {
               type: 'error',
               title: "File uploaded failed",
@@ -426,4 +428,3 @@ export class UploadPopupComponent implements OnInit, OnChanges {
     this.appC.popToast(msg);
   }
 }
-

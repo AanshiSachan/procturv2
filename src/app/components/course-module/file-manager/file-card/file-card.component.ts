@@ -1,8 +1,9 @@
 import { Component, OnInit, OnChanges, Input, Output, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, EventEmitter } from '@angular/core';
 import { FileManagerService } from '../file-manager.service';
 import { AppComponent } from '../../../../app.component';
-
-
+import 'rxjs/Rx';
+import { DomSanitizer, SafeResourceUrl, SafeUrl  } from '@angular/platform-browser';
+import { HttpService } from '../../../../services/http.service';
 
 export class File {
 
@@ -53,8 +54,15 @@ export class FileCardComponent implements OnChanges {
   @Output() shareOptions = new EventEmitter<any>();
   dwnldLink = "";
   arr: any[] = [];
+  fileURL: any;
 
-  constructor(private cd: ChangeDetectorRef, private fileService: FileManagerService, private appC: AppComponent) {
+  constructor(
+     private cd: ChangeDetectorRef,
+     private fileService: FileManagerService,
+     private appC: AppComponent,
+     private _http: HttpService,
+     private sanitizer: DomSanitizer
+) {
   }
 
   ngOnChanges() {
@@ -230,20 +238,32 @@ export class FileCardComponent implements OnChanges {
   }
 
   getFileDownloaded(fileObj) {
-    let url = this.fileService.baseUrl + "/api/v1/instFileSystem/downloadFile/" + this.fileService.institute_id + "?fileId=" + fileObj.res.file_id;
-    setTimeout(() => {
-      var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
-      hiddenDownload.href = url;
-      hiddenDownload.download = fileObj.res.file_name;
-      // hiddenDownload.download = this.getOriginalFileName(fileObj.res.file_name);
-      hiddenDownload.click();     
-    }, 500);
+    let file_type = fileObj.type
+    const url = "/api/v1/instFileSystem/downloadFile/" + this.fileService.institute_id + "?fileId=" + fileObj.res.file_id;
+    this._http.downloadRecording(url, file_type).subscribe(
+      (response:any)=>{
+        if(response){
+          const blob = new Blob([response], { type: file_type });
+          this.fileURL = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+          if(this.fileURL!=null){
+            setTimeout(() => {
+              var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
+              hiddenDownload.href = this.fileURL.changingThisBreaksApplicationSecurity;
+              hiddenDownload.download = fileObj.res.file_name;
+              hiddenDownload.click();
+            }, 500);
+          }
+        }
+      },
+       err=>{
+        console.log(err);
+      }
+    )
   }
-
   /**
-   * 
+   *
    * Method to get the original file name from filename(with autoID)
-   * 
+   *
    */
   getFileName(fileName) {
     return fileName.substring(0, fileName.lastIndexOf("_"));
