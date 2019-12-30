@@ -116,7 +116,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         password: ""
       }
     }
-
+    sessionStorage.clear();
+    this.auth.clearStoredData();
+    this.auth.getAuthToken();
     this.auth.currentAuthKey.subscribe(key => {
       this.Authorization = key;
       this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
@@ -140,9 +142,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       }
     }
     this.checkWebUrlForGenerics();
-    this.auth.clearStoredData();
-    this.auth.changeAuthenticationKey(null);
-    this.auth.changeInstituteId(null);
   }
 
   ngOnDestroy() {
@@ -235,9 +234,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         res => {
           console.log(res);
           this.checkForAuthOptions(res);
-          if (res.institution_id != null) {
-            this.getCountryDetails(res.institution_id);
-          }
+          // if (res.institution_id != null) {
+          //   this.getCountryDetails(res.institution_id);
+          // }
         },
         err => {
           console.log(err);
@@ -346,6 +345,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       return
     }
     else {
+      if (res.institution_id != null) {
+        this.getCountryDetails(res.institution_id);
+      }
       this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
