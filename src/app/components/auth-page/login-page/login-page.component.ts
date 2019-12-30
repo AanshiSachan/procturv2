@@ -637,7 +637,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.opt.expired.title, this.messages.loginMsg.opt.expired.body);
         } else if (el.otp_status == 2) {
           //console.log("Incorrect OTP");
-          this.msgService.showErrorMessage(this.msgService.toastTypes.warning, this.messages.loginMsg.opt.expired.title, this.messages.loginMsg.opt.expired.body);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.warning, this.messages.loginMsg.opt.inCorrect.title, this.messages.loginMsg.opt.inCorrect.body);
         } else if (el.login_option == 3) {
           //console.log("OTP Verified Success");
           this.alternateLoginSuccess(el);
