@@ -1,4 +1,4 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="jsonFlag.isRippleLoad">
 </loaders-css>
 
 <section class="middle-section clearFix">
@@ -34,7 +34,92 @@
       </div>
       <div class="date-filter-item">
         <div class="btn-sms-search">
-          <input type="button" style="margin-top:7%;" class="normal-btn fullBlue btn" value="Go" (click)="fetchSmsByDate()" />
+          <input type="button" style="margin-top:10%;" class="normal-btn fullBlue btn" value="Go" (click)="fetchSmsByDate()" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="search-container">
+      <div class="search-item-container">
+        <div class="search-item">
+          <span><b>Total Count :</b>{{smsTotalCount}}</span>
+        </div>
+        <div class="search-item">
+          <span><b>Success Count :</b>{{smsSuccessCount}}</span>
+        </div>
+        <div class="search-item">
+          <span><b>Failure Count :</b>{{smsFailedCount}}</span>
+        </div>
+      </div>
+      <div class="field-wrapper">
+        <input type="text" value="" id="search_bar" [(ngModel)]="leadSmsSearchInput" name="leadSearchInput" (keyup)="searchDatabase(search)"
+           placeholder="Search here..." class="search-box" #search>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sms-list-table-container">
+      <div class="list-heading-container">
+        <div class="heading-item sm-item">
+          <span>Mobile</span>
+        </div>
+        <div class="heading-item md-item">
+          <span>Name</span>
+        </div>
+        <div class="heading-item md-item">
+          <span>Email</span>
+        </div>
+        <div class="heading-item sm-item">
+          <span>Sent Date</span>
+        </div>
+        <div class="heading-item lg-item">
+          <span>SMS Sent</span>
+        </div>
+        <div class="heading-item sm-item align-center">
+          <span>Status</span>
+        </div>
+      </div>
+      <div class="list-value-outer-container">
+        <div class="list-value-container" *ngFor="let lead of leadSmsList; let i = index; trackBy: i;">
+          <div class="value-item sm-item">
+            <span title="">{{lead.mobile}}</span>
+          </div>
+          <div class="value-item md-item">
+            <span *ngIf="lead.name.length == 0">-</span>
+            <span *ngIf="lead.name.length != 0" title="{{lead.name}}">{{ (lead.name.length > 15) ? (lead.name | slice:0:15) + '...' : lead.name }}</span>
+          </div>
+          <div class="value-item md-item">
+            <span *ngIf="lead.email.length == 0">-</span>
+            <span *ngIf="lead.email.length != 0" title="{{lead.email}}">{{ (lead.email.length > 15) ? (lead.email | slice:0:15) + '...' : lead.email }}</span>
+          </div>
+          <div class="value-item sm-item">
+            <span title="">{{lead.created_date | date: 'dd MMM yyyy'}}</span>
+          </div>
+          <div class="value-item lg-item">
+            <span title="{{lead.message}}">{{ (lead.message.length > 60) ? (lead.message | slice:0:60) + '...' : lead.message }}</span>
+          </div>
+          <div class="value-item sm-item align-center">
+            <span title="">{{lead.sms_status}}</span>
+          </div>
+        </div>
+        <div class="no-records" *ngIf="leadSmsList?.length == 0">
+          <span>No Records Found</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="pagination-container">
+      <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="5"
+            [page]="pageIndex" [perPage]="displayBatchSize" (sizeChange)="updateTableBatchSize($event)"
+            [count]="totalCount">
+          </pagination>
         </div>
       </div>
     </div>
