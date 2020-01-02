@@ -89,7 +89,7 @@ hr {
       position: relative;
       .fa-sort-desc{
         position: absolute;
-        left: 175px;
+        left: 158px;
         top: 25px;
         background: white;
         cursor: pointer;
@@ -278,5 +278,5 @@ hr {
 }
 
 ::ng-deep bs-datepicker-container, bs-daterangepicker-container{
-  left: 850 !important; 
+  left: 850 !important;
 }
