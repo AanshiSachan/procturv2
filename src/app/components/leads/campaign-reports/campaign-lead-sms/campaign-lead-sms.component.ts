@@ -54,6 +54,10 @@ export class CampaignLeadSmsComponent implements OnInit {
 
   getSmsReport(obj) {
     this.jsonFlag.isRippleLoad = true;
+    obj.from_date = moment(obj.from_date).format("YYYY-MM-DD");
+    if(obj.to_date != null && obj.to_date != ""){
+      obj.to_date = moment(obj.to_date).format("YYYY-MM-DD");
+    }
     if (obj.start_index == 0) {
       return this.campaignService.fetchSmsReport(obj).subscribe(
         (res: any) => {
@@ -98,22 +102,21 @@ export class CampaignLeadSmsComponent implements OnInit {
     let diff = moment(selected.diff(today))['_i'];
     if (diff <= 0) {
       let checkToDate = this.dateGreaterThanCheck(this.dateFilter.from_date, this.dateFilter.to_date);
+      let checkFromDate = this.dateGreaterThanCheck(this.dateFilter.from_date, this.dateFilter.to_date);
       if(checkToDate){
-        var tempToDate = moment(this.dateFilter.to_date).format("DD MMM YYYY");
+        var tempToDate = moment(this.dateFilter.to_date).format("YYYY-MM-DD");
+        if(checkFromDate){
+          var tempFromDate = moment(this.dateFilter.from_date).format("YYYY-MM-DD");
+        }
+        else{
+          this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "From date can not be greater than To date");
+          this.dateFilter.from_date = moment(tempFromDate).format("YYYY-MM-DD");
+          return;
+        }
       }
       else{
         this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "To date can not be lesser than From date");
-        this.dateFilter.to_date = moment(tempToDate).format("DD MMM YYYY");
-        return;
-      }
-
-      let checkFromDate = this.dateGreaterThanCheck(this.dateFilter.from_date, this.dateFilter.to_date);
-      if(checkFromDate){
-        var tempFromDate = moment(this.dateFilter.from_date).format("DD MMM YYYY");
-      }
-      else{
-        this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "From date can not be greater than To date");
-        this.dateFilter.from_date = moment(tempFromDate).format("DD MMM YYYY");
+        this.dateFilter.to_date = moment(tempToDate).format("YYYY-MM-DD");
         return;
       }
     }
@@ -121,17 +124,6 @@ export class CampaignLeadSmsComponent implements OnInit {
       this.dateFilter.to_date = moment(new Date).format('YYYY-MM-DD');
       this.dateFilter.from_date = moment(new Date).format('YYYY-MM-DD');
       this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "Future date is not allowed");
-    }
-  }
-
-  graterThanToday(givenDate){
-    let currentDate = new Date();
-    givenDate = new Date(givenDate);
-    if(givenDate > currentDate){
-      return false;
-    }
-    else{
-      return true;
     }
   }
 
