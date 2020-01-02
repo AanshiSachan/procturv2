@@ -116,7 +116,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         password: ""
       }
     }
-    sessionStorage.clear();
+//     sessionStorage.clear();
     this.auth.clearStoredData();
     this.auth.getAuthToken();
     this.auth.currentAuthKey.subscribe(key => {
