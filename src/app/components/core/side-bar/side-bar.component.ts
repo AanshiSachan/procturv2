@@ -305,7 +305,7 @@ export class SideBarComponent implements OnInit , AfterViewInit{
   }
 
   hideAllFields() {
-    // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag', 
+    // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag',
     //   'divSlotTag', 'divAcademicTag', 'divSettingTag', 'divGeneralSettingTag', 'divManageFormTag',
     //   'divAreaAndMap', 'divManageUsers', 'divGradesTag', 'divClassRoomTag', 'divManageTag'];
     let array = ['divMyAccountTag', 'divMasterTag', 'divSettingTag', 'divManageUsers'];
@@ -428,14 +428,14 @@ export class SideBarComponent implements OnInit , AfterViewInit{
       this.teacherLoginFound();
     }
 
-    // please dont chnage this  code from here 
-    this.isOnlineExamAllow(type); // check online test is enable or not 
+    // please dont chnage this  code from here
+    this.isOnlineExamAllow(type); // check online test is enable or not
     this.isLiveClassesAllow(type);
 
 
   }
 
-  // check only default values 
+  // check only default values
   checkDefaultData(p, e) {
     if (p == '' || p == null || p == undefined) {
       this.permissionData = [];
@@ -462,6 +462,7 @@ export class SideBarComponent implements OnInit , AfterViewInit{
       (username == "admin" && this.instituteId == 101223) ||
       (username == "admin" && this.instituteId == 100058) ||
       (username == "admin" && this.instituteId == 100952) ||
+      (username == "admin" && this.instituteId == 100135) ||
       (permission && permission.indexOf('721') != -1)) {
       this.jsonFlags.isShowLibrabry = true;
     }
@@ -1033,7 +1034,7 @@ export class SideBarComponent implements OnInit , AfterViewInit{
         this.enquiryUpdateAction.emit(d);
         this.searchBar = false;
       }
-      else 
+      else
       this.router.navigate(['/view/leads/enquiry/edit/' +d.data.id]);{
         // this.router.navigate(['/view/leads'], { queryParams: { id: d.data.id, action: d.action } });
         this.searchBar = false;
