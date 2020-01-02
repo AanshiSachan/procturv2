@@ -21,8 +21,8 @@
       <div class="date-filter-item">
         <div class="field-wrapper datePickerBox has-value">
           <label for="fromDate">From Date</label>
-          <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate" [(ngModel)]="dateFilter.from_date"
-            (ngModelChange)="dateValidationForFuture($event) " bsDatepicker/>
+          <input type="text" value="" id="fromDate" class="form-ctrl widgetDatepicker bsDatepicker" readonly="true" name="fromDate" [(ngModel)]="dateFilter.from_date"
+            (ngModelChange)="dateValidationForFuture($event)" bsDatepicker />
         </div>
       </div>
       <div class="date-filter-item">
@@ -44,13 +44,13 @@
     <div class="search-container">
       <div class="search-item-container">
         <div class="search-item">
-          <span><b>Total Count :</b>{{smsTotalCount}}</span>
+          <span><b>Total Count : </b>{{smsTotalCount}}</span>
         </div>
         <div class="search-item">
-          <span><b>Success Count :</b>{{smsSuccessCount}}</span>
+          <span><b>Success Count : </b>{{smsSuccessCount}}</span>
         </div>
         <div class="search-item">
-          <span><b>Failure Count :</b>{{smsFailedCount}}</span>
+          <span><b>Failure Count : </b>{{smsFailedCount}}</span>
         </div>
       </div>
       <div class="field-wrapper">

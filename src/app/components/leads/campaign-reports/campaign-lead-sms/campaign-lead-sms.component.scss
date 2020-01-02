@@ -19,16 +19,16 @@
         border-radius: 4px;
       }
     }
-    .field-wrapper.datePickerBox:after {
-      content: '';
-      background: url(/./assets/images/calendar.svg) no-repeat;
-      position: absolute;
-      right: 5px;
-      top: 20px;
-      width: 21px;
-      height: 21px;
-      z-index: 0;
-    }
+    // .field-wrapper.datePickerBox:after {
+    //   content: '';
+    //   background: url(/./assets/images/calendar.svg) no-repeat;
+    //   position: absolute;
+    //   right: 5px;
+    //   top: 20px;
+    //   width: 21px;
+    //   height: 21px;
+    //   z-index: 0;
+    // }
   }
 }
 
@@ -119,4 +119,20 @@
 }
 .pagination {
   margin: 15px 0;
+}
+
+
+.field-wrapper.datePickerBox:after {
+  content: '';
+  background: url(/./assets/images/calendar.svg) no-repeat;
+  position: absolute;
+  right: 5px;
+  top: 20px;
+  width: 21px;
+  height: 21px;
+  z-index: 0;
+}
+
+::ng-deep bs-datepicker-container, bs-daterangepicker-container{
+  margin-left:5% !important;
 }

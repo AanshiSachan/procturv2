@@ -80,6 +80,7 @@ export class CampaignLeadSmsComponent implements OnInit {
       return this.campaignService.fetchSmsReport(obj).subscribe(
         (res: any) => {
           this.jsonFlag.isRippleLoad = false;
+          this.leadSmsList = res;
         }
       )
     }
@@ -96,7 +97,25 @@ export class CampaignLeadSmsComponent implements OnInit {
     let selected = moment(e);
     let diff = moment(selected.diff(today))['_i'];
     if (diff <= 0) {
+      let checkToDate = this.dateGreaterThanCheck(this.dateFilter.from_date, this.dateFilter.to_date);
+      if(checkToDate){
+        var tempToDate = moment(this.dateFilter.to_date).format("DD MMM YYYY");
+      }
+      else{
+        this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "To date can not be lesser than From date");
+        this.dateFilter.to_date = moment(tempToDate).format("DD MMM YYYY");
+        return;
+      }
 
+      let checkFromDate = this.dateGreaterThanCheck(this.dateFilter.from_date, this.dateFilter.to_date);
+      if(checkFromDate){
+        var tempFromDate = moment(this.dateFilter.from_date).format("DD MMM YYYY");
+      }
+      else{
+        this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "From date can not be greater than To date");
+        this.dateFilter.from_date = moment(tempFromDate).format("DD MMM YYYY");
+        return;
+      }
     }
     else {
       this.dateFilter.to_date = moment(new Date).format('YYYY-MM-DD');
@@ -105,10 +124,38 @@ export class CampaignLeadSmsComponent implements OnInit {
     }
   }
 
+  graterThanToday(givenDate){
+    let currentDate = new Date();
+    givenDate = new Date(givenDate);
+    if(givenDate > currentDate){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+  dateGreaterThanCheck(from_date, to_date){
+    from_date = new Date(from_date);
+    to_date = new Date(to_date);
+    let currentDate = new Date();
+    if(from_date > to_date){
+      return false;
+    }
+    else if(from_date > currentDate){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
   searchDatabase(){   // quick search
     this.leadSmsList = this.tempLeadSmslist;
     if (this.leadSmsSearchInput == undefined || this.leadSmsSearchInput == null) {
       this.leadSmsSearchInput = "";
+      this.dateFilter.start_index = 0;
+      this.getSmsReport(this.dateFilter);
     }
     else {
       let searchData = this.tempLeadSmslist.filter(item =>
@@ -147,6 +194,10 @@ export class CampaignLeadSmsComponent implements OnInit {
     this.displayBatchSize = parseInt(num);
     this.dateFilter.start_index = this.startindex;
     this.getSmsReport(this.dateFilter);
+  }
+
+  openCalendar(id){
+    document.getElementById(id).click();
   }
 
 

@@ -60,7 +60,7 @@
           </div>
           <div class="enq-right" style="  width: 40%;">
             <div class="enq-state-details">
-              <div class="enq">
+              <div class="enq" style="justify-content: flex-end;">
                 <div class="enqs-label">
                   <span class=""></span>
                   <label>
@@ -71,7 +71,7 @@
                   <span style="color: #0084f6;">:</span> &nbsp; &nbsp; {{smsSource.length}}
                 </div>
               </div>
-              <div class="enq">
+              <div class="enq" style="justify-content: flex-end;">
                 <div class="enqs-label">
                   <span class="success"></span>
                   <label>
@@ -82,7 +82,7 @@
                   <span style="color: #0084f6;">:</span> &nbsp; &nbsp; {{successCount}}
                 </div>
               </div>
-              <div class="enq">
+              <div class="enq" style="justify-content: flex-end;">
                 <div class="enqs-label">
                   <span class="failure"></span>
                   <label>
@@ -104,7 +104,7 @@
           <div class="c-lg-4 " style="font-weight: 600">Failure Count :&nbsp;{{failureCount}}</div>
         </div> -->
         <div class="row pull-right">
-          <div class="field-wrapper">
+          <div class="field-wrapper" style="padding-top: 0px;">
             <input class="search-box form-ctrl" type="text" placeholder="Search" (keyup)="searchDatabase()" [(ngModel)]="searchText"
               #search>
           </div>
@@ -114,7 +114,7 @@
       </section>
 
       <section class="sms-table-wrapper">
-        <div class="table table-responsive student-table">
+        <div class="table table-responsive student-table" style="padding: 0 10px;">
           <data-display-table #child [displayKeys]="tableSetting" [displayData]="smsSource" (editView)='optionSelected($event)'>
           </data-display-table>
         </div>
