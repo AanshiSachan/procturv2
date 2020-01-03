@@ -38,7 +38,7 @@ export class FeeWidgetComponent implements OnInit {
                 if (element.is_default == 'Y') {
                     let value = 100;
                     let formatted = value.toLocaleString(element.country_code, {
-                        maximumFractionDigits: 2,
+                        maximumFractionDigits: 4,
                         style: 'currency',
                         currency: element.currency_code
                     });

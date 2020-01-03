@@ -116,9 +116,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         password: ""
       }
     }
-    sessionStorage.clear();
-    this.auth.clearStoredData();
-    this.auth.getAuthToken();
+//     sessionStorage.clear();
+//     this.auth.clearStoredData();
+//     this.auth.getAuthToken();
     this.auth.currentAuthKey.subscribe(key => {
       this.Authorization = key;
       this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
@@ -272,7 +272,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   getCurrencyDetails(value, currency, lang) {
     if (value && currency && lang) {
       let formatted = value.toLocaleString(lang, {
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 4,
         style: 'currency',
         currency: currency
       });
