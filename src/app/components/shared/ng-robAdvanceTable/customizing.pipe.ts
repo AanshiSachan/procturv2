@@ -30,7 +30,7 @@ export class CustomizingPipe implements PipeTransform {
                 }
                 else {
                     let InitialResult = value.toLocaleString('en-IN', {
-                        maximumFractionDigits: 2,
+                        maximumFractionDigits: 4,
                         style: 'currency',
                         currency: 'INR'
                     }).slice(0, -3);
@@ -52,7 +52,7 @@ export class CustomizingPipe implements PipeTransform {
                 }
                 else {
                     let InitialResult = value.toLocaleString('en-IN', {
-                        maximumFractionDigits: 2,
+                        maximumFractionDigits: 4,
                         style: 'currency',
                         currency: 'INR'
                     }).slice(0, -3);
@@ -77,7 +77,7 @@ export class CustomizingPipe implements PipeTransform {
                     }
                     else{
                         let InitialResult = value.toLocaleString('en-IN', {
-                            maximumFractionDigits: 2,
+                            maximumFractionDigits: 4,
                             style: 'currency',
                             currency: 'INR'
                         }).slice(0, -3);

@@ -5,7 +5,7 @@ export class CommaSeprationAmount implements PipeTransform {
   transform(value: number, currency: string = 'INR', lang: string = 'en-IN'): any {
     if (value != null && currency != null && lang != null) {
       let formatted = value.toLocaleString(lang, {
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 4,
         style: 'currency',
         currency: currency
       });
