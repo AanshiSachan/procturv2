@@ -52,8 +52,8 @@ export class AddClassComponent implements OnInit {
   batches: any[] = [];
   masters: any[] = [];
   courses: any[] = [];
-  courseIds: any[] = [];
-  batchesIds: any[] = [];
+  courseIds: any = null;
+  batchesIds: any = null;
   courseId: any[] = [];
 
   dateTimeStatus: boolean = false;
@@ -84,6 +84,8 @@ export class AddClassComponent implements OnInit {
     private_access: false,
     access_enable_lobby: false,
     access_before_start: 0,
+    subject_id:null,
+    course_id:null
   }
 
   constructor(
@@ -278,7 +280,12 @@ export class AddClassComponent implements OnInit {
     let validationFlag = false;
     if (!this.isProfessional) {
       if (this.courseIds != null && this.courseValue != null && this.courseValue != '') {
-        validationFlag = true;
+        if(this.selectedStudentList.length!=0 || this.selectedUserList.length!=0){
+          validationFlag = true;
+        }else{
+          validationFlag = false;
+          this.appC.popToast({ type: "info", body: "Please select students or users" })
+        }
       }
       else {
         validationFlag = false;
@@ -287,7 +294,12 @@ export class AddClassComponent implements OnInit {
     }
     else {
       if (this.batchesIds != null) {
-        validationFlag = true;
+        if(this.selectedStudentList.length!=0 || this.selectedUserList.length!=0){
+          validationFlag = true;
+        }else{
+          validationFlag = false;
+          this.appC.popToast({ type: "info", body: "Please select students or users" })
+        }
       }
       else {
         validationFlag = false;
@@ -359,6 +371,8 @@ export class AddClassComponent implements OnInit {
       if (!this.addOnlineClass.access_before_start) {
         this.addOnlineClass.access_before_start = 0;
       }
+      this.addOnlineClass.course_id = this.courseIds;
+      this.addOnlineClass.subject_id = this.batchesIds;
       console.log(this.addOnlineClass)
 
       this.isRippleLoad = true;
@@ -402,7 +416,9 @@ export class AddClassComponent implements OnInit {
       eLearnCustUserIDs: [],
       private_access:false,
       access_enable_lobby:false,
-      access_before_start:0
+      access_before_start:0,
+      subject_id:null,
+      course_id:null
     };
 
     this.topicName = "";
@@ -429,7 +445,7 @@ export class AddClassComponent implements OnInit {
   /** this function is used to fetch teacher details */
   getTeachers() {
     this.isRippleLoad = true;
-    let url = '/api/v1/teachers/all/' + this.institution_id
+    let url =`/api/v1/teachers/all/+${this.institution_id}?active=Y`
     this.http_service.getData(url).subscribe(
       (data: any) => {
         this.teachersAssigned = data;
@@ -465,6 +481,7 @@ export class AddClassComponent implements OnInit {
   }
 
   getBatchesCoursesIds(ids) {
+    this.selectedStudentList = [];
     if (this.isProfessional) {
       this.batchesIds = ids;
       this.fetchStudentsApi(this.batchesIds);

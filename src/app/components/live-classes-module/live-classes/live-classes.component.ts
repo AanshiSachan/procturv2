@@ -227,6 +227,25 @@ export class LiveClassesComponent implements OnInit {
     }
   }
 
+  allowStartLiveCLass(link, session_id){
+    const url = `/api/v1/meeting_manager/session/start/${this.institution_id}/${session_id}`;
+    this.JsonVars.isRippleLoad = true;
+    this._http.getData(url).subscribe(
+      (res:any)=>{
+        this.JsonVars.isRippleLoad = false;
+        if(res.result.allow_start_session){
+          window.open(link, "_blank");
+        } else{
+          this.msgService.showErrorMessage('info','',res.result.allow_start_session_message);
+        }
+      },
+      (err)=>{
+        this.JsonVars.isRippleLoad = false;
+        console.log(err);
+      }
+    )
+  }
+
   startLiveClass(link, start_time) {
     let time = this.diffDate(this.today, start_time);
     let splitedTime = time.split(":");
@@ -624,7 +643,7 @@ export class LiveClassesComponent implements OnInit {
   downloadFile(object) {
     const url = `/api/v1/meeting_manager/recording/download/${sessionStorage.getItem('institution_id')}/${object.download_id}`
     this.JsonVars.isRippleLoad = true;
-    this._http.downloadRecording(url).subscribe(
+    this._http.downloadItem(url,'video/mp4').subscribe(
       (response:any)=>{
         this.JsonVars.isRippleLoad = false;
         if(response){
@@ -632,8 +651,6 @@ export class LiveClassesComponent implements OnInit {
         this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
         if(this.fileUrl!=null){
           this.fileName = object.session_name.concat('.mp4');
-          document.getElementById('downloadFileClick').className = '';
-       
         setTimeout(() => {
           var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
           hiddenDownload.download = this.fileName;
@@ -644,6 +661,11 @@ export class LiveClassesComponent implements OnInit {
     },
      err=>{
       this.JsonVars.isRippleLoad = false;
+      if(err.status==400){
+        this.msgService.showErrorMessage('error', '', 'You are out of storage! Please contact our support');
+      } else{
+      this.msgService.showErrorMessage('error', '', 'There is some problem processing your request.Please contact support@proctur.com');
+      }
       console.log(err);
     }
     )
