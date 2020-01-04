@@ -29,6 +29,11 @@ export class File {
 })
 export class FileCardComponent implements OnChanges {
 
+  // global variables
+  jsonFlag = {
+    isRippleLoad: false,
+  };
+
   @Input() data: any;
 
   @Output() draggedover = new EventEmitter<any>(null);
@@ -56,6 +61,7 @@ export class FileCardComponent implements OnChanges {
   arr: any[] = [];
   fileURL: any;
 
+  @Output() downloadStatus = new EventEmitter<any>();
   constructor(
      private cd: ChangeDetectorRef,
      private fileService: FileManagerService,
@@ -240,6 +246,7 @@ export class FileCardComponent implements OnChanges {
   getFileDownloaded(fileObj) {
     let file_type = fileObj.type
     const url = "/api/v1/instFileSystem/downloadFile/" + this.fileService.institute_id + "?fileId=" + fileObj.res.file_id;
+    this.downloadStatus.emit(true);
     this._http.downloadItem(url, file_type).subscribe(
       (response:any)=>{
         if(response){
@@ -251,11 +258,13 @@ export class FileCardComponent implements OnChanges {
               hiddenDownload.href = this.fileURL.changingThisBreaksApplicationSecurity;
               hiddenDownload.download = fileObj.res.file_name;
               hiddenDownload.click();
+              this.downloadStatus.emit(false);
             }, 500);
           }
         }
       },
        err=>{
+        this.downloadStatus.emit(false);
         console.log(err);
       }
     )

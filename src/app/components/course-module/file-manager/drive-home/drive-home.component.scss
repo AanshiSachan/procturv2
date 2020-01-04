@@ -399,6 +399,26 @@ FILE
         }
     }
   }
+
+  .black-bg{
+    background: rgba(10,10,10,0.3);
+    position: fixed;
+    top: 0px;
+    height: 100%;
+    left: 0px;
+    z-index: 101;
+    width: 100%;
+    span{
+      font-size: 18px;
+      color: white;
+      font-weight: 600;
+      text-align: center;
+      position: fixed;
+      top: 43%;
+      left: 46%;
+    }
+  }
+
 /*
 ============================================================================================
 ================================== REjected Grid View ==================================
