@@ -304,7 +304,7 @@ export class ChequeManageComponent implements OnInit {
       }
     if (object) {
       let formatted = value.toLocaleString(lang, {
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 4,
         style: 'currency',
         currency: object.currency_code
       });

@@ -379,8 +379,8 @@ export class StudentAddComponent implements OnInit {
       this.instituteCountryDetObj = defacult_Country[0];
       this.instituteCountryDetObj.symbol= this.getCurrencyDetails(1000,this.instituteCountryDetObj.currency_code,this.instituteCountryDetObj.country_code);
       if(this.checkStatusofStudent == true) { // when enquiry is convert to student it  false else true
-        this.country_id = this.countryDetails[0].id;
-        this.maxlegth = this.countryDetails[0].country_phone_number_length;
+        this.country_id = defacult_Country[0].id;
+        this.maxlegth = defacult_Country[0].country_phone_number_length;
       }
       console.log(this.instituteCountryDetObj);
     }
@@ -406,7 +406,7 @@ export class StudentAddComponent implements OnInit {
    getCurrencyDetails(value, currency, lang) {
     if (value && currency && lang) {
       let formatted = value.toLocaleString(lang, {
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 4,
         style: 'currency',
         currency: currency
       });

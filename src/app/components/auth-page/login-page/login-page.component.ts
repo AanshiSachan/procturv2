@@ -116,7 +116,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         password: ""
       }
     }
-
+//     sessionStorage.clear();
+//     this.auth.clearStoredData();
+//     this.auth.getAuthToken();
     this.auth.currentAuthKey.subscribe(key => {
       this.Authorization = key;
       this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
@@ -232,9 +234,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         res => {
           console.log(res);
           this.checkForAuthOptions(res);
-          if (res.institution_id != null) {
-            this.getCountryDetails(res.institution_id);
-          }
+          // if (res.institution_id != null) {
+          //   this.getCountryDetails(res.institution_id);
+          // }
         },
         err => {
           console.log(err);
@@ -270,7 +272,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   getCurrencyDetails(value, currency, lang) {
     if (value && currency && lang) {
       let formatted = value.toLocaleString(lang, {
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 4,
         style: 'currency',
         currency: currency
       });
@@ -343,6 +345,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       return
     }
     else {
+      if (res.institution_id != null) {
+        this.getCountryDetails(res.institution_id);
+      }
       this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
@@ -632,7 +637,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.opt.expired.title, this.messages.loginMsg.opt.expired.body);
         } else if (el.otp_status == 2) {
           //console.log("Incorrect OTP");
-          this.msgService.showErrorMessage(this.msgService.toastTypes.warning, this.messages.loginMsg.opt.expired.title, this.messages.loginMsg.opt.expired.body);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.warning, this.messages.loginMsg.opt.inCorrect.title, this.messages.loginMsg.opt.inCorrect.body);
         } else if (el.login_option == 3) {
           //console.log("OTP Verified Success");
           this.alternateLoginSuccess(el);
