@@ -12,6 +12,12 @@ import { MessageShowService } from '../../../../services/message-show.service';
 })
 export class DriveHomeComponent implements OnInit {
 
+  jsonFlag = {
+    isRippleLoad: false,
+    downloading: false,
+    uploading: false
+  };
+
   @ViewChild('DragContainer') dragBox: ElementRef;
   @ViewChild('dropZone') dropZone: ElementRef;
   @ViewChild('uploaders') uploaders: ElementRef;
@@ -26,7 +32,7 @@ export class DriveHomeComponent implements OnInit {
       type: "folder",
       children: []
     }];
-    
+
   createFetchFolder = {
     folderName: "",
     institute_id: this.fileService.institute_id,
@@ -92,7 +98,7 @@ export class DriveHomeComponent implements OnInit {
         this.getPath = obj.keyName;
         this.pathArray = this.getPath.split('/');
         this.pathArray.pop();
-        // for End Empty Character 
+        // for End Empty Character
         if (backLoad) {
           this.generateTreeNodes(res, obj.keyName, true);
         } else {
@@ -209,8 +215,10 @@ export class DriveHomeComponent implements OnInit {
       let institute_id = sessionStorage.getItem("institute_id");
       path = this.pathArray.join('/') + '/'
       this.createFetchFolder.keyName = path;
+      this.jsonFlag.isRippleLoad = true;
       this.fileService.craeteFolder(this.createFetchFolder).subscribe(
         (data: any) => {
+          this.jsonFlag.isRippleLoad = false;
           this.createFolderControl = false;
           this.createFetchFolder.folderName = "";
           this.msgService.showErrorMessage('success', '', "Folder Created successfully");
@@ -218,6 +226,7 @@ export class DriveHomeComponent implements OnInit {
           // this.ngOnInit(true);
         },
         (error: any) => {
+          this.jsonFlag.isRippleLoad = false;
           this.msgService.showErrorMessage('error', '', error.error.message);
         }
       )
@@ -588,10 +597,20 @@ export class DriveHomeComponent implements OnInit {
     }
   }
 
+  downloadStatus(event){
+    this.jsonFlag.isRippleLoad = event;
+    this.jsonFlag.downloading = event;
+  }
+
+  uploadStatus(event){
+    this.jsonFlag.isRippleLoad = event;
+    this.jsonFlag.uploading = event;
+  }
+
   treeUpdater(event) {
     let institute_id = this.fileService.institute_id;
     if (event == true) {
-      this.fetchPrefillFolderAndFiles(this.getPath, true);// it maintain the state of file  user stay in that state -- laxmi 
+      this.fetchPrefillFolderAndFiles(this.getPath, true);// it maintain the state of file  user stay in that state -- laxmi
     }
   }
 

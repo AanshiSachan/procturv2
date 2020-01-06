@@ -1,4 +1,8 @@
 <!-- Main screen where content will be rendered -->
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
+  *ngIf="jsonFlag.isRippleLoad">
+</loaders-css>
+
 <div class="center-content">
 
   <div id="dropZone" #dropZone (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" class="drop-area">
@@ -109,7 +113,7 @@
 
           <div *ngIf="fileDisplayArr.length != 0">
             <file-card (draggedover)="onDragOver($event)" (draggedleave)="onDragLeave($event)" [data]="folder" *ngFor="let folder of fileDisplayArr"
-              (getFilesAndFolder)="getFilesAndFolder($event)" (status)="status($event)" (getPopupValue)="getPopupValue($event)"
+              (getFilesAndFolder)="getFilesAndFolder($event)" (status)="status($event)" (downloadStatus)="downloadStatus($event)" (getPopupValue)="getPopupValue($event)"
               (fileid)="fileId($event)" (fileArr)="fileArr($event)" (shareOptions)="handleOptions($event)" [fileDisplayArr]="fileDisplayArr"
               [selectedFolder]="selectedFolder" (filePath)="filePath($event)">
             </file-card>
@@ -131,7 +135,7 @@
 
 <app-upload-popup *ngIf="addCategoryPopup" [manualUpload]="manualUpload" [selectedFiles]="selectedFiles" [currentFolder]="selectedFolder"
   [pathArray]="pathArray" (closePopupValue)="close($event)" (getFilesAndFolder)="getFilesAndFolder($event)" (filePath)="filePathUpload($event)"
-  [currentFilesArray]="fileDisplayArr">
+  [currentFilesArray]="fileDisplayArr" (uploadStatus)="uploadStatus($event)">
 </app-upload-popup>
 
 <share-file *ngIf="getPopupOpen" (treeUpdater)="treeUpdater($event)" (closePopup)="closeSharePopup($event)" [fileIdGet]="fileIdGet"
@@ -167,3 +171,11 @@
     </div>
   </div>
 </proctur-popup>
+
+<div class="black-bg" *ngIf="jsonFlag.downloading">
+  <span>Downloading...</span>
+</div>
+
+<div class="black-bg" *ngIf="jsonFlag.uploading">
+  <span>Uploading...</span>
+</div>

@@ -47,6 +47,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   @Output() filesAndFolder: any = new EventEmitter<any>();
   @Output() filePath: any = new EventEmitter<any>();
   fileLoading: string = "";
+  @Output() uploadStatus = new EventEmitter<any>();
 
   progress: number = 0;
   type: string = "";
@@ -294,6 +295,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         return
       }
 
+      this.uploadStatus.emit(true);
       let path: string = "";
       let institute_id = sessionStorage.getItem("institute_id");
 
@@ -355,6 +357,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
               body: newxhr.response.fileName
             }
             this.appC.popToast(data);
+            this.uploadStatus.emit(false);
             this.manualUpload = false;
             this.filePath.emit(path);
             this.closePopupValue.emit(false);
@@ -362,6 +365,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
 
           } else {
             this.isUploadingXls = false;
+            this.uploadStatus.emit(false);
             let data = {
               type: 'error',
               title: "File uploaded failed",
@@ -426,4 +430,3 @@ export class UploadPopupComponent implements OnInit, OnChanges {
     this.appC.popToast(msg);
   }
 }
-
