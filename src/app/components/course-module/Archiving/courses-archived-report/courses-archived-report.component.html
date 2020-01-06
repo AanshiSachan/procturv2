@@ -145,7 +145,10 @@
           </tbody>
           <tbody *ngIf="newPaginated.length == 0 && dataStatus === false" class="records">
             <tr>
-              <td colspan="6" class="records">
+              <td colspan="8" *ngIf="!isProfessional" class="records">
+                No Records Found
+              </td>
+              <td colspan="6" *ngIf="isProfessional" class="records">
                 No Records Found
               </td>
             </tr>
