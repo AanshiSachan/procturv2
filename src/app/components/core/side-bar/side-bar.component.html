@@ -168,7 +168,7 @@
     <div class="setting-item"  #divMyAccountTag id="divMyAccountTag">
       <img src="./assets/images/sidebar/my-account.svg" title="My Account" alt="" (click)="showSubSection('account')">
       <div class="side-section" id="account">
-        <div class="side-section-item">
+        <div class="side-section-item"  *ngIf="hideForUsers()">
           <span (click)="routerLink('/view/account','account')"><img src="./assets/images/sidebar/sideMenu/account.svg" alt="icon" class="helpSection">My Account</span>
         </div>
         <div class="side-section-item">

@@ -18,7 +18,7 @@
             eStore
           </a>
           <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-          <span> Master Tag </span>
+          <span> Manage Tag</span>
         </h2>
       </div>
       <div class="m-5 filter_div">
@@ -72,8 +72,8 @@
       </thead> 
       <tr *ngFor="let list of tagDetailsData">
         <td class="tbl-row">{{list.tagId}}</td>
-        <td class="text-left tbl-row">{{list.tagName}}</td>
-        <td class="text-left tbl-row" *ngIf="list.description != null && list.description != ''">{{(list.description.length > 35) ? (list.description | slice:0:35) +'...' :(list.description)  }}</td>
+        <td class="text-left tbl-row" title="{{list.tagName}}" >{{(list.tagName.length > 35) ? (list.tagName | slice:0:35) + '...': (list.tagName) }}</td>
+        <td class="text-left tbl-row" title="{{list.description}}" *ngIf="list.description != null && list.description != ''">{{(list.description.length > 35) ? (list.description | slice:0:35) +'...' :(list.description)  }}</td>
         <td class="text-left tbl-row" *ngIf="list.description == null || list.description == ''">-</td>
         <td class="tbl-row">{{list.is_active}}</td>
         

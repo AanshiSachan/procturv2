@@ -137,9 +137,18 @@ export class MasterTagComponent {
 
     createMasterTag(){        
         if(this.tagName == ''){
-            this.msgSrvc.showErrorMessage('info','',"Enter Tag Name")
+            this.msgSrvc.showErrorMessage('info','',"Enter Tag Name");
+            return false;
         }
-        else {
+        if(this.tagName.length > 100){
+            this.msgSrvc.showErrorMessage('info','',"Tag name cannot be so long");
+            return false;
+        }
+        if(this.tagDescription.length > 100){
+            this.msgSrvc.showErrorMessage('info','',"Description cannot be so long");
+            return false;
+        }
+       // else {
             this.isRippleLoad = true;
             let payload = {};
              payload = {
@@ -158,9 +167,9 @@ export class MasterTagComponent {
                 //this.getTagDetails();   
             }, error =>{
                 this.isRippleLoad = false;
-                this.msgSrvc.showErrorMessage('Error', '', error.error.message)
+                this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', error.error.message)
             })
-        }
+       //}
     }
 
     //search/filter tags
