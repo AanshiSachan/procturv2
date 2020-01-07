@@ -165,13 +165,16 @@ export class SideBarComponent implements OnInit , AfterViewInit{
     let institute_id = this.globalSearchForm.instituteId;
     this.jsonFlags.isShowPowerBy = true;
     if (institute_id == '101132' ||
-      institute_id == '101133' ||
-      institute_id == '101134' ||
-      institute_id == '101135' ||
-      institute_id == '101149' ||
-      institute_id == '101150' ||
-      institute_id == '101140' ||
-      institute_id == '101151') {
+        institute_id == '101133' ||
+        institute_id == '101134' ||
+        institute_id == '101135' ||
+        institute_id == '101149' ||
+        institute_id == '101150' ||
+        institute_id == '101140' ||
+        institute_id == '101247' ||
+        institute_id == '101248' ||
+        institute_id == '101249' ||
+        institute_id == '101151') {
       this.jsonFlags.isShowPowerBy = false;
     }
 
