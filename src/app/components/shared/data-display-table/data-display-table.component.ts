@@ -311,8 +311,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     if ((!isNaN(value)) && (value != '') && (value != null)||(key.amountValue)) {
       // return value ;
       if (key.amountValue) {
-        return value ? 'Rs'+ value.toLocaleString('en-IN'):value;
-        // return this._commService.currency_default_symbol + value.toLocaleString('en-IN');
+        return this._commService.currency_default_symbol + value.toLocaleString('en-IN');
       } 
       else {
         if(key.dataType=='array'){

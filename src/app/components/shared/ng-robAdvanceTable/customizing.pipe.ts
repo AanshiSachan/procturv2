@@ -4,7 +4,7 @@ import * as moment from 'moment';
 
 @Pipe({ name: 'typeFormatter' })
 export class CustomizingPipe implements PipeTransform {
-    transform(value: any, isSymbol: boolean = false, decPointer: string, isPrefix: boolean = true, typeHead: string ): string {
+    transform(value: any, isSymbol: boolean = false, decPointer: string, isPrefix: boolean = true, typeHead: string, defaultCurSymbol: string ): string {
 
         if (typeHead != '') {
             /* date detected converting to format DD-MMM-YYYY using moment and returning data */
@@ -29,13 +29,7 @@ export class CustomizingPipe implements PipeTransform {
                     }
                 }
                 else {
-                    let InitialResult = value.toLocaleString('en-IN', {
-                        maximumFractionDigits: 4,
-                        style: 'currency',
-                        currency: 'INR'
-                    }).slice(0, -3);
-        
-                    return InitialResult;
+                    return defaultCurSymbol + value.toLocaleString('en-IN');                    
                 }
             }
 
@@ -51,13 +45,7 @@ export class CustomizingPipe implements PipeTransform {
                     }
                 }
                 else {
-                    let InitialResult = value.toLocaleString('en-IN', {
-                        maximumFractionDigits: 4,
-                        style: 'currency',
-                        currency: 'INR'
-                    }).slice(0, -3);
-        
-                    return InitialResult;
+                    return defaultCurSymbol + value.toLocaleString('en-IN');
                 }
             }
 
@@ -76,13 +64,7 @@ export class CustomizingPipe implements PipeTransform {
                         return value;
                     }
                     else{
-                        let InitialResult = value.toLocaleString('en-IN', {
-                            maximumFractionDigits: 4,
-                            style: 'currency',
-                            currency: 'INR'
-                        }).slice(0, -3);
-            
-                        return InitialResult;
+                        return defaultCurSymbol + value.toLocaleString('en-IN');
                     }
                 }
             }
