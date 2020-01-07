@@ -99,18 +99,4 @@ export class HttpService {
     )
   }
 
-
-  downloadItem(objecturl, file_type) {
-      let url = this.baseUrl + objecturl;
-      let headers = new HttpHeaders({ "Content-Type": file_type, "Authorization": this.Authorization });
-      return this.http.get(url, { headers: headers , "responseType": 'blob'}).map(
-        data => {
-          return data;
-        },
-        err => {
-          return err;
-        }
-      )
-    }
-
 }
