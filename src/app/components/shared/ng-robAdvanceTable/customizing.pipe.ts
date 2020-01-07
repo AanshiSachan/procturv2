@@ -4,8 +4,9 @@ import * as moment from 'moment';
 
 @Pipe({ name: 'typeFormatter' })
 export class CustomizingPipe implements PipeTransform {
-    transform(value: any, isSymbol: boolean = false, decPointer: string, isPrefix: boolean = true, typeHead: string, defaultCurSymbol: string ): string {
-
+    transform(value: any, isSymbol: boolean = false, decPointer: string, isPrefix: boolean = true, typeHead: string, defaultCurSymbol: string,country_id:any): string {
+        let encryptedData = sessionStorage.getItem('country_data');
+        let countryDetails = JSON.parse(encryptedData);
         if (typeHead != '') {
             /* date detected converting to format DD-MMM-YYYY using moment and returning data */
             if (typeHead.toLowerCase().includes('date')) {
@@ -29,7 +30,14 @@ export class CustomizingPipe implements PipeTransform {
                     }
                 }
                 else {
-                    return defaultCurSymbol + value.toLocaleString('en-IN');                    
+                    let object = countryDetails.filter((country) => country.id == country_id)
+                    if (!object.length) {
+                        return defaultCurSymbol + value.toLocaleString('en-IN');
+                    }
+                    else {
+                        return object && object[0] ? object[0].symbol + value.toLocaleString('en-IN') : defaultCurSymbol + value.toLocaleString('en-IN');
+                    }
+                    
                 }
             }
 
@@ -45,7 +53,14 @@ export class CustomizingPipe implements PipeTransform {
                     }
                 }
                 else {
-                    return defaultCurSymbol + value.toLocaleString('en-IN');
+                    let object = countryDetails.filter((country) => country.id == country_id)
+                    if (!object.length) {
+                        return defaultCurSymbol + value.toLocaleString('en-IN');
+                    }
+                    else {
+                        return object && object[0] ? object[0].symbol + value.toLocaleString('en-IN') : defaultCurSymbol + value.toLocaleString('en-IN');
+                    }
+                    
                 }
             }
 
@@ -59,16 +74,23 @@ export class CustomizingPipe implements PipeTransform {
                         return value;
                     }
                 }
-                else{
-                    if(typeHead.toLowerCase().includes('type')){
+                else {
+                    if (typeHead.toLowerCase().includes('type')) {
                         return value;
                     }
-                    else{
-                        return defaultCurSymbol + value.toLocaleString('en-IN');
+                    else {
+                        let object = countryDetails.filter((country) => country.id == country_id)
+                        if (!object.length) {
+                            return defaultCurSymbol + value.toLocaleString('en-IN');
+                        }
+                        else {
+                            return object && object[0] ? object[0].symbol + value.toLocaleString('en-IN') : defaultCurSymbol + value.toLocaleString('en-IN');
+                        }
+                        
                     }
                 }
             }
-            else{
+            else {
                 return value;
             }
 
