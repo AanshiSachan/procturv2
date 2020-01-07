@@ -193,7 +193,7 @@
         </div>
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
           <div class="form-wrapper" [ngClass]="{'has-value':saveDataObj.holiday_name != ''}">
-            <label for="eventName">Event Name*</label>
+            <label for="eventName">Event Name<span class="text-danger">*</span></label>
             <input type="text" class="side-form-ctrl" name="eventName" [(ngModel)]="saveDataObj.holiday_name">
           </div>
         </div>
@@ -216,7 +216,7 @@
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12 datenameEvent">
           <div class="form-wrapper datePickerBox" [ngClass]="{'has-value': (saveDataObj.holiday_date != '' )}">
             <label for="csd">Event Date
-              <span>*</span>
+              <span class="text-danger">*</span>
             </label>
             <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker" [(ngModel)]="saveDataObj.holiday_date" readonly="true"
               name="csd" bsDatepicker>
@@ -227,7 +227,7 @@
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12 datenameEvent" *ngIf="endDateBox">
           <div class="form-wrapper datePickerBox" [ngClass]="{'has-value': (saveDataObj.event_end_date != '' )}">
             <label for="csd">Event End Date
-              <span>*</span>
+              <span class="text-danger">*</span>
             </label>
             <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker" [(ngModel)]="saveDataObj.event_end_date" readonly="true"
               name="csd" bsDatepicker>
@@ -248,7 +248,7 @@
       <div class="row">
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
           <div class="form-wrapper" [ngClass]="{'has-value':saveDataObj.holiday_desc!= ''}">
-            <label for="desc">Description*</label>
+            <label for="desc">Description<span class="text-danger">*</span></label>
             <input type="text" class="side-form-ctrl" name="desc" [(ngModel)]="saveDataObj.holiday_desc" />
           </div>
         </div>
@@ -322,7 +322,7 @@
       <div class="row margin-top">
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
           <div class="form-wrapper">
-            <label for="eventType">Event Type*</label>
+            <label for="eventType">Event Type<span class="text-danger">*</span></label>
             <select class="side-form-ctrl" [(ngModel)]="newUpdateObj.event_type" (ngModelChange)="eventTypeChange()">
               <option *ngFor="let i of getEvent" [value]="i.data_key">{{i.data_value}}</option>
             </select>
@@ -332,7 +332,7 @@
 
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
           <div class="form-wrapper" [ngClass]="{'has-value':newUpdateObj.holiday_name!= ''}">
-            <label for="eventName" style="padding-top:10px">Event Name*</label>
+            <label for="eventName" style="padding-top:10px">Event Name<span class="text-danger">*</span></label>
             <input type="text" class="side-form-ctrl" name="eventName" [(ngModel)]="newUpdateObj.holiday_name">
           </div>
         </div>
@@ -353,7 +353,7 @@
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12 datenameEvent">
           <div class="form-wrapper datePickerBox" [ngClass]="{'has-value': (newUpdateObj.holiday_date != '' )}">
             <label for="csd" style="display:inline-block; ">Event Date
-              <span style="display:inline-block;">*</span>
+              <span style="display:inline-block;" class="text-danger">*</span> 
             </label>
 
             <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker" [(ngModel)]="newUpdateObj.holiday_date" readonly="true"
@@ -367,7 +367,7 @@
 
           <div class="form-wrapper datePickerBox" [ngClass]="{'has-value':newUpdateObj.event_end_date!= ''}">
             <label for="eventenddate">Event End Date
-              <span>*</span>
+              <span class="text-danger">*</span>
             </label>
             <input type="text" class="side-form-ctrl  bsDatepicker" name="eventenddate" bsDatepicker [(ngModel)]="newUpdateObj.event_end_date"
             />
@@ -388,14 +388,14 @@
       <div class="row">
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
           <div class="form-wrapper" [ngClass]="{'has-value':newUpdateObj.holiday_desc!= ''}">
-            <label for="Desc">Description*</label>
+            <label for="Desc">Description<span class="text-danger">*</span></label>
             <input type="text" class="side-form-ctrl" name="Desc" [(ngModel)]="newUpdateObj.holiday_desc" />
           </div>
         </div>
 
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
           <div class="form-wrapper" [ngClass]="{'has-value':newUpdateObj.holiday_long_desc!= ''}">
-            <label style="padding-top: 10px;">Long Description*</label>
+            <label style="padding-top: 10px;">Long Description<span class="text-danger">*</span></label>
             <textarea rows="5" style="height:95px; font-weight: 100" maxlength="500" name="l_desc" class="side-form-ctrl" name="eventName"
               [(ngModel)]="newUpdateObj.holiday_long_desc"></textarea>
           </div>

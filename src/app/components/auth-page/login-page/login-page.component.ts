@@ -116,9 +116,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         password: ""
       }
     }
-//     sessionStorage.clear();
-//     this.auth.clearStoredData();
-//     this.auth.getAuthToken();
+    //     sessionStorage.clear();
+    //     this.auth.clearStoredData();
+    //     this.auth.getAuthToken();
     this.auth.currentAuthKey.subscribe(key => {
       this.Authorization = key;
       this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
@@ -234,9 +234,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         res => {
           console.log(res);
           this.checkForAuthOptions(res);
-          // if (res.institution_id != null) {
-          //   this.getCountryDetails(res.institution_id);
-          // }
         },
         err => {
           console.log(err);
@@ -297,6 +294,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.alternateLoginFailure(res.login_error_message);
         break;
       case 3:
+        this.setAuthToken(res.data);
         this.alternateLoginSuccess(res);
         break;
       case 7:
@@ -309,6 +307,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.alternateLoginMultiUser(res);
         break;
     }
+  }
+
+  setAuthToken(institute_data) {
+    sessionStorage.setItem('userid', institute_data.userid);
+    sessionStorage.setItem('userType', institute_data.userType);
+    sessionStorage.setItem('password', institute_data.password);
+    sessionStorage.setItem('institute_id', institute_data.institution_id);
+    this.auth.getAuthToken();
   }
 
   //End - 1

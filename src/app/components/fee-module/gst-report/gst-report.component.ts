@@ -98,7 +98,6 @@ export class GstReportComponent implements OnInit {
   getPaymentRecords: any[] = [];
 
   downloadService = {
-
     from_date: moment().format('YYYY-MM-DD'),
     to_date: moment().format('YYYY-MM-DD'),
     payment_history_student_category_option: 2,
@@ -124,8 +123,8 @@ export class GstReportComponent implements OnInit {
   private _commService:CommonServiceFactory) { }
 
   ngOnInit() {
-    this.getGstReport(event, this.year);
     window.scroll(0,0);
+    this.getGstReport(event, this.year);    
     this.checkDownloadRoleAccess();
   }
 
@@ -152,7 +151,6 @@ export class GstReportComponent implements OnInit {
     this.dataStatus = 1;
 
     let data = {
-
       institute_id: this.sendPayload.institute_id,
       from_date: moment(firstDay).format('YYYY-MM-DD'),
       to_date: moment(lastDay).format('YYYY-MM-DD'),
@@ -161,24 +159,18 @@ export class GstReportComponent implements OnInit {
       contact_no: this.sendPayload.contact_no,
     }
 
-    this.gst.getPaymentData(data).subscribe(
-
-      (data: any) => {
-
+    this.gst.getPaymentData(data).subscribe((data: any) => {
         if (data.length == 0) {
           this.dataStatus = 2;
         }
-
         else {
           this.dataStatus = 0;
         }
-
         this.getPaymentRecords = data;
         this.tempRecords = data;
         this.records = this.tempRecords[0] ?this.tempRecords[0].totalGst :0;
       },
       (error: any) => {
-
         return error;
       }
     )
