@@ -160,7 +160,7 @@
               </option>
             </select>
           </div>
-
+<!-- 
           <div class="field-wrapper"  *ngIf="isProfessional">
             <label for="batch">Batches<span class="text-danger">*</span> </label>
             <select class="form-ctrl" name="batch" id="batch" [(ngModel)]="batchesIds" (ngModelChange)="getBatchesCoursesIds($event)">
@@ -179,6 +179,28 @@
                   {{i.course_name}}
               </option>
             </select>
+          </div> -->
+
+          <div class="field-wrapper student_list_container" *ngIf="isProfessional">
+            <label for="students">Batch(s)<span class="text-danger">*</span> </label>
+            <ng-multiselect-dropdown class="container"
+              [placeholder]="'Select Batch'"
+              [data]="batches"
+              [settings]="batchListSetting"
+              [(ngModel)]="selectedBatchList" 
+              (ngModelChange)="getBatchesCoursesIds($event)">
+            </ng-multiselect-dropdown>
+          </div>
+
+          <div class="field-wrapper student_list_container" *ngIf="!isProfessional">
+            <label for="students">Course(s)<span class="text-danger">*</span> </label>
+            <ng-multiselect-dropdown class="container"
+              [placeholder]="'Select Course'"
+              [data]="courses"
+              [settings]="courseListSetting"
+              [(ngModel)]="selectedCourseList" 
+              (ngModelChange)="getBatchesCoursesIds($event)">
+            </ng-multiselect-dropdown>
           </div>
 
           <div class="field-wrapper student_list_container" style="width: 85%;border-radius: 4px;margin-top: 5px;border-color: #c5c5cc;font-size: 14px;">

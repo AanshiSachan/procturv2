@@ -182,31 +182,23 @@
               <div class="item_type_1" *ngIf="!isProfessional" style="width: 19%;">
                 <span style="color: #585574;">
                   <span style="color: #9898a3;">Master Course : </span>
-                  <span title="{{class.master_course_name}}">
-                    {{ (class.master_course_name?.length>15) ? (class.master_course_name | slice:0:15 ) + '...' : (class.master_course_name) }}
+                  <span title="{{class.course_list[0].master_course_name}}" *ngIf="class.course_list!=null && class.course_list?.length!=0">
+                    {{ (class.course_list[0]?.master_course_name?.length>15) ? (class.course_list[0].master_course_name | slice:0:15 ) + '...' : (class.course_list[0].master_course_name) }}
                   </span>
                 </span>
                 <span style="color: #585574;">
                   <span style="color: #9898a3;">Course : </span>
-                  <span title="{{class.course_name}}">
-                    {{ (class.course_name?.length>15) ? (class.course_name | slice:0:15 ) + '...' : (class.course_name) }}
+                  <span title="{{class.course}}">
+                    {{ (class.course?.length>15) ? (class.course | slice:0:15 ) + '...' : (class.course) }}
                   </span>
                 </span>
               </div>
 
               <div class="item_type_1" *ngIf="isProfessional" style="width: 19%;">
-                <span style="color: #585574;">
-                  <span style="color: #9898a3;">Master Course : </span>
-                  <span title="{{class.subject_name}}">
-                    {{ (class.subject_name?.length>15) ? (class.subject_name | slice:0:15 ) + '...' : (class.subject_name) }}
-                  </span>
-                </span>
-                <span style="color: #585574;">
                   <span style="color: #9898a3;">Course : </span>
-                  <span title="{{class.standard_name}}">
-                    {{ (class.standard_name?.length>15) ? (class.standard_name | slice:0:15 ) + '...' : (class.standard_name) }}
+                  <span title="{{class.course}}">
+                    {{ (class.course?.length>15) ? (class.course | slice:0:15 ) + '...' : (class.course) }}
                   </span>
-                </span>
               </div>
               <div class="item_type_2">
                   <div class="questionInfo inline-relative">

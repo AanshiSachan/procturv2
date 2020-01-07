@@ -29,6 +29,8 @@ export class AddClassComponent implements OnInit {
   selectedUserList: any[] = [];
   selectedFacultyList: any[] = [];
   selectedModeratorList: any[] = [];
+  selectedCourseList: any[] = [];
+  selectedBatchList :any[] = [];
 
   dropdownList = [];
   teachersAssigned: any[] = [];
@@ -39,6 +41,8 @@ export class AddClassComponent implements OnInit {
   moderatorSettings = {};
   studentListSettings = {};
   userListSetting = {};
+  courseListSetting = {};
+  batchListSetting = {};
   product_id: any = "";
   productData: any[] = [];
   userData: any[] = [];
@@ -84,8 +88,8 @@ export class AddClassComponent implements OnInit {
     private_access: false,
     access_enable_lobby: false,
     access_before_start: 0,
-    subject_id:null,
-    course_id:null
+    batch_list:null,
+    course_list:null
   }
 
   constructor(
@@ -145,6 +149,26 @@ export class AddClassComponent implements OnInit {
       enableCheckAll: true
     }
 
+    this.courseListSetting = {
+      singleSelection: false,
+      idField: 'course_id',
+      textField: 'course_name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 10,
+      enableCheckAll: true
+    }
+
+    this.batchListSetting = {
+      singleSelection: false,
+      idField: 'batch_id',
+      textField: 'batch_name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 10,
+      enableCheckAll: true
+    }
+
     this.getTeachers();
     this.getCustomUsers();
     this.checkIsEnableElearnFeature();
@@ -185,7 +209,6 @@ export class AddClassComponent implements OnInit {
       (data: any) => {
         this.isRippleLoad = false;
         this.userData = data;
-        console.log(this.userData);
       },
       (error: any) => {
         this.isRippleLoad = false;
@@ -196,7 +219,7 @@ export class AddClassComponent implements OnInit {
 
 
   getEvent(event) {
-    const proctur_live_expiry_date:any = sessionStorage.getItem('proctur_live_expiry_date');
+    let proctur_live_expiry_date:any = sessionStorage.getItem('proctur_live_expiry_date');
     if (moment(event).diff(moment(), 'days') < 0) {
       let msg = {
         type: "info",
@@ -205,7 +228,11 @@ export class AddClassComponent implements OnInit {
       this.appC.popToast(msg);
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
     }
-    if(new Date(proctur_live_expiry_date)<new Date(event) && new Date(proctur_live_expiry_date)!=new Date(event)){
+    event = (new Date(event));
+    proctur_live_expiry_date = (new Date(proctur_live_expiry_date));
+    event.setHours(0,0,0,0);
+    proctur_live_expiry_date.setHours(0,0,0,0);
+    if(proctur_live_expiry_date< event && proctur_live_expiry_date!=event){
       const tempMsg = 'Your live class subscription will get expired on '.concat(moment(proctur_live_expiry_date).format('DD-MMM-YYYY')).concat(' hence you will not be able create live class. Renew your subscription to conduct live classes again!');      
       this.msgService.showErrorMessage('info','' , tempMsg);
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
@@ -332,6 +359,24 @@ export class AddClassComponent implements OnInit {
           this.studentsId.push(x);
         }
       );
+      let course_list : any[] = [];
+      this.selectedCourseList.map(
+        (ele: any) => {
+          let x ={'course_id': ele.course_id.toString()}
+          course_list.push(x);
+        }
+      );
+
+      let batch_list:any =[];
+      this.selectedBatchList.map(
+        (ele: any) => {
+          let x ={'batch_id': ele.batch_id.toString()}
+          batch_list.push(x);
+        }
+      );
+
+      this.addOnlineClass.course_list = course_list;
+      this.addOnlineClass.batch_list = batch_list;
 
         if (this.selectedUserList.length != 0) {
           this.eLearnCustUserIDs =[];
@@ -371,8 +416,6 @@ export class AddClassComponent implements OnInit {
       if (!this.addOnlineClass.access_before_start) {
         this.addOnlineClass.access_before_start = 0;
       }
-      this.addOnlineClass.course_id = this.courseIds;
-      this.addOnlineClass.subject_id = this.batchesIds;
       console.log(this.addOnlineClass)
 
       this.isRippleLoad = true;
@@ -417,8 +460,8 @@ export class AddClassComponent implements OnInit {
       private_access:false,
       access_enable_lobby:false,
       access_before_start:0,
-      subject_id:null,
-      course_id:null
+      batch_list:null,
+      course_list:null
     };
 
     this.topicName = "";
@@ -484,12 +527,20 @@ export class AddClassComponent implements OnInit {
     this.selectedStudentList = [];
     if (this.isProfessional) {
       this.batchesIds = ids;
-      this.fetchStudentsApi(this.batchesIds);
+      let temp:any=[];
+      this.batchesIds.forEach(element => {
+      temp.push(element.batch_id);
+    });
+      this.fetchStudentsApi(temp);
       // this.getStudents();
     }
     else {
-      this.courseIds = ids
-      this.fetchStudentsApi(this.courseIds);
+      this.courseIds = ids;
+      let temp:any=[];
+      this.courseIds.forEach(element => {
+      temp.push(element.course_id);
+    });
+      this.fetchStudentsApi(temp);
       // this.getStudents();
     }
   }
@@ -528,6 +579,7 @@ export class AddClassComponent implements OnInit {
   }
 
   getCourses(master_course_name) {
+    this.selectedCourseList = [];
     if (master_course_name == null || master_course_name == '') {
       this.courses = [];
     }
@@ -571,9 +623,9 @@ export class AddClassComponent implements OnInit {
   }
 
   fetchStudentsApi(courseArray) {
-    this.isRippleLoad = true;
-    this.getPayloadBatch.coursesArray = [courseArray];
+    this.getPayloadBatch.coursesArray = courseArray;
     const url = '/api/v1/courseMaster/onlineClass/fetch/users'
+    this.isRippleLoad = true;
     this.http_service.postData(url,this.getPayloadBatch).subscribe(
       (data: any) => {
         this.studentList = data.studentsAssigned;

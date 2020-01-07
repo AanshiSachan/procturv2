@@ -30,6 +30,8 @@ export class EditClassComponent implements OnInit {
   selectedUserList: any[] = [];
   selectedFacultyList: any[] = [];
   selectedModeratorList: any[] = [];
+  selectedCourseList: any[] = [];
+  selectedBatchList :any[] = [];
 
   dropdownList = [];
   teachersAssigned: any[] = [];
@@ -41,6 +43,8 @@ export class EditClassComponent implements OnInit {
   moderatorSettings = {};
   studentListSettings = {};
   userListSetting = {};
+  courseListSetting = {};
+  batchListSetting = {};
 
 
 
@@ -88,8 +92,8 @@ export class EditClassComponent implements OnInit {
     private_access: false,
     access_enable_lobby: false,
     access_before_start: 0,
-    subject_id:null,
-    course_id:null
+    batch_list:null,
+    course_list:null
   }
 
   editSessionId: any;
@@ -152,6 +156,26 @@ export class EditClassComponent implements OnInit {
       itemsShowLimit: 10,
       enableCheckAll: true
     };
+
+    this.courseListSetting = {
+      singleSelection: false,
+      idField: 'course_id',
+      textField: 'course_name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 10,
+      enableCheckAll: true
+    }
+
+    this.batchListSetting = {
+      singleSelection: false,
+      idField: 'batch_id',
+      textField: 'batch_name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 10,
+      enableCheckAll: true
+    }
 
     this.editSessionId = this.route.snapshot.paramMap.get('id');
     this.repeat_session = this.route.snapshot.queryParams["repeat"];
@@ -236,11 +260,14 @@ export class EditClassComponent implements OnInit {
           this.minuteTo = endTime.split(' ')[0].split(':')[1];
         }
 
-        this.batchesIds = this.editData.subject_id;
-        this.courseValue = this.editData.master_course_name;
+        this.batchesIds = this.editData.batch_list;
+        if(this.editData.course_list.length>0){
+        this.courseValue = this.editData.course_list[0].master_course_name;
+        }
         this.getCourses(this.courseValue);
-        this.courseIds = this.editData.course_id;
-
+        this.courseIds = this.editData.course_list;
+        this.getBatchesCourses();
+        this.getCoursepreFillData();
         this.getTeachers();
         this.getCustomUsers();
 
@@ -248,7 +275,7 @@ export class EditClassComponent implements OnInit {
           this.product_id = this.editData.product_id;
           this.getUserpreFillData();
         }
-
+        // this.getStudentpreFillData();
       },
       (error: any) => {
         this.isRippleLoad = false;
@@ -259,7 +286,7 @@ export class EditClassComponent implements OnInit {
 
 
   getEvent(event) {
-    const proctur_live_expiry_date:any = sessionStorage.getItem('proctur_live_expiry_date');
+    let proctur_live_expiry_date:any = sessionStorage.getItem('proctur_live_expiry_date');
     if (moment(event).diff(moment(), 'days') < 0) {
       let msg = {
         type: "info",
@@ -268,7 +295,11 @@ export class EditClassComponent implements OnInit {
       this.appC.popToast(msg);
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
     }
-    if(new Date(proctur_live_expiry_date)<new Date(event) && new Date(proctur_live_expiry_date)!=new Date(event)){
+    event = (new Date(event));
+    proctur_live_expiry_date = (new Date(proctur_live_expiry_date));
+    event.setHours(0,0,0,0);
+    proctur_live_expiry_date.setHours(0,0,0,0);
+    if(proctur_live_expiry_date< event && proctur_live_expiry_date!=event){
       const tempMsg = 'Your live class subscription will get expired on '.concat(moment(proctur_live_expiry_date).format('DD-MMM-YYYY')).concat(' hence you will not be able create live class. Renew your subscription to conduct live classes again!');      
       this.msgService.showErrorMessage('info','' , tempMsg);
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
@@ -338,6 +369,53 @@ export class EditClassComponent implements OnInit {
     }
   }
 
+  getBatchpreFillData() {
+
+    let userIDs:any=[];
+    let userName:any=[];
+    this.batchesIds.forEach(element => {
+      userIDs.push(element.batch_id);
+      userName.push(element.batch_name)
+    });
+
+    let temp: any[] = [];
+    for (var i = 0; i < userIDs.length; i++) {
+      let x = {
+        batch_id: '',
+        batch_name: ''
+      };
+      x.batch_id = userIDs[i];
+      x.batch_name=userName[i];
+      temp.push(x)
+    }
+    // this.course = temp;
+    this.selectedBatchList = temp;
+  }
+
+
+  getCoursepreFillData() {
+
+    let userIDs:any=[];
+    let userName:any=[];
+    this.courseIds.forEach(element => {
+      userIDs.push(element.course_id);
+      userName.push(element.course_name)
+    });
+
+    let temp: any[] = [];
+    for (var i = 0; i < userIDs.length; i++) {
+      let x = {
+        course_id: '',
+        course_name: ''
+      };
+      x.course_id = userIDs[i];
+      x.course_name=userName[i];
+      temp.push(x)
+    }
+    // this.course = temp;
+    this.selectedCourseList = temp;
+  }
+
 
   getStudentpreFillData() {
 
@@ -355,7 +433,7 @@ export class EditClassComponent implements OnInit {
       temp.push(x)
     }
 
-    this.studentList = temp;
+    // this.studentList = temp;
     this.selectedStudentList = temp;
 
   }
@@ -444,6 +522,31 @@ export class EditClassComponent implements OnInit {
     );
     console.log(this.eLearnCustUserIDs);
 
+    let course_list : any = [];
+      this.selectedCourseList.map(
+        (ele: any) => {
+          let x ={'course_id': ele.course_id.toString()}
+          course_list.push(x);
+        }
+      );
+
+      let batch_list:any =[];
+      this.selectedBatchList.map(
+        (ele: any) => {
+          let x ={'batch_id': ele.batch_id.toString()}
+          batch_list.push(x);
+        }
+      );
+      // this.selectedBatchList.map(
+      //   (ele: any) => {
+      //     let x ={'subject_id': ele.batch_id.toString()}
+      //     subject_list.push(x);
+      //   }
+      // );
+
+      this.updateOnlineClass.course_list = course_list;
+      this.updateOnlineClass.batch_list = batch_list;
+
       this.updateOnlineClass.session_name = this.topicName;
       this.updateOnlineClass.custUserIds = this.custUserIds;
       this.updateOnlineClass.studentIds = this.studentsId;
@@ -465,8 +568,6 @@ export class EditClassComponent implements OnInit {
       else {
         this.updateOnlineClass.access_before_start = 0;
       }
-      this.updateOnlineClass.subject_id = this.batchesIds;
-      this.updateOnlineClass.course_id = this.courseIds;
       this.updateOnlineClass.product_id = this.product_id;
 
       if (this.repeat_session == 0) {
@@ -533,8 +634,8 @@ export class EditClassComponent implements OnInit {
       access_before_start:0,
       access_enable_lobby:false,
       private_access:false,
-      subject_id:null,
-      course_id:null
+      batch_list:null,
+      course_list:null
     }
 
     this.topicName = "";
@@ -631,16 +732,22 @@ export class EditClassComponent implements OnInit {
   }
 
   getBatchesCoursesIds(ids) {
-    this.selectedStudentList = [];
+    let temp:any=[];
     if (this.isProfessional) {
       this.batchesIds = ids;
-      this.fetchStudentsApi(this.batchesIds);
+      this.batchesIds.forEach(element => {
+      temp.push(element.batch_id);
+    });
+      this.fetchStudentsApi(temp);
       // this.getStudents();
     }
     else {
       this.courseIds = ids
-      this.fetchStudentsApi(this.courseIds);
-      // this.getStudents();
+      this.courseIds.forEach(element => {
+      temp.push(element.course_id);
+    });
+      this.fetchStudentsApi(temp);   
+         // this.getStudents();
     }
   }
 
@@ -678,6 +785,8 @@ export class EditClassComponent implements OnInit {
   }
 
   getCourses(master_course_name) {
+    this.selectedCourseList = [];
+    this.selectedStudentList = [];
     if (master_course_name == null || master_course_name == '') {
       this.courses = [];
     }
@@ -722,7 +831,7 @@ export class EditClassComponent implements OnInit {
 
   fetchStudentsApi(courseArray) {
     this.isRippleLoad = true;
-    this.getPayloadBatch.coursesArray = [courseArray];
+    this.getPayloadBatch.coursesArray = courseArray;
     const url = '/api/v1/courseMaster/onlineClass/fetch/users'
     this.http_service.postData(url,this.getPayloadBatch).subscribe(
       (data: any) => {
@@ -781,7 +890,8 @@ export class EditClassComponent implements OnInit {
         document.getElementById('li-two').classList.add('active');
         this.isBasicActive = false;
         this.isOtherActive = true;
-        this.getBatchesCourses();
+        this.getBatchpreFillData();
+        // this.getStudentpreFillData();
       }
       else {
         let msg = { type: 'info', title: 'Live Class Details Already Saved', body: '' };

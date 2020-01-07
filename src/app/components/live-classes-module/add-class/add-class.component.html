@@ -161,7 +161,7 @@
             </select>
           </div>
 
-          <div class="field-wrapper"  *ngIf="isProfessional">
+          <!-- <div class="field-wrapper"  *ngIf="isProfessional">
             <label for="batch">Batches<span class="text-danger">*</span> </label>
             <select class="form-ctrl" name="batch" id="batch" [(ngModel)]="batchesIds" (ngModelChange)="getBatchesCoursesIds($event)">
               <option value="" disabled  selected="selected" hidden>Select Batch</option>
@@ -169,9 +169,9 @@
                   {{i.batch_name}}
               </option>
             </select>
-          </div>
+          </div> -->
 
-          <div class="field-wrapper" *ngIf="!isProfessional">
+          <!-- <div class="field-wrapper" *ngIf="!isProfessional">
             <label for="course">Course<span class="text-danger">*</span> </label>
             <select class="form-ctrl" name="course" id="course" [(ngModel)]="courseIds" (ngModelChange)="getBatchesCoursesIds($event)">
               <option value=""  disabled  selected="selected" hidden>Select Course</option>
@@ -179,6 +179,28 @@
                   {{i.course_name}}
               </option>
             </select>
+          </div> -->
+
+          <div class="field-wrapper student_list_container" *ngIf="isProfessional">
+            <label for="students">Batch(s)<span class="text-danger">*</span> </label>
+            <ng-multiselect-dropdown class="container"
+              [placeholder]="'Select Batch'"
+              [data]="batches"
+              [settings]="batchListSetting"
+              [(ngModel)]="selectedBatchList" 
+              (ngModelChange)="getBatchesCoursesIds($event)">
+            </ng-multiselect-dropdown>
+          </div>
+
+          <div class="field-wrapper student_list_container" *ngIf="!isProfessional">
+            <label for="students">Course(s)<span class="text-danger">*</span> </label>
+            <ng-multiselect-dropdown class="container"
+              [placeholder]="'Select Course'"
+              [data]="courses"
+              [settings]="courseListSetting"
+              [(ngModel)]="selectedCourseList" 
+              (ngModelChange)="getBatchesCoursesIds($event)">
+            </ng-multiselect-dropdown>
           </div>
 
           <div class="field-wrapper student_list_container">
