@@ -26,7 +26,7 @@
         <span> </span>
       </div>
     </div> -->
-    <div class="course-menu-item" routerLink="../sms">
+    <div class="course-menu-item" routerLink="../sms" *ngIf="showSMSReport">
       <div class="menu-title">
         <img src="./assets/images/communicate/send_sms.svg" alt="sms report">
         <span>SMS Report </span>
@@ -35,7 +35,7 @@
         <span>This Report depicts the daily SMS sent to prospects, students and parents</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="../email">
+    <div class="course-menu-item" routerLink="../email" *ngIf="showEmailReport">
       <div class="menu-title">
         <img src="./assets/images/communicate/email_report.svg" alt="email report">
         <span>Email Report </span>

@@ -341,6 +341,7 @@ export class StudentHomeComponent implements OnInit {
           /* records */
           if (res.length != 0) {
             this.totalRow = res[0].total_student_count;
+            this._commService.contactNoPatternChange(res);
             this.studentDataSource = res;
           }
           else {
@@ -375,7 +376,8 @@ export class StudentHomeComponent implements OnInit {
         res => {
           this.isRippleLoad = false;
           if (res.length != 0) {
-            this.studentDataSource = res;
+            this._commService.contactNoPatternChange(res); 
+            this.studentDataSource = res;            
           }
           else {
             let alert = {
