@@ -144,9 +144,11 @@
             <div class="sub-item-2">
               <div class="item_type_1">
                 <span style="color: #9898a3;">Faculty : </span>
-                <span style="color: #585574;font-weight: 600;">{{class.teachersName}}</span>
+                <span style="color: #585574;font-weight: 600;" title="{{class.teachersName}}">
+                  {{ (class.teachersName?.length>20) ? (class.teachersName | slice:0:20 ) + '...' : (class.teachersName) }}
+                </span>
               </div>
-              <div class="item_type_1">
+              <div class="item_type_1" style="width:14% ;">
                 <span  style="color: #585574;">
                   <span style="color: #9898a3;">Date : </span>
                   {{class.startDateTime | date: 'dd MMM yyyy'}}
@@ -163,22 +165,45 @@
                 </span>
                 <span style="color: #585574;">
                   <span style="color: #9898a3;">Moderator : </span>
-                  <span *ngIf="class.moderatorName != '' && class.moderatorName != null">{{class.moderatorName}}</span>
+                  <span *ngIf="class.moderatorName != '' && class.moderatorName != null" title="{{class.moderatorName}}">
+                    {{ (class.moderatorName?.length>15) ? (class.moderatorName | slice:0:15 ) + '...' : (class.moderatorName) }}
+                  </span>
                   <span *ngIf="class.moderatorName == '' || class.moderatorName == null">-</span>
                 </span>
               </div>
               <div class="item_type_3" *ngIf="!liveClassFor">
                 <span style="color: #9898a3;">Time left :</span>
                 <span  style="color: #585574;font-weight: 600;">{{getTimeLeft(today, class.startDateTime) }}</span>
-              </div>
+              </div> &nbsp;&nbsp;
               <div class="item_type_3" *ngIf="liveClassFor">
                 <span style="color: #9898a3;">Attendees : </span>
                 <span  style="color: #585574;font-weight: 600;">{{class.attendeesCount}} of {{class.totalAttendeesLimit}}</span>
+              </div> &nbsp;&nbsp;
+              <div class="item_type_1" *ngIf="!isProfessional" style="width: 19%;">
+                <span style="color: #585574;">
+                  <span style="color: #9898a3;">Master Course : </span>
+                  <span title="{{class.course_list[0].master_course_name}}" *ngIf="class.course_list!=null && class.course_list?.length!=0">
+                    {{ (class.course_list[0]?.master_course_name?.length>15) ? (class.course_list[0].master_course_name | slice:0:15 ) + '...' : (class.course_list[0].master_course_name) }}
+                  </span>
+                </span>
+                <span style="color: #585574;">
+                  <span style="color: #9898a3;">Course : </span>
+                  <span title="{{class.course}}">
+                    {{ (class.course?.length>15) ? (class.course | slice:0:15 ) + '...' : (class.course) }}
+                  </span>
+                </span>
+              </div>
+
+              <div class="item_type_1" *ngIf="isProfessional" style="width: 19%;">
+                  <span style="color: #9898a3;">Course : </span>
+                  <span title="{{class.course}}">
+                    {{ (class.course?.length>15) ? (class.course | slice:0:15 ) + '...' : (class.course) }}
+                  </span>
               </div>
               <div class="item_type_2">
                   <div class="questionInfo inline-relative">
                       <span class=" i-class">  
-                          <button type="button" name="button" *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="startLiveClass(class.session_link, class.startDateTime)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                          <button type="button" name="button" *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="allowStartLiveCLass(class.session_link, class.session_id)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                               <i class="fa fa-play" aria-hidden="true"></i>
                               &nbsp;
                               Start Class
