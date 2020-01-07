@@ -40,8 +40,8 @@
                                                 <label></label>
                                             </div>
                                         </li>
-                                        <li title="{{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header:_commService.currency_default_symbol }}" class="{{map.header}}" *ngFor="let map of columnMaps" (click)="userRowClicked($event, i, record  , map.primaryKey)" [ngStyle]="getColor(map.primaryKey , record[map.access(record)])">
-                                            {{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header:_commService.currency_default_symbol }}
+                                        <li title="{{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header:_commService.currency_default_symbol:record.country_id }}" class="{{map.header}}" *ngFor="let map of columnMaps" (click)="userRowClicked($event, i, record  , map.primaryKey)" [ngStyle]="getColor(map.primaryKey , record[map.access(record)])">
+                                            {{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header:_commService.currency_default_symbol:record.country_id }}
                                         </li>
                                         <li class="option-menu" *ngIf="hasMenu">
                                             <drop-menu [dropType]="dropType" [info]="record" [menuOptions]="menuOptions" (selectedRecord)="recordSelected($event)"></drop-menu>
