@@ -26,6 +26,7 @@ export class MasterTagComponent {
     editTagStatus: any;
     tagId: number;
     searchTag: string = '';
+    isSearchItemExist: boolean = false;
     constructor(private tagSrvc: MasterTagService,
         private msgSrvc: MessageShowService,
         private auth: AuthenticatorService){
@@ -36,7 +37,7 @@ export class MasterTagComponent {
           });
         this.getAllTags();
     }
-    //fetch master courses
+    //fetch master tags
     getAllTags(){
         this.isRippleLoad = true;
         this.tagDetailsData = [];
@@ -137,14 +138,14 @@ export class MasterTagComponent {
 
     createMasterTag(){        
         if(this.tagName == ''){
-            this.msgSrvc.showErrorMessage('info','',"Enter Tag Name");
+            this.msgSrvc.showErrorMessage('info','',"Enter tag name");
             return false;
         }
         if(this.tagName.length > 100){
             this.msgSrvc.showErrorMessage('info','',"Tag name cannot be so long");
             return false;
         }
-        if(this.tagDescription.length > 100){
+        if(this.tagDescription.length > 500){
             this.msgSrvc.showErrorMessage('info','',"Description cannot be so long");
             return false;
         }
@@ -173,7 +174,8 @@ export class MasterTagComponent {
     }
 
     //search/filter tags
-    filterTag(){        
+    filterTag(){   
+      //  this.isSearchItemExist = false;     
         if(this.searchTag != null && this.searchTag != ''){
             console.log(this.searchTag)
             let searchItem: any ;
@@ -183,8 +185,12 @@ export class MasterTagComponent {
                (el.tagName.toLowerCase().indexOf(this.searchTag.toLowerCase()) > -1 )
                 ); 
             this.tagDetailsData = searchItem;
+            if(!searchItem.length){
+                this.msgSrvc.showErrorMessage('info', '', 'No tag found');
+            }
         }
         else {
+          //  this.isSearchItemExist = false;
             this.getAllTags();
         }
     }

@@ -1,6 +1,6 @@
 .master-wrapper{
     margin: 10px;
-    overflow: auto;
+    /* overflow: auto; */
     height: auto;
 }
 .header-full{
@@ -98,4 +98,10 @@
  }
  .tbl-row{
      height: 40px;
+ }
+ .noSearchItem{
+    text-align: center;
+    padding-top: 20px;
+    font-weight: bold;
+    font-size: larger;
  }
