@@ -4,6 +4,7 @@ import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { AuthenticatorService } from '../../services/authenticator.service';
 import { CommonServiceFactory } from '../../services/common-service';
 import { MessageShowService } from '../../services/message-show.service'
+import { timingSafeEqual } from 'crypto';
 @Component({
   selector: 'app-institute-settings',
   templateUrl: './institute-settings.component.html',
@@ -14,6 +15,8 @@ export class InstituteSettingsComponent implements OnInit {
 
   isRippleLoad: boolean = false;
   isLangInst: boolean = false;
+  student_expiry_notifctn: boolean;
+  others_expiry_notifctn: boolean;
   minArr: any[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '55'];
   meridianArr: any[] = ["AM", "PM"];
   times: any[] = ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
@@ -305,9 +308,14 @@ export class InstituteSettingsComponent implements OnInit {
     enable_teacher_for_multiple_class: '',
     enable_elearn_course_mapping_feature: '',
     enable_counsellor_number_to_enquirer_in_sms: '',
+    //course/batch expiry notification
     course_or_batch_expiry_notification: '',
     course_or_batch_expiry_notification_before_no_days: '',
     course_or_batch_expiry_notification_contact_no: '',
+    //student expiry notifctn 
+    enable_student_expiry_notification: '',
+    student_expiry_notification_before_no_days: '',
+    student_expiry_notification_contact_no: '',
 
     lib_issue_for_days: '',
     lib_due_date_fine_per_day: ''
@@ -469,11 +477,14 @@ export class InstituteSettingsComponent implements OnInit {
     obj.course_or_batch_expiry_notification_before_no_days = this.instituteSettingDet.course_or_batch_expiry_notification_before_no_days;
     obj.course_or_batch_expiry_notification_contact_no = this.instituteSettingDet.course_or_batch_expiry_notification_contact_no;
     if(this.instituteSettingDet.course_or_batch_expiry_notification){
-        var regEx = /^[0-9]+(,[0-9]+)*$/ ;
-        if(!(regEx.test(this.instituteSettingDet.course_or_batch_expiry_notification_contact_no))){
-          this.msgSrvc.showErrorMessage('info', '', 'Please enter numbers only');
-          return false;
-        }
+        this.checkContactNoPattern(this.instituteSettingDet.course_or_batch_expiry_notification_contact_no);
+    }
+    
+    obj.student_expiry_notification_before_no_days = this.instituteSettingDet.student_expiry_notification_before_no_days;
+    obj.student_expiry_notification_contact_no = this.instituteSettingDet.student_expiry_notification_contact_no;
+    obj.enable_student_expiry_notification =  this.sendExpiryNotifctnKeys();
+    if(this.instituteSettingDet.enable_student_expiry_notification == 16 || this.instituteSettingDet.enable_student_expiry_notification == 18){
+        this.checkContactNoPattern(this.instituteSettingDet.student_expiry_notification_contact_no);
     }
     // if (this.checkDropDownSelection(this.instituteSettingDet.pre_enquiry_follow_up_reminder_time) == false) {
     //   this.isRippleLoad = false;
@@ -564,6 +575,29 @@ export class InstituteSettingsComponent implements OnInit {
   convertTimeToSend(data) {
     let time = data.hour.split(' ')[0] + ':' + data.minute + ' ' + data.hour.split(' ')[1];
     return time;
+  }
+  //check contact no pattern (comma seperator)
+  checkContactNoPattern(pattern){
+    var regExPattern = /^[0-9]+(,[0-9]+)*$/ ;
+        if(!(regExPattern.test(pattern))){
+          this.msgSrvc.showErrorMessage('info', '', 'Please enter numbers only');
+          return false;
+        }
+  }
+  sendExpiryNotifctnKeys(){
+    if(this.student_expiry_notifctn && !this.others_expiry_notifctn){
+      this.instituteSettingDet.enable_student_expiry_notification = 2;
+    }
+    else if(!this.student_expiry_notifctn && this.others_expiry_notifctn){
+      this.instituteSettingDet.enable_student_expiry_notification = 16;
+    }
+    else if(this.student_expiry_notifctn && this.others_expiry_notifctn){
+      this.instituteSettingDet.enable_student_expiry_notification = 18;
+    }
+    else {
+      this.instituteSettingDet.enable_student_expiry_notification = 0;
+    }
+    return this.instituteSettingDet.enable_student_expiry_notification;
   }
 
   fillJSONData(data) {
@@ -687,6 +721,12 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.course_or_batch_expiry_notification = data.course_or_batch_expiry_notification;
     this.instituteSettingDet.course_or_batch_expiry_notification_before_no_days = data.course_or_batch_expiry_notification_before_no_days;
     this.instituteSettingDet.course_or_batch_expiry_notification_contact_no = data.course_or_batch_expiry_notification_contact_no;
+
+   this.instituteSettingDet.enable_student_expiry_notification = data.enable_student_expiry_notification;
+   this.setStudentNotificationKeys(this.instituteSettingDet.enable_student_expiry_notification);
+   this.instituteSettingDet.student_expiry_notification_before_no_days = data.student_expiry_notification_before_no_days;
+   this.instituteSettingDet.student_expiry_notification_contact_no = data.student_expiry_notification_contact_no;
+   
   }
 
 
@@ -698,6 +738,28 @@ export class InstituteSettingsComponent implements OnInit {
     }
 
   }
+  // notification for student expiry and its cases --> created by Anushka
+  setStudentNotificationKeys(key){
+    if(key == 2){ //student
+      this.student_expiry_notifctn = true;
+      this.others_expiry_notifctn = false;
+    } 
+    else if(key == 16){ //others
+     this.student_expiry_notifctn = false;
+     this.others_expiry_notifctn = true;
+
+    }
+    else if(key == 18){ //both
+     this.student_expiry_notifctn = true;
+     this.others_expiry_notifctn = true;
+    }
+    else if(key == 0){
+     this.student_expiry_notifctn = false;
+     this.others_expiry_notifctn = false;
+    }
+    this.instituteSettingDet.enable_student_expiry_notification = key;
+    }
+  
 
   checkDropDownSelection(data) {
     if (data == "-1") {
