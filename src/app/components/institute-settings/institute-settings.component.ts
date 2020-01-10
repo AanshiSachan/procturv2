@@ -3,8 +3,7 @@ import { InstituteSettingService } from '../../services/institute-setting-servic
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { AuthenticatorService } from '../../services/authenticator.service';
 import { CommonServiceFactory } from '../../services/common-service';
-import { log } from 'util';
-
+import { MessageShowService } from '../../services/message-show.service'
 @Component({
   selector: 'app-institute-settings',
   templateUrl: './institute-settings.component.html',
@@ -305,6 +304,10 @@ export class InstituteSettingsComponent implements OnInit {
     emailIds_for_justDail_ext_lead: '',
     enable_teacher_for_multiple_class: '',
     enable_elearn_course_mapping_feature: '',
+    enable_counsellor_number_to_enquirer_in_sms: '',
+    course_or_batch_expiry_notification: '',
+    course_or_batch_expiry_notification_before_no_days: '',
+    course_or_batch_expiry_notification_contact_no: '',
 
     lib_issue_for_days: '',
     lib_due_date_fine_per_day: ''
@@ -324,7 +327,8 @@ export class InstituteSettingsComponent implements OnInit {
   constructor(
     private apiService: InstituteSettingService,
     private auth: AuthenticatorService,
-    private commonService: CommonServiceFactory
+    private commonService: CommonServiceFactory,
+    private msgSrvc: MessageShowService
   ) {
     this.commonService.removeSelectionFromSideNav();
   }
@@ -395,6 +399,7 @@ export class InstituteSettingsComponent implements OnInit {
     }
     dataToSend = this.constructJsonToSend();
     this.isRippleLoad = true;
+    if(dataToSend){
     this.apiService.saveSettingsToServer(dataToSend).subscribe(
       res => {
         this.isRippleLoad = false;
@@ -406,6 +411,7 @@ export class InstituteSettingsComponent implements OnInit {
       }
     )
   }
+}
 
   cancelAllSettings() {
     this.getSettingFromServer();
@@ -456,6 +462,19 @@ export class InstituteSettingsComponent implements OnInit {
     obj.absenteeism_report_flag = this.convertBoolenToNumber(this.instituteSettingDet.absenteeism_report_flag);
     obj.pre_enquiry_follow_up_reminder_time = (this.instituteSettingDet.pre_enquiry_follow_up_reminder_time);
     obj.post_enquiry_follow_up_reminder_time = (this.instituteSettingDet.post_enquiry_follow_up_reminder_time);
+
+
+    obj.enable_counsellor_number_to_enquirer_in_sms = this.convertBoolenToNumber(this.instituteSettingDet.enable_counsellor_number_to_enquirer_in_sms);
+    obj.course_or_batch_expiry_notification = this.convertBoolenToNumber(this.instituteSettingDet.course_or_batch_expiry_notification);
+    obj.course_or_batch_expiry_notification_before_no_days = this.instituteSettingDet.course_or_batch_expiry_notification_before_no_days;
+    obj.course_or_batch_expiry_notification_contact_no = this.instituteSettingDet.course_or_batch_expiry_notification_contact_no;
+    if(this.instituteSettingDet.course_or_batch_expiry_notification){
+        var regEx = /^[0-9]+(,[0-9]+)*$/ ;
+        if(!(regEx.test(this.instituteSettingDet.course_or_batch_expiry_notification_contact_no))){
+          this.msgSrvc.showErrorMessage('info', '', 'Please enter numbers only');
+          return false;
+        }
+    }
     // if (this.checkDropDownSelection(this.instituteSettingDet.pre_enquiry_follow_up_reminder_time) == false) {
     //   this.isRippleLoad = false;
     //   return;
@@ -662,6 +681,12 @@ export class InstituteSettingsComponent implements OnInit {
 
     this.instituteSettingDet.lib_issue_for_days = data.lib_issue_for_days;
     this.instituteSettingDet.lib_due_date_fine_per_day = data.lib_due_date_fine_per_day;
+
+    this.instituteSettingDet.enable_counsellor_number_to_enquirer_in_sms = data.enable_counsellor_number_to_enquirer_in_sms; 
+
+    this.instituteSettingDet.course_or_batch_expiry_notification = data.course_or_batch_expiry_notification;
+    this.instituteSettingDet.course_or_batch_expiry_notification_before_no_days = data.course_or_batch_expiry_notification_before_no_days;
+    this.instituteSettingDet.course_or_batch_expiry_notification_contact_no = data.course_or_batch_expiry_notification_contact_no;
   }
 
 
