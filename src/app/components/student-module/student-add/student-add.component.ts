@@ -15,7 +15,6 @@ import { CommonServiceFactory } from '../../../services/common-service';
 import { CourseListService } from '../../../services/course-services/course-list.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-student-add',
@@ -197,6 +196,7 @@ export class StudentAddComponent implements OnInit {
     guardian_email: "",
     guardian_phone: "",
     is_active: "Y",
+    expiry_date: "",
     institution_id: sessionStorage.getItem('institute_id'),
     assignedBatches: [],
     assignedBatchescademicYearArray: [""],
@@ -1212,6 +1212,8 @@ export class StudentAddComponent implements OnInit {
       // this.studentAddFormData.country_id=this.instituteCountryDetObj.id;
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
+
+      this.studentAddFormData.expiry_date = moment(this.studentAddFormData.expiry_date).format("YYYY-MM-DD") ;
       this.studentAddFormData.studentFileUploadJson = this.selectedFiles;
       console.log(this.studentAddFormData);
       this.btnSaveAndContinue.nativeElement.disabled = true;
