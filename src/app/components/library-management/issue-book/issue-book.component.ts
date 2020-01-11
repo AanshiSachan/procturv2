@@ -423,7 +423,7 @@ export class IssueBookComponent implements OnInit {
       this.tempToDate = moment(this.bookToDate).format("DD MMM YYYY");
     }
     else{
-      this.messageHandler('error', 'To date can not be lesser than From date', '');
+      this.messageHandler('error', 'To date must be greater than From date', '');
       this.bookToDate = moment(this.tempToDate).format("DD MMM YYYY");
       return;
     }
