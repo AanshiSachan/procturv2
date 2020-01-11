@@ -551,7 +551,7 @@
             </div>
 
           </aside>
-          <aside class="pull-right middle-right" id="studentRightSideBar" style="height: 62vh;overflow-y: auto;">
+          <aside class="pull-right middle-right" id="studentRightSideBar">
             <div class="common-right-section">
             </div>
         <section class="enquiry-detail common-right-section">
@@ -675,6 +675,15 @@
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountExclTax}}</span>
             </div>
+            <div class="tax-Amount tooltipDiv" *ngIf="studentAddFormData.country_id==1">
+              <span class="label">Tax on Installment</span>
+              <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
+              <br />
+              <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.taxAmount }}</span>
+              <span class="tooltip-content">Tax component in Summary card and total tax in individual Instalments may differ due to rounding off decimal
+                values.
+              </span>
+            </div>
             <div class="discount-Amount tooltipDiv" *ngIf="checkBoxGroup.feeDiscouting">
               <span class="label">Discount</span>
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
@@ -685,17 +694,8 @@
                 introduced.
               </span>
             </div>
-            <div class="tax-Amount tooltipDiv" *ngIf="studentAddFormData.country_id==1">
-              <span class="label">Tax on Installment</span>
-              <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
-              <br />
-              <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.taxAmount }}</span>
-              <span class="tooltip-content">Tax component in Summary card and total tax in individual Instalments may differ due to rounding off decimal
-                values.
-              </span>
-            </div>
 
-            <div class="discount-Amount" *ngIf="cardAmountObject.additionalFees > 0">
+            <div class="discount-Amount" *ngIf="cardAmountObject.additionalFees > 0" style="padding-left: 0;">
               <span class="label">Additional Fee <span *ngIf="studentAddFormData.country_id==1"> (Incl of Tax)</span> </span>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.additionalFees }}</span>

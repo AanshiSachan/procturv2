@@ -1,0 +1,312 @@
+.middle-section {
+  padding: 1%;
+}
+.filter-container{
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  .filter-first-row-container, .filter-second-row-container{
+    display: flex;
+    flex-direction: row;
+  }
+  .filter-item{
+    width: 20%;
+    margin: 0px 1%;
+    .form-ctrl{
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  }
+  #advance_filter{
+    display: none;
+  }
+  .search-btn{
+    background: #0084f6;
+    color: white;
+    padding: 6px 10px;
+    border: 2px solid #0084f6;
+    box-shadow: none;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  .advance-filter-btn{
+    background: white;
+    color: #0084f6;
+    border: none;
+    margin-top: 20px;
+  }
+}
+
+.show-filter{
+  #searchBtn1, #advBtn1{
+    display: none;
+  }
+  #searchBtn2, #advBtn2{
+    display: block;
+  }
+  #lead-value-container{
+    min-height: 57vh;
+  }
+  // #advance_filter{
+  //   display: flex;
+  // }
+}
+.hide-filter{
+  #searchBtn1, #advBtn1{
+    display: block;
+  }
+  #searchBtn2, #advBtn2{
+    display: none;
+  }
+  #lead-value-container{
+    min-height: 61vh;
+  }
+  // #advance_filter{
+  //   display: none;
+  // }
+}
+
+.campaign-activity-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: 10px 0px;
+  .activity-item{
+    margin: 0px 1%;
+    padding-top: 0px !important;
+  }
+  .search-box{
+    border-radius: 4px;
+    border: 1px solid #b4b6bd;
+    width: 100%;
+    line-height: 30px;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+  .add-student-btn{
+    background: #0084f6;
+    color: white;
+    padding: 6px 10px;
+    border: 2px solid #0084f6;
+    box-shadow: none;
+    border-radius: 4px;
+  }
+  .download-btn{
+    background: white;
+    color: #0084f6;
+    border: none;
+    padding: 6px 10px;
+    border: 1px solid #0084f6;
+    border-radius: 4px;
+  }
+}
+
+.student-list-table-container{
+  display: flex;
+  flex-direction: column;
+  .list-heading-container{
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: row;
+    background: #e0eaec;
+    font-weight: 600;
+    text-align: left;
+    border-left: 3px solid #e0eaec;
+    .heading-item{
+      padding: 10px;
+    }
+  }
+  .list-value-outer-container{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-top: none;
+    min-height: 61vh;
+    max-height: 61vh;
+    overflow-y: auto;
+    .list-value-container{
+      display: flex;
+      flex-direction: row;
+      border-left: 3px solid white;
+      text-align: left;
+      .value-item{
+        padding: 10px;
+      }
+
+    }
+
+    .converted-lead{
+      border-left: 3px solid tomato;
+      background: bisque;
+    }
+    .non-converted{
+      border-left: 3px solid white;
+      background: white;
+    }
+  }
+  .no-records{
+    display: block;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .lg-item{
+    width: 13%;
+  }
+  .md-item{
+    width: 12%
+  }
+  .sm-item{
+    width: 10%;
+  }
+  .align-center{
+    text-align: center;
+  }
+  .edit-lead{
+    margin: 0 5px;
+    cursor: pointer;
+    color: #0084f6;
+  }
+  .delete-lead{
+    margin: 0 5px;
+    cursor: pointer;
+    color: red;
+  }
+
+  .field-checkbox-wrapper {
+      width: 30px !important;
+      overflow: hidden;
+      background: transparent;
+      box-sizing: border-box;
+      height: 22px !important;
+      padding-left: 25px !important;
+      margin-bottom: 0;
+      margin-left: 5px;
+      background: transparent;
+      border-radius: 1px;
+  }
+  .field-checkbox-wrapper .form-checkbox {
+      opacity: 0;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 22px;
+      height: 22px;
+      z-index: 1;
+      cursor: pointer;
+  }
+  .field-checkbox-wrapper .form-checkbox+label {
+      vertical-align: middle;
+      transition: all 0s;
+      font-size: 14px;
+      display: inline-block;
+  }
+  .field-checkbox-wrapper .form-checkbox+label:after {
+      content: '';
+      width: 19px;
+      height: 19px;
+      border: 2px solid #ccc;
+      border-radius: 2px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      transition: all 0s;
+  }
+  .field-checkbox-wrapper .form-checkbox:checked+label:after {
+      border: 2px solid #0084f6;
+  }
+  .field-checkbox-wrapper .form-checkbox+label:before {
+      transition: all 0s;
+      width: 1px;
+      height: 1px;
+      left: 8px;
+      top: 9px;
+      position: absolute;
+      content: '';
+      border-top: 0;
+      border-right: 0;
+      border-left: 2px solid transparent;
+      border-bottom: 2px solid transparent;
+      transform: rotate(-45deg);
+  }
+  .field-checkbox-wrapper .form-checkbox:checked+label:before {
+      border-left: 2px solid #0084f6;
+      border-bottom: 2px solid #0084f6;
+      width: 12px;
+      height: 7px;
+      left: 3.5px;
+      top: 4px;
+  }
+  .field-checkbox-wrapper .form-checkbox:checked+label {
+      color: #0084f6;
+  }
+
+}
+
+.msg-list-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid #ccc;
+  margin: 10px 0;
+  .msg-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 10px;
+    .msg-span{
+      width: 90%;
+    }
+  }
+}
+
+#SMS{
+  display: none;
+}
+
+
+.campaign-footer-section{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  .pagination-container{
+    width: 50%;
+  }
+}
+// action-btn
+.campaign-action-btn-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: 10px 0px;
+  width: 50%;
+  .action-btn-item{
+    margin: 0 20px;
+    margin-top: 10px;
+    .action-btn{
+      background: #0084f6;
+      color: white;
+      padding: 6px 10px;
+      border: 2px solid #0084f6;
+      box-shadow: none;
+      border-radius: 4px;
+    }
+  }
+}
+
+
+// Add Lead
+.form-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .form-item{
+    width: 48%;
+    select, input{
+      border: 1px solid #ccc;
+    }
+  }
+}

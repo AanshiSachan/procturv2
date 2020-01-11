@@ -107,8 +107,8 @@ export class MessageShowService {
           body: "Kindly, Regenerate the OTP"
         },
         inCorrect: {
-          title: "OTP Incorrect",
-          body: "Kindly, Enter the right OTP"
+          title: "",
+          body: "Kindly, Enter the correct OTP"
         }
 
       },

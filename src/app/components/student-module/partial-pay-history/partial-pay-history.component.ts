@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Renderer2, Input, Output, EventEmitter } from '@angular/core';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { AppComponent } from '../../../app.component';
+import { CommonServiceFactory } from '../../../services/common-service';
 @Component({
     selector: 'partial-pay-history',
     templateUrl: './partial-pay-history.component.html',
@@ -17,7 +18,9 @@ export class PartialPayHistoryComponent implements OnInit, OnChanges {
 
     studentPartialPaymentData: any = [];
 
-    constructor(private appC: AppComponent, private fetchService: FetchStudentService) { }
+    constructor(private appC: AppComponent, private fetchService: FetchStudentService,
+        private _commService: CommonServiceFactory
+        ) { }
 
     ngOnInit() {
     }
@@ -44,7 +47,7 @@ export class PartialPayHistoryComponent implements OnInit, OnChanges {
         this.fetchService.getFeeReceiptById(this.studentid, ins.invoice_no).subscribe(
             (res: any) => {
                 let body = res;
-                let byteArr = this.convertBase64ToArray(body.document);
+                let byteArr = this._commService.convertBase64ToArray(body.document);
                 let format = body.format;
                 let fileName = body.docTitle;
                 let file = new Blob([byteArr], { type: 'application/pdf' });
@@ -72,17 +75,5 @@ export class PartialPayHistoryComponent implements OnInit, OnChanges {
         this.closeHist.emit(true);
     }
 
-    /* Converts base64 string into a byte[] */
-    convertBase64ToArray(val) {
-
-        var binary_string = window.atob(val);
-        var len = binary_string.length;
-        var bytes = new Uint8Array(len);
-        for (var i = 0; i < len; i++) {
-            bytes[i] = binary_string.charCodeAt(i);
-        }
-        return bytes.buffer;
-
-    }
 
 }

@@ -1932,7 +1932,7 @@ export class EnquiryHomeComponent implements OnInit {
         this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
             (res: any) => {
                 this.flagJSON.isRippleLoad = false;
-                let byteArr = this.convertBase64ToArray(res.document);
+                let byteArr = this._commService.convertBase64ToArray(res.document);
                 let fileName = res.docTitle;
                 let file = new Blob([byteArr], { type: 'application/vnd.ms-excel' });
                 let url = URL.createObjectURL(file);
@@ -2027,7 +2027,7 @@ export class EnquiryHomeComponent implements OnInit {
     }
 
     performDownloadAction(res) {
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this._commService.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
@@ -2037,15 +2037,6 @@ export class EnquiryHomeComponent implements OnInit {
         dwldLink.setAttribute("download", fileName);
         document.body.appendChild(dwldLink);
         dwldLink.click();
-    }
-
-    /* Converts base64 string into a byte[] */
-    convertBase64ToArray(val) {
-        var binary_string = window.atob(val);
-        var len = binary_string.length;
-        var bytes = new Uint8Array(len);
-        for (var i = 0; i < len; i++) { bytes[i] = binary_string.charCodeAt(i); }
-        return bytes.buffer;
     }
 
     /* Convert enquiry to student */
@@ -2084,7 +2075,7 @@ export class EnquiryHomeComponent implements OnInit {
             (res: any) => {
                 this.flagJSON.isRippleLoad = false;
                 this.cd.markForCheck();
-                let byteArr = this.convertBase64ToArray(res.document);
+                let byteArr = this._commService.convertBase64ToArray(res.document);
                 let format = res.format;
                 let fileName = res.docTitle;
                 let file = new Blob([byteArr], { type: 'application/pdf' });

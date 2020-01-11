@@ -683,6 +683,15 @@
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountExclTax}}</span>
             </div>
 
+            <div class="tax-Amount tooltipDiv"  *ngIf="studentAddFormData.country_id==1">
+              <span class="label">Tax On Installment</span>
+              <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
+              <br />
+              <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.taxAmount}}</span>
+              <span class="tooltip-content">Tax component in Summary card and total tax in individual Installments may differ due to rounding off decimal
+                values.</span>
+            </div>
+
             <div class="discount-Amount tooltipDiv" *ngIf="checkBoxGroup.feeDiscouting">
               <span class="label">Discount</span>
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
@@ -693,16 +702,7 @@
                 introduced.</span>
             </div>
 
-            <div class="tax-Amount tooltipDiv"  *ngIf="studentAddFormData.country_id==1">
-              <span class="label">Tax On Installment</span>
-              <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
-              <br />
-              <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.taxAmount}}</span>
-              <span class="tooltip-content">Tax component in Summary card and total tax in individual Installments may differ due to rounding off decimal
-                values.</span>
-            </div>
-
-            <div class="additional-Amount" *ngIf="cardAmountObject.additionalFees > 0">
+            <div class="additional-Amount" *ngIf="cardAmountObject.additionalFees > 0" style="padding-left: 0;">
               <span class="label">Additional Fee <span *ngIf="studentAddFormData.country_id==1">(Incl of Tax)</span> </span>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.additionalFees}}</span>
@@ -757,11 +757,11 @@
 
               <a id="hiddenAnchorTag2" class="hide">Element Made For fee Installment Download</a>
 
-              <!-- <input  style="    right: 115px;" type="button" value="Share" (click)="isShareDetails= !isShareDetails"
+              <input  style="right: 115px;" type="button" value="Share" (click)="isShareDetails= !isShareDetails"
               class="btn downloadbtn">
-              <input *ngIf="showFeeSection" type="button" value="Download" (click)="studentFeeInstallment()" class="btn downloadbtn">
-              <i  class="fa fa-download" (click)="studentFeeInstallment(-1)" style="font-size: 25px;color: #0084f6;position: absolute;right: 70px;top: 6px;"
-              placeholder="Download fee installment"></i> -->
+              <input *ngIf="showFeeSection" type="button" (click)="studentFeeInstallment()" >
+              <i  class="fa fa-download" (click)="studentFeeInstallment(-1)" style="font-size: 25px;color: #0084f6;position: absolute;right: 70px;top: 6px;cursor: pointer;"
+              placeholder="Download fee installment"></i>
             </div>
           </div>
 

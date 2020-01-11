@@ -74,7 +74,7 @@
                         </div>
                         <div class="form-wrapper" *ngIf=isProfessional>
                             <label>Batch Name</label>
-                            <select class="side-form-ctrl" [(ngModel)]="queryParams.batch_id">
+                            <select class="side-form-ctrl" [(ngModel)]="queryParams.batch_id" (ngModelChange)="isShowDownloadReport()">
                                 <option value=-1></option>
                                 <option *ngFor="let i of batchPro" [value]="i.batch_id" name="batchCourse">{{i.batch_name}}</option>
                             </select>
@@ -120,12 +120,12 @@
                         <div class="form-btn">
                             <div *ngIf="!isProfessional">
                                 <div class="c-lg-6 inner-btn">
-                                    <button class="btn fullBlue" (click)="getPostData()">Summary Report</button>
+                                    <button class="btn fullBlue" (click)="getPostData()">Go</button>
                                 </div>
                             </div>
                             <div *ngIf="isProfessional">
                                 <div class="c-lg-6 inner-btn">
-                                    <button class="btn fullBlue" (click)="getPostData()">Summary Report</button>
+                                    <button class="btn fullBlue" (click)="getPostData()">Go</button>
                                 </div>
                             </div>
                             <div *ngIf="isProfessional">
@@ -138,12 +138,12 @@
                                     <button class="btn fullBlue" (click)="postDetails()">Detail Report</button>
                                 </div>
                             </div>
-                            <!-- <div>
+                            <div *ngIf="showDownloadReport">
                                 <div class="c-lg-6 outer-btn" style="padding-right: 0;">
-                                    <button class="btn fullBlue" (click)="downloadReport()">Download Report</button>
+                                    <button class="btn fullBlue" (click)="downloadReport()" style="background: #fff;color: #0084f6;"><i class="fa fa-download"> </i> PDF</button>
                                     <a id="downloadFileClick"></a>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
 
@@ -167,12 +167,12 @@
                         <div *ngIf=!isProfessional>
                             <proctur-table [records]="pagedPostData" (sortData)="sortedData($event)" [tableName]="'sms'" [settings]="projectSettings"
                                 [dataStatus]="dataStatus" [sortingEnabled]="sortingEnabled" [columnMap]="columnMaps" [dummyArr]="dummyArr"
-                                [direction]="direction">
+                                [direction]="direction" [loaderState]="isRippleLoad">
                             </proctur-table>
                         </div>
                         <div *ngIf=isProfessional>
                             <proctur-table [records]="pagedPostDataPro" [tableName]="'sms'" [settings]="projectSettings" [dataStatus]="dataStatus" [columnMap]="columnMaps"
-                                (sortData)="sortedData($event)" [dummyArr]="dummyArr" [direction]="direction" [sortingEnabled]="sortingEnabled">
+                                (sortData)="sortedData($event)" [dummyArr]="dummyArr" [direction]="direction" [sortingEnabled]="sortingEnabled" [loaderState]="isRippleLoad">
                             </proctur-table>
 
                         </div>

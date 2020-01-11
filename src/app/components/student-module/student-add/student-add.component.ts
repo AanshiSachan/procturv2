@@ -379,8 +379,8 @@ export class StudentAddComponent implements OnInit {
       this.instituteCountryDetObj = defacult_Country[0];
       this.instituteCountryDetObj.symbol= this.getCurrencyDetails(1000,this.instituteCountryDetObj.currency_code,this.instituteCountryDetObj.country_code);
       if(this.checkStatusofStudent == true) { // when enquiry is convert to student it  false else true
-        this.country_id = this.countryDetails[0].id;
-        this.maxlegth = this.countryDetails[0].country_phone_number_length;
+        this.country_id = defacult_Country[0].id;
+        this.maxlegth = defacult_Country[0].country_phone_number_length;
       }
       console.log(this.instituteCountryDetObj);
     }
@@ -406,7 +406,7 @@ export class StudentAddComponent implements OnInit {
    getCurrencyDetails(value, currency, lang) {
     if (value && currency && lang) {
       let formatted = value.toLocaleString(lang, {
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 4,
         style: 'currency',
         currency: currency
       });
@@ -507,7 +507,7 @@ export class StudentAddComponent implements OnInit {
     this.postService.getFeeInstallments(object).subscribe((res: any) => {
       this.isRippleLoad = false;
       if (userType == -1) {
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this.commonServiceFactory.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
@@ -1971,7 +1971,7 @@ export class StudentAddComponent implements OnInit {
 
   downloadDocument(res) {
     let body = res;
-    let byteArr = this.convertBase64ToArray(body.document);
+    let byteArr = this.commonServiceFactory.convertBase64ToArray(body.document);
     let fileName = body.docTitle;
     let file = new Blob([byteArr], { type: 'application/pdf' });
     let url = URL.createObjectURL(file);
@@ -2510,17 +2510,6 @@ export class StudentAddComponent implements OnInit {
         }
       )
     }
-  }
-
-  /* Converts base64 string into a byte[] */
-  convertBase64ToArray(val) {
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
   }
 
 uploadHandler() {

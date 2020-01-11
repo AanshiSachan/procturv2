@@ -37,9 +37,9 @@
                 </td>
             </tr>
         </tbody>
-        <tbody *ngIf="records.length == 0">
+        <tbody *ngIf="records.length == 0 && !loaderState">
             <tr>
-                <td colspan="10">
+                <td colspan="10" style="text-align: center !important;">
                     <label style="font-size: 16px;font-weight: 600;">No Records Found</label>
                 </td>
             </tr>

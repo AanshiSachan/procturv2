@@ -485,7 +485,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.postService.getFeeInstallments(object).subscribe((res: any) => {
       this.isRippleLoad = false;
       if (userType == -1) {
-        let byteArr = this.convertBase64ToArray(res.document);
+        let byteArr = this.commonServiceFactory.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
@@ -1845,7 +1845,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   getCurrencyDetails(value, currency, lang) {
     if (value && currency && lang) {
       let formatted = value.toLocaleString(lang, {
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 4,
         style: 'currency',
         currency: currency
       });
@@ -2075,7 +2075,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   downloadDocument(res) {
     let body = res;
-    let byteArr = this.convertBase64ToArray(body.document);
+    let byteArr = this.commonServiceFactory.convertBase64ToArray(body.document);
     let fileName = body.docTitle;
     let file = new Blob([byteArr], { type: 'application/pdf' });
     let url = URL.createObjectURL(file);
@@ -2670,16 +2670,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.router.navigate(['/view/students']);
   }
 
-  /* Converts base64 string into a byte[] */
-  convertBase64ToArray(val) {
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-  }
 
   openMenu(index) {
     document.getElementById('menuList').classList.toggle('hide');

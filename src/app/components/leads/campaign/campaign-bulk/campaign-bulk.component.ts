@@ -83,87 +83,92 @@ export class CampaignBulkComponent implements OnInit {
   /* function to upload the xls file as formdata */
   uploadHandler(event, form: NgForm) {
 
-    if (form.valid) {
-      let response;
-      this.fetchData.verifyUploadFileName(this.campaignAddFormData.name).subscribe(
-        res => {
-          response = res;
-          if (response.statusCode >= 200 && response.statusCode < 300) {
-            for (let file of event.files) {
-              if (
-                file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-                file.type == 'application/vnd.ms-excel' ||
-                file.type == 'text/csv' ||
-                file.type == 'application/xls' ||
-                file.type == 'application/excel' ||
-                file.type == 'application/msexcel' ||
-                file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-                file.type == 'application/x-excel'
-              ) {
-                let formdata = new FormData();
+    if(this.campaignAddFormData.source == "" || this.campaignAddFormData.source == null){
+      this.showErrorMessage(this.msgService.toastTypes.error, '', 'Please provide mandatory information');
+    }
+    else{
+      if (form.valid) {
+        let response;
+        this.fetchData.verifyUploadFileName(this.campaignAddFormData.name).subscribe(
+          res => {
+            response = res;
+            if (response.statusCode >= 200 && response.statusCode < 300) {
+              for (let file of event.files) {
+                if (
+                  file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+                  file.type == 'application/vnd.ms-excel' ||
+                  file.type == 'text/csv' ||
+                  file.type == 'application/xls' ||
+                  file.type == 'application/excel' ||
+                  file.type == 'application/msexcel' ||
+                  file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+                  file.type == 'application/x-excel'
+                ) {
+                  let formdata = new FormData();
 
-                formdata.append("campaign_list_file", file);
-                //Append the rest of the detail
-                formdata.append("campaign_list_name", this.campaignAddFormData.name);
-                formdata.append("campaign_list_desc", "");
-                formdata.append("file_extn", "xls");
-                formdata.append("is_ajax", "Y");
-                formdata.append("referred_by", this.campaignAddFormData.referred);
-                formdata.append("source", this.campaignAddFormData.source);
-                let urlPostXlsDocument = "https://app.proctur.com/CampaignListUpload";
-                let xhr: XMLHttpRequest = new XMLHttpRequest();
-                let auths: any = {
-                  userid: sessionStorage.getItem('userid'),
-                  userType: sessionStorage.getItem('userType'),
-                  password: sessionStorage.getItem('password'),
-                  institution_id: sessionStorage.getItem('institute_id'),
-                }
-                let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
-                xhr.open("POST", urlPostXlsDocument, true);
-                xhr.setRequestHeader("processData", "false");
-                xhr.setRequestHeader("contentType", "false");
-                xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-                xhr.setRequestHeader("enctype", "multipart/form-data");
-                xhr.setRequestHeader("Authorization", Authorization);
-                this.isUploadingXls = true;
-
-                xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
-                  if (e.lengthComputable) {
-                    this.progress = Math.round((e.loaded * 100) / e.total);
-                    document.getElementById('progress-width').style.width = this.progress + '%';
-                    this.fileLoading = file.name;
+                  formdata.append("campaign_list_file", file);
+                  //Append the rest of the detail
+                  formdata.append("campaign_list_name", this.campaignAddFormData.name);
+                  formdata.append("campaign_list_desc", "");
+                  formdata.append("file_extn", "xls");
+                  formdata.append("is_ajax", "Y");
+                  formdata.append("referred_by", this.campaignAddFormData.referred);
+                  formdata.append("source", this.campaignAddFormData.source);
+                  let urlPostXlsDocument = "https://app.proctur.com/CampaignListUpload";
+                  let xhr: XMLHttpRequest = new XMLHttpRequest();
+                  let auths: any = {
+                    userid: sessionStorage.getItem('userid'),
+                    userType: sessionStorage.getItem('userType'),
+                    password: sessionStorage.getItem('password'),
+                    institution_id: sessionStorage.getItem('institute_id'),
                   }
-                }, false);
+                  let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
+                  xhr.open("POST", urlPostXlsDocument, true);
+                  xhr.setRequestHeader("processData", "false");
+                  xhr.setRequestHeader("contentType", "false");
+                  xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+                  xhr.setRequestHeader("enctype", "multipart/form-data");
+                  xhr.setRequestHeader("Authorization", Authorization);
+                  this.isUploadingXls = true;
 
-                //Call function when onload.
-                xhr.onreadystatechange = () => {
-                  if (xhr.readyState == 4) {
-                    this.progress = 0;
-                    if (xhr.status >= 200 && xhr.status < 300) {
-                      this.isUploadingXls = false;
-                      // this.showErrorMessage(this.msgService.toastTypes.success, "File uploaded", xhr.response.fileName);
-                      this.bulkUploadStep2(xhr.response, form);
-                    } else {
-                      this.isUploadingXls = false;
-                      this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.uploadFail, xhr.response.fileName);
+                  xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
+                    if (e.lengthComputable) {
+                      this.progress = Math.round((e.loaded * 100) / e.total);
+                      document.getElementById('progress-width').style.width = this.progress + '%';
+                      this.fileLoading = file.name;
+                    }
+                  }, false);
+
+                  //Call function when onload.
+                  xhr.onreadystatechange = () => {
+                    if (xhr.readyState == 4) {
+                      this.progress = 0;
+                      if (xhr.status >= 200 && xhr.status < 300) {
+                        this.isUploadingXls = false;
+                        // this.showErrorMessage(this.msgService.toastTypes.success, "File uploaded", xhr.response.fileName);
+                        this.bulkUploadStep2(xhr.response, form);
+                      } else {
+                        this.isUploadingXls = false;
+                        this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.uploadFail, xhr.response.fileName);
+                      }
                     }
                   }
+                  xhr.send(formdata);
+                } else {
+                  this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.invalidType, '');
                 }
-                xhr.send(formdata);
-              } else {
-                this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.invalidType, '');
               }
+              event.files = [];
             }
-            event.files = [];
+          },
+          error => {
+            this.isUploadingXls = false;
+            this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.sameName, '');
           }
-        },
-        error => {
-          this.isUploadingXls = false;
-          this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.sameName, '');
-        }
-      )
-    } else {
-      this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.mandatoryInfo, '');
+        )
+      } else {
+        this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.mandatoryInfo, '');
+      }
     }
   }
 

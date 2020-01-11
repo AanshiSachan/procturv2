@@ -18,6 +18,10 @@ import { ClosingReasonService } from './services/closing-reason.service';
 import { LeadsHomeComponent } from './leads-home/leads-home.component';
 import { DataSetupComponent } from './data-setup/data-setup.component';
 import { UserEnquiryComponent } from './enquiry/enquiry-custom/user-enquiry.component';
+import { ManageCampaignComponent } from './manage-campaign/manage-campaign.component';
+import { CampaignService } from './services/campaign.service';
+import { ExportToPdfService } from '../../services/export-to-pdf.service';
+
 
 @NgModule({
   imports: [
@@ -37,6 +41,7 @@ import { UserEnquiryComponent } from './enquiry/enquiry-custom/user-enquiry.comp
     EnquiryAddComponent,
     DataSetupComponent,
     UserEnquiryComponent,
+    ManageCampaignComponent,
     // EnquiryReportComponent
   ],
   entryComponents: [
@@ -44,8 +49,10 @@ import { UserEnquiryComponent } from './enquiry/enquiry-custom/user-enquiry.comp
       UserEnquiryComponent
   ],
   providers: [
+      CampaignService,
       PopupHandlerService,
-      ClosingReasonService
+      ClosingReasonService,
+      ExportToPdfService
   ],
   exports: [
     UserEnquiryComponent
