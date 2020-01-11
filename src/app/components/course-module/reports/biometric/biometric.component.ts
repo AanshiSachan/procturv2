@@ -421,6 +421,10 @@ export class BiometricComponent implements OnInit {
   closeReportPopup() {
     this.addReportPopUp = false;
     this.popupCtrl =  "-1";
+    this.showRangeValue = false;
+    this.showTableEvent = false;
+    this.getAllData.from_date = "";
+    this.getAllData.to_date = "";
     this.range = [];
   }
 
