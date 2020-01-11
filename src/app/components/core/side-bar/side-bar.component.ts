@@ -174,6 +174,9 @@ export class SideBarComponent implements OnInit , AfterViewInit{
         institute_id == '101247' ||
         institute_id == '101248' ||
         institute_id == '101249' ||
+        institute_id == '101275' ||
+        institute_id == '101276' ||
+        institute_id == '101277' ||
         institute_id == '101151') {
       this.jsonFlags.isShowPowerBy = false;
     }
@@ -308,7 +311,7 @@ export class SideBarComponent implements OnInit , AfterViewInit{
   }
 
   hideAllFields() {
-    // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag', 
+    // let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag',
     //   'divSlotTag', 'divAcademicTag', 'divSettingTag', 'divGeneralSettingTag', 'divManageFormTag',
     //   'divAreaAndMap', 'divManageUsers', 'divGradesTag', 'divClassRoomTag', 'divManageTag'];
     let array = ['divMyAccountTag', 'divMasterTag', 'divSettingTag', 'divManageUsers'];
@@ -431,14 +434,14 @@ export class SideBarComponent implements OnInit , AfterViewInit{
       this.teacherLoginFound();
     }
 
-    // please dont chnage this  code from here 
-    this.isOnlineExamAllow(type); // check online test is enable or not 
+    // please dont chnage this  code from here
+    this.isOnlineExamAllow(type); // check online test is enable or not
     this.isLiveClassesAllow(type);
 
 
   }
 
-  // check only default values 
+  // check only default values
   checkDefaultData(p, e) {
     if (p == '' || p == null || p == undefined) {
       this.permissionData = [];
@@ -1036,7 +1039,7 @@ export class SideBarComponent implements OnInit , AfterViewInit{
         this.enquiryUpdateAction.emit(d);
         this.searchBar = false;
       }
-      else 
+      else
       this.router.navigate(['/view/leads/enquiry/edit/' +d.data.id]);{
         // this.router.navigate(['/view/leads'], { queryParams: { id: d.data.id, action: d.action } });
         this.searchBar = false;
