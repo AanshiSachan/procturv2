@@ -90,11 +90,11 @@ export class GeneralWidgetComponent implements OnInit {
             if (e.id === this.instituteSetting.plan_id) {
                 this.genralStats.download = e.download_limit;
                 this.genralStats.expiry = this.instituteSetting.institute_expiry_date;
-                this.genralStats.total = this.instituteSetting.total_students;
                 this.genralStats.sms = this.instituteSetting.institute_sms_quota_available;
-                this.genralStats.student_limit = e.student_limit;
             }
         })
+        this.genralStats.student_limit = this.instituteSetting.active_student_allocation;
+        this.genralStats.total = this.instituteSetting.total_students;
     }
 
 

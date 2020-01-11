@@ -479,6 +479,9 @@ export class AddClassComponent implements OnInit {
     this.selectedStudentList = [];
     this.selectedFacultyList = [];
     this.selectedModeratorList = [];
+    this.selectedUserList = [];
+    this.selectedBatchList = [];
+    this.selectedCourseList = [];
 
     this.navigateTo('classDetails');
 
