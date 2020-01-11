@@ -3750,10 +3750,11 @@ homewrap {
 }
 
 .enquiry-update-history {
-    max-height: 110px;
     overflow: auto;
 }
-
+.table-wrapper{
+  width: 100%;
+}
 .update-enquiry-form {
     .row {
         margin: 10px -15px 20px;
