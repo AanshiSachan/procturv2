@@ -326,7 +326,11 @@
           </div>
           <div class="to_date">
             <span>To</span>
-            <input type="text" name="" value="" placeholder="" readonly [(ngModel)]="tempToDate">
+            <input type="text" name="" value="" placeholder="" readonly [(ngModel)]="tempToDate" (click)="openCalendar('bookToDate')">
+            <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('bookToDate')"></i>
+            <input  type="text" value="" id="bookToDate" class="widgetDatepicker bsDatepicker" name="bookToDate"
+             [(ngModel)]="bookToDate" (ngModelChange)="selectBookToDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
+
             <!-- <div class="questionInfo inline-relative">
               <span class="qInfoIcon i-class">i</span>
               <div class="tooltip-box-field">

@@ -4,7 +4,7 @@
 
 <section *ngIf="!bookSuggestion">
   <div class="search_bar_container">
-    <input type="text" name="" value="" placeholder="Search by Borrower/Book issued" class="search_box"  (keyup)="searchInList($event)" [(ngModel)]="searchInput">
+    <input type="text" name="" value="" placeholder="Search by Borrower Name/Issued book" class="search_box"  (keyup)="searchInList($event)" [(ngModel)]="searchInput">
     <i class="fa fa-search" aria-hidden="true"></i>
     <!-- <i class="fa fa-times" aria-hidden="true" (click)="clearFilter()" ></i> -->
     <!-- <i class="fa fa-sort-desc" aria-hidden="true" (click)="showFilter()"></i> -->
@@ -183,13 +183,13 @@
         </div>
         <div class="sub_item3">
           <div class="book_name_container">
-            <span class="title">Issued Date</span>
+            <span class="title">Issue Date</span>
             <span class="more_info" style="font-weight: 600;">{{returnBook.issued_book.issued_on | date: 'dd MMM yyyy'}}</span>
           </div>
         </div>
         <div class="sub_item3">
           <div class="book_name_container">
-            <span class="title">Return Date</span>
+            <span class="title">Due Date</span>
             <span class="more_info" style="font-weight: 600;">{{returnBook.issued_book.to_return_on_date | date: 'dd MMM yyyy'}}</span>
           </div>
         </div>
@@ -256,13 +256,13 @@
         </div>
         <div class="book_info_item2">
           <div class="book_name_container">
-            <span class="title">Issued Date</span>
+            <span class="title">Issue Date</span>
             <span class="more_info">{{returnBookIssuedDate}}</span>
           </div>
         </div>
         <div class="book_info_item2">
           <div class="book_name_container">
-            <span class="title">Return Date</span>
+            <span class="title">Due Date</span>
             <span class="more_info">{{returnBookReturnDate}}</span>
           </div>
         </div>
@@ -276,7 +276,7 @@
       </div>
       <div class="return_info_container" *ngIf="!lostBook">
         <div class="return_info_item">
-          <span>Returned Date</span>
+          <span>Return Date</span>
           <input type="text" name="" value="" readonly [(ngModel)]="tempReturnDate" (click)="openCalendar('returnDate')">
           <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('returnDate')"></i>
 
@@ -284,7 +284,7 @@
            [(ngModel)]="returnDate" (ngModelChange)="selectReturnDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
         </div>
         <div class="return_info_item">
-          <span>Number of late days<span class="text-danger">*</span></span>
+          <span>No. of late days<span class="text-danger">*</span></span>
           <div class="input_container_for_days">
             <input type="number" name="" value="" placeholder="" style="width: 30%;" [(ngModel)]="noOfLateDays" (ngModelChange)="calculateLateFine()" [disabled]="true">
             <span>X</span>
