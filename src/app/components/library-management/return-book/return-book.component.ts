@@ -464,10 +464,10 @@ export class ReturnBookComponent implements OnInit {
         this.totalLateFine = this.perDayFine * this.noOfLateDays;
     }
     else if (fromDateNotGreaterThanToday == 'greaterthan'){
-      this.messageHandler('error', 'Return date cannot be future date', '');
+      this.messageHandler('error', 'Due date cannot be future date', '');
       return;
     } else if (fromDateNotGreaterThanToday == 'lessthan'){
-      this.messageHandler('error', 'It cannot be less than return date', '');
+      this.messageHandler('error', 'It cannot be less than due date', '');
       return;
     }
   }
