@@ -838,11 +838,14 @@ export class AttendanceReportComponent implements OnInit {
       this.isRippleLoad=true;
       let obj:any;
       if(this.isProfessional){
+        this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
+        this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
         obj = this.queryParams;
       } else{
+        this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
+        this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
         obj = this.attendanceFetchForm;
       }
-      console.log(obj);
     let url='/api/v1/reports/attendance/downloadAttendanceReport';   
     this._httpService.postData(url, obj).subscribe(
       (res:any) => {
@@ -851,7 +854,7 @@ export class AttendanceReportComponent implements OnInit {
           let resp = res;
           if(resp.document!=""){
             let byteArr = this.commonService.convertBase64ToArray(resp.document);
-            let fileName = 'attenance_report.pdf'; //res.docTitle;
+            let fileName = res.docTitle; //res.docTitle;
             let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
             let url = URL.createObjectURL(file);
             let dwldLink = document.getElementById('downloadFileClick');

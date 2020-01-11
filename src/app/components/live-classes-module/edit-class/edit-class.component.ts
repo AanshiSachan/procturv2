@@ -859,7 +859,7 @@ export class EditClassComponent implements OnInit {
         break;
       }
       case "assignStudent-icon": {
-        this.navigateTo("assignStudent");
+        this.checkMandatoryFields();
         break;
       }
       default: {
@@ -891,7 +891,7 @@ export class EditClassComponent implements OnInit {
         this.isBasicActive = false;
         this.isOtherActive = true;
         this.getBatchpreFillData();
-        // this.getStudentpreFillData();
+        this.getStudentpreFillData();
       }
       else {
         let msg = { type: 'info', title: 'Live Class Details Already Saved', body: '' };

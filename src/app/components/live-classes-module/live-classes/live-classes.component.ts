@@ -347,23 +347,11 @@ export class LiveClassesComponent implements OnInit {
     }
     if(!this.isProfessional){
       this.getClasses.forEach(element => {
-        let temp:any=[];
-        element.course_list.map(
-          (ele:any)=>{
-            temp.push(ele.course_name);
-            element.course =(temp.toString());
-          }
-        )
+        element.course = Array.prototype.map.call(element.course_list, s => s.course_name).toString();
       })
     } else{
       this.getClasses.forEach(element => {
-        let temp:any=[];
-        element.batch_list.map(
-          (ele:any)=>{
-            temp.push(ele.batch_name);
-            element.course =(temp.toString());
-          }
-        )
+        element.course = Array.prototype.map.call(element.batch_list, s => s.batch_name).toString();
       })
     }
     this.totalRow = this.getClasses.length;
