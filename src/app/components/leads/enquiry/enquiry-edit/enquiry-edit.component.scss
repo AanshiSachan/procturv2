@@ -1649,6 +1649,7 @@ input[type=number]::-webkit-outer-spin-button {
 .common-right-section {
     &:first-child {
         margin-top: 15px;
+        margin-bottom: 50px;
     }
 }
 
@@ -3750,10 +3751,11 @@ homewrap {
 }
 
 .enquiry-update-history {
-    max-height: 110px;
     overflow: auto;
 }
-
+.table-wrapper{
+  width: 100%;
+}
 .update-enquiry-form {
     .row {
         margin: 10px -15px 20px;

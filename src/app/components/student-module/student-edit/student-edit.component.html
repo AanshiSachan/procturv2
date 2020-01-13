@@ -837,7 +837,7 @@
                       <span>{{data.discount }}</span>
                     </div>
 
-                    <div class="tax-amount amount">
+                    <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1">
                       <span>{{data.taxAmount }}</span>
                     </div>
 

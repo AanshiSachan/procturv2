@@ -1237,7 +1237,7 @@ export class EnquiryEditComponent implements OnInit {
     this.updateFormData.comment = this.updateFormData.comment;
     this.poster.updateEnquiryForm(id, this.updateFormData)
       .subscribe(res => {
-        this.showErrorMessage('success', 'Enquiry Updated', 'Your enquiry has been successfully submitted')
+        this.showErrorMessage('success', 'Enquiry Updated', '')
         this.fetchCommentData(this.route.snapshot.paramMap.get('id'));
         this.commentHandlerClose();
       },
