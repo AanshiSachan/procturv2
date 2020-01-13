@@ -1,0 +1,47 @@
+
+<div class="container-fluid product-wrapper p-0">
+  <div class="row m-0 pt-3 pb-3">
+    <div class="col-md-8" style="padding-left: 0;">
+      <section class="middle-top clearFix bulk-header">
+        <div>
+          <h1 class="pull-left">
+            <a routerLink="/view/e-store/home" style="padding:0px; ">
+              eStore
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <span> Manage Offer </span>
+            <!-- <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <span>{{activeSession}}</span> -->
+          </h1>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <section>
+    <div class="header-section">
+      <div class="header-item" id="coupon" (click)="toggleActiveSession('coupon')" routerLink="../coupon" [ngClass]="(activeSession=='coupon')?'active':'non-active'">
+        <div class="img-container" *ngIf="activeSession=='coupon'">
+          <img src="../../.././../../assets/images/estore/Coupon_White.svg" alt="coupon">
+        </div>
+        <div class="img-container" *ngIf="activeSession!='coupon'">
+          <img src="../../../../../assets/images/estore/coupon_Grey.svg" alt="coupon">
+        </div>
+        <div class="model-name-container">
+          <span>Coupon</span>
+        </div>
+      </div>
+      <div class="header-item" id="voucher" (click)="toggleActiveSession('voucher')" routerLink="../voucher" [ngClass]="(activeSession=='voucher')?'active':'non-active'">
+        <div class="img-container" *ngIf="activeSession=='voucher'">
+          <img src="../../../../../assets/images/estore/Voucher_White.svg" alt="voucher">
+        </div>
+        <div class="img-container" *ngIf="activeSession!='voucher'">
+          <img src="../../../../../assets/images/estore/Voucher_Grey.svg" alt="voucher">
+        </div>
+        <div class="model-name-container">
+          <span>Voucher</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>

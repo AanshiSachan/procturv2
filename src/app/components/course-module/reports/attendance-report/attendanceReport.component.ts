@@ -215,7 +215,7 @@ export class AttendanceReportComponent implements OnInit {
     else {
       this.dataStatus = true;
       this.isRippleLoad = true;
-      this.attendanceFetchForm.batch_id = "";
+      this.attendanceFetchForm.batch_id = "-1";
       this.attendanceFetchForm.course_id = "";
       this.reportService.getCourses(i).subscribe(
         (data: any) => {
@@ -279,7 +279,7 @@ export class AttendanceReportComponent implements OnInit {
       this.batchPro = [];
     }
     else {
-      this.attendanceFetchForm.batch_id = "";
+      this.attendanceFetchForm.batch_id = "-1";
       this.reportService.getSubject(i).subscribe(
         (data: any) => {
           this.dataStatus = false;
@@ -495,7 +495,7 @@ export class AttendanceReportComponent implements OnInit {
       let diff = moment(this.attendanceFetchForm.from_date).diff(moment(this.attendanceFetchForm.to_date), 'months');
       let futureDate = moment(this.attendanceFetchForm.to_date).add('days', 1).format('YYYY-MM-DD');
       this.isRippleLoad = true;
-      if (this.attendanceFetchForm.master_course_name == "" || this.attendanceFetchForm.course_id == "" || this.attendanceFetchForm.batch_id == "" || this.attendanceFetchForm.from_date == "" || this.attendanceFetchForm.to_date == "") {
+      if (this.attendanceFetchForm.master_course_name == "" || this.attendanceFetchForm.course_id == "" || this.attendanceFetchForm.batch_id == "-1" || this.attendanceFetchForm.from_date == "" || this.attendanceFetchForm.to_date == "") {
 
         let msg = {
           type: "error",

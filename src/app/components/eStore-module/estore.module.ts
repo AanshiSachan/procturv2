@@ -12,7 +12,7 @@ import { TablePreferencesService } from '../../services/table-preference/table-p
 import { BasicInfoComponent, MockTestComponent, OnlineExamComponent,
   StudyMaterialComponent, ReviewProductComponent, VideoLectureComponent, ClassroomClassComponent,
   OnlineClassComponent, OfflineMaterialComponent,  ProductListComponent, HomeComponent, SalesReportsComponent,
-  EcourseMappingComponent
+  EcourseMappingComponent, OfferHistoryComponent
 } from '.';
 import { ProductCreationComponent } from './product-creation/product-creation.component';
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
@@ -48,6 +48,7 @@ import { ProductService } from '../../services/products.service';
     OnlineClassComponent,
     OfflineMaterialComponent,
     RegisteredStudentComponent,
+    OfferHistoryComponent
   ],
   providers: [
     ExcelService,

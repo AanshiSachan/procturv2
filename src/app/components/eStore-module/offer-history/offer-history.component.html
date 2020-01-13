@@ -1,0 +1,40 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'"
+    *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="container-fluid product-wrapper p-0">
+    <div class="row m-0 pt-3 pb-3">
+        <div class="col-md-8" style="padding-left: 0;">
+            <section class="middle-top clearFix bulk-header">
+                <div>
+                    <h1 class="pull-left">
+                        <a routerLink="/view/e-store/home" style="padding:0px; ">
+                            eStore
+                        </a>
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+                        <span> Offer History </span>
+                    </h1>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="search-filter">
+        <div class="filter-item-1">
+            <div class="header-item">
+                <input type="text" name="" [(ngModel)]="searchFilter" class="filer-input" placeholder="Search here... "
+                    (keyup.enter)="getOfferHistory(1)">
+            </div>
+
+            <div class="go-btn-container">
+                <button type="button" name="button" class="fullBlue gobtn" (click)="getOfferHistory(1)">GO</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table table-responsive">
+        <data-display-table #child [displayKeys]="tableSetting" [displayData]="offerHistoryData"
+            (editView)='optionSelected($event)'>
+        </data-display-table>
+    </div>
+</div>
