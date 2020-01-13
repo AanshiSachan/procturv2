@@ -523,6 +523,7 @@ export class EnquiryHomeComponent implements OnInit {
                 data => {
                     if (data.length != 0) {
                         this.varJson.totalEnquiry = data[0].totalcount;
+                        this._commService.contactNoPatternChange(data);
                         this.sourceEnquiry = data;
                         this.cd.markForCheck();
                         return this.sourceEnquiry;
@@ -547,6 +548,7 @@ export class EnquiryHomeComponent implements OnInit {
                 data => {
                     this.flagJSON.isRippleLoad = false;
                     if (data.length != 0) {
+                        this._commService.contactNoPatternChange(data);
                         this.sourceEnquiry = data;
                         this.cd.markForCheck();
                     }
@@ -567,7 +569,6 @@ export class EnquiryHomeComponent implements OnInit {
         }
 
     }
-
     /* Function to fetch prefill data for advanced filter */
     FetchEnquiryPrefilledData() {
         /* Status */

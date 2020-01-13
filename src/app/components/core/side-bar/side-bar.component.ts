@@ -182,6 +182,15 @@ export class SideBarComponent implements OnInit , AfterViewInit{
     }
 
   }
+
+  hideForUsers(){
+    if(sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0'){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
   // USER permission
   checkUserHadAccess() {
     // this.divProfileTag.nativeElement.style.display = 'none';

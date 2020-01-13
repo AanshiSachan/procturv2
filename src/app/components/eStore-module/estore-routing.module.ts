@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent, ProductListComponent, SalesReportsComponent,EcourseMappingComponent } from '.';
 import { ProductCreationComponent } from './product-creation/product-creation.component';
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
+import { MasterTagComponent } from './master-tag/master-tag.component';
+
 
 
 const routes: Routes = [
@@ -44,6 +46,10 @@ const routes: Routes = [
         loadChildren: 'app/components/eStore-module/ecourse-file-manager/ecourse-file-manager.module#EcourseFileManagerModule',
         pathMatch: "prefix"
     },
+    {
+        path: 'master-tag',
+        component: MasterTagComponent
+    }
 ];
 
 @NgModule({
