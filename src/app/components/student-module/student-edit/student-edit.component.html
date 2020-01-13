@@ -173,6 +173,11 @@
                       </div>
                     </div>
                   </div>
+                  <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.expiry_date != ''}">
+                    <label for="studExpiryDate">Expiry Date(Student)</label>
+                    <input type="text" value="" id="studExpiryDate" class="form-ctrl bsDatepicker" name="studExpiryDate" [(ngModel)]="studentAddFormData.expiry_date" #studExpiryDate="ngModel"
+                      readonly="true" bsDatepicker>
+                  </div>
 
                   <div class="more-detail">
                     <a *ngIf="!additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
@@ -228,12 +233,12 @@
                     </span>
                     <input type="text" value="" id="guardianContact" class="form-ctrl" style="width: 76%" [(ngModel)]="studentAddFormData.guardian_phone"
                       name="guardianContact" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #guardianContact="ngModel">
-                    <div class="questionInfo pos-rel">
+                    <!-- <div class="questionInfo pos-rel">
                       <span class="qInfoIcon">?</span>
                       <div class="tooltip-box-field" class="text-danger">
                         Details of guardian, in case parents are not reachable
                       </div>
-                    </div>
+                    </div> -->
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_email != ''}">
@@ -832,7 +837,7 @@
                       <span>{{data.discount }}</span>
                     </div>
 
-                    <div class="tax-amount amount">
+                    <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1">
                       <span>{{data.taxAmount }}</span>
                     </div>
 

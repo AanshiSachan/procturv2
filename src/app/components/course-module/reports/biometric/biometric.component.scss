@@ -34,6 +34,8 @@ p {
     float: right;
     margin-bottom: 5px;
     margin-top: -30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .btnStudent {
@@ -238,7 +240,6 @@ p {
 
 .filter-box {
     margin-bottom: 7px;
-    /* background: #efefef; */
     margin-top: 40px;
 }
 
@@ -263,8 +264,9 @@ p {
 }
 
 .records {
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px !important;
     text-align: center;
 }
 
@@ -283,15 +285,13 @@ p {
 
 .filterSectionWrapper {
     background: white;
-    box-shadow: 0px 0px 2px 2px #dadada;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    border-radius: 4px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
 }
 
 .background {
-    background: #efefef;
-    height: 100%;
-    padding: 5px;
+    padding: 1%;
     overflow: auto;
     ::-webkit-scrollbar {
         display: block;
@@ -563,10 +563,7 @@ p {
 }
 
 .students {
-    //height: 320px;
-    background-color: #efefef;
     .student-table {
-        //height: 300px;
         ::-webkit-scrollbar {
             display: block;
         }
@@ -685,4 +682,20 @@ $color-highlight: lighten($color-base,
 .extraMargin{
     margin-left: -3px !important;
     margin-right: -3px !important;
+}
+
+.form-ctrl{
+  border-radius: 4px;
+}
+.field-wrapper {
+  .datePickerBox:after {
+    content: '';
+    background: url(/./assets/images/calendar.svg) no-repeat;
+    position: absolute;
+    right: 5px;
+    top: 20px;
+    width: 21px;
+    height: 21px;
+    z-index: 0;
+  }
 }

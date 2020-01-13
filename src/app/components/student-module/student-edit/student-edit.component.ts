@@ -142,6 +142,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     student_curr_addr: "",
     dob: "",
     doj: moment().format('YYYY-MM-DD'),
+    expiry_date: "",
     school_name: "-1",
     student_class_key: "",
     parent_name: "",

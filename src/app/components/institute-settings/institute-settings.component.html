@@ -2515,6 +2515,87 @@
                         </div>
                       </td>
                     </tr>
+                    <tr>
+                       <!--course/batch expiry notification-->
+                       <td>                        
+                        <div class="field-checkbox-wrapper" style="margin-left: 10px;">
+                          <input type="checkbox" id="sendNotifctnBeforeExpiry" [(ngModel)]="instituteSettingDet.course_or_batch_expiry_notification" class="form-checkbox"/>
+                          <label for="sendNotifctnBeforeExpiry">
+                            <span *ngIf="isLangInst">Batch</span>
+                            <span *ngIf="!isLangInst">Course</span>
+                            Expiry Notification</label>
+                        </div>
+                        <div *ngIf="instituteSettingDet.course_or_batch_expiry_notification">
+                          <div class="row">
+                            <div class="c-md-6 c-sm-6 c-lg-6 field-wrapper">
+                              <label>
+                                <span *ngIf="isLangInst">Batch</span>
+                                <span *ngIf="!isLangInst">Course</span>
+                                expiry notification contact no. (Comma seperated)</label>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field lg">
+                                    Contact number of person
+                                    <br> who will receive notification 
+                                    <br>that the <span *ngIf="!isLangInst">course </span> <span *ngIf="isLangInst">batch</span> has been expired
+                                    
+                                  </div>
+                                </div>
+                              <input type="text" [(ngModel)]="instituteSettingDet.course_or_batch_expiry_notification_contact_no" class="form-ctrl" />
+                            </div>
+                            <div class="c-md-5 c-lg-5 c-sm-5 field-wrapper">
+                              <label>
+                                <span *ngIf="isLangInst">Batch</span>
+                                <span *ngIf="!isLangInst">Course</span>
+                                expiry notification before no. of days</label>
+                              <input type="number" [(ngModel)]="instituteSettingDet.course_or_batch_expiry_notification_before_no_days" class="form-ctrl" />
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <h3>Student Expiry Notification</h3>
+                          <div class="row">
+                          <div class="field-checkbox-wrapper" style="margin-left: 10px;">
+                            <input type="checkbox" id="sendNotifctnStudExpiry" [(ngModel)]="student_expiry_notifctn" class="form-checkbox"/>
+                            <label for="sendNotifctnStudExpiry">
+                              Students</label>
+                          </div>
+                          <div class="field-checkbox-wrapper" style="margin-left: 10px;">
+                            <input type="checkbox" id="sendNotifctnOtherExpiry" [(ngModel)]="others_expiry_notifctn" class="form-checkbox" />
+                            <label for="sendNotifctnOtherExpiry">
+                              Admin</label>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="c-md-5 c-lg-5 c-sm-5 field-wrapper">
+                            <label>
+                              
+                            Student expiry notification before no. of days</label>
+                            <input type="number" [(ngModel)]="instituteSettingDet.student_expiry_notification_before_no_days" class="form-ctrl" />
+                          </div>
+                          <div class="c-md-6 c-sm-6 c-lg-6 field-wrapper" *ngIf="others_expiry_notifctn">
+                            <label for="sendNotfctnToOthers">                              
+                               Expiry notification contact no. (Comma seperated)
+                            </label>
+                            <div class="questionInfo inline-relative">
+                              <span class="qInfoIcon i-class">i</span>
+                              <div class="tooltip-box-field lg">
+                                Contact number of person
+                                <br> who will receive notification 
+                                <br>that the student has been expired                                
+                              </div>
+                            </div>
+                            <input type="text" id="sendNotfctnToOthers" [(ngModel)]="instituteSettingDet.student_expiry_notification_contact_no" class="form-ctrl"/>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+
+                      </td>
+                    </tr>
                     <tr *ngIf="onlinePayment == '1'">
                       <td>
                         <h3>Online Payment Setting</h3>
@@ -2553,7 +2634,7 @@
                         </div>
                       </td>
                     </tr>
-
+                   
                     <!-- New Sagar -->
                     <tr>
                       <td>
@@ -2584,13 +2665,19 @@
                           </div>
                         </div>
 
-                        <div class="c-sm-7 c-md-7 c-lg-7">
-                          <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_enquiry_handler_no != ''}">
-                            <label for="instenquiry">Enter email contacts of Receiver (Comma seperated):
-                            </label>
-                            <input type="text" [(ngModel)]="instituteSettingDet.emailIds_for_justDail_ext_lead" class="form-ctrl" id="ecor">
+                       <!--  <div class="c-sm-7 c-md-7 c-lg-7"> -->
+                          <div class="row">
+                            <div class="c-sm-4 c-md-4 c-lg-4 field-checkbox-wrapper">
+                              <input type="checkbox" id="enquiryInSMS" [(ngModel)]="instituteSettingDet.enable_counsellor_number_to_enquirer_in_sms" class="form-checkbox"/>
+                              <label for="enquiryInSMS">Send councellor no. to enquirers in SMS</label>
+                            </div>
+                            <div class="c-sm-8 c-md-8 c-lg-8 field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_enquiry_handler_no != ''}">
+                              <label for="instenquiry">Enter email contacts of Receiver (Comma seperated):
+                              </label>
+                              <input type="text" [(ngModel)]="instituteSettingDet.emailIds_for_justDail_ext_lead" class="form-ctrl" id="ecor">
+                            </div>
                           </div>
-                        </div>
+                        <!-- </div> -->
 
                       </td>
                     </tr>

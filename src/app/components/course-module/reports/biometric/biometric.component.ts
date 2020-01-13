@@ -36,11 +36,11 @@ export class BiometricComponent implements OnInit {
   columnMapRecords: any[] = [0, 1, 2];
   searchData: any[] = [];
   studentArray:any[]=[];
-  //need for selected keys 
+  //need for selected keys
   displayKeys: any[] = ['student_id', 'student_name', 'doj'];
   master: any = "";
   students: any = "";
-  popupCtrl: any = "";
+  popupCtrl: any = "-1";
   PageIndex: number = 1;
   pagedisplaysize: number = 10;
   totalRow: number;
@@ -143,7 +143,7 @@ export class BiometricComponent implements OnInit {
     }
 
   }
-  
+
   sendSMSToAbsenties() {
     if (confirm("Are u sure, you want to send sms to Absent students?")) {
     this.isRippleLoad = true;
@@ -154,7 +154,7 @@ export class BiometricComponent implements OnInit {
     }
 
     this.reportService.sendSMSToAbsenties(obj).subscribe(
-      (data: any) => {      
+      (data: any) => {
         this.isRippleLoad = false;
         if(data.statusCode==200){
           let obj = {
@@ -164,7 +164,7 @@ export class BiometricComponent implements OnInit {
           }
           this.appc.popToast(obj);
         }
-      
+
       },
       (error: any) => {
         this.isRippleLoad = false;
@@ -420,6 +420,11 @@ export class BiometricComponent implements OnInit {
 
   closeReportPopup() {
     this.addReportPopUp = false;
+    this.popupCtrl =  "-1";
+    this.showRangeValue = false;
+    this.showTableEvent = false;
+    this.getAllData.from_date = "";
+    this.getAllData.to_date = "";
     this.range = [];
   }
 
@@ -613,14 +618,14 @@ export class BiometricComponent implements OnInit {
       }
       this.appc.popToast(msg);
     }
-    else if (diff < -2) {
-      let msg = {
-        type: "error",
-        title: "Incorrect Details",
-        body: "Range should not be more than 2 months"
-      }
-      this.appc.popToast(msg);
-    }
+    // else if (diff < -2) {
+    //   let msg = {
+    //     type: "error",
+    //     title: "Incorrect Details",
+    //     body: "Range should not be more than 2 months"
+    //   }
+    //   this.appc.popToast(msg);
+    // }
     else {
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {

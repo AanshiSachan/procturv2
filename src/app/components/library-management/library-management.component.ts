@@ -39,7 +39,7 @@ export class LibraryManagementComponent implements OnInit, AfterContentChecked {
         this.activeSession = pathURL;
         break;
       }
-      
+
       case 'dashboard': {
         this.activeSession = pathURL;
         break;
@@ -53,6 +53,10 @@ export class LibraryManagementComponent implements OnInit, AfterContentChecked {
         break;
       }
       case 'add': {
+        this.activeSession = pathURL;
+        break;
+      }
+      case 'master': {
         this.activeSession = pathURL;
         break;
       }

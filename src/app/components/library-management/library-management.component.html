@@ -10,7 +10,7 @@
           <img src="./assets/images/library/gray/issue.svg" alt="issue" *ngIf="activeSession !='issue'">
           <img src="./assets/images/library/color/issue.svg" alt="issue" *ngIf="activeSession =='issue'">
         </div>
-        <div class="lib_menu_name" [ngClass]="activeSession =='issue' ? 'activeMenu' : 'nonActive'" (click)="menuChange('issue')">
+        <div class="lib_menu_name" [ngClass]="activeSession =='issue' ? 'activeMenu' : 'nonActive'">
           <i class="fa fa-circle-o ring" aria-hidden="true"></i>
           <span>Issue Book</span>
         </div>
@@ -20,7 +20,7 @@
           <img src="./assets/images/library/gray/return.svg" alt="return" *ngIf="activeSession !='return'">
           <img src="./assets/images/library/color/return.svg" alt="return" *ngIf="activeSession =='return'">
         </div>
-        <div class="lib_menu_name" [ngClass]="activeSession =='return' ? 'activeMenu' : 'nonActive'" (click)="menuChange('return')">
+        <div class="lib_menu_name" [ngClass]="activeSession =='return' ? 'activeMenu' : 'nonActive'">
           <i class="fa fa-circle-o ring" aria-hidden="true"></i>
           <span>Return Book</span>
         </div>
@@ -30,7 +30,7 @@
           <img src="./assets/images/library/gray/add.svg" alt="add" *ngIf="activeSession !='add'">
           <img src="./assets/images/library/color/add.svg" alt="add" *ngIf="activeSession =='add'">
         </div>
-        <div class="lib_menu_name" [ngClass]="activeSession =='add' ? 'activeMenu' : 'nonActive'" (click)="menuChange('add')">
+        <div class="lib_menu_name" [ngClass]="activeSession =='add' ? 'activeMenu' : 'nonActive'">
           <i class="fa fa-circle-o ring" aria-hidden="true"></i>
           <span>Add New Book</span>
         </div>
@@ -50,7 +50,7 @@
           <img src="./assets/images/library/gray/report.svg" alt="report" *ngIf="activeSession !='report'">
           <img src="./assets/images/library/color/report.svg" alt="report" *ngIf="activeSession =='report'">
         </div>
-        <div class="lib_menu_name" [ngClass]="activeSession =='report' ? 'activeMenu' : 'nonActive'" (click)="menuChange('report')">
+        <div class="lib_menu_name" [ngClass]="activeSession =='report' ? 'activeMenu' : 'nonActive'">
           <i class="fa fa-circle-o ring" aria-hidden="true"></i>
           <span>Report</span>
         </div>
@@ -60,9 +60,19 @@
           <img src="./assets/images/library/gray/dashboard.svg" alt="dashboard" *ngIf="activeSession !='dashboard'">
           <img src="./assets/images/library/color/dashboard.svg" alt="dashboard" *ngIf="activeSession =='dashboard'">
         </div>
-        <div class="lib_menu_name" [ngClass]="activeSession =='dashboard' ? 'activeMenu' : 'nonActive'" (click)="menuChange('dashboard')">
+        <div class="lib_menu_name" [ngClass]="activeSession =='dashboard' ? 'activeMenu' : 'nonActive'">
           <i class="fa fa-circle-o ring" aria-hidden="true"></i>
           <span>Dashboard</span>
+        </div>
+      </div>
+      <div class="library_menu_item">
+        <div class="lib_menu_img" routerLink="/view/library/master">
+          <img src="./assets/images/library/gray/master.svg" alt="dashboard" *ngIf="activeSession !='master'">
+          <img src="./assets/images/library/color/master.svg" alt="dashboard" *ngIf="activeSession =='master'">
+        </div>
+        <div class="lib_menu_name" [ngClass]="activeSession =='master' ? 'activeMenu' : 'nonActive'">
+          <i class="fa fa-circle-o ring" aria-hidden="true"></i>
+          <span>Setup</span>
         </div>
       </div>
     </div>
