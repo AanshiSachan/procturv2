@@ -194,6 +194,14 @@
                     </div>
                   </div>
 
+                  <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.expiry_date != ''}">
+                    <label for="studexpDate">Expiry Date(Student)</label>
+
+                    <input type="text" value="" id="studexpDate" class="form-ctrl bsDatepicker" name="studexpDate" [(ngModel)]="studentAddFormData.expiry_date" #expiry_date="ngModel"
+                      readonly="true" bsDatepicker>
+                  </div>
+
+
                   <div class="more-detail" style="font-size: 14px;">
                     <a *ngIf="!additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
                     <a *ngIf="additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">- &nbsp; Hide Additional Details</a>
@@ -252,12 +260,12 @@
                     <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="studentAddFormData.guardian_phone" name="guardianContact"
                       onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #guardianContact="ngModel" style="width: 76%">
 
-                    <div class="questionInfo pos-rel">
+                    <!-- <div class="questionInfo pos-rel">
                       <span class="qInfoIcon">?</span>
                       <div class="tooltip-box-field">
                         Details of guardian, in case parents are not reachable
                       </div>
-                    </div>
+                    </div> -->
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_email != ''}">

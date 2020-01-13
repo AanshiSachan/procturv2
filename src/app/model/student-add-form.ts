@@ -7,6 +7,7 @@ export interface StudentForm {
 	student_curr_addr?: any, // "kskskskksddddddddd",
 	dob?: any, // "2005-07-12",
 	doj?: any, // "2017-10-25",
+	expiry_date?: any // "2017-10-25",
 	school_name?: any, // "943",
 	student_class?: any, // "1269",
 	student_class_key?: any,
