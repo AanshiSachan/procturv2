@@ -252,8 +252,9 @@ export class ExamReportHomeComponent implements OnInit {
       this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/new-exam/courseWise/'+course_id]);
     }
 
-    routeForStandard(subject_id){
+    routeForStandard(subject_id, subjectName){
       sessionStorage.setItem('standaradForReport', this.standard);
+      sessionStorage.setItem('subjectName', subjectName);
       this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/new-exam/teacherWise/'+subject_id]);
     }
 

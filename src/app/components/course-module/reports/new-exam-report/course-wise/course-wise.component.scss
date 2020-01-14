@@ -54,9 +54,12 @@
 }
 .highcharts-tooltip span {
     background-color: white;
-    border:1 px solid green;
+    border: 1px solid green;
     opacity: 1;
     z-index: 9999 !important;
+}
+.highcharts-credits{
+  display: none;
 }
 
 
@@ -126,13 +129,7 @@
   .align-center{
     text-align: center;
   }
-  .border-completed-class{
-    border-left: 3px solid #00E172;
-    background: #F4FFF4;
-  }
-  .border-class{
-    border-left: 3px solid white;
-  }
+
   .completed-class{
     color: #00E172;
   }
@@ -147,5 +144,21 @@
   }
   .upcoming-class{
     color: #ff6c24;
+  }
+  .border-completed-class{
+    border-left: 3px solid #00E172;
+    background: #e6fff3;
+  }
+  .border-updated-class{
+    border-left: 3px solid #8A2BE2;
+    // background: #f3e9fc;
+  }
+  .border-pending-class{
+    border-left: 3px solid #8d8d8d;
+    // background: #f2f2f2;
+  }
+  .border-cancelled-class{
+    border-left: 3px solid #df0d2f;
+    // background: #fee7eb;
   }
 }

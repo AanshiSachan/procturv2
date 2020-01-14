@@ -146,10 +146,11 @@ export class CourseWiseComponent implements OnInit {
     (Highcharts as any).chart('chartWrap', {
       chart : {
           renderTo : 'container',
+           height: "33%",
           type : 'spline',
-          scrollablePlotArea: {
-              minWidth: 1800
-          }
+          // scrollablePlotArea: {
+          //     minWidth: 100
+          // }
         },
         title : {
           text : ''
@@ -160,9 +161,9 @@ export class CourseWiseComponent implements OnInit {
             overflow: 'justify'
           },
           // min: 10,
-          // scrollbar: {
-          //     enabled: true
-          // },
+          scrollbar: {
+              enabled: true
+          },
           title : {
             text : 'Date'
           },

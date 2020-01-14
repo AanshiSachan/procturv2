@@ -24,7 +24,7 @@
   </section>
 
   <div class="main-heading-container">
-    <span>Dashboard</span>
+    <span>Exam Dashboard</span>
   </div>
 
   <section>
@@ -109,9 +109,9 @@
                 <div class="header-item large-item1">
                   <span>Subject</span>
                 </div>
-                <div class="header-item small-item align-center">
+                <!-- <div class="header-item small-item align-center">
                   <span>No of Student</span>
-                </div>
+                </div> -->
                 <div class="header-item small-item align-center">
                   <span>No of test</span>
                 </div>
@@ -132,9 +132,9 @@
                       }}</span>
                     <span *ngIf="jsonFlag.isProfessional" title="{{report.batch_name}}">{{ (report.batch_name.length > 15) ? (report.batch_name | slice:0:15) + '...' : report.batch_name }}</span>
                   </div>
-                  <div class="value-item small-item align-center">
+                  <!-- <div class="value-item small-item align-center">
                     <span>{{report.total_student}}</span>
-                  </div>
+                  </div> -->
                   <div class="value-item small-item align-center">
                     <span>{{report.total_exam}}</span>
                   </div>
@@ -145,7 +145,7 @@
                     <span>{{report.total_marks_updated}}</span>
                   </div>
                   <div class="value-item small-item align-center">
-                    <button type="button" name="button" class="view-result-btn" (click)="routeForStandard(report.subject_id)" *ngIf="!jsonFlag.isProfessional">View Result</button>
+                    <button type="button" name="button" class="view-result-btn" (click)="routeForStandard(report.subject_id, report.subject_name)" *ngIf="!jsonFlag.isProfessional">View Result</button>
                     <button type="button" name="button" class="view-result-btn" (click)="routeTo(report.batch_id)" *ngIf="jsonFlag.isProfessional">View Result</button>
                   </div>
                 </div>
