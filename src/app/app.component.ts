@@ -39,7 +39,6 @@ export class AppComponent implements OnInit,AfterViewChecked {
     private commonService: CommonServiceFactory,
     private cd :ChangeDetectorRef
   ) {
-
   }
 
 
