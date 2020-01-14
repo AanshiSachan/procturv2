@@ -189,7 +189,7 @@
               Fee Type
             </th>
             <th>
-              Fee Amount(incl tax.)
+              Fee Amount<span *ngIf="personData.country_id==1">(incl tax.)</span>
             </th>
             <th>
               Amount Paid
@@ -218,8 +218,6 @@
             </td>
             <td [id]="'balanceAmount-'+i">
               {{d.balance_amount}}
-
-
             </td>
           </tr>
         </tbody>
@@ -236,8 +234,6 @@
               {{mode}}
             </option>
           </select>
-
-
         </div>
       </div>
 

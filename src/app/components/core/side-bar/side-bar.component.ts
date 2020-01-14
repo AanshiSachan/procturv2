@@ -7,7 +7,6 @@ import { FetchprefilldataService } from '../../../services/fetchprefilldata.serv
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-side-bar',
@@ -68,7 +67,6 @@ export class SideBarComponent implements OnInit , AfterViewInit{
   manageExamGrades: string = "";
   private userInput: string;
   videoplayer: boolean = false;
-  currentProjectUrl: any;
 
   globalSearchForm: any = {
     name: '',
@@ -101,8 +99,7 @@ export class SideBarComponent implements OnInit , AfterViewInit{
     private fetchService: FetchprefilldataService,
     private multiBranchService: MultiBranchDataService,
     private commonService: CommonServiceFactory,
-    private cd: ChangeDetectorRef,
-    public sanitizer: DomSanitizer
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -177,6 +174,7 @@ export class SideBarComponent implements OnInit , AfterViewInit{
         institute_id == '101275' ||
         institute_id == '101276' ||
         institute_id == '101277' ||
+        institute_id == '101296' ||
         institute_id == '101151') {
       this.jsonFlags.isShowPowerBy = false;
     }
@@ -711,7 +709,6 @@ export class SideBarComponent implements OnInit , AfterViewInit{
     this.sideBar = false;
     this.searchBar = false;
     this.helpMenu = false;
-    this.videoplayer = false;
     if (document.getElementById('blurBg')) {
       document.getElementById('blurBg').className = 'normal-background';
     }
@@ -771,13 +768,37 @@ export class SideBarComponent implements OnInit , AfterViewInit{
   getCountryData(institute_id) {
     this.login.getInstituteCountryDetails(institute_id).subscribe(
       (res: any) => {
-        let country_info = JSON.stringify(res);
-        sessionStorage.setItem('country_data', country_info);
+        let country_info = res;
+        for (let i = 0; i < country_info.length; i++) {
+          let row: any = country_info[i];
+           row.symbol = this.getCurrencyDetails(900, row.currency_code, row.country_code);
+          if (row.is_default == 'Y') {            
+            this.commonService.setDefaultCurrencySymbol(row.symbol);
+          }
+        }
+        sessionStorage.setItem('country_data', JSON.stringify(country_info));
       },
       err => {
         console.log(err);
       }
     );
+  }
+
+
+  getCurrencyDetails(value, currency, lang) {
+    if (value && currency && lang) {
+      let formatted = value.toLocaleString(lang, {
+        maximumFractionDigits: 4,
+        style: 'currency',
+        currency: currency
+      });
+
+      formatted = formatted.replace(/[,.]/g, '');
+      return formatted.replace(/[0-9]/g, '');
+    }
+    else {
+      return lang;
+    }
   }
 
   loginToMainBranch() {
@@ -1061,11 +1082,5 @@ export class SideBarComponent implements OnInit , AfterViewInit{
     window.open(url, "_blank");
     this.closeMenu();
     this.helpMenu = false;
-  }
-
-  showVideo(url) {
-    this.videoplayer = true;
-    this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url)
-    // this.currentProjectUrl = url;
   }
 }

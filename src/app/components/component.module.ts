@@ -6,9 +6,7 @@ import { ComponentsComponent } from './components.component';
 import { SharedModule } from '../components/shared/shared.module';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { OverlayMenuComponent } from './overlay-menu/overlay-menu.component';
-import { CoreSidednavComponent } from './core/core-sidednav/core-sidednav.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
-import { GlobalSearchPopupComponent } from './global-search-popup/global-search-popup.component';
 import { SearchBoxComponent } from './core/search-box/search-box.component';
 import { CourseListService } from '../services/course-services/course-list.service';
 import { SideBarComponent } from './core/side-bar/side-bar.component';
@@ -25,11 +23,8 @@ import { TrainingVideoComponent } from './training-video/training-video.componen
     ],
     declarations: [
         ComponentsComponent,
-        CoreSidednavComponent,
         OverlayMenuComponent,
-        ChangePasswordComponent,
-        ChangePasswordComponent,
-        GlobalSearchPopupComponent,
+        ChangePasswordComponent,        
         SearchBoxComponent,
         SideBarComponent,
         TrainingVideoComponent

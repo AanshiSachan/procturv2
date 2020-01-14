@@ -14,6 +14,7 @@ import 'rxjs/Rx';
 import * as Muuri from 'muuri/muuri';
 import { Chart } from 'angular-highcharts';
 import { WidgetService } from '../../../services/widget.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 
 @Component({
@@ -36,7 +37,11 @@ export class FeeWidgetComponent implements OnInit {
         "country_phone_number_length": ""
       };
     
-    constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private rd: Renderer2, private widgetService: WidgetService, private cd: ChangeDetectorRef) {
+    constructor(private router: Router, private fb: FormBuilder,
+         private appC: AppComponent, private rd: Renderer2,
+          private widgetService: WidgetService, 
+          public _commService:CommonServiceFactory,
+          private cd: ChangeDetectorRef) {
         this.feeDate[0] = new Date();
         this.feeDate[1] = new Date();
     }

@@ -3,6 +3,7 @@ import { ColumnData, ColumnMapData } from './ng-robAdvanceTable.model';
 import * as moment from 'moment';
 import { DropData, DropMapData } from './dropmenu/dropmenu.model';
 import { CustomizingPipe } from './customizing.pipe';
+import {CommonServiceFactory} from './../../../services/common-service';
 
 
 @Component({
@@ -59,7 +60,10 @@ export class RobAdvanceTableComponent implements OnChanges {
 
     @ViewChild('headerCheckbox') hc: ElementRef;
 
-    constructor(private rd: Renderer2, private cd: ChangeDetectorRef, private eleRef: ElementRef) { }
+    constructor(private rd: Renderer2, 
+        private cd: ChangeDetectorRef, 
+        private eleRef: ElementRef,
+        private _commService:CommonServiceFactory) { }
 
 
 
