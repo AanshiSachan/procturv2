@@ -23,7 +23,7 @@ import { ReturnBookService } from './services/library/return/return-book.service
 import { IssueBookService } from './services/library/issue/issue-book.service';
 import { MastersService } from './services/library/master/masters.service';
 import { AddBookService } from './services/library/add/add-book.service';
-import { MasterTagService } from '../app/components/eStore-module/master-tag/master-tag.component.service'
+import { MasterTagService } from '../app/components/eStore-module/master-tag/master-tag.component.service';
 
 @NgModule({
   imports: [

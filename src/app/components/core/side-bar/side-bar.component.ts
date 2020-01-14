@@ -771,13 +771,37 @@ export class SideBarComponent implements OnInit , AfterViewInit{
   getCountryData(institute_id) {
     this.login.getInstituteCountryDetails(institute_id).subscribe(
       (res: any) => {
-        let country_info = JSON.stringify(res);
-        sessionStorage.setItem('country_data', country_info);
+        let country_info = res;
+        for (let i = 0; i < country_info.length; i++) {
+          let row: any = country_info[i];
+           row.symbol = this.getCurrencyDetails(900, row.currency_code, row.country_code);
+          if (row.is_default == 'Y') {            
+            this.commonService.setDefaultCurrencySymbol(row.symbol);
+          }
+        }
+        sessionStorage.setItem('country_data', JSON.stringify(country_info));
       },
       err => {
         console.log(err);
       }
     );
+  }
+
+
+  getCurrencyDetails(value, currency, lang) {
+    if (value && currency && lang) {
+      let formatted = value.toLocaleString(lang, {
+        maximumFractionDigits: 4,
+        style: 'currency',
+        currency: currency
+      });
+
+      formatted = formatted.replace(/[,.]/g, '');
+      return formatted.replace(/[0-9]/g, '');
+    }
+    else {
+      return lang;
+    }
   }
 
   loginToMainBranch() {
