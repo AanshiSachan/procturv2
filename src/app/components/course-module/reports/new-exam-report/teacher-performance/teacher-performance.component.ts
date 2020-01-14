@@ -20,6 +20,7 @@ export class TeacherPerformanceComponent implements OnInit {
   };
 
   subject_id: string;
+  subjectName: string = "";
   teacherData: any;
   subjectData: any;
   teachersReport: any[] = [];
@@ -46,6 +47,8 @@ export class TeacherPerformanceComponent implements OnInit {
         }
       }
     )
+    this.subjectName = sessionStorage.getItem('subjectName');
+    sessionStorage.setItem('subjectName', '');
     this.subject_id = this.route.snapshot.paramMap.get('id');
     this.getSubjectWiseReport();
   }

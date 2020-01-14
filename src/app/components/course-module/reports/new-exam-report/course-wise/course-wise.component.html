@@ -37,18 +37,18 @@
   </section>
 
   <!-- Graph section -->
-  <!-- <section>
+  <section>
     <div class="graph-outer-container">
-      <div class="graph-item-container" style="justify-content: center;padding-top: 120px;">
+      <div class="graph-item-container" style="justify-content: center;padding-top: 20px;">
         <div #chartWrap id="chartWrap">
         </div>
       </div>
-      <div class="graph-item-container" *ngIf="!jsonFlag.isProfessional" style="justify-content: center;padding-top: 120px;">
+      <div class="graph-item-container" *ngIf="!jsonFlag.isProfessional" style="justify-content: center;padding-top: 100px;">
         <div #subjectWise id="subjectWise">
         </div>
       </div>
     </div>
-  </section> -->
+  </section>
 
 
 
@@ -86,7 +86,10 @@
       </div>
       <div class="table-outer-container" style="max-height: 70vh;">
         <div class="table-value-container" *ngFor="let report of courseWiseReportList"
-        [ngClass]="{'border-completed-class': report.exam_status == 'Mks. Updated', 'border-class': report.exam_status != 'Mks. Updated'}">
+        [ngClass]="{'border-completed-class': report.exam_status == 'Mks. Updated',
+                    'border-updated-class': report.exam_status == 'Mks. pending',
+                    'border-pending-class': report.exam_status == 'Att. Pending',
+                    'border-cancelled-class': report.exam_status == 'Cancelled'}">
           <div class="value-item small-item">
             <span>{{report.exam_date | date: 'dd-MMM-yyyy'}}</span>
           </div>
