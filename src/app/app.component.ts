@@ -36,10 +36,10 @@ export class AppComponent implements OnInit,AfterViewChecked {
     private toasterService: ToasterService,
     private router: Router,
     private log: LoginService,
-    private commonService: CommonServiceFactory,
+    public commonService: CommonServiceFactory,
     private cd :ChangeDetectorRef
   ) {
-
+    this.isRippleLoad = true;
   }
 
 
