@@ -23,7 +23,6 @@ export class OfferHistoryComponent implements OnInit {
   feeSettings1 = [
     { primaryKey: 'offer_code', header: 'Offer Code', priority: 1, allowSortingFlag: true },
     { primaryKey: 'product_name', header: 'Product Name', priority: 2, allowSortingFlag: true },
-    { primaryKey: 'user_id', header: 'User Id', priority: 3, allowSortingFlag: true },
     { primaryKey: 'user_name', header: 'User Name', priority: 4, allowSortingFlag: true },
     { primaryKey: 'discount_amount', header: 'Discount Amount', priority: 5, allowSortingFlag: true },
   ];
@@ -56,7 +55,6 @@ export class OfferHistoryComponent implements OnInit {
     this.tableSetting.keys = [
       { primaryKey: 'offer_code', header: 'Offer Code', priority: 1, allowSortingFlag: true },
       { primaryKey: 'product_name', header: 'Product Name', priority: 2, allowSortingFlag: true },
-      { primaryKey: 'user_id', header: 'User Id', priority: 3, allowSortingFlag: true },
       { primaryKey: 'user_name', header: 'User Name', priority: 4, allowSortingFlag: true },
       { primaryKey: 'discount_amount', header: 'Discount Amount', priority: 5, allowSortingFlag: true },
     ];
@@ -76,7 +74,7 @@ export class OfferHistoryComponent implements OnInit {
       (data: any) => {
         if (data.validate) {
           this.isRippleLoad = false;
-          this.offerHistoryData = data.result;
+          this.offerHistoryData = data.result.results;
         } else {
           this.isRippleLoad = false;
           this._msgService.showErrorMessage('error', 'something went wrong, try again', '');

@@ -55,7 +55,7 @@
       <div class="table_header_item small">
         End Date
       </div>
-      <div class="table_header_item small">
+      <div class="table_header_item small" style="width: 95px;text-align: center;">
         Status
       </div>
       <div class="table_header_item action">
@@ -80,13 +80,19 @@
             ...
           </span>
         </div>
-        <div class="table_value_item small">
+        <div class="table_value_item small" *ngIf="data.strat_date">
           {{data.strat_date}}
         </div>
-        <div class="table_value_item small">
+        <div class="table_value_item small" *ngIf="!data.strat_date">
+          -
+        </div>
+        <div class="table_value_item small" *ngIf="data.end_date">
           {{data.end_date}}
         </div>
-        <div class="table_value_item small" style="padding-left: 25px;" [ngClass]="{'active':data.status=='Active',
+        <div class="table_value_item small" *ngIf="!data.end_date">
+          -
+        </div>
+        <div class="table_value_item small" style="display: block;text-align: center;padding-top: 2px;" [ngClass]="{'active':data.status=='Active',
                   'inactive':data.status=='Inactive',
                   'expired':data.status=='Expired'}">
           {{data.status}}

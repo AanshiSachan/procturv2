@@ -28,13 +28,6 @@
         <input type="text" [(ngModel)]="addCouponModel.offer_code" class="form-control form-control-sm">
       </div>
 
-      <div class="col-md-12">
-        <div class="col-md-8 form-group" style="padding-right: 0px;padding-left: 0px;">
-          <label class="text-bold">Description</label>
-          <textarea rows="3" class="form-control form-control-sm" maxLength="1500" [(ngModel)]="addCouponModel.offer_description" style="width: 75%;"></textarea>
-        </div>
-      </div>
-
       <div class="col-md-12 form-group" style="width: 50%;padding-right: 0;">
         <label class="text-bold">Product
           <span class="text-danger">*</span>
@@ -45,6 +38,13 @@
           [data]="productList"
            [settings]="productSetting">
         </ng-multiselect-dropdown>
+      </div>
+
+      <div class="col-md-12">
+        <div class="col-md-8 form-group" style="padding-right: 0px;padding-left: 0px;">
+          <label class="text-bold">Description</label>
+          <textarea rows="3" class="form-control form-control-sm" maxLength="1500" [(ngModel)]="addCouponModel.offer_description" style="width: 75%;"></textarea>
+        </div>
       </div>
 
       <div class="col-md-12 form-group">
@@ -123,6 +123,7 @@
         <div class="col-md-6 form-group"style="margin-bottom: 0">
           <div class="col-md-12 datePickerBox" style="padding: 0px;">
             <label for="from">Start Date
+              <span class="text-danger">*</span>
             </label>
             <input type="text" [(ngModel)]="addCouponModel.start_date" name="from" class="form-control form-control-sm" autocomplete="off"
               bsDatepicker style="width: 95%;">
@@ -130,7 +131,9 @@
         </div>
         <div class="col-md-6 form-group" style="margin-bottom: 0;">
           <div class="col-md-12 datePickerBox" style="padding: 0px;">
-            <label for="from">End Date</label>
+            <label for="from">End Date
+              <span class="text-danger">*</span>
+            </label>
             <input type="text" [(ngModel)]="addCouponModel.end_date" name="to" class="form-control form-control-sm" autocomplete="off"
               bsDatepicker style="width: 95%;">
           </div>

@@ -83,7 +83,7 @@
         <div class="col-md-6 form-group">
           <div class="col-md-12 datePickerBox" style="padding: 0px;padding-bottom: 10px;">
             <label for="from">Start Date
-              <!-- <span class="text-danger">*</span> -->
+              <span class="text-danger">*</span>
             </label>
             <input type="text" [(ngModel)]="addVoucherModel.start_date" name="from" class="form-control form-control-sm" autocomplete="off"
               bsDatepicker style="width: 95%;">
@@ -91,7 +91,9 @@
         </div>
         <div class="col-md-6 form-group">
           <div class="col-md-12 datePickerBox" style="padding: 0px;padding-bottom: 10px;">
-            <label for="from">End Date</label>
+            <label for="from">End Date
+              <span class="text-danger">*</span>
+            </label>
             <input type="text" [(ngModel)]="addVoucherModel.end_date" name="to" class="form-control form-control-sm" autocomplete="off"
               bsDatepicker style="width: 95%;">
           </div>
