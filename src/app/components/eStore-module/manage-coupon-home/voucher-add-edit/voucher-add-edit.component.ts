@@ -32,6 +32,7 @@ export class VoucherAddEditComponent implements OnInit {
 
   ngOnInit() {
     this.addVoucherModel.offer_type = 2;
+    this.addVoucherModel.total_coupons_created = 1;
     this.getProductList();
     this.productSetting = {
       singleSelection: false,
@@ -72,7 +73,7 @@ export class VoucherAddEditComponent implements OnInit {
   validateForm() {
     if (this.addVoucherModel.flat_discount_amount === '' || this.addVoucherModel.minimum_amount_in_cart === ''
       || this.addVoucherModel.maximum_coupons_per_user === '' || this.addVoucherModel.product_id_list.length === 0
-      || this.addVoucherModel.offer_code === '') {
+      || this.addVoucherModel.offer_code === '' || this.addVoucherModel.start_date === null || this.addVoucherModel.end_date === null) {
       return false;
     } else {
       return true;

@@ -74,7 +74,8 @@ export class CouponAddEditComponent implements OnInit {
     || this.addCouponModel.minimum_amount_in_cart === '')) || (this.addCouponModel.discount_type === '2'
     && (this.addCouponModel.discount_percentage === '' || this.addCouponModel.maximum_percentage_discount === '')) ||
     this.addCouponModel.maximum_coupons_per_user === '' || this.addCouponModel.total_coupons_created === ''
-    || this.addCouponModel.product_id_list.length === 0 || this.addCouponModel.offer_code === '' )) {
+    || this.addCouponModel.product_id_list.length === 0 || this.addCouponModel.offer_code === '' || this.addCouponModel.end_date === null
+    || this.addCouponModel.start_date === null )) {
       return false;
     } else {
       return true;
