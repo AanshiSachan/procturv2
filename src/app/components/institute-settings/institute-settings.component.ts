@@ -387,8 +387,6 @@ export class InstituteSettingsComponent implements OnInit {
         this.isRippleLoad = false;
         this.test_series_feature = res.test_series_feature;
         this.fillJSONData(res);
-        console.log(res);
-
       },
       err => {
         this.isRippleLoad = false;
