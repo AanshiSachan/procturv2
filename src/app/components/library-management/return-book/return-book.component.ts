@@ -443,21 +443,29 @@ export class ReturnBookComponent implements OnInit {
   }
 
   selectReturnDate(){
-    let fromDateNotGreaterThanToday = this.lessThanReturnDate(this.returnDate);
-    if(fromDateNotGreaterThanToday == 'true'){
-      this.tempReturnDate = moment(this.returnDate).format("DD MMM YYYY");
-      let timeDiff: any = "";
-      timeDiff =  Math.abs(moment(this.returnBookReturnDate).diff(moment(this.returnDate), 'days'));
+    const fromDateNotGreaterThanToday = this.lessThanReturnDate(this.returnBookIssuedDate);
+    this.tempReturnDate = moment(this.tempReturnDate).format("DD MMM YYYY");
+    switch (fromDateNotGreaterThanToday) {
+      case 'true':
+        let timeDiff: any = "";
+        timeDiff = Math.abs(moment(this.returnBookReturnDate).diff(moment(this.tempReturnDate), 'days'));
         this.noOfLateDays = timeDiff;
         this.totalLateFine = this.perDayFine * this.noOfLateDays;
+        break;
+      case 'lessThanIssueDate':
+        this.tempReturnDate = moment().format("DD MMM YYYY");
+        this.messageHandler('error', 'Issue date must be greater than return date', '');
+        break;
+      case 'greaterthanFutureDate':
+          this.tempReturnDate = moment().format("DD MMM YYYY");
+          this.messageHandler('error', 'Return date can not be future date', '');
+          break;
+      case 'lessThanReturnDate':
+        this.noOfLateDays = 0;
+        this.totalLateFine = 0;
+        break;
     }
-    else if (fromDateNotGreaterThanToday == 'greaterthan'){
-      this.messageHandler('error', 'Due date cannot be future date', '');
-      return;
-    } else if (fromDateNotGreaterThanToday == 'lessthan'){
-      this.messageHandler('error', 'It cannot be less than due date', '');
-      return;
-    }
+
   }
 
   selectBookLostDate(){
@@ -485,15 +493,17 @@ export class ReturnBookComponent implements OnInit {
   lessThanReturnDate(givenDate){
     let currentDate = new Date();
     givenDate = new Date(givenDate);
-    let tempDate = this.returnBookReturnDate;
+    let tempDate = this.tempReturnDate;
     tempDate = new Date(tempDate);
-    if(givenDate < tempDate){
-      return 'lessthan';
-    } 
-    else if(givenDate > currentDate){
-      return 'greaterthan'
-    }
-    else{
+    let tempReturnBookReturnDate = this.returnBookReturnDate;
+    tempReturnBookReturnDate = new Date(tempReturnBookReturnDate);
+    if (tempDate > currentDate){
+        return 'greaterthanFutureDate';
+    } else if (givenDate > tempDate) {
+      return 'lessThanIssueDate';
+    } else if (tempDate < tempReturnBookReturnDate) {
+      return 'lessThanReturnDate';
+    } else {
       return 'true';
     }
   }
