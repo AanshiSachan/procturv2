@@ -2495,7 +2495,11 @@
                       <td>
                         <h3>Enquiry Setting</h3>
                         <div class="row">
-                          <div class="c-sm-7 c-md-7 c-lg-7">
+                          <div class="c-sm-4 c-md-4 c-lg-4 field-checkbox-wrapper">
+                            <input type="checkbox" id="enquiryInSMS" [(ngModel)]="instituteSettingDet.enable_counsellor_number_to_enquirer_in_sms" class="form-checkbox"/>
+                            <label for="enquiryInSMS">Send councellor no. to enquirers in SMS</label>
+                          </div>
+                          <div class="c-sm-8 c-md-8 c-lg-8" *ngIf="!instituteSettingDet.enable_counsellor_number_to_enquirer_in_sms">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_enquiry_handler_no != ''}">
                               <label for="instenquiry">Contact No. for handling Enquiries:
                                 <div class="questionInfo inline-relative">
@@ -2667,10 +2671,6 @@
 
                        <!--  <div class="c-sm-7 c-md-7 c-lg-7"> -->
                           <div class="row">
-                            <div class="c-sm-4 c-md-4 c-lg-4 field-checkbox-wrapper">
-                              <input type="checkbox" id="enquiryInSMS" [(ngModel)]="instituteSettingDet.enable_counsellor_number_to_enquirer_in_sms" class="form-checkbox"/>
-                              <label for="enquiryInSMS">Send councellor no. to enquirers in SMS</label>
-                            </div>
                             <div class="c-sm-8 c-md-8 c-lg-8 field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_enquiry_handler_no != ''}">
                               <label for="instenquiry">Enter email contacts of Receiver (Comma seperated):
                               </label>
