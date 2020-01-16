@@ -53,23 +53,24 @@ export class VoucherListComponent implements OnInit {
     this.tempData = data;
   }
 
-   deleteVoucher(obj) {
-     this.isRippleLoad = true;
-     const url = `offer/delete/${obj.offer_id}`;
-     this._productService.getMethod(url, null).subscribe(
-       (res: any) => {
+  deleteVoucher(obj) {
+    this.isRippleLoad = true;
+    const url = `offer/delete/${obj.offer_id}`;
+    this._productService.getMethod(url, null).subscribe(
+      (res: any) => {
         this.isRippleLoad = false;
-         this._msgService.showErrorMessage('success', '', res.result);
-       },
-       (err) => {
+        this._msgService.showErrorMessage('success', '', res.result);
+        this.couponData = this.couponData.filter(s => s.offer_id !== obj.offer_id);
+      },
+      (err) => {
         this.isRippleLoad = false;
-         console.log(err);
-       }
-     );
+        console.log(err);
+      }
+    );
 
-   }
+  }
 
-    /*** pagination functions */
+  /*** pagination functions */
   /* Fetch next set of data from server and update table */
   fetchNext() {
     this.varJson.PageIndex++;
@@ -88,7 +89,7 @@ export class VoucherListComponent implements OnInit {
     this.fectchTableDataByPage(this.varJson.PageIndex);
   }
 
-    /* Fetch table data by page index */
+  /* Fetch table data by page index */
   fectchTableDataByPage(index) {
     this.varJson.PageIndex = index;
     const object = {
@@ -104,15 +105,15 @@ export class VoucherListComponent implements OnInit {
         this.isRippleLoad = false;
         if (resp.validate) {
           this.couponData = resp.result.results;
-        this.couponData.forEach(element => {
-          if (element.status === '1') {
-            element.status = 'Active';
-          } else if (element.status === '2' ) {
-            element.status = 'Deactive';
-          } else {
-            element.status = 'Expired';
-          }
-        });
+          this.couponData.forEach(element => {
+            if (element.status === '1') {
+              element.status = 'Active';
+            } else if (element.status === '2') {
+              element.status = 'Inactive';
+            } else {
+              element.status = 'Expired';
+            }
+          });
           this.varJson.total_items = resp.result.total_records;
         } else {
           this.isRippleLoad = false;
