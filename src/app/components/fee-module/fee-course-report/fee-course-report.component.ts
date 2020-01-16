@@ -904,4 +904,56 @@ export class FeeCourseReportComponent implements OnInit {
   }
 
 
+  checkSendDueOption(event) {
+    console.log(event);
+    const data: any = {};
+    switch (event) {
+      case 'Mail': {
+        data.type = 'email';
+        data.delivery_mode = 1;
+        break;
+      }
+      case 'SMS': {
+        data.type = 'sms';
+        data.delivery_mode = 0;
+        break;
+      }
+    }
+
+    this.sendBulkDetails(data);
+  }
+
+  sendBulkDetails(event) {
+    if (this.selectedRecordsList.length == 0) {
+      this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', "Select record to send due " + event.type);
+      return;
+    }
+    if (confirm("Due " + event.type + " shall be sent to those students/parents whose amount is due. Do you want to continue ? ")) {
+      let student_ids = [];
+      let arr: any[] = this.selectedRecordsList.filter(e => {
+        if (e.amount_still_payable != 0) {
+          student_ids.push(e.student_id);
+          return e.student_id;
+        }
+      });
+
+      let obj = {
+        delivery_mode: event.delivery_mode,
+        institution_id: '',
+        student_ids: student_ids.join()
+      }
+      this.isRippleLoad = true;
+      this.putter.sendBulkSMS(obj).subscribe(
+        res => {
+          // console.log(res);
+          this.isRippleLoad = false;
+          this._msgService.showErrorMessage(this._msgService.toastTypes.success, '', res.message);
+        },
+        err => {
+          this.isRippleLoad = false;
+          this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', err.error.message);
+        }
+      );
+    }
+  }
 }
