@@ -931,7 +931,7 @@ export class FeeCourseReportComponent implements OnInit {
     if (confirm("Due " + event.type + " shall be sent to those students/parents whose amount is due. Do you want to continue ? ")) {
       let student_ids = [];
       let arr: any[] = this.selectedRecordsList.filter(e => {
-        if (e.amount_still_payable != 0) {
+        if (e.total_balance_amt != 0) {
           student_ids.push(e.student_id);
           return e.student_id;
         }

@@ -96,7 +96,7 @@
 
                                 <div *ngIf="!isProfessional">
                                     <div Class="c-lg-3 c-sm-3 c-md-3">
-                                          <div id="slotwrapper" class="field-wrapper dropdown" >
+                                          <div id="slotwrapper" class="field-wrapper dropdown">
                                               <label for="assignCourses">Academic Year</label>
                                               <input id="slot" type="text" [disabled]="isCourseSelected" (click)="multiselectVisible($event.target.id)" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
                                           </div>
@@ -274,7 +274,7 @@
                                                     />
                                                 </svg>
                                             </i>
-                                            <div class="dropdown">
+                                            <div class="dropdown"  style="z-index: 100;">
                                                 <ul class="user-detail">
                                                     <li (click)="exportToExcel()" class="asHover">
                                                         <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;"></i>
