@@ -50,15 +50,16 @@
         </div>
       </div>
 
-      <div class="col-md-12 form-group">
-        <label class="text-bold">Flat Discount Amount ({{ _commService.currency_default_symbol}})
-          <span class="text-danger">*</span>
-        </label>
-        <input type="text" [(ngModel)]="addVoucherModel.flat_discount_amount" class="form-control form-control-sm"
-        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
-      </div>
-
-      <div class="row m-0" style="width: 52.5%;padding-bottom: 0;">
+      <div class="row m-0" style="width: 52.5%;padding-bottom: 0;margin-bottom: 0;">
+        <div class="col-md-6 form-group" style="padding-left: 0;margin-bottom: 0;">
+          <div class="col-md-12 form-group">
+            <label class="text-bold">Flat Discount Amount ({{ _commService.currency_default_symbol}})
+              <span class="text-danger">*</span>
+            </label>
+            <input type="text" [(ngModel)]="addVoucherModel.flat_discount_amount" class="form-control form-control-sm"
+            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  style="width: 100%;">
+          </div>
+        </div>
         <div class="col-md-6 form-group" style="padding-left: 0;">
           <div class="col-md-12 form-group" style="margin-bottom:0">
             <label class="text-bold"> Minimum Amount in Cart ({{ _commService.currency_default_symbol}})
@@ -68,7 +69,11 @@
             onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" style="width: 100%;">
           </div>
         </div>
-        <div class="col-md-6 form-group" style="padding-left: 0;">
+      </div>
+
+      <div class="row m-0" style="width: 52.5%;padding-bottom: 0;">
+        
+        <div class="col-md-6 form-group" style="padding-left: 0;" [ngStyle]="{'width':selectedCouponId ? '50%' : '100%' }">
           <div class="col-md-12 form-group" style="margin-bottom:0">
             <label class="text-bold"> Maximum voucher per user
               <span class="text-danger">*</span>
@@ -77,25 +82,34 @@
             onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"style="width: 100%;">
           </div>
         </div>
+        <div class="col-md-6 form-group" style="padding-left: 0;margin-bottom: 0;" *ngIf="selectedCouponId">
+          <div class="col-md-12 form-group">
+            <label class="text-bold">Status</label>
+            <select class="form-control" style="width: 100%;"[(ngModel)]="addVoucherModel.offer_status">
+              <option value="1">Active</option>
+              <option value="2">Inactive</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <div class="row m-0" style="width: 52.5%;">
-        <div class="col-md-6 form-group">
-          <div class="col-md-12 datePickerBox" style="padding: 0px;padding-bottom: 10px;">
+      <div class="row m-0" style="width: 52.5%;padding-bottom: 0;">
+        <div class="col-md-6 form-group field-wrapper datePickerBox"style="margin-bottom: 0">
+          <div class="col-md-12" style="padding: 0px;">
             <label for="from">Start Date
               <span class="text-danger">*</span>
             </label>
-            <input type="text" [(ngModel)]="addVoucherModel.start_date" name="from" class="form-control form-control-sm" autocomplete="off"
-              bsDatepicker style="width: 95%;">
+              <input type="text" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="addVoucherModel.start_date" name="FD"
+              bsDatepicker readonly="true" style="height: 34px;border: 1px solid #ccc;width: 95%!important">
           </div>
         </div>
-        <div class="col-md-6 form-group">
-          <div class="col-md-12 datePickerBox" style="padding: 0px;padding-bottom: 10px;">
+        <div class="col-md-6 form-group field-wrapper datePickerBox" style="margin-bottom: 0;">
+          <div class="col-md-12" style="padding: 0px;">
             <label for="from">End Date
               <span class="text-danger">*</span>
             </label>
-            <input type="text" [(ngModel)]="addVoucherModel.end_date" name="to" class="form-control form-control-sm" autocomplete="off"
-              bsDatepicker style="width: 95%;">
+              <input type="text" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="addVoucherModel.end_date" name="FD"
+              bsDatepicker readonly="true" style="height: 34px;border: 1px solid #ccc;width: 95%!important">
           </div>
         </div>
       </div>

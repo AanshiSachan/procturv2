@@ -185,7 +185,7 @@ export class StudentBulkComponent implements OnInit {
           this.isUploadingXls = false;
           let data = {
             type: 'success',
-            title: "File uploaded",
+            title: "File uploaded Successfully",
             body: xhr.response.fileName
           }
           this.appC.popToast(data);

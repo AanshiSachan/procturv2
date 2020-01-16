@@ -12,4 +12,5 @@ export class addCouponForm {
     product_id_list?: any = [];
     discount_percentage?: any = '';
     maximum_percentage_discount?: any = '';
+    offer_status?: any = 1;
 }

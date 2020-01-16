@@ -47,12 +47,25 @@
         </div>
       </div>
 
-      <div class="col-md-12 form-group">
-        <label class="text-bold">Discount Type
-        </label>
-        <br>
-        <input type="radio" [(ngModel)]="addCouponModel.discount_type" id="flat" value="1" class="form-control form-control-sm"><label for="flat" style="padding-top: 15px;padding-left: 5px;padding-right: 5%;float: left;" checked="checked">Flat</label>
-         <input type="radio" [(ngModel)]="addCouponModel.discount_type" id="discount" value="2" class="form-control form-control-sm"><label for="discount" style="padding-top: 15px;float: left;padding-left: 5px;" checked="checked">Percentage</label>
+      <div class="row m-0" style="width: 52.5%;padding-bottom: 0;margin-bottom: 0;">
+        <div class="col-md-6 form-group" style="padding-left: 0;margin-bottom: 0;">
+          <div class="col-md-12 form-group">
+            <label class="text-bold">Discount Type
+            </label>
+            <br>
+            <input type="radio" [(ngModel)]="addCouponModel.discount_type" id="flat" value="1" class="form-control form-control-sm" style="width: 4%;"><label for="flat" style="padding-top: 15px;padding-left: 5px;padding-right: 5%;float: left;" checked="checked">Flat</label>
+             <input type="radio" [(ngModel)]="addCouponModel.discount_type" id="discount" value="2" class="form-control form-control-sm" style="width: 4%;"><label for="discount" style="padding-top: 15px;float: left;padding-left: 5px;" checked="checked">Percentage</label>
+          </div>
+        </div>
+        <div class="col-md-6 form-group" style="padding-left: 0;margin-bottom: 0;" *ngIf="selectedCouponId">
+          <div class="col-md-12 form-group">
+            <label class="text-bold">Status</label>
+            <select class="form-control" style="width: 100%;"[(ngModel)]="addCouponModel.offer_status">
+              <option value="1">Active</option>
+              <option value="2">Inactive</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <div class="row m-0" style="width: 52.5%;padding-bottom: 0;margin-bottom: 0;">
@@ -88,7 +101,7 @@
         </div>
         <div class="col-md-6 form-group" style="padding-left: 0;">
           <div class="col-md-12 form-group" style="margin-bottom: 0;" *ngIf="addCouponModel.discount_type == 2">
-            <label class="text-bold"> Maximum Percentage Discount (%)
+            <label class="text-bold"> Maximum Discount Amount ({{ _commService.currency_default_symbol}})
               <span class="text-danger">*</span>
             </label>
             <input type="text" [(ngModel)]="addCouponModel.maximum_percentage_discount" class="form-control form-control-sm"
@@ -120,22 +133,22 @@
 
 
       <div class="row m-0" style="width: 52.5%;padding-bottom: 0;">
-        <div class="col-md-6 form-group"style="margin-bottom: 0">
-          <div class="col-md-12 datePickerBox" style="padding: 0px;">
+        <div class="col-md-6 form-group field-wrapper datePickerBox"style="margin-bottom: 0">
+          <div class="col-md-12" style="padding: 0px;">
             <label for="from">Start Date
               <span class="text-danger">*</span>
             </label>
-            <input type="text" [(ngModel)]="addCouponModel.start_date" name="from" class="form-control form-control-sm" autocomplete="off"
-              bsDatepicker style="width: 95%;">
+              <input type="text" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="addCouponModel.start_date" name="FD"
+              bsDatepicker readonly="true" style="height: 34px;border: 1px solid #ccc;width: 95% !important">
           </div>
         </div>
-        <div class="col-md-6 form-group" style="margin-bottom: 0;">
-          <div class="col-md-12 datePickerBox" style="padding: 0px;">
+        <div class="col-md-6 form-group field-wrapper datePickerBox" style="margin-bottom: 0;">
+          <div class="col-md-12" style="padding: 0px;">
             <label for="from">End Date
               <span class="text-danger">*</span>
             </label>
-            <input type="text" [(ngModel)]="addCouponModel.end_date" name="to" class="form-control form-control-sm" autocomplete="off"
-              bsDatepicker style="width: 95%;">
+              <input type="text" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="addCouponModel.end_date" name="FD"
+              bsDatepicker readonly="true" style="height: 34px;border: 1px solid #ccc;width: 95% !important">
           </div>
         </div>
       </div>
