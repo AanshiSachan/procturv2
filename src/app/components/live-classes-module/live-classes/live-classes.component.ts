@@ -46,7 +46,8 @@ export class LiveClassesComponent implements OnInit {
     isRippleLoad: false,
     selected: false,
     submitReq: false,
-    video_url: null
+    video_url: null,
+    view_proctur_live_recorded_session:1
   }
 
   batches: any[] = [];
@@ -194,6 +195,7 @@ export class LiveClassesComponent implements OnInit {
         this.previosLiveClasses = data.pastLiveClasses;
         this.futureLiveClasses = data.upcomingLiveClasses;
         const proctur_live_expiry_date = data.proctur_live_expiry_date;
+        this.JsonVars.view_proctur_live_recorded_session  = data.view_proctur_live_recorded_session;
         sessionStorage.setItem('proctur_live_expiry_date', proctur_live_expiry_date);
         if (proctur_live_expiry_date != null) {
           this.checkLiveClassExpiry(proctur_live_expiry_date);
@@ -679,6 +681,14 @@ export class LiveClassesComponent implements OnInit {
     )
   }
 
+  showVdoCipherViewLink(object){
+    if(this.JsonVars.view_proctur_live_recorded_session==1){
+      this.getVdoLink(object);
+    }else{
+      this.getVdocipherVideoOtp(object);
+    }
+  }
+
   getVdoLink(object) {
     const url = `/api/v1/meeting_manager/recording/download/${sessionStorage.getItem('institution_id')}/${object.download_id}` + '?type=1 '
     this.JsonVars.isRippleLoad = true;
@@ -771,17 +781,6 @@ export class LiveClassesComponent implements OnInit {
   onMouseOver($event) {
     $event.preventDefault();
     return false;
-    // if ($event.keyCode == 123) {
-    //   return false;
-    // }
-    // if ($event.ctrlKey && $event.shiftKey &&
-    //   ($event.keyCode == 'J'.charCodeAt(0) || $event.keyCode == 'C'.charCodeAt(0) ||
-    //     $event.keyCode == 'I'.charCodeAt(0))) {
-    //   return false;
-    // }
-    // if ($event.ctrlKey && $event.keyCode == 'U'.charCodeAt(0)) {
-    //   return false;
-    // }
   }
 
 }

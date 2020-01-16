@@ -317,7 +317,7 @@
             id="downloadFile" [disabled]="data.download_link==null" [ngStyle]="{'opacity':data.download_link==null ? '0.5' : '1' }"></button>
             <a id="downloadFileClick" class="hide"></a>        
             </div>
-            <div (click)="getVdoLink(data)" *ngIf="proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3">
+            <div (click)="showVdoCipherViewLink(data)" *ngIf="proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3">
               <button class="fa fa-eye" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="View" 
               [disabled]="data.video_id==null" [ngStyle]="{'opacity':data.video_id==null ? '0.5' : '1' }">
               </button>
@@ -343,8 +343,8 @@
       </div>
       <div class="ga-modal-body">
         <div class="row upload-box">
-          <!-- <div id="embedBox" style="width:700px;max-width:100%;height:auto;"></div> -->          
-          <video width="600" controls src="{{JsonVars.video_url}}"> </video>
+          <div id="embedBox" style="width:700px;max-width:100%;height:auto;" *ngIf="JsonVars.view_proctur_live_recorded_session!=1"></div>          
+          <video width="600" controls src="{{JsonVars.video_url}}" *ngIf="JsonVars.view_proctur_live_recorded_session==1"> </video>
         </div>
       </div>
     </div>
