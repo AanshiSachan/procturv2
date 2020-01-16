@@ -63,7 +63,7 @@ export class RobAdvanceTableComponent implements OnChanges {
     constructor(private rd: Renderer2, 
         private cd: ChangeDetectorRef, 
         private eleRef: ElementRef,
-        private _commService:CommonServiceFactory) { }
+        public _commService:CommonServiceFactory) { }
 
 
 
