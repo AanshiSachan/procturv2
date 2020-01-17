@@ -18,6 +18,7 @@ export class CouponAddEditComponent implements OnInit {
   productIds = [];
   productList: any[] = [];
   productSetting: {} = {};
+  offerStatus: any = false;
 
   constructor(private _productService: ProductService,
     private _msgService: MessageShowService,
@@ -32,6 +33,9 @@ export class CouponAddEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    let tempDate = new Date();
+    this.addCouponModel.start_date = new Date();
+    this.addCouponModel.end_date = new Date(tempDate.setMonth( tempDate.getMonth() + 1 ));
     this.getProductList();
     this.productSetting = {
       singleSelection: false,
@@ -49,7 +53,7 @@ export class CouponAddEditComponent implements OnInit {
 
   getProductList() {
     this.isRippleLoad = true;
-    this._productService.getMethod('product/get-product-list', null).subscribe(
+    this._productService.getMethod('product/get-product-list?status=30', null).subscribe(
       (data: any) => {
         this.productList = data.result;
         this.isRippleLoad = false;
@@ -70,9 +74,9 @@ export class CouponAddEditComponent implements OnInit {
   }
 
   validateForm() {
-    if (((this.addCouponModel.discount_type === '1' && (this.addCouponModel.flat_discount_amount === ''
-    || this.addCouponModel.minimum_amount_in_cart === '')) || (this.addCouponModel.discount_type === '2'
-    && (this.addCouponModel.discount_percentage === '' || this.addCouponModel.maximum_percentage_discount === '')) ||
+    if (((this.addCouponModel.discount_type === '1' && (this.addCouponModel.flat_discount_amount === ''))
+    || (this.addCouponModel.discount_type === '2' && (this.addCouponModel.discount_percentage === ''
+    || this.addCouponModel.maximum_percentage_discount === '')) || this.addCouponModel.minimum_amount_in_cart === '' ||
     this.addCouponModel.maximum_coupons_per_user === '' || this.addCouponModel.total_coupons_created === ''
     || this.addCouponModel.product_id_list.length === 0 || this.addCouponModel.offer_code === '' || this.addCouponModel.end_date === null
     || this.addCouponModel.start_date === null )) {
@@ -123,6 +127,7 @@ export class CouponAddEditComponent implements OnInit {
         this.addCouponModel.discount_type = String(this.addCouponModel.discount_type);
         this.addCouponModel.product_id_list = data.result.product_details_list;
         this.selected_products = this.addCouponModel.product_id_list;
+        this.addCouponModel.offer_status === 2 ? this.offerStatus = true : this.offerStatus = false;
       },
       err => {
         this.isRippleLoad = false;
@@ -135,6 +140,7 @@ export class CouponAddEditComponent implements OnInit {
     this.productIds = [];
     this.productIds = Array.prototype.map.call(this.selected_products, product => product.id);
     this.addCouponModel.product_id_list = this.productIds;
+    this.offerStatus === true ? this.addCouponModel.offer_status = 2 : this.addCouponModel.offer_status = 1;
   if (this.validateForm()) {
     this.isRippleLoad = true;
     this._productService.postMethod('offer/update', this.addCouponModel).then(
