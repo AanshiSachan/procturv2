@@ -681,14 +681,6 @@ export class LiveClassesComponent implements OnInit {
     )
   }
 
-  showVdoCipherViewLink(object){
-    if(this.JsonVars.view_proctur_live_recorded_session==1){
-      this.getVdoLink(object);
-    }else{
-      this.getVdocipherVideoOtp(object);
-    }
-  }
-
   getVdoLink(object) {
     const url = `/api/v1/meeting_manager/recording/download/${sessionStorage.getItem('institution_id')}/${object.download_id}` + '?type=1 '
     this.JsonVars.isRippleLoad = true;
