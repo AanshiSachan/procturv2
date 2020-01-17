@@ -37,7 +37,7 @@ export class VoucherListComponent implements OnInit {
 
   getProductList() {
     this.isRippleLoad = true;
-    this._productService.getMethod('product/get-product-list', null).subscribe(
+    this._productService.getMethod('product/get-product-list?status=30', null).subscribe(
       (data: any) => {
         this.isRippleLoad = false;
         this.productList = data.result;

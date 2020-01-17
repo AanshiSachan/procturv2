@@ -17,6 +17,7 @@ export class VoucherAddEditComponent implements OnInit {
   productSetting: {} = {};
   productIds = [];
   selectedCouponId: any = null;
+  offerStatus: any = false;
   selected_products: any[] = [];
 
   constructor(private _productService: ProductService,
@@ -33,6 +34,9 @@ export class VoucherAddEditComponent implements OnInit {
   ngOnInit() {
     this.addVoucherModel.offer_type = 2;
     this.addVoucherModel.total_coupons_created = 1;
+    let tempDate = new Date();
+    this.addVoucherModel.start_date = new Date();
+    this.addVoucherModel.end_date = new Date(tempDate.setMonth( tempDate.getMonth() + 1 ));
     this.getProductList();
     this.productSetting = {
       singleSelection: false,
@@ -50,7 +54,7 @@ export class VoucherAddEditComponent implements OnInit {
 
   getProductList() {
     this.isRippleLoad = true;
-    this._productService.getMethod('product/get-product-list', null).subscribe(
+    this._productService.getMethod('product/get-product-list?status=30', null).subscribe(
       (data: any) => {
         this.productList = data.result;
         this.isRippleLoad = false;
@@ -71,9 +75,9 @@ export class VoucherAddEditComponent implements OnInit {
   }
 
   validateForm() {
-    if (this.addVoucherModel.flat_discount_amount === '' || this.addVoucherModel.minimum_amount_in_cart === ''
-      || this.addVoucherModel.maximum_coupons_per_user === '' || this.addVoucherModel.product_id_list.length === 0
-      || this.addVoucherModel.offer_code === '' || this.addVoucherModel.start_date === null || this.addVoucherModel.end_date === null) {
+    if (this.addVoucherModel.flat_discount_amount === '' || this.addVoucherModel.maximum_coupons_per_user === '' 
+    || this.addVoucherModel.product_id_list.length === 0 || this.addVoucherModel.offer_code === ''
+     || this.addVoucherModel.start_date === null || this.addVoucherModel.end_date === null) {
       return false;
     } else {
       return true;
@@ -116,11 +120,12 @@ export class VoucherAddEditComponent implements OnInit {
     const url = `offer-map/get/${this.selectedCouponId}`;
     this._productService.getMethod(url, null).subscribe(
       (data: any) => {
+        this.isRippleLoad = false;
         this.addVoucherModel = data.result;
         this.addVoucherModel.discount_type = String(this.addVoucherModel.discount_type);
         this.addVoucherModel.product_id_list = data.result.product_details_list;
         this.selected_products = this.addVoucherModel.product_id_list;
-        this.isRippleLoad = false;
+        this.addVoucherModel.offer_status === 2 ? this.offerStatus = true : this.offerStatus = false;
       },
       err => {
         this.isRippleLoad = false;
@@ -133,6 +138,7 @@ export class VoucherAddEditComponent implements OnInit {
       this.productIds = [];
     this.productIds = Array.prototype.map.call(this.selected_products, product => product.id);
     this.addVoucherModel.product_id_list = this.productIds;
+    this.offerStatus === true ? this.addVoucherModel.offer_status = 2 : this.addVoucherModel.offer_status = 1;
     if (this.validateForm()) {
       this.isRippleLoad = true;
       this._productService.postMethod('offer/update', this.addVoucherModel).then(

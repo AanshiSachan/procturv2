@@ -1,5 +1,6 @@
 .product-wrapper {
   padding: 1%;
+  padding-bottom: 0;
   width: 100%;
 }
 
@@ -102,4 +103,9 @@
 }
 .multiselect-dropdown .dropdown-btn {
   border: 1px solid #e2ebee !important;
+}
+
+.dropdown-list {
+  max-height: 197px;
+  overflow-y: hidden;
 }
