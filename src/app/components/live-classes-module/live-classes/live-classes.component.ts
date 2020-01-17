@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { HttpService, MessageShowService } from '../../..';
@@ -38,8 +38,8 @@ export class LiveClassesComponent implements OnInit {
   searchData: any = [];
   download_links: any = [];
   searchDataFlag: boolean = false;
-  fileUrl: any = null;
-  fileName: any = null;
+  fileUrl:any=null;
+  fileName:any=null;
 
   JsonVars: any = {
     isRippleLoad: false,
@@ -83,7 +83,7 @@ export class LiveClassesComponent implements OnInit {
   dateToday = moment().format('YYYY-MM-DD');
   dateFrom = moment(new Date()).format('YYYY-MM-DD');
   rescheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
-  institution_id: any = sessionStorage.getItem('institution_id');
+  institution_id:any=sessionStorage.getItem('institution_id');
   rescheduleclass = {
     end_datetime: "",
     institution_id: this.institution_id,
@@ -140,7 +140,7 @@ export class LiveClassesComponent implements OnInit {
     private _http: HttpService,
     private msgService: MessageShowService,
     private sanitizer: DomSanitizer
-  ) {
+    ) {
   }
 
   ngOnInit() {
@@ -166,9 +166,9 @@ export class LiveClassesComponent implements OnInit {
   checkLiveClassExpiry(proctur_live_expiry_date) {
     let currentDate = (new Date());
     proctur_live_expiry_date = (new Date(proctur_live_expiry_date));
-    currentDate.setHours(0, 0, 0, 0);
-    proctur_live_expiry_date.setHours(0, 0, 0, 0);
-    if (proctur_live_expiry_date < currentDate) {
+    currentDate.setHours(0,0,0,0);
+    proctur_live_expiry_date.setHours(0,0,0,0);
+    if(proctur_live_expiry_date < currentDate){
       this.proctur_live_expiry_date_check = true;
     }
     if (proctur_live_expiry_date == currentDate) {
@@ -180,7 +180,7 @@ export class LiveClassesComponent implements OnInit {
     this.PageIndex = 1;
     this.JsonVars.isRippleLoad = true;
     this.obj = {
-      institution_id: this.institution_id,
+      institution_id:this.institution_id,
     }
     const userType: any = sessionStorage.getItem('userType');
     if (userType != 0) {
@@ -188,7 +188,7 @@ export class LiveClassesComponent implements OnInit {
       this.obj.user_id = userid;
     }
     const url = '/api/v1/meeting_manager/getMeeting/' + this.institution_id;
-    this._http.postData(url, this.obj).subscribe(
+    this._http.postData(url,this.obj).subscribe(
       (data: any) => {
         this.JsonVars.isRippleLoad = false;
         this.previosLiveClasses = data.pastLiveClasses;
@@ -229,19 +229,19 @@ export class LiveClassesComponent implements OnInit {
     }
   }
 
-  allowStartLiveCLass(link, session_id) {
+  allowStartLiveCLass(link, session_id){
     const url = `/api/v1/meeting_manager/session/start/${this.institution_id}/${session_id}`;
     this.JsonVars.isRippleLoad = true;
     this._http.getData(url).subscribe(
-      (res: any) => {
+      (res:any)=>{
         this.JsonVars.isRippleLoad = false;
-        if (res.result.allow_start_session) {
+        if(res.result.allow_start_session){
           window.open(link, "_blank");
-        } else {
-          this.msgService.showErrorMessage('info', '', res.result.allow_start_session_message);
+        } else{
+          this.msgService.showErrorMessage('info','',res.result.allow_start_session_message);
         }
       },
-      (err) => {
+      (err)=>{
         this.JsonVars.isRippleLoad = false;
         console.log(err);
       }
@@ -347,11 +347,11 @@ export class LiveClassesComponent implements OnInit {
       this.getClasses = this.futureLiveClasses;
       this.classListDataSource = this.futureLiveClasses;
     }
-    if (!this.isProfessional) {
+    if(!this.isProfessional){
       this.getClasses.forEach(element => {
         element.course = Array.prototype.map.call(element.course_list, s => s.course_name).toString();
       })
-    } else {
+    } else{
       this.getClasses.forEach(element => {
         element.course = Array.prototype.map.call(element.batch_list, s => s.batch_name).toString();
       })
@@ -563,7 +563,7 @@ export class LiveClassesComponent implements OnInit {
 
   cancelSession() {
     let url = "/api/v1/meeting_manager/delete/" + sessionStorage.getItem('institution_id') + "/" + this.cancelSessionId;
-    this._http.deleteData(url, this.cancelSessionId).subscribe(
+    this._http.deleteData(url,this.cancelSessionId).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: "Live class session cancelled successfully" })
         this.alertBox = true;
@@ -627,8 +627,8 @@ export class LiveClassesComponent implements OnInit {
     this.rescheduleclass.end_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
     this.rescheduleclass.start_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourToReschedule.split(' ')[1]
 
-    const url = "/api/v1/meeting_manager/reschedule/" + sessionStorage.getItem('institution_id') + "/" + this.rescheduleclass.session_id;
-    this._http.postData(url, this.rescheduleclass).subscribe(
+    const url ="/api/v1/meeting_manager/reschedule/" + sessionStorage.getItem('institution_id') + "/" + this.rescheduleclass.session_id;
+    this._http.postData(url,this.rescheduleclass).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: "Class rescheduled successfully" })
         this.rescheduleClass = false;
@@ -769,8 +769,8 @@ export class LiveClassesComponent implements OnInit {
     this.download_links = obj;
   }
 
-  @HostListener("document:keydown", ['$event'])
-  @HostListener("document:contextmenu", ['$event'])  
+  // @HostListener("document:keydown", ['$event'])
+  // @HostListener("document:contextmenu", ['$event'])  
   onMouseOver($event) {
     $event.preventDefault();
     return false;

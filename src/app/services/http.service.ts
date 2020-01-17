@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthenticatorService } from './authenticator.service';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { AuthenticatorService } from './authenticator.service';
 
 
 @Injectable()
@@ -77,6 +77,19 @@ export class HttpService {
       body: obj
     }
     return this.http.delete(url, object).map(
+      data => {
+        return data;
+      },
+      err => {
+        return err;
+      }
+    )
+  }
+
+  downloadRecording(objecturl, file_type) {
+    let url = this.baseUrl + objecturl;
+    let headers = new HttpHeaders({ "Content-Type": file_type, "Authorization": this.Authorization });
+    return this.http.get(url, { headers: headers , "responseType": 'blob'}).map(
       data => {
         return data;
       },
