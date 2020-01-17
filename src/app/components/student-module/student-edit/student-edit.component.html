@@ -241,7 +241,7 @@
                     </div> -->
                   </div>
 
-                  <div class="field -wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_email != ''}">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_email != ''}">
                     <label for="guardianEmail">Guardian Email ID</label>
                     <input type="text" value="" id="guardianEmail" class="form-ctrl" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" name="guardianEmail"
                       [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
