@@ -435,9 +435,11 @@ export class StudentHomeComponent implements OnInit {
     console.log(this.selectedUserId)
     let studentId = this.getListOfIds(this.selectedRowGroup).split(',');
     const url = '/admit-card/download';
+    this.isRippleLoad = true;
     this.postService.stdPostData(url, studentId).subscribe(
       (res: any) => {
         console.log(res);
+        this.isRippleLoad = false;
         if (res) {
           let resp = res.response;
           if (resp.document != "") {
@@ -455,6 +457,7 @@ export class StudentHomeComponent implements OnInit {
             this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
           }
         } else {
+          this.isRippleLoad = false;
           this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
         }
       },
@@ -756,6 +759,7 @@ export class StudentHomeComponent implements OnInit {
       course_id: this.instituteData.course_id
     }
 
+    this.isRippleLoad = true;
     this.studentFetch.downloadStudentTableasXls(data).subscribe(
       (res: any) => {
         let byteArr = this._commService.convertBase64ToArray(res.document);
@@ -770,6 +774,7 @@ export class StudentHomeComponent implements OnInit {
         dwldLink.click();
       },
       err => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'error',
           title: 'Failed To Download XLS',
