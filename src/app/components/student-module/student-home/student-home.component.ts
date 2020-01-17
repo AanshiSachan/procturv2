@@ -1,22 +1,22 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
+import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+import { MenuItem } from 'primeng/primeng';
 import 'rxjs/Rx';
+import { ISubscription } from "rxjs/Subscription";
 import { AppComponent } from '../../../app.component';
 import { instituteInfo } from '../../../model/instituteinfo';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
-import { MenuItem } from 'primeng/primeng';
-import * as moment from 'moment';
-import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
-import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
-import { ColumnSetting } from '../../shared/custom-table/layout.model';
-import { WidgetService } from '../../../services/widget.service';
-import { AuthenticatorService } from '../../../services/authenticator.service';
 import { StudentForm } from '../../../model/student-add-form';
-import { ISubscription } from "rxjs/Subscription";
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { ProductService } from '../../../services/products.service';
+import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
+import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
+import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
+import { WidgetService } from '../../../services/widget.service';
+import { ColumnSetting } from '../../shared/custom-table/layout.model';
 var jsPDF = require('jspdf');
 
 @Component({
@@ -435,9 +435,11 @@ export class StudentHomeComponent implements OnInit {
     console.log(this.selectedUserId)
     let studentId = this.getListOfIds(this.selectedRowGroup).split(',');
     const url = '/admit-card/download';
+    this.isRippleLoad = true;
     this.postService.stdPostData(url, studentId).subscribe(
       (res: any) => {
         console.log(res);
+        this.isRippleLoad = false;
         if (res) {
           let resp = res.response;
           if (resp.document != "") {
@@ -455,6 +457,7 @@ export class StudentHomeComponent implements OnInit {
             this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
           }
         } else {
+          this.isRippleLoad = false;
           this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
         }
       },
@@ -756,8 +759,10 @@ export class StudentHomeComponent implements OnInit {
       course_id: this.instituteData.course_id
     }
 
+    this.isRippleLoad = true;
     this.studentFetch.downloadStudentTableasXls(data).subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         let byteArr = this._commService.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
@@ -770,6 +775,7 @@ export class StudentHomeComponent implements OnInit {
         dwldLink.click();
       },
       err => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'error',
           title: 'Failed To Download XLS',
