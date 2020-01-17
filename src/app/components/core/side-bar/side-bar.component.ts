@@ -854,8 +854,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   hasInventoryAccess() {
 
-    if (sessionStorage.getItem('permissions')) {
-      if (sessionStorage.getItem('permissions') == '' && sessionStorage.getItem('userType') != '3') {
+        if (sessionStorage.getItem('permissions') == '' && sessionStorage.getItem('userType') != '3') {
         return true;
       }
       else if ((sessionStorage.getItem('permissions')).includes('301')) {
@@ -865,7 +864,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
           return true;
         }
       }
-    } else {
+     else {
       return false;
     }
   }

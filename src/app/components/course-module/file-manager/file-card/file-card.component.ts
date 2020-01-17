@@ -1,9 +1,9 @@
-import { Component, OnInit, OnChanges, Input, Output, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, EventEmitter } from '@angular/core';
-import { FileManagerService } from '../file-manager.service';
-import { AppComponent } from '../../../../app.component';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import 'rxjs/Rx';
-import { DomSanitizer, SafeResourceUrl, SafeUrl  } from '@angular/platform-browser';
+import { AppComponent } from '../../../../app.component';
 import { HttpService } from '../../../../services/http.service';
+import { FileManagerService } from '../file-manager.service';
 
 export class File {
 
@@ -82,8 +82,10 @@ export class FileCardComponent implements OnChanges {
     if (data.data.category_id == "182") {
       data.data.category_name = "Study Material"
     }
-    let name = data.label.split(".")[0];
-    let type = data.label.split(".")[1];
+    // let name = data.label.split(".")[0];
+    // let type = data.label.split(".")[1];
+    var name = data.label.substring(0, data.label.lastIndexOf("_"));
+    var type = data.label.substring(data.label.lastIndexOf(".")+1);
     this.fileObj = new File(name, type, data.data);
     this.setImageAndIcons(type);
     this.cd.detectChanges();
@@ -274,13 +276,18 @@ export class FileCardComponent implements OnChanges {
    * Method to get the original file name from filename(with autoID)
    *
    */
-  getFileName(fileName) {
-    return fileName.substring(0, fileName.lastIndexOf("_"));
-  }
+  // getFileName(fileName) {
+  //   return fileName;//.substring(0, fileName.lastIndexOf("_"));
+  // }
+
   getOriginalFileName(fileName) {
     var filenamePart1 = fileName.substring(0, fileName.lastIndexOf("_"));
     var filenamePart2 = fileName.substring(fileName.lastIndexOf("."));
     fileName = filenamePart1 + filenamePart2;
-    return fileName;
+    // if(fileName.length>20){
+    //   return  filenamePart1.substring(0,20)+filenamePart2;
+    // }else{
+      return fileName;
+    // }    
   }
 }
