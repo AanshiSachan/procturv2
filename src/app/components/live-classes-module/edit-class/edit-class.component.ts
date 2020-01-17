@@ -72,6 +72,8 @@ export class EditClassComponent implements OnInit {
   minuteTo: string = '';
   scheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
   institution_id:any=sessionStorage.getItem('institution_id');
+  userType: any;
+  username:any = '';
   getPayloadBatch = {
     inst_id: this.institution_id,
     coursesArray: [''],
@@ -111,6 +113,8 @@ export class EditClassComponent implements OnInit {
 
   ngOnInit() {
     this.institution_id = sessionStorage.getItem('institution_id');
+    this.userType = sessionStorage.getItem('userType');
+    this.username = sessionStorage.getItem('username');
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {

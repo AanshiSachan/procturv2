@@ -67,6 +67,7 @@ export class AddClassComponent implements OnInit {
   hoursTo: string = '';
   minuteTo: string = '';
   isShowProductOption: boolean = false;
+  userType: any;
   scheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
   institution_id:any=sessionStorage.getItem('institution_id');
   getPayloadBatch = {
@@ -103,6 +104,7 @@ export class AddClassComponent implements OnInit {
 
   ngOnInit() {
     this.institution_id = sessionStorage.getItem('institution_id');
+    this.userType = sessionStorage.getItem('userType');
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
@@ -551,7 +553,12 @@ export class AddClassComponent implements OnInit {
   getBatchesCourses() {
     this.isRippleLoad = true;
     if (this.isProfessional) {
-      const url =  '/api/v1/batches/all/' + this.institution_id + '?active=Y'
+      let url = '';
+      if (this.userType === '3') {
+        url = '/api/v1/batches/all/' + this.institution_id + '?active=Y' + '&isAllCourses=Y';
+      } else {
+        url =  '/api/v1/batches/all/' + this.institution_id + '?active=Y';
+      }
       this.http_service.getData(url).subscribe(
         (data: any) => {
           this.batches = data;
@@ -565,7 +572,12 @@ export class AddClassComponent implements OnInit {
       )
     }
     else {
-      const url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all'
+      let url = '';
+      if (this.userType === '3') {
+        url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y';
+      } else {
+        url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all';
+      }
       this.http_service.getData(url).subscribe(
         (data: any) => {
           this.masters = data;
