@@ -3,9 +3,9 @@
 <div class="report-wrapper clearFix">
     <aside class="middle-full">
         <section class="middle-main clearFix" style="margin-top: 10px;">
-            <div class="middle-top mb0 clearFix header" style="width:99%; margin-left: 10px; padding-bottom: 20px;">
-                <div class="row">
-                    <h2 style="padding: 16px 0px 3px 32px;" class="pull-left">
+            <div class="middle-top mb0 clearFix header" style="width:100%; padding-bottom: 20px;">
+                <div class="row" style="margin: 0;">
+                    <h2 style="padding: 16px 0px 3px 16px;" class="pull-left">
                         <a routerLink="/view/fee">
                             Fees 
                         </a>
@@ -51,80 +51,116 @@
                     </div> -->
 
                 <div id="secondary" *ngIf="isFilterReversed">
+                    <section class="clearFix add-batch-section">
+                        <div class="row" style="margin: 0;">
+                            <div class="c-lg-4 c-sm-4 c-md-4">
+                                <div class="field-wrapper" [ngClass]="{'has-value': true }">
+                                    <label for="mc">Master Course </label>
+                                    <select [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl" name="mc" id="mc">
+                                        <option value="-1"></option>
+                                        <ng-container *ngIf="isProfessional; else masterCourse">
+                                            <option *ngFor="let master of standardList" [value]="master.standard_id">{{master.standard_name}}</option>
+                                        </ng-container>
+                                        <ng-template #masterCourse>
+                                            <option *ngFor="let master of standardList" [value]="master.master_course">{{master.master_course}}</option>
+                                        </ng-template>
+                                    </select>
+                                </div>
+                            </div>
+      
+                            <div class="c-lg-4 c-sm-4 c-md-4">
+                                <div class="field-wrapper">
+                                    <label for="cc">Course </label>
+                                    <select *ngIf="isProfessional"  [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList($event)" class="form-ctrl"
+                                        name="cc" id="cc">
+                                        <option value="-1"></option>
+                                        <option *ngFor="let course of subjectList" [value]="course.subject_id">{{course.subject_name}}</option>
+                                    </select>
+                                    <select *ngIf="!isProfessional" (ngModelChange)="applyAcademicYear($event)"  [(ngModel)]="courseFetchForm.subject_id" class="form-ctrl" 
+                                    name="cc" id="cc" >
+                                        <option value="-1"></option>
+                                        <option *ngFor="let course of subjectList"  [value]="course.course_id">{{course.course_name}}</option>
+                                    </select>
+                                </div>
+                              </div>
+      
+                              <div class="c-lg-4 c-sm-4 c-md-4" *ngIf="isProfessional">
+                                <div class="field-wrapper">
+                                    <label for="ba">Batch</label>
+                                    <select [(ngModel)]="courseFetchForm.batch_id" class="form-ctrl" (ngModelChange)="batchSelected($event)" name="" id="ba">
+                                        <option value="-1"></option>
+                                        <option *ngFor="let batch of batchList" [value]="batch.batch_id">{{batch.batch_name}}</option>
+                                    </select>
+                                </div>
+                                </div>
 
-                    <div class="c-lg-12" style="margin-left: -5%;">
-                        <div class="c-lg-12">
-                            <div class="c-lg-12">
-                                <div class="c-lg-12">
-                                    <div class="c-lg-12">
-                                        <div class="c-lg-4">
-                                            <div class="field-wrapper" [ngClass]="{'has-value': true }">
-                                                <label for="mc">Master Course </label>
-                                                <select [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl" name="mc" id="mc">
-                                                    <option value="-1"></option>
-                                                    <ng-container *ngIf="isProfessional; else masterCourse">
-                                                        <option *ngFor="let master of standardList" [value]="master.standard_id">{{master.standard_name}}</option>
-                                                    </ng-container>
-                                                    <ng-template #masterCourse>
-                                                        <option *ngFor="let master of standardList" [value]="master.master_course">{{master.master_course}}</option>
-                                                    </ng-template>
-                                                </select>
-                                            </div>
+                                <div *ngIf="!isProfessional">
+                                    <div Class="c-lg-3 c-sm-3 c-md-3">
+                                          <div id="slotwrapper" class="field-wrapper dropdown">
+                                              <label for="assignCourses">Academic Year</label>
+                                              <input id="slot" type="text" [disabled]="isCourseSelected" (click)="multiselectVisible($event.target.id)" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
+                                          </div>
+                                          <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')" >
+                                              <div class="multiselect-wrapper-inner">
+                                                  <ul class="">
+                                                      <li *ngFor="let i of getAllAcademic">
+                                                          <div class="field-checkbox-wrapper">
+                                                              <input type="checkbox" id="{{i.inst_acad_year_id}}"  [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
+                                                               [(ngModel)]="i.status" 
+                                                               (ngModelChange)="updateSlotSelected(i)"
+                                                                  class="form-checkbox">
+                                                              <label for="{{i.inst_acad_year_id}}"> {{i.inst_acad_year}}</label>
+                                                          </div>
+                                                      </li>
+                                                  </ul>
+                                              </div>
+                                          </div>
+                                      </div>
+              
+                                      <div class="c-lg-4 c-sm-4 c-md-4" style="width: 7%;padding-left: 0;">
+                                          <div class="field-wrapper">
+                                              <div class="c-lg-1 filter-btn" style="margin-top: 15px;">
+                                                  <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                                              </div>
+                                          </div>
                                         </div>
-                                        <div class="c-lg-4">
-                                            <div class="field-wrapper">
-                                                <label for="cc">Course </label>
-                                                <select *ngIf="isProfessional"  [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList($event)" class="form-ctrl"
-                                                    name="cc" id="cc">
-                                                    <option value="-1"></option>
-                                                    <option *ngFor="let course of subjectList" [value]="course.subject_id">{{course.subject_name}}</option>
-                                                </select>
-                                                <select *ngIf="!isProfessional" (ngModelChange)="applyAcademicYear($event)"  [(ngModel)]="courseFetchForm.subject_id" class="form-ctrl" 
-                                                name="cc" id="cc" >
-                                                    <option value="-1"></option>
-                                                    <option *ngFor="let course of subjectList"  [value]="course.course_id">{{course.course_name}}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="c-lg-4" *ngIf="isProfessional">
-                                            <div class="field-wrapper">
-                                                <label for="ba">Batch</label>
-                                                <select [(ngModel)]="courseFetchForm.batch_id" class="form-ctrl" (ngModelChange)="batchSelected($event)" name="" id="ba">
-                                                    <option value="-1"></option>
-                                                    <option *ngFor="let batch of batchList" [value]="batch.batch_id">{{batch.batch_name}}</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                      </div>
+                            </div>
 
-                                        <div  [ngClass]="{'c-lg-3': !isProfessional,'c-lg-4': isProfessional}" >
-                                            <div id="slotwrapper" class="field-wrapper dropdown" >
-                                                <label for="assignCourses">Academic Year</label>
-                                                <input id="slot" type="text" [disabled]="isCourseSelected" (click)="multiselectVisible($event.target.id)" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
-                                            </div>
-                                            <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')" >
-                                                <div class="multiselect-wrapper-inner">
-                                                    <ul class="">
-                                                        <li *ngFor="let i of getAllAcademic">
-                                                            <div class="field-checkbox-wrapper">
-                                                                <input type="checkbox" id="{{i.inst_acad_year_id}}"  [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
-                                                                 [(ngModel)]="i.status" 
-                                                                 (ngModelChange)="updateSlotSelected(i)"
-                                                                    class="form-checkbox">
-                                                                <label for="{{i.inst_acad_year_id}}"> {{i.inst_acad_year}}</label>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="c-lg-1 filter-btn" style="margin-top: 25px;">
-                                            <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                          
+      
+                          <div class="row" style="margin: 0;" *ngIf="isProfessional">
+                              <div Class="c-lg-4 c-sm-4 c-md-4" >
+                                    <div id="slotwrapper" class="field-wrapper dropdown" >
+                                        <label for="assignCourses">Academic Year</label>
+                                        <input id="slot" type="text" [disabled]="isCourseSelected" (click)="multiselectVisible($event.target.id)" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
+                                    </div>
+                                    <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')" >
+                                        <div class="multiselect-wrapper-inner">
+                                            <ul class="">
+                                                <li *ngFor="let i of getAllAcademic">
+                                                    <div class="field-checkbox-wrapper">
+                                                        <input type="checkbox" id="{{i.inst_acad_year_id}}"  [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
+                                                         [(ngModel)]="i.status" 
+                                                         (ngModelChange)="updateSlotSelected(i)"
+                                                            class="form-checkbox">
+                                                        <label for="{{i.inst_acad_year_id}}"> {{i.inst_acad_year}}</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+        
+                                <div class="c-lg-4 c-sm-4 c-md-4" style="width: 7%;padding-left: 0;">
+                                    <div class="field-wrapper">
+                                        <div class="c-lg-1 filter-btn" style="margin-top: 15px;">
+                                            <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                          </section>
                 </div>
 
 
@@ -183,7 +219,7 @@
 
 
             <section>
-                <div class="row" style="margin-top: 10px;">                    
+                <div class="row" style="margin: 0;margin-top: 10px;">                    
                     <div class="c-lg-9">
                         <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block;  text-align: left; width:64vw;">
                             <div class="c-lg-2"></div>
@@ -238,7 +274,7 @@
                                                     />
                                                 </svg>
                                             </i>
-                                            <div class="dropdown">
+                                            <div class="dropdown"  style="z-index: 100;">
                                                 <ul class="user-detail">
                                                     <li (click)="exportToExcel()" class="asHover">
                                                         <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;"></i>
@@ -262,6 +298,15 @@
                     </div>
                 </div>
 
+            </section>
+
+            <section style="float: right;width: 25%;padding-bottom: 5px">
+                <div class="c-lg-1 filter-btn" style="width: auto;padding-right: 0;">
+                    <button class="btn fullBlue" (click)="checkSendDueOption('Mail')">Send Due E-mail</button>
+                </div>
+                <div class="c-lg-1 filter-btn" style="width: 0;padding-left: 0;">
+                    <button class="btn fullBlue" (click)="checkSendDueOption('SMS')">Send Due SMS</button>
+                </div>
             </section>
 
             <div class="table-content" *ngIf="isFilterReversed">

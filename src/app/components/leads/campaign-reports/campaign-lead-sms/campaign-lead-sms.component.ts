@@ -20,7 +20,7 @@ export class CampaignLeadSmsComponent implements OnInit {
 
   dateFilter = {
     from_date: moment(new Date()).format('YYYY-MM-DD'),
-    to_date: "",
+    to_date: moment(new Date()).format('YYYY-MM-DD'),
     institution_id: "",
     start_index: 0,
     batch_size: 50

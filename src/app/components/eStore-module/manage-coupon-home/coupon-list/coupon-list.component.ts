@@ -62,7 +62,7 @@ export class CouponListComponent implements OnInit {
       (res: any) => {
         this.isRippleLoad = false;
         this._msgService.showErrorMessage('success', '', res.result);
-        this.fectchTableDataByPage(this.varJson.PageIndex);
+        this.couponData = this.couponData.filter(s => s.offer_id !== obj.offer_id);
       },
       (err) => {
         this.isRippleLoad = false;

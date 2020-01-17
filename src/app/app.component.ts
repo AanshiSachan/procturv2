@@ -25,7 +25,7 @@ export class AppComponent implements OnInit,AfterViewChecked {
 
   public config: ToasterConfig = new ToasterConfig({ positionClass: 'toast-top-right', limit: 1, timeout: 5000, mouseoverTimerStop: true, });
   isloggedInAdmin: boolean = false;
-  isRippleLoad: boolean = true;
+  isRippleLoad: boolean = false;
 
   /* Variable for Zendesk */
   ticketId = "";
@@ -39,7 +39,6 @@ export class AppComponent implements OnInit,AfterViewChecked {
     public commonService: CommonServiceFactory,
     private cd :ChangeDetectorRef
   ) {
-    this.isRippleLoad = true;
   }
 
 

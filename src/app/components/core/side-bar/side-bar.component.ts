@@ -1,19 +1,19 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { LoginService } from '../../../services/login-services/login.service';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { LoginService } from '../../../services/login-services/login.service';
+import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })
-export class SideBarComponent implements OnInit , AfterViewInit{
+export class SideBarComponent implements OnInit, AfterViewInit {
 
 
   @ViewChild('divAdminTag') divAdminTag: ElementRef;
@@ -162,27 +162,26 @@ export class SideBarComponent implements OnInit , AfterViewInit{
     let institute_id = this.globalSearchForm.instituteId;
     this.jsonFlags.isShowPowerBy = true;
     if (institute_id == '101132' ||
-        institute_id == '101133' ||
-        institute_id == '101134' ||
-        institute_id == '101135' ||
-        institute_id == '101149' ||
-        institute_id == '101150' ||
-        institute_id == '101140' ||
-        institute_id == '101247' ||
-        institute_id == '101248' ||
-        institute_id == '101249' ||
-        institute_id == '101275' ||
-        institute_id == '101276' ||
-        institute_id == '101277' ||
-        institute_id == '101296' ||
-        institute_id == '101151') {
+      institute_id == '101133' ||
+      institute_id == '101134' ||
+      institute_id == '101135' ||
+      institute_id == '101149' ||
+      institute_id == '101150' ||
+      institute_id == '101140' ||
+      institute_id == '101247' ||
+      institute_id == '101248' ||
+      institute_id == '101249' ||
+      institute_id == '101275' ||
+      institute_id == '101276' ||
+      institute_id == '101277' ||
+      institute_id == '101151') {
       this.jsonFlags.isShowPowerBy = false;
     }
 
   }
 
-  hideForUsers(){
-    if(sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0'){
+  hideForUsers() {
+    if (sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0') {
       return true;
     }
     else {
@@ -854,17 +853,19 @@ export class SideBarComponent implements OnInit , AfterViewInit{
   };
 
   hasInventoryAccess() {
-    if (sessionStorage.getItem('permissions') == '' && sessionStorage.getItem('userType') != '3') {
-      return true;
-    }
-    else if ((sessionStorage.getItem('permissions')).includes('301')) {
-      if (sessionStorage.getItem('userType') != '3') {
-        return false;
-      } else {
+
+    if (sessionStorage.getItem('permissions')) {
+      if (sessionStorage.getItem('permissions') == '' && sessionStorage.getItem('userType') != '3') {
         return true;
       }
-    }
-    else {
+      else if ((sessionStorage.getItem('permissions')).includes('301')) {
+        if (sessionStorage.getItem('userType') != '3') {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    } else {
       return false;
     }
   }
@@ -1071,7 +1072,7 @@ export class SideBarComponent implements OnInit , AfterViewInit{
         this.searchBar = false;
       }
       else
-      this.router.navigate(['/view/leads/enquiry/edit/' +d.data.id]);{
+        this.router.navigate(['/view/leads/enquiry/edit/' + d.data.id]); {
         // this.router.navigate(['/view/leads'], { queryParams: { id: d.data.id, action: d.action } });
         this.searchBar = false;
       }

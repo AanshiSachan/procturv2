@@ -130,12 +130,14 @@
       flex-direction: row;
       border-left: 3px solid white;
       text-align: left;
+      border-bottom: 1px solid #ccc;
       .value-item{
         padding: 10px;
       }
-
     }
-
+    .list-value-container:last-child{
+      border-bottom: none;
+    }
     .converted-lead{
       border-left: 3px solid tomato;
       background: bisque;
@@ -283,7 +285,7 @@
   margin: 10px 0px;
   width: 50%;
   .action-btn-item{
-    margin: 0 20px;
+    margin: 0 2%;
     margin-top: 10px;
     .action-btn{
       background: #0084f6;
@@ -309,4 +311,9 @@
       border: 1px solid #ccc;
     }
   }
+}
+
+.form-ctrl{
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }

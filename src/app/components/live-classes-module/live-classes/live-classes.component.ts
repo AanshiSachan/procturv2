@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core'
-import { AuthenticatorService } from '../../../services/authenticator.service';
+import { HttpService, MessageShowService } from '../../..';
+import { DomSanitizer } from '../../../../../node_modules/@angular/platform-browser';
 import { AppComponent } from '../../../app.component';
-import { MessageShowService, HttpService } from '../../..';
-import { DomSanitizer } from '@angular/platform-browser';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 declare var window;
 
 @Component({
@@ -37,15 +36,16 @@ export class LiveClassesComponent implements OnInit {
   classListDataSource: any = [];
   classList: any = [];
   searchData: any = [];
-  download_links:any=[];
+  download_links: any = [];
   searchDataFlag: boolean = false;
-  fileUrl:any=null;
-  fileName:any=null;
+  fileUrl: any = null;
+  fileName: any = null;
 
   JsonVars: any = {
     isRippleLoad: false,
     selected: false,
-    submitReq: false
+    submitReq: false,
+    video_url: null
   }
 
   batches: any[] = [];
@@ -82,7 +82,7 @@ export class LiveClassesComponent implements OnInit {
   dateToday = moment().format('YYYY-MM-DD');
   dateFrom = moment(new Date()).format('YYYY-MM-DD');
   rescheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
-  institution_id:any=sessionStorage.getItem('institution_id');
+  institution_id: any = sessionStorage.getItem('institution_id');
   rescheduleclass = {
     end_datetime: "",
     institution_id: this.institution_id,
@@ -123,12 +123,12 @@ export class LiveClassesComponent implements OnInit {
   sendSMSNotification: boolean = false;
   sendPushNotification: boolean = false;
   forUser: boolean = false;
-  proctur_live_expiry_date_check : boolean = false;
-  viewDownloadPopup:boolean = false;
-  tempVideoData: any ={};
+  proctur_live_expiry_date_check: boolean = false;
+  viewDownloadPopup: boolean = false;
+  tempVideoData: any = {};
   showVideo: boolean = true;
   videoObject: any;
-  proctur_live_view_or_download_visibility:any=0;
+  proctur_live_view_or_download_visibility: any = 0;
   searchText: any = "";
 
 
@@ -139,7 +139,7 @@ export class LiveClassesComponent implements OnInit {
     private _http: HttpService,
     private msgService: MessageShowService,
     private sanitizer: DomSanitizer
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -165,21 +165,21 @@ export class LiveClassesComponent implements OnInit {
   checkLiveClassExpiry(proctur_live_expiry_date) {
     let currentDate = (new Date());
     proctur_live_expiry_date = (new Date(proctur_live_expiry_date));
-    currentDate.setHours(0,0,0,0);
-    proctur_live_expiry_date.setHours(0,0,0,0);
-    if(proctur_live_expiry_date < currentDate){
+    currentDate.setHours(0, 0, 0, 0);
+    proctur_live_expiry_date.setHours(0, 0, 0, 0);
+    if (proctur_live_expiry_date < currentDate) {
       this.proctur_live_expiry_date_check = true;
     }
-    if(proctur_live_expiry_date == currentDate){
+    if (proctur_live_expiry_date == currentDate) {
       this.proctur_live_expiry_date_check = false;
-    } 
+    }
   }
 
   getClassesList() {
     this.PageIndex = 1;
     this.JsonVars.isRippleLoad = true;
     this.obj = {
-      institution_id:this.institution_id,
+      institution_id: this.institution_id,
     }
     const userType: any = sessionStorage.getItem('userType');
     if (userType != 0) {
@@ -187,14 +187,14 @@ export class LiveClassesComponent implements OnInit {
       this.obj.user_id = userid;
     }
     const url = '/api/v1/meeting_manager/getMeeting/' + this.institution_id;
-    this._http.postData(url,this.obj).subscribe(
+    this._http.postData(url, this.obj).subscribe(
       (data: any) => {
         this.JsonVars.isRippleLoad = false;
         this.previosLiveClasses = data.pastLiveClasses;
         this.futureLiveClasses = data.upcomingLiveClasses;
         const proctur_live_expiry_date = data.proctur_live_expiry_date;
-        sessionStorage.setItem('proctur_live_expiry_date',proctur_live_expiry_date);
-        if(proctur_live_expiry_date!=null) {
+        sessionStorage.setItem('proctur_live_expiry_date', proctur_live_expiry_date);
+        if (proctur_live_expiry_date != null) {
           this.checkLiveClassExpiry(proctur_live_expiry_date);
         }
         this.proctur_live_view_or_download_visibility = data.proctur_live_view_or_download_visibility;
@@ -227,19 +227,19 @@ export class LiveClassesComponent implements OnInit {
     }
   }
 
-  allowStartLiveCLass(link, session_id){
+  allowStartLiveCLass(link, session_id) {
     const url = `/api/v1/meeting_manager/session/start/${this.institution_id}/${session_id}`;
     this.JsonVars.isRippleLoad = true;
     this._http.getData(url).subscribe(
-      (res:any)=>{
+      (res: any) => {
         this.JsonVars.isRippleLoad = false;
-        if(res.result.allow_start_session){
+        if (res.result.allow_start_session) {
           window.open(link, "_blank");
-        } else{
-          this.msgService.showErrorMessage('info','',res.result.allow_start_session_message);
+        } else {
+          this.msgService.showErrorMessage('info', '', res.result.allow_start_session_message);
         }
       },
-      (err)=>{
+      (err) => {
         this.JsonVars.isRippleLoad = false;
         console.log(err);
       }
@@ -345,11 +345,11 @@ export class LiveClassesComponent implements OnInit {
       this.getClasses = this.futureLiveClasses;
       this.classListDataSource = this.futureLiveClasses;
     }
-    if(!this.isProfessional){
+    if (!this.isProfessional) {
       this.getClasses.forEach(element => {
         element.course = Array.prototype.map.call(element.course_list, s => s.course_name).toString();
       })
-    } else{
+    } else {
       this.getClasses.forEach(element => {
         element.course = Array.prototype.map.call(element.batch_list, s => s.batch_name).toString();
       })
@@ -400,10 +400,10 @@ export class LiveClassesComponent implements OnInit {
       return "00:00 hrs";
     }
     else {
-      if(hrs == 0){
+      if (hrs == 0) {
         return mins + " mins";
       }
-      else{
+      else {
         return time + " hrs";
       }
     }
@@ -561,7 +561,7 @@ export class LiveClassesComponent implements OnInit {
 
   cancelSession() {
     let url = "/api/v1/meeting_manager/delete/" + sessionStorage.getItem('institution_id') + "/" + this.cancelSessionId;
-    this._http.deleteData(url,this.cancelSessionId).subscribe(
+    this._http.deleteData(url, this.cancelSessionId).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: "Live class session cancelled successfully" })
         this.alertBox = true;
@@ -625,8 +625,8 @@ export class LiveClassesComponent implements OnInit {
     this.rescheduleclass.end_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
     this.rescheduleclass.start_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourToReschedule.split(' ')[1]
 
-    const url ="/api/v1/meeting_manager/reschedule/" + sessionStorage.getItem('institution_id') + "/" + this.rescheduleclass.session_id;
-    this._http.postData(url,this.rescheduleclass).subscribe(
+    const url = "/api/v1/meeting_manager/reschedule/" + sessionStorage.getItem('institution_id') + "/" + this.rescheduleclass.session_id;
+    this._http.postData(url, this.rescheduleclass).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: "Class rescheduled successfully" })
         this.rescheduleClass = false;
@@ -650,67 +650,93 @@ export class LiveClassesComponent implements OnInit {
   }
 
   downloadFile(object) {
-    const url = `/api/v1/meeting_manager/recording/download/${sessionStorage.getItem('institution_id')}/${object.download_id}`
+    const url = `/api/v1/meeting_manager/recording/download/${sessionStorage.getItem('institution_id')}/${object.download_id}` + '?type=0';
     this.JsonVars.isRippleLoad = true;
-    this._http.downloadItem(url,'video/mp4').subscribe(
-      (response:any)=>{
+    this._http.downloadItem(url, 'video/mp4').subscribe(
+      (response: any) => {
         this.JsonVars.isRippleLoad = false;
-        if(response){
-        const blob = new Blob([response], { type: 'video/mp4' });
-        this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-        if(this.fileUrl!=null){
-          this.fileName = object.session_name.concat('.mp4');
-        setTimeout(() => {
-          var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
-          hiddenDownload.download = this.fileName;
-          hiddenDownload.click();
-        }, 500);
+        if (response) {
+          const blob = new Blob([response], { type: 'video/mp4' });
+          this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+          if (this.fileUrl != null) {
+            this.fileName = object.session_name.concat('.mp4');
+            setTimeout(() => {
+              var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
+              hiddenDownload.download = this.fileName;
+              hiddenDownload.click();
+            }, 500);
+          }
         }
-        }     
-    },
-     err=>{
-      this.JsonVars.isRippleLoad = false;
-      if(err.status==400){
-        this.msgService.showErrorMessage('error', '', 'You are out of storage! Please contact our support');
-      } else{
-      this.msgService.showErrorMessage('error', '', 'There is some problem processing your request.Please contact support@proctur.com');
+      },
+      err => {
+        this.JsonVars.isRippleLoad = false;
+        if (err.status == 400) {
+          this.msgService.showErrorMessage('error', '', 'You are out of storage! Please contact our support');
+        } else {
+          this.msgService.showErrorMessage('error', '', 'There is some problem processing your request.Please contact support@proctur.com');
+        }
+        console.log(err);
       }
-      console.log(err);
-    }
+    )
+  }
+
+  getVdoLink(object) {
+    const url = `/api/v1/meeting_manager/recording/download/${sessionStorage.getItem('institution_id')}/${object.download_id}` + '?type=1 '
+    this.JsonVars.isRippleLoad = true;
+    this.viewDownloadPopup = false;
+    this._http.getData(url).subscribe(
+      (response: any) => {
+        this.JsonVars.isRippleLoad = false;
+        console.log(response);
+        if (response && response.video_url) {
+          this.showVideo = false;
+          this.JsonVars.video_url = atob(response.video_url);
+          console.log(this.JsonVars.video_url);
+        }
+      },
+      err => {
+        this.JsonVars.isRippleLoad = false;
+        if (err.status == 400) {
+          this.msgService.showErrorMessage('error', '', 'You are out of storage! Please contact our support');
+        } else {
+          this.msgService.showErrorMessage('error', '', 'There is some problem processing your request.Please contact support@proctur.com');
+        }
+        console.log(err);
+      }
     )
   }
 
   // Live class integration with VDOCipher
   getVdocipherVideoOtp(obj) {
-    this.viewDownloadPopup  = false;
-      let url = "/api/v1/instFileSystem/videoOTP";
-      let data = {
-        "videoID": obj.video_id,
-        "institute_id": sessionStorage.getItem("institute_id"),
-        "user_id": sessionStorage.getItem("userid")
-      }
-      this.tempVideoData = obj;
-      this.JsonVars.isRippleLoad = true;
-      this._http.postData(url, data).subscribe((response) => {
-        this.JsonVars.isRippleLoad = false;
-        if (response == null) {
-          let obj = {
-            "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
-            "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
-          }
-          this.ShowVideo(obj.otp, obj.playbackInfo);
-        } else {
-          let obj = {
-            "otp": response['otp'],
-            "playbackInfo": response['playbackInfo']
-          }
-          this.ShowVideo(obj.otp, obj.playbackInfo);
+    this.viewDownloadPopup = false;
+    let url = "/api/v1/instFileSystem/videoOTP";
+    let data = {
+      "videoID": obj.video_id,
+      "institute_id": sessionStorage.getItem("institute_id"),
+      "user_id": sessionStorage.getItem("userid")
+    }
+    this.tempVideoData = obj;
+    this.JsonVars.isRippleLoad = true;
+    this._http.postData(url, data).subscribe((response) => {
+      this.JsonVars.isRippleLoad = false;
+      if (response == null) {
+        let obj = {
+          "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
+          "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
         }
-      },
-        (err) => {
-          this.JsonVars.isRippleLoad = false;
-          this.msgService.showErrorMessage('error', '', err.error.message);
-        });
+        this.ShowVideo(obj.otp, obj.playbackInfo);
+      } else {
+        let obj = {
+          "otp": response['otp'],
+          "playbackInfo": response['playbackInfo']
+        }
+        this.ShowVideo(obj.otp, obj.playbackInfo);
+      }
+    },
+      (err) => {
+        this.JsonVars.isRippleLoad = false;
+        this.msgService.showErrorMessage('error', '', err.error.message);
+      });
   }
 
   ShowVideo(otpString, playbackInfoString) {
@@ -731,14 +757,32 @@ export class LiveClassesComponent implements OnInit {
 
   stopVideo() {
     this.showVideo = true;
-    if(this.videoObject){
-       this.videoObject.pause(); // removes video 
+    if (this.videoObject) {
+      this.videoObject.pause(); // removes video 
     }
   }
 
-  viewdownload_links(obj){
+  viewdownload_links(obj) {
     this.viewDownloadPopup = true;
     this.download_links = obj;
+  }
+
+  @HostListener("document:keydown", ['$event'])
+  @HostListener("document:contextmenu", ['$event'])  
+  onMouseOver($event) {
+    $event.preventDefault();
+    return false;
+    // if ($event.keyCode == 123) {
+    //   return false;
+    // }
+    // if ($event.ctrlKey && $event.shiftKey &&
+    //   ($event.keyCode == 'J'.charCodeAt(0) || $event.keyCode == 'C'.charCodeAt(0) ||
+    //     $event.keyCode == 'I'.charCodeAt(0))) {
+    //   return false;
+    // }
+    // if ($event.ctrlKey && $event.keyCode == 'U'.charCodeAt(0)) {
+    //   return false;
+    // }
   }
 
 }
