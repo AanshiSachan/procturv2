@@ -153,7 +153,7 @@
         <div class="add_student_container">
           <div class="field-wrapper"  *ngIf="!isProfessional">
             <label for="master_course">Master Course<span class="text-danger">*</span> </label>
-            <select class="form-ctrl" name="master_course" id="master_course"  [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)">
+            <select class="form-ctrl" name="master_course" id="master_course"  [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)" [disabled]="(userType==3 || (userType == 0 && username != 'admin'))" [ngClass]="{'disabled':(userType==3 || (userType == 0 && username != 'admin'))}">
               <option value="Select Master Course" selected="selected" >Select Master Course</option>
               <option *ngFor="let i of masters" [value]="i.master_course">
                   {{i.master_course}}
@@ -188,7 +188,9 @@
               [data]="batches"
               [settings]="batchListSetting"
               [(ngModel)]="selectedBatchList" 
-              (ngModelChange)="getBatchesCoursesIds($event)">
+              (ngModelChange)="getBatchesCoursesIds($event)"
+              [disabled]="(userType==3 || (userType == 0 && username != 'admin'))" 
+              [ngClass]="{'disabled':(userType==3 || (userType == 0 && username != 'admin'))}">
             </ng-multiselect-dropdown>
           </div>
 
@@ -199,7 +201,9 @@
               [data]="courses"
               [settings]="courseListSetting"
               [(ngModel)]="selectedCourseList" 
-              (ngModelChange)="getBatchesCoursesIds($event)">
+              (ngModelChange)="getBatchesCoursesIds($event)"
+              [disabled]="(userType==3 || (userType == 0 && username != 'admin'))" 
+              [ngClass]="{'disabled':(userType==3 || (userType == 0 && username != 'admin'))}">
             </ng-multiselect-dropdown>
           </div>
 
