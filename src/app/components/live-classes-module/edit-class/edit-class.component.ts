@@ -758,7 +758,12 @@ export class EditClassComponent implements OnInit {
   getBatchesCourses() {
     this.isRippleLoad = true;
     if (this.isProfessional) {
-      let url = '/api/v1/batches/all/' + this.institution_id + '?active=Y'
+      let url = '';
+      if (this.userType === '3') {
+        url = '/api/v1/batches/all/' + this.institution_id + '?active=Y' + '&isAllCourses=Y';
+      } else {
+        url =  '/api/v1/batches/all/' + this.institution_id + '?active=Y';
+      }
       this.http_service.getData(url).subscribe(
         (data: any) => {
           this.batches = data;
@@ -772,11 +777,16 @@ export class EditClassComponent implements OnInit {
       )
     }
     else {
-      const url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all'
+      let url = '';
+      if (this.userType === '3') {
+        url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y';
+      } else {
+        url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all';
+      }
       this.http_service.getData(url).subscribe(
         (data: any) => {
           this.masters = data;
-          // console.log(this.masters)
+          console.log(this.masters)
           this.isRippleLoad = false;
         },
         (error: any) => {
