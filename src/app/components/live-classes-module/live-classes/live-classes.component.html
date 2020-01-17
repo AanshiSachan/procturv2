@@ -7,7 +7,7 @@
       <section class="middle-top clearFix bulk-header">
         <div>
           <h1 class="pull-left">
-             <span>Live Class</span>
+            <span>Live Class</span>
           </h1>
         </div>
 
@@ -16,17 +16,19 @@
         <div class="live-class-list">
           <div class="live-class-container" style="width:50%;">
             <div class="field-radio-wrapper">
-              <input type="radio" [value]="false" class="form-radio" [(ngModel)]="liveClassFor" (ngModelChange)="getClassesFor()" name="liveClasses" id="liveClasses1">
+              <input type="radio" [value]="false" class="form-radio" [(ngModel)]="liveClassFor" (ngModelChange)="getClassesFor()" name="liveClasses"
+                id="liveClasses1">
               <label for="liveClasses1">Upcoming Classes</label>
             </div>
             <div class="field-radio-wrapper">
-              <input type="radio" [value]="true"  class="form-radio" [(ngModel)]="liveClassFor" (ngModelChange)="getClassesFor()" name="liveClasses" id="liveClasses2">
+              <input type="radio" [value]="true" class="form-radio" [(ngModel)]="liveClassFor" (ngModelChange)="getClassesFor()" name="liveClasses"
+                id="liveClasses2">
               <label for="liveClasses2">Previous Classes</label>
             </div>
           </div>
 
           <div class="search-add-class-container">
-            <div class="search-filter-wrapper"> 
+            <div class="search-filter-wrapper">
               <i class="fa fa-search" aria-hidden="true"></i>
               <input type="text" class="normal-field" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
             </div>
@@ -43,18 +45,20 @@
               </select>
             </div> -->
             <div class="add-class-container">
-                <div class="questionInfo inline-relative">
-                    <span class=" i-class">  
-                      <button type="button" name="button" class="add-class" routerLink='/view/live-classes/add' [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                      <i class="fa fa-plus" aria-hidden="true" style="color: #0084f6;"></i>&nbsp;Add Live Class </button></span>
-                    <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                        Your Proctur Live<br>
-                        subscription is over.<br> 
-                        Please pay quickly<br>
-                          to continue using it.
-                    </div>
-                  </div> 
-                
+              <div class="questionInfo inline-relative">
+                <span class=" i-class">
+                  <button type="button" name="button" class="add-class" routerLink='/view/live-classes/add' [disabled]="proctur_live_expiry_date_check"
+                    [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                    <i class="fa fa-plus" aria-hidden="true" style="color: #0084f6;"></i>&nbsp;Add Live Class </button>
+                </span>
+                <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                  Your Proctur Live
+                  <br> subscription is over.
+                  <br> Please pay quickly
+                  <br> to continue using it.
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -64,7 +68,7 @@
         <div class="live-class-list-container" *ngIf="getClasses?.length !=0">
           <div class="live-class-item" *ngFor="let class of getClasses">
             <div class="sub-item-1">
-              <div class="session_name_and_id_container" >
+              <div class="session_name_and_id_container">
                 <div class="session_name">
                   <span>{{class.session_name}}</span>
                 </div>
@@ -80,65 +84,69 @@
                   <div class="bounce3"></div>
                 </div> -->
                 <div class="questionInfo inline-relative">
-                  <span class=" i-class">  
-                    <button type="button" name="button" class="notification_btn" (click)="smsNotification(class.session_id)" *ngIf="!timeLeft(today, class.start_datetime)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                  <span class=" i-class">
+                    <button type="button" name="button" class="notification_btn" (click)="smsNotification(class.session_id)" *ngIf="!timeLeft(today, class.start_datetime)"
+                      [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                       Send SMS Notification
                       <i class="fa fa-commenting" aria-hidden="true"></i>
-                    </button> 
+                    </button>
                   </span>
                   <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                      Your Proctur Live<br>
-                      subscription is over.<br> 
-                      Please pay quickly<br>
-                        to continue using it.
+                    Your Proctur Live
+                    <br> subscription is over.
+                    <br> Please pay quickly
+                    <br> to continue using it.
                   </div>
-                </div> 
-
-                
-              <div class="questionInfo inline-relative">
-                <span class=" i-class">  
-                <button type="button" name="button" class="notification_btn" (click)="pushNotification(class.session_id)" *ngIf="!timeLeft(today, class.start_datetime)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                  Send Push Notification
-                  <i class="fa fa-bell" aria-hidden="true"></i>
-                </button>
-                </span>
-                <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                    Your Proctur Live<br>
-                    subscription is over.<br> 
-                    Please pay quickly<br>
-                      to continue using it.
                 </div>
-               </div> 
-              </div>
-              <div class="action_container" *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)" >
+
+
                 <div class="questionInfo inline-relative">
-                  <span class=" i-class">  
-                  <button type="button" name="button" class="action_edit" (click)="editStudent(class.session_id)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                     Edit
-                  <i class="fa fa-pencil" aria-hidden="true"></i>
-                  </button>
+                  <span class=" i-class">
+                    <button type="button" name="button" class="notification_btn" (click)="pushNotification(class.session_id)" *ngIf="!timeLeft(today, class.start_datetime)"
+                      [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                      Send Push Notification
+                      <i class="fa fa-bell" aria-hidden="true"></i>
+                    </button>
                   </span>
                   <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                      Your Proctur Live<br>
-                      subscription is over.<br> 
-                      Please pay quickly<br>
-                      to continue using it.
+                    Your Proctur Live
+                    <br> subscription is over.
+                    <br> Please pay quickly
+                    <br> to continue using it.
                   </div>
-                </div> 
-                <div class="questionInfo inline-relative">
-                    <span class=" i-class">  
-                <button type="button" name="button" class="action_delete" (click)="cancel(class.session_id)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                  Cancel
-                  <i class="fa fa-times" aria-hidden="true"></i>
-                </button>
-              </span>
-              <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                  Your Proctur Live<br>
-                        subscription is over.<br> 
-                        Please pay quickly<br>
-                          to continue using it.
+                </div>
               </div>
-             </div> 
+              <div class="action_container" *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)">
+                <div class="questionInfo inline-relative">
+                  <span class=" i-class">
+                    <button type="button" name="button" class="action_edit" (click)="editStudent(class.session_id)" [disabled]="proctur_live_expiry_date_check"
+                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                      Edit
+                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </button>
+                  </span>
+                  <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                    Your Proctur Live
+                    <br> subscription is over.
+                    <br> Please pay quickly
+                    <br> to continue using it.
+                  </div>
+                </div>
+                <div class="questionInfo inline-relative">
+                  <span class=" i-class">
+                    <button type="button" name="button" class="action_delete" (click)="cancel(class.session_id)" [disabled]="proctur_live_expiry_date_check"
+                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                      Cancel
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </span>
+                  <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                    Your Proctur Live
+                    <br> subscription is over.
+                    <br> Please pay quickly
+                    <br> to continue using it.
+                  </div>
+                </div>
               </div>
             </div>
             <div class="sub-item-2">
@@ -152,8 +160,8 @@
                 <span  style="color: #585574;">
                   <span style="color: #9898a3;">Date : </span>
                   {{class.startDateTime | date: 'dd MMM yyyy'}}
-                 </span>
-                <span  style="color: #585574;">
+                </span>
+                <span style="color: #585574;">
                   <span style="color: #9898a3;">Duration : </span>
                   {{diffDate(class.startDateTime, class.endDateTime) }} hrs
                 </span>
@@ -234,12 +242,13 @@
                     </div>
             
               </div>
-              <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0" >
+              <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0">
                 &nbsp;&nbsp;
-                  <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0" [ngClass]="{'disabledButton': class.download_links?.length==0}">
+                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0"
+                  [ngClass]="{'disabledButton': class.download_links?.length==0}">
                   <!-- <i class="fa fa-repeat" aria-hidden="true" ></i> &nbsp; -->
                   View Recording
-                  </button>
+                </button>
               </div>
             </div>
           </div>
@@ -262,12 +271,12 @@
       <div class="row filter-res pagination pagination-correct" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
           <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-              [page]="PageIndex" [perPage]="displayClassSize" [count]="totalRow">
+            [page]="PageIndex" [perPage]="displayClassSize" [count]="totalRow">
           </pagination>
         </div>
       </div>
 
-      </section>
+    </section>
   </aside>
 </div>
 
@@ -302,74 +311,79 @@
 <div class="black-bg" id="black-bg" [hidden]="alertBox" (click)="closeAlert()"></div>
 
 <section *ngIf="viewDownloadPopup">
-    <div class="confirmation_popup download_popup">
-      <div class="confirm_title"style="font-size: 14px;margin-bottom: 10px;">
-        <span>{{download_links.session_name}}</span>
-        <span style="cursor: pointer;float:right"  (click)="viewDownloadPopup=false" >X</span>
-      </div>
+  <div class="confirmation_popup download_popup">
+    <div class="confirm_title" style="font-size: 14px;margin-bottom: 10px;">
+      <span>{{download_links.session_name}}</span>
+      <span style="cursor: pointer;float:right" (click)="viewDownloadPopup=false">X</span>
+    </div>
     <section>
       <div class="table-container">
-      <div class="heading-container">
-        <div class="heading-item">
-          <span>Title</span>
+        <div class="heading-container">
+          <div class="heading-item">
+            <span>Title</span>
+          </div>
+          <div class="heading-item" style="width: 17%;">
+            <span>Size</span>
+          </div>
+          <div class="heading-item" style="width: 20%;">
+            <span>Duration</span>
+          </div>
+          <div class="heading-item" style="width: 20%;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility == 2|| proctur_live_view_or_download_visibility == 3">
+            <span>Action</span>
+          </div>
         </div>
-        <div class="heading-item" style="width: 17%;">
-          <span>Size</span>
-        </div>
-        <div class="heading-item" style="width: 17%;">
-          <span>Duration</span>
-        </div>
-        <div class="heading-item" style="width: 11%;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility == 2|| proctur_live_view_or_download_visibility == 3">
-          <span>Action</span>
+        <div class="value-outer-container">
+          <div class="value-container" *ngFor="let data of download_links.download_links">
+            <div class="value-item">
+              <span title="{{data.session_name}}">{{(data.session_name.length > 80) ? (data.session_name | slice:0:80) + '...' : data.session_name}}</span>
+            </div>
+            <div class="value-item" style="width: 17%;">
+              <span title="{{data.video_size}}" *ngIf="data.video_size!=null">{{data.video_size}}&nbsp;MB</span>
+              <span *ngIf="data.video_size==null">-</span>
+            </div>
+            <div class="value-item" style="width: 20%;">
+              <span title="{{data.video_duration}}" *ngIf="data.video_duration!=null">{{data.video_duration}}&nbsp;mins</span>
+              <span *ngIf="data.video_duration==null">-</span>
+            </div>
+            <div class="value-item" style="width: 20%;text-align: center;">
+              <div style="float: left;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3">
+                <button class="fa fa-download" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="Download"
+                  (click)="downloadFile(data);" id="downloadFile" [disabled]="data.download_link==null" [ngStyle]="{'opacity':data.download_link==null ? '0.5' : '1' }"></button>
+                <a id="downloadFileClick" class="hide"></a>
+              </div>
+              <div style="float: left;padding-left: 15px;" (click)="getVdocipherVideoOtp(data)" *ngIf="(JsonVars.view_proctur_live_recorded_session==2||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3)">
+                <button class="fa fa-eye" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="play on Vdocipher "
+                  [disabled]="data.video_id==null" [ngStyle]="{'opacity':data.video_id==null ? '0.5' : '1' }">
+                </button>
+              </div>
+              <div (click)="getVdoLink(data)" *ngIf="(JsonVars.view_proctur_live_recorded_session==1||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3)">
+                <button class="fa fa-play" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="View" [disabled]="data.video_id==null"
+                  [ngStyle]="{'opacity':data.video_id==null ? '0.5' : '1' }">
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="value-outer-container">
-        <div class="value-container" *ngFor="let data of download_links.download_links" >
-          <div class="value-item">
-            <span title="{{data.session_name}}">{{(data.session_name.length > 80) ? (data.session_name | slice:0:80) + '...' : data.session_name}}</span>
-          </div>
-          <div class="value-item" style="width: 17%;">
-            <span title="{{data.video_size}}" *ngIf="data.video_size!=null">{{data.video_size}}&nbsp;MB</span>
-            <span *ngIf="data.video_size==null">-</span>
-          </div>
-          <div class="value-item" style="width: 17%;">
-            <span title="{{data.video_duration}}" *ngIf="data.video_duration!=null">{{data.video_duration}}&nbsp;mins</span>
-            <span *ngIf="data.video_duration==null">-</span>
-          </div>
-          <div class="value-item" style="width: 11%;text-align: center;">
-            <div style="float: left;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3">
-            <button class="fa fa-download" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="Download" (click)="downloadFile(data);"
-            id="downloadFile" [disabled]="data.download_id==null || JsonVars.isRippleLoad" [ngClass]="{'disabledButton': data.download_id==null || JsonVars.isRippleLoad}"></button>
-            <a id="downloadFileClick" [href]="fileUrl" class="hide"></a>
-            </div>
-            <div (click)="getVdoLink(data)" *ngIf="proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3">
-              <button class="fa fa-eye" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="View" 
-              [disabled]="data.video_id==null" [ngStyle]="{'opacity':data.video_id==null ? '0.5' : '1' }">
-              </button>
-            </div>
-          </div>
-      </div>
-    </div>
-    </div>
-  </section>
-    </div>
-  </section>
+    </section>
+  </div>
+</section>
 <div class="black-bg" id="black-bg" *ngIf="viewDownloadPopup" (click)="viewDownloadPopup=false">
 </div>
 
 <div class="ga-modal-wrapper" [hidden]="showVideo">
   <div class="ga-modal-container">
-    <div class="ga-modal" >
+    <div class="ga-modal">
       <div style="font-size: 14px;padding: 5px;font-weight: 600;">
         <span>{{tempVideoData.session_name}}</span>
-          <span (click)="stopVideo()" style="float: right;cursor: pointer;padding-right: 5px;">
-            <span >X</span>
-          </span>
+        <span (click)="stopVideo()" style="float: right;cursor: pointer;padding-right: 5px;">
+          <span>X</span>
+        </span>
       </div>
       <div class="ga-modal-body">
         <div class="row upload-box">
-          <!-- <div id="embedBox" style="width:700px;max-width:100%;height:auto;"></div> -->          
-          <video width="600" controls src="{{JsonVars.video_url}}"> </video>
+          <div id="embedBox" style="width:700px;max-width:100%;height:auto;" *ngIf="JsonVars.view_proctur_live_recorded_session!=1"></div>
+          <video width="600" controls src="{{JsonVars.video_url}}" *ngIf="JsonVars.view_proctur_live_recorded_session==1"> </video>
         </div>
       </div>
     </div>
