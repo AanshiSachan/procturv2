@@ -137,6 +137,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.activatedRoute.queryParams.subscribe(params => {
           this.loginDataForm.alternate_email_id = params['user'];
           this.loginDataForm.password = atob(params['pass']);
+          this._commService.show_loader.next('student_login');
           this.loginViaServer();
         });
       }

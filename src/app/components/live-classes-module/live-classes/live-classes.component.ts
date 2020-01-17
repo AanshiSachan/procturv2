@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core'
-import { AuthenticatorService } from '../../../services/authenticator.service';
-import { LiveClasses } from '../../../services/live-classes/live-class.service';
+import { HttpService, MessageShowService } from '../../..';
+import { DomSanitizer } from '../../../../../node_modules/@angular/platform-browser';
 import { AppComponent } from '../../../app.component';
-import { MessageShowService, HttpService } from '../../..';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 declare var window;
 
 @Component({
@@ -37,13 +36,17 @@ export class LiveClassesComponent implements OnInit {
   classListDataSource: any = [];
   classList: any = [];
   searchData: any = [];
-  download_links:any=[];
+  download_links: any = [];
   searchDataFlag: boolean = false;
+  fileUrl:any=null;
+  fileName:any=null;
 
   JsonVars: any = {
     isRippleLoad: false,
     selected: false,
-    submitReq: false
+    submitReq: false,
+    video_url: null,
+    view_proctur_live_recorded_session:1
   }
 
   batches: any[] = [];
@@ -80,16 +83,17 @@ export class LiveClassesComponent implements OnInit {
   dateToday = moment().format('YYYY-MM-DD');
   dateFrom = moment(new Date()).format('YYYY-MM-DD');
   rescheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
+  institution_id:any=sessionStorage.getItem('institution_id');
   rescheduleclass = {
     end_datetime: "",
-    institution_id: this.service.institute_id,
+    institution_id: this.institution_id,
     session_id: "",
     start_datetime: ""
   }
   getOnlineClasses = {
     custUserIds: [],
     end_datetime: "",
-    institution_id: this.service.institute_id,
+    institution_id: this.institution_id,
     sent_notification_flag: 0,
     session_name: "",
     start_datetime: "",
@@ -97,7 +101,7 @@ export class LiveClassesComponent implements OnInit {
     teacherIds: []
   }
   getPayloadBatch = {
-    inst_id: this.service.institute_id,
+    inst_id: this.institution_id,
     coursesArray: [''],
     role: 'student'
   }
@@ -120,22 +124,22 @@ export class LiveClassesComponent implements OnInit {
   sendSMSNotification: boolean = false;
   sendPushNotification: boolean = false;
   forUser: boolean = false;
-  proctur_live_expiry_date_check : boolean = false;
-  viewDownloadPopup:boolean = false;
-  tempVideoData: any ={};
+  proctur_live_expiry_date_check: boolean = false;
+  viewDownloadPopup: boolean = false;
+  tempVideoData: any = {};
   showVideo: boolean = true;
   videoObject: any;
-  proctur_live_view_or_download_visibility:any=0;
+  proctur_live_view_or_download_visibility: any = 0;
   searchText: any = "";
 
 
   constructor(
     private auth: AuthenticatorService,
-    private service: LiveClasses,
     private appC: AppComponent,
     private router: Router,
     private _http: HttpService,
-    private msgService: MessageShowService
+    private msgService: MessageShowService,
+    private sanitizer: DomSanitizer
     ) {
   }
 
@@ -156,6 +160,7 @@ export class LiveClassesComponent implements OnInit {
     }
 
     this.getClassesList();
+    this.institution_id = sessionStorage.getItem('institution_id')
   }
 
   checkLiveClassExpiry(proctur_live_expiry_date) {
@@ -166,30 +171,32 @@ export class LiveClassesComponent implements OnInit {
     if(proctur_live_expiry_date < currentDate){
       this.proctur_live_expiry_date_check = true;
     }
-    if(proctur_live_expiry_date == currentDate){
+    if (proctur_live_expiry_date == currentDate) {
       this.proctur_live_expiry_date_check = false;
-    } 
+    }
   }
 
   getClassesList() {
     this.PageIndex = 1;
     this.JsonVars.isRippleLoad = true;
     this.obj = {
-      institution_id: this.service.institute_id,
+      institution_id:this.institution_id,
     }
     const userType: any = sessionStorage.getItem('userType');
     if (userType != 0) {
       const userid: any = sessionStorage.getItem('userid');
       this.obj.user_id = userid;
     }
-    this.service.fetchOnlineClasses(this.obj).subscribe(
+    const url = '/api/v1/meeting_manager/getMeeting/' + this.institution_id;
+    this._http.postData(url,this.obj).subscribe(
       (data: any) => {
         this.JsonVars.isRippleLoad = false;
         this.previosLiveClasses = data.pastLiveClasses;
         this.futureLiveClasses = data.upcomingLiveClasses;
         const proctur_live_expiry_date = data.proctur_live_expiry_date;
-        sessionStorage.setItem('proctur_live_expiry_date',proctur_live_expiry_date);
-        if(proctur_live_expiry_date!=null) {
+        this.JsonVars.view_proctur_live_recorded_session  = data.view_proctur_live_recorded_session;
+        sessionStorage.setItem('proctur_live_expiry_date', proctur_live_expiry_date);
+        if (proctur_live_expiry_date != null) {
           this.checkLiveClassExpiry(proctur_live_expiry_date);
         }
         this.proctur_live_view_or_download_visibility = data.proctur_live_view_or_download_visibility;
@@ -220,6 +227,25 @@ export class LiveClassesComponent implements OnInit {
     else {
       return false;
     }
+  }
+
+  allowStartLiveCLass(link, session_id){
+    const url = `/api/v1/meeting_manager/session/start/${this.institution_id}/${session_id}`;
+    this.JsonVars.isRippleLoad = true;
+    this._http.getData(url).subscribe(
+      (res:any)=>{
+        this.JsonVars.isRippleLoad = false;
+        if(res.result.allow_start_session){
+          window.open(link, "_blank");
+        } else{
+          this.msgService.showErrorMessage('info','',res.result.allow_start_session_message);
+        }
+      },
+      (err)=>{
+        this.JsonVars.isRippleLoad = false;
+        console.log(err);
+      }
+    )
   }
 
   startLiveClass(link, start_time) {
@@ -321,6 +347,15 @@ export class LiveClassesComponent implements OnInit {
       this.getClasses = this.futureLiveClasses;
       this.classListDataSource = this.futureLiveClasses;
     }
+    if(!this.isProfessional){
+      this.getClasses.forEach(element => {
+        element.course = Array.prototype.map.call(element.course_list, s => s.course_name).toString();
+      })
+    } else{
+      this.getClasses.forEach(element => {
+        element.course = Array.prototype.map.call(element.batch_list, s => s.batch_name).toString();
+      })
+    }
     this.totalRow = this.getClasses.length;
     this.fetchTableDataByPage(this.PageIndex);
   }
@@ -367,10 +402,10 @@ export class LiveClassesComponent implements OnInit {
       return "00:00 hrs";
     }
     else {
-      if(hrs == 0){
+      if (hrs == 0) {
         return mins + " mins";
       }
-      else{
+      else {
         return time + " hrs";
       }
     }
@@ -492,7 +527,8 @@ export class LiveClassesComponent implements OnInit {
 
     }
     if (confirm("Are you sure you want to send SMS notification ? ")) {
-      this.service.smsNotification(id, obj).subscribe(
+      const url = "/api/v1/meeting_manager/sendSMSNotification/" + id;
+      this._http.postData(url, obj).subscribe(
         (data: any) => {
           this.appC.popToast({ type: "success", body: "SMS notification sent successfully" })
           // this.getClassesList();
@@ -507,7 +543,8 @@ export class LiveClassesComponent implements OnInit {
   pushNotification(id) {
     let obj = {};
     if (confirm("Are you sure you want to send push notification ?")) {
-      this.service.pushNotification(id, obj).subscribe(
+      let url = "/api/v1/meeting_manager/sendPushNotification/" + id;
+      this._http.postData(url, obj).subscribe(
         (data: any) => {
           this.appC.popToast({ type: "success", body: "Push notification sent successfully" })
           // this.getClassesList();
@@ -525,7 +562,8 @@ export class LiveClassesComponent implements OnInit {
   }
 
   cancelSession() {
-    this.service.cancelSchedule(this.cancelSessionId).subscribe(
+    let url = "/api/v1/meeting_manager/delete/" + sessionStorage.getItem('institution_id') + "/" + this.cancelSessionId;
+    this._http.deleteData(url,this.cancelSessionId).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: "Live class session cancelled successfully" })
         this.alertBox = true;
@@ -589,14 +627,15 @@ export class LiveClassesComponent implements OnInit {
     this.rescheduleclass.end_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
     this.rescheduleclass.start_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourToReschedule.split(' ')[1]
 
-    this.service.rescheduleClass(this.rescheduleclass).subscribe(
+    const url ="/api/v1/meeting_manager/reschedule/" + sessionStorage.getItem('institution_id') + "/" + this.rescheduleclass.session_id;
+    this._http.postData(url,this.rescheduleclass).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: "Class rescheduled successfully" })
         this.rescheduleClass = false;
         this.openClassPopup = false;
         this.rescheduleclass = {
           end_datetime: "",
-          institution_id: this.service.institute_id,
+          institution_id: sessionStorage.getItem('institution_id'),
           session_id: "",
           start_datetime: ""
         }
@@ -613,44 +652,93 @@ export class LiveClassesComponent implements OnInit {
   }
 
   downloadFile(object) {
-    const url = object.download_link;
-      var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
-      hiddenDownload.href = url;
-      hiddenDownload.download = object.session_name;
-      hiddenDownload.click();     
+    const url = `/api/v1/meeting_manager/recording/download/${sessionStorage.getItem('institution_id')}/${object.download_id}` + '?type=0';
+    this.JsonVars.isRippleLoad = true;
+    this._http.downloadItem(url, 'video/mp4').subscribe(
+      (response: any) => {
+        this.JsonVars.isRippleLoad = false;
+        if (response) {
+          const blob = new Blob([response], { type: 'video/mp4' });
+          this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+          if (this.fileUrl != null) {
+            this.fileName = object.session_name.concat('.mp4');
+            setTimeout(() => {
+              var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
+              hiddenDownload.download = this.fileName;
+              hiddenDownload.click();
+            }, 500);
+          }
+        }
+      },
+      err => {
+        this.JsonVars.isRippleLoad = false;
+        if (err.status == 400) {
+          this.msgService.showErrorMessage('error', '', 'You are out of storage! Please contact our support');
+        } else {
+          this.msgService.showErrorMessage('error', '', 'There is some problem processing your request.Please contact support@proctur.com');
+        }
+        console.log(err);
+      }
+    )
+  }
+
+  getVdoLink(object) {
+    const url = `/api/v1/meeting_manager/recording/download/${sessionStorage.getItem('institution_id')}/${object.download_id}` + '?type=1 '
+    this.JsonVars.isRippleLoad = true;
+    this.viewDownloadPopup = false;
+    this._http.getData(url).subscribe(
+      (response: any) => {
+        this.JsonVars.isRippleLoad = false;
+        console.log(response);
+        if (response && response.video_url) {
+          this.showVideo = false;
+          this.JsonVars.video_url = atob(response.video_url);
+          console.log(this.JsonVars.video_url);
+        }
+      },
+      err => {
+        this.JsonVars.isRippleLoad = false;
+        if (err.status == 400) {
+          this.msgService.showErrorMessage('error', '', 'You are out of storage! Please contact our support');
+        } else {
+          this.msgService.showErrorMessage('error', '', 'There is some problem processing your request.Please contact support@proctur.com');
+        }
+        console.log(err);
+      }
+    )
   }
 
   // Live class integration with VDOCipher
   getVdocipherVideoOtp(obj) {
-    this.viewDownloadPopup  = false;
-      let url = "/api/v1/instFileSystem/videoOTP";
-      let data = {
-        "videoID": obj.video_id,
-        "institute_id": sessionStorage.getItem("institute_id"),
-        "user_id": sessionStorage.getItem("userid")
-      }
-      this.tempVideoData = obj;
-      this.JsonVars.isRippleLoad = true;
-      this._http.postData(url, data).subscribe((response) => {
-        this.JsonVars.isRippleLoad = false;
-        if (response == null) {
-          let obj = {
-            "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
-            "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
-          }
-          this.ShowVideo(obj.otp, obj.playbackInfo);
-        } else {
-          let obj = {
-            "otp": response['otp'],
-            "playbackInfo": response['playbackInfo']
-          }
-          this.ShowVideo(obj.otp, obj.playbackInfo);
+    this.viewDownloadPopup = false;
+    let url = "/api/v1/instFileSystem/videoOTP";
+    let data = {
+      "videoID": obj.video_id,
+      "institute_id": sessionStorage.getItem("institute_id"),
+      "user_id": sessionStorage.getItem("userid")
+    }
+    this.tempVideoData = obj;
+    this.JsonVars.isRippleLoad = true;
+    this._http.postData(url, data).subscribe((response) => {
+      this.JsonVars.isRippleLoad = false;
+      if (response == null) {
+        let obj = {
+          "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
+          "playbackInfo": "eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ=="
         }
-      },
-        (err) => {
-          this.JsonVars.isRippleLoad = false;
-          this.msgService.showErrorMessage('error', '', err.error.message);
-        });
+        this.ShowVideo(obj.otp, obj.playbackInfo);
+      } else {
+        let obj = {
+          "otp": response['otp'],
+          "playbackInfo": response['playbackInfo']
+        }
+        this.ShowVideo(obj.otp, obj.playbackInfo);
+      }
+    },
+      (err) => {
+        this.JsonVars.isRippleLoad = false;
+        this.msgService.showErrorMessage('error', '', err.error.message);
+      });
   }
 
   ShowVideo(otpString, playbackInfoString) {
@@ -671,14 +759,21 @@ export class LiveClassesComponent implements OnInit {
 
   stopVideo() {
     this.showVideo = true;
-    if(this.videoObject){
-       this.videoObject.pause(); // removes video 
+    if (this.videoObject) {
+      this.videoObject.pause(); // removes video 
     }
   }
 
-  viewdownload_links(obj){
+  viewdownload_links(obj) {
     this.viewDownloadPopup = true;
     this.download_links = obj;
+  }
+
+  // @HostListener("document:keydown", ['$event'])
+  // @HostListener("document:contextmenu", ['$event'])  
+  onMouseOver($event) {
+    $event.preventDefault();
+    return false;
   }
 
 }

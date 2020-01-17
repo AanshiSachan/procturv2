@@ -7,13 +7,15 @@ import {AuthPageRoutingModule} from './auth-page-routing.module';
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LoginPageComponent } from './login-page/login-page.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [
         FormsModule,
         ReactiveFormsModule,
         AuthPageRoutingModule,
-        CommonModule
+        CommonModule,
+        SharedModule
       ],
     declarations: [
         AuthPageComponent,

@@ -1,19 +1,19 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { LoginService } from '../../../services/login-services/login.service';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { LoginService } from '../../../services/login-services/login.service';
+import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })
-export class SideBarComponent implements OnInit , AfterViewInit{
+export class SideBarComponent implements OnInit, AfterViewInit {
 
 
   @ViewChild('divAdminTag') divAdminTag: ElementRef;
@@ -92,7 +92,6 @@ export class SideBarComponent implements OnInit , AfterViewInit{
 
 
   constructor(
-    private login: LoginService,
     private auth: AuthenticatorService,
     private log: LoginService,
     private router: Router,
@@ -181,8 +180,8 @@ export class SideBarComponent implements OnInit , AfterViewInit{
 
   }
 
-  hideForUsers(){
-    if(sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0'){
+  hideForUsers() {
+    if (sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0') {
       return true;
     }
     else {
@@ -766,7 +765,7 @@ export class SideBarComponent implements OnInit , AfterViewInit{
   }
 
   getCountryData(institute_id) {
-    this.login.getInstituteCountryDetails(institute_id).subscribe(
+    this.log.getInstituteCountryDetails(institute_id).subscribe(
       (res: any) => {
         let country_info = res;
         for (let i = 0; i < country_info.length; i++) {
@@ -854,17 +853,18 @@ export class SideBarComponent implements OnInit , AfterViewInit{
   };
 
   hasInventoryAccess() {
-    if (sessionStorage.getItem('permissions') == '' && sessionStorage.getItem('userType') != '3') {
-      return true;
-    }
-    else if ((sessionStorage.getItem('permissions')).includes('301')) {
-      if (sessionStorage.getItem('userType') != '3') {
-        return false;
-      } else {
+
+        if (sessionStorage.getItem('permissions') == '' && sessionStorage.getItem('userType') != '3') {
         return true;
       }
-    }
-    else {
+      else if ((sessionStorage.getItem('permissions')).includes('301')) {
+        if (sessionStorage.getItem('userType') != '3') {
+          return false;
+        } else {
+          return true;
+        }
+      }
+     else {
       return false;
     }
   }
@@ -1071,7 +1071,7 @@ export class SideBarComponent implements OnInit , AfterViewInit{
         this.searchBar = false;
       }
       else
-      this.router.navigate(['/view/leads/enquiry/edit/' +d.data.id]);{
+        this.router.navigate(['/view/leads/enquiry/edit/' + d.data.id]); {
         // this.router.navigate(['/view/leads'], { queryParams: { id: d.data.id, action: d.action } });
         this.searchBar = false;
       }
