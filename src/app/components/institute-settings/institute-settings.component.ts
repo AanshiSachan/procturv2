@@ -480,22 +480,26 @@ export class InstituteSettingsComponent implements OnInit {
     obj.course_or_batch_expiry_notification_before_no_days = this.instituteSettingDet.course_or_batch_expiry_notification_before_no_days;
     obj.course_or_batch_expiry_notification_contact_no = this.instituteSettingDet.course_or_batch_expiry_notification_contact_no;
     if(this.instituteSettingDet.course_or_batch_expiry_notification){
-        if(!this.checkContactNoPattern(this.checkContactNoPattern(this.instituteSettingDet.course_or_batch_expiry_notification_contact_no))){
+      if(this.instituteSettingDet.course_or_batch_expiry_notification_contact_no != '' && this.instituteSettingDet.course_or_batch_expiry_notification_contact_no != null){
+        if(!(this.checkContactNoPattern(this.checkContactNoPattern(this.instituteSettingDet.course_or_batch_expiry_notification_contact_no)))){
           this.isRippleLoad = false;
           this.commonService.showErrorMessage('error','','Please enter numbers only');
           return false;
         }
+      }
     }
     
     obj.student_expiry_notification_before_no_days = this.instituteSettingDet.student_expiry_notification_before_no_days;
     obj.student_expiry_notification_contact_no = this.instituteSettingDet.student_expiry_notification_contact_no;
     obj.enable_student_expiry_notification =  this.sendExpiryNotifctnKeys();
     if(this.instituteSettingDet.enable_student_expiry_notification == 16 || this.instituteSettingDet.enable_student_expiry_notification == 18){
+      if(this.instituteSettingDet.student_expiry_notification_contact_no != null && this.instituteSettingDet.student_expiry_notification_contact_no != ''){
         if(!(this.checkContactNoPattern(this.checkContactNoPattern(this.instituteSettingDet.student_expiry_notification_contact_no)))){
           this.isRippleLoad = false;
           this.commonService.showErrorMessage('error','','Please enter numbers only')
           return false;
         }
+      }
     }
 
     obj.first_sms_low_balance_threshold = this.instituteSettingDet.first_sms_low_balance_threshold != null && this.instituteSettingDet.first_sms_low_balance_threshold != '' && this.instituteSettingDet.first_sms_low_balance_threshold != 0? this.instituteSettingDet.first_sms_low_balance_threshold : 0;
