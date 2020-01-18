@@ -72,12 +72,16 @@
         <div class="table_value_item large" title="{{data.product_name}}">
           <span *ngIf="data.product_name.length<=2">
             <span class="product_List_Container" *ngFor="let product of data.product_name">
-              {{product}}
+              {{ (product.length>15) ? (product | slice:0:15) + '...' : product }}
             </span>
           </span>
           <span *ngIf="data.product_name.length>2">
-            <span class="product_List_Container">{{data.product_name[0]}} </span>&nbsp;
-            <span class="product_List_Container">{{data.product_name[1]}} </span>
+            <span class="product_List_Container">
+              {{ (data.product_name[0].length>15) ? (data.product_name[0] | slice:0:15) + '...' : data.product_name[0] }}
+            </span>&nbsp;
+            <span class="product_List_Container">
+              {{ (data.product_name[1].length>15) ? (data.product_name[1] | slice:0:15) + '...' : data.product_name[1] }}
+             </span>
             ...
           </span>
         </div>

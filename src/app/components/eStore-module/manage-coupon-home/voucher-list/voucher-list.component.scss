@@ -93,7 +93,7 @@
   overflow-y: auto;
 }
   .table_value{
-    height: 34px;
+    min-height: 34px;
     display: flex;
     flex-direction: row;
     background: #ffffff;
