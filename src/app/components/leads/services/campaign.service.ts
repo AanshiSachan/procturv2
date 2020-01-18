@@ -272,5 +272,13 @@ export class CampaignService {
     );
   }
 
+  fetchSmsReport(obj){
+    this.url = this.baseUrl + "/api/v1/lead_manager/smsReport";
+    return this.http.post(this.url, obj, { headers: this.headers }).map(
+      data => { return data },
+      err => { return err; }
+    );
+  }
+
 
 }
