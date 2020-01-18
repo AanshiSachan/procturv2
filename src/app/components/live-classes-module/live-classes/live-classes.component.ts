@@ -773,7 +773,12 @@ export class LiveClassesComponent implements OnInit {
     this.download_links = obj;
   }
 
-  @HostListener("document:keydown", ['$event'])
+  @HostListener('document:keydown', ['$event'])
+  onPopState(event) {
+     if (event.keyCode == 123 || (event.ctrlKey && event.shiftKey && event.keyCode == 73) ) {
+      event.preventDefault();
+    }
+  }
   @HostListener("document:contextmenu", ['$event'])  
   onMouseOver($event) {
     $event.preventDefault();

@@ -356,7 +356,7 @@
                 [disabled]="data.video_id==null" [ngStyle]="{'opacity':data.video_id==null ? '0.5' : '1' }">
               </button>
             </div>
-            <div (click)="getVdoLink(data)" *ngIf="(JsonVars.view_proctur_live_recorded_session==1||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==3)">
+            <div (click)="getVdoLink(data)" *ngIf="(JsonVars.view_proctur_live_recorded_session==1||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==3 || proctur_live_view_or_download_visibility==2)">
               <button class="fa fa-play" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="View">
               </button>
             </div>
