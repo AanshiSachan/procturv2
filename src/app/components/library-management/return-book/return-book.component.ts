@@ -466,7 +466,7 @@ export class ReturnBookComponent implements OnInit {
         break;
       case 'lessThanIssueDate':
         this.tempReturnDate = moment().format("DD MMM YYYY");
-        this.messageHandler('error', 'Issue date must be greater than return date', '');
+        this.messageHandler('error', 'Return date can not be less than issue date', '');
         break;
       case 'greaterthanFutureDate':
           this.tempReturnDate = moment().format("DD MMM YYYY");
