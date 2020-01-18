@@ -4,11 +4,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap-custome';
 import { SmsReportsRoutingModule } from './sms-reports-routing.module';
 import { SmsReportsComponent } from './sms-reports.component';
 import { TransctionalSmsComponent } from './transctional-sms/transctional-sms.component';
-import { CompaignSmsComponent } from './compaign-sms/compaign-sms.component';
 import { SmsHomeComponent } from './sms-home/sms-home.component';
 import { ReactiveFormsModule } from '../../../../../node_modules/@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
-import { CompaignBaseReportComponent } from './compaign-base-report/compaign-base-report.component';
 
 @NgModule({
   imports: [
@@ -20,8 +18,6 @@ import { CompaignBaseReportComponent } from './compaign-base-report/compaign-bas
   declarations: [
     SmsReportsComponent,
     TransctionalSmsComponent,
-    CompaignSmsComponent,
-    SmsHomeComponent,
-    CompaignBaseReportComponent]
+    SmsHomeComponent]
 })
 export class SmsReportsModule { }
