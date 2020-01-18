@@ -1692,6 +1692,31 @@
                         Note: SMS Notification on all the above events works when SMS Notification Flag is enabled
                       </td>
                     </tr>
+                    <tr>
+                      <td colspan="6">                        
+                          <h3>Low SMS Balance Reminder</h3>
+                          <div class="row">
+                          <div class="c-lg-5 c-md-5 c-sm-5 field-wrapper">
+                            <label>
+                              Threshold SMS 1
+                            </label>
+                            <input type="number" [(ngModel)]="instituteSettingDet.first_sms_low_balance_threshold" class="form-ctrl"/>
+                          </div>
+                          <div class="c-lg-6 c-md-6 c-sm-6 field-wrapper">
+                            <label>
+                              Threshold SMS 2 <span class="thres-lbl-2">(Threshold 2 should be less than Threshold 1)</span>
+                            </label>
+                            <input type="number" [(ngModel)]="instituteSettingDet.second_sms_low_balance_threshold" class="form-ctrl"/>
+                          </div>
+                          </div>
+                          <div class="row">
+                            <div class="c-sm-5 c-md-5 c-lg-5 field-wrapper">
+                              <label>SMS Balance Alert Contact No. (Comma Seperated)</label>
+                              <input type="text" [(ngModel)]="instituteSettingDet.sms_low_balance_alert_contact_number" class="form-ctrl"/>
+                            </div>
+                        </div>
+                      </td>
+                    </tr>
 
                   </tbody>
                 </table>
