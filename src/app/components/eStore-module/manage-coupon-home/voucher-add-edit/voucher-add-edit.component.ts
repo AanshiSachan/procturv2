@@ -75,7 +75,7 @@ export class VoucherAddEditComponent implements OnInit {
   }
 
   validateForm() {
-    if (this.addVoucherModel.flat_discount_amount === '' || this.addVoucherModel.maximum_coupons_per_user === '' 
+    if (this.addVoucherModel.flat_discount_amount === ''
     || this.addVoucherModel.product_id_list.length === 0 || this.addVoucherModel.offer_code === ''
      || this.addVoucherModel.start_date === null || this.addVoucherModel.end_date === null) {
       return false;
