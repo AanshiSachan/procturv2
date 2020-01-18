@@ -481,7 +481,7 @@ export class InstituteSettingsComponent implements OnInit {
     obj.course_or_batch_expiry_notification_contact_no = this.instituteSettingDet.course_or_batch_expiry_notification_contact_no;
     if(this.instituteSettingDet.course_or_batch_expiry_notification){
       if(this.instituteSettingDet.course_or_batch_expiry_notification_contact_no != '' && this.instituteSettingDet.course_or_batch_expiry_notification_contact_no != null){
-        if(!(this.checkContactNoPattern(this.checkContactNoPattern(this.instituteSettingDet.course_or_batch_expiry_notification_contact_no)))){
+        if(!(this.checkContactNoPattern(this.instituteSettingDet.course_or_batch_expiry_notification_contact_no))){
           this.isRippleLoad = false;
           this.commonService.showErrorMessage('error','','Please enter numbers only');
           return false;
@@ -494,7 +494,7 @@ export class InstituteSettingsComponent implements OnInit {
     obj.enable_student_expiry_notification =  this.sendExpiryNotifctnKeys();
     if(this.instituteSettingDet.enable_student_expiry_notification == 16 || this.instituteSettingDet.enable_student_expiry_notification == 18){
       if(this.instituteSettingDet.student_expiry_notification_contact_no != null && this.instituteSettingDet.student_expiry_notification_contact_no != ''){
-        if(!(this.checkContactNoPattern(this.checkContactNoPattern(this.instituteSettingDet.student_expiry_notification_contact_no)))){
+        if(!(this.checkContactNoPattern(this.instituteSettingDet.student_expiry_notification_contact_no))){
           this.isRippleLoad = false;
           this.commonService.showErrorMessage('error','','Please enter numbers only')
           return false;
