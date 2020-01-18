@@ -341,6 +341,8 @@ export class StudentHomeComponent implements OnInit {
           /* records */
           if (res.length != 0) {
             this.totalRow = res[0].total_student_count;
+          //  this._commService.contactNoPatternChange(res);
+           this.contactNoPatternChange(res);
             this.studentDataSource = res;
           }
           else {
@@ -375,7 +377,9 @@ export class StudentHomeComponent implements OnInit {
         res => {
           this.isRippleLoad = false;
           if (res.length != 0) {
-            this.studentDataSource = res;
+            //this._commService.contactNoPatternChange(res); 
+            this.contactNoPatternChange(res);
+            this.studentDataSource = res;            
           }
           else {
             let alert = {
@@ -405,13 +409,37 @@ export class StudentHomeComponent implements OnInit {
     }
   }
 
+  contactNoPatternChange(list) {
+    if(sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') { // if user is admin
+    if(sessionStorage.getItem('permissions') != null && sessionStorage.getItem('permissions') != ''){
+        var permissions = JSON.parse(sessionStorage.getItem('permissions'));
+        if(!permissions.includes('726')){
+            list.forEach(el =>{
+            var countryCode = el.student_phone.split('-')[0];
+            var phnNo = el.student_phone.split('-')[1];
+            var result;
+            if(phnNo.length > 4){
+            result = phnNo.replace(/\d{4}$/, 'XXXX');
+            }
+            else {
+            result = phnNo.replace(/\d{1}$/, 'X');
+            }
+            el.student_phone = countryCode + '-' + result;
+        })
+        }
+    }
+    }
+}
+
   downloadStudentIDCard() {
     console.log(this.selectedUserId)
     let studentId = this.getListOfIds(this.selectedRowGroup).split(',');
     const url = '/admit-card/download';
+    this.isRippleLoad = true;
     this.postService.stdPostData(url, studentId).subscribe(
       (res: any) => {
         console.log(res);
+        this.isRippleLoad = false;
         if (res) {
           let resp = res.response;
           if (resp.document != "") {
@@ -429,6 +457,7 @@ export class StudentHomeComponent implements OnInit {
             this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
           }
         } else {
+          this.isRippleLoad = false;
           this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
         }
       },
@@ -730,6 +759,7 @@ export class StudentHomeComponent implements OnInit {
       course_id: this.instituteData.course_id
     }
 
+    this.isRippleLoad = true;
     this.studentFetch.downloadStudentTableasXls(data).subscribe(
       (res: any) => {
         let byteArr = this._commService.convertBase64ToArray(res.document);
@@ -744,6 +774,7 @@ export class StudentHomeComponent implements OnInit {
         dwldLink.click();
       },
       err => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'error',
           title: 'Failed To Download XLS',

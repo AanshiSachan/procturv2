@@ -137,6 +137,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.activatedRoute.queryParams.subscribe(params => {
           this.loginDataForm.alternate_email_id = params['user'];
           this.loginDataForm.password = atob(params['pass']);
+          this._commService.show_loader.next('student_login');
           this.loginViaServer();
         });
       }
@@ -249,16 +250,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.login.getInstituteCountryDetails(institute_id).subscribe(
       (res: any) => {
         this.countryDetails = res;
-        let country_info = JSON.stringify(res);
-        // console.log(country_info);
-        sessionStorage.setItem('country_data', country_info);
         for (let i = 0; i < this.countryDetails.length; i++) {
           let row: any = this.countryDetails[i];
+          row.symbol = this.getCurrencyDetails(900, row.currency_code, row.country_code);
           if (row.is_default == 'Y') {
-            let symbol = this.getCurrencyDetails(900, row.currency_code, row.country_code);
-            this._commService.setDefaultCurrencySymbol(symbol);
+            this._commService.setDefaultCurrencySymbol(row.symbol);
           }
         }
+        sessionStorage.setItem('country_data', JSON.stringify(this.countryDetails));
       },
       err => {
         console.log(err);

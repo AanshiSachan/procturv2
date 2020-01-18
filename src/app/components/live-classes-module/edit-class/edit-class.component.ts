@@ -4,7 +4,6 @@ import * as moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { AppComponent } from '../../../app.component';
-import { LiveClasses } from '../../../services/live-classes/live-class.service';
 import { ProductService } from '../../../services/products.service';
 import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../..';
@@ -31,6 +30,8 @@ export class EditClassComponent implements OnInit {
   selectedUserList: any[] = [];
   selectedFacultyList: any[] = [];
   selectedModeratorList: any[] = [];
+  selectedCourseList: any[] = [];
+  selectedBatchList :any[] = [];
 
   dropdownList = [];
   teachersAssigned: any[] = [];
@@ -42,6 +43,8 @@ export class EditClassComponent implements OnInit {
   moderatorSettings = {};
   studentListSettings = {};
   userListSetting = {};
+  courseListSetting = {};
+  batchListSetting = {};
 
 
 
@@ -57,8 +60,8 @@ export class EditClassComponent implements OnInit {
   batches: any[] = [];
   masters: any[] = [];
   courses: any[] = [];
-  courseIds: any[] = [];
-  batchesIds: any[] = [];
+  courseIds: any = null;
+  batchesIds: any = null;
   courseId: any[] = [];
 
   dateTimeStatus: boolean = false;
@@ -68,8 +71,11 @@ export class EditClassComponent implements OnInit {
   hoursTo: string = '';
   minuteTo: string = '';
   scheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
+  institution_id:any=sessionStorage.getItem('institution_id');
+  userType: any;
+  username:any = '';
   getPayloadBatch = {
-    inst_id: this.service.institute_id,
+    inst_id: this.institution_id,
     coursesArray: [''],
     role: 'student'
   }
@@ -77,7 +83,7 @@ export class EditClassComponent implements OnInit {
   updateOnlineClass = {
     custUserIds: [],
     end_datetime: "",
-    institution_id: this.service.institute_id,
+    institution_id: this.institution_id,
     sent_notification_flag: 0,
     session_name: "",
     start_datetime: "",
@@ -88,6 +94,8 @@ export class EditClassComponent implements OnInit {
     private_access: false,
     access_enable_lobby: false,
     access_before_start: 0,
+    batch_list:null,
+    course_list:null
   }
 
   editSessionId: any;
@@ -97,7 +105,6 @@ export class EditClassComponent implements OnInit {
     private auth: AuthenticatorService,
     private router: Router,
     private appC: AppComponent,
-    private service: LiveClasses,
     private route: ActivatedRoute,
     private product_service: ProductService,
     private http_service: HttpService,
@@ -105,7 +112,9 @@ export class EditClassComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.institution_id = sessionStorage.getItem('institution_id');
+    this.userType = sessionStorage.getItem('userType');
+    this.username = sessionStorage.getItem('username');
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
@@ -145,12 +154,32 @@ export class EditClassComponent implements OnInit {
     this.userListSetting = {
       singleSelection: false,
       idField: 'user_id',
-      textField: 'user_name',
+      textField: 'name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 10,
       enableCheckAll: true
     };
+
+    this.courseListSetting = {
+      singleSelection: false,
+      idField: 'course_id',
+      textField: 'course_name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 10,
+      enableCheckAll: true
+    }
+
+    this.batchListSetting = {
+      singleSelection: false,
+      idField: 'batch_id',
+      textField: 'batch_name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 10,
+      enableCheckAll: true
+    }
 
     this.editSessionId = this.route.snapshot.paramMap.get('id');
     this.repeat_session = this.route.snapshot.queryParams["repeat"];
@@ -186,10 +215,11 @@ export class EditClassComponent implements OnInit {
   onChangeProduct(event) {
     let institute_id = sessionStorage.getItem('institute_id');
     let url = `/api/v1/meeting_manager/userDetailByProductID/${institute_id}/${event}`;
+    this.isRippleLoad = true;
     this.http_service.getData(url).subscribe(
       (data: any) => {
-        this.userList = data.result;
-        console.log(this.userList);
+        this.isRippleLoad = false;
+        this.userList = data;
       },
       (error: any) => {
         this.isRippleLoad = false;
@@ -200,12 +230,12 @@ export class EditClassComponent implements OnInit {
 
   getLiveClassData() {
     this.isRippleLoad = true;
-    this.service.getOnlineClass(this.editSessionId).subscribe(
+    const url ='/api/v1/meeting_manager/getMeeting/' + this.institution_id +"/"+this.editSessionId;
+    this.http_service.getData(url).subscribe(
       (data: any) => {
         console.log(data)
         this.editData = data;
         this.topicName = this.editData.session_name;
-        this.product_id = this.editData.product_id;
 
         if (this.editData.sent_notification_flag == 1) {
           this.editData.sent_notification_flag = true;
@@ -234,13 +264,22 @@ export class EditClassComponent implements OnInit {
           this.minuteTo = endTime.split(' ')[0].split(':')[1];
         }
 
+        this.batchesIds = this.editData.batch_list;
+        if(this.editData.course_list.length>0){
+        this.courseValue = this.editData.course_list[0].master_course_name;
+        }
+        this.getCourses(this.courseValue);
+        this.courseIds = this.editData.course_list;
+        this.getBatchesCourses();
+        this.getCoursepreFillData();
         this.getTeachers();
         this.getCustomUsers();
 
         if (this.editData.product_id != null) {
+          this.product_id = this.editData.product_id;
           this.getUserpreFillData();
         }
-
+        // this.getStudentpreFillData();
       },
       (error: any) => {
         this.isRippleLoad = false;
@@ -251,7 +290,7 @@ export class EditClassComponent implements OnInit {
 
 
   getEvent(event) {
-    const proctur_live_expiry_date:any = sessionStorage.getItem('proctur_live_expiry_date');
+    let proctur_live_expiry_date:any = sessionStorage.getItem('proctur_live_expiry_date');
     if (moment(event).diff(moment(), 'days') < 0) {
       let msg = {
         type: "info",
@@ -260,7 +299,11 @@ export class EditClassComponent implements OnInit {
       this.appC.popToast(msg);
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
     }
-    if(new Date(proctur_live_expiry_date)<new Date(event) && new Date(proctur_live_expiry_date)!=new Date(event)){
+    event = (new Date(event));
+    proctur_live_expiry_date = (new Date(proctur_live_expiry_date));
+    event.setHours(0,0,0,0);
+    proctur_live_expiry_date.setHours(0,0,0,0);
+    if(proctur_live_expiry_date< event && proctur_live_expiry_date!=event){
       const tempMsg = 'Your live class subscription will get expired on '.concat(moment(proctur_live_expiry_date).format('DD-MMM-YYYY')).concat(' hence you will not be able create live class. Renew your subscription to conduct live classes again!');      
       this.msgService.showErrorMessage('info','' , tempMsg);
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
@@ -330,6 +373,53 @@ export class EditClassComponent implements OnInit {
     }
   }
 
+  getBatchpreFillData() {
+
+    let userIDs:any=[];
+    let userName:any=[];
+    this.batchesIds.forEach(element => {
+      userIDs.push(element.batch_id);
+      userName.push(element.batch_name)
+    });
+
+    let temp: any[] = [];
+    for (var i = 0; i < userIDs.length; i++) {
+      let x = {
+        batch_id: '',
+        batch_name: ''
+      };
+      x.batch_id = userIDs[i];
+      x.batch_name=userName[i];
+      temp.push(x)
+    }
+    // this.course = temp;
+    this.selectedBatchList = temp;
+  }
+
+
+  getCoursepreFillData() {
+
+    let userIDs:any=[];
+    let userName:any=[];
+    this.courseIds.forEach(element => {
+      userIDs.push(element.course_id);
+      userName.push(element.course_name)
+    });
+
+    let temp: any[] = [];
+    for (var i = 0; i < userIDs.length; i++) {
+      let x = {
+        course_id: '',
+        course_name: ''
+      };
+      x.course_id = userIDs[i];
+      x.course_name=userName[i];
+      temp.push(x)
+    }
+    // this.course = temp;
+    this.selectedCourseList = temp;
+  }
+
 
   getStudentpreFillData() {
 
@@ -347,7 +437,7 @@ export class EditClassComponent implements OnInit {
       temp.push(x)
     }
 
-    this.studentList = temp;
+    // this.studentList = temp;
     this.selectedStudentList = temp;
 
   }
@@ -360,38 +450,47 @@ export class EditClassComponent implements OnInit {
     for (var i = 0; i < userIDs.length; i++) {
       let x = {
         user_id: '',
-        user_name: ''
+        name: ''
       };
       x.user_id = userIDs[i];
-      x.user_name=userName[i];
+      x.name=userName[i];
       temp.push(x)
     }
     this.userList = temp;
     this.selectedUserList = temp;
-
   }
 
   scheduleClass() {
 
     let validationFlag = true;
-    // if(!this.isProfessional){
-    //   if(this.courseIds != null && this.courseValue != null && this.courseValue != ''){
-    //     validationFlag = true;
-    //   }
-    //   else{
-    //     validationFlag = false;
-    //     this.appC.popToast({ type: "error", body: "All fields are required" })
-    //   }
-    // }
-    // else{
-    //   if(this.batchesIds != null){
-    //     validationFlag = true;
-    //   }
-    //   else{
-    //     validationFlag = false;
-    //     this.appC.popToast({ type: "error", body: "All fields are required" })
-    //   }
-    // }
+    if(!this.isProfessional){
+      if(this.courseIds != null && this.courseValue != null && this.courseValue != ''){
+        if(this.selectedStudentList.length!=0 || this.selectedUserList.length!=0){
+          validationFlag = true;
+        }else{
+          validationFlag = false;
+          this.appC.popToast({ type: "info", body: "Please select students or users" })
+        }
+      }
+      else{
+        validationFlag = false;
+        this.appC.popToast({ type: "error", body: "All fields are required" })
+      }
+    }
+    else{
+      if(this.batchesIds != null){
+        console.log(this.batchesIds)
+        if(this.selectedStudentList.length!=0 || this.selectedUserList.length!=0){
+          validationFlag = true;
+        }else{
+          validationFlag = false;
+          this.appC.popToast({ type: "info", body: "Please select students or users" })
+        }      }
+      else{
+        validationFlag = false;
+        this.appC.popToast({ type: "error", body: "All fields are required" })
+      }
+    }
 
     if (validationFlag) {
       this.facultyId = [];
@@ -427,6 +526,31 @@ export class EditClassComponent implements OnInit {
     );
     console.log(this.eLearnCustUserIDs);
 
+    let course_list : any = [];
+      this.selectedCourseList.map(
+        (ele: any) => {
+          let x ={'course_id': ele.course_id.toString()}
+          course_list.push(x);
+        }
+      );
+
+      let batch_list:any =[];
+      this.selectedBatchList.map(
+        (ele: any) => {
+          let x ={'batch_id': ele.batch_id.toString()}
+          batch_list.push(x);
+        }
+      );
+      // this.selectedBatchList.map(
+      //   (ele: any) => {
+      //     let x ={'subject_id': ele.batch_id.toString()}
+      //     subject_list.push(x);
+      //   }
+      // );
+
+      this.updateOnlineClass.course_list = course_list;
+      this.updateOnlineClass.batch_list = batch_list;
+
       this.updateOnlineClass.session_name = this.topicName;
       this.updateOnlineClass.custUserIds = this.custUserIds;
       this.updateOnlineClass.studentIds = this.studentsId;
@@ -448,10 +572,12 @@ export class EditClassComponent implements OnInit {
       else {
         this.updateOnlineClass.access_before_start = 0;
       }
+      this.updateOnlineClass.product_id = this.product_id;
 
       if (this.repeat_session == 0) {
         this.isRippleLoad = true;
-        this.service.updateOnlineClass(this.updateOnlineClass, this.editSessionId).subscribe(
+        const url = '/api/v1/meeting_manager/update/'+ this.institution_id +"/"+ this.editSessionId;
+        this.http_service.postData(url,this.updateOnlineClass).subscribe(
           (data: any) => {
             this.appC.popToast({ type: "success", body: "Live class session " + this.topicName + " " + "updated successfully" });
             this.router.navigate(['/view/live-classes']);
@@ -471,7 +597,8 @@ export class EditClassComponent implements OnInit {
       if (this.repeat_session == 1) {
         this.updateOnlineClass.studentIds = this.studentsId;
         this.isRippleLoad = true;
-        this.service.getOnlineClasses(this.updateOnlineClass).subscribe(
+        const url = '/api/v1/meeting_manager/create'
+        this.http_service.putData(url,this.updateOnlineClass).subscribe(
           (data: any) => {
             this.appC.popToast({ type: "success", body: this.topicName + " " + "created successfully" });
             this.router.navigate(['/view/live-classes']);
@@ -500,7 +627,7 @@ export class EditClassComponent implements OnInit {
     this.updateOnlineClass = {
       custUserIds: [],
       end_datetime: "",
-      institution_id: this.service.institute_id,
+      institution_id: this.institution_id,
       sent_notification_flag: 0,
       session_name: "",
       start_datetime: "",
@@ -510,7 +637,9 @@ export class EditClassComponent implements OnInit {
       eLearnCustUserIDs : [],
       access_before_start:0,
       access_enable_lobby:false,
-      private_access:false
+      private_access:false,
+      batch_list:null,
+      course_list:null
     }
 
     this.topicName = "";
@@ -537,7 +666,8 @@ export class EditClassComponent implements OnInit {
   /** this function is used to fetch teacher details */
   getTeachers() {
     this.isRippleLoad = true;
-    this.service.fetchTeachers().subscribe(
+    const url =`/api/v1/teachers/all/+${this.institution_id}?active=Y`
+    this.http_service.getData(url).subscribe(
       (data: any) => {
         this.teachersAssigned = data;
         console.log(this.teachersAssigned)
@@ -572,7 +702,8 @@ export class EditClassComponent implements OnInit {
   /** this function is used to fetch customer details */
   getCustomUsers() {
     this.isRippleLoad = true;
-    this.service.fetchUsers().subscribe(
+    const url = '/api/v1/profiles/custUsers/' + this.institution_id
+    this.http_service.getData(url).subscribe(
       (data: any) => {
         this.userAssigned = data;
         console.log(this.userAssigned)
@@ -605,22 +736,35 @@ export class EditClassComponent implements OnInit {
   }
 
   getBatchesCoursesIds(ids) {
+    let temp:any=[];
     if (this.isProfessional) {
       this.batchesIds = ids;
-      this.fetchStudentsApi(this.batchesIds);
+      this.batchesIds.forEach(element => {
+      temp.push(element.batch_id);
+    });
+      this.fetchStudentsApi(temp);
       // this.getStudents();
     }
     else {
       this.courseIds = ids
-      this.fetchStudentsApi(this.courseIds);
-      // this.getStudents();
+      this.courseIds.forEach(element => {
+      temp.push(element.course_id);
+    });
+      this.fetchStudentsApi(temp);   
+         // this.getStudents();
     }
   }
 
   getBatchesCourses() {
     this.isRippleLoad = true;
     if (this.isProfessional) {
-      this.service.fetchBatches().subscribe(
+      let url = '';
+      if (this.userType === '3') {
+        url = '/api/v1/batches/all/' + this.institution_id + '?active=Y' + '&isAllCourses=Y';
+      } else {
+        url =  '/api/v1/batches/all/' + this.institution_id + '?active=Y';
+      }
+      this.http_service.getData(url).subscribe(
         (data: any) => {
           this.batches = data;
           console.log(this.batches)
@@ -633,10 +777,16 @@ export class EditClassComponent implements OnInit {
       )
     }
     else {
-      this.service.fetchMasters().subscribe(
+      let url = '';
+      if (this.userType === '3') {
+        url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y';
+      } else {
+        url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all';
+      }
+      this.http_service.getData(url).subscribe(
         (data: any) => {
           this.masters = data;
-          // console.log(this.masters)
+          console.log(this.masters)
           this.isRippleLoad = false;
         },
         (error: any) => {
@@ -649,12 +799,15 @@ export class EditClassComponent implements OnInit {
   }
 
   getCourses(master_course_name) {
+    this.selectedCourseList = [];
+    this.selectedStudentList = [];
     if (master_course_name == null || master_course_name == '') {
       this.courses = [];
     }
     else {
       this.isRippleLoad = true;
-      this.service.fetchCourses(master_course_name).subscribe(
+      const url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/' + master_course_name
+      this.http_service.getData(url).subscribe(
         (data: any) => {
           this.isRippleLoad = false;
           this.courses = data.coursesList;
@@ -692,8 +845,9 @@ export class EditClassComponent implements OnInit {
 
   fetchStudentsApi(courseArray) {
     this.isRippleLoad = true;
-    this.getPayloadBatch.coursesArray = [courseArray];
-    this.service.fetchStudents(this.getPayloadBatch).subscribe(
+    this.getPayloadBatch.coursesArray = courseArray;
+    const url = '/api/v1/courseMaster/onlineClass/fetch/users'
+    this.http_service.postData(url,this.getPayloadBatch).subscribe(
       (data: any) => {
         this.studentList = data.studentsAssigned;
         console.log(data.studentsAssigned)
@@ -719,7 +873,7 @@ export class EditClassComponent implements OnInit {
         break;
       }
       case "assignStudent-icon": {
-        this.navigateTo("assignStudent");
+        this.checkMandatoryFields();
         break;
       }
       default: {
@@ -750,7 +904,8 @@ export class EditClassComponent implements OnInit {
         document.getElementById('li-two').classList.add('active');
         this.isBasicActive = false;
         this.isOtherActive = true;
-        this.getBatchesCourses();
+        this.getBatchpreFillData();
+        this.getStudentpreFillData();
       }
       else {
         let msg = { type: 'info', title: 'Live Class Details Already Saved', body: '' };

@@ -1,7 +1,7 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { FileManagerService } from '../file-manager.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { FileManagerService } from '../file-manager.service';
 
 
 class fileObj {
@@ -118,7 +118,9 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       png: "10",
       pptx: "11",
       ppt: "12",
-      zip:'13'
+      zip:'13',
+      mp3: "14",
+      wav: "15",
     },
     67: {
       pdf: "1",

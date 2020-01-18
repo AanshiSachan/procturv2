@@ -20,8 +20,3 @@
 <!-- Enquiry update popup -->
 
 <app-enquiry-update-popup *ngIf="enquiryUpdateComp" [enqData]="enquiryInfo" (closePopUp)="closeEnquiryPopUp($event)"></app-enquiry-update-popup>
-
-<!-- Global Search View More Component  -->
-
-<app-global-search-popup *ngIf="isSearchMoreComp" [eventData]="searchMoreData" (closeViewMorePopUp)="closeViewMorePopUp($event)"
-    (enquiryUpdateAction)="updateEnquiryPopUp($event)"></app-global-search-popup>

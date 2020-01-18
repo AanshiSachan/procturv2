@@ -2,14 +2,14 @@
 
     <div id="middleWrapper">
         <main>
-            <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+            <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" 
+            *ngIf="isRippleLoad">
             </loaders-css>
             <section class="middle-section clearFix router-wrapper">
                 <div>
                     <toaster-container [toasterconfig]="config"></toaster-container>
                 </div>
-                <router-outlet>
-                </router-outlet>
+                <router-outlet>  </router-outlet>
             </section>
         </main>
 

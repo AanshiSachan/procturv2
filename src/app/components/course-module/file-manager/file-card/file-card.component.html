@@ -1,7 +1,7 @@
 <div #fileHeader class="file" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
   <div #fileImage class="file__img"></div>
   <div class="file__info" *ngIf="fileDisplayArr.length!=0">
-    <h2 class="file__title" title="{{getFileName(fileObj.name)}}">
+    <h2 class="file__title" title="{{fileObj.name}}">
       {{getOriginalFileName(fileObj.res.file_name)}}
     </h2>
 

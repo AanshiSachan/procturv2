@@ -1,20 +1,19 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { LoginService } from '../../../services/login-services/login.service';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { LoginService } from '../../../services/login-services/login.service';
+import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })
-export class SideBarComponent implements OnInit , AfterViewInit{
+export class SideBarComponent implements OnInit, AfterViewInit {
 
 
   @ViewChild('divAdminTag') divAdminTag: ElementRef;
@@ -68,7 +67,6 @@ export class SideBarComponent implements OnInit , AfterViewInit{
   manageExamGrades: string = "";
   private userInput: string;
   videoplayer: boolean = false;
-  currentProjectUrl: any;
 
   globalSearchForm: any = {
     name: '',
@@ -94,15 +92,13 @@ export class SideBarComponent implements OnInit , AfterViewInit{
 
 
   constructor(
-    private login: LoginService,
     private auth: AuthenticatorService,
     private log: LoginService,
     private router: Router,
     private fetchService: FetchprefilldataService,
     private multiBranchService: MultiBranchDataService,
     private commonService: CommonServiceFactory,
-    private cd: ChangeDetectorRef,
-    public sanitizer: DomSanitizer
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -177,10 +173,20 @@ export class SideBarComponent implements OnInit , AfterViewInit{
         institute_id == '101275' ||
         institute_id == '101276' ||
         institute_id == '101277' ||
+        institute_id == '101296' ||
         institute_id == '101151') {
       this.jsonFlags.isShowPowerBy = false;
     }
 
+  }
+
+  hideForUsers() {
+    if (sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0') {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
   // USER permission
   checkUserHadAccess() {
@@ -702,7 +708,6 @@ export class SideBarComponent implements OnInit , AfterViewInit{
     this.sideBar = false;
     this.searchBar = false;
     this.helpMenu = false;
-    this.videoplayer = false;
     if (document.getElementById('blurBg')) {
       document.getElementById('blurBg').className = 'normal-background';
     }
@@ -760,15 +765,39 @@ export class SideBarComponent implements OnInit , AfterViewInit{
   }
 
   getCountryData(institute_id) {
-    this.login.getInstituteCountryDetails(institute_id).subscribe(
+    this.log.getInstituteCountryDetails(institute_id).subscribe(
       (res: any) => {
-        let country_info = JSON.stringify(res);
-        sessionStorage.setItem('country_data', country_info);
+        let country_info = res;
+        for (let i = 0; i < country_info.length; i++) {
+          let row: any = country_info[i];
+           row.symbol = this.getCurrencyDetails(900, row.currency_code, row.country_code);
+          if (row.is_default == 'Y') {            
+            this.commonService.setDefaultCurrencySymbol(row.symbol);
+          }
+        }
+        sessionStorage.setItem('country_data', JSON.stringify(country_info));
       },
       err => {
         console.log(err);
       }
     );
+  }
+
+
+  getCurrencyDetails(value, currency, lang) {
+    if (value && currency && lang) {
+      let formatted = value.toLocaleString(lang, {
+        maximumFractionDigits: 4,
+        style: 'currency',
+        currency: currency
+      });
+
+      formatted = formatted.replace(/[,.]/g, '');
+      return formatted.replace(/[0-9]/g, '');
+    }
+    else {
+      return lang;
+    }
   }
 
   loginToMainBranch() {
@@ -824,17 +853,18 @@ export class SideBarComponent implements OnInit , AfterViewInit{
   };
 
   hasInventoryAccess() {
-    if (sessionStorage.getItem('permissions') == '' && sessionStorage.getItem('userType') != '3') {
-      return true;
-    }
-    else if ((sessionStorage.getItem('permissions')).includes('301')) {
-      if (sessionStorage.getItem('userType') != '3') {
-        return false;
-      } else {
+
+        if (sessionStorage.getItem('permissions') == '' && sessionStorage.getItem('userType') != '3') {
         return true;
       }
-    }
-    else {
+      else if ((sessionStorage.getItem('permissions')).includes('301')) {
+        if (sessionStorage.getItem('userType') != '3') {
+          return false;
+        } else {
+          return true;
+        }
+      }
+     else {
       return false;
     }
   }
@@ -1041,7 +1071,7 @@ export class SideBarComponent implements OnInit , AfterViewInit{
         this.searchBar = false;
       }
       else
-      this.router.navigate(['/view/leads/enquiry/edit/' +d.data.id]);{
+        this.router.navigate(['/view/leads/enquiry/edit/' + d.data.id]); {
         // this.router.navigate(['/view/leads'], { queryParams: { id: d.data.id, action: d.action } });
         this.searchBar = false;
       }
@@ -1052,11 +1082,5 @@ export class SideBarComponent implements OnInit , AfterViewInit{
     window.open(url, "_blank");
     this.closeMenu();
     this.helpMenu = false;
-  }
-
-  showVideo(url) {
-    this.videoplayer = true;
-    this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url)
-    // this.currentProjectUrl = url;
   }
 }

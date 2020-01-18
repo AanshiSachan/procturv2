@@ -22,11 +22,12 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   recordsTrimmed: any[] = [];
   selectedRecord: any[] = [];
   tempData: any[] = [];
+  countryDetails:any[]=[];
   isCourse: boolean = true;
   constructor(
     private _tablePreferencesService: TablePreferencesService,
     private _paginationService: PaginationService,
-    private _commService:CommonServiceFactory
+    private _commService: CommonServiceFactory
   ) { }
 
   ngOnInit() {
@@ -53,6 +54,8 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     }
     this._paginationService.setPageIndex(1);
     this._paginationService.setDisplayBatchSize(50);
+    let encryptedData = sessionStorage.getItem('country_data');
+   this.countryDetails = JSON.parse(encryptedData);
   }
 
   ngOnChanges() {
@@ -75,8 +78,8 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       this.recordCount = this.displayData.length;
       // this.displayKeys.displayMessage = "Data not found";
     }
-    if(this.displayData.length==1){
-      $('#printDiv tbody').css('height','35vh');
+    if (this.displayData.length == 1) {
+      $('#printDiv tbody').css('height', '35vh');
     }
   }
 
@@ -125,7 +128,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   }
 
   SelectAllMultipleEventTrigger(event) {
-    this.selectAllView.emit({ 'data': this.selectedRecord, option_detail:event, option: 'selectAll' })
+    this.selectAllView.emit({ 'data': this.selectedRecord, option_detail: event, option: 'selectAll' })
   }
 
 
@@ -219,7 +222,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
 
   rowClick(index) {
-    if (index == (this.recordsTrimmed.length - 1) &&index!=0) {
+    if (index == (this.recordsTrimmed.length - 1) && index != 0) {
       $(".dd-list-container").css("bottom", "-30px");
     }
   }
@@ -249,7 +252,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
           }
         }
         else {
-          strExp ='('
+          strExp = '('
           if (conditionArray[i].nextOperation == undefined) {
             strExp = strExp + "'" + data[conditionArray[i].key] + "'" + conditionArray[i].condition + "'" + conditionArray[i].checkValue + "'";
           }
@@ -308,33 +311,38 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     if (key.primaryKey == this.keysArray[0].primaryKey) {
       return value;
     }
-    if ((!isNaN(value)) && (value != '') && (value != null)||(key.amountValue)) {
+    if ((!isNaN(value)) && (value != '') && (value != null) || (key.amountValue)) {
       // return value ;
       if (key.amountValue) {
-        return value ? 'Rs'+ value.toLocaleString('en-IN'):value;
-        // return this._commService.currency_default_symbol + value.toLocaleString('en-IN');
-      } 
+        let object = this.countryDetails.filter((country)=>country.id==data.country_id)
+        if(!object.length){
+          return this._commService.currency_default_symbol + value.toLocaleString('en-IN');
+        }
+        else{
+         return object && object[0] ? object[0].symbol + value.toLocaleString('en-IN') :this._commService.currency_default_symbol + value.toLocaleString('en-IN');
+        }
+      }
       else {
-        if(key.dataType=='array'){
+        if (key.dataType == 'array') {
           return key.arrayValue[value];
         }
         else
-         return value;
+          return value;
       }
     }
-    else{
-      if(key.dataType=='Date'){
+    else {
+      if (key.dataType == 'Date') {
         return moment(value).format(key.format);
       }
-      else{
-        if(key.dataType=='array'){
+      else {
+        if (key.dataType == 'array') {
           return key.arrayValue[value];
         }
         else
-         return value;
+          return value;
       }
     }
-     
+
   }
 
   // convert string as type

@@ -94,15 +94,8 @@
     </span> -->
   </div>
   <div style="bottom: 16%;position: absolute;margin-left: 50%;">
-    <span class="badge" (click)="showVideo('https://www.youtube.com/embed/kkA-D0i3HeQ')" title="View demo video">v3.0</span>
+    <span class="badge">v3.0</span>
   </div>
-  <div class="videoplayer" *ngIf="videoplayer">
-      <iframe width="650" height="400"
-        [src]="currentProjectUrl"
-        frameborder="0" style="border-radius: 10px;"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-      </iframe>
-    </div>
   <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" >
     <div class="setting-item">
       <img src="./assets/images/sidebar/help.svg" title="Help" alt="" (click)="showSubSection('help')">
@@ -168,7 +161,7 @@
     <div class="setting-item"  #divMyAccountTag id="divMyAccountTag">
       <img src="./assets/images/sidebar/my-account.svg" title="My Account" alt="" (click)="showSubSection('account')">
       <div class="side-section" id="account">
-        <div class="side-section-item">
+        <div class="side-section-item"  *ngIf="hideForUsers()">
           <span (click)="routerLink('/view/account','account')"><img src="./assets/images/sidebar/sideMenu/account.svg" alt="icon" class="helpSection">My Account</span>
         </div>
         <div class="side-section-item">

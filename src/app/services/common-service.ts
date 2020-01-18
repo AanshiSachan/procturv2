@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
+import { BehaviorSubject } from '../../../node_modules/rxjs/BehaviorSubject';
 
 
 @Injectable()
@@ -8,7 +9,7 @@ import { Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
 export class CommonServiceFactory {
 
     currency_default_symbol:any='Rs';
-
+    show_loader = new BehaviorSubject('hide');    
     constructor(private toasterService: ToasterService) { }
 
     // Check User Is Admin Or not return boolean
@@ -276,5 +277,28 @@ export class CommonServiceFactory {
        setDefaultCurrencySymbol(symbol){
            this.currency_default_symbol=symbol;
        }
+
+        // contact no pattern change if mobile no role is not present (for other users) ---> created by anushka
+        contactNoPatternChange(list) {
+            if(sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') { // if user is admin
+            if(sessionStorage.getItem('permissions') != null && sessionStorage.getItem('permissions') != ''){
+                var permissions = JSON.parse(sessionStorage.getItem('permissions'));
+                if(!permissions.includes('726')){
+                    list.forEach(el =>{
+                    var countryCode = el.phone.split('-')[0];
+                    var phnNo = el.phone.split('-')[1];
+                    if(phnNo.length > 4){
+                    var result = phnNo.replace(/\d{4}$/, 'XXXX');
+                    }
+                    else {
+                    var result = phnNo.replace(/\d{1}$/, 'X');
+                    }
+                    el.phone = countryCode + '-' + result;
+                })
+                }
+            }
+            }
+        }
+
 
 }

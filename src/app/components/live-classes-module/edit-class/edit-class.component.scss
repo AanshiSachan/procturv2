@@ -125,7 +125,10 @@ html {
     border-right: 5px solid transparent;
   }
 }
-
+.multiselect-dropdown .disabled > span {
+  background-color: #eceeef;
+  pointer-events: none;
+}
 
 .action-button-container{
   margin-top: 20px;

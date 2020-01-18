@@ -116,16 +116,16 @@
           </div>
 
           <div class="field-wrapper moderator_container" *ngIf="isShowProductOption">
-            <label for="product">Product(s) </label><br>
+            <label for="product">Product </label><br>
               <select class="made-out" id="product" [(ngModel)]="product_id" style="width: 100%;padding: 6px 12px;border: 1px solid #adadad;border-radius: 4px;" (change)="onChangeProduct($event.target.value)">
-                <option value="">Select Product(s)</option>
+                <option value="" disabled  selected="selected" hidden>Select Product</option>
                 <option *ngFor="let product of productData" [value]="product.id" >
                       {{product.title}}
                   </option>
               </select>
           </div>
 
-          <div class="field-wrapper student_list_container" *ngIf="isShowProductOption" style="width: 73%">
+          <div class="field-wrapper student_list_container" *ngIf="isShowProductOption" style="width: 72%">
             <label for="students">User Name(s) </label>
             <ng-multiselect-dropdown class="container"
               [placeholder]="'Select Users'"
@@ -161,7 +161,7 @@
             </select>
           </div>
 
-          <div class="field-wrapper"  *ngIf="isProfessional">
+          <!-- <div class="field-wrapper"  *ngIf="isProfessional">
             <label for="batch">Batches<span class="text-danger">*</span> </label>
             <select class="form-ctrl" name="batch" id="batch" [(ngModel)]="batchesIds" (ngModelChange)="getBatchesCoursesIds($event)">
               <option value="" disabled  selected="selected" hidden>Select Batch</option>
@@ -169,9 +169,9 @@
                   {{i.batch_name}}
               </option>
             </select>
-          </div>
+          </div> -->
 
-          <div class="field-wrapper" *ngIf="!isProfessional">
+          <!-- <div class="field-wrapper" *ngIf="!isProfessional">
             <label for="course">Course<span class="text-danger">*</span> </label>
             <select class="form-ctrl" name="course" id="course" [(ngModel)]="courseIds" (ngModelChange)="getBatchesCoursesIds($event)">
               <option value=""  disabled  selected="selected" hidden>Select Course</option>
@@ -179,6 +179,28 @@
                   {{i.course_name}}
               </option>
             </select>
+          </div> -->
+
+          <div class="field-wrapper student_list_container" *ngIf="isProfessional">
+            <label for="students">Batch(s)<span class="text-danger">*</span> </label>
+            <ng-multiselect-dropdown class="container"
+              [placeholder]="'Select Batch'"
+              [data]="batches"
+              [settings]="batchListSetting"
+              [(ngModel)]="selectedBatchList" 
+              (ngModelChange)="getBatchesCoursesIds($event)">
+            </ng-multiselect-dropdown>
+          </div>
+
+          <div class="field-wrapper student_list_container" *ngIf="!isProfessional">
+            <label for="students">Course(s)<span class="text-danger">*</span> </label>
+            <ng-multiselect-dropdown class="container"
+              [placeholder]="'Select Course'"
+              [data]="courses"
+              [settings]="courseListSetting"
+              [(ngModel)]="selectedCourseList" 
+              (ngModelChange)="getBatchesCoursesIds($event)">
+            </ng-multiselect-dropdown>
           </div>
 
           <div class="field-wrapper student_list_container">

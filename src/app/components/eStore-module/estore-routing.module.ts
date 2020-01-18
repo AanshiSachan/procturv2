@@ -4,6 +4,8 @@ import { HomeComponent, ProductListComponent, SalesReportsComponent,EcourseMappi
     OfferHistoryComponent } from '.';
 import { ProductCreationComponent } from './product-creation/product-creation.component';
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
+import { MasterTagComponent } from './master-tag/master-tag.component';
+
 
 
 const routes: Routes = [
@@ -54,6 +56,10 @@ const routes: Routes = [
         path: 'offer-history',
         component: OfferHistoryComponent,
         pathMatch: 'prefix'
+    },
+    {
+        path: 'master-tag',
+        component: MasterTagComponent
     }
 ];
 

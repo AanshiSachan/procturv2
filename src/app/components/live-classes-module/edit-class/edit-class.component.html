@@ -118,8 +118,8 @@
 
           <div class="field-wrapper moderator_container" *ngIf="isShowProductOption">
             <label for="date">Product(s)</label><br>
-              <select class="made-out" id="product" [(ngModel)]="product_id" style="padding: 6px 12px;border: 1px solid #adadad;border-radius: 4px;" (click)="onChangeProduct($event.target.value)"disabled="true">
-                  <option value="">Select Product(s)</option>
+              <select class="made-out" id="product" [(ngModel)]="product_id" style="padding: 6px 12px;border: 1px solid #adadad;border-radius: 4px;width: 100%;" (ngModelChange)="onChangeProduct($event)">
+                  <option  value="" disabled  selected="selected" hidden>Select Product</option>
                   <option *ngFor="let product of productData" [value]="product.id" >
                       {{product.title}}
                   </option>
@@ -128,8 +128,7 @@
 
           <div class="field-wrapper student_list_container" *ngIf="isShowProductOption"  style="width: 73%">
             <label for="students">User Name(s) </label>
-            <ng-multiselect-dropdown class="container disabled"
-              [disabled]="true"
+            <ng-multiselect-dropdown class="container"
               [placeholder]="'Select Users'"
               [data]="userList"
               [settings]="userListSetting"
@@ -154,40 +153,65 @@
         <div class="add_student_container">
           <div class="field-wrapper"  *ngIf="!isProfessional">
             <label for="master_course">Master Course<span class="text-danger">*</span> </label>
-            <select class="form-ctrl disabled" name="master_course" id="master_course" disabled>
+            <select class="form-ctrl" name="master_course" id="master_course"  [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)" [disabled]="(userType==3 || (userType == 0 && username != 'admin'))" [ngClass]="{'disabled':(userType==3 || (userType == 0 && username != 'admin'))}">
               <option value="Select Master Course" selected="selected" >Select Master Course</option>
-              <!-- <option *ngFor="let i of masters" [value]="i.master_course">
+              <option *ngFor="let i of masters" [value]="i.master_course">
                   {{i.master_course}}
-              </option> -->
+              </option>
             </select>
           </div>
-
+<!-- 
           <div class="field-wrapper"  *ngIf="isProfessional">
             <label for="batch">Batches<span class="text-danger">*</span> </label>
-            <select class="form-ctrl disabled" name="batch" id="batch" disabled>
+            <select class="form-ctrl" name="batch" id="batch" [(ngModel)]="batchesIds" (ngModelChange)="getBatchesCoursesIds($event)">
               <option value="Select Batch" selected="selected">Select Batch</option>
-              <!-- <option *ngFor="let i of batches" [value]="i.batch_id">
+              <option *ngFor="let i of batches" [value]="i.batch_id">
                   {{i.batch_name}}
-              </option> -->
+              </option>
             </select>
           </div>
 
           <div class="field-wrapper" *ngIf="!isProfessional">
             <label for="course">Course<span class="text-danger">*</span> </label>
-            <select class="form-ctrl disabled" name="course" id="course"  disabled>
+            <select class="form-ctrl" name="course" id="course" [(ngModel)]="courseIds" (ngModelChange)="getBatchesCoursesIds($event)">
               <option value="Select Course" selected="selected">Select Course</option>
-              <!-- <option *ngFor="let i of courses" [value]="i.course_id">
+              <option *ngFor="let i of courses" [value]="i.course_id">
                   {{i.course_name}}
-              </option> -->
+              </option>
             </select>
+          </div> -->
+
+          <div class="field-wrapper student_list_container" *ngIf="isProfessional">
+            <label for="students">Batch(s)<span class="text-danger">*</span> </label>
+            <ng-multiselect-dropdown class="container"
+              [placeholder]="'Select Batch'"
+              [data]="batches"
+              [settings]="batchListSetting"
+              [(ngModel)]="selectedBatchList" 
+              (ngModelChange)="getBatchesCoursesIds($event)"
+              [disabled]="(userType==3 || (userType == 0 && username != 'admin'))" 
+              [ngClass]="{'disabled':(userType==3 || (userType == 0 && username != 'admin'))}">
+            </ng-multiselect-dropdown>
+          </div>
+
+          <div class="field-wrapper student_list_container" *ngIf="!isProfessional">
+            <label for="students">Course(s)<span class="text-danger">*</span> </label>
+            <ng-multiselect-dropdown class="container"
+              [placeholder]="'Select Course'"
+              [data]="courses"
+              [settings]="courseListSetting"
+              [(ngModel)]="selectedCourseList" 
+              (ngModelChange)="getBatchesCoursesIds($event)"
+              [disabled]="(userType==3 || (userType == 0 && username != 'admin'))" 
+              [ngClass]="{'disabled':(userType==3 || (userType == 0 && username != 'admin'))}">
+            </ng-multiselect-dropdown>
           </div>
 
           <div class="field-wrapper student_list_container" style="width: 85%;border-radius: 4px;margin-top: 5px;border-color: #c5c5cc;font-size: 14px;">
             <label for="students" style="margin-bottom: 5px;">Student Name(s)<span class="text-danger">*</span> </label>
-            <ng-multiselect-dropdown class="container disabled" style="color: #000;
+            <ng-multiselect-dropdown class="container" style="color: #000;
             font-weight: bold;
             cursor: not-allowed;"
-              [disabled]="true"
               [placeholder]="'Select Students'"
               [data]="studentList"
               [settings]="studentListSettings"
