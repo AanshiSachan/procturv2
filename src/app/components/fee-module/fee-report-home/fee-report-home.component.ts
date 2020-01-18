@@ -23,6 +23,7 @@ export class FeeReportHomeComponent implements OnInit {
   ngOnInit() {
 
     const userType = sessionStorage.getItem('userType');
+    this.enable_online_payment = sessionStorage.getItem('enable_online_payment_feature');
     if (userType == '3') {
       this.jsonFlags.isAdmin = false;
       this.jsonFlags.isProfitnloss = false;
@@ -72,7 +73,6 @@ export class FeeReportHomeComponent implements OnInit {
         }
       }
     )
-    this.enable_online_payment = JSON.parse(sessionStorage.getItem('institute_info')).enable_online_payment_feature
   }
 
 }
