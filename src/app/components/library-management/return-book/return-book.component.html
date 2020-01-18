@@ -178,7 +178,9 @@
         <div class="sub_item3">
           <div class="book_name_container">
             <span class="title">ISBN No.</span>
-            <span class="more_info" style="font-weight: 600;">{{returnBook.book_complete_details.isbn_number}}</span>
+            <span class="more_info" style="font-weight: 600;" title="{{returnBook.book_complete_details.isbn_number}}">
+              {{ (returnBook.book_complete_details.isbn_number.length >10) ? (returnBook.book_complete_details.isbn_number | slice:0:10) + '...' : (returnBook.book_complete_details.isbn_number) }}
+            </span>
           </div>
         </div>
         <div class="sub_item3">
@@ -281,7 +283,7 @@
           <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('returnDate')"></i>
 
           <input  type="text" value="" id="returnDate" class="widgetDatepicker bsDatepicker" name="returnDate"
-           [(ngModel)]="returnDate" (ngModelChange)="selectReturnDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
+           [(ngModel)]="tempReturnDate" (ngModelChange)="selectReturnDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
         </div>
         <div class="return_info_item">
           <span>No. of late days<span class="text-danger">*</span></span>
