@@ -39,6 +39,7 @@ export class AppComponent implements OnInit,AfterViewChecked {
     public commonService: CommonServiceFactory,
     private cd :ChangeDetectorRef
   ) {
+    this.isRippleLoad = true;
   }
 
 
