@@ -40,6 +40,7 @@ export class LiveClassesComponent implements OnInit {
   searchDataFlag: boolean = false;
   fileUrl:any=null;
   fileName:any=null;
+  isVDOCipherVDO = false;
 
   JsonVars: any = {
     isRippleLoad: false,
@@ -691,6 +692,7 @@ export class LiveClassesComponent implements OnInit {
         this.JsonVars.isRippleLoad = false;
         console.log(response);
         if (response && response.video_url) {
+          this.isVDOCipherVDO = false;
           this.showVideo = false;
           this.JsonVars.video_url = atob(response.video_url);
           console.log(this.JsonVars.video_url);
@@ -719,6 +721,7 @@ export class LiveClassesComponent implements OnInit {
     }
     this.tempVideoData = obj;
     this.JsonVars.isRippleLoad = true;
+    this.isVDOCipherVDO = true;
     this._http.postData(url, data).subscribe((response) => {
       this.JsonVars.isRippleLoad = false;
       if (response == null) {
@@ -742,6 +745,7 @@ export class LiveClassesComponent implements OnInit {
   }
 
   ShowVideo(otpString, playbackInfoString) {
+    this.isVDOCipherVDO = true;
     this.showVideo = false;
     var video = new window.VdoPlayer({
       otp: otpString,
@@ -769,8 +773,8 @@ export class LiveClassesComponent implements OnInit {
     this.download_links = obj;
   }
 
-  // @HostListener("document:keydown", ['$event'])
-  // @HostListener("document:contextmenu", ['$event'])  
+  @HostListener("document:keydown", ['$event'])
+  @HostListener("document:contextmenu", ['$event'])  
   onMouseOver($event) {
     $event.preventDefault();
     return false;
