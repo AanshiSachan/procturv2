@@ -52,13 +52,13 @@ const routes: Routes = [
         pathMatch: 'prefix'
     },
     {
-        path: 'master-tag',
-        component: MasterTagComponent
-    },
-    {
         path: 'offer-history',
         component: OfferHistoryComponent,
         pathMatch: 'prefix'
+    },
+    {
+        path: 'master-tag',
+        component: MasterTagComponent
     }
 ];
 

@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
-import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
-import { Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
-import { LoginService } from './services/login-services/login.service';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { Toast, ToasterConfig, ToasterService } from 'angular2-toaster';
 import { CommonServiceFactory } from './services/common-service';
+import { LoginService } from './services/login-services/login.service';
 
 
 @Component({
@@ -39,6 +39,7 @@ export class AppComponent implements OnInit,AfterViewChecked {
     public commonService: CommonServiceFactory,
     private cd :ChangeDetectorRef
   ) {
+    this.isRippleLoad = true;
   }
 
 

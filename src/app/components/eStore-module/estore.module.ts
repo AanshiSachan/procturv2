@@ -49,8 +49,8 @@ import { MasterTagComponent } from './master-tag/master-tag.component'
     OnlineClassComponent,
     OfflineMaterialComponent,
     RegisteredStudentComponent,
-    MasterTagComponent,
-    OfferHistoryComponent
+    OfferHistoryComponent,
+    MasterTagComponent
   ],
   providers: [
     ExcelService,

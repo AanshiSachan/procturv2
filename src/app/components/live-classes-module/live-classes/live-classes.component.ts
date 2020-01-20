@@ -724,6 +724,7 @@ export class LiveClassesComponent implements OnInit {
     this.isVDOCipherVDO = true;
     this._http.postData(url, data).subscribe((response) => {
       this.JsonVars.isRippleLoad = false;
+      
       if (response == null) {
         let obj = {
           "otp": "20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm",
@@ -747,6 +748,7 @@ export class LiveClassesComponent implements OnInit {
   ShowVideo(otpString, playbackInfoString) {
     this.isVDOCipherVDO = true;
     this.showVideo = false;
+    this.isVDOCipherVDO = true;
     var video = new window.VdoPlayer({
       otp: otpString,
       playbackInfo: playbackInfoString,
@@ -772,7 +774,7 @@ export class LiveClassesComponent implements OnInit {
     this.viewDownloadPopup = true;
     this.download_links = obj;
   }
-
+  
   @HostListener('document:keydown', ['$event'])
   onPopState(event) {
      if (event.keyCode == 123 || (event.ctrlKey && event.shiftKey && event.keyCode == 73) ) {

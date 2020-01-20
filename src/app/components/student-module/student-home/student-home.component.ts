@@ -462,6 +462,7 @@ export class StudentHomeComponent implements OnInit {
         }
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
       }
     )
