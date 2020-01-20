@@ -426,7 +426,7 @@
                 <div class="c-cm-6 c-md-6 c-lg-6">
                   <div class="field-wrapper">
                     <textarea class="form-ctrl textBox" value="" [(ngModel)]="messageText" (ngModelChange)="countNumberOfMessage()" placeholder="Message/SMS" style="height:50px"></textarea>
-                    <div style="width=100%; display:flex; justify-content:space-between;">
+                    <div style="width:100%; display:flex; justify-content:space-between;">
                       <span>Character Count : {{messageText.length}}</span>
                       <span>Message Count : <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></span>
                     </div>

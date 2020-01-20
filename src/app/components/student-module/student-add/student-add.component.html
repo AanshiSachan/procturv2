@@ -817,7 +817,7 @@
                       <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.discount }}</span>
                     </div>
 
-                    <div class="tax-amount amount">
+                    <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1">
                       <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.taxAmount }}</span>
                     </div>
 

@@ -14,19 +14,14 @@
 }
 
 .filter-box {
-  background: #efefef;
-  box-shadow: 1px 1px #000;
-  box-shadow: 0 1px 3px 0 #5d5d5d;
-  border-radius: 5px;
-  padding: 13px;
+  padding: 10px;
 }
 
 .search-box {
-  border: 1px solid #efefef;
+  border: 1px solid #b4b6bd;
   padding: 5px;
-  width: 300px;
   float: right;
-  margin-right: -29px;
+  margin-right: 0px;
   margin-bottom: 3px;
 }
 
@@ -98,11 +93,9 @@
 }
 
 .enq-state-bottom {
+  padding: 0 10px;
   & > div {
-
     float: left;
-    padding-top: 20px;
-
     &:after {
       content: '';
       display: table;

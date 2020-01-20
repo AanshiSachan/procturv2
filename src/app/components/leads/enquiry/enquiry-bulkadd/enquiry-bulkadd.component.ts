@@ -119,7 +119,7 @@ export class EnquiryBulkaddComponent implements OnInit {
             this.isUploadingXls = false;
             let data = {
               type: 'success',
-              title: "",
+              title: "File Uploaded Successfully",
               body: xhr.response.fileName
             }
             this.appC.popToast(data);

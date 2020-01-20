@@ -1,12 +1,14 @@
 <div class="middle-section clearFix head editCourseWrapper">
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
-      <a routerLink="/view/course/create/courselist">Course</a> / Edit
+      <a routerLink="/view/course/create/courselist">Course</a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      Edit :
       <u> {{selectedCourseDetails.master_course}}</u>
     </h1>
   </section>
 
-  <section class="middle-main clearFix">
+  <section class=" clearFix">
 
     <div class="search-wrapper row">
       <div class="c-lg-3 c-md-3 c-sm-3">
@@ -31,14 +33,19 @@
 
         </div>
       </div>
+      <div class="btn-group" style="float: right;padding-right: 2%;">
+        <button class="btn fullBlue" (click)="addRowToMainTable()"><i class="fa fa-plus"></i> Add Course</button>
+      </div>
     </div>
 
+
+    <section class="middle-main">
     <div class="tableSection class-table-wrapper">
       <div>
         <table class="table-courseEdit">
           <thead>
               <tr>
-                  <th>
+                  <th style="width: 4%;">
                   </th>
                   <th>
                     Course Name
@@ -49,7 +56,7 @@
                   <th>
                     End Date
                   </th>
-                  <th >
+                  <th style="width: 12%;">
                       Academic Year
                     </th>
                   <th *ngIf="examGradeFeature == 1">
@@ -113,7 +120,9 @@
                             </div>
                           </td>
                           <td>
-                            <a *ngIf="row.course_id == '0'" style="cursor:pointer" (click)="removeRowFromTable(row , i)">Delete</a>
+                            <a *ngIf="row.course_id == '0'" style="cursor:pointer" (click)="removeRowFromTable(row , i)">
+                             <i class="fa fa-trash" style="font-size: 16px;" title="Delete"> </i>
+                            </a>
                           </td>
                         </tr>
                       </tbody>
@@ -160,7 +169,7 @@
                             </div>
                           </td>
                           <td>
-                            <a *ngIf="(row.isAssigned == 'N')" (click)="deleteSubjectRow(row, i , y)">Delete</a>
+                            <a *ngIf="(row.isAssigned == 'N')" (click)="deleteSubjectRow(row, i , y)"><i class="fa fa-trash" style="font-size: 16px;" title="Delete"> </i></a>
                           </td>
                         </tr>
                       </tbody>
@@ -173,13 +182,10 @@
         </table>
       </div>
     </div>
-
+  </section>
   </section>
 
   <div>
-    <div class="pull-left btn-group">
-      <button class="btn fullBlue" (click)="addRowToMainTable()">Add Course</button>
-    </div>
 
     <div class="row pull-right btn-group">
       <button class="btn" routerLink='/view/course/create/courselist'>Cancel</button>

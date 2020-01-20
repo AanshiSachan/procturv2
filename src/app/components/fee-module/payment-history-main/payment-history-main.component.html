@@ -14,7 +14,7 @@
           </h2>
           <a (click)="searchByValue('name')" class="showFilter" *ngIf="varJson.searchBy=='date'">Show Name Filter</a>
           <a (click)="searchByValue('date')" class="showFilter" *ngIf="varJson.searchBy=='name'">Hide Name Filter</a>
-          <div class="row" *ngIf="varJson.searchBy=='date'">
+          <div class="row" *ngIf="varJson.searchBy=='date'" style="margin: 0;">
 
             <div class="c-lg-12 field-made">
               <div class="c-lg-3 field-wrapper datePickerBox">
@@ -50,7 +50,7 @@
             </div>
           </div>
 
-          <div class="row" style="padding-top:16px;margin-top:16px;" *ngIf="varJson.searchBy=='name'">
+          <div class="row" style="padding-top:16px;margin:0;margin-top:16px;" *ngIf="varJson.searchBy=='name'">
             <div class="c-lg-3 field-wrapper">
               <label for=from>Student Name/Contact No/Reciept No</label>
               <input type="text" class="form-ctrl" id="from" [(ngModel)]="varJson.searchName">
@@ -62,7 +62,7 @@
         </div>
         <div>
 
-          <div class="row">
+          <div class="row" style="margin: 0;">
             <div class="c-lg-12">
               <div class="c-lg-1">
               </div>

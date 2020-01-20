@@ -9,14 +9,14 @@
         <section class="middle-top mb0 clearFix sms-header">
 
           <h1 class="pull-left">
-            <a routerLink="/view/communicate">
-              Communicate
+            <a routerLink="/view/leads">
+              Lead
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            <a routerLink="/view/communicate/sms">
-              SMS
+            <a routerLink="/view/leads/campaign-reports">
+              Campaign Report
             </a>
-            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Campaign SMS Report
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Bulk SMS Report
           </h1>
 
           <aside class="pull-right">
@@ -70,8 +70,7 @@
         <div class="table table-responsive student-table">
           <!-- <proctur-table [dataStatus]="dataStatus" [records]="smsSource" [tableName]="'sms'" [settings]="projectSettings">
           </proctur-table> -->
-          <data-display-table  #child [displayKeys]="tableSetting" [displayData]="smsSource" (editView)='optionSelected($event)'
-            >
+          <data-display-table  #child [displayKeys]="tableSetting" [displayData]="smsSource" (editView)='optionSelected($event)'>
           </data-display-table>
         </div>
       </section>
