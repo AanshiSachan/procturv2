@@ -462,6 +462,7 @@ export class StudentHomeComponent implements OnInit {
         }
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
       }
     )
@@ -762,6 +763,7 @@ export class StudentHomeComponent implements OnInit {
     this.isRippleLoad = true;
     this.studentFetch.downloadStudentTableasXls(data).subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         let byteArr = this._commService.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;

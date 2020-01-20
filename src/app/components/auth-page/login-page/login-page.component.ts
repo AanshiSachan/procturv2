@@ -234,6 +234,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.login.postLoginDetails(this.loginDataForm).subscribe(
         res => {
           console.log(res);
+          sessionStorage.setItem('login-response',JSON.stringify(res));
           this.checkForAuthOptions(res);
         },
         err => {

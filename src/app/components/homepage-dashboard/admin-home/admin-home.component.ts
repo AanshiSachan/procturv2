@@ -13,6 +13,8 @@ import { WidgetService } from '../../../services/widget.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { BiometricStatusServiceService } from '../../../services/biometric-status/biometric-status-service.service';
 import { HttpService } from '../../../services/http.service';
+
+declare var $;
 // import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
@@ -120,6 +122,7 @@ export class AdminHomeComponent implements OnInit {
   presentCount: number = 0;
   leaveCount: number = 0;
   public selectedRow: number = null;
+  daysLeftForSubscriptionExpiry: number;
   jsonFlag: any = {
     smsTabType: 'approved',
     showAllMessage: false,
@@ -199,6 +202,13 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
+    var loginResp = JSON.parse(sessionStorage.getItem('login-response'));
+    if(loginResp.is_subscription_getting_over){
+      $('#loginSubscription').modal('show');
+      this.daysLeftForSubscriptionExpiry = loginResp.no_of_days_left;
+    }
+   /*  if(loginResp)
+    $('#loginSubscription') */
     this.onChanged('subject');
     this.checkForSubjectWiseView();
 
@@ -240,6 +250,10 @@ export class AdminHomeComponent implements OnInit {
 
     this.fetchWidgetPrefill();
     
+  }
+
+  closeSubscriptionAlert(){
+    $('#loginSubscription').modal('hide');
   }
 
   checkForSubjectWiseView(){
