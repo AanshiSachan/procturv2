@@ -13,6 +13,8 @@ import { WidgetService } from '../../../services/widget.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { BiometricStatusServiceService } from '../../../services/biometric-status/biometric-status-service.service';
 import { HttpService } from '../../../services/http.service';
+
+declare var $;
 // import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
@@ -120,6 +122,7 @@ export class AdminHomeComponent implements OnInit {
   presentCount: number = 0;
   leaveCount: number = 0;
   public selectedRow: number = null;
+  daysLeftForSubscriptionExpiry: number;
   jsonFlag: any = {
     smsTabType: 'approved',
     showAllMessage: false,
@@ -164,6 +167,7 @@ export class AdminHomeComponent implements OnInit {
   reminderRemarks: string = '';
   remarksLimit: number = 50;
 
+
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -199,6 +203,16 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
+    // added for account expiry popup notification
+    var institute_info = JSON.parse(sessionStorage.getItem('institute_info'))
+    var loginResp = JSON.parse(sessionStorage.getItem('login-response'));
+    var subscriptionLimitAlert: number = sessionStorage.getItem('subscription-limit') == undefined ? 0 : JSON.parse(sessionStorage.getItem('subscription-limit'));
+    if(loginResp.is_subscription_getting_over && subscriptionLimitAlert  == 0 && institute_info.userType != 3){
+      $('#loginSubscription').modal('show');
+      subscriptionLimitAlert = subscriptionLimitAlert + 1;
+      sessionStorage.setItem('subscription-limit',JSON.stringify(subscriptionLimitAlert));
+      this.daysLeftForSubscriptionExpiry = loginResp.no_of_days_left;
+    }
     this.onChanged('subject');
     this.checkForSubjectWiseView();
 
@@ -240,6 +254,10 @@ export class AdminHomeComponent implements OnInit {
 
     this.fetchWidgetPrefill();
     
+  }
+
+  closeSubscriptionAlert(){
+    $('#loginSubscription').modal('hide');
   }
 
   checkForSubjectWiseView(){
