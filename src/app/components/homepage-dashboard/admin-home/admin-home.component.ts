@@ -167,6 +167,7 @@ export class AdminHomeComponent implements OnInit {
   reminderRemarks: string = '';
   remarksLimit: number = 50;
 
+
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -202,13 +203,16 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
+    // added for account expiry popup notification
+    var institute_info = JSON.parse(sessionStorage.getItem('institute_info'))
     var loginResp = JSON.parse(sessionStorage.getItem('login-response'));
-    if(loginResp.is_subscription_getting_over){
+    var subscriptionLimitAlert: number = sessionStorage.getItem('subscription-limit') == undefined ? 0 : JSON.parse(sessionStorage.getItem('subscription-limit'));
+    if(loginResp.is_subscription_getting_over && subscriptionLimitAlert  == 0 && institute_info.userType != 3){
       $('#loginSubscription').modal('show');
+      subscriptionLimitAlert = subscriptionLimitAlert + 1;
+      sessionStorage.setItem('subscription-limit',JSON.stringify(subscriptionLimitAlert));
       this.daysLeftForSubscriptionExpiry = loginResp.no_of_days_left;
     }
-   /*  if(loginResp)
-    $('#loginSubscription') */
     this.onChanged('subject');
     this.checkForSubjectWiseView();
 
