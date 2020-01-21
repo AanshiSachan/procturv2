@@ -160,8 +160,6 @@ export class ClassComponent implements OnInit {
     if(this.jsonFlag.isProfessional){
       this.dynamicColCounter = 1;
       this.checkedColCounter = 1;
-      this.showHideColumns.description = true;
-      this.showHideColumns.topic = false;
     }
   }
 
