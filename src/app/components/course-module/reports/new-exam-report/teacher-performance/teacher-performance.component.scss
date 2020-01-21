@@ -30,6 +30,7 @@
     padding-right: 18px;
     font-weight: 600;
     background: #FAFAFA;
+    padding-left: 13px;
     .table-heading-item {
       width: 14.28%;
     }
@@ -113,16 +114,23 @@
 }
 .border-updated-class{
   border-left: 3px solid #8A2BE2;
-  // background: #f3e9fc;
 }
 .border-pending-class{
   border-left: 3px solid #8d8d8d;
-  // background: #f2f2f2;
 }
 .border-cancelled-class{
   border-left: 3px solid #df0d2f;
-  // background: #fee7eb;
 }
 
+.pending{
+  color: #8d8d8d;
+}
+.mark_pending{
+  color: #8A2BE2;
+}
+.cancelled{
+  color: #df0d2f;
+}
+.completed{
 
-// #8d8d8d att pending
+}

@@ -241,10 +241,16 @@ export class ExamReportHomeComponent implements OnInit {
         let standard_id = (document.getElementById("standard") as HTMLInputElement ).value;
         for(let i = 0; i < this.standardtList.length; i++){
           if(this.standardtList[i].standard_id == standard_id){
-            sessionStorage.setItem('masterCourseForReport', this.standardtList[i].standard_name);
+            // sessionStorage.setItem('masterCourseForReport', this.standardtList[i].standard_name);
             sessionStorage.setItem('subejctIdForReport', this.standardtList[i].standard_id);
           }
         }
+        for(let i = 0; i < this.subjectList.length; i++){
+         if(this.subjectList[i].subject_id == this.subject){
+           sessionStorage.setItem('masterCourseForReport', this.subjectList[i].subject_name);
+           // sessionStorage.setItem('subejctIdForReport', this.subjectList[i].subject_id);
+         }
+       }
       }
       else{
         sessionStorage.setItem('masterCourseForReport', this.mastercourse);

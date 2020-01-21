@@ -5,6 +5,13 @@
   <section class="middle-top clearFix bulk-header">
     <div>
       <h1 class="pull-left">
+        <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional">
+          Course
+        </a>
+        <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional">
+          Batch
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
         <a routerLink="/view/{{jsonFlag.type}}/reports" style="padding:0px; ">
           Report
         </a>
@@ -13,7 +20,8 @@
           Exam Report
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-        <span>Course Wise</span>
+        <span *ngIf="!jsonFlag.isProfessional">Course Wise</span>
+        <span *ngIf="jsonFlag.isProfessional">Batch Wise</span>
       </h1>
     </div>
   </section>
@@ -29,26 +37,28 @@
           <option [value]="course.course_id" *ngFor="let course of coursesList">{{course.course_name}}</option>
         </select>
         <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()" *ngIf="jsonFlag.isProfessional">
-          <option value="-1">Select Subject</option>
-          <option [value]="subject.subject_id" *ngFor="let subject of coursesList">{{subject.subject_name}}</option>
+          <option value="-1">Select Batch</option>
+          <option [value]="batch.batch_id" *ngFor="let batch of coursesList">{{batch.batch_name}}</option>
         </select>
       </div>
     </div>
   </section>
 
   <!-- Graph section -->
-  <section>
+  <!-- <section>
     <div class="graph-outer-container">
       <div class="graph-item-container" style="justify-content: center;padding-top: 20px;">
-        <div #chartWrap id="chartWrap">
-        </div>
+
       </div>
-      <div class="graph-item-container" *ngIf="!jsonFlag.isProfessional" style="justify-content: center;padding-top: 100px;">
+      <div class="graph-item-container" *ngIf="!jsonFlag.isProfessional" style="justify-content: center;padding-top: 20px;">
         <div #subjectWise id="subjectWise">
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
+
+  <div #chartWrap id="chartWrap">
+  </div>
 
 
 
@@ -60,7 +70,8 @@
           <span>Exam Date</span>
         </div>
         <div class="header-item large-item">
-          <span>Subject</span>
+          <span *ngIf="!jsonFlag.isProfessional">Subject</span>
+          <span *ngIf="jsonFlag.isProfessional">Batch</span>
         </div>
         <div class="header-item small-item">
           <span>Total Students</span>

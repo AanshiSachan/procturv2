@@ -5,6 +5,13 @@
   <section class="middle-top clearFix bulk-header">
     <div>
       <h1 class="pull-left">
+        <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional">
+          Course
+        </a>
+        <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional">
+          Batch
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
         <a routerLink="/view/{{jsonFlag.type}}/reports" style="padding:0px; ">
           Report
         </a>
@@ -136,12 +143,12 @@
               <span>{{report.teacher_name}}</span>
             </div>
             <div class="table-value-item">
-              <span>total</span>
+              <span>{{report.total_student}}</span>
             </div>
             <div class="table-value-item">
               <!-- <span>{{report.total_student}}</span> -->
-              <span *ngIf="report.exam_status!='Att. Pending'">{{report.total_student}}</span>
-              <span *ngIf="report.exam_status=='Att. Pending'">-</span>
+              <span *ngIf="report.exam_status != 'Att. Pending'">{{report.total_present_student}}</span>
+              <span *ngIf="report.exam_status == 'Att. Pending'">-</span>
             </div>
             <div class="table-value-item">
               <span>{{report.total_marks}}</span>
@@ -151,10 +158,10 @@
               <span *ngIf="!report.batch_marks_percentage">-</span>
             </div> -->
             <div class="table-value-item">
-              <span *ngIf="report?.exam_status != 'Mks. Updated'">{{report.exam_status}}</span>
-              <span *ngIf="report?.exam_status == 'Mks. Updated'" style="color: #00E172;">{{report.exam_status}}</span>
-              <!-- <span *ngIf="report.attendance_Status != 'Attendance Marked'">{{report.attendance_Status}}</span>
-              <span *ngIf="report.attendance_Status == 'Attendance Marked'" style="color: #26D4EF;">{{report.attendance_Status}}</span> -->
+              <span [ngClass]="{'completed': report.exam_status == 'Mks. Updated',
+                            'mark_pending': report.exam_status == 'Mks. pending',
+                            'pending': report.exam_status == 'Att. Pending',
+                            'cancelled': report.exam_status == 'Cancelled'}">{{report.exam_status}}</span>
             </div>
             <div class="table-value-item">
               <!-- <span *ngIf="report.exam_status != 'Mks. Updated'">{{report.exam_status}}</span>
