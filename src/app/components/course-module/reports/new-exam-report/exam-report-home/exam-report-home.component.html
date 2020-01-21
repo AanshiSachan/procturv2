@@ -5,16 +5,15 @@
 <div class="middle-section clear-fix">
   <section class="middle-top mb0 clearFix sms-header">
     <h2 class="pull-left" style="font-weight: bold;">
-      <a routerLink="/view/course" *ngIf="!isProfessional">
+      <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional">
         Course
       </a>
-      <a routerLink="/view/batch" *ngIf="isProfessional">
+      <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional">
         Batch
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       <a routerLink="/view/{{jsonFlag.type}}/reports" style="padding:0px; ">
         Report
-        <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       Exam Report
@@ -107,7 +106,8 @@
             <div class="table-container">
               <div class="table-header-container">
                 <div class="header-item large-item1">
-                  <span>Subject</span>
+                  <span *ngIf="!jsonFlag.isProfessional">Subject</span>
+                  <span *ngIf="jsonFlag.isProfessional">Batch</span>
                 </div>
                 <!-- <div class="header-item small-item align-center">
                   <span>No of Student</span>
@@ -125,7 +125,7 @@
                   <span>Actions</span>
                 </div>
               </div>
-              <div class="table-outer-container">
+              <div class="table-outer-container" [ngStyle]="jsonFlag.isProfessional ? {'min-height': '72vh'} : {'min-height': '30vh'}">
                 <div class="table-value-container" *ngFor="let report of standardExamReportData">
                   <div class="value-item large-item1">
                     <span *ngIf="!jsonFlag.isProfessional" title="{{report.subject_name}}">{{ (report.subject_name.length > 15) ? (report.subject_name | slice:0:15) + '...' : report.subject_name

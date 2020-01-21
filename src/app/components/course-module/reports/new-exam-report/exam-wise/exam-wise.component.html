@@ -4,15 +4,15 @@
 <div class="middle-section clear-fix">
   <section class="middle-top mb0 clearFix sms-header">
     <h2 class="pull-left" style="font-weight: bold;">
-      <a routerLink="/view/course" *ngIf="!isProfessional">
+      <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional">
         Course
       </a>
-      <a routerLink="/view/batch" *ngIf="isProfessional">
+      <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional">
         Batch
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       <a routerLink="/view/{{jsonFlag.type}}/reports" style="padding:0px; ">
-          Report
+        Report
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       <a routerLink="/view/{{jsonFlag.type}}/reports/new-exam" style="padding:0px; ">
@@ -31,7 +31,8 @@
     <div class="section-wise-container">
       <div class="course-wise-container">
         <div class="section-title">
-          <span>Course-wise</span>
+          <span *ngIf="!jsonFlag.isProfessional">Course-wise</span>
+          <span *ngIf="jsonFlag.isProfessional">Batch-wise</span>
         </div>
         <div class="section-info-container">
           <div class="course-info">
@@ -39,11 +40,11 @@
               <div class="course-info-title-container">
                 <span>Course</span>
               </div>
-              <div class="course-info-details" *ngIf="!examSchdlType">
+              <div class="course-info-details" *ngIf="!jsonFlag.isProfessional">
                 <span>{{exam_wise_data?.course_name}}</span>
               </div>
-              <div class="course-info-details" *ngIf="examSchdlType">
-                <span>{{exam_wise_data?.batch_name}}</span>
+              <div class="course-info-details" *ngIf="jsonFlag.isProfessional">
+                <span>{{exam_wise_data?.course_name}} > {{exam_wise_data?.batch_name}}</span>
               </div>
             </div>
             <div class="course-info-item exam-date">
@@ -186,8 +187,9 @@
             <div class="student-wise-value-item very-small-item" style="text-align:center;">
               <span *ngIf="student.attendance_type == 'P'" style="color: #00E172">{{student.attendance_type}}</span>
               <span *ngIf="student.attendance_type == 'A'" style="color: red">{{student.attendance_type}}</span>
+              <span *ngIf="student.attendance_type == 'L'" style="color: #ffb951">{{student.attendance_type}}</span>
             </div>
-            <div class="subject-wise-container" *ngIf="is_exam_grad_feature != 1">
+            <div class="subject-wise-container" *ngIf="is_exam_grad_feature != 1 && !jsonFlag.isProfessional">
               <div class="subject-wise-value-item" *ngFor="let subject of student.subjectWise_marks_obtained">
                 <span *ngIf="subject.subject_level_marks_obtained != null">{{subject.subject_level_marks_obtained}}</span>
                 <span *ngIf="subject.subject_level_marks_obtained == null">-</span>
@@ -195,6 +197,9 @@
               <div class="subject-wise-value-item" *ngIf="student.subjectWise_marks_obtained == null">
                 <span>-</span>
               </div>
+            </div>
+            <div class="subject-wise-container" *ngIf="jsonFlag.isProfessional">
+              <!-- for space purpose in batch model -->
             </div>
             <div class="subject-wise-container" *ngIf="is_exam_grad_feature == 1">
               <div class="subject-wise-value-item">
