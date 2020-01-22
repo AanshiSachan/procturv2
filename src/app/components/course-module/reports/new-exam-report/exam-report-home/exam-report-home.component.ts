@@ -238,17 +238,17 @@ export class ExamReportHomeComponent implements OnInit {
 
     routeTo(course_id){
       if(this.jsonFlag.isProfessional){
-        let standard_id = (document.getElementById("standard") as HTMLInputElement ).value;
-        for(let i = 0; i < this.standardtList.length; i++){
-          if(this.standardtList[i].standard_id == standard_id){
-            // sessionStorage.setItem('masterCourseForReport', this.standardtList[i].standard_name);
-            sessionStorage.setItem('subejctIdForReport', this.standardtList[i].standard_id);
-          }
-        }
+        // let standard_id = (document.getElementById("standard") as HTMLInputElement ).value;
+        // for(let i = 0; i < this.standardtList.length; i++){
+        //   if(this.subjectList[i].subject_id == standard_id){
+        //     sessionStorage.setItem('subejctIdForReport', this.standardtList[i].standard_id);
+        //   }
+        // }
+        sessionStorage.setItem('subejctIdForReport', this.subject);
+        
         for(let i = 0; i < this.subjectList.length; i++){
          if(this.subjectList[i].subject_id == this.subject){
            sessionStorage.setItem('masterCourseForReport', this.subjectList[i].subject_name);
-           // sessionStorage.setItem('subejctIdForReport', this.subjectList[i].subject_id);
          }
        }
       }

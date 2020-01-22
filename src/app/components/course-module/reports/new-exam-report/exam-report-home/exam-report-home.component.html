@@ -93,12 +93,13 @@
         <div class="left-outer-container">
           <div class="left-item">
             <select class="header-select-box" name="" [(ngModel)]="standard" (ngModelChange)="getExamReportForStandard()" id="standard">
-              <option value="-1">Select Standard</option>
+              <option value="-1" *ngIf="!jsonFlag.isProfessional">Select Standard</option>
+              <option value="-1" *ngIf="jsonFlag.isProfessional">Select Master Course</option>
               <option [value]="standard.standard_id" *ngFor="let standard of standardtList">{{standard.standard_name}}</option>
             </select>
             <select class="header-select-box" style="margin-left: 10px;" name="" [(ngModel)]="subject" *ngIf="jsonFlag.isProfessional"
               (ngModelChange)="getExamReportForStandardAndSubject()">
-              <option value="-1">Select Subject</option>
+              <option value="-1">Select Course</option>
               <option [value]="subject.subject_id" *ngFor="let subject of subjectList">{{subject.subject_name}}</option>
             </select>
           </div>
@@ -199,7 +200,8 @@
                   <span [ngClass]="{'completed-class': report.exam_status == 'Mks. Updated',
                                     'pending-class': report.exam_status == 'Att. Pending',
                                     'cancelled-class': report.exam_status == 'Cancelled',
-                                    'marks-pending-class': report.exam_status == 'Mks. pending'}">
+                                    'marks-pending-class': report.exam_status == 'Mks. pending',
+                                    'upcoming-class': report.exam_status == 'Upcoming'}">
                     {{report?.exam_status}}
                   </span>
                 </div>

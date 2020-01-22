@@ -33,6 +33,14 @@ export class CourseWiseComponent implements OnInit {
   masterCourseList: any;
   coursesList: any = [];
 
+  reportJSON: any = {
+    master_course_name: "",
+    standard_id:  "",
+    subject_id: "",
+    from_date: "",
+    to_date: ""
+  };
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -109,19 +117,20 @@ export class CourseWiseComponent implements OnInit {
   }
 
   preRequiredDataForBatchModel(){
-    let standard_id = sessionStorage.getItem('subejctIdForReport');
+    let subjectId = sessionStorage.getItem('subejctIdForReport');
     this.masterCourse = sessionStorage.getItem('masterCourseForReport');
     this.jsonFlag.isRippleLoad = true;
-    this.classService.getStandardSubjectList(standard_id, "-1", "Y").subscribe(
+    this.reportJSON.subject_id = subjectId;
+    this.examdata.getAllExamReport(this.reportJSON).subscribe(
       res => {
-        this.coursesList = res.batchLi;
         this.jsonFlag.isRippleLoad = false;
+        this.coursesList = res;
         this.course = this.course_id
       },
       err => {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         this.jsonFlag.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
-       }
+      }
     );
   }
 
