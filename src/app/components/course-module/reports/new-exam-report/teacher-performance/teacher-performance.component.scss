@@ -121,6 +121,9 @@
 .border-cancelled-class{
   border-left: 3px solid #df0d2f;
 }
+.border-upcoming-class{
+  border-left: 3px solid #ff6c24;
+}
 
 .pending{
   color: #8d8d8d;
@@ -133,4 +136,7 @@
 }
 .completed{
 
+}
+.upcoming{
+  color: #ff6c24;
 }

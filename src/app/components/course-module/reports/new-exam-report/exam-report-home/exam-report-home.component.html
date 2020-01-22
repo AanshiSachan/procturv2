@@ -199,7 +199,8 @@
                   <span [ngClass]="{'completed-class': report.exam_status == 'Mks. Updated',
                                     'pending-class': report.exam_status == 'Att. Pending',
                                     'cancelled-class': report.exam_status == 'Cancelled',
-                                    'marks-pending-class': report.exam_status == 'Mks. pending'}">
+                                    'marks-pending-class': report.exam_status == 'Mks. pending',
+                                    'upcoming-class': report.exam_status == 'Upcoming'}">
                     {{report?.exam_status}}
                   </span>
                 </div>

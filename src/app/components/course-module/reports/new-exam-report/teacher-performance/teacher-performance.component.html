@@ -129,6 +129,7 @@
             [ngClass]="{'border-completed-class': report.exam_status == 'Mks. Updated',
                         'border-updated-class': report.exam_status == 'Mks. pending',
                         'border-pending-class': report.exam_status == 'Att. Pending',
+                        'border-upcoming-class': report.exam_status == 'Upcoming',
                         'border-cancelled-class': report.exam_status == 'Cancelled'}">
             <div class="table-value-item">
               <span>{{report.exam_date | date: 'dd-MMM-yyyy'}}</span>
@@ -161,6 +162,7 @@
               <span [ngClass]="{'completed': report.exam_status == 'Mks. Updated',
                             'mark_pending': report.exam_status == 'Mks. pending',
                             'pending': report.exam_status == 'Att. Pending',
+                            'upcoming': report.exam_status == 'Upcoming',
                             'cancelled': report.exam_status == 'Cancelled'}">{{report.exam_status}}</span>
             </div>
             <div class="table-value-item">
