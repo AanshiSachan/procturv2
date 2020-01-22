@@ -207,12 +207,15 @@ export class AdminHomeComponent implements OnInit {
     var institute_info = JSON.parse(sessionStorage.getItem('institute_info'))
     var loginResp = JSON.parse(sessionStorage.getItem('login-response'));
     var subscriptionLimitAlert: number = sessionStorage.getItem('subscription-limit') == undefined ? 0 : JSON.parse(sessionStorage.getItem('subscription-limit'));
-    if(loginResp.is_subscription_getting_over && subscriptionLimitAlert  == 0 && institute_info.userType != 3){
-      $('#loginSubscription').modal('show');
-      subscriptionLimitAlert = subscriptionLimitAlert + 1;
-      sessionStorage.setItem('subscription-limit',JSON.stringify(subscriptionLimitAlert));
-      this.daysLeftForSubscriptionExpiry = loginResp.no_of_days_left;
-    }
+    // hide for teachers,in case of multi branching
+    if(loginResp != null){
+      if(loginResp.is_subscription_getting_over && subscriptionLimitAlert  == 0 && institute_info.userType != 3){
+        $('#loginSubscription').modal('show');
+        subscriptionLimitAlert = subscriptionLimitAlert + 1;
+        sessionStorage.setItem('subscription-limit',JSON.stringify(subscriptionLimitAlert));
+        this.daysLeftForSubscriptionExpiry = loginResp.no_of_days_left;
+      }
+  }
     this.onChanged('subject');
     this.checkForSubjectWiseView();
 
