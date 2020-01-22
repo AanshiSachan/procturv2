@@ -317,6 +317,9 @@ export class IssueBookComponent implements OnInit {
         if(res.response.results.length  > 0){
           console.log(response)
           this.bookSearchData = res.response.results;
+          this.bookSearchData.forEach(element => {
+            element.authorNameData = Array.prototype.map.call(element.authorObjects, author => author.author_name).toString();
+          });
           this.totalCount = res.response.totalRecords;
           this.searchResult = true;
         }
@@ -355,6 +358,9 @@ export class IssueBookComponent implements OnInit {
           console.log(response)
           this.searchResult = true;
           this.bookSearchData = res.response.results;
+          this.bookSearchData.forEach(element => {
+            element.authorNameData = Array.prototype.map.call(element.authorObjects, author => author.author_name).toString();
+          });
           this.isRippleLoad = false;
         }
         else{

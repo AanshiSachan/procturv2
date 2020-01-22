@@ -179,7 +179,7 @@
           <div class="book_name_container">
             <span class="title">ISBN No.</span>
             <span class="more_info" style="font-weight: 600;" title="{{returnBook.book_complete_details.isbn_number}}">
-              {{ (returnBook.book_complete_details.isbn_number.length >10) ? (returnBook.book_complete_details.isbn_number | slice:0:10) + '...' : (returnBook.book_complete_details.isbn_number) }}
+              {{ (returnBook.book_complete_details.isbn_number?.length >10) ? (returnBook.book_complete_details.isbn_number | slice:0:10) + '...' : (returnBook.book_complete_details.isbn_number) }}
             </span>
           </div>
         </div>
@@ -206,13 +206,9 @@
             <div class="book_name_container">
               <span class="title">Author</span>
               <div class="">
-                <span title="{{concatString(returnBook.book_complete_details.authorObjects)}}">
-                  <span class="more_info" *ngFor="let author of returnBook.book_complete_details.authorObjects | slice:start:end let i = index">
-                    <span *ngIf="i < 2">{{author.author_name | slice:0:10}}<span *ngIf="i == 0">,&nbsp;</span>
-                      <span *ngIf="i < 3 && i == 1">...</span>
-                    </span>
-                  </span>
-                </span>
+                <span title="{{returnBook.authorNameData}}">
+                  {{ (returnBook.authorNameData?.length > 15) ? (returnBook.authorNameData | slice:0:15) + '...' : returnBook.authorNameData }}
+              </span>
               </div>
               <!-- <span class="more_info">{{returnBook.book_complete_details.authorObjects}}</span> -->
             </div>

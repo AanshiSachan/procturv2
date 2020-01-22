@@ -177,20 +177,15 @@
           <span>{{book.title}}</span>
         </div>
         <div class="value_item">
-          <span>{{book.isbn_number}}</span>
+          <span title="{{book.isbn_number}}">{{book.isbn_number | slice:0:10}}</span>
         </div>
         <div class="value_item1">
           <span>{{book.publications.publication_name | slice:0:25}}</span>
         </div>
         <div class="value_item1">
-          <span title="{{concatString(book.authorObjects)}}">
-            <span *ngFor="let author of book.authorObjects | slice:start:end let i = index">
-              <span *ngIf="i < 2">{{author.author_name | slice:0:10}}<span *ngIf="book.authorObjects?.length > 1 && i < 2">,&nbsp;</span>
-                <span *ngIf="i < 3 && i == 1">...</span>
-              </span>
-            </span>
+          <span title="{{book.authorNameData}}">
+              {{ (book.authorNameData?.length > 10) ? (book.authorNameData | slice:0:10) + '...' : book.authorNameData }}
           </span>
-          <!-- <span *ngFor="let author of book.authorObjects | slice:0:book.authorObjects.length >= 1 ? 2 : 1">{{author.author_name | slice:0:10}},&nbsp; </span> -->
         </div>
         <div class="value_item">
           <span>{{book.totalBooksAvailable}} of {{book.totalBooksAdded}}</span>
