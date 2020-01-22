@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
+import * as  moment from 'moment';
 
 @Component({
   selector: 'app-voucher-add-edit',
@@ -78,8 +79,15 @@ export class VoucherAddEditComponent implements OnInit {
     if (this.addVoucherModel.flat_discount_amount === ''
     || this.addVoucherModel.product_id_list.length === 0 || this.addVoucherModel.offer_code === ''
      || this.addVoucherModel.start_date === null || this.addVoucherModel.end_date === null) {
+      this._msgService.showErrorMessage('info', '', 'Please fill mandatory fields');
       return false;
     } else {
+      const start_date = moment(this.addVoucherModel.start_date);
+      const end_date = moment(this.addVoucherModel.end_date);
+      if (start_date > end_date) {
+        this._msgService.showErrorMessage('error', '', 'Start date can not be greater than end date');
+        return false;
+      }
       return true;
     }
   }
@@ -106,8 +114,6 @@ export class VoucherAddEditComponent implements OnInit {
           console.log(err);
         }
       );
-    } else {
-      this._msgService.showErrorMessage('info', '', 'Please fill mandatory fields');
     }
   }
 
@@ -157,8 +163,6 @@ export class VoucherAddEditComponent implements OnInit {
           console.log(err);
         }
       );
-    } else {
-      this._msgService.showErrorMessage('info', '', 'Please fill mandatory fields');
     }
   }
 
