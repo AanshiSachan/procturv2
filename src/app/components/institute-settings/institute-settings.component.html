@@ -2463,6 +2463,15 @@
                             </div>
                           </div>
                         </div>
+                        <div class="row">
+                          <div class="c-sm-6 c-md-6 c-lg-6">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.jwt_secret_key != ''}" style="margin-top: 0;">
+                              <label for="ch105">API Secret Key
+                              </label>
+                              <input type="text" [(ngModel)]="instituteSettingDet.jwt_secret_key" class="form-ctrl" id="ch105">
+                            </div>
+                          </div>
+                        </div>
                       </td>
                     </tr>
 

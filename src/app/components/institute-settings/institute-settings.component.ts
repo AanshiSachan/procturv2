@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting.service';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { AuthenticatorService } from '../../services/authenticator.service';
 import { CommonServiceFactory } from '../../services/common-service';
-import { MessageShowService } from '../../services/message-show.service'
-import { timingSafeEqual } from 'crypto';
+import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting.service';
+import { MessageShowService } from '../../services/message-show.service';
 @Component({
   selector: 'app-institute-settings',
   templateUrl: './institute-settings.component.html',
@@ -323,7 +322,8 @@ export class InstituteSettingsComponent implements OnInit {
 
 
     lib_issue_for_days: '',
-    lib_due_date_fine_per_day: ''
+    lib_due_date_fine_per_day: '',
+    jwt_secret_key: ''
 
   };
   onlinePayment: any = '0';
@@ -764,7 +764,7 @@ export class InstituteSettingsComponent implements OnInit {
    this.instituteSettingDet.first_sms_low_balance_threshold = data.first_sms_low_balance_threshold;
    this.instituteSettingDet.second_sms_low_balance_threshold = data.second_sms_low_balance_threshold;
    this.instituteSettingDet.sms_low_balance_alert_contact_number = (data.sms_low_balance_alert_contact_number == null || data.sms_low_balance_alert_contact_number == 'NULL') ? null : data.sms_low_balance_alert_contact_number;
-   
+   this.instituteSettingDet.jwt_secret_key = data.jwt_secret_key;
   }
 
 
