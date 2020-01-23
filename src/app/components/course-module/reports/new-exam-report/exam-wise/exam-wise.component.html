@@ -193,9 +193,9 @@
               <div class="subject-wise-value-item" *ngFor="let subject of student.subjectWise_marks_obtained">
                 <span *ngIf="subject.subject_level_marks_obtained != null && student.attendance_type == 'P'">{{subject.subject_level_marks_obtained}}</span>
                 <span *ngIf="subject.subject_level_marks_obtained == 0 && student.attendance_type == 'A' || student.attendance_type == 'L'">-</span>
-                <span *ngIf="subject.subject_level_marks_obtained == null && subjectWiseData.length > 0">-</span>
+                <span *ngIf="subject.subject_level_marks_obtained == null && subjectWiseData?.length > 0">-</span>
               </div>
-              <div class="subejct-null-container" *ngIf="student.subjectWise_marks_obtained == null && subjectWiseData.length > 0">
+              <div class="subejct-null-container" *ngIf="student.subjectWise_marks_obtained == null && subjectWiseData?.length > 0">
                 <div class="subject-wise-value-item" *ngFor="let subject of subjectWiseData">
                   <span>-</span>
                 </div>
