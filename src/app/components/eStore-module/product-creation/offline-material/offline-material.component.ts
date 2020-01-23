@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ProductService } from '../../../../services/products.service';
-import { MessageShowService } from '../../../../services/message-show.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageShowService } from '../../../../services/message-show.service';
+import { ProductService } from '../../../../services/products.service';
 
 @Component({
   selector: 'app-offline-material',
@@ -16,7 +16,7 @@ export class OfflineMaterialComponent implements OnInit {
   @Output() startForm = new EventEmitter<string>();
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
-  inventoryList: any = [ ];
+  inventoryList: any = [];
   description: string = '';
   selectAll: boolean = false;
   isRippleLoad: boolean = false;
@@ -27,7 +27,7 @@ export class OfflineMaterialComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.initForm();    
+    this.initForm();
   }
 
   initOfflineMaterials() {
@@ -38,17 +38,19 @@ export class OfflineMaterialComponent implements OnInit {
         (resp: any) => {
           this.isRippleLoad = false;
           if (resp.validate) {
-              this.inventoryList = resp.result;
-              this.inventoryList.forEach(element => {
-                element.isChecked = false;
-                for (let i = 0; i < this.prodForm.product_item_list.length; i++) {
+            this.inventoryList = resp.result;
+            this.inventoryList.forEach(element => {
+              element.isChecked = false;
+              for (let i = 0; i < this.prodForm.product_item_list.length; i++) {
                 let obj = this.prodForm.product_item_list[i];
-                  if(element.inventory_id==obj.source_item_id && obj.slug=='Offline_Material'){
-                    element.isChecked = true;
-                    break;
-                  } 
+                if (element.inventory_id == obj.source_item_id && obj.slug == 'Offline_Material') {
+                  element.isChecked = true;
+                  break;
                 }
-              });
+              }
+              element.is_existed_selected = element.isChecked;
+            });
+            this.selectVlaue();
           }
           else {
             this.msgService.showErrorMessage('error', resp.error, '');
@@ -105,10 +107,18 @@ export class OfflineMaterialComponent implements OnInit {
   }
 
   selectAllDetails($event) {
-    this.inventoryList.forEach(element => { element.isChecked = $event });
+    this.inventoryList.forEach(element => {
+      if (element.is_existed_selected) {
+        element.isChecked = element.is_existed_selected
+      }
+      else {
+        element.isChecked = $event;
+      }
+    });
+    this.selectVlaue();
   }
 
-  selectVlaue($event) {
+  selectVlaue() {
     this.selectAll = false;
     let array = this.inventoryList.filter(element => element.isChecked == true);
     if (array.length == this.inventoryList.length) {
@@ -121,11 +131,11 @@ export class OfflineMaterialComponent implements OnInit {
   }
 
   gotoNext() {
-    if (this.description == undefined ||this.description == '') {
+    if (this.description == undefined || this.description == '') {
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }
-    if (this.description.length>1500 ) {
+    if (this.description.length > 1500) {
       this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
       return;
     }
@@ -154,6 +164,8 @@ export class OfflineMaterialComponent implements OnInit {
         //update test List
         let obj = {
           "page_type": "Offline_Material",
+          "status": this.prodForm.status,
+          "is_advance_product": this.prodForm.is_advance_product,
           "item_list": objectArray,
           "description": this.description
         }

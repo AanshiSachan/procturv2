@@ -1,8 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { ProductService } from '../../../../services/products.service';
-import { MessageShowService } from '../../../../services/message-show.service';
-import { Router } from '../../../../../../node_modules/@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
+import { Router } from '../../../../../../node_modules/@angular/router';
+import { MessageShowService } from '../../../../services/message-show.service';
+import { ProductService } from '../../../../services/products.service';
 @Component({
   selector: 'app-mock-test',
   templateUrl: './mock-test.component.html',
@@ -210,6 +210,8 @@ export class MockTestComponent implements OnInit {
         //update test List
         let obj = {
           "page_type": "Mock_Test",
+          "status": this.prodForm.status,
+          "is_advance_product": this.prodForm.is_advance_product,
           "item_list": objectArray,
           "description": this.description
         }

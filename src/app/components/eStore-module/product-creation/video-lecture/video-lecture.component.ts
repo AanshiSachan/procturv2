@@ -1,7 +1,7 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { MessageShowService } from '../../../../services/message-show.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../../services/http.service';
+import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
 
 @Component({
@@ -55,6 +55,8 @@ export class VideoLectureComponent implements OnInit {
       //update test List
       let obj={
         "page_type": "Videos",
+        "status": this.prodForm.status,
+        "is_advance_product": this.prodForm.is_advance_product,
         "item_list":this.testlist,
         "description":this.description
       }
@@ -169,6 +171,7 @@ export class VideoLectureComponent implements OnInit {
           element.subject_id =object.subject_id;
           element.course_type_id = object.course_type_id;
           element.parent_topic_id = object.parent_topic_id;
+          element.is_existed_selected= element.selected;
           let str = element.file_name;
           // this.isItemSelected(element, key);
           let ext = str && str.substr(str.lastIndexOf(".") + 1, str.length);

@@ -10,7 +10,7 @@
           <label class="text-bold">Product Name
             <span class="text-danger">*</span>
           </label>
-          <input type="text" autocomplete="off" [(ngModel)]="prodForm.title" name="title" #title="ngModel"
+          <input type="text" [disabled]="isAdvanceProductEdit" autocomplete="off" [(ngModel)]="prodForm.title" name="title" #title="ngModel"
             class="form-control form-control-sm" placeholder="Product Name" required />
           <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
             <div *ngIf="title.errors.required">
@@ -28,7 +28,7 @@
                 </div>
               </div></label>
           <ng-multiselect-dropdown  [placeholder]="'Select E-courses'" [(ngModel)]="products_ecourse_maps"
-            [data]="ecourseList" [settings]="moderatorSettings">
+            [data]="ecourseList" [settings]="moderatorSettings" [disabled]="isAdvanceProductEdit">
           </ng-multiselect-dropdown>
         </div>
       </div>
@@ -59,7 +59,7 @@
                       website will be as per the defined product sell limit
                   </div>
                 </div></label>
-            <input type="text" maxlength="6" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" autocomplete="off"
+            <input type="text" [disabled]="isAdvanceProductEdit" maxlength="6" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" autocomplete="off"
               [(ngModel)]="prodForm.purchase_limit" name="purchase_limit" class="form-control form-control-sm">
           </div>
         </div>
@@ -68,14 +68,24 @@
             <label class="text-bold" style="position: absolute; left: 19px;">Price</label>
             <span class="field-checkbox-wrapper">
               <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_paid"
-                (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price =0" name="free_price" name="is_paid">
+                (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price =0" 
+                name="free_price" name="is_paid" [disabled]="isAdvanceProductEdit">
               <label for="free_price">Free</label>
             </span>
             <input type="text" value="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-              [(ngModel)]="prodForm.price" [disabled]="prodForm.is_paid" name="price"
+              [(ngModel)]="prodForm.price" [disabled]="prodForm.is_paid ||isAdvanceProductEdit " name="price"
               class="form-control form-control-sm">
           </div>
         </div>
+      </div>
+      <div class="col-md-12">    
+          <div class="form-group">
+            <span class="field-checkbox-wrapper">
+              <input class="form-checkbox" type="checkbox" id="adv_product" [(ngModel)]="prodForm.is_advance_product"
+                  name="is_advance_product" [disabled]="isAdvanceProductEdit">
+              <label for="adv_product">Is Advance Product</label>
+            </span>
+          </div>
       </div>
       <div class="col-md-12">
         <div class="form-group">
@@ -111,14 +121,14 @@
         <div class="col-md-6 form-group" >
           <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
             <label for="from">From Date<span class="text-danger">*</span></label>
-            <input type="text" [(ngModel)]="prodForm.sales_from_date" name="from" class="form-control form-control-sm"
+            <input type="text" [disabled]="isAdvanceProductEdit" [(ngModel)]="prodForm.sales_from_date" name="from" class="form-control form-control-sm"
               autocomplete="off" bsDatepicker>
           </div>
         </div>
         <div class="col-md-6 form-group">
           <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
             <label for="from">To Date<span class="text-danger">*</span></label>
-            <input type="text" [(ngModel)]="prodForm.sales_to_date" name="to" class="form-control form-control-sm"
+            <input type="text" [disabled]="isAdvanceProductEdit" [(ngModel)]="prodForm.sales_to_date" name="to" class="form-control form-control-sm"
               autocomplete="off" bsDatepicker>
           </div>
         </div>

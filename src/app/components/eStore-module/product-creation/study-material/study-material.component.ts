@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '../../../../../../node_modules/@angular/router';
 import { HttpService } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
@@ -82,6 +82,8 @@ export class StudyMaterialComponent implements OnInit {
       //update test List
       let obj = {
         "page_type": "Study_Material",
+        "status": this.prodForm.status,
+        "is_advance_product": this.prodForm.is_advance_product,
         "item_list": this.testlist,
         "description": this.description
       }
@@ -183,7 +185,9 @@ export class StudyMaterialComponent implements OnInit {
           element.subject_id = object.subject_id;
           element.course_type_id = object.course_type_id;
           element.parent_topic_id = object.parent_topic_id;
+          element.is_existed_selected= element.selected;
           let str = element.file_name;
+          element.is_Advance_prod =  this.prodForm.is_advance_product ? true : false;
           // this.isItemSelected(element, key);
           let ext = str && str.substr(str.lastIndexOf(".") + 1, str.length);
           switch (ext) {

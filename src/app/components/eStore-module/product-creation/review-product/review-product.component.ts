@@ -1,9 +1,9 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { ProductService } from '../../../../services/products.service';
-import { MessageShowService } from '../../../../services/message-show.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { MessageShowService } from '../../../../services/message-show.service';
+import { ProductService } from '../../../../services/products.service';
 
 
 @Component({
@@ -15,6 +15,7 @@ export class ReviewProductComponent implements OnInit {
   prod_free: any;
   selectedPeople1: any;
   people: any;
+  isAdvanceProductEdit: boolean = false;
   @Input() entity_id: any;
   @Input() prodForm: any;
   @Output() nextForm = new EventEmitter<string>();
@@ -26,7 +27,7 @@ export class ReviewProductComponent implements OnInit {
   mock_count: number = 0;
   online_count: number = 0;
   isRippleLoad: boolean = false;
-  image_url: any=null;
+  image_url: any = null;
   moderatorSettings: any = {
     singleSelection: false,
     idField: 'course_type_id',
@@ -99,12 +100,9 @@ export class ReviewProductComponent implements OnInit {
   // }
 
   initDataEcourse() {
-    let param = {
-      "proc-authorization": "MTk4MzJ8MDphZG1pbjoxMDAxMjg="
-    }
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
-      this.http.getMethod('ext/get-ecources', param).subscribe(
+      this.http.getMethod('ext/get-ecources', null).subscribe(
         (resp: any) => {
           this.isRippleLoad = false;
           let response = JSON.parse(resp.result);
@@ -139,9 +137,11 @@ export class ReviewProductComponent implements OnInit {
             this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date).format('DD-MMM-YYYY');
             this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date).format('DD-MMM-YYYY');
             this.prodForm.product_item_stats = {};
-              // -- added by laxmi
-          // this code is used to laod image url dynamically not save in locally dont remove it
-            this.image_url = response.photo_url? response.photo_url +"?t="+new Date().getTime():null; 
+            this.prodForm.is_advance_product = this.prodForm.is_advance_product ? true : false;
+            this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status== 30) ?true:false;
+            // -- added by laxmi
+            // this code is used to laod image url dynamically not save in locally dont remove it
+            this.image_url = response.photo_url ? response.photo_url + "?t=" + new Date().getTime() : null;
             this.prodForm.logo_url = response.logo_url;
             this.prodForm.photo_url = response.photo_url
             this.prodForm.product_items_types.forEach(element => {
@@ -209,7 +209,7 @@ export class ReviewProductComponent implements OnInit {
           if (newxhr.status >= 200 && newxhr.status < 300) {
             this.isRippleLoad = false;
             let res = JSON.parse(newxhr.response);
-            this.image_url = res.photo_url? res.photo_url +"?t="+new Date().getTime():null;
+            this.image_url = res.photo_url ? res.photo_url + "?t=" + new Date().getTime() : null;
             this.prodForm.logo_url = res.thumbnail_url;
             this.prodForm.photo_url = res.photo_url;
             this.msgService.showErrorMessage('success', '', 'File uploaded successfully');
@@ -266,6 +266,7 @@ export class ReviewProductComponent implements OnInit {
       "photo_url": this.prodForm.photo_url,
       "about": this.prodForm.about,
       "is_paid": this.prodForm.is_paid,
+      "is_advance_product":this.prodForm.is_advance_product,
       "price": this.prodForm.price,
       "valid_from_date": this.prodForm.valid_from_date,
       "valid_to_date": this.prodForm.valid_to_date,
@@ -290,7 +291,7 @@ export class ReviewProductComponent implements OnInit {
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
       this.http.postMethod('product/update', body).then(
-        (resp) => {
+        (resp:any) => {
           this.isRippleLoad = false;
           let data = resp['body'];
           if (data.validate) {
@@ -298,7 +299,7 @@ export class ReviewProductComponent implements OnInit {
             this.gotoBack();
           }
           else {
-            this.msgService.showErrorMessage('error', "something went wrong, try again", '');
+            this.msgService.showErrorMessage('error', resp.body.error[0].error_message, '');
           }
         },
         (err) => {
