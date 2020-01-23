@@ -24,6 +24,7 @@ export class OnlineExamComponent implements OnInit {
   description: string = '';
   selectAll: boolean = false;
   isRippleLoad: boolean = false;
+  isAdvanceProductEdit:boolean = false;
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
@@ -66,11 +67,11 @@ export class OnlineExamComponent implements OnInit {
             if (ecourse.testlist.length && this.prodForm.product_item_list.length) {
               this.prodForm.product_item_list.forEach((obj) => {
                 ecourse.testlist.forEach((test) => {
-                  test.is_existed_selected = false;
                   if (test.test_id == obj.source_item_id && obj.course_type_id == ecourse.course_type_id
                     && obj.slug == "Online_Test") { 
                       test.isChecked = true; 
-                      test.is_existed_selected = test.isChecked;
+                      test.is_existed_selected= (test.isChecked && this.isAdvanceProductEdit)? true : false;
+                      
                     }
                 });
               });
@@ -102,6 +103,7 @@ export class OnlineExamComponent implements OnInit {
             let productData = response;
             this.testlist = [];
             this.prodForm = response;
+            this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status == 30) ? true : false;
             this.description = response.page_description['Online_Test'];
             this.prodForm.product_item_stats = {};
             this.prodForm.product_items_types.forEach(element => {

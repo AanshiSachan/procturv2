@@ -27,6 +27,7 @@ export class VideoLectureComponent implements OnInit {
   outputMessage: any = '';
   materialData: any[] = [];
   testlist: any[] = [];
+  isAdvanceProductEdit:boolean=false;
   constructor(
     private router: Router,
     private msgService: MessageShowService,
@@ -38,7 +39,7 @@ export class VideoLectureComponent implements OnInit {
   }
 
   gotoBack() {
-    this.router.navigateByUrl('/products');
+    this.router.navigateByUrl('/view/e-store/details');
   }
 
   gotoNext() {
@@ -171,7 +172,7 @@ export class VideoLectureComponent implements OnInit {
           element.subject_id =object.subject_id;
           element.course_type_id = object.course_type_id;
           element.parent_topic_id = object.parent_topic_id;
-          element.is_existed_selected= element.selected;
+          element.is_existed_selected= (element.selected && this.isAdvanceProductEdit)? true : false;
           let str = element.file_name;
           // this.isItemSelected(element, key);
           let ext = str && str.substr(str.lastIndexOf(".") + 1, str.length);
@@ -330,6 +331,7 @@ export class VideoLectureComponent implements OnInit {
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
+            this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status == 30) ? true : false;
             this.updateProductItemStates(null, null);
             this.initForm();
           }

@@ -20,6 +20,7 @@ export class OfflineMaterialComponent implements OnInit {
   description: string = '';
   selectAll: boolean = false;
   isRippleLoad: boolean = false;
+  isAdvanceProductEdit: boolean = false;
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
@@ -48,7 +49,7 @@ export class OfflineMaterialComponent implements OnInit {
                   break;
                 }
               }
-              element.is_existed_selected = element.isChecked;
+              element.is_existed_selected = (element.isChecked && this.isAdvanceProductEdit) ? true : false;
             });
             this.selectVlaue();
           }
@@ -81,6 +82,7 @@ export class OfflineMaterialComponent implements OnInit {
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
+            this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status == 30) ? true : false;
             this.updateProductItemStates(null, null);
             this.initOfflineMaterials();
           }

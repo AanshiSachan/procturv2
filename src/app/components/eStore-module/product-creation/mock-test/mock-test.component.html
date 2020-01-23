@@ -69,7 +69,7 @@
               <tr *ngFor="let test of ecourse.testlist;let i =index;">
                 <td>
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" class="form-checkbox" [disabled]="test.is_existed_selected"
+                    <input type="checkbox" class="form-checkbox" [disabled]="test?.is_existed_checked"
                      [checked]="test.isChecked" [(ngModel)]="test.isChecked"
                       (ngModelChange)="selectVlaue($event,test)" [id]="'ch'+index">
                     <label [for]="'ch'+index"></label>
@@ -86,7 +86,7 @@
                 <td>{{getTime(test.end_timestamp)}}<br>
                   <span style="color:blue;"><b>{{getDate(test.end_timestamp)}}</b></span>
                 </td>
-                <td> {{test.total_marks}}  </td>
+                <td> {{test.total_marks}}</td>
                 <td>
                   {{test.total_question}}
                 </td>

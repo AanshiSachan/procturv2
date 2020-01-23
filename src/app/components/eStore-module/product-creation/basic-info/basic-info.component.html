@@ -100,7 +100,7 @@
         <div class="row form-group border-bt">
           <div class="col-md-4" *ngFor="let item of itemStates;let i = index">
             <div class="field-checkbox-wrapper">
-              <input class="form-checkbox" [(ngModel)]="prodItems[item.slug]"  [disabled]="advanceProductItems[item.slug]"
+              <input class="form-checkbox" [(ngModel)]="prodItems[item.slug]"  [disabled]="isAdvanceProductEdit && advanceProductItems[item.slug]"
                 (ngModelChange)="updateProductItemStates($event,item)" [name]="'item-'+i" [id]="item.slug" value="1"
                 type="checkbox">
               <label [for]="item.slug">{{item.name}} </label>
