@@ -137,7 +137,6 @@ export class ReviewProductComponent implements OnInit {
             this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date).format('DD-MMM-YYYY');
             this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date).format('DD-MMM-YYYY');
             this.prodForm.product_item_stats = {};
-            this.prodForm.is_advance_product = this.prodForm.is_advance_product ? true : false;
             this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status== 30) ?true:false;
             // -- added by laxmi
             // this code is used to laod image url dynamically not save in locally dont remove it

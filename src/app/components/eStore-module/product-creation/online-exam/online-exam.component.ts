@@ -66,8 +66,12 @@ export class OnlineExamComponent implements OnInit {
             if (ecourse.testlist.length && this.prodForm.product_item_list.length) {
               this.prodForm.product_item_list.forEach((obj) => {
                 ecourse.testlist.forEach((test) => {
+                  test.is_existed_selected = false;
                   if (test.test_id == obj.source_item_id && obj.course_type_id == ecourse.course_type_id
-                    && obj.slug == "Online_Test") { test.isChecked = true; }
+                    && obj.slug == "Online_Test") { 
+                      test.isChecked = true; 
+                      test.is_existed_selected = test.isChecked;
+                    }
                 });
               });
             }

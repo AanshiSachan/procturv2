@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../../../services/products.service';
-import { Router, ActivatedRoute } from '../../../../../node_modules/@angular/router';
+import { ActivatedRoute, Router } from '../../../../../node_modules/@angular/router';
 import { MessageShowService } from '../../../services/message-show.service';
-import { product_details } from './product.model';
+import { ProductService } from '../../../services/products.service';
 
 @Component({
   selector: 'app-product-creation',
@@ -194,7 +193,7 @@ export class ProductCreationComponent implements OnInit {
 
    setPaddingDetails(){
     this.jsonData.padding_left =35;
-    let obj={1:37,2:37,3:34,4:29,5:26,6:22,7:18,8:16,9:18};
+    let obj={1:30,2:30,3:28,4:23,5:19,6:14,7:13,8:8,9:6};
     let keys = Object.keys(this.formSequence);
     let flag_count=0;
    keys.forEach((element, index) => {

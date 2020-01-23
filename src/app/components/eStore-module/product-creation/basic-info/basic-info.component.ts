@@ -26,6 +26,7 @@ export class BasicInfoComponent implements OnInit {
   products_ecourse_maps: any[] = [];
   itemStates: any[] = [];
   prodItems: any = {}
+  advanceProductItems:any={};
   moderatorSettings: any = {
     singleSelection: false,
     idField: 'course_type_id',
@@ -134,10 +135,12 @@ export class BasicInfoComponent implements OnInit {
           this.prodForm.is_advance_product = this.prodForm.is_advance_product ? true : false;
          this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status== 30) ?true:false;
           this.prodForm.product_item_stats = {};
+          this.advanceProductItems = {};
           this.prodForm.product_items_types.forEach(element => {
             this.itemStates.forEach((object) => {
               if (object.entity_id == element.entity_id) {
                 this.prodItems[object.slug] = true;
+                this.advanceProductItems[object.slug] = true;
                 this.prodForm.product_item_stats[object.slug] = true;
               }
             });
