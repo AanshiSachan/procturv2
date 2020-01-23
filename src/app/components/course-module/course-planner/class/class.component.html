@@ -463,11 +463,6 @@
               <i class="fa fa-times" aria-hidden="true" (click)="hideShowHideMenu()"></i>
             </div>
             <div class="show-hide-value-container">
-              <!-- <div class="field-checkbox-wrapper show-hide-item">
-                <input type="checkbox" id="masterCourse" name="" [(ngModel)]="showHideColumns.masterCourse"
-                    class="form-checkbox" (change)="hideCol($event)">
-                <label for="masterCourse">Master Course</label>
-              </div> -->
               <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="course" name="" [(ngModel)]="showHideColumns.course"
                     class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.course && checkedColCounter == dynamicColCounter">
