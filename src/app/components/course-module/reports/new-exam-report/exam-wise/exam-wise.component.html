@@ -192,11 +192,13 @@
             <div class="subject-wise-container" *ngIf="is_exam_grad_feature != 1 && !jsonFlag.isProfessional">
               <div class="subject-wise-value-item" *ngFor="let subject of student.subjectWise_marks_obtained">
                 <span *ngIf="subject.subject_level_marks_obtained != null && student.attendance_type == 'P'">{{subject.subject_level_marks_obtained}}</span>
-                <span *ngIf="subject.subject_level_marks_obtained == 0 && student.attendance_type == 'A'">-</span>
-                <span *ngIf="subject.subject_level_marks_obtained == null">-</span>
+                <span *ngIf="subject.subject_level_marks_obtained == 0 && student.attendance_type == 'A' || student.attendance_type == 'L'">-</span>
+                <span *ngIf="subject.subject_level_marks_obtained == null && subjectWiseData.length > 0">-</span>
               </div>
-              <div class="subject-wise-value-item" *ngIf="student.subjectWise_marks_obtained == null">
-                <span>-</span>
+              <div class="subejct-null-container" *ngIf="student.subjectWise_marks_obtained == null && subjectWiseData.length > 0">
+                <div class="subject-wise-value-item" *ngFor="let subject of subjectWiseData">
+                  <span>-</span>
+                </div>
               </div>
             </div>
             <div class="subject-wise-container" *ngIf="jsonFlag.isProfessional">

@@ -177,7 +177,11 @@
     }
   }
 }
-
+.subejct-null-container{
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+}
 .student-wise-container{
   display: flex;
   flex-direction: column;
