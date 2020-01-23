@@ -323,7 +323,8 @@ export class InstituteSettingsComponent implements OnInit {
 
 
     lib_issue_for_days: '',
-    lib_due_date_fine_per_day: ''
+    lib_due_date_fine_per_day: '',
+    jwt_secret_key: ''
 
   };
   onlinePayment: any = '0';
@@ -764,7 +765,7 @@ export class InstituteSettingsComponent implements OnInit {
    this.instituteSettingDet.first_sms_low_balance_threshold = data.first_sms_low_balance_threshold;
    this.instituteSettingDet.second_sms_low_balance_threshold = data.second_sms_low_balance_threshold;
    this.instituteSettingDet.sms_low_balance_alert_contact_number = data.sms_low_balance_alert_contact_number;
-   
+   this.instituteSettingDet.jwt_secret_key = data.jwt_secret_key;
   }
 
 
