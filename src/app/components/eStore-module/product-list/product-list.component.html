@@ -217,7 +217,7 @@
                   <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
                 </button>
                 <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
-                  <a class="dropdown-item" *ngIf="item.status < 30 " [routerLink]="['/view/e-store/create/'+item.entity_id+'/basic']">Edit</a>
+                  <a class="dropdown-item" *ngIf="item.status < 30 ||(item.is_advance_product&& item.status== 30) " [routerLink]="['/view/e-store/create/'+item.entity_id+'/basic']">Edit</a>
                   <a class="dropdown-item" *ngIf="item.status < 30 " (click)="actionProductModal('delete', item.entity_id)">Delete</a>
                   <a class="dropdown-item" (click)="actionProductModal('ready', item.entity_id)" *ngIf="item.status == 10">Ready</a>
                   <a class="dropdown-item" (click)="actionProductModal('publish', item.entity_id)" *ngIf="item.status == 20">Publish</a>
