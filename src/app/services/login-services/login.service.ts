@@ -139,7 +139,8 @@ export class LoginService {
     let url = this.baseUrl + "/api/v1/institutes/" + sessionStorage.getItem('institute_id');
     return this.http.get(url, { headers: this.headers }).map(
       res => {
-        this.poweredBy.next(res.show_powered_by_proctur);
+        let result: any = res;
+        this.poweredBy.next(result.show_powered_by_proctur);
         return res;
       },
       err => { return err; }
