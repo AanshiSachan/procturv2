@@ -177,7 +177,9 @@
           <span>{{book.title}}</span>
         </div>
         <div class="value_item">
-          <span title="{{book.isbn_number}}">{{book.isbn_number | slice:0:10}}</span>
+          <span title="{{book.isbn_number}}">
+            {{ (book.isbn_number?.length > 13) ? (book.isbn_number | slice:0:13) + '...' : book.isbn_number }}
+          </span>
         </div>
         <div class="value_item1">
           <span>{{book.publications.publication_name | slice:0:25}}</span>
