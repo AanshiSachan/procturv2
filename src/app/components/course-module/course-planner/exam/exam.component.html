@@ -303,10 +303,12 @@
               <span *ngIf="jsonFlag.isProfessional" title="{{course.batch_name}}">{{ (course.batch_name.length > 50) ? (course.batch_name | slice:0:50) + '...' : course.batch_name }}</span>
             </div>
             <div class="table-value-item medium"  *ngIf="showHideColumns.topic">
-              <span title="{{course.topics_covered}}">{{ (course.topics_covered.length > 50) ? (course.topics_covered | slice:0:50) + '...' : course.topics_covered }}</span>
+              <span *ngIf="course?.topics_covered.length == 0">-</span>
+              <span title="{{course.topics_covered}}" *ngIf="course?.topics_covered.length != 0">{{ (course.topics_covered.length > 50) ? (course.topics_covered | slice:0:50) + '...' : course.topics_covered }}</span>
             </div>
             <div class="table-value-item medium" *ngIf="showHideColumns.description">
-              <span title="{{course.description}}">{{ (course.description.length > 50) ? (course.description | slice:0:50) + '...' : course.description }}</span>
+              <span *ngIf="course?.description.length == 0">-</span>
+              <span title="{{course.description}}" *ngIf="course?.description.length != 0">{{ (course.description.length > 50) ? (course.description | slice:0:50) + '...' : course.description }}</span>
             </div>
             <div class="table-value-item small">
               <span>{{course.total_marks}}</span>
@@ -315,7 +317,8 @@
               <span>-</span>
             </div> -->
             <div class="table-value-item small">
-              <span>{{course.room_no}}</span>
+              <span *ngIf="course?.room_no.length == 0">-</span>
+              <span *ngIf="course?.room_no.length != 0">{{course.room_no}}</span>
             </div>
             <div class="table-value-item small align-center">
               <button type="button" name="button" class="upcoming-btn" *ngIf="course.status == 'Upcoming'">Upcoming</button>
