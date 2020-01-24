@@ -26,6 +26,7 @@ export class LoginService {
   private sideNavSource = new BehaviorSubject<string>('');
   private permissionSource = new BehaviorSubject<any>('');
   private userTypeSource = new BehaviorSubject<any>('');
+  private poweredBy = new BehaviorSubject<any>('');
 
   currentInstitute = this.instituteNameSource.asObservable();
   currentSidenav = this.sideNavSource.asObservable();
@@ -33,7 +34,7 @@ export class LoginService {
   currentMenuState = this.overlayMenu.asObservable();
   currentPermissions = this.permissionSource.asObservable();
   currentUserType = this.userTypeSource.asObservable();
-
+  poweredByStatus = this.poweredBy.asObservable();
 
   changePermissions(data: any) {
     this.permissionSource.next(data);
@@ -137,7 +138,10 @@ export class LoginService {
   storeInstituteInfoToSession() {
     let url = this.baseUrl + "/api/v1/institutes/" + sessionStorage.getItem('institute_id');
     return this.http.get(url, { headers: this.headers }).map(
-      res => { return res; },
+      res => {
+        this.poweredBy.next(res.show_powered_by_proctur);
+        return res;
+      },
       err => { return err; }
     );
   }
