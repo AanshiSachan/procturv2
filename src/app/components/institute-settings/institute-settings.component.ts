@@ -511,8 +511,8 @@ export class InstituteSettingsComponent implements OnInit {
         this.commonService.showErrorMessage('info','', 'Threshold SMS 2 cannnot be greater than Threshold SMS 1');
         return false;
       }
-    }
-    if(this.instituteSettingDet.sms_low_balance_alert_contact_number != null && this.instituteSettingDet.sms_low_balance_alert_contact_number != ''){
+    } // sms_low_balance_alert_contact_number key by default coming as 'NULL' string from backend
+    if(this.instituteSettingDet.sms_low_balance_alert_contact_number != null && this.instituteSettingDet.sms_low_balance_alert_contact_number != 'NULL' && this.instituteSettingDet.sms_low_balance_alert_contact_number != ''){
       if(!this.checkContactNoPattern(this.instituteSettingDet.sms_low_balance_alert_contact_number)){
         this.isRippleLoad = false;
         this.commonService.showErrorMessage('error','','Please enter numbers only');
@@ -763,7 +763,7 @@ export class InstituteSettingsComponent implements OnInit {
    this.instituteSettingDet.student_expiry_notification_contact_no = data.student_expiry_notification_contact_no;
    this.instituteSettingDet.first_sms_low_balance_threshold = data.first_sms_low_balance_threshold;
    this.instituteSettingDet.second_sms_low_balance_threshold = data.second_sms_low_balance_threshold;
-   this.instituteSettingDet.sms_low_balance_alert_contact_number = data.sms_low_balance_alert_contact_number;
+   this.instituteSettingDet.sms_low_balance_alert_contact_number = (data.sms_low_balance_alert_contact_number == null || data.sms_low_balance_alert_contact_number == 'NULL') ? null : data.sms_low_balance_alert_contact_number;
    
   }
 
