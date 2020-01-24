@@ -1,14 +1,14 @@
 
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
-import 'rxjs/Rx';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+import { Subscription } from 'rxjs';
+import 'rxjs/Rx';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { ExcelService } from '../../../../services/excel.service';
+import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { getSMSService } from '../../../../services/report-services/get-sms.service';
-import { AuthenticatorService } from '../../../../services/authenticator.service';
-import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
-import { ExcelService } from '../../../../services/excel.service';
 import { DataDisplayTableComponent } from '../../../shared/data-display-table/data-display-table.component';
 
 @Component({
@@ -214,7 +214,19 @@ export class TransctionalSmsComponent implements OnInit {
     let rows = [];
     rows = [['Name', "Contact No.", "Message", 'Sent Date-Time', 'Role', 'Type', 'Event', 'Status']]
     let columns = arr;
-    this._pdfService.exportToPdf(rows, columns, 'SMS');
+    let columnStyles = {
+      1: {
+        columnWidth: 30
+      },
+      2: {
+        columnWidth: 90
+      },
+      3: {
+        columnWidth: 30
+      },
+      //  columnWidth: 'wrap'
+    };
+    this._pdfService.exportToPdf(rows, columns, 'SMS', columnStyles);
   }
 
 
