@@ -137,6 +137,16 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.createCustomSidenav();
     });
 
+    this.log.poweredByStatus.subscribe(res => {
+      let result: any = res;
+      if(result == 1){
+        this.jsonFlags.isShowPowerBy = true;
+      }
+      else{
+        this.jsonFlags.isShowPowerBy = false;
+      }
+    });
+
     this.form.valueChanges
       .debounceTime(1000)
       .distinctUntilChanged()
@@ -150,7 +160,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.checkUserHadAccess();
     this.checkInstituteType();
     this.checkManinBranch();
-    this.getInstituteSetting();
   }
 
   ngAfterViewInit() {
@@ -158,18 +167,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   }
 
 
-  getInstituteSetting(){
-    this.log.storeInstituteInfoToSession().subscribe(
-      res => {
-        let result: any = res;
-         if(result.show_powered_by_proctur == 1){
-         this.jsonFlags.isShowPowerBy = result.show_powered_by_proctur;
-         }
-      },
-      err => {
-      }
-    )
-  }
 
   hideForUsers() {
     if (sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0') {
