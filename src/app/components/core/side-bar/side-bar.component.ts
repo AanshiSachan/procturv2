@@ -106,7 +106,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.instituteName = sessionStorage.getItem('institute_name');
     this.userName = sessionStorage.getItem('name');
     this.instituteId = sessionStorage.getItem('institute_id');
-
     this.log.currentUserType.subscribe(e => {
       if (e == '' || e == null || e == undefined) {
       }
@@ -139,8 +138,11 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
     this.log.poweredByStatus.subscribe(res => {
       let result: any = res;
-      if(result.show_powered_by_proctur == 1){
+      if(result == 1){
         this.jsonFlags.isShowPowerBy = true;
+      }
+      else{
+        this.jsonFlags.isShowPowerBy = false;
       }
     });
 
