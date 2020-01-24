@@ -150,34 +150,25 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.checkUserHadAccess();
     this.checkInstituteType();
     this.checkManinBranch();
-    this.hidePowerBy()
+    this.getInstituteSetting();
   }
 
   ngAfterViewInit() {
     this.setActiveClassOnSideNav();
   }
 
-  hidePowerBy() {
-    let institute_id = this.globalSearchForm.instituteId;
-    this.jsonFlags.isShowPowerBy = true;
-    if (institute_id == '101132' ||
-        institute_id == '101133' ||
-        institute_id == '101134' ||
-        institute_id == '101135' ||
-        institute_id == '101149' ||
-        institute_id == '101150' ||
-        institute_id == '101140' ||
-        institute_id == '101247' ||
-        institute_id == '101248' ||
-        institute_id == '101249' ||
-        institute_id == '101275' ||
-        institute_id == '101276' ||
-        institute_id == '101277' ||
-        institute_id == '101296' ||
-        institute_id == '101151') {
-      this.jsonFlags.isShowPowerBy = false;
-    }
 
+  getInstituteSetting(){
+    this.log.storeInstituteInfoToSession().subscribe(
+      res => {
+        let result: any = res;
+         if(result.show_powered_by_proctur == 1){
+         this.jsonFlags.isShowPowerBy = result.show_powered_by_proctur;
+         }
+      },
+      err => {
+      }
+    )
   }
 
   hideForUsers() {
@@ -771,7 +762,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         for (let i = 0; i < country_info.length; i++) {
           let row: any = country_info[i];
            row.symbol = this.getCurrencyDetails(900, row.currency_code, row.country_code);
-          if (row.is_default == 'Y') {            
+          if (row.is_default == 'Y') {
             this.commonService.setDefaultCurrencySymbol(row.symbol);
           }
         }

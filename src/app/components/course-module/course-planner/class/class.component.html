@@ -537,16 +537,20 @@
             <span title="{{course.batch_name}}">{{ (course.batch_name.length > 20) ? (course.batch_name | slice:0:20) + '...' : course.batch_name }}</span>
           </div>
           <div class="table-value-item medium" *ngIf="showHideColumns.description">
-            <span title="{{course.description}}">{{ (course.description.length > 20) ? (course.description | slice:0:20) + '...' : course.description }}</span>
+            <span *ngIf="course?.description.length == 0">-</span>
+            <span title="{{course.description}}" *ngIf="course?.description.length != 0">{{ (course.description.length > 20) ? (course.description | slice:0:20) + '...' : course.description }}</span>
           </div>
           <div class="table-value-item medium" *ngIf="showHideColumns.homework">
-            <span title="{{course.homework_assigned}}">{{ (course.homework_assigned.length > 20) ? (course.homework_assigned | slice:0:20) + '...' : course.homework_assigned }}</span>
+            <span *ngIf="course?.homework_assigned.length == 0">-</span>
+            <span *ngIf="course?.homework_assigned.length != 0" title="{{course.homework_assigned}}">{{ (course.homework_assigned.length > 20) ? (course.homework_assigned | slice:0:20) + '...' : course.homework_assigned }}</span>
           </div>
           <div class="table-value-item medium" *ngIf="showHideColumns.teacher">
-            <span title="{{course.teacher_name}}">{{ (course.teacher_name.length > 20) ? (course.teacher_name | slice:0:20) + '...' : course.teacher_name }}</span>
+            <span *ngIf="course?.teacher_name.length == 0">-</span>
+            <span *ngIf="course?.teacher_name.length != 0" title="{{course.teacher_name}}">{{ (course.teacher_name.length > 20) ? (course.teacher_name | slice:0:20) + '...' : course.teacher_name }}</span>
           </div>
           <div class="table-value-item large"  *ngIf="showHideColumns.topic">
-            <span title="{{course.topics_covered}}">{{ (course.topics_covered.length > 25) ? (course.topics_covered | slice:0:25) + '...' : course.topics_covered }}</span>
+            <span *ngIf="course?.topics_covered.length == 0">-</span>
+            <span *ngIf="course?.topics_covered.length != 0" title="{{course.topics_covered}}">{{ (course.topics_covered.length > 25) ? (course.topics_covered | slice:0:25) + '...' : course.topics_covered }}</span>
           </div>
           <div class="table-value-item small align-center">
             <button type="button" name="button" class="upcoming-btn" *ngIf="course.status == 'Upcoming'">Upcoming</button>
