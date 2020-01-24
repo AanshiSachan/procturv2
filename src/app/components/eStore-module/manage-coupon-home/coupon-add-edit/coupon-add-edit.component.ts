@@ -4,6 +4,7 @@ import { ProductService } from '../../../../services/products.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonServiceFactory } from '../../../../services/common-service';
+import * as  moment from 'moment';
 
 @Component({
   selector: 'app-coupon-add-edit',
@@ -80,8 +81,15 @@ export class CouponAddEditComponent implements OnInit {
     this.addCouponModel.maximum_coupons_per_user === '' || this.addCouponModel.total_coupons_created === ''
     || this.addCouponModel.product_id_list.length === 0 || this.addCouponModel.offer_code === '' || this.addCouponModel.end_date === null
     || this.addCouponModel.start_date === null )) {
+      this._msgService.showErrorMessage('info', '', 'Please fill mandatory fields');
       return false;
     } else {
+      const start_date = moment(this.addCouponModel.start_date);
+      const end_date = moment(this.addCouponModel.end_date);
+      if (start_date > end_date) {
+        this._msgService.showErrorMessage('error', '', 'Start date can not be greater than end date');
+        return false;
+      }
       return true;
     }
   }
@@ -108,8 +116,6 @@ export class CouponAddEditComponent implements OnInit {
         console.log(err);
       }
     );
-    } else {
-      this._msgService.showErrorMessage('info', '', 'Please fill mandatory fields');
     }
   }
 
@@ -158,8 +164,6 @@ export class CouponAddEditComponent implements OnInit {
         this.isRippleLoad = false;
       }
     );
-  } else {
-    this._msgService.showErrorMessage('info', '', 'Please fill mandatory fields');
   }
 }
 

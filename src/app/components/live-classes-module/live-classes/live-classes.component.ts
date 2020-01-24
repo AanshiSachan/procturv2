@@ -764,6 +764,7 @@ export class LiveClassesComponent implements OnInit {
 
   stopVideo() {
     this.showVideo = true;
+    this.JsonVars.video_url = null;
     if (this.videoObject) {
       this.videoObject.pause(); // removes video 
     }

@@ -295,6 +295,9 @@ export class ReturnBookComponent implements OnInit {
         if(res.response.length > 0){
           this.searchResult = true;
           this.returnBookData = res.response;
+          this.returnBookData.forEach(element => {
+            element.authorNameData = Array.prototype.map.call(element.book_complete_details.authorObjects, author => author.author_name).toString();
+          });
         }
         else{
           this.messageHandler('error', book_title+' has not been issued by any borrower', '');
@@ -312,6 +315,9 @@ export class ReturnBookComponent implements OnInit {
         if(res.response.length > 0){
           this.searchResult = true;
           this.returnBookData = res.response;
+          this.returnBookData.forEach(element => {
+            element.authorNameData = Array.prototype.map.call(element.book_complete_details.authorObjects, author => author.author_name).toString();
+          });
         }
         else{
           this.messageHandler('error', 'No book to be returned by '+student_name, '');
