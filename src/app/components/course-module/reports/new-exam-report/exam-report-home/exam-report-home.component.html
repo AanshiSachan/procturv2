@@ -205,8 +205,9 @@
                     {{report?.exam_status}}
                   </span>
                 </div>
-                <div class="value-item custom-item align-center" *ngIf="report.exam_status == 'Mks. Updated'">
-                  <button type="button" name="button" class="view-result-btn" routerLink='/view/{{jsonFlag.type}}/reports/new-exam/examWise/{{report.exam_schd_id}}'>View Result</button>
+                <div class="value-item custom-item align-center">
+                  <span *ngIf="report.exam_status != 'Mks. Updated'">-</span>
+                  <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button" class="view-result-btn" routerLink='/view/{{jsonFlag.type}}/reports/new-exam/examWise/{{report.exam_schd_id}}'>View Result</button>
                 </div>
               </div>
               <div class="table-value-container" *ngIf="weeklyExamReportData?.length == 0" style="justify-content: center; font-weight: 600;">

@@ -41,13 +41,13 @@
           <div class="table-heading-item">
             <span>Course</span>
           </div>
-          <div class="table-heading-item">
+          <div class="table-heading-item text-align-center">
             <span>No. of Test</span>
           </div>
-          <div class="table-heading-item">
+          <div class="table-heading-item text-align-center">
             <span>Attendance updated</span>
           </div>
-          <div class="table-heading-item">
+          <div class="table-heading-item text-align-center">
             <span>Marks Updated</span>
           </div>
           <!-- <div class="table-heading-item">
@@ -65,13 +65,13 @@
             <div class="table-value-item">
               <span title="{{report.course_name}}">{{ (report.course_name.length > 20) ? (report.course_name | slice:0:20) + '...' : report.course_name }}</span>
             </div>
-            <div class="table-value-item">
+            <div class="table-value-item text-align-center">
               <span>{{report.total_exam}}</span>
             </div>
-            <div class="table-value-item">
+            <div class="table-value-item text-align-center">
               <span>{{report.total_attandance_updated}}</span>
             </div>
-            <div class="table-value-item">
+            <div class="table-value-item text-align-center">
               <span>{{report.total_marks_updated}}</span>
             </div>
             <!-- <div class="table-value-item">
@@ -102,13 +102,13 @@
           <div class="table-heading-item">
             <span>Faculty</span>
           </div>
-          <div class="table-heading-item">
+          <div class="table-heading-item text-align-center">
             <span>Total Student</span>
           </div>
-          <div class="table-heading-item">
+          <div class="table-heading-item text-align-center">
             <span>Student Present</span>
           </div>
-          <div class="table-heading-item">
+          <div class="table-heading-item text-align-center">
             <span>Total Marks</span>
           </div>
           <!-- <div class="table-heading-item">
@@ -117,9 +117,9 @@
           <div class="table-heading-item">
             <span>Status</span>
           </div>
-          <div class="table-heading-item">
+          <!-- <div class="table-heading-item">
             <span></span>
-          </div>
+          </div> -->
           <div class="table-heading-item">
             <span>Action</span>
           </div>
@@ -143,15 +143,15 @@
             <div class="table-value-item">
               <span>{{report.teacher_name}}</span>
             </div>
-            <div class="table-value-item">
+            <div class="table-value-item text-align-center">
               <span>{{report.total_student}}</span>
             </div>
-            <div class="table-value-item">
+            <div class="table-value-item text-align-center">
               <!-- <span>{{report.total_student}}</span> -->
               <span *ngIf="report.exam_status != 'Att. Pending'">{{report.total_present_student}}</span>
               <span *ngIf="report.exam_status == 'Att. Pending'">-</span>
             </div>
-            <div class="table-value-item">
+            <div class="table-value-item text-align-center">
               <span>{{report.total_marks}}</span>
             </div>
             <!-- <div class="table-value-item">
@@ -165,12 +165,14 @@
                             'upcoming': report.exam_status == 'Upcoming',
                             'cancelled': report.exam_status == 'Cancelled'}">{{report.exam_status}}</span>
             </div>
-            <div class="table-value-item">
-              <!-- <span *ngIf="report.exam_status != 'Mks. Updated'">{{report.exam_status}}</span>
-              <span *ngIf="report.exam_status == 'Mks. Updated'" style="color: #00E172;">{{report.exam_status}}</span> -->
-            </div>
-            <div class="table-value-item">
-              <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button" class="view-result-btn" (click)="routeTo(report.exam_schd_id)">View Result</button>
+            <!-- <div class="table-value-item">
+              <span *ngIf="report.exam_status != 'Mks. Updated'">{{report.exam_status}}</span>
+              <span *ngIf="report.exam_status == 'Mks. Updated'" style="color: #00E172;">{{report.exam_status}}</span>
+            </div> -->
+            <div class="table-value-item" style="width: 15%">
+              <span *ngIf="report.exam_status != 'Mks. Updated'">-</span>
+              <span *ngIf="report.exam_status == 'Mks. Updated' && report.marks_update_level == '2'">Marks updated on course level</span>
+              <button *ngIf="report.exam_status == 'Mks. Updated' && report.marks_update_level == '1'" type="button" name="button" class="view-result-btn" (click)="routeTo(report.exam_schd_id)">View Result</button>
             </div>
           </div>
         </div>

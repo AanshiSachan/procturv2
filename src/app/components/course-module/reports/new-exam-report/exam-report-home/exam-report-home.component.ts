@@ -130,7 +130,9 @@ export class ExamReportHomeComponent implements OnInit {
       if(result <= 30){
         this.reportJSON.from_date = moment(e[0]).format("YYYY-MM-DD");
         this.reportJSON.to_date = moment(e[1]).format("YYYY-MM-DD");
-
+        this.reportJSON.master_course_name =  "";
+        this.reportJSON.standard_id =  "";
+        this.reportJSON.subject_id = "";
         this.examReport = [];
         this.weeklyExamReportData = [];
         this.jsonFlag.isRippleLoad = true;
@@ -210,6 +212,7 @@ export class ExamReportHomeComponent implements OnInit {
       this.clearJSON();
       this.reportJSON.subject_id = this.subject;
       this.examReport = [];
+      this.standardExamReportData = [];
       this.jsonFlag.isRippleLoad = true;
       this.examdata.getAllExamReport(this.reportJSON).subscribe(
         res => {
@@ -245,7 +248,7 @@ export class ExamReportHomeComponent implements OnInit {
         //   }
         // }
         sessionStorage.setItem('subejctIdForReport', this.subject);
-        
+
         for(let i = 0; i < this.subjectList.length; i++){
          if(this.subjectList[i].subject_id == this.subject){
            sessionStorage.setItem('masterCourseForReport', this.subjectList[i].subject_name);
