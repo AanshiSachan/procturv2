@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { LoginAuth } from '../../../model/login-auth';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { instituteList } from '../../../model/institute-list-auth-popup';
+import { LoginAuth } from '../../../model/login-auth';
 import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
-import { LoginService } from '../../../services/login-services/login.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
-import { MessageShowService } from '../../../services/message-show.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { LoginService } from '../../../services/login-services/login.service';
+import { MessageShowService } from '../../../services/message-show.service';
+import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 
 @Component({
   selector: 'app-login-page',
@@ -655,7 +655,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   alternateLoginOTPRegenerate() {
     //console.log("##### in Regenerate Method ######");
-    //console.log(this.OTPRegenerateData);
+    // console.log(JSON.stringify(this.OTPRegenerateData));
     this.login.regenerateOTP(this.OTPRegenerateData).subscribe(el => {
       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'OTP sent successfully');
 
