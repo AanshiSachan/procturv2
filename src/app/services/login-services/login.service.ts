@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import 'rxjs/Rx';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { AuthenticatorService } from '../authenticator.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import 'rxjs/Rx';
+import { AuthenticatorService } from '../authenticator.service';
 
 
 @Injectable()
@@ -10,8 +10,6 @@ export class LoginService {
 
   urlLogin: string;
   headers: any;
-  validateOTPurl: string;
-  regenerateOTPurl: string;
   forgotPasswordURL: string;
   baseUrl: string = '';
   Authorization: any = '';
@@ -83,22 +81,22 @@ export class LoginService {
   }
 
   guestUserRegistration(data){
-    this.validateOTPurl = this.baseUrl + "/api/v1/alternateLogin/register";
-    return this.http.post(this.validateOTPurl, data, { headers: this.headers }).map(res => {
+    const URL = this.baseUrl + "/api/v1/alternateLogin/register";
+    return this.http.post(URL, data, { headers: this.headers }).map(res => {
       return res;
     })
   }
 
   validateOTPCode(data) {
-    this.validateOTPurl = this.baseUrl + "/api/v1/alternateLogin/register/validateOTP";
-    return this.http.post(this.validateOTPurl, data, { headers: this.headers }).map(res => {
+    const URL  = this.baseUrl + "/api/v1/alternateLogin/register/validateOTP";
+    return this.http.post(URL , data, { headers: this.headers }).map(res => {
       return res;
     })
   }
 
   regenerateOTP(data) {
-    this.regenerateOTPurl = this.baseUrl + "/api/v1/authenticate/regenerateOTP";
-    return this.http.post(this.regenerateOTPurl, data, { headers: this.headers }).map(res => {
+    const URL = this.baseUrl + "/api/v1/authenticate/regenerateOTP";
+    return this.http.post(URL, data, { headers: this.headers }).map(res => {
       return res;
     })
   }
