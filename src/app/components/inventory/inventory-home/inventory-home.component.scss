@@ -38,10 +38,10 @@
 .dd-list-container {
   position: absolute; //top: 40px;
   border: 1px solid rgba(119, 119, 119, 0.29);
-  right: 10px;
+  right: 100%;
   z-index: 100;
-  bottom: 0px;
-  width: 180px; //max-width: 250px;
+  bottom: -100%;
+  width: 200px; //max-width: 250px;
   height: auto;
   background: white;
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.611764705882353);
@@ -53,15 +53,14 @@
   list-style-type: none;
   padding-left: 0;
   margin-top: 0;
-  padding: 5px;
   .action-item {
-    padding: 10px;
+    padding: 8px;
     background: white;
     display: flex !important;
     margin: 0 !important;
     cursor: pointer;
+    border-bottom: 1px solid #ccc;
     span {
-      padding: 5px 10px;
       font-size: 14px;
       font-weight: 600;
     }
@@ -71,17 +70,32 @@
       margin-right: 8px;
     }
     &:hover {
-      background: #eff1f5;
+      background: white;
     }
   }
 }
 
+#table-header{
+  th{
+    padding: 10px;
+    background: #eff1f5
+  }
+  td{
+    padding: 0px 10px;
+  }
+}
+.text-align-left{
+  text-align: left;
+}
 .middle-section {
   padding: 5px 15px;
   width: 100%;
   box-sizing: border-box;
 }
 
+table tr td{
+  padding: 0px 10px;
+}
 .search-filter-wrapper {
   .normal-field {
     padding: 7px 10px;
@@ -90,8 +104,7 @@
     box-sizing: border-box;
     margin: 0;
     float: left;
-    height: 35px;
-    font-size: 14px;
+    font-size: 12px;
   }
   .field-wrapper {
     position: relative;
@@ -116,17 +129,6 @@
   }
 }
 
-.normal-field {
-  padding: 7px 10px;
-  border: 1px solid #ccc;
-  width: 74%;
-  box-sizing: border-box;
-  margin: 0;
-  float: left;
-  border-right: 0;
-  height: 35px;
-  font-size: 14px;
-}
 
 .middle-top h1 {
   margin-top: 8px;
@@ -322,6 +324,12 @@
   height: 100%;
   overflow: hidden;
   visibility: visible;
+  th{
+    padding: 10px;
+  }
+  td{
+    padding: 10px;
+  }
 }
 
 .fadeIn {
@@ -391,12 +399,13 @@
     color: #333;
     &.redBtn {
       color: $bg-white;
-      min-width: 160px;
+      // min-width: 160px;
     }
   }
 }
 
 table {
+  border: 1px solid #ccc;
   thead {
     tr {
       th {
@@ -422,7 +431,6 @@ table {
   tbody {
     tr {
       td {
-        padding: 0px 0px !important;
         .editOptions li {
           display: inline-block;
         }
@@ -483,7 +491,7 @@ table {
       display: inline-block;
       margin: 0px 5px;
       a {
-        cursor: pointer;
+        // cursor: pointer;
       }
     }
   }
@@ -557,7 +565,7 @@ input[type="number"]::-webkit-outer-spin-button {
         background: url("../../../../assets/images/calendar.svg") no-repeat;
         position: absolute;
         right: 5px;
-        top: 33px;
+        top: 29px;
         width: 21px;
         height: 21px;
         z-index: 0;
@@ -662,68 +670,19 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .boxPadding15 {
   box-sizing: $border-box;
-  padding: 0 15px;
 }
 
 .editCellAllignment {
   text-align: center;
-  margin-left: 30px;
 }
 
 .btnWrapper {
   .btn {
-    padding: 2px 7px 0px 7px;
-    border: none;
-    height: 35px;
-    width: 35px;
-    border-radius: 50%;
-    .tooltip {
-      position: relative;
-      top: -30px;
-      right: -30px;
-      min-width: 100px;
-      font-size: 12px;
-      padding: 6px;
-      height: 35px;
-      border-radius: 5px;
-      background: rgba(0, 0, 0, 0.541);
-      color: white;
-      visibility: hidden;
-      opacity: 0;
-    }
-    &:hover {
-      background: rgb(216, 214, 214);
-      .tooltip {
-        position: relative;
-        top: -30px;
-        right: 120px;
-        min-width: 100px;
-        padding: 6px;
-        border-radius: 5px;
-        font-size: 12px;
-        height: 35px;
-        background: rgba(0, 0, 0, 0.541);
-        color: white;
-        visibility: visible;
-        opacity: 1;
-        transition: all 0.2s;
-      }
-    }
-    &:focus {
-      outline: none;
-    }
-    &:active {
-      box-shadow: none;
-    }
+    padding: 4px 10px;
+    border-radius: 0px;
   }
 }
 
-.tooltipSpan {
-  height: 30px !important;
-  top: -60px !important;
-  min-width: 75px !important;
-  right: 30px !important;
-}
 
 .addQuantityInput {
   max-width: 35px;
@@ -745,3 +704,32 @@ input[type="radio"] {
     float: left;
     margin-right: 5%;
  }
+
+
+// Manage Unit style
+.item-container{
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  .item-title{
+    margin-right: 10px;
+    width: 40%;
+  }
+  .select-container{
+    display: block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 5px;
+    outline: none;
+    border: solid 1px #e2ebee;
+    background: #fff;
+    z-index: 10;
+    font: 400 12px 'Open sans',sans-serif;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0;
+    color: #000;
+  }
+}
