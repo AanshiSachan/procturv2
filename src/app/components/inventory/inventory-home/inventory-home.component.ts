@@ -11,6 +11,7 @@ import { InventoryService } from '../../../services/inventory-services/inventory
 import { AddCategoryInInventory } from '../../../model/add-item-inventory';
 import { MessageShowService } from '../../../services/message-show.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+declare var $;
 
 
 @Component({
@@ -34,7 +35,7 @@ export class HomeComponent implements OnInit {
   selectedRow = "";
   operationFlag = "";
   allocateItemRowClicked: any;
-  allocateItemDetails: any; 
+  allocateItemDetails: any;
   subBranchItemList: any;
   availabelItemCount: any;
   allocationHistoryList;
@@ -47,12 +48,12 @@ export class HomeComponent implements OnInit {
 
   isAddUnit: boolean = false;
   subtractFlag: boolean = false;
-  deleteItemPopUp: boolean = false; 
-  createItemPopUp: boolean = false;  
+  deleteItemPopUp: boolean = false;
+  createItemPopUp: boolean = false;
   showAllocateOption: boolean = false;
   showAllocationBranchPopUp: boolean = false;
   showAvailableUnits: boolean = false;
-  isProfessional:boolean = false; 
+  isProfessional:boolean = false;
   showAllocationHistoryPopUp: boolean = false;
    searchDataFlag: boolean = false;
   isRippleLoad: boolean = false;
@@ -63,6 +64,8 @@ export class HomeComponent implements OnInit {
     inventory_item: { id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
     category: { id: 'category', title: 'Category', filter: false, show: true },
     description: { id: 'description', title: 'Description', filter: false, show: true },
+    standard_name: { id: 'standard_name', title: 'Standard Name', filter: false, show: true },
+    subject_name: { id: 'subject_name', title: 'Subject Name', filter: false, show: true },
     master_course: { id: 'master_course', title: 'Master Course', filter: false, show: true },
     course: { id: 'course', title: 'Course', filter: false, show: true },
     total_units: { id: 'total_units', title: 'Total Units', filter: false, show: true },
@@ -71,7 +74,15 @@ export class HomeComponent implements OnInit {
     add_units: { id: 'add_units', title: 'Add Units', filter: false, show: true },
     cost: { id: 'cost', title: 'Unit Cost', filter: false, show: true },
   };
-  
+
+  editManageUnit:any = {
+    availableUnits: 0,
+    totalUnits: 0,
+    newUnit: 0,
+    item_id: ""
+  }
+  arr = Array(400).fill(0).map((e,i)=>i-200)
+
   constructor(
     private inventoryApi: InventoryService,
     private fb: FormBuilder,
@@ -83,7 +94,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.auth.institute_type.subscribe(
       res => {
-        if (res == 'LANG') { // batch 
+        if (res == 'LANG') { // batch
           this.isProfessional = true;
         } else {
           this.isProfessional = false;
@@ -163,10 +174,8 @@ export class HomeComponent implements OnInit {
   }
 
   editRow(row_no, item_id) {
-    //console.log(row_no)
     this.isAddUnit = false;
     if (this.selectedRow !== "") {
-      //console.log(this.selectedRow);
       document.getElementById(("row" + this.selectedRow).toString()).classList.add('displayComp');
       document.getElementById(("row" + this.selectedRow).toString()).classList.remove('editComp');
     }
@@ -241,6 +250,8 @@ export class HomeComponent implements OnInit {
       item_name: row.item_name,
       standard_id: row.standard_id.toString(),
       subject_id: row.subject_id.toString(),
+      standard_name: row.standard_name.toString(),
+      subject_name: row.subject_name.toString(),
       unit_cost: row.unit_cost.toString(),
       out_of_stock_indicator_units: row.out_of_stock_indicator_units.toString(),
       is_offline_or_online: row.is_offline_or_online
@@ -254,7 +265,7 @@ export class HomeComponent implements OnInit {
         document.getElementById(("row" + i).toString()).classList.remove('editComp');
       },
       error => {
-        this.isRippleLoad = false;      
+        this.isRippleLoad = false;
         this.msg.showErrorMessage("error" , '' , error.error.message);
       }
     )
@@ -269,6 +280,39 @@ export class HomeComponent implements OnInit {
     this.deleteItemPopUp = false;
   }
 
+  showManageUnit(row){
+    $('#manageUnit').modal('show');
+    this.editManageUnit.availableUnits = row.available_units;
+    this.editManageUnit.totalUnits = row.alloted_units;
+    this.editManageUnit.item_id = row.item_id;
+  }
+
+
+  allocateUnit(){
+    // if (this.editManageUnit.newUnit > 0) {
+      let data: any = {};
+      data.item_id = this.editManageUnit.item_id;
+      data.units_added = this.editManageUnit.newUnit;
+      this.isRippleLoad = true;
+      this.inventoryApi.addQuantityInStock(data).subscribe(
+        data => {
+          this.isRippleLoad = false;
+          this.editManageUnit.item_id = "";
+          this.editManageUnit.newUnit = 0;
+          this.editManageUnit.availableUnits = 0;
+          this.editManageUnit.totalUnits = 0;
+          $('#manageUnit').modal('hide');
+          this.loadTableDatatoSource();
+        },
+        error => {
+          this.isRippleLoad = false;
+          this.msg.showErrorMessage("error" , '' , error.error.message);
+          this.loadTableDatatoSource();
+        }
+      )
+    // }
+  }
+
   deleteStudent() {
     this.isRippleLoad = true;
     this.inventoryApi.deleteRowFromItem(this.deleteRowDetails.item_id).subscribe(
@@ -279,7 +323,7 @@ export class HomeComponent implements OnInit {
         this.msg.showErrorMessage("success" , "" , "Inventory Deleted Successfully")
       },
       error => {
-        this.isRippleLoad = false;   
+        this.isRippleLoad = false;
         this.msg.showErrorMessage("error" , '' , error.error.message);
       }
     )
@@ -324,7 +368,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  // pagination functions 
+  // pagination functions
   fetchTableDataByPage(index) {
     this.PageIndex = index;
     let startindex = this.studentdisplaysize * (index - 1);
@@ -371,7 +415,7 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  ///// To add a Item 
+  ///// To add a Item
 
   addItemDetails() {
     this.createAddItemForm();
@@ -403,7 +447,7 @@ export class HomeComponent implements OnInit {
     let data: AddCategoryInInventory = {};
     data.alloted_units = this.addItemForm.value.alloted_units.toString();
     data.category_id = this.addItemForm.value.categoryDet;
-    if (data.category_id == -1) {    
+    if (data.category_id == -1) {
       this.msg.showErrorMessage("error" , '' ,"Please enter category");
       return;
     }
@@ -583,7 +627,7 @@ export class HomeComponent implements OnInit {
     data.sub_branch_id = this.allocateItemForm.value.sub_branch_id;
     data.item_id = this.allocateItemRowClicked.item_id.toString();
     this.inventoryApi.allocateItemToSubBranch(data).subscribe(
-      data => {   
+      data => {
         this.msg.showErrorMessage("success" , '' , "Successfully allocated to sub branch");
         this.showAllocationBranchPopUp = false;
         this.loadTableDatatoSource();

@@ -37,16 +37,16 @@ table {
             }
         }
         .displayComp {
-            
-        
-        
+
+
+
             .view-comp {
                 padding: 6px 6px;
             }
             .edit-comp {
                 padding:  6px 6px;
                 display: none
-            
+
             }
         }
         .editComp {
@@ -89,7 +89,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .editCellInput {
-    margin: auto;
+    // margin: auto;
     display: block;
 }
 
@@ -128,8 +128,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 .create-standard-form {
     margin: 10px 0;
-    padding: 10px 20px 20px;
-    background: #efefef;
     border-top: 1px solid #d8d8d8;
     .form-ctrl {
         background: transparent;
@@ -138,8 +136,12 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #category-table{
-    max-height: 340px;
+    max-height: 410px;
     margin-bottom: 0px;
     padding-bottom: 0px;
     overflow: auto;
+}
+
+.text-align-left{
+  text-align: left;
 }
