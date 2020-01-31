@@ -1,38 +1,34 @@
 @import "./src/assets/css/common/variables.scss";
 .router-container {
-    border: 1px solid #deeaee;
     width: 100%;
-    // height: 80vh;
 }
 
 .common-tab {
     padding-top: 5px;
     ul {
         font-size: 0;
-        border-bottom: 1px solid #f1f1f1;
         li {
             margin-right: 1px;
             display: inline-block;
-            width: 10%;
+            width: 8%;
             max-width: 158px;
             cursor: pointer;
             a {
                 display: block;
-                padding: 10px 5px;
-                background: #eff7ff;
+                padding: 7px 5px;
+                background: white;
                 border: 1px solid #cccdcd;
-                color: $common-blue;
                 text-align: center;
+                color: $common-blue;
                 font-size: 14px;
                 font-weight: 600;
             }
             &:hover,
             &.active {
                 a {
-                    background: $common-blue;
-                    color: $bg-white;
+                    background: #e1f3ff;
+                    color: $common-blue;
                     border-color: $common-blue;
-                    font-weight: normal;
                 }
             }
         }
@@ -63,8 +59,7 @@
 }
 
 .boxPadding15 {
-    box-sizing: $border-box;
-    padding: 0 15px;
+  box-sizing: $border-box;
 }
 
 .middle-section {

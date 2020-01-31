@@ -20,7 +20,7 @@ export class InventoryCategoryComponent implements OnInit {
   PageIndex: number = 1;
   sizeArr: any[] = [10, 25, 50, 100];
   displayBatchSize = 10;
-  createNewCategory: boolean = false;
+  createNewCategory: boolean = true;
 
   constructor(
     private categoryService: InventoryCategoryService,
@@ -117,7 +117,7 @@ export class InventoryCategoryComponent implements OnInit {
     );
   }
 
-  // to fetch all category items 
+  // to fetch all category items
 
   getAllCategoryList() {
     this.categoryService.getCategoryList().subscribe(
@@ -149,7 +149,7 @@ export class InventoryCategoryComponent implements OnInit {
     }
   }
 
-  // pagination functions 
+  // pagination functions
 
   fetchTableDataByPage(index) {
     this.PageIndex = index;

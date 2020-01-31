@@ -17,15 +17,9 @@
             <div class="field-wrapper">
               <div class="btnWrapper">
                 <button class="btn pull-right" (click)="addItemDetails()">
-                  <div class="option-wrap">
-                    <img src="assets/images/plus.png" alt="Add Item" style="vertical-align: -webkit-baseline-middle;">
-                    <span class="tooltip tooltipSpan">
-                      Add Item
-                    </span>
-                  </div>
+                  Add Item
                 </button>
               </div>
-
             </div>
             <div class="search-filter-wrapper">
               <input #search type="text" class="normal-field pull-right" placeholder="Search"
@@ -40,21 +34,35 @@
           <table id="item-Table" class="align-center">
             <thead>
               <tr id="table-header" class="displayComp">
-                <th>
+                <th class="text-align-left">
                   <label>
                     <a class="cursor-icon" (click)="sortTableById(header.list_name.title)">{{header.inventory_item.title}}</a>
                   </label>
                 </th>
 
-                <th>
+                <th class="text-align-left">
                   <label>
                     <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)">{{header.category.title}}</a>
                   </label>
                 </th>
 
-                <th>
+                <th class="text-align-left">
                   <label>
                     <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)">{{header.description.title}}</a>
+                  </label>
+                </th>
+
+                <th class="text-align-left">
+                  <label>
+                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)" *ngIf="!isProfessional">{{header.standard_name.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)" *ngIf="isProfessional">Master Course</a>
+                  </label>
+                </th>
+
+                <th class="text-align-left">
+                  <label>
+                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)" *ngIf="!isProfessional">{{header.subject_name.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)" *ngIf="isProfessional">Course</a>
                   </label>
                 </th>
 
@@ -88,13 +96,6 @@
                   </label>
                 </th>
 
-
-                <th>
-                  <label>
-                    <a class="cursor-icon">Manage Unit</a>
-                  </label>
-                </th>
-
                 <th>
                   <label>
                     <a class="cursor-icon" (click)="sortTableById(header.success_count.title)">{{header.edit.title}}</a>
@@ -106,7 +107,7 @@
             <tbody class="" *ngIf="itemList.length != 0">
               <tr id="row{{i}}" class="displayComp" *ngFor="let row of itemList; let i = index; trackBy: i;">
 
-                <td class="view-comp">
+                <td class="view-comp text-align-left">
                   {{row.item_name}}
                 </td>
                 <td class="edit-comp ">
@@ -115,7 +116,7 @@
                   </div>
                 </td>
 
-                <td class="view-comp">
+                <td class="view-comp text-align-left">
                   {{row.category_name}}
                 </td>
                 <td class="edit-comp ">
@@ -128,14 +129,49 @@
                   </div>
                 </td>
 
-                <td class="view-comp ">
+                <td class="view-comp text-align-left">
                   <div class="field-wrapper">
-                    {{row.desc}}
+                    <span *ngIf="row?.desc.length != 0">{{row.desc}}</span>
+                    <span *ngIf="row?.desc.length == 0">-</span>
                   </div>
                 </td>
                 <td class="edit-comp editCellAllignment">
                   <div class="field-wrapper">
                     <input type="text" class="form-ctrl" [(ngModel)]="row.desc" name="label">
+                  </div>
+                </td>
+
+                <td class="view-comp text-align-left">
+                  <div class="field-wrapper">
+                    <span *ngIf="row?.standard_name.length > 0">{{row.standard_name}}</span>
+                    <span *ngIf="row?.standard_name.length == 0">-</span>
+                  </div>
+                </td>
+                <td class="edit-comp editCellAllignment">
+                  <div class="field-wrapper">
+                    <select id="" class="form-ctrl" name="row.standard_name" [(ngModel)]="editStandSubject.standard_id" (change)="masterCourseChanged()">
+                      <option *ngFor="let opt of masterCategoryList" [value]="opt.standard_id">
+                        {{opt.standard_name}}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+
+                <td class="view-comp text-align-left">
+                  <div class="field-wrapper">
+                    <span *ngIf="row?.subject_name.length != 0">{{row.subject_name}}</span>
+                    <span *ngIf="row?.subject_name.length == 0">-</span>
+                  </div>
+                </td>
+                <td class="edit-comp editCellAllignment">
+                  <div class="field-wrapper">
+                    <select id="" class="form-ctrl" name="row.subject_name" [(ngModel)]="editStandSubject.subject_id">
+                      <option value="-1"></option>
+                      <option *ngFor="let opt of editCourseList" [value]="opt.subject_id">
+                        {{opt.subject_name}}
+                      </option>
+                    </select>
+
                   </div>
                 </td>
 
@@ -171,10 +207,11 @@
 
                 <td class="view-comp" *ngIf="enable_eLearn_feature_flag">
                   <div class="field-wrapper">
-                    {{row.is_offline_or_online}}
+                    <span *ngIf="row?.is_offline_or_online != null">{{row.is_offline_or_online}}</span>
+                    <span *ngIf="row?.is_offline_or_online == null || row?.is_offline_or_online ==''">-</span>
                   </div>
                 </td>
-                <td class="edit-comp editCellAllignment" >
+                <td class="edit-comp editCellAllignment" *ngIf="enable_eLearn_feature_flag">
                   <div class="field-wrapper">
                     <select id="is_offline_or_online" class="form-ctrl" name="is_offline_or_online"
                       [(ngModel)]="row.is_offline_or_online" style="margin: auto;">
@@ -185,31 +222,6 @@
                   </div>
                 </td>
 
-                <td class="view-comp">
-                  <div class="displayAddItem" id="add-item{{i}}">
-                    <a class="view-addItem" (click)="addItemsEnable(i)" style="cursor: pointer;">
-                      <img src="assets/images/plus.png" title="Add Quantity">
-                    </a>
-                    <a class="view-addItem" (click)="subtractItemsEnable(i)" style="cursor: pointer;">
-                      <i class="fas fa-minus" style="font-family: FontAwesome;size: 19px" title="Subtract Quantity"></i>
-                    </a>
-                    <div class="field-wrapper edit-addItem">
-                      <input type="number" class="form-ctrl addQuantityInput" style="display: inline-block"
-                        [(ngModel)]="row.units_added" name="label">
-                      <a style="cursor:pointer ; margin-right:10px; display: inline-block"
-                        (click)="addItemsQuantity(row)">
-                        <i class="fas fa-check"
-                          style="font-family: FontAwesome ;font-size: 19px; display: inline-block;" title="Update"></i>
-                      </a>
-                      <a style="cursor:pointer" (click)="cancelItem(i)">
-                        <i class="fas fa fa-times"
-                          style="font-family: FontAwesome ;font-size: 19px;  display: inline-block;" title="Cancel"></i>
-                      </a>
-                    </div>
-                  </div>
-                </td>
-                <td class="edit-comp" *ngIf="!isAddUnit">
-                </td>
                 <td class="edit-comp" *ngIf="isAddUnit">
                   <div class="field-wrapper">
                     <input type="number" class="form-ctrl" [(ngModel)]="row.unit_cost" name="label">
@@ -223,7 +235,7 @@
                     <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
                   </a>
                 </td>
-                <td class="enquiry-action table-action view-comp">
+                <td class="enquiry-action table-action view-comp" id="action-view">
                   <div>
                     <button aria-expanded="true" class="dropdown-trigger" (click)="openMenu(i)">
                       <span class="svg-icon-wrap">
@@ -242,7 +254,7 @@
                       <div class="dropdown-list">
                         <div class="dd-list-inner">
                           <ul class="actions-menu">
-                            <li class="action-item " (click)="editRow(i,row.item_id)">
+                            <li class="action-item " (click)="editRow(i,row.item_id, row)">
                               <span class="textContent">
                                 Edit Details
                               </span>
@@ -261,6 +273,12 @@
                               (click)="allocateQuantityToSubBranches(row)">
                               <span class="textContent">
                                 Allocate To Sub Branches
+                              </span>
+                            </li>
+                            <li class="action-item"
+                              (click)="showManageUnit(row)">
+                              <span class="textContent">
+                                Manage Unit
                               </span>
                             </li>
                           </ul>
@@ -285,7 +303,7 @@
 
 
         <!-- Paginator Here -->
-        <div class="row filter-res pagination" style="width: 100%;">
+        <div class="row filter-res pagination" style="width: 89%;position: fixed;bottom: 0px;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
               [pagesToShow]="10" [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
@@ -298,23 +316,68 @@
   </div>
 </section>
 
+
+<!-- Manage Unit -->
+<div id="manageUnit" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Manage Unit</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+          <div class="c-lg-7 c-md-7 c-sm-7 c-xs-7">
+            <div class="item-container">
+              <span class="item-title">Available Units : </span>
+              <span>{{editManageUnit.availableUnits}}</span>
+            </div>
+          </div>
+
+          <div class="c-lg-7 c-md-7 c-sm-7 c-xs-7">
+            <div class="item-container">
+              <span class="item-title">Total units : </span>
+              <span>{{editManageUnit.totalUnits}}</span>
+            </div>
+          </div>
+
+          <div class="c-lg-7 c-md-7 c-sm-7 c-xs-7">
+            <div class="item-container">
+              <span class="item-title">Manage Unit</span>
+              <select class="form-ctrl select-container" name="" [(ngModel)]="editManageUnit.newUnit">
+                <!-- <option [value]="x" *ngFor="let dummy of ' '.repeat(201).split(''), let x = index">{{x}}</option> -->
+                <option [value]="x" *ngFor="let x of arr">{{x}}</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn fullBlue" (click)="allocateUnit()">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
 <!-- Delete PopUp -->
 <!-- =============================================================================== -->
 <section id="popup" class="popupWrapper fadeIn" *ngIf="deleteItemPopUp">
   <div class="popup pos-abs">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeDeletePopup()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
-                transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
-                transform="translate(978.81 305.77) rotate(45)" />
-            </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
-              transform="translate(1012 297)" />
-          </g>
+        <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+          viewBox="0 0 24 24" width="24px" x="0" y="0">
+          <path _ngcontent-c11="" class="large-icon"
+            d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+            style="fill: currentColor"></path>
         </svg>
       </span>
       <div class="popup-content">
@@ -353,7 +416,6 @@
       <div class="popup-content">
         <div class="">
           <h2>Add Inventory Item</h2>
-          <button class="btn pull-right" routerLink="/view/inventory/category">Add Category</button>
         </div>
 
         <div class="row">
@@ -361,7 +423,7 @@
 
 
             <div class="row">
-              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" style="margin-top: 25px;">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
                   <label for="In">Item Name
                     <span class="text-danger">*</span>
@@ -377,7 +439,7 @@
                   </div>
                 </div>
               </div>
-              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" style="top:-10px">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
                   <label for="label">Item Description
                   </label>
@@ -506,7 +568,7 @@
                 </div>
               </div>
             </div>
-            <div class="row pull-right" style="margin-right:40px">
+            <div class="row pull-right" style="margin-right:20px">
               <button [disabled]='!addItemForm.valid' id="btnSave" class="btn fullBlue" type="submit"> Save </button>
             </div>
           </form>
@@ -523,17 +585,11 @@
   <div class="popup pos-abs popup-body-container">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllocateSubBranchPopup()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
-                transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
-                transform="translate(978.81 305.77) rotate(45)" />
-            </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
-              transform="translate(1012 297)" />
-          </g>
+        <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+          viewBox="0 0 24 24" width="24px" x="0" y="0">
+          <path _ngcontent-c11="" class="large-icon"
+            d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+            style="fill: currentColor"></path>
         </svg>
       </span>
       <div class="popup-content">
@@ -541,12 +597,12 @@
           <div class="c-lg-6 c-md-6 c-sm-6">
             <h2>Item Name : {{allocateItemRowClicked.item_name}} </h2>
           </div>
-          <div>
+          <div class="c-lg-6 c-md-6 c-sm-6">
             <h2>Available Unit : {{allocateItemRowClicked.available_units}}</h2>
           </div>
         </div>
 
-        <div class="">
+        <div class="" style="padding: 0 15px;">
           <h3>Allocate Inventory Item To Sub Branch</h3>
         </div>
 
@@ -558,7 +614,7 @@
                   <span class="text-danger">*</span>
                 </label>
                 <select id="" class="form-ctrl" formControlName="sub_branch_id" (change)="onSubBranchSelection()">
-                  <option value="-1"></option>
+                  <option value="-1">Select Branch</option>
                   <option *ngFor="let opt of subBranchList" [value]="opt.institute_id">
                     {{opt.institute_name}}
                   </option>
@@ -579,6 +635,7 @@
                   <span class="text-danger">*</span>
                 </label>
                 <select id="" class="form-ctrl" formControlName="sub_branch_item_id" (click)="onSelectSubBranchItem()">
+                  <option value="">Select Sub branch Item</option>
                   <option *ngFor="let opt of subBranchItemList" [value]="opt.item_id">
                     {{opt.item_name}}({{opt.category_name}})
                   </option>
@@ -603,7 +660,7 @@
                 <label for="item">Allocate Unit
                   <span class="text-danger">*</span>
                 </label>
-                <input type="number" class="form-ctrl" formControlName="alloted_units" name="item">
+                <input type="number" class="form-ctrl" formControlName="alloted_units" name="item" placeholder="Enter unit">
 
                 <div
                   *ngIf="allocateItemForm.controls['alloted_units'].invalid && (allocateItemForm.controls['alloted_units'].dirty || allocateItemForm.controls['alloted_units'].touched)"
@@ -618,8 +675,7 @@
               <div class="field-wrapper">
                 <label for="label">Transport
                 </label>
-                <input type="text" class="form-ctrl" formControlName="transport" name="label">
-
+                <input type="text" class="form-ctrl" formControlName="transport" name="label" placeholder="Enter transport details">
               </div>
             </div>
           </div>
@@ -655,7 +711,7 @@
             </div>
           </div>
 
-          <div class="row pull-right" style="margin-right:40px">
+          <div class="row pull-right" style="margin-right:20px">
             <button id="btnSave" class="btn fullBlue" type="submit"> Allocate </button>
           </div>
 
@@ -673,17 +729,11 @@
   <div class="popup pos-abs popup-body-container">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllocationItemHistoryPopup()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
-                transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
-                transform="translate(978.81 305.77) rotate(45)" />
-            </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
-              transform="translate(1012 297)" />
-          </g>
+        <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+          viewBox="0 0 24 24" width="24px" x="0" y="0">
+          <path _ngcontent-c11="" class="large-icon"
+            d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+            style="fill: currentColor"></path>
         </svg>
       </span>
       <div class="popup-content">
@@ -691,10 +741,10 @@
           <h2>Inventory Item Transaction History</h2>
         </div>
         <div>
-          <h3>Item Name : {{itemName}} </h3>
+          <h4>Item Name : {{itemName}} </h4>
         </div>
 
-        <div style="margin-top: 15px;max-height: 250px;overflow: scroll;">
+        <div style="margin-top: 15px;max-height: 250px;overflow: auto;">
           <table>
             <thead>
               <th>
