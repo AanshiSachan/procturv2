@@ -1103,7 +1103,7 @@ export class ClassComponent implements OnInit {
       this.topicsList = [];
       this.totalTopicsList = [];
       this.topicsList = resp;
-      if(!!this.topicsList){
+      if(!!this.topicsList && this.topicsList.length > 0){
         $('#topicModel').modal('show');
         $('#editClass').modal('hide');
 

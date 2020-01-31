@@ -966,7 +966,7 @@ export class ExamComponent implements OnInit {
       this.topicsList = [];
       this.totalTopicsList = [];
       this.topicsList = resp;
-      if(!!this.topicsList){
+      if(!!this.topicsList && this.topicsList.length > 0){
         $('#topicModel').modal('show');
         $('#editExam').modal('hide');
 
