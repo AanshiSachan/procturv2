@@ -331,7 +331,7 @@
               <div class="action-container" *ngIf="course.status == 'Upcoming'">  <!--  upcoming exam action -->
                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i>
-                <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i> -->
+                <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" data-toggle="modal" data-target="#editExam" (click)="editCourseExam(course)"></i>
                 <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional" (click)="onCancelExamClickCourse(course)"></i>
                 <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional" (click)="onCancelExamClick(course)"></i>
               </div>
@@ -339,7 +339,7 @@
                 <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" (click)="markAttendanceExamCourse(course)">
                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i>
-                <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i> -->
+                <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" data-toggle="modal" data-target="#editExam" (click)="editCourseExam(course)"></i>
                 <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional" (click)="onCancelExamClickCourse(course)"></i>
                 <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional" (click)="onCancelExamClick(course)"></i>
               </div>
@@ -352,7 +352,7 @@
                 <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Exam Marks" style="cursor:pointer"  *ngIf="jsonFlag.isProfessional" (click)="examMarksUpdate(course)">
                 <!-- <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i> -->
-                <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i> -->
+                <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" data-toggle="modal" data-target="#editExam" (click)="editCourseExam(course)"></i>
               </div>
               <div class="action-container" *ngIf="course.status == 'Mks. pending'">  <!--  marks pending exam action -->
                 <img src="./assets/images/checked-att.svg" alt="Update Attendance" title="Update Attendance" (click)="markAttendanceExamCourse(course)">
@@ -360,7 +360,7 @@
                 <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer"  *ngIf="jsonFlag.isProfessional" (click)="examMarksUpdate(course)">
                 <!-- <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i> -->
-                <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i> -->
+                <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" data-toggle="modal" data-target="#editExam" (click)="editCourseExam(course)"></i>
               </div>
             </div>
           </div>
@@ -389,6 +389,79 @@
 
 
   <!-- ALL POPUP SECTION -->
+  <!-- Edit Exam -->
+  <div id="editExam" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Exam</h4>
+        </div>
+        <div class="modal-body">
+          <div class="edit-input-container field-wrapper">
+            <label for="">Description</label>
+            <input type="text" class="form-ctrl" name="" value="" placeholder="Enter Description" [(ngModel)]="editClass.description">
+          </div>
+          <div class="edit-input-container field-wrapper">
+            <label for="">Topic</label>
+            <input type="text" class="form-ctrl topic-input" name="" value="" readonly [(ngModel)]="editClass.topic_covered_names" (click)="fetchTopics()">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="updateExam()">Save</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Topic Listing -->
+  <div id="topicModel" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <ng-container *ngTemplateOutlet="topicsRecursiveList; context:{$implicit: topicsList, level: 1 }"></ng-container>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn fullBlue" (click)="saveTopics()">Save</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <ng-template #topicsRecursiveList let-topicsList let-level="level">
+    <div style="margin:2px !important" *ngFor="let topic of topicsList">
+      <div class="topic-container" [ngClass]="level == 1 ? 'level1Topic': 'subTopicLevel'">
+        <div class="arrow-icon"  [style.visibility]="topic.subTopic.length ? 'visible':'hidden'" (click)="toggleArrow(topic)">
+          <i [ngClass]="topic.isExpand ? 'fa fa-caret-down': 'fa fa-caret-right'" style="font-size: 15px!important;"></i>
+        </div>
+        <div class="field-checkbox-wrapper" style="margin-bottom: 5px !important;padding-left:0px !important">
+         <input type="checkbox" [(ngModel)]="topic.checked"  class="form-checkbox" value="{{topic.checked}}" (click)="selectTopics(topic,$event)" id="topic-{{topic.topicId}}" />
+
+          <label for="topic-{{topic.topicId}}" style="margin-left:25px !important">{{topic.topicName}}</label>
+
+          <div *ngIf="topic.isExpand">
+            <ng-container  *ngTemplateOutlet="topicsRecursiveList; context:{ $implicit: topic.subTopic, level: level + 1  }">
+            </ng-container>
+          </div>
+        </div>
+
+      </div>
+    </div >
+  </ng-template>
+
   <!-- CANCEL EXAM POP UP Course Model -->
   <div id="cancelModal" class="modal" role="dialog" *ngIf="courseCommonExamCancelPopUP">
     <div class="modal-dialog">
