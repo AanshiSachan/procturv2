@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
   showAvailableUnits: boolean = false;
   isProfessional:boolean = false;
   showAllocationHistoryPopUp: boolean = false;
-   searchDataFlag: boolean = false;
+  searchDataFlag: boolean = false;
   isRippleLoad: boolean = false;
   showMenu: boolean = false;
   enable_eLearn_feature_flag : boolean = false;
@@ -64,8 +64,8 @@ export class HomeComponent implements OnInit {
     inventory_item: { id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
     category: { id: 'category', title: 'Category', filter: false, show: true },
     description: { id: 'description', title: 'Description', filter: false, show: true },
-    standard_name: { id: 'standard_name', title: 'Standard Name', filter: false, show: true },
-    subject_name: { id: 'subject_name', title: 'Subject Name', filter: false, show: true },
+    standard_name: { id: 'standard_name', title: 'Standard', filter: false, show: true },
+    subject_name: { id: 'subject_name', title: 'Subject', filter: false, show: true },
     master_course: { id: 'master_course', title: 'Master Course', filter: false, show: true },
     course: { id: 'course', title: 'Course', filter: false, show: true },
     total_units: { id: 'total_units', title: 'Total Units', filter: false, show: true },
@@ -80,7 +80,15 @@ export class HomeComponent implements OnInit {
     totalUnits: 0,
     newUnit: 0,
     item_id: ""
-  }
+  };
+  editStandSubject:any = {
+    standard_id: "",
+    standard_name: "",
+    subject_id: "-1",
+    subject_name: ""
+  };
+  editCourseList: any = [];
+
   arr = Array(400).fill(0).map((e,i)=>i-200)
 
   constructor(
@@ -173,7 +181,7 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  editRow(row_no, item_id) {
+  editRow(row_no, item_id, row) {
     this.isAddUnit = false;
     if (this.selectedRow !== "") {
       document.getElementById(("row" + this.selectedRow).toString()).classList.add('displayComp');
@@ -184,6 +192,29 @@ export class HomeComponent implements OnInit {
     document.getElementById(("table-header").toString()).classList.add('editComp');
     document.getElementById(("row" + row_no).toString()).classList.remove('displayComp');
     document.getElementById(("row" + row_no).toString()).classList.add('editComp');
+
+    this.editStandSubject.standard_id = row.standard_id;
+    this.editStandSubject.standard_name = row.standard_name;
+    this.editStandSubject.subject_id = row.subject_id;
+    this.editStandSubject.subject_name = row.subject_name;
+
+  }
+
+  masterCourseChanged(){
+    let courseId = this.editStandSubject.standard_id;
+    this.isRippleLoad = true;
+    this.editStandSubject.subject_id = "-1";
+    this.editStandSubject.subject_name = "";
+    this.inventoryApi.getCourseOnBasisOfMasterCourse(courseId).subscribe(
+      data => {
+        this.isRippleLoad = false;
+        this.editCourseList = data;
+      },
+      error => {
+        this.isRippleLoad = false;
+        //console.log('', error);
+      }
+    )
   }
 
   cancelRow(row_no) {
@@ -248,10 +279,10 @@ export class HomeComponent implements OnInit {
       institution_id: "",
       item_id: row.item_id.toString(),
       item_name: row.item_name,
-      standard_id: row.standard_id.toString(),
-      subject_id: row.subject_id.toString(),
-      standard_name: row.standard_name.toString(),
-      subject_name: row.subject_name.toString(),
+      standard_id: this.editStandSubject.standard_id.toString(),
+      subject_id: this.editStandSubject.subject_id.toString(),
+      standard_name: this.editStandSubject.standard_name.toString(),
+      subject_name: this.editStandSubject.subject_name.toString(),
       unit_cost: row.unit_cost.toString(),
       out_of_stock_indicator_units: row.out_of_stock_indicator_units.toString(),
       is_offline_or_online: row.is_offline_or_online
