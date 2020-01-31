@@ -15,9 +15,7 @@ import { ExamService } from '../../../../../services/report-services/exam.servic
 })
 export class CourseWiseComponent implements OnInit {
 
-  // @ViewChild('chartWrap') chartWrap: ElementRef;
   chartType: any = "1";
-
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
@@ -142,11 +140,13 @@ export class CourseWiseComponent implements OnInit {
     let subjectWiseMarks: any[] = [];
     let percentage: any[] = [];
     let subjectWiseDate: any[] = [];
+    let subjectData: any[] = [];
 
     res.map(e => {
       dateMap.push(moment(e.exam_date).format('DD-MMM'));
       feeMap.push(e.avarage_marks);
       totalMarksMap.push(e.total_marks);
+      subjectData.push(e.subject_name);
       if(!this.jsonFlag.isProfessional){
         percentage.push(e.course_level_percentage);
       }
@@ -160,14 +160,15 @@ export class CourseWiseComponent implements OnInit {
 
     });
 
-    this.createChart(dateMap, feeMap, totalMarksMap, percentage);
+    this.createChart(dateMap, feeMap, totalMarksMap, percentage, subjectData);
     // this.subjectWiseChart(subjectWiseDate, feeMap, subjectWiseMarks);
   }
 
-  createChart(d: any[], f: any[], t: any[], p: any[]){
+  createChart(d: any[], f: any[], t: any[], p: any[], s: any[]){
     let percentage = p;
     let total = t;
     let avg_marks = f;
+    let subject = s;
 
     let minWidth = 1100;
     let dataLength = d.length;
@@ -229,8 +230,9 @@ export class CourseWiseComponent implements OnInit {
           formatter : function () {
             var point = this.point
             let tool = '';
-            tool += 'Avg Marks: ' + avg_marks[point.index] + ' marks';
+            tool += 'Subject: ' + subject[point.index] + '';
             tool += '<br>'+'Total Marks: ' + total[point.index] + ' marks';
+            tool += '<br>'+'Avg Marks: ' + avg_marks[point.index] + ' marks';
             tool += '<br>'+'Percentage: ' + percentage[point.index] + '%';
             return tool;
           },
