@@ -16,7 +16,7 @@
           Report
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-        <a routerLink="/view/{{jsonFlag.type}}/reports/new-exam" style="padding:0px; ">
+        <a routerLink="/view/{{jsonFlag.type}}/reports/exam" style="padding:0px; ">
           Exam Report
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
@@ -83,10 +83,10 @@
           <span>Leave</span>
         </div>
         <div class="header-item small-item">
-          <span>Avg. Marks</span>
+          <span>Total Marks</span>
         </div>
         <div class="header-item small-item">
-          <span>Total Marks</span>
+          <span>Avg. Marks</span>
         </div>
         <div class="header-item small-item">
           <span>Status</span>
@@ -119,12 +119,11 @@
             <!-- <span>-</span> -->
           </div>
           <div class="value-item small-item">
-            <span>{{report.avarage_marks}}</span>
-          </div>
-
-          <div class="value-item small-item">
             <span>{{report.total_marks}}</span>
             <!-- <span>-</span> -->
+          </div>
+          <div class="value-item small-item">
+            <span>{{report.avarage_marks}}</span>
           </div>
           <div class="value-item small-item">
             <span [ngClass]="{'completed-class': report.exam_status == 'Mks. Updated',
@@ -136,7 +135,7 @@
             </span>
           </div>
           <div class="value-item small-item align-center">
-            <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button" class="view-result-btn" routerLink='/view/{{jsonFlag.type}}/reports/new-exam/examWise/{{report.exam_schd_id}}'>View Result</button>
+            <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button" class="view-result-btn" routerLink='/view/{{jsonFlag.type}}/reports/exam/examWise/{{report.exam_schd_id}}'>View Result</button>
             <span *ngIf="report.exam_status != 'Mks. Updated'">-</span>
           </div>
         </div>

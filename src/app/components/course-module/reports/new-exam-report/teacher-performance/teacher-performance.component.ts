@@ -91,7 +91,7 @@ export class TeacherPerformanceComponent implements OnInit {
 
   routeTo(exam_schd_id){
     sessionStorage.setItem('examSchdType', "true");
-    this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/new-exam/examWise/'+exam_schd_id]);
+    this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/exam/examWise/'+exam_schd_id]);
   }
 
 }
