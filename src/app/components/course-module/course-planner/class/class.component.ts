@@ -1085,10 +1085,6 @@ export class ClassComponent implements OnInit {
     this.editClass.end_time = course.end_time;
   }
 
-  showTopicList(){
-    this.fetchTopics();
-  }
-
   toggleArrow(topic){
     topic.isExpand = !(topic.isExpand);
   }
@@ -1105,6 +1101,7 @@ export class ClassComponent implements OnInit {
     this.topicService.getAllTopicsSubTopics(subject_id).subscribe((resp)=>{
       this.jsonFlag.isRippleLoad = false;
       this.topicsList = [];
+      this.totalTopicsList = [];
       this.topicsList = resp;
       if(!!this.topicsList){
         $('#topicModel').modal('show');
@@ -1259,12 +1256,14 @@ export class ClassComponent implements OnInit {
           res => {
             this.jsonFlag.isRippleLoad = false;
             let result: any = res;
+            $('#editClass').modal('hide');
             if(result.statusCode == 200){
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Class updated successfully');
               this.getData();
             }
           },
           err => {
+            $('#editClass').modal('hide');
             this.jsonFlag.isRippleLoad = false;
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           }
@@ -1288,17 +1287,36 @@ export class ClassComponent implements OnInit {
         res => {
           this.jsonFlag.isRippleLoad = false;
           let result: any = res;
+          $('#editClass').modal('hide');
           if(result.statusCode == 200){
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Class updated successfully');
+            this.clearEditValues();
             this.getData();
           }
         },
         err => {
+          $('#editClass').modal('hide');
           this.jsonFlag.isRippleLoad = false;
+          this.clearEditValues();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
     }
+  }
+
+  clearEditValues(){
+      this.editClass.description = "";
+      this.editClass.topic_covered_ids = "";
+      this.editClass.topic_covered_names = "";
+      this.editClass.subject_id = "";
+      this.editClass.course_id = "";
+      this.editClass.class_sche_date = "";
+      this.editClass.class_schedule_id = "";
+      this.editClass.batch_id = "";
+      this.editClass.start_time = "";
+      this.editClass.end_time = "";
+      this.editClass.total_marks = "";
+      this.editClass.duration = "";
   }
 
 
