@@ -404,7 +404,7 @@
             <label for="">Description</label>
             <input type="text" class="form-ctrl" name="" value="" placeholder="Enter Description" [(ngModel)]="editClass.description">
           </div>
-          <div class="edit-input-container field-wrapper">
+          <div class="edit-input-container field-wrapper" *ngIf="jsonFlag.isProfessional">
             <label for="">Topic</label>
             <input type="text" class="form-ctrl topic-input" name="" value="" readonly [(ngModel)]="editClass.topic_covered_names" (click)="fetchTopics()">
           </div>
