@@ -5,11 +5,14 @@ import { of } from 'rxjs/observable/of';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
+import { ExamCourseService } from '../../../../services/course-services/exam-schedule.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { CoursePlanner } from '../course-planner.model';
 import { SessionFilter } from '../session-filter.model';
 import { WidgetService } from '../../../../services/widget.service';
+import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
+declare var $;
 
 @Component({
   selector: 'app-exam',
@@ -104,12 +107,36 @@ export class ExamComponent implements OnInit {
 
   cancelExamPopUP: boolean = false;
 
+  // for Edit
+  editClass: any = {
+    description: "",
+    topic_covered_ids: "",
+    topic_covered_names: "",
+    subject_id: "",
+    course_id: "",
+    class_sche_date: "",
+    class_schedule_id: "",
+    batch_id: "",
+    start_time: "",
+    end_time: "",
+    total_marks: "",
+    duration: "",
+    course_exam_schedule_id: "",
+    room_no: ""
+  };
+  topicsList : any = [];
+  totalTopicsList: any = [];
+  selectedTopics: any = '' //join ids by '|'
+  selectedTopicsNames: any = '';
+
   constructor(
     private router: Router,
     private auth: AuthenticatorService,
     private msgService: MessageShowService,
     private classService: ClassScheduleService,
-    private widgetService: WidgetService
+    private widgetService: WidgetService,
+    private topicService: TopicListingService,
+    private examService: ExamCourseService
   ) { }
 
   ngOnInit() {
@@ -900,4 +927,275 @@ export class ExamComponent implements OnInit {
     this.storeSession();
     this.router.navigate(['/view/course/create/exam']);
   }
+
+
+// Edit class functions
+  editCourseExam(course){
+    console.log(course)
+
+    this.editClass.description = course.description;
+    this.editClass.topic_covered_ids = course.topic_covered_ids;
+    this.editClass.topic_covered_names = course.topics_covered;
+    this.editClass.subject_id = course.subject_id;
+    this.editClass.course_id = course.course_id;
+    this.editClass.class_sche_date = course.date;
+    if(this.jsonFlag.isProfessional){
+      this.editClass.batch_id = course.batch_id;
+    }
+    this.editClass.class_schedule_id = course.schedule_id;
+    this.editClass.start_time = course.start_time;
+    this.editClass.end_time = course.end_time;
+    this.editClass.total_marks = course.total_marks;
+    this.editClass.duration = course.duration;
+    this.editClass.course_exam_schedule_id = course.course_id;
+    this.editClass.room_no = course.room_no;
+
+  }
+
+  toggleArrow(topic){
+    topic.isExpand = !(topic.isExpand);
+  }
+
+  fetchTopics(){
+    this.jsonFlag.isRippleLoad = true;
+    let subject_id = '';
+    if(this.jsonFlag.isProfessional){
+      subject_id = this.editClass.course_id;
+    }
+    else{
+      subject_id = this.editClass.subject_id;
+    }
+    this.topicService.getAllTopicsSubTopics(subject_id).subscribe((resp)=>{
+      this.jsonFlag.isRippleLoad = false;
+      this.topicsList = [];
+      this.totalTopicsList = [];
+      this.topicsList = resp;
+      if(!!this.topicsList && this.topicsList.length > 0){
+        $('#topicModel').modal('show');
+        $('#editExam').modal('hide');
+
+        this.topicsList.forEach(tpc =>{
+          this.totalTopicsList.push(tpc);
+          tpc.checked = false;
+          if(tpc.subTopic.length){
+            this.getAllTopics(tpc.subTopic)
+          }
+        })
+
+        let topicIds = this.editClass.topic_covered_ids.split('|');
+        topicIds.forEach(tpc =>{
+            this.topicsList.forEach(tp =>{
+              if(tp.topicId == tpc){
+                tp.checked = true;
+              }
+            })
+        })
+
+        console.log(this.topicsList);
+      }
+      else {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to link");
+      }
+    },err =>{
+      this.jsonFlag.isRippleLoad = false;
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+    })
+  }
+
+  getAllTopics(topic){
+    topic.forEach(obj =>{
+      this.totalTopicsList.push(obj);
+      obj.checked = false;
+      if(obj.subTopic.length){
+        this.getAllTopics(obj.subTopic)
+      }
+    })
+  }
+
+  selectTopics(topic,event){
+    topic.checked = !topic.checked;
+      if(topic.subTopic.length){
+        this.checkAllSubTopics(topic.subTopic, event.target.checked);
+      }
+      if(!event.target.checked){
+        if(topic.parentTopicId != 0){
+          this.uncheckParent(topic);
+        }
+      }
+      this.checkParents(topic);
+  }
+
+  checkAllSubTopics(topic,param){
+    topic.forEach(obj =>{
+      if(param){
+      obj.checked = true;
+      }
+      else{
+        obj.checked = false
+      }
+      if(obj.subTopic.length){
+        this.checkAllSubTopics(obj.subTopic,param);
+      }
+    })
+  }
+
+  //uncheck parent if any of the child is deselected
+  uncheckParent(topic){
+    var getParentTopic = this.totalTopicsList.find(obj => obj.topicId == topic.parentTopicId);
+    if(!!getParentTopic){
+      getParentTopic.checked = false;
+      if(getParentTopic.parentTopicId != 0){
+        this.uncheckParent(getParentTopic)
+      }
+    }
+  }
+  //check parent if all subtopics are checked
+  checkParents(topic){
+    var checkAll: boolean = true;
+    if(this.totalTopicsList.find(el => el.topicId == topic.topicId) != undefined){
+      var parentTopic = this.totalTopicsList.find(ele => ele.topicId == topic.parentTopicId);
+      if(parentTopic != undefined){
+      if(parentTopic.subTopic.length){
+        parentTopic.subTopic.forEach(subTpc =>{
+          if(!subTpc.checked){
+            checkAll = false;
+          }
+        });
+        if(checkAll){
+          parentTopic.checked = true;
+          if(parentTopic.parentTopicId != 0){
+            this.checkParents(parentTopic)
+          }
+        }
+      }
+    }
+    }
+  }
+
+  saveTopics(){
+    var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
+    var getTopicIds;
+    if(getSelectedTopics != undefined){
+    getTopicIds = getSelectedTopics.map(obj =>{
+      return obj.topicId;
+    })
+    getTopicIds = getTopicIds.join('|')
+    console.log(getTopicIds);
+    console.log(getSelectedTopics)
+
+    this.editClass.topic_covered_ids = getTopicIds;
+    this.editClass.topic_covered_names = '';
+    for (let index = 0; index < getSelectedTopics.length; index++) {
+      this.editClass.topic_covered_names += getSelectedTopics[index].topicName;
+    }
+    $('#topicModel').modal('hide');
+    $('#editExam').modal('show');
+  }
+
+  }
+
+  updateExam(){
+    if(!this.jsonFlag.isProfessional){ // for course model
+        let obj = {
+          "master_course": this.inputElements.masterCourse,
+          "requested_date": this.editClass.class_sche_date,
+          "coursesList": [{
+            "course_id": this.editClass.course_id,
+            "course_exam_schedule_id": this.editClass.course_exam_schedule_id,
+            "exam_start_time": this.editClass.start_time,
+            "exam_end_time": this.editClass.end_time,
+            "courseClassSchdList": [{
+                    "batch_id": this.editClass.batch_id,
+                    "start_time": this.editClass.start_time,
+                    "end_time": this.editClass.end_time,
+                    "class_desc": this.editClass.description,
+                    "duration": this.editClass.duration,
+                    "total_marks": this.editClass.total_marks,
+                    "topics_covered": this.editClass.topic_covered_ids,
+                    "room_no": this.editClass.room_no,
+                    "class_schedule_id": this.editClass.class_schedule_id
+            }]
+          }]
+        }
+
+      // let obj =  {
+      //   "batch_id": this.editClass.batch_id,
+      //   "exam_freq": "Other",
+      //   "otherSchd": [{
+      //           "exam_date": this.editClass.class_sche_date,
+      //           "start_time" : this.editClass.start_time,
+      //           "end_time": this.editClass.end_time,
+      //           "total_marks": this.editClass.total_marks,
+      //           "exam_desc": this.editClass.description,
+      //           "isReferenced": "N",
+      //           "duration": this.editClass.duration,
+      //           "schd_id": this.editClass.class_schedule_id
+      //             }]
+      //     }
+
+      	this.examService.updateExamSch(obj).subscribe(
+          res => {
+            this.jsonFlag.isRippleLoad = false;
+            let result: any = res;
+            $('#editExam').modal('hide');
+            if(result.statusCode == 200){
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Class updated successfully');
+              this.getData();
+            }
+          },
+          err => {
+            $('#editExam').modal('hide');
+            this.jsonFlag.isRippleLoad = false;
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+          }
+        )
+
+    }
+    else{
+      let obj = {
+        "batch_id": this.editClass.batch_id,
+        "is_exam_schedule": "Y",
+        "class_schedule_id": this.editClass.class_schedule_id,
+        "exam_desc": this.editClass.description,
+        "topics_covered": this.editClass.topic_covered_ids,
+        "cousre_planner_update_operation": "desc_and_topic_covered_update"
+      }
+      this.classService.changeClassTeacher(obj).subscribe(   // update exam for batch model
+        res => {
+          this.jsonFlag.isRippleLoad = false;
+          let result: any = res;
+          $('#editExam').modal('hide');
+          if(result.statusCode == 200){
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Exam updated successfully');
+            this.clearEditValues();
+            this.getData();
+          }
+        },
+        err => {
+          $('#editExam').modal('hide');
+          this.jsonFlag.isRippleLoad = false;
+          this.clearEditValues();
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+        }
+      )
+
+    }
+
+  }
+
+  clearEditValues(){
+      this.editClass.description = "";
+      this.editClass.topic_covered_ids = "";
+      this.editClass.topic_covered_names = "";
+      this.editClass.subject_id = "";
+      this.editClass.course_id = "";
+      this.editClass.class_sche_date = "";
+      this.editClass.class_schedule_id = "";
+      this.editClass.batch_id = "";
+      this.editClass.start_time = "";
+      this.editClass.end_time = "";
+      this.editClass.total_marks = "";
+      this.editClass.duration = "";
+  }
+
 }
