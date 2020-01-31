@@ -7,367 +7,388 @@
   </div>
 
   <div class="videos-outer-container">
-    <div class="section-title-container">
-      <span>Section 1</span>
-    </div>
+      <div class="section-title-container" >
+        <span>Section 1 : Overview</span>
+      </div>
     <div class="videos-container">
-      <div class="video-item">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/18224SUG5sDy1APJ5SgeftKYLype31aWM/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/1.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/A9tBKQKoOkQ')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Overview and login</span>
+            <span>Overview of complete Proctur</span>
           </div>
           <div class="video-description-container">
-            <span>Overview of Proctur ERP and How to login using your credentials</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(0)">View more</span>
-          </div>
-        </div>
-      </div>
-      <div class="video-item">
-        <div class="thumbnail-container">
-          <img src="./assets/images/training_video/2.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/FxG285gux2Q')">
-        </div>
-        <div class="video-info-container">
-          <div class="video-title-container">
-            <span>Account Type - Batch Model</span>
-          </div>
-          <div class="video-description-container">
-            <span>Setup your user account in Proctur's batch model</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(1)">View more</span>
-          </div>
-        </div>
-      </div>
-      <div class="video-item">
-        <div class="thumbnail-container">
-          <img src="./assets/images/training_video/3.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/q5z2ZA7hsjE')">
-        </div>
-        <div class="video-info-container">
-          <div class="video-title-container">
-            <span>Account Type - Course Model</span>
-          </div>
-          <div class="video-description-container">
-            <span>Setup your user account in Proctur's course module</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(2)">View more</span>
+            <span>Institute Management Solution and how to get started</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="section-title-container">
-      <span>Section 2</span>
-    </div>
+      <div class="section-title-container">
+        <span>Section 2 : Data Setup</span>
+      </div>
+    
     <div class="videos-container">
-      <div class="video-item">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1SUG7f5qTPbTd-JBFd-O4u-Wd-Zw1Rn8m/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/4.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/NzqeXfSZCLs')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>System Settings</span>
+            <span>Account Setup - Course Model</span>
           </div>
           <div class="video-description-container">
-            <span>Settings of various activities on the portal</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(3)">View more</span>
+            <span>Setup your account in Proctur course model</span>
           </div>
         </div>
       </div>
-      <div class="video-item">
+      <div class="video-item"  (click)="showVideo('https://drive.google.com/file/d/11QKFGMzNrfyfVZ24LeG_FrBS3ztEO4xN/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/5.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/2GgFqBeiZiU')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Student Data Add / Upload</span>
+            <span>Account Setup -Batch Model</span>
           </div>
           <div class="video-description-container">
-            <span>How to upload enquiries in bulk</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(4)">View more</span>
+            <span>Setup your account in Proctur batch model</span>
           </div>
         </div>
       </div>
-      <div class="video-item">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/112xxv_adalw1nP5TZ4sKJpMJcOboTUkz/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/6.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/WhOj8G0Ha88')">
+          <div class="play-container fa fa-play-circle-o" ></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Users & Access Management</span>
+            <span>General Settings</span>
           </div>
           <div class="video-description-container">
-            <span>How to assign differerent role to users</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(5)">View more</span>
+            <span>Settings of activities like reminders/notifications of fees, exams, attendance and others</span>
           </div>
         </div>
       </div>
-      <div class="video-item">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1nw08IscbUThqelPvwJ5Ga2-LOdocG-Mt/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/7.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/faIJ3ipNuLM')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Course Planning & Scheduling</span>
+            <span>Users & Role Management</span>
           </div>
           <div class="video-description-container">
-            <span>How to plan and manage and schedule classes/exams</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(6)">View more</span>
+            <span>How to assign individual role to users</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="section-title-container">
-      <span>Section 3</span>
-    </div>
+      <div class="section-title-container" >
+        <span>Section 3 : Student Management</span>
+      </div>
     <div class="videos-container">
-      <div class="video-item">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1YD4vTwHVvpbgzocoGt6sc9LpSsQ3Hvq3/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/8.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/8zpXs3HZ-zI')">
+           <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>SMS / Email Notifications</span>
+            <span>Student Admission</span>
           </div>
           <div class="video-description-container">
-            <span>How to send notifications to Students of different courses/batches</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(7)">View more</span>
+            <span>How to add student data in the system</span>
           </div>
         </div>
       </div>
-      <div class="video-item">
+      <div class="video-item"  (click)="showVideo('https://drive.google.com/file/d/1cAP74BQnAfinx2C9W6AvIVhRWLp682cd/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/9.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/PmqbVgVN148')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Managing Enquiries</span>
+            <span>Student data bulk upload</span>
           </div>
           <div class="video-description-container">
-            <span>How to easily manage your enquiries on proctur</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(8)">View more</span>
+            <span>How to upload student information in bulk</span>
           </div>
         </div>
       </div>
-      <div class="video-item">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1HFD4vTMOx6E3K-JPIa4D8nmPlTE60QqX/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/10.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/nNvumeMwNRc')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Enquiry to Admission Process</span>
+            <span>Inventory Management & Allocation</span>
           </div>
           <div class="video-description-container">
-            <span>How to convert an enquiry directly to into an admission</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(9)">View more</span>
+            <span>How to manage inventory like bags, study material, stationary etc.</span>
           </div>
         </div>
       </div>
-      <div class="video-item">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1NYt-7Nhwsob__Ft9HwPAPZsbBu-mgcJK/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/11.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/oGgxyy0Cp-4')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Student Admissions</span>
+            <span>Report Card and ID Card</span>
           </div>
           <div class="video-description-container">
-            <span>How to add student details in the Proctur Account</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(10)">View more</span>
+            <span>How to download and view report card and ID card</span>
           </div>
         </div>
       </div>
-      <div class="video-item">
+    </div>
+
+      <div class="section-title-container" >
+        <span>Section 4 : Communication</span>
+      </div>
+    <div class="videos-container">
+      <div class="video-item"  (click)="showVideo('https://drive.google.com/file/d/1jLgtrtWvMFZP5MzTwkwmSrm6bb9XvzQZ/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/12.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/79ur6e7GMfM')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Manage Student Fee - #1</span>
+            <span>Send Notifications</span>
           </div>
           <div class="video-description-container">
-            <span>How to update fees of a student</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(11)">View more</span>
+            <span>How to send notification to users through add/send notification option</span>
           </div>
         </div>
       </div>
-      <div class="video-item">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1uZqfAyKzhYDSxL_aoqxXSYLebUAAjD0a/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/13.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/tZsrqM8Ru_w')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Manage Student Fee - #2</span>
+            <span>Send Messages</span>
           </div>
           <div class="video-description-container">
-            <span>How to reconfigure fees i.e make changes in installments/fees of Students</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(12)">View more</span>
+            <span>How to view the sent notifications in report section</span>
           </div>
         </div>
       </div>
-      <div class="video-item">
+    </div>
+
+      <div class="section-title-container" >
+        <span>Section 5 : Course Management</span>
+      </div>
+    <div class="videos-container">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1Ae9hNUtrak_X1V7aa_aYDdiwBiuqg4PZ/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/14.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/dRS0YaVE9p0')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Manage Student Fee - #3 (Cheque Management)</span>
+            <span>Course Planner </span>
           </div>
           <div class="video-description-container">
-            <span>How to get the details of the fees paid by cheques</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(13)">View more</span>
+            <span>How to plan, manage and schedule classes and exams </span>
           </div>
         </div>
       </div>
-      <div class="video-item">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1j9-2e0nmlLZkhxahCirM2Uw94-dcOUGO/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/15.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/5ckzLCC_s10')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Inventory Management</span>
-          </div>
-          <div class="video-description-container">
-            <span>How to manage inventory like bags,study material,stationary etc.</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(14)">View more</span>
-          </div>
-        </div>
-      </div>
-      <div class="video-item">
-        <div class="thumbnail-container">
-          <img src="./assets/images/training_video/16.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/CAIyjXWNaDM')">
-        </div>
-        <div class="video-info-container">
-          <div class="video-title-container">
-            <span>Sharing Notes / Assignments with Students</span>
-          </div>
-          <div class="video-description-container">
-            <span>How to share files with students</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(15)">View more</span>
-          </div>
-        </div>
-      </div>
-      <div class="video-item">
-        <div class="thumbnail-container">
-          <img src="./assets/images/training_video/17.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/EpBXelRBePg')">
-        </div>
-        <div class="video-info-container">
-          <div class="video-title-container">
-            <span>Parents Teacher Meeting (PTM)</span>
-          </div>
-          <div class="video-description-container">
-            <span>How to create,organise and manage Parent teacher meetings</span>
-          </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(16)">View more</span>
-          </div>
-        </div>
-      </div>
-      <div class="video-item">
-        <div class="thumbnail-container">
-          <img src="./assets/images/training_video/18.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/VYfV3Br5heY')">
-        </div>
-        <div class="video-info-container">
-          <div class="video-title-container">
-            <span>Timetable Generation</span>
+            <span>Time Table</span>
           </div>
           <div class="video-description-container">
             <span>How to view and download a time table</span>
           </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(17)">View more</span>
-          </div>
         </div>
       </div>
-    </div>
-
-    <div class="section-title-container">
-      <span>Section 4</span>
-    </div>
-    <div class="videos-container">
-      <div class="video-item">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/18eJddtcaImbwGNvWzLKfaEFOLoC7nOmn/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/19.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/U3WYFG0ZgHI')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Reports</span>
+            <span>File Manager </span>
           </div>
           <div class="video-description-container">
-            <span>How to view and use different reports provided for fees,sms,attendance,biometric attendance,exams,enquiries and others</span>
+            <span>How to upload and share files like pdf, images, powepoints, word docs etc. with the students</span>
           </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(18)">View more</span>
+        </div>
+      </div>
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1FeGHWyjdX0AQQ2xIdmNp4hUFbs2eRoWm/preview')">
+        <div class="thumbnail-container">
+          <div class="play-container fa fa-play-circle-o"></div>
+        </div>
+        <div class="video-info-container">
+          <div class="video-title-container">
+            <span>Setup PTM -Parent Teacher Meetings</span>
+          </div>
+          <div class="video-description-container">
+            <span>How to create,organise and manage Parent teacher meetings </span>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="section-title-container">
-      <span>Section 5</span>
-    </div>
+      <div class="section-title-container" >
+        <span>Section 6 : Lead Management</span>
+      </div>
     <div class="videos-container">
-      <div class="video-item">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1B7h7R3PtSxOofcf0idtsZHDiK_W_jsZR/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/20.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/L0lI_UeCEZA')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Promotional Activities (SMS)</span>
+            <span>SMS camapaign</span>
           </div>
           <div class="video-description-container">
             <span>How to send promotional sms campaign</span>
           </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(19)">View more</span>
-          </div>
         </div>
       </div>
-      <div class="video-item">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1l8vJtyd37JyTxF21lsT3F0rXfVxh2-BF/preview')">
         <div class="thumbnail-container">
-          <img src="./assets/images/training_video/21.jpg" alt="" (click)="showVideo('https://www.youtube.com/embed/UfEbiFazDeU')">
+          <div class="play-container fa fa-play-circle-o"></div>
         </div>
         <div class="video-info-container">
           <div class="video-title-container">
-            <span>Data Archiving - Clearing old data</span>
+            <span>Enquiry bulk upload</span>
           </div>
           <div class="video-description-container">
-            <span>How to archive courses and student data</span>
+            <span>How to upload enquiries in bulk</span>
           </div>
-          <div class="view-more">
-            <span data-toggle="modal" data-target="#exampleModal" (click)="viewMore(20)">View more</span>
+        </div>
+      </div>
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1P7Hi9t4Hhcx7BqCpccaDtcqdJFk3520Q/preview')">
+        <div class="thumbnail-container">
+          <div class="play-container fa fa-play-circle-o"></div>
+        </div>
+        <div class="video-info-container">
+          <div class="video-title-container">
+            <span>Manage Enquiries</span>
+          </div>
+          <div class="video-description-container">
+            <span>How to manage enquiries?</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/125XKv-PXNxN_OCl8Ib57dss_1rXrU9eL/preview')">
+        <div class="thumbnail-container">
+          <div class="play-container fa fa-play-circle-o"></div>
+        </div>
+        <div class="video-info-container">
+          <div class="video-title-container">
+            <span>Convert Enquiry to student</span>
+          </div>
+          <div class="video-description-container">
+            <span>How to convert an enquiry directly into an admission</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div class="section-title-container" >
+        <span>Section 7 : Old Data Management</span>
+      </div>
+    <div class="videos-container">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/17UQaRTx7CKzwr-rOMgSbzXjHABmjdkpt/preview')">
+        <div class="thumbnail-container">
+          <div class="play-container fa fa-play-circle-o"></div>
+        </div>
+        <div class="video-info-container">
+          <div class="video-title-container">
+            <span>Archive student data</span>
+          </div>
+          <div class="video-description-container">
+            <span>How to archive student data</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/18idD3gITLyPXOPsOJTCI6MOoXW-yfl9y/preview')">
+        <div class="thumbnail-container">
+          <div class="play-container fa fa-play-circle-o"></div>
+        </div>
+        <div class="video-info-container">
+          <div class="video-title-container">
+            <span>Archive courses</span>
+          </div>
+          <div class="video-description-container">
+            <span>How to archive courses</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div class="section-title-container" >
+        <span>Section 8 : Fees Management</span>
+      </div>
+    <div class="videos-container">
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1Jt316KlHK5WZWh20YKI3IsrlUw2Bg4S4/preview')">
+        <div class="thumbnail-container">
+          <div class="play-container fa fa-play-circle-o"></div>
+        </div>
+        <div class="video-info-container">
+          <div class="video-title-container">
+            <span>Manage student fees</span>
+          </div>
+          <div class="video-description-container">
+            <span>How to manage and update fees and  post dated cheques</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1McY7m8HIUf4yhm_F-VqzjpcqRsyqZw95/preview')">
+        <div class="thumbnail-container">
+          <div class="play-container fa fa-play-circle-o"></div>
+        </div>
+        <div class="video-info-container">
+          <div class="video-title-container">
+            <span>Fee discount</span>
+          </div>
+          <div class="video-description-container">
+            <span>How to provide discount to students?</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1OB5BWuLha7wZtEdadJ4sNZ_8yOm-qFxB/preview')">
+        <div class="thumbnail-container">
+          <div class="play-container fa fa-play-circle-o"></div>
+        </div>
+        <div class="video-info-container">
+          <div class="video-title-container">
+            <span>Reconfigure fees</span>
+          </div>
+          <div class="video-description-container">
+            <span>How to reconfigure fees i.e make changes in installments/fees of Students</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1aVYDR1Q9r_X6bqT7fOmi6NO2kMuiD-nG/preview')">
+        <div class="thumbnail-container">
+          <div class="play-container fa fa-play-circle-o"></div>
+        </div>
+        <div class="video-info-container">
+          <div class="video-title-container">
+            <span>Fee Report</span>
+          </div>
+          <div class="video-description-container">
+            <span>Complete information regarding fees with reports</span>
+          </div>
+        </div>
+      </div>
+      <div class="video-item" (click)="showVideo('https://drive.google.com/file/d/1IDj-wtDw4-qNz5-yXjcoABd1sOw1zXJp/preview')">
+        <div class="thumbnail-container">
+          <div class="play-container fa fa-play-circle-o"></div>
+        </div>
+        <div class="video-info-container">
+          <div class="video-title-container">
+            <span>Update Student's PDC</span>
+          </div>
+          <div class="video-description-container">
+            <span>How to update cheque provided by students</span>
           </div>
         </div>
       </div>
