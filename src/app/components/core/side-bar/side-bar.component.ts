@@ -137,6 +137,16 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.createCustomSidenav();
     });
 
+    this.log.poweredByStatus.subscribe(res => {
+      let result: any = res;
+      if(result == 1){
+        this.jsonFlags.isShowPowerBy = true;
+      }
+      else{
+        this.jsonFlags.isShowPowerBy = false;
+      }
+    });
+
     this.form.valueChanges
       .debounceTime(1000)
       .distinctUntilChanged()
@@ -150,35 +160,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.checkUserHadAccess();
     this.checkInstituteType();
     this.checkManinBranch();
-    this.hidePowerBy()
   }
 
   ngAfterViewInit() {
     this.setActiveClassOnSideNav();
   }
 
-  hidePowerBy() {
-    let institute_id = this.globalSearchForm.instituteId;
-    this.jsonFlags.isShowPowerBy = true;
-    if (institute_id == '101132' ||
-        institute_id == '101133' ||
-        institute_id == '101134' ||
-        institute_id == '101135' ||
-        institute_id == '101149' ||
-        institute_id == '101150' ||
-        institute_id == '101140' ||
-        institute_id == '101247' ||
-        institute_id == '101248' ||
-        institute_id == '101249' ||
-        institute_id == '101275' ||
-        institute_id == '101276' ||
-        institute_id == '101277' ||
-        institute_id == '101296' ||
-        institute_id == '101151') {
-      this.jsonFlags.isShowPowerBy = false;
-    }
 
-  }
 
   hideForUsers() {
     if (sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0') {
@@ -410,6 +398,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     let userType: any = this.userType;
     let permission: any = this.permissionData;
     let type = Number(sessionStorage.getItem('institute_setup_type'));
+    // check these new feature is enable for institute or not
     this.isLibraryFeatureAllow(permission); // check librabry feature
     /* Admin or Custom login */
     if (userType == 0) {
@@ -430,9 +419,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.hasCourse(this.permissionData);
         this.hasProducts(this.permissionData);
       }
-      // check these new feature is enable for institute or not
-      this.isElearnAllow();
-      this.isLibraryFeatureAllow(permission);
+
     }
     else if (userType == 3) {
       /* Teacher login detected */
@@ -443,7 +430,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     // please dont chnage this  code from here
     this.isOnlineExamAllow(type); // check online test is enable or not
     this.isLiveClassesAllow(type);
-
+    this.isElearnAllow();
 
   }
 
@@ -492,7 +479,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     if (this.isProfessional || sessionStorage.getItem('enable_eLearn_feature') == '0') {
       this.jsonFlags.isShoweStore = false;
     }
-    if (sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1') {
+    if (sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1' ||
+      sessionStorage.getItem('enable_eLearn_feature') == '1') {
       this.jsonFlags.isShoweStore = true;
     }
   }
@@ -771,7 +759,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         for (let i = 0; i < country_info.length; i++) {
           let row: any = country_info[i];
            row.symbol = this.getCurrencyDetails(900, row.currency_code, row.country_code);
-          if (row.is_default == 'Y') {            
+          if (row.is_default == 'Y') {
             this.commonService.setDefaultCurrencySymbol(row.symbol);
           }
         }
@@ -854,17 +842,17 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   hasInventoryAccess() {
 
-        if (sessionStorage.getItem('permissions') == '' && sessionStorage.getItem('userType') != '3') {
+    if (sessionStorage.getItem('permissions') == '' && sessionStorage.getItem('userType') != '3') {
+      return true;
+    }
+    else if ((sessionStorage.getItem('permissions')).includes('301')) {
+      if (sessionStorage.getItem('userType') != '3') {
+        return false;
+      } else {
         return true;
       }
-      else if ((sessionStorage.getItem('permissions')).includes('301')) {
-        if (sessionStorage.getItem('userType') != '3') {
-          return false;
-        } else {
-          return true;
-        }
-      }
-     else {
+    }
+    else {
       return false;
     }
   }

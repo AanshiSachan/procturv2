@@ -137,7 +137,7 @@ export class ExamComponent implements OnInit {
     if(this.jsonFlag.isProfessional){
       this.showHideColumns.description = true;
       this.showHideColumns.topic = false;
-      this.jsonFlag.setting = false;
+      // this.jsonFlag.setting = false;
     }
   }
 

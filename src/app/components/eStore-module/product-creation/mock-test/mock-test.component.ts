@@ -1,8 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { ProductService } from '../../../../services/products.service';
-import { MessageShowService } from '../../../../services/message-show.service';
-import { Router } from '../../../../../../node_modules/@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
+import { Router } from '../../../../../../node_modules/@angular/router';
+import { MessageShowService } from '../../../../services/message-show.service';
+import { ProductService } from '../../../../services/products.service';
 @Component({
   selector: 'app-mock-test',
   templateUrl: './mock-test.component.html',
@@ -19,6 +19,7 @@ export class MockTestComponent implements OnInit {
   testlist: any = [];
   selectAll: boolean = false;
   isRippleLoad: boolean = false;
+  isAdvanceProductEdit: boolean = false;
   description: string = '';
   product_ecourse_maps: any = [];
   constructor(
@@ -72,8 +73,10 @@ export class MockTestComponent implements OnInit {
                 ecourse.testlist.forEach((test) => {
                   if (test.test_id == obj.source_item_id &&
                     obj.course_type_id == ecourse.course_type_id
-                    && obj.slug == "Mock_Test") 
-                    { test.isChecked = true; }
+                    && obj.slug == "Mock_Test") {
+                    test.isChecked = true;
+                    test.is_existed_checked = (test.isChecked && this.isAdvanceProductEdit) ? true : false;
+                  }
                 });
               });
             }
@@ -121,6 +124,7 @@ export class MockTestComponent implements OnInit {
             this.prodForm && this.prodForm.product_items_types && this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
+            this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status == 30) ? true : false;
             this.updateProductItemStates(null, null);
           }
           else {
@@ -144,12 +148,12 @@ export class MockTestComponent implements OnInit {
     this.previewEvent.emit(this.prodForm);
   }
 
-  getTime(date){
-    let milisec = date*1000;
+  getTime(date) {
+    let milisec = date * 1000;
     return moment(new Date(milisec)).format('h:mm')
   }
-  getDate(date){
-    let milisec = date*1000;
+  getDate(date) {
+    let milisec = date * 1000;
     return moment(new Date(milisec)).format('DD MMM YYYY');
   }
 
@@ -158,11 +162,11 @@ export class MockTestComponent implements OnInit {
   }
 
   gotoNext() {
-    if (this.description == undefined ||this.description == '') {
+    if (this.description == undefined || this.description == '') {
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }
-    if (this.description.length>1500 ) {
+    if (this.description.length > 1500) {
       this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
       return;
     }
@@ -210,6 +214,8 @@ export class MockTestComponent implements OnInit {
         //update test List
         let obj = {
           "page_type": "Mock_Test",
+          "status": this.prodForm.status,
+          "is_advance_product": this.prodForm.is_advance_product,
           "item_list": objectArray,
           "description": this.description
         }
@@ -223,7 +229,7 @@ export class MockTestComponent implements OnInit {
 
               this.prodForm.product_item_list = details;
               console.log(this.prodForm)
-              this.msgService.showErrorMessage('success',"Product updated successfully !", '');
+              this.msgService.showErrorMessage('success', "Product updated successfully !", '');
               this.nextForm.emit();
             }
             else {

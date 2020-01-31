@@ -1,0 +1,110 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'"
+  *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="container-fluid product-wrapper p-0">
+  <div class="row m-0 pt-3 pb-3">
+    <div class="col-md-8" style="padding-left: 0;">
+      <section class="middle-top clearFix bulk-header">
+        <div>
+          <h1 class="pull-left">
+            <a (click)="cancel()" style="padding:0px;cursor: pointer; ">
+              Voucher
+            </a>
+            <!-- <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <span> Coupons </span> -->
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <span *ngIf="!selectedCouponId">Add Voucher</span>
+            <span *ngIf="selectedCouponId">Edit Voucher</span>
+          </h1>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12 form-group">
+          <label class="text-bold"> Offer Code
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" [(ngModel)]="addVoucherModel.offer_code" class="form-control form-control-sm">
+        </div>
+
+        <div class="col-md-12 form-group" style="width: 50%;padding-right: 0;">
+          <label class="text-bold">Product
+            <span class="text-danger">*</span>
+          </label>
+          <ng-multiselect-dropdown [placeholder]="'Select Product'" [(ngModel)]="selected_products" [data]="productList"
+            [settings]="productSetting">
+          </ng-multiselect-dropdown>
+        </div>
+
+        <div class="col-md-12">
+          <div class="col-md-8 form-group" style="padding-right: 0px;padding-left: 0px;">
+            <label class="text-bold">Description</label>
+            <textarea rows="3" class="form-control form-control-sm" maxLength="1500"
+              [(ngModel)]="addVoucherModel.offer_description" style="width: 75%;"></textarea>
+          </div>
+        </div>
+
+        <div class="row m-0" style="width: 52.5%;padding-bottom: 0;margin-bottom: 0;">
+          <div class="col-md-6 form-group" style="padding-left: 0;margin-bottom: 0;">
+            <div class="col-md-12 form-group">
+              <label class="text-bold">Flat Discount Amount ({{ _commService.currency_default_symbol}})
+                <span class="text-danger">*</span>
+              </label>
+              <input type="text" [(ngModel)]="addVoucherModel.flat_discount_amount" class="form-control form-control-sm"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" style="width: 100%;">
+            </div>
+          </div>
+          <div class="col-md-6 form-group" style="padding-left: 0;">
+            <div class="col-md-12 form-group" style="margin-bottom:0">
+              <label class="text-bold"> Minimum Amount in Cart ({{ _commService.currency_default_symbol}})
+              </label>
+              <input type="text" [(ngModel)]="addVoucherModel.minimum_amount_in_cart"
+                class="form-control form-control-sm" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                style="width: 100%;">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row m-0" style="width: 52.5%;padding-bottom: 0;">
+          <div class="col-md-6 form-group field-wrapper datePickerBox">
+            <div class="col-md-12" style="padding: 0px;">
+              <label for="from">Start Date
+                <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="addVoucherModel.start_date"
+                name="FD" bsDatepicker readonly="true" style="height: 34px;border: 1px solid #ccc;width: 95%!important">
+            </div>
+          </div>
+          <div class="col-md-6 form-group field-wrapper datePickerBox">
+            <div class="col-md-12" style="padding: 0px;">
+              <label for="from">End Date
+                <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="addVoucherModel.end_date"
+                name="FD" bsDatepicker readonly="true" style="height: 34px;border: 1px solid #ccc;width: 95%!important">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 form-group" style="padding-left: 0;margin-bottom: 0;" *ngIf="selectedCouponId">
+          <div class="col-md-12 form-group">
+            <input type="checkbox" id="inactive" class="form-ctrl" [(ngModel)]="offerStatus"
+              style="-webkit-appearance: checkbox !important;">&nbsp;
+            <label for="inactive">Inactive</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="go-btn-container">
+        <button type="button" name="button" class="fullBlue add-class-btn" (click)="cancel()">Cancel</button>
+        <button type="button" name="button" class="fullBlue gobtn" (click)="saveData()"
+          [disabled]="isRippleLoad">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

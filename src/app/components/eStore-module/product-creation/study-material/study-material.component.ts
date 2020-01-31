@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '../../../../../../node_modules/@angular/router';
 import { HttpService } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
@@ -15,17 +15,19 @@ export class StudyMaterialComponent implements OnInit {
   entity_id: any;
   @Input()
   prodForm: any;
-  isRippleLoad: boolean = false;
   @Output() nextForm = new EventEmitter<string>();
   @Output() startForm = new EventEmitter<string>();
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
+  isRippleLoad: boolean = false;
+  isAdvanceProductEdit:boolean = false;
   institute_id: any = sessionStorage.getItem('institute_id');
   description: string = '';
   studyMaterial: any[] = [];
   outputMessage: any = '';
   materialData: any[] = [];
   testlist: any[] = [];
+
   constructor(
     private router: Router,
     private msgService: MessageShowService,
@@ -33,7 +35,6 @@ export class StudyMaterialComponent implements OnInit {
     private http: ProductService) { }
 
   ngOnInit() {
-    this.initForm();
     this.initProductForm();
   }
 
@@ -64,7 +65,7 @@ export class StudyMaterialComponent implements OnInit {
   }
 
   gotoBack() {
-    this.router.navigateByUrl('/products');
+    this.router.navigateByUrl('/view/e-store/details');
   }
 
   gotoNext() {
@@ -82,6 +83,8 @@ export class StudyMaterialComponent implements OnInit {
       //update test List
       let obj = {
         "page_type": "Study_Material",
+        "status": this.prodForm.status,
+        "is_advance_product": this.prodForm.is_advance_product,
         "item_list": this.testlist,
         "description": this.description
       }
@@ -183,7 +186,9 @@ export class StudyMaterialComponent implements OnInit {
           element.subject_id = object.subject_id;
           element.course_type_id = object.course_type_id;
           element.parent_topic_id = object.parent_topic_id;
+          element.is_existed_selected= element.selected && this.isAdvanceProductEdit ? true : false;
           let str = element.file_name;
+          element.is_Advance_prod =  this.prodForm.is_advance_product ? true : false;
           // this.isItemSelected(element, key);
           let ext = str && str.substr(str.lastIndexOf(".") + 1, str.length);
           switch (ext) {
@@ -334,6 +339,7 @@ export class StudyMaterialComponent implements OnInit {
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
           this.isRippleLoad = false;
+          this.initForm();
           let response = resp.result;
           if (resp.validate) {
             this.prodForm = response;
@@ -350,6 +356,7 @@ export class StudyMaterialComponent implements OnInit {
             this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
             this.prodForm.product_items_types = productData.product_items_types;
             this.prodForm.product_item_stats = {};
+            this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status == 30) ? true : false;
             this.testlist = this.prodForm.product_item_list;
             this.prodForm.logo_url =  productData.logo_url;
               this.prodForm.photo_url = productData.photo_url;
@@ -365,6 +372,7 @@ export class StudyMaterialComponent implements OnInit {
         },
         (err) => {
           this.isRippleLoad = false;
+          this.initForm();
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }

@@ -1,0 +1,42 @@
+@import "./src/assets/css/common/variables.scss";
+@import "./src/assets/css/common/common-web.scss";
+
+.sms-view-wrapper {
+  padding: 5px;
+
+  .row {
+    margin: 5px 15px;
+  }
+}
+
+.table-control {
+  height: 50px;
+}
+
+.filter-box {
+  padding: 10px;
+}
+
+.search-box {
+  border: 1px solid #b4b6bd;
+  padding: 5px;
+  width: 50%;
+  float: right;
+  margin-right: 25px;
+}
+
+
+.sms-filter-wrapper {
+  .field-wrapper {
+    width: 40%;
+    padding: 15px 0;
+    margin-left: 20px;
+    display: inline-block;
+  }
+  .btn-sms-search {
+    padding: 15px 0;
+    .btn {
+      width: 100px;
+    }
+  }
+}

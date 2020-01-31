@@ -12,3 +12,4 @@ export *  from  './product-creation/review-product/review-product.component';
 export *  from  './product-creation/study-material/study-material.component';
 export *  from  './product-creation/video-lecture/video-lecture.component';
 export *  from  './ecourse-mapping/ecourse-mapping.component';
+export *  from  './offer-history/offer-history.component';

@@ -195,7 +195,7 @@
                   </div>
 
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.expiry_date != ''}">
-                    <label for="studexpDate">Expiry Date(Student)</label>
+                    <label for="studexpDate">Course Expiry Date for Student</label>
 
                     <input type="text" value="" id="studexpDate" class="form-ctrl bsDatepicker" name="studexpDate" [(ngModel)]="studentAddFormData.expiry_date" #expiry_date="ngModel"
                       readonly="true" bsDatepicker>
@@ -817,7 +817,7 @@
                       <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.discount }}</span>
                     </div>
 
-                    <div class="tax-amount amount">
+                    <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1">
                       <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.taxAmount }}</span>
                     </div>
 

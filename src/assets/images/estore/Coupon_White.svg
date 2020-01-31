@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="13.6" viewBox="0 0 24 13.6">
+  <g id="Coupon_White_" data-name="Coupon (White)" transform="translate(-260 -364)">
+    <path id="Path_2035" data-name="Path 2035" d="M261.2,364h21.6a1.2,1.2,0,0,1,1.2,1.2v4a.4.4,0,0,1-.4.4,1.2,1.2,0,0,0,0,2.4.4.4,0,0,1,.4.4v4a1.2,1.2,0,0,1-1.2,1.2H261.2a1.2,1.2,0,0,1-1.2-1.2v-4a.4.4,0,0,1,.4-.4,1.2,1.2,0,0,0,0-2.4.4.4,0,0,1-.4-.4v-4A1.2,1.2,0,0,1,261.2,364Zm-.4,4.84a2,2,0,0,1,0,3.92v3.64a.4.4,0,0,0,.4.4h21.6a.4.4,0,0,0,.4-.4v-3.64a2,2,0,0,1,0-3.92V365.2a.4.4,0,0,0-.4-.4H261.2a.4.4,0,0,0-.4.4Zm0,0" fill="#fff"/>
+    <rect id="Rectangle_2127" data-name="Rectangle 2127" width="1" transform="translate(266 370.8)" fill="#fff"/>
+    <path id="Path_2036" data-name="Path 2036" d="M469.6,424.2a1.6,1.6,0,1,0-1.6-1.6A1.6,1.6,0,0,0,469.6,424.2Zm0-2.4a.8.8,0,1,1-.8.8A.8.8,0,0,1,469.6,421.8Z" transform="translate(-197.6 -54.15)" fill="#fff"/>
+    <path id="Path_2037" data-name="Path 2037" d="M564,518.6a1.6,1.6,0,1,0,1.6-1.6A1.6,1.6,0,0,0,564,518.6Zm2.4,0a.8.8,0,1,1-.8-.8A.8.8,0,0,1,566.4,518.6Z" transform="translate(-288.8 -145.35)" fill="#fff"/>
+    <rect id="Rectangle_2132" data-name="Rectangle 2132" width="9.051" height="0.8" transform="translate(270.917 373.766) rotate(-45)" fill="#fff"/>
+    <path id="Union_5" data-name="Union 5" d="M0,11V10H1v1ZM0,9.5v-1H1v1ZM0,8V7H1V8ZM0,6.5v-1H1v1ZM0,5V4H1V5ZM0,3.5v-1H1v1ZM0,2V1H1V2Z" transform="translate(266 364.8)" fill="#fff"/>
+  </g>
+</svg>

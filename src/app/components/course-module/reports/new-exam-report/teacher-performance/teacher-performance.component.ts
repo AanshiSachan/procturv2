@@ -20,6 +20,7 @@ export class TeacherPerformanceComponent implements OnInit {
   };
 
   subject_id: string;
+  subjectName: string = "";
   teacherData: any;
   subjectData: any;
   teachersReport: any[] = [];
@@ -46,6 +47,8 @@ export class TeacherPerformanceComponent implements OnInit {
         }
       }
     )
+    this.subjectName = sessionStorage.getItem('subjectName');
+    sessionStorage.setItem('subjectName', '');
     this.subject_id = this.route.snapshot.paramMap.get('id');
     this.getSubjectWiseReport();
   }
@@ -88,7 +91,7 @@ export class TeacherPerformanceComponent implements OnInit {
 
   routeTo(exam_schd_id){
     sessionStorage.setItem('examSchdType', "true");
-    this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/new-exam/examWise/'+exam_schd_id]);
+    this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/exam/examWise/'+exam_schd_id]);
   }
 
 }

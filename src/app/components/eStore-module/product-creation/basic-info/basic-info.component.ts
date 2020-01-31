@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import * as moment from 'moment';
+import { Router } from '../../../../../../node_modules/@angular/router';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
-import { Router } from '../../../../../../node_modules/@angular/router';
-import * as moment from 'moment';
-import { product_details } from '../product.model';
 
 @Component({
   selector: 'app-basic-info',
@@ -18,6 +17,7 @@ export class BasicInfoComponent implements OnInit {
   @Input() product_item_stats: any;
   product_item_list: any[] = [];
   isRippleLoad: boolean = false;
+  isAdvanceProductEdit: boolean = false;
   @Output() nextForm = new EventEmitter<string>();
   @Output() startForm = new EventEmitter<string>();
   @Output() toggleLoader = new EventEmitter<boolean>();
@@ -26,6 +26,7 @@ export class BasicInfoComponent implements OnInit {
   products_ecourse_maps: any[] = [];
   itemStates: any[] = [];
   prodItems: any = {}
+  advanceProductItems:any={};
   moderatorSettings: any = {
     singleSelection: false,
     idField: 'course_type_id',
@@ -47,6 +48,7 @@ export class BasicInfoComponent implements OnInit {
     short_description: '',
     about: '',
     is_paid: true,
+    is_advance_product:false,
     price: 0,
     cateory: 0,
     itemStates: [],
@@ -130,11 +132,15 @@ export class BasicInfoComponent implements OnInit {
             this.products_ecourse_maps.push(obj);
           });
           this.prodForm.is_duration = this.prodForm.duration ? true : false;
+          this.prodForm.is_advance_product = this.prodForm.is_advance_product ? true : false;
+         this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status== 30) ?true:false;
           this.prodForm.product_item_stats = {};
+          this.advanceProductItems = {};
           this.prodForm.product_items_types.forEach(element => {
             this.itemStates.forEach((object) => {
               if (object.entity_id == element.entity_id) {
                 this.prodItems[object.slug] = true;
+                this.advanceProductItems[object.slug] = true;
                 this.prodForm.product_item_stats[object.slug] = true;
               }
             });
@@ -155,10 +161,7 @@ export class BasicInfoComponent implements OnInit {
 
 
   initDataEcourse() {
-    let param = {
-      "proc-authorization": "MTk4MzJ8MDphZG1pbjoxMDAxMjg="
-    }
-    this.http.getMethod('ext/get-ecources', param).subscribe(
+    this.http.getMethod('ext/get-ecources', null).subscribe(
       (resp: any) => {
         let response = JSON.parse(resp.result);
         console.log(response);
@@ -254,7 +257,7 @@ export class BasicInfoComponent implements OnInit {
       this.prodForm.valid_from_date = null;
       this.prodForm.valid_to_date = null;
     }
-
+    const is_advance_product = this.prodForm.is_advance_product ? 1 : 0;
     let object = {
       "entity_id": this.prodForm.entity_id,
       "title": this.prodForm.title,
@@ -263,12 +266,13 @@ export class BasicInfoComponent implements OnInit {
       "photo_url": this.prodForm.photo_url,
       "about": this.prodForm.about,
       "is_paid": this.prodForm.is_paid,
+      "is_advance_product":is_advance_product,
       "price": this.prodForm.price,
       "valid_from_date": this.prodForm.valid_from_date,
       "valid_to_date": this.prodForm.valid_to_date,
       "duration": this.prodForm.duration,
-      "sales_from_date": this.prodForm.sales_from_date,
-      "sales_to_date": this.prodForm.sales_to_date,
+      "sales_from_date":moment(this.prodForm.sales_from_date).format('YYYY-MM-DD'),
+      "sales_to_date": moment(this.prodForm.sales_to_date).format('YYYY-MM-DD'),
       "purchase_limit": this.prodForm.purchase_limit,
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
@@ -282,8 +286,10 @@ export class BasicInfoComponent implements OnInit {
     }
   }
 
+
+
+
   createProduct(object) {
-    let body = JSON.parse(JSON.stringify(object));
 
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
@@ -298,7 +304,7 @@ export class BasicInfoComponent implements OnInit {
             this.nextForm.emit();
           }
           else {
-            this.msgService.showErrorMessage('error', "something went wrong, try again", '');
+            this.msgService.showErrorMessage('error', resp.body.error[0].error_message, '');
           }
         },
         (err) => {
@@ -315,7 +321,7 @@ export class BasicInfoComponent implements OnInit {
       let body = JSON.parse(JSON.stringify(object));
       this.isRippleLoad = true;
       this.http.postMethod('product/update', body).then(
-        (resp) => {
+        (resp:any) => {
           this.isRippleLoad = false;
           let data = resp['body'];
           if (data.validate) {
@@ -323,7 +329,7 @@ export class BasicInfoComponent implements OnInit {
             this.nextForm.emit();
           }
           else {
-            this.msgService.showErrorMessage('error', "something went wrong, try again", '');
+            this.msgService.showErrorMessage('error', resp.body.error[0].error_message, '');
           }
         },
         (err) => {
@@ -332,6 +338,18 @@ export class BasicInfoComponent implements OnInit {
         });
     }
   }
+
+  convertUTCDateToLocalDate(date_s) {
+    // var date =new Date(date_s)
+    // var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+
+    // var offset = date.getTimezoneOffset() / 60;
+    // var hours = date.getHours();
+
+    // newDate.setHours(hours - offset);
+    return moment(date_s).format('YYYY-MM-DD');   
+}
+
 
   calc_days() {
     this.prodForm.valid_from_date = moment(this.prodForm.sales_from_date).format('DD-MMM-YYYY');
