@@ -5,15 +5,23 @@
   <section class="middle-top clearFix bulk-header">
     <div>
       <h1 class="pull-left">
+        <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional">
+          Course
+        </a>
+        <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional">
+          Batch
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
         <a routerLink="/view/{{jsonFlag.type}}/reports" style="padding:0px; ">
           Report
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-        <a routerLink="/view/{{jsonFlag.type}}/reports/new-exam" style="padding:0px; ">
+        <a routerLink="/view/{{jsonFlag.type}}/reports/exam" style="padding:0px; ">
           Exam Report
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-        <span>Course Wise</span>
+        <span *ngIf="!jsonFlag.isProfessional">Course Wise</span>
+        <span *ngIf="jsonFlag.isProfessional">Batch Wise</span>
       </h1>
     </div>
   </section>
@@ -29,8 +37,8 @@
           <option [value]="course.course_id" *ngFor="let course of coursesList">{{course.course_name}}</option>
         </select>
         <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()" *ngIf="jsonFlag.isProfessional">
-          <option value="-1">Select Subject</option>
-          <option [value]="subject.subject_id" *ngFor="let subject of coursesList">{{subject.subject_name}}</option>
+          <option value="-1">Select Batch</option>
+          <option [value]="batch.batch_id" *ngFor="let batch of coursesList">{{batch.batch_name}}</option>
         </select>
       </div>
     </div>
@@ -39,16 +47,18 @@
   <!-- Graph section -->
   <!-- <section>
     <div class="graph-outer-container">
-      <div class="graph-item-container" style="justify-content: center;padding-top: 120px;">
-        <div #chartWrap id="chartWrap">
-        </div>
+      <div class="graph-item-container" style="justify-content: center;padding-top: 20px;">
+
       </div>
-      <div class="graph-item-container" *ngIf="!jsonFlag.isProfessional" style="justify-content: center;padding-top: 120px;">
+      <div class="graph-item-container" *ngIf="!jsonFlag.isProfessional" style="justify-content: center;padding-top: 20px;">
         <div #subjectWise id="subjectWise">
         </div>
       </div>
     </div>
   </section> -->
+
+  <div #chartWrap id="chartWrap">
+  </div>
 
 
 
@@ -60,7 +70,8 @@
           <span>Exam Date</span>
         </div>
         <div class="header-item large-item">
-          <span>Subject</span>
+          <span *ngIf="!jsonFlag.isProfessional">Subject</span>
+          <span *ngIf="jsonFlag.isProfessional">Batch</span>
         </div>
         <div class="header-item small-item">
           <span>Total Students</span>
@@ -72,10 +83,10 @@
           <span>Leave</span>
         </div>
         <div class="header-item small-item">
-          <span>Avg. Marks</span>
+          <span>Total Marks</span>
         </div>
         <div class="header-item small-item">
-          <span>Total Marks</span>
+          <span>Avg. Marks</span>
         </div>
         <div class="header-item small-item">
           <span>Status</span>
@@ -86,7 +97,10 @@
       </div>
       <div class="table-outer-container" style="max-height: 70vh;">
         <div class="table-value-container" *ngFor="let report of courseWiseReportList"
-        [ngClass]="{'border-completed-class': report.exam_status == 'Mks. Updated', 'border-class': report.exam_status != 'Mks. Updated'}">
+        [ngClass]="{'border-completed-class': report.exam_status == 'Mks. Updated',
+                    'border-updated-class': report.exam_status == 'Mks. pending',
+                    'border-pending-class': report.exam_status == 'Att. Pending',
+                    'border-cancelled-class': report.exam_status == 'Cancelled'}">
           <div class="value-item small-item">
             <span>{{report.exam_date | date: 'dd-MMM-yyyy'}}</span>
           </div>
@@ -105,12 +119,11 @@
             <!-- <span>-</span> -->
           </div>
           <div class="value-item small-item">
-            <span>{{report.avarage_marks}}</span>
-          </div>
-
-          <div class="value-item small-item">
             <span>{{report.total_marks}}</span>
             <!-- <span>-</span> -->
+          </div>
+          <div class="value-item small-item">
+            <span>{{report.avarage_marks}}</span>
           </div>
           <div class="value-item small-item">
             <span [ngClass]="{'completed-class': report.exam_status == 'Mks. Updated',
@@ -122,7 +135,7 @@
             </span>
           </div>
           <div class="value-item small-item align-center">
-            <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button" class="view-result-btn" routerLink='/view/{{jsonFlag.type}}/reports/new-exam/examWise/{{report.exam_schd_id}}'>View Result</button>
+            <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button" class="view-result-btn" routerLink='/view/{{jsonFlag.type}}/reports/exam/examWise/{{report.exam_schd_id}}'>View Result</button>
             <span *ngIf="report.exam_status != 'Mks. Updated'">-</span>
           </div>
         </div>

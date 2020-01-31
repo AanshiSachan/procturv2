@@ -5,16 +5,15 @@
 <div class="middle-section clear-fix">
   <section class="middle-top mb0 clearFix sms-header">
     <h2 class="pull-left" style="font-weight: bold;">
-      <a routerLink="/view/course" *ngIf="!isProfessional">
+      <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional">
         Course
       </a>
-      <a routerLink="/view/batch" *ngIf="isProfessional">
+      <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional">
         Batch
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       <a routerLink="/view/{{jsonFlag.type}}/reports" style="padding:0px; ">
         Report
-        <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       Exam Report
@@ -24,7 +23,7 @@
   </section>
 
   <div class="main-heading-container">
-    <span>Dashboard</span>
+    <span>Exam Dashboard</span>
   </div>
 
   <section>
@@ -94,12 +93,13 @@
         <div class="left-outer-container">
           <div class="left-item">
             <select class="header-select-box" name="" [(ngModel)]="standard" (ngModelChange)="getExamReportForStandard()" id="standard">
-              <option value="-1">Select Standard</option>
+              <option value="-1" *ngIf="!jsonFlag.isProfessional">Select Standard</option>
+              <option value="-1" *ngIf="jsonFlag.isProfessional">Select Master Course</option>
               <option [value]="standard.standard_id" *ngFor="let standard of standardtList">{{standard.standard_name}}</option>
             </select>
             <select class="header-select-box" style="margin-left: 10px;" name="" [(ngModel)]="subject" *ngIf="jsonFlag.isProfessional"
               (ngModelChange)="getExamReportForStandardAndSubject()">
-              <option value="-1">Select Subject</option>
+              <option value="-1">Select Course</option>
               <option [value]="subject.subject_id" *ngFor="let subject of subjectList">{{subject.subject_name}}</option>
             </select>
           </div>
@@ -107,11 +107,12 @@
             <div class="table-container">
               <div class="table-header-container">
                 <div class="header-item large-item1">
-                  <span>Subject</span>
+                  <span *ngIf="!jsonFlag.isProfessional">Subject</span>
+                  <span *ngIf="jsonFlag.isProfessional">Batch</span>
                 </div>
-                <div class="header-item small-item align-center">
+                <!-- <div class="header-item small-item align-center">
                   <span>No of Student</span>
-                </div>
+                </div> -->
                 <div class="header-item small-item align-center">
                   <span>No of test</span>
                 </div>
@@ -125,16 +126,16 @@
                   <span>Actions</span>
                 </div>
               </div>
-              <div class="table-outer-container">
+              <div class="table-outer-container" [ngStyle]="jsonFlag.isProfessional ? {'min-height': '72vh'} : {'min-height': '30vh'}">
                 <div class="table-value-container" *ngFor="let report of standardExamReportData">
                   <div class="value-item large-item1">
                     <span *ngIf="!jsonFlag.isProfessional" title="{{report.subject_name}}">{{ (report.subject_name.length > 15) ? (report.subject_name | slice:0:15) + '...' : report.subject_name
                       }}</span>
                     <span *ngIf="jsonFlag.isProfessional" title="{{report.batch_name}}">{{ (report.batch_name.length > 15) ? (report.batch_name | slice:0:15) + '...' : report.batch_name }}</span>
                   </div>
-                  <div class="value-item small-item align-center">
+                  <!-- <div class="value-item small-item align-center">
                     <span>{{report.total_student}}</span>
-                  </div>
+                  </div> -->
                   <div class="value-item small-item align-center">
                     <span>{{report.total_exam}}</span>
                   </div>
@@ -145,7 +146,7 @@
                     <span>{{report.total_marks_updated}}</span>
                   </div>
                   <div class="value-item small-item align-center">
-                    <button type="button" name="button" class="view-result-btn" (click)="routeForStandard(report.subject_id)" *ngIf="!jsonFlag.isProfessional">View Result</button>
+                    <button type="button" name="button" class="view-result-btn" (click)="routeForStandard(report.subject_id, report.subject_name)" *ngIf="!jsonFlag.isProfessional">View Result</button>
                     <button type="button" name="button" class="view-result-btn" (click)="routeTo(report.batch_id)" *ngIf="jsonFlag.isProfessional">View Result</button>
                   </div>
                 </div>
@@ -199,15 +200,17 @@
                   <span [ngClass]="{'completed-class': report.exam_status == 'Mks. Updated',
                                     'pending-class': report.exam_status == 'Att. Pending',
                                     'cancelled-class': report.exam_status == 'Cancelled',
-                                    'marks-pending-class': report.exam_status == 'Mks. pending'}">
+                                    'marks-pending-class': report.exam_status == 'Mks. pending',
+                                    'upcoming-class': report.exam_status == 'Upcoming'}">
                     {{report?.exam_status}}
                   </span>
                 </div>
-                <div class="value-item custom-item align-center" *ngIf="report.exam_status == 'Mks. Updated'">
-                  <button type="button" name="button" class="view-result-btn" routerLink='/view/{{jsonFlag.type}}/reports/new-exam/examWise/{{report.exam_schd_id}}'>View Result</button>
+                <div class="value-item custom-item align-center">
+                  <span *ngIf="report.exam_status != 'Mks. Updated'">-</span>
+                  <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button" class="view-result-btn" routerLink='/view/{{jsonFlag.type}}/reports/exam/examWise/{{report.exam_schd_id}}'>View Result</button>
                 </div>
               </div>
-              <div class="table-value-container" *ngIf="weeklyExamReportData?.length == 0" style="justify-content: center; font-weight: 600;">
+              <div class="table-value-container" *ngIf="weeklyExamReportData?.length == 0 && (!jsonFlag.isRippleLoad)" style="justify-content: center; font-weight: 600;">
                 <span>No schedule found</span>
               </div>
             </div>

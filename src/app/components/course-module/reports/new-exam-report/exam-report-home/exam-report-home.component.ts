@@ -85,11 +85,10 @@ export class ExamReportHomeComponent implements OnInit {
 
     getPreRequiredData(){
       this.jsonFlag.isRippleLoad = true;
-      this.courseList.getCourseListFromServer().subscribe(
+      this.courseList.getCourseListFromServer().subscribe(    // get mastercourse
         res => {
           this.jsonFlag.isRippleLoad = false;
           this.masterCourseList = res;
-          // this.mastercourse = "12th commer";
           let master = sessionStorage.getItem('masterCourseForReport');
           if(master != "" && master != null && master != undefined){
               this.mastercourse = master;
@@ -104,7 +103,7 @@ export class ExamReportHomeComponent implements OnInit {
       );
 
       this.jsonFlag.isRippleLoad = true;
-      this.courseList.getStandardListFromServer().subscribe(
+      this.courseList.getStandardListFromServer().subscribe(  // get standard
         res => {
           this.jsonFlag.isRippleLoad = false;
           this.standardtList = res;
@@ -128,9 +127,9 @@ export class ExamReportHomeComponent implements OnInit {
       let toDate = moment(e[1]).format("YYYY-MM-DD");
       let result = moment(toDate).diff(fromDate, 'days');
       if(result <= 30){
+        this.clearJSON();
         this.reportJSON.from_date = moment(e[0]).format("YYYY-MM-DD");
         this.reportJSON.to_date = moment(e[1]).format("YYYY-MM-DD");
-
         this.examReport = [];
         this.weeklyExamReportData = [];
         this.jsonFlag.isRippleLoad = true;
@@ -152,7 +151,7 @@ export class ExamReportHomeComponent implements OnInit {
 
     }
 
-    getExamReportForMasterCourse(){
+    getExamReportForMasterCourse(){   // get exam report data for master course and course
       this.clearJSON();
       this.reportJSON.master_course_name = this.mastercourse;
       this.examReport = [];
@@ -171,7 +170,7 @@ export class ExamReportHomeComponent implements OnInit {
       );
     }
 
-    getExamReportForStandard(){
+    getExamReportForStandard(){   // get exam reports for stand
       if(!this.jsonFlag.isProfessional){
         this.clearJSON();
         this.reportJSON.standard_id = this.standard;
@@ -206,10 +205,11 @@ export class ExamReportHomeComponent implements OnInit {
 
     }
 
-    getExamReportForStandardAndSubject(){
+    getExamReportForStandardAndSubject(){  // get exam reports for stand and subject
       this.clearJSON();
       this.reportJSON.subject_id = this.subject;
       this.examReport = [];
+      this.standardExamReportData = [];
       this.jsonFlag.isRippleLoad = true;
       this.examdata.getAllExamReport(this.reportJSON).subscribe(
         res => {
@@ -236,26 +236,26 @@ export class ExamReportHomeComponent implements OnInit {
       document.getElementById(id).click();
     }
 
-    routeTo(course_id){
-      if(this.jsonFlag.isProfessional){
-        let standard_id = (document.getElementById("standard") as HTMLInputElement ).value;
-        for(let i = 0; i < this.standardtList.length; i++){
-          if(this.standardtList[i].standard_id == standard_id){
-            sessionStorage.setItem('masterCourseForReport', this.standardtList[i].standard_name);
-            sessionStorage.setItem('subejctIdForReport', this.standardtList[i].standard_id);
-          }
-        }
+
+    routeTo(course_id){  // Navigate to Course Wise Report Page
+      if(this.jsonFlag.isProfessional){  // for batch model
+        sessionStorage.setItem('subejctIdForReport', this.subject);
+        for(let i = 0; i < this.subjectList.length; i++){
+         if(this.subjectList[i].subject_id == this.subject){
+           sessionStorage.setItem('masterCourseForReport', this.subjectList[i].subject_name);
+         }
+       }
       }
       else{
         sessionStorage.setItem('masterCourseForReport', this.mastercourse);
       }
-      this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/new-exam/courseWise/'+course_id]);
+      this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/exam/courseWise/'+course_id]);   // course wise page routing for both model
     }
 
-    routeForStandard(subject_id){
+    routeForStandard(subject_id, subjectName){   // navigate to teacher wise performance page // on last page
       sessionStorage.setItem('standaradForReport', this.standard);
-      this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/new-exam/teacherWise/'+subject_id]);
+      sessionStorage.setItem('subjectName', subjectName);
+      this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/exam/teacherWise/'+subject_id]);
     }
-
 
   }

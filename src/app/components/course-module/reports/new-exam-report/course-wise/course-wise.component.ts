@@ -15,9 +15,7 @@ import { ExamService } from '../../../../../services/report-services/exam.servic
 })
 export class CourseWiseComponent implements OnInit {
 
-  @ViewChild('chartWrap') chartWrap: ElementRef;
   chartType: any = "1";
-
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
@@ -31,7 +29,15 @@ export class CourseWiseComponent implements OnInit {
 
   masterCourse: any;
   masterCourseList: any;
-  coursesList: any;
+  coursesList: any = [];
+
+  reportJSON: any = {
+    master_course_name: "",
+    standard_id:  "",
+    subject_id: "",
+    from_date: "",
+    to_date: ""
+  };
 
   constructor(
     private router: Router,
@@ -59,10 +65,11 @@ export class CourseWiseComponent implements OnInit {
     }
     else{
       this.masterCourse = sessionStorage.getItem('masterCourseForReport');
+      this.updateCoursesList();
     }
     this.course_id = this.route.snapshot.paramMap.get('id');
     this.getCourseWiseReport();
-    this.updateCoursesList();
+
   }
 
   ngOnInit() {
@@ -108,18 +115,20 @@ export class CourseWiseComponent implements OnInit {
   }
 
   preRequiredDataForBatchModel(){
-    let standard_id = sessionStorage.getItem('subejctIdForReport');
+    let subjectId = sessionStorage.getItem('subejctIdForReport');
     this.masterCourse = sessionStorage.getItem('masterCourseForReport');
     this.jsonFlag.isRippleLoad = true;
-    this.classService.getStandardSubjectList(standard_id, "-1", "Y").subscribe(
+    this.reportJSON.subject_id = subjectId;
+    this.examdata.getAllExamReport(this.reportJSON).subscribe(
       res => {
-        this.coursesList = res.subjectLi;
         this.jsonFlag.isRippleLoad = false;
+        this.coursesList = res;
+        this.course = this.course_id
       },
       err => {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         this.jsonFlag.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
-       }
+      }
     );
   }
 
@@ -129,26 +138,68 @@ export class CourseWiseComponent implements OnInit {
     let feeMap: any[] = [];
     let totalMarksMap: any = [];
     let subjectWiseMarks: any[] = [];
+    let percentage: any[] = [];
+    let subjectWiseDate: any[] = [];
+    let subjectData: any[] = [];
 
     res.map(e => {
       dateMap.push(moment(e.exam_date).format('DD-MMM'));
       feeMap.push(e.avarage_marks);
       totalMarksMap.push(e.total_marks);
-      subjectWiseMarks.push(e.subject_wise_statatics)
+      subjectData.push(e.subject_name);
+      if(!this.jsonFlag.isProfessional){
+        percentage.push(e.course_level_percentage);
+      }
+      else{
+        percentage.push(e.batch_marks_percentage);
+      }
+      // if(e.subject_wise_statatics.length > 0){
+      //   subjectWiseMarks.push(e.subject_wise_statatics);
+      //   subjectWiseDate.push(moment(e.exam_date).format('DD-MMM'))
+      // }
+
     });
 
-    this.createChart(dateMap, feeMap, totalMarksMap);
-    this.subjectWiseChart(dateMap, feeMap,subjectWiseMarks);
+    this.createChart(dateMap, feeMap, totalMarksMap, percentage, subjectData);
+    // this.subjectWiseChart(subjectWiseDate, feeMap, subjectWiseMarks);
   }
 
-  createChart(d: any[], f: any[], t: any[]){
+  createChart(d: any[], f: any[], t: any[], p: any[], s: any[]){
+    let percentage = p;
+    let total = t;
+    let avg_marks = f;
+    let subject = s;
+
+    let minWidth = 1100;
+    let dataLength = d.length;
+    if(dataLength > 20 && dataLength < 35){
+      minWidth = 1500;
+    }
+    if(dataLength > 35 && dataLength < 50){
+      minWidth = 1700;
+    }
+    if(dataLength > 50 && dataLength < 75){
+      minWidth = 2000;
+    }
+    if(dataLength > 75 && dataLength < 100){
+      minWidth = 2500;
+    }
+    if(dataLength > 100 && dataLength < 150){
+      minWidth = 3000;
+    }
+    if(dataLength > 150 && dataLength < 200){
+      minWidth = 4000;
+    }
+    if(dataLength > 200){
+      minWidth = 6000;
+    }
 
     (Highcharts as any).chart('chartWrap', {
       chart : {
-          renderTo : 'container',
-          type : 'spline',
-          scrollablePlotArea: {
-              minWidth: 1800
+        type : 'spline',
+         scrollablePlotArea: {
+            minWidth: minWidth,
+            scrollPositionX: 1
           }
         },
         title : {
@@ -159,13 +210,11 @@ export class CourseWiseComponent implements OnInit {
           labels: {
             overflow: 'justify'
           },
-          // min: 10,
-          // scrollbar: {
-          //     enabled: true
-          // },
           title : {
             text : 'Date'
           },
+          minPadding: 1,
+          maxPadding: 1,
           categories: d
         },
         yAxis : {
@@ -176,52 +225,18 @@ export class CourseWiseComponent implements OnInit {
           max : 100
         },
         tooltip : {
-          // shared: true,
           useHTML: true,
+          shared: false,
           formatter : function () {
             var point = this.point
             let tool = '';
-            tool += 'Avg Marks: ' + this.y + ' marks';
-            for(let i = 0; i < t.length; i++){
-              tool += '<br>'+'Total Marks: ' + t[this.point.index] + ' marks';
-              break;
-            }
+            tool += 'Subject: ' + subject[point.index] + '';
+            tool += '<br>'+'Total Marks: ' + total[point.index] + ' marks';
+            tool += '<br>'+'Avg Marks: ' + avg_marks[point.index] + ' marks';
+            tool += '<br>'+'Percentage: ' + percentage[point.index] + '%';
             return tool;
           },
-          positioner: function(labelWidth, labelHeight, point) {
-              var tooltipX = point.plotX + 0;
-              var tooltipY = point.plotY - 50;
-              return {
-                  x: tooltipX,
-                  y: tooltipY
-              };
-          }
-
         },
-        plotOptions : {
-          area : {
-            lineWidth : 1,
-            marker : {
-              enabled : false,
-              states : {
-                hover : {
-                  enabled : true,
-                  radius : 2
-                }
-              }
-            },
-            shadow : false,
-            states : {
-              hover : {
-                lineWidth : 1
-              }
-            }
-          },
-          series: {
-            pointWidth: 20
-          }
-        },
-
         series : [{
             name : '',
             type : "spline",
@@ -229,70 +244,70 @@ export class CourseWiseComponent implements OnInit {
                radius: 5
              },
             showInLegend: false,
-            data : f
-          }]
+            data : p
+        }]
     })
   }
 
-
   subjectWiseChart(d: any[], f: any[], s: any[]){
+
+    const subjectWiseStats = s;
+    let subjectName1 = "";
+    let subjectName2 = "";
+    let subjectName3 = "";
+    let subjectName4 = "";
+    let subject_series = [];
+    for (let index = 0; index < s.length; index++) {
+      for (let i = 0; i < s[index].length; i++) {
+        if(subjectName1 == ""){
+          subjectName1 = s[index][i]["subject_name"];
+        }
+        else if(subjectName1 != s[index][i]["subject_name"]){
+          subjectName2 = s[index][i]["subject_name"];
+        }
+        else if(subjectName1 != s[index][i]["subject_name"] && subjectName2 != s[index][i]["subject_name"]){
+          subjectName3 = s[index][i]["subject_name"];
+        }
+        else if(subjectName1 != s[index][i]["subject_name"] && subjectName2 != s[index][i]["subject_name"] && subjectName3 != s[index][i]["subject_name"]){
+          subjectName4 = s[index][i]["subject_name"];
+        }
+      }
+    }
+
     let subjectA = [];
     let subjectB = [];
     let subjectC = [];
     let subjectD = [];
-    let subjectName1;
-    let subjectName2;
-    let subjectName3;
-    let subjectName4;
 
-    for(let i = 0; i < s.length; i++){
-      if(s[i][0] != undefined){
-        subjectA.push(s[i][0].subject_level_total_marks);
-        subjectName1 = s[i][0].subject_name;
-      }
-      if(s[i][1] != undefined){
-        subjectB.push(s[i][1].subject_level_total_marks);
-        subjectName2 = s[i][1].subject_name;
-      }
-      if(s[i][2] != undefined){
-        subjectC.push(s[i][2].subject_level_total_marks);
-        subjectName3 = s[i][2].subject_name;
-      }
-      if(s[i][3] != undefined){
-        subjectD.push(s[i][3].subject_level_total_marks);
-        subjectName4 = s[i][3].subject_name;
+    for (let index = 0; index < subjectWiseStats.length; index++) {
+      for (let i = 0; i < subjectWiseStats[index].length; i++) {
+        if(subjectName1 == subjectWiseStats[index][i]["subject_name"]){
+          subjectA.push(subjectWiseStats[index][i]["subject_level_total_marks"]);
+          subjectB.push(0);
+          subjectC.push(0);
+          subjectD.push(0);
+        }
+        if(subjectName2 == subjectWiseStats[index][i]["subject_name"]){
+          subjectB.push(subjectWiseStats[index][i]["subject_level_total_marks"]);
+          subjectA.push(0);
+          subjectC.push(0);
+          subjectD.push(0);
+        }
+        if(subjectName3 == subjectWiseStats[index][i]["subject_name"]){
+          subjectC.push(subjectWiseStats[index][i]["subject_level_total_marks"]);
+          subjectA.push(0);
+          subjectB.push(0);
+          subjectD.push(0);
+        }
+        if(subjectName4 == subjectWiseStats[index][i]["subject_name"]){
+          subjectD.push(subjectWiseStats[index][i]["subject_level_total_marks"]);
+          subjectA.push(0);
+          subjectB.push(0);
+          subjectC.push(0);
+        }
       }
     }
 
-    let subject_series = [];
-    if(subjectA.length > 0) {
-      let subject = {
-        name: subjectName1,
-        data: subjectA
-      };
-      subject_series.push(subject);
-    }
-    if(subjectB.length > 0) {
-      let subject = {
-        name: subjectName2,
-        data: subjectB
-      };
-      subject_series.push(subject);
-    }
-    if(subjectC.length > 0) {
-      let subject = {
-        name: subjectName3,
-        data: subjectC
-      };
-      subject_series.push(subject);
-    }
-    if(subjectD.length > 0) {
-      let subject = {
-        name: subjectName4,
-        data: subjectD
-      };
-      subject_series.push(subject);
-    }
 
     (Highcharts as any).chart('subjectWise', {
       chart: {
@@ -316,28 +331,40 @@ export class CourseWiseComponent implements OnInit {
             overflow: 'justify'
           },
       },
-      yAxis: {
-          min: 0,
-          visible: true,
-          tickAmount: 5,
-          title: {
-              text: 'Marks'
-          }
+      yAxis : {
+        title : {
+          text : 'Percentage (%)'
+        },
+        min : 0,
+        tickAmount: 5,
+        visible: true,
       },
       tooltip: {
           headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
           pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
               '<td style="padding:0"><b>{point.y:.1f} marks</b></td></tr>',
           footerFormat: '</table>',
-          shared: true,
+          shared: false,
           useHTML: true
       },
-      plotOptions: {
-        series: {
-          pointWidth: 20
+      series: [
+        {
+          "name": subjectName1,
+          "data": subjectA
+        },
+        {
+          "name": subjectName2,
+          "data": subjectB
+        },
+        {
+          "name": subjectName3,
+          "data": subjectC
+        },
+        {
+          "name": subjectName4,
+          "data": subjectD
         }
-      },
-      series: subject_series,
+      ],
     })
   }
 

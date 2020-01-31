@@ -164,7 +164,7 @@ export class ExamService {
         }
       }
       else{
-        url = this.baseUrl + "/api/v1/reports/StdExam/examReport/examWise/" + this.institute_id +"?exam_schedule_id="+exam_schd_id; // for course model
+        url = this.baseUrl + "/api/v1/reports/StdExam/examReport/examWise/" + this.institute_id +"?exam_schedule_id="+exam_schd_id; // for batch model
       }
       return this.http.get(url, { headers: this.headers }).map(
         data => {
