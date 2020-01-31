@@ -120,7 +120,9 @@ export class ExamComponent implements OnInit {
     start_time: "",
     end_time: "",
     total_marks: "",
-    duration: ""
+    duration: "",
+    course_exam_schedule_id: "",
+    room_no: ""
   };
   topicsList : any = [];
   totalTopicsList: any = [];
@@ -938,13 +940,15 @@ export class ExamComponent implements OnInit {
     this.editClass.course_id = course.course_id;
     this.editClass.class_sche_date = course.date;
     if(this.jsonFlag.isProfessional){
-      this.editClass.class_schedule_id = course.schedule_id;
       this.editClass.batch_id = course.batch_id;
     }
-    this.editClass.start_time = course.start_time
-    this.editClass.end_time = course.end_time
-    this.editClass.total_marks = course.total_marks
-    this.editClass.duration = course.duration
+    this.editClass.class_schedule_id = course.schedule_id;
+    this.editClass.start_time = course.start_time;
+    this.editClass.end_time = course.end_time;
+    this.editClass.total_marks = course.total_marks;
+    this.editClass.duration = course.duration;
+    this.editClass.course_exam_schedule_id = course.course_id;
+    this.editClass.room_no = course.room_no;
 
   }
 
@@ -1095,16 +1099,40 @@ export class ExamComponent implements OnInit {
         let obj = {
           "master_course": this.inputElements.masterCourse,
           "requested_date": this.editClass.class_sche_date,
-          "course_id": this.editClass.course_id,
           "coursesList": [{
             "course_id": this.editClass.course_id,
-            "alloted_teacher_id": this.editClass.faculty,
-            "class_desc": this.editClass.description,
-            "topics_covered": this.editClass.topic_covered_ids,
-            "homework_assigned": this.editClass.homework
+            "course_exam_schedule_id": this.editClass.course_exam_schedule_id,
+            "exam_start_time": this.editClass.start_time,
+            "exam_end_time": this.editClass.end_time,
+            "courseClassSchdList": [{
+                    "batch_id": this.editClass.batch_id,
+                    "start_time": this.editClass.start_time,
+                    "end_time": this.editClass.end_time,
+                    "class_desc": this.editClass.description,
+                    "duration": this.editClass.duration,
+                    "total_marks": this.editClass.total_marks,
+                    "topics_covered": this.editClass.topic_covered_ids,
+                    "room_no": this.editClass.room_no,
+                    "class_schedule_id": this.editClass.class_schedule_id
+            }]
           }]
+        }
 
-        };
+      // let obj =  {
+      //   "batch_id": this.editClass.batch_id,
+      //   "exam_freq": "Other",
+      //   "otherSchd": [{
+      //           "exam_date": this.editClass.class_sche_date,
+      //           "start_time" : this.editClass.start_time,
+      //           "end_time": this.editClass.end_time,
+      //           "total_marks": this.editClass.total_marks,
+      //           "exam_desc": this.editClass.description,
+      //           "isReferenced": "N",
+      //           "duration": this.editClass.duration,
+      //           "schd_id": this.editClass.class_schedule_id
+      //             }]
+      //     }
+
       	this.examService.updateExamSch(obj).subscribe(
           res => {
             this.jsonFlag.isRippleLoad = false;
