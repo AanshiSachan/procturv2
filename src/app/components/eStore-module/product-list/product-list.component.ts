@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
+import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ProductService } from '../../../services/products.service';
-import { HttpService } from '../../../services/http.service';
-import * as moment from 'moment';
 declare var $;
 
 @Component({
@@ -22,7 +22,8 @@ export class ProductListComponent implements OnInit {
       isPaid: null,
       minPrice: null,
       maxPrice: null,
-      status: null
+      status: null,
+      productType:-1
     },
     // sort: {
     //   publishDate: false
@@ -106,9 +107,10 @@ export class ProductListComponent implements OnInit {
         this.isRippleLoad = false;
         if (response.validate) {
           this.productList = response.result.results;
+          console.log(this.productList);
           this.varJson.total_items = response.result.total_records;
           // -- added by laxmi
-          // this code is used to laod image url dynamically not save in locally dont remove it 
+          // this code is used to laod image url dynamically not save in locally so dont remove it 
           this.productList.forEach(obj => {
             if(obj.logo_url){
               obj.logo_url =obj.logo_url+"?t="+new Date().getTime();// 
@@ -128,6 +130,16 @@ export class ProductListComponent implements OnInit {
 
   }
 
+  convertUTCDateToLocalDate(date_s) {
+    var date =new Date(date_s)
+    var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+
+    var offset = date.getTimezoneOffset() / 60;
+    var hours = date.getHours();
+
+    newDate.setHours(hours - offset);
+    return moment(newDate).format('DD MMM YYYY');   
+}
 
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
@@ -322,7 +334,8 @@ export class ProductListComponent implements OnInit {
         isPaid: null,
         minPrice: null,
         maxPrice: null,
-        status: null
+        status: null,
+        productType:-1
       },
       // sort: {
       //   publishDate: false
@@ -393,7 +406,12 @@ export class ProductListComponent implements OnInit {
         {
           'column': 'status',
           'value': this.filter.by.status ? Number(this.filter.by.status) : this.filter.by.status
+        },
+        {
+        	"column": "productType",
+            "value": Number(this.filter.by.productType) 
         }
+
       ],
       'sort': {
         'column': 'publishDate',
