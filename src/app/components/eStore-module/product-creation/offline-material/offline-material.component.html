@@ -29,8 +29,8 @@
       <tr *ngFor="let inventoy of inventoryList;let i =index;">
         <td>
           <div class="field-checkbox-wrapper">
-            <input type="checkbox" class="form-checkbox" [checked]="inventoy.isChecked" [(ngModel)]="inventoy.isChecked"
-              (ngModelChange)="selectVlaue($event)" [id]="'ch'+index">
+            <input type="checkbox" class="form-checkbox" [disabled]="inventoy.is_existed_selected" [checked]="inventoy.isChecked" [(ngModel)]="inventoy.isChecked"
+              (ngModelChange)="selectVlaue()" [id]="'ch'+index">
               <label [for]="'ch'+index"></label>
             </div>
         </td>

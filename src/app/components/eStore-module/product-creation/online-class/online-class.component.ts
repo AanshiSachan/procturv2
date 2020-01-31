@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { ProductService } from '../../../../services/products.service';
-import { MessageShowService } from '../../../../services/message-show.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageShowService } from '../../../../services/message-show.service';
+import { ProductService } from '../../../../services/products.service';
 
 @Component({
   selector: 'app-online-class',
@@ -96,6 +96,8 @@ export class OnlineClassComponent implements OnInit {
       //update test List
       let obj={
         "page_type": "Online_Class",
+        "status": this.prodForm.status,
+        "is_advance_product": this.prodForm.is_advance_product,
         "item_list":[],
         "description":this.description
       }
