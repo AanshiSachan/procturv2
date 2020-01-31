@@ -271,8 +271,8 @@ export class BasicInfoComponent implements OnInit {
       "valid_from_date": this.prodForm.valid_from_date,
       "valid_to_date": this.prodForm.valid_to_date,
       "duration": this.prodForm.duration,
-      "sales_from_date": this.prodForm.sales_from_date,
-      "sales_to_date": this.prodForm.sales_to_date,
+      "sales_from_date":moment(this.prodForm.sales_from_date).format('YYYY-MM-DD'),
+      "sales_to_date": moment(this.prodForm.sales_to_date).format('YYYY-MM-DD'),
       "purchase_limit": this.prodForm.purchase_limit,
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
@@ -286,8 +286,10 @@ export class BasicInfoComponent implements OnInit {
     }
   }
 
+
+
+
   createProduct(object) {
-    let body = JSON.parse(JSON.stringify(object));
 
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
@@ -336,6 +338,18 @@ export class BasicInfoComponent implements OnInit {
         });
     }
   }
+
+  convertUTCDateToLocalDate(date_s) {
+    // var date =new Date(date_s)
+    // var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+
+    // var offset = date.getTimezoneOffset() / 60;
+    // var hours = date.getHours();
+
+    // newDate.setHours(hours - offset);
+    return moment(date_s).format('YYYY-MM-DD');   
+}
+
 
   calc_days() {
     this.prodForm.valid_from_date = moment(this.prodForm.sales_from_date).format('DD-MMM-YYYY');
