@@ -404,7 +404,7 @@
             <label for="">Description</label>
             <input type="text" class="form-ctrl" name="" value="" placeholder="Enter Description" [(ngModel)]="editClass.description">
           </div>
-          <div class="edit-input-container field-wrapper">
+          <div class="edit-input-container field-wrapper" *ngIf="jsonFlag.isProfessional">
             <label for="">Topic</label>
             <input type="text" class="form-ctrl topic-input" name="" value="" readonly [(ngModel)]="editClass.topic_covered_names" (click)="fetchTopics()">
           </div>
@@ -425,7 +425,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
+          <h4 class="modal-title">Link Topic</h4>
         </div>
         <div class="modal-body">
           <ng-container *ngTemplateOutlet="topicsRecursiveList; context:{$implicit: topicsList, level: 1 }"></ng-container>
