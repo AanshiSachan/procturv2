@@ -149,7 +149,7 @@
                 </td>
                 <td class="edit-comp editCellAllignment">
                   <div class="field-wrapper">
-                    <select id="" class="form-ctrl" name="row.standard_name" [(ngModel)]="row.standard_id">
+                    <select id="" class="form-ctrl" name="row.standard_name" [(ngModel)]="editStandSubject.standard_id" (change)="masterCourseChanged()">
                       <option *ngFor="let opt of masterCategoryList" [value]="opt.standard_id">
                         {{opt.standard_name}}
                       </option>
@@ -165,8 +165,9 @@
                 </td>
                 <td class="edit-comp editCellAllignment">
                   <div class="field-wrapper">
-                    <select id="" class="form-ctrl" name="row.subject_name" [(ngModel)]="row.subject_id">
-                      <option *ngFor="let opt of courseList" [value]="opt.subject_id">
+                    <select id="" class="form-ctrl" name="row.subject_name" [(ngModel)]="editStandSubject.subject_id">
+                      <option value="-1"></option>
+                      <option *ngFor="let opt of editCourseList" [value]="opt.subject_id">
                         {{opt.subject_name}}
                       </option>
                     </select>
@@ -206,7 +207,8 @@
 
                 <td class="view-comp" *ngIf="enable_eLearn_feature_flag">
                   <div class="field-wrapper">
-                    {{row.is_offline_or_online}}
+                    <span *ngIf="row?.is_offline_or_online != null">{{row.is_offline_or_online}}</span>
+                    <span *ngIf="row?.is_offline_or_online == null || row?.is_offline_or_online ==''">-</span>
                   </div>
                 </td>
                 <td class="edit-comp editCellAllignment" *ngIf="enable_eLearn_feature_flag">
@@ -252,7 +254,7 @@
                       <div class="dropdown-list">
                         <div class="dd-list-inner">
                           <ul class="actions-menu">
-                            <li class="action-item " (click)="editRow(i,row.item_id)">
+                            <li class="action-item " (click)="editRow(i,row.item_id, row)">
                               <span class="textContent">
                                 Edit Details
                               </span>
