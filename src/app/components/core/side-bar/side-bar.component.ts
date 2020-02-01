@@ -138,10 +138,10 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
     this.log.poweredByStatus.subscribe(res => {
       let result: any = res;
-      if(result == 1){
+      if (result == 1) {
         this.jsonFlags.isShowPowerBy = true;
       }
-      else{
+      else {
         this.jsonFlags.isShowPowerBy = false;
       }
     });
@@ -396,8 +396,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     let userType: any = this.userType;
     let permission: any = this.permissionData;
     let type = Number(sessionStorage.getItem('institute_setup_type'));
-    // check these new feature is enable for institute or not
-    this.isLibraryFeatureAllow(permission); // check librabry feature
     /* Admin or Custom login */
     if (userType == 0) {
       /* admin detected */
@@ -426,9 +424,11 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
 
     // please dont chnage this  code from here
+    // check these new feature is enable for institute or not
     this.isOnlineExamAllow(type); // check online test is enable or not
     this.isLiveClassesAllow(type);
     this.isElearnAllow();
+    this.isLibraryFeatureAllow(permission); // check librabry feature
 
   }
 
@@ -756,7 +756,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         let country_info = res;
         for (let i = 0; i < country_info.length; i++) {
           let row: any = country_info[i];
-           row.symbol = this.getCurrencyDetails(900, row.currency_code, row.country_code);
+          row.symbol = this.getCurrencyDetails(900, row.currency_code, row.country_code);
           if (row.is_default == 'Y') {
             this.commonService.setDefaultCurrencySymbol(row.symbol);
           }
