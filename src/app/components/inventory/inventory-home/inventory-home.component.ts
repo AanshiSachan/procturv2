@@ -195,9 +195,24 @@ export class HomeComponent implements OnInit {
 
     this.editStandSubject.standard_id = row.standard_id;
     this.editStandSubject.standard_name = row.standard_name;
-    this.editStandSubject.subject_id = row.subject_id;
-    this.editStandSubject.subject_name = row.subject_name;
+    this.getCourseList(row);
+  }
 
+  getCourseList(row){
+    let courseId = this.editStandSubject.standard_id;
+    this.isRippleLoad = true;
+    this.inventoryApi.getCourseOnBasisOfMasterCourse(courseId).subscribe(
+      data => {
+        this.isRippleLoad = false;
+        this.editCourseList = data;
+        this.editStandSubject.subject_id = row.subject_id;
+        this.editStandSubject.subject_name = row.subject_name;
+      },
+      error => {
+        this.isRippleLoad = false;
+        //console.log('', error);
+      }
+    )
   }
 
   masterCourseChanged(){
