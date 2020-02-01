@@ -131,7 +131,7 @@ input[type=number]::-webkit-outer-spin-button {
     border-top: 1px solid #d8d8d8;
     .form-ctrl {
         background: transparent;
-        border-bottom: solid 1px #cccccc;
+        border: solid 1px #cccccc;
     }
 }
 
@@ -144,4 +144,9 @@ input[type=number]::-webkit-outer-spin-button {
 
 .text-align-left{
   text-align: left;
+}
+
+#tbLCategory th {
+  padding: 10px;
+  background: #eff1f5;
 }
