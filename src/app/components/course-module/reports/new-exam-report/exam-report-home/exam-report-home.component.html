@@ -16,7 +16,7 @@
         Report
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-      Exam Report
+      Exam Dashboard
     </h2>
     <aside class="pull-right">
     </aside>
@@ -162,7 +162,7 @@
       <div class="right-container">
         <div class="right-item">
           <input type="text" placeholder="Choose filter from dropdown" id="addDate" class="filter-input widgetDatepicker bsDatepicker"
-            name="addDate" [(ngModel)]="addDate" (ngModelChange)="addNewDate($event)" readonly="true" bsDaterangepicker>
+            name="addDate" [(ngModel)]="addDate" (ngModelChange)="addNewDate($event)" readonly="true" bsDaterangepicker style="cursor: pointer;">
           <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('addDate')"></i>
         </div>
         <div class="right-item">
@@ -207,7 +207,7 @@
                 </div>
                 <div class="value-item custom-item align-center">
                   <span *ngIf="report.exam_status != 'Mks. Updated'">-</span>
-                  <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button" class="view-result-btn" routerLink='/view/{{jsonFlag.type}}/reports/exam/examWise/{{report.exam_schd_id}}'>View Result</button>
+                  <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button" class="view-result-btn" routerLink='/view/{{jsonFlag.type}}/reports/exam-dashboard/examWise/{{report.exam_schd_id}}'>View Result</button>
                 </div>
               </div>
               <div class="table-value-container" *ngIf="weeklyExamReportData?.length == 0 && (!jsonFlag.isRippleLoad)" style="justify-content: center; font-weight: 600;">

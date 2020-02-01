@@ -30,10 +30,19 @@
         <span>Exam report of student as per their performance.</span>
       </div>
     </div>
+    <div class="course-menu-item" *ngIf="JsonFlags.isShowExamReport" routerLink="/view/{{type}}/reports/exam-dashboard">
+      <div class="menu-title">
+        <img src="./assets/images/course/create-course.svg" alt="create course">
+        <span>Exam Dashboard</span>
+      </div>
+      <div class="menu-description">
+        <span>In-depth exam report of students.</span>
+      </div>
+    </div>
     <div class="course-menu-item"   routerLink="/view/{{type}}/reports/biometric">
       <div class="menu-title">
         <img src="./assets/images/course/reports.svg" alt="reports">
-        <span>    Biometric Attendance</span>
+        <span>Biometric Attendance</span>
       </div>
       <div class="menu-description">
         <span>Report for attendance report with institute that has biometric system installed.</span>
