@@ -249,13 +249,13 @@ export class ExamReportHomeComponent implements OnInit {
       else{
         sessionStorage.setItem('masterCourseForReport', this.mastercourse);
       }
-      this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/exam/courseWise/'+course_id]);   // course wise page routing for both model
+      this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/exam-dashboard/courseWise/'+course_id]);   // course wise page routing for both model
     }
 
     routeForStandard(subject_id, subjectName){   // navigate to teacher wise performance page // on last page
       sessionStorage.setItem('standaradForReport', this.standard);
       sessionStorage.setItem('subjectName', subjectName);
-      this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/exam/teacherWise/'+subject_id]);
+      this.router.navigate(['/view/'+this.jsonFlag.type+'/reports/exam-dashboard/teacherWise/'+subject_id]);
     }
 
   }
