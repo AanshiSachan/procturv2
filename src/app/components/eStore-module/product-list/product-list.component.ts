@@ -47,7 +47,6 @@ export class ProductListComponent implements OnInit {
     title: '',
     entity_id: 0,
     operation: '',
-    btnClass: 'btn-disable',
     btnText: 'Loading...'
   };
 
@@ -177,37 +176,31 @@ export class ProductListComponent implements OnInit {
     switch (operation) {
       case 'delete': {
         this.deleteItem.textTitle = "Are you sure, you want to delete " + this.deleteItem.title + " ? ";
-        this.deleteItem.btnClass = 'btn-danger';
         this.deleteItem.btnText = 'Delete';
         break;
       }
       case 'readytopublish': {
         this.deleteItem.textTitle = "Do you want to change the status of " + this.deleteItem.title + " to ready ";
-        this.deleteItem.btnClass = 'btn-primary';
         this.deleteItem.btnText = 'Ready To Publish';
         break;
       }
       case 'ready': {
-        this.deleteItem.btnClass = 'btn-primary';
         this.deleteItem.btnText = 'Ready';
         this.deleteItem.textTitle = "Do you want to change the status of " + this.deleteItem.title + " to ready ? ";
         break;
       }
       case 'publish': {
         this.deleteItem.textTitle = "Do you want to publish " + this.deleteItem.title + " ? ";
-        this.deleteItem.btnClass = 'btn-success';
         this.deleteItem.btnText = 'Publish';
         break;
       }
       case 'unpublish': {
         this.deleteItem.textTitle = "Are you sure, you want to unpublish  " + this.deleteItem.title + " ? ";
-        this.deleteItem.btnClass = 'btn-primary';
         this.deleteItem.btnText = 'Unpublish';
         break;
       }
       case 'close': {
         this.deleteItem.textTitle = "Are you sure, you want to close  " + this.deleteItem.title + " ? ";
-        this.deleteItem.btnClass = 'btn-primary';
         this.deleteItem.btnText = 'Close';
         break;
       }
@@ -288,7 +281,7 @@ export class ProductListComponent implements OnInit {
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
       this.http.postMethod('product/change-status', body).then(
-        (resp) => {
+        (resp:any) => {
           this.isRippleLoad = false;
           if (resp) {
             let data = resp['body'];
@@ -297,7 +290,13 @@ export class ProductListComponent implements OnInit {
               item.publish_date = data.result.publish_date;
               this.msgService.showErrorMessage("success", 'product updated successfully', '');
               $('#actionProductModal').modal('hide');
-              // item.product_status = body.product_status;
+              this.productList.forEach((element, index) => {
+                if (element.entity_id == data.result.entity_id) {
+                  this.productList.splice(index, 1);
+                  console.log(this.productList);
+                }
+              });
+              this.varJson.total_items--;
             } else {
               this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
             }

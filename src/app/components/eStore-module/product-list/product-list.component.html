@@ -267,9 +267,10 @@
 
 
 <!-- Delete/Publish Product Modal -->
-<div class="modal fade" id="actionProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="actionProductModal" tabindex="-1" role="dialog" 
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <div class="modal-content" style="max-width: 600px;">
       <div class="modal-body text-center">
         <div class="form-group">
           <p class="lead">{{deleteItem.textTitle}}</p>
@@ -277,7 +278,7 @@
         <div class="form-group m-0">
           <button type="button" class="btn btn-sm" data-dismiss="modal">No</button>
           &nbsp;
-          <button type="submit" class="btn {{deleteItem.btnClass}} btn-sm" [disabled]="isRippleLoad" (click)="confirmAction(deleteItem.operation, deleteItem.entity_id)">Yes</button>
+          <button type="submit" class="btn btn-primary btn-sm" [disabled]="isRippleLoad" (click)="confirmAction(deleteItem.operation, deleteItem.entity_id)">Yes</button>
         </div>
       </div>
     </div>
