@@ -165,10 +165,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.setActiveClassOnSideNav();
   }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> b44532e7e63b751b801d5e8d7a68862ff885746c
 
   hideForUsers() {
     if (sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0') {
