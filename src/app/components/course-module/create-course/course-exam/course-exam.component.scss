@@ -758,3 +758,7 @@ input[type=number]::-webkit-outer-spin-button {
 .subTopicLevel{
     padding-top: 8px;
 }
+::ng-deep bs-datepicker-container,
+bs-daterangepicker-container {
+  margin-left: 5% !important;
+}

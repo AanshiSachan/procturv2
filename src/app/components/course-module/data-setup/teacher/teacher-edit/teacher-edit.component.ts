@@ -236,7 +236,7 @@ export class TeacherEditComponent implements OnInit {
     this.ApiService.addNewTeacherDetails(formData).subscribe(
       data => {
         this.isRippleLoad = false;
-        this.messageToast('success', 'Added', 'Faculty Added Successfully.');
+        this.messageToast('success', '', 'Faculty Added Successfully.');
         this.route.navigateByUrl('/view/course/setup/teacher');
       },
       err => {
@@ -320,7 +320,7 @@ export class TeacherEditComponent implements OnInit {
     this.ApiService.saveEditTeacherInformation(this.selectedTeacherInfo.teacher_id, formData).subscribe(
       data => {
         this.isRippleLoad = false;
-        this.messageToast('success', 'Updated', 'Details Updated Successfully.');
+        this.messageToast('success', '', 'Faculty Updated Successfully.');
         if (sessionStorage.getItem('userType') == '3') {
           this.route.navigateByUrl('/view/home/admin');
         } else {

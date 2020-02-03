@@ -927,7 +927,7 @@ closeTopicModal(){
         this.isRippleLoad = false;
         let msg = {
           type: 'success',
-          title: 'Attendance updated successfully',
+          title: '',
           body: res.message
         }
         this.appC.popToast(msg);
@@ -1050,7 +1050,7 @@ closeTopicModal(){
       res => {
         let msg = {
           type: 'success',
-          title: 'Attendance updated',
+          title: '',
           body: res.message
         }
         this.isRippleLoad = false;
