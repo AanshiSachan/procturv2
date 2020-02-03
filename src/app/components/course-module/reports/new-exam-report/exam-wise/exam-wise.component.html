@@ -57,7 +57,7 @@
             </div>
           </div>
           <div class="marks-info-container">
-            <div class="marks-info-item">
+            <div class="marks-info-item" *ngIf="is_exam_grad_feature != 1">
               <span class="marks-title">Total Marks</span>
               <span class="marks">{{exam_wise_data?.total_marks}}</span>
             </div>
@@ -158,9 +158,14 @@
           <div class="student-wise-heading-item very-small-item" style="text-align:center;">
             <span>Attendance</span>
           </div>
-          <div class="subject-wise-container">
+          <div class="subject-wise-container" *ngIf="!jsonFlag.isProfessional">
             <div class="subject-wise-heading-item" *ngFor="let subject of subjectWiseData">
               <span>{{subject.subject_name}}</span>
+            </div>
+          </div>
+          <div class="subject-wise-container" *ngIf="is_exam_grad_feature == 1  && jsonFlag.isProfessional">
+            <div class="subject-wise-heading-item">
+              <span>{{exam_wise_data.batch_name}}</span>
             </div>
           </div>
           <div class="student-wise-heading-item small-item" style="text-align:center;" *ngIf="is_exam_grad_feature != 1">
@@ -201,13 +206,17 @@
                 </div>
               </div>
             </div>
-            <div class="subject-wise-container" *ngIf="jsonFlag.isProfessional">
+            <div class="subject-wise-container" *ngIf="student.subjectWise_marks_obtained == null && subjectWiseData?.length > 0">
               <!-- for space purpose in batch model -->
             </div>
             <div class="subject-wise-container" *ngIf="is_exam_grad_feature == 1">
               <div class="subject-wise-value-item" *ngFor="let subject of student.subjectWise_marks_obtained">
                 <span *ngIf="subject.grade != null && subject.grade != ''">{{subject.grade}}</span>
                 <span *ngIf="subject.grade == null || student.attendance_type == 'A' || student.attendance_type == 'L'">-</span>
+              </div>
+              <div class="subject-wise-value-item" *ngIf="jsonFlag.isProfessional">
+                <span *ngIf="student.attendance_type == 'P'">{{student.grade}}</span>
+                <span *ngIf="student.attendance_type == 'A' || student.attendance_type == 'L'">-</span>
               </div>
             </div>
             <div class="student-wise-value-item small-item" style="text-align:center;" *ngIf="is_exam_grad_feature != 1">
