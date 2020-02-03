@@ -149,11 +149,11 @@ export class CourseSubjectComponent implements OnInit {
           if (this.isLangInstitue) {
             msg = "Course added Successfull!!";
           } else {
-            msg = "New Subject added Successfull!";
+            msg = "Subject created successfully";
           }
           let data = {
             type: "success",
-            title: "Subject Added",
+            title: "",
             body: msg
           }
           this.toastCtrl.popToast(data);

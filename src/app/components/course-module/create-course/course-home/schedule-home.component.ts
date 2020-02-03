@@ -116,11 +116,11 @@ export class ScheduleHomeComponent implements OnInit {
           let msg = "";
           let titleMsg = "";
           if (this.isLangInstitue) {
-            titleMsg = "Master Course Added";
-            msg = "Master Course added successfully!!";
+            titleMsg = "";
+            msg = "Master Course added successfully";
           } else {
-            titleMsg = "Standard Added";
-            msg = "New Standard added Successfull!";
+            titleMsg = "";
+            msg = "Standard created successfully";
           }
           let data = {
             type: "success",
