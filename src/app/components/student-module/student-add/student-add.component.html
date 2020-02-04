@@ -703,7 +703,7 @@
               </span>
             </div>
 
-            <div class="discount-Amount" *ngIf="cardAmountObject.additionalFees > 0" style="padding-left: 0;">
+            <div class="discount-Amount" *ngIf="cardAmountObject.additionalFees > 0" >
               <span class="label">Additional Fee <span *ngIf="studentAddFormData.country_id==1"> (Incl of Tax)</span> </span>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.additionalFees }}</span>
