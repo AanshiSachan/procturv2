@@ -428,7 +428,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.isOnlineExamAllow(type); // check online test is enable or not
     this.isLiveClassesAllow(type);
     this.isElearnAllow();
-    this.isLibraryFeatureAllow(permission); // check librabry feature
+    this.isLibraryFeatureAllow(permission); // check librabry feature 
 
   }
 
