@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { AppComponent } from '../../../app.component';
-import * as moment from 'moment';
-import { WidgetService } from '../../../services/widget.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
+import { WidgetService } from '../../../services/widget.service';
 declare var $;
 
 @Component({
@@ -26,7 +24,6 @@ export class ExamMarkUpdateComponent implements OnInit {
   examMarksLevel: string = "0";
   totalExamMarks: number = 0;
   isProfessional: boolean = false;
-  isRippleLoad: boolean = false;
   institute_id: any;
   upload_text: any = 'Upload Marks';
   examGradeFeature: any;
@@ -103,10 +100,10 @@ export class ExamMarkUpdateComponent implements OnInit {
       newxhr.setRequestHeader("enctype", "multipart/form-data;");
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-      if (!this.isRippleLoad) {
-        this.isRippleLoad = true;
+      if (!this.auth.isRippleLoad.getValue()) {
+        this.auth.showLoader();
         newxhr.onreadystatechange = () => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             let res = JSON.parse(newxhr.response);
             if (res.status == 200 || res.status == undefined) {
@@ -136,15 +133,15 @@ export class ExamMarkUpdateComponent implements OnInit {
     let url = '/api/v1/StdCourseExam/download/' + this.exam_info.data.course_exam_schedule_id + '?option=';
     let option = this.examMarksLevel == '2' ? 'C' : 'S';
     url = url + option;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this._httpService.postData(url, null).subscribe((resp: any) => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       console.log(resp);
       var bindata = window.atob(resp.document);
       this.displayContents(bindata, resp);
     },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       })
   }
@@ -232,15 +229,15 @@ export class ExamMarkUpdateComponent implements OnInit {
   }
 
   getExamstudentAttList(id) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.getExamStudentsList(id).subscribe(
       (res: any[]) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.studentAttList = this.addKeys(res, false);
         this.makeTableHeader();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
         this.messageNotifier('error', '', err.error.message);
       }
@@ -248,14 +245,14 @@ export class ExamMarkUpdateComponent implements OnInit {
   }
 
   getAllExamGrades() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.getExamGrades().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.gradesList = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -315,16 +312,16 @@ export class ExamMarkUpdateComponent implements OnInit {
     if (data == false) {
       return;
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.markStudentMarks(data).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('success', 'Successfully Saved', 'Marks Saved Successfully');
         sessionStorage.setItem('exam_info', '');
         this.backToHome();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )

@@ -223,6 +223,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       2. Send login Info to Server
   */
   loginViaServer() {
+
     if (this.loginDataForm.alternate_email_id.trim() == "" && this.loginDataForm.password.trim() == "") {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.invalid.title, this.messages.loginMsg.invalid.body);
 
@@ -231,13 +232,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.invalidPass.title, this.messages.loginMsg.invalidPass.body);
     }
     else {
+      this.auth.showLoader();
       this.login.postLoginDetails(this.loginDataForm).subscribe(
         res => {
           console.log(res);
+          this.auth.hideLoader();
           sessionStorage.setItem('login-response',JSON.stringify(res));
           this.checkForAuthOptions(res);
         },
         err => {
+          this.auth.showLoader();
           console.log(err);
         }
       );

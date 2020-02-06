@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { MenuItem } from 'primeng/primeng';
-import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
-import { DropData } from '../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
-import { PaymentHistoryMainService } from '../../../services/payment-history/payment-history-main.service';
-import { ExcelService } from '../../../services/excel.service';
 import { AppComponent } from '../../../app.component';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { ExcelService } from '../../../services/excel.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
+import { PaymentHistoryMainService } from '../../../services/payment-history/payment-history-main.service';
+import { DropData } from '../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
+import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 import { CommonServiceFactory } from './../../../services/common-service';
 
 @Component({
@@ -17,7 +18,6 @@ import { CommonServiceFactory } from './../../../services/common-service';
 export class InactiveStudentReportComponent implements OnInit {
 
 
-  isRippleLoad: boolean = false;
   sendPayload = {
     institute_id: this.payment.institute_id,
     from_date: moment().format('YYYY-MM-DD'),
@@ -83,7 +83,8 @@ export class InactiveStudentReportComponent implements OnInit {
     private excelService: ExcelService, 
     private appc: AppComponent, 
     private pdf: ExportToPdfService,
-    private commonService:CommonServiceFactory
+    private commonService:CommonServiceFactory,
+    private auth:AuthenticatorService,
   ) { }
 
 
@@ -106,7 +107,7 @@ export class InactiveStudentReportComponent implements OnInit {
 
   getAllPaymentHistory() {
     this.showPaymentBox = true;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     // this.newData = [];
     this.allPaymentRecords = this.tempRecords;
     this.dataStatus = 1;
@@ -122,7 +123,7 @@ export class InactiveStudentReportComponent implements OnInit {
     }
 
     if (this.searchflag) {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       if (this.allPaymentRecords.length == 0) {
         this.dataStatus = 2;
       }
@@ -162,11 +163,11 @@ export class InactiveStudentReportComponent implements OnInit {
           );
 
           if (this.newData.length) {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             /* update CollectionObject Data for display */
           }
           else {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.dataStatus = 2;
           }
 
@@ -174,7 +175,7 @@ export class InactiveStudentReportComponent implements OnInit {
         (error: any) => {
           this.dataStatus = 2;
           // this.dataStatus = 0;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: "error",
             body: error.error.message
@@ -238,7 +239,7 @@ export class InactiveStudentReportComponent implements OnInit {
         body: "You cannot select future date"
       }
       this.appc.popToast(msg);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.sendPayload.from_date = moment().format('YYYY-MM-DD');
       this.sendPayload.to_date = moment().format('YYYY-MM-DD');
     }

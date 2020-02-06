@@ -1,10 +1,11 @@
+<app-loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'" 
+*ngIf="auth.isRippleLoad.getValue()">
+</app-loaders-css>
+
 <div class="main-wrapper">
 
     <div id="middleWrapper">
         <main>
-            <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" 
-            *ngIf="isRippleLoad">
-            </loaders-css>
             <section class="middle-section clearFix router-wrapper">
                 <div>
                     <toaster-container [toasterconfig]="config"></toaster-container>

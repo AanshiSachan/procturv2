@@ -1,15 +1,15 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
-import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
-import { DropData } from '../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 import { ExcelService } from '../../../services/excel.service';
+import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { GetFeeService } from '../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
-import { AuthenticatorService } from '../../../services/authenticator.service';
-import { ExportToPdfService } from '../../../services/export-to-pdf.service';
-import { CommonServiceFactory } from '../../../services/common-service';
+import { DropData } from '../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
+import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+
 
 @Component({
   selector: 'app-fee-course-report',
@@ -40,7 +40,6 @@ export class FeeCourseReportComponent implements OnInit {
   installmentList: any;
   isFilterReversed: boolean = true;
   isProfessional: boolean = false;
-  isRippleLoad: boolean = false;
   isCourseSelected: boolean = false;
   downloadFeeReportAccess:boolean = false;
   private slotIdArr: any[] = [];
@@ -279,16 +278,16 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   updateMasterCourseBatch() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.getter.getBatchDetails(this.courseFetchForm).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.batchList = res.batchLi;
         this.standardList = res.standardLi;
         this.subjectList = [];
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -298,14 +297,14 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   updateMasterCourse() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.getter.getMasterCourses().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.standardList = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -417,7 +416,7 @@ export class FeeCourseReportComponent implements OnInit {
       moment(obj.to_date).format('YYYY-MM-DD');
     }
     //console.log(obj);
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.dataStatus = 1;
     this.getter.getFeeReportData(obj).subscribe(
       res => {
@@ -425,7 +424,7 @@ export class FeeCourseReportComponent implements OnInit {
           this.dataStatus = 2;
         }
         this.reportSource = res;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (this.isFilterReversed) {
           this.feeDataSource1 = res;
         }
@@ -434,7 +433,7 @@ export class FeeCourseReportComponent implements OnInit {
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -444,9 +443,9 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   openAdFilter() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.isFilterReversed = !this.isFilterReversed;
-    this.isRippleLoad = false;
+    this.auth.hideLoader();
   }
 
 
@@ -472,16 +471,16 @@ export class FeeCourseReportComponent implements OnInit {
     this.courseFetchForm.to_date = '';
     this.courseFetchForm.type = "0";
     this.applyAcademicYear('-1');
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (this.isProfessional) {
       this.getter.getBatchDetails(this.courseFetchForm).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.batchList = res.batchLi;
           this.subjectList = res.subjectLi;
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -490,12 +489,12 @@ export class FeeCourseReportComponent implements OnInit {
       let id = this.courseFetchForm.standard_id.replace(/ /g, "%20");
       this.getter.getCourseData(id).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.batchList = [];
           this.subjectList = res.coursesList;
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -538,16 +537,16 @@ export class FeeCourseReportComponent implements OnInit {
     this.selectedSlotsString = "";
     this.selectedSlots = [];
     this.applyAcademicYear('-1');
-    this.isRippleLoad = true;
+    this.auth.showLoader();
 
     if (this.isProfessional) {
       this.getter.getBatchDetails(this.courseFetchForm).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.batchList = res.batchLi;
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -555,11 +554,11 @@ export class FeeCourseReportComponent implements OnInit {
     else {
       this.getter.getBatchDetails(this.courseFetchForm).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.batchList = res.batchLi;
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -942,15 +941,15 @@ export class FeeCourseReportComponent implements OnInit {
         institution_id: '',
         student_ids: student_ids.join()
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.putter.sendBulkSMS(obj).subscribe(
         res => {
           // console.log(res);
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this._msgService.showErrorMessage(this._msgService.toastTypes.success, '', res.message);
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', err.error.message);
         }
       );

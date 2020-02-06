@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
-import { OnlinePaymentServiceService } from '../../../services/online-payment/online-payment-service.service';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ExcelService } from '../../../services/excel.service';
+import { OnlinePaymentServiceService } from '../../../services/online-payment/online-payment-service.service';
+import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 
 
 @Component({
@@ -31,8 +31,6 @@ export class OnlinePaymentHistoryComponent implements OnInit {
     { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor' },
  
   ];
-
-  isRippleLoad: boolean = false;
   sendPayload: any = {
     institute_id: this.paymentService.institute_id,
     from_date: moment().format('YYYY-MM-DD'),
@@ -60,7 +58,7 @@ export class OnlinePaymentHistoryComponent implements OnInit {
   constructor(
     private paymentService: OnlinePaymentServiceService,
     private appc: AppComponent,
-    private institute_id: AuthenticatorService,
+    private auth: AuthenticatorService,
     private excelService:ExcelService) { }
 
   ngOnInit() {
@@ -78,7 +76,7 @@ export class OnlinePaymentHistoryComponent implements OnInit {
 // ============================================================================
 // for fetching data
   getAllPaymentRecords() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.dataStatus = 1;
     this.dataGetPayload = this.tempRecords;
     if (this.searchName != "" || this.searchName != null) {
@@ -93,7 +91,7 @@ export class OnlinePaymentHistoryComponent implements OnInit {
     }
 
     if (this.searchflag) {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       if (this.dataGetPayload.length == 0) {
         this.dataStatus = 2;
       }
@@ -125,10 +123,10 @@ export class OnlinePaymentHistoryComponent implements OnInit {
             }
           )
           console.log(this.dataGetPayload);
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         },
         (error: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.dataStatus = 2;
           let msg = {
             type: "error",
@@ -229,7 +227,7 @@ export class OnlinePaymentHistoryComponent implements OnInit {
         body: "You cannot select future date"
       }
       this.appc.popToast(msg);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.sendPayload.from_date = moment().format('YYYY-MM-DD');
       this.sendPayload.to_date = moment().format('YYYY-MM-DD');
     }

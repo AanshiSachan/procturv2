@@ -1,17 +1,17 @@
 /**  other libraray imports */
-import { Component, OnInit, ViewChild, ChangeDetectorRef, OnChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../services/common-service';
+import { ExcelService } from '../../../services/excel.service';
+import { ExportToPdfService } from '../../../services/export-to-pdf.service';
+import { MessageShowService } from '../../../services/message-show.service';
+import { GetFeeService } from '../../../services/report-services/fee-services/getFee.service';
+import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
+import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { DataDisplayTableComponent } from '../../shared/data-display-table/data-display-table.component';
 import { ColumnData2 } from '../../shared/data-display-table/data-display-table.model';
 import { DropData } from '../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
-import { GetFeeService } from '../../../services/report-services/fee-services/getFee.service';
-import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
-import { ExcelService } from '../../../services/excel.service';
-import { AuthenticatorService } from '../../../services/authenticator.service';
-import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
-import { ExportToPdfService } from '../../../services/export-to-pdf.service';
-import { MessageShowService } from '../../../services/message-show.service';
-import { CommonServiceFactory } from '../../../services/common-service';
 /**  models imports*/
 
 
@@ -54,7 +54,6 @@ export class AllDataReportComponent implements OnInit {
     isCustomDate: false,
     isFilterReversed: true,
     isProfessional: false,
-    isRippleLoad: false,
     downloadFeeReportAccess:false
   };
 
@@ -426,7 +425,7 @@ export class AllDataReportComponent implements OnInit {
       moment(obj.to_date).format('YYYY-MM-DD');
     }
     //console.log(obj);
-    this.showPopupKeys.isRippleLoad = true;
+    this.auth.showLoader();
     this.dataStatus = 1;
     this._getter.getFeeReportData(obj).subscribe(
       res => {
@@ -435,7 +434,7 @@ export class AllDataReportComponent implements OnInit {
           this.tableSetting.displayMessage = "Data not found";
         }
         this.reportSource = res;
-        this.showPopupKeys.isRippleLoad = false;
+        this.auth.hideLoader();
         if (this.showPopupKeys.isFilterReversed) {
           this.feeDataSource1 = res;
         }
@@ -444,7 +443,7 @@ export class AllDataReportComponent implements OnInit {
         }
       },
       err => {
-        this.showPopupKeys.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -452,9 +451,9 @@ export class AllDataReportComponent implements OnInit {
 
 
   openAdFilter() {
-    this.showPopupKeys.isRippleLoad = true;
+    this.auth.showLoader();
     this.showPopupKeys.isFilterReversed = !this.showPopupKeys.isFilterReversed;
-    this.showPopupKeys.isRippleLoad = false;
+    this.auth.hideLoader();
   }
 
   switchActiveView(id) {
@@ -686,15 +685,15 @@ export class AllDataReportComponent implements OnInit {
         institution_id: '',
         student_ids: student_ids.join()
       }
-      this.showPopupKeys.isRippleLoad = true;
+      this.auth.showLoader();
       this._putter.sendBulkSMS(obj).subscribe(
         res => {
           // console.log(res);
-          this.showPopupKeys.isRippleLoad = false;
+          this.auth.hideLoader();
           this._msgService.showErrorMessage(this._msgService.toastTypes.success, '', res.message);
         },
         err => {
-          this.showPopupKeys.isRippleLoad = false;
+          this.auth.hideLoader();
           this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', err.error.message);
         }
       );

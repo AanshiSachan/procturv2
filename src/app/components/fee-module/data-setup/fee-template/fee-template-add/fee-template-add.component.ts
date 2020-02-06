@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FeeStrucService } from '../../../../../services/feeStruc.service';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../../services/common-service';
-import { filter } from 'rxjs/operators';
+import { FeeStrucService } from '../../../../../services/feeStruc.service';
 
 @Component({
   selector: 'app-fee-template-add',
@@ -11,7 +10,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./fee-template-add.component.scss']
 })
 export class FeeTemplateAddComponent implements OnInit {
-  isRippleLoad: boolean = false;
+
   masterCourseList: any = [];
   CourseList: any = [];
   countryAdditioalFeeTypes: any = {};
@@ -428,16 +427,16 @@ export class FeeTemplateAddComponent implements OnInit {
       data.course_id = this.addNewTemplate.course_id;
     }
 
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.apiService.updateFeeTemplate(data).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('success', 'Updated', 'Fee Structure created Successfully');
           this.route.navigateByUrl('/view/fee/data-setup/fee-template/home');
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('error', '', err.error.message);
         }
       )
