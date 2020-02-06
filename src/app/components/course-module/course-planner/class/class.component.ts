@@ -1,16 +1,14 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import 'rxjs/Rx';
-import { of } from 'rxjs/observable/of';
 import * as moment from 'moment';
-import { Observable } from 'rxjs/Observable';
-import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
+import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
+import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { WidgetService } from '../../../../services/widget.service';
 import { CoursePlanner } from '../course-planner.model';
 import { SessionFilter } from '../session-filter.model';
-import { WidgetService } from '../../../../services/widget.service';
-import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
 declare var $;
 
 @Component({
@@ -26,7 +24,6 @@ export class ClassComponent implements OnInit {
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
-    isRippleLoad: false,
     showHideColumn: false
   };
   coursePlannerFor: String = "class";
@@ -252,24 +249,24 @@ export class ClassComponent implements OnInit {
     fetchPreFillData(){
     // get master course - course - subject data  for course model
     if(!this.jsonFlag.isProfessional){
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.classService.getAllMasterCourse().subscribe(
         res => {
           this.masterCourseList = res;
           if(this.sessionFiltersArr.masterCourse != "-1"){  //update course list if it was set in session
             this.updateCoursesList();
           }
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       );
     }
     else{
       // get master course - course - subject data  for Batch model
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.classService.getStandardSubjectList(this.inputElements.standard_id, this.inputElements.subject_id, this.inputElements.isAssigned).subscribe(
         res => {
           this.masterCourseList = res.standardLi;
@@ -277,10 +274,10 @@ export class ClassComponent implements OnInit {
           if(this.sessionFiltersArr.standardId != "-1"){   //update course list if it was set in session
             this.updateCoursesList();
           }
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         },
         err => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
          }
       );
@@ -339,13 +336,13 @@ export class ClassComponent implements OnInit {
       }
       else{
         // Fetch batches according to standard and subject id for all active batches
-        this.jsonFlag.isRippleLoad = true;
+        this.auth.showLoader();
         this.classService.getStandardSubjectList(this.inputElements.standard_id, this.inputElements.subject_id, this.inputElements.isAssigned).subscribe(
           res => {
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
             this.courseList = res.subjectLi;
             this.batchList = res.batchLi;
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
             for (var i = 0; i < this.masterCourseList.length; i++) {
               if(this.masterCourseList[i].standard_id == this.inputElements.standard_id){
                 this.courseStartDate = this.masterCourseList[i].start_date;
@@ -359,7 +356,7 @@ export class ClassComponent implements OnInit {
             }
           },
           err => {
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
            }
         );
@@ -393,16 +390,16 @@ export class ClassComponent implements OnInit {
     }
     // For Batch Model
     else{
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.coursePlannerFilters.subject_id = this.inputElements.subject_id;
       this.classService.getStandardSubjectList(this.inputElements.standard_id, this.inputElements.subject_id, this.inputElements.isAssigned).subscribe(
         res => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.batchList = res.batchLi;
           this.clearFilters();
         },
         err => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
          }
       );
@@ -510,18 +507,18 @@ export class ClassComponent implements OnInit {
   getData(){   //  Fetch Course Planner data according to filters
     this.filterShow = false;
     this.jsonFlag.showHideColumn = false;
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     // Course/bacth model and master course is selected
     if((!this.jsonFlag.isProfessional && this.coursePlannerFilters.master_course_name == "-1") ||
        (this.jsonFlag.isProfessional && this.coursePlannerFilters.standard_id == "-1")) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select master course');
-      this.jsonFlag.isRippleLoad = false;
+      this.auth.hideLoader();
       return;
     }
     else{   // Get Course Planner Data
       this.classService.getCoursePlannerData(this.coursePlannerFilters, this.coursePlannerFor).subscribe(
         res => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.allData = res;
           if(this.allData.length == 0){
             this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No result found");
@@ -533,7 +530,7 @@ export class ClassComponent implements OnInit {
           }
         },
         err => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       );
@@ -713,16 +710,16 @@ export class ClassComponent implements OnInit {
       obj.cancelSchd.push(temp1);
       obj.extraSchd.push(temp2);
 
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.widgetService.reScheduleClass(obj).subscribe(
         res => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'The request has been processed');
           this.closeRescheduleClass();
           this.getData();
         },
         err => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
@@ -820,15 +817,15 @@ export class ClassComponent implements OnInit {
         is_exam_schedule: "N",
         remarks: this.reminderRemarks
       };
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.widgetService.notifyStudentSchedule(obj).subscribe(
         res => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Reminder Sent', 'Students have been notified');
           this.closeRemiderClass();
         },
         err => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
@@ -843,16 +840,16 @@ export class ClassComponent implements OnInit {
       requested_date: moment(this.classMarkedForAction.date).format("YYYY-MM-DD"),
       remarks: this.reminderRemarks
     }
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.remindCourseLevel(obj).subscribe(
       res => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Reminder Sent', 'The student have been notified');
         this.reminderRemarks = "";
         this.closeRemiderClass();
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Unable to Send Reminder', err.error.message);
       }
     )
@@ -876,16 +873,16 @@ export class ClassComponent implements OnInit {
       is_notified: this.is_notified
     }
     obj.cancelSchd.push(schd);
-    // this.jsonFlag.isRippleLoad = true;
+    // this.auth.showLoader();
     this.widgetService.cancelClassSchedule(obj).subscribe(
       res => {
-        // this.jsonFlag.isRippleLoad = false;
+        // this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'The requested scheduled has been cancelled');
         this.closeCancelClass();
         this.getData();
       },
       err => {
-        // this.jsonFlag.isRippleLoad = false;
+        // this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
@@ -917,16 +914,16 @@ export class ClassComponent implements OnInit {
       master_course: this.classMarkedForAction.master_course_name,
       requested_date: moment(this.classMarkedForAction.date).format("YYYY-MM-DD")
     }
-    // this.jsonFlag.isRippleLoad = true;
+    // this.auth.showLoader();
     this.widgetService.cancelCourseSchedule(obj).subscribe(
       res => {
-        // this.jsonFlag.isRippleLoad = false;
+        // this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Course ', 'The requested scheduled has been cancelled');
         this.closeCourseCancelClass();
         this.getData();
       },
       err => {
-        // this.jsonFlag.isRippleLoad = false;
+        // this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
@@ -941,16 +938,16 @@ export class ClassComponent implements OnInit {
       batch_id: this.classMarkedForAction.batch_id,
       cancelSchd: this.getCancelReason()
     }
-    // this.jsonFlag.isRippleLoad = true;
+    // this.auth.showLoader();
     this.widgetService.cancelBatchSchedule(obj).subscribe(
       res => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Batch ', 'The requested scheduled has been cancelled');
         this.closeCourseCancelClass();
         this.getData();
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
@@ -989,14 +986,14 @@ export class ClassComponent implements OnInit {
         }
       }
 
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.classService.notifyCancelClass(obj, 'class').subscribe(
         res => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Cancelled schedule notification', 'Notification has been sent successfully');
         },
         err => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
@@ -1090,7 +1087,7 @@ export class ClassComponent implements OnInit {
   }
 
   fetchTopics(){
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     let subject_id = '';
     if(this.jsonFlag.isProfessional){
       subject_id = this.editClass.course_id;
@@ -1099,7 +1096,7 @@ export class ClassComponent implements OnInit {
       subject_id = this.editClass.subject_id;
     }
     this.topicService.getAllTopicsSubTopics(subject_id).subscribe((resp)=>{
-      this.jsonFlag.isRippleLoad = false;
+      this.auth.hideLoader();
       this.topicsList = [];
       this.totalTopicsList = [];
       this.topicsList = resp;
@@ -1130,7 +1127,7 @@ export class ClassComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to link");
       }
     },err =>{
-      this.jsonFlag.isRippleLoad = false;
+      this.auth.hideLoader();
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
     })
   }
@@ -1254,7 +1251,7 @@ export class ClassComponent implements OnInit {
         };
       	this.classService.saveDataOnServer(obj).subscribe(
           res => {
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
             let result: any = res;
             $('#editClass').modal('hide');
             if(result.statusCode == 200){
@@ -1264,7 +1261,7 @@ export class ClassComponent implements OnInit {
           },
           err => {
             $('#editClass').modal('hide');
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           }
         )
@@ -1285,7 +1282,7 @@ export class ClassComponent implements OnInit {
       }
       this.classService.changeClassTeacher(obj).subscribe(   // update class for batch model  // same api for update teacher
         res => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           let result: any = res;
           $('#editClass').modal('hide');
           if(result.statusCode == 200){
@@ -1296,7 +1293,7 @@ export class ClassComponent implements OnInit {
         },
         err => {
           $('#editClass').modal('hide');
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.clearEditValues();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }

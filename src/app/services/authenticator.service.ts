@@ -45,10 +45,12 @@ export class AuthenticatorService {
     }
 
     showLoader(){
+        console.log(true)
         this.isRippleLoad.next(true);
     }
 
     hideLoader(){
+        console.log(false)
         this.isRippleLoad.next(false);
     }
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticatorService } from '../../../../services/authenticator.service';
-import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
-import { AppComponent } from '../../../../app.component';
 import { Router } from '@angular/router';
+import { AppComponent } from '../../../../app.component';
+import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 
 @Component({
@@ -65,9 +65,11 @@ export class BatchesComponent implements OnInit {
   getCoursesList() {
     this.dataStatus = true;
     if (this.isProfessional) {
+      this.auth.showLoader();
       this.batch.getBatches().subscribe(
         (data: any) => {
           this.dataStatus = false;
+          this.auth.hideLoader();
           this.getCourses = data;
           this.getCourses.map(
             (ele) => {
@@ -80,6 +82,7 @@ export class BatchesComponent implements OnInit {
 
         },
         (error: any) => {
+          this.auth.showLoader();
           this.dataStatus = false;
           let msg = {
             type: "error",
@@ -91,8 +94,10 @@ export class BatchesComponent implements OnInit {
     }
     else {
       this.dataStatus = true;
+      this.auth.showLoader();
       this.batch.getCoursesList().subscribe(
         (data: any) => {
+          this.auth.hideLoader();
           this.dataStatus = false;
           this.getCourses = data;
           this.getCourses.map(
@@ -231,8 +236,10 @@ export class BatchesComponent implements OnInit {
               if(error.error.message.includes("Batch Already assigned with active Student")){
                 if (confirm(error.error.message)) {
                     this.sendPayloadBatch.archived = true;
+                    this.auth.showLoader();
                     this.batch.batches(this.sendPayloadBatch).subscribe(
                       (data: any) => {
+                        this.auth.hideLoader();
                         this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
                         let msg={
                           type:"success",
@@ -241,6 +248,7 @@ export class BatchesComponent implements OnInit {
                         this.appc.popToast(msg);
                       },
                       (error: any) => {
+                        this.auth.hideLoader();
                         let msg = {
                           type: "error",
                           body: error.error.message

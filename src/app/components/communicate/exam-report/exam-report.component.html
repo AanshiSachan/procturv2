@@ -1,5 +1,3 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
-</loaders-css>
 <div class="middle-section clear-fix">
     <aside class="middle-full">
         <section class="middle-main clearFix attendance-container">
@@ -94,7 +92,7 @@
 
                     <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
                         [tableName]="'Exam'" [settings]="projectSettings" (sortData)="sortedData($event)" [direction]="direction"
-                        [sortingEnabled]="sortingEnabled" [loaderState]="isRippleLoad">
+                        [sortingEnabled]="sortingEnabled" [loaderState]="auth.isRippleLoad.getValue()">
                     </proctur-table>
                 </div>
                 <div class="row filter-res pagination" style="width: 100%;" *ngIf="!isProfessional">
@@ -126,7 +124,7 @@
                 <div class="poor">
                     <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name:pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
                         [tableName]="'Exam'" [settings]="projectSettings" [text]="examDesc" [viewText]="showTitle" (sortData)="sortedData($event)"
-                        [direction]="direction" [sortingEnabled]="sortingEnabled" [loaderState]="isRippleLoad">
+                        [direction]="direction" [sortingEnabled]="sortingEnabled" [loaderState]="auth.isRippleLoad.getValue()">
                     </proctur-table>
                 </div>
 

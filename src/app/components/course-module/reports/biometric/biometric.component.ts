@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
-import { BiometricServiceService } from '../../../../services/biometric-service/biometric-service.service';
 import { AppComponent, AuthenticatorService } from '../../../..';
+import { BiometricServiceService } from '../../../../services/biometric-service/biometric-service.service';
 import { ExcelService } from '../../../../services/excel.service';
 
 
@@ -57,7 +57,6 @@ export class BiometricComponent implements OnInit {
   isProfessional: boolean = true;
   addReportPopUp: boolean = false;
   addAcademicPopUp: boolean = false;
-  isRippleLoad: boolean = true;
   showStudentTable: boolean = false;
   showTeachersTable: boolean = false;
   showCustomTable: boolean = false;
@@ -146,7 +145,7 @@ export class BiometricComponent implements OnInit {
 
   sendSMSToAbsenties() {
     if (confirm("Are u sure, you want to send sms to Absent students?")) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let obj = {
       "from_date": this.getAbsentiesData.from_date,
       "institution_id":sessionStorage.getItem('institute_id'),
@@ -155,7 +154,7 @@ export class BiometricComponent implements OnInit {
 
     this.reportService.sendSMSToAbsenties(obj).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if(data.statusCode==200){
           let obj = {
             type: 'success',
@@ -167,7 +166,7 @@ export class BiometricComponent implements OnInit {
 
       },
       (error: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let msg = {
           type: "error",
           body: error.error.message
@@ -190,12 +189,12 @@ export class BiometricComponent implements OnInit {
     if (this.isProfessional) {
       this.reportService.fetchMasterCourseProfessional(this.getData).subscribe(
         (data: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.masterCoursePro = data.standardLi;
           this.batchPro = data.batchLi;
         },
         (error: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.dataStatus = false;
           return error;
         }
@@ -210,10 +209,10 @@ export class BiometricComponent implements OnInit {
         this.getData.master_course_name = "";
         this.getData.course_id = -1;
         this.masterCourse = data;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       (error) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         return error;
       }
     )
@@ -252,12 +251,12 @@ export class BiometricComponent implements OnInit {
       this.reportService.fetchCourseProfessional(i).subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.coursePro = data;
         },
         (error: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           return error;
         }
       )
@@ -266,12 +265,12 @@ export class BiometricComponent implements OnInit {
       this.reportService.getCourses(i).subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.courses = data.coursesList;
         },
         (error) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           return error;
         }
       )
@@ -283,12 +282,12 @@ export class BiometricComponent implements OnInit {
     this.reportService.getSubjects(i).subscribe(
       (data: any) => {
         this.dataStatus = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.subjects = data.batchesList;
       },
       (error: any) => {
         this.dataStatus = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         return error;
       }
     )
@@ -306,7 +305,7 @@ export class BiometricComponent implements OnInit {
       if (this.isProfessional) {
         this.reportService.getAttendanceReport(this.getData).subscribe(
           (data: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.dataStatus = false;
             this.studentsData = data;
             this.totalRow = data.length;
@@ -315,7 +314,7 @@ export class BiometricComponent implements OnInit {
           },
           (error) => {
             this.dataStatus = false;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             return error;
           }
         )
@@ -323,7 +322,7 @@ export class BiometricComponent implements OnInit {
       else {
         this.reportService.getAttendanceReport(this.getData).subscribe(
           (data: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.dataStatus = false;
             this.studentsData = data;
             this.totalRow = data.length;
@@ -333,7 +332,7 @@ export class BiometricComponent implements OnInit {
           },
           (error) => {
             this.dataStatus = false;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             return error;
           }
         )
@@ -349,7 +348,7 @@ export class BiometricComponent implements OnInit {
       this.reportService.getAttendanceReportTeachers(this.getData).subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.studentsData = data;
           this.totalRow = data.length;
           this.PageIndex = 1;
@@ -357,7 +356,7 @@ export class BiometricComponent implements OnInit {
         },
         (error: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           return error;
         }
       )
@@ -370,7 +369,7 @@ export class BiometricComponent implements OnInit {
       this.reportService.getAttendanceReportOthers(this.getData).subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.studentsData = data;
           this.totalRow = data.length;
           this.PageIndex = 1;
@@ -378,7 +377,7 @@ export class BiometricComponent implements OnInit {
         },
         (error: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           return error;
         }
       )
@@ -401,11 +400,11 @@ export class BiometricComponent implements OnInit {
     this.reportService.getAllFinalReport(this.getAllData).subscribe(
       (data: any) => {
         this.dataStatus = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       (error: any) => {
         this.dataStatus = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         return error;
       }
     )
@@ -443,7 +442,7 @@ export class BiometricComponent implements OnInit {
   }
 
   fetchAbsentsStudentsData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.getAbsentiesData.from_date = moment(this.getAbsentiesData.from_date).format('YYYY-MM-DD');
     this.reportService.fetchAbsentiesData(this.getAbsentiesData).subscribe(
       (data: any) => {
@@ -454,11 +453,11 @@ export class BiometricComponent implements OnInit {
         else {
           this.absendStudentData = [];
         }
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       (error: any) => {
 
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         return error;
       }
     )
@@ -471,7 +470,7 @@ export class BiometricComponent implements OnInit {
         body: "You cannot select future date"
       }
       this.appc.popToast(msg);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.getData.biometric_attendance_date = moment().format('YYYY-MM-DD');
       this.getAllData.from_date = moment().format('YYYY-MM-DD');
     }
@@ -484,7 +483,7 @@ export class BiometricComponent implements OnInit {
         body: "Select Master Course First !"
       }
       this.appc.popToast(msg);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
     }
   }
 
@@ -598,7 +597,7 @@ export class BiometricComponent implements OnInit {
         type: "info",
         body: "Future date is not allowed"
       }
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.dataStatus = false;
       this.appc.popToast(msg);
     }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticatorService } from '../../../services/authenticator.service';
 import * as moment from 'moment';
-import { MessageShowService } from '../../../services/message-show.service';
 import { ActivityPtmService } from '../../../services/activity-ptmservice/activity-ptm.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { MessageShowService } from '../../../services/message-show.service';
 
 @Component({
   selector: 'app-ptm-management',
@@ -13,7 +13,6 @@ import { ActivityPtmService } from '../../../services/activity-ptmservice/activi
 export class PtmManagementComponent implements OnInit {
 
   jsonFlag = {
-    isRippleLoad: false,
     isProfessional: false
   }
   // apis variables to send
@@ -107,16 +106,16 @@ export class PtmManagementComponent implements OnInit {
   }
 
   fetchPreFillData(){
-  this.jsonFlag.isRippleLoad = true;
+  this.auth.showLoader();
   //get master course - course - subject data  for course model
     this.ptmService.getAllMasterCourse().subscribe(
       res => {
         this.masterCourseList = res;
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
        }
     );
   }
@@ -144,14 +143,14 @@ export class PtmManagementComponent implements OnInit {
   }
 
   fetchBatchesList() {
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.ptmService.getBatches(this.batchQueryParam).subscribe(
       (data: any) => {
         this.getAllBatches = data;
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       (error: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -168,17 +167,17 @@ export class PtmManagementComponent implements OnInit {
         batch_id: this.inputElements.batch_id
       }
     }
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.ptmService.loadPtm(this.getptmDates).subscribe(
       (data: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.fetchPtmDates = data;
         if(this.fetchPtmDates.length == 0){
           this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', 'No PTM schedule found');
         }
       },
       (error: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -206,10 +205,10 @@ export class PtmManagementComponent implements OnInit {
       }
     }
     if(validation){
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.ptmService.viewStudents(this.inputElements.ptmId).subscribe(
         (data: any) => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.viewStudents = data;
           for (let j = 0; j < this.viewStudents.length; j++) {
             this.viewStudents[j].isAttendanceChanged = "N";
@@ -223,7 +222,7 @@ export class PtmManagementComponent implements OnInit {
 
         },
         (error: any) => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       )
     }
@@ -245,14 +244,14 @@ export class PtmManagementComponent implements OnInit {
   sendNotification(){
     if(this.inputElements.ptmId != "-1"){
       console.log(this.inputElements.ptmId);
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.ptmService.sendNotification(this.inputElements.ptmId).subscribe(
         (data: any) => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Notification has been sent successfully');
         },
         (error: any) => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', error);
         }
       )
@@ -269,10 +268,10 @@ export class PtmManagementComponent implements OnInit {
           ptm_reminder: true,
           ptm_id: this.inputElements.ptmId
         }
-        this.jsonFlag.isRippleLoad = true;
+        this.auth.showLoader();
         this.ptmService.cancelPTM(obj).subscribe(
           res => {
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Cancelled Successfully');
             this.inputElements.ptmId = "-1";
             this.viewStudents = [];
@@ -282,7 +281,7 @@ export class PtmManagementComponent implements OnInit {
             this.illustration = true;
           },
           err => {
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           }
         )
@@ -291,7 +290,7 @@ export class PtmManagementComponent implements OnInit {
 
   showCreateNewPTM(){
     this.createPTMShow = true;
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.createPTMAllBatches = [];
     this.ptmService.getBatches(this.batchQueryParam).subscribe(
       (data: any) => {
@@ -309,10 +308,10 @@ export class PtmManagementComponent implements OnInit {
           this.createPTMAllBatches[j].endMM = "00";
           this.createPTMAllBatches[j].endMed = "PM";
         }
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       (error: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -400,16 +399,16 @@ export class PtmManagementComponent implements OnInit {
     }
 
     if(validation){
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.ptmService.scheduleNewPTM(this.createPTM).subscribe(
         res => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Created Successfully');
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.createPTMShow = false;
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       )
     }
@@ -455,16 +454,16 @@ export class PtmManagementComponent implements OnInit {
       studentArray.push(studentObj);
     }
 
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.ptmService.updatePTM(studentArray, this.inputElements.ptmId).subscribe(
       res => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Updated Successfully');
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.viewStudentsData();
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
