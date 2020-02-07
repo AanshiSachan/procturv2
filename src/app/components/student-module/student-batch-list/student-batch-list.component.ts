@@ -23,7 +23,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     modelChanged: Subject<string> = new Subject<string>();
     isRippleLoad: boolean = false;
     isShowCountry: boolean = false;
-    is_country_disabled:boolean=false;
+    is_country_disabled: boolean = false;
     batchFilter: any = {
         currentStd: '-1',
         state: '0'
@@ -81,7 +81,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         this.getSettingsTemplateCountry();
         this.dataList.map(e => {
             e.data.deleteCourse_SubjectUnPaidFeeSchedules = false;
-            if (e.isSelected&&(!this.is_country_disabled)) {
+            if (e.isSelected && (!this.is_country_disabled)) {
                 this.assginTemplate(e);
             }
             this.batchList.push(e);
@@ -93,7 +93,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         this.getAssignedCount();
     }
 
-    getSettingsTemplateCountry(){
+    getSettingsTemplateCountry() {
         this.country_id = this.countryId;
         if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
             this.isShowCountry = true;
@@ -223,10 +223,10 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         }
     }
 
-    assginTemplate(batch){
+    assginTemplate(batch) {
         batch.data.feeTemplateList.map((template) => {
             if (batch.data.selected_fee_template_id == template.template_id) {
-                this.country_id = template.country_id;                        
+                this.country_id = template.country_id;
                 this.is_country_disabled = true;
                 this.cd.markForCheck();
             }

@@ -375,6 +375,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.countryDetails.forEach(element => {
       if (element.id == event) {
         this.instituteCountryDetObj = element;
+        console.log(this.instituteCountryDetObj );
         this.studentAddFormData.country_id = element.id;
         this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
         this.country_id = element.id;
@@ -2328,7 +2329,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
     }
     this.isRippleLoad = true;
-    this.pdcAddForm.country_id = this.studentAddFormData.country_id;
+    this.pdcAddForm.country_id = this.instituteCountryDetObj.id;
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
         this.isRippleLoad = false;
