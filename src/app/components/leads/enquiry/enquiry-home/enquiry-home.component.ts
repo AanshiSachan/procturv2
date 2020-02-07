@@ -1,23 +1,23 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { instituteInfo } from '../../../../model/instituteinfo';
-import { FetchenquiryService } from '../../../../services/enquiry-services/fetchenquiry.service';
-import { FetchprefilldataService } from '../../../../services/fetchprefilldata.service';
-import { PostEnquiryDataService } from '../../../../services/enquiry-services/post-enquiry-data.service';
-import { PopupHandlerService } from '../../../../services/enquiry-services/popup-handler.service';
-import 'rxjs/Rx';
-
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 /* Third party imports */
 import * as moment from 'moment';
-import { MenuItem } from 'primeng/primeng';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
-import { ColumnSetting } from '../../../shared/custom-table/layout.model';
+import { MenuItem } from 'primeng/primeng';
+import 'rxjs/Rx';
+import { instituteInfo } from '../../../../model/instituteinfo';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
-import { MultiBranchDataService } from '../../../../services/multiBranchdata.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
-import { MessageShowService } from '../../../../services/message-show.service';
-import { TablePreferencesService } from '../../../../services/table-preference/table-preferences.service';
+import { FetchenquiryService } from '../../../../services/enquiry-services/fetchenquiry.service';
+import { PopupHandlerService } from '../../../../services/enquiry-services/popup-handler.service';
+import { PostEnquiryDataService } from '../../../../services/enquiry-services/post-enquiry-data.service';
+import { FetchprefilldataService } from '../../../../services/fetchprefilldata.service';
 import { HttpService } from '../../../../services/http.service';
+import { MessageShowService } from '../../../../services/message-show.service';
+import { MultiBranchDataService } from '../../../../services/multiBranchdata.service';
+import { TablePreferencesService } from '../../../../services/table-preference/table-preferences.service';
+import { ColumnSetting } from '../../../shared/custom-table/layout.model';
+
 
 @Component({
     selector: 'app-enquiry-home',
@@ -738,17 +738,9 @@ export class EnquiryHomeComponent implements OnInit {
 
         /* Searchbar filled */
         else if (!this._commService.valueCheck(this.varJson.searchBarData)) {
-            if (isNaN(this.varJson.searchBarData)) {
-
-                /* Valid string entered */
-                if (this.validateString(this.varJson.searchBarData)) {
+            if (isNaN(this.varJson.searchBarData)) {          
                     this.instituteData = { name: this.varJson.searchBarData, phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
                     this.loadTableDatatoSource(this.instituteData);
-                }
-                else {
-                    this.showErrorMessage(this.messageService.toastTypes.info, '', 'Please enter a valid name or number');
-                }
-
             }
             /* In Case of Number */
             else {

@@ -1089,6 +1089,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       else {
         this.batchList = [];
         this.isRippleLoad = true;
+        if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
+          country_id='-1';
+        }
+        
         this.studentPrefillService.fetchStudentCourseDetails(this.student_id, '-1', country_id).subscribe(
           res => {
             // console.log(res);
