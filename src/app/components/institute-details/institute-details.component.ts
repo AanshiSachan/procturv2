@@ -248,6 +248,12 @@ export class InstituteDetailsComponent implements OnInit {
       return
     }
     obj.alternate_institute_primary_contact_numbers = this.instDetails.alternate_institute_primary_contact_numbers;
+    if (this.instDetails.alternate_institute_primary_contact_numbers != null && this.instDetails.alternate_institute_primary_contact_numbers != 'NULL' && this.instDetails.alternate_institute_primary_contact_numbers != '') {
+      if (!this.checkContactNoPattern(this.instDetails.alternate_institute_primary_contact_numbers)) {
+        this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
+        return false;
+      }
+    }
     obj.admin_primary_phone = this.instDetails.admin_primary_phone;
     obj.admin_primary_email = this.instDetails.admin_primary_email;
     if (this.instDetails.student_id_type == null) {
@@ -284,6 +290,16 @@ export class InstituteDetailsComponent implements OnInit {
     }
   }
 
+  //check contact no pattern (comma seperator)
+  checkContactNoPattern(pattern) {
+    var regExPattern = /^[0-9]+(,[0-9]+)*$/;
+    if (!(regExPattern.test(pattern))) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
 
   getPlanOfInstitute(data) {
     let obj = [];
