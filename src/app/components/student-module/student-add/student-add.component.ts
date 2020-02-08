@@ -1544,7 +1544,6 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.student_phone = this.enquiryData.phone;
     this.studentAddFormData.student_email = this.enquiryData.email;
     this.studentAddFormData.student_sex = this.enquiryData.gender;
-    this.studentAddFormData.dob = new Date(this.enquiryData.dob);
     this.studentAddFormData.school_name = this.enquiryData.school_id;
     this.studentAddFormData.standard_id = this.enquiryData.standard_id;
     this.studentAddFormData.parent_name = this.enquiryData.parent_name;
@@ -1554,6 +1553,11 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.country_id = this.enquiryData.country_id;
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
+    this.studentAddFormData.dob = new Date(this.enquiryData.dob);
+    if (this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null ||
+      this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid Date') {
+      this.studentAddFormData.dob = '';
+    }
     console.log(this.studentAddFormData);
     this.checkStatusofStudent = false;
     this.onChangeObj(this.enquiryData.country_id);
