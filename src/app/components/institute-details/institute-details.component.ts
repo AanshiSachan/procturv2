@@ -118,17 +118,19 @@ export class InstituteDetailsComponent implements OnInit {
 
   updateAllDetails() {
     let dataToSend = this.formatDataJsonToSend();
-    this.isRippleLoad = true;
-    this.apiService.updateDetailsToServer(dataToSend).subscribe(
-      res => {
-        this.isRippleLoad = false;
-        this.commonService.showErrorMessage('success', 'Updated Successfully', 'Details Updated Successfully');
-      },
-      err => {
-        this.isRippleLoad = false;
-        this.commonService.showErrorMessage('error', '', err.error.message);
-      }
-    )
+    if(dataToSend){
+      this.isRippleLoad = true;
+      this.apiService.updateDetailsToServer(dataToSend).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.commonService.showErrorMessage('success', 'Updated Successfully', 'Details Updated Successfully');
+        },
+        err => {
+          this.isRippleLoad = false;
+          this.commonService.showErrorMessage('error', '', err.error.message);
+        }
+      )
+    }
   }
 
 
