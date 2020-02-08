@@ -374,13 +374,16 @@ export class StudentAddComponent implements OnInit {
       let defacult_Country = this.countryDetails.filter((country) => {
         return country.is_default == 'Y';
       })
-
-      this.studentAddFormData.country_id = defacult_Country[0].id;
-      this.instituteCountryDetObj = defacult_Country[0];
-      if (this.checkStatusofStudent == true) { // when enquiry is convert to student it  false else true
-        this.country_id = defacult_Country[0].id;
-        this.maxlegth = defacult_Country[0].country_phone_number_length;
+        
+      if(this.studentAddFormData.country_id==""){
+        this.studentAddFormData.country_id = defacult_Country[0].id;
+        this.instituteCountryDetObj = defacult_Country[0];
+        if (this.checkStatusofStudent == true) { // when enquiry is convert to student it  false else true
+          this.country_id = defacult_Country[0].id;
+          this.maxlegth = defacult_Country[0].country_phone_number_length;
+        }
       }
+    
       console.log(this.instituteCountryDetObj);
     }
   }
