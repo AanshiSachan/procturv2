@@ -101,7 +101,7 @@
     <span class="badge">v3.0</span>
   </div>
   <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" >
-    <div class="setting-item">
+    <div class="setting-item" *ngIf="jsonFlags.isShowPowerBy">
       <img src="./assets/images/sidebar/help.svg" title="Help" alt="" (click)="showSubSection('help')">
       <div class="side-section" id="help">
         <div class="side-section-item">
