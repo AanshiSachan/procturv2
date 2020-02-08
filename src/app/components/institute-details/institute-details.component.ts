@@ -117,8 +117,8 @@ export class InstituteDetailsComponent implements OnInit {
 
 
   updateAllDetails() {
-    this.isRippleLoad = true;
     let dataToSend = this.formatDataJsonToSend();
+    this.isRippleLoad = true;
     this.apiService.updateDetailsToServer(dataToSend).subscribe(
       res => {
         this.isRippleLoad = false;
