@@ -1,6 +1,6 @@
-import { Component, OnInit,NgZone } from '@angular/core';
-import { HttpService } from '../../../services/http.service';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
 declare var Razorpay;
 
@@ -16,7 +16,7 @@ export class TransactionalComponent implements OnInit {
   radioSelected: any = 0;
   institute_id: any;
   transactionSMS: any = [
-    { total_sms: 5000, price: 13, tax: 18, total_price: 1 },//767
+    { total_sms: 5000, price: 13, tax: 18, total_price: 767 },//767
     { total_sms: 10000, price: 13, tax: 18, total_price: 1534 },
     { total_sms: 25000, price: 13, tax: 18, total_price: 3835 },
     { total_sms: 50000, price: 13, tax: 18, total_price: 7670 },
