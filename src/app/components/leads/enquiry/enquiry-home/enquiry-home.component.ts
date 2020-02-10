@@ -1944,8 +1944,7 @@ export class EnquiryHomeComponent implements OnInit {
         )
     }
 
-    checkCustomeComponentElement(index){
-        console.log(index,index%3);    
+    checkCustomeComponentElement(index){ 
         if(!(index%3)){
                 return true;
             }
