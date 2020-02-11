@@ -1,19 +1,19 @@
-import { Component, OnInit, Pipe,  ViewChild, ElementRef } from '@angular/core';
-import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
-import { StudentForm } from '../../../model/student-add-form';
-import { StudentFeeStructure } from '../../../model/student-fee-structure';
+import { Component, ElementRef, OnInit, Pipe, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import * as moment from 'moment';
-import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
+import { StudentForm } from '../../../model/student-add-form';
+import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { CourseListService } from '../../../services/course-services/course-list.service';
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { MessageShowService } from '../../../services/message-show.service';
+import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
+import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
+import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
 
 @Component({
@@ -169,9 +169,9 @@ export class StudentAddComponent implements OnInit {
     item_id: -1,
     available_units: '',
     date_of_dispatch: '',
-    name_of_courier_service:'',
-    docket_id:'',
-    date_of_delivery_of_sm:'',
+    name_of_courier_service: '',
+    docket_id: '',
+    date_of_delivery_of_sm: '',
   };
   pdcSearchObj = {
     cheque_status: '-1',
@@ -219,7 +219,7 @@ export class StudentAddComponent implements OnInit {
     stuCustomLi: [],
     deleteCourse_SubjectUnPaidFeeSchedules: false,
     archivedStudent: false,
-    studentFileUploadJson:[]
+    studentFileUploadJson: []
   };
 
   checkBoxGroup: any = {
@@ -281,8 +281,8 @@ export class StudentAddComponent implements OnInit {
   convertInstituteEnquiryId: any = '';
   totalAmountToPay: number = 0;
   instituteCountryDetObj: any = {};
-  checkStatusofStudent :boolean = false;
-  country_id:number=null;
+  checkStatusofStudent: boolean = false;
+  country_id: number = null;
   category_id: number | string = "";
   selectedFiles: any[] = [];
 
@@ -314,8 +314,8 @@ export class StudentAddComponent implements OnInit {
       if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
         this.convertToStudentDetected();
         this.checkStatusofStudent = false;
-      } else{
-        this.checkStatusofStudent =  true;
+      } else {
+        this.checkStatusofStudent = true;
       }
       this.getSlots();
       this.getlangStudentStatus();
@@ -327,7 +327,7 @@ export class StudentAddComponent implements OnInit {
         this.getlangStudentStatus();
         this.convertToStudentDetected();
         this.checkStatusofStudent = false;
-      }else{
+      } else {
         this.checkStatusofStudent = true;
       }
       this.updateMasterCourseList(this.studentAddFormData.standard_id);
@@ -371,20 +371,22 @@ export class StudentAddComponent implements OnInit {
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
       this.countryDetails = data;
-     let defacult_Country = this.countryDetails.filter((country)=>{
-        return country.is_default=='Y';
+      let defacult_Country = this.countryDetails.filter((country) => {
+        return country.is_default == 'Y';
       })
-
-      this.studentAddFormData.country_id = defacult_Country[0].id;
-      this.instituteCountryDetObj = defacult_Country[0];
-      this.instituteCountryDetObj.symbol= this.getCurrencyDetails(1000,this.instituteCountryDetObj.currency_code,this.instituteCountryDetObj.country_code);
-      if(this.checkStatusofStudent == true) { // when enquiry is convert to student it  false else true
-        this.country_id = defacult_Country[0].id;
-        this.maxlegth = defacult_Country[0].country_phone_number_length;
+        
+      if(this.studentAddFormData.country_id==""){
+        this.studentAddFormData.country_id = defacult_Country[0].id;
+        this.instituteCountryDetObj = defacult_Country[0];
+        if (this.checkStatusofStudent == true) { // when enquiry is convert to student it  false else true
+          this.country_id = defacult_Country[0].id;
+          this.maxlegth = defacult_Country[0].country_phone_number_length;
+        }
       }
+    
       console.log(this.instituteCountryDetObj);
     }
-  } 
+  }
 
   onChangeObj(event) {
     console.log(event);
@@ -394,36 +396,13 @@ export class StudentAddComponent implements OnInit {
         console.log(element.id);
         this.studentAddFormData.country_id = element.id;
         this.instituteCountryDetObj = element;
-        this.instituteCountryDetObj.symbol= this.getCurrencyDetails(1000,element.currency_code,element.country_code);
         this.maxlegth = this.instituteCountryDetObj.country_phone_number_length;
         this.country_id = this.instituteCountryDetObj.id;
-        console.log(this.instituteCountryDetObj);
-      }      
+      }
     });
   }
 
-   //get country extension 
-   getCurrencyDetails(value, currency, lang) {
-    if (value && currency && lang) {
-      let formatted = value.toLocaleString(lang, {
-        maximumFractionDigits: 4,
-        style: 'currency',
-        currency: currency
-      });
 
-      formatted = formatted.replace(/[,.]/g, '');
-      formatted = formatted.replace(/[0-9]/g, '');
-      if(formatted==''){        
-        return lang;
-      }
-       else{
-        return formatted;
-      }        
-    }
-    else {
-      return lang;
-    }
-  }
 
   /* ========================================================================================================== */
   /* ===================================== Data Prefill Method and General Methods ============================ */
@@ -1200,20 +1179,19 @@ export class StudentAddComponent implements OnInit {
         }
       }
 
-      if ((this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone,this.maxlegth, this.country_id)==false &&
+      if ((this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone, this.maxlegth, this.country_id) == false &&
         this.studentAddFormData.parent_phone != "")
-        || (this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone,this.maxlegth,this.country_id)==false &&
+        || (this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone, this.maxlegth, this.country_id) == false &&
           this.studentAddFormData.guardian_phone != "")) {
         this.msgToast.showErrorMessage('error', '', "Please enter valid parent/guardian mobile number");
         return;
       }
 
       this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
-      // this.studentAddFormData.country_id=this.instituteCountryDetObj.id;
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
 
-      this.studentAddFormData.expiry_date = moment(this.studentAddFormData.expiry_date).format("YYYY-MM-DD") ;
+      this.studentAddFormData.expiry_date = moment(this.studentAddFormData.expiry_date).format("YYYY-MM-DD");
       this.studentAddFormData.studentFileUploadJson = this.selectedFiles;
       console.log(this.studentAddFormData);
       this.btnSaveAndContinue.nativeElement.disabled = true;
@@ -1375,24 +1353,24 @@ export class StudentAddComponent implements OnInit {
   }
 
   formfullValidator() {
-    let msg = 'Enter '.concat( this.maxlegth ).concat(' Digit Contact Number');
-    let flag = this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.student_phone.trim(), this.maxlegth,this.country_id);
-    if (flag==true) {
+    let msg = 'Enter '.concat(this.maxlegth).concat(' Digit Contact Number');
+    let flag = this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.student_phone.trim(), this.maxlegth, this.country_id);
+    if (flag == true) {
       if (this.studentAddFormData.student_name == null || this.studentAddFormData.student_name == "") {
         this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', 'Please enter Name');
         return false;
       } else {
-        
+
         return true;
       }
     }
     else {
-      if(flag=='noNumber'){
+      if (flag == 'noNumber') {
         this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', 'Please enter valid contact no.');
         return false;
       } else {
-      this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', msg);
-      return false;
+        this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', msg);
+        return false;
       }
     }
   }
@@ -1569,7 +1547,6 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.student_phone = this.enquiryData.phone;
     this.studentAddFormData.student_email = this.enquiryData.email;
     this.studentAddFormData.student_sex = this.enquiryData.gender;
-    this.studentAddFormData.dob = new Date(this.enquiryData.dob);
     this.studentAddFormData.school_name = this.enquiryData.school_id;
     this.studentAddFormData.standard_id = this.enquiryData.standard_id;
     this.studentAddFormData.parent_name = this.enquiryData.parent_name;
@@ -1579,6 +1556,11 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.country_id = this.enquiryData.country_id;
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
+    this.studentAddFormData.dob = new Date(this.enquiryData.dob);
+    if (this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null ||
+      this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid Date') {
+      this.studentAddFormData.dob = '';
+    }
     console.log(this.studentAddFormData);
     this.checkStatusofStudent = false;
     this.onChangeObj(this.enquiryData.country_id);
@@ -1711,7 +1693,18 @@ export class StudentAddComponent implements OnInit {
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
           this.checkBoxGroup.showFeeSection = true;
           this.checkBoxGroup.hideReconfigure = true;
-          this.getAcademicYearDetails();
+          if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
+            this.setTemplateDetails(res.customFeeSchedules[0]);// if setting is enable then country symbol and details will change --laxmi
+          } else {
+            this.countryDetails.forEach(element => {
+              if (element.id == this.studentAddFormData.country_id) {
+                this.instituteCountryDetObj = element;
+                this.maxlegth = this.instituteCountryDetObj.country_phone_number_length;
+                this.country_id = element.id;
+                console.log(this.instituteCountryDetObj);
+              }
+            });
+          }
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
             if (!permissions.includes('707')) {
@@ -1748,16 +1741,7 @@ export class StudentAddComponent implements OnInit {
               this.getAcademicYearDetails();
             }
           }
-          this.countryDetails.forEach(element => {
-            if (element.id == this.studentAddFormData.country_id) {
-              this.instituteCountryDetObj = element;
-              this.instituteCountryDetObj.symbol= this.getCurrencyDetails(1000,element.currency_code,element.country_code);
-              this.maxlegth =this.instituteCountryDetObj.country_phone_number_length;
-              this.country_id = element.id;
-              console.log(this.instituteCountryDetObj);
-            }
-          });
-          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax,res.country_id);
+          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax, res.country_id);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
@@ -1775,6 +1759,15 @@ export class StudentAddComponent implements OnInit {
       }
     );
   }
+
+  setTemplateDetails(coutry_object) {
+    this.countryDetails.forEach(element => {
+      if (element.id == coutry_object.country_id) {
+        this.instituteCountryDetObj = element;
+      }
+    });
+  }
+
 
   openInstallmentListOfCourse(index, operation, event) {
     document.getElementById('idDownIcon' + index).classList.toggle('hide');
@@ -1824,21 +1817,21 @@ export class StudentAddComponent implements OnInit {
   onPaidOrUnpaidCheckbox(country_id) {
     if (this.checkBoxGroup.unpaidInstallment && this.checkBoxGroup.paidInstallment) {
       let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
-      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(installment, this.clonedFeeObject.registeredServiceTax,country_id);
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(installment, this.clonedFeeObject.registeredServiceTax, country_id);
       return;
     }
 
     if (this.checkBoxGroup.unpaidInstallment) {
       let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
       let unpaidInstallment = installment.filter(el => el.paid_full == "N");
-      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax,country_id);
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax, country_id);
       return;
     }
 
     if (this.checkBoxGroup.paidInstallment) {
       let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
       let unpaidInstallment = installment.filter(el => el.paid_full == "Y");
-      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax,country_id);
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax, country_id);
       return;
     }
 
@@ -2236,17 +2229,17 @@ export class StudentAddComponent implements OnInit {
     this.newPdcArr = [];
     this.genPdcAck = false;
     this.sendPdcAck = false;
-    this.isRippleLoad=true;
+    this.isRippleLoad = true;
     this.postService.addChequePdc(temp).subscribe(
       res => {
-        this.isRippleLoad=false;
+        this.isRippleLoad = false;
         this.chequePdcList = [];
         this.newPdcArr = [];
         this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0 };
         this.getPdcChequeList();
       },
       err => {
-        this.isRippleLoad=false;
+        this.isRippleLoad = false;
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
         this.chequePdcList = [];
         this.getPdcChequeList();
@@ -2439,10 +2432,10 @@ export class StudentAddComponent implements OnInit {
           this.msgToast.showErrorMessage('error', '', 'Please enter allocated unit less than available units');
           return;
         } else {
-          if(this.addInventory.date_of_dispatch!=''){
+          if (this.addInventory.date_of_dispatch != '') {
             this.addInventory.date_of_dispatch = moment(this.addInventory.date_of_dispatch).format('YYYY-MM-DD')
           }
-          if(this.addInventory.date_of_delivery_of_sm!=''){
+          if (this.addInventory.date_of_delivery_of_sm != '') {
             this.addInventory.date_of_delivery_of_sm = moment(this.addInventory.date_of_delivery_of_sm).format('YYYY-MM-DD')
           }
           let obj: any = {
@@ -2452,8 +2445,8 @@ export class StudentAddComponent implements OnInit {
             student_id: this.student_id,
             date_of_dispatch: this.addInventory.date_of_dispatch,
             name_of_courier_service: this.addInventory.name_of_courier_service,
-            docket_id:this.addInventory.docket_id,
-            date_of_delivery_of_sm:this.addInventory.date_of_delivery_of_sm,
+            docket_id: this.addInventory.docket_id,
+            date_of_delivery_of_sm: this.addInventory.date_of_delivery_of_sm,
           };
           this.isRippleLoad = true;
           this.postService.allocateInventory(obj).subscribe(
@@ -2465,9 +2458,9 @@ export class StudentAddComponent implements OnInit {
                 item_id: -1,
                 available_units: '',
                 date_of_dispatch: '',
-                name_of_courier_service:'',
-                docket_id:'',
-                date_of_delivery_of_sm:'',
+                name_of_courier_service: '',
+                docket_id: '',
+                date_of_delivery_of_sm: '',
               };
               this.getAllocatedHistory();
               this.fetchInventoryList();
@@ -2514,38 +2507,38 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-uploadHandler() {
-  if (this.category_id != '') {
-    const preview = (<HTMLInputElement>document.getElementById('uploadFileControl')).files[0];
-    if(preview!=null || preview!=undefined){
-      var myReader:FileReader = new FileReader();
-    let temp:any={};
-    myReader.readAsDataURL(preview);
-    myReader.onloadend = () => {
-      temp={
-        "title": this.category_id,
-        "fileName": preview.name,
-        "encodedFile": myReader.result.split(',')[1]
+  uploadHandler() {
+    if (this.category_id != '') {
+      const preview = (<HTMLInputElement>document.getElementById('uploadFileControl')).files[0];
+      if (preview != null || preview != undefined) {
+        var myReader: FileReader = new FileReader();
+        let temp: any = {};
+        myReader.readAsDataURL(preview);
+        myReader.onloadend = () => {
+          temp = {
+            "title": this.category_id,
+            "fileName": preview.name,
+            "encodedFile": myReader.result.split(',')[1]
+          }
+          this.selectedFiles.push(temp);
+          this.msgToast.showErrorMessage('success', '', "File uploaded successfully");
+          this.category_id = '';
+          (<HTMLInputElement>document.getElementById('uploadFileControl')).value = null;
+        }
+      } else {
+        this.msgToast.showErrorMessage('error', '', "No file selected");
       }
-      this.selectedFiles.push(temp);
-      this.msgToast.showErrorMessage('success', '', "File uploaded successfully");
-       this.category_id = '';
-      (<HTMLInputElement>document.getElementById('uploadFileControl')).value=null;
+    } else {
+      this.msgToast.showErrorMessage('error', '', "Document title is mandatory");
     }
-  } else {
-    this.msgToast.showErrorMessage('error', '', "No file selected");
   }
-  } else {
-    this.msgToast.showErrorMessage('error', '', "Document title is mandatory");
-  }
-}
 
-deletefile(obj,id){
-  if (confirm('Are you sure, you want to delete file?')) {
-    this.selectedFiles.splice(id,1);
-    this.msgToast.showErrorMessage('success', '', "File deleted successfully");
+  deletefile(obj, id) {
+    if (confirm('Are you sure, you want to delete file?')) {
+      this.selectedFiles.splice(id, 1);
+      this.msgToast.showErrorMessage('success', '', "File deleted successfully");
+    }
   }
-}
 
 }
 

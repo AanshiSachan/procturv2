@@ -285,43 +285,24 @@ export class ChequeManageComponent implements OnInit {
 
   optionSelected(e) {
     this.selectedRecord = e.data;
-    this.selectedRecord.symbol =this.getCurrencyDetails(1000,this.selectedRecord.currency_code,this.selectedRecord.country_code);
+    this.selectedRecord.symbol =this.fetchDataForCountryDetails(this.selectedRecord.country_code);
     this.decidePopup(e.data);
     console.log(e.data);
   }
 
-   //get country extension 
-   getCurrencyDetails(value, currency, lang) {
-    let countryCodeEncryptedData = sessionStorage.getItem('country_data');
-    let temp = JSON.parse(countryCodeEncryptedData);
-    let object;
-      if (temp&& temp.length > 0) {
-        temp.forEach(element => {
-          if(element.country_code==lang){                    
-            object =element;
-          }
+  fetchDataForCountryDetails(country_code) {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let countryDetails = JSON.parse(encryptedData);
+    if (countryDetails.length > 0) {
+       let defacult_Country = countryDetails.filter((country) => {
+        return country.country_code == country_code;
       });
-      }
-    if (object) {
-      let formatted = value.toLocaleString(lang, {
-        maximumFractionDigits: 4,
-        style: 'currency',
-        currency: object.currency_code
-      });
-
-      formatted = formatted.replace(/[,.]/g, '');
-      formatted = formatted.replace(/[0-9]/g, '');
-      if(formatted==''){        
-        return lang;
-      }
-       else{
-        return formatted;
-      }        
-    }
-    else {
-      return lang;
+     return defacult_Country[0].symbol;
+    }else{
+      return 'Rs';
     }
   }
+
 
 
   cancelUpdate() {

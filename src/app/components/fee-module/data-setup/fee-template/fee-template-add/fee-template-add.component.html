@@ -86,7 +86,7 @@
             </select>
           </div>
 
-          <div class="field-checkbox-wrapper checkBoxAllignment">
+          <div class="field-checkbox-wrapper checkBoxAllignment" *ngIf="showDefaultTemplate!='1'">
             <input type="checkbox" id="defTemplate" name="checkbx" [(ngModel)]="addNewTemplate.is_default_template" class="form-checkbox">
             <label for="defTemplate">Is Default Template
               <div class="questionInfo inline-relative">

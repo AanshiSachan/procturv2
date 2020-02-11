@@ -15,8 +15,8 @@
         Report
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-      <a routerLink="/view/{{jsonFlag.type}}/reports/exam" style="padding:0px; ">
-        Exam Report
+      <a routerLink="/view/{{jsonFlag.type}}/reports/exam-dashboard" style="padding:0px; ">
+        Exam Dashboard
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       <span>Exam Wise</span>
@@ -205,9 +205,9 @@
               <!-- for space purpose in batch model -->
             </div>
             <div class="subject-wise-container" *ngIf="is_exam_grad_feature == 1">
-              <div class="subject-wise-value-item">
-                <span *ngIf="student.grade != null">{{student.grade}}</span>
-                <span *ngIf="student.grade == null">-</span>
+              <div class="subject-wise-value-item" *ngFor="let subject of student.subjectWise_marks_obtained">
+                <span *ngIf="subject.grade != null && subject.grade != ''">{{subject.grade}}</span>
+                <span *ngIf="subject.grade == null || student.attendance_type == 'A' || student.attendance_type == 'L'">-</span>
               </div>
             </div>
             <div class="student-wise-value-item small-item" style="text-align:center;" *ngIf="is_exam_grad_feature != 1">

@@ -1,21 +1,21 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import 'rxjs/Rx';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AppComponent } from '../../../app.component';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
-import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
-import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
+import 'rxjs/Rx';
+import { AppComponent } from '../../../app.component';
 import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { CourseListService } from '../../../services/course-services/course-list.service';
-import { FeeModel, StudentFeeService } from '../student_fee.service';
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { ProductService } from '../../../services/products.service';
+import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
+import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
+import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
+import { FeeModel, StudentFeeService } from '../student_fee.service';
 
 
 
@@ -35,7 +35,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     formIsActive: false,
   }
 
-  countryDetails: any=[];
+  countryDetails: any = [];
   isConvertEnquiry: boolean = false;
   isNewInstitute: boolean = true;
   isNewInstituteEditor: boolean = false;
@@ -124,14 +124,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   feeObject: FeeModel;
   selectedInstallment: number = 0;
   academicYearFilter: any;
-  instituteCountryDetObj:any={};
-  maxlength:number=10;
+  instituteCountryDetObj: any = {};
+  maxlength: number = 10;
   country_id: number = null;
   selectedFiles: any[] = [];
   customFileArr: any[] = [];
   category_id: number | string = "";
   uploadedFileData: any[] = [];
-  downloadStudentReportAccess : boolean = false;
+  downloadStudentReportAccess: boolean = false;
 
   studentAddFormData: StudentForm = {
     student_name: "",
@@ -249,9 +249,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     item_id: -1,
     available_units: '',
     date_of_dispatch: '',
-    name_of_courier_service:'',
-    docket_id:'',
-    date_of_delivery_of_sm:'',
+    name_of_courier_service: '',
+    docket_id: '',
+    date_of_delivery_of_sm: '',
   };
 
   cardAmountObject: any = {
@@ -353,30 +353,31 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   checkDownloadRoleAccess() {
-    if(sessionStorage.getItem('downloadStudentReportAccess')=='true'){
-        this.downloadStudentReportAccess = true;
+    if (sessionStorage.getItem('downloadStudentReportAccess') == 'true') {
+      this.downloadStudentReportAccess = true;
     }
-}
+  }
 
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
-    this.countryDetails = data;
-    let defacult_Country = this.countryDetails.filter((country)=>{
-       return country.is_default=='Y';
-     })
-    this.country_id = defacult_Country[0].id;
-    this.maxlength = defacult_Country[0].country_phone_number_length;
+      this.countryDetails = data;
+      let defacult_Country = this.countryDetails.filter((country) => {
+        return country.is_default == 'Y';
+      })
+      this.country_id = defacult_Country[0].id;
+      this.maxlength = defacult_Country[0].country_phone_number_length;
     }
   }
 
-  onChangeObj(event){
+  onChangeObj(event) {
     this.countryDetails.forEach(element => {
-      if(element.id==event){
+      if (element.id == event) {
         this.instituteCountryDetObj = element;
+        console.log(this.instituteCountryDetObj );
         this.studentAddFormData.country_id = element.id;
-        this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
+        this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
         this.country_id = element.id;
       }
     }
@@ -1070,7 +1071,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     return test;
   }
 
-  fetchCourseFromMaster(student_id,country_id) {
+  fetchCourseFromMaster(student_id, country_id) {
     let id = "-1";
     if (id == null || id == '') {
       this.courseList = [];
@@ -1088,7 +1089,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       else {
         this.batchList = [];
         this.isRippleLoad = true;
-        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, '-1',country_id).subscribe(
+        if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
+          country_id='-1';
+        }
+        
+        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, '-1', country_id).subscribe(
           res => {
             // console.log(res);
             if (res.coursesList != null) {
@@ -1113,7 +1118,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.updateAssignedBatches(this.batchList);
               this.isRippleLoad = false;
               // console.log(this.batchList);
-            }else{
+            } else {
               this.JsonFlags.isDisabled = false;
             }
           },
@@ -1228,14 +1233,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
-        this.fetchCourseFromMaster(this.studentAddFormData.standard_id,this.studentAddFormData.country_id);
+        this.fetchCourseFromMaster(this.studentAddFormData.standard_id, this.studentAddFormData.country_id);
         this.countryDetails.forEach(element => {
           if (element.id == this.studentAddFormData.country_id) {
             this.instituteCountryDetObj = element;
-            this.instituteCountryDetObj.symbol= this.getCurrencyDetails(1000,element.currency_code,element.country_code);
-            this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
+            this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
             this.country_id = element.id;
-          }});
+          }
+        });
         if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
           this.studentAddFormData.assignedBatchescademicYearArray = [];
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [];
@@ -1372,11 +1377,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   formValidator(): boolean {
 
     if (this.studentAddFormData.student_phone != null && this.studentAddFormData.student_phone != "") {
-      if (isNaN(this.studentAddFormData.student_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.student_phone,this.maxlength,this.country_id)==true) {
-        if(this.studentAddFormData.parent_phone != null && this.studentAddFormData.parent_phone != ""){
-          if (isNaN(this.studentAddFormData.parent_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone, this.maxlength,this.country_id)==true) {
-            if(this.studentAddFormData.guardian_phone !=null && this.studentAddFormData.guardian_phone != ""){
-              if (isNaN(this.studentAddFormData.guardian_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone, this.maxlength,this.country_id)==true) {
+      if (isNaN(this.studentAddFormData.student_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.student_phone, this.maxlength, this.country_id) == true) {
+        if (this.studentAddFormData.parent_phone != null && this.studentAddFormData.parent_phone != "") {
+          if (isNaN(this.studentAddFormData.parent_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone, this.maxlength, this.country_id) == true) {
+            if (this.studentAddFormData.guardian_phone != null && this.studentAddFormData.guardian_phone != "") {
+              if (isNaN(this.studentAddFormData.guardian_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone, this.maxlength, this.country_id) == true) {
                 return true;
               } else {
                 this.commonServiceFactory.showErrorMessage('error', '', 'Please enter valid contact number');
@@ -1385,7 +1390,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             return true;
           }
-          else{
+          else {
             this.commonServiceFactory.showErrorMessage('error', '', 'Please enter valid contact number');
             return false;
           }
@@ -1791,6 +1796,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.showFeeSection = true;
           this.checkBoxGroup.feeDiscouting = true;
           this.checkBoxGroup.hideReconfigure = true;
+          if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
+            this.setTemplateDetails(res.customFeeSchedules[0]);// if setting is enable then country symbol and details will change --laxmi
+          }
           this.getAcademicYearDetails();
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
@@ -1822,12 +1830,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
 
           }
-          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax,res.country_id);
+          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax, res.country_id);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
-          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax,res.country_id);
-           console.log('subjectWise', this.subjectWiseInstallmentArray);
+          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax, res.country_id);
+          console.log('subjectWise', this.subjectWiseInstallmentArray);
           this.onPaidOrUnpaidCheckbox(res.country_id);
         } else {
           this.showFeeSection = false;
@@ -1842,28 +1850,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
 
-  //get country extension 
-  getCurrencyDetails(value, currency, lang) {
-    if (value && currency && lang) {
-      let formatted = value.toLocaleString(lang, {
-        maximumFractionDigits: 4,
-        style: 'currency',
-        currency: currency
-      });
-
-      formatted = formatted.replace(/[,.]/g, '');
-      formatted = formatted.replace(/[0-9]/g, '');
-      if(formatted==''){        
-        return lang;
+  setTemplateDetails(coutry_object) {
+    this.countryDetails.forEach(element => {
+      if (element.id == coutry_object.country_id) {
+        this.instituteCountryDetObj = element;
       }
-       else{
-        return formatted;
-      }        
-    }
-    else {
-      return lang;
-    }
+    });
   }
+
 
   openInstallmentListOfCourse(index, operation, event) {
     document.getElementById('idDownIcon' + index).classList.toggle('hide');
@@ -1926,21 +1920,21 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   onPaidOrUnpaidCheckbox(country_id) {
     if (this.checkBoxGroup.unpaidInstallment && this.checkBoxGroup.paidInstallment) {
       let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
-      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(installment, this.clonedFeeObject.registeredServiceTax,country_id);
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(installment, this.clonedFeeObject.registeredServiceTax, country_id);
       return;
     }
 
     if (this.checkBoxGroup.unpaidInstallment) {
       let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
       let unpaidInstallment = installment.filter(el => el.paid_full == "N");
-      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax,country_id);
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax, country_id);
       return;
     }
 
     if (this.checkBoxGroup.paidInstallment) {
       let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
       let unpaidInstallment = installment.filter(el => el.paid_full == "Y");
-      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax,country_id);
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax, country_id);
       return;
     }
 
@@ -2181,7 +2175,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.feeTempSelected = "";
   }
 
-  getInstasllemttDetails(installment){
+  getInstasllemttDetails(installment) {
     console.log(installment);
   }
 
@@ -2339,7 +2333,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
     }
     this.isRippleLoad = true;
-    this.pdcAddForm.country_id = this.studentAddFormData.country_id;
+    this.pdcAddForm.country_id = this.instituteCountryDetObj.id;
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
         this.isRippleLoad = false;
@@ -2586,10 +2580,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.appC.popToast({ type: "error", title: '', body: "Please enter allocated unit less than available units" });
           return;
         } else {
-          if(this.addInventory.date_of_dispatch!=''){
+          if (this.addInventory.date_of_dispatch != '') {
             this.addInventory.date_of_dispatch = moment(this.addInventory.date_of_dispatch).format('YYYY-MM-DD')
           }
-          if(this.addInventory.date_of_delivery_of_sm!=''){
+          if (this.addInventory.date_of_delivery_of_sm != '') {
             this.addInventory.date_of_delivery_of_sm = moment(this.addInventory.date_of_delivery_of_sm).format('YYYY-MM-DD')
           }
           let obj: any = {
@@ -2597,10 +2591,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             institution_id: sessionStorage.getItem('institute_id'),
             item_id: this.addInventory.item_id,
             student_id: this.student_id,
-            date_of_dispatch:this.addInventory.date_of_dispatch,
+            date_of_dispatch: this.addInventory.date_of_dispatch,
             name_of_courier_service: this.addInventory.name_of_courier_service,
-            docket_id:this.addInventory.docket_id,
-            date_of_delivery_of_sm:this.addInventory.date_of_delivery_of_sm,
+            docket_id: this.addInventory.docket_id,
+            date_of_delivery_of_sm: this.addInventory.date_of_delivery_of_sm,
           };
           this.isRippleLoad = true;
           this.postService.allocateInventory(obj).subscribe(
@@ -2612,9 +2606,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 item_id: -1,
                 available_units: '',
                 date_of_dispatch: '',
-                name_of_courier_service:'',
-                docket_id:'',
-                date_of_delivery_of_sm:'',
+                name_of_courier_service: '',
+                docket_id: '',
+                date_of_delivery_of_sm: '',
               };
               this.getAllocatedHistory();
               this.fetchInventoryList();
@@ -2680,9 +2674,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   storeFiles() {
-      let manualUploadedFileList = (<HTMLInputElement>document.getElementById('uploadFileControl')).files;
-      let filesArr = Array.from(manualUploadedFileList);
-      this.selectedFiles = filesArr;
+    let manualUploadedFileList = (<HTMLInputElement>document.getElementById('uploadFileControl')).files;
+    let filesArr = Array.from(manualUploadedFileList);
+    this.selectedFiles = filesArr;
   }
 
   uploadHandler() {
@@ -2700,7 +2694,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         formData.append("files", ele);
       })
       const base = this.auth.getBaseUrl();
-      const fileJson = {title:this.category_id,studentId:this.student_id,documentNumber:""}
+      const fileJson = { title: this.category_id, studentId: this.student_id, documentNumber: "" }
       const urlPostXlsDocument = base + `/users-file/uploadFile?fileJson=${JSON.stringify(fileJson)}`;
       const newxhr = new XMLHttpRequest();
       const auths: any = {
@@ -2751,14 +2745,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     }
     this.category_id = '';
-    (<HTMLInputElement>document.getElementById('uploadFileControl')).value=null;
+    (<HTMLInputElement>document.getElementById('uploadFileControl')).value = null;
   }
 
   getUploadedFileData() {
     this.isRippleLoad = true;
     const url = `/users-file/downloadFile/?studentId=${this.student_id}`;
     this.productService.getUploadFileData(url).subscribe(
-      (res:any) => {
+      (res: any) => {
         this.uploadedFileData = res;
         this.isRippleLoad = false;
       },
@@ -2770,11 +2764,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   downloadFile(object) {
     const url = object.fileUrl;
-      var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
-      hiddenDownload.href = url;
-      hiddenDownload.download = object.title;
-      // hiddenDownload.download = this.getOriginalFileName(fileObj.res.file_name);
-      hiddenDownload.click();     
+    var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
+    hiddenDownload.href = url;
+    hiddenDownload.download = object.title;
+    // hiddenDownload.download = this.getOriginalFileName(fileObj.res.file_name);
+    hiddenDownload.click();
     this.updateDownloadCount(object);
   }
 
@@ -2782,7 +2776,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.isRippleLoad = true;
     const url = `/users-file/update-File-download-count/?studentId=${this.student_id}&id=${object.id}`;
     this.productService.getUploadFileData(url).subscribe(
-      (res:any) => {
+      (res: any) => {
         this.isRippleLoad = false;
       },
       err => {
@@ -2793,20 +2787,20 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   deletefile(id) {
     if (confirm('Are you sure, you want to delete file?')) {
-    this.isRippleLoad = true;
-    const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
-    this.productService.deleteFile(url).subscribe(
-      (res:any) => {
-        this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "File deleted successfully" });      
-        if(res){
-          this.getUploadedFileData();
-        }
+      this.isRippleLoad = true;
+      const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
+      this.productService.deleteFile(url).subscribe(
+        (res: any) => {
+          this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "File deleted successfully" });
+          if (res) {
+            this.getUploadedFileData();
+          }
           this.isRippleLoad = false;
-      },
-      err => {
-        this.isRippleLoad = false;
-      }
-    )
-  }
+        },
+        err => {
+          this.isRippleLoad = false;
+        }
+      )
+    }
   }
 }

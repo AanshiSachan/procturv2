@@ -41,8 +41,8 @@
     <span class="sideBar_centerAlign" style="padding-left: 5px">Student</span>
     </span>
     <span [ngClass]="activeSession === 'lithree' ? 'active activeClass' : 'NavLink'"
-      [routerLink]="isLangInstitute?'/view/batch': '/view/course'"  id="lithree" 
-      (click)="toggler('lithree')" *ngIf="jsonFlags.isShowModel"> 
+      [routerLink]="isLangInstitute?'/view/batch': '/view/course'"  id="lithree"
+      (click)="toggler('lithree')" *ngIf="jsonFlags.isShowModel">
       <img src="./assets/images/sidebar/course.svg" alt="" class="sideBar_centerAlign">
       <span id="li3" *ngIf="(!isLangInstitute)" class="sideBar_centerAlign" style="padding-left: 5px">Course</span>
       <span id="li3" *ngIf="(isLangInstitute)" class="sideBar_centerAlign" style="padding-left: 5px">Batch</span>
@@ -62,7 +62,7 @@
       <img src="./assets/images/sidebar/communicate.svg" alt="" class="sideBar_centerAlign">
     <span class="sideBar_centerAlign" style="padding-left: 5px">Communicate</span>
     </span>
-    <span  routerLink="/view/library/issue" [ngClass]="activeSession === 'liseven' ? 'active activeClass' : 'NavLink'"   
+    <span  routerLink="/view/library/issue" [ngClass]="activeSession === 'liseven' ? 'active activeClass' : 'NavLink'"
     *ngIf="jsonFlags.isShowLibrabry"   (click)="toggler('liseven')">
       <img src="./assets/images/sidebar/library.svg" alt="" class="sideBar_centerAlign">
     <span class="sideBar_centerAlign" style="padding-left: 5px">Library</span>
@@ -94,11 +94,14 @@
       Dashboard
     </span> -->
   </div>
+  <div class="release-note-container">
+    <span data-toggle="modal" data-target="#releaseNote">New Release</span>
+  </div>
   <div style="bottom: 16%;position: absolute;margin-left: 50%;">
     <span class="badge">v3.0</span>
   </div>
   <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" >
-    <div class="setting-item">
+    <div class="setting-item" *ngIf="jsonFlags.isShowPowerBy">
       <img src="./assets/images/sidebar/help.svg" title="Help" alt="" (click)="showSubSection('help')">
       <div class="side-section" id="help">
         <div class="side-section-item">
@@ -114,13 +117,13 @@
         <div class="side-section-item">
           <span><img src="./assets/images/sidebar/sideMenu/call.svg" alt="phone" class="helpSection">+91 9971839153</span>
         </div>
-        <div class="side-section-item" (click)="routerLink('/view/training-video' ,'help')">       
+        <div class="side-section-item" (click)="routerLink('/view/training-video' ,'help')">
             <span>Training Videos</span>
         </div>
       </div>
     </div>
     <div class="setting-item" #divSettingTag id="divSettingTag">
-      <img src="./assets/images/sidebar/settings.svg" title="Settings" alt="" 
+      <img src="./assets/images/sidebar/settings.svg" title="Settings" alt=""
       (click)="routerLink('/view/setting','generalSetting');activeSession=null">
       <div class="side-section" id="generalSetting">
         </div>
@@ -183,3 +186,50 @@
 
 <aside class="blur-background" id="blurBg" *ngIf="sideBar  || searchBar || helpMenu || videoplayer" (click)="closeMenu()">
 </aside>
+
+<!-- Modal -->
+<!-- Release Note pop up -->
+<div id="releaseNote" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h2 class="modal-title">Release Update - 31st Jan 2020</h2>
+      </div>
+      <div class="modal-body">
+        <div class="new-modules-list">
+          <div class="module-title">
+            <span>New</span>
+          </div>
+          <ol>
+            <li>Exam dashboard sub menu added in Course > Report section:
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>We have added a new feature, which is "Exam Dashboard". It is available in Course/Batch menu's Report section.</li>
+              </ul>
+            </li>
+            <li>Standard and Subject data is being displayed on Inventory page.</li>
+            <li>Advance setting is given for product management.</li>
+            <li>With File Manager now you can share audio file(mp3 and wav) as well.</li>
+            <li>In settings we have added threshold reminder option.</li>
+          </ol>
+        </div>
+        <!-- <div class="fixes-module">
+          <div class="module-title">
+            <span>Fixes</span>
+          </div>
+          <ul>
+            <li>Coffee</li>
+            <li>Tea</li>
+            <li>Milk</li>
+          </ul>
+        </div> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

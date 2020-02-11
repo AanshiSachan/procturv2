@@ -146,12 +146,14 @@ export class CourseWiseComponent implements OnInit {
       dateMap.push(moment(e.exam_date).format('DD-MMM'));
       feeMap.push(e.avarage_marks);
       totalMarksMap.push(e.total_marks);
-      subjectData.push(e.subject_name);
+
       if(!this.jsonFlag.isProfessional){
         percentage.push(e.course_level_percentage);
+        subjectData.push(e.subject_name);
       }
       else{
         percentage.push(e.batch_marks_percentage);
+        subjectData.push(e.batch_name);
       }
       // if(e.subject_wise_statatics.length > 0){
       //   subjectWiseMarks.push(e.subject_wise_statatics);
@@ -169,6 +171,8 @@ export class CourseWiseComponent implements OnInit {
     let total = t;
     let avg_marks = f;
     let subject = s;
+
+    let isProfessional = this.jsonFlag.isProfessional;
 
     let minWidth = 1100;
     let dataLength = d.length;
@@ -230,7 +234,12 @@ export class CourseWiseComponent implements OnInit {
           formatter : function () {
             var point = this.point
             let tool = '';
-            tool += 'Subject: ' + subject[point.index] + '';
+            if(!isProfessional){
+              tool += 'Subject: ' + subject[point.index] + '';
+            }
+            else{
+              tool += 'Batch: ' + subject[point.index] + '';
+            }
             tool += '<br>'+'Total Marks: ' + total[point.index] + ' marks';
             tool += '<br>'+'Avg Marks: ' + avg_marks[point.index] + ' marks';
             tool += '<br>'+'Percentage: ' + percentage[point.index] + '%';

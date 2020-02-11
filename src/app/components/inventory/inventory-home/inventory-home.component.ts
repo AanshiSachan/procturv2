@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit {
   };
   editCourseList: any = [];
 
-  arr = Array(400).fill(0).map((e,i)=>i-200)
+  arr = Array(1000).fill(0).map((e,i)=>i-500)
 
   constructor(
     private inventoryApi: InventoryService,

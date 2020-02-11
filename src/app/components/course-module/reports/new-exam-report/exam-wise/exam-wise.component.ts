@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import * as moment from 'moment';
-import { MessageShowService } from '../../../../../services/message-show.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
-import { CourseListService } from '../../../../../services/course-services/course-list.service';
-import { ExamService } from '../../../../../services/report-services/exam.service';
 import { CommonServiceFactory } from '../../../../../services/common-service';
+import { CourseListService } from '../../../../../services/course-services/course-list.service';
+import { MessageShowService } from '../../../../../services/message-show.service';
+import { ExamService } from '../../../../../services/report-services/exam.service';
 
 
 @Component({
@@ -89,7 +88,7 @@ export class ExamWiseComponent implements OnInit {
           // let resp = res.response;
           if(res.document!=""){
             let byteArr = this.commonService.convertBase64ToArray(res.document);
-            let fileName = 'report.pdf'; //res.docTitle;
+            let fileName = res.docTitle;
             let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
             let url = URL.createObjectURL(file);
             let dwldLink = document.getElementById('downloadFileClick');
