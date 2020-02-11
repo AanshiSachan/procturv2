@@ -1,11 +1,10 @@
-import { Component, OnInit, OnChanges, Output, Input, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
-import { AppComponent } from '../../../app.component';
-import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
+import { Subject } from 'rxjs/Subject';
+import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'student-batch-list',
@@ -20,7 +19,6 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     model: string;
     assignedCount: number = 0;
     modelChanged: Subject<string> = new Subject<string>();
-    isRippleLoad: boolean = false;
     batchFilter: any = {
         currentStd: '-1',
         state: '0'

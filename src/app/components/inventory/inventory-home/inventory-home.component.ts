@@ -1,16 +1,11 @@
-import {
-  Component, OnInit, ViewChild, Input, Output,
-  EventEmitter, HostListener, AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef
-} from '@angular/core';
-import { Router } from '@angular/router';
-import 'rxjs/Rx';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn, NgForm } from '@angular/forms';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core';
-import { InventoryService } from '../../../services/inventory-services/inventory.service';
+import 'rxjs/Rx';
 import { AddCategoryInInventory } from '../../../model/add-item-inventory';
-import { MessageShowService } from '../../../services/message-show.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { InventoryService } from '../../../services/inventory-services/inventory.service';
+import { MessageShowService } from '../../../services/message-show.service';
 declare var $;
 
 
@@ -56,7 +51,6 @@ export class HomeComponent implements OnInit {
   isProfessional:boolean = false;
   showAllocationHistoryPopUp: boolean = false;
   searchDataFlag: boolean = false;
-  isRippleLoad: boolean = false;
   showMenu: boolean = false;
   enable_eLearn_feature_flag : boolean = false;
 
@@ -135,18 +129,18 @@ export class HomeComponent implements OnInit {
 
   loadTableDatatoSource() {
     this.itemList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.itemTableDatasource = [];
     this.inventoryApi.fetchAllItems().subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.totalRow = data.length;
         this.itemTableDatasource = data;
         this.fetchTableDataByPage(this.PageIndex);
         this.selectedRow = "";
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(error);
       }
     )
@@ -154,28 +148,28 @@ export class HomeComponent implements OnInit {
   }
 
   loadItemCategories() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.inventoryApi.fetchAllCategories().subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.categoryList = data;
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(error)
       }
     )
   }
 
   loadItemCategoryMaster() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.inventoryApi.fetchAllMasterCategoryItem().subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.masterCategoryList = data;
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(error);
       }
     )
@@ -200,16 +194,16 @@ export class HomeComponent implements OnInit {
 
   getCourseList(row){
     let courseId = this.editStandSubject.standard_id;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.inventoryApi.getCourseOnBasisOfMasterCourse(courseId).subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.editCourseList = data;
         this.editStandSubject.subject_id = row.subject_id;
         this.editStandSubject.subject_name = row.subject_name;
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log('', error);
       }
     )
@@ -217,16 +211,16 @@ export class HomeComponent implements OnInit {
 
   masterCourseChanged(){
     let courseId = this.editStandSubject.standard_id;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.editStandSubject.subject_id = "-1";
     this.editStandSubject.subject_name = "";
     this.inventoryApi.getCourseOnBasisOfMasterCourse(courseId).subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.editCourseList = data;
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log('', error);
       }
     )
@@ -262,15 +256,15 @@ export class HomeComponent implements OnInit {
       } else {
         data.units_added = Math.floor(row.units_added);
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.inventoryApi.addQuantityInStock(data).subscribe(
         data => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.loadTableDatatoSource();
           this.subtractFlag = false;
         },
         error => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.subtractFlag = false;
           this.msg.showErrorMessage("error" , '' , error.error.message);
           this.loadTableDatatoSource();
@@ -302,16 +296,16 @@ export class HomeComponent implements OnInit {
       out_of_stock_indicator_units: row.out_of_stock_indicator_units.toString(),
       is_offline_or_online: row.is_offline_or_online
     };
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.inventoryApi.updateInventoryItem(postdata).subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.loadTableDatatoSource();
         document.getElementById(("row" + i).toString()).classList.add('displayComp');
         document.getElementById(("row" + i).toString()).classList.remove('editComp');
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msg.showErrorMessage("error" , '' , error.error.message);
       }
     )
@@ -339,10 +333,10 @@ export class HomeComponent implements OnInit {
       let data: any = {};
       data.item_id = this.editManageUnit.item_id;
       data.units_added = this.editManageUnit.newUnit;
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.inventoryApi.addQuantityInStock(data).subscribe(
         data => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.editManageUnit.item_id = "";
           this.editManageUnit.newUnit = 0;
           this.editManageUnit.availableUnits = 0;
@@ -351,7 +345,7 @@ export class HomeComponent implements OnInit {
           this.loadTableDatatoSource();
         },
         error => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msg.showErrorMessage("error" , '' , error.error.message);
           this.loadTableDatatoSource();
         }
@@ -360,16 +354,16 @@ export class HomeComponent implements OnInit {
   }
 
   deleteStudent() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.inventoryApi.deleteRowFromItem(this.deleteRowDetails.item_id).subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.loadTableDatatoSource();
         this.deleteItemPopUp = false;
         this.msg.showErrorMessage("success" , "" , "Inventory Deleted Successfully")
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msg.showErrorMessage("error" , '' , error.error.message);
       }
     )
@@ -379,15 +373,15 @@ export class HomeComponent implements OnInit {
   allocationDetails(row, i) {
     //console.log(i);
     this.itemName = row.item_name;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.inventoryApi.getInventoryItemHistory(row.item_id).subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.showAllocationHistoryPopUp = true;
         this.allocationHistoryList = data;
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msg.showErrorMessage("error" , '' , error.error.message);
       }
     )
@@ -476,14 +470,14 @@ export class HomeComponent implements OnInit {
 
   masterCourseSelected() {
     let courseId = this.addItemForm.value.standardDet;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.inventoryApi.getCourseOnBasisOfMasterCourse(courseId).subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.courseList = data;
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log('', error);
       }
     )
@@ -511,15 +505,15 @@ export class HomeComponent implements OnInit {
     data.unit_cost = this.addItemForm.value.unit_cost.toString();
     data.out_of_stock_indicator_units = this.addItemForm.value.out_of_stock_indicator_units;
     data.is_offline_or_online=this.addItemForm.value.is_offline_or_online;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.inventoryApi.addItemDetailsInCategory(data).subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.loadTableDatatoSource();
         this.createItemPopUp = false;
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msg.showErrorMessage("error" , '' , error.error.message);
       }
     )
@@ -551,30 +545,30 @@ export class HomeComponent implements OnInit {
   }
 
   getItemInformation(rowId) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.inventoryApi.getItemDetailsForSubBranches(rowId).subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log("getItemInfo", data);
         this.allocateItemDetails = data;
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msg.showErrorMessage("error" , '' , error.error.message);
       }
     )
   }
 
   getAllSubBranchesInformation() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.inventoryApi.getAllSubBranchesInfo().subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.subBranchList = data;
         //console.log('All Branches', data);
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(error);
       }
     )
@@ -583,14 +577,14 @@ export class HomeComponent implements OnInit {
   onSubBranchSelection() {
     let data_id = this.allocateItemForm.value.sub_branch_id;
     if (data_id != "-1") {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.inventoryApi.getSubBranchItemInfo(data_id).subscribe(
         data => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.subBranchItemList = data;
         },
         error => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           console.log('', error);
         }
       )

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ManageBatchService } from '../../../../services/course-services/manage-batch.service';
-import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
+import { AppComponent } from '../../../../app.component';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { ManageBatchService } from '../../../../services/course-services/manage-batch.service';
 
 @Component({
   selector: 'app-manage-batch',
@@ -41,7 +42,6 @@ export class ManageBatchComponent implements OnInit {
   addStudentPopUp: boolean = false;
   createNewBatch: boolean = false;
   allChecked: boolean = false;
-  isRippleLoad: boolean = false;
   editRowDetails: any = {
     standard_id: '',
     subject_id: '',
@@ -66,7 +66,8 @@ export class ManageBatchComponent implements OnInit {
 
   constructor(
     private apiService: ManageBatchService,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private auth:AuthenticatorService,
   ) { }
 
   ngOnInit() {
@@ -80,7 +81,7 @@ export class ManageBatchComponent implements OnInit {
   }
 
   getAllBatchesList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.batchesListDataSource = [];
     this.tableData = [];
     this.apiService.getBatchListFromServer().subscribe(
@@ -88,11 +89,11 @@ export class ManageBatchComponent implements OnInit {
         this.batchesListDataSource = res;
         this.totalRow = res.length;
         this.fetchTableDataByPage(this.PageIndex);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.dataStatus = 2;
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(error);
         this.messageToast('error', '', error.error.message);
       }
@@ -100,7 +101,7 @@ export class ManageBatchComponent implements OnInit {
   }
 
   editTableRow(rowDetails, index) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     document.getElementById(("row" + index).toString()).classList.remove('displayComp');
     document.getElementById(("row" + index).toString()).classList.add('editComp');
     this.apiService.getBatchDetailsForEdit(rowDetails.batch_id).subscribe(
@@ -108,10 +109,10 @@ export class ManageBatchComponent implements OnInit {
         //console.log(data);
         this.editRowDetails = data;
         this.onMasterCourseSelection(data.standard_id);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(error);
         this.messageToast('error', '', error.error.message);
       }
@@ -159,14 +160,14 @@ export class ManageBatchComponent implements OnInit {
 }
 
   getAllClassRoom() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getBatchClassRoomListFromServer().subscribe(
       data => {
         this.classRoomList = data;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(error);
         this.messageToast('error', '', error.error.message);
       }
@@ -174,14 +175,14 @@ export class ManageBatchComponent implements OnInit {
   }
 
   getAllTeacherList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getTeachersListFromServer().subscribe(
       res => {
         this.teacherList = res;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(error);
         this.messageToast('error', '', error.error.message);
       }
@@ -189,14 +190,14 @@ export class ManageBatchComponent implements OnInit {
   }
 
   getMasterCourseList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getMasterCourseListFromServer().subscribe(
       res => {
         this.courseList = res;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(error);
         this.messageToast('error', '', error.error.message);
       }
@@ -204,7 +205,7 @@ export class ManageBatchComponent implements OnInit {
   }
 
   onMasterCourseSelection(data) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.addNewBatch.subject_id = '-1';
     if (data != '-1') {
 
@@ -212,16 +213,16 @@ export class ManageBatchComponent implements OnInit {
         res => {
           //console.log('Subject List', res);
           this.subjectList = res;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         },
         error => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           //console.log(error);
           this.messageToast('error', '', error.error.message);
         }
       )
     } else {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
 
       this.messageToast('error', '', 'You Can not select empty value');
       return;
@@ -339,17 +340,17 @@ export class ManageBatchComponent implements OnInit {
       this.messageToast('error', '', 'Please enter the faculty for the batch.');
       return;
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.updateDataToServer(dataToSend, rowDetails.batch_id).subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         document.getElementById(("row" + index).toString()).classList.remove('editComp');
         document.getElementById(("row" + index).toString()).classList.add('displayComp');
         this.messageToast('success', 'Updated', 'Details Updated Successfully.');
         this.getAllBatchesList();
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageToast('error', '', error.error.message);
       }
     )
@@ -408,7 +409,7 @@ export class ManageBatchComponent implements OnInit {
   }
 
   getAllStudentList(rowDetails) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getStudentListFromServer(rowDetails.batch_id).subscribe(
       (res: any) => {
         this.radioOption = '0';
@@ -419,10 +420,10 @@ export class ManageBatchComponent implements OnInit {
         this.studentList = this.keepCloning(res);
         this.dataTable = this.studentList;
         this.getHeaderCheckBoxValue(this.dataTable);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageToast('error', '', error.error.message);
       }
     )
@@ -497,19 +498,19 @@ export class ManageBatchComponent implements OnInit {
       studentAssignedUnassigned_and_AcademicYearMapping: data,
       deleteCourse_SubjectUnPaidFeeSchedules: this.delete_unpaid_fee
     };
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     // console.log(dataToSend)
     this.apiService.saveUpdatedList(dataToSend, this.batchDetails.batch_id).subscribe(
       res => {
         this.messageToast('success', 'Saved', 'Changes saved successfully.');
         this.studentList = [];
         this.addStudentPopUp = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.getAllBatchesList();
         this.searchData = "";
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
         this.messageToast('error', '', err.error.message);
       }

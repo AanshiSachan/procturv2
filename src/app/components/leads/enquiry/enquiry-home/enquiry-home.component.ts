@@ -1,23 +1,23 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { instituteInfo } from '../../../../model/instituteinfo';
-import { FetchenquiryService } from '../../../../services/enquiry-services/fetchenquiry.service';
-import { FetchprefilldataService } from '../../../../services/fetchprefilldata.service';
-import { PostEnquiryDataService } from '../../../../services/enquiry-services/post-enquiry-data.service';
-import { PopupHandlerService } from '../../../../services/enquiry-services/popup-handler.service';
-import 'rxjs/Rx';
-
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 /* Third party imports */
 import * as moment from 'moment';
-import { MenuItem } from 'primeng/primeng';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
-import { ColumnSetting } from '../../../shared/custom-table/layout.model';
+import { MenuItem } from 'primeng/primeng';
+import 'rxjs/Rx';
+import { instituteInfo } from '../../../../model/instituteinfo';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
-import { MultiBranchDataService } from '../../../../services/multiBranchdata.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
-import { MessageShowService } from '../../../../services/message-show.service';
-import { TablePreferencesService } from '../../../../services/table-preference/table-preferences.service';
+import { FetchenquiryService } from '../../../../services/enquiry-services/fetchenquiry.service';
+import { PopupHandlerService } from '../../../../services/enquiry-services/popup-handler.service';
+import { PostEnquiryDataService } from '../../../../services/enquiry-services/post-enquiry-data.service';
+import { FetchprefilldataService } from '../../../../services/fetchprefilldata.service';
 import { HttpService } from '../../../../services/http.service';
+import { MessageShowService } from '../../../../services/message-show.service';
+import { MultiBranchDataService } from '../../../../services/multiBranchdata.service';
+import { TablePreferencesService } from '../../../../services/table-preference/table-preferences.service';
+import { ColumnSetting } from '../../../shared/custom-table/layout.model';
+
 
 @Component({
     selector: 'app-enquiry-home',
@@ -128,7 +128,6 @@ export class EnquiryHomeComponent implements OnInit {
         isOpenTab: false,
         isSideBar: false,
         isConvertToStudent: false,
-        isRippleLoad: false,
         subBranchSelected: false,
         summaryOptions: false,
         showDateRange: false,
@@ -511,7 +510,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Load Table data with respect to the institute data provided */
     loadTableDatatoSource(obj) {
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         this.varJson.fetchingDataMessage = 1;
         this.flagJSON.isAllSelected = false;
         this.sourceEnquiry = [];
@@ -536,7 +535,7 @@ export class EnquiryHomeComponent implements OnInit {
                     }
                 },
                 err => {
-                    this.flagJSON.isRippleLoad = false;
+                    this.auth.hideLoader();
                     this.varJson.fetchingDataMessage = 2;
                     this.showErrorMessage(this.messageService.toastTypes.error, 'Unable To Connect To Server', 'Please check your internet connection or contact proctur support if the issue persist');
                     this.varJson.totalEnquiry = 0;
@@ -546,7 +545,7 @@ export class EnquiryHomeComponent implements OnInit {
         else {
             return this.enquire.getAllEnquiry(obj).subscribe(
                 data => {
-                    this.flagJSON.isRippleLoad = false;
+                    this.auth.hideLoader();
                     if (data.length != 0) {
                         this._commService.contactNoPatternChange(data);
                         this.sourceEnquiry = data;
@@ -560,7 +559,7 @@ export class EnquiryHomeComponent implements OnInit {
                     }
                 },
                 err => {
-                    this.flagJSON.isRippleLoad = false;
+                    this.auth.hideLoader();
                     this.varJson.varJson.fetchingDataMessage = 2;
                     this.showErrorMessage(this.messageService.toastTypes.error, 'Unable To Connect To Server', 'Please check your internet connection or contact proctur support if the issue persist');
                     this.varJson.totalEnquiry = 0;
@@ -811,16 +810,16 @@ export class EnquiryHomeComponent implements OnInit {
     showSendGridData(type) {
         this.flagJSON.notificationType = type;
         const url= `/api/v1/alerts/config/sendGrid/emailTemplate/${sessionStorage.getItem('institute_id')}`;
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         this.emailGridData = [];
         this.httpService.getData(url).subscribe(
             (res:any)=> {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.emailGridData = res.result;
                 this.cd.markForCheck();
             },
             err => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 console.log(err);
             }
         )
@@ -852,15 +851,15 @@ export class EnquiryHomeComponent implements OnInit {
             baseIds: this.selectedRowGroup,
             sendGridTemplateId:this.EmailGridSelectedObject.template_id
         }
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         this.httpService.postData(url,obj).subscribe(
             (res:any) =>{
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.showErrorMessage(this.messageService.toastTypes.success,'', res.message);
                 this.cd.markForCheck();
             },
             err =>{
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 console.log(err);
             }
         )
@@ -919,7 +918,7 @@ export class EnquiryHomeComponent implements OnInit {
     pushUpdatedEnquiry() {
         if (this.validateTime()) {
             if (this.updateFormData.followUpDate != "Invalid date") {
-                this.flagJSON.isRippleLoad = true;
+                this.auth.showLoader();
                 this.updateFormData.comment = this.updateFormData.comment;
                 this.updateFormData.follow_type = this.getFollowUpReverse(this.updateFormData.follow_type);
                 this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
@@ -964,7 +963,7 @@ export class EnquiryHomeComponent implements OnInit {
                     this.updateFormData.followUpDate = this.getDateFormated(this.updateFormData.followUpDate, 'YYYY-MM-DD');
                     this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData).subscribe(
                         res => {
-                            this.flagJSON.isRippleLoad = false;
+                            this.auth.hideLoader();
                             this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.enquiryMessages.update, 'Your enquiry has been successfully submitted');
                             if (this.flagJSON.isConvertToStudent) {
                                 let obj = {
@@ -988,19 +987,19 @@ export class EnquiryHomeComponent implements OnInit {
                             }
                         },
                         err => {
-                            this.flagJSON.isRippleLoad = false;
+                            this.auth.hideLoader();
                             this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.enquiryMessages.failUpdate, 'There was an error processing your request');
                         }
                     )
                 }
                 else {
-                    this.flagJSON.isRippleLoad = false;
+                    this.auth.hideLoader();
                     this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.dateTimeMessages.invalideDateTime, 'Please select a valid date time for follow up');
                 }
 
             }
             else {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
 
                 this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.dateTimeMessages.invalideDateTime, 'Please select a valid date time for follow up');
             }
@@ -1040,17 +1039,17 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Delete Enquiry  */
     deleteEnquiry() {
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         this.postdata.deleteEnquiryById(this.selectedRow.institute_enquiry_id).subscribe(
             res => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.showErrorMessage('success', "Enquiry Deleted", "Your enquiry has been deleted");
                 this.closePopup();
                 this.cd.markForCheck();
                 this.loadTableDatatoSource(this.instituteData);
             },
             err => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.enquiryMessages.failDelete, err.error.message);
                 this.closePopup();
                 this.loadTableDatatoSource(this.instituteData);
@@ -1060,13 +1059,13 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Make Registration Payment Data update */
     registerPayment() {
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         this.registrationForm.institute_enquiry_id = this.selectedRow.institute_enquiry_id.toString();
         this.registrationForm.paymentDate = this.getDateFormated(this.registrationForm.paymentDate, 'YYYY-MM-DD');
 
         this.postdata.updateRegisterationPayment(this.registrationForm).subscribe(
             (res: any) => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.showErrorMessage(this.messageService.toastTypes.success, 'Registration Fee Updated', '');
                 this.cd.markForCheck();
                 this.selectedRow.invoice_no = res.otherDetails.invoice_no;
@@ -1075,7 +1074,7 @@ export class EnquiryHomeComponent implements OnInit {
                 this.cd.markForCheck();
             },
             err => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.showErrorMessage(this.messageService.toastTypes.error, '', 'There was an error processing your request');
             }
         );
@@ -1083,12 +1082,12 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Service to fetch sms records from server and update table*/
     smsServicesInvoked() {
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         /* store the data from server and update table */
         this.cd.markForCheck();
         this.enquire.fetchAllSms().subscribe(
             (data: any) => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.isSendGridEnable = data[0].is_sendGrid_enable;
                 this.cd.markForCheck();
                 this.smsSourceApproved = [];
@@ -1109,7 +1108,7 @@ export class EnquiryHomeComponent implements OnInit {
                 this.switchSmsTab(this.varJson.smsShowType);
             },
             err => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.showErrorMessage(this.messageService.toastTypes.error, 'Error loading SMS', 'Please check your internet connection or refresh');
             }
         );
@@ -1182,10 +1181,10 @@ export class EnquiryHomeComponent implements OnInit {
         }
         else {
             let sms = { feature_type: 2, message: this.newSmsString.data, sms_type: "Transactional" };
-            this.flagJSON.isRippleLoad = true;
+            this.auth.showLoader();
             this.postdata.addNewSmsTemplate(sms).subscribe(
                 (res: any) => {
-                    this.flagJSON.isRippleLoad = false;
+                    this.auth.hideLoader();
                     if (res.statusCode == 200) {
                         this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.addNewSMS, '');
                         this.cd.markForCheck();
@@ -1218,7 +1217,7 @@ export class EnquiryHomeComponent implements OnInit {
                     }
                 },
                 err => {
-                    this.flagJSON.isRippleLoad = false;
+                    this.auth.hideLoader();
                     this.showErrorMessage('error', '', err.error.message);
                 }
             )
@@ -1241,11 +1240,11 @@ export class EnquiryHomeComponent implements OnInit {
                 "messageArray": messageId,
                 "subject": this.emailSubject
             }
-            this.flagJSON.isRippleLoad = true;
+            this.auth.showLoader();
             this.cd.markForCheck();
             this.postdata.addNewEmailTemplate(email).subscribe(
                 (res: any) => {
-                    this.flagJSON.isRippleLoad = false;
+                    this.auth.hideLoader();
                     this.cd.markForCheck();
                     if (res.statusCode == 200) {
                         this.showErrorMessage(this.messageService.toastTypes.success,res.message, '');
@@ -1279,7 +1278,7 @@ export class EnquiryHomeComponent implements OnInit {
                     }
                 },
                 err => {
-                    this.flagJSON.isRippleLoad = false;
+                    this.auth.hideLoader();
                     this.cd.markForCheck();
                     this.showErrorMessage('error', 'Error', 'Notification sender id not approved. Please contact to support team.');
                 }
@@ -1352,16 +1351,16 @@ export class EnquiryHomeComponent implements OnInit {
     /* Update the sms template */
     saveEditedSms() {
         let data = { message: this.selectedSMS.message }
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         this.postdata.saveEditedSms(this.selectedSMS.message_id, data).subscribe(
             res => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 //"SMS Template saved"
                 this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.saveSMS, 'Your sms has been sent for approval');
                 this.cancelSmsEdit();
             },
             err => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.failSMS, 'Please check your internet connection or try again later')
             }
         )
@@ -1391,15 +1390,15 @@ export class EnquiryHomeComponent implements OnInit {
                         this.varJson.sendSmsFormData.baseIds = this.selectedRowGroup;
                         this.varJson.sendSmsFormData.messageArray = messageId;
                         this.cd.markForCheck();
-                        this.flagJSON.isRippleLoad = true;
+                        this.auth.showLoader();
                         this.postdata.sendSmsToEnquirer(this.varJson.sendSmsFormData).subscribe(
                             res => {
-                                this.flagJSON.isRippleLoad = false;
+                                this.auth.hideLoader();
                                 this.showErrorMessage(this.messageService.toastTypes.success,'', "SMS send successfully");
                                 this.cd.markForCheck();
                             },
                             err => {
-                                this.flagJSON.isRippleLoad = false;
+                                this.auth.hideLoader();
                                 this.showErrorMessage(this.messageService.toastTypes.error,'', "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
                                 this.cd.markForCheck();
                             }
@@ -1477,11 +1476,11 @@ export class EnquiryHomeComponent implements OnInit {
                         this.selectedRowGroup.forEach(el => { deleteString = deleteString + ',' + el; });
 
                         let data = { enquiryIdList: deleteString.slice(1), institution_id: sessionStorage.getItem('institute_id') };
-                        this.flagJSON.isRippleLoad = true;
+                        this.auth.showLoader();
 
                         this.postdata.deleteEnquiryBulk(data).subscribe(
                             res => {
-                                this.flagJSON.isRippleLoad = false;
+                                this.auth.hideLoader();
                                 this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.enquiryMessages.delete, 'Your delete request has been processed');
 
                                 this.selectedRowGroup = [];
@@ -1490,11 +1489,11 @@ export class EnquiryHomeComponent implements OnInit {
                                 this.statusFilter({ value: 'Open', prop: 'Open', checked: true, disabled: false });
                             },
                             err => {
-                                this.flagJSON.isRippleLoad = false;
+                                this.auth.hideLoader();
                                 this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.enquiryMessages.failDelete, err.error.message);
                             });
 
-                        this.flagJSON.isRippleLoad = false;
+                        this.auth.hideLoader();
                     }
                     else {
                         this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.enquiryMessages.unableDelete, 'Only open and InProgress enquiries can be deleted');
@@ -1612,18 +1611,18 @@ export class EnquiryHomeComponent implements OnInit {
     bulkAssignEnquiries() {
         this.cd.markForCheck();
         let assigneeArr: any[] = [];
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         this.assignMultipleForm.enqLi = this.selectedRowGroup;
         this.postdata.setEnquiryAssignee(this.assignMultipleForm).subscribe(
             res => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.enquiryMessages.assignEnquiry, '');
                 this.loadTableDatatoSource(this.instituteData);
                 this.bulkAssignEnquiriesClose();
                 this.cd.markForCheck();
             },
             err => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.enquiryMessages.failEnquiry, '');
 
             }
@@ -1708,10 +1707,10 @@ export class EnquiryHomeComponent implements OnInit {
 
         this.instituteData = this.advancedFilterForm;
 
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
             data => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.sourceEnquiry = data;
                 if (this.sourceEnquiry.length != 0) {
                     this.varJson.totalEnquiry = data[0].totalcount;
@@ -1727,7 +1726,7 @@ export class EnquiryHomeComponent implements OnInit {
                 }
             },
             err => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
             }
         );
     }
@@ -1784,17 +1783,17 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* fetch subject when user selects any standard on select menu */
     fetchEnquirySubject() {
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         if (this.advancedFilterForm.standard_id != null || this.advancedFilterForm.standard_id != '-1') {
             this.advancedFilterForm.subjectIdArray = null;
             this.enqSubject = [];
             this.prefill.getEnqSubjects(this.advancedFilterForm.standard_id).subscribe(
-                data => { this.flagJSON.isRippleLoad = false; this.enqSubject = data; this.cd.markForCheck(); },
-                err => { this.flagJSON.isRippleLoad = false; }
+                data => { this.auth.hideLoader(); this.enqSubject = data; this.cd.markForCheck(); },
+                err => { this.auth.hideLoader(); }
             );
         }
         else {
-            this.flagJSON.isRippleLoad = false;
+            this.auth.hideLoader();
             this.advancedFilterForm.subject_id = '-1';
             this.enqSubject = [];
         }
@@ -1871,7 +1870,7 @@ export class EnquiryHomeComponent implements OnInit {
     /* Fetch all the enquiries as xls file */
     downloadAllEnquiries() {
         this.cd.markForCheck();
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         let courseArray = [];
         if (this.advancedFilterForm.courseIdArray == null) {
             courseArray = [""];
@@ -1932,7 +1931,7 @@ export class EnquiryHomeComponent implements OnInit {
 
         this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
             (res: any) => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 let byteArr = this._commService.convertBase64ToArray(res.document);
                 let fileName = res.docTitle;
                 let file = new Blob([byteArr], { type: 'application/vnd.ms-excel' });
@@ -1947,7 +1946,7 @@ export class EnquiryHomeComponent implements OnInit {
                 this.cd.markForCheck();
             },
             err => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
             }
         )
     }
@@ -1976,37 +1975,37 @@ export class EnquiryHomeComponent implements OnInit {
                 this.showErrorMessage(this.messageService.toastTypes.error, 'Selection', 'Please select other options');
                 break;
             case 2: {
-                this.flagJSON.isRippleLoad = true;
+                this.auth.showLoader();
                 this.enquire.getSummaryReportOfThisMonth().subscribe(
                     res => {
-                        this.flagJSON.isRippleLoad = false;
+                        this.auth.hideLoader();
                         this.performDownloadAction(res);
                     },
                     err => {
-                        this.flagJSON.isRippleLoad = false;
+                        this.auth.hideLoader();
                     }
                 )
             }
                 break;
             case 3: {
-                this.flagJSON.isRippleLoad = true;
+                this.auth.showLoader();
                 this.enquire.getPreviousMSummary().subscribe(
                     res => {
-                        this.flagJSON.isRippleLoad = false;
+                        this.auth.hideLoader();
                         this.performDownloadAction(res);
                     },
-                    err => { this.flagJSON.isRippleLoad = false; }
+                    err => { this.auth.hideLoader(); }
                 )
             }
                 break;
             case 4: {
-                this.flagJSON.isRippleLoad = true;
+                this.auth.showLoader();
                 this.enquire.getSummaryReportOfLastTwoMonth().subscribe(
                     res => {
-                        this.flagJSON.isRippleLoad = false;
+                        this.auth.hideLoader();
                         this.performDownloadAction(res);
                     },
-                    err => { this.flagJSON.isRippleLoad = false; }
+                    err => { this.auth.hideLoader(); }
                 )
             }
 
@@ -2015,11 +2014,11 @@ export class EnquiryHomeComponent implements OnInit {
 
     downloadSummaryReportXlDateWise() {
         if (this.varJson.summaryReport.to_date != "" && this.varJson.summaryReport.from_date != "") {
-            this.flagJSON.isRippleLoad = true;
+            this.auth.showLoader();
             let obj = { to_date: this.getDateFormated(this.varJson.summaryReport.to_date, 'YYYY-MM-DD'), from_date: this.getDateFormated(this.varJson.summaryReport.from_date, 'YYYY-MM-DD') }
             this.enquire.getSummaryReportFromDates(obj).subscribe(
-                res => { this.flagJSON.isRippleLoad = false; this.performDownloadAction(res); },
-                err => { this.flagJSON.isRippleLoad = false; }
+                res => { this.auth.hideLoader(); this.performDownloadAction(res); },
+                err => { this.auth.hideLoader(); }
             );
         }
         else {
@@ -2049,7 +2048,7 @@ export class EnquiryHomeComponent implements OnInit {
         console.log(ev, this.selectedRow);
         return this.enquire.fetchEnquiryStudentData(institute_id, this.selectedRow.institute_enquiry_id).subscribe(
             (data: any) => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.selectedRow.standard_id = data.standard_id;
                 this.selectedRow.address = data.curr_address;
                 this.selectedRow.curr_address = data.curr_address;
@@ -2062,7 +2061,7 @@ export class EnquiryHomeComponent implements OnInit {
 
             },
             err => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.showErrorMessage(this.messageService.toastTypes.error, 'Unable To Connect To Server', 'Please check your internet connection or contact proctur support if the issue persist');
                 this.cd.markForCheck();
             });
@@ -2071,10 +2070,10 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Download Receipt API */
     downloadReceiptPdf() {
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         this.enquire.fetchReceiptPdf(this.selectedRow.invoice_no).subscribe(
             (res: any) => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.cd.markForCheck();
                 let byteArr = this._commService.convertBase64ToArray(res.document);
                 let format = res.format;
@@ -2090,7 +2089,7 @@ export class EnquiryHomeComponent implements OnInit {
                 }
             },
             err => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
             }
         )
     }
@@ -2219,12 +2218,12 @@ export class EnquiryHomeComponent implements OnInit {
         this.enqPage.nativeElement.style.width = "70%";
         this.enqPage.nativeElement.style.marginRight = mySidenavWidth;
         // this.optMenu.nativeElement.classList.add('shorted');
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         this.cd.markForCheck();
         this.customCompid = [];
         this.prefill.fetchCustomComponentById(id).subscribe(
             res => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.cd.markForCheck();
                 if (res != null) {
                     this.customCompid = res;
@@ -2232,20 +2231,20 @@ export class EnquiryHomeComponent implements OnInit {
                 this.flagJSON.isSideBar = true;
             },
             err => {
-                this.flagJSON.isRippleLoad = false;
+                this.auth.hideLoader();
             }
         )
     }
 
     closeEnquiryFullDetails() {
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         this.flagJSON.isSideBar = false;
         this.mySidenav.nativeElement.style.width = "0";
         this.mySidenav.nativeElement.style.display = 'none';
         this.enqPage.nativeElement.style.width = "100%";
         this.enqPage.nativeElement.style.marginRight = "0";
         // this.optMenu.nativeElement.classList.remove('shorted');
-        this.flagJSON.isRippleLoad = false;
+        this.auth.hideLoader();
     }
     /*  Handler for row click event */
 
@@ -2291,18 +2290,18 @@ export class EnquiryHomeComponent implements OnInit {
     virtualUpdateEnquiry(obj) {
         this.updateFormData = obj;
         this.cd.markForCheck();
-        this.flagJSON.isRippleLoad = true;
+        this.auth.showLoader();
         this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
             .subscribe(
                 res => {
-                    this.flagJSON.isRippleLoad = false;
+                    this.auth.hideLoader();
                     this.cd.markForCheck();
                     this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.enquiryMessages.update, 'Your enquiry has been successfully submitted');
                     this.closePopup();
                     this.loadTableDatatoSource(this.instituteData);
                 },
                 err => {
-                    this.flagJSON.isRippleLoad = false;
+                    this.auth.hideLoader();
                     this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.enquiryMessages.failUpdate, 'There was an error processing your request');
                 })
     }

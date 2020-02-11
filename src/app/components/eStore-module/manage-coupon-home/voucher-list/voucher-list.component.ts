@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
 
@@ -21,9 +22,9 @@ export class VoucherListComponent implements OnInit {
   productList: any[] = [];
   couponData: any[] = [];
   tempData: any = {};
-  isRippleLoad: boolean = false;
 
   constructor(private _productService: ProductService,
+    private auth:AuthenticatorService,
     private _msgService: MessageShowService) { }
 
   ngOnInit() {
@@ -36,14 +37,14 @@ export class VoucherListComponent implements OnInit {
   }
 
   getProductList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this._productService.getMethod('product/get-product-list?status=30', null).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.productList = data.result;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -54,16 +55,16 @@ export class VoucherListComponent implements OnInit {
   }
 
   deleteVoucher(obj) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     const url = `offer/delete/${obj.offer_id}`;
     this._productService.getMethod(url, null).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('success', '', res.result);
         this.couponData = this.couponData.filter(s => s.offer_id !== obj.offer_id);
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
     );
@@ -99,10 +100,10 @@ export class VoucherListComponent implements OnInit {
       'noOfRecord': this.varJson.displayBatchSize,
       'offerType': 2
     };
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this._productService.getMethod('offer-map/advance-filter', object).subscribe(
       (resp: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (resp.validate) {
           this.couponData = resp.result.results;
           this.couponData.forEach(element => {
@@ -116,12 +117,12 @@ export class VoucherListComponent implements OnInit {
           });
           this.varJson.total_items = resp.result.total_records;
         } else {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this._msgService.showErrorMessage('error', 'something went wrong, try again', '');
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('error', 'something went wrong, try again', '');
       });
 

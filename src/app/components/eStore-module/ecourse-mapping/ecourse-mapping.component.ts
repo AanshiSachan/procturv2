@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpService } from '../../../services/http.service'; import { AuthenticatorService } from '../../../services/authenticator.service';
-import { DataDisplayTableComponent } from '../../shared/data-display-table/data-display-table.component';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
+import { DataDisplayTableComponent } from '../../shared/data-display-table/data-display-table.component';
 ;
 
 /**
@@ -17,7 +18,6 @@ export class EcourseMappingComponent implements OnInit {
   @ViewChild('child') private child: DataDisplayTableComponent;
   institute_id: any;
   jsonflag = {
-    isRippleLoad: false,
     isUpadted: false,
     isProfessional: false,
     isAssignBatch: false,

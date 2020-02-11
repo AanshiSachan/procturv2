@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
 
@@ -19,11 +20,11 @@ export class OfflineMaterialComponent implements OnInit {
   inventoryList: any = [];
   description: string = '';
   selectAll: boolean = false;
-  isRippleLoad: boolean = false;
   isAdvanceProductEdit: boolean = false;
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
+    private auth:AuthenticatorService,
     private router: Router,
   ) { }
 
@@ -33,11 +34,11 @@ export class OfflineMaterialComponent implements OnInit {
 
   initOfflineMaterials() {
     //Fetch Product Groups List
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.http.getMethod('ext/inventory', null).subscribe(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if (resp.validate) {
             this.inventoryList = resp.result;
             this.inventoryList.forEach(element => {
@@ -58,7 +59,7 @@ export class OfflineMaterialComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
@@ -67,12 +68,12 @@ export class OfflineMaterialComponent implements OnInit {
   initForm() {
     //Fetch Product Groups List
 
-    if (this.entity_id && this.entity_id.length > 0 && (!this.isRippleLoad)) {
+    if (this.entity_id && this.entity_id.length > 0 && (!this.auth.isRippleLoad.getValue())) {
       //Fetch Product Info
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let response = resp.result;
           if (resp.validate) {
             let productData = response;
@@ -91,7 +92,7 @@ export class OfflineMaterialComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
@@ -162,7 +163,7 @@ export class OfflineMaterialComponent implements OnInit {
       });
 
 
-      if ((!this.isRippleLoad)) {
+      if ((!this.auth.isRippleLoad.getValue())) {
         //update test List
         let obj = {
           "page_type": "Offline_Material",
@@ -171,10 +172,10 @@ export class OfflineMaterialComponent implements OnInit {
           "item_list": objectArray,
           "description": this.description
         }
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
           (resp: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             let response = resp['body'];
             if (response.validate) {
               let details = response.result;
@@ -192,7 +193,7 @@ export class OfflineMaterialComponent implements OnInit {
           });
       }
       else {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', " select at least one printed materials", '');
         return;
       }

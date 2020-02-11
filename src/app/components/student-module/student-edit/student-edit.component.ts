@@ -1,21 +1,21 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import 'rxjs/Rx';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AppComponent } from '../../../app.component';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
-import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
-import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
+import 'rxjs/Rx';
+import { AppComponent } from '../../../app.component';
 import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { CourseListService } from '../../../services/course-services/course-list.service';
-import { FeeModel, StudentFeeService } from '../student_fee.service';
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { ProductService } from '../../../services/products.service';
+import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
+import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
+import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
+import { FeeModel, StudentFeeService } from '../student_fee.service';
 
 
 
@@ -63,7 +63,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   reverse: boolean = false;
   genPdcAck: boolean = false;
   sendPdcAck: boolean = false;
-  isRippleLoad: boolean = false;
   isManualDisplayId: boolean = false;
   thumbnailAvailable: boolean = false;
   tableHeaderCheckbox: boolean = false;
@@ -305,7 +304,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     private apiService: CourseListService,
     private productService: ProductService
   ) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.getInstType();
     this.getSettings();
     this.student_id = this.route.snapshot.paramMap.get('id');
@@ -384,15 +383,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
   getAcademicYearDetails() {
     this.academicList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getAcadYear().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.academicList = res;
         // console.log("academicList", this.academicList);
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -459,14 +458,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   //get courses
   getCourseDropdown(id) {
-    this.isRippleLoad = true
+    this.auth.showLoader();
     this.fetchService.getStudentCourseDetails(id).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.courseDropdown = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -482,9 +481,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (userType == 1) {
       object['user_role'] = this.paymentMode;
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.postService.getFeeInstallments(object).subscribe((res: any) => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       if (userType == -1) {
         let byteArr = this.commonServiceFactory.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
@@ -506,7 +505,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     },
       (err: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         // this.commonService.showErrorMessage('error', '', err.error.message);
         let obj = {
           type: 'error',
@@ -542,7 +541,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* we need to update the batch array on the updating student object manually as this data is received empty from server */
   /* ============================================================================================================================ */
   updateAssignedBatches(arr: any[]) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let batchString: any[] = [];
     this.studentAddFormData.assignedBatches = [];
     this.studentAddFormData.batchJoiningDates = [];
@@ -572,7 +571,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.studentAddFormData.batchJoiningDates = tempDate;
     this.assignedBatchString = batchString.join(',');
     this.JsonFlags.isDisabled = false;
-    this.isRippleLoad = false;
+    this.auth.hideLoader();
   }
 
   getSlotName(e): string {
@@ -617,13 +616,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   fetchPrefillFormData() {
     this.fetchInventoryList();
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.JsonFlags.isDisabled = true;
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
       err => {
         let msg = err.error.message;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let obj = {
           type: 'error',
           title: msg,
@@ -633,20 +632,20 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     );
     this.getAllocatedHistory();
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentPrefillService.fetchAllFeeStructure().subscribe(
       res => {
         this.feeTemplateStore = res;
       }
     )
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     // this.studentPrefillService.getChequeStatus().subscribe(
     //   data => {
     //     this.pdcStatus = data;
     //   },
     //   err => {
     //     let msg = err.error.message;
-    //     this.isRippleLoad = false;
+    //     this.auth.hideLoader();
     //     let obj = {
     //       type: 'error',
     //       title: msg,
@@ -656,12 +655,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     //   }
     // )
     this.getPdcChequeList();
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
       err => {
         let msg = err.error.message;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let obj = {
           type: 'error',
           title: msg,
@@ -671,10 +670,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.academicYear = data;
         // console.log(this.academicYear);
         this.academicYear.forEach(e => {
@@ -687,7 +686,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         let msg = err.error.message;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let obj = {
           type: 'error',
           title: msg,
@@ -696,10 +695,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.appC.popToast(obj);
       }
     )
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentPrefillService.fetchCustomComponentById(this.student_id).subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (data != null) {
           data.forEach(el => {
             let max_length = el.comp_length == 0 ? 100 : el.comp_length;
@@ -782,7 +781,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         let msg = err.error.message;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let obj = {
           type: 'error',
           title: msg,
@@ -923,7 +922,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* align the user selected batch into input and update the data into array to be updated to server */
   /* ============================================================================================================================ */
   getassignedBatchList(e) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentAddFormData.assignedBatches = e.assignedBatches;
     this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
     this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
@@ -931,15 +930,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.studentAddFormData.deleteCourse_SubjectUnPaidFeeSchedules = e.deleteCourse_SubjectUnPaidFeeSchedules;
     this.assignedBatchString = e.assignedBatchString;
     this.isAssignBatch = e.isAssignBatch;
-    this.isRippleLoad = false;
+    this.auth.hideLoader();
   }
 
   getSlots() {
     this.slots = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentPrefillService.fetchSlots().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         res.forEach(el => {
           let obj = {
             label: el.slot_name,
@@ -954,7 +953,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         let msg = err.error.message;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let obj = {
           type: 'error',
           title: msg,
@@ -968,16 +967,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getlangStudentStatus() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentPrefillService.fetchLangStudentStatus().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.langStatus = res;
         this.updateSlotsByStudent();
       },
       err => {
         let msg = err.error.message;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let obj = {
           type: 'error',
           title: msg,
@@ -1087,7 +1086,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       /* fetch batch details */
       else {
         this.batchList = [];
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.studentPrefillService.fetchStudentCourseDetails(this.student_id, '-1',country_id).subscribe(
           res => {
             // console.log(res);
@@ -1111,7 +1110,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 this.batchList.push(obj);
               });
               this.updateAssignedBatches(this.batchList);
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               // console.log(this.batchList);
             }else{
               this.JsonFlags.isDisabled = false;
@@ -1119,7 +1118,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           },
           err => {
             let msg = err.error.message;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             let obj = {
               type: 'error',
               title: msg,
@@ -1137,10 +1136,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   registerDuplicateStudent(form: NgForm) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let statusCode = res.statusCode;
         if (statusCode == 200) {
           let alert = {
@@ -1165,7 +1164,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         let msg = err.error.message;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let obj = {
           type: 'error',
           title: msg,
@@ -1218,12 +1217,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   updateStudentForm(id) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     /* Fetching Student Details from server */
     this.fetchService.getStudentById(id).subscribe(
       (data: any) => {
         // console.log(data);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.studentName = data.student_name;
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
@@ -1247,7 +1246,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
         /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
         this.updateStudentFeeDetails();
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.getCourseDropdown(id);
         let globalInactiveStudent = sessionStorage.getItem('global_search_edit_student');
         if (data.is_active == "Y") {
@@ -1264,7 +1263,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (this.isProfessional) {
           /* Fetching the student Slots */
           this.getSlots();
-          this.isRippleLoad = true;
+          this.auth.showLoader();
           this.JsonFlags.isDisabled = true;
           this.studentPrefillService.fetchStudentBatchDetails(id).subscribe(
             data => {
@@ -1289,12 +1288,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 this.batchList.push(obj);
               });
               this.updateAssignedBatches(this.batchList);
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
             },
             err => {
               this.JsonFlags.isDisabled = false;
               let msg = err.error.message;
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               let obj = {
                 type: 'error',
                 title: msg,
@@ -1337,7 +1336,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         //     err => {
         // 
         //       let msg = err.error.message;
-        //       this.isRippleLoad = false;
+        //       this.auth.hideLoader();
         //       let obj = {
         //         type: 'error',
         //         title: msg,
@@ -1349,7 +1348,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         // }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let al = {
           type: "error",
           title: err.error.message,
@@ -1519,11 +1518,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray;
       }
       this.btnSaveAndContinue.nativeElement.disabled = true;
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       // console.log(this.studentAddFormData);
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         (res: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.btnSaveAndContinue.nativeElement.disabled = false;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
@@ -1558,7 +1557,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         err => {
           this.btnSaveAndContinue.nativeElement.disabled = false;
           let msg = err.error.message;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let obj = {
             type: 'error',
             title: msg,
@@ -1781,10 +1780,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       is_archived = "Y";
     }
     // console.log(is_archived);
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.feeService.fetchStudentFeeSchedule(this.student_id, is_archived).subscribe(
       (res: FeeModel) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.feeObject = res;
         this.clonedFeeObject = this.commonServiceFactory.keepCloning(res);
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
@@ -1836,7 +1835,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -2032,12 +2031,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let JsonToSendOnServer = this.feeService.makePaymentFinalJson(this.subjectWiseInstallmentArray, this.paymentPopUpJson);
     JsonToSendOnServer.student_id = this.student_id;
     // console.log(JsonToSendOnServer);
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.btnPayment.nativeElement.disabled = true;
     this.postService.payPartialFeeAmount(JsonToSendOnServer).subscribe(
       res => {
         this.btnPayment.nativeElement.disabled = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonServiceFactory.showErrorMessage('success', '', 'Fee details has been updated');
         if (this.paymentPopUpJson.genFeeRecipt) {
           this.generateFeeRecipt(res);
@@ -2050,7 +2049,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         this.btnPayment.nativeElement.disabled = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonServiceFactory.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -2222,10 +2221,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     /* success */
     if ((this.feeTempSelected != "" && this.feeTempSelected != null) && (dd != "" && dd != null && dd != "Invalid date")) {
       this.feeStructureForm.template_effective_date = dd;
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.studentPrefillService.getFeeStructureById(this.feeTempSelected, this.feeStructureForm).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.feeTemplateById = res;
           this.feeTemplateById.template_effective_date = this.feeStructureForm.template_effective_date;
           this.feeTemplateById.template_id = this.feeTempSelected;
@@ -2254,7 +2253,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         },
         err => {
           let msg = err.error.message;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let obj = {
             type: 'error',
             title: msg,
@@ -2338,11 +2337,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('YYYY-MM-DD'),
       cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.pdcAddForm.country_id = this.studentAddFormData.country_id;
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let temp: any[] = [];
         res.forEach(el => {
           let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: el.cheque_date, cheque_date_from: el.cheque_date_from, cheque_date_to: el.cheque_date_from, cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status: el.cheque_status, cheque_status_key: el.cheque_status_key, clearing_date: el.clearing_date, genAck: el.genAck, institution_id: el.institution_id, sendAck: el.sendAck, student_id: el.student_id, student_name: el.student_name, student_phone: el.student_phone, uiSelected: false };
@@ -2350,7 +2349,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         });
         this.chequePdcList = temp;
       }, error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -2374,10 +2373,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.genPdcAck = false;
     this.sendPdcAck = false;
     this.btnPdcPopUpAdd.nativeElement.disabled = true;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.postService.addChequePdc(temp).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.btnPdcPopUpAdd.nativeElement.disabled = false;
         this.chequePdcList = [];
         this.newPdcArr = [];
@@ -2385,7 +2384,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.getPdcChequeList();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.btnPdcPopUpAdd.nativeElement.disabled = false;
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
         this.chequePdcList = [];
@@ -2402,15 +2401,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   deletePDC(data, i) {
     if (confirm("Are you sure,you want to delete the Cheque?")) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.postService.deletePdcById(data.cheque_id).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.chequePdcList.splice(i, 1);
         },
         err => {
           let msg = err.error.message;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let obj = {
             type: 'error',
             title: msg,
@@ -2425,10 +2424,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   updatePDC(el) {
     if (this.validPdc(el)) {
       let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id };
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           // this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
           this.getPdcChequeList();
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.add('displayComp');
@@ -2436,7 +2435,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         },
         err => {
           let msg = err.error.message;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let obj = {
             type: 'error',
             title: msg,
@@ -2497,10 +2496,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   generateAcknowledgeAPi(chequeId, student_id, key) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.postService.generateAcknowledge(chequeId, student_id, key).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (key == 'Y') {
           // this.commonServiceFactory.showErrorMessage('success', 'Send Successfullly', '');
           this.commonServiceFactory.showErrorMessage('success', '', 'Acknowledgement receipt sent to ' + this.studentAddFormData.student_email);
@@ -2509,7 +2508,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
       }
     )
@@ -2557,14 +2556,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   fetchInventoryList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentPrefillService.fetchInventoryListById(this.student_id).subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.inventoryItemsArr = data;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let msg = err.error.message;
         let obj = { type: 'error', title: msg, body: "" };
         this.appC.popToast(obj);
@@ -2602,10 +2601,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             docket_id:this.addInventory.docket_id,
             date_of_delivery_of_sm:this.addInventory.date_of_delivery_of_sm,
           };
-          this.isRippleLoad = true;
+          this.auth.showLoader();
           this.postService.allocateInventory(obj).subscribe(
             res => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.appC.popToast({ type: "success", title: "", body: "Inventory Item Allocated Successfully" });
               this.addInventory = {
                 alloted_units: 0,
@@ -2620,7 +2619,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.fetchInventoryList();
             },
             err => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.appC.popToast({ type: "error", title: '', body: err.error.message });
             }
           )
@@ -2720,9 +2719,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
       newxhr.setRequestHeader("x-proc-inst-id", sessionStorage.getItem('institute_id'));
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       newxhr.onreadystatechange = () => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (newxhr.readyState == 4) {
           if (newxhr.status >= 200 && newxhr.status < 300) {
             let data = {
@@ -2755,15 +2754,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   getUploadedFileData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     const url = `/users-file/downloadFile/?studentId=${this.student_id}`;
     this.productService.getUploadFileData(url).subscribe(
       (res:any) => {
         this.uploadedFileData = res;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -2779,21 +2778,21 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   updateDownloadCount(object) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     const url = `/users-file/update-File-download-count/?studentId=${this.student_id}&id=${object.id}`;
     this.productService.getUploadFileData(url).subscribe(
       (res:any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
 
   deletefile(id) {
     if (confirm('Are you sure, you want to delete file?')) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
     this.productService.deleteFile(url).subscribe(
       (res:any) => {
@@ -2801,10 +2800,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if(res){
           this.getUploadedFileData();
         }
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }

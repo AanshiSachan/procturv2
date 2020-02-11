@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageShowService } from '../../../../services/message-show.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
-import { UserService } from '../../../../services/user-management/user.service';
+import { MessageShowService } from '../../../../services/message-show.service';
 import { TablePreferencesService } from '../../../../services/table-preference/table-preferences.service';
+import { UserService } from '../../../../services/user-management/user.service';
 
 
 
@@ -25,7 +25,6 @@ export class RegisteredStudentsComponent implements OnInit {
     product_id: '',
     slug: ''
   };
-  isRippleLoad = false;
   searchDataFlag = false;
 
   tableSetting: any = {
@@ -79,10 +78,10 @@ export class RegisteredStudentsComponent implements OnInit {
       user_Type: 99,
       app_downloaded: -1
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.user_service.getUserList(obj, Active).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         // this.usersList = data;
         this.userListDataSource = data;
         this.userListDataSource.forEach(element => {
@@ -92,7 +91,7 @@ export class RegisteredStudentsComponent implements OnInit {
         });
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('error', '', err.error.message);
       }
     );

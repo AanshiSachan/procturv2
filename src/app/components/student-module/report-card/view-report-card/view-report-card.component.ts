@@ -1,9 +1,9 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StudentReportService } from '../../../../services/report-services/student-report-service/student-report.service';
-import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
+import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { StudentReportService } from '../../../../services/report-services/student-report-service/student-report.service';
 
 @Component({
   selector: 'app-view-report-card',
@@ -12,7 +12,6 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 })
 export class ViewReportCardComponent implements OnInit {
 
-  isRippleLoad: boolean = false;
   studentId: any = -1;
   studentReportInfo: any;
   timetablePayLoad: any = {
@@ -109,10 +108,10 @@ export class ViewReportCardComponent implements OnInit {
     }
 
   getStudentInfo() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.fetchStudentReportDet(this.studentId).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.studentReportInfo = res;
         if (res.attendanceReportJsonList != null) {
           if (res.attendanceReportJsonList.length > 0) {
@@ -163,7 +162,7 @@ export class ViewReportCardComponent implements OnInit {
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -195,42 +194,42 @@ export class ViewReportCardComponent implements OnInit {
       from_date: '',
       to_date: ''
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.fetchPastDues(obj, this.studentId).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.paymentHistoryList = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
   }
 
   getPastHistory() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.fetchPastHistory(this.studentId).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.PastFeeList = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
   }
 
   getFutureDues() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.fetchFutureDues(this.studentId).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.FutureFeeList = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -272,15 +271,15 @@ export class ViewReportCardComponent implements OnInit {
   getTimeTableDetails() {
     let check = this.validateAllField();
     if (check) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.apiService.fetchTimetable(this.timetablePayLoad).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.timeTableDet = res;
           this.makeJSONForTimeTable(res.batchTimeTableList);
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )
@@ -308,14 +307,14 @@ export class ViewReportCardComponent implements OnInit {
   }
 
   getPTMDetails() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getPTMDetails(this.studentId).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.PTMDetList = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -376,14 +375,14 @@ export class ViewReportCardComponent implements OnInit {
   goBtnAttendaceClick() {
     let check = this.validateDataAttendance(this.viewAttendancePayload);
     if (check) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.apiService.fetchAttendance(this.viewAttendancePayload).subscribe(
         (res: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.attendanceList = res.attendanceReportJsonList;
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )

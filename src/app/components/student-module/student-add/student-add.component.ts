@@ -1,19 +1,19 @@
-import { Component, OnInit, Pipe,  ViewChild, ElementRef } from '@angular/core';
-import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
-import { StudentForm } from '../../../model/student-add-form';
-import { StudentFeeStructure } from '../../../model/student-fee-structure';
+import { Component, ElementRef, OnInit, Pipe, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import * as moment from 'moment';
-import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
+import { StudentForm } from '../../../model/student-add-form';
+import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { CourseListService } from '../../../services/course-services/course-list.service';
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { MessageShowService } from '../../../services/message-show.service';
+import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
+import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
+import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
 
 @Component({
@@ -60,7 +60,6 @@ export class StudentAddComponent implements OnInit {
   studentAddnMove: boolean;
   isPdcApply: boolean = false;
   formIsActive: boolean = true;
-  isRippleLoad: boolean = false;
   quickAddStudent: boolean = false;
   additionalBasicDetails: boolean = false;
   isAssignBatch: boolean = false;
@@ -299,7 +298,7 @@ export class StudentAddComponent implements OnInit {
     private apiService: CourseListService,
     private msgToast: MessageShowService
   ) {
-    this.isRippleLoad = true
+    this.auth.showLoader();
     this.getInstType();
     this.getSettings();
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
@@ -503,9 +502,9 @@ export class StudentAddComponent implements OnInit {
     if (userType == 1) {
       object['user_role'] = this.paymentMode;
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.postService.getFeeInstallments(object).subscribe((res: any) => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       if (userType == -1) {
         let byteArr = this.commonServiceFactory.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
@@ -522,7 +521,7 @@ export class StudentAddComponent implements OnInit {
       }
     },
       (err: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage('error', '', err.error.message);
       })
   }
@@ -625,39 +624,39 @@ export class StudentAddComponent implements OnInit {
 
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
 
     this.fetchInventoryList();
 
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     );
 
     this.studentPrefillService.fetchAllFeeStructure().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.feeTemplateStore = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
 
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage('error', '', err.error.message);
       });
 
     // this.studentPrefillService.getChequeStatus().subscribe(
     //   data => { this.pdcStatus = data; },
     //   err => {
-    //     this.isRippleLoad = false;
+    //     this.auth.hideLoader();
     //     this.msgToast.showErrorMessage('error', '', err.error.message);
     //   }
     // );
@@ -672,7 +671,7 @@ export class StudentAddComponent implements OnInit {
         });
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -703,10 +702,10 @@ export class StudentAddComponent implements OnInit {
               this.customComponents.push(obj);
             });
           }
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgToast.showErrorMessage('error', '', err.error.message);
         }
       );
@@ -732,10 +731,10 @@ export class StudentAddComponent implements OnInit {
               this.customComponents.push(obj);
             });
           }
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgToast.showErrorMessage('error', '', err.error.message);
         }
       );
@@ -854,7 +853,7 @@ export class StudentAddComponent implements OnInit {
         });
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -866,7 +865,7 @@ export class StudentAddComponent implements OnInit {
         this.langStatus = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -1079,15 +1078,15 @@ export class StudentAddComponent implements OnInit {
 
   getAcademicYearDetails() {
     this.academicList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getAcadYear().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.academicList = res;
         // console.log("academicList",this.academicList);
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -1217,13 +1216,13 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.studentFileUploadJson = this.selectedFiles;
       console.log(this.studentAddFormData);
       this.btnSaveAndContinue.nativeElement.disabled = true;
-      if (!this.isRippleLoad) {
-        this.isRippleLoad = true;
+      if (!this.auth.isRippleLoad.getValue()) {
+        this.auth.showLoader();
         this.postService.quickAddStudent(this.studentAddFormData).subscribe(
           (res: any) => {
             let result: any = res;
             this.btnSaveAndContinue.nativeElement.disabled = false;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             let statusCode = res.statusCode;
             let status_code = res.status_code;
             if (statusCode == 200) {
@@ -1249,7 +1248,7 @@ export class StudentAddComponent implements OnInit {
           },
           err => {
             this.btnSaveAndContinue.nativeElement.disabled = false;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgToast.showErrorMessage('error', '', err.error.message);
           });
       }
@@ -1303,7 +1302,7 @@ export class StudentAddComponent implements OnInit {
           this.closeAlert();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgToast.showErrorMessage('error', '', err.error.message);
           this.closeAlert();
         }
@@ -1322,7 +1321,7 @@ export class StudentAddComponent implements OnInit {
     this.postService.quickAddStudent(this.studentAddFormData).subscribe(
       (res: any) => {
         let result: any = res;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let statusCode = res.statusCode;
         if (statusCode == 200) {
           this.removeImage = true;
@@ -1344,7 +1343,7 @@ export class StudentAddComponent implements OnInit {
       },
       err => {
         this.btnSaveAndContinue.nativeElement.disabled = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage('error', '', err.error.message);
         this.closeAlert();
       }
@@ -1482,10 +1481,10 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.student_sex = "M";
       }
       this.studentAddFormData.studentFileUploadJson = this.selectedFiles;
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         (res: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let statusCode = res.statusCode;
           if (statusCode == 200) {
             this.removeImage = true;
@@ -1504,7 +1503,7 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgToast.showErrorMessage('error', '', err.error.message);
         });
     }
@@ -1595,7 +1594,7 @@ export class StudentAddComponent implements OnInit {
         this.filterStudentCustomComp();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -1700,12 +1699,12 @@ export class StudentAddComponent implements OnInit {
   /* ========================================================================================================== */
 
   updateStudentFeeDetails() {
-    this.isRippleLoad = true
+    this.auth.showLoader();
     this.flushDataAfterPayement();
     this.fetchService.fetchStudentFeeDetailById(this.student_id).subscribe(
       res => {
         this.isDuplicateContactClose();
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.feeObject = res;
         this.clonedFeeObject = this.commonServiceFactory.keepCloning(res);
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
@@ -1771,7 +1770,7 @@ export class StudentAddComponent implements OnInit {
       },
       err => {
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }
@@ -1929,12 +1928,12 @@ export class StudentAddComponent implements OnInit {
     let JsonToSendOnServer = this.feeService.makePaymentFinalJson(this.subjectWiseInstallmentArray, this.paymentPopUpJson);
     JsonToSendOnServer.student_id = this.student_id;
     console.log(JsonToSendOnServer);
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.btnPayment.nativeElement.disabled = true;
     this.postService.payPartialFeeAmount(JsonToSendOnServer).subscribe(
       res => {
         this.btnPayment.nativeElement.disabled = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonServiceFactory.showErrorMessage('success', '', 'Fee details has been updated');
         if (this.paymentPopUpJson.genFeeRecipt) {
           this.generateFeeRecipt(res);
@@ -1947,7 +1946,7 @@ export class StudentAddComponent implements OnInit {
       },
       err => {
         this.btnPayment.nativeElement.disabled = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonServiceFactory.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -2134,7 +2133,7 @@ export class StudentAddComponent implements OnInit {
           this.closeConfigureFees();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgToast.showErrorMessage('error', '', err.error.message);
         }
       );
@@ -2193,10 +2192,10 @@ export class StudentAddComponent implements OnInit {
       cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
     }
     this.pdcAddForm.country_id = this.studentAddFormData.country_id;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let temp: any[] = [];
         res.forEach(el => {
           let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: el.cheque_date, cheque_date_from: el.cheque_date_from, cheque_date_to: el.cheque_date_from, cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status: el.cheque_status, cheque_status_key: el.cheque_status_key, clearing_date: el.clearing_date, genAck: el.genAck, institution_id: el.institution_id, sendAck: el.sendAck, student_id: el.student_id, student_name: el.student_name, student_phone: el.student_phone, uiSelected: false };
@@ -2236,17 +2235,17 @@ export class StudentAddComponent implements OnInit {
     this.newPdcArr = [];
     this.genPdcAck = false;
     this.sendPdcAck = false;
-    this.isRippleLoad=true;
+    this.auth.showLoader();
     this.postService.addChequePdc(temp).subscribe(
       res => {
-        this.isRippleLoad=false;
+        this.auth.hideLoader();
         this.chequePdcList = [];
         this.newPdcArr = [];
         this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0 };
         this.getPdcChequeList();
       },
       err => {
-        this.isRippleLoad=false;
+        this.auth.hideLoader();
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
         this.chequePdcList = [];
         this.getPdcChequeList();
@@ -2267,7 +2266,7 @@ export class StudentAddComponent implements OnInit {
           this.chequePdcList.splice(i, 1);
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgToast.showErrorMessage('error', '', err.error.message);
         }
       )
@@ -2275,19 +2274,19 @@ export class StudentAddComponent implements OnInit {
   }
 
   updatePDC(el) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (this.validPdc(el)) {
       let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id };
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
           // this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.getPdcChequeList();
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.add('displayComp');
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.remove('editComp');
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgToast.showErrorMessage('error', '', err.error.message);
         }
       )
@@ -2340,10 +2339,10 @@ export class StudentAddComponent implements OnInit {
   }
 
   generateAcknowledgeAPi(chequeId, student_id, key) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.postService.generateAcknowledge(chequeId, student_id, key).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (key == 'Y') {
           this.commonServiceFactory.showErrorMessage('success', '', 'Sent successfullly');
         } else if (key == "undefined") {
@@ -2351,7 +2350,7 @@ export class StudentAddComponent implements OnInit {
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
       }
     )
@@ -2415,11 +2414,11 @@ export class StudentAddComponent implements OnInit {
   fetchInventoryList() {
     this.studentPrefillService.fetchInventoryList().subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.inventoryItemsArr = data;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -2455,10 +2454,10 @@ export class StudentAddComponent implements OnInit {
             docket_id:this.addInventory.docket_id,
             date_of_delivery_of_sm:this.addInventory.date_of_delivery_of_sm,
           };
-          this.isRippleLoad = true;
+          this.auth.showLoader();
           this.postService.allocateInventory(obj).subscribe(
             res => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.msgToast.showErrorMessage('success', '', "Inventory item allocated successfully");
               this.addInventory = {
                 alloted_units: 0,
@@ -2473,7 +2472,7 @@ export class StudentAddComponent implements OnInit {
               this.fetchInventoryList();
             },
             err => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.msgToast.showErrorMessage('error', '', err.error.message);
             }
           )

@@ -1,15 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
-import 'rxjs/Rx';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
+import 'rxjs/Rx';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
-import { LoginService } from '../../../services/login-services/login.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { LoginService } from '../../../services/login-services/login.service';
+import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 
 
 @Component({
@@ -19,7 +19,6 @@ import { CommonServiceFactory } from '../../../services/common-service';
 })
 export class EnquiryAddComponent implements OnInit {
 
-  isRippleLoad: boolean;
   isRegisterStudent: boolean = false;
   /* Variable Declarations */
   countryDetails: any=[];
@@ -972,10 +971,10 @@ export class EnquiryAddComponent implements OnInit {
             is_follow_up_time_notification: this.newEnqData.is_follow_up_time_notification,
           }
           console.log(obj);
-          this.isRippleLoad = true;
+          this.auth.showLoader();
           this.poster.postNewEnquiry(obj).subscribe(
             (data: any) => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.enquiryConfirm = data;
               let instituteEnqId = data.generated_id;
               this.prefill.fetchLastDetail().subscribe(data => {
@@ -1001,19 +1000,19 @@ export class EnquiryAddComponent implements OnInit {
                 });
             },
             err => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.isEnquirySubmit = true;
               this.showErrorMessage('error', '', err.error.message);
             }
           );
         }
         else {
-          this.isRippleLoad = true;
+          this.auth.showLoader();
           if (this.isEnquirySubmit) {
             this.isEnquirySubmit = false;
             this.poster.postNewEnquiry(this.newEnqData).subscribe(
               (data: any) => {
-                this.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.enquiryConfirm = data;
                 let instituteEnqId = data.generated_id;
                 this.prefill.fetchLastDetail().subscribe(data => {
@@ -1039,7 +1038,7 @@ export class EnquiryAddComponent implements OnInit {
                   });
               },
               err => {
-                this.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.isEnquirySubmit = true;
                 this.showErrorMessage('error', '', err.error.message);
               }
@@ -1853,16 +1852,16 @@ export class EnquiryAddComponent implements OnInit {
 
 
   branchUpdated(e) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.newEnqData.source_instituteId = e;
     this.prefill.fetchAssignedToData(e).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.enqAssignTo = res;
         this.newEnqData.assigned_to = "-1";
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }

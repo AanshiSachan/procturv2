@@ -1,8 +1,9 @@
-import { Component, OnInit, ElementRef, ViewChild, Pipe, PipeTransform } from '@angular/core';
-import { CourseListService } from '../../../../../services/course-services/course-list.service';
-import { AppComponent } from '../../../../../app.component';
-import * as moment from 'moment';
+import { Component, ElementRef, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
+import { AppComponent } from '../../../../../app.component';
+import { CourseListService } from '../../../../../services/course-services/course-list.service';
+import { AuthenticatorService } from './../../../../../services/authenticator.service';
 
 @Component({
   selector: 'app-course-add',
@@ -46,12 +47,12 @@ export class CourseAddComponent implements OnInit {
   subjectListDataSource: any;
   nestedTableDataSource: any;
   examGradeFeature: any;
-  isRippleLoad: boolean = false;
   divCreateNewCourse: boolean = false;
 
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
+    private auth:AuthenticatorService,
     private route: Router
   ) { }
 
@@ -239,11 +240,11 @@ export class CourseAddComponent implements OnInit {
       return;
     };
 
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.apiService.saveCourseDetails(dataToSend).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: "success",
             title: "Course Creation",
@@ -253,7 +254,7 @@ export class CourseAddComponent implements OnInit {
           this.route.navigateByUrl('/view/course/create/courselist');
         },
         error => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let warning = {
             type: "error",
             title: '',

@@ -250,18 +250,11 @@ export class DriveHomeComponent implements OnInit {
   }
 
 
-  openSettings() { }
-
-
   onNodeExpand(event) {
 
   }
 
   onNodeSelect(event) {
-
-  }
-
-  searchDatabase(eve) {
 
   }
 
