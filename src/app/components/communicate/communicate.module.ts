@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
-import { CommunicateComponent, PtmManagementComponent, ExamReportComponent, FilterPipe, EmailReportComponent, EventManagmentComponent } from '.';
-import { SharedModule } from '../shared/shared.module';
-import { CommunicateRoutingModule } from './communicate-routing.module';
-import { CoummunicateHomeComponent } from './coummunicate-home/coummunicate-home.component';
-import { ActivityPtmService } from '../../services/activity-ptmservice/activity-ptm.service';
+import { CommunicateComponent, EmailReportComponent, EventManagmentComponent, ExamReportComponent, FilterPipe, PtmManagementComponent } from '.';
+import { EventManagmentService } from '../../services/event-managment.service';
 import { ExcelService } from '../../services/excel.service';
 import { ExportToPdfService } from '../../services/export-to-pdf.service';
+import { HttpService } from '../../services/http.service';
 import { ExamService } from '../../services/report-services/exam.service';
 import { getEmailService } from '../../services/report-services/get-email.service';
 import { getSMSService } from '../../services/report-services/get-sms.service';
 import { postSMSService } from '../../services/report-services/post-sms.service';
-import { EventManagmentService } from '../../services/event-managment.service';
+import { SharedModule } from '../shared/shared.module';
+import { CommunicateRoutingModule } from './communicate-routing.module';
+import { CoummunicateHomeComponent } from './coummunicate-home/coummunicate-home.component';
 
 @NgModule({
   imports: [
@@ -32,12 +32,11 @@ import { EventManagmentService } from '../../services/event-managment.service';
   providers:[
     getSMSService,
     postSMSService,
-    ActivityPtmService,
     ExcelService,
     ExportToPdfService,
     ExamService,
     getEmailService,
-    ActivityPtmService,
+    HttpService,
     EventManagmentService
   ]
 })
