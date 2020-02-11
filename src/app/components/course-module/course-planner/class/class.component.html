@@ -647,7 +647,7 @@
             <div class="action-container" *ngIf="course.status == 'Upcoming'">  <!--  upcoming classes action -->
               <img src="./assets/images/reschedule.svg" alt="Reschedule" title="Reschedule" data-toggle="modal" data-target="#rescheduleModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRescheduleClass(course)">
               <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" data-toggle="modal" data-target="#notifyModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRemiderClass(course)"></i>
-              <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" data-toggle="modal" data-target="#editClass" (click)="editCourseClass(course)"></i> -->
+              <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" data-toggle="modal" data-target="#editClass" (click)="editCourseClass(course)"></i>
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional && course.is_attendance_marked != 'Y'" (click)="initiateCancelClass(course)"></i>
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional && course.is_attendance_marked != 'Y'" (click)="initiateCourseCancelClass(course)"></i>
             </div>
@@ -656,7 +656,7 @@
               <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" *ngIf="course.is_attendance_marked == 'N'" (click)="initiateMarkAttendance(course)">
               <img src="./assets/images/reschedule.svg" alt="Reschedule" title="Reschedule" data-toggle="modal" data-target="#rescheduleModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRescheduleClass(course)">
               <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" data-toggle="modal" data-target="#notifyModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRemiderClass(course)"></i>
-              <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" data-toggle="modal" data-target="#editClass" (click)="editCourseClass(course)"></i> -->
+              <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" data-toggle="modal" data-target="#editClass" (click)="editCourseClass(course)"></i>
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional && course.is_attendance_marked != 'Y'" (click)="initiateCancelClass(course)"></i>
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional && course.is_attendance_marked != 'Y'" (click)="initiateCourseCancelClass(course)"></i>
             </div>
@@ -666,7 +666,7 @@
             <div class="action-container" *ngIf="course.status == 'Completed'">  <!--  completed classes action -->
               <img src="./assets/images/checked-att.svg" alt="Mark Attendance" title="Update Attendance" *ngIf="course.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(course)">
               <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" data-toggle="modal" data-target="#notifyModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRemiderClass(course)"></i>
-              <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" data-toggle="modal" data-target="#editClass" (click)="editCourseClass(course)"></i> -->
+              <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" data-toggle="modal" data-target="#editClass" (click)="editCourseClass(course)"></i>
             </div>
           </div>
         </div>

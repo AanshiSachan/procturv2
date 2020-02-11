@@ -1106,7 +1106,6 @@ export class ClassComponent implements OnInit {
       if(!!this.topicsList && this.topicsList.length > 0){
         $('#topicModel').modal('show');
         $('#editClass').modal('hide');
-
         this.topicsList.forEach(tpc =>{
           this.totalTopicsList.push(tpc);
           tpc.checked = false;
@@ -1114,7 +1113,6 @@ export class ClassComponent implements OnInit {
             this.getAllTopics(tpc.subTopic)
           }
         })
-
         let topicIds = this.editClass.topic_covered_ids.split('|');
         topicIds.forEach(tpc =>{
             this.topicsList.forEach(tp =>{
@@ -1123,8 +1121,6 @@ export class ClassComponent implements OnInit {
               }
             })
         })
-
-        console.log(this.topicsList);
       }
       else {
         this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to link");
@@ -1188,20 +1184,20 @@ export class ClassComponent implements OnInit {
     if(this.totalTopicsList.find(el => el.topicId == topic.topicId) != undefined){
       var parentTopic = this.totalTopicsList.find(ele => ele.topicId == topic.parentTopicId);
       if(parentTopic != undefined){
-      if(parentTopic.subTopic.length){
-        parentTopic.subTopic.forEach(subTpc =>{
-          if(!subTpc.checked){
-            checkAll = false;
-          }
-        });
-        if(checkAll){
-          parentTopic.checked = true;
-          if(parentTopic.parentTopicId != 0){
-            this.checkParents(parentTopic)
+        if(parentTopic.subTopic.length){
+          parentTopic.subTopic.forEach(subTpc =>{
+            if(!subTpc.checked){
+              checkAll = false;
+            }
+          });
+          if(checkAll){
+            parentTopic.checked = true;
+            if(parentTopic.parentTopicId != 0){
+              this.checkParents(parentTopic)
+            }
           }
         }
       }
-    }
     }
   }
 
@@ -1209,71 +1205,39 @@ export class ClassComponent implements OnInit {
     var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
     var getTopicIds;
     if(getSelectedTopics != undefined){
-    getTopicIds = getSelectedTopics.map(obj =>{
-      return obj.topicId;
-    })
-    getTopicIds = getTopicIds.join('|')
-    console.log(getTopicIds);
-    console.log(getSelectedTopics)
-
-    this.editClass.topic_covered_ids = getTopicIds;
-    this.editClass.topic_covered_names = '';
-    for (let index = 0; index < getSelectedTopics.length; index++) {
-      this.editClass.topic_covered_names += getSelectedTopics[index].topicName;
+      getTopicIds = getSelectedTopics.map(obj =>{
+        return obj.topicId;
+      })
+      getTopicIds = getTopicIds.join('|')
+      this.editClass.topic_covered_ids = getTopicIds;
+      this.editClass.topic_covered_names = '';
+      for (let index = 0; index < getSelectedTopics.length; index++) {
+        this.editClass.topic_covered_names += getSelectedTopics[index].topicName;
+      }
+      $('#topicModel').modal('hide');
+      $('#editClass').modal('show');
     }
-    $('#topicModel').modal('hide');
-    $('#editClass').modal('show');
-  }
-
   }
 
   updateClass(){
     if(!this.jsonFlag.isProfessional){ // for course model
       if(this.editClass.faculty != "-1"){
         let obj = {
-          "master_course": this.inputElements.masterCourse,
-          "requested_date": this.editClass.class_sche_date,
-          "course_id": this.editClass.course_id,
-          "coursesList": [{
-            "course_id": this.editClass.course_id,
-            "courseClassSchdList":[{
-              "alloted_teacher_id": this.editClass.faculty,
-              "batch_id": this.editClass.batch_id,
-              "class_schedule_id": this.editClass.class_schedule_id,
-              "custom_class_type": this.editClass.custom_class_type,
-              "duration": this.editClass.duration,
-              "room_no": this.editClass.room_no,
-              "start_time": this.editClass.start_time,
-              "end_time": this.editClass.end_time,
-              "class_desc": this.editClass.description,
-              "topics_covered": this.editClass.topic_covered_ids,
-              "homework_assigned": this.editClass.homework
-            }]
-          }]
-
+          "batch_id": this.editClass.batch_id,
+          "is_exam_schedule": "N",
+          "class_schedule_id": this.editClass.class_schedule_id,
+          "class_desc": this.editClass.description,
+          "topics_covered": this.editClass.topic_covered_ids,
+          "homework_assigned": this.editClass.homework,
+          "cousre_planner_update_operation": "desc_and_topic_covered_update",
+          "alloted_teacher_id": this.editClass.faculty,
         };
-      	this.classService.saveDataOnServer(obj).subscribe(
-          res => {
-            this.jsonFlag.isRippleLoad = false;
-            let result: any = res;
-            $('#editClass').modal('hide');
-            if(result.statusCode == 200){
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Class updated successfully');
-              this.getData();
-            }
-          },
-          err => {
-            $('#editClass').modal('hide');
-            this.jsonFlag.isRippleLoad = false;
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          }
-        )
       }
       else{
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select faculty");
       }
     }
-    else{
+    else{   // For batch model
       let obj = {
         "batch_id": this.editClass.batch_id,
         "is_exam_schedule": "N",
@@ -1283,41 +1247,40 @@ export class ClassComponent implements OnInit {
         "homework_assigned": this.editClass.homework,
         "cousre_planner_update_operation": "desc_and_topic_covered_update"
       }
-      this.classService.changeClassTeacher(obj).subscribe(   // update class for batch model  // same api for update teacher
-        res => {
-          this.jsonFlag.isRippleLoad = false;
-          let result: any = res;
-          $('#editClass').modal('hide');
-          if(result.statusCode == 200){
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Class updated successfully');
-            this.clearEditValues();
-            this.getData();
-          }
-        },
-        err => {
-          $('#editClass').modal('hide');
-          this.jsonFlag.isRippleLoad = false;
-          this.clearEditValues();
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        }
-      )
     }
+    this.jsonFlag.isRippleLoad = true;
+    this.classService.changeClassTeacher(obj).subscribe(
+      res => {
+        this.jsonFlag.isRippleLoad = false;
+        let result: any = res;
+        $('#editClass').modal('hide');
+        if(result.statusCode == 200){
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Class updated successfully');
+          this.clearEditValues();
+          this.getData();
+        }
+      },
+      err => {
+        $('#editClass').modal('hide');
+        this.clearEditValues();
+        this.jsonFlag.isRippleLoad = false;
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+      }
+    )
   }
 
   clearEditValues(){
-      this.editClass.description = "";
-      this.editClass.topic_covered_ids = "";
-      this.editClass.topic_covered_names = "";
-      this.editClass.subject_id = "";
-      this.editClass.course_id = "";
-      this.editClass.class_sche_date = "";
-      this.editClass.class_schedule_id = "";
-      this.editClass.batch_id = "";
-      this.editClass.start_time = "";
-      this.editClass.end_time = "";
-      this.editClass.total_marks = "";
-      this.editClass.duration = "";
+    this.editClass.description = "";
+    this.editClass.topic_covered_ids = "";
+    this.editClass.topic_covered_names = "";
+    this.editClass.subject_id = "";
+    this.editClass.course_id = "";
+    this.editClass.class_sche_date = "";
+    this.editClass.class_schedule_id = "";
+    this.editClass.batch_id = "";
+    this.editClass.start_time = "";
+    this.editClass.end_time = "";
+    this.editClass.total_marks = "";
+    this.editClass.duration = "";
   }
-
-
 }
