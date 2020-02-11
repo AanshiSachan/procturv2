@@ -711,9 +711,9 @@
     border-radius: 4px;
     padding: 5px;
   }
-  .topic-input{
-    border-color: #1283f4;
-  }
+  // .topic-input{
+  //   border-color: #1283f4;
+  // }
 }
 
 #editClass {
@@ -725,7 +725,7 @@
 
 // Topic
 .topic-container{
-    margin-right: 0!important; 
+    margin-right: 0!important;
     margin-left: 0!important;
     display: flex;
     flex-direction: row;

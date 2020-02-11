@@ -662,9 +662,9 @@ table tr.selected {
     border-radius: 4px;
     padding: 5px;
   }
-  .topic-input{
-    border-color: #1283f4;
-  }
+  // .topic-input{
+  //   border-color: #1283f4;
+  // }
 }
 
 #editClass {
@@ -673,6 +673,29 @@ table tr.selected {
   }
 }
 
+.subject-container{
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+  .edit-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    .edit-input-container{
+      width: 49%;
+      .form-ctrl{
+        width: 70%;
+      }
+      label{
+        font-size: 12px;
+      }
+    }
+  }
+}
+.subject-container:nth-last-child(){
+  padding-bottom: 0px;
+}
 
 // Topic
 .topic-container{
