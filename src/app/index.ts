@@ -1,7 +1,6 @@
 /* Components */
 export * from './app.component';
 export * from './services/authenticator.service';
-export * from './services/Chat-bot/chatbot.service';
 export * from './services/common-service';
 export * from './services/enquiry-services/fetchenquiry.service';
 export * from './services/enquiry-services/post-enquiry-data.service';

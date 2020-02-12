@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
-import { AppComponent, AuthenticatorService } from '../../../..';
-import { BiometricServiceService } from '../../../../services/biometric-service/biometric-service.service';
+import { AppComponent, AuthenticatorService, HttpService } from '../../../..';
 import { ExcelService } from '../../../../services/excel.service';
 
 
@@ -35,7 +34,7 @@ export class BiometricComponent implements OnInit {
   columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6];
   columnMapRecords: any[] = [0, 1, 2];
   searchData: any[] = [];
-  studentArray:any[]=[];
+  studentArray: any[] = [];
   //need for selected keys
   displayKeys: any[] = ['student_id', 'student_name', 'doj'];
   master: any = "";
@@ -76,7 +75,7 @@ export class BiometricComponent implements OnInit {
   showNameFilter: boolean = true;
   showCourseFilter: boolean = true;
   absentStudentPopUp: boolean = false;
-
+  institute_id: any;
   getData = {
     school_id: -1,
     name: "",
@@ -90,14 +89,11 @@ export class BiometricComponent implements OnInit {
     biometric_attendance_date: moment().format('YYYY-MM-DD')
   }
 
-
-
-
   getAbsentiesData = {
     batch_id: -1,
     course_id: -1,
     from_date: moment().format('YYYY-MM-DD'),
-    institution_id: this.reportService.institute_id,
+    institution_id: this.institute_id,
     master_course_name: -1,
     standard_id: -1,
     subject_id: -1
@@ -105,15 +101,20 @@ export class BiometricComponent implements OnInit {
 
   getAllData = {
     from_date: "",
-    institute_id: this.reportService.institute_id,
+    institute_id: this.institute_id,
     to_date: "",
     user_id: ""
   }
 
-  constructor(private reportService: BiometricServiceService,
+  constructor(
     private appc: AppComponent,
+    private _http: HttpService,
     private auth: AuthenticatorService,
-    private excelService: ExcelService) { }
+    private excelService: ExcelService) {
+    this.auth.currentInstituteId.subscribe(id => {
+      this.institute_id = id;
+    });
+  }
 
   ngOnInit() {
     this.auth.institute_type.subscribe(
@@ -131,50 +132,50 @@ export class BiometricComponent implements OnInit {
   fetchAbsentiesReport() {
     this.absentStudentPopUp = true;
   }
-  toggleCheckbox(value){
+  toggleCheckbox(value) {
     console.log(value);
-    let index =this.studentArray.indexOf(value);
-    if(index== -1){
+    let index = this.studentArray.indexOf(value);
+    if (index == -1) {
       this.studentArray.push(value)
     }
-    else{
-      this.studentArray.splice(index,value);
+    else {
+      this.studentArray.splice(index, value);
     }
 
   }
 
   sendSMSToAbsenties() {
     if (confirm("Are u sure, you want to send sms to Absent students?")) {
-    this.auth.showLoader();
-    let obj = {
-      "from_date": this.getAbsentiesData.from_date,
-      "institution_id":sessionStorage.getItem('institute_id'),
-      "studentArray":this.studentArray
-    }
-
-    this.reportService.sendSMSToAbsenties(obj).subscribe(
-      (data: any) => {
-        this.auth.hideLoader();
-        if(data.statusCode==200){
-          let obj = {
-            type: 'success',
-            title: '',
-            body: "SMS sent successfully !"
-          }
-          this.appc.popToast(obj);
-        }
-
-      },
-      (error: any) => {
-        this.auth.hideLoader();
-        let msg = {
-          type: "error",
-          body: error.error.message
-        }
-        this.appc.popToast(msg);
+      this.auth.showLoader();
+      let obj = {
+        "from_date": moment(this.getAbsentiesData.from_date).format('YYYY-MM-DD'),
+        "institution_id": sessionStorage.getItem('institute_id'),
+        "studentArray": this.studentArray
       }
-    )
-  }
+
+      this._http.postData("/api/v1/attendance/sendSMSToAbsenties", obj).subscribe(
+        (data: any) => {
+          this.auth.hideLoader();
+          if (data.statusCode == 200) {
+            let obj = {
+              type: 'success',
+              title: '',
+              body: "SMS sent successfully !"
+            }
+            this.appc.popToast(obj);
+          }
+
+        },
+        (error: any) => {
+          this.auth.hideLoader();
+          let msg = {
+            type: "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
+        }
+      )
+    }
 
   }
   closeAbsentiesPopup() {
@@ -187,7 +188,8 @@ export class BiometricComponent implements OnInit {
     this.batchPro = [];
     this.masterCoursePro = [];
     if (this.isProfessional) {
-      this.reportService.fetchMasterCourseProfessional(this.getData).subscribe(
+      const url = "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "?standard_id=" + this.getData.standard_id + "&subject_id=" + this.getData.subject_id + "&assigned=N";
+      this._http.getData(url).subscribe(
         (data: any) => {
           this.auth.hideLoader();
           this.masterCoursePro = data.standardLi;
@@ -203,8 +205,9 @@ export class BiometricComponent implements OnInit {
     this.getMasterCourse();
   }
 
-  getMasterCourse(){
-    this.reportService.getAllData().subscribe(
+  getMasterCourse() {
+    const url = "/api/v1/courseMaster/fetch/" + this.institute_id + "/all"
+    this._http.getData(url).subscribe(
       (data: any) => {
         this.getData.master_course_name = "";
         this.getData.course_id = -1;
@@ -247,8 +250,11 @@ export class BiometricComponent implements OnInit {
     this.getAbsentiesData.subject_id = -1;
     // this.batchPro = [];
     this.coursePro = [];
+    this.courses = [];
+    this.subjects=[];
     if (this.isProfessional) {
-      this.reportService.fetchCourseProfessional(i).subscribe(
+      const url = "/api/v1/subjects/standards/" + i;
+      this._http.getData(url).subscribe(
         (data: any) => {
           this.dataStatus = false;
           this.auth.hideLoader();
@@ -262,7 +268,8 @@ export class BiometricComponent implements OnInit {
       )
     }
     else {
-      this.reportService.getCourses(i).subscribe(
+      const url = "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + i
+      this._http.getData(url).subscribe(
         (data: any) => {
           this.dataStatus = false;
           this.auth.hideLoader();
@@ -279,7 +286,8 @@ export class BiometricComponent implements OnInit {
 
   getSubjects(i) {
     this.dataStatus = true;
-    this.reportService.getSubjects(i).subscribe(
+    const url = "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/" + i;
+    this._http.getData(url).subscribe(
       (data: any) => {
         this.dataStatus = false;
         this.auth.hideLoader();
@@ -303,7 +311,9 @@ export class BiometricComponent implements OnInit {
       this.showCustomTable = false;
       this.dataStatus = true;
       if (this.isProfessional) {
-        this.reportService.getAttendanceReport(this.getData).subscribe(
+        this.getData.biometric_attendance_date = moment(this.getData.biometric_attendance_date).format('YYYY-MM-DD');
+        const url = "/api/v1/students/manage/" + this.institute_id;
+        this._http.postData(url, this.getData).subscribe(
           (data: any) => {
             this.auth.hideLoader();
             this.dataStatus = false;
@@ -320,7 +330,9 @@ export class BiometricComponent implements OnInit {
         )
       }
       else {
-        this.reportService.getAttendanceReport(this.getData).subscribe(
+        this.getData.biometric_attendance_date = moment(this.getData.biometric_attendance_date).format('YYYY-MM-DD');
+        const url = "/api/v1/students/manage/" + this.institute_id;
+        this._http.postData(url, this.getData).subscribe(
           (data: any) => {
             this.auth.hideLoader();
             this.dataStatus = false;
@@ -344,8 +356,9 @@ export class BiometricComponent implements OnInit {
       this.showTeachersTable = true;
       this.showStudentTable = false;
       this.showCustomTable = false;
-
-      this.reportService.getAttendanceReportTeachers(this.getData).subscribe(
+      this.getData.biometric_attendance_date = moment(this.getData.biometric_attendance_date).format('YYYY-MM-DD');
+      const url = "/api/v1/teachers/manage/" + this.institute_id;
+      this._http.postData(url, this.getData).subscribe(
         (data: any) => {
           this.dataStatus = false;
           this.auth.hideLoader();
@@ -366,7 +379,10 @@ export class BiometricComponent implements OnInit {
       this.showStudentTable = false;
       this.showTeachersTable = false;
       this.showCustomTable = true;
-      this.reportService.getAttendanceReportOthers(this.getData).subscribe(
+      this.getData.biometric_attendance_date = moment(this.getData.biometric_attendance_date).format('YYYY-MM-DD');
+      let isActive = this.getData.is_active_status == 1 ? "Y" : "N";
+      const url = "/api/v1/profiles/all/" + this.institute_id + "?active=" + isActive;
+      this._http.postData(url, this.getData).subscribe(
         (data: any) => {
           this.dataStatus = false;
           this.auth.hideLoader();
@@ -395,9 +411,11 @@ export class BiometricComponent implements OnInit {
     this.customId = i.userid;
     console.log(this.teacherName);
     this.getAllData.user_id = i.user_id;
+    this.getAllData.institute_id = this.institute_id;
     this.addReportPopUp = true;
     this.dataStatus = true;
-    this.reportService.getAllFinalReport(this.getAllData).subscribe(
+    const url = "/api/v1/biometricAttendance/report";
+    this._http.postData(url, this.getAllData).subscribe(
       (data: any) => {
         this.dataStatus = false;
         this.auth.hideLoader();
@@ -419,7 +437,7 @@ export class BiometricComponent implements OnInit {
 
   closeReportPopup() {
     this.addReportPopUp = false;
-    this.popupCtrl =  "-1";
+    this.popupCtrl = "-1";
     this.showRangeValue = false;
     this.showTableEvent = false;
     this.getAllData.from_date = "";
@@ -444,7 +462,9 @@ export class BiometricComponent implements OnInit {
   fetchAbsentsStudentsData() {
     this.auth.showLoader();
     this.getAbsentiesData.from_date = moment(this.getAbsentiesData.from_date).format('YYYY-MM-DD');
-    this.reportService.fetchAbsentiesData(this.getAbsentiesData).subscribe(
+    this.getAbsentiesData.institution_id = this.institute_id;
+    let url = "/api/v1/attendance/fetchAbsentsStudentsData";
+    this._http.postData(url, this.getAbsentiesData).subscribe(
       (data: any) => {
         console.log(data);
         if (data != null) {
@@ -456,7 +476,6 @@ export class BiometricComponent implements OnInit {
         this.auth.hideLoader();
       },
       (error: any) => {
-
         this.auth.hideLoader();
         return error;
       }
@@ -626,7 +645,9 @@ export class BiometricComponent implements OnInit {
     //   this.appc.popToast(msg);
     // }
     else {
-      this.reportService.getAllFinalReport(this.getAllData).subscribe(
+      this.getAllData.institute_id = this.institute_id;
+      const url = "/api/v1/biometricAttendance/report";
+      this._http.postData(url, this.getAllData).subscribe(
         (data: any) => {
           this.showTableEvent = true;
           if (data != null) {

@@ -227,7 +227,7 @@ export class ToDoListComponent implements OnInit {
     document.getElementById("name_" + task_id).style.display = "none";
     document.getElementById(task_id).style.display = "block";
     document.getElementById(task_id).focus();
-    document.getElementById("fa_" + task_id) && document.getElementById("fa_" + task_id).style.display = "block";
+    if (document.getElementById("fa_" + task_id)) { document.getElementById("fa_" + task_id).style.display = "block"; }
   }
 
   getAllTask() {
@@ -304,11 +304,11 @@ export class ToDoListComponent implements OnInit {
         task_id: toDo.task_id,
         task_squence: toDo.task_squence,
         task_date: moment(toDo.task_date).format("YYYY-MM-DD"),
-        userid:sessionStorage.getItem('userid'),
-        institute_id:this.institute_id
+        userid: sessionStorage.getItem('userid'),
+        institute_id: this.institute_id
       }
-      
-      this._http.putData("/api/v2/toDoList/update",obj).subscribe(
+
+      this._http.putData("/api/v2/toDoList/update", obj).subscribe(
         res => {
           let msg = {
             type: 'success',
@@ -367,11 +367,11 @@ export class ToDoListComponent implements OnInit {
         is_completed: "N",
         task_squence: maxValue + 1,
         task_date: date,
-        institute_id:this.institute_id,
-        userid:sessionStorage.getItem('userid')
+        institute_id: this.institute_id,
+        userid: sessionStorage.getItem('userid')
       }
- 
-      this._http.postData("/api/v2/toDoList/create",obj).subscribe(
+
+      this._http.postData("/api/v2/toDoList/create", obj).subscribe(
         res => {
           // console.log(res)
           this.defaultToDoList = [];
@@ -407,7 +407,7 @@ export class ToDoListComponent implements OnInit {
   }
 
   deleteToDo(task_id) {
-    let url = "/api/v2/toDoList/delete/"+this.institute_id +"/"+task_id;
+    let url = "/api/v2/toDoList/delete/" + this.institute_id + "/" + task_id;
     this._http.deleteDataById(url).subscribe(
       res => {
         console.log(res)
@@ -451,10 +451,10 @@ export class ToDoListComponent implements OnInit {
       task_squence: '',
       task_date: moment(selectedTaskDate).format("YYYY-MM-DD"),
       institute_id: this.institute_id,
-      userid:sessionStorage.getItem('userid')
+      userid: sessionStorage.getItem('userid')
     }
 
-    this._http.putData("/api/v2/toDoList/update",obj).subscribe(
+    this._http.putData("/api/v2/toDoList/update", obj).subscribe(
       res => {
         this.getAllTask();
       },

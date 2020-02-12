@@ -6,7 +6,6 @@ import { CityAreaMapComponent } from '../../components/city-area-map/city-area-m
 import { ClassRoomComponent } from '../../components/class-room/class-room.component';
 import { CityAreaService } from '../../services/area-city-service/area-city.service';
 import { ClassRoomService } from '../../services/class-roomService/class-roomlist.service';
-import { EventManagmentService } from '../../services/event-managment.service';
 import { ExamGradeServiceService } from '../../services/examgradeservice/exam-grade-service.service';
 import { HttpService } from '../../services/http.service';
 import { SlotApiService } from '../../services/slot-service/slot.service';
@@ -43,8 +42,7 @@ import { SlotComponent } from './slot/slot.component';
         SlotApiService,
         CityAreaService,
         HttpService ,
-        ClassRoomService,
-        EventManagmentService,
+        ClassRoomService
     ]
 })
 

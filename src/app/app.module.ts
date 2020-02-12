@@ -9,7 +9,7 @@ import { ToasterModule } from 'angular2-toaster';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
-import { AppComponent, AuthenticatorService, CommonServiceFactory, ExpensesService, FetchenquiryService, FetchprefilldataService, HttpService, LoginService, MessageShowService, MultiBranchDataService, PaginationService, PostEnquiryDataService, TablePreferencesService, ZendAuth } from '.';
+import { AppComponent, AuthenticatorService, CommonServiceFactory, ExpensesService, FetchenquiryService, FetchprefilldataService, HttpService, LoginService, MessageShowService, MultiBranchDataService, PaginationService, PostEnquiryDataService, TablePreferencesService } from '.';
 import { MasterTagService } from '../app/components/eStore-module/master-tag/master-tag.component.service';
 import { AppMainLoaderComponent } from './app-loader/app-loader.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -53,7 +53,6 @@ import { ProductService } from './services/products.service';
     AuthenticatorService,
     LoginService,
     AuthGuard,
-    ZendAuth,
     MultiBranchDataService,
     TablePreferencesService,
     PaginationService,

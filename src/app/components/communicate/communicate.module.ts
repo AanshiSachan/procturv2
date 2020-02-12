@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommunicateComponent, EmailReportComponent, EventManagmentComponent, ExamReportComponent, FilterPipe, PtmManagementComponent } from '.';
-import { EventManagmentService } from '../../services/event-managment.service';
 import { ExcelService } from '../../services/excel.service';
 import { ExportToPdfService } from '../../services/export-to-pdf.service';
 import { HttpService } from '../../services/http.service';
@@ -36,8 +35,7 @@ import { CoummunicateHomeComponent } from './coummunicate-home/coummunicate-home
     ExportToPdfService,
     ExamService,
     getEmailService,
-    HttpService,
-    EventManagmentService
+    HttpService
   ]
 })
 export class CommunicateModule { }
