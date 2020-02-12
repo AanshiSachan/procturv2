@@ -1220,9 +1220,10 @@ export class ClassComponent implements OnInit {
   }
 
   updateClass(){
+    let obj;
     if(!this.jsonFlag.isProfessional){ // for course model
       if(this.editClass.faculty != "-1"){
-        let obj = {
+        obj = {
           "batch_id": this.editClass.batch_id,
           "is_exam_schedule": "N",
           "class_schedule_id": this.editClass.class_schedule_id,
@@ -1238,7 +1239,7 @@ export class ClassComponent implements OnInit {
       }
     }
     else{   // For batch model
-      let obj = {
+      obj = {
         "batch_id": this.editClass.batch_id,
         "is_exam_schedule": "N",
         "class_schedule_id": this.editClass.class_schedule_id,
