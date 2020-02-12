@@ -323,15 +323,21 @@ export class InstituteSettingsComponent implements OnInit {
 
     lib_issue_for_days: '',
     lib_due_date_fine_per_day: '',
-    jwt_secret_key: ''
+    jwt_secret_key: '',
+
+    class_attendance_not_marked_notification_contact_number: '',
+    class_attendance_not_marked_daily_notification_contact_number: '',
+    exam_attendance_not_marked_notification_contact_number: '',
+    exam_attendance_not_marked_daily_notification_contact_number: '',
+    exam_marks_not_update_notification_contact_number: ''
 
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
   instituteName: any = '';
   biometricSetting: number = 0;
-  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib'];
-  contenTDiv: string[] = ['divSMSContent', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent'];
+  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport'];
+  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent'];
 
   // Library Role
   libraryRole: boolean = false;
@@ -409,8 +415,8 @@ export class InstituteSettingsComponent implements OnInit {
       }
     }
     dataToSend = this.constructJsonToSend();
-    this.isRippleLoad = true;
     if (dataToSend) {
+      this.isRippleLoad = true;
       this.apiService.saveSettingsToServer(dataToSend).subscribe(
         res => {
           this.isRippleLoad = false;
@@ -501,7 +507,48 @@ export class InstituteSettingsComponent implements OnInit {
         }
       }
     }
+    obj.class_attendance_not_marked_notification_contact_number = this.instituteSettingDet.class_attendance_not_marked_notification_contact_number;
+    obj.class_attendance_not_marked_daily_notification_contact_number = this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number;
+    obj.exam_attendance_not_marked_notification_contact_number = this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number;
+    obj.exam_attendance_not_marked_daily_notification_contact_number = this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number
+    obj.exam_marks_not_update_notification_contact_number = this.instituteSettingDet.exam_marks_not_update_notification_contact_number;
 
+    if (this.instituteSettingDet.class_attendance_not_marked_notification_contact_number != null && this.instituteSettingDet.class_attendance_not_marked_notification_contact_number != '') {
+      if (!(this.checkContactNoPattern(this.instituteSettingDet.class_attendance_not_marked_notification_contact_number))) {
+        this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
+        return false;
+      }
+    }
+
+    if (this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number != null && this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number != '') {
+      if (!(this.checkContactNoPattern(this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number))) {
+        this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
+        return false;
+      }
+    }
+
+    if (this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number != null && this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number != '') {
+      if (!(this.checkContactNoPattern(this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number))) {
+        this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
+        return false;
+      }
+    }
+
+    if (this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number != null && this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number != '') {
+      if (!(this.checkContactNoPattern(this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number))) {
+        this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
+        return false;
+      }
+    }
+
+    if (this.instituteSettingDet.exam_marks_not_update_notification_contact_number != null && this.instituteSettingDet.exam_marks_not_update_notification_contact_number != '') {
+      if (!(this.checkContactNoPattern(this.instituteSettingDet.exam_marks_not_update_notification_contact_number))) {
+        this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
+        return false;
+      }
+    }
+
+    
     obj.first_sms_low_balance_threshold = this.instituteSettingDet.first_sms_low_balance_threshold != null && this.instituteSettingDet.first_sms_low_balance_threshold != '' && this.instituteSettingDet.first_sms_low_balance_threshold != 0 ? this.instituteSettingDet.first_sms_low_balance_threshold : 0;
     obj.second_sms_low_balance_threshold = this.instituteSettingDet.second_sms_low_balance_threshold != null && this.instituteSettingDet.second_sms_low_balance_threshold != '' && this.instituteSettingDet.second_sms_low_balance_threshold != 0 ? this.instituteSettingDet.second_sms_low_balance_threshold : 0;
     obj.sms_low_balance_alert_contact_number = this.instituteSettingDet.sms_low_balance_alert_contact_number != '' && this.instituteSettingDet.sms_low_balance_alert_contact_number != null ? this.instituteSettingDet.sms_low_balance_alert_contact_number : null;
@@ -765,6 +812,12 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.second_sms_low_balance_threshold = data.second_sms_low_balance_threshold;
     this.instituteSettingDet.sms_low_balance_alert_contact_number = (data.sms_low_balance_alert_contact_number == null || data.sms_low_balance_alert_contact_number == 'NULL') ? null : data.sms_low_balance_alert_contact_number;
     this.instituteSettingDet.jwt_secret_key = data.jwt_secret_key;
+
+    this.instituteSettingDet.class_attendance_not_marked_notification_contact_number = data.class_attendance_not_marked_notification_contact_number;
+    this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number = data.class_attendance_not_marked_daily_notification_contact_number;
+    this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number = data.exam_attendance_not_marked_notification_contact_number;
+    this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number = data.exam_attendance_not_marked_daily_notification_contact_number;
+    this.instituteSettingDet.exam_marks_not_update_notification_contact_number = data.exam_marks_not_update_notification_contact_number;
   }
 
 
