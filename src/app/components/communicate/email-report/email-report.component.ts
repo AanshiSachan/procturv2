@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AppComponent } from '../../../app.component';
-import { ColumnSetting } from '../../shared/custom-table/layout.model';
-import { getEmailService } from '../../../services/report-services/get-email.service';
+import { Component } from '@angular/core';
 import * as moment from 'moment';
+import { AppComponent } from '../../../app.component';
+import { getEmailService } from '../../../services/report-services/get-email.service';
+import { ColumnSetting } from '../../shared/custom-table/layout.model';
+import { AuthenticatorService } from './../../../services/authenticator.service';
 
 @Component({
   selector: 'app-email-report',
@@ -20,7 +21,6 @@ export class EmailReportComponent {
   searchData = [];
   searchflag: boolean = false;
   dataStatus: boolean = true;
-  isRippleLoad: boolean = false;
 
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'sentDateTime', header: 'Sent Date' },
@@ -41,6 +41,7 @@ export class EmailReportComponent {
   constructor(
     private apiService: getEmailService,
     private appC: AppComponent,
+    private auth:AuthenticatorService
   ) {
     this.switchActiveView('email');
   }
@@ -53,11 +54,11 @@ export class EmailReportComponent {
   getAllEmailMessages() {
     this.dataStatus = true;
     this.emailSource = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     
     this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.emailDataSource = res;
         this.totalRecords = res.length;
         if (res.length == 0) {
@@ -68,7 +69,7 @@ export class EmailReportComponent {
       },
       err => {
         this.dataStatus = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
 
@@ -112,7 +113,6 @@ export class EmailReportComponent {
 
     }
     else {
-
       this.emailFetchForm.to_date = moment(new Date).format('YYYY-MM-DD');
       this.emailFetchForm.from_date = moment(new Date).format('YYYY-MM-DD');
 
@@ -168,15 +168,15 @@ export class EmailReportComponent {
 
     }
     else {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.emailSource = res;
           this.searchflag = false;
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       )
     }

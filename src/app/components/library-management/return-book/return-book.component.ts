@@ -1,15 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
+import * as moment from 'moment';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { AddBookService } from '../../../services/library/add/add-book.service';
 import { IssueBookService } from '../../../services/library/issue/issue-book.service';
 import { ReturnBookService } from '../../../services/library/return/return-book.service';
-import * as moment from 'moment';
-import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-return-book',
@@ -25,7 +22,6 @@ export class ReturnBookComponent implements OnInit {
   suggestion: boolean = false;
   returnBookPopup: boolean = false;
   lostBook: boolean = false;
-  isRippleLoad: boolean = false;
   bookSuggestion: boolean = false;
   hoverTitle: string = "";
 
@@ -92,10 +88,10 @@ export class ReturnBookComponent implements OnInit {
   }
 
   getInstituteData(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.issueBookService.getInstituteSettingFromServer().subscribe(
       response => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response;
         this.perDayFine = res.lib_due_date_fine_per_day
@@ -103,17 +99,17 @@ export class ReturnBookComponent implements OnInit {
 
       },
       errorResponse => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(errorResponse)
       }
     )
   }
 
   getAllMasterData(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.addBookService.getAllMasterData().subscribe(
       response => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response;
         console.log(response)
@@ -126,24 +122,24 @@ export class ReturnBookComponent implements OnInit {
         this.languageList = res.response.languages;
       },
       errorResponse => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(errorResponse)
       }
     )
   }
 
   getSubCategory(ev){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.addBookService.getSubCategories(ev).subscribe(
       response => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response;
         console.log(response)
         this.subcategoryList = res.response;
       },
       errorResponse => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(errorResponse)
       }
     )
@@ -186,7 +182,7 @@ export class ReturnBookComponent implements OnInit {
   }
 
   getSearchData(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.returnBookService.getSearchedBooksOrStudents(this.searchInput).subscribe(
       response => {
         let res: any;
@@ -200,7 +196,7 @@ export class ReturnBookComponent implements OnInit {
             this.suggestion = true;
           }
           this.suggestionList = res.response;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
 
       })
@@ -252,10 +248,10 @@ export class ReturnBookComponent implements OnInit {
 
     console.log(obj);
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.issueBookService.getBookFilterData(obj).subscribe(
       response => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response;
         if(res.response.results.length  > 0){
@@ -285,12 +281,12 @@ export class ReturnBookComponent implements OnInit {
 
 
   getIssuedBooksByBook(book_id, book_title){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.returnBookService.getIssuedBooksByBook(book_id).subscribe(
       response => {
         let res: any;
         res = response;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.suggestion = false;
         if(res.response.length > 0){
           this.searchResult = true;
@@ -310,7 +306,7 @@ export class ReturnBookComponent implements OnInit {
       response => {
         let res: any;
         res = response;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.suggestion = false;
         if(res.response.length > 0){
           this.searchResult = true;
@@ -327,12 +323,12 @@ export class ReturnBookComponent implements OnInit {
   }
 
   downloadReceipt(issueBookId){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.returnBookService.downloadReceipt(issueBookId).subscribe(
       response => {
         let res: any;
         res = response;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let byteArr = this._commService.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
@@ -410,13 +406,13 @@ export class ReturnBookComponent implements OnInit {
 
     }
     console.log(obj)
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.multiClickDisabled = true;
     this.returnBookService.returnBook(obj).subscribe(
       response => {
         let res: any;
         res = response;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.returnBookPopup = false;
         this.multiClickDisabled = false;
         console.log(res.response)

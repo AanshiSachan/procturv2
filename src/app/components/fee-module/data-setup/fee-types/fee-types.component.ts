@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FeeStrucService } from '../../../../services/feeStruc.service';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
+import { FeeStrucService } from '../../../../services/feeStruc.service';
 
 
 @Component({
@@ -12,7 +13,6 @@ export class FeeTypesComponent implements OnInit {
 
   createNewFeeType: boolean = false;
   isTaxEnableFeeInstallments: boolean = false;
-  isRippleLoad: boolean = false;
   addNewFee = {
     fee_type: '',
     fee_type_desc: '',
@@ -27,6 +27,7 @@ export class FeeTypesComponent implements OnInit {
 
   constructor(
     private apiService: FeeStrucService,
+    private auth:AuthenticatorService,
     private commonService: CommonServiceFactory
   ) { }
 
@@ -93,10 +94,10 @@ export class FeeTypesComponent implements OnInit {
   }
 
   getListOfFeeType() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getAllFeeType().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.feeTypeList = res;
         this.feeTypeList.forEach(element => {
           if (element.countryId) {
@@ -105,7 +106,7 @@ export class FeeTypesComponent implements OnInit {
         });
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -113,16 +114,16 @@ export class FeeTypesComponent implements OnInit {
 
   updateDetails() {
     let data = this.makeDataJson();
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.apiService.upadateFeeType(data).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('success', 'Updated', 'Details Updated Successfully');
           this.getListOfFeeType();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('error', '', err.error.message);
         }
       )

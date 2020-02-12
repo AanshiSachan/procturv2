@@ -1,8 +1,9 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { AppComponent } from '../../../app.component';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { EmployeeService } from '../../../services/employee-service/employee.service';
 import { MenuItem } from 'primeng/primeng';
+import { AppComponent } from '../../../app.component';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { EmployeeService } from '../../../services/employee-service/employee.service';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,6 @@ export class HomeComponent implements OnInit {
   selectedEmpData: any = '';
   bulkActionItems: MenuItem[];
   searchTextEntered: any = "";
-  isRippleLoad: boolean = false;
   selectedEmployeeID: any = [];
   sendNotificationPopUp: boolean = false;
   messageList: any = [];
@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private appC: AppComponent,
+    private auth:AuthenticatorService,
     private apiService: EmployeeService
   ) {
     if (sessionStorage.getItem('userid') == null) {
@@ -69,19 +70,19 @@ export class HomeComponent implements OnInit {
   onViewBtnClick() {
     let data = this.checkUserProvidedFields();
     this.PageIndex = 1;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.dataStatus = 1;
     this.apiService.searchEmployee(data.name, data.number).subscribe(
       res => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.employeeListDataSource = this.addKey(res);
         this.totalRow = res.length;
         this.fetchTableDataByPage(this.PageIndex);
       },
       err => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -164,10 +165,10 @@ export class HomeComponent implements OnInit {
   fetchAllMessage() {
     this.messageList = [];
     this.approvedMessageList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getMessageList().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageList = res;
         res.map(
           ele => {
@@ -179,7 +180,7 @@ export class HomeComponent implements OnInit {
         )
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -221,17 +222,17 @@ export class HomeComponent implements OnInit {
           message: this.addNewMessageText.trim(),
           status: 0
         }
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.apiService.addNewMessage(obj).subscribe(
           res => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.messageNotifier('success', 'Added Successfully', 'Message Added Successfully');
             this.toggleCreateNewMessage();
             this.addNewMessageText = "";
             this.fetchAllMessage();
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.messageList('error', '', err.error.message);
           }
         )
@@ -254,15 +255,15 @@ export class HomeComponent implements OnInit {
 
   approveRejectSms(data) {
     if (confirm('Are you sure, you want to approve this message?')) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.apiService.approveMessageStatus({ status: 1 }, data.message_id).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('success', 'Approved', 'Message approved successfully');
           this.fetchAllMessage();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )
@@ -271,15 +272,15 @@ export class HomeComponent implements OnInit {
 
   deleteSms(data) {
     if (confirm('Are you sure, you want to delete this message?')) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.apiService.deleteMessage(data.message_id).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('success', 'Deletes', 'Message deleted successfully');
           this.fetchAllMessage();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )
@@ -304,15 +305,15 @@ export class HomeComponent implements OnInit {
         message: data.message,
         status: 0
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.apiService.editMessage(obj, data.message_id).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('success', 'Saved Successfully', 'Message saved');
           this.fetchAllMessage();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )

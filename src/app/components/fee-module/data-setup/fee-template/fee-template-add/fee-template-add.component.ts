@@ -10,7 +10,7 @@ import { FeeStrucService } from '../../../../../services/feeStruc.service';
   styleUrls: ['./fee-template-add.component.scss']
 })
 export class FeeTemplateAddComponent implements OnInit {
-  isRippleLoad: boolean = false;
+
   showDefaultTemplate: any='0';
   masterCourseList: any = [];
   CourseList: any = [];
@@ -429,16 +429,16 @@ export class FeeTemplateAddComponent implements OnInit {
       data.course_id = this.addNewTemplate.course_id;
     }
 
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.apiService.updateFeeTemplate(data).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('success', 'Updated', 'Fee Structure created Successfully');
           this.route.navigateByUrl('/view/fee/data-setup/fee-template/home');
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('error', '', err.error.message);
         }
       )

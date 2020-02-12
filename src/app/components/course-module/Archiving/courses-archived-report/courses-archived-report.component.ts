@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AppComponent } from '../../../../app.component';
 import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
-import { AppComponent } from '../../../../app.component';
 
 @Component({
   selector: 'app-courses-archived-report',
@@ -12,7 +12,6 @@ export class CoursesArchivedReportComponent implements OnInit {
 
   isProfessional: boolean;
   archivedData:any[]=[];
-  isRippleLoad:boolean;
   PageIndex: number = 1;
   PageIndexPopup: number = 1;
   pagedisplaysize: number = 10;
@@ -50,12 +49,12 @@ export class CoursesArchivedReportComponent implements OnInit {
 
   getCoursesArchived() {
     this.dataStatus = true;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (this.isProfessional) {
       this.course.batchArchiveStatus().subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false
+          this.auth.hideLoader();
           this.archivedData = data;
           this.totalRow = data.length;
           this.PageIndex = 1;
@@ -63,7 +62,7 @@ export class CoursesArchivedReportComponent implements OnInit {
         },
         (error: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false
+          this.auth.hideLoader();
           let msg = {
             type: "error",
             body: error.error.message
@@ -73,11 +72,11 @@ export class CoursesArchivedReportComponent implements OnInit {
       )
     }
     else {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.course.courseArchiveStatus().subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false
+          this.auth.hideLoader();
           this.archivedData = data;
           this.totalRow = data.length;
           this.PageIndex = 1;
@@ -85,7 +84,7 @@ export class CoursesArchivedReportComponent implements OnInit {
         },
         (error: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false
+          this.auth.hideLoader();
           let msg = {
             type: "error",
             body: error.error.message

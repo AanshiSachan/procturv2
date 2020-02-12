@@ -12,7 +12,6 @@ import { MessageShowService } from '../../services/message-show.service';
 export class InstituteSettingsComponent implements OnInit {
 
 
-  isRippleLoad: boolean = false;
   isLangInst: boolean = false;
   student_expiry_notifctn: boolean;
   others_expiry_notifctn: boolean;
@@ -386,15 +385,15 @@ export class InstituteSettingsComponent implements OnInit {
 
 
   getSettingFromServer() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getInstituteSettingFromServer().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.test_series_feature = res.test_series_feature;
         this.fillJSONData(res);
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -409,15 +408,15 @@ export class InstituteSettingsComponent implements OnInit {
       }
     }
     dataToSend = this.constructJsonToSend();
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (dataToSend) {
       this.apiService.saveSettingsToServer(dataToSend).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('success', 'Saved', "All your setting saved successfully");
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('error', '', err.error.message);
         }
       )
@@ -482,7 +481,7 @@ export class InstituteSettingsComponent implements OnInit {
     if (this.instituteSettingDet.course_or_batch_expiry_notification) {
       if (this.instituteSettingDet.course_or_batch_expiry_notification_contact_no != '' && this.instituteSettingDet.course_or_batch_expiry_notification_contact_no != null) {
         if (!(this.checkContactNoPattern(this.instituteSettingDet.course_or_batch_expiry_notification_contact_no))) {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
           return false;
         }
@@ -495,7 +494,7 @@ export class InstituteSettingsComponent implements OnInit {
     if (this.instituteSettingDet.enable_student_expiry_notification == 16 || this.instituteSettingDet.enable_student_expiry_notification == 18) {
       if (this.instituteSettingDet.student_expiry_notification_contact_no != null && this.instituteSettingDet.student_expiry_notification_contact_no != '') {
         if (!(this.checkContactNoPattern(this.instituteSettingDet.student_expiry_notification_contact_no))) {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('error', '', 'Please enter numbers only')
           return false;
         }
@@ -507,24 +506,24 @@ export class InstituteSettingsComponent implements OnInit {
     obj.sms_low_balance_alert_contact_number = this.instituteSettingDet.sms_low_balance_alert_contact_number != '' && this.instituteSettingDet.sms_low_balance_alert_contact_number != null ? this.instituteSettingDet.sms_low_balance_alert_contact_number : null;
     if (obj.first_sms_low_balance_threshold != null && obj.second_sms_low_balance_threshold != null) {
       if (obj.second_sms_low_balance_threshold > obj.first_sms_low_balance_threshold) {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('info', '', 'Threshold SMS 2 cannnot be greater than Threshold SMS 1');
         return false;
       }
     } // sms_low_balance_alert_contact_number key by default coming as 'NULL' string from backend
     if (this.instituteSettingDet.sms_low_balance_alert_contact_number != null && this.instituteSettingDet.sms_low_balance_alert_contact_number != 'NULL' && this.instituteSettingDet.sms_low_balance_alert_contact_number != '') {
       if (!this.checkContactNoPattern(this.instituteSettingDet.sms_low_balance_alert_contact_number)) {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
         return false;
       }
     }
     // if (this.checkDropDownSelection(this.instituteSettingDet.pre_enquiry_follow_up_reminder_time) == false) {
-    //   this.isRippleLoad = false;
+    //   this.auth.hideLoader();
     //   return;
     // }
     // if (this.checkDropDownSelection(this.instituteSettingDet.post_enquiry_follow_up_reminder_time) == false) {
-    //   this.isRippleLoad = false;
+    //   this.auth.hideLoader();
     //   return;
     // }
     obj.daily_account_summary = this.convertBoolenToNumber(this.instituteSettingDet.daily_account_summary);
@@ -545,7 +544,7 @@ export class InstituteSettingsComponent implements OnInit {
 
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', 'Please enter valid contact number.');
         return;
       }

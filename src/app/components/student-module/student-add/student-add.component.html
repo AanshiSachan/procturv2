@@ -1,5 +1,3 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
-</loaders-css>
 <section class="middle-section homewrap clearFix">
 
   <section class="scroll-content" id="studentFlow">
@@ -588,9 +586,9 @@
           </aside>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" #saveAndContinue id="form-kyc-continue" [disabled]="!values.form.valid && isRippleLoad" value="Save and Continue"
+            <input type="button" #saveAndContinue id="form-kyc-continue" [disabled]="!values.form.valid && (auth.isRippleLoad.getValue())" value="Save and Continue"
               class="btn fullBlue" [class.hide]="quickAddStudent" (click)="addStudentDataAndFetchFee(values)">
-            <input type="button" id="form-kyc-submit" [disabled]="!values.form.valid && isRippleLoad" (click)="studentQuickAdder(values)"
+            <input type="button" id="form-kyc-submit" [disabled]="!values.form.valid && (auth.isRippleLoad.getValue())" (click)="studentQuickAdder(values)"
               value="Submit" [class.hide]="!quickAddStudent" class="btn hide fullBlue">
           </aside>
         </section>
@@ -1502,7 +1500,7 @@
               </li>
 
               <li>
-                <button (click)="addNewPDCState()" class="fullBlue btn" [disabled]="isRippleLoad">
+                <button (click)="addNewPDCState()" class="fullBlue btn" [disabled]="auth.isRippleLoad.getValue()">
                   <i style="font-family: FontAwesome;" class="fa fa-plus" aria-hidden="true"></i>
                 </button>
               </li>

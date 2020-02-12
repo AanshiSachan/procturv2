@@ -76,7 +76,6 @@ export class StudentHomeComponent implements OnInit {
   isDeleteStudentPrompt: boolean = false;
   isProfessional: boolean = false;
   isAddComment: boolean = false;
-  isRippleLoad: boolean = false;
   isSideBar: boolean = false;
   isOptions: boolean = false;
   private isAssignBatch: boolean = false;
@@ -286,7 +285,7 @@ export class StudentHomeComponent implements OnInit {
   /* OnInit function to set toggle default columns and load student data for table*/
   /* =================================================================================================== */
   ngOnInit() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.fetchStudentPrefill();
     this.loading_message = 3;
     this.studentDataSource = [];
@@ -328,7 +327,7 @@ export class StudentHomeComponent implements OnInit {
   /* Fetch data from server and convert to custom array */
   loadTableDataSource(obj) {
     console.log(obj);
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.selectedRow = null;
     this.selectedRowGroup = [];
     this.closeSideBar();
@@ -337,7 +336,7 @@ export class StudentHomeComponent implements OnInit {
     if (obj.start_index == 0) {
       return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           /* records */
           if (res.length != 0) {
             this.totalRow = res[0].total_student_count;
@@ -358,7 +357,7 @@ export class StudentHomeComponent implements OnInit {
           }
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let alert = {
             type: 'error',
             title: 'Failed To Fetch Student List',
@@ -375,7 +374,7 @@ export class StudentHomeComponent implements OnInit {
       //console.log("start index not zero" +obj.start_index);
       return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if (res.length != 0) {
             //this._commService.contactNoPatternChange(res); 
             this.contactNoPatternChange(res);
@@ -395,7 +394,7 @@ export class StudentHomeComponent implements OnInit {
           }
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let alert = {
             type: 'error',
             title: 'Failed To Fetch Student List',
@@ -435,11 +434,11 @@ export class StudentHomeComponent implements OnInit {
     console.log(this.selectedUserId)
     let studentId = this.getListOfIds(this.selectedRowGroup).split(',');
     const url = '/admit-card/download';
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.postService.stdPostData(url, studentId).subscribe(
       (res: any) => {
         console.log(res);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (res) {
           let resp = res.response;
           if (resp.document != "") {
@@ -457,12 +456,12 @@ export class StudentHomeComponent implements OnInit {
             this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
           }
         } else {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
     )
@@ -709,10 +708,10 @@ export class StudentHomeComponent implements OnInit {
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
     this.studentDataSource = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentFetch.fetchAllStudentDetails(this.instituteData).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (res.length != 0) {
           this.totalRow = res[0].total_student_count;
           this.studentDataSource = res;
@@ -730,7 +729,7 @@ export class StudentHomeComponent implements OnInit {
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }
@@ -760,10 +759,10 @@ export class StudentHomeComponent implements OnInit {
       course_id: this.instituteData.course_id
     }
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentFetch.downloadStudentTableasXls(data).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let byteArr = this._commService.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
@@ -776,7 +775,7 @@ export class StudentHomeComponent implements OnInit {
         dwldLink.click();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Failed To Download XLS',
@@ -792,7 +791,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   fetchStudentPrefill() {
 
-    this.isRippleLoad = false;
+    this.auth.hideLoader();
 
     this.prefill.getEnqStardards().subscribe(data => {
       this.standardList = data;
@@ -831,7 +830,7 @@ export class StudentHomeComponent implements OnInit {
       },
       err => {
         let msg = err.error.message;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let obj = {
           type: 'error',
           title: msg,
@@ -1270,7 +1269,7 @@ export class StudentHomeComponent implements OnInit {
     // this.optMenu.nativeElement.classList.add('shorted');
     let id = ev.student_id;
     this.isSideBar = false;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentByIdcustomComponents = [];
     this.subscriptionStudent = this.studentFetch.getStudentById(id).subscribe(
       (res: any) => {
@@ -1364,7 +1363,7 @@ export class StudentHomeComponent implements OnInit {
             }
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
           }
         )
       }
@@ -1480,12 +1479,12 @@ export class StudentHomeComponent implements OnInit {
 
           this.updateAssignedBatches(this.studentbatchList);
 
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.isSideBar = true;
         },
         err => {
           let msg = err.error.message;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let obj = {
             type: 'error',
             title: msg,
@@ -1524,12 +1523,12 @@ export class StudentHomeComponent implements OnInit {
               });
             }
           }
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.isSideBar = true;
         },
         err => {
           let msg = err.error.message;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let obj = {
             type: 'error',
             title: msg,
@@ -1565,14 +1564,14 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   fetchLEaveData() {
     this.leaveDataArray = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentFetch.getStudentLeaveData(this.applyLeave.student_id).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.leaveDataArray = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -1625,10 +1624,10 @@ export class StudentHomeComponent implements OnInit {
       end_date: moment(this.applyLeave.end_date).format("YYYY-MM-DD"),
       reason: this.applyLeave.reason
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentFetch.markLeaveForDays(obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let msg = {
           type: 'success',
           title: 'Leave Applied',
@@ -1639,7 +1638,7 @@ export class StudentHomeComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: '',
@@ -1728,7 +1727,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   getAllMessageFromServer() {
     this.messageList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let obj = {
       from_date: moment().subtract(1, 'months').format("YYYY-MM-DD"),
       status: 1,
@@ -1736,11 +1735,11 @@ export class StudentHomeComponent implements OnInit {
     }
     this.widgetService.getMessageList(obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageList = this.addKeys(res, false);
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -1749,15 +1748,15 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   getAllSavedMessages() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.messageList = [];
     this.widgetService.getMessageList({ status: 1 }).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageList = this.addKeys(res, false);
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -2001,7 +2000,11 @@ export class StudentHomeComponent implements OnInit {
   }
 
   showToggleLoader($event) {
-    this.isRippleLoad = $event;
+     if( $event){
+      this.auth.showLoader();
+    }else{
+      this.auth.hideLoader();
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -2143,7 +2146,7 @@ export class StudentHomeComponent implements OnInit {
       },
       err => {
         let msg = err.error.message;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let obj = {
           type: 'error',
           title: msg,
@@ -2158,10 +2161,10 @@ export class StudentHomeComponent implements OnInit {
     let obj: any = {
       studentIds: this.selectedRowGroup.join(',')
     };
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.postService.downloadAdmissionForm(obj).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let byteArr = this._commService.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
@@ -2173,7 +2176,7 @@ export class StudentHomeComponent implements OnInit {
         dwldLink.click();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._commService.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -2190,10 +2193,10 @@ export class StudentHomeComponent implements OnInit {
     if (userType == 1) {
       object['user_role'] = this.paymentMode;
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
 
     this.postService.getFeeInstallments(object).subscribe((res: any) => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       if (userType == -1) {
         let byteArr = this._commService.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
@@ -2216,14 +2219,14 @@ export class StudentHomeComponent implements OnInit {
       }
     },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._commService.showErrorMessage('error', '', err.error.message);
       })
   }
 
   getCertificateData(event) {
     // this.certificate = true;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = `/api/v1/students/studentCertificateDetails/?studentId=${event}`;
     this.http.getCertificateData(url).subscribe(
       (res: any) => {
@@ -2237,7 +2240,7 @@ export class StudentHomeComponent implements OnInit {
         setTimeout(() => {
           this.printDiv();
         }, 2000);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       err => {
         console.log(err);

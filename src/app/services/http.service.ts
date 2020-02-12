@@ -70,6 +70,18 @@ export class HttpService {
     )
   }
 
+  deleteDataById(deleteurl){
+    let url= this.baseUrl + deleteurl ; 
+    return this.http.delete(url , {headers:this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
   deleteData(objecturl, obj) {
     let url = this.baseUrl + objecturl;
     let object = {

@@ -6,7 +6,7 @@
                 <th *ngIf="isMulti">
                     <div class="field-checkbox-wrapper" style="background: transparent;">
                         <input id="headerCheckbox" type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="isAllSelected" (ngModelChange)="selectAllRows($event)">
-                        <label>asdf</label>
+                        <label></label>
                     </div>
                 </th>
                 <th class="{{map.header}}" (click)="getSortedData(map.primaryKey)" id="{{map.header}}" *ngFor="let map of columnMaps">
@@ -21,7 +21,7 @@
                 <td *ngIf="isMulti">
                     <div class="field-checkbox-wrapper" style="background: transparent;">
                         <input id="{{tableName}}check{{i}}" type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="record.isSelected">
-                        <label>asdf</label>
+                        <label></label>
                     </div>
                 </td>
                 <td class="{{map.header}}" *ngFor="let map of columnMaps" [ctStyleCell]="record[map.access(record)]" [style.color]="getColor(map.primaryKey , record[map.access(record)])">

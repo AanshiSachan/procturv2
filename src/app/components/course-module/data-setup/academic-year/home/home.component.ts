@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { MessageShowService } from '../../../../../services/message-show.service';
-import { AcademicyearService } from '../../../../../services/academicYearService/academicyear.service';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
+import { HttpService } from '../../../../../services/http.service';
+import { MessageShowService } from '../../../../../services/message-show.service';
 
 @Component({
   selector: 'home',
@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
   }
 
   constructor(
-    private academicyearservice: AcademicyearService,
+    private _http: HttpService,
     private msgService: MessageShowService,
     private auth: AuthenticatorService
   ) {
@@ -53,16 +53,16 @@ export class HomeComponent implements OnInit {
   }
 
   getAllAcademicFromServer() {
-    this.academicyearservice.getServices().subscribe(
-      (data: any) => {
-        this.academicYearDataSource = data;
-        this.varJson.totalRow = data.length;
+    this._http.getData("/api/v1/academicYear/all/" + sessionStorage.getItem('institute_id')).subscribe(
+      (resp: any) => {
+        this.academicYearDataSource = resp;
+        this.varJson.totalRow = resp.length;
         this.fetchTableDataByPage(this.varJson.PageIndex);
       },
-      error => {
-        this.showErrorMessage(this.msgService.toastTypes.error, '', error.error.message);
-      }
-    )
+      (err) => {
+        // this.isRippleLoad = false;
+        this.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+      });
   }
 
   addAcademicYearDetails() {
@@ -89,25 +89,26 @@ export class HomeComponent implements OnInit {
       this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.dateTimeMessages.incorrectDetails, "Start year and end year cannot be same");
     }
     else {
-      this.academicyearservice.addNewAcademicYear(this.addAcademicYearTemplate).subscribe(
-        res => {
-          this.showErrorMessage(this.msgService.toastTypes.success, '', "academic Year added successfully");
-          this.addAcademicYearTemplate = {
-            inst_acad_year: "",
-            desc: "",
-            start_date: "",
-            end_date: "",
-            inst_id: this.addAcademicYearTemplate.inst_id,
-            default_academic_year: 0
-          }
-
-          this.toggleCreateNewAcademicYear();
-          this.getAllAcademicFromServer();
-        },
-        err => {
-          this.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+      let obj = this.addAcademicYearTemplate;
+      obj.start_date = moment(this.addAcademicYearTemplate.start_date).format("YYYY-MM-DD");
+      obj.end_date = moment(this.addAcademicYearTemplate.end_date).format("YYYY-MM-DD");
+      let url = "/api/v1/academicYear";
+      this._http.postData(url, obj).subscribe((res) => {
+        this.showErrorMessage(this.msgService.toastTypes.success, '', "academic Year added successfully");
+        this.addAcademicYearTemplate = {
+          inst_acad_year: "",
+          desc: "",
+          start_date: "",
+          end_date: "",
+          inst_id: this.addAcademicYearTemplate.inst_id,
+          default_academic_year: 0
         }
-      )
+
+        this.toggleCreateNewAcademicYear();
+        this.getAllAcademicFromServer();
+      }, err => {
+        this.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+      });
     }
   }
 
@@ -142,29 +143,30 @@ export class HomeComponent implements OnInit {
       let data = {
         inst_acad_year: row2.inst_acad_year,
         desc: row2.desc,
-        start_date: row2.start_date,
-        end_date: row2.end_date,
+        start_date:  moment(row2.start_date).format("YYYY-MM-DD"),
+        end_date: moment(row2.end_date).format("YYYY-MM-DD"),
         inst_id: row2.inst_id,
         default_academic_year: row2.default_academic_year,
-        created_date: row2.created_date
+        created_date:moment(row2.created_date).format("DD-MM-YYYY") 
       }
 
-      this.academicyearservice.editAcademicYear(data, row2.inst_acad_year_id).subscribe(
+      this._http.putData("/api/v1/academicYear/" + row2.inst_acad_year_id, data).subscribe(
         res => {
           this.cancelEditRow(index);
           this.getAllAcademicFromServer();
+          this.showErrorMessage(this.msgService.toastTypes.success, '', 'Academic year updated successfully');
         },
         error => {
           this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.dateTimeMessages.incorrectDetails, error.error.message);
           this.getAllAcademicFromServer();
-        })
+        });
     }
   }
 
   deleteAcademicYear(row) {
     let inst_id = row.inst_acad_year_id
     if (confirm('Are you sure, you want to delete?')) {
-      this.academicyearservice.deleteAcademicYear(inst_id).subscribe(
+      this._http.deleteDataById("/api/v1/academicYear/" + row.inst_acad_year_id).subscribe(
         (data: any) => {
           this.showErrorMessage(this.msgService.toastTypes.success, '', 'Academic year deleted successfully');
           this.getAllAcademicFromServer();

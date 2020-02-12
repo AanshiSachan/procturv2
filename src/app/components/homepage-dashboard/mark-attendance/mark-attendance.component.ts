@@ -1,19 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation, Renderer2, ChangeDetectorRef } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
-import { AppComponent } from '../../../app.component';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CheckableSettings, TreeItemLookup } from '@progress/kendo-angular-treeview';
 import * as moment from 'moment';
-import { WidgetService } from '../../../services/widget.service';
-import { AuthenticatorService } from '../../../services/authenticator.service';
-import { Pipe, PipeTransform } from '@angular/core';
-
-import { TreeViewModule } from '@progress/kendo-angular-treeview';
-import { CheckableSettings } from '@progress/kendo-angular-treeview';
 import { of } from 'rxjs/observable/of';
+import { AppComponent } from '../../../app.component';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { TopicListingService } from '../../../services/course-services/topic-listing.service';
-import { Observable } from 'rxjs/Observable';
-import { TreeItemLookup } from '@progress/kendo-angular-treeview';
-import { element } from 'protractor';
+import { WidgetService } from '../../../services/widget.service';
+
 
 
 @Component({
@@ -57,7 +52,6 @@ export class MarkAttendanceComponent implements OnInit {
   public AllPresent: boolean = true;
   absentPopUp: boolean = false;
   public isProfessional: boolean = false;
-  isRippleLoad: boolean = false;
   topicUpdated: boolean = false;
   presentSMSNotify: boolean = false;
   notifyAbsentStudent: boolean = true;
@@ -143,11 +137,11 @@ export class MarkAttendanceComponent implements OnInit {
           this.checkedKeys = this.batch_info.topics_covered.split("|").map(Number);
         }
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.topicService.getAllTopicsSubTopics(this.subject_id).subscribe(
         res => {
           let temp: any = res;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if (temp != null && temp.length != 0) {
             this.topicBox = false;
             this.topicsData = res;
@@ -164,7 +158,7 @@ export class MarkAttendanceComponent implements OnInit {
           }
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let obj = {
             type: 'error',
             title: '',
@@ -302,7 +296,7 @@ closeTopicModal(){
   }
   }
   updateBatchTopics(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     var checkedTopics = this.totalTopicsList.filter(el => el.checked == true);
     if(checkedTopics != undefined){
      var  getTopicIds = checkedTopics.map(obj =>{
@@ -318,7 +312,7 @@ closeTopicModal(){
         }
         this.appC.popToast(obj);
         this.showTopicsModal = false;
-        this.isRippleLoad = false
+        this.auth.hideLoader();
     }
   }
   public handleChecking(itemLookup: TreeItemLookup): void {
@@ -427,7 +421,7 @@ closeTopicModal(){
 
     // FOR SUBJECT WISE
     if (this.batch_info.forSubjectWise && !this.batch_info.isExam) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       if (!this.isProfessional) {
         let obj = {
           batch_id: this.batch_info.batch_id,
@@ -456,13 +450,13 @@ closeTopicModal(){
             this.home_work_notifn = res[0].home_work_notifn;
             this.topics_covered_notifn = res[0].topics_covered_notifn;
             this.teacher_id = res[0].dateLi[0].teacher_id;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.attendanceNote = res[0].dateLi[0].attendance_note;
             this.homework = res[0].dateLi[0].homework_assigned;
             this.getCountOfAbsentPresentLeave(res);
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             let obj = {
               type: 'info',
               title: '',
@@ -498,13 +492,13 @@ closeTopicModal(){
             this.home_work_notifn = res[0].home_work_notifn;
             this.topics_covered_notifn = res[0].topics_covered_notifn;
             this.teacher_id = res[0].dateLi[0].teacher_id;;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.attendanceNote = res[0].dateLi[0].attendance_note;
             this.homework = res[0].dateLi[0].homework_assigned;
             this.getCountOfAbsentPresentLeave(res);
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             let msg = {
               type: 'error',
               title: '',
@@ -589,15 +583,15 @@ closeTopicModal(){
   }
 
   getExamStudentList(id) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.getExamStudentsList(id).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.studentAttList = this.addKeys(res, false);
         this.getCountOfAbsentPresentLeaveForExam(res);
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
         let msg = {
           type: 'error',
@@ -610,19 +604,19 @@ closeTopicModal(){
   }
 
   getExamStudentListForBatchModel(schdId, batch_id) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let obj = {
       attendanceSchdId: schdId,
       batch_id: batch_id
     }
     this.widgetService.fetchStudentList(obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.studentAttList = res;
         this.getCountOfAbsentPresentLeave(res);
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
         let msg = {
           type: 'error',
@@ -873,7 +867,7 @@ closeTopicModal(){
 
   markAttendanceServerCall(sendSms) {
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let arr = [];
     this.studentAttList.forEach(e => {
       let arrDateLi = []; // as per v1 only single dateli array object will send --laxmi
@@ -921,10 +915,10 @@ closeTopicModal(){
         arr.push(temp);
       }
     });
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.updateAttendance(arr).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let msg = {
           type: 'success',
           title: '',
@@ -936,7 +930,7 @@ closeTopicModal(){
         // this.fetchScheduleWidgetData();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: '',
@@ -1045,7 +1039,7 @@ closeTopicModal(){
       }
       arr.push(temp);
     });
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.updateCourseAttendance(arr).subscribe(
       res => {
         let msg = {
@@ -1053,7 +1047,7 @@ closeTopicModal(){
           title: '',
           body: res.message
         }
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.appC.popToast(msg);
         this.backToHome();
       },
@@ -1063,7 +1057,7 @@ closeTopicModal(){
           title: '',
           body: err.message
         }
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.appC.popToast(msg);
       }
     )
@@ -1256,10 +1250,10 @@ closeTopicModal(){
     }
     // console.log(data)
     if (this.isProfessional) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.widgetService.markAttendance(data).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: 'success',
             title: '',
@@ -1269,7 +1263,7 @@ closeTopicModal(){
           this.backToHome();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: 'error',
             title: '',
@@ -1280,10 +1274,10 @@ closeTopicModal(){
       )
     }
     else {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.widgetService.markStudentAttendance(data).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: 'success',
             title: '',
@@ -1293,7 +1287,7 @@ closeTopicModal(){
           this.backToHome();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: 'error',
             title: '',

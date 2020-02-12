@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
+import * as moment from 'moment';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { AddBookService } from '../../../services/library/add/add-book.service';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-add-book',
@@ -19,7 +18,6 @@ export class AddBookComponent implements OnInit {
   tempBillDate: any;
   additiobnalDetailsDisplay: boolean = false;
   addCategory: boolean = false;
-  isRippleLoad: boolean = false;
   authorSettings = {};
   selectedAuthorList: any[] = [];
   multiClickDisabled: boolean = false;
@@ -79,10 +77,10 @@ export class AddBookComponent implements OnInit {
   }
 
   getAllMasterData(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.addBookService.getAllMasterData().subscribe(
       response => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response;
         console.log(response)
@@ -94,24 +92,24 @@ export class AddBookComponent implements OnInit {
         this.referenceList = res.response.references;
       },
       errorResponse => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(errorResponse)
       }
     )
   }
 
   getSubCategory(ev){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.addBookService.getSubCategories(ev).subscribe(
       response => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response;
         console.log(response)
         this.subcategoryList = res.response;
       },
       errorResponse => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(errorResponse)
       }
     )
@@ -229,7 +227,7 @@ export class AddBookComponent implements OnInit {
            "bill_date": d,
            "bill_remark": this.bookRemarks
          }
-         this.isRippleLoad = true;
+         this.auth.showLoader();
          this.multiClickDisabled = true;
          console.log(obj)
          this.addBookService.addNewBook(obj).subscribe(
@@ -237,7 +235,7 @@ export class AddBookComponent implements OnInit {
              let res: any;
              res = response;
              if(res.response != null){
-               this.isRippleLoad = false;
+               this.auth.hideLoader();
                this.messageHandler('success', 'Book(s) added successfully', '');
                let res: any;
                res = response;
@@ -247,7 +245,7 @@ export class AddBookComponent implements OnInit {
              }
              else{
                this.multiClickDisabled = false;
-               this.isRippleLoad = false;
+               this.auth.hideLoader();
                if(res.errorResponse[0].errorCode == 700){
                  this.messageHandler('error', 'Book alredy exists', '');
                }
@@ -255,7 +253,7 @@ export class AddBookComponent implements OnInit {
              }
            },
            errorResponse => {
-             this.isRippleLoad = false;
+             this.auth.hideLoader();
              this.messageHandler('error', 'Internal Server Error', '');
              console.log(errorResponse)
            }

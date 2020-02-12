@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../../../../services/user-management/user.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from '../../../../app.component';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { UserService } from '../../../../services/user-management/user.service';
 import { CommonServiceFactory } from './../../../../services/common-service';
 
 @Component({
@@ -11,7 +12,6 @@ import { CommonServiceFactory } from './../../../../services/common-service';
 })
 export class AddEditUserComponent implements OnInit {
 
-  isRippleLoad: boolean = false;
   userId: any = "-1";
   rolesList: any = [];
   roleDetails: any = {
@@ -29,14 +29,15 @@ export class AddEditUserComponent implements OnInit {
   instituteCountryDetObj: any = {};
   countryDetails: any = [];
   maxlength: number = null;
-  country_id:number = null;
+  country_id: number = null;
 
   constructor(
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private apiService: UserService,
     private toastCtrl: AppComponent,
-    private commonService: CommonServiceFactory
+    private commonService: CommonServiceFactory,
+    private auth: AuthenticatorService,
   ) { }
 
   ngOnInit() {
@@ -107,10 +108,10 @@ export class AddEditUserComponent implements OnInit {
   }
 
   fetchUserDetails(id) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.fetchUserDetails(id).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.roleDetails = res;
         this.countryDetails.forEach(element => {
           if (element.id == this.roleDetails.country_id) {
@@ -128,7 +129,7 @@ export class AddEditUserComponent implements OnInit {
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
     )
@@ -153,18 +154,19 @@ export class AddEditUserComponent implements OnInit {
       country_id: this.roleDetails.country_id,
       role_id: this.roleDetails.role_id,
       username: this.roleDetails.username,
-      alternate_email_id: this.roleDetails.alternate_email_id    }
+      alternate_email_id: this.roleDetails.alternate_email_id
+    }
     console.log(obj);
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.apiService.createUser(obj).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('success', '', 'User Added Successfully');
           this.route.navigateByUrl('/view/manage/user');
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           console.log(err);
           this.messageNotifier('error', '', err.error.message);
         }
@@ -194,16 +196,16 @@ export class AddEditUserComponent implements OnInit {
       alternate_email_id: this.roleDetails.alternate_email_id
     }
     console.log(obj);
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.apiService.updateUserDetails(obj, this.userId).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('success', '', 'Details Updated Successfully');
           this.route.navigateByUrl('/view/manage/user');
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           console.log(err);
           this.messageNotifier('error', '', err.error.message);
         }
@@ -212,7 +214,7 @@ export class AddEditUserComponent implements OnInit {
   }
 
   validateUserDetails(obj) {
-    let check:any = false;
+    let check: any = false;
     if (obj.name.trim() == "") {
       this.messageNotifier('error', '', 'Please enter name');
       return false;
@@ -223,7 +225,7 @@ export class AddEditUserComponent implements OnInit {
       this.messageNotifier('error', '', 'Please check the number you have provided');
       return false;
     }
-    if(check == 'noNumber'){
+    if (check == 'noNumber') {
       this.messageNotifier('error', '', 'Please enter valid contact no.');
       return false;
     }

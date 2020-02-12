@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { getSMSService } from '../../../../services/report-services/get-sms.service';
-import { MessageShowService } from '../../../../services/message-show.service';
 import { ActivatedRoute } from '../../../../../../node_modules/@angular/router';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { MessageShowService } from '../../../../services/message-show.service';
+import { getSMSService } from '../../../../services/report-services/get-sms.service';
 import { DataDisplayTableComponent } from '../../../shared/data-display-table/data-display-table.component';
 
 @Component({
@@ -30,7 +31,6 @@ export class CampaignBaseReportComponent implements OnInit {
   totalRecords: number = 0;
   searchflag: boolean = false;
   dataStatus: boolean = true;
-  isRippleLoad:boolean= false;
   tableSetting: any = {//inventory.item
     tableDetails: { title: 'Campaign Base SMS Report', key: 'reports.fee.campaignBaseReport', showTitle: false },
     search: { title: 'Search', showSearch: true },
@@ -46,6 +46,7 @@ export class CampaignBaseReportComponent implements OnInit {
   constructor(
     private _msgService: MessageShowService,
     private getSms: getSMSService,
+    private auth:AuthenticatorService,
     private route: ActivatedRoute,
   ) { }
 
@@ -80,10 +81,10 @@ export class CampaignBaseReportComponent implements OnInit {
     getCamapignViewMessages(id){
       this.successCount =0;
       this.failureCount =0;
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.getSms.getCamapignView(id).subscribe(
         (res: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.smsSource = res;
           this.smsSource.forEach(element => {
              if(element.sms_status=='Success'){
@@ -95,7 +96,7 @@ export class CampaignBaseReportComponent implements OnInit {
           });
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
          this.tableSetting.displayMessage= err.message;
         }
       )

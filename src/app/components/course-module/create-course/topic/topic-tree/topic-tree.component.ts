@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Topic, Create_Topic } from '../topic.model';
-import { HttpService } from '../../../../../services/http.service'
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
-import { Subject } from 'rxjs/Subject';
+import { HttpService } from '../../../../../services/http.service';
 import { MessageShowService } from '../../../../../services/message-show.service';
+import { Create_Topic, Topic } from '../topic.model';
 
 declare var $;
 
@@ -17,7 +16,6 @@ declare var $;
 })
 export class TopicTreeComponent implements OnInit {
 
-  isRippleLoad: boolean = false;
   isProfessional: boolean = false;
   option_type: string = 'Add';
   institute_id: any;
@@ -64,16 +62,16 @@ export class TopicTreeComponent implements OnInit {
 
   getAllSubjectList(standards_id) {
     this.subjectTempData = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/subjects/standards/" + standards_id + '?active=Y';
     this._http.getData(url).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.subjectTempData = data;
         console.log(data);
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(error);
       }
     );
@@ -84,16 +82,16 @@ export class TopicTreeComponent implements OnInit {
     this.subjectData = [];
     this.subjectList = [];
     this.filterData.subject_id = -1;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/subjects/standards/" + standards_id + '?active=Y';
     this._http.getData(url).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.subjectData = data;
         console.log(data);
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(error);
       }
     );
@@ -103,11 +101,11 @@ export class TopicTreeComponent implements OnInit {
   Update_Topic_Details(type, editObejct) {
 
     let object = type == 'edit' ? this.addTopic : editObejct;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/topic_manager/update/" + this.institute_id;
     this._http.putData(url, object).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (res.statusCode == 200) {
           console.log(res);
           this.addTopic = new Create_Topic();
@@ -121,7 +119,7 @@ export class TopicTreeComponent implements OnInit {
 
       },
       (error: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(error);
         this._toastPopup.showErrorMessage('error', '', "something went wrong please try again");
       }
@@ -131,15 +129,15 @@ export class TopicTreeComponent implements OnInit {
   // get standard
   getAllStandards() {
     let url = "/api/v1/standards/all/" + this.institute_id + "?active=Y" + '&teacher_id=' + this.teacher_id;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this._http.getData(url).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.standardData = data;
         // console.log(data);
       },
       (error: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(error);
       }
     )
@@ -186,22 +184,22 @@ export class TopicTreeComponent implements OnInit {
         break;
       }
       case 'Subtopic': {
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         let object = $event.data;
         object.subject_id = this.filterData.subject_id;
         object.standard_id = this.filterData.standard_id;
-       // this.isRippleLoad = true;
+       // this.auth.showLoader();
         let url = "/api/v1/topic_manager/add/" + this.institute_id;
         this._http.postData(url, object).subscribe(
           (data: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this._toastPopup.showErrorMessage('success', '', "Subtopic added successfully");
             if ((this.filterData.standard_id != -1) && (this.filterData.subject_id != -1)) {
               this.getTopicDetails(null);
             }
           },
           (error: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this._toastPopup.showErrorMessage('error', '', error.error.message);
             console.log(error);
           }
@@ -216,14 +214,14 @@ export class TopicTreeComponent implements OnInit {
     let url = "/api/v1/topic_manager/" + this.institute_id + "/" + this.temp_object.topicId;
     this._http.deleteData(url, null).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         $('#DeleteTopic').modal('hide');
         this._toastPopup.showErrorMessage('success', '', "Topic Deleted Successfully");
         this.getTopicDetails(null);
         this.disableDeleteBtn = false;
       },
       (err: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
         this._toastPopup.showErrorMessage('error', '', err.error.message);
         this.disableDeleteBtn = false;
@@ -233,11 +231,11 @@ export class TopicTreeComponent implements OnInit {
 
   //edit object
   editTopicDetails(data) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/topic_manager/getTopic/" + this.institute_id + "/" + data.topicId;
     this._http.getData(url).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(data);
         if (data) {
           this.addTopic = new Create_Topic();
@@ -250,7 +248,7 @@ export class TopicTreeComponent implements OnInit {
         }
       },
       (err: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
         this._toastPopup.showErrorMessage('error', '', err.error.message);
       }
@@ -259,11 +257,11 @@ export class TopicTreeComponent implements OnInit {
 
   // add topic
   Add_New_Topic_Details() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/topic_manager/add/" + this.institute_id;
     this._http.postData(url, this.addTopic).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.addTopic = new Create_Topic();
         this._toastPopup.showErrorMessage('success', '', "Topic Added Successfully");
         $('#addTopic').modal('hide');
@@ -273,7 +271,7 @@ export class TopicTreeComponent implements OnInit {
         console.log(data);
       },
       (error: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._toastPopup.showErrorMessage('error', '', "Something went wrong try again ");
         console.log(error);
       }
@@ -289,11 +287,11 @@ export class TopicTreeComponent implements OnInit {
       this._toastPopup.showErrorMessage('error', '', "Select the subject");
       return;
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/topic_manager/standards/" + this.filterData.standard_id + "/subjects/" + this.filterData.subject_id + "/topics";
     this._http.getData(url).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (data) {
           if (type == 'view') {
             this.subjectList = data;
@@ -321,7 +319,7 @@ export class TopicTreeComponent implements OnInit {
         }
       },
       (error: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(error);
       }
     )

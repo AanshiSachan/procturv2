@@ -1,7 +1,3 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'"
-  *ngIf="isRippleLoad">
-</loaders-css>
-
 <div class="container-fluid product-wrapper p-0">
   <div class="row m-0 pt-3 pb-3">
     <div class="col-md-8" style="padding-left: 0;">
@@ -103,7 +99,7 @@
       <div class="go-btn-container">
         <button type="button" name="button" class="fullBlue add-class-btn" (click)="cancel()">Cancel</button>
         <button type="button" name="button" class="fullBlue gobtn" (click)="saveData()"
-          [disabled]="isRippleLoad">Save</button>
+          [disabled]="auth.isRippleLoad.getValue()">Save</button>
       </div>
     </div>
   </div>
