@@ -184,7 +184,8 @@ export class LiveClassesComponent implements OnInit {
       institution_id: this.institution_id,
     }
     const userType: any = sessionStorage.getItem('userType');
-    if (userType != 0) {
+    const userName: any = sessionStorage.getItem('username');
+    if (userType != 0 || (userType == 0 && userName != 'admin')) {
       const userid: any = sessionStorage.getItem('userid');
       this.obj.user_id = userid;
     }
