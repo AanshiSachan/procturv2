@@ -18,6 +18,8 @@ import { PostStudentDataService } from '../../../services/student-services/post-
 import { WidgetService } from '../../../services/widget.service';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 var jsPDF = require('jspdf');
+import { HttpService } from '../../../services/http.service';
+declare var $;
 
 @Component({
   selector: 'app-student-home',
@@ -204,7 +206,7 @@ export class StudentHomeComponent implements OnInit {
     stuCustomLi: [],
     deleteCourse_SubjectUnPaidFeeSchedules: false
   };
-
+  assignedStandard = "-1";
   /* =================================================================================================== */
   constructor(private prefill: FetchprefilldataService,
     private router: Router,
@@ -216,7 +218,8 @@ export class StudentHomeComponent implements OnInit {
     private actRoute: ActivatedRoute,
     private auth: AuthenticatorService,
     private _commService: CommonServiceFactory,
-    private http: ProductService
+    private http: ProductService,
+    private http_service: HttpService
   ) {
 
     this.auth.institute_type.subscribe(
@@ -311,9 +314,63 @@ export class StudentHomeComponent implements OnInit {
           this.downloadStudentIDCard() // because fee install ment at multiple student has some issues
           // this.isShareDetails = true;
         }
+      },
+      {
+        label: 'Assign Standard', icon: 'fa fa-users', command: () => {
+          $('#assignStandard').modal('show');
+        }
       }
     ];
     this.checkDownloadRoleAccess();
+  }
+
+  // Assign standard to multiple students at single time. -- Developed by Swapnil
+  assignStandard(){
+    if(this.assignedStandard != "-1"){
+      if (confirm("Are you sure you want to assign the standard?")) {
+        let studentArray = {};
+        for (let index = 0; index < this.selectedRowGroup.length; index++) {
+          studentArray[this.selectedRowGroup[index]] = true
+        }
+        let obj = {
+          "institute_id": sessionStorage.getItem('institute_id'),
+          "studentArray": studentArray
+        }
+        let url = `/api/v1/students/${this.assignedStandard}/assignStandard`;
+        this.isRippleLoad = true;
+        this.http_service.postData(url,obj).subscribe(
+          (data: any) => {
+            let alert = {
+              type: 'success',
+              title: '',
+              body: 'Standard updated successfully'
+            }
+            this.appC.popToast(alert);
+            this.isRippleLoad = false;
+            this.assignedStandard = "-1";
+            this.loadTableDataSource(this.instituteData);
+            $('#assignStandard').modal('hide');
+          },
+          (error: any) => {
+            this.isRippleLoad = false;
+            let alert = {
+              type: 'error',
+              title: '',
+              body: error
+            }
+            this.appC.popToast(alert);
+          }
+        )
+      }
+    }
+    else{
+      let alert = {
+        type: 'info',
+        title: '',
+        body: 'Please select standard'
+      }
+      this.appC.popToast(alert);
+    }
   }
 
   checkDownloadRoleAccess() {
@@ -376,9 +433,9 @@ export class StudentHomeComponent implements OnInit {
         res => {
           this.auth.hideLoader();
           if (res.length != 0) {
-            //this._commService.contactNoPatternChange(res); 
+            //this._commService.contactNoPatternChange(res);
             this.contactNoPatternChange(res);
-            this.studentDataSource = res;            
+            this.studentDataSource = res;
           }
           else {
             let alert = {
