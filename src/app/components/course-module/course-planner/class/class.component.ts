@@ -1218,8 +1218,8 @@ export class ClassComponent implements OnInit {
 
   updateClass() {
     let obj;
-    if (!this.jsonFlag.isProfessional) { // for course model
-      if (this.editClass.faculty != "-1") {
+    if(!this.jsonFlag.isProfessional){ // for course model
+      if(this.editClass.faculty != "-1"){
         obj = {
           "batch_id": this.editClass.batch_id,
           "is_exam_schedule": "N",
@@ -1230,28 +1230,12 @@ export class ClassComponent implements OnInit {
           "cousre_planner_update_operation": "desc_and_topic_covered_update",
           "alloted_teacher_id": this.editClass.faculty,
         };
-      	this.classService.saveDataOnServer(obj).subscribe(
-          res => {
-            this.auth.hideLoader();
-            let result: any = res;
-            $('#editClass').modal('hide');
-            if(result.statusCode == 200){
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Class updated successfully');
-              this.getData();
-            }
-          },
-          err => {
-            $('#editClass').modal('hide');
-            this.auth.hideLoader();
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          }
-        )
       }
-      else {
+      else{
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select faculty");
       }
     }
-    else {   // For batch model
+    else{   // For batch model
       obj = {
         "batch_id": this.editClass.batch_id,
         "is_exam_schedule": "N",
@@ -1261,25 +1245,26 @@ export class ClassComponent implements OnInit {
         "homework_assigned": this.editClass.homework,
         "cousre_planner_update_operation": "desc_and_topic_covered_update"
       }
-      this.classService.changeClassTeacher(obj).subscribe(   // update class for batch model  // same api for update teacher
-        res => {
-          this.auth.hideLoader();
-          let result: any = res;
-          $('#editClass').modal('hide');
-          if (result.statusCode == 200) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Class updated successfully');
-            this.clearEditValues();
-            this.getData();
-          }
-        },
-        err => {
-          $('#editClass').modal('hide');
-          this.auth.hideLoader();
+    }
+    this.jsonFlag.isRippleLoad = true;
+    this.classService.changeClassTeacher(obj).subscribe(
+      res => {
+        this.jsonFlag.isRippleLoad = false;
+        let result: any = res;
+        $('#editClass').modal('hide');
+        if(result.statusCode == 200){
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Class updated successfully');
           this.clearEditValues();
           this.getData();
         }
-      )
-    }
+      },
+      err => {
+        $('#editClass').modal('hide');
+        this.clearEditValues();
+        this.jsonFlag.isRippleLoad = false;
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+      }
+    )
   }
 
   clearEditValues() {
