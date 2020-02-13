@@ -207,6 +207,7 @@ export class StudentHomeComponent implements OnInit {
     deleteCourse_SubjectUnPaidFeeSchedules: false
   };
   assignedStandard = "-1";
+  isRippleLoad: boolean;
   /* =================================================================================================== */
   constructor(private prefill: FetchprefilldataService,
     private router: Router,
