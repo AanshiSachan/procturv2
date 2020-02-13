@@ -82,7 +82,7 @@ export class InstituteDetailService {
 
     updateDetailsToServer(data) {
         data.institute_id = this.institute_id;
-        let url = this.baseURL + "/api/v1/institutes/" + this.institute_id;
+        let url = this.baseURL + "/api/v1/institutes/my-account-update/" + this.institute_id;
         return this.http.put(url, data, { headers: this.headers }).map(
             this.successCallback,
             this.errorCallBack
