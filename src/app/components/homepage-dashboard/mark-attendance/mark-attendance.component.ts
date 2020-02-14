@@ -56,6 +56,7 @@ export class MarkAttendanceComponent implements OnInit {
   selectAllTopics: boolean = false;
   public AllPresent: boolean = true;
   absentPopUp: boolean = false;
+  notificationPopUp: boolean = false;
   public isProfessional: boolean = false;
   isRippleLoad: boolean = false;
   topicUpdated: boolean = false;
@@ -68,6 +69,8 @@ export class MarkAttendanceComponent implements OnInit {
 
 
   showTopicsModal: boolean = false;
+  isSubjectView: boolean = false;
+  notify_remark: boolean = true;
   topicsList : any = [];
   totalTopicsList: any = [];
 
@@ -94,6 +97,9 @@ export class MarkAttendanceComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(sessionStorage.getItem('isSubjectView') == 'true') {
+    this.isSubjectView = true;
+    }
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -493,6 +499,7 @@ closeTopicModal(){
               } else {
                 e.dateLi[0].serverStatus = "";
               }
+              e.dateLi[0].remark = e.dateLi[0].remark;
             })
             this.studentAttList = res;
             this.home_work_notifn = res[0].home_work_notifn;
@@ -817,7 +824,7 @@ closeTopicModal(){
   }
 
   updateAttendance() {
-
+    this.notificationPopUp = true;
     if (this.batch_info.forCourseWise && !this.batch_info.isExam) {
       this.updateCourseAttendance();
     }
@@ -849,7 +856,10 @@ closeTopicModal(){
           this.absentStudentNames = names;
         }
         else {
+          if(!this.isSubjectView || this.batch_info.isExam) {
+            this.notificationPopUp = false;
           this.markAttendanceServerCall("N");
+          }
         }
       }
       else if (this.settingInfo.home_work_status_notification != 1) {
@@ -861,11 +871,17 @@ closeTopicModal(){
           this.homeWorkNotDoneStudentNames = homework;
         }
         else {
+          if(!this.isSubjectView || this.batch_info.isExam) {
+          this.notificationPopUp = false;
           this.markAttendanceServerCall("N");
+          }
         }
       }
       else {
+        if(!this.isSubjectView || this.batch_info.isExam) {
+          this.notificationPopUp = false;
         this.markAttendanceServerCall("N");
+        }
       }
     }
 
@@ -889,6 +905,11 @@ closeTopicModal(){
         presentStudentNotify = 'N';
       }
 
+      let notify_remark = 'N';
+      if(this.notify_remark) {
+        notify_remark = 'Y';
+      }
+
       if (this.batch_info.forSubjectWise) {
         let topic_covered_notification = 0;
         if (e.dateLi[0].status == 'A' && e.dateLi[0].isStatusModified == 'Y' && this.batch_info.topics_covered != null && this.batch_info.topics_covered != undefined && this.batch_info.topics_covered != '') {
@@ -903,7 +924,8 @@ closeTopicModal(){
           student_id: e.student_id.toString(),
           topics_covered_notifn: topic_covered_notification,
           topics_covered: tempKeys.join("|"),
-          isSMSNotificationToPresentStudents: presentStudentNotify
+          isSMSNotificationToPresentStudents: presentStudentNotify,
+          notify_remark: notify_remark,
         };
         arr.push(temp);
       }
@@ -916,7 +938,8 @@ closeTopicModal(){
           is_home_work_enabled: e.is_home_work_enabled,
           student_id: e.student_id.toString(),
           topics_covered_notifn: e.topics_covered_notifn,
-          isSMSNotificationToPresentStudents: presentStudentNotify
+          isSMSNotificationToPresentStudents: presentStudentNotify,
+          notify_remark: notify_remark,
         };
         arr.push(temp);
       }
@@ -958,6 +981,7 @@ closeTopicModal(){
       schId: d.schId,
       status: d.status,
       teacher_id: this.teacher_id,
+      remark: d.remark
     }
     if (d.schId) {
       obj['schId'] = d.schId.toString();
@@ -975,6 +999,7 @@ closeTopicModal(){
       isStatusModified: "Y",
       is_home_work_status_changed: d.is_home_work_status_changed,
       status: d.status,
+      remark: d.remark
     }
 
     return obj;
@@ -984,6 +1009,7 @@ closeTopicModal(){
 
     let isNotify = 'N';
     let checkAbsent = this.checkIfStudentIsAbsent(this.courseLevelStudentAtt);
+    this.notificationPopUp = true;
     if (checkAbsent && this.settingInfo.sms_absent_notification != 0) {
       let names = this.getAbsentStudentNames(this.studentAttList);
       let homework = this.getHomeWorkNotDoneStudentNames(this.studentAttList);
@@ -998,7 +1024,10 @@ closeTopicModal(){
       //   this.homeWorkNotDoneStudentNames = homework;
       // }
       else {
+        if(!this.isSubjectView || this.batch_info.isExam) {
+          this.notificationPopUp = false;
         this.makeServerCallForUpdateMarks('N');
+        }
       }
     }
     else if (this.settingInfo.home_work_status_notification != 1) {
@@ -1010,12 +1039,18 @@ closeTopicModal(){
         this.homeWorkNotDoneStudentNames = homework;
       }
       else {
+        if(!this.isSubjectView || this.batch_info.isExam){
+        this.notificationPopUp = false;
         this.makeServerCallForUpdateMarks('N');
+        }
       }
 
     }
     else {
+      if(!this.isSubjectView || this.batch_info.isExam){
+      this.notificationPopUp = false;
       this.makeServerCallForUpdateMarks(isNotify);
+      }
     }
   }
 
@@ -1028,6 +1063,11 @@ closeTopicModal(){
     else {
       presentStudentNotify = 'N';
     }
+
+    let notify_remark = 'N';
+    if(this.notify_remark) {
+      notify_remark = 'Y';
+    }
     this.courseLevelStudentAtt.forEach(element => {
       let temp = {
         "student_id": element.student_id,
@@ -1037,11 +1077,13 @@ closeTopicModal(){
           "status": element.dateLi[0].status,
           "isStatusModified": element.dateLi[0].isStatusModified,
           "home_work_status": element.dateLi[0].home_work_status,
-          "is_home_work_status_changed": element.dateLi[0].is_home_work_status_changed
+          "is_home_work_status_changed": element.dateLi[0].is_home_work_status_changed,
+          "remark":element.dateLi[0].remark
         }],
         "isSMSNotificationToPresentStudents": presentStudentNotify,
         "isNotify": isNotify,
         "is_home_work_enabled": element.is_home_work_enabled,
+        "notify_remark":notify_remark
       }
       arr.push(temp);
     });
@@ -1220,7 +1262,7 @@ closeTopicModal(){
         }
       });
     }
-
+    this.notificationPopUp = true;
     if (this.settingInfo.sms_absent_notification != 0 && absectCount != 0) {
       let names = this.getAbsentStudentNames(this.studentAttList);
       if (names.length > 0) {
@@ -1228,11 +1270,17 @@ closeTopicModal(){
         this.absentStudentNames = names;
       }
       else {
+        if(!this.isSubjectView || this.batch_info.isExam){
+        this.notificationPopUp = false;
         this.makeServerCallForExamUpdate('N');
+        }
       }
     }
     else {
+      if(!this.isSubjectView || this.batch_info.isExam){
+      this.notificationPopUp = false;
       this.makeServerCallForExamUpdate('N');
+      }
     }
   }
 
@@ -1349,10 +1397,15 @@ closeTopicModal(){
 
   makeJsonForAttendceMark(notify) {
     let obj: any = [];
+    let notify_remark = 'N';
+    if(this.notify_remark) {
+      notify_remark = 'Y';
+    }
     for (let i = 0; i < this.studentAttList.length; i++) {
       let test: any = {};
       test.batch_id = this.batch_info.batch_id;
       test.isNotify = notify;
+      test.notify_remark = notify_remark;
       test.student_id = this.studentAttList[i].student_id;
       if (this.presentSMSNotify) {
         test.isSMSNotificationToPresentStudents = 'Y';
@@ -1365,7 +1418,8 @@ closeTopicModal(){
         status: this.studentAttList[i].dateLi[0].status,
         isStatusModified: this.studentAttList[i].dateLi[0].isStatusModified,
         attendance_note: this.attendanceNote,
-        schId: this.studentAttList[i].dateLi[0].schId.toString()
+        schId: this.studentAttList[i].dateLi[0].schId.toString(),
+        remark: this.studentAttList[i].dateLi[0].remark
       }]
       obj.push(test);
     }
@@ -1401,6 +1455,7 @@ closeTopicModal(){
     this.absentStudentNames = "";
     this.homeWorkNotDoneStudentNames = "";
     this.absentPopUp = false;
+    this.notificationPopUp = false;
   }
 
 
@@ -1436,6 +1491,7 @@ closeTopicModal(){
 
   closePopUp() {
     this.absentPopUp = false;
+    this.notificationPopUp = false;
   }
 
 
