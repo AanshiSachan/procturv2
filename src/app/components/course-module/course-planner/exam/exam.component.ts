@@ -1118,6 +1118,18 @@ export class ExamComponent implements OnInit {
     }
   }
 
+  showEditOption(){
+    if(!this.jsonFlag.isProfessional){
+      $('#topicModel').modal('hide');
+      $('#editExamForCourse').modal('show');
+    }
+    else{
+      $('#topicModel').modal('hide');
+      $('#editExam').modal('show');
+    }
+
+  }
+
   saveTopics(){
     var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
     var getTopicIds;
@@ -1125,13 +1137,14 @@ export class ExamComponent implements OnInit {
       getTopicIds = getSelectedTopics.map(obj =>{
         return obj.topicId;
       })
-      getTopicIds = getTopicIds.join('|')
+      let getTopicNames = getSelectedTopics.map(obj =>{
+        return obj.topicName;
+      })
       if(!this.jsonFlag.isProfessional){
+
+        getTopicIds = getTopicIds.join('|')
         this.currentEditExam.topics_covered = getTopicIds;
-        this.currentEditExam.topic_name = '';
-        for (let index = 0; index < getSelectedTopics.length; index++) {
-          this.currentEditExam.topic_name += getSelectedTopics[index].topicName;
-        }
+        this.currentEditExam.topic_name = getTopicNames.join('|');
         $('#topicModel').modal('hide');
         $('#editExamForCourse').modal('show');
         for(let index = 0; index < this.examList.length; index++){
@@ -1143,10 +1156,7 @@ export class ExamComponent implements OnInit {
       }
       else{
         this.editClass.topic_covered_ids = getTopicIds;
-        this.editClass.topic_covered_names = '';
-        for (let index = 0; index < getSelectedTopics.length; index++) {
-          this.editClass.topic_covered_names += getSelectedTopics[index].topicName;
-        }
+        this.editClass.topic_covered_names = getTopicNames.join('|');
         $('#topicModel').modal('hide');
         $('#editExam').modal('show');
       }

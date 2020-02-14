@@ -352,7 +352,8 @@
                 <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Exam Marks" style="cursor:pointer"  *ngIf="jsonFlag.isProfessional" (click)="examMarksUpdate(course)">
                 <!-- <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i> -->
-                <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" (click)="editCourseExam(course)"></i>
+                <!-- Edit option removed bcoz we dont have notification send option after exam attendance update  --- Swapnil -->
+                <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" (click)="editCourseExam(course)"></i> -->
               </div>
               <div class="action-container" *ngIf="course.status == 'Mks. pending'">  <!--  marks pending exam action -->
                 <img src="./assets/images/checked-att.svg" alt="Update Attendance" title="Update Attendance" (click)="markAttendanceExamCourse(course)">
@@ -360,7 +361,8 @@
                 <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer"  *ngIf="jsonFlag.isProfessional" (click)="examMarksUpdate(course)">
                 <!-- <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i> -->
-                <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" (click)="editCourseExam(course)"></i>
+                <!-- Edit option removed bcoz we dont have notification send option after exam attendance update  --- Swapnil -->
+                <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" (click)="editCourseExam(course)"></i> -->
               </div>
             </div>
           </div>
@@ -409,14 +411,15 @@
               </div>
               <div class="edit-input-container field-wrapper">
                 <label for="">Topic</label>
-                <input type="text" class="form-ctrl topic-input" name="" value="" readonly [(ngModel)]="exam.topic_name" (click)="fetchTopicForSubject(exam)">
+                <input type="text" class="form-ctrl topic-input" name="" value="" readonly [(ngModel)]="exam.topic_name" (click)="fetchTopicForSubject(exam)" placeholder="Link" [ngClass]="(exam.topic_name != '')? 'topic-linked' : 'no-topic-linked'">
+                <i class="fa fa-link" aria-hidden="true" (click)="fetchTopicForSubject(exam)" style="cursor: pointer;font-size: 15px;position: absolute; top: 35px; right: 32%; background: white;" [ngClass]="(exam.topic_name != '')? 'topic-linked-fa' : 'no-topic-linked-fa'"></i>
               </div>
             </div>
           </div>
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-default" data-dismiss="modal" (click)="updateExam()">Save</button>
         </div>
       </div>
@@ -445,7 +448,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-default" data-dismiss="modal" (click)="updateExam()">Save</button>
         </div>
       </div>
@@ -459,7 +462,7 @@
 
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" (click)="showEditOption()">&times;</button>
           <h4 class="modal-title">Link Topic</h4>
         </div>
         <div class="modal-body">
@@ -467,7 +470,7 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" (click)="showEditOption()">Cancel</button>
           <button class="btn fullBlue" (click)="saveTopics()">Save</button>
         </div>
       </div>
