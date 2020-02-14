@@ -1198,19 +1198,24 @@ export class ClassComponent implements OnInit {
     }
   }
 
-  saveTopics() {
+  showEditOption(){
+    $('#topicModel').modal('hide');
+    $('#editClass').modal('show');
+  }
+
+  saveTopics(){
     var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
     var getTopicIds;
     if (getSelectedTopics != undefined) {
       getTopicIds = getSelectedTopics.map(obj => {
         return obj.topicId;
       })
+      let getTopicNames = getSelectedTopics.map(obj =>{
+        return obj.topicName;
+      })
       getTopicIds = getTopicIds.join('|')
       this.editClass.topic_covered_ids = getTopicIds;
-      this.editClass.topic_covered_names = '';
-      for (let index = 0; index < getSelectedTopics.length; index++) {
-        this.editClass.topic_covered_names += getSelectedTopics[index].topicName;
-      }
+      this.editClass.topic_covered_names = getTopicNames.join('|');
       $('#topicModel').modal('hide');
       $('#editClass').modal('show');
     }
@@ -1246,10 +1251,8 @@ export class ClassComponent implements OnInit {
         "cousre_planner_update_operation": "desc_and_topic_covered_update"
       }
     }
-    this.jsonFlag.isRippleLoad = true;
     this.classService.changeClassTeacher(obj).subscribe(
       res => {
-        this.jsonFlag.isRippleLoad = false;
         let result: any = res;
         $('#editClass').modal('hide');
         if(result.statusCode == 200){
@@ -1261,7 +1264,6 @@ export class ClassComponent implements OnInit {
       err => {
         $('#editClass').modal('hide');
         this.clearEditValues();
-        this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )

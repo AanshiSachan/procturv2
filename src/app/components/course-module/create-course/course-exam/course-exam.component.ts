@@ -120,7 +120,7 @@ export class CourseExamComponent implements OnInit {
   // Topic listing variables
   topicBox: boolean = true;
   selectAllTopics: boolean = false;
-  
+
   showTopicsPopUp: boolean = false;
   topicsList: any = [];
   totalTopicsList: any = [];
@@ -304,18 +304,18 @@ export class CourseExamComponent implements OnInit {
   }
 
   //on checkbox check
-  selectTopics(topic,event){  
+  selectTopics(topic,event){
     topic.checked = !topic.checked;
       if(topic.subTopic.length){
         this.checkAllSubTopics(topic.subTopic, event.target.checked);
-      } 
+      }
       if(!event.target.checked){
         if(topic.parentTopicId != 0){
           this.uncheckParent(topic);
         }
       }
-      this.checkParent(topic);      
-      
+      this.checkParent(topic);
+
   }
   // check/uncheck all subtopics if parent is checked/unchecked
   checkAllSubTopics(topic,param){
@@ -332,7 +332,7 @@ export class CourseExamComponent implements OnInit {
     })
   }
 
-  
+
   //check parent if all subtopics are checked
   checkParent(topic){
     var checkAll: boolean = true;
@@ -393,10 +393,10 @@ export class CourseExamComponent implements OnInit {
           if(obj.subTopic.length){
             this.fetchAllTopics(obj.subTopic,list,selectedTopicIds);
           }
-         
-        });  
+
+        });
         this.totalTopicsList = [];
-        this.totalTopicsList = list     
+        this.totalTopicsList = list
       }
       else {
        this.auth.hideLoader();
@@ -417,13 +417,13 @@ export class CourseExamComponent implements OnInit {
         key.checked = true;
       }
     }
-      list.push(key);  
+      list.push(key);
       if(key.subTopic.length){
         this.fetchAllTopics(key.subTopic,list,idList)
       }
-     
+
     });
-    
+
   }
 
 
@@ -637,9 +637,6 @@ export class CourseExamComponent implements OnInit {
 
 
     this.checkedKeys = subject_data.topicsId;
-
-    console.log(subject_data);
-
   }
 
   updateSubject(row_no, subject_data) {
@@ -1252,7 +1249,7 @@ export class CourseExamComponent implements OnInit {
               tempCheckedKeys = data.split("|");
             }
             else {
-              tempCheckedKeys = this.row_edit_subject_topicId;
+              tempCheckedKeys = data.split(" ");
             }
 
             tempCheckedKeys.forEach((value) => {
@@ -1260,7 +1257,6 @@ export class CourseExamComponent implements OnInit {
                 this.checkedKeys.push(Number(value));
               }
             })
-
 
             subjectData.forEach(
               ele => {
@@ -1669,6 +1665,7 @@ export class CourseExamComponent implements OnInit {
         temp = data.topics_covered;
       }
       this.checkedKeys = temp;
+      this.topicsName = data.topicName;
     }
   }
 
@@ -1680,7 +1677,6 @@ export class CourseExamComponent implements OnInit {
     }
 
     let subjectName = "";
-    console.log(this.viewList);
     this.viewList[j].subjectList.forEach(
       ele => {
         if (this.row_edit_subject_id == ele.subject_id) {
@@ -1689,20 +1685,21 @@ export class CourseExamComponent implements OnInit {
       }
     )
 
-    let topic_names = this.topicsName.join(", ");
-    let topicsNames;
+    // let topic_names = this.topicsName.join(",");
+    let topic_names = this.topicsName;
+    let topics_covered_ids: any = this.row_edit_subject_topicId;
 
-    if (this.topicsName.length > 0) {
-      let y = this.row_edit_subject_topicId.join(",")
-      topicsNames = y.replace(/,/g, "|");
+    if (Array.isArray(this.row_edit_subject_topicId)) {
+      let y = this.row_edit_subject_topicId.join("|")
+      topics_covered_ids = y.replace(/,/g, "|");
     }
-
+  
 
     this.viewList[j].courseTableList[index].subject_id = this.row_edit_subject_id;
     this.viewList[j].courseTableList[index].subject_name = subjectName;
     this.viewList[j].courseTableList[index].total_marks = this.row_edit_exam_marks;
     this.viewList[j].courseTableList[index].topicName = topic_names;
-    this.viewList[j].courseTableList[index].topics_covered = topicsNames;
+    this.viewList[j].courseTableList[index].topics_covered = topics_covered_ids;
     this.viewList[j].courseTableList[index].class_desc = this.row_edit_exam_desc;
     this.viewList[j].courseTableList[index].room_no = this.row_edit_exam_room_no;
 
@@ -1713,9 +1710,6 @@ export class CourseExamComponent implements OnInit {
     this.row_edit_subject_topicId = [];
     this.row_edit_exam_desc = '';
     this.row_edit_exam_room_no = '';
-    //
-    // // this.calculateTotalMarks();
-    //
 
     let total = 0;
     for (let i = 0; i < this.viewList[j].courseTableList.length; i++) {
@@ -1723,14 +1717,10 @@ export class CourseExamComponent implements OnInit {
     }
 
     this.viewList[j].courseModelAdder.total_marks = total;
-
     this.checkedKeys = [];
     this.topicsName = [];
-
-
     document.getElementById(("row_already" + index + "_" + j).toString()).classList.remove('editComp');
     document.getElementById(("row_already" + index + "_" + j).toString()).classList.add('displayComp');
-
     this.selectedRow = "";
   }
 
@@ -1738,8 +1728,6 @@ export class CourseExamComponent implements OnInit {
     this.multiClickDisabled = true;
     this.auth.showLoader();
     let dataToSend = this.makeDataJsonToSendServer();
-    // console.log(dataToSend);
-    // dataToSend = false;
     if (dataToSend == false ||dataToSend==undefined) {
       this.auth.hideLoader();
       this.multiClickDisabled = false;

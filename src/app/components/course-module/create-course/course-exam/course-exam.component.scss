@@ -500,7 +500,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .subjectName {
-    width: 200px !important;
+    width: 185px !important;
     padding: 0px 0px !important;
 }
 
@@ -654,6 +654,10 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: transparent;
   color: #656565;
 }
+.k-treeview .k-in.k-state-selected {
+  background-color: white;
+  color: #656565;
+}
 .k-checkbox:indeterminate+.k-checkbox-label::after {
     background-color: #0084f6;
 }
@@ -743,7 +747,7 @@ input[type=number]::-webkit-outer-spin-button {
     width: 100%;
   }
   .topic-container{
-    margin-right: 0!important; 
+    margin-right: 0!important;
     margin-left: 0!important;
     display: flex;
     flex-direction: row;
