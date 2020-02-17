@@ -1580,18 +1580,22 @@
                                 </div>
                               </div>
                             </h3>
-                          <div class="checkbox-bundle-wrapper" style="width: 35%;float: left;">
-                            <div class="field-checkbox-wrapper">
+                          <div class="checkbox-bundle-wrapper" style="width: 45%;float: left;">
+                            <div class="field-checkbox-wrapper" style="width: 30%;">
                               <input type="checkbox" value="" name="ch303" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_notification.teacher" id="ch303">
                               <label for="ch303">Faculty</label>
                             </div>
-                            <div class="field-checkbox-wrapper">
+                            <div class="field-checkbox-wrapper" style="width: 30%;">
                               <input type="checkbox" value="" name="ch292" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_notification.admin" id="ch292">
                               <label for="ch292">Admin</label>
                             </div>
+                            <div class="field-checkbox-wrapper"style="width: 30%;">
+                              <input type="checkbox" value="" name="ch293" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_notification.other" id="ch293">
+                              <label for="ch293">Other</label>
+                            </div>
                           </div>
-                          <div class="c-sm-6">
-                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.exam_attendance_not_marked_notification_contact_number >= ''}">
+                          <div class="c-sm-6" *ngIf="instituteSettingDet.enable_exam_attendance_not_marked_notification.other">
+                            <div class="field-wrapper" style="margin-top: 0;" [ngClass]="{'has-value' : instituteSettingDet.exam_attendance_not_marked_notification_contact_number >= ''}">
                               <!-- <label for="instituteContact">Institute Contact No(s) For Fee Receipt
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
@@ -1604,8 +1608,8 @@
                                 </div>
   
                               </label> -->
-                              <input type="text" [(ngModel)]="instituteSettingDet.exam_attendance_not_marked_notification_contact_number" class="form-ctrl" id="instituteContact">
                               <p>You can provide multiple number separated by comma's</p>
+                              <input type="text" [(ngModel)]="instituteSettingDet.exam_attendance_not_marked_notification_contact_number" class="form-ctrl" id="instituteContact">                              
                             </div>
                           </div>
                         </div>
@@ -1625,20 +1629,24 @@
                                 <br> faculty to update marks
                               </div>
                             </div></h3>
-                          <div class="checkbox-bundle-wrapper" style="width: 35%;float: left;">
-                            <div class="field-checkbox-wrapper">
+                          <div class="checkbox-bundle-wrapper" style="width: 45%;float: left;">
+                            <div class="field-checkbox-wrapper" style="width: 30%;">
                               <input type="checkbox" value="" name="ch313" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_marks_not_update_notification.teacher" id="ch313">
                               <label for="ch313">Faculty</label>
                             </div>
-                            <div class="field-checkbox-wrapper">
+                            <div class="field-checkbox-wrapper" style="width: 30%;">
                               <input type="checkbox" value="" name="ch323" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_marks_not_update_notification.admin" id="ch323">
                               <label for="ch323">Admin</label>
                             </div>
+                            <div class="field-checkbox-wrapper"style="width: 30%;">
+                              <input type="checkbox" value="" name="ch324" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_marks_not_update_notification.other" id="ch324">
+                              <label for="ch324">Other</label>
+                            </div>
                           </div>
-                          <div class="c-sm-6">
-                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.exam_marks_not_update_notification_contact_number >= ''}">
-                              <input type="text" [(ngModel)]="instituteSettingDet.exam_marks_not_update_notification_contact_number" class="form-ctrl" id="instituteContact">
+                          <div class="c-sm-6" *ngIf="instituteSettingDet.enable_exam_marks_not_update_notification.other">
+                            <div class="field-wrapper" style="margin-top: 0;" [ngClass]="{'has-value' : instituteSettingDet.exam_marks_not_update_notification_contact_number >= ''}">
                               <p>You can provide multiple number separated by comma's</p>
+                              <input type="text" [(ngModel)]="instituteSettingDet.exam_marks_not_update_notification_contact_number" class="form-ctrl" id="instituteContact">
                             </div>
                           </div>
                         </div>
@@ -1659,20 +1667,24 @@
                                 <br> attendance
                               </div>
                             </div> --></h3>
-                          <div class="checkbox-bundle-wrapper" style="width: 35%;float: left;">
-                            <div class="field-checkbox-wrapper">
+                          <div class="checkbox-bundle-wrapper" style="width: 45%;float: left;">
+                            <div class="field-checkbox-wrapper" style="width: 30%;">
                               <input type="checkbox" value="" name="ch031" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_daily_notification.teacher" id="ch031">
                               <label for="ch031">Faculty</label>
                             </div>
-                            <div class="field-checkbox-wrapper">
+                            <div class="field-checkbox-wrapper" style="width: 30%;">
                               <input type="checkbox" value="" name="ch354" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_daily_notification.admin" id="ch354">
                               <label for="ch354">Admin</label>
                             </div>
+                            <div class="field-checkbox-wrapper"style="width: 30%;">
+                              <input type="checkbox" value="" name="ch355" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_daily_notification.other" id="ch355">
+                              <label for="ch355">Other</label>
+                            </div>
                           </div>
-                          <div class="c-sm-6">
-                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number >= ''}">
-                              <input type="text" [(ngModel)]="instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number" class="form-ctrl" id="instituteContact">
+                          <div class="c-sm-6" *ngIf="instituteSettingDet.enable_exam_attendance_not_marked_daily_notification.other">
+                            <div class="field-wrapper" style="margin-top: 0;" [ngClass]="{'has-value' : instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number >= ''}">
                               <p>You can provide multiple number separated by comma's</p>
+                              <input type="text" [(ngModel)]="instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number" class="form-ctrl" id="instituteContact">
                             </div>
                           </div>
                         </div>
@@ -1693,22 +1705,26 @@
                                 <br> attendance
                               </div>
                             </div></h3>
-                          <div class="checkbox-bundle-wrapper" style="width: 35%;float: left;">
-                            <div class="field-checkbox-wrapper">
+                          <div class="checkbox-bundle-wrapper" style="width: 45%;float: left;">
+                            <div class="field-checkbox-wrapper" style="width: 30%;">
                               <input type="checkbox" name="ch353" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_notification.teacher"
                                 id="ch353">
                               <label for="ch353">Faculty</label>
                             </div>
-                              <div class="field-checkbox-wrapper">
+                              <div class="field-checkbox-wrapper" style="width: 30%;">
                                   <input type="checkbox" name="ch363" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_notification.admin"
                                     id="ch363">
                                   <label for="ch363">Admin</label>
                                 </div>
+                                <div class="field-checkbox-wrapper"style="width: 30%;">
+                                  <input type="checkbox" value="" name="ch364" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_notification.other" id="ch364">
+                                  <label for="ch364">Other</label>
+                                </div>
                           </div>
-                          <div class="c-sm-6">
-                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.class_attendance_not_marked_notification_contact_number >= ''}">
-                              <input type="text" [(ngModel)]="instituteSettingDet.class_attendance_not_marked_notification_contact_number" class="form-ctrl" id="class_attendance_not_marked_notification_contact_number">
+                          <div class="c-sm-6" *ngIf="instituteSettingDet.enable_class_attendance_not_marked_notification.other">
+                            <div class="field-wrapper" style="margin-top: 0;" [ngClass]="{'has-value' : instituteSettingDet.class_attendance_not_marked_notification_contact_number >= ''}">
                               <p>You can provide multiple number separated by comma's</p>
+                              <input type="text" [(ngModel)]="instituteSettingDet.class_attendance_not_marked_notification_contact_number" class="form-ctrl" id="class_attendance_not_marked_notification_contact_number">
                             </div>
                           </div>
                         </div>
@@ -1729,20 +1745,24 @@
                               <br> attendance
                             </div>
                           </div> --></h3>
-                          <div class="checkbox-bundle-wrapper" style="width: 35%;float: left;">
-                            <div class="field-checkbox-wrapper">
+                          <div class="checkbox-bundle-wrapper" style="width: 45%;float: left;">
+                            <div class="field-checkbox-wrapper" style="width: 30%;" >
                               <input type="checkbox" value="" name="ch373" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_daily_notification.teacher" id="ch373">
                               <label for="ch373">Faculty</label>
                             </div>
-                            <div class="field-checkbox-wrapper">
+                            <div class="field-checkbox-wrapper"style="width: 30%;">
                               <input type="checkbox" value="" name="ch383" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_daily_notification.admin" id="ch383">
                               <label for="ch383">Admin</label>
                             </div>
+                            <div class="field-checkbox-wrapper"style="width: 30%;">
+                              <input type="checkbox" value="" name="ch393" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_daily_notification.other" id="ch393">
+                              <label for="ch393">Other</label>
+                            </div>
                           </div>
-                          <div class="c-sm-6">
-                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number >= ''}">
-                              <input type="text" [(ngModel)]="instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number" class="form-ctrl" id="class_attendance_not_marked_daily_notification_contact_number">
+                          <div class="c-sm-6" *ngIf="instituteSettingDet.enable_class_attendance_not_marked_daily_notification.other">
+                            <div class="field-wrapper" style="margin-top: 0;" [ngClass]="{'has-value' : instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number >= ''}">
                               <p>You can provide multiple number separated by comma's</p>
+                              <input type="text" [(ngModel)]="instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number" class="form-ctrl" id="class_attendance_not_marked_daily_notification_contact_number">                              
                             </div>
                           </div>
                         </div>
