@@ -156,7 +156,7 @@ export class LiveClassesComponent implements OnInit {
 
     const userType = sessionStorage.getItem('userType');
     const userName = sessionStorage.getItem('userName');
-    if (userType == '3' || (userType == '0' && userName != 'admin')) {
+    if (userType == '3') {
       this.forUser = true;
     }
 
@@ -184,8 +184,7 @@ export class LiveClassesComponent implements OnInit {
       institution_id: this.institution_id,
     }
     const userType: any = sessionStorage.getItem('userType');
-    const userName: any = sessionStorage.getItem('username');
-    if (userType != 0 || (userType == 0 && userName != 'admin')) {
+    if (userType != 0) {
       const userid: any = sessionStorage.getItem('userid');
       this.obj.user_id = userid;
     }
@@ -221,9 +220,9 @@ export class LiveClassesComponent implements OnInit {
     )
   }
 
-  forTeacher(teachersUserIds, moderatorUserIds) {
+  forTeacher(teachersUserIds) {
     let userId = sessionStorage.getItem('userid');
-    if (teachersUserIds.includes(userId) || moderatorUserIds.includes(userId)) {
+    if (teachersUserIds.includes(userId)) {
       return true;
     }
     else {

@@ -230,22 +230,27 @@ export class InstituteSettingsComponent implements OnInit {
     enable_exam_marks_not_update_notification: {
       teacher: '',
       admin: '',
+      other: false
     },
     enable_exam_attendance_not_marked_notification: {
       teacher: '',
       admin: '',
+      other: false
     },
     enable_class_attendance_not_marked_notification: {
       teacher: '',
       admin: '',
+      other: false
     },
     enable_exam_attendance_not_marked_daily_notification: {
       teacher: '',
       admin: '',
+      other: false
     },
     enable_class_attendance_not_marked_daily_notification: {
       teacher: '',
       admin: '',
+      other: false
     },
     exam_min_marks: '',
     exam_average_marks: '',
@@ -419,7 +424,7 @@ export class InstituteSettingsComponent implements OnInit {
       this.apiService.saveSettingsToServer(dataToSend).subscribe(
         res => {
           this.auth.hideLoader();
-          this.commonService.showErrorMessage('success', 'Saved', "All your setting saved successfully");
+          this.commonService.showErrorMessage('success', '', "All your setting saved successfully");
         },
         err => {
           this.auth.hideLoader();
@@ -817,6 +822,22 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number = data.exam_attendance_not_marked_notification_contact_number;
     this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number = data.exam_attendance_not_marked_daily_notification_contact_number;
     this.instituteSettingDet.exam_marks_not_update_notification_contact_number = data.exam_marks_not_update_notification_contact_number;
+
+    if(this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number != '' && this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number != null){
+      this.instituteSettingDet.enable_class_attendance_not_marked_daily_notification.other = true;
+    }
+    if(this.instituteSettingDet.class_attendance_not_marked_notification_contact_number != '' && this.instituteSettingDet.class_attendance_not_marked_notification_contact_number != null){
+      this.instituteSettingDet.enable_class_attendance_not_marked_notification.other = true;
+    }
+    if(this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number != '' && this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number != null){
+      this.instituteSettingDet.enable_exam_attendance_not_marked_notification.other = true;
+    }
+    if(this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number != '' && this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number != null){
+      this.instituteSettingDet.enable_exam_attendance_not_marked_daily_notification.other = true;
+    }
+    if(this.instituteSettingDet.exam_marks_not_update_notification_contact_number != '' && this.instituteSettingDet.exam_marks_not_update_notification_contact_number != null){
+      this.instituteSettingDet.enable_exam_marks_not_update_notification.other = true;
+    }
   }
 
 

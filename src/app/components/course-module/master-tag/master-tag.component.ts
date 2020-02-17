@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { AuthenticatorService } from '../../../../../src/app/services/authenticator.service';
+import {Component} from '@angular/core';
 import { MessageShowService } from '../../../../app/services/message-show.service';
-import { MasterTagService } from '../master-tag/master-tag.component.service';
+import { AuthenticatorService } from '../../../../../src/app/services/authenticator.service';
+import { MasterTagService } from './master-tag.component.service';
 
 declare var $;
 
@@ -27,6 +27,7 @@ export class MasterTagComponent {
     tagId: number;
     searchTag: string = '';
     isSearchItemExist: boolean = false;
+    isProfessional: boolean = false;
     constructor(private tagSrvc: MasterTagService,
         private msgSrvc: MessageShowService,
         private auth: AuthenticatorService){
@@ -35,6 +36,15 @@ export class MasterTagComponent {
         this.auth.currentInstituteId.subscribe(id => {
             this.instituteId = id;
           });
+          this.auth.institute_type.subscribe(
+            res => {
+              if (res == 'LANG') {
+                this.isProfessional = true;
+              } else {
+                this.isProfessional = false;
+              }
+            }
+          )
         this.getAllTags();
     }
     //fetch master tags

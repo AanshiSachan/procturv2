@@ -10,7 +10,6 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
 import { AppComponent, AuthenticatorService, CommonServiceFactory, ExpensesService, FetchenquiryService, FetchprefilldataService, HttpService, LoginService, MessageShowService, MultiBranchDataService, PaginationService, PostEnquiryDataService, TablePreferencesService } from '.';
-import { MasterTagService } from '../app/components/eStore-module/master-tag/master-tag.component.service';
 import { AppMainLoaderComponent } from './app-loader/app-loader.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './components/shared/shared.module';
@@ -22,7 +21,7 @@ import { IssueBookService } from './services/library/issue/issue-book.service';
 import { MastersService } from './services/library/master/masters.service';
 import { ReturnBookService } from './services/library/return/return-book.service';
 import { ProductService } from './services/products.service';
-
+import { MasterTagService } from './components/course-module/master-tag/master-tag.component.service';
 
 @NgModule({
   imports: [
