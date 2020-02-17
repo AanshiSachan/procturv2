@@ -56,7 +56,7 @@ export class ChequeManageComponent implements OnInit {
     { primaryKey: 'bank_name', header: 'Bank Name', priority: 6, allowSortingFlag: true },
     { primaryKey: 'contact_no', header: 'Contact No', priority: 7, allowSortingFlag: true },
     { primaryKey: 'cheque_date', header: 'Cheque Date', priority: 8, allowSortingFlag: true },
-    { primaryKey: 'cheque_amount', header: 'Amount', priority: 9, allowSortingFlag: true },
+    { primaryKey: 'cheque_amount', header: 'Amount', priority: 9, amountValue: true, allowSortingFlag: true },
     { primaryKey: 'cheque_status', header: 'Status', priority: 10, allowSortingFlag: true },
     { primaryKey: 'remarks', header: 'Remarks', priority: 11, allowSortingFlag: true },
     { primaryKey: 'reference_no', header: 'Reference No', priority: 12, allowSortingFlag: true },
@@ -185,7 +185,7 @@ export class ChequeManageComponent implements OnInit {
       { primaryKey: 'bank_name', header: 'Bank Name', priority: 6, allowSortingFlag: true },
       { primaryKey: 'contact_no', header: 'Contact No', priority: 7, allowSortingFlag: true },
       { primaryKey: 'cheque_date', header: 'Cheque Date', priority: 8, allowSortingFlag: true },
-      { primaryKey: 'cheque_amount', header: 'Amount', priority: 9, allowSortingFlag: true },
+      { primaryKey: 'cheque_amount', header: 'Amount', priority: 9, amountValue: true, allowSortingFlag: true },
       { primaryKey: 'cheque_status', header: 'Status', priority: 10, allowSortingFlag: true },
       { primaryKey: 'dishonoured_reason', header: 'Reason', priority: 11, allowSortingFlag: true }
       

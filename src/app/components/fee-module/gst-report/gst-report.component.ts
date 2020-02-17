@@ -63,7 +63,7 @@ export class GstReportComponent implements OnInit {
       month: "December"
     }]
 
-  selectYear: any[] = [2017, 2018, 2019]
+  selectYear: any[] = [2017, 2018, 2019, 2020]
   getYear: number;
 
   dataStatus: number;
