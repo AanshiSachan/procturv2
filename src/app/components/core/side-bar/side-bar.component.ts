@@ -163,6 +163,11 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.setActiveClassOnSideNav();
+    // Patch added for specific institute to show only Home and Lead module
+    // Added by Swapnil
+    if(this.instituteId == "101317"){
+      this.accessToHomeAndLead();
+    }
   }
 
 
@@ -250,6 +255,20 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         }
       }
     }
+  }
+
+  accessToHomeAndLead(){
+    this.jsonFlags.isShowStudent = false;
+    this.jsonFlags.isShowModel = false;
+    this.jsonFlags.isShowFee = false;
+    this.jsonFlags.isShowLiveclass = false;
+    this.jsonFlags.isShowCommunicate = false;
+    this.jsonFlags.isShowLibrabry = false;
+    this.jsonFlags.isShoweStore = false;
+    this.jsonFlags.isShoweOnlineExam = false;
+    this.jsonFlags.isAdmin = false;
+    this.jsonFlags.isShowPowerBy = false;
+    this.jsonFlags.isShowLead = true;
   }
 
   setActiveClassOnSideNav() {
