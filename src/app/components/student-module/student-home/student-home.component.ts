@@ -347,7 +347,7 @@ export class StudentHomeComponent implements OnInit {
             let alert = {
               type: 'success',
               title: '',
-              body: this.labelForAssignStandard + 'updated successfully'
+              body: this.labelForAssignStandard + ' assigned to students successfully'
             }
             this.appC.popToast(alert);
             this.isRippleLoad = false;
@@ -371,7 +371,7 @@ export class StudentHomeComponent implements OnInit {
       let alert = {
         type: 'info',
         title: '',
-        body: 'Please select standard'
+        body: 'Please select ' + this.labelForAssignStandard
       }
       this.appC.popToast(alert);
     }
