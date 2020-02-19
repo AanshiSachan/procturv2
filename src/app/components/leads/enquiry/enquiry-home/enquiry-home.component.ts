@@ -1944,6 +1944,16 @@ export class EnquiryHomeComponent implements OnInit {
         )
     }
 
+    checkCustomeComponentElement(index){ 
+        if(!(index%3)){
+                return true;
+            }
+            else{
+                return false;
+            }
+            
+    }
+
     ///// Download Summary Report
     toggleDateSection() {
         if (this.flagJSON.showDateRange == false) {

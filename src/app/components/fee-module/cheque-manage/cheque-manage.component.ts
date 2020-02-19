@@ -487,7 +487,7 @@ export class ChequeManageComponent implements OnInit {
 
       this.getter.updatePDCPayment(obj).subscribe(
         res => {
-          this._msgService.showErrorMessage('success', "Payment Updated", "paymnet via cheque has been updated");
+          this._msgService.showErrorMessage('success', "Payment Updated", "payment via cheque has been updated");
 
           if (this.chequePaymentModel.isGenAck || this.chequePaymentModel.isSendEmail) {
 
