@@ -2641,3 +2641,6 @@ div#enqChart {
 .text-bold{
     font-weight: bold;
 }
+::ng-deep bs-datepicker-container, bs-daterangepicker-container{
+    margin-left:1% !important;
+  }
