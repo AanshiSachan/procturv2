@@ -1741,13 +1741,13 @@ export class StudentAddComponent implements OnInit {
               this.getAcademicYearDetails();
             }
           }
-          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax, res.country_id);
+          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax, this.instituteCountryDetObj.id); //res.country_id);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
-          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax, res.country_id);
+          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax,this.instituteCountryDetObj.id); // tax is apllied as per stud assign template //res.country_id);
           console.log('subjectWise', this.subjectWiseInstallmentArray);
-          this.onPaidOrUnpaidCheckbox(res.country_id);
+          this.onPaidOrUnpaidCheckbox(this.instituteCountryDetObj.id);//res.country_id);
         } else {
           this.checkBoxGroup.showFeeSection = false;
           this.checkBoxGroup.hideReconfigure = false;
@@ -2185,8 +2185,8 @@ export class StudentAddComponent implements OnInit {
       cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('YYYY-MM-DD'),
       cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
     }
-    this.pdcAddForm.country_id = this.studentAddFormData.country_id;
     this.isRippleLoad = true;
+    this.pdcAddForm.country_id = this.instituteCountryDetObj.id;
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
         this.isRippleLoad = false;

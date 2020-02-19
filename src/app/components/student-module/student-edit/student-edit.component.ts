@@ -1830,13 +1830,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
 
           }
-          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax, res.country_id);
+          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax,this.instituteCountryDetObj.id);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
-          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax, res.country_id);
+          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax, this.instituteCountryDetObj.id);
           console.log('subjectWise', this.subjectWiseInstallmentArray);
-          this.onPaidOrUnpaidCheckbox(res.country_id);
+          this.onPaidOrUnpaidCheckbox(this.instituteCountryDetObj.id);// tax is apllied as per stud assign template
         } else {
           this.showFeeSection = false;
           this.checkBoxGroup.hideReconfigure = false;
