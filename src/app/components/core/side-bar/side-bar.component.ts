@@ -164,6 +164,11 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.setActiveClassOnSideNav();
+    // Patch added for specific institute to show only Home and Lead module
+    // Added by Swapnil
+    if(this.instituteId == "101317"){
+      this.accessToHomeAndLead();
+    }
   }
 
 
@@ -252,6 +257,20 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         }
       }
     }
+  }
+
+  accessToHomeAndLead(){
+    this.jsonFlags.isShowStudent = false;
+    this.jsonFlags.isShowModel = false;
+    this.jsonFlags.isShowFee = false;
+    this.jsonFlags.isShowLiveclass = false;
+    this.jsonFlags.isShowCommunicate = false;
+    this.jsonFlags.isShowLibrabry = false;
+    this.jsonFlags.isShoweStore = false;
+    this.jsonFlags.isShoweOnlineExam = false;
+    this.jsonFlags.isAdmin = false;
+    this.jsonFlags.isShowPowerBy = false;
+    this.jsonFlags.isShowLead = true;
   }
 
   setActiveClassOnSideNav() {
@@ -932,6 +951,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('allow_sms_approve_feature', res.allow_sms_approve_feature);
     sessionStorage.setItem('enable_eLearn_feature', res.enable_eLearn_feature);//
     sessionStorage.setItem('open_enq_Visibility_feature', res.open_enq_Visibility_feature);
+    sessionStorage.setItem('enable_fee_template_country_wise', res.enable_fee_template_country_wise);
   }
 
   // closeSubMenu(){
