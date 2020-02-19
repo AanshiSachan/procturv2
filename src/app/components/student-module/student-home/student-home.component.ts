@@ -208,6 +208,7 @@ export class StudentHomeComponent implements OnInit {
     deleteCourse_SubjectUnPaidFeeSchedules: false
   };
   assignedStandard = "-1";
+  labelForAssignStandard = '';
   /* =================================================================================================== */
   constructor(private prefill: FetchprefilldataService,
     private router: Router,
@@ -227,8 +228,10 @@ export class StudentHomeComponent implements OnInit {
       res => {
         if (res == 'LANG') {
           this.isProfessional = true;
+          this.labelForAssignStandard = 'Master Course';
         } else {
           this.isProfessional = false;
+          this.labelForAssignStandard = 'Standard';
         }
       }
     )
@@ -317,7 +320,7 @@ export class StudentHomeComponent implements OnInit {
         }
       },
       {
-        label: 'Assign Standard', icon: 'fa fa-users', command: () => {
+        label: 'Assign '+this.labelForAssignStandard, icon: 'fa fa-users', command: () => {
           $('#assignStandard').modal('show');
         }
       }
@@ -328,7 +331,7 @@ export class StudentHomeComponent implements OnInit {
   // Assign standard to multiple students at single time. -- Developed by Swapnil
   assignStandard(){
     if(this.assignedStandard != "-1"){
-      if (confirm("Are you sure you want to assign the standard?")) {
+      if (confirm("Are you sure you want to assign the "+this.labelForAssignStandard+'?')) {
         let studentArray = {};
         for (let index = 0; index < this.selectedRowGroup.length; index++) {
           studentArray[this.selectedRowGroup[index]] = true
@@ -344,7 +347,7 @@ export class StudentHomeComponent implements OnInit {
             let alert = {
               type: 'success',
               title: '',
-              body: 'Standard updated successfully'
+              body: this.labelForAssignStandard + 'updated successfully'
             }
             this.appC.popToast(alert);
             this.isRippleLoad = false;
