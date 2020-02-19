@@ -35,3 +35,11 @@
         }
     }
 }
+
+::ng-deep .schedule-bottom ul.ul-body li {
+    text-align: center !important;
+}
+
+::ng-deep .search-field{
+    border: 1px solid #e2ebee;
+}

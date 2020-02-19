@@ -156,6 +156,7 @@ export class LiveClassesComponent implements OnInit {
     )
 
     const userType = sessionStorage.getItem('userType');
+    const userName = sessionStorage.getItem('userName');
     if (userType == '3') {
       this.forUser = true;
     }

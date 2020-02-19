@@ -160,7 +160,7 @@ export class AddEditUserComponent implements OnInit {
       this.apiService.createUser(obj).subscribe(
         res => {
           this.isRippleLoad = false;
-          this.messageNotifier('success', 'Added Successfully', 'User Added Successfully');
+          this.messageNotifier('success', '', 'User Added Successfully');
           this.route.navigateByUrl('/view/manage/user');
         },
         err => {
@@ -199,7 +199,7 @@ export class AddEditUserComponent implements OnInit {
       this.apiService.updateUserDetails(obj, this.userId).subscribe(
         res => {
           this.isRippleLoad = false;
-          this.messageNotifier('success', 'Updated Successfully', 'Details Updated Successfully');
+          this.messageNotifier('success', '', 'Details Updated Successfully');
           this.route.navigateByUrl('/view/manage/user');
         },
         err => {

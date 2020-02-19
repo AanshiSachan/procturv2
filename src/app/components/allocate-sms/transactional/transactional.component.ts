@@ -1,6 +1,6 @@
-import { Component, OnInit,NgZone } from '@angular/core';
-import { HttpService } from '../../../services/http.service';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
 declare var Razorpay;
 
