@@ -120,6 +120,7 @@
 
                         <div class="filter-wrapper">
 
+                            <div class="row">
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div class="field-wrapper"
                                     [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
@@ -162,7 +163,9 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="row">
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div class="field-wrapper"
                                     [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
@@ -215,8 +218,10 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
                             <!-- non professional/ academic -->
+                            <div class="row">
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                 <div class="field-wrapper"
                                     [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
@@ -260,22 +265,9 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
-                                <div class="field-wrapper"
-                                    [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
-                                    <label for="school">Institutional/Custom2</label>
-                                    <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id"
-                                        class="form-ctrl">
-                                        <option value="-1"></option>
-                                        <option [value]="sch.school_id" *ngFor="let sch of schoolList">
-                                            {{sch.school_name}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-
+                        <div class="row">
                             <div class="c-lg-4 c-md-4 c-sm-4">
                                 <div class="field-wrapper datePickerBox">
                                     <label>From Date</label>
@@ -296,7 +288,6 @@
                                 </div>
 
                             </div>
-
                             <!-- <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.language_inst_status != '-1'}">
                                     <label for="status">Status</label>
@@ -308,7 +299,6 @@
                                     </select>
                                 </div>
                             </div> -->
-
                             <div class="c-lg-4 c-md-4 c-sm-4">
                                 <div class="field-wrapper"
                                     [class.has-value]="advancedFilterForm.is_active_status != ''">
@@ -322,10 +312,28 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
+                                <div class="field-wrapper"
+                                    [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
+                                    <label for="school">Institutional/Custom2</label>
+                                    <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id"
+                                        class="form-ctrl">
+                                        <option value="-1"></option>
+                                        <option [value]="sch.school_id" *ngFor="let sch of schoolList">
+                                            {{sch.school_name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
                             <custom-student class="c-lg-4 c-md-4 c-sm-4"
                                 [ngClass]="{'hide': component.is_searchable == 'N'}"
                                 *ngFor="let component of customComponents">
+                                <div class="row">
                                 <div class="" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
                                     <div class="field-wrapper">
                                         <label for="{{component.id}}">{{component.label}} </label>
@@ -389,6 +397,7 @@
                                             name="{{component.label}}" bsDatepicker />
                                     </div>
                                 </div>
+                            </div>
                             </custom-student>
 
                             <div class="row adfilter-submitter">
