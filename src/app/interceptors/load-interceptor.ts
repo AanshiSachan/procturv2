@@ -1,20 +1,19 @@
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/retryWhen';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/concat';
+import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
-import { AlertService } from '../services/alert.service';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/retryWhen';
+import 'rxjs/add/operator/take';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class I1 implements HttpInterceptor {
 
-    constructor(private alert: AlertService) {
+    constructor() {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
