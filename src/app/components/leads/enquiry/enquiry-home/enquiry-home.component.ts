@@ -304,7 +304,7 @@ export class EnquiryHomeComponent implements OnInit {
         { primaryKey: 'source_name', header: 'Source', priority: 6 },
         { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.varJson.currentDirection, priority: 7, },
         { primaryKey: 'updateDate', header: 'Last Updated', priority: 8 },
-        { primaryKey: 'assigned_name', header: 'Asignee Name', priority: 9 },
+        { primaryKey: 'assigned_name', header: 'Assignee Name', priority: 9 },
         { primaryKey: 'follow_type', header: 'Follow Up Type', priority: 10 },
         { primaryKey: 'standard', header: 'Standard', priority: 11 },
         { primaryKey: 'referred_by_name', header: 'Referred By', priority: 12 },
