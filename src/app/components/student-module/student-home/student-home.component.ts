@@ -347,7 +347,7 @@ export class StudentHomeComponent implements OnInit {
             let alert = {
               type: 'success',
               title: '',
-              body: this.labelForAssignStandard + ' updated successfully'
+              body: this.labelForAssignStandard + ' assigned to students successfully'
             }
             this.appC.popToast(alert);
             this.isRippleLoad = false;
