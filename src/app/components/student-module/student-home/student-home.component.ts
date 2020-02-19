@@ -11,6 +11,7 @@ import { StudentForm } from '../../../model/student-add-form';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { HttpService } from '../../../services/http.service';
 import { ProductService } from '../../../services/products.service';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
@@ -18,7 +19,6 @@ import { PostStudentDataService } from '../../../services/student-services/post-
 import { WidgetService } from '../../../services/widget.service';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 var jsPDF = require('jspdf');
-import { HttpService } from '../../../services/http.service';
 declare var $;
 
 @Component({
@@ -208,6 +208,7 @@ export class StudentHomeComponent implements OnInit {
   };
   assignedStandard = "-1";
   isRippleLoad: boolean;
+  labelForAssignStandard = '';
   /* =================================================================================================== */
   constructor(private prefill: FetchprefilldataService,
     private router: Router,
@@ -227,8 +228,10 @@ export class StudentHomeComponent implements OnInit {
       res => {
         if (res == 'LANG') {
           this.isProfessional = true;
+          this.labelForAssignStandard = 'Master Course';
         } else {
           this.isProfessional = false;
+          this.labelForAssignStandard = 'Standard';
         }
       }
     )
@@ -317,7 +320,7 @@ export class StudentHomeComponent implements OnInit {
         }
       },
       {
-        label: 'Assign Standard', icon: 'fa fa-users', command: () => {
+        label: 'Assign '+this.labelForAssignStandard, icon: 'fa fa-users', command: () => {
           $('#assignStandard').modal('show');
         }
       }
@@ -328,7 +331,7 @@ export class StudentHomeComponent implements OnInit {
   // Assign standard to multiple students at single time. -- Developed by Swapnil
   assignStandard(){
     if(this.assignedStandard != "-1"){
-      if (confirm("Are you sure you want to assign the standard?")) {
+      if (confirm("Are you sure you want to assign the "+this.labelForAssignStandard+'?')) {
         let studentArray = {};
         for (let index = 0; index < this.selectedRowGroup.length; index++) {
           studentArray[this.selectedRowGroup[index]] = true
@@ -344,7 +347,7 @@ export class StudentHomeComponent implements OnInit {
             let alert = {
               type: 'success',
               title: '',
-              body: 'Standard updated successfully'
+              body: this.labelForAssignStandard + 'updated successfully'
             }
             this.appC.popToast(alert);
             this.isRippleLoad = false;
