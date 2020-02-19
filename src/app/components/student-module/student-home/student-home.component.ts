@@ -371,7 +371,7 @@ export class StudentHomeComponent implements OnInit {
       let alert = {
         type: 'info',
         title: '',
-        body: 'Please select standard'
+        body: 'Please select ' + this.labelForAssignStandard
       }
       this.appC.popToast(alert);
     }
