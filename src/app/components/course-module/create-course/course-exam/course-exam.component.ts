@@ -510,7 +510,7 @@ export class CourseExamComponent implements OnInit {
     if (this.examScheduleData.is_exam_grad_feature <= 0) {
       this.batchAdderData.total_marks = Number(this.batchAdderData.total_marks);
       if (this.batchAdderData.total_marks == 0) {
-        this.messageNotifier('error', '', 'Please Provide Total Marks');
+        this.messageNotifier('error', '', 'Please provide total marks');
         return;
       }
     }

@@ -18,7 +18,6 @@ import { ProductCreationComponent } from './product-creation/product-creation.co
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
 import { EstoreRoutingModule } from './estore-routing.module';
 import { ProductService } from '../../services/products.service';
-import { MasterTagComponent } from './master-tag/master-tag.component'
  
 
 
@@ -50,8 +49,7 @@ import { MasterTagComponent } from './master-tag/master-tag.component'
     OnlineClassComponent,
     OfflineMaterialComponent,
     RegisteredStudentComponent,
-    OfferHistoryComponent,
-    MasterTagComponent
+    OfferHistoryComponent
   ],
   providers: [
     ExcelService,

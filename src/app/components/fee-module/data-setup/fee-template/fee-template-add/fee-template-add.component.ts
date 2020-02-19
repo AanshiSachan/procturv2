@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FeeStrucService } from '../../../../../services/feeStruc.service';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../../services/common-service';
-import { filter } from 'rxjs/operators';
+import { FeeStrucService } from '../../../../../services/feeStruc.service';
 
 @Component({
   selector: 'app-fee-template-add',
@@ -12,6 +11,7 @@ import { filter } from 'rxjs/operators';
 })
 export class FeeTemplateAddComponent implements OnInit {
   isRippleLoad: boolean = false;
+  showDefaultTemplate: any='0';
   masterCourseList: any = [];
   CourseList: any = [];
   countryAdditioalFeeTypes: any = {};
@@ -76,6 +76,7 @@ export class FeeTemplateAddComponent implements OnInit {
       }
     )
     this.enableTaxOptions = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.showDefaultTemplate = sessionStorage.getItem('enable_fee_template_country_wise');
     this.getAllMasterCourseList();
     this.getDetailOfFeeStructur();
     this.fetchDataForCountryDetails();

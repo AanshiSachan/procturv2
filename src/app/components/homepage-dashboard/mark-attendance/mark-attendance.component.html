@@ -117,14 +117,17 @@
                 <div class="sche-head-item-2">
                   <span>Student Name</span>
                 </div>
-                <div style="width: 5%;padding:5px;" *ngIf="!batch_info.isExam">
+                <!-- <div style="width: 5%;padding:5px;" *ngIf="!batch_info.isExam"> -->
                   <!-- This div is only for space purpose -->
-                </div>
+                <!-- </div> -->
                 <div class="sche-head-item-3">
                   <span>Mark Attendance</span>
                 </div>
                 <div class="sche-head-item-4" *ngIf="!batch_info.isExam">
                   <span>Home Work Status</span>
+                </div>
+                <div *ngIf="isSubjectView && !batch_info.isExam">
+                  Remarks
                 </div>
               </div>
               <div class="sche-head" *ngIf="settingInfo.home_work_feature_enable !=1">
@@ -138,11 +141,14 @@
                 <div class="sche-head-item-2">
                   <span>Student Name</span>
                 </div>
-                <div style="width: 5%;padding:5px;" *ngIf="!batch_info.isExam">
+                <!-- <div style="width: 5%;padding:5px;" *ngIf="!batch_info.isExam"> -->
                   <!-- This div is only for space purpose -->
-                </div>
+                <!-- </div> -->
                 <div class="sche-head-item-3">
                   <span>Mark Attendance</span>
+                </div>
+                <div *ngIf="isSubjectView && !batch_info.isExam">
+                  Remarks
                 </div>
               </div>
             </div>
@@ -154,19 +160,19 @@
                     <label></label> -->
                   </div>
 
-                  <div style="width: 15%;padding:5px;" class="subject_item">
+                  <div style="width: 13%;padding:5px;" class="subject_item">
                     <div class="no-margin top5">{{s.student_disp_id}}</div>
                   </div>
 
-                  <div style="width: 30%; padding:5px;" class="subject_item">
+                  <div style="width: 25%; padding:5px;" class="subject_item">
                     <div class="no-margin top5">
                       {{s.student_name}}
                     </div>
                   </div>
-                  <div style="width: 5%;padding:5px;" *ngIf="!batch_info.isExam">
+                  <!-- <div style="width: 5%;padding:5px;" *ngIf="!batch_info.isExam"> -->
                     <!-- This div is only for space purpose -->
-                  </div>
-                  <div style="width: 35%" class="subject_item"  *ngIf="!batch_info.isExam">
+                  <!-- </div> -->
+                  <div style="width: 25%" class="subject_item"  *ngIf="!batch_info.isExam">
                     <div class="btnGroup  btns">
                       <button id="leaveBtn{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClick($event , s , i)"
                         class="btn" [ngClass]="{'classLeaveBtn' : s.dateLi[0].status == 'L'}">L</button>
@@ -177,7 +183,7 @@
                     </div>
                   </div>
 
-                  <div style="width: 35%" class="subject_item"  *ngIf="batch_info.isExam && !isProfessional">
+                  <div style="width: 25%" class="subject_item"  *ngIf="batch_info.isExam && !isProfessional">
                     <div class="btnGroup  btns">
                       <button id="leaveBtn{{s.student_id}}" [disabled]="(s.attendance == 'L' && s.isAttendanceUpdated == 'N')" (click)="markAttendaceExamCourse($event , s , i)"
                         class="btn" [ngClass]="{'classLeaveBtn' : s.attendance == 'L'}">L</button>
@@ -188,7 +194,7 @@
                     </div>
                   </div>
 
-                  <div style="width: 35%" class="subject_item"  *ngIf="batch_info.isExam  && isProfessional">
+                  <div style="width: 25%" class="subject_item"  *ngIf="batch_info.isExam  && isProfessional">
                     <div class="btnGroup  btns">
                       <button id="leaveBtnCourse{{s.student_id}}" [disabled]="(s.dateLi[0].status == 'L' && s.dateLi[0].isStatusModified == 'N')"
                         (click)="markAttendaceExam($event , s , i)" class="btn" [ngClass]="{'classLeaveBtn' : s.dateLi[0].status == 'L'}">L</button>
@@ -199,7 +205,7 @@
                     </div>
                   </div>
 
-                  <div style="width: 15%;padding:5px;" *ngIf="settingInfo.home_work_feature_enable==1 && !batch_info.isExam" class="subject_item">
+                  <div style="width: 17%;padding:5px;" *ngIf="settingInfo.home_work_feature_enable==1 && !batch_info.isExam" class="subject_item">
                     <div style="margin: 0px;" class="customDropdown top5">
                       <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status_11755" class="" [(ngModel)]="s.dateLi[0].home_work_status"
                         (ngModelChange)="isHomeworkStatusChanged(i)">
@@ -208,6 +214,10 @@
                         <option value="NC">Incomplete</option>
                       </select>
                     </div>
+                  </div>
+
+                  <div *ngIf="isSubjectView && !batch_info.isExam">
+                      <input type="text" class="side-form-ctrl remarkSection" [(ngModel)]="s.dateLi[0].remark">
                   </div>
 
                 </div>
@@ -315,13 +325,14 @@
 <!-- ///////// POPUP/////////////////////////////////// -->
 <!-- ///////// POPUP/////////////////////////////////// -->
 
-<section class="absent_popup" *ngIf="absentPopUp">
+<section class="absent_popup" *ngIf="notificationPopUp">
   <div class="absent_student">
     <div class="header">
       <span style="font-weight: 600;">Mark / Update Attendance</span>
       <span style="font-weight: 600; cursor: pointer;" (click)="closeAbsentPopUp()">X</span>
     </div>
     <div class="main_container">
+      <div *ngIf="absentPopUp">
       <div class="for_absent">
         <span style="color: #3a3a3a;">Absent : </span>&nbsp;
         <span>{{absentStudentNames}}</span>
@@ -334,6 +345,12 @@
       <div class="field-checkbox-wrapper">
         <input type="checkbox" class="form-checkbox sms-notify" [(ngModel)]="notifyAbsentStudent" id="smsToAbsent">
         <label for="smsToAbsent">Notify to students</label>
+      </div>
+      </div>
+
+      <div class="field-checkbox-wrapper" *ngIf="isSubjectView && !batch_info.isExam" style="margin-top: 10px;">
+        <input type="checkbox" class="form-checkbox sms-notify" [(ngModel)]="notify_remark" id="notify_remark">
+        <label for="notify_remark">Notify Remarks to students</label>
       </div>
 
       <div class="pull-right" style="margin-top:20px; display:flex; justify-content: flex-end;" *ngIf="batch_info.forCourseWise && !batch_info.isExam">
@@ -354,7 +371,7 @@
   </div>
 </section>
 
-<div class="black-bg" id="black-bg" *ngIf="absentPopUp" (click)="closeAbsentPopUp()">
+<div class="black-bg" id="black-bg" *ngIf="notificationPopUp" (click)="closeAbsentPopUp()">
 
 </div>
 

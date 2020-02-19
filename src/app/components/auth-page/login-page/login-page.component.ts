@@ -433,6 +433,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('enable_elearn_course_mapping_feature', institute_data.enable_elearn_course_mapping_feature);
       sessionStorage.setItem('enable_eLearn_feature', institute_data.enable_eLearn_feature);
       sessionStorage.setItem('website_url', institute_data.website_url);
+      sessionStorage.setItem('enable_fee_template_country_wise', institute_data.enable_fee_template_country_wise);
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
         this.login.changePermissions('');
