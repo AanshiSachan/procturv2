@@ -700,7 +700,7 @@
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountExclTax}}</span>
             </div>
 
-            <div class="tax-Amount tooltipDiv" *ngIf="studentAddFormData.country_id==1 && instituteCountryDetObj.id==1">
+            <div class="tax-Amount tooltipDiv" *ngIf="instituteCountryDetObj.id==1">
               <span class="label">Tax On Installment</span>
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
@@ -723,7 +723,7 @@
 
             <div class="additional-Amount" *ngIf="cardAmountObject.additionalFees > 0" style="padding-left: 0;">
               <span class="label">Additional Fee
-                <span *ngIf="studentAddFormData.country_id==1 &&instituteCountryDetObj.id==1">(Incl of Tax)</span>
+                <span *ngIf="instituteCountryDetObj.id==1">(Incl of Tax)</span>
               </span>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.additionalFees}}</span>
@@ -731,7 +731,7 @@
 
             <div class="total-Amount">
               <span class="label">Total Fee
-                <span *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.id==1"> (Incl. of tax)</span>
+                <span *ngIf="instituteCountryDetObj.id==1"> (Incl. of tax)</span>
               </span>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountInclTax}}</span>
@@ -802,7 +802,7 @@
                 <aside class="column-name">
                   <div class="fee-amount amount">
                     <span>Fee
-                      <span *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.id==1">(Incl. Tax)</span>
+                      <span *ngIf="instituteCountryDetObj.id==1">(Incl. Tax)</span>
                     </span>
                   </div>
 
@@ -810,7 +810,7 @@
                     <span>Discount</span>
                   </div>
 
-                  <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.id==1">
+                  <div class="tax-amount amount" *ngIf="instituteCountryDetObj.id==1">
                     <span>Tax</span>
                   </div>
 
@@ -856,7 +856,7 @@
                       <span>{{data.discount }}</span>
                     </div>
 
-                    <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1 &&instituteCountryDetObj.id==1">
+                    <div class="tax-amount amount" *ngIf="instituteCountryDetObj.id==1">
                       <span>{{data.taxAmount }}</span>
                     </div>
 
@@ -897,7 +897,7 @@
                           <span>Amount</span>
                         </div>
 
-                        <div class="Tax" *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.id==1">
+                        <div class="Tax" *ngIf="instituteCountryDetObj.id==1">
                           <span>Tax</span>
                         </div>
 
@@ -955,7 +955,7 @@
                             }}</span>
                         </div>
 
-                        <div class="Tax" *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.id==1">
+                        <div class="Tax" *ngIf="instituteCountryDetObj.id==1">
                           <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.tax }}</span>
                         </div>
 
