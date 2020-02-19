@@ -54,7 +54,7 @@
                 Is Active
               </th>
               <th>
-                Edit
+                Action
               </th>
               <th>
                 View Activity
@@ -69,8 +69,11 @@
               <td>
                 {{row.teacher_phone}}
               </td>
-              <td>
+              <td *ngIf="row.teacher_subjects!=''">
                 {{row.teacher_subjects}}
+              </td>
+              <td *ngIf="row.teacher_subjects==''">
+                -
               </td>
               <td>
                 <span *ngIf="row.date_of_joining==''"> - </span>

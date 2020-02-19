@@ -246,8 +246,8 @@ export class CourseAddComponent implements OnInit {
           this.isRippleLoad = false;
           let msg = {
             type: "success",
-            title: "Course Creation",
-            body: "Course Creation Successfull."
+            title: "",
+            body: " Course created successfully"
           }
           this.toastCtrl.popToast(msg);
           this.route.navigateByUrl('/view/course/create/courselist');

@@ -188,16 +188,16 @@ hr {
                           }
                       }
                       .sche-head-item-1{
-                        width: 15%;
+                        width: 13%;
                       }
                       .sche-head-item-2{
-                        width: 30%;
+                        width: 25%;
                       }
                       .sche-head-item-3{
-                        width: 35%;
+                        width: 25%;
                       }
                       .sche-head-item-4{
-                        width: 15%;
+                        width: 17%;
                       }
                     }
                     .subject{
@@ -725,4 +725,10 @@ input[type=checkbox], input[type=radio]{
 .subTopicLevel{
     padding-top: 8px;
     padding-left:10px
+}
+.remarkSection{
+    height: 25px;
+    padding: 0px 12px;
+    border: 1px solid #bdbdbd;
+    border-radius: 4px;
 }

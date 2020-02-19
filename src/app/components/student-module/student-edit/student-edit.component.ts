@@ -186,7 +186,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     cheque_status_key: 0,
     clearing_date: '',
     institution_id: sessionStorage.getItem('institute_id'),
-    student_id: 0
+    student_id: 0,
+    country_id: ''
   };
 
   feeStructureForm: any = {
@@ -1998,6 +1999,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.paymentPopUpJson.pdcSelectedForm = obj;
           this.paymentPopUpJson.selectedPdcId = id;
           this.paymentPopUpJson.payingAmount = el.cheque_amount;
+          obj.country_id = el.country_id;
         }
       });
     }
@@ -2339,7 +2341,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.isRippleLoad = false;
         let temp: any[] = [];
         res.forEach(el => {
-          let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: el.cheque_date, cheque_date_from: el.cheque_date_from, cheque_date_to: el.cheque_date_from, cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status: el.cheque_status, cheque_status_key: el.cheque_status_key, clearing_date: el.clearing_date, genAck: el.genAck, institution_id: el.institution_id, sendAck: el.sendAck, student_id: el.student_id, student_name: el.student_name, student_phone: el.student_phone, uiSelected: false };
+          let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: el.cheque_date, cheque_date_from: el.cheque_date_from, cheque_date_to: el.cheque_date_from, cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status: el.cheque_status, cheque_status_key: el.cheque_status_key, clearing_date: el.clearing_date, genAck: el.genAck, institution_id: el.institution_id, sendAck: el.sendAck, student_id: el.student_id, student_name: el.student_name, student_phone: el.student_phone, uiSelected: false, country_id: el.country_id };
           temp.push(obj);
         });
         this.chequePdcList = temp;
@@ -2351,7 +2353,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   addNewPDCState() {
     //console.log(this.pdcAddForm);
-    let obj = { bank_name: this.pdcAddForm.bank_name, cheque_amount: this.pdcAddForm.cheque_amount, cheque_date: moment(this.pdcAddForm.cheque_date).format("YYYY-MM-DD"), cheque_id: this.pdcAddForm.cheque_id, cheque_no: this.pdcAddForm.cheque_no, cheque_status: this.pdcAddForm.cheque_status, cheque_status_key: this.pdcAddForm.cheque_status_key, clearing_date: moment(this.pdcAddForm.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: this.student_id };
+    let obj = { bank_name: this.pdcAddForm.bank_name, cheque_amount: this.pdcAddForm.cheque_amount, cheque_date: moment(this.pdcAddForm.cheque_date).format("YYYY-MM-DD"), cheque_id: this.pdcAddForm.cheque_id, cheque_no: this.pdcAddForm.cheque_no, cheque_status: this.pdcAddForm.cheque_status, cheque_status_key: this.pdcAddForm.cheque_status_key, clearing_date: moment(this.pdcAddForm.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: this.student_id, country_id: this.pdcAddForm.country_id };
     if (this.validPdc(obj)) {
       this.newPdcArr.push(obj);
       this.addPdcDataToServer();
@@ -2361,7 +2363,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   addPdcDataToServer() {
     let temp: any[] = [];
     this.newPdcArr.forEach(e => {
-      let obj = { cheque_no: e.cheque_no, bank_name: e.bank_name, cheque_date: e.cheque_date, student_id: this.student_id, clearing_date: e.clearing_date, institution_id: sessionStorage.getItem('institute_id'), cheque_amount: e.cheque_amount, genAck: this.genPdcAck === true ? "Y" : "N", sendAck: this.sendPdcAck === true ? "Y" : "N" };
+      let obj = { cheque_no: e.cheque_no, bank_name: e.bank_name, cheque_date: e.cheque_date, student_id: this.student_id, clearing_date: e.clearing_date, institution_id: sessionStorage.getItem('institute_id'), cheque_amount: e.cheque_amount, genAck: this.genPdcAck === true ? "Y" : "N", sendAck: this.sendPdcAck === true ? "Y" : "N", country_id: e.country_id };
       temp.push(obj);
     });
     this.newPdcArr = [];
@@ -2375,7 +2377,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.btnPdcPopUpAdd.nativeElement.disabled = false;
         this.chequePdcList = [];
         this.newPdcArr = [];
-        this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0 };
+        this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0, country_id:'' };
         this.getPdcChequeList();
       },
       err => {
@@ -2418,7 +2420,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   updatePDC(el) {
     if (this.validPdc(el)) {
-      let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id };
+      let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id:el.country_id };
       this.isRippleLoad = true;
       this.postService.updateFeeDetails(obj).subscribe(
         res => {

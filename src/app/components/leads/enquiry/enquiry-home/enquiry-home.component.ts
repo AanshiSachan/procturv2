@@ -1673,11 +1673,11 @@ export class EnquiryHomeComponent implements OnInit {
                 this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes From and To Dates');
                 return;
             }
-        } else if (this.advancedFilterForm.updateDateFrom != "" && this.advancedFilterForm.updateDateFrom != null) {
-            if (this.advancedFilterForm.updateDateTo == "" || this.advancedFilterForm.updateDateTo == null) {
-                this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes To Dates');
-                return;
-            }
+        // } else if (this.advancedFilterForm.updateDateFrom != "" && this.advancedFilterForm.updateDateFrom != null) {
+        //     if (this.advancedFilterForm.updateDateTo == "" || this.advancedFilterForm.updateDateTo == null) {
+        //         this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes To Dates');
+        //         return;
+        //     }
         } else if (this.advancedFilterForm.updateDateTo != "" && this.advancedFilterForm.updateDateTo != null) {
             if (this.advancedFilterForm.updateDateFrom == "" || this.advancedFilterForm.updateDateFrom == null) {
                 this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes From Dates');

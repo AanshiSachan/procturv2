@@ -1039,13 +1039,17 @@ export class AdminHomeComponent implements OnInit {
 
   onChanged(e) {
     this.selectedRow = null;
-    if (e == 'subject') {
-      this.isSubjectView = true;
-    }
-    else if (e == 'course') {
-      this.isSubjectView = false;
+     if (e == 'course') {
+      // this.isSubjectView = false;
+      sessionStorage.setItem('isSubjectView', String('false'));
       // this.generateCourseLevelWidget();
     }
+    if(sessionStorage.getItem('isSubjectView') == 'false') {
+      this.isSubjectView = false;
+    } else {
+      this.isSubjectView = true;
+    }
+    sessionStorage.removeItem('isSubjectView');
   }
 
   generateCourseLevelWidget() {

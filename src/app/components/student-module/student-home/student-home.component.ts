@@ -108,7 +108,7 @@ export class StudentHomeComponent implements OnInit {
     language_inst_status: -1,
     subject_id: -1,
     slot_id: "",
-    master_course_name: "",
+    master_course_name: "-1",
     course_id: -1,
     start_index: 0,
     batch_size: this.studentdisplaysize,
@@ -127,7 +127,7 @@ export class StudentHomeComponent implements OnInit {
     mobile: "",
     language_inst_status: -1,
     subject_id: -1, slot_id: "",
-    master_course_name: "",
+    master_course_name: "-1",
     course_id: -1,
     start_index: 0,
     batch_size: this.studentdisplaysize,
@@ -1045,7 +1045,7 @@ export class StudentHomeComponent implements OnInit {
       language_inst_status: -1,
       subject_id: -1,
       slot_id: "",
-      master_course_name: "",
+      master_course_name: "-1",
       course_id: -1,
       start_index: 0,
       batch_size: this.studentdisplaysize
@@ -1067,18 +1067,18 @@ export class StudentHomeComponent implements OnInit {
     this.instituteData.start_index = 0;
     /* If User has entered an empty value needs to be informed */
     if (this.searchBarData == '' || this.searchBarData == ' ' || this.searchBarData == null || this.searchBarData == undefined) {
-      this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+      this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
       this.loadTableDataSource(this.instituteData);
     }
     /* valid input detected, check for type of input */
     else {
       /* If input is of type string then validate string validity*/
       if (isNaN(this.searchBarData)) {
-        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: this.searchBarData, is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: this.searchBarData, is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
         this.loadTableDataSource(this.instituteData);
       }/* If not string then use the data as a number*/
       else {
-        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: this.searchBarData, language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: this.searchBarData, language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
         this.loadTableDataSource(this.instituteData);
       }
 

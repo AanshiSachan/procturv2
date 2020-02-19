@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CourseModuleComponent } from './course-module.component';
 import { CourseHomeComponent } from './course-home/course-home.component';
 import { TimeTableComponent } from './time-table/time-table.component';
+import { MasterTagComponent } from './master-tag/master-tag.component';
 
 
 @NgModule({
@@ -55,6 +56,10 @@ import { TimeTableComponent } from './time-table/time-table.component';
                 loadChildren: 'app/components/course-module/Archiving/archiving.module#ArchivingModule',
                 pathMatch: 'prefix'
             },
+            {
+                path: 'master-tag',
+                component: MasterTagComponent
+            }
           ]
       }
   ]
