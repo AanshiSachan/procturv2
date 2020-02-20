@@ -270,7 +270,8 @@ export class StudentAddComponent implements OnInit {
     cheque_status_key: 0,
     clearing_date: '',
     institution_id: sessionStorage.getItem('institute_id'),
-    student_id: 0
+    student_id: 0,
+    country_id: ''
   };
 
   feeObject: FeeModel;
@@ -1740,13 +1741,13 @@ export class StudentAddComponent implements OnInit {
               this.getAcademicYearDetails();
             }
           }
-          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax, res.country_id);
+          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax, this.instituteCountryDetObj.id); //res.country_id);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
-          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax, res.country_id);
+          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax,this.instituteCountryDetObj.id); // tax is apllied as per stud assign template //res.country_id);
           console.log('subjectWise', this.subjectWiseInstallmentArray);
-          this.onPaidOrUnpaidCheckbox(res.country_id);
+          this.onPaidOrUnpaidCheckbox(this.instituteCountryDetObj.id);//res.country_id);
         } else {
           this.checkBoxGroup.showFeeSection = false;
           this.checkBoxGroup.hideReconfigure = false;
@@ -1893,6 +1894,7 @@ export class StudentAddComponent implements OnInit {
           this.paymentPopUpJson.pdcSelectedForm = obj;
           this.paymentPopUpJson.selectedPdcId = id;
           this.paymentPopUpJson.payingAmount = el.cheque_amount;
+          obj.country_id = el.country_id;
         }
       });
     }
@@ -2184,14 +2186,14 @@ export class StudentAddComponent implements OnInit {
       cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('YYYY-MM-DD'),
       cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
     }
-    this.pdcAddForm.country_id = this.studentAddFormData.country_id;
     this.auth.showLoader();
+    this.pdcAddForm.country_id = this.instituteCountryDetObj.id;
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
         this.auth.hideLoader();
         let temp: any[] = [];
         res.forEach(el => {
-          let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: el.cheque_date, cheque_date_from: el.cheque_date_from, cheque_date_to: el.cheque_date_from, cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status: el.cheque_status, cheque_status_key: el.cheque_status_key, clearing_date: el.clearing_date, genAck: el.genAck, institution_id: el.institution_id, sendAck: el.sendAck, student_id: el.student_id, student_name: el.student_name, student_phone: el.student_phone, uiSelected: false };
+          let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: el.cheque_date, cheque_date_from: el.cheque_date_from, cheque_date_to: el.cheque_date_from, cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status: el.cheque_status, cheque_status_key: el.cheque_status_key, clearing_date: el.clearing_date, genAck: el.genAck, institution_id: el.institution_id, sendAck: el.sendAck, student_id: el.student_id, student_name: el.student_name, student_phone: el.student_phone, uiSelected: false, country_id: el.country_id };
           temp.push(obj);
         });
         this.chequePdcList = temp;
@@ -2211,7 +2213,8 @@ export class StudentAddComponent implements OnInit {
       cheque_status_key: this.pdcAddForm.cheque_status_key,
       clearing_date: moment(this.pdcAddForm.clearing_date).format("YYYY-MM-DD"),
       institution_id: sessionStorage.getItem('institute_id'),
-      student_id: this.student_id
+      student_id: this.student_id,
+      country_id: this.pdcAddForm.country_id
     };
     if (this.validPdc(obj)) {
       this.newPdcArr.push(obj);
@@ -2222,7 +2225,7 @@ export class StudentAddComponent implements OnInit {
   addPdcDataToServer() {
     let temp: any[] = [];
     this.newPdcArr.forEach(e => {
-      let obj = { cheque_no: e.cheque_no, bank_name: e.bank_name, cheque_date: e.cheque_date, student_id: this.student_id, clearing_date: e.clearing_date, institution_id: sessionStorage.getItem('institute_id'), cheque_amount: e.cheque_amount, genAck: this.genPdcAck === true ? "Y" : "N", sendAck: this.sendPdcAck === true ? "Y" : "N" };
+      let obj = { cheque_no: e.cheque_no, bank_name: e.bank_name, cheque_date: e.cheque_date, student_id: this.student_id, clearing_date: e.clearing_date, institution_id: sessionStorage.getItem('institute_id'), cheque_amount: e.cheque_amount, genAck: this.genPdcAck === true ? "Y" : "N", sendAck: this.sendPdcAck === true ? "Y" : "N", country_id: e.country_id };
       temp.push(obj);
     });
     this.newPdcArr = [];
@@ -2234,7 +2237,7 @@ export class StudentAddComponent implements OnInit {
         this.auth.hideLoader();
         this.chequePdcList = [];
         this.newPdcArr = [];
-        this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0 };
+        this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0, country_id:''};
         this.getPdcChequeList();
       },
       err => {
@@ -2269,7 +2272,7 @@ export class StudentAddComponent implements OnInit {
   updatePDC(el) {
     this.auth.showLoader();
     if (this.validPdc(el)) {
-      let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id };
+      let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id:el.country_id };
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
           // this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
