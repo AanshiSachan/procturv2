@@ -181,7 +181,7 @@
               <div class="c-sm-3 c-md-3 c-lg-3 hide">
                 <div class="field-checkbox-wrapper">
                   <input type="checkbox" id="checkBoxtaxes" name="checkbx" class="form-checkbox" (click)="onApplyTaxChechbox($event)">
-                  <label for="checkbx">Apply Tax({{feeStructure.registeredServiceTax}}%)</label>
+                  <label for="checkbx">Apply {{tax_type_without_percentage}}({{feeStructure.registeredServiceTax}}%)</label>
                 </div>
               </div>
             </div>
@@ -235,10 +235,13 @@
                       <tr>
                         <th>Installment # </th>
                         <th>Due Date</th>
-                        <th *ngIf="selectedTemplate.country_id=='1'">Amount</th>
+                        <!-- <th *ngIf="selectedTemplate.country_id=='1'">Fee Amount</th>
                         <th *ngIf="selectedTemplate.country_id=='1'">Tax</th>
                         <th *ngIf="selectedTemplate.country_id!='1'">Fee Amount</th>
-                        <th *ngIf="selectedTemplate.country_id=='1'">Fee Amount Incl Tax</th>
+                        <th *ngIf="selectedTemplate.country_id=='1'">Fee Amount Incl Tax</th> -->
+                        <th>Fee Amount</th>
+                        <th *ngIf="is_tax_enabled">{{tax_type_without_percentage}}</th>
+                        <th *ngIf="is_tax_enabled">Fee Amount Incl {{tax_type_without_percentage}}</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -256,12 +259,16 @@
                             <input type="number" min="0" class="editCellInput" [disabled]="row.day_type=='1'" [ngClass]="{'disable_input': row.day_type=='1'}" [(ngModel)]="row.days" name="label">
                           </div>
                         </td>
-                        <td *ngIf="selectedTemplate.country_id=='1'">
+                        <!-- <td *ngIf="selectedTemplate.country_id=='1'"> -->
+                            <td *ngIf="is_tax_enabled">
+
                           <div class="field-wrapper">
                             <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
                           </div>
                         </td>
-                        <td *ngIf="selectedTemplate.country_id=='1'">
+                        <!-- <td *ngIf="selectedTemplate.country_id=='1'"> -->
+                            <td *ngIf="is_tax_enabled">
+
                           <div class="field-wrapper">
                             <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.tax' name="label">
                           </div>
@@ -330,9 +337,11 @@
                 </div>
               </div>
 
-              <div class="c-sm-2 c-md-2 c-lg-2" *ngIf="selectedTemplate.country_id=='1'">
+              <!-- <div class="c-sm-2 c-md-2 c-lg-2" *ngIf="selectedTemplate.country_id=='1'"> -->
+              <div class="c-sm-2 c-md-2 c-lg-2" *ngIf="is_tax_enabled">
+
                 <div class="field-wrapper has-value">
-                  <label for="slotNew">Tax Applicable (%)
+                  <label for="slotNew">{{tax_type_without_percentage}} Applicable (%)
                   </label>
                   <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.service_tax" disabled name="slotNew">
 
@@ -353,10 +362,14 @@
                         <th>Fee Type </th>
                         <th>Trigger Date</th>
                         <th>No.(Days/Months)Due Date</th>
-                        <th *ngIf="selectedTemplate.country_id=='1'">Amount</th>
+                        <!-- <th *ngIf="selectedTemplate.country_id=='1'">Fee Amount</th>
                         <th *ngIf="selectedTemplate.country_id=='1'">Tax</th>
                         <th *ngIf="selectedTemplate.country_id!='1'">Fee Amount</th>
-                        <th *ngIf="selectedTemplate.country_id=='1'">Fee Amount Incl Tax</th>
+                        <th *ngIf="selectedTemplate.country_id=='1'">Fee Amount Incl Tax</th> -->
+                        <th >Fee Amount</th>
+                        <th *ngIf="is_tax_enabled">{{tax_type_without_percentage}}</th>
+                        <!-- <th>Fee Amount</th> -->
+                        <th *ngIf="is_tax_enabled">Fee Amount Incl {{tax_type_without_percentage}}</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -377,12 +390,14 @@
                             <input type="number" min="0" class="editCellInput" [disabled]="row.day_type=='1'" [ngClass]="{'disable_input': row.day_type=='1'}" [(ngModel)]="row.days" name="label">
                           </div>
                         </td>
-                        <td *ngIf="selectedTemplate.country_id=='1'">
+                        <!-- <td *ngIf="selectedTemplate.country_id=='1'"> -->
+                            <td *ngIf="is_tax_enabled">
                           <div class="field-wrapper">
                             <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
                           </div>
                         </td>
-                        <td *ngIf="selectedTemplate.country_id=='1'">
+                        <!-- <td *ngIf="selectedTemplate.country_id=='1'"> -->
+                            <td *ngIf="is_tax_enabled">
                           <div class="field-wrapper">
                             <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.fees_amount - row.initial_fee_amount' name="label">
                           </div>

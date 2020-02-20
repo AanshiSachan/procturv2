@@ -5,6 +5,7 @@ import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { FeeStrucService } from '../../../../../services/feeStruc.service';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../../services/common-service';
+import { jsonpCallbackContext } from '../../../../../../../node_modules/@angular/common/http/src/module';
 
 @Component({
   selector: 'app-template-home',
@@ -68,6 +69,8 @@ export class TemplateHomeComponent implements OnInit {
   searchText: string = '';
   addTemplatePopUp: boolean = false;
   searchDataFlag: boolean = false;
+  tax_type_without_percentage : String;
+  is_tax_enabled: boolean = false;
 
   constructor(
     private router: Router,
@@ -82,6 +85,8 @@ export class TemplateHomeComponent implements OnInit {
 
   ngOnInit() {
     this.enableTax = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
+    this.is_tax_enabled=this.enableTax=="1"?true:false;
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -205,7 +210,6 @@ export class TemplateHomeComponent implements OnInit {
 
   fillFeeType(data) {
     this.otherFeetype = [];
-
     data.forEach(object => {
       let keys = Object.keys(object);
       let test: any = {};

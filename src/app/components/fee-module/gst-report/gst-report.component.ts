@@ -63,7 +63,7 @@ export class GstReportComponent implements OnInit {
       month: "December"
     }]
 
-  selectYear: any[] = [2017, 2018, 2019]
+  selectYear: any[] = [2017, 2018, 2019,2020]
   getYear: number;
 
   dataStatus: number;
@@ -77,9 +77,9 @@ export class GstReportComponent implements OnInit {
     { primaryKey: 'fee_type_name', header: 'Fee Type' },
     { primaryKey: 'installment_nos', header: 'Inst No' },
     { primaryKey: 'paid_date', header: 'Paid Date' },
-    { primaryKey: 'cgst', header: 'CGST' },
-    { primaryKey: 'sgst', header: 'SGST' },
-    { primaryKey: 'tax', header: 'Tax' },
+    // { primaryKey: 'cgst', header: 'CGST' },
+    // { primaryKey: 'sgst', header: 'SGST' },
+    { primaryKey: 'tax', header: sessionStorage.getItem("tax_type_without_percentage") },
     { primaryKey: 'reference_no', header: 'Ref No' },
     { primaryKey: 'amount_paid', header: 'Amount Paid' },
     { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor' }
@@ -121,7 +121,6 @@ export class GstReportComponent implements OnInit {
     private cd: ChangeDetectorRef ,
     private pdf:ExportToPdfService,
   private _commService:CommonServiceFactory) { }
-
   ngOnInit() {
     window.scroll(0,0);
     this.getGstReport(event, this.year);    

@@ -15,6 +15,8 @@ export class FeeTemplateAddComponent implements OnInit {
   masterCourseList: any = [];
   CourseList: any = [];
   countryAdditioalFeeTypes: any = {};
+  tax_type_without_percentage : String ;
+
   addNewTemplate = {
     template_name: '',
     fee_amount: "",
@@ -77,6 +79,7 @@ export class FeeTemplateAddComponent implements OnInit {
     )
     this.enableTaxOptions = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     this.showDefaultTemplate = sessionStorage.getItem('enable_fee_template_country_wise');
+    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
     this.getAllMasterCourseList();
     this.getDetailOfFeeStructur();
     this.fetchDataForCountryDetails();
