@@ -700,12 +700,13 @@
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountExclTax}}</span>
             </div>
 
-            <div class="tax-Amount tooltipDiv" *ngIf="instituteCountryDetObj.id==1">
-              <span class="label">Tax On Installment</span>
+            <!-- <div class="tax-Amount tooltipDiv" *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.country_id==1"> -->
+             <div class="tax-Amount tooltipDiv" *ngIf="is_tax_enabled">
+              <span class="label">{{tax_type_without_percentage}} On Installment</span>
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.taxAmount}}</span>
-              <span class="tooltip-content">Tax component in Summary card and total tax in individual Installments may differ due to rounding off decimal
+              <span class="tooltip-content">{{tax_type_without_percentage}} component in Summary card and total tax in individual Installments may differ due to rounding off decimal
                 values.
               </span>
             </div>
@@ -723,7 +724,9 @@
 
             <div class="additional-Amount" *ngIf="cardAmountObject.additionalFees > 0" style="padding-left: 0;">
               <span class="label">Additional Fee
-                <span *ngIf="instituteCountryDetObj.id==1">(Incl of Tax)</span>
+                <!-- <span *ngIf="studentAddFormData.country_id==1 &&instituteCountryDetObj.country_id==1">(Incl of Tax)</span> -->
+                <span *ngIf="is_tax_enabled">(Incl of {{tax_type_without_percentage}})</span>
+
               </span>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.additionalFees}}</span>
@@ -731,7 +734,8 @@
 
             <div class="total-Amount">
               <span class="label">Total Fee
-                <span *ngIf="instituteCountryDetObj.id==1"> (Incl. of tax)</span>
+                <!-- <span *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.country_id==1"> (Incl. of tax)</span> -->
+                <span *ngIf="is_tax_enabled"> (Incl. of {{tax_type_without_percentage}})</span>
               </span>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountInclTax}}</span>
@@ -802,16 +806,18 @@
                 <aside class="column-name">
                   <div class="fee-amount amount">
                     <span>Fee
-                      <span *ngIf="instituteCountryDetObj.id==1">(Incl. Tax)</span>
-                    </span>
+                      <!-- <span *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.country_id==1">(Incl. Tax)</span> -->
+                      <span *ngIf="is_tax_enabled">(Incl. {{tax_type_without_percentage}})</span>
+                  </span>
                   </div>
 
                   <div class="discount-amount amount">
                     <span>Discount</span>
                   </div>
 
-                  <div class="tax-amount amount" *ngIf="instituteCountryDetObj.id==1">
-                    <span>Tax</span>
+                  <!-- <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.country_id==1"> -->
+                  <div class="tax-amount amount" *ngIf="is_tax_enabled">
+                    <span>{{tax_type_without_percentage}}</span>
                   </div>
 
                   <div class="paid-amount amount">
@@ -856,7 +862,8 @@
                       <span>{{data.discount }}</span>
                     </div>
 
-                    <div class="tax-amount amount" *ngIf="instituteCountryDetObj.id==1">
+                    <!-- <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1 &&instituteCountryDetObj.country_id==1"> -->
+                        <div class="tax-amount amount" *ngIf="is_tax_enabled">
                       <span>{{data.taxAmount }}</span>
                     </div>
 
@@ -897,8 +904,9 @@
                           <span>Amount</span>
                         </div>
 
-                        <div class="Tax" *ngIf="instituteCountryDetObj.id==1">
-                          <span>Tax</span>
+                        <!-- <div class="Tax" *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.country_id==1"> -->
+                       <div class="tax-amount amount" *ngIf="is_tax_enabled">
+                          <span>{{tax_type_without_percentage}}</span>
                         </div>
 
                         <div class="discount">
@@ -955,7 +963,8 @@
                             }}</span>
                         </div>
 
-                        <div class="Tax" *ngIf="instituteCountryDetObj.id==1">
+                        <!-- <div class="Tax" *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.country_id==1"> -->
+                            <div class="Tax" *ngIf="is_tax_enabled">
                           <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.tax }}</span>
                         </div>
 
