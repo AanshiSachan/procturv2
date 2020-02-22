@@ -852,7 +852,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   fetchStudentPrefill() {
 
-    this.auth.hideLoader();
+    this.auth.showLoader();
 
     this.prefill.getEnqStardards().subscribe(data => {
       this.standardList = data;
@@ -873,6 +873,7 @@ export class StudentHomeComponent implements OnInit {
     });
 
     this.studentPrefill.fetchMasterCourse().subscribe(data => {
+      this.auth.hideLoader();
       this.masterCourseList = data;
     });
 
@@ -1208,8 +1209,10 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   getSlots() {
+    this.auth.showLoader();
     return this.studentPrefill.fetchSlots().subscribe(
       res => {
+        this.auth.hideLoader();
         res.forEach(el => {
           let obj = {
             label: el.slot_name,
@@ -1220,7 +1223,9 @@ export class StudentHomeComponent implements OnInit {
         });
         // console.log(this.slots);
       },
-      err => { }
+      err => { 
+        this.isRippleLoad = false;
+      }
     )
   }
 
