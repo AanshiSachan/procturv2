@@ -47,7 +47,8 @@ export class StudentAddComponent implements OnInit {
   school: any[] = [];
   userCustommizedFee: any[] = [];
   otherFeeType: any[] = [];
-  feeTemplateStore: any[] = [];
+  // feeTemplateStore: any[] = []; // commented by laxmi 21-02-20
+  // isConfigureFees: boolean = false;
   inventoryItemsArr: any[] = [];
   academicYear: any[] = [];
   enquiryCustomComp: any[] = [];
@@ -64,7 +65,6 @@ export class StudentAddComponent implements OnInit {
   quickAddStudent: boolean = false;
   additionalBasicDetails: boolean = false;
   isAssignBatch: boolean = false;
-  isAcad: boolean = false;
   isProfessional: boolean = false;
   multiOpt: boolean = false;
   isDuplicateStudent: boolean = false;
@@ -84,7 +84,6 @@ export class StudentAddComponent implements OnInit {
   isOtherActive: boolean = false;
   isFeeActive: boolean = false;
   isInventoryActive: boolean = false;
-  isConfigureFees: boolean = false;
   isDiscountApplied: boolean = false;
   reverse: boolean = false;
   isPaymentPdc: boolean = false;
@@ -375,8 +374,8 @@ export class StudentAddComponent implements OnInit {
       let defacult_Country = this.countryDetails.filter((country) => {
         return country.is_default == 'Y';
       })
-        
-      if(this.studentAddFormData.country_id==""){
+
+      if (this.studentAddFormData.country_id == "") {
         this.studentAddFormData.country_id = defacult_Country[0].id;
         this.instituteCountryDetObj = defacult_Country[0];
         if (this.checkStatusofStudent == true) { // when enquiry is convert to student it  false else true
@@ -384,7 +383,7 @@ export class StudentAddComponent implements OnInit {
           this.maxlegth = defacult_Country[0].country_phone_number_length;
         }
       }
-    
+
       console.log(this.instituteCountryDetObj);
     }
   }
@@ -434,11 +433,9 @@ export class StudentAddComponent implements OnInit {
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
-          this.isProfessional = true;
-          this.isAcad = false;
+          this.isProfessional = true; // batch module
         } else {
-          this.isProfessional = false;
-          this.isAcad = true;
+          this.isProfessional = false; // batch module
         }
       }
     )
@@ -509,68 +506,76 @@ export class StudentAddComponent implements OnInit {
 
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
   navigateTo(text) {
-    if (text === "studentForm") {
-      if (this.student_id == 0 || this.student_id == null) {
-        document.getElementById('li-one').classList.add('active');
-        document.getElementById('li-two').classList.remove('active');
-        document.getElementById('li-three').classList.remove('active');
-        document.getElementById('li-four').classList.remove('active');
-        this.isBasicActive = true;
-        this.isOtherActive = false;
-        this.isFeeActive = false;
-        this.isInventoryActive = false;
+    switch (text) {
+      case 'studentForm': {
+        if (this.student_id == 0 || this.student_id == null) {
+          document.getElementById('li-one').classList.add('active');
+          document.getElementById('li-two').classList.remove('active');
+          document.getElementById('li-three').classList.remove('active');
+          document.getElementById('li-four').classList.remove('active');
+          this.isBasicActive = true;
+          this.isOtherActive = false;
+          this.isFeeActive = false;
+          this.isInventoryActive = false;
+        }
+        else {
+          this.msgToast.showErrorMessage('info', '', 'Student Details Already Saved');
+        }
+        break;
       }
-      else {
-        this.msgToast.showErrorMessage('info', '', 'Student Details Already Saved');
+      case 'kyc': {
+        if (this.student_id == 0 || this.student_id == null) {
+          document.getElementById('li-one').classList.remove('active');
+          document.getElementById('li-two').classList.add('active');
+          document.getElementById('li-three').classList.remove('active');
+          document.getElementById('li-four').classList.remove('active');
+          this.isBasicActive = false;
+          this.isOtherActive = true;
+          this.isFeeActive = false;
+          this.isInventoryActive = false;
+          this.fetchCustomComponents();
+        }
+        else {
+          this.msgToast.showErrorMessage('info', '', 'Student Details Already Saved');
+        }
+        break;
+      }
+      case 'feeDetails': {
+        if (this.student_id != 0 && this.student_id != null) {
+          document.getElementById('li-one').classList.remove('active');
+          document.getElementById('li-two').classList.remove('active');
+          document.getElementById('li-three').classList.add('active');
+          document.getElementById('li-four').classList.remove('active');
+          this.isBasicActive = false;
+          this.isOtherActive = false;
+          this.isFeeActive = true;
+          this.isInventoryActive = false;
+        }
+        else {
+          this.msgToast.showErrorMessage('info', 'Student Details Not Saved', 'Please save the student details to allocate fee and inventory');
+        }
+        break;
+      }
+      case 'inventory': {
+        if (this.student_id != 0 && this.student_id != null) {
+          document.getElementById('li-one').classList.remove('active');
+          document.getElementById('li-two').classList.remove('active');
+          document.getElementById('li-three').classList.remove('active');
+          document.getElementById('li-four').classList.add('active');
+          this.isBasicActive = false;
+          this.isOtherActive = false;
+          this.isFeeActive = false;
+          this.isInventoryActive = true;
+          this.fetchInventoryList();
+        }
+        else {
+          this.msgToast.showErrorMessage('info', 'Student Details Not Saved', 'Please save the student details to allocate fee and inventory');
+        }
+        break;
       }
     }
-    else if (text === "kyc") {
-      if (this.student_id == 0 || this.student_id == null) {
-        document.getElementById('li-one').classList.remove('active');
-        document.getElementById('li-two').classList.add('active');
-        document.getElementById('li-three').classList.remove('active');
-        document.getElementById('li-four').classList.remove('active');
-        this.isBasicActive = false;
-        this.isOtherActive = true;
-        this.isFeeActive = false;
-        this.isInventoryActive = false;
-      }
-      else {
-        this.msgToast.showErrorMessage('info', '', 'Student Details Already Saved');
-      }
-    }
-    else if (text === "feeDetails") {
-      if (this.student_id != 0 && this.student_id != null) {
-        document.getElementById('li-one').classList.remove('active');
-        document.getElementById('li-two').classList.remove('active');
-        document.getElementById('li-three').classList.add('active');
-        document.getElementById('li-four').classList.remove('active');
-        this.isBasicActive = false;
-        this.isOtherActive = false;
-        this.isFeeActive = true;
-        this.isInventoryActive = false;
-      }
-      else {
-        this.msgToast.showErrorMessage('info', 'Student Details Not Saved', 'Please save the student details to allocate fee and inventory');
-      }
-    }
-    else if (text === "inventory") {
-      if (this.student_id != 0 && this.student_id != null) {
-        document.getElementById('li-one').classList.remove('active');
-        document.getElementById('li-two').classList.remove('active');
-        document.getElementById('li-three').classList.remove('active');
-        document.getElementById('li-four').classList.add('active');
-        this.isBasicActive = false;
-        this.isOtherActive = false;
-        this.isFeeActive = false;
-        this.isInventoryActive = true;
-      }
-      else {
-        this.msgToast.showErrorMessage('info', 'Student Details Not Saved', 'Please save the student details to allocate fee and inventory');
-      }
-    }
-  }
 
+  }
 
   getSettings() {
     let mid = sessionStorage.getItem('manual_student_disp_id');
@@ -607,8 +612,6 @@ export class StudentAddComponent implements OnInit {
   fetchPrefillFormData() {
     this.isRippleLoad = true;
 
-    this.fetchInventoryList();
-
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
       err => {
@@ -617,15 +620,15 @@ export class StudentAddComponent implements OnInit {
       }
     );
 
-    this.studentPrefillService.fetchAllFeeStructure().subscribe(
-      res => {
-        this.isRippleLoad = false;
-        this.feeTemplateStore = res;
-      },
-      err => {
-        this.isRippleLoad = false;
-      }
-    )
+    // this.studentPrefillService.fetchAllFeeStructure().subscribe(
+    //   res => {
+    //     this.isRippleLoad = false;
+    //     this.feeTemplateStore = res;
+    //   },
+    //   err => {
+    //     this.isRippleLoad = false;
+    //   }
+    // )
 
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
@@ -657,6 +660,9 @@ export class StudentAddComponent implements OnInit {
       }
     )
 
+  }
+
+  fetchCustomComponents() {
     if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
       let studentData = sessionStorage.getItem('studentPrefill');
       let x = JSON.parse(studentData);
@@ -1746,7 +1752,7 @@ export class StudentAddComponent implements OnInit {
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
-          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax,this.instituteCountryDetObj.id); // tax is apllied as per stud assign template //res.country_id);
+          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax, this.instituteCountryDetObj.id); // tax is apllied as per stud assign template //res.country_id);
           console.log('subjectWise', this.subjectWiseInstallmentArray);
           this.onPaidOrUnpaidCheckbox(this.instituteCountryDetObj.id);//res.country_id);
         } else {
@@ -2047,23 +2053,32 @@ export class StudentAddComponent implements OnInit {
     this.schedule_id = "";
   }
 
-  // Configure Fee
+  /* Configure Fee --section code is commented by laxmi -- 21-02-2020
 
-  configureFees($event) {
-    $event.preventDefault();
-    this.isConfigureFees = true;
-    this.is_undo = "N";
-  }
+  // configureFees($event) {
+  //   $event.preventDefault();
+  //   this.isConfigureFees = true;
+  //   this.is_undo = "N";
+  // }
 
-  closeConfigureFees() {
-    this.isConfigureFees = false;
-    this.feeStructureForm = {
-      studentArray: ["-1"],
-      template_effective_date: ""
+  // closeConfigureFees() {
+  //   this.isConfigureFees = false;
+  //   this.feeStructureForm = {
+  //     studentArray: ["-1"],
+  //     template_effective_date: ""
+  //   }
+  //   this.feeTempSelected = "";
+  // }
+    reCreateFeeAgain() {
+    if (confirm("By changing the fee template, all existing fee schedule and transactions shall be discarded and archived. Are you sure you want to continue?")) {
+      this.isConfigureFees = true;
+      this.is_undo = 'Y';
+      this.feeTemplateById = { feeTypeMap: "", customFeeSchedules: [], registeredServiceTax: "", studentArray: "", studentwise_total_fees_amount: "", studentwise_total_fees_balance_amount: "", studentwise_total_fees_amount_paid: "", studentwise_total_fees_discount: "", studentwise_fees_tax_applicable: "", no_of_installments: "", discount_fee_reason: "", template_name: "", template_id: "", template_effective_date: "", is_fee_schedule_created: "", is_fee_tx_done: "", is_undo: this.is_undo, is_fee_other_inst_created: "", is_delete_other_fee_types: "", chequeDetailsJson: "", payment_mode: "", remarks: "", paid_date: "", toCreate: false, is_cheque_details_required: "", reference_no: "", invoice_no: "", uiSelected: false };
+      this.isDefineFees = false;
+      this.isDiscountApplied = false;
     }
-    this.feeTempSelected = "";
   }
-
+*/
   applyConfiguredFees($event) {
     $event.preventDefault();
     this.feeTemplateById = {
@@ -2126,7 +2141,7 @@ export class StudentAddComponent implements OnInit {
               this.service_tax = 0;
             }
           });
-          this.closeConfigureFees();
+          // this.closeConfigureFees();
         },
         err => {
           this.isRippleLoad = false;
@@ -2168,18 +2183,7 @@ export class StudentAddComponent implements OnInit {
     this.feeTemplateById = this.feeObject;
   }
 
-  reCreateFeeAgain() {
-    if (confirm("By changing the fee template, all existing fee schedule and transactions shall be discarded and archived. Are you sure you want to continue?")) {
-      this.isConfigureFees = true;
-      this.is_undo = 'Y';
-      this.feeTemplateById = { feeTypeMap: "", customFeeSchedules: [], registeredServiceTax: "", studentArray: "", studentwise_total_fees_amount: "", studentwise_total_fees_balance_amount: "", studentwise_total_fees_amount_paid: "", studentwise_total_fees_discount: "", studentwise_fees_tax_applicable: "", no_of_installments: "", discount_fee_reason: "", template_name: "", template_id: "", template_effective_date: "", is_fee_schedule_created: "", is_fee_tx_done: "", is_undo: this.is_undo, is_fee_other_inst_created: "", is_delete_other_fee_types: "", chequeDetailsJson: "", payment_mode: "", remarks: "", paid_date: "", toCreate: false, is_cheque_details_required: "", reference_no: "", invoice_no: "", uiSelected: false };
-      this.isDefineFees = false;
-      this.isDiscountApplied = false;
-    }
-  }
-
   // PDC Cheque PopUp
-
   getPdcChequeList() {
     let obj = {
       cheque_status: this.pdcSearchObj.cheque_status == '' ? -1 : this.pdcSearchObj.cheque_status,
@@ -2238,7 +2242,7 @@ export class StudentAddComponent implements OnInit {
         this.isRippleLoad = false;
         this.chequePdcList = [];
         this.newPdcArr = [];
-        this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0, country_id:''};
+        this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0, country_id: '' };
         this.getPdcChequeList();
       },
       err => {
@@ -2273,7 +2277,7 @@ export class StudentAddComponent implements OnInit {
   updatePDC(el) {
     this.isRippleLoad = true;
     if (this.validPdc(el)) {
-      let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id:el.country_id };
+      let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id: el.country_id };
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
           // this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });

@@ -1,24 +1,24 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
+import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+import { MenuItem } from 'primeng/primeng';
 import 'rxjs/Rx';
+import { ISubscription } from "rxjs/Subscription";
 import { AppComponent } from '../../../app.component';
 import { instituteInfo } from '../../../model/instituteinfo';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
-import { MenuItem } from 'primeng/primeng';
-import * as moment from 'moment';
-import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
-import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
-import { ColumnSetting } from '../../shared/custom-table/layout.model';
-import { WidgetService } from '../../../services/widget.service';
-import { AuthenticatorService } from '../../../services/authenticator.service';
 import { StudentForm } from '../../../model/student-add-form';
-import { ISubscription } from "rxjs/Subscription";
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-import { ProductService } from '../../../services/products.service';
-var jsPDF = require('jspdf');
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { HttpService } from '../../../services/http.service';
+import { ProductService } from '../../../services/products.service';
+import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
+import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
+import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
+import { WidgetService } from '../../../services/widget.service';
+import { ColumnSetting } from '../../shared/custom-table/layout.model';
+var jsPDF = require('jspdf');
 declare var $;
 
 @Component({
@@ -227,10 +227,10 @@ export class StudentHomeComponent implements OnInit {
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
-          this.isProfessional = true;
+          this.isProfessional = true; // batch module
           this.labelForAssignStandard = 'Master Course';
         } else {
-          this.isProfessional = false;
+          this.isProfessional = false;  //course module
           this.labelForAssignStandard = 'Standard';
         }
       }
@@ -275,6 +275,7 @@ export class StudentHomeComponent implements OnInit {
             { primaryKey: 'student_class', header: 'Master Course' },
             { primaryKey: 'batchesAssigned', header: 'Batch Assigned' }
           ];
+          this.fetchLangStudentStatus();
         }
         else {
           this.StudentSettings = [
@@ -292,8 +293,6 @@ export class StudentHomeComponent implements OnInit {
   /* OnInit function to set toggle default columns and load student data for table*/
   /* =================================================================================================== */
   ngOnInit() {
-    this.isRippleLoad = true;
-    this.fetchStudentPrefill();
     this.loading_message = 3;
     this.studentDataSource = [];
     this.totalRow = this.studentDataSource.length;
@@ -320,7 +319,7 @@ export class StudentHomeComponent implements OnInit {
         }
       },
       {
-        label: 'Assign '+this.labelForAssignStandard, icon: 'fa fa-users', command: () => {
+        label: 'Assign ' + this.labelForAssignStandard, icon: 'fa fa-users', command: () => {
           $('#assignStandard').modal('show');
         }
       }
@@ -329,9 +328,9 @@ export class StudentHomeComponent implements OnInit {
   }
 
   // Assign standard to multiple students at single time. -- Developed by Swapnil
-  assignStandard(){
-    if(this.assignedStandard != "-1"){
-      if (confirm("Are you sure you want to assign the "+this.labelForAssignStandard+'?')) {
+  assignStandard() {
+    if (this.assignedStandard != "-1") {
+      if (confirm("Are you sure you want to assign the " + this.labelForAssignStandard + '?')) {
         let studentArray = {};
         for (let index = 0; index < this.selectedRowGroup.length; index++) {
           studentArray[this.selectedRowGroup[index]] = true
@@ -342,7 +341,7 @@ export class StudentHomeComponent implements OnInit {
         }
         let url = `/api/v1/students/${this.assignedStandard}/assignStandard`;
         this.isRippleLoad = true;
-        this.http_service.postData(url,obj).subscribe(
+        this.http_service.postData(url, obj).subscribe(
           (data: any) => {
             let alert = {
               type: 'success',
@@ -367,7 +366,7 @@ export class StudentHomeComponent implements OnInit {
         )
       }
     }
-    else{
+    else {
       let alert = {
         type: 'info',
         title: '',
@@ -378,12 +377,12 @@ export class StudentHomeComponent implements OnInit {
   }
 
   checkDownloadRoleAccess() {
-    if(sessionStorage.getItem('downloadStudentReportAccess')=='true'){
-        this.downloadStudentReportAccess = true;
-    }else{
-      this.bulkActionItems.splice(3,1);
+    if (sessionStorage.getItem('downloadStudentReportAccess') == 'true') {
+      this.downloadStudentReportAccess = true;
+    } else {
+      this.bulkActionItems.splice(3, 1);
     }
-}
+  }
 
   /* Fetch data from server and convert to custom array */
   loadTableDataSource(obj) {
@@ -401,8 +400,8 @@ export class StudentHomeComponent implements OnInit {
           /* records */
           if (res.length != 0) {
             this.totalRow = res[0].total_student_count;
-          //  this._commService.contactNoPatternChange(res);
-           this.contactNoPatternChange(res);
+            //  this._commService.contactNoPatternChange(res);
+            this.contactNoPatternChange(res);
             this.studentDataSource = res;
           }
           else {
@@ -470,26 +469,26 @@ export class StudentHomeComponent implements OnInit {
   }
 
   contactNoPatternChange(list) {
-    if(sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') { // if user is admin
-    if(sessionStorage.getItem('permissions') != null && sessionStorage.getItem('permissions') != ''){
+    if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') { // if user is admin
+      if (sessionStorage.getItem('permissions') != null && sessionStorage.getItem('permissions') != '') {
         var permissions = JSON.parse(sessionStorage.getItem('permissions'));
-        if(!permissions.includes('726')){
-            list.forEach(el =>{
+        if (!permissions.includes('726')) {
+          list.forEach(el => {
             var countryCode = el.student_phone.split('-')[0];
             var phnNo = el.student_phone.split('-')[1];
             var result;
-            if(phnNo.length > 4){
-            result = phnNo.replace(/\d{4}$/, 'XXXX');
+            if (phnNo.length > 4) {
+              result = phnNo.replace(/\d{4}$/, 'XXXX');
             }
             else {
-            result = phnNo.replace(/\d{1}$/, 'X');
+              result = phnNo.replace(/\d{1}$/, 'X');
             }
             el.student_phone = countryCode + '-' + result;
-        })
+          })
         }
+      }
     }
-    }
-}
+  }
 
   downloadStudentIDCard() {
     console.log(this.selectedUserId)
@@ -694,6 +693,7 @@ export class StudentHomeComponent implements OnInit {
     document.getElementById('adFilterExit').classList.remove('hide');
     // document.getElementById('black-bg').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.remove('hide');
+    this.fetchStudentPrefill();
   }
 
   /* Function to close advanced filter */
@@ -852,34 +852,26 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   fetchStudentPrefill() {
 
-    this.isRippleLoad = false;
-
+    this.isRippleLoad = true;
     this.prefill.getEnqStardards().subscribe(data => {
       this.standardList = data;
-      //console.log(data);
     });
 
     this.prefill.getSchoolDetails().subscribe(data => {
       this.schoolList = data;
-      //console.log(data);
     });
+    this.getAcademmicYear();
+    this.fetchCustomComponent();
 
-    this.studentPrefill.fetchBatchDetails().subscribe(data => {
-      this.batchList = data;
-    });
-
-    this.studentPrefill.fetchLangStudentStatus().subscribe(data => {
-      this.studentStatusList = data;
-    });
-
-    this.studentPrefill.fetchMasterCourse().subscribe(data => {
-      this.masterCourseList = data;
-    });
-
-    if (this.isProfessional) {
-      this.getSlots();
+    if (this.isProfessional) {  // batch module
+      this.batchModuleCalls();
     }
+    else { //course module
+      this.courseModuleCalls();
+    }
+  }
 
+  getAcademmicYear() {
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
         this.academicYear = data;
@@ -900,8 +892,10 @@ export class StudentHomeComponent implements OnInit {
         this.appC.popToast(obj);
       }
     )
+  }
 
-    let id = ''
+  fetchCustomComponent() {
+    let id = '';
     this.studentPrefill.fetchCustomComponent(id).subscribe(data => {
       if (data != null) {
         data.forEach(el => {
@@ -977,9 +971,31 @@ export class StudentHomeComponent implements OnInit {
         });
       }
     });
-
   }
 
+  //get default lang student status
+  fetchLangStudentStatus() {
+    this.isRippleLoad = true;
+    this.studentPrefill.fetchLangStudentStatus().subscribe(data => {
+      this.studentStatusList = data;
+      this.isRippleLoad = false;
+    });
+  }
+
+  batchModuleCalls() {
+    this.getSlots();
+    this.studentPrefill.fetchBatchDetails().subscribe(data => {
+      this.batchList = data;
+      this.isRippleLoad = false;
+    });
+  }
+
+  courseModuleCalls() {
+    this.studentPrefill.fetchMasterCourse().subscribe(data => {
+      this.masterCourseList = data;
+      this.isRippleLoad = false;
+    });
+  }
 
   /* =================================================================================================== */
   /* =================================================================================================== */
@@ -1132,6 +1148,7 @@ export class StudentHomeComponent implements OnInit {
     }
     /* valid input detected, check for type of input */
     else {
+      this.searchBarData = this.searchBarData.trim();
       /* If input is of type string then validate string validity*/
       if (isNaN(this.searchBarData)) {
         this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: this.searchBarData, is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };

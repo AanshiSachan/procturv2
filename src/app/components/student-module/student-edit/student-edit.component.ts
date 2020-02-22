@@ -52,7 +52,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   isOtherActive: boolean = false;
   isFeeActive: boolean = false;
   isInventoryActive: boolean = false;
-  isConfigureFees: boolean = false;
+  // isConfigureFees: boolean = false;
   isPartialPayHistory: boolean = false;
   isEdit: boolean = true;
   isDefineFees: boolean = false;
@@ -77,7 +77,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   courseList: any[] = [];
   batchList: any[] = [];
   slots: any[] = [];
-  langStatus: any[] = [];
   selectedSlots: any[] = [];
   customComponents: any[] = [];
   slotIdArr: any[] = [];
@@ -310,18 +309,26 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.getInstType();
     this.getSettings();
     this.student_id = this.route.snapshot.paramMap.get('id');
-    this.fetchPrefillFormData();
   }
 
   ngOnInit() {
+    this.getPermissions();
+    this.fetchDataForCountryDetails();
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
     if (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null) {
       this.switchToView('feeDetails-icon');
     }
-    if (sessionStorage.getItem('editInv') != "" && sessionStorage.getItem('editInv') != null) {
+    else if (sessionStorage.getItem('editInv') != "" && sessionStorage.getItem('editInv') != null) {
       this.switchToView('inventory-icon');
     }
-    this.updateStudentForm(this.student_id);
+    else {
+      this.fetchPrefillFormData();
+      this.updateStudentForm(this.student_id);
+      this.getAcademicYearDetails();
+    }
+  }
+
+  getPermissions() {
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
 
@@ -333,7 +340,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       if (permissions.includes('710')) {
         this.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
-        this.getAcademicYearDetails();
       }
       if (permissions.includes('713')) {  //fee discount
         this.checkBoxGroup.feeDiscouting = true;
@@ -345,19 +351,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
         this.checkBoxGroup.manageCheque = true;
-        this.getAcademicYearDetails();
       }
     }
-    this.fetchDataForCountryDetails();
-    this.getUploadedFileData();
-    this.checkDownloadRoleAccess();
-  }
 
-  checkDownloadRoleAccess() {
     if (sessionStorage.getItem('downloadStudentReportAccess') == 'true') {
       this.downloadStudentReportAccess = true;
     }
+
   }
+
+
 
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
@@ -376,7 +379,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.countryDetails.forEach(element => {
       if (element.id == event) {
         this.instituteCountryDetObj = element;
-        console.log(this.instituteCountryDetObj );
+        console.log(this.instituteCountryDetObj);
         this.studentAddFormData.country_id = element.id;
         this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
         this.country_id = element.id;
@@ -384,6 +387,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     );
   }
+
   getAcademicYearDetails() {
     this.academicList = [];
     this.isRippleLoad = true;
@@ -432,7 +436,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.isBasicActive = false;
     this.isOtherActive = false;
     this.isFeeActive = false;
-    this.isInventoryActive = false;
+    this.isInventoryActive = false; 
 
     switch (text) {
       case "studentForm": {
@@ -442,17 +446,23 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       case "kyc": {
         document.getElementById('li-two').classList.add('active');
+        this.fetchCustomeComponents();
+        this.getUploadedFileData();
         this.isOtherActive = true;
         break;
       }
       case "feeDetails": {
         document.getElementById('li-three').classList.add('active');
+        this.updateStudentFeeDetails();
+        this.updateStudentForm(this.student_id);
+        this.getAcademicYearDetails()
         this.isFeeActive = true;
         break;
       }
       case "inventory": {
         document.getElementById('li-four').classList.add('active');
         this.isInventoryActive = true;
+        this.getAllocatedHistory();
         this.fetchInventoryList();
         break;
       }
@@ -618,7 +628,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   fetchPrefillFormData() {
-    this.fetchInventoryList();
     this.isRippleLoad = true;
     this.JsonFlags.isDisabled = true;
     this.prefill.getSchoolDetails().subscribe(
@@ -634,14 +643,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.appC.popToast(obj);
       }
     );
-    this.getAllocatedHistory();
-    this.isRippleLoad = true;
-    this.studentPrefillService.fetchAllFeeStructure().subscribe(
-      res => {
-        this.feeTemplateStore = res;
-      }
-    )
-    this.isRippleLoad = true;
+    // this.isRippleLoad = true; -- student not used code
+    // this.studentPrefillService.fetchAllFeeStructure().subscribe(
+    //   res => {
+    //     this.feeTemplateStore = res;
+    //   }
+    // )
+    // this.isRippleLoad = true;
     // this.studentPrefillService.getChequeStatus().subscribe(
     //   data => {
     //     this.pdcStatus = data;
@@ -657,7 +665,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     //     this.appC.popToast(obj);
     //   }
     // )
-    this.getPdcChequeList();
     this.isRippleLoad = true;
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
@@ -698,6 +705,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.appC.popToast(obj);
       }
     )
+
+  }
+
+  fetchCustomeComponents() {
     this.isRippleLoad = true;
     this.studentPrefillService.fetchCustomComponentById(this.student_id).subscribe(
       data => {
@@ -950,7 +961,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
           this.slots.push(obj);
         });
-        this.getlangStudentStatus();
+        this.updateSlotsByStudent();
         // console.log(this.slots);
 
       },
@@ -969,26 +980,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  getlangStudentStatus() {
-    this.isRippleLoad = true;
-    this.studentPrefillService.fetchLangStudentStatus().subscribe(
-      res => {
-        this.isRippleLoad = false;
-        this.langStatus = res;
-        this.updateSlotsByStudent();
-      },
-      err => {
-        let msg = err.error.message;
-        this.isRippleLoad = false;
-        let obj = {
-          type: 'error',
-          title: msg,
-          body: ""
-        }
-        this.appC.popToast(obj);
-      }
-    )
-  }
 
   multiselectVisible(elid) {
     let targetid = elid + "multi";
@@ -1091,9 +1082,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.batchList = [];
         this.isRippleLoad = true;
         if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
-          country_id='-1';
+          country_id = '-1';
         }
-        
+
         this.studentPrefillService.fetchStudentCourseDetails(this.student_id, '-1', country_id).subscribe(
           res => {
             // console.log(res);
@@ -1252,7 +1243,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
 
         /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
-        this.updateStudentFeeDetails();
         this.isRippleLoad = false;
         this.getCourseDropdown(id);
         let globalInactiveStudent = sessionStorage.getItem('global_search_edit_student');
@@ -1800,7 +1790,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
             this.setTemplateDetails(res.customFeeSchedules[0]);// if setting is enable then country symbol and details will change --laxmi
           }
-          this.getAcademicYearDetails();
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
             if (permissions.includes('714')) {
@@ -1811,7 +1800,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             if ((permissions.includes('710'))) {
               this.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
-              this.getAcademicYearDetails();
             }
             else {
               this.checkBoxGroup.hideReconfigure = false;
@@ -1826,12 +1814,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
               this.checkBoxGroup.manageCheque = true;
-              this.getAcademicYearDetails();
             }
 
 
           }
-          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax,this.instituteCountryDetObj.id);
+          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax, this.instituteCountryDetObj.id);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
@@ -2161,7 +2148,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.schedule_id = "";
   }
 
-  // Configure Fee
+  /* Configure Fee -- commeneted by laxmi 21-02-20
   configureFees($event) {
     $event.preventDefault();
     this.isConfigureFees = true;
@@ -2176,6 +2163,18 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     this.feeTempSelected = "";
   }
+  
+   reCreateFeeAgain() {
+    if (confirm("By changing the fee template, all existing fee schedule and transactions shall be discarded and archived. Are you sure you want to continue?")) {
+      this.isConfigureFees = true;
+      this.is_undo = 'Y';
+      this.feeTemplateById = { feeTypeMap: "", customFeeSchedules: [], registeredServiceTax: "", studentArray: "", studentwise_total_fees_amount: "", studentwise_total_fees_balance_amount: "", studentwise_total_fees_amount_paid: "", studentwise_total_fees_discount: "", studentwise_fees_tax_applicable: "", no_of_installments: "", discount_fee_reason: "", template_name: "", template_id: "", template_effective_date: "", is_fee_schedule_created: "", is_fee_tx_done: "", is_undo: this.is_undo, is_fee_other_inst_created: "", is_delete_other_fee_types: "", chequeDetailsJson: "", payment_mode: "", remarks: "", paid_date: "", toCreate: false, is_cheque_details_required: "", reference_no: "", invoice_no: "", uiSelected: false };
+      this.isDefineFees = false;
+      this.isDiscountApplied = false;
+    }
+  }
+
+  */
 
   getInstasllemttDetails(installment) {
     console.log(installment);
@@ -2246,7 +2245,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.service_tax = 0;
             }
           });
-          this.closeConfigureFees();
+          // this.closeConfigureFees();
         },
         err => {
           let msg = err.error.message;
@@ -2306,15 +2305,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.feeTemplateById = this.feeObject;
   }
 
-  reCreateFeeAgain() {
-    if (confirm("By changing the fee template, all existing fee schedule and transactions shall be discarded and archived. Are you sure you want to continue?")) {
-      this.isConfigureFees = true;
-      this.is_undo = 'Y';
-      this.feeTemplateById = { feeTypeMap: "", customFeeSchedules: [], registeredServiceTax: "", studentArray: "", studentwise_total_fees_amount: "", studentwise_total_fees_balance_amount: "", studentwise_total_fees_amount_paid: "", studentwise_total_fees_discount: "", studentwise_fees_tax_applicable: "", no_of_installments: "", discount_fee_reason: "", template_name: "", template_id: "", template_effective_date: "", is_fee_schedule_created: "", is_fee_tx_done: "", is_undo: this.is_undo, is_fee_other_inst_created: "", is_delete_other_fee_types: "", chequeDetailsJson: "", payment_mode: "", remarks: "", paid_date: "", toCreate: false, is_cheque_details_required: "", reference_no: "", invoice_no: "", uiSelected: false };
-      this.isDefineFees = false;
-      this.isDiscountApplied = false;
-    }
-  }
 
   sort(key) {
     this.key = key;
@@ -2377,7 +2367,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.btnPdcPopUpAdd.nativeElement.disabled = false;
         this.chequePdcList = [];
         this.newPdcArr = [];
-        this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0, country_id:'' };
+        this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0, country_id: '' };
         this.getPdcChequeList();
       },
       err => {
@@ -2420,7 +2410,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   updatePDC(el) {
     if (this.validPdc(el)) {
-      let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id:el.country_id };
+      let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id: el.country_id };
       this.isRippleLoad = true;
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
@@ -2752,7 +2742,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   getUploadedFileData() {
     this.isRippleLoad = true;
-    const url = `/users-file/downloadFile/?studentId=${this.student_id}`;
+    const url = `/users-file/downloadFile?studentId=${this.student_id}`;
     this.productService.getUploadFileData(url).subscribe(
       (res: any) => {
         this.uploadedFileData = res;

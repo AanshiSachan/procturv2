@@ -235,7 +235,7 @@
                                         [disabled]="advancedFilterForm.master_course_name!=-1" [ngStyle]="{'cursor':advancedFilterForm.master_course_name!=-1?'no-drop':'pointer'}">
                                         <option value="-1"></option>
                                         <option [value]="std.standard_id" *ngFor="let std of standardList">
-                                            {{std.standard_name}}
+                                            {{ (std.standard_name.length > 30) ? (std.standard_name | slice:0:30) + '...' : std.standard_name }}
                                         </option>
                                     </select>
                                 </div>
