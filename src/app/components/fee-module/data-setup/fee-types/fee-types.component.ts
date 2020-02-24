@@ -66,9 +66,9 @@ export class FeeTypesComponent implements OnInit {
     });
 
 
-    if(country_id!='1'){
-      row.fee_type_tax=0;
-    } 
+    // if(country_id!='1'){
+    //   row.fee_type_tax=0;
+    // } 
   }
 
   getCountryDetails(amount,country_id){

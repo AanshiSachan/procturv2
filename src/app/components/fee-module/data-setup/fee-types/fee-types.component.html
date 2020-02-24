@@ -147,8 +147,9 @@
     <td *ngIf="is_tax_enabled">
       <div class="field-wrapper">
         <!-- disabled =row.country_id!='1' && isTaxEnableFeeInstallments -->
-    <input type="number"  class="form-ctrl editCellInput" [disabled]="row.country_id!='1'" [ngClass]="{'disable_input': row.country_id!='1'}" style="width:25%" [(ngModel)]="row.fee_type_tax"
-          name="tax">
+    <!-- <input type="number"  class="form-ctrl editCellInput" [disabled]="row.country_id!='1'" [ngClass]="{'disable_input': row.country_id!='1'}" style="width:25%" [(ngModel)]="row.fee_type_tax"
+          name="tax"> -->
+          <input type="number"  class="form-ctrl editCellInput"  style="width:25%" [(ngModel)]="row.fee_type_tax"  name="tax">
       </div>
     </td>
     <td>

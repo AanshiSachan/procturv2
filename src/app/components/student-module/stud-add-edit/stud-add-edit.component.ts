@@ -284,6 +284,8 @@ export class StudAddEditComponent implements OnInit {
   country_id:number=null;
   category_id: number | string = "";
   selectedFiles: any[] = [];
+  tax_type_without_percentage : String;
+  isTaxEnable: boolean = false;
 
 
   constructor(
@@ -308,6 +310,8 @@ export class StudAddEditComponent implements OnInit {
 
   ngOnInit() {
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
+    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
+    this.isTaxEnable = sessionStorage.getItem('enable_tax_applicable_fee_installments')=="1"?true:false;
     this.fetchPrefillFormData();
     if (this.isProfessional) {
       if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
@@ -1327,7 +1331,6 @@ export class StudAddEditComponent implements OnInit {
           this.removeImage = true;
           this.student_id = res.generated_id;
           this.msgToast.showErrorMessage('success', '', "Student details updated successfully");
-
           this.getCourseDropdown(res.generated_id);
           if (this.studentAddnMove) {
             this.updateStudentFeeDetails();
