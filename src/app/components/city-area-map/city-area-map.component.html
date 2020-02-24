@@ -1,89 +1,147 @@
+<!-- Modal -->
+<div id="editCityArea" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Area</h4>
+      </div>
+      <div class="modal-body">
+        <div class="edit-container">
+          <div class="edit-item field-wrapper">
+            <span class="edit-title">Country Name:- </span>
+            <span *ngIf="!editrecord?.country_name">-</span>
+            <span *ngIf="editrecord?.country_name">{{editrecord.country_name}}</span>
+          </div>
+          <div class="edit-item field-wrapper">
+            <span class="edit-title">State Name:- </span>
+            <span *ngIf="!editrecord?.state_name">-</span>
+            <span *ngIf="editrecord?.state_name">{{editrecord.state_name}}</span>
+          </div>
+          <div class="edit-item field-wrapper">
+            <span class="edit-title">City Name:- </span>
+            <span *ngIf="!editrecord?.city">-</span>
+            <span *ngIf="editrecord?.city">{{editrecord.city}}</span>
+          </div>
+          <div class="edit-item field-wrapper" *ngIf="editrecord?.area">
+            <span class="edit-title">Area Name:- </span>
+            <input type="text" name="" value="" [(ngModel)]="editrecord.area" placeholder="Enter area name" class="edit-area-item form-ctrl">
+          </div>
+          <div class="edit-item field-checkbox-wrapper" style="width: 100px !important" *ngIf="editrecord?.is_active">
+            <span class="edit-title" style="width: 100%;">Is Active</span>
+            <input type="checkbox" id="active" value="" name="" class="form-checkbox" [(ngModel)]="editrecord.is_active_status">
+              <label for="active"></label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-default" (click)="updateArea()">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div class="middle-section clearFix">
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
-      Area And City
+      State/City/Area Mapping
     </h1>
   </section>
 
   <section class="middle-main clearFix">
-
-    <div class="clearFix add-edit">
-      <a (click)="toggleCreateNewSlot()" style="cursor: pointer;">
-        <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
-        <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
-        <span>Add Area And City</span>
-      </a>
-    </div>
-    <section class="clearFix create-standard-form" *ngIf="createNew">
-      <div class="row create-standard-field">
-        <div class="c-lg-3 c-md-3 c-sm-3">
-          <div class="field-wrapper" name="slotNew">
-            <label for="slotNew">City <span style="color: red">*</span> </label>
-            <input type="text" class="form-ctrl" name="city" [(ngModel)]="newCity.city">
-          </div>
+    <!-- Filter container -->
+    <section>
+      <div class="filter-container">
+        <div class="filter-item field-wrapper" style="margin-left: 0px;">
+          <select class="form-ctrl" name="" [(ngModel)]="filter.country_ids" (ngModelChange)="getStateList()">
+            <option value="-1">Select Country</option>
+            <option title="{{country.country_name}}" [value]="country.id" *ngFor="let country of countryList">{{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}</option>
+          </select>
         </div>
-        <div class="c-lg-3 c-md-3 c-sm-3">
-          <div class="field-wrapper" name="area">
-            <label for="area">Area</label>
-            <input type="text" class="form-ctrl" name="area" [(ngModel)]="newCity.area">
-
-          </div>
+        <div class="filter-item field-wrapper">
+          <select class="form-ctrl" name="" [(ngModel)]="filter.state_ids" (ngModelChange)="getCityList()">
+            <option value="-1">Select State</option>
+            <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+          </select>
         </div>
-        <div *ngIf="isMultiBranch" class="c-lg-3 c-md-3 c-sm-3">
-          <div class="field-wrapper" name="subBranch">
-            <label for="subBranch">Sub Branch</label>
-            <select class="form-ctrl" [(ngModel)]="newCity.branch">
-              <option value="-1"></option>
-              <option *ngFor="let opt of branchesList" [value]="opt.institute_id">
-                {{opt.institute_name}}
-              </option>
-            </select>
-
-          </div>
+        <div class="filter-item field-wrapper">
+          <select class="form-ctrl" name="" [(ngModel)]="filter.city_ids">
+            <option value="-1">Select City</option>
+            <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
+          </select>
         </div>
-        <div class="c-lg-3 c-md-3 c-sm-3">
-          <button class="btn fullBlue" (click)="addNewCity()" style="margin-top:8%;">Save</button>
+        <div class="filter-item" style="width: 8%;" id="searchBtn1">
+          <button type="button" class="search-btn fullBlue" name="button" (click)="searchArea()">Search</button>
+        </div>
+        <div class="create-btn-container field-wrapper filter-item" style="margin-left: 32%;width: 8%;margin-right: 0px;">
+          <button type="button" name="button" class="add-student-btn" >Add Area</button>
         </div>
       </div>
-
     </section>
-    <div id="divSlotTable">
-      <div class="table-scroll-wrapper">
-        <div class="table table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>
-                  City
-                </th>
-                <th>
-                  Area
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr id="row{{i}}" *ngFor="let row of cityAreaList; let i = index; trackBy: i;">
 
-                <td>
-                  {{row.city}}
-                </td>
-
-                <td>
-                  {{row.area}}
-                </td>
-              </tr>
-
-              <tr *ngIf="cityAreaList.length ==0">
-                <td colspan="2" style="text-align: center">
-                  No City Area List Available
-                </td>
-              </tr>
-
-            </tbody>
-          </table>
+    <!-- Search bar and Add Area btn container -->
+    <section>
+      <div class="search-and-create-filter-container">
+        <div class="search-container field-wrapper">
+          <input type="text" value="" id="search_bar" [(ngModel)]="areaSearchInput" name="areaSearchInput" (keyup)="searchDatabase(search)"
+             placeholder="Search here..." class="search-box" #search>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- table container -->
+    <section>
+      <div class="table-container">
+        <div class="table-header-container">
+          <div class="header-item small">
+            <span>State</span>
+          </div>
+          <div class="header-item small">
+            <span>City</span>
+          </div>
+          <div class="header-item large">
+            <span>Area</span>
+          </div>
+          <div class="header-item align-center medium">
+            <span>Active Status</span>
+          </div>
+          <div class="header-item align-center medium">
+            <span>Action</span>
+          </div>
+        </div>
+        <div class="table-value-outer-container">
+          <div class="table-value-container" *ngFor="let record of countryStateAreaList">
+            <div class="table-value-item small">
+              <span *ngIf="!record.state_name">-</span>
+              <span title="{{record.state_name}}" *ngIf="record.state_name">{{ (record.state_name.length > 20) ? (record.state_name | slice:0:20) + '...' : record.state_name}}</span>
+            </div>
+            <div class="table-value-item small">
+              <span *ngIf="!record.city">-</span>
+              <span title="{{record.city}}"  *ngIf="record.city">{{ (record.city.length > 20) ? (record.city | slice:0:20) + '...' : record.city}}</span>
+            </div>
+            <div class="table-value-item large">
+              <span *ngIf="!record.area">-</span>
+              <span title="{{record.area}}"  *ngIf="record.area">{{ (record.area.length > 20) ? (record.area | slice:0:20) + '...' : record.area }}</span>
+            </div>
+            <div class="table-value-item align-center medium">
+              <span *ngIf="record.is_active == 'Y'">Active</span>
+              <span *ngIf="record.is_active == 'N'" style="color: red;">Non-Active</span>
+            </div>
+            <div class="table-value-item align-center medium">
+              <i class="fa fa-pencil edit-lead" title="Edit Area" aria-hidden="true" (click)="editArea(record)" data-toggle="modal" data-target="#editCityArea"></i>
+              <i class="fa fa-trash delete-lead" title="Delete Area" (click)="deleteArea(record.id)"></i>
+            </div>
+          </div>
+          <div class="no-records" *ngIf="countryStateAreaList.length == 0">
+            <span>No Records Found</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Paginator Here -->
     <div class="row filter-res pagination" style="width: 100%;">
@@ -93,6 +151,7 @@
         </pagination>
       </div>
     </div>
+
   </section>
 
 </div>
