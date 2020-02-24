@@ -1,4 +1,5 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'"
+  *ngIf="isRippleLoad">
 </loaders-css>
 
 <div class="container-fluid product-wrapper p-0">
@@ -25,19 +26,19 @@
 
       <div class="form-group field-wrapper form-el-width datePickerBox">
         <label class="text-bold">Sales From Date</label>
-        <input type="text" value="" id="FromDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="filter.between.from" name="FD"
-          bsDatepicker readonly="true" />
+        <input type="text" value="" id="FromDate" class="form-ctrl bsDatepicker dateFormat"
+          [(ngModel)]="filter.between.from" name="FD" bsDatepicker readonly="true" />
       </div>
 
       <div class="form-group field-wrapper form-el-width datePickerBox">
         <label class="text-bold">Sales To Date</label>
-        <input type="text" value="" id="ToDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="filter.between.to" name="FD"
-          bsDatepicker readonly="true" />
+        <input type="text" value="" id="ToDate" class="form-ctrl bsDatepicker dateFormat"
+          [(ngModel)]="filter.between.to" name="FD" bsDatepicker readonly="true" />
       </div>
       <div class="form-group field-wrapper form-el-width datePickerBox">
         <label class="text-bold">Publish Date</label>
-        <input type="text" value="" id="publishDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="filter.by.publishDate"
-          name="FD" bsDatepicker readonly="true" />
+        <input type="text" value="" id="publishDate" class="form-ctrl bsDatepicker dateFormat"
+          [(ngModel)]="filter.by.publishDate" name="FD" bsDatepicker readonly="true" />
       </div>
 
       <div class="form-group field-wrapper form-el-width">
@@ -80,16 +81,16 @@
         <label class="text-bold">Minimum Price
           <span class="text-danger">*</span>
         </label>
-        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="minPrice" class="form-ctrl" [(ngModel)]="filter.by.minPrice"
-          name="minPrice" />
+        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="minPrice"
+          class="form-ctrl" [(ngModel)]="filter.by.minPrice" name="minPrice" />
       </div>
 
       <div class="form-group field-wrapper form-el-width" *ngIf="filter.by.isPaid=='true'">
         <label class="text-bold">Maximum Price
           <span class="text-danger">*</span>
         </label>
-        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="maxPrice" class="form-ctrl" [(ngModel)]="filter.by.maxPrice"
-          name="maxPrice" />
+        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="maxPrice"
+          class="form-ctrl" [(ngModel)]="filter.by.maxPrice" name="maxPrice" />
       </div>
 
 
@@ -126,7 +127,8 @@
       </div> -->
 
       <button class="btn btn-primary btn-product btn_go" [disabled]="isRippleLoad" (click)="filterData()">GO</button>
-      <button class="btn btn-primary btn-product btn_go" [disabled]="isRippleLoad" (click)="Clearfilter()">Clear Filter</button>
+      <button class="btn btn-primary btn-product btn_go" [disabled]="isRippleLoad" (click)="Clearfilter()">Clear
+        Filter</button>
 
     </div>
   </div>
@@ -136,14 +138,14 @@
     <div class="col-md-12 table-wrapper p-0" style="height: 430px;overflow-y: scroll;">
       <table class="table product-table">
         <thead class="product-table-head">
-          <tr >
+          <tr>
             <!-- <th width="5%">
               <div class="field-checkbox-wrapper">
                 <input type="checkbox" class="form-checkbox" [checked]="jsonKeys.selectAll"  (change)="toggleAllCheckBox($event)" id="ch2">
                 <label for="ch2"></label>
               </div>
             </th> -->
-            <th width="5%" >ID</th>
+            <th width="5%">ID</th>
             <th width="5%">#</th>
             <th width="10%" class="text-left" style="text-align: left">Product Name</th>
             <th class="text-left">E-course</th>
@@ -170,10 +172,13 @@
                 alt="product image">
               [src]="item.product_image" 
             </td> -->
-            <td [ngClass]="{'adv_prod_border': item.is_advance_product==1,'normal_prod_border': item.is_advance_product==0}">{{i+1}}</td>
+            <td
+              [ngClass]="{'adv_prod_border': item.is_advance_product==1,'normal_prod_border': item.is_advance_product==0}">
+              {{i+1}}</td>
             <td>
               <span>
-                <img alt="product" class="profile_img" [src]="item.logo_url==null?'https://cdn.vox-cdn.com/thumbor/30bQJLedP0p2KHehrHJyPc2dZ5A=/0x0:600x579/920x0/filters:focal(0x0:600x579):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/16019250/log_2048.png':item.logo_url"
+                <img alt="product" class="profile_img"
+                  [src]="item.logo_url==null?'https://cdn.vox-cdn.com/thumbor/30bQJLedP0p2KHehrHJyPc2dZ5A=/0x0:600x579/920x0/filters:focal(0x0:600x579):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/16019250/log_2048.png':item.logo_url"
                   title="{{item.title}}">
               </span>
             </td>
@@ -221,17 +226,25 @@
               </td> -->
             <td class="text-center">
               <div class="dropdown dropleft" *ngIf="item.status!=50">
-                <button class="btn btn-light btn-xs dropdown-toggle" type="button" (click)="toggleActionMenu($event)" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-light btn-xs dropdown-toggle" type="button" (click)="toggleActionMenu($event)"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
                 </button>
                 <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
-                  <a class="dropdown-item" *ngIf="item.status < 30 ||(item.is_advance_product&& item.status== 30) " [routerLink]="['/view/e-store/create/'+item.entity_id+'/basic']">Edit</a>
-                  <a class="dropdown-item" *ngIf="item.status < 30 " (click)="actionProductModal('delete', item.entity_id)">Delete</a>
-                  <a class="dropdown-item" (click)="actionProductModal('ready', item.entity_id)" *ngIf="item.status == 10">Ready</a>
-                  <a class="dropdown-item" (click)="actionProductModal('publish', item.entity_id)" *ngIf="item.status == 20">Publish</a>
-                  <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)" style="border: none;" *ngIf="item.status == 30">Unpublished</a>
-                  <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;" *ngIf="item.status == 40">Closed</a>
+                  <a class="dropdown-item" *ngIf="item.status < 30 ||(item.is_advance_product&& item.status== 30) "
+                    [routerLink]="['/view/e-store/create/'+item.entity_id+'/basic']">Edit</a>
+                  <a class="dropdown-item" *ngIf="item.status < 30 "
+                    (click)="actionProductModal('delete', item.entity_id)">Delete</a>
+                  <a class="dropdown-item" (click)="actionProductModal('ready', item.entity_id)"
+                    *ngIf="item.status == 10">Ready</a>
+                  <a class="dropdown-item" (click)="actionProductModal('publish', item.entity_id)"
+                    *ngIf="item.status == 20">Publish</a>
+                  <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)"
+                    style="border: none;" *ngIf="item.status == 30">Unpublished</a>
+                  <a class="dropdown-item" (click)="showAssignStudentPopup(item)" *ngIf="item.status == 30">Assign
+                    Student</a>
+                  <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;"
+                    *ngIf="item.status == 40">Closed</a>
                 </div>
               </div>
             </td>
@@ -256,9 +269,9 @@
 
     <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-          [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="varJson.sizeArr" (sizeChange)="updateTableBatchSize($event)"
-          [count]="varJson.total_items">
+        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="varJson.sizeArr"
+          (sizeChange)="updateTableBatchSize($event)" [count]="varJson.total_items">
         </pagination>
       </div>
     </div>
@@ -267,8 +280,8 @@
 
 
 <!-- Delete/Publish Product Modal -->
-<div class="modal fade" id="actionProductModal" tabindex="-1" role="dialog" 
-  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="actionProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="max-width: 600px;">
       <div class="modal-body text-center">
@@ -278,8 +291,133 @@
         <div class="form-group m-0">
           <button type="button" class="btn btn-sm" data-dismiss="modal">No</button>
           &nbsp;
-          <button type="submit" class="btn btn-primary btn-sm" [disabled]="isRippleLoad" (click)="confirmAction(deleteItem.operation, deleteItem.entity_id)">Yes</button>
+          <button type="submit" class="btn btn-primary btn-sm" [disabled]="isRippleLoad"
+            (click)="confirmAction(deleteItem.operation, deleteItem.entity_id)">Yes</button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="assignStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog" style="    margin-top: 5%;margin-left: 30%;width: 700px;" role="document">
+    <div class="modal-content" style="max-width: 700px;">
+      <div class="modal-body">
+        <div>
+        <span style="font-weight: 600;margin-bottom: 10px;">{{product_details_for_student.title}} </span>
+        <span style="float: right;font-weight: 600;font-size: 16px;cursor: pointer;" (click)="closePopup()">X</span>
+      </div>
+      <div class="row" style="margin:0;margin-bottom: 10px;border-bottom: 1px solid #eee;" *ngIf="!isProfessional">
+        <div class="form-group field-wrapper form-el-width" style="width: 40%;float: left;margin-right: 5%;">
+          <label class="text-bold">Master Course</label>
+          <select [(ngModel)]="master_course_name" class="form-ctrl" (change)="getCourseDetails($event.target.value)">
+            <option value="">Select</option>
+            <option *ngFor="let masterCourse of masterCourseDetails.master_course_name_list" title="{{masterCourse}}" value="{{masterCourse}}">
+              {{ (masterCourse?.length > 20) ? (masterCourse | slice:0:20) + '...' : masterCourse }}
+  
+            </option>
+          </select>
+        </div>
+        <div class="form-group field-wrapper form-el-width" style="width: 40%;float: left;">
+          <label class="text-bold"> Course</label>
+          <select [(ngModel)]="course_id" class="form-ctrl">
+            <option value="">Select</option>
+            <option *ngFor="let course of courseDetails" title="{{course.course_name}}" [value]="course.course_id">
+              {{ (course.course_name?.length > 20) ? (course.course_name | slice:0:20) + '...' : course.course_name }}
+            </option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;margin-top: 26px;margin-left: 2%;float: left;" [disabled]="isRippleLoad" (click)="studentDataOnMasterCourse()">Go</button>
+        <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;margin-top: 23px;margin-left: 5px;" [disabled]="isRippleLoad" (click)="clearStudentFilter()">Clear</button>
+      </div>
+
+      <div class="row" style="margin:0" *ngIf="isProfessional">
+        <div class="form-group field-wrapper form-el-width" style="width: 26%;float: left;margin-right: 3%;">
+          <label class="text-bold">Master Course</label>
+          <select [(ngModel)]="master_course_name" class="form-ctrl" (change)="getSubjectDetails($event.target.value)">
+            <option value="">Select</option>
+            <option *ngFor="let masterCourse of masterCourseDetails.standard_list" title="{{masterCourse.standard_name}}" value="{{masterCourse.standard_id}}">
+              {{ (masterCourse.standard_name?.length > 20) ? (masterCourse.standard_name | slice:0:20) + '...' : masterCourse.standard_name }}
+  
+            </option>
+          </select>
+        </div>
+        <div class="form-group field-wrapper form-el-width" style="width: 26%;float: left;margin-right: 3%;">
+          <label class="text-bold"> Course</label>
+          <select [(ngModel)]="course_id" class="form-ctrl">
+            <option value="">Select</option>
+            <option *ngFor="let course of courseDetails.subjectLi" title="{{course.subject_name}}" [value]="course.subject_id">
+              {{ (course.subject_name?.length > 20) ? (course.subject_name | slice:0:20) + '...' : course.subject_name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group field-wrapper form-el-width" style="width: 26%;float: left;">
+          <label class="text-bold"> Batch</label>
+          <select [(ngModel)]="batch_id" class="form-ctrl">
+            <option value="">Select</option>
+            <option *ngFor="let course of courseDetails.batchLi" title="{{course.batch_name}}" [value]="course.batch_id">
+              {{ (course.batch_name?.length > 20) ? (course.batch_name | slice:0:20) + '...' : course.batch_name }}
+            </option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;margin-top: 26px;margin-left: 2%;float: left;" [disabled]="isRippleLoad" (click)="studentDataOnMasterCourse()">Go</button>
+        <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;margin-top: 23px;margin-left: 5px;" [disabled]="isRippleLoad" (click)="clearStudentFilter()">Clear</button>
+      </div>
+        <!-- <div class="field-checkbox-wrapper" style="float: left;margin-bottom: 15px;">
+          <input type="checkbox" [checked]="activeStudents" (ngModelChange)="getAllActiveStudents()" [(ngModel)]="activeStudents" class="form-checkbox" id="ch3">
+          <label for="ch3">All Active Students</label>
+        </div>         -->
+        <section style="margin-top: 10px;margin-bottom: 6%;">
+          <div class="table-container" style="margin-bottom: 10px;">
+            <div class="heading-container">
+              <div class="heading-item" style="width: 10%;">
+                <span>
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" class="form-checkbox" [checked]="isAllChecked()" [(ngModel)]="jsonKeys.selectAll" (change)="toggleAllCheckBox()" id="ch2">
+                    <label for="ch2"></label>
+                  </div>
+                </span>
+              </div>
+              <div class="heading-item" style="text-align: left;">
+                <span>Student Name</span>
+              </div>
+              <div class="heading-item" style="width: 25%;">
+                <span>Contact No.</span>
+              </div>
+              <div class="heading-item" style="width: 35%;">
+                <span>Status</span>
+              </div>
+            </div>
+            <div class="value-outer-container" *ngIf="studentDetails?.length!=0">
+              <div class="value-container" *ngFor="let data of studentDetails;let i= index">
+                <div class="value-item" style="width: 10%;">
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" class="form-checkbox" [disabled]="data.is_product_already_purchased" [checked]="data.isSelected" [(ngModel)]="data.isSelected" [id]="'checkbox-'+i">
+                    <label [for]="'checkbox-'+i"></label>
+                  </div>
+                </div>
+                <div class="value-item" style="text-align: left;">
+                  <span
+                    title="{{data.student_name}}">{{(data.student_name.length > 80) ? (data.student_name | slice:0:80) + '...' : data.student_name}}</span>
+                </div>
+                <div class="value-item" style="width: 25%;padding-left: 1%;">
+                  {{(data.phone != '') ? (data.phone) : '-'}}
+                </div>
+                <div class="value-item" style="width: 35%;padding-left: 1%;">
+                  <span *ngIf="data.is_product_already_purchased" style="color: green;font-weight: 600;">Assigned</span>
+                  <span *ngIf="!data.is_product_already_purchased" style="color: red;font-weight: 600;">Not Assigned</span>
+                </div>
+              </div>
+            </div>
+            <div class="value-outer-container" style="text-align: center;padding-top: 5%;font-weight: 600;" *ngIf="studentDetails?.length==0">
+             <div *ngIf="!isRippleLoad"> No data found </div>
+            </div>
+          </div>
+          <span>Total Students: {{studentDetails?.length}} </span>
+          <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;float: right;" [disabled]="isRippleLoad" (click)="assignStudentToProduct()">Assign and Notify</button>
+        </section>
       </div>
     </div>
   </div>

@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ProductService } from '../../../services/products.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 declare var $;
 
 @Component({
@@ -42,6 +43,15 @@ export class ProductListComponent implements OnInit {
   isRippleLoad: boolean = false;
   ecourseList: any = [];
   subjectsList: any = [];
+  studentDetails: any = [];
+  masterCourseDetails: any = [];
+  courseDetails: any =[];
+  product_details_for_student: any = '';
+  master_course_name: '';
+  course_id: '';
+  batch_id: '';
+  // activeStudents = true;
+  isProfessional = true;
   deleteItem: any = {
     textTitle: '',
     title: '',
@@ -51,18 +61,28 @@ export class ProductListComponent implements OnInit {
   };
 
   jsonKeys = {
-    selectAll: false,
+    selectAll: true,
     institute_id: ''
   }
 
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
-    private _http: HttpService
+    private _http: HttpService,
+    private auth: AuthenticatorService
   ) { }
 
   ngOnInit() {
     this.jsonKeys.institute_id = sessionStorage.getItem('institute_id');
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
     this.fectchTableDataByPage(1)
     this.getAllProductDetails();
   }
@@ -211,6 +231,181 @@ export class ProductListComponent implements OnInit {
       keyboard: false,
       show: true
     });
+  }
+
+  showAssignStudentPopup(data){
+    this.master_course_name = '';
+    this.course_id = '';
+    this.batch_id = '';
+    this.product_details_for_student = data;
+    this.getStudentDetails();
+    this.getMasterCourseData();
+    $("#assignStudent").modal({
+      backdrop: 'static',
+      keyboard: false,
+      show: true
+    });
+  }
+
+  getStudentDetails(){
+    this.jsonKeys.selectAll = true;
+    this.studentDetails = [];
+    let ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
+    let object = {};
+    if(!this.isProfessional) {
+     object = {
+      "ecourse_ids": ecourse,
+      "master_course_name": this.master_course_name,
+      "course_id": this.course_id
+    };
+  } else{
+    object = {
+      "ecourse_ids": ecourse,
+      'standard_id': this.master_course_name,
+      'subject_id' : this.course_id,
+      'batch_id' : this.batch_id
+    }
+  }
+    console.log(object);
+    this.isRippleLoad = true;
+    const url = `user-product/student-details/${this.product_details_for_student.entity_id}`;
+    this.http.postMethod(url, object).then(
+      (resp:any) => {
+        this.isRippleLoad = false;
+        if (resp) {
+          let data = resp['body'];
+          if (resp && data.validate) {
+            this.studentDetails = data.result;
+           this.toggleAllCheckBox('');
+          } else {
+            this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
+          }
+        }
+      },
+      (err) => {
+        this.isRippleLoad = false;
+        this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
+      }
+    );
+  }
+
+  // getAllActiveStudents() {
+  //   // if (!this.activeStudents) {
+  //   this.master_course_name = '';
+  //   this.course_id = '';
+  //   this.batch_id = '';
+  //   this.getStudentDetails();
+  //   // } else {
+  //     // this.studentDetails = [];
+  //   // }
+  // }
+
+  getMasterCourseData() {
+    // this.isRippleLoad = true;
+    let ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
+    let object = {
+      'ecourse_ids': ecourse,
+      'instiute_id': sessionStorage.getItem('institute_id')
+    };
+    this._http.postData('/api/v1/institute/courseMapping/get-mastercourse-or-standard', object).subscribe(
+      (resp: any) => {
+        // this.isRippleLoad = false;
+        if (resp) {
+          this.masterCourseDetails = resp;
+        }
+      },
+      (err) => {
+        // this.isRippleLoad = false;
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+      });
+  }
+
+  getCourseDetails(event) {
+    this.isRippleLoad = true;
+    let ecourse = [];
+    if(event == ''){
+       ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
+    }
+    let object = {
+      'ecourse_ids': ecourse,
+      'instiute_id': sessionStorage.getItem('institute_id'),
+      'master_course_name': event
+    };
+    this._http.postData('/api/v1/institute/courseMapping/get-courses', object).subscribe(
+      (resp: any) => {
+        this.isRippleLoad = false;
+        if (resp) {
+          this.courseDetails = resp.course_list;
+        }
+      },
+      (err) => {
+        this.isRippleLoad = false;
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+      });
+  }
+
+  getSubjectDetails(event){
+    this.isRippleLoad = true;
+    this._http.getData('/api/v1/batches/fetchCombinedBatchData/' + this.jsonKeys.institute_id + '?standard_id=' + event+'&subject_id =-1'+'&assigned = N').subscribe(
+      (resp: any) => {
+        this.isRippleLoad = false;
+        if (resp) {
+          this.courseDetails = resp;
+        }
+      },
+      (err) => {
+        this.isRippleLoad = false;
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+      });
+  }
+
+  assignStudentToProduct() {
+    const user_id_list = [];
+    this.studentDetails.forEach(stu => {
+      if (stu.isSelected && !stu.is_product_already_purchased) {
+        user_id_list.push(stu.user_id);
+      }
+    });
+    let object = {
+      "product_id": this.product_details_for_student.entity_id,
+      "user_id_list": user_id_list,
+    };
+    console.log(object);
+    this.isRippleLoad = true;
+    this.http.postMethod('order/assign-product', object).then(
+      (resp:any) => {
+        this.isRippleLoad = false;
+        if (resp) {
+          let data = resp['body'];
+          if (resp && data.validate) {
+            this.msgService.showErrorMessage('success', data.result, '');
+            this.closePopup();
+          } else {
+            this.msgService.showErrorMessage('error', data.error[0].error_message, '');
+          }
+        }
+      },
+      (err) => {
+        this.isRippleLoad = false;
+        this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
+      }
+    );
+  }
+
+  studentDataOnMasterCourse() {
+    // this.activeStudents = false;
+    this.getStudentDetails();
+  }
+
+  closePopup() {
+    $("#assignStudent").modal('hide');
+  }
+
+  clearStudentFilter() {
+    this.master_course_name = '';
+    this.course_id = '';
+    this.batch_id = '';
+    this.getStudentDetails();
   }
 
   confirmAction(operation, id) {
@@ -439,14 +634,21 @@ export class ProductListComponent implements OnInit {
 
   toggleAllCheckBox($event) {
     console.log('toggleAllCheckBox');
-    this.productList.forEach(element => {
+    this.studentDetails.forEach(element => {
       element.isSelected = this.jsonKeys.selectAll;
+      if(element.is_product_already_purchased){
+        element.isSelected = true;
+      }
     });
   }
 
   isAllSelected($event, item) {
     console.log($event, item);
   }
+
+  isAllChecked(): boolean {
+    return this.studentDetails.every(_ => _.isSelected);
+}
 
   toggleActionMenu(event) {
     console.log(event);
