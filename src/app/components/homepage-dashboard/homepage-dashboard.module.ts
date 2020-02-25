@@ -29,6 +29,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { HttpService } from '../../services/http.service';
 import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
 import {VdocipherComponent} from  './vdocipher/vdocipher.component';
+import { StudentBirthdayComponent } from './student-birthday/student-birthday.component';
 
 @NgModule({
     imports: [
@@ -58,7 +59,8 @@ import {VdocipherComponent} from  './vdocipher/vdocipher.component';
         ExamMarkUpdateComponent,
         BatchModelComponent,
         FeeWidgetComponent,
-        VdocipherComponent
+        VdocipherComponent,
+        StudentBirthdayComponent
     ],
     entryComponents: [
         ProcturWidgetComponent,

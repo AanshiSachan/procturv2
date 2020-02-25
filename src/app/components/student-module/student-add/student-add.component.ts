@@ -959,6 +959,8 @@ export class StudentAddComponent implements OnInit {
 
   /* function to add institute data to server */
   addInstituteData() {
+    if(this.createInstitute.instituteName!=''){
+      if((this.instituteList.filter(x=>x.school_name == this.createInstitute.instituteName.trim())).length == 0){
     this.prefill.createNewInstitute(this.createInstitute).subscribe(
       el => {
         if (el.message === "OK") {
@@ -983,8 +985,15 @@ export class StudentAddComponent implements OnInit {
         }
       },
       err => {
-        this.msgToast.showErrorMessage('error', '', 'There was an error processing your request');
+        console.log(err)
+        this.msgToast.showErrorMessage('error', '', err.error.message);
       });
+    } else {
+      this.msgToast.showErrorMessage('error', '', 'Institute name already exist!');
+    }
+    } else {
+      this.msgToast.showErrorMessage('info', '', 'Please enter institute name');
+    }
   }
 
   fetchInstituteInfo() {
@@ -1004,17 +1013,23 @@ export class StudentAddComponent implements OnInit {
     this.instituteList.forEach(el => {
       if (el.school_id == id) {
         el.edit = true;
+        el.new_school_name = el.school_name;
       }
     });
   }
 
   cancelEditInstitute(id) {
-    this.fetchInstituteInfo();
+    let temp = this.instituteList.filter(el=> el.school_id == id);
+    if(temp) {
+      temp[0].edit = false;
+      temp[0].new_school_name = temp[0].school_name;
+    }
   }
 
   updateInstitute(id) {
     this.instituteList.forEach(el => {
       if (el.school_id == id) {
+        el.school_name = el.new_school_name;
         this.postService.updateInstituteDetails(id, el).subscribe(
           res => {
             this.msgToast.showErrorMessage('success', '', 'institute Name Update');
