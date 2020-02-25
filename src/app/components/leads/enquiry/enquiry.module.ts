@@ -1,25 +1,25 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { EnquiryComponent } from './enquiry.component';
-import { EnquiryBulkaddComponent } from './enquiry-bulkadd/enquiry-bulkadd.component';
-import { EnquiryRoutingModule } from "./enquiry-routing.module";
-import { ActionButtonComponent } from './enquiry-home/action-button.component';
-import { CommentTooltipComponent } from './enquiry-home/comment-tooltip.component';
-import { SmsOptionComponent } from './enquiry-home/sms-option.component';
-import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
-import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component';
-import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-sidebar.component';
-import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
+import { NgModule } from '@angular/core';
 /* Modules */
-import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormControl } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
-import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
-import { SharedModule } from '../../shared/shared.module';
+import { FileUploadModule, MenuModule, SplitButtonModule } from 'primeng/primeng';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
-import { ClosingReasonService } from '../services/closing-reason.service';
+import { SharedModule } from '../../shared/shared.module';
 import { LeadsModule } from '../leads.module';
+import { ClosingReasonService } from '../services/closing-reason.service';
+import { EnquiryBulkaddComponent } from './enquiry-bulkadd/enquiry-bulkadd.component';
+import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
+import { ActionButtonComponent } from './enquiry-home/action-button.component';
+import { CommentTooltipComponent } from './enquiry-home/comment-tooltip.component';
+import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
+import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-sidebar.component';
+import { SmsOptionComponent } from './enquiry-home/sms-option.component';
+import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component';
+import { EnquiryRoutingModule } from "./enquiry-routing.module";
+import { EnquiryComponent } from './enquiry.component';
+
 
 
 @NgModule({

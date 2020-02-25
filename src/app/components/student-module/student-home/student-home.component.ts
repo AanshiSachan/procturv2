@@ -60,6 +60,7 @@ export class StudentHomeComponent implements OnInit {
   selectedUserId: any = [];
   studentbatchList: any[] = [];
   studentByIdcustomComponents: any[] = [];
+  filterCustomComponent: any[] = []
 
   private studentdisplaysize: number = 100;
   perPage: number = 10;
@@ -85,7 +86,8 @@ export class StudentHomeComponent implements OnInit {
   isEdit: boolean = true;
   private selectedRow: any;
   studentDetailsById: any;
-  studentCustomComponent: any; today: any = Date.now();
+  studentCustomComponent: any;
+  today: any = Date.now();
   searchBarData: any = null;
   private selectedSlotsID: string = '';
   private selectedSlotsString: string = '';
@@ -325,6 +327,18 @@ export class StudentHomeComponent implements OnInit {
       }
     ];
     this.checkDownloadRoleAccess();
+    this.getAcademmicYear();
+    this.fetchCustomComponent();
+  }
+
+
+  checkCustomeComponentElement(index) {
+    if (!(index % 3)) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   // Assign standard to multiple students at single time. -- Developed by Swapnil
@@ -682,6 +696,11 @@ export class StudentHomeComponent implements OnInit {
     }
   }
 
+  // get custome filter component details if is_searchable is applicable --laxmi
+  getSearchableCustomeComponents(array) {
+    this.filterCustomComponent = array.filter((object) => object.is_searchable == 'Y');
+  }
+
   /* Function to open advanced filter */
   /* =================================================================================================== */
   /* =================================================================================================== */
@@ -713,9 +732,9 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   advancedSearch() {
     let tempCustomArr: any[] = [];
-    this.customComponents.forEach(el => {
+    this.filterCustomComponent.forEach(el => {
       //console.log(el);
-      if (el.is_searchable == 'Y' && el.value != "") {
+      if (el.value != "") {
         if (el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
           let obj = {
             component_id: el.id,
@@ -852,16 +871,19 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   fetchStudentPrefill() {
 
-    this.isRippleLoad = true;
-    this.prefill.getEnqStardards().subscribe(data => {
-      this.standardList = data;
-    });
+    
+    if (!this.standardList.length) {
+      this.isRippleLoad = true;
+      this.prefill.getEnqStardards().subscribe(data => {
+        this.standardList = data;
+      });
+    }
 
-    this.prefill.getSchoolDetails().subscribe(data => {
-      this.schoolList = data;
-    });
-    this.getAcademmicYear();
-    this.fetchCustomComponent();
+    if (!this.schoolList.length) {
+      this.prefill.getSchoolDetails().subscribe(data => {
+        this.schoolList = data;
+      });
+    }
 
     if (this.isProfessional) {  // batch module
       this.batchModuleCalls();
@@ -872,8 +894,10 @@ export class StudentHomeComponent implements OnInit {
   }
 
   getAcademmicYear() {
+    this.isRippleLoad = true;
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
+        this.isRippleLoad = false;
         this.academicYear = data;
         this.academicYear.forEach(e => {
           if (e.default_academic_year == 1) {
@@ -898,6 +922,7 @@ export class StudentHomeComponent implements OnInit {
     let id = '';
     this.studentPrefill.fetchCustomComponent(id).subscribe(data => {
       if (data != null) {
+        this.isRippleLoad = false;
         data.forEach(el => {
           let obj = {
             data: el,
@@ -969,6 +994,8 @@ export class StudentHomeComponent implements OnInit {
           }
           this.customComponents.push(obj);
         });
+
+        this.getSearchableCustomeComponents(this.customComponents);
       }
     });
   }
@@ -984,14 +1011,14 @@ export class StudentHomeComponent implements OnInit {
 
   batchModuleCalls() {
     this.getSlots();
-    this.studentPrefill.fetchBatchDetails().subscribe(data => {
+    (!this.batchList.length) && this.studentPrefill.fetchBatchDetails().subscribe(data => {
       this.batchList = data;
       this.isRippleLoad = false;
     });
   }
 
   courseModuleCalls() {
-    this.studentPrefill.fetchMasterCourse().subscribe(data => {
+    (!this.masterCourseList.length) && this.studentPrefill.fetchMasterCourse().subscribe(data => {
       this.masterCourseList = data;
       this.isRippleLoad = false;
     });
@@ -1066,7 +1093,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   updateMultiSelect(data, id) {
-    this.customComponents.forEach(el => {
+    this.filterCustomComponent.forEach(el => {
       if (el.id == id) {
         let x = []
         let y = el.prefilled_data;
@@ -1126,6 +1153,8 @@ export class StudentHomeComponent implements OnInit {
       start_index: 0,
       batch_size: this.studentdisplaysize
     }
+
+    this.subjectList = [];
 
     this.customComponents.forEach(el => {
       //console.log(el);
@@ -1225,20 +1254,23 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   getSlots() {
-    return this.studentPrefill.fetchSlots().subscribe(
-      res => {
-        res.forEach(el => {
-          let obj = {
-            label: el.slot_name,
-            value: el,
-            status: false
-          }
-          this.slots.push(obj);
-        });
-        // console.log(this.slots);
-      },
-      err => { }
-    )
+    if(!this.slots.length){
+      return this.studentPrefill.fetchSlots().subscribe(
+        res => {
+          res.forEach(el => {
+            let obj = {
+              label: el.slot_name,
+              value: el,
+              status: false
+            }
+            this.slots.push(obj);
+          });
+          // console.log(this.slots);
+        },
+        err => { }
+      )
+    }
+  
   }
 
   /* =================================================================================================== */
@@ -2132,7 +2164,7 @@ export class StudentHomeComponent implements OnInit {
   updateStudentDataOnServer() {
     let customArr = [];
 
-    this.studentByIdcustomComponents.forEach(el => {
+    this.studentCustomComponent.forEach(el => {
       let max_length = el.comp_length == 0 ? 100 : el.comp_length;
       /* Not Checkbox and value not empty */
       if (el.value != '' && el.type != 2 && el.type != 5) {

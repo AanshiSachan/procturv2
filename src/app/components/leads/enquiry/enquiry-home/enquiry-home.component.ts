@@ -74,6 +74,7 @@ export class EnquiryHomeComponent implements OnInit {
     sizeArr: any[] = [25, 50, 100, 150, 200, 500];
     commentFormData: any = {};
     emailGridData: any = [];
+    filterCustomComponent=[];
     EmailThumbnailUrl : any = '';
     EmailGridSelectedObject: any = null;
     selectedTableRow:any;
@@ -481,6 +482,13 @@ export class EnquiryHomeComponent implements OnInit {
         }
     }
 
+    // get custome filter component details if is_searchable is applicable --laxmi
+    getSearchableCustomeComponents(array){
+    
+        this.filterCustomComponent = array.filter((object)=>object.is_searchable=='Y');
+        console.log(this.filterCustomComponent);
+    }
+
     timeChanges(ev) {
         let obj: any = {};
         let time = ev.split(' ');
@@ -668,6 +676,7 @@ export class EnquiryHomeComponent implements OnInit {
                             this.customComponents.push(obj);
                         });
                     }
+                    this.getSearchableCustomeComponents(this.customComponents);// 
                     this.emptyCustomComponent = this.componentListObject;
                 });
     }
@@ -709,7 +718,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* if custom component is of type multielect then update the selected or unselected data*/
     updateMultiSelect(data, id) {
-        this.customComponents.forEach(el => {
+        this.filterCustomComponent.forEach(el => {
             if (el.id == id) {
                 let x = []
                 let y = el.prefilled_data;
@@ -1640,8 +1649,8 @@ export class EnquiryHomeComponent implements OnInit {
         // this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null, sorted_by: "", order_by: "", commentShow: 'false' };
         // this.instituteData.filtered_statuses = this.statusString.join(',');
         let tempCustomArr: any[] = [];
-        this.customComponents.forEach(el => {
-            if (el.is_searchable == 'Y' && el.value != "") {
+        this.filterCustomComponent.forEach(el => {
+            if (el.value != "") {
                 if (el.type == '5') {
                     let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: this.getDateFormated(el.value, "YYYY-MM-DD") };
                     tempCustomArr.push(obj);
