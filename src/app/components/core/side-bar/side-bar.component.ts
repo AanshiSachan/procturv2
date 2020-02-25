@@ -166,7 +166,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.setActiveClassOnSideNav();
     // Patch added for specific institute to show only Home and Lead module
     // Added by Swapnil
-    if(this.instituteId == "101317"){
+    if (this.instituteId == "101317") {
       this.accessToHomeAndLead();
     }
   }
@@ -259,7 +259,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  accessToHomeAndLead(){
+  accessToHomeAndLead() {
     this.jsonFlags.isShowStudent = false;
     this.jsonFlags.isShowModel = false;
     this.jsonFlags.isShowFee = false;
@@ -495,7 +495,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   isElearnAllow() {
     // this senction is used for enable elearn feature
-
+    this.jsonFlags.isShoweStore = false;
     if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
       this.jsonFlags.isShoweStore = true;
     }
