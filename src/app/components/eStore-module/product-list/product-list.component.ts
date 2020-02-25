@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ProductService } from '../../../services/products.service';
@@ -39,9 +40,17 @@ export class ProductListComponent implements OnInit {
   };
   productList: any = [];
   productDetails:any=[];
-  isRippleLoad: boolean = false;
   ecourseList: any = [];
   subjectsList: any = [];
+  studentDetails: any = [];
+  masterCourseDetails: any = [];
+  courseDetails: any =[];
+  product_details_for_student: any = '';
+  master_course_name: '';
+  course_id: '';
+  batch_id: '';
+  // activeStudents = true;
+  isProfessional = true;
   deleteItem: any = {
     textTitle: '',
     title: '',
@@ -51,18 +60,28 @@ export class ProductListComponent implements OnInit {
   };
 
   jsonKeys = {
-    selectAll: false,
+    selectAll: true,
     institute_id: ''
   }
 
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
-    private _http: HttpService
+    private _http: HttpService,
+    private auth: AuthenticatorService
   ) { }
 
   ngOnInit() {
     this.jsonKeys.institute_id = sessionStorage.getItem('institute_id');
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
     this.fectchTableDataByPage(1)
     this.getAllProductDetails();
   }
@@ -99,11 +118,11 @@ export class ProductListComponent implements OnInit {
       "no_of_records": this.varJson.displayBatchSize
     }
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.http.postMethod('product/get', object).then(
       (resp: any) => {
         let response = resp['body'];
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (response.validate) {
           this.productList = response.result.results;
           console.log(this.productList);
@@ -118,12 +137,12 @@ export class ProductListComponent implements OnInit {
 
         }
         else {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', "something went wrong, try again", '');
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', "something went wrong, try again", '');
       });
 
@@ -150,18 +169,18 @@ export class ProductListComponent implements OnInit {
   getSubjectList() {
     //  Fetch Subjects List
     //<base_url>/ecourse/{institute_id}/{ecourse_id}/subjects
-    this.isRippleLoad = false;
+    this.auth.hideLoader();
     this.filter.subject_id = '-1';
     this.subjectsList = [];
     this._http.getData('/api/v1/ecourse/' + this.jsonKeys.institute_id + '/' + this.filter.ecourse_id + '/subjects').subscribe(
       (resp: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (resp && resp.length) {
           this.subjectsList = resp;
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
     // }
@@ -213,6 +232,181 @@ export class ProductListComponent implements OnInit {
     });
   }
 
+  showAssignStudentPopup(data){
+    this.master_course_name = '';
+    this.course_id = '';
+    this.batch_id = '';
+    this.product_details_for_student = data;
+    this.getStudentDetails();
+    this.getMasterCourseData();
+    $("#assignStudent").modal({
+      backdrop: 'static',
+      keyboard: false,
+      show: true
+    });
+  }
+
+  getStudentDetails(){
+    this.jsonKeys.selectAll = true;
+    this.studentDetails = [];
+    let ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
+    let object = {};
+    if(!this.isProfessional) {
+     object = {
+      "ecourse_ids": ecourse,
+      "master_course_name": this.master_course_name,
+      "course_id": this.course_id
+    };
+  } else{
+    object = {
+      "ecourse_ids": ecourse,
+      'standard_id': this.master_course_name,
+      'subject_id' : this.course_id,
+      'batch_id' : this.batch_id
+    }
+  }
+    console.log(object);
+    this.auth.showLoader();
+    const url = `user-product/student-details/${this.product_details_for_student.entity_id}`;
+    this.http.postMethod(url, object).then(
+      (resp:any) => {
+        this.auth.hideLoader();
+        if (resp) {
+          let data = resp['body'];
+          if (resp && data.validate) {
+            this.studentDetails = data.result;
+           this.toggleAllCheckBox('');
+          } else {
+            this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
+          }
+        }
+      },
+      (err) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
+      }
+    );
+  }
+
+  // getAllActiveStudents() {
+  //   // if (!this.activeStudents) {
+  //   this.master_course_name = '';
+  //   this.course_id = '';
+  //   this.batch_id = '';
+  //   this.getStudentDetails();
+  //   // } else {
+  //     // this.studentDetails = [];
+  //   // }
+  // }
+
+  getMasterCourseData() {
+    // this.auth.showLoader();
+    let ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
+    let object = {
+      'ecourse_ids': ecourse,
+      'instiute_id': sessionStorage.getItem('institute_id')
+    };
+    this._http.postData('/api/v1/institute/courseMapping/get-mastercourse-or-standard', object).subscribe(
+      (resp: any) => {
+        // this.auth.hideLoader();
+        if (resp) {
+          this.masterCourseDetails = resp;
+        }
+      },
+      (err) => {
+        // this.auth.hideLoader();
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+      });
+  }
+
+  getCourseDetails(event) {
+    this.auth.showLoader();
+    let ecourse = [];
+    if(event == ''){
+       ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
+    }
+    let object = {
+      'ecourse_ids': ecourse,
+      'instiute_id': sessionStorage.getItem('institute_id'),
+      'master_course_name': event
+    };
+    this._http.postData('/api/v1/institute/courseMapping/get-courses', object).subscribe(
+      (resp: any) => {
+        this.auth.hideLoader();
+        if (resp) {
+          this.courseDetails = resp.course_list;
+        }
+      },
+      (err) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+      });
+  }
+
+  getSubjectDetails(event){
+    this.auth.showLoader();
+    this._http.getData('/api/v1/batches/fetchCombinedBatchData/' + this.jsonKeys.institute_id + '?standard_id=' + event+'&subject_id =-1'+'&assigned = N').subscribe(
+      (resp: any) => {
+        this.auth.hideLoader();
+        if (resp) {
+          this.courseDetails = resp;
+        }
+      },
+      (err) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+      });
+  }
+
+  assignStudentToProduct() {
+    const user_id_list = [];
+    this.studentDetails.forEach(stu => {
+      if (stu.isSelected && !stu.is_product_already_purchased) {
+        user_id_list.push(stu.user_id);
+      }
+    });
+    let object = {
+      "product_id": this.product_details_for_student.entity_id,
+      "user_id_list": user_id_list,
+    };
+    console.log(object);
+    this.auth.showLoader();
+    this.http.postMethod('order/assign-product', object).then(
+      (resp:any) => {
+        this.auth.hideLoader();
+        if (resp) {
+          let data = resp['body'];
+          if (resp && data.validate) {
+            this.msgService.showErrorMessage('success', data.result, '');
+            this.closePopup();
+          } else {
+            this.msgService.showErrorMessage('error', data.error[0].error_message, '');
+          }
+        }
+      },
+      (err) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
+      }
+    );
+  }
+
+  studentDataOnMasterCourse() {
+    // this.activeStudents = false;
+    this.getStudentDetails();
+  }
+
+  closePopup() {
+    $("#assignStudent").modal('hide');
+  }
+
+  clearStudentFilter() {
+    this.master_course_name = '';
+    this.course_id = '';
+    this.batch_id = '';
+    this.getStudentDetails();
+  }
+
   confirmAction(operation, id) {
     let item = this.productList.filter(item => item.entity_id == id)[0];
     let object = {
@@ -221,11 +415,11 @@ export class ProductListComponent implements OnInit {
     }
     switch (operation) {
       case 'delete': {
-        if (!this.isRippleLoad) {
-          this.isRippleLoad = true;
+        if (!this.auth.isRippleLoad.getValue()) {
+          this.auth.showLoader();
           this.http.getMethod('product/delete/' + id, null).subscribe(
             (resp: any) => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
 
               console.log(resp);
               if (resp && resp.validate) {
@@ -245,7 +439,7 @@ export class ProductListComponent implements OnInit {
               }
             },
             (err) => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
             });
         }
@@ -278,11 +472,11 @@ export class ProductListComponent implements OnInit {
 
 
   tempFucntion(id, item, body, operation) {
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.http.postMethod('product/change-status', body).then(
         (resp:any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if (resp) {
             let data = resp['body'];
             item.status = body.status;
@@ -303,7 +497,7 @@ export class ProductListComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
         }
       );
@@ -417,10 +611,10 @@ export class ProductListComponent implements OnInit {
         'assending': false
       }
     };
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.http.postMethod('product/advance-filter', data).then(
       (resp: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let response = resp['body'];
         console.log(response);
         if (response.validate) {
@@ -429,7 +623,7 @@ export class ProductListComponent implements OnInit {
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
       }
     );
@@ -439,14 +633,21 @@ export class ProductListComponent implements OnInit {
 
   toggleAllCheckBox($event) {
     console.log('toggleAllCheckBox');
-    this.productList.forEach(element => {
+    this.studentDetails.forEach(element => {
       element.isSelected = this.jsonKeys.selectAll;
+      if(element.is_product_already_purchased){
+        element.isSelected = true;
+      }
     });
   }
 
   isAllSelected($event, item) {
     console.log($event, item);
   }
+
+  isAllChecked(): boolean {
+    return this.studentDetails.every(_ => _.isSelected);
+}
 
   toggleActionMenu(event) {
     console.log(event);
