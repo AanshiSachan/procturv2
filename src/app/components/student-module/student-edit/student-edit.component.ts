@@ -301,6 +301,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   stateList: any[] = [];
   cityList: any[] = [];
   areaList: any[] = [];
+  addArea:boolean = false;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -385,17 +386,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   getStateList(){
-    // this.stateList = [];
-    // this.cityList = [];
-    // this.areaList = [];
-    // this.studentAddFormData.state_id = "";
-    // this.studentAddFormData.city_id = "";
-    // this.studentAddFormData.area_id = "";
     const url = `/api/v1/country/state?country_ids=${this.country_id}`
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.stateList = res.result[0].stateList;
-        this.getCityList();
+        if(res.result.length > 0){
+          this.stateList = res.result[0].stateList;
+          if(this.studentAddFormData.state_id != ""){
+            this.getCityList();
+          }
+        }
       },
       err => {
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
@@ -405,15 +404,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   // get city list as per state selection
   getCityList(){
-    // this.cityList = [];
-    // this.areaList = [];
-    // this.studentAddFormData.city_id = "";
-    // this.studentAddFormData.area_id = "";
     const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.cityList = res.result[0].cityList;
-        this.getAreaList();
+        if(res.result.length > 0){
+          this.cityList = res.result[0].cityList;
+          if(this.studentAddFormData.city_id != ""){
+            this.getAreaList();
+          }
+        }
       },
       err => {
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
@@ -422,16 +421,47 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   getAreaList(){
-    // this.areaList = [];
     const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.areaList = res.result[0].areaList;
+        if(res.result.length > 0){
+          this.areaList = res.result[0].areaList;
+        }
       },
       err => {
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
       }
     )
+  }
+  
+  addNewArea(){
+    this.addArea = true;
+  }
+
+  closePops(event){
+    this.addArea = false;
+  }
+
+  resetStateCityArea(){
+    this.stateList = [];
+    this.cityList = [];
+    this.areaList = [];
+    this.studentAddFormData.state_id = "";
+    this.studentAddFormData.city_id = "";
+    this.studentAddFormData.area_id = "";
+    this.getStateList();
+  }
+  getNewCityList(){
+    this.cityList = [];
+    this.areaList = [];
+    this.studentAddFormData.city_id = "";
+    this.studentAddFormData.area_id = "";
+    this.getCityList()
+  }
+
+  getNewAreaList(){
+    this.areaList = [];
+    this.getAreaList();
   }
 
   onChangeObj(event) {
@@ -444,7 +474,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.country_id = element.id;
       }
     });
-    this.getStateList();
+    this.resetStateCityArea();
   }
   getAcademicYearDetails() {
     this.academicList = [];

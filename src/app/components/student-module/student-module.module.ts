@@ -22,6 +22,7 @@ import { CoursesServiceService } from '../../services/archiving-service/courses-
 import { StudentReportService } from '../../services/report-services/student-report-service/student-report.service';
 import { ProductService } from '../../services/products.service';
 import { HttpService } from '../../services/http.service';
+import { ManageExamModule } from '../master/master.module';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { HttpService } from '../../services/http.service';
     FileUploadModule,
     SplitButtonModule,
     MenuModule,
+    ManageExamModule
   ],
   declarations: [
     StudentAddComponent,

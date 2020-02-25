@@ -1,6 +1,32 @@
 @import "./src/assets/css/common/variables.scss";
 // @import "./src/app/components/leads/enquiry/enquiry-add/enquiry-add.component.scss";
 /* ============================================================================================================= */
+.sourceI {
+    cursor: pointer;
+    line-height: 20px;
+    position: absolute;
+    right: -35px;
+    bottom: 5px;
+}
+.iconPlus {
+  float: right;
+  width: 24px;
+  font-size: 24px;
+  height: 24px;
+  text-align: center;
+  border-radius: 50%;
+  line-height: 22px;
+  margin-right: 4px;
+  margin-top: 3px;
+  cursor: pointer;
+  color: #0084f6;
+  cursor: pointer;
+
+  &:hover {
+    background: #0084f6;
+    color: white;
+  }
+}
 
 .homewrap {
     overflow-x: hidden;

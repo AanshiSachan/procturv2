@@ -20,6 +20,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 import { ClosingReasonService } from '../services/closing-reason.service';
 import { LeadsModule } from '../leads.module';
+import { ManageExamModule } from '../../master/master.module';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { LeadsModule } from '../leads.module';
         SplitButtonModule,
         MenuModule,
         SharedModule,
-        LeadsModule
+        LeadsModule,
+        ManageExamModule
     ],
     declarations: [
         EnquiryComponent,

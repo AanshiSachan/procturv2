@@ -302,11 +302,12 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.area_id != ''}">
-                    <label for="addArea">Area</label>
+                    <label for="addCityArea">Area</label>
                     <select id="area_id" class="form-ctrl" [(ngModel)]="studentAddFormData.area_id" name="area_id">
                       <option value="">Select Area</option>
                       <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">{{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}</option>
                     </select>
+                    <span (click)="addNewArea()" class="sourceI iconPlus" style="right: -35px;">+</span>
                   </div>
 
                 </div>
@@ -1435,6 +1436,10 @@
     </div>
 
   </proctur-popup>
+
+
+  <app-add-city-area *ngIf=addArea (closePopup)="closePops($event)">
+  </app-add-city-area>
   <!-- ======================================================== -->
   <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->

@@ -19,7 +19,8 @@ export class CityAreaMapComponent implements OnInit {
   filter = {
     country_ids: "-1",
     state_ids: "-1",
-    city_ids: "-1"
+    city_ids: "-1",
+    is_active: true
   };
 
   editrecord: any;
@@ -31,7 +32,7 @@ export class CityAreaMapComponent implements OnInit {
 
   areaSearchInput: any;
   tempArealist: any[] = [];
-
+  addArea: boolean = false;
 
   // FOR PAGINATION
   pageIndex: number = 1;
@@ -48,24 +49,10 @@ export class CityAreaMapComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getInstituteSpecificArea();
+    this.searchArea();
     this.getCountryList();
   }
 
-  // get all created area of institute specific
-  getInstituteSpecificArea(){
-    const url = `/api/v1/cityArea/area/view/${this.jsonFlag.institute_id}`
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        console.log(res)
-        this.countryStateAreaList = res.result;
-        this.tempArealist = res.result;
-      },
-      err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
-      }
-    )
-  }
 
   // get all country list
   getCountryList(){
@@ -74,17 +61,6 @@ export class CityAreaMapComponent implements OnInit {
     this.filter.country_ids = '1';  //  default country as India
     this.getStateList();
 
-    // const url = `/api/v1/country/all`
-    // this.httpService.getData(url).subscribe(
-    //   (res: any) => {
-    //     this.countryList = res;
-    //     this.filter.country_ids = '1';  //  default country as India
-    //     this.getStateList();
-    //   },
-    //   err => {
-    //     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
-    //   }
-    // )
   }
 
   // get state list as per country selection
@@ -120,10 +96,15 @@ export class CityAreaMapComponent implements OnInit {
 
   searchArea(){
     this.countryStateAreaList = [];
-    const url = `/api/v1/cityArea/area/view/${this.jsonFlag.institute_id}?country_ids=${this.filter.country_ids}&state_ids=${this.filter.state_ids}&city_ids=${this.filter.city_ids}`
+    let is_active_status = 'N';
+    if(this.filter.is_active){
+      is_active_status = 'Y'
+    }
+    const url = `/api/v1/cityArea/area/view/${this.jsonFlag.institute_id}?country_ids=${this.filter.country_ids}&state_ids=${this.filter.state_ids}&city_ids=${this.filter.city_ids}&is_active=${is_active_status}`;
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.countryStateAreaList = res.result;
+        this.tempArealist = res.result;
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
@@ -158,9 +139,9 @@ export class CityAreaMapComponent implements OnInit {
   updateArea(){
     if(this.editrecord.area){
       if(!!this.editrecord.area && this.editrecord.area.length > 0){
-        let check = 'Y';
-        if(!this.editrecord.is_active_status){
-          check = 'N'
+        let check = 'N';
+        if(this.editrecord.is_active_status){
+          check = 'Y'
         }
         let obj = {
           "area": this.editrecord.area,
@@ -187,17 +168,27 @@ export class CityAreaMapComponent implements OnInit {
   }
 
   deleteArea(area_id){
-    let obj = {}
-    const url = `/api/v1/cityArea/area/delete/${this.jsonFlag.institute_id}/${area_id}`
-    this.httpService.deleteData(url, obj).subscribe(
-      (res: any) => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Area deleted successfully!');
-        this.searchArea();
-      },
-      err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
-      }
-    )
+    if (confirm("Are you sure you want to delete it?")) {
+      let obj = {}
+      const url = `/api/v1/cityArea/area/delete/${this.jsonFlag.institute_id}/${area_id}`
+      this.httpService.deleteData(url, obj).subscribe(
+        (res: any) => {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
+          this.searchArea();
+        },
+        err => {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+        }
+      )
+    }
+  }
+
+  addNewArea(){
+    this.addArea = true;
+  }
+
+  closePops(event){
+    this.addArea = false;
   }
 
 

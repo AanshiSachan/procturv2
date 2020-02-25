@@ -74,11 +74,16 @@
             <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
           </select>
         </div>
+        <div class="filter-item field-checkbox-wrapper" style="width: 100px !important; margin-top: 15px;">
+          <span class="edit-title" style="width: 100%;">Is Active</span>
+          <input type="checkbox" id="active" value="" name="" class="form-checkbox" [(ngModel)]="filter.is_active">
+          <label for="active"></label>
+        </div>
         <div class="filter-item" style="width: 8%;" id="searchBtn1">
           <button type="button" class="search-btn fullBlue" name="button" (click)="searchArea()">Search</button>
         </div>
         <div class="create-btn-container field-wrapper filter-item" style="margin-left: 32%;width: 8%;margin-right: 0px;">
-          <button type="button" name="button" class="add-student-btn" >Add Area</button>
+          <button type="button" name="button" class="add-student-btn" (click)="addNewArea()">Add Area</button>
         </div>
       </div>
     </section>
@@ -155,3 +160,7 @@
   </section>
 
 </div>
+
+
+<app-add-city-area *ngIf=addArea (closePopup)="closePops($event)">
+</app-add-city-area>

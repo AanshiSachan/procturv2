@@ -6,6 +6,14 @@
   right: 17px;
   border-radius: 6px;
 }
+.sourceI {
+    cursor: pointer;
+    line-height: 20px;
+    position: absolute;
+    right: -35px;
+    bottom: 5px;
+}
+
 @media only screen and (max-width: 767px) {
   .boxPadding15 {
     padding: 0;
