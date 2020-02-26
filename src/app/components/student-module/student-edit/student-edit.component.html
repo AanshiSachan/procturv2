@@ -1474,7 +1474,7 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== assign fees =============================== -->
-  <student-fee-table *ngIf="isDefineFees" [countryDetails]="instituteCountryDetObj" [academicListData]="academicList" [courseDropdown]="courseDropdown"
+  <student-fee-table *ngIf="isDefineFees" [countryDetails]="instituteCountryDetObj" [academicListData]="academicYear" [courseDropdown]="courseDropdown"
     (closePopup)="closeAllFeePops($event)" [feeTemplateData]="feeTemplateById" [studentName]="studentName" [student_id]="student_id"
     [resultForUnAssigned]="resultForUnAssigned"></student-fee-table>
 

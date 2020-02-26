@@ -919,8 +919,7 @@ export class StudentHomeComponent implements OnInit {
   }
 
   fetchCustomComponent() {
-    let id = '';
-    this.studentPrefill.fetchCustomComponent(id).subscribe(data => {
+    this.studentPrefill.fetchCustomComponentById(0,'',2).subscribe(data => {
       if (data != null) {
         this.isRippleLoad = false;
         data.forEach(el => {
@@ -1386,7 +1385,7 @@ export class StudentHomeComponent implements OnInit {
         this.studentDetailsById = res;
         this.studentAddFormData = res;
         this.studentAddFormData.student_class = res.student_class_key;
-        this.subscriptionCustomComp = this.studentPrefill.fetchCustomComponentById(id).subscribe(
+        this.subscriptionCustomComp = this.studentPrefill.fetchCustomComponentById(id,undefined,2).subscribe(
           cus => {
             if (cus != null) {
               this.studentCustomComponent = cus;

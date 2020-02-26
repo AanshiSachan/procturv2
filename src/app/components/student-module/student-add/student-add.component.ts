@@ -8,7 +8,6 @@ import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-import { CourseListService } from '../../../services/course-services/course-list.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
@@ -31,7 +30,6 @@ export class StudentAddComponent implements OnInit {
   allocatedItem: any = [];
   newPdcArr: any[] = [];
   pdcStatus: any[] = [{ data_key: '1', data_value: 'Pending' }, { data_key: '2', data_value: 'dishonoured' }];
-  academicList: any = [];
   chequePdcList: any[] = [];
   savedAssignedBatch: any[] = [];
   instituteList: any[] = [];
@@ -296,10 +294,8 @@ export class StudentAddComponent implements OnInit {
     private auth: AuthenticatorService,
     private commonServiceFactory: CommonServiceFactory,
     private feeService: StudentFeeService,
-    private apiService: CourseListService,
     private msgToast: MessageShowService
   ) {
-    this.isRippleLoad = true
     this.getInstType();
     this.getSettings();
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
@@ -309,27 +305,20 @@ export class StudentAddComponent implements OnInit {
 
   ngOnInit() {
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
+    this.isRippleLoad = true
     this.fetchPrefillFormData();
+
+    if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
+      this.convertToStudentDetected();
+      this.checkStatusofStudent = false;
+    } else {
+      this.checkStatusofStudent = true;
+    }
+
     if (this.isProfessional) {
-      if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
-        this.convertToStudentDetected();
-        this.checkStatusofStudent = false;
-      } else {
-        this.checkStatusofStudent = true;
-      }
-      this.getSlots();
-      this.getlangStudentStatus();
       this.updateBatchList();
     }
     else if (!this.isProfessional) {
-      if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
-        this.getSlots();
-        this.getlangStudentStatus();
-        this.convertToStudentDetected();
-        this.checkStatusofStudent = false;
-      } else {
-        this.checkStatusofStudent = true;
-      }
       this.updateMasterCourseList(this.studentAddFormData.standard_id);
     }
 
@@ -338,7 +327,6 @@ export class StudentAddComponent implements OnInit {
       if (permissions.includes('710')) { //fee reconfiguration
         this.checkBoxGroup.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
-        this.getAcademicYearDetails();
       }
       if (!permissions.includes('707')) {//1.	Fee Payment for Past Dates
         this.checkBoxGroup.showFeeSection = false;
@@ -358,9 +346,7 @@ export class StudentAddComponent implements OnInit {
       this.checkBoxGroup.showFeeSection = true;
       this.checkBoxGroup.manageCheque = true;
       this.checkBoxGroup.hideReconfigure = true;
-      this.getAcademicYearDetails();
     }
-
     this.fetchDataForCountryDetails();
   }
 
@@ -408,8 +394,10 @@ export class StudentAddComponent implements OnInit {
   /* ===================================== Data Prefill Method and General Methods ============================ */
   /* ========================================================================================================== */
   updateBatchList() {
+    this.isRippleLoad = true;
     this.studentPrefillService.fetchBatchDetails().subscribe(data => {
       console.log('updateBatchList' + this.batchList.length);
+      this.isRippleLoad = false;
       this.batchList = [];
       data.forEach(el => {
         if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
@@ -424,7 +412,6 @@ export class StudentAddComponent implements OnInit {
         }
         let obj = { isSelected: false, data: el, assignDate: moment().format('YYYY-MM-DD') };
         this.batchList.push(obj);
-        // console.log('updateBatchList @' + this.batchList.length);
       });
     });
   }
@@ -444,8 +431,10 @@ export class StudentAddComponent implements OnInit {
 
   updateMasterCourseList(id) {
     this.batchList = [];
+    this.isRippleLoad = true;
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(
       (data: any) => {
+        this.isRippleLoad = false;
         if (data.coursesList != null && data.coursesList.length > 0) {
           data.coursesList.forEach(el => {
             if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
@@ -464,6 +453,7 @@ export class StudentAddComponent implements OnInit {
         }
       },
       err => {
+        this.isRippleLoad = false;
         this.msgToast.showErrorMessage('info', '', 'No course assigned for standard');
       });
   }
@@ -615,7 +605,6 @@ export class StudentAddComponent implements OnInit {
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
       err => {
-        this.isRippleLoad = false;
         this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -629,11 +618,9 @@ export class StudentAddComponent implements OnInit {
     //     this.isRippleLoad = false;
     //   }
     // )
-
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
       err => {
-        this.isRippleLoad = false;
         this.msgToast.showErrorMessage('error', '', err.error.message);
       });
 
@@ -644,7 +631,7 @@ export class StudentAddComponent implements OnInit {
     //     this.msgToast.showErrorMessage('error', '', err.error.message);
     //   }
     // );
-
+    this.isRippleLoad = true;
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
         this.academicYear = data;
@@ -660,72 +647,45 @@ export class StudentAddComponent implements OnInit {
       }
     )
 
+    this.getSlots();
+    this.getlangStudentStatus();
   }
 
   fetchCustomComponents() {
-    if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
-      let studentData = sessionStorage.getItem('studentPrefill');
-      let x = JSON.parse(studentData);
-      this.convertInstituteEnquiryId = x.institute_enquiry_id;
+    this.isRippleLoad = true;
+    this.studentPrefillService.fetchCustomComponentById(0, this.convertInstituteEnquiryId, 2).subscribe(
+      data => {
+        this.isRippleLoad = false;
+        if (data != null) {
+          data.forEach(el => {
+            let obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
+            if (el.type == 4) {
+              obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')), selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','), selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value, type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value };
+            }
+            if (el.type == 3) {
+              obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: "", type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value };
+            }
+            if (el.type == 2) {
+              obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value == "" ? false : true, };
+            }
+            else if (el.type != 2 && el.type != 4 && el.type != 3) {
+              obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
+            }
+            this.customComponents.push(obj);
+          });
+        }
+        if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
+          this.fetchEnquiryCustomComponentDetails();
+          sessionStorage.removeItem('studentPrefill');
+        }
+        this.isRippleLoad = false;
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.msgToast.showErrorMessage('error', '', err.error.message);
+      }
+    );
 
-      this.studentPrefillService.fetchCustomComponent(this.convertInstituteEnquiryId).subscribe(
-        data => {
-          if (data != null) {
-            data.forEach(el => {
-              let max_length = el.comp_length == 0 ? 100 : el.comp_length;
-              let obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value, comp_length: max_length };
-              if (el.type == 4) {
-                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')), selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','), selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value, type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value, comp_length: max_length };
-              }
-              if (el.type == 3) {
-                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: "", type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value, comp_length: max_length };
-              }
-              if (el.type == 2) {
-                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value == "" ? false : true, comp_length: max_length };
-              }
-              else if (el.type != 2 && el.type != 4 && el.type != 3) {
-                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value, comp_length: max_length };
-              }
-              this.customComponents.push(obj);
-            });
-          }
-          this.isRippleLoad = false;
-        },
-        err => {
-          this.isRippleLoad = false;
-          this.msgToast.showErrorMessage('error', '', err.error.message);
-        }
-      );
-    }
-    else {
-      this.studentPrefillService.fetchCustomComponent(this.convertInstituteEnquiryId).subscribe(
-        data => {
-          if (data != null) {
-            data.forEach(el => {
-              let obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
-              if (el.type == 4) {
-                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')), selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','), selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value, type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value };
-              }
-              if (el.type == 3) {
-                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: "", type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value };
-              }
-              if (el.type == 2) {
-                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value == "" ? false : true, };
-              }
-              else if (el.type != 2 && el.type != 4 && el.type != 3) {
-                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
-              }
-              this.customComponents.push(obj);
-            });
-          }
-          this.isRippleLoad = false;
-        },
-        err => {
-          this.isRippleLoad = false;
-          this.msgToast.showErrorMessage('error', '', err.error.message);
-        }
-      );
-    }
   }
 
 
@@ -828,6 +788,7 @@ export class StudentAddComponent implements OnInit {
 
   getSlots() {
     this.slots = [];
+    this.isRippleLoad = true;
     return this.studentPrefillService.fetchSlots().subscribe(
       res => {
         res.forEach(el => {
@@ -847,6 +808,7 @@ export class StudentAddComponent implements OnInit {
   }
 
   getlangStudentStatus() {
+    this.isRippleLoad = true;
     return this.studentPrefillService.fetchLangStudentStatus().subscribe(
       res => {
         this.langStatus = res;
@@ -1063,20 +1025,6 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  getAcademicYearDetails() {
-    this.academicList = [];
-    this.isRippleLoad = true;
-    this.apiService.getAcadYear().subscribe(
-      res => {
-        this.isRippleLoad = false;
-        this.academicList = res;
-        // console.log("academicList",this.academicList);
-      },
-      err => {
-        this.isRippleLoad = false;
-      }
-    )
-  }
 
 
   setImage(e) {
@@ -1571,15 +1519,14 @@ export class StudentAddComponent implements OnInit {
     console.log(this.studentAddFormData);
     this.checkStatusofStudent = false;
     this.onChangeObj(this.enquiryData.country_id);
-    this.fetchEnquiryCustomComponentDetails();
-    sessionStorage.removeItem('studentPrefill');
   }
-
 
   fetchEnquiryCustomComponentDetails() {
     let id = this.institute_enquiry_id;
-    this.studentPrefillService.fetchEnquiryCC(id).subscribe(
+    this.isRippleLoad = true;
+    this.studentPrefillService.fetchCustomComponentById(id, undefined, 1).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.enquiryCustomComp = res;
         this.filterStudentCustomComp();
       },
@@ -1728,7 +1675,6 @@ export class StudentAddComponent implements OnInit {
             if ((permissions.includes('710'))) {
               this.checkBoxGroup.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
-              this.getAcademicYearDetails();
             }
             else {
               this.checkBoxGroup.hideReconfigure = false;
@@ -1745,7 +1691,6 @@ export class StudentAddComponent implements OnInit {
               this.checkBoxGroup.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
               this.checkBoxGroup.manageCheque = true;
-              this.getAcademicYearDetails();
             }
           }
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax, this.instituteCountryDetObj.id); //res.country_id);
@@ -2411,8 +2356,8 @@ export class StudentAddComponent implements OnInit {
 
 
   // Inventory Page
-
   fetchInventoryList() {
+    this.isRippleLoad = true;
     this.studentPrefillService.fetchInventoryList().subscribe(
       data => {
         this.isRippleLoad = false;

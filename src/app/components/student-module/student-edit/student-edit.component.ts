@@ -9,7 +9,6 @@ import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-import { CourseListService } from '../../../services/course-services/course-list.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { ProductService } from '../../../services/products.service';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
@@ -96,7 +95,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   savedAssignedBatch: any[] = [];
   allocatedItem: any = [];
   subjectWiseInstallmentArray: any = [];
-  academicList: any = [];
   taxEnableCheck: any = '1';
   feeTempSelected: any = "";
   defaultAcadYear: any = '-1';
@@ -302,16 +300,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     private auth: AuthenticatorService,
     private commonServiceFactory: CommonServiceFactory,
     private feeService: StudentFeeService,
-    private apiService: CourseListService,
     private productService: ProductService
   ) {
-    this.isRippleLoad = true;
     this.getInstType();
     this.getSettings();
     this.student_id = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
+    this.isRippleLoad = true;
     this.getPermissions();
     this.fetchDataForCountryDetails();
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
@@ -322,9 +319,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.switchToView('inventory-icon');
     }
     else {
-      this.fetchPrefillFormData();
       this.updateStudentForm(this.student_id);
-      this.getAcademicYearDetails();
+      this.fetchPrefillFormData();
     }
   }
 
@@ -388,21 +384,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     );
   }
 
-  getAcademicYearDetails() {
-    this.academicList = [];
-    this.isRippleLoad = true;
-    this.apiService.getAcadYear().subscribe(
-      res => {
-        this.isRippleLoad = false;
-        this.academicList = res;
-        // console.log("academicList", this.academicList);
-      },
-      err => {
-        this.isRippleLoad = false;
-      }
-    )
-  }
-
   // remove the object value from session
   ngOnDestroy() {
     sessionStorage.setItem('editPdc', '');
@@ -436,7 +417,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.isBasicActive = false;
     this.isOtherActive = false;
     this.isFeeActive = false;
-    this.isInventoryActive = false; 
+    this.isInventoryActive = false;
 
     switch (text) {
       case "studentForm": {
@@ -453,9 +434,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       case "feeDetails": {
         document.getElementById('li-three').classList.add('active');
-        this.updateStudentFeeDetails();
         this.updateStudentForm(this.student_id);
-        this.getAcademicYearDetails()
+        this.updateStudentFeeDetails();
+        this.fetchAcademicYears()
         this.isFeeActive = true;
         break;
       }
@@ -670,7 +651,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       data => { this.standardList = data; },
       err => {
         let msg = err.error.message;
-        this.isRippleLoad = false;
         let obj = {
           type: 'error',
           title: msg,
@@ -680,37 +660,42 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.isRippleLoad = true;
-    this.prefill.getAllFinancialYear().subscribe(
-      (data: any) => {
-        this.isRippleLoad = false;
-        this.academicYear = data;
-        // console.log(this.academicYear);
-        this.academicYear.forEach(e => {
-          if (e.default_academic_year == 1) {
-            this.defaultAcadYear = e.inst_acad_year_id;
-            // console.log(this.academicYearFilter)
-            this.academicYearFilter = this.defaultAcadYear;
-          }
-        });
-      },
-      err => {
-        let msg = err.error.message;
-        this.isRippleLoad = false;
-        let obj = {
-          type: 'error',
-          title: msg,
-          body: ""
-        }
-        this.appC.popToast(obj);
-      }
-    )
+    this.fetchAcademicYears();
 
+  }
+
+
+  fetchAcademicYears() {
+    if (!this.academicYear.length) {
+      this.isRippleLoad = true;
+      this.prefill.getAllFinancialYear().subscribe(
+        (data: any) => {
+          this.academicYear = data;
+          this.academicYear.forEach(e => {
+            if (e.default_academic_year == 1) {
+              this.defaultAcadYear = e.inst_acad_year_id;
+              // console.log(this.academicYearFilter)
+              this.academicYearFilter = this.defaultAcadYear;
+            }
+          });
+        },
+        err => {
+          let msg = err.error.message;
+          this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
+        }
+      )
+    }
   }
 
   fetchCustomeComponents() {
     this.isRippleLoad = true;
-    this.studentPrefillService.fetchCustomComponentById(this.student_id).subscribe(
+    this.studentPrefillService.fetchCustomComponentById(this.student_id, undefined, 2).subscribe(
       data => {
         this.isRippleLoad = false;
         if (data != null) {
@@ -952,7 +937,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.isRippleLoad = true;
     this.studentPrefillService.fetchSlots().subscribe(
       res => {
-        this.isRippleLoad = false;
         res.forEach(el => {
           let obj = {
             label: el.slot_name,
@@ -1220,7 +1204,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.fetchService.getStudentById(id).subscribe(
       (data: any) => {
         // console.log(data);
-        this.isRippleLoad = false;
         this.studentName = data.student_name;
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
