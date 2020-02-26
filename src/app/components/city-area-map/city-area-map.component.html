@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="jsonFlag.isRippleLoad">
+</loaders-css>
 <!-- Modal -->
 <div id="editCityArea" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -12,18 +14,15 @@
         <div class="edit-container">
           <div class="edit-item field-wrapper">
             <span class="edit-title">Country Name </span>
-            <span *ngIf="!editrecord?.country_name">-</span>
-            <span *ngIf="editrecord?.country_name">{{editrecord.country_name}}</span>
+            <span>{{ (!editrecord?.country_name) ? '-' : editrecord.country_name}}</span>
           </div>
           <div class="edit-item field-wrapper">
             <span class="edit-title">State Name </span>
-            <span *ngIf="!editrecord?.state_name">-</span>
-            <span *ngIf="editrecord?.state_name">{{editrecord.state_name}}</span>
+            <span>{{(!editrecord?.state_name) ? '-' : editrecord.state_name}}</span>
           </div>
           <div class="edit-item field-wrapper">
             <span class="edit-title">City Name </span>
-            <span *ngIf="!editrecord?.city">-</span>
-            <span *ngIf="editrecord?.city">{{editrecord.city}}</span>
+            <span>{{ (!editrecord?.city) ? '-' : editrecord.city}}</span>
           </div>
           <div class="edit-item field-wrapper" *ngIf="editrecord?.area">
             <span class="edit-title">Area Name </span>
@@ -121,27 +120,24 @@
         <div class="table-value-outer-container">
           <div class="table-value-container" *ngFor="let record of countryStateAreaList">
             <div class="table-value-item small">
-              <span *ngIf="!record.state_name">-</span>
-              <span title="{{record.state_name}}" *ngIf="record.state_name">{{ (record.state_name.length > 20) ? (record.state_name | slice:0:20) + '...' : record.state_name}}</span>
+              <span title="{{record?.state_name}}">{{ (!record.state_name) ? '-' : (record.state_name.length > 20) ? (record.state_name | slice:0:20) + '...' : record.state_name}}</span>
             </div>
             <div class="table-value-item small">
-              <span *ngIf="!record.city">-</span>
-              <span title="{{record.city}}"  *ngIf="record.city">{{ (record.city.length > 20) ? (record.city | slice:0:20) + '...' : record.city}}</span>
+              <span title="{{record?.city}}" >{{ (!record.city) ? '-' : (record.city.length > 20) ? (record.city | slice:0:20) + '...' : record.city}}</span>
             </div>
             <div class="table-value-item large">
-              <span *ngIf="!record.area">-</span>
-              <span title="{{record.area}}"  *ngIf="record.area">{{ (record.area.length > 20) ? (record.area | slice:0:20) + '...' : record.area }}</span>
+              <span title="{{record?.area}}">{{ (!record.area) ? '-' : (record.area.length > 40) ? (record.area | slice:0:40) + '...' : record.area }}</span>
             </div>
             <div class="table-value-item align-center medium">
-              <span *ngIf="record.is_active == 'Y'">Active</span>
-              <span *ngIf="record.is_active == 'N'" style="color: red;">Non-Active</span>
+              <span *ngIf="record?.is_active == 'Y'">Active</span>
+              <span *ngIf="record?.is_active == 'N'" style="color: red;">Non-Active</span>
             </div>
             <div class="table-value-item align-center medium">
               <i class="fa fa-pencil edit-lead" title="Edit Area" aria-hidden="true" (click)="editArea(record)" data-toggle="modal" data-target="#editCityArea"></i>
               <i class="fa fa-trash delete-lead" title="Delete Area" (click)="deleteArea(record.id)"></i>
             </div>
           </div>
-          <div class="no-records" *ngIf="!countryStateAreaList.length">
+          <div class="no-records" *ngIf="!countryStateAreaList.length && !jsonFlag.isRippleLoad">
             <span>No Records Found</span>
           </div>
         </div>

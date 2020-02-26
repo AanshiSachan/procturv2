@@ -387,8 +387,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   getStateList(){
     const url = `/api/v1/country/state?country_ids=${this.country_id}`
+    this.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         if(res.result.length > 0){
           this.stateList = res.result[0].stateList;
           if(this.studentAddFormData.state_id != ""){
@@ -397,6 +399,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       },
       err => {
+        this.isRippleLoad = false;
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
       }
     )
@@ -405,8 +408,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   // get city list as per state selection
   getCityList(){
     const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
+    this.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         if(res.result.length > 0){
           this.cityList = res.result[0].cityList;
           if(this.studentAddFormData.city_id != ""){
@@ -415,6 +420,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       },
       err => {
+        this.isRippleLoad = false;
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
       }
     )
@@ -422,13 +428,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   getAreaList(){
     const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
+    this.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         if(res.result.length > 0){
           this.areaList = res.result[0].areaList;
         }
       },
       err => {
+        this.isRippleLoad = false;
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
       }
     )

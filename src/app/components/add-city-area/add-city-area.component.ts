@@ -16,6 +16,7 @@ export class AddCityAreaComponent implements OnInit {
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
+    isRippleLoad: false
   };
 
   countryList: any[] = [];
@@ -53,28 +54,33 @@ export class AddCityAreaComponent implements OnInit {
     this.addArea.state_id = '-1';
     this.addArea.city_id = '-1';   // reset state and city once Country change
     const url = `/api/v1/country/state?country_ids=${this.addArea.country_id}`
+    this.jsonFlag.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.jsonFlag.isRippleLoad = false;
         if(res.result.length > 0){
           this.stateList = res.result[0].stateList;
         }
       },
       err => {
+        this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
   }
 
   getCityList(){
-    this.cityList = [];
     const url = `/api/v1/country/city?state_ids=${this.addArea.state_id}`
+    this.jsonFlag.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.jsonFlag.isRippleLoad = false;
         if(res.result.length > 0){
           this.cityList = res.result[0].cityList;
         }
       },
       err => {
+        this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -89,12 +95,15 @@ export class AddCityAreaComponent implements OnInit {
         "city_id": this.addArea.city_id
       }
       const url = `/api/v1/cityArea/create/area`
+      this.jsonFlag.isRippleLoad = true;
       this.httpService.postData(url, obj).subscribe(
         (res: any) => {
+          this.jsonFlag.isRippleLoad = false;
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Area added successfully');
           this.closePopups(false);
         },
         err => {
+          this.jsonFlag.isRippleLoad = false;
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
