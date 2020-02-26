@@ -334,6 +334,7 @@ export class ClassComponent implements OnInit {
       this.coursePlannerFilters.standard_id = this.inputElements.standard_id;
       this.inputElements.subject_id = "-1";
       this.coursePlannerFilters.subject_id =  "-1";
+      this.inputElements.batch_id = '-1';
       if(this.inputElements.standard_id == "-1"){
         this.courseList = [];
       }
