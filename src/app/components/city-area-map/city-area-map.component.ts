@@ -86,7 +86,9 @@ export class CityAreaMapComponent implements OnInit {
     const url = `/api/v1/country/city?state_ids=${this.filter.state_ids}`
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.cityList = res.result[0].cityList;
+        if(res.result.length > 0){
+          this.cityList = res.result[0].cityList;
+        }
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
@@ -96,10 +98,7 @@ export class CityAreaMapComponent implements OnInit {
 
   searchArea(){
     this.countryStateAreaList = [];
-    let is_active_status = 'N';
-    if(this.filter.is_active){
-      is_active_status = 'Y'
-    }
+    let is_active_status = this.filter.is_active ? 'Y' : 'N';
     const url = `/api/v1/cityArea/area/view/${this.jsonFlag.institute_id}?country_ids=${this.filter.country_ids}&state_ids=${this.filter.state_ids}&city_ids=${this.filter.city_ids}&is_active=${is_active_status}`;
     this.httpService.getData(url).subscribe(
       (res: any) => {
@@ -118,37 +117,29 @@ export class CityAreaMapComponent implements OnInit {
       this.areaSearchInput = "";
     }
     else {
-      let searchData = this.tempArealist.filter(item =>
+      this.countryStateAreaList = this.tempArealist.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.areaSearchInput.toLowerCase()))
       );
-      this.countryStateAreaList = searchData;
     }
   }
 
   editArea(record){
     this.editrecord = record;
-    if(this.editrecord.is_active == 'Y'){
-      this.editrecord.is_active_status = true;
-    }
-    else{
-      this.editrecord.is_active_status = false;
-    }
+    this.editrecord.is_active_status = (this.editrecord.is_active == 'Y') ? true : false;
   }
 
   updateArea(){
+    // use trim
     if(this.editrecord.area){
       if(!!this.editrecord.area && this.editrecord.area.length > 0){
-        let check = 'N';
-        if(this.editrecord.is_active_status){
-          check = 'Y'
-        }
         let obj = {
           "area": this.editrecord.area,
         	"main_branch_instId": this.jsonFlag.institute_id,
         	"city_id": this.editrecord.city_id,
-        	"is_active": check
+        	"is_active": 'Y'
         };
+        obj.is_active = this.editrecord.is_active_status ? 'Y' : 'N';
         const url = `/api/v1/cityArea/area/update/${this.editrecord.id}`
         this.httpService.putData(url, obj).subscribe(
           (res: any) => {
@@ -169,9 +160,8 @@ export class CityAreaMapComponent implements OnInit {
 
   deleteArea(area_id){
     if (confirm("Are you sure you want to delete it?")) {
-      let obj = {}
       const url = `/api/v1/cityArea/area/delete/${this.jsonFlag.institute_id}/${area_id}`
-      this.httpService.deleteData(url, obj).subscribe(
+      this.httpService.deleteData(url, null).subscribe(
         (res: any) => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
           this.searchArea();
@@ -183,40 +173,12 @@ export class CityAreaMapComponent implements OnInit {
     }
   }
 
-  addNewArea(){
-    this.addArea = true;
+  toggleAddArea(){
+    if(this.addArea){
+      this.addArea = false;
+    }
+    else{
+      this.addArea = true;
+    }
   }
-
-  closePops(event){
-    this.addArea = false;
-  }
-
-
-  /*** pagination functions */
-  /* Fetch next set of data from server and update table */
-  // fetchNext() {
-  //   this.pageIndex++;
-  //   this.fectchTableDataByPage(this.pageIndex);
-  // }
-  //
-  // /* Fetch previous set of data from server and update table */
-  // fetchPrevious() {
-  //   this.pageIndex--;
-  //   this.fectchTableDataByPage(this.pageIndex);
-  // }
-  //
-  // /* Fetch table data by page index */
-  // fectchTableDataByPage(index) {
-  //   this.pageIndex = index;
-  //   let startindex = this.displayBatchSize * (index - 1);
-  //   this.searchCampaign(startindex);
-  // }
-  //
-  // /* Fetches Data as per the user selected batch size */
-  // updateTableBatchSize(num) {
-  //   this.pageIndex = 1;
-  //   this.displayBatchSize = parseInt(num);
-  //   this.searchCampaign(this.startindex);
-  // }
-
 }

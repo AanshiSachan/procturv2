@@ -314,12 +314,13 @@ export class EnquiryEditComponent implements OnInit {
     )
   }
 
-  addNewArea(){
-    this.addArea = true;
-  }
-
-  closePops(event){
-    this.addArea = false;
+  toggleAddArea(){
+    if(this.addArea){
+      this.addArea = false;
+    }
+    else{
+      this.addArea = true;
+    }
   }
 
   resetStateCityArea(){

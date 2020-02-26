@@ -433,13 +433,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     )
   }
-  
-  addNewArea(){
-    this.addArea = true;
-  }
 
-  closePops(event){
-    this.addArea = false;
+  toggleAddArea(){
+    if(this.addArea){
+      this.addArea = false;
+    }
+    else{
+      this.addArea = true;
+    }
   }
 
   resetStateCityArea(){

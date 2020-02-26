@@ -81,21 +81,52 @@ export class AddCityAreaComponent implements OnInit {
   }
 
   addNewArea(){
-    let obj = {
-      "area":this.addArea.areaName,
-      "main_branch_instId": this.jsonFlag.institute_id,
-      "city_id": this.addArea.city_id
-    }
-    const url = `/api/v1/cityArea/create/area`
-    this.httpService.postData(url, obj).subscribe(
-      (res: any) => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Area added successfully');
-        this.closePopups(false);
-      },
-      err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+    let validation = this.validateInputs();
+    if(validation){
+      let obj = {
+        "area":this.addArea.areaName,
+        "main_branch_instId": this.jsonFlag.institute_id,
+        "city_id": this.addArea.city_id
       }
-    )
+      const url = `/api/v1/cityArea/create/area`
+      this.httpService.postData(url, obj).subscribe(
+        (res: any) => {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Area added successfully');
+          this.closePopups(false);
+        },
+        err => {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+        }
+      )
+    }
+  }
+
+  validateInputs(){
+    if(this.addArea.country_id == "" || this.addArea.country_id == "-1"){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter country details');
+      return false;
+    }
+    else{
+      if(this.addArea.state_id == "" || this.addArea.state_id == "-1"){
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter state details');
+        return false;
+      }
+      else{
+        if(this.addArea.city_id == "" || this.addArea.city_id == "-1"){
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter city details');
+          return false;
+        }
+        else{
+          if(this.addArea.areaName.trim() == "" || this.addArea.areaName.trim().length == 0){
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter area details');
+            return false;
+          }
+          else{
+            return true;
+          }
+        }
+      }
+    }
   }
 
 

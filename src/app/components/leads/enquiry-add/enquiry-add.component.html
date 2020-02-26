@@ -142,7 +142,7 @@
                       <option value="">Select Area</option>
                       <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">{{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}</option>
                     </select>
-                    <span (click)="addNewArea()" class="sourceI iconPlus" style="right: -35px;">+</span>
+                    <span (click)="toggleAddArea()" class="sourceI iconPlus" style="right: -35px;">+</span>
                   </div>
 
                   <!-- Source -->
@@ -747,7 +747,7 @@
 
 
 
-<app-add-city-area *ngIf=addArea (closePopup)="closePops($event)">
+<app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)">
 </app-add-city-area>
 
 <!-- Add New institute -->

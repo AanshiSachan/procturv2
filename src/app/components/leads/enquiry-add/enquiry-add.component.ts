@@ -368,12 +368,13 @@ export class EnquiryAddComponent implements OnInit {
     )
   }
 
-  addNewArea(){
-    this.addArea = true;
-  }
-
-  closePops(event){
-    this.addArea = false;
+  toggleAddArea(){
+    if(this.addArea){
+      this.addArea = false;
+    }
+    else{
+      this.addArea = true;
+    }
   }
 
   onChangeObj(event) {
@@ -1972,49 +1973,5 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
-  // City Area Pop uP
-  addNewAreaCity() {
-    this.addCityAreaPopUp.showPopUp = true;
-  }
-
-  toggleCityAreaAdd() {
-    this.addCityAreaPopUp.addNew = !this.addCityAreaPopUp.addNew;
-    let icon = document.getElementById('add-areaCity-icon').innerHTML;
-    if (icon == '+') {
-      document.getElementById('add-areaCity-icon').innerHTML = '-';
-      this.addCityAreaPopUp.newCity.city = "";
-      this.addCityAreaPopUp.newCity.area = "";
-    }
-    else if (icon == '-') {
-      document.getElementById('add-areaCity-icon').innerHTML = '+';
-    }
-  }
-
-  addNewCityArea() {
-    if (this.addCityAreaPopUp.newCity.city.trim() != "" && this.addCityAreaPopUp.newCity.city != null) {
-      let obj: any = {
-        area: this.addCityAreaPopUp.newCity.area,
-        city: this.addCityAreaPopUp.newCity.city,
-        sub_branch_instId: this.addCityAreaPopUp.newCity.branch
-      }
-      this.poster.saveNewCity(obj).subscribe(
-        res => {
-          this.commonServiceFactory.showErrorMessage('success', '', "Added successfully");
-          this.getCityAreaList();
-          this.toggleCityAreaAdd();
-        },
-        err => {
-          this.commonServiceFactory.showErrorMessage('error', '', err.error.message);
-        }
-      )
-    } else {
-      this.commonServiceFactory.showErrorMessage('error', '', "Please enter city name");
-    }
-  }
-
-  closeCityAreaPopup() {
-    this.addCityAreaPopUp.showPopUp = false;
-    this.addCityAreaPopUp.addNew = false;
-  }
 
 }

@@ -482,12 +482,13 @@ export class StudentAddComponent implements OnInit {
     this.getStateList();
   }
 
-  addNewArea(){
-    this.addArea = true;
-  }
-
-  closePops(event){
-    this.addArea = false;
+  toggleAddArea(){
+    if(this.addArea){
+      this.addArea = false;
+    }
+    else{
+      this.addArea = true;
+    }
   }
 
 
