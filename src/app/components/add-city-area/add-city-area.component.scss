@@ -1,0 +1,12 @@
+.add-area-container{
+  display: flex;
+  flex-direction: column;
+  margin-right: 10%;
+  .add-item{
+    width: 100%;
+  }
+}
+.add-area-btn{
+  background: #0084f6;
+  color: white;
+}

@@ -14,9 +14,7 @@ import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grad
 import { MasterRoutingModule } from './master-routing.module';
 import { MasterComponent } from './master.component';
 import { SlotComponent } from './slot/slot.component';
-
-
-
+import { AddCityAreaComponent } from '../add-city-area/add-city-area.component';
 
 
 @NgModule({
@@ -28,14 +26,15 @@ import { SlotComponent } from './slot/slot.component';
         MasterRoutingModule
     ],
     exports: [
-
+      AddCityAreaComponent
     ],
     declarations: [
         MasterComponent,
         ManageExamGradesComponent,
         SlotComponent,
         ClassRoomComponent,
-        CityAreaMapComponent
+        CityAreaMapComponent,
+        AddCityAreaComponent
         ],
     providers: [
         ExamGradeServiceService,

@@ -15,6 +15,7 @@ import { AddStudentPrefillService } from '../../../services/student-services/add
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
+import { HttpService  } from '../../../services/http.service';
 
 @Component({
   selector: 'app-student-add',
@@ -184,6 +185,9 @@ export class StudentAddComponent implements OnInit {
     student_email: "",
     student_phone: "",
     country_id: "",
+    state_id: "",
+    city_id: "",
+    area_id: "",
     student_curr_addr: "",
     dob: "",
     doj: moment().format('YYYY-MM-DD'),
@@ -288,6 +292,11 @@ export class StudentAddComponent implements OnInit {
   tax_type_without_percentage : String;
   isTaxEnable: boolean = false;
 
+  // state and city list
+  addArea: boolean = false;
+  stateList: any[] = [];
+  cityList: any[] = [];
+  areaList: any[] = [];
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -299,7 +308,8 @@ export class StudentAddComponent implements OnInit {
     private commonServiceFactory: CommonServiceFactory,
     private feeService: StudentFeeService,
     private apiService: CourseListService,
-    private msgToast: MessageShowService
+    private msgToast: MessageShowService,
+    private httpService: HttpService
   ) {
     this.auth.showLoader();
     this.getInstType();
@@ -366,6 +376,7 @@ export class StudentAddComponent implements OnInit {
     }
 
     this.fetchDataForCountryDetails();
+    this.getStateList();
   }
 
 
@@ -378,7 +389,7 @@ export class StudentAddComponent implements OnInit {
       let defacult_Country = this.countryDetails.filter((country) => {
         return country.is_default == 'Y';
       })
-        
+
       if(this.studentAddFormData.country_id==""){
         this.studentAddFormData.country_id = defacult_Country[0].id;
         this.instituteCountryDetObj = defacult_Country[0];
@@ -387,9 +398,75 @@ export class StudentAddComponent implements OnInit {
           this.maxlegth = defacult_Country[0].country_phone_number_length;
         }
       }
-    
+
       console.log(this.instituteCountryDetObj);
     }
+  }
+
+  getStateList(){
+    if(this.checkStatusofStudent){
+      this.stateList = [];
+      this.cityList = [];
+      this.areaList = [];
+      this.studentAddFormData.state_id = "";
+      this.studentAddFormData.city_id = "";
+      this.studentAddFormData.area_id = "";
+    }
+    const url = `/api/v1/country/state?country_ids=${this.studentAddFormData.country_id}`
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        if(res.result.length > 0){
+          this.stateList = res.result[0].stateList;
+        }
+        if(!this.checkStatusofStudent){
+          this.getCityList();
+        }
+      },
+      err => {
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
+      }
+    )
+  }
+
+  // get city list as per state selection
+  getCityList(){
+    if(this.checkStatusofStudent){
+      this.cityList = [];
+      this.areaList = [];
+      this.studentAddFormData.city_id = "";
+      this.studentAddFormData.area_id = "";
+    }
+    const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        if(res.result.length > 0){
+          this.cityList = res.result[0].cityList;
+        }
+        if(!this.checkStatusofStudent){
+          this.getAreaList();
+        }
+      },
+      err => {
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
+      }
+    )
+  }
+
+  getAreaList(){
+    if(this.checkStatusofStudent){
+      this.areaList = [];
+    }
+    const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        if(res.result.length > 0){
+          this.areaList = res.result[0].areaList;
+        }
+      },
+      err => {
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
+      }
+    )
   }
 
   onChangeObj(event) {
@@ -404,6 +481,17 @@ export class StudentAddComponent implements OnInit {
         this.country_id = this.instituteCountryDetObj.id;
       }
     });
+
+    this.getStateList();
+  }
+
+  toggleAddArea(){
+    if(this.addArea){
+      this.addArea = false;
+    }
+    else{
+      this.addArea = true;
+    }
   }
 
 
@@ -1573,6 +1661,9 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.parent_email = this.enquiryData.parent_email;
     this.studentAddFormData.student_curr_addr = this.enquiryData.curr_address;
     this.studentAddFormData.country_id = this.enquiryData.country_id;
+    this.studentAddFormData.state_id = this.enquiryData.state_id;
+    this.studentAddFormData.city_id = this.enquiryData.city_id;
+    this.studentAddFormData.area_id = this.enquiryData.area_id;
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
     this.studentAddFormData.dob = new Date(this.enquiryData.dob);

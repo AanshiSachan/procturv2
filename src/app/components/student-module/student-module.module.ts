@@ -21,6 +21,8 @@ import { UserService } from '../../services/user-management/user.service';
 import { CoursesServiceService } from '../../services/archiving-service/courses-service.service';
 import { StudentReportService } from '../../services/report-services/student-report-service/student-report.service';
 import { ProductService } from '../../services/products.service';
+import { HttpService } from '../../services/http.service';
+import { ManageExamModule } from '../master/master.module';
 
 
 @NgModule({
@@ -34,6 +36,7 @@ import { ProductService } from '../../services/products.service';
     FileUploadModule,
     SplitButtonModule,
     MenuModule,
+    ManageExamModule
   ],
   declarations: [
     StudentAddComponent,
@@ -61,7 +64,8 @@ import { ProductService } from '../../services/products.service';
     UserService,
     CoursesServiceService,
     StudentReportService,
-    ProductService
+    ProductService,
+    HttpService
   ],
   entryComponents: [
     UserStudentComponent,

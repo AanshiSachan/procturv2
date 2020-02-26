@@ -101,28 +101,41 @@
                       <span class="date-clear" name="dob" (click)="editEnqData.dob = ''">clear</span>
                     </div>
 
-                    <!-- city -->
-                    <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.city != ''}">
-                      <label for="cityDdn">City
-                        <span class="text-danger" *ngIf="isCityMandatory == 1">*</span>
+                    <!-- State -->
+                    <div class="field-wrapper">
+                      <label for="state">
+                        State
+                        <span *ngIf="isStateMandatory == 1"><span class="text-danger">*</span></span>
                       </label>
-                      <select id="cityDdn" class="form-ctrl" [(ngModel)]="editEnqData.city"
-                        (ngModelChange)="onCitySelctionChanges($event)" name="city">
-                        <option value="-1"></option>
-                        <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
+                        <select id="state" class="form-ctrl" [(ngModel)]="editEnqData.state_id" name="state" (ngModelChange)="getNewCityList()">
+                        <option value="">Select State</option>
+                        <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+                      </select>
+                    </div>
+
+                    <!-- City -->
+                    <div class="field-wrapper">
+                      <label for="city">
+                        City
+                        <span *ngIf="isCityMandatory == 1"><span class="text-danger">*</span></span>
+                      </label>
+                      <select id="city" class="form-ctrl" [(ngModel)]="editEnqData.city_id" name="city" (ngModelChange)="getNewAreaList()">
+                        <option value="">Select City</option>
+                        <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
                       </select>
                     </div>
 
                     <!-- area -->
-                    <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.area != ''}">
-                      <label for="areaDdn">Area
-                      </label>
-                      <select id="areaDdn" class="form-ctrl" [(ngModel)]="editEnqData.area" name="area">
-                        <option value="-1"></option>
-                        <option *ngFor="let area of areaListDataSource" [value]="area.area">{{area.area}}</option>
+                    <div class="field-wrapper">
+                      <label for="addArea">Area</label>
+                      <select id="area_id" class="form-ctrl" [(ngModel)]="editEnqData.area_id" name="area_id">
+                        <option value="">Select Area</option>
+                        <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">{{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}</option>
                       </select>
-
+                      <span (click)="toggleAddArea()" class="sourceI iconPlus" style="right: -35px;">+</span>
                     </div>
+
+
 
                     <!-- Source -->
                     <div class="field-wrapper">
@@ -172,7 +185,7 @@
                         </select>
                       </span>
                       <input type="text" value="" id="phone2" class="form-ctrl" [(ngModel)]="editEnqData.phone2"
-                        name="phone2" 
+                        name="phone2"
                         style="width: 78%"
                         onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
                     </div>
@@ -717,6 +730,9 @@
   </section>
 
 </section>
+
+<app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)">
+</app-add-city-area>
 
 <proctur-popup [sizeWidth]="'medium'" *ngIf="closingReasonOpen">
 
