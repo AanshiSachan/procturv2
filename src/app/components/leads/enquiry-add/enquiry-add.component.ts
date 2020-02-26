@@ -1495,6 +1495,8 @@ export class EnquiryAddComponent implements OnInit {
 
   /* function to add Reference data to server */
   addReferData() {
+    if(this.createReferer.name.trim() != ''){
+    if((this.referList.filter(x=>x.name == this.createReferer.name.trim())).length == 0){
     this.prefill.createReferer(this.createReferer).subscribe(
       el => {
         this.prefill.getLeadReffered().subscribe(
@@ -1510,9 +1512,15 @@ export class EnquiryAddComponent implements OnInit {
         )
       },
       err => {
-
+        this.showErrorMessage('error', '', err.error.message);
       }
     );
+    } else {
+      this.showErrorMessage('error', '', 'Referrer name already exist!');
+    }
+    } else {
+      this.showErrorMessage('info', '', 'Please enter Referrer name');
+    }
   }
 
 
@@ -1556,13 +1564,18 @@ export class EnquiryAddComponent implements OnInit {
     this.referList.forEach(el => {
       if (el.id == id) {
         el.edit = true;
+        el.new_referrer_name = el.name;
       }
     });
   }
 
 
   cancelEditRefer(id) {
-    this.fetchReferInfo();
+    let temp = this.referList.filter(el=> el.id == id);
+    if(temp) {
+      temp[0].edit = false;
+      temp[0].new_referrer_name = temp[0].name;
+    }
   }
 
 
@@ -1571,15 +1584,18 @@ export class EnquiryAddComponent implements OnInit {
       if (el.id == id) {
         let data = {
           id: id,
-          name: el.name,
+          name: el.new_referrer_name,
           inst_id: sessionStorage.getItem('institute_id')
         };
+        this.isRippleLoad = true;
         this.poster.updateReferDetails(data).subscribe(
           res => {
-            this.showErrorMessage('success', '', 'Reference updated');
+            this.isRippleLoad = false;
+            this.showErrorMessage('success', '', 'Reference updated Successfully');
             this.fetchReferInfo();
           },
           err => {
+            this.isRippleLoad = false;
             this.showErrorMessage('error', '', err.error.message);
           }
         )
@@ -1596,12 +1612,15 @@ export class EnquiryAddComponent implements OnInit {
           name: el.name,
           inst_id: sessionStorage.getItem('institute_id')
         };
+        this.isRippleLoad = true;
         this.poster.deleteRefer(data).subscribe(
           res => {
-            this.showErrorMessage('success', '', 'Reference deleted');
+            this.isRippleLoad = false;
+            this.showErrorMessage('success', '', 'Reference deleted Successfully');
             this.fetchReferInfo();
           },
           err => {
+            this.isRippleLoad = false;
             this.showErrorMessage('error', '', err.error.message);
           }
         )
@@ -1627,16 +1646,27 @@ export class EnquiryAddComponent implements OnInit {
 
 
   /* function to add Source data to server */
-  addSourceData() {
+  addSourceData() {    
+    if(this.createSource.name.trim() != '') {
+    if((this.sourceList.filter(x=>x.name == this.createSource.name.trim())).length == 0){
+      this.isRippleLoad = true;
     this.prefill.createSource(this.createSource).subscribe(
       el => {
+        this.isRippleLoad = false;
         this.fetchSourceInfo();
         this.closeAddSource();
       },
       err => {
-
+        this.isRippleLoad = false;
+        this.showErrorMessage('error', '', err.error.message);
       }
     );
+    } else {
+      this.showErrorMessage('error', '', 'Source name already exist!');
+    }
+    } else {
+      this.showErrorMessage('info', '', 'Please enter source name');
+    }
   }
 
 
@@ -1686,6 +1716,7 @@ export class EnquiryAddComponent implements OnInit {
     this.sourceList.forEach(el => {
       if (el.id == id) {
         el.edit = true;
+        el.new_source_name = el.name;
       }
     });
   }
@@ -1693,7 +1724,12 @@ export class EnquiryAddComponent implements OnInit {
 
   /* Source edit cancel*/
   cancelEditSource(id) {
-    this.fetchSourceInfo();
+    // this.fetchSourceInfo();
+    let temp = this.sourceList.filter(el=> el.id == id);
+    if(temp) {
+      temp[0].edit = false;
+      temp[0].new_source_name = temp[0].name;
+    }
   }
 
 
@@ -1703,15 +1739,18 @@ export class EnquiryAddComponent implements OnInit {
       if (el.id == id) {
         let data = {
           id: id,
-          name: el.name,
+          name: el.new_source_name,
           inst_id: sessionStorage.getItem('institute_id')
         }
+        this.isRippleLoad = true;
         this.poster.updateSourceDetails(data).subscribe(
           res => {
-            this.showErrorMessage('success', '', 'Source updated');
+            this.isRippleLoad = false;
+            this.showErrorMessage('success', '', 'Source updated successfully');
             this.fetchSourceInfo();
           },
           err => {
+            this.isRippleLoad = false;
             this.showErrorMessage('error', '', err.error.message);
 
           }
@@ -1744,12 +1783,15 @@ export class EnquiryAddComponent implements OnInit {
           name: el.name,
           inst_id: sessionStorage.getItem('institute_id')
         }
+        this.isRippleLoad = true;
         this.poster.deleteSource(data).subscribe(
           res => {
+            this.isRippleLoad = false;
             this.showErrorMessage('success', '', 'Source deleted successfully');
             this.fetchSourceInfo();
           },
           err => {
+            this.isRippleLoad = false;
             this.showErrorMessage('error', '', err.error.message);
           }
         )

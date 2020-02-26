@@ -447,7 +447,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.isOnlineExamAllow(type); // check online test is enable or not
     this.isLiveClassesAllow(type);
     this.isElearnAllow();
-    this.isLibraryFeatureAllow(permission); // check librabry feature 
+    this.isLibraryFeatureAllow(permission); // check librabry feature
 
   }
 
@@ -493,11 +493,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   isElearnAllow() {
     // this senction is used for enable elearn feature
-    if (this.isProfessional || sessionStorage.getItem('enable_eLearn_feature') == '0') {
-      this.jsonFlags.isShoweStore = false;
-    }
-    if (sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1' ||
-      sessionStorage.getItem('enable_eLearn_feature') == '1') {
+
+    if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
       this.jsonFlags.isShoweStore = true;
     }
   }
