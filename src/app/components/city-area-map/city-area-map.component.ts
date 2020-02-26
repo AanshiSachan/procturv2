@@ -14,6 +14,7 @@ export class CityAreaMapComponent implements OnInit {
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
+    isRippleLoad: false
   };
 
   filter = {
@@ -58,9 +59,13 @@ export class CityAreaMapComponent implements OnInit {
   getCountryList(){
     let defaultCountryList = sessionStorage.getItem('country_data')
     this.countryList = JSON.parse(defaultCountryList);
-    this.filter.country_ids = '1';  //  default country as India
+    let defaultCountry = this.countryList.filter(item =>
+      Object.keys(item).some(
+        k => item.is_default == 'Y')
+    );
+    console.log(defaultCountry)
+    this.filter.country_ids = defaultCountry[0].id;  //  set default country ID
     this.getStateList();
-
   }
 
   // get state list as per country selection
@@ -70,11 +75,16 @@ export class CityAreaMapComponent implements OnInit {
     this.filter.state_ids = '-1';
     this.filter.city_ids = '-1';   // reset state and city once Country change
     const url = `/api/v1/country/state?country_ids=${this.filter.country_ids}`
+    this.jsonFlag.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.stateList = res.result[0].stateList;
+        this.jsonFlag.isRippleLoad = false;
+        if(res.result.length > 0){
+          this.stateList = res.result[0].stateList;
+        }
       },
       err => {
+        this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -84,13 +94,16 @@ export class CityAreaMapComponent implements OnInit {
   getCityList(){
     this.cityList = [];
     const url = `/api/v1/country/city?state_ids=${this.filter.state_ids}`
+    this.jsonFlag.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.jsonFlag.isRippleLoad = false;
         if(res.result.length > 0){
           this.cityList = res.result[0].cityList;
         }
       },
       err => {
+        this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -100,12 +113,15 @@ export class CityAreaMapComponent implements OnInit {
     this.countryStateAreaList = [];
     let is_active_status = this.filter.is_active ? 'Y' : 'N';
     const url = `/api/v1/cityArea/area/view/${this.jsonFlag.institute_id}?country_ids=${this.filter.country_ids}&state_ids=${this.filter.state_ids}&city_ids=${this.filter.city_ids}&is_active=${is_active_status}`;
+    this.jsonFlag.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.jsonFlag.isRippleLoad = false;
         this.countryStateAreaList = res.result;
         this.tempArealist = res.result;
       },
       err => {
+        this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
       }
     )
@@ -141,13 +157,16 @@ export class CityAreaMapComponent implements OnInit {
         };
         obj.is_active = this.editrecord.is_active_status ? 'Y' : 'N';
         const url = `/api/v1/cityArea/area/update/${this.editrecord.id}`
+        this.jsonFlag.isRippleLoad = true;
         this.httpService.putData(url, obj).subscribe(
           (res: any) => {
+            this.jsonFlag.isRippleLoad = false;
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
             $('#editCityArea').modal('hide');
             this.searchArea();
           },
           err => {
+            this.jsonFlag.isRippleLoad = false;
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
           }
         )
@@ -161,12 +180,15 @@ export class CityAreaMapComponent implements OnInit {
   deleteArea(area_id){
     if (confirm("Are you sure you want to delete it?")) {
       const url = `/api/v1/cityArea/area/delete/${this.jsonFlag.institute_id}/${area_id}`
+      this.jsonFlag.isRippleLoad = true;
       this.httpService.deleteData(url, null).subscribe(
         (res: any) => {
+          this.jsonFlag.isRippleLoad = false;
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
           this.searchArea();
         },
         err => {
+          this.jsonFlag.isRippleLoad = false;
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )

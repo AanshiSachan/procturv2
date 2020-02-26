@@ -306,7 +306,6 @@ export class EnquiryAddComponent implements OnInit {
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
     this.countryDetails = data;
-    console.log(this.countryDetails);
     this.newEnqData.country_id = this.countryDetails[0].id;
     this.instituteCountryDetObj=this.countryDetails[0];
     this.maxlength = this.countryDetails[0].country_phone_number_length;
@@ -323,11 +322,16 @@ export class EnquiryAddComponent implements OnInit {
     this.newEnqData.city_id = "";
     this.newEnqData.area_id = "";
     const url = `/api/v1/country/state?country_ids=${this.newEnqData.country_id}`
+    this.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.stateList = res.result[0].stateList;
+        this.isRippleLoad = false;
+        if(res.result.length > 0){
+          this.stateList = res.result[0].stateList;
+        }
       },
       err => {
+        this.isRippleLoad = false;
         this.showErrorMessage('error', '', err);
       }
     )
@@ -340,13 +344,16 @@ export class EnquiryAddComponent implements OnInit {
     this.newEnqData.city_id = "";
     this.newEnqData.area_id = "";
     const url = `/api/v1/country/city?state_ids=${this.newEnqData.state_id}`
+    this.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         if(res.result.length > 0){
           this.cityList = res.result[0].cityList;
         }
       },
       err => {
+        this.isRippleLoad = false;
         this.showErrorMessage('error', '', err);
       }
     )
@@ -355,13 +362,16 @@ export class EnquiryAddComponent implements OnInit {
   getAreaList(){
     this.areaList = [];
     const url = `/api/v1/cityArea/area/${this.createSource.inst_id}?city_ids=${this.newEnqData.city_id}`
+    this.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         if(res.result.length > 0){
           this.areaList = res.result[0].areaList;
         }
       },
       err => {
+        this.isRippleLoad = false;
         this.showErrorMessage('error', '', err);
       }
     )
@@ -1949,22 +1959,6 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-  // onCitySelctionChanges(event) {
-  //   this.areaListDataSource = [];
-  //   if (event != -1) {
-  //     let obj = {
-  //       city: event
-  //     }
-  //     this.prefill.getAreaList(obj).subscribe(
-  //       res => {
-  //         this.areaListDataSource = res;
-  //       },
-  //       err => {
-  //         //console.log(err);
-  //       }
-  //     )
-  //   }
-  // }
 
   // MultiBranch
   multiBranchInstituteFound(id) {

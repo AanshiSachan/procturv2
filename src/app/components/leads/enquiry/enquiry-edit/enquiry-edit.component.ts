@@ -178,6 +178,7 @@ export class EnquiryEditComponent implements OnInit {
   maxlength: any = 10;
   country_id:any=null;
 
+  isRippleLoad: boolean = false;
   // state and city list
   stateList: any[] = [];
   cityList: any[] = [];
@@ -268,14 +269,19 @@ export class EnquiryEditComponent implements OnInit {
 
   getStateList(){
     const url = `/api/v1/country/state?country_ids=${this.editEnqData.country_id}`
+    this.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.stateList = res.result[0].stateList;
+        this.isRippleLoad = false;
+        if(res.result.length > 0){
+          this.stateList = res.result[0].stateList;
+        }
         if(this.editEnqData.state_id != ""){
           this.getCityList();
         }
       },
       err => {
+        this.isRippleLoad = false;
         this.showErrorMessage('error', '', err);
       }
     )
@@ -284,8 +290,10 @@ export class EnquiryEditComponent implements OnInit {
   // get city list as per state selection
   getCityList(){
     const url = `/api/v1/country/city?state_ids=${this.editEnqData.state_id}`
+    this.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         if(res.result.length > 0){
           this.cityList = res.result[0].cityList;
           if(this.editEnqData.city_id != ""){
@@ -294,6 +302,7 @@ export class EnquiryEditComponent implements OnInit {
         }
       },
       err => {
+        this.isRippleLoad = false;
         this.showErrorMessage('error', '', err);
       }
     )
@@ -301,14 +310,17 @@ export class EnquiryEditComponent implements OnInit {
 
   getAreaList(){
     // this.areaList = [];
+    this.isRippleLoad = true;
     const url = `/api/v1/cityArea/area/${this.createNewReasonObj.institution_id}?city_ids=${this.editEnqData.city_id}`
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         if(res.result.length > 0){
           this.areaList = res.result[0].areaList;
         }
       },
       err => {
+        this.isRippleLoad = false;
         this.showErrorMessage('error', '', err);
       }
     )
