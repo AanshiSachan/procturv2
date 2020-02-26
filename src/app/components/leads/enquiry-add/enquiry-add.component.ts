@@ -179,6 +179,7 @@ export class EnquiryAddComponent implements OnInit {
     }
   };
 
+  isRippleLoad: boolean = false;
   // state and city list
   stateList: any[] = [];
   cityList: any[] = [];

@@ -292,6 +292,7 @@ export class StudentAddComponent implements OnInit {
   tax_type_without_percentage : String;
   isTaxEnable: boolean = false;
 
+  isRippleLoad: boolean = false;
   // state and city list
   addArea: boolean = false;
   stateList: any[] = [];

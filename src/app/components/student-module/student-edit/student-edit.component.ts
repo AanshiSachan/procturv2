@@ -298,6 +298,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     hideReconfigure: false,
   };
 
+  isRippleLoad: boolean = false;
   // state and city list
   stateList: any[] = [];
   cityList: any[] = [];
