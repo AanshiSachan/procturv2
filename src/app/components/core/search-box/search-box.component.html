@@ -106,8 +106,8 @@
                 <a *ngIf="hasStudent" class="markers hide" (click)="performAction('studentDelete', student)">
                   Delete
                 </a>
-                <a target="_blank" class="markers" [href]="student.whatsapp_no">
-                <i class="fa fa-whatsapp mr-2"></i></a>
+                <a target="_blank" class="markers" [href]="student.whatsapp_no" style="vertical-align: middle;">
+                  <img src="https://img.icons8.com/color/48/000000/whatsapp.png"></a>
               </li>
             </ul>
           </li>
@@ -147,8 +147,8 @@
                 <a *ngIf="hasEnquiry" class="markers" (click)="performAction('enquiryUpdate',enquiry)">
                   Update Enquiry
                 </a>
-                <a target="_blank" class="markers" [href]="enquiry.whatsapp_no">
-                  <i class="fa fa-whatsapp mr-2"></i></a>
+                <a target="_blank" class="markers" [href]="enquiry.whatsapp_no" style="vertical-align: middle;">
+                  <img src="https://img.icons8.com/color/48/000000/whatsapp.png"></a>
               </li>
             </ul>
           </li>
