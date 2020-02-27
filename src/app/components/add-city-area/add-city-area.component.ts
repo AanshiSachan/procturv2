@@ -1,6 +1,7 @@
-import { Component, OnInit, Output, Input, ElementRef, HostListener, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { HttpService } from '../../services/http.service';
 import { MessageShowService } from '../../services/message-show.service';
-import { HttpService  } from '../../services/http.service';
+import { AuthenticatorService } from './../../services/authenticator.service';
 declare var $;
 
 @Component({
@@ -32,7 +33,8 @@ export class AddCityAreaComponent implements OnInit {
 
   constructor(
     private msgService: MessageShowService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private auth:AuthenticatorService
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
    }
@@ -54,16 +56,16 @@ export class AddCityAreaComponent implements OnInit {
     this.addArea.state_id = '-1';
     this.addArea.city_id = '-1';   // reset state and city once Country change
     const url = `/api/v1/country/state?country_ids=${this.addArea.country_id}`
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         if(res.result.length > 0){
           this.stateList = res.result[0].stateList;
         }
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -71,16 +73,16 @@ export class AddCityAreaComponent implements OnInit {
 
   getCityList(){
     const url = `/api/v1/country/city?state_ids=${this.addArea.state_id}`
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         if(res.result.length > 0){
           this.cityList = res.result[0].cityList;
         }
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -95,15 +97,15 @@ export class AddCityAreaComponent implements OnInit {
         "city_id": this.addArea.city_id
       }
       const url = `/api/v1/cityArea/create/area`
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.httpService.postData(url, obj).subscribe(
         (res: any) => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Area added successfully');
           this.closePopups(false);
         },
         err => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )

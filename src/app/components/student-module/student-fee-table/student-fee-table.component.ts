@@ -1,7 +1,6 @@
-import { Component, OnInit, Output, Input, ElementRef, HostListener, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import * as moment from 'moment';
-import { AppComponent } from '../../../app.component';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { StudentFeeService } from '../student_fee.service';
@@ -386,7 +385,6 @@ export class StudentFeeTableComponent implements OnInit {
   }
 
   addNewInstallmentFee() {
-    debugger;
     if (this.addFeeInstallment.due_date == "" || this.addFeeInstallment.due_date == null || isNaN(this.addFeeInstallment.initial_fee_amount) || this.addFeeInstallment.initial_fee_amount == "" || this.addFeeInstallment.initial_fee_amount <= 0) {
       if (this.addFeeInstallment.due_date == "" || this.addFeeInstallment.due_date == null) {
         this.msgToast.showErrorMessage('error', 'Invalid Date', 'Please select a due date');
