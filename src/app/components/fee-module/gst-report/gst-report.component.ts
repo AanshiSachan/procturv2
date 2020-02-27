@@ -114,7 +114,8 @@ export class GstReportComponent implements OnInit {
   searchName: string;
   tempRecords: any[] = [];
   records: string;
-  year: number
+  year: number;
+  tax_type_without_percentage : String ;
   constructor(
     private gst: PaymentHistoryMainService, 
     private excelService: ExcelService, 
@@ -122,6 +123,8 @@ export class GstReportComponent implements OnInit {
     private pdf:ExportToPdfService,
   private _commService:CommonServiceFactory) { }
   ngOnInit() {
+    this.tax_type_without_percentage=sessionStorage.getItem('tax_type_without_percentage');
+
     window.scroll(0,0);
     this.getGstReport(event, this.year);    
     this.checkDownloadRoleAccess();
