@@ -341,7 +341,7 @@ export class StudentHomeComponent implements OnInit {
           "studentArray": studentArray
         }
         let url = `/api/v1/students/${this.assignedStandard}/assignStandard`;
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.http_service.postData(url,obj).subscribe(
           (data: any) => {
             let alert = {
@@ -350,13 +350,13 @@ export class StudentHomeComponent implements OnInit {
               body: this.labelForAssignStandard + ' assigned to students successfully'
             }
             this.appC.popToast(alert);
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.assignedStandard = "-1";
             this.loadTableDataSource(this.instituteData);
             $('#assignStandard').modal('hide');
           },
           (error: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             let alert = {
               type: 'error',
               title: '',
@@ -1224,7 +1224,7 @@ export class StudentHomeComponent implements OnInit {
         // console.log(this.slots);
       },
       err => { 
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }

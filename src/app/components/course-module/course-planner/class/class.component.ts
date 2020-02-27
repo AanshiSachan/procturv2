@@ -330,8 +330,9 @@ export class ClassComponent implements OnInit {
     else {
       this.coursePlannerFilters.standard_id = this.inputElements.standard_id;
       this.inputElements.subject_id = "-1";
-      this.coursePlannerFilters.subject_id = "-1";
-      if (this.inputElements.standard_id == "-1") {
+      this.coursePlannerFilters.subject_id =  "-1";
+      this.inputElements.batch_id = '-1';
+      if(this.inputElements.standard_id == "-1"){
         this.courseList = [];
       }
       else {
@@ -413,6 +414,13 @@ export class ClassComponent implements OnInit {
     }
     else {  // For Batch Model
       this.coursePlannerFilters.batch_id = this.inputElements.batch_id;
+      let temp = this.batchList.filter(x=>x.batch_id == this.inputElements.batch_id);
+      this.courseStartDate = '';
+      this.courseEndDate = '';
+      if(temp){
+      this.courseStartDate = temp[0].start_date;
+      this.courseEndDate = temp[0].end_date;
+      }
     }
   }
 

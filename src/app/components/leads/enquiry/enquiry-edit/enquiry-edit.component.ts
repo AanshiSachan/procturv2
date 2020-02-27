@@ -11,6 +11,7 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 import { MultiBranchDataService } from '../../../../services/multiBranchdata.service';
 import { ClosingReasonService } from '../../services/closing-reason.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
+import { HttpService  } from '../../../../services/http.service';
 
 @Component({
   selector: 'app-enquiry-edit',
@@ -41,6 +42,9 @@ export class EnquiryEditComponent implements OnInit {
   editEnqData: addEnquiryForm = {
     name: "",
     country_id: "",
+    state_id: "",
+    city_id: "",
+    area_id: "",
     phone: "",
     email: "",
     dob: '',
@@ -143,6 +147,7 @@ export class EnquiryEditComponent implements OnInit {
   followUpTime: any = "";
   // City And Area Changes
   isCityMandatory: any;
+  isStateMandatory: any;
   cityListDataSource: any = [];
   areaListDataSource: any = [];
   actualAssignee: any;
@@ -173,6 +178,13 @@ export class EnquiryEditComponent implements OnInit {
   maxlength: any = 10;
   country_id:any=null;
 
+  isRippleLoad: boolean = false;
+  // state and city list
+  stateList: any[] = [];
+  cityList: any[] = [];
+  areaList: any[] = [];
+  addArea: boolean = false;
+
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(
     private prefill: FetchprefilldataService,
@@ -184,7 +196,8 @@ export class EnquiryEditComponent implements OnInit {
     private auth: AuthenticatorService,
     private multiBranchService: MultiBranchDataService,
     private service: ClosingReasonService,
-    private commonServiceFactory: CommonServiceFactory) {
+    private commonServiceFactory: CommonServiceFactory,
+    private httpService: HttpService) {
 
     this.auth.institute_type.subscribe(
       res => {
@@ -210,6 +223,7 @@ export class EnquiryEditComponent implements OnInit {
   /* OnInit Initialized */
   ngOnInit() {
     this.isCityMandatory = sessionStorage.getItem('enable_routing');
+    this.isStateMandatory = sessionStorage.getItem('enable_routing');
     this.isEnquiryAdministrator();
     this.FetchEnquiryPrefilledData();
     this.updateEnquiryData()
@@ -253,6 +267,96 @@ export class EnquiryEditComponent implements OnInit {
     }
   }
 
+  getStateList(){
+    const url = `/api/v1/country/state?country_ids=${this.editEnqData.country_id}`
+    this.isRippleLoad = true;
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.isRippleLoad = false;
+        if(res.result.length > 0){
+          this.stateList = res.result[0].stateList;
+        }
+        if(this.editEnqData.state_id != ""){
+          this.getCityList();
+        }
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.showErrorMessage('error', '', err);
+      }
+    )
+  }
+
+  // get city list as per state selection
+  getCityList(){
+    const url = `/api/v1/country/city?state_ids=${this.editEnqData.state_id}`
+    this.isRippleLoad = true;
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.isRippleLoad = false;
+        if(res.result.length > 0){
+          this.cityList = res.result[0].cityList;
+          if(this.editEnqData.city_id != ""){
+            this.getAreaList();
+          }
+        }
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.showErrorMessage('error', '', err);
+      }
+    )
+  }
+
+  getAreaList(){
+    // this.areaList = [];
+    this.isRippleLoad = true;
+    const url = `/api/v1/cityArea/area/${this.createNewReasonObj.institution_id}?city_ids=${this.editEnqData.city_id}`
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.isRippleLoad = false;
+        if(res.result.length > 0){
+          this.areaList = res.result[0].areaList;
+        }
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.showErrorMessage('error', '', err);
+      }
+    )
+  }
+
+  toggleAddArea(){
+    if(this.addArea){
+      this.addArea = false;
+    }
+    else{
+      this.addArea = true;
+    }
+  }
+
+  resetStateCityArea(){
+    this.stateList = [];
+    this.cityList = [];
+    this.areaList = [];
+    this.editEnqData.state_id = "";
+    this.editEnqData.city_id = "";
+    this.editEnqData.area_id = "";
+    this.getStateList();
+  }
+  getNewCityList(){
+    this.cityList = [];
+    this.areaList = [];
+    this.editEnqData.city_id = "";
+    this.editEnqData.area_id = "";
+    this.getCityList()
+  }
+
+  getNewAreaList(){
+    this.areaList = [];
+    this.getAreaList();
+  }
+
   checklengthOfCountry() {
     if (this.countryDetails.length <= 1) {
       this.countryDetails.forEach(element => {
@@ -276,6 +380,7 @@ export class EnquiryEditComponent implements OnInit {
       }
     }
     );
+    this.resetStateCityArea();
   }
 
   timeChanges(ev, id) {
@@ -309,8 +414,9 @@ export class EnquiryEditComponent implements OnInit {
             this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
             this.country_id=element.id;
           }
-        }
-        );
+        });
+        this.getStateList()
+
         this.enquiryStatus = data.status;
         if (this.editEnqData.courseIdArray != null && this.editEnqData.courseIdArray.length) {
           this.editEnqData.courseIdArray = this.editEnqData.courseIdArray.map(el => { return parseInt(el) });
@@ -775,14 +881,20 @@ export class EnquiryEditComponent implements OnInit {
 
 
   validateAreaAndCityFields() {
-    if (this.isCityMandatory == 1) {
-      if (this.editEnqData.city == '-1') {
-        this.showErrorMessage('error', 'City Is Mandatory', 'Please enter city details');
-        return false;
-      } else {
-        return true;
+    if (this.isCityMandatory == 1 && this.isStateMandatory == 1) {
+      if(this.editEnqData.state_id == ""){
+         return this.showErrorMessage('error', '', 'Please enter State details');
       }
-    } else {
+      else{
+        if (this.editEnqData.city_id == '') {
+          return this.showErrorMessage('error', '', 'Please enter City details');
+        }
+        else {
+          return true;
+        }
+      }
+    }
+    else {
       return true;
     }
   }

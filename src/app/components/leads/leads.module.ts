@@ -21,7 +21,8 @@ import { UserEnquiryComponent } from './enquiry/enquiry-custom/user-enquiry.comp
 import { ManageCampaignComponent } from './manage-campaign/manage-campaign.component';
 import { CampaignService } from './services/campaign.service';
 import { ExportToPdfService } from '../../services/export-to-pdf.service';
-
+import { HttpService } from '../../services/http.service';
+import { ManageExamModule } from '../master/master.module';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { ExportToPdfService } from '../../services/export-to-pdf.service';
     SplitButtonModule,
     MenuModule,
     SharedModule,
-    LeadsRoutingModule
+    LeadsRoutingModule,
+    ManageExamModule
   ],
   declarations: [
     LeadsComponent,
@@ -52,7 +54,8 @@ import { ExportToPdfService } from '../../services/export-to-pdf.service';
       CampaignService,
       PopupHandlerService,
       ClosingReasonService,
-      ExportToPdfService
+      ExportToPdfService,
+      HttpService
   ],
   exports: [
     UserEnquiryComponent

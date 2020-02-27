@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, EventEmitter, Output, OnChanges, ChangeDetectorRef } from '@angular/core';
-import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
-import { PaginationService } from '../../../services/pagination-service/pagination.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { PaginationService } from '../../../services/pagination-service/pagination.service';
+import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 declare var $;
 @Component({
   selector: 'data-display-table',
@@ -272,7 +272,6 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   }
 
   getTypeCheck(data, value: any, key, index) {
-    // debugger;
     // console.log(key);
     if (key.operation) {
 

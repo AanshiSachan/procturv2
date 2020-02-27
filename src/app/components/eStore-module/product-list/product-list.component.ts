@@ -484,13 +484,6 @@ export class ProductListComponent implements OnInit {
               item.publish_date = data.result.publish_date;
               this.msgService.showErrorMessage("success", 'product updated successfully', '');
               $('#actionProductModal').modal('hide');
-              this.productList.forEach((element, index) => {
-                if (element.entity_id == data.result.entity_id) {
-                  this.productList.splice(index, 1);
-                  console.log(this.productList);
-                }
-              });
-              this.varJson.total_items--;
             } else {
               this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
             }

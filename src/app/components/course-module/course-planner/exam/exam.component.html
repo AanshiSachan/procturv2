@@ -73,7 +73,6 @@
               <option value="-1">Select Master Course</option>
               <option [value]="standard.standard_id" *ngFor="let standard of masterCourseList">{{standard.standard_name}}</option>
             </select>
-            <span *ngIf="inputElements.standard_id != '-1' && jsonFlag.isProfessional" style="font-size: 10px;">Duration: {{courseStartDate}} {{courseEndDate}}</span>
           </div>
           <div class="header-item" *ngIf="jsonFlag.isProfessional">
             <span>Course</span>
@@ -88,6 +87,7 @@
               <option value="-1">Select Batch</option>
               <option [value]="batch.batch_id" *ngFor="let batch of batchList">{{batch.batch_name}}</option>
             </select>
+            <span *ngIf="inputElements.batch_id != '-1' && jsonFlag.isProfessional" style="font-size: 10px;">Duration: {{courseStartDate}} {{courseEndDate}}</span>
           </div>
 
           <div class="header-item" style="width: 25%;">

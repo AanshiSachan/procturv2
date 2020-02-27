@@ -88,8 +88,12 @@ export class SearchBoxComponent implements OnInit, OnChanges {
         this.searchValue;
         this.updateResult();
         this.studentResult.forEach((student)=>{
-            student.thumbnail_url= student.thumbnail_url+ '?' + Math.random().toFixed(2);; 
-        })
+            student.thumbnail_url= student.thumbnail_url+ '?' + Math.random().toFixed(2);
+            student.whatsapp_no = 'https://api.whatsapp.com/send?phone=+91-'.concat(student.phone);
+        });
+        this.enquiryResult.forEach((enquiry)=>{
+            enquiry.whatsapp_no = 'https://api.whatsapp.com/send?phone=+91-'.concat(enquiry.phone);
+        });
     }
 
     @HostListener("document:click", ['$event'])

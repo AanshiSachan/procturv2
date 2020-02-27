@@ -280,8 +280,32 @@
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.comments != ''}">
                     <label for="addCommentNote">Add Comment Note</label>
-
                     <input type="text" value="" name="addCommentNote" [(ngModel)]="studentAddFormData.comments" id="addCommentNote" class="form-ctrl">
+                  </div>
+
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.state_id != ''}">
+                    <label for="state">State</label>
+                      <select id="state" class="form-ctrl" [(ngModel)]="studentAddFormData.state_id" name="state" (ngModelChange)="getCityList()">
+                      <option value="">Select State</option>
+                      <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+                    </select>
+                  </div>
+
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.city_id != ''}">
+                    <label for="city">City</label>
+                    <select id="city" class="form-ctrl" [(ngModel)]="studentAddFormData.city_id" name="city" (ngModelChange)="getAreaList()">
+                      <option value="">Select City</option>
+                      <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
+                    </select>
+                  </div>
+
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.area_id != ''}">
+                    <label for="addCityArea">Area</label>
+                    <select id="area_id" class="form-ctrl" [(ngModel)]="studentAddFormData.area_id" name="area_id">
+                      <option value="">Select Area</option>
+                      <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">{{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}</option>
+                    </select>
+                    <span (click)="toggleAddArea()" class="sourceI iconPlus" style="right: -35px;">+</span>
                   </div>
 
                 </div>
@@ -1237,39 +1261,39 @@
             </thead>
             <tbody>
               <tr *ngFor="let sch of instituteList">
-                <td>
+                <td  style="width: 15%;">
                   {{sch.school_id}}
                 </td>
 
-                <td *ngIf="!sch.edit">
+                <td *ngIf="!sch.edit"  style="width: 65%;">
                   <div class="inst-name" style="text-align: left;">
                     {{sch.school_name}}
                   </div>
                 </td>
 
-                <td *ngIf="sch.edit">
+                <td *ngIf="sch.edit"  style="width: 65%;">
                   <div class="field-wrapper has-value">
-                    <input type="text" [(ngModel)]="sch.school_name" class="form-ctrl" name="instituteName" />
+                    <input type="text" [(ngModel)]="sch.new_school_name" class="form-ctrl" name="instituteName" />
                   </div>
                 </td>
 
-                <td class="edit-view-btn" *ngIf="!sch.edit" style="width: 30%;">
+                <td class="edit-view-btn" *ngIf="!sch.edit">
                   <div class="" style="width: 50%;float: left;">
                     <a (click)="editInstitute(sch.school_id)" style="cursor:pointer">
-                      <i class="edit-icon cursor-icon" aria-hidden="true"></i>Edit
+                      <i class="cursor-icon fa fa-edit" aria-hidden="true" title="Edit"></i>
                     </a>
                   </div>
                   <div class="" style="width: 32%;float: left;">
-                    <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer">
-                      <i class="view-icon cursor-icon" aria-hidden="true"></i>Delete
+                    <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer;color: red;">
+                      <i class="view-icon cursor-icon fa fa-trash" title="Delete" aria-hidden="true"></i>
                     </a>
                   </div>
                 </td>
 
                 <td class="edit-view-btn" *ngIf="sch.edit">
-                  <div class="">
+                  <div class="" style="width: 30%;float: left;">
                     <a (click)="cancelEditInstitute(sch.school_id)" style="cursor:pointer">
-                      <i class="edit-icon" aria-hidden="true"></i>Cancel
+                      <i aria-hidden="true"></i>Cancel
                     </a>
                   </div>
                   <div class="">
@@ -1411,6 +1435,10 @@
     </div>
 
   </proctur-popup>
+
+
+  <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)">
+  </app-add-city-area>
   <!-- ======================================================== -->
   <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->

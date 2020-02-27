@@ -1,0 +1,43 @@
+<div class="actb-top-header clearfix">
+  <span class="heading">
+    Today's Student Birthday (Date : {{todaysDate | date: 'dd MMM yyyy'}} ) <i class="fa fa-birthday-cake"
+      style="color: #1283f4;"></i>
+  </span>
+</div>
+
+<div class="enq-state-bottom">
+  <div style="width:100%; height: 100%; padding: 20px; z-index: 10;" *ngIf="ScheduledData?.length != 0">
+    <div class="table-container">
+      <div class="heading-container">
+        <div class="heading-item">
+          <span>Student Id</span>
+        </div>
+        <div class="heading-item" style="width: 60%;">
+          <span>Student Name</span>
+        </div>
+        <div class="heading-item">
+          <span>Contact No.</span>
+        </div>
+      </div>
+      <div class="value-outer-container">
+        <div class="value-container" *ngFor="let data of ScheduledData">
+          <div class="value-item">
+            <span
+              title="{{data.student_display_id}}">{{(data.student_display_id.length > 10) ? (data.student_display_id | slice:0:10) + '...' : data.student_display_id}}</span>
+          </div>
+          <div class="value-item" style="width: 60%;">
+            <span
+              title="{{data.student_name}}">{{(data.student_name.length > 30) ? (data.student_name | slice:0:30) + '...' : data.student_name}}</span>
+          </div>
+          <div class="value-item" style="padding-left: 2%;">
+            <span title="{{data.phone}}">{{data.phone}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="width:100%;padding-top: 11%;" *ngIf="ScheduledData?.length == 0">
+    <h2 style="color: black;text-align: center;">No birthday's for Today !</h2>
+  </div>
+</div>

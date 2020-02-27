@@ -5,6 +5,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
 // import { ActivityPtmService } from '../../../services/activity-ptmservice/activity-ptm.service';
 import { HttpService } from '../../../services/http.service';
+declare var $;
 
 @Component({
   selector: 'app-ptm-management',
@@ -317,6 +318,7 @@ export class PtmManagementComponent implements OnInit {
     let scheDate = moment(this.ptmScheduledDate).format("YYYY-MM-DD");
     if(moment(scheDate).isBefore(currentDate)){
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'PTM schedule date can not be past date');
+      this.ptmScheduledDate = currentDate;
     }
     else{
       this.scheduledPTMList = [];
@@ -433,6 +435,11 @@ export class PtmManagementComponent implements OnInit {
       }
     }
 
+    if(this.createPTM.batchArray.length == 0){
+      validation = false;
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select at least one batch');
+    }
+
     if(validation){
       this.auth.showLoader();
       const url = `/api/v1/ptm/create/${this.jsonFlag.institute_id}`;
@@ -441,6 +448,7 @@ export class PtmManagementComponent implements OnInit {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Created Successfully');
           this.auth.hideLoader();
           this.createPTMShow = false;
+          $('#createPTM').modal('hide');
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
