@@ -676,7 +676,6 @@ export class StudentAddComponent implements OnInit {
         }
         if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
           this.fetchEnquiryCustomComponentDetails();
-          sessionStorage.removeItem('studentPrefill');
         }
         this.isRippleLoad = false;
       },
@@ -1166,6 +1165,7 @@ export class StudentAddComponent implements OnInit {
               this.getCourseDropdown(res.generated_id);
               if (this.studentAddnMove) {
                 this.updateStudentFeeDetails();
+                sessionStorage.removeItem('studentPrefill'); // remove enquiry coverted stud --laxmi
                 this.navigateTo('feeDetails');
               }
             }
@@ -1607,7 +1607,7 @@ export class StudentAddComponent implements OnInit {
     form.reset();
 
     if (this.isConvertEnquiry) {
-      this.router.navigate(['/view/enquiry']);
+      this.router.navigate(['/view/leads/enquiry']);
     }
     else {
       this.router.navigate(['/view/students']);
@@ -1615,7 +1615,7 @@ export class StudentAddComponent implements OnInit {
   }
 
   clearDateoJoining() {
-    this.studentAddFormData.doj = ''
+    this.studentAddFormData.doj = '';
   }
 
   updateFormIsActive(ev) {
