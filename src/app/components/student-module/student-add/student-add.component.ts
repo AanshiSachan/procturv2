@@ -964,6 +964,7 @@ export class StudentAddComponent implements OnInit {
     this.prefill.createNewInstitute(this.createInstitute).subscribe(
       el => {
         if (el.message === "OK") {
+          this.msgToast.showErrorMessage('success', '', 'Institute added successfully !');
           this.prefill.getSchoolDetails().subscribe(
             data => {
               this.school = data;

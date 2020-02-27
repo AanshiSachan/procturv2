@@ -15,7 +15,7 @@
         </li>
         <li id="liExceptioneport" class="menu-item" style="cursor: pointer;" (click)="changeView('liExceptioneport', 'divExceptioneport')">
           <span>
-            <a class="">Exception Report</a>
+            <a class="">Attendance/ Exam <span>Reminder</span> </a>
             <i class="fas fa-random" style="font-family: FontAwesome"></i>
           </span>
         </li>
@@ -1561,7 +1561,7 @@
                   <tbody>
                     <tr style="height: 45px; background-color: #efefef">
                       <td class="tableHeader" colspan="6">
-                        EXCEPTION REPORT SETTING
+                        ATTENDANCE/ EXAM REMINDER
                       </td>
                     </tr>
                     <tr>
@@ -1608,7 +1608,7 @@
                                 </div>
   
                               </label> -->
-                              <p>You can provide multiple number separated by comma's</p>
+                              <p>multiple number's separated by comma's</p>
                               <input type="text" [(ngModel)]="instituteSettingDet.exam_attendance_not_marked_notification_contact_number" class="form-ctrl" id="instituteContact">                              
                             </div>
                           </div>
@@ -1645,7 +1645,7 @@
                           </div>
                           <div class="c-sm-6" *ngIf="instituteSettingDet.enable_exam_marks_not_update_notification.other">
                             <div class="field-wrapper" style="margin-top: 0;" [ngClass]="{'has-value' : instituteSettingDet.exam_marks_not_update_notification_contact_number >= ''}">
-                              <p>You can provide multiple number separated by comma's</p>
+                              <p>multiple number's separated by comma's</p>
                               <input type="text" [(ngModel)]="instituteSettingDet.exam_marks_not_update_notification_contact_number" class="form-ctrl" id="instituteContact">
                             </div>
                           </div>
@@ -1683,7 +1683,7 @@
                           </div>
                           <div class="c-sm-6" *ngIf="instituteSettingDet.enable_exam_attendance_not_marked_daily_notification.other">
                             <div class="field-wrapper" style="margin-top: 0;" [ngClass]="{'has-value' : instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number >= ''}">
-                              <p>You can provide multiple number separated by comma's</p>
+                              <p>multiple number's separated by comma's</p>
                               <input type="text" [(ngModel)]="instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number" class="form-ctrl" id="instituteContact">
                             </div>
                           </div>
@@ -1723,7 +1723,7 @@
                           </div>
                           <div class="c-sm-6" *ngIf="instituteSettingDet.enable_class_attendance_not_marked_notification.other">
                             <div class="field-wrapper" style="margin-top: 0;" [ngClass]="{'has-value' : instituteSettingDet.class_attendance_not_marked_notification_contact_number >= ''}">
-                              <p>You can provide multiple number separated by comma's</p>
+                              <p>multiple number's separated by comma's</p>
                               <input type="text" [(ngModel)]="instituteSettingDet.class_attendance_not_marked_notification_contact_number" class="form-ctrl" id="class_attendance_not_marked_notification_contact_number">
                             </div>
                           </div>
@@ -1761,7 +1761,7 @@
                           </div>
                           <div class="c-sm-6" *ngIf="instituteSettingDet.enable_class_attendance_not_marked_daily_notification.other">
                             <div class="field-wrapper" style="margin-top: 0;" [ngClass]="{'has-value' : instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number >= ''}">
-                              <p>You can provide multiple number separated by comma's</p>
+                              <p>multiple number's separated by comma's</p>
                               <input type="text" [(ngModel)]="instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number" class="form-ctrl" id="class_attendance_not_marked_daily_notification_contact_number">                              
                             </div>
                           </div>
