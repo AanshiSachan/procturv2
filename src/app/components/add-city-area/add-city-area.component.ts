@@ -45,7 +45,6 @@ export class AddCityAreaComponent implements OnInit {
   getCountryList(){
     let defaultCountryList = sessionStorage.getItem('country_data')
     this.countryList = JSON.parse(defaultCountryList);
-    this.getStateList();
   }
 
   getStateList(){
