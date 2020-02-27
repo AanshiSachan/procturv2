@@ -184,13 +184,13 @@ export class TemplateHomeComponent implements OnInit {
           })
         }
         this.fillDataInYTable(res.customFeeSchedules);
-        if (res.studentwise_fees_tax_applicable == "Y") {
+        // if (res.studentwise_fees_tax_applicable == "Y") {
           if (this.enableTax == "1" &&
             document.getElementById('checkBoxtaxes')) {
             document.getElementById('checkBoxtaxes').checked = true;
             this.showTaxFields();
           }
-        }
+        
         this.totalAmountCal = res.studentwise_total_fees_amount;
       },
       err => {

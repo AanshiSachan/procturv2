@@ -1988,11 +1988,11 @@
                           <div class="field-checkbox-wrapper" style="width: 100%">
                             <input type="checkbox" value="" disabled name="enablegst" class="form-checkbox" [(ngModel)]="instituteSettingDet.gst_enabled"
                               id="enablegst">
-                            <label for="enablegst">Enable GST
-                              <div class="questionInfo inline-relative">
+                              <label for="enablegst">Enable {{instituteTaxType}}
+                                <div class="questionInfo inline-relative">
                                 <span class="qInfoIcon i-class">i</span>
                                 <div class="tooltip-box-field lg">
-                                  Enable this if GST
+                                  Enable this if {{instituteTaxType}}
                                   <br>to be applied in Fee
                                   <br> Receipts
                                 </div>
@@ -2003,7 +2003,7 @@
 
                         <div class=" c-lg-6">
                           <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.gst_no != ''}">
-                            <label for="GSTNo">GST No:
+                            <label for="GSTNo">{{instituteTaxType}} No:
                               <div class="questionInfo inline-relative">
                                 <span class="qInfoIcon i-class">i</span>
                                 <div class="tooltip-box-field md">
@@ -2015,7 +2015,7 @@
                             <input type="text" [(ngModel)]="instituteSettingDet.gst_no" class="form-ctrl" id="GSTNo">
                           </div>
                         </div>
-
+                        <div *ngIf="instituteTaxType=='GST';else showVatSection">
                         <div class="c-lg-6" *ngIf="(instituteSettingDet.gst_enabled== '1' || instituteSettingDet.gst_enabled == true)">
                           <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.cgst >= '0'}">
                             <label for="ch87">CGST (%):
@@ -2031,7 +2031,16 @@
                             <input type="number" [(ngModel)]="instituteSettingDet.sgst" class="form-ctrl" id="ch88">
                           </div>
                         </div>
-
+                      </div>
+                     <ng-template #showVatSection>
+                      <div class="c-lg-6" *ngIf="(instituteSettingDet.gst_enabled== '1' || instituteSettingDet.gst_enabled == true)">
+                     <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.vat_percentage >= '0'}">
+                    <label for="ch88">{{instituteTaxType}}:
+                    </label>
+                       <input type="number" [(ngModel)]="instituteSettingDet.vat_percentage" class="form-ctrl" id="ch88">
+                     </div>
+                      </div>
+                     </ng-template>
                         <div class="c-lg-6">
                           <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.cin != ''}">
                             <label for="customerIdentification">CIN(Customer Identification Number)

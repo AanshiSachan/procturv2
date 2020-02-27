@@ -323,7 +323,8 @@ export class InstituteSettingsComponent implements OnInit {
 
     lib_issue_for_days: '',
     lib_due_date_fine_per_day: '',
-    jwt_secret_key: ''
+    jwt_secret_key: '',
+    vat_percentage:''
 
   };
   onlinePayment: any = '0';
@@ -336,6 +337,7 @@ export class InstituteSettingsComponent implements OnInit {
   // Library Role
   libraryRole: boolean = false;
   instituteId: any;
+  instituteTaxType : String;
 
   constructor(
     private apiService: InstituteSettingService,
@@ -351,6 +353,8 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteId = sessionStorage.getItem('institute_id');
     this.onlinePayment = sessionStorage.getItem('enable_online_payment_feature');
     this.biometricSetting = Number(sessionStorage.getItem('biometric_attendance_feature'));
+    this.instituteTaxType=sessionStorage.getItem("tax_type_without_percentage")=='Vat'?'Vat':'GST';
+
     this.checkInstitutionType();
     this.getSettingFromServer();
     this.libraryRoleSetting();
@@ -430,6 +434,7 @@ export class InstituteSettingsComponent implements OnInit {
 
   constructJsonToSend() {
     let obj: any = Object.assign({}, this.instituteSettingDet);
+    this.calculateCGSTAndSGSTFromVat(obj);
     obj.sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.sms_notification);
     obj.email_notification = this.convertBoolenToNumber(this.instituteSettingDet.email_notification);
     obj.sms_status_report = this.convertBoolenToNumber(this.instituteSettingDet.sms_status_report);
@@ -688,6 +693,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.gst_no = data.gst_no;
     this.instituteSettingDet.cgst = data.cgst;
     this.instituteSettingDet.sgst = data.sgst;
+    this.instituteSettingDet.vat_percentage=data.vat_percentage;
     this.instituteSettingDet.inst_fee_activity_email_recipients = data.inst_fee_activity_email_recipients;
     this.instituteSettingDet.pdc_reminder_setting = data.pdc_reminder_setting;
     this.instituteSettingDet.pdc_reminder_sent_on = data.pdc_reminder_sent_on;
@@ -765,6 +771,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.second_sms_low_balance_threshold = data.second_sms_low_balance_threshold;
     this.instituteSettingDet.sms_low_balance_alert_contact_number = (data.sms_low_balance_alert_contact_number == null || data.sms_low_balance_alert_contact_number == 'NULL') ? null : data.sms_low_balance_alert_contact_number;
     this.instituteSettingDet.jwt_secret_key = data.jwt_secret_key;
+    this.instituteSettingDet.vat_percentage=data.cgst+data.sgst;
   }
 
 
@@ -943,5 +950,10 @@ export class InstituteSettingsComponent implements OnInit {
       }
     )
   }
-
+  calculateCGSTAndSGSTFromVat(data){
+    if(this.instituteTaxType=='Vat'){
+     data.cgst=Math.floor(this.instituteSettingDet.vat_percentage/2);
+     data.sgst=this.instituteSettingDet.vat_percentage-data.cgst;
+    }
+    }
 }
