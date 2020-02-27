@@ -49,6 +49,7 @@ export class ProductListComponent implements OnInit {
   master_course_name: '';
   course_id: '';
   batch_id: '';
+  notifyToStudents = true;
   // activeStudents = true;
   isProfessional = true;
   deleteItem: any = {
@@ -365,9 +366,14 @@ export class ProductListComponent implements OnInit {
         user_id_list.push(stu.user_id);
       }
     });
+    let is_send_sms = 'N';
+    if (this.notifyToStudents) {
+      is_send_sms = 'Y';
+    }
     let object = {
       "product_id": this.product_details_for_student.entity_id,
       "user_id_list": user_id_list,
+      'is_send_sms': is_send_sms
     };
     console.log(object);
     this.auth.showLoader();

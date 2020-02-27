@@ -130,96 +130,114 @@
 
 
   <div class="row m-0 pt-0 product-list-wrapper">
-    <div class="col-md-12 table-wrapper p-0" style="height: 430px;overflow-y: scroll;">
-      <table class="table product-table">
-        <thead class="product-table-head">
-          <tr>
-            <!-- <th width="5%">
+    <section style="margin-top: 10px;padding: 10px;">
+      <div class="table-container">
+        <div class="heading-container" style="margin-bottom: 10px;">
+          <!-- <div class="heading-item" style="width: 10%;">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" class="form-checkbox" [checked]="jsonKeys.selectAll"  (change)="toggleAllCheckBox($event)" id="ch2">
+              <label for="ch2"></label>
+            </div>
+          </div> -->
+          <div class="heading-item th" style="width: 5%;padding: .2em .6em;">
+            <span>ID</span>
+          </div>
+          <div class="heading-item th" style="width: 5%;padding: .2em .6em;">
+            <span>#</span>
+          </div>
+          <div class="heading-item th" style="width: 13%;text-align: left;">
+            <span>Product Name</span>
+          </div>
+          <div class="heading-item th" style="width: 20%;text-align: left;">
+            <span>E-course</span>
+          </div>
+          <div class="heading-item th" style="width: 7%;">
+            <span>Status</span>
+          </div>
+          <div class="heading-item th" style="width: 8%;">
+            <span>Sale Start Date</span>
+          </div>
+          <div class="heading-item th" style="width: 8%;">
+            <span>Sale End Date</span>
+          </div>
+          <div class="heading-item th" style="width: 8%;">
+            <span>Publish Date</span>
+          </div>
+          <div class="heading-item th" style=" width: 8%;">
+            <span>Update Date</span>
+          </div>
+          <div class="heading-item th" style="width: 5%;">
+            <span>Type</span>
+          </div>
+          <div class="heading-item th" style="width: 5%;text-align: right;">
+            <span>Price</span>
+          </div>
+          <div class="heading-item th" style="width: 8%;">
+            <span>Action</span>
+          </div>
+        </div>
+        <div class="value-outer-container" style="border: none;" *ngIf="productList?.length > 1">
+          <div class="value-container dataContiner" *ngFor="let item of productList;let i= index"
+            [ngClass]="{'adv_prod_border': item.is_advance_product==1,'normal_prod_border': item.is_advance_product==0}">
+            <!-- <div class="value-item" style="width: 10%;">
               <div class="field-checkbox-wrapper">
-                <input type="checkbox" class="form-checkbox" [checked]="jsonKeys.selectAll"  (change)="toggleAllCheckBox($event)" id="ch2">
+                <input type="checkbox" class="form-checkbox" [checked]="item.isSelected" [(ngModel)]="item.isSelected" (ngModelChange)="isAllSelected($event,item)" id="ch2">
                 <label for="ch2"></label>
               </div>
-            </th> -->
-            <th width="5%">ID</th>
-            <th width="5%">#</th>
-            <th width="10%" class="text-left" style="text-align: left">Product Name</th>
-            <th class="text-left">E-course</th>
-            <th class="text-center">Status</th>
-            <th class="text-center">Sale Start Date</th>
-            <th class="text-center">Sale End Date</th>
-            <th width="8%" class="text-center">Publish Date</th>
-            <th width="8%" class="text-center">Update Date</th>
-            <th width="5%" class="text-center">Status</th>
-            <th width="5%" class="text-right">Price</th>
-            <th width="8%" class="text-center">Action</th>
-          </tr>
-        </thead>
-        <tbody class="product-table-body">
-          <tr *ngFor="let item of productList;let i= index">
-            <!-- <td>
-                <div class="field-checkbox-wrapper">
-                    <input type="checkbox" class="form-checkbox" [checked]="item.isSelected" [(ngModel)]="item.isSelected" (ngModelChange)="isAllSelected($event,item)" id="ch2">
-                    <label for="ch2"></label>
-                  </div>
-            </td> -->
-            <!-- <td>
-              <img src="assets/images/file_manager/image.svg" style="height: 25px;;" class="img-responsive"
-                alt="product image">
-              [src]="item.product_image" 
-            </td> -->
-            <td
-              [ngClass]="{'adv_prod_border': item.is_advance_product==1,'normal_prod_border': item.is_advance_product==0}">
-              {{i+1}}</td>
-            <td>
+            </div> -->
+            <div class="value-item td" style="width: 5%;">
+              <span>
+                {{i+1}}</span>
+            </div>
+            <div class="value-item td" style="width: 5%">
               <span>
                 <img alt="product" class="profile_img"
                   [src]="item.logo_url==null?'https://cdn.vox-cdn.com/thumbor/30bQJLedP0p2KHehrHJyPc2dZ5A=/0x0:600x579/920x0/filters:focal(0x0:600x579):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/16019250/log_2048.png':item.logo_url"
                   title="{{item.title}}">
               </span>
-            </td>
-            <td style="text-align: left">
-              <label title="{{item.title}}">
-                {{ (item.title.length > 20) ? (item.title | slice:0:20) + '...' : item.title }}
-              </label>
-            </td>
-            <td style="width:20%;text-align: left;">
+            </div>
+            <div class="value-item td" style="text-align: left;width: 13%;">
+              <span>
+                <label title="{{item.title}}">
+                  {{ (item.title.length > 20) ? (item.title | slice:0:20) + '...' : item.title }}
+                </label>
+              </span>
+            </div>
+            <div class="value-item td" style="width: 20%;text-align: left;">
               <span class="ecourse-list" *ngFor="let  ecourse of item.product_ecourse_maps">
                 {{ecourse.course_type}}
               </span>
-            </td>
-            <td class="text-center text-bold">
+            </div>
+            <div class="value-item td" style="width: 7%;">
               <span *ngIf="item.status == 10" class="text-primary">Draft</span>
               <span *ngIf="item.status == 20" class="text-warning">Ready</span>
-              <span *ngIf="item.status == 30" class="text-success">Published</span>
+              <span *ngIf="item.status == 30" style="color: green;font-weight: 600;">Published</span>
               <span *ngIf="item.status == 40" class="text-secondary">Unpublished</span>
-              <span *ngIf="item.status == 50" class="text-secondary">Closed</span>
-            </td>
-            <td class="text-center">
+              <span *ngIf="item.status == 50" style="color: orangered;">Closed</span>
+            </div>
+            <div class="value-item td" style="width: 8%;">
               <p class="m-0 text-bold">{{convertUTCDateToLocalDate(item.sales_from_date)}}</p>
-              <!-- , HH:mm -->
-            </td>
-            <td class="text-center">
+            </div>
+            <div class="value-item td" style="width: 8%;">
               <p class="m-0 text-bold">{{convertUTCDateToLocalDate(item.sales_to_date)}}</p>
-            </td>
-            <td class="text-center">
+            </div>
+            <div class="value-item td" style="width: 8%;">
               <p class="m-0 text-bold">{{ (!item.publish_date)? '-' :convertUTCDateToLocalDate(item.publish_date)}}</p>
-            </td>
-            <td class="text-center">
+            </div>
+            <div class="value-item td" style="width: 8%;">
               <p class="m-0 text-bold">{{convertUTCDateToLocalDate(item.updated_date)}}</p>
-            </td>
-            <td class="text-center">
-              <span *ngIf="item.price <= 0" class="text-active text-bold">Free</span>
-              <span *ngIf="item.price > 0" class="text-bold">
+            </div>
+            <div class="value-item td" style="width: 5%;padding-left: 20px;">
+              <span *ngIf="item.price <= 0" class="text-active text-bold freeProduct">Free</span>
+              <span *ngIf="item.price > 0" class="text-bold paidProduct">
                 Paid</span>
-            </td>
-            <td class="text-right">
+            </div>
+            <div class="value-item td" style="width: 5%;display: flex;justify-content: flex-end;margin-top: 12px;">
               <span class="text-bold">
-                <i class="fa fa-inr"></i> &nbsp;{{item.price}}</span>
-            </td>
-            <!-- <td class="text-center">
-                  20 <i class="fas fa-users"></i>
-              </td> -->
-            <td class="text-center">
+                <i class="fa fa-inr"></i> &nbsp;{{item.price}}
+              </span>
+            </div>
+            <div class="value-item td" style="width: 8%;">
               <div class="dropdown dropleft" *ngIf="item.status!=50">
                 <button class="btn btn-light btn-xs dropdown-toggle" type="button" (click)="toggleActionMenu($event)"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -242,25 +260,15 @@
                     *ngIf="item.status == 40">Closed</a>
                 </div>
               </div>
-            </td>
-          </tr>
-
-          <ng-container *ngIf="productList?.length < 1 && !productListLoading">
-            <tr>
-              <td colspan="12">No Records Found</td>
-            </tr>
-          </ng-container>
-
-          <ng-container *ngIf="productListLoading">
-            <tr>
-              <td colspan="8" class="text-center">
-                <i class="fa fa-spinner"></i>&nbsp; Loading...
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
-    </div>
+            </div>
+          </div>
+        </div>
+        <div class="value-outer-container" style="text-align: center;padding-top: 5%;font-weight: 600;"
+          *ngIf="productList?.length < 1 && !productListLoading">
+          <div *ngIf="!isRippleLoad"> No data found </div>
+        </div>
+      </div>
+    </section>
 
     <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
@@ -299,66 +307,87 @@
     <div class="modal-content" style="max-width: 700px;">
       <div class="modal-body">
         <div>
-        <span style="font-weight: 600;margin-bottom: 10px;">{{product_details_for_student.title}} </span>
-        <span style="float: right;font-weight: 600;font-size: 16px;cursor: pointer;" (click)="closePopup()">X</span>
-      </div>
-      <div class="row" style="margin:0;margin-bottom: 10px;border-bottom: 1px solid #eee;" *ngIf="!isProfessional">
-        <div class="form-group field-wrapper form-el-width" style="width: 40%;float: left;margin-right: 5%;">
-          <label class="text-bold">Master Course</label>
-          <select [(ngModel)]="master_course_name" class="form-ctrl" (change)="getCourseDetails($event.target.value)">
-            <option value="">Select</option>
-            <option *ngFor="let masterCourse of masterCourseDetails.master_course_name_list" title="{{masterCourse}}" value="{{masterCourse}}">
-              {{ (masterCourse?.length > 20) ? (masterCourse | slice:0:20) + '...' : masterCourse }}
-  
-            </option>
-          </select>
+          <span style="font-weight: 600;margin-bottom: 10px;">{{product_details_for_student.title}} </span>
+          <span style="float: right;font-weight: 600;font-size: 16px;cursor: pointer;" (click)="closePopup()">X</span>
         </div>
-        <div class="form-group field-wrapper form-el-width" style="width: 40%;float: left;">
-          <label class="text-bold"> Course</label>
-          <select [(ngModel)]="course_id" class="form-ctrl">
-            <option value="">Select</option>
-            <option *ngFor="let course of courseDetails" title="{{course.course_name}}" [value]="course.course_id">
-              {{ (course.course_name?.length > 20) ? (course.course_name | slice:0:20) + '...' : course.course_name }}
-            </option>
-          </select>
-        </div>
-        <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;margin-top: 26px;margin-left: 2%;float: left;" [disabled]="isRippleLoad" (click)="studentDataOnMasterCourse()">Go</button>
-        <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;margin-top: 23px;margin-left: 5px;" [disabled]="isRippleLoad" (click)="clearStudentFilter()">Clear</button>
-      </div>
+        <div class="row" style="margin:0;margin-bottom: 10px;border-bottom: 1px solid #eee;" *ngIf="!isProfessional">
+          <div class="form-group field-wrapper form-el-width" style="width: 40%;float: left;margin-right: 5%;">
+            <label class="text-bold">Master Course</label>
+            <select [(ngModel)]="master_course_name" class="form-ctrl" (change)="getCourseDetails($event.target.value)">
+              <option value="">Select</option>
+              <option *ngFor="let masterCourse of masterCourseDetails.master_course_name_list" title="{{masterCourse}}"
+                value="{{masterCourse}}">
+                {{ (masterCourse?.length > 20) ? (masterCourse | slice:0:20) + '...' : masterCourse }}
 
-      <div class="row" style="margin:0" *ngIf="isProfessional">
-        <div class="form-group field-wrapper form-el-width" style="width: 26%;float: left;margin-right: 3%;">
-          <label class="text-bold">Master Course</label>
-          <select [(ngModel)]="master_course_name" class="form-ctrl" (change)="getSubjectDetails($event.target.value)">
-            <option value="">Select</option>
-            <option *ngFor="let masterCourse of masterCourseDetails.standard_list" title="{{masterCourse.standard_name}}" value="{{masterCourse.standard_id}}">
-              {{ (masterCourse.standard_name?.length > 20) ? (masterCourse.standard_name | slice:0:20) + '...' : masterCourse.standard_name }}
-  
-            </option>
-          </select>
-        </div>
-        <div class="form-group field-wrapper form-el-width" style="width: 26%;float: left;margin-right: 3%;">
-          <label class="text-bold"> Course</label>
-          <select [(ngModel)]="course_id" class="form-ctrl">
-            <option value="">Select</option>
-            <option *ngFor="let course of courseDetails.subjectLi" title="{{course.subject_name}}" [value]="course.subject_id">
-              {{ (course.subject_name?.length > 20) ? (course.subject_name | slice:0:20) + '...' : course.subject_name }}
-            </option>
-          </select>
+              </option>
+            </select>
+          </div>
+          <div class="form-group field-wrapper form-el-width" style="width: 40%;float: left;">
+            <label class="text-bold"> Course</label>
+            <select [(ngModel)]="course_id" class="form-ctrl">
+              <option value="">Select</option>
+              <option *ngFor="let course of courseDetails" title="{{course.course_name}}" [value]="course.course_id">
+                {{ (course.course_name?.length > 20) ? (course.course_name | slice:0:20) + '...' : course.course_name }}
+              </option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-product btn_go"
+            style="margin-bottom: 0;margin-top: 26px;margin-left: 2%;float: left;" [disabled]="isRippleLoad"
+            (click)="studentDataOnMasterCourse()">Go</button>
+          <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;margin-top: 23px;margin-left: 5px;"
+            [disabled]="isRippleLoad" (click)="clearStudentFilter()">Clear</button>
         </div>
 
-        <div class="form-group field-wrapper form-el-width" style="width: 26%;float: left;">
-          <label class="text-bold"> Batch</label>
-          <select [(ngModel)]="batch_id" class="form-ctrl">
-            <option value="">Select</option>
-            <option *ngFor="let course of courseDetails.batchLi" title="{{course.batch_name}}" [value]="course.batch_id">
-              {{ (course.batch_name?.length > 20) ? (course.batch_name | slice:0:20) + '...' : course.batch_name }}
-            </option>
-          </select>
+        <div class="row" style="margin:0" *ngIf="isProfessional">
+          <div class="form-group field-wrapper form-el-width" style="width: 26%;float: left;margin-right: 3%;">
+            <label class="text-bold">Master Course</label>
+            <select [(ngModel)]="master_course_name" class="form-ctrl"
+              (change)="getSubjectDetails($event.target.value)">
+              <option value="">Select</option>
+              <option *ngFor="let masterCourse of masterCourseDetails.standard_list"
+                title="{{masterCourse.standard_name}}" value="{{masterCourse.standard_id}}">
+                {{ (masterCourse.standard_name?.length > 20) ? (masterCourse.standard_name | slice:0:20) + '...' : masterCourse.standard_name }}
+
+              </option>
+            </select>
+          </div>
+          <div class="form-group field-wrapper form-el-width" style="width: 26%;float: left;margin-right: 3%;">
+            <label class="text-bold"> Course</label>
+            <select [(ngModel)]="course_id" class="form-ctrl">
+              <option value="">Select</option>
+              <option *ngFor="let course of courseDetails.subjectLi" title="{{course.subject_name}}"
+                [value]="course.subject_id">
+                {{ (course.subject_name?.length > 20) ? (course.subject_name | slice:0:20) + '...' : course.subject_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group field-wrapper form-el-width" style="width: 26%;float: left;">
+            <label class="text-bold"> Batch</label>
+            <select [(ngModel)]="batch_id" class="form-ctrl">
+              <option value="">Select</option>
+              <option *ngFor="let course of courseDetails.batchLi" title="{{course.batch_name}}"
+                [value]="course.batch_id">
+                {{ (course.batch_name?.length > 20) ? (course.batch_name | slice:0:20) + '...' : course.batch_name }}
+              </option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-product btn_go"
+            style="margin-bottom: 0;margin-top: 26px;margin-left: 2%;float: left;" [disabled]="isRippleLoad"
+            (click)="studentDataOnMasterCourse()">Go</button>
+          <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;margin-top: 23px;margin-left: 5px;"
+            [disabled]="isRippleLoad" (click)="clearStudentFilter()">Clear</button>
         </div>
-        <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;margin-top: 26px;margin-left: 2%;float: left;" [disabled]="isRippleLoad" (click)="studentDataOnMasterCourse()">Go</button>
-        <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;margin-top: 23px;margin-left: 5px;" [disabled]="isRippleLoad" (click)="clearStudentFilter()">Clear</button>
-      </div>
+
+        <div class="row" style="margin:0">
+          <div class="c-lg-3 c-md-3 c-sm-3" style="float: right;padding-right: 0;">
+            <div class="field-checkbox-wrapper" style="margin-bottom: 0;">
+              <input type="checkbox" class="form-checkbox" [checked]="notifyToStudents" [(ngModel)]="notifyToStudents"
+                id="notifyToStudents">
+              <label for="notifyToStudents">Notify To Students</label>
+            </div>
+          </div>
+        </div>
         <!-- <div class="field-checkbox-wrapper" style="float: left;margin-bottom: 15px;">
           <input type="checkbox" [checked]="activeStudents" (ngModelChange)="getAllActiveStudents()" [(ngModel)]="activeStudents" class="form-checkbox" id="ch3">
           <label for="ch3">All Active Students</label>
@@ -369,7 +398,8 @@
               <div class="heading-item" style="width: 10%;">
                 <span>
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" class="form-checkbox" [checked]="isAllChecked()" [(ngModel)]="jsonKeys.selectAll" (change)="toggleAllCheckBox()" id="ch2">
+                    <input type="checkbox" class="form-checkbox" [checked]="isAllChecked()"
+                      [(ngModel)]="jsonKeys.selectAll" (change)="toggleAllCheckBox()" id="ch2">
                     <label for="ch2"></label>
                   </div>
                 </span>
@@ -388,7 +418,8 @@
               <div class="value-container" *ngFor="let data of studentDetails;let i= index">
                 <div class="value-item" style="width: 10%;">
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" class="form-checkbox" [disabled]="data.is_product_already_purchased" [checked]="data.isSelected" [(ngModel)]="data.isSelected" [id]="'checkbox-'+i">
+                    <input type="checkbox" class="form-checkbox" [disabled]="data.is_product_already_purchased"
+                      [checked]="data.isSelected" [(ngModel)]="data.isSelected" [id]="'checkbox-'+i">
                     <label [for]="'checkbox-'+i"></label>
                   </div>
                 </div>
@@ -401,16 +432,25 @@
                 </div>
                 <div class="value-item" style="width: 35%;padding-left: 1%;">
                   <span *ngIf="data.is_product_already_purchased" style="color: green;font-weight: 600;">Assigned</span>
-                  <span *ngIf="!data.is_product_already_purchased" style="color: red;font-weight: 600;">Not Assigned</span>
+                  <span *ngIf="!data.is_product_already_purchased" style="color: red;font-weight: 600;">Not
+                    Assigned</span>
                 </div>
               </div>
             </div>
-            <div class="value-outer-container" style="text-align: center;padding-top: 5%;font-weight: 600;" *ngIf="studentDetails?.length==0">
-             <div *ngIf="!isRippleLoad"> No data found </div>
+            <div class="value-outer-container" style="text-align: center;padding-top: 5%;font-weight: 600;"
+              *ngIf="studentDetails?.length==0">
+              <div *ngIf="!isRippleLoad"> No data found </div>
             </div>
           </div>
-          <span>Total Students: {{studentDetails?.length}} </span>
-          <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;float: right;" [disabled]="isRippleLoad" (click)="assignStudentToProduct()">Assign and Notify</button>
+          <div class="row" style="margin: 0;display: -webkit-box;-webkit-box-align: center;">
+            <div class="c-lg-10 c-md-10 c-sm-10">
+              <span>Total Students: {{studentDetails?.length}} </span>
+            </div>
+            <div class="c-lg-2 c-md-2 c-sm-2" style="padding-right: 0;">
+              <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;float: right;"
+                [disabled]="isRippleLoad" (click)="assignStudentToProduct()">Assign</button>
+            </div>
+          </div>
         </section>
       </div>
     </div>
