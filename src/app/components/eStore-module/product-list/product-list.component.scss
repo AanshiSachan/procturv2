@@ -223,7 +223,7 @@
 .btn-light {
   border-color: #bdbdbd !important;
   padding: .4em .6em;
-  font-size: .8em;
+  font-size: 12px;
   line-height: 1;
   color: #212529 !important;
   background-color: #f8f9fa;
@@ -370,8 +370,10 @@ bs-daterangepicker-container {
     padding: 7px;
     border: 1px solid #ccc;
     .heading-item {
-      width: 40%;
+      width: 60%;
       text-align: center;
+      display: -webkit-box;
+      -webkit-box-align: center;
     }
   }
   .value-outer-container {
@@ -393,10 +395,36 @@ bs-daterangepicker-container {
       border-bottom: 1px solid #ccc;
       border-top: none;
       .value-item {
-        width: 40%;
+        width: 60%;
         text-align: center;
+        display: -webkit-box;
+        -webkit-box-align: center;
       }
     }
   }
+  .th{
+    padding: .6em;
+    font-size: 12px;
+  }
+  .td{
+    padding: .6em;
+  }
 
+  .dataContiner{
+    margin-bottom: 10px;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+    border-radius: 4px;
+    min-height: 55px;
+    padding: 0 !important;
+  }
+}
+
+.freeProduct{
+  text-transform: uppercase;
+  color: green;
+}
+
+.paidProduct{
+  text-transform: uppercase;
+  color: orangered;
 }
