@@ -158,12 +158,12 @@
           <div class="spanSection">
             <span *ngIf="enableTaxOptions == '1'&& addNewTemplate.country_id=='1'" class="">Tax Amount :
               <span *ngIf="selectedCountry">
-                <img src="{{selectedCountry?.currency_symbol}}" style="max-height: 12px" />
+               <!-- <img src="{{selectedCountry?.currency_symbol}}" style="max-height: 12px" /> -->
               </span> {{addNewTemplate.tax_amount}}</span>
             <br>
             <span class="">Total Fees :
               <span *ngIf="selectedCountry">
-                <img style="" src="{{selectedCountry?.currency_symbol}}" style="max-height: 12px" />
+                <!-- <img style="" src="{{selectedCountry?.currency_symbol}}" style="max-height: 12px" /> -->
               </span>{{addNewTemplate.total_fee}}</span>
           </div>
 

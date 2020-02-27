@@ -589,7 +589,7 @@ export class StudentAddComponent implements OnInit {
       }
       case "inventory-icon": {
         this.navigateTo("inventory");
-        break;
+        break;  
       }
       default: {
         this.navigateTo("studentForm");
