@@ -217,9 +217,9 @@
                                     <th>Academic Year</th>
                                     <th>Fee Type</th>
                                     <th class="Date">Due Date</th>
-                                    <th class="No" *ngIf="selectedRecord.country_code=='IND'">Intitial Fee Amount</th>
-                                    <th class="No" *ngIf="selectedRecord.country_code=='IND'">Tax</th>
-                                    <th class="No">Fee Amount <span *ngIf="selectedRecord.country_code=='IND'"> (Incl Tax)</span></th>
+                                    <th class="No" *ngIf="isTaxEnabled">Intitial Fee Amount</th>
+                                    <th class="No" *ngIf="isTaxEnabled">{{tax_type_without_percentage}}</th>
+                                    <th class="No">Fee Amount <span *ngIf="isTaxEnabled"> (Incl {{tax_type_without_percentage}})</span></th>
                                     <th class="No">Amount Paid</th>
                                     <th class="No">Balance Amount</th>
                                     <th class="No">Pay Amount</th>
