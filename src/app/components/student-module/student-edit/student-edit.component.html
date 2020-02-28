@@ -1260,14 +1260,14 @@
       </svg>
     </span>
 
-    <h2 popup-header>Institute Editor</h2>
+    <h2 popup-header>Institution List</h2>
 
     <div class="institute-editor" popup-content>
 
       <div class="row clearFix add-edit">
         <a class="expend-box" (click)="toggleInstituteAdd()">
           <i id="add-institute-icon">-</i>
-          <span>Create New Institute</span>
+          <span>Add Institution name</span>
         </a>
       </div>
 
@@ -1275,7 +1275,7 @@
         <div class="row">
           <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
             <div class="field-wrapper">
-              <label for="instituteName">Institute Name</label>
+              <label for="instituteName">Institution Name</label>
               <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
               />
             </div>
@@ -1297,7 +1297,7 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Institute Name</th>
+                <th>Institution Name</th>
                 <th> Action </th>
               </tr>
             </thead>
@@ -1315,7 +1315,7 @@
 
                 <td *ngIf="sch.edit">
                   <div class="field-wrapper has-value">
-                    <input type="text" [(ngModel)]="sch.school_name" class="form-ctrl" name="instituteName" />
+                    <input type="text" [(ngModel)]="sch.new_school_name" class="form-ctrl" name="instituteName" />
                   </div>
                 </td>
 
@@ -1339,7 +1339,7 @@
                     </a>
                   </div>
                   <div class="">
-                    <a (click)="updateInstitute(sch.school_id)" style="cursor:pointer">
+                    <a (click)="updateInstitute(sch.school_id, sch.new_school_name)" style="cursor:pointer">
                       <i class="view-icon update-icon" aria-hidden="true"></i>Update
                     </a>
                   </div>

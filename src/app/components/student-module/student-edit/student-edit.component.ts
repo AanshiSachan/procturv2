@@ -1618,8 +1618,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   /* function to add institute data to server */
   addInstituteData() {
-    this.prefill.createNewInstitute(this.createInstitute).subscribe(el => {
-      if (el.message === "OK") {
+    if(this.createInstitute.instituteName.trim()!=''){
+      if((this.instituteList.filter(x=>x.school_name == this.createInstitute.instituteName.trim())).length == 0){
+        this.prefill.createNewInstitute(this.createInstitute).subscribe(el => {
+        if (el.message === "OK") {
+          let alert = {
+            type: 'success',
+            title: '',
+            body: 'Institution added successfully !'
+          }
+          this.appC.popToast(alert);
         this.prefill.getSchoolDetails().subscribe(
           data => {
             this.school = data;
@@ -1642,9 +1650,34 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         //console.log("institute Added");
       }
       else {
-        //console.log("Institute Name already exist!");
+        
       }
-    });
+    },
+    err=>{
+      let alert = {
+        type: 'error',
+        title: '',
+        body: err.error.message
+      }
+      this.appC.popToast(alert);
+    }
+    );
+    } else {
+      let alert = {
+        type: 'error',
+        title: '',
+        body: 'Institution name already exist!'
+      }
+      this.appC.popToast(alert);
+    }
+   } else {
+      let alert = {
+      type: 'info',
+      title: '',
+      body: 'Please enter institution name'
+    }
+    this.appC.popToast(alert);
+  }
   }
 
   fetchInstituteInfo() {
@@ -1663,47 +1696,27 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.instituteList.forEach(el => {
       if (el.school_id == id) {
         el.edit = true;
+        el.new_school_name = el.school_name;
       }
     });
   }
 
   cancelEditInstitute(id) {
-    this.fetchInstituteInfo();
+    let temp = this.instituteList.filter(el=> el.school_id == id);
+    if(temp) {
+      temp[0].edit = false;
+      temp[0].new_school_name = temp[0].school_name;
+    }
   }
 
-  updateInstitute(id) {
-    this.instituteList.forEach(el => {
-      if (el.school_id == id) {
-        this.postService.updateInstituteDetails(id, el).subscribe(
-          res => {
-            let alert = {
-              type: 'success',
-              title: 'institute Name Update',
-            }
-            this.appC.popToast(alert);
-            this.fetchInstituteInfo();
-          },
-          err => {
-            let alert = {
-              type: 'error',
-              title: 'We coudn\'t process your request',
-              body: err.message
-            }
-            this.appC.popToast(alert);
-            this.fetchInstituteInfo();
-          }
-        )
-      }
-    });
-  }
-
-  deleteInstitute(id) {
-    this.postService.deleteInstitute(id).subscribe(
+  updateInstitute(id, school_name) {
+    if(school_name.trim()!=''){
+      this.postService.updateInstituteDetails(id, school_name).subscribe(
       res => {
         let alert = {
           type: 'success',
-          title: 'Institute Record Deleted',
-          body: " Institute record deleted successfully"
+          title: '',
+          body: 'Institution name updated successfully!'
         }
         this.appC.popToast(alert);
         this.fetchInstituteInfo();
@@ -1712,7 +1725,38 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         let alert = {
           type: 'error',
           title: '',
-          body: "The requested institute is currently in use and cannot be deleted"
+          body: err.error.message
+        }
+        this.appC.popToast(alert);
+        this.fetchInstituteInfo();
+      }
+    )
+  } else {
+    let alert = {
+      type: 'info',
+      title: '',
+      body: 'Please enter institution name'
+    }
+    this.appC.popToast(alert);
+}
+}
+
+  deleteInstitute(id) {
+    this.postService.deleteInstitute(id).subscribe(
+      res => {
+        let alert = {
+          type: 'success',
+          title: '',
+          body: "Institute record deleted successfully"
+        }
+        this.appC.popToast(alert);
+        this.fetchInstituteInfo();
+      },
+      err => {
+        let alert = {
+          type: 'error',
+          title: '',
+          body: 'This institute is already in used, so cannot be deleted'
         }
         this.appC.popToast(alert);
         this.fetchInstituteInfo();
