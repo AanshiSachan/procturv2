@@ -31,9 +31,15 @@
                 </div>
               </li>
 
-              <li class="fees-state item" style="width:42%" [ngClass]="{'hide' : checkRoleMAnagement('709')}" data-id="3">
+              <li class="fees-state item" style="width:41%" [ngClass]="{'hide' : checkRoleMAnagement('709')}" data-id="3">
                 <div class="item-content"  >
                   <fee-widget></fee-widget>
+                </div>
+              </li>
+
+              <li class="fees-state item" style="width:48%" data-id="4">
+                <div class="item-content">
+                  <app-student-birthday></app-student-birthday>
                 </div>
               </li>
 
@@ -307,7 +313,7 @@
                 </div>
               </li>
 
-              <li [ngClass]="{'hide' : checkVdoCipherRole() }" class="general-state item" style="height: 150px;width: 48%;" data-id="4">
+              <li [ngClass]="{'hide' : checkVdoCipherRole() }" class="general-state item" style="height: 250px;width: 41%;" data-id="4">
                 <div class="item-content">
                   <app-vdocipher [storageData]="storageData"></app-vdocipher>
                 </div>

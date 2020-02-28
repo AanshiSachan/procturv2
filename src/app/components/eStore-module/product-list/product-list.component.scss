@@ -61,16 +61,19 @@
 .dropdown-menu {
   position: absolute;
   top: -.5rem;
-  left: -11rem;
-  min-width: 190px;
+  left: -9.5rem;
+  min-width: 160px;
 
   .dropdown-item {
-    padding: .5em 1em;
+    padding: .4em 1em;
     border-right: 1pt solid #eee;
     color: black;
+    display: flex;
+    cursor: pointer;
 
     &:hover {
-      color: #007ad9;
+      color: white;
+      background: #0084f6;
     }
   }
 }
@@ -157,7 +160,6 @@
       th {
         border: 0;
         padding: .2em .6em;
-        color: #999;
         font-weight: normal;
         border-top: 0;
       }
@@ -221,7 +223,7 @@
 .btn-light {
   border-color: #bdbdbd !important;
   padding: .4em .6em;
-  font-size: .8em;
+  font-size: 12px;
   line-height: 1;
   color: #212529 !important;
   background-color: #f8f9fa;
@@ -312,7 +314,7 @@
   top: 0;
   height: 100%;
   left: 0;
-  z-index: 6;
+  z-index: 1055;
   width: 100%;
 }
 
@@ -352,4 +354,77 @@
 ::ng-deep bs-datepicker-container,
 bs-daterangepicker-container {
   margin-left: 5% !important;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .heading-container {
+    background: #e0eaec;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    padding: 7px;
+    border: 1px solid #ccc;
+    .heading-item {
+      width: 60%;
+      text-align: center;
+      display: -webkit-box;
+      -webkit-box-align: center;
+    }
+  }
+  .value-outer-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 40vh;
+    max-height: 40vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    .value-container {
+      display: flex;
+      flex-direction: row;
+      text-align: left;
+      padding: 5px;
+      padding-top: 7px;
+      padding-bottom: 5px;
+      font-size: 12px;
+      border-bottom: 1px solid #ccc;
+      border-top: none;
+      .value-item {
+        width: 60%;
+        text-align: center;
+        display: -webkit-box;
+        -webkit-box-align: center;
+      }
+    }
+  }
+  .th{
+    padding: .6em;
+    font-size: 12px;
+  }
+  .td{
+    padding: .6em;
+  }
+
+  .dataContiner{
+    margin-bottom: 10px;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+    border-radius: 4px;
+    min-height: 55px;
+    padding: 0 !important;
+  }
+}
+
+.freeProduct{
+  text-transform: uppercase;
+  color: green;
+}
+
+.paidProduct{
+  text-transform: uppercase;
+  color: orangered;
 }

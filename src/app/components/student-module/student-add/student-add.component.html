@@ -282,8 +282,32 @@
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.comments != ''}">
                     <label for="addCommentNote">Add Comment Note</label>
-
                     <input type="text" value="" name="addCommentNote" [(ngModel)]="studentAddFormData.comments" id="addCommentNote" class="form-ctrl">
+                  </div>
+
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.state_id != ''}">
+                    <label for="state">State</label>
+                      <select id="state" class="form-ctrl" [(ngModel)]="studentAddFormData.state_id" name="state" (ngModelChange)="getCityList()">
+                      <option value="">Select State</option>
+                      <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+                    </select>
+                  </div>
+
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.city_id != ''}">
+                    <label for="city">City</label>
+                    <select id="city" class="form-ctrl" [(ngModel)]="studentAddFormData.city_id" name="city" (ngModelChange)="getAreaList()">
+                      <option value="">Select City</option>
+                      <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
+                    </select>
+                  </div>
+
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.area_id != ''}">
+                    <label for="addCityArea">Area</label>
+                    <select id="area_id" class="form-ctrl" [(ngModel)]="studentAddFormData.area_id" name="area_id">
+                      <option value="">Select Area</option>
+                      <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">{{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}</option>
+                    </select>
+                    <span (click)="toggleAddArea()" class="sourceI iconPlus" style="right: -35px;">+</span>
                   </div>
 
                 </div>
@@ -323,7 +347,7 @@
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper" *ngIf="isAcad">
+                <div class="field-wrapper" *ngIf="!isProfessional">
                   <label for="standard">Standard</label>
 
                   <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard" class="form-ctrl">
@@ -334,7 +358,7 @@
                   </select>
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto" *ngIf="isAcad" (click)="openAssignBatch()">
+                <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto" *ngIf="!isProfessional" (click)="openAssignBatch()">
                   <label for="assignCourses"> </label>
                   <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" [ngModel]="assignedBatchString"
                     placeholder="Assign Courses" id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
@@ -684,12 +708,13 @@
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountExclTax}}</span>
             </div>
-            <div class="tax-Amount tooltipDiv" *ngIf="instituteCountryDetObj.id==1">
-              <span class="label">Tax on Installment</span>
+            <!-- <div class="tax-Amount tooltipDiv" *ngIf="instituteCountryDetObj.id==1"> -->
+             <div class="tax-Amount tooltipDiv" *ngIf="isTaxEnable">
+              <span class="label">{{tax_type_without_percentage}} on Installment</span>
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.taxAmount }}</span>
-              <span class="tooltip-content">Tax component in Summary card and total tax in individual Instalments may differ due to rounding off decimal
+              <span class="tooltip-content">{{tax_type_without_percentage}} component in Summary card and total tax in individual Instalments may differ due to rounding off decimal
                 values.
               </span>
             </div>
@@ -706,7 +731,7 @@
 
             <div class="discount-Amount" *ngIf="cardAmountObject.additionalFees > 0">
               <span class="label">Additional Fee
-                <span *ngIf=" instituteCountryDetObj.id==1"> (Incl of Tax)</span>
+                <span *ngIf="isTaxEnable"> (Incl of {{tax_type_without_percentage}})</span>
               </span>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.additionalFees }}</span>
@@ -714,7 +739,7 @@
 
             <div class="total-Amount">
               <span class="label">Total Fee
-                <span *ngIf="instituteCountryDetObj.id==1"> (Incl. of tax)</span>
+                <span *ngIf="isTaxEnable"> (Incl. of {{tax_type_without_percentage}})</span>
               </span>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountInclTax }}</span>
@@ -769,7 +794,7 @@
                 <aside class="column-name">
                   <div class="fee-amount amount">
                     <span>Fee
-                      <span *ngIf="instituteCountryDetObj.id==1">(Incl. Tax)</span>
+                      <span *ngIf="isTaxEnable">(Incl. {{tax_type_without_percentage}})</span>
                     </span>
                   </div>
 
@@ -777,7 +802,7 @@
                     <span>Discount</span>
                   </div>
 
-                  <div class="tax-amount amount" *ngIf="instituteCountryDetObj.id==1">
+                  <div class="tax-amount amount" *ngIf="isTaxEnable">
                     <span>Tax</span>
                   </div>
 
@@ -824,7 +849,7 @@
                       <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.discount }}</span>
                     </div>
 
-                    <div class="tax-amount amount" *ngIf="instituteCountryDetObj.id==1">
+                    <div class="tax-amount amount" *ngIf="isTaxEnable">
                       <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.taxAmount }}</span>
                     </div>
 
@@ -865,8 +890,8 @@
                           <span>Amount</span>
                         </div>
 
-                        <div class="Tax" *ngIf="instituteCountryDetObj.id==1">
-                          <span>Tax</span>
+                        <div class="Tax" *ngIf="isTaxEnable">
+                          <span>{{tax_type_without_percentage}}</span>
                         </div>
 
                         <div class="discount">
@@ -918,7 +943,7 @@
                             }}</span>
                         </div>
 
-                        <div class="Tax" *ngIf="instituteCountryDetObj.id==1">
+                        <div class="Tax" *ngIf="isTaxEnable">
                           <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.tax }}</span>
                         </div>
 
@@ -1195,13 +1220,13 @@
         </g>
       </svg>
     </span>
-    <h2 popup-header>Institute Editor</h2>
+    <h2 popup-header> Institution List</h2>
     <div class="institute-editor" popup-content>
 
       <div class="row clearFix add-edit">
         <a class="expend-box" (click)="toggleInstituteAdd()">
           <i id="add-institute-icon">-</i>
-          <span>Create New Institute</span>
+          <span>Add institution name</span>
         </a>
       </div>
 
@@ -1209,7 +1234,7 @@
         <div class="row">
           <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
             <div class="field-wrapper">
-              <label for="instituteName">Institute Name</label>
+              <label for="instituteName">Institution Name</label>
 
               <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
               />
@@ -1232,49 +1257,49 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th style="width: 50%;text-align: left;">Institute Name</th>
+                <th style="width: 50%;text-align: left;">Institution Name</th>
                 <th> Action </th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let sch of instituteList">
-                <td>
+                <td  style="width: 15%;">
                   {{sch.school_id}}
                 </td>
 
-                <td *ngIf="!sch.edit">
+                <td *ngIf="!sch.edit"  style="width: 65%;">
                   <div class="inst-name" style="text-align: left;">
                     {{sch.school_name}}
                   </div>
                 </td>
 
-                <td *ngIf="sch.edit">
+                <td *ngIf="sch.edit"  style="width: 65%;">
                   <div class="field-wrapper has-value">
-                    <input type="text" [(ngModel)]="sch.school_name" class="form-ctrl" name="instituteName" />
+                    <input type="text" [(ngModel)]="sch.new_school_name" class="form-ctrl" name="instituteName" />
                   </div>
                 </td>
 
-                <td class="edit-view-btn" *ngIf="!sch.edit" style="width: 30%;">
+                <td class="edit-view-btn" *ngIf="!sch.edit">
                   <div class="" style="width: 50%;float: left;">
                     <a (click)="editInstitute(sch.school_id)" style="cursor:pointer">
-                      <i class="edit-icon cursor-icon" aria-hidden="true"></i>Edit
+                      <i class="cursor-icon fa fa-edit" aria-hidden="true" title="Edit"></i>
                     </a>
                   </div>
                   <div class="" style="width: 32%;float: left;">
-                    <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer">
-                      <i class="view-icon cursor-icon" aria-hidden="true"></i>Delete
+                    <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer;color: red;">
+                      <i class="view-icon cursor-icon fa fa-trash" title="Delete" aria-hidden="true"></i>
                     </a>
                   </div>
                 </td>
 
                 <td class="edit-view-btn" *ngIf="sch.edit">
-                  <div class="">
+                  <div class="" style="width: 30%;float: left;">
                     <a (click)="cancelEditInstitute(sch.school_id)" style="cursor:pointer">
-                      <i class="edit-icon" aria-hidden="true"></i>Cancel
+                      <i aria-hidden="true"></i>Cancel
                     </a>
                   </div>
                   <div class="">
-                    <a (click)="updateInstitute(sch.school_id)" style="cursor:pointer">
+                    <a (click)="updateInstitute(sch.school_id, sch.new_school_name)" style="cursor:pointer">
                       <i class="view-icon update-icon" aria-hidden="true"></i>Update
                     </a>
                   </div>
@@ -1353,8 +1378,9 @@
   </proctur-popup>
   <!-- ======================================================== -->
   <!-- ========================User Selects a Template here================================ -->
-  <!-- =============== Configure Fees =============================== -->
-  <proctur-popup *ngIf="isConfigureFees">
+  <!-- =============== Configure Fees  =============================== -->
+  <!-- commented by laxmi -21-02-20 -->
+  <!-- <proctur-popup *ngIf="isConfigureFees">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeConfigureFees($event)" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -1411,11 +1437,13 @@
       </div>
     </div>
 
-  </proctur-popup>
+  </proctur-popup> -->
+  <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)">
+  </app-add-city-area>
   <!-- ======================================================== -->
   <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->
-  <student-fee-table *ngIf="isDefineFees" [countryDetails]="instituteCountryDetObj" [academicListData]="academicList" [courseDropdown]="courseDropdown"
+  <student-fee-table *ngIf="isDefineFees" [countryDetails]="instituteCountryDetObj" [academicListData]="academicYear" [courseDropdown]="courseDropdown"
     (closePopup)="closeAllFeePops($event)" [feeTemplateData]="feeTemplateById" [studentName]="studentName" [student_id]="student_id">
   </student-fee-table>
   <!-- ======================================================== -->

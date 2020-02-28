@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, PreloadAllModules, NoPreloading } from '@angular/router';
+import { PreloadAllModules, RouterModule } from '@angular/router';
 
-import { AuthGuard } from './guards/auth.guard';
 
 
 @NgModule({
@@ -20,7 +19,8 @@ import { AuthGuard } from './guards/auth.guard';
                 {
                     path: 'view',
                     loadChildren: 'app/components/component.module#ComponentModule'
-                }
+                },
+                { path: '**',  redirectTo: '/authPage', pathMatch: 'full' }
             ],
             {
                 useHash: true,

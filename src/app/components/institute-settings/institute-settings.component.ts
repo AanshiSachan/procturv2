@@ -334,7 +334,8 @@ export class InstituteSettingsComponent implements OnInit {
     class_attendance_not_marked_daily_notification_contact_number: '',
     exam_attendance_not_marked_notification_contact_number: '',
     exam_attendance_not_marked_daily_notification_contact_number: '',
-    exam_marks_not_update_notification_contact_number: ''
+    exam_marks_not_update_notification_contact_number: '',
+    vat_percentage:''
 
   };
   onlinePayment: any = '0';
@@ -347,6 +348,7 @@ export class InstituteSettingsComponent implements OnInit {
   // Library Role
   libraryRole: boolean = false;
   instituteId: any;
+  instituteTaxType : String;
 
   constructor(
     private apiService: InstituteSettingService,
@@ -362,6 +364,8 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteId = sessionStorage.getItem('institute_id');
     this.onlinePayment = sessionStorage.getItem('enable_online_payment_feature');
     this.biometricSetting = Number(sessionStorage.getItem('biometric_attendance_feature'));
+    this.instituteTaxType=sessionStorage.getItem("tax_type_without_percentage")=='Vat'?'Vat':'GST';
+
     this.checkInstitutionType();
     this.getSettingFromServer();
     this.libraryRoleSetting();
@@ -415,7 +419,7 @@ export class InstituteSettingsComponent implements OnInit {
     let dataToSend: any = {};
     if (this.instituteSettingDet.gst_enabled) {
       if (this.instituteSettingDet.gst_no == "" || this.instituteSettingDet.gst_no == null) {
-        this.commonService.showErrorMessage('error', '', "Please specify GST NO.");
+        this.commonService.showErrorMessage('error', '', "Please specify "+this.instituteTaxType+" NO.");
         return;
       }
     }
@@ -441,6 +445,7 @@ export class InstituteSettingsComponent implements OnInit {
 
   constructJsonToSend() {
     let obj: any = Object.assign({}, this.instituteSettingDet);
+    this.calculateCGSTAndSGSTFromVat(obj);
     obj.sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.sms_notification);
     obj.email_notification = this.convertBoolenToNumber(this.instituteSettingDet.email_notification);
     obj.sms_status_report = this.convertBoolenToNumber(this.instituteSettingDet.sms_status_report);
@@ -740,6 +745,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.gst_no = data.gst_no;
     this.instituteSettingDet.cgst = data.cgst;
     this.instituteSettingDet.sgst = data.sgst;
+    this.instituteSettingDet.vat_percentage=data.vat_percentage;
     this.instituteSettingDet.inst_fee_activity_email_recipients = data.inst_fee_activity_email_recipients;
     this.instituteSettingDet.pdc_reminder_setting = data.pdc_reminder_setting;
     this.instituteSettingDet.pdc_reminder_sent_on = data.pdc_reminder_sent_on;
@@ -839,6 +845,7 @@ export class InstituteSettingsComponent implements OnInit {
     if(this.instituteSettingDet.exam_marks_not_update_notification_contact_number != '' && this.instituteSettingDet.exam_marks_not_update_notification_contact_number != null){
       this.instituteSettingDet.enable_exam_marks_not_update_notification.other = true;
     }
+    this.instituteSettingDet.vat_percentage=data.cgst+data.sgst;
   }
 
 
@@ -1017,5 +1024,10 @@ export class InstituteSettingsComponent implements OnInit {
       }
     )
   }
-
+  calculateCGSTAndSGSTFromVat(data){
+    if(this.instituteTaxType=='Vat'){
+     data.cgst=Math.floor(this.instituteSettingDet.vat_percentage/2);
+     data.sgst=this.instituteSettingDet.vat_percentage-data.cgst;
+    }
+    }
 }

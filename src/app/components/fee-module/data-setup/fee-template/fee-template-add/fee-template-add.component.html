@@ -120,7 +120,9 @@
             <input type="number" min="0" class="side-form-ctrl" [(ngModel)]="addNewTemplate.fee_amount" (keyup)="onAmountKeyUp()" name="feeAmount">
           </div>
 
-          <div class="question-wrapper" *ngIf="enableTaxOptions == '1' && addNewTemplate.country_id=='1' ">
+          <!-- <div class="question-wrapper" *ngIf="enableTaxOptions == '1' && addNewTemplate.country_id=='1' "> -->
+              <div class="question-wrapper" *ngIf="enableTaxOptions == '1' ">
+
             <fieldset>
               <legend>
                 <div class="question">
@@ -130,12 +132,12 @@
               <div class="field-radio-wrapper">
                 <input type="radio" name="inclusive" class="form-radio" [(ngModel)]="addNewTemplate.tax_type" (ngModelChange)="onTaxTypeChanges($event)"
                   value="inclusive" id="idInclusive">
-                <label for="idInclusive">Inclusive Of Tax</label>
+                <label for="idInclusive">Inclusive Of {{tax_type_without_percentage}}</label>
               </div>
               <div class="field-radio-wrapper">
                 <input type="radio" name="exclusive" class="form-radio" [(ngModel)]="addNewTemplate.tax_type" (ngModelChange)="onTaxTypeChanges($event)"
                   value="exclusive" id="idExclusive">
-                <label for="idExclusive">Exclusive Of Tax</label>
+                <label for="idExclusive">Exclusive Of {{tax_type_without_percentage}}</label>
               </div>
             </fieldset>
           </div>
@@ -156,14 +158,15 @@
           </div> -->
 
           <div class="spanSection">
-            <span *ngIf="enableTaxOptions == '1'&& addNewTemplate.country_id=='1'" class="">Tax Amount :
+           <!-- <span *ngIf="enableTaxOptions == '1'&& addNewTemplate.country_id=='1'" class="">{{tax_type_without_percentage}} Amount : -->
+            <span *ngIf="enableTaxOptions == '1'" class="">{{tax_type_without_percentage}} Amount :
               <span *ngIf="selectedCountry">
-                <img src="{{selectedCountry?.currency_symbol}}" style="max-height: 12px" />
+               <!-- <img src="{{selectedCountry?.currency_symbol}}" style="max-height: 12px" /> -->
               </span> {{addNewTemplate.tax_amount}}</span>
             <br>
             <span class="">Total Fees :
               <span *ngIf="selectedCountry">
-                <img style="" src="{{selectedCountry?.currency_symbol}}" style="max-height: 12px" />
+                <!-- <img style="" src="{{selectedCountry?.currency_symbol}}" style="max-height: 12px" /> -->
               </span>{{addNewTemplate.total_fee}}</span>
           </div>
 
@@ -197,17 +200,22 @@
                   <th>Trigger Date</th>
                   <th>No.(Days/Months)</th>
                   <th>Country </th>
-                  <th  *ngIf="addNewTemplate.country_id=='1'">Fees Amount
+                  <!-- <th  *ngIf="addNewTemplate.country_id=='1'">Fees Amount -->
+                      <th>Fees Amount
+
                     <span *ngIf="selectedCountry">(
                       <img src="{{selectedCountry?.currency_symbol}}" style="max-height: 9px" />)</span>
                   </th>
-                  <th *ngIf="addNewTemplate.country_id=='1'">Tax
+                 <!-- <th *ngIf="addNewTemplate.country_id=='1'">{{tax_type_without_percentage}} -->
+
+                  <th *ngIf="enableTaxOptions=='1'">{{tax_type_without_percentage}}
                     <span *ngIf="selectedCountry">
                       (
                       <img src="{{selectedCountry?.currency_symbol}}" style="max-height: 9px" />)</span>
                   </th>
-                  <th>Fees Amount
-                    <span *ngIf="addNewTemplate.country_id=='1'"> (Incl Tax)</span>
+                  <th *ngIf="enableTaxOptions=='1'">Fees Amount
+                    <!--   <span *ngIf="addNewTemplate.country_id=='1'"> (Incl {{tax_type_without_percentage}})</span> -->
+                    <span > (Incl {{tax_type_without_percentage}})</span>
                     <span *ngIf="selectedCountry">
                       (
                       <img src="{{selectedCountry?.currency_symbol}}" style="max-height: 9px" />)</span>
@@ -243,13 +251,16 @@
                       </select>
                     </div>
                   </td>
-                  <td  *ngIf="addNewTemplate.country_id=='1'">
+                 <!-- <td  *ngIf="addNewTemplate.country_id=='1'"> -->
+
+                  <td *ngIf="enableTaxOptions=='1'">
                     <div class="form-wrapper">
                       <input type="number" style="background: transparent" min="0" [readonly]="addNewTemplate.tax_type == 'inclusive'" class="editCellInput side-form-ctrl"
                         [(ngModel)]="row.initial_fee_amount" (ngModelChange)="userChangedInitialAmount(row ,$event)" name="label">
                     </div>
                   </td>
-                  <td *ngIf="addNewTemplate.country_id=='1'"x>
+                   <!-- <td  *ngIf="addNewTemplate.country_id=='1'"> -->
+                  <td *ngIf="enableTaxOptions=='1'">
                     <div class="form-wrapper">
                       <input type="number" min="0" readonly="true" class="editCellInput side-form-ctrl" style="background: transparent" [ngModel]='row.tax'
                         name="label">
@@ -316,15 +327,19 @@
               </select>
             </div>
           </div>
-          <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="addNewTemplate.country_id!='1'">
+        <!--  <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="addNewTemplate.country_id!='1'"> -->
+
+          <!-- <div class="c-sm-3 c-md-3 c-lg-3" >
             <div class="c-sm-5 c-md-5 c-lg-5 form-wrapper has-value">
               <label for="slotNew">Fee Amount
               </label>
               <input type="number" style="background: transparent;" min="0" class="side-form-ctrl" [(ngModel)]="additionalInstallment.initial_fee_amount"
                 name="slotNew">  
             </div>
-          </div>
-          <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="addNewTemplate.country_id=='1'">
+          </div> -->
+         <!-- <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="addNewTemplate.country_id=='1'"> -->
+
+          <div class="c-sm-3 c-md-3 c-lg-3" >
             <div class="row">
               <div class="c-sm-5 c-md-5 c-lg-5 form-wrapper has-value" style=" width: 40%;">
                 <label for="slotNew">Fee Amount
@@ -332,8 +347,8 @@
                 <input type="number" style="background: transparent;" min="0" class="side-form-ctrl" [(ngModel)]="additionalInstallment.initial_fee_amount"
                   name="slotNew">  
               </div>
-              <div class="c-sm-7 c-md-7 c-lg-7  form-wrapper has-value"  style=" width: 60%;" >
-                <label for="slotNew">Tax Applicable (%)
+              <div class="c-sm-7 c-md-7 c-lg-7  form-wrapper has-value"  style=" width: 60%;" *ngIf="enableTaxOptions=='1'" >
+                <label for="slotNew">{{tax_type_without_percentage}} Applicable (%)
                 </label>
                 <input type="number" min="0"  disabled class="side-form-ctrl disable_input" [(ngModel)]="additionalInstallment.service_tax"
                   name="slotNew">
@@ -354,10 +369,14 @@
                   <th>Trigger Date</th>
                   <th>No.(Days/Months)Due Date</th>
                   <th>Country </th>
-                  <th *ngIf="addNewTemplate.country_id=='1'">Amount</th>
-                  <th *ngIf="addNewTemplate.country_id=='1'">Tax</th>
+                  <!-- <th *ngIf="addNewTemplate.country_id=='1'">Amount</th>
+                  <th *ngIf="addNewTemplate.country_id=='1'">{{tax_type_without_percentage}}</th>
                   <th *ngIf="addNewTemplate.country_id!='1'">Fee Amount</th>
-                  <th *ngIf="addNewTemplate.country_id=='1'">Fee Amount Incl Tax</th>
+                  <th *ngIf="addNewTemplate.country_id=='1'">Fee Amount Incl {{tax_type_without_percentage}}</th> -->
+                  <th> Fee Amount</th>
+                  <th *ngIf="enableTaxOptions=='1'">{{tax_type_without_percentage}}</th>
+                  <!-- //<th>Fee Amount</th> -->
+                  <th *ngIf="enableTaxOptions=='1'">Fee Amount Incl {{tax_type_without_percentage}}</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -390,13 +409,16 @@
                       </select>
                     </div>
                   </td>
-                  <td *ngIf="addNewTemplate.country_id=='1'">
+                  <!-- <td *ngIf="addNewTemplate.country_id=='1'"> -->
+                      <td >
                     <div class="form-wrapper">
                       <input type="number" min="0" style="background: transparent" readonly="true" class="editCellInput side-form-ctrl" [(ngModel)]="row.initial_fee_amount"
                         name="label">
                     </div>
                   </td>
-                  <td *ngIf="addNewTemplate.country_id=='1'">
+                  <!-- <td *ngIf="addNewTemplate.country_id=='1'"> -->
+                      <td>
+
                     <div class="form-wrapper">
                       <input type="number" min="0" style="background: transparent" readonly="true" class="editCellInput side-form-ctrl" [ngModel]='row.fees_amount - row.initial_fee_amount'
                         name="label">
