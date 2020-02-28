@@ -1,7 +1,7 @@
-<link href="https://fonts.googleapis.com/css?family=Dancing+Script|IM+Fell+Great+Primer:400i|Pinyon+Script|Rouge+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Dancing+Script|IM+Fell+Great+Primer:400i|Pinyon+Script|Rouge+Script&display=swap"
+    rel="stylesheet">
 
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'"
-    *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 
 <section class="middle-section clearFix">
@@ -20,8 +20,7 @@
                 <a id="student_download" class="hide"></a>
                 <div class="btn-container">
                     <div class="btn-item">
-                        <p-splitButton label="{{selectedRowCount}} Student Selected" [model]="bulkActionItems"
-                            *ngIf="selectedRowCount != 0"></p-splitButton>
+                        <p-splitButton label="{{selectedRowCount}} Student Selected" [model]="bulkActionItems" *ngIf="selectedRowCount != 0"></p-splitButton>
                     </div>
                     <div class="btn-item">
                         <button type="button" class="btn pull-right" name="button" routerLink='./add'>
@@ -36,32 +35,29 @@
                         </button>
                         <div class="more-info-container" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
 
-                            <div class="more-info-item hand_icon" routerLink='/view/students/bulk' >
-                                <a >
-                                    <img src="../../../../assets/images/students/Student_upload.svg" alt="">  Upload
-                                    Student
+                            <div class="more-info-item hand_icon" routerLink='/view/students/bulk'>
+                                <a>
+                                    <img src="../../../../assets/images/students/Student_upload.svg" alt=""> Upload Student
                                 </a>
                             </div>
                             <div class="more-info-item hand_icon" (click)="downloadAllStudent()" *ngIf="downloadStudentReportAccess">
-                                    <a >
-                                        <img src="../../../../assets/images/students/Export.svg" alt="">  Export
-                                    </a>
-                                </div>
-                            <div class="more-info-item hand_icon" routerLink='/view/students/openUser' >
                                 <a>
-                                    <img src="../../../../assets/images/students/Open_user.svg" alt="">  Open User
+                                    <img src="../../../../assets/images/students/Export.svg" alt=""> Export
                                 </a>
                             </div>
-                            <div class="more-info-item hand_icon" routerLink='/view/students/archived_student' >
+                            <div class="more-info-item hand_icon" routerLink='/view/students/openUser'>
                                 <a>
-                                    <img src="../../../../assets/images/students/Student_archived.svg" alt="">  Archived Student
+                                    <img src="../../../../assets/images/students/Open_user.svg" alt=""> Open User
                                 </a>
                             </div>
-                            <div class="more-info-item hand_icon" routerLink='/view/students/archived_status'
-                                style="border-bottom: none;">
+                            <div class="more-info-item hand_icon" routerLink='/view/students/archived_student'>
                                 <a>
-                                    <img src="../../../../assets/images/students/Archived_reports.svg" alt="">  Archived Student
-                                    Report
+                                    <img src="../../../../assets/images/students/Student_archived.svg" alt=""> Archived Student
+                                </a>
+                            </div>
+                            <div class="more-info-item hand_icon" routerLink='/view/students/archived_status' style="border-bottom: none;">
+                                <a>
+                                    <img src="../../../../assets/images/students/Archived_reports.svg" alt=""> Archived Student Report
                                 </a>
                             </div>
                         </div>
@@ -82,34 +78,25 @@
                     <div class="filter-box clearFix">
                         <div class="c-lg-8 c-md-8 c-sm-8">
                             <div id="basic-search" class="search-filter-wrapper">
-                                <input #search type="text" class="normal-field"
-                                    placeholder="Search By Student Name/Contact No."
-                                    style="font-size:12px; margin: 0px 5px 0px -5px;" [(ngModel)]="searchBarData"
-                                    name="searchData" (keyup.enter)="searchDatabase()">
-                                <input type="button" class="btn normal-btn fullBlue" value="Search"
-                                    (click)="searchDatabase()" />
+                                <input #search type="text" class="normal-field" placeholder="Search By Student Name/Contact No." style="font-size:12px; margin: 0px 5px 0px -5px;"
+                                    [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
+                                <input type="button" class="btn normal-btn fullBlue" value="Search" (click)="searchDatabase()" />
                             </div>
                         </div>
 
                         <!-- Advance Filter Trigger -->
                         <div class="c-lg-4 c-md-4 c-sm-4" style="z-index: 5;">
                             <div class="filter-right" style="float: right;">
-                                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()"
-                                    class="openAdFilter">Advance Filter
+                                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advance Filter
                                 </a>
-                                <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide"
-                                    (click)="closeAdFilter()">
+                                <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide" (click)="closeAdFilter()">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
                                         <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
-                                            <g id="Group_1213" data-name="Group 1213"
-                                                transform="translate(34.189 -7.77)">
-                                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
-                                                    transform="translate(992.81 305.77) rotate(45)" />
-                                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
-                                                    transform="translate(978.81 305.77) rotate(45)" />
+                                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
                                             </g>
-                                            <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16"
-                                                height="16" transform="translate(1012 297)" />
+                                            <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)" />
                                         </g>
                                     </svg>
                                     Close Advance Filter
@@ -118,181 +105,155 @@
                         </div>
                     </div>
 
-                    <div class="filter-fields hide"
-                        style="visibility: visible; opacity: 1;z-index: 5;border-radius: 4px;"
-                        id="advanced-filter-section">
+                    <div class="filter-fields hide" style="visibility: visible; opacity: 1;z-index: 5;border-radius: 4px;" id="advanced-filter-section">
 
                         <div class="filter-wrapper">
 
                             <div class="row">
-                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
-                                <div class="field-wrapper"
-                                    [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
-                                    <label for="masterCourse">Master Course</label>
-                                    <select id="masterCourse" name="masterCourse"
-                                        [(ngModel)]="advancedFilterForm.standard_id"
-                                        (ngModelChange)="fetchCourseForMaster($event)" class="form-ctrl">
-                                        <option value="-1"></option>
-                                        <option [value]="std.standard_id" *ngFor="let std of standardList">
-                                            {{std.standard_name}}
-                                        </option>
-                                    </select>
+                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+                                    <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
+                                        <label for="masterCourse">Master Course</label>
+                                        <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
+                                            class="form-ctrl">
+                                            <option value="-1"></option>
+                                            <option [value]="std.standard_id" *ngFor="let std of standardList">
+                                                {{std.standard_name}}
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
-                                <div class="field-wrapper"
-                                    [ngClass]="{'has-value': advancedFilterForm.subject_id != '-1'}">
-                                    <label for="course">Course</label>
-                                    <select id="course" name="course" [(ngModel)]="advancedFilterForm.subject_id"
-                                        class="form-ctrl">
-                                        <option value="-1"></option>
-                                        <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
-                                            {{subject.subject_name}}
-                                        </option>
-                                    </select>
+                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+                                    <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.subject_id != '-1'}">
+                                        <label for="course">Course</label>
+                                        <select id="course" name="course" [(ngModel)]="advancedFilterForm.subject_id" class="form-ctrl">
+                                            <option value="-1"></option>
+                                            <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
+                                                {{subject.subject_name}}
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
-                                <div class="field-wrapper"
-                                    [ngClass]="{'has-value': advancedFilterForm.batch_id != '-1'}">
-                                    <label for="batch">Batch</label>
-                                    <select id="batch" name="batch" [(ngModel)]="advancedFilterForm.batch_id"
-                                        class="form-ctrl">
-                                        <option value="-1"></option>
-                                        <option [value]="b.batch_id" *ngFor="let b of batchList">
-                                            {{b.batch_name}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
-                                <div class="field-wrapper"
-                                    [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
-                                    <label for="school">Institutional/Custom2</label>
-                                    <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id"
-                                        class="form-ctrl">
-                                        <option value="-1"></option>
-                                        <option [value]="sch.school_id" *ngFor="let sch of schoolList">
-                                            {{sch.school_name}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
-                                <div class="field-wrapper"
-                                    [ngClass]="{'has-value': advancedFilterForm.language_inst_status != '-1'}">
-                                    <label for="status">Status</label>
-                                    <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status"
-                                        class="form-ctrl">
-                                        <option value="-1"></option>
-                                        <option [value]="stdst.data_key" *ngFor="let stdst of studentStatusList">
-                                            {{stdst.data_value}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
-                                <div id="slotwrapper" class="field-wrapper"
-                                    (click)="multiselectVisible($event.target.id)">
-                                    <label for="assignCourses">Slots</label>
-                                    <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots"
-                                        class="form-ctrl" readonly="true" />
-                                </div>
-                                <div id="slotmulti" class="hide multiselect-wrapper"
-                                    (mouseleave)="multiselectVisible('slot')">
-                                    <div class="multiselect-wrapper-inner">
-                                        <ul class="">
-                                            <li *ngFor="let slot of slots">
-                                                <div class="field-checkbox-wrapper">
-                                                    <input type="checkbox" id="{{slot.label}}" value=""
-                                                        name="{{slot.label}}" [(ngModel)]="slot.status"
-                                                        (ngModelChange)="updateSlotSelected(slot)"
-                                                        class="form-checkbox">
-                                                    <label for="{{slot.label}}">{{slot.label}}</label>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+                                    <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.batch_id != '-1'}">
+                                        <label for="batch">Batch</label>
+                                        <select id="batch" name="batch" [(ngModel)]="advancedFilterForm.batch_id" class="form-ctrl">
+                                            <option value="-1"></option>
+                                            <option [value]="b.batch_id" *ngFor="let b of batchList">
+                                                {{b.batch_name}}
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
+                            <div class="row">
+                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+                                    <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
+                                        <label for="school">Institutional/Custom2</label>
+                                        <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id" class="form-ctrl">
+                                            <option value="-1"></option>
+                                            <option [value]="sch.school_id" *ngFor="let sch of schoolList">
+                                                {{sch.school_name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+                                    <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.language_inst_status != '-1'}">
+                                        <label for="status">Status</label>
+                                        <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
+                                            <option value="-1"></option>
+                                            <option [value]="stdst.data_key" *ngFor="let stdst of studentStatusList">
+                                                {{stdst.data_value}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+                                    <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                                        <label for="assignCourses">Slots</label>
+                                        <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
+                                    </div>
+                                    <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
+                                        <div class="multiselect-wrapper-inner">
+                                            <ul class="">
+                                                <li *ngFor="let slot of slots">
+                                                    <div class="field-checkbox-wrapper">
+                                                        <input type="checkbox" id="{{slot.label}}" value="" name="{{slot.label}}" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)"
+                                                            class="form-checkbox">
+                                                        <label for="{{slot.label}}">{{slot.label}}</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <!-- non professional/ academic -->
+                            <div class="row" *ngIf="!isProfessional">
+                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
+                                    <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
+                                        <label for="standard">Standard</label>
+                                        <select id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
+                                            class="form-ctrl" [disabled]="advancedFilterForm.master_course_name!=-1" [ngStyle]="{'cursor':advancedFilterForm.master_course_name!=-1?'no-drop':'pointer'}">
+                                            <option value="-1"></option>
+                                            <option [value]="std.standard_id" title="{{std.standard_name}}" *ngFor="let std of standardList">
+                                                {{ (std.standard_name.length > 30) ? (std.standard_name | slice:0:30) + '...' : std.standard_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
+                                    <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
+                                        <label for="masterCourse">Master Courses</label>
+                                        <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="updateSubCourse($event)"
+                                            class="form-ctrl" [disabled]="advancedFilterForm.standard_id!=-1" [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}">
+                                            <option value="-1"></option>
+                                            <option [value]="mc.master_course" *ngFor="let mc of masterCourseList" title="{{mc.master_course}}">
+                                                {{ (mc.master_course.length > 30) ? (mc.master_course | slice:0:30) + '...' : mc.master_course }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
+                                    <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
+                                        <label for="course">Course</label>
+                                        <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id" class="form-ctrl" [disabled]="advancedFilterForm.standard_id!=-1"
+                                            [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}">
+                                            <option value="-1"></option>
+                                            <option [value]="course.course_id" title="{{course.course_name}}" *ngFor="let course of subCourseList">
+                                                {{ (course.course_name.length > 30) ? (course.course_name| slice:0:30) + '...' :course.course_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
-                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
-                                <div class="field-wrapper"
-                                    [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
-                                    <label for="standard">Standard</label>
-                                    <select id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id"
-                                        (ngModelChange)="fetchCourseForMaster($event)" class="form-ctrl"
-                                        [disabled]="advancedFilterForm.master_course_name!=-1" [ngStyle]="{'cursor':advancedFilterForm.master_course_name!=-1?'no-drop':'pointer'}">
-                                        <option value="-1"></option>
-                                        <option [value]="std.standard_id" *ngFor="let std of standardList">
-                                            {{std.standard_name}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
+                                <div class="c-lg-4 c-md-4 c-sm-4">
+                                    <div class="field-wrapper datePickerBox">
+                                        <label>From Date</label>
+                                        <input type="text" class="form-ctrl" readonly="true" bsDatepicker [(ngModel)]="advancedFilterForm.doa_from_date">
+                                        <a (click)="advancedFilterForm.doa_from_date = ''" style="float:right;cursor: pointer;">Clear</a>
+                                    </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
-                                <div class="field-wrapper"
-                                    [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
-                                    <label for="masterCourse">Master Courses</label>
-                                    <select id="masterCourse" name="masterCourse"
-                                        [(ngModel)]="advancedFilterForm.master_course_name"
-                                        (ngModelChange)="updateSubCourse($event)" class="form-ctrl" [disabled]="advancedFilterForm.standard_id!=-1"  [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}">
-                                        <option value="-1"></option>
-                                        <option [value]="mc.master_course" *ngFor="let mc of masterCourseList">
-                                            {{mc.master_course}}
-                                        </option>
-                                    </select>
                                 </div>
-                            </div>
+                                <div class="c-lg-4 c-md-4 c-sm-4">
+                                    <div class="field-wrapper datePickerBox">
+                                        <label>To Date</label>
+                                        <input type="text" class="form-ctrl" readonly="true" bsDatepicker [(ngModel)]="advancedFilterForm.doa_to_date">
+                                        <a (click)="advancedFilterForm.doa_to_date = ''" style="float:right;cursor: pointer;">Clear</a>
+                                    </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
-                                <div class="field-wrapper"
-                                    [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
-                                    <label for="course">Course</label>
-                                    <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id"
-                                        class="form-ctrl" [disabled]="advancedFilterForm.standard_id!=-1" [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}">
-                                        <option value="-1"></option>
-                                        <option [value]="course.course_id" *ngFor="let course of subCourseList">
-                                            {{course.course_name}}
-                                        </option>
-                                    </select>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="c-lg-4 c-md-4 c-sm-4">
-                                <div class="field-wrapper datePickerBox">
-                                    <label>From Date</label>
-                                    <input type="text" class="form-ctrl" readonly="true" bsDatepicker
-                                        [(ngModel)]="advancedFilterForm.doa_from_date">
-                                    <a (click)="advancedFilterForm.doa_from_date = ''"
-                                        style="float:right;cursor: pointer;">Clear</a>
-                                </div>
-
-                            </div>
-                            <div class="c-lg-4 c-md-4 c-sm-4">
-                                <div class="field-wrapper datePickerBox">
-                                    <label>To Date</label>
-                                    <input type="text" class="form-ctrl" readonly="true" bsDatepicker
-                                        [(ngModel)]="advancedFilterForm.doa_to_date">
-                                    <a (click)="advancedFilterForm.doa_to_date = ''"
-                                        style="float:right;cursor: pointer;">Clear</a>
-                                </div>
-
-                            </div>
-                            <!-- <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
+                                <!-- <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.language_inst_status != '-1'}">
                                     <label for="status">Status</label>
                                     <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
@@ -303,116 +264,108 @@
                                     </select>
                                 </div>
                             </div> -->
-                            <div class="c-lg-4 c-md-4 c-sm-4">
-                                <div class="field-wrapper"
-                                    [class.has-value]="advancedFilterForm.is_active_status != ''">
-                                    <label for="status">Is Active</label>
-                                    <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter"
-                                        class="form-ctrl">
-                                        <option value=""></option>
-                                        <option value="1">Active</option>
-                                        <option value="2">Inactive</option>
-                                        <option value="3">Both</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
-                                <div class="field-wrapper"
-                                    [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
-                                    <label for="school">Institutional/Custom2</label>
-                                    <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id"
-                                        class="form-ctrl">
-                                        <option value="-1"></option>
-                                        <option [value]="sch.school_id" *ngFor="let sch of schoolList">
-                                            {{sch.school_name}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                            <custom-student class="c-lg-4 c-md-4 c-sm-4"
-                                [ngClass]="{'hide': component.is_searchable == 'N'}"
-                                *ngFor="let component of customComponents">
-                                <div class="row">
-                                <div class="" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
-                                    <div class="field-wrapper">
-                                        <label for="{{component.id}}">{{component.label}} </label>
-                                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value"
-                                            class="form-ctrl" name="component.label" />
-                                    </div>
-                                </div>
-
-                                <div class="" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
-                                    <br>
-                                    <div style="margin: 30px 0px;" class="field-checkbox-wrapper">
-                                        <input class="form-checkbox" id="{{component.id}}" type="checkbox"
-                                            [(ngModel)]="component.value" name="component.label" value="">
-                                        <label for="{{component.id}}">{{component.label}} </label>
-                                    </div>
-                                </div>
-
-                                <div class="" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
-                                    <div class="field-wrapper">
-                                        <label for="{{component.id}}">{{component.label}} </label>
-                                        <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value"
-                                            name="component.label">
+                                <div class="c-lg-4 c-md-4 c-sm-4">
+                                    <div class="field-wrapper" [class.has-value]="advancedFilterForm.is_active_status != ''">
+                                        <label for="status">Is Active</label>
+                                        <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-ctrl">
                                             <option value=""></option>
-                                            <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">
-                                                {{opt.data}}</option>
+                                            <option value="1">Active</option>
+                                            <option value="2">Inactive</option>
+                                            <option value="3">Both</option>
                                         </select>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
-                                    <div id="{{component.id}}wrapper" class="field-wrapper"
-                                        (click)="multiselectVisible($event.target.id)">
-                                        <label for="{{component.id}}">{{component.label}} </label>
-                                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString"
-                                            name="{{component.label}}" class="form-ctrl" readonly="true" />
-                                    </div>
-                                    <div id="{{component.id}}multi" class="hide multiselect-wrapper"
-                                        (mouseleave)="multiselectVisible(component.id)">
-                                        <div class="multiselect-wrapper-inner">
-                                            <ul class="">
-                                                <li *ngFor="let opt of component.prefilled_data">
-                                                    <div class="field-checkbox-wrapper">
-                                                        <input type="checkbox" value="" name="{{opt.data}}"
-                                                            [(ngModel)]="opt.checked"
-                                                            (ngModelChange)="updateMultiSelect(opt, component.id)"
-                                                            class="form-checkbox">
-                                                        <label for="{{component.id}}">{{opt.data}}</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
-                                    <div class="field-wrapper datePickerBox"
-                                        [ngClass]="{'has-value': component.value != 'Invalid date'}">
-                                        <label for="component.id">{{component.label}} </label>
-                                        <input type="text" value="" readonly="true" id="{{component.id}}"
-                                            [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
-                                            name="{{component.label}}" bsDatepicker />
+                            <div class="row" *ngIf="!isProfessional">
+                                <div class="c-lg-4 c-md-4 c-sm-4">
+                                    <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
+                                        <label for="school">Institutional/Custom2</label>
+                                        <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id" class="form-ctrl">
+                                            <option value="-1"></option>
+                                            <option [value]="sch.school_id" *ngFor="let sch of schoolList">
+                                                {{sch.school_name}}
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-                            </custom-student>
+
+
+                            <ng-template [ngIf]="true" *ngFor="let component of filterCustomComponent; let i= index;">
+                                <div class="row" *ngIf="checkCustomeComponentElement(i)">
+                                    <ng-template [ngIf]="true" *ngFor="let component of filterCustomComponent |slice:i:i+3">
+                                        <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
+                                            <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                                                <label for="{{component.id}}">{{component.label}} </label>
+                                                <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
+                                            <br>
+                                            <div style="margin: 30px 0px;" class="field-checkbox-wrapper">
+
+                                                <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
+                                                    value="">
+                                                <label for="{{component.id}}">{{component.label}} </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
+                                            <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                                                <label for="{{component.id}}">{{component.label}} </label>
+                                                <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
+                                                    <option value=""></option>
+                                                    <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
+                                            <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                                                <label for="{{component.id}}">{{component.label}} </label>
+                                                <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
+                                                    readonly="true" />
+
+                                            </div>
+                                            <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
+                                                <div class="multiselect-wrapper-inner">
+                                                    <ul class="">
+                                                        <li *ngFor="let opt of component.prefilled_data">
+                                                            <div class="field-checkbox-wrapper">
+
+                                                                <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
+                                                                    class="form-checkbox" id="{{opt.data}}">
+                                                                <label for="{{component.id}}">{{opt.data}}</label>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
+                                            <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                                                <label for="{{component.id}}">{{component.label}} </label>
+                                                <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
+                                                    name="{{component.label}}" bsDatepicker />
+
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </ng-template>
 
                             <div class="row adfilter-submitter">
                                 <div class="c-lg-12 c-md-12 c-sm-12">
                                     <div class="field-wrapper pull-left cancel">
-                                        <input style="font-size: 14px;" type="button" class="cancel-btn"
-                                            value="Clear Filter" (click)='clearAdvancedFilterForm()'>
+                                        <input style="font-size: 14px;" type="button" class="cancel-btn" value="Clear Filter" (click)='clearAdvancedFilterForm()'>
                                     </div>
                                     <div class="field-wrapper pull-left submit">
-                                        <input type="button" class="search-btn" value="Search"
-                                            (click)='advancedSearch()'>
+                                        <input type="button" class="search-btn" value="Search" (click)='advancedSearch()'>
                                     </div>
                                 </div>
                             </div>
@@ -433,11 +386,9 @@
                 <div class="row" id="student-table">
                     <div class="table-scroll-wrapper">
                         <div class="table table-responsive student-table">
-                            <ng-robTable [records]="studentDataSource" [defaultSort]="sortBy" [reset]="isSideBar"
-                                [tableName]="'student'" [settings]="StudentSettings"
-                                (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)"
-                                [dataStatus]="loading_message" [key1]="'isActive'" [primaryKey]="'student_id'"
-                                (rowIdArr)="getSelected($event)" (rowUserId)="getSelectedUserIDS($event)"
+                            <ng-robTable [records]="studentDataSource" [defaultSort]="sortBy" [reset]="isSideBar" [tableName]="'student'" [settings]="StudentSettings"
+                                (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="loading_message"
+                                [key1]="'isActive'" [primaryKey]="'student_id'" (rowIdArr)="getSelected($event)" (rowUserId)="getSelectedUserIDS($event)"
                                 (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
                             </ng-robTable>
                         </div>
@@ -447,10 +398,8 @@
                 <!-- Paginator Here -->
                 <div id="paginator" class="row filter-res pagination" style="width: 100%;">
                     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()"
-                            (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="PageIndex"
-                            [perPage]="studentdisplaysize" [count]="totalRow" [sizeArr]="sizeArr"
-                            (sizeChange)="updateTableBatchSize($event)">
+                        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                            [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)">
                         </pagination>
                     </div>
                 </div>
@@ -472,20 +421,18 @@
     <aside #mySidenav class="middle-full sidenav" [ngClass]="{'hide': !isSideBar}">
         <div id="student-side" class="sidewrapper">
             <a href="javascript:void(0)" class="closebtn" (click)="closeSideBar($event)">
-                <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet"
-                    class="artdeco-icon" focusable="false">
-                    <path
-                        d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
-                        class="large-icon" style="fill: currentColor"></path>
+                <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                    focusable="false">
+                    <path d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" class="large-icon"
+                        style="fill: currentColor"></path>
                 </svg>
             </a>
 
-            <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent"
-                [studentDetails]="studentDetailsById" (closeSide)="closeSideBar($event)"
-                (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)"
-                (leaveEvent)="markStudentLeave($event)" (editNotes)="openEditComment($event)"
-                (pdcEdit)="editFeePDCDetails($event)" (invEdit)="editInventory($event)" (downloadCertificate)="getCertificateData($event)"
-                (openCourseAssigned)="openAssignBatch($event)" (showToggleLoader)="showToggleLoader($event)">
+            <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent" [studentDetails]="studentDetailsById"
+                (closeSide)="closeSideBar($event)" (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)"
+                (leaveEvent)="markStudentLeave($event)" (editNotes)="openEditComment($event)" (pdcEdit)="editFeePDCDetails($event)"
+                (invEdit)="editInventory($event)" (downloadCertificate)="getCertificateData($event)" (openCourseAssigned)="openAssignBatch($event)"
+                (showToggleLoader)="showToggleLoader($event)">
             </student-sidebar>
         </div>
     </aside>
@@ -502,13 +449,11 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
                         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
-                                    transform="translate(992.81 305.77) rotate(45)" />
-                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
-                                    transform="translate(978.81 305.77) rotate(45)" />
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
                             </g>
-                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2"
-                                width="16" height="16" transform="translate(1012 297)" />
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                            />
                         </g>
                     </svg>
                 </span>
@@ -544,13 +489,11 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
                         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
-                                    transform="translate(992.81 305.77) rotate(45)" />
-                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
-                                    transform="translate(978.81 305.77) rotate(45)" />
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
                             </g>
-                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2"
-                                width="16" height="16" transform="translate(1012 297)" />
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                            />
                         </g>
                     </svg>
                 </span>
@@ -559,9 +502,8 @@
                     <div class="update-enquiry-form overflowHidden">
                         <div class="enquiry-update-history" style="max-height: max-content;">
                             <div class="field-wrapper">
-                                <textarea placeholder="Update Comment Here (max 1000 characters)" rows="1" cols="10"
-                                    style="height: 60px;" id="addcommentEdit" class="form-ctrl"
-                                    [(ngModel)]="selectedRow.comments">
+                                <textarea placeholder="Update Comment Here (max 1000 characters)" rows="1" cols="10" style="height: 60px;" id="addcommentEdit"
+                                    class="form-ctrl" [(ngModel)]="selectedRow.comments">
                                 </textarea>
                             </div>
                         </div>
@@ -590,13 +532,11 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
                         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
-                                    transform="translate(992.81 305.77) rotate(45)" />
-                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
-                                    transform="translate(978.81 305.77) rotate(45)" />
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
                             </g>
-                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2"
-                                width="16" height="16" transform="translate(1012 297)" />
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                            />
                         </g>
                     </svg>
                 </span>
@@ -633,8 +573,7 @@
                                                         {{getLeaveNumber(row)}}
                                                     </td>
                                                     <td>
-                                                        <a [ngClass]="{'hide' : showDeleteBtn(row)}"
-                                                            (click)="deletePerticularLeave(row)">Delete</a>
+                                                        <a [ngClass]="{'hide' : showDeleteBtn(row)}" (click)="deletePerticularLeave(row)">Delete</a>
                                                     </td>
                                                 </tr>
                                                 <tr *ngIf="leaveDataArray.length == 0">
@@ -650,18 +589,19 @@
                             <aside class="leave-add pull-right" style="margin-left: 0px;
                             margin-top: 0px;">
                                 <div class="field-wrapper datePickerBox c-md-6 has-value">
-                                    <label for="">Start Date<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker
-                                        required [(ngModel)]="applyLeave.start_date">
+                                    <label for="">Start Date
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required [(ngModel)]="applyLeave.start_date">
                                 </div>
                                 <div class="field-wrapper datePickerBox c-md-6 has-value">
-                                    <label for="">End Date<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker
-                                        required [(ngModel)]="applyLeave.end_date">
+                                    <label for="">End Date
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required [(ngModel)]="applyLeave.end_date">
                                 </div>
                                 <div class="field-wrapper c-md-12">
-                                    <textarea placeholder="Reason" rows="1" cols="1"
-                                        style="height: 150px;padding: 10px;margin-top: 30px;border: 1px solid #777;"
+                                    <textarea placeholder="Reason" rows="1" cols="1" style="height: 150px;padding: 10px;margin-top: 30px;border: 1px solid #777;"
                                         id="reason" class="form-ctrl" [(ngModel)]="applyLeave.reason">
                                     </textarea>
                                 </div>
@@ -693,13 +633,11 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
                         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
-                                    transform="translate(992.81 305.77) rotate(45)" />
-                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
-                                    transform="translate(978.81 305.77) rotate(45)" />
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
                             </g>
-                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2"
-                                width="16" height="16" transform="translate(1012 297)" />
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                            />
                         </g>
                     </svg>
                 </span>
@@ -710,45 +648,37 @@
 
                         <div class="marginTenPixel">
                             <div class="field-checkbox-wrapper">
-                                <input type="checkbox" value="" [(ngModel)]="sendNotification.loginMessageChkbx"
-                                    name="loginMessage" class="form-checkbox" id="loginMessage">
+                                <input type="checkbox" value="" [(ngModel)]="sendNotification.loginMessageChkbx" name="loginMessage" class="form-checkbox"
+                                    id="loginMessage">
                                 <label for="loginMessage">Send Login Message</label>
                             </div>
                         </div>
 
-                        <div id="divDeliveryOptions" *ngIf="!sendNotification.loginMessageChkbx"
-                            class="content-delivery marginTenPixel">
+                        <div id="divDeliveryOptions" *ngIf="!sendNotification.loginMessageChkbx" class="content-delivery marginTenPixel">
                             <h3>Delivery Mode</h3>
 
                             <div class="row marginTenPixel">
                                 <div id="" class="c-sm-4 c-md-4 c-lg-4">
                                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
-                                        <input type="checkbox" [(ngModel)]="sendNotification.smsChkbx" value=""
-                                            name="sms" class="form-checkbox" id="smsC">
+                                        <input type="checkbox" [(ngModel)]="sendNotification.smsChkbx" value="" name="sms" class="form-checkbox" id="smsC">
                                         <label for="smsC">SMS</label>
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
-                                        <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx"
-                                            name="mail" class="form-checkbox" id="mailC">
+                                        <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx" name="mail" class="form-checkbox" id="mailC">
                                         <label for="mailC">Mail</label>
                                     </div>
                                 </div>
                                 <div id="" class="c-sm-6 c-md-6 c-lg-6">
                                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                                        <input type="checkbox" [(ngModel)]="sendNotification.studentChkbx" value=""
-                                            name="student" class="form-checkbox" id="studentC">
+                                        <input type="checkbox" [(ngModel)]="sendNotification.studentChkbx" value="" name="student" class="form-checkbox" id="studentC">
                                         <label for="studentC">Student</label>
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                                        <input type="checkbox" value="" name="parent"
-                                            [(ngModel)]="sendNotification.parentChkbx" class="form-checkbox"
-                                            id="parentC">
+                                        <input type="checkbox" value="" name="parent" [(ngModel)]="sendNotification.parentChkbx" class="form-checkbox" id="parentC">
                                         <label for="parentC">Parent</label>
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                                        <input type="checkbox" value="" name="guardian"
-                                            [(ngModel)]="sendNotification.gaurdianChkbx" class="form-checkbox"
-                                            id="guardianC">
+                                        <input type="checkbox" value="" name="guardian" [(ngModel)]="sendNotification.gaurdianChkbx" class="form-checkbox" id="guardianC">
                                         <label for="guardianC">Guardian</label>
                                     </div>
                                 </div>
@@ -757,11 +687,8 @@
                             <div class="row marginTenPixel" *ngIf="sendNotification.emailChkbx == true">
 
                                 <div class="form-wrapper datepicker c-sm-6 c-xs-6">
-                                    <label for="subject"
-                                        style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
-                                    <input type="text" id="subject" name="subject" class="side-form-ctrl" value=""
-                                        placeholder=""
-                                        style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                                    <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
+                                    <input type="text" id="subject" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
                                         [(ngModel)]="sendNotification.subjectMessage" id="divSubjectMessage" />
                                 </div>
 
@@ -788,8 +715,7 @@
                                             <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
                                                 <td>
                                                     <div class="field-checkbox-wrapper">
-                                                        <input type="checkbox" class="form-checkbox"
-                                                            [(ngModel)]="row.assigned">
+                                                        <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
                                                         <label></label>
                                                     </div>
                                                 </td>
@@ -818,19 +744,15 @@
                             <div class="marginTenPixel">
                                 <div class="radio-options">
                                     <div class="field-radio-wrapper">
-                                        <input type="radio" [checked]="(loginField.checkBox == '0')"
-                                            [(ngModel)]="loginField.checkBox" value="0" name="student"
-                                            class="form-radio">
+                                        <input type="radio" [checked]="(loginField.checkBox == '0')" [(ngModel)]="loginField.checkBox" value="0" name="student" class="form-radio">
                                         <label for="student">Student Only</label>
                                     </div>
                                     <div class="field-radio-wrapper">
-                                        <input type="radio" [(ngModel)]="loginField.checkBox" value="1" name="parent"
-                                            class="form-radio">
+                                        <input type="radio" [(ngModel)]="loginField.checkBox" value="1" name="parent" class="form-radio">
                                         <label for="parent">Parent Only</label>
                                     </div>
                                     <div class="field-radio-wrapper">
-                                        <input type="radio" [(ngModel)]="loginField.checkBox" value="2" name="both"
-                                            class="form-radio">
+                                        <input type="radio" [(ngModel)]="loginField.checkBox" value="2" name="both" class="form-radio">
                                         <label for="both">Both</label>
                                     </div>
                                 </div>
@@ -839,8 +761,8 @@
                             <div class="marginTenPixel">
                                 <button class="btn" (click)="sendSmsForApp('1')">SMS For App Download</button>
                                 <button class="btn" (click)="sendSmsForApp('2')">SMS For App Upgradation</button>
-                                <button class="btn" (click)="sendSmsForApp('3')">SMS For Alternate Login
-                                    Registration</button>
+                                <button class="btn" (click)="sendSmsForApp('3')">SMS For Alternate Login Registration
+                                </button>
                                 <button class="btn" (click)="sendSmsForApp('4')">SMS Credentials</button>
                             </div>
                         </div>
@@ -857,38 +779,38 @@
 <!-- pop up -->
 <!-- Modal -->
 <div id="assignStandard" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+    <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Assign {{labelForAssignStandard}}</h4>
-      </div>
-      <div class="modal-body">
-        <div class="field-wrapper" style="width: 50%; padding-bottom: 10px;">
-          <label for="masterCourse">{{labelForAssignStandard}}</label>
-          <select id="masterCourse" name="masterCourse" [(ngModel)]="assignedStandard" class="form-ctrl">
-            <option value="-1">Select {{labelForAssignStandard}}</option>
-            <option [value]="std.standard_id" *ngFor="let std of standardList">
-                {{std.standard_name}}
-            </option>
-          </select>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Assign {{labelForAssignStandard}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="field-wrapper" style="width: 50%; padding-bottom: 10px;">
+                    <label for="masterCourse">{{labelForAssignStandard}}</label>
+                    <select id="masterCourse" name="masterCourse" [(ngModel)]="assignedStandard" class="form-ctrl">
+                        <option value="-1">Select {{labelForAssignStandard}}</option>
+                        <option [value]="std.standard_id" *ngFor="let std of standardList">
+                            {{std.standard_name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default" (click)="assignStandard()">Save</button>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-default" (click)="assignStandard()">Save</button>
-      </div>
-    </div>
 
-  </div>
+    </div>
 </div>
 
 <!-- =============== Assign Batch =============================== -->
-<student-batch-list *ngIf="isAssignBatch" [assignedBatches]="studentAddFormData.assignedBatches"
-    (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)" [dataList]="studentbatchList"
-    [isEdit]="isEdit" [countryId]="studentAddFormData.country_id" [standardList]="standardList" [academicYear]="academicYear">
+<student-batch-list *ngIf="isAssignBatch" [assignedBatches]="studentAddFormData.assignedBatches" (closeBatch)="closeBatchAssign($event)"
+    (assignList)="getassignedBatchList($event)" [dataList]="studentbatchList" [isEdit]="isEdit" [countryId]="studentAddFormData.country_id"
+    [standardList]="standardList" [academicYear]="academicYear">
 </student-batch-list>
 
 <!-- ======================================================== -->
@@ -898,13 +820,11 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
             <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                 <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
-                        transform="translate(992.81 305.77) rotate(45)" />
-                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
-                        transform="translate(978.81 305.77) rotate(45)" />
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
                 </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16"
-                    height="16" transform="translate(1012 297)" />
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                />
             </g>
         </svg>
     </span>
@@ -915,18 +835,15 @@
         <div style="overflow: hidden; font-weight: 600; font-size: 14px;">
             <div>
                 <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
-                    <input type="radio" class="form-radio" name="common" id="batch" [(ngModel)]="paymentMode"
-                        [value]="0">
+                    <input type="radio" class="form-radio" name="common" id="batch" [(ngModel)]="paymentMode" [value]="0">
                     <label for="batch">Student</label>
                 </div>
                 <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
-                    <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode"
-                        [value]="1">
+                    <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" [value]="1">
                     <label for="student">Parent</label>
                 </div>
                 <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
-                    <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode"
-                        [value]="2">
+                    <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" [value]="2">
                     <label for="student">Both</label>
                 </div>
             </div>
@@ -937,12 +854,9 @@
     <div class="" popup-footer>
         <div class="clearfix">
             <aside class="text-center popup-btn">
-                <input type="button" value="Download" style="font-size:12px; height: 30px;"
-                    (click)="studentFeeInstallment(-1)" class=" btn">
-                <input type="button" value="Send" style="font-size:12px; height: 30px;"
-                    (click)="studentFeeInstallment(1)" class=" btn">
-                <input type="button" value="Cancel" style="font-size:12px; height: 30px;" class="btn"
-                    (click)="isShareDetails=false">
+                <input type="button" value="Download" style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(-1)" class=" btn">
+                <input type="button" value="Send" style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(1)" class=" btn">
+                <input type="button" value="Cancel" style="font-size:12px; height: 30px;" class="btn" (click)="isShareDetails=false">
 
             </aside>
         </div>
@@ -952,74 +866,83 @@
 
 <div class="outer-container hide" id="dvContainer" #content>
     <div class="partner-logo-container" style="padding-bottom:0">
-      <img src="../../../../assets/images/certificate/google.svg" alt="google">
-      <img src="../../../../assets/images/certificate/iso.jpg" alt="google">
+        <img src="../../../../assets/images/certificate/google.svg" alt="google">
+        <img src="../../../../assets/images/certificate/iso.jpg" alt="google">
     </div>
     <div class="institute-name-container">
-    <div class="partner-logo-container" style="margin-left:45%;padding:0">
-  <img src="../../../../assets/images/certificate/Webtek_Logo.jpeg" alt="google">
-    </div>
-      <span>WebTek <span style="color:lightblue;">Labs</span> Pvt. Ltd. </span>
+        <div class="partner-logo-container" style="margin-left:45%;padding:0">
+            <img src="../../../../assets/images/certificate/Webtek_Logo.jpeg" alt="google">
+        </div>
+        <span>WebTek
+            <span style="color:lightblue;">Labs</span> Pvt. Ltd. </span>
     </div>
     <div class="certificate-title">
-      <span>Training Completion Certificate</span>
+        <span>Training Completion Certificate</span>
     </div>
     <div class="certificate-issuer-name">
-      <span><div style="width:25%;float:left">This is certify that Mr./Ms.</div><div class="data_content" style="width:29%;margin-left:25%"><span id="student_name" style="padding-right:43%;padding-left: 2px;">{{studentData.studentName}}</span></div></span>
-      <br>
-      <span>has successfully completed the Industry Oriented Training.</span>
+        <span>
+            <div style="width:25%;float:left">This is certify that Mr./Ms.</div>
+            <div class="data_content" style="width:29%;margin-left:25%">
+                <span id="student_name" style="padding-right:43%;padding-left: 2px;">{{studentData.studentName}}</span>
+            </div>
+        </span>
+        <br>
+        <span>has successfully completed the Industry Oriented Training.</span>
     </div>
     <div class="course-info-container">
-      <div class="course-info-item">
-      <div style="width:20%;float:left">
-        <span style="font-family: 'Pinyon Script', cursive;width:31%;color: black;font-size: 24px;">Course Name : </span></div>
-        <div class="data_content" style="display:flex;flex-direction:row;color: black;" *ngIf="isProfessional">
-        <span id="course_name">{{studentData.batchName}}</span>
+        <div class="course-info-item">
+            <div style="width:20%;float:left">
+                <span style="font-family: 'Pinyon Script', cursive;width:31%;color: black;font-size: 24px;">Course Name : </span>
+            </div>
+            <div class="data_content" style="display:flex;flex-direction:row;color: black;" *ngIf="isProfessional">
+                <span id="course_name">{{studentData.batchName}}</span>
+            </div>
+            <div class="data_content" style="display:flex;flex-direction:row;color: black;" *ngIf="!isProfessional">
+                <span id="course_name">{{studentData.courseName}}</span>
+            </div>
         </div>
-        <div class="data_content" style="display:flex;flex-direction:row;color: black;" *ngIf="!isProfessional">
-            <span id="course_name">{{studentData.courseName}}</span>
+        <div class="course-info-item">
+            <div style="width:20%;float:left">
+                <span style="font-family: 'Pinyon Script', cursive;width:31%;color: black;font-size: 24px;">Project Name : </span>
+            </div>
+            <div class="data_content" style="display:flex;flex-direction:row;color: black;">
+                <span id="project_name">{{studentData.projectName}}</span>
+            </div>
         </div>
-      </div>
-      <div class="course-info-item">
-      <div style="width:20%;float:left">
-        <span style="font-family: 'Pinyon Script', cursive;width:31%;color: black;font-size: 24px;">Project Name : </span></div>
-        <div class="data_content" style="display:flex;flex-direction:row;color: black;">
-        <span id="project_name">{{studentData.projectName}}</span>
-        </div>
-      </div>
-      <div class="course-info-item">
+        <div class="course-info-item">
 
-        <div style="width: 20%; float:left;color: black;">
-          <span style="font-family: 'Pinyon Script', cursive;width:31%;">Training Date : </span>
+            <div style="width: 20%; float:left;color: black;">
+                <span style="font-family: 'Pinyon Script', cursive;width:31%;">Training Date : </span>
+            </div>
+            <div style="width: 22%; float:left;border-bottom: 1px solid black;font-size:16px;margin-top: 3px;min-height: 20px;color: black;">
+                <span id="start_date">{{studentData.dateFrom}}</span>
+            </div>
+            <div style="width: 6%; float:left;color: black;">
+                <span style="font-family: 'Pinyon Script', cursive;">&nbsp;To : </span>
+            </div>
+            <div style="width: 22%; float:left;border-bottom: 1px solid black;font-size:16px;margin-top: 3px;min-height: 20px;color: black;">
+                <span id="end_date">{{studentData.dateTo}}</span>
+            </div>
         </div>
-        <div style="width: 22%; float:left;border-bottom: 1px solid black;font-size:16px;margin-top: 3px;min-height: 20px;color: black;">
-          <span id="start_date">{{studentData.dateFrom}}</span>
+        <div class="course-info-item" style="width:100%">
+            <div style="width:20%;float:left">
+                <span style="font-family: 'Pinyon Script', cursive;width:31%;color: black;font-size: 24px;">training Location : </span>
+            </div>
+            <div class="data_content" style="display:flex;flex-direction:row;color: black;">
+                <span id="location">{{studentData.trainingLocation}}</span>
+            </div>
         </div>
-        <div style="width: 6%; float:left;color: black;">
-          <span style="font-family: 'Pinyon Script', cursive;">&nbsp;To : </span>
-        </div>
-        <div style="width: 22%; float:left;border-bottom: 1px solid black;font-size:16px;margin-top: 3px;min-height: 20px;color: black;">
-              <span id="end_date">{{studentData.dateTo}}</span>
-        </div>
-      </div>
-      <div class="course-info-item" style="width:100%">
-      <div style="width:20%;float:left">
-        <span style="font-family: 'Pinyon Script', cursive;width:31%;color: black;font-size: 24px;">training Location : </span></div>
-        <div class="data_content" style="display:flex;flex-direction:row;color: black;">
-        <span id="location">{{studentData.trainingLocation}}</span>
-        </div>
-      </div>
     </div>
     <div class="logos-container">
-      <img src="../../../../assets/images/certificate/oracle.svg" alt="oracle">
-      <img src="../../../../assets/images/certificate/Workforce.jpeg" alt="ssc" style="width: 110px;">
-      <img src="../../../../assets/images/certificate/istqb.svg" alt="istqb">
-      <img src="../../../../assets/images/certificate/nsdc.svg" alt="nsdc" style="width: 110px;">
-      <img src="../../../../assets/images/certificate/ssc.svg" alt="ssc">
+        <img src="../../../../assets/images/certificate/oracle.svg" alt="oracle">
+        <img src="../../../../assets/images/certificate/Workforce.jpeg" alt="ssc" style="width: 110px;">
+        <img src="../../../../assets/images/certificate/istqb.svg" alt="istqb">
+        <img src="../../../../assets/images/certificate/nsdc.svg" alt="nsdc" style="width: 110px;">
+        <img src="../../../../assets/images/certificate/ssc.svg" alt="ssc">
     </div>
     <div class="sign-container" style="margin-left: 5%;">
-      <div class="sign-item" style="margin-left: 0;">
-        <span>www.webteklabs.com</span>
+        <div class="sign-item" style="margin-left: 0;">
+            <span>www.webteklabs.com</span>
+        </div>
     </div>
-  </div>
-  </div>
+</div>

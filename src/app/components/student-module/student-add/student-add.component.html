@@ -347,7 +347,7 @@
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper" *ngIf="isAcad">
+                <div class="field-wrapper" *ngIf="!isProfessional">
                   <label for="standard">Standard</label>
 
                   <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard" class="form-ctrl">
@@ -358,7 +358,7 @@
                   </select>
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto" *ngIf="isAcad" (click)="openAssignBatch()">
+                <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto" *ngIf="!isProfessional" (click)="openAssignBatch()">
                   <label for="assignCourses"> </label>
                   <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" [ngModel]="assignedBatchString"
                     placeholder="Assign Courses" id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
@@ -1377,8 +1377,9 @@
   </proctur-popup>
   <!-- ======================================================== -->
   <!-- ========================User Selects a Template here================================ -->
-  <!-- =============== Configure Fees =============================== -->
-  <proctur-popup *ngIf="isConfigureFees">
+  <!-- =============== Configure Fees  =============================== -->
+  <!-- commented by laxmi -21-02-20 -->
+  <!-- <proctur-popup *ngIf="isConfigureFees">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeConfigureFees($event)" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -1435,15 +1436,13 @@
       </div>
     </div>
 
-  </proctur-popup>
-
-
+  </proctur-popup> -->
   <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)">
   </app-add-city-area>
   <!-- ======================================================== -->
   <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->
-  <student-fee-table *ngIf="isDefineFees" [countryDetails]="instituteCountryDetObj" [academicListData]="academicList" [courseDropdown]="courseDropdown"
+  <student-fee-table *ngIf="isDefineFees" [countryDetails]="instituteCountryDetObj" [academicListData]="academicYear" [courseDropdown]="courseDropdown"
     (closePopup)="closeAllFeePops($event)" [feeTemplateData]="feeTemplateById" [studentName]="studentName" [student_id]="student_id">
   </student-fee-table>
   <!-- ======================================================== -->

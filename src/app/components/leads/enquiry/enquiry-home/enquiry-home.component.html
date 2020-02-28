@@ -437,19 +437,18 @@
               </div>
             </div> -->
             <!--enquiry Custom Component -->
-              <ng-template [ngIf]="true" *ngFor="let component of customComponents; let i= index">
+              <ng-template [ngIf]="true" *ngFor="let component of filterCustomComponent; let i= index;">
                 <div class="row" *ngIf="checkCustomeComponentElement(i)">
-                  <ng-template [ngIf]="true" *ngFor="let component of customComponents |slice:i:i+3">
-                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
+                  <ng-template [ngIf]="true" *ngFor="let component of filterCustomComponent |slice:i:i+3">
+                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1" input-def>
                       <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
                         <label for="{{component.id}}">{{component.label}} </label>
                         <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
                         />
-
                       </div>
                     </div>
 
-                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
+                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2" input-def>
                       <br>
                       <div class="field-checkbox-wrapper">
 
@@ -459,7 +458,7 @@
                       </div>
                     </div>
 
-                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
+                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3" input-def>
                       <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
                         <label for="{{component.id}}">{{component.label}} </label>
                         <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
@@ -470,7 +469,7 @@
                       </div>
                     </div>
 
-                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
+                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 " input-def>
                       <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                         <label for="{{component.id}}">{{component.label}} </label>
                         <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
@@ -493,7 +492,7 @@
                       </div>
                     </div>
 
-                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
+                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 " input-def>
                       <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
                         <label for="{{component.id}}">{{component.label}} </label>
                         <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
