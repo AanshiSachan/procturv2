@@ -288,6 +288,8 @@ export class StudentAddComponent implements OnInit {
   country_id: number = null;
   category_id: number | string = "";
   selectedFiles: any[] = [];
+  tax_type_without_percentage : String;
+  isTaxEnable: boolean = false;
 
   // state and city list
   addArea: boolean = false;
@@ -318,6 +320,9 @@ export class StudentAddComponent implements OnInit {
   ngOnInit() {
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
     this.isRippleLoad = true
+    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
+    this.isTaxEnable = sessionStorage.getItem('enable_tax_applicable_fee_installments')=="1"?true:false;
+     
     this.fetchPrefillFormData();
 
     if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {

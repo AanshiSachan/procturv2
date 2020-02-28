@@ -89,7 +89,8 @@ export class ChequeManageComponent implements OnInit {
     },
     displayMessage: "Enter Detail to Search"
   };
-
+isTaxEnabled : boolean ;
+tax_type_without_percentage : String;
   constructor(
     private getter: getCheque,
     private excelService: ExcelService,
@@ -116,6 +117,8 @@ export class ChequeManageComponent implements OnInit {
       this.setDefaultValues();
     }
     this.checkDownloadRoleAccess();
+    this.isTaxEnabled=sessionStorage.getItem('enable_tax_applicable_fee_installments')=="1"?true:false;
+    this.tax_type_without_percentage=sessionStorage.getItem('tax_type_without_percentage');
   }
 
   checkDownloadRoleAccess() {
