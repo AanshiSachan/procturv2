@@ -11,6 +11,7 @@ import { getEmailService } from '../../services/report-services/get-email.servic
 import { getSMSService } from '../../services/report-services/get-sms.service';
 import { postSMSService } from '../../services/report-services/post-sms.service';
 import { EventManagmentService } from '../../services/event-managment.service';
+import { HttpService } from '../../services/http.service';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { EventManagmentService } from '../../services/event-managment.service';
     ExamService,
     getEmailService,
     ActivityPtmService,
-    EventManagmentService
+    EventManagmentService,
+    HttpService
   ]
 })
 export class CommunicateModule { }
