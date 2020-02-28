@@ -1822,6 +1822,9 @@ export class EnquiryAddComponent implements OnInit {
     if (ev.split(' ')[0] != '') {
       this.hour = ev.split(' ')[0];
       this.meridian = ev.split(' ')[1];
+      if(this.minute == ""){
+        this.minute = this.minArr[1];
+      }
     }
     else {
       this.hour = '';

@@ -24,13 +24,13 @@
             <span class="edit-title">City Name </span>
             <span>{{ (!editrecord?.city) ? '-' : editrecord.city}}</span>
           </div>
-          <div class="edit-item field-wrapper" *ngIf="editrecord?.area">
+          <div class="edit-item field-wrapper">
             <span class="edit-title">Area Name </span>
-            <input type="text" name="" value="" [(ngModel)]="editrecord.area" placeholder="Enter area name" class="edit-area-item form-ctrl">
+            <input type="text" name="" value="" [(ngModel)]="editAreaName" placeholder="Enter area name" class="edit-area-item form-ctrl">
           </div>
-          <div class="edit-item field-checkbox-wrapper" style="width: 100px !important" *ngIf="editrecord?.is_active">
+          <div class="edit-item field-checkbox-wrapper" style="width: 100px !important">
             <span class="edit-title" style="width: 100%;">Is Active</span>
-            <input type="checkbox" id="active" value="" name="" class="form-checkbox" [(ngModel)]="editrecord.is_active_status">
+            <input type="checkbox" id="active" value="" name="" class="form-checkbox" [(ngModel)]="editIsActiveStatus">
               <label for="active"></label>
           </div>
         </div>
@@ -38,6 +38,32 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-default" (click)="updateArea()">Update</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="deleteModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="alert-title-container">
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+          <h4 class="modal-title">Alert</h4>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="msg-container">
+          <span>Are you sure you want to delete it?</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No, cancel!</button>
+        <button type="button" class="btn btn-default delete-btn" (click)="deleteArea()">Yes, delete it!</button>
       </div>
     </div>
 
@@ -126,15 +152,15 @@
               <span title="{{record?.city}}" >{{ (!record.city) ? '-' : (record.city.length > 20) ? (record.city | slice:0:20) + '...' : record.city}}</span>
             </div>
             <div class="table-value-item large">
-              <span title="{{record?.area}}">{{ (!record.area) ? '-' : (record.area.length > 40) ? (record.area | slice:0:40) + '...' : record.area }}</span>
+              <span title="{{record?.area}}">{{ (!record.area) ? '-' : (record.area.length > 50) ? (record.area | slice:0:50) + '...' : record.area }}</span>
             </div>
             <div class="table-value-item align-center medium">
               <span *ngIf="record?.is_active == 'Y'">Active</span>
-              <span *ngIf="record?.is_active == 'N'" style="color: red;">Non-Active</span>
+              <span *ngIf="record?.is_active == 'N'" style="color: red;">In-Active</span>
             </div>
             <div class="table-value-item align-center medium">
               <i class="fa fa-pencil edit-lead" title="Edit Area" aria-hidden="true" (click)="editArea(record)" data-toggle="modal" data-target="#editCityArea"></i>
-              <i class="fa fa-trash delete-lead" title="Delete Area" (click)="deleteArea(record.id)"></i>
+              <i class="fa fa-trash delete-lead" title="Delete Area" aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="setDeleteAreaId(record.id)"></i>
             </div>
           </div>
           <div class="no-records" *ngIf="!countryStateAreaList.length && !jsonFlag.isRippleLoad">
