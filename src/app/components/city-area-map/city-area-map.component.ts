@@ -52,8 +52,8 @@ export class CityAreaMapComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchArea();
     this.getCountryList();
+    this.searchArea();
   }
 
 
