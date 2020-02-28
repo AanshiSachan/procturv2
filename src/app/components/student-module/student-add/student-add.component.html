@@ -1262,39 +1262,39 @@
             </thead>
             <tbody>
               <tr *ngFor="let sch of instituteList">
-                <td>
+                <td  style="width: 15%;">
                   {{sch.school_id}}
                 </td>
 
-                <td *ngIf="!sch.edit">
+                <td *ngIf="!sch.edit"  style="width: 65%;">
                   <div class="inst-name" style="text-align: left;">
                     {{sch.school_name}}
                   </div>
                 </td>
 
-                <td *ngIf="sch.edit">
+                <td *ngIf="sch.edit"  style="width: 65%;">
                   <div class="field-wrapper has-value">
-                    <input type="text" [(ngModel)]="sch.school_name" class="form-ctrl" name="instituteName" />
+                    <input type="text" [(ngModel)]="sch.new_school_name" class="form-ctrl" name="instituteName" />
                   </div>
                 </td>
 
-                <td class="edit-view-btn" *ngIf="!sch.edit" style="width: 30%;">
+                <td class="edit-view-btn" *ngIf="!sch.edit">
                   <div class="" style="width: 50%;float: left;">
                     <a (click)="editInstitute(sch.school_id)" style="cursor:pointer">
-                      <i class="edit-icon cursor-icon" aria-hidden="true"></i>Edit
+                      <i class="cursor-icon fa fa-edit" aria-hidden="true" title="Edit"></i>
                     </a>
                   </div>
                   <div class="" style="width: 32%;float: left;">
-                    <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer">
-                      <i class="view-icon cursor-icon" aria-hidden="true"></i>Delete
+                    <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer;color: red;">
+                      <i class="view-icon cursor-icon fa fa-trash" title="Delete" aria-hidden="true"></i>
                     </a>
                   </div>
                 </td>
 
                 <td class="edit-view-btn" *ngIf="sch.edit">
-                  <div class="">
+                  <div class="" style="width: 30%;float: left;">
                     <a (click)="cancelEditInstitute(sch.school_id)" style="cursor:pointer">
-                      <i class="edit-icon" aria-hidden="true"></i>Cancel
+                      <i aria-hidden="true"></i>Cancel
                     </a>
                   </div>
                   <div class="">
