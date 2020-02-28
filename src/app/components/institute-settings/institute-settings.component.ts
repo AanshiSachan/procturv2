@@ -408,7 +408,7 @@ export class InstituteSettingsComponent implements OnInit {
     let dataToSend: any = {};
     if (this.instituteSettingDet.gst_enabled) {
       if (this.instituteSettingDet.gst_no == "" || this.instituteSettingDet.gst_no == null) {
-        this.commonService.showErrorMessage('error', '', "Please specify GST NO.");
+        this.commonService.showErrorMessage('error', '', "Please specify "+this.instituteTaxType+" NO.");
         return;
       }
     }
