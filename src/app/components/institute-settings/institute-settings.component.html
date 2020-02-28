@@ -2090,6 +2090,7 @@
                               <input type="text" [(ngModel)]="instituteSettingDet.gst_no" class="form-ctrl" id="GSTNo">
                             </div>
                           </div>
+                        </div>
                           <div *ngIf="instituteTaxType=='GST';else showVatSection">
                             <div class="row m-0 webkitBox">
                               <div class="c-lg-5" *ngIf="(instituteSettingDet.gst_enabled== '1' || instituteSettingDet.gst_enabled == true)">
@@ -2198,7 +2199,7 @@
                               </label>
                             </div>
                           </div>
-                          </div>
+                          
                       </td>
                     </tr>
                     <tr>
@@ -2723,9 +2724,7 @@
                           </div>
                         </div>
                       </td>
-                      <td>
 
-                      </td>
                     </tr>
                     <tr *ngIf="onlinePayment == '1'">
                       <td>
@@ -2921,7 +2920,7 @@
       <section id="divBioMetricContent" class="sectionDevideContainer" [ngClass]="{hide:biometricSetting != 1}">
 
         <div class="row m-0" style="width:100%">
-          <div class="sms-setting-wrapper">
+          <div class="sms-setting-wrapper" style="margin-right: 0;">
             <div class="table-scroll-wrapper">
               <div class="table table-responsive">
                 <table>
