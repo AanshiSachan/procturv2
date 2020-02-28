@@ -241,8 +241,8 @@
                                     <td>{{c.academic_year}}</td>
                                     <td>{{c.fee_type_name}}</td>
                                     <td class="No">{{c.due_date}}</td>
-                                    <td class="No" *ngIf="selectedRecord.country_code=='IND'">{{ selectedRecord.symbol}}&nbsp;{{c.total_initial_amount}}</td>
-                                    <td class="No" *ngIf="selectedRecord.country_code=='IND'">{{ selectedRecord.symbol}}&nbsp;{{c.total_tax_applied}}</td>
+                                    <td class="No" *ngIf="isTaxEnabled">{{ selectedRecord.symbol}}&nbsp;{{c.total_initial_amount}}</td>
+                                    <td class="No" *ngIf="isTaxEnabled">{{ selectedRecord.symbol}}&nbsp;{{c.total_tax_applied}}</td>
                                     <td class="No">{{ selectedRecord.symbol}}&nbsp;{{c.total_amount_after_discount_after_tax}}</td>
                                     <td class="No">{{ selectedRecord.symbol}}&nbsp;{{c.total_amt_paid}}</td>
                                     <td class="No">{{ selectedRecord.symbol}}&nbsp;{{c.total_balance_amt}}</td>
