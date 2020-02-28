@@ -111,28 +111,38 @@
                     <span class="date-clear" name="dob" (click)="newEnqData.dob = ''">clear</span>
                   </div>
 
-                  <!-- city -->
+                  <!-- State -->
                   <div class="field-wrapper">
-                    <label for="cityDdn">City
+                    <label for="state">
+                      State
+                      <span *ngIf="isStateMandatory == 1"><span class="text-danger">*</span></span>
+                    </label>
+                      <select id="state" class="form-ctrl" [(ngModel)]="newEnqData.state_id" name="state" (ngModelChange)="getCityList()">
+                      <option value="">Select State</option>
+                      <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+                    </select>
+                  </div>
+
+                  <!-- City -->
+                  <div class="field-wrapper">
+                    <label for="city">
+                      City
                       <span *ngIf="isCityMandatory == 1"><span class="text-danger">*</span></span>
                     </label>
-                    <select id="cityDdn" class="form-ctrl" [(ngModel)]="newEnqData.city"
-                      (ngModelChange)="onCitySelctionChanges($event)" name="city">
-                      <option value="-1"></option>
-                      <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
+                    <select id="city" class="form-ctrl" [(ngModel)]="newEnqData.city_id" name="city" (ngModelChange)="getAreaList()">
+                      <option value="">Select City</option>
+                      <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
                     </select>
-                    <span (click)="addNewAreaCity()" class="sourceI iconPlus">+</span>
                   </div>
 
                   <!-- area -->
                   <div class="field-wrapper">
-                    <label for="areaDdn">Area
-                    </label>
-                    <select id="areaDdn" class="form-ctrl" [(ngModel)]="newEnqData.area" name="area">
-                      <option value="-1"></option>
-                      <option *ngFor="let area of areaListDataSource" [value]="area.area">{{area.area}}</option>
+                    <label for="addArea">Area</label>
+                    <select id="area_id" class="form-ctrl" [(ngModel)]="newEnqData.area_id" name="area_id">
+                      <option value="">Select Area</option>
+                      <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">{{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}</option>
                     </select>
-
+                    <span (click)="toggleAddArea()" class="sourceI iconPlus" style="right: -35px;">+</span>
                   </div>
 
                   <!-- Source -->
@@ -463,7 +473,7 @@
                       </div>
                     </div>
 
-                  </custom-enquiry> 
+                  </custom-enquiry>
 
                 </div>
               </div>
@@ -737,6 +747,8 @@
 
 
 
+<app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)">
+</app-add-city-area>
 
 <!-- Add New institute -->
 <proctur-popup [hidden]="!isInstitutePop">

@@ -10,7 +10,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-
+import { HttpService  } from '../../../services/http.service';
 
 @Component({
   selector: 'app-enquiry-add',
@@ -48,6 +48,9 @@ export class EnquiryAddComponent implements OnInit {
     {
       name: "",
       country_id: "",
+      state_id: "",
+      city_id: "",
+      area_id: "",
       phone: "",
       email: "",
       gender: "",
@@ -144,6 +147,7 @@ export class EnquiryAddComponent implements OnInit {
     name: "",
     inst_id: sessionStorage.getItem('institute_id')
   }
+  isStateMandatory: any;
   isCityMandatory: any;
   cityListDataSource: any = [];
   areaListDataSource: any = [];
@@ -176,6 +180,11 @@ export class EnquiryAddComponent implements OnInit {
     }
   };
 
+  // state and city list
+  stateList: any[] = [];
+  cityList: any[] = [];
+  areaList: any[] = [];
+  addArea: boolean = false;
 
   constructor(
     private prefill: FetchprefilldataService,
@@ -184,7 +193,8 @@ export class EnquiryAddComponent implements OnInit {
     private login: LoginService,
     private auth: AuthenticatorService,
     private multiBranchService: MultiBranchDataService,
-    private commonServiceFactory: CommonServiceFactory
+    private commonServiceFactory: CommonServiceFactory,
+    private httpService: HttpService
   ) {
     this.auth.institute_type.subscribe(
       res => {
@@ -205,6 +215,7 @@ export class EnquiryAddComponent implements OnInit {
   /* OnInit Initialized */
   ngOnInit() {
     this.isCityMandatory = sessionStorage.getItem('enable_routing');
+    this.isStateMandatory = sessionStorage.getItem('enable_routing');
     this.isEnquiryAdministrator();
     this.fetchEnquiryPrefilledData();
 
@@ -212,6 +223,9 @@ export class EnquiryAddComponent implements OnInit {
     this.newEnqData = {
       name: "",
       country_id: "",
+      state_id: "",
+      city_id: "",
+      area_id: "",
       phone: "",
       email: "",
       gender: "",
@@ -282,6 +296,7 @@ export class EnquiryAddComponent implements OnInit {
     )
 
     this.fetchDataForCountryDetails();
+    this.getStateList();
 
   }
 
@@ -292,7 +307,6 @@ export class EnquiryAddComponent implements OnInit {
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
     this.countryDetails = data;
-    console.log(this.countryDetails);
     this.newEnqData.country_id = this.countryDetails[0].id;
     this.instituteCountryDetObj=this.countryDetails[0];
     this.maxlength = this.countryDetails[0].country_phone_number_length;
@@ -300,6 +314,78 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
+
+  getStateList(){
+    this.stateList = [];
+    this.cityList = [];
+    this.areaList = [];
+    this.newEnqData.state_id = "";
+    this.newEnqData.city_id = "";
+    this.newEnqData.area_id = "";
+    const url = `/api/v1/country/state?country_ids=${this.newEnqData.country_id}`
+    this.isRippleLoad = true;
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.isRippleLoad = false;
+        if(res.result.length > 0){
+          this.stateList = res.result[0].stateList;
+        }
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.showErrorMessage('error', '', err);
+      }
+    )
+  }
+
+  // get city list as per state selection
+  getCityList(){
+    this.cityList = [];
+    this.areaList = [];
+    this.newEnqData.city_id = "";
+    this.newEnqData.area_id = "";
+    const url = `/api/v1/country/city?state_ids=${this.newEnqData.state_id}`
+    this.isRippleLoad = true;
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.isRippleLoad = false;
+        if(res.result.length > 0){
+          this.cityList = res.result[0].cityList;
+        }
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.showErrorMessage('error', '', err);
+      }
+    )
+  }
+
+  getAreaList(){
+    this.areaList = [];
+    const url = `/api/v1/cityArea/area/${this.createSource.inst_id}?city_ids=${this.newEnqData.city_id}`
+    this.isRippleLoad = true;
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.isRippleLoad = false;
+        if(res.result.length > 0){
+          this.areaList = res.result[0].areaList;
+        }
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.showErrorMessage('error', '', err);
+      }
+    )
+  }
+
+  toggleAddArea(){
+    if(this.addArea){
+      this.addArea = false;
+    }
+    else{
+      this.addArea = true;
+    }
+  }
 
   onChangeObj(event) {
     console.log(event);
@@ -310,8 +396,8 @@ export class EnquiryAddComponent implements OnInit {
         this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
         this.country_id = element.id;
       }
-    }
-    );
+    });
+    this.getStateList();
   }
 
   /* Function for Toggling Form Visibility */
@@ -909,7 +995,7 @@ export class EnquiryAddComponent implements OnInit {
         }
         if(this.selectedSubjectIds == '-1'){
           this.selectedSubjectIds = null;
-        } 
+        }
         if(this.selectedCourseIds == '-1') {
           this.selectedCourseIds = null;
         }
@@ -930,6 +1016,9 @@ export class EnquiryAddComponent implements OnInit {
             assigned_to: this.newEnqData.assigned_to,
             city: this.newEnqData.city,
             country_id: this.newEnqData.country_id,
+            state_id: this.newEnqData.state_id,
+            city_id: this.newEnqData.city_id,
+            area_id: this.newEnqData.area_id,
             closedReason: this.newEnqData.closedReason,
             courseIdArray: this.selectedCourseIds,
             curr_address: this.newEnqData.curr_address,
@@ -1128,13 +1217,20 @@ export class EnquiryAddComponent implements OnInit {
 
 
   validateAreaAndCityFields() {
-    if (this.isCityMandatory == 1) {
-      if (this.newEnqData.city == '-1') {
-        return this.showErrorMessage('error', '', 'Please enter city details');
-      } else {
-        return true;
+    if (this.isCityMandatory == 1 && this.isStateMandatory == 1) {
+      if(this.newEnqData.state_id == ""){
+         return this.showErrorMessage('error', '', 'Please enter State details');
       }
-    } else {
+      else{
+        if (this.newEnqData.city_id == '') {
+          return this.showErrorMessage('error', '', 'Please enter City details');
+        }
+        else {
+          return true;
+        }
+      }
+    }
+    else {
       return true;
     }
   }
@@ -1822,22 +1918,6 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-  onCitySelctionChanges(event) {
-    this.areaListDataSource = [];
-    if (event != -1) {
-      let obj = {
-        city: event
-      }
-      this.prefill.getAreaList(obj).subscribe(
-        res => {
-          this.areaListDataSource = res;
-        },
-        err => {
-          //console.log(err);
-        }
-      )
-    }
-  }
 
   // MultiBranch
   multiBranchInstituteFound(id) {
@@ -1887,49 +1967,5 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
-  // City Area Pop uP
-  addNewAreaCity() {
-    this.addCityAreaPopUp.showPopUp = true;
-  }
-
-  toggleCityAreaAdd() {
-    this.addCityAreaPopUp.addNew = !this.addCityAreaPopUp.addNew;
-    let icon = document.getElementById('add-areaCity-icon').innerHTML;
-    if (icon == '+') {
-      document.getElementById('add-areaCity-icon').innerHTML = '-';
-      this.addCityAreaPopUp.newCity.city = "";
-      this.addCityAreaPopUp.newCity.area = "";
-    }
-    else if (icon == '-') {
-      document.getElementById('add-areaCity-icon').innerHTML = '+';
-    }
-  }
-
-  addNewCityArea() {
-    if (this.addCityAreaPopUp.newCity.city.trim() != "" && this.addCityAreaPopUp.newCity.city != null) {
-      let obj: any = {
-        area: this.addCityAreaPopUp.newCity.area,
-        city: this.addCityAreaPopUp.newCity.city,
-        sub_branch_instId: this.addCityAreaPopUp.newCity.branch
-      }
-      this.poster.saveNewCity(obj).subscribe(
-        res => {
-          this.commonServiceFactory.showErrorMessage('success', '', "Added successfully");
-          this.getCityAreaList();
-          this.toggleCityAreaAdd();
-        },
-        err => {
-          this.commonServiceFactory.showErrorMessage('error', '', err.error.message);
-        }
-      )
-    } else {
-      this.commonServiceFactory.showErrorMessage('error', '', "Please enter city name");
-    }
-  }
-
-  closeCityAreaPopup() {
-    this.addCityAreaPopUp.showPopUp = false;
-    this.addCityAreaPopUp.addNew = false;
-  }
 
 }

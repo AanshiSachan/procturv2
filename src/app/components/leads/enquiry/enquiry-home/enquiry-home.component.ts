@@ -738,7 +738,7 @@ export class EnquiryHomeComponent implements OnInit {
 
         /* Searchbar filled */
         else if (!this._commService.valueCheck(this.varJson.searchBarData)) {
-            if (isNaN(this.varJson.searchBarData)) {          
+            if (isNaN(this.varJson.searchBarData)) {
                     this.instituteData = { name: this.varJson.searchBarData, phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
                     this.loadTableDatatoSource(this.instituteData);
             }
@@ -1944,14 +1944,14 @@ export class EnquiryHomeComponent implements OnInit {
         )
     }
 
-    checkCustomeComponentElement(index){ 
+    checkCustomeComponentElement(index){
         if(!(index%3)){
                 return true;
             }
             else{
                 return false;
             }
-            
+
     }
 
     ///// Download Summary Report
@@ -2056,6 +2056,9 @@ export class EnquiryHomeComponent implements OnInit {
                 this.selectedRow.address = data.curr_address;
                 this.selectedRow.curr_address = data.curr_address;
                 this.selectedRow.country_id = data.country_id;
+                this.selectedRow.state_id = data.state_id;
+                this.selectedRow.city_id = data.city_id;
+                this.selectedRow.area_id = data.area_id;
                 this.selectedRow.phone = data.phone;
                 sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
                 this.router.navigate(['/view/students/add'])

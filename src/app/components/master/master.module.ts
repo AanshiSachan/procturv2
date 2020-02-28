@@ -21,6 +21,8 @@ import { ClassRoomService } from '../../services/class-roomService/class-roomlis
 import { MasterRoutingModule } from './master-routing.module';
 import { TopicServiceService } from '../../services/topic-service.service';
 import { HttpService  } from '../../services/http.service';
+import { AddCityAreaComponent } from '../add-city-area/add-city-area.component';
+
 
 @NgModule({
     imports: [
@@ -31,14 +33,15 @@ import { HttpService  } from '../../services/http.service';
         MasterRoutingModule
     ],
     exports: [
-
+      AddCityAreaComponent
     ],
     declarations: [
         MasterComponent,
         ManageExamGradesComponent,
         SlotComponent,
         ClassRoomComponent,
-        CityAreaMapComponent
+        CityAreaMapComponent,
+        AddCityAreaComponent
         ],
     providers: [
         ExamGradeServiceService,

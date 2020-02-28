@@ -16,6 +16,8 @@ import { AddStudentPrefillService } from '../../../services/student-services/add
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
+import { MessageShowService } from '../../../services/message-show.service';
+import { HttpService  } from '../../../services/http.service';
 
 
 
@@ -138,6 +140,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     student_sex: "",
     student_email: "",
     country_id: "",
+    state_id: "",
+    city_id: "",
+    area_id: "",
     student_phone: "",
     student_curr_addr: "",
     dob: "",
@@ -292,6 +297,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     hideReconfigure: false,
   };
 
+  // state and city list
+  stateList: any[] = [];
+  cityList: any[] = [];
+  areaList: any[] = [];
+  addArea:boolean = false;
+
   constructor(
     private studentPrefillService: AddStudentPrefillService,
     private prefill: FetchprefilldataService,
@@ -304,7 +315,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     private commonServiceFactory: CommonServiceFactory,
     private feeService: StudentFeeService,
     private apiService: CourseListService,
-    private productService: ProductService
+    private productService: ProductService,
+    private msgToast: MessageShowService,
+    private httpService: HttpService
   ) {
     this.isRippleLoad = true;
     this.getInstType();
@@ -372,6 +385,95 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  getStateList(){
+    const url = `/api/v1/country/state?country_ids=${this.country_id}`
+    this.isRippleLoad = true;
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.isRippleLoad = false;
+        if(res.result.length > 0){
+          this.stateList = res.result[0].stateList;
+          if(this.studentAddFormData.state_id != ""){
+            this.getCityList();
+          }
+        }
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
+      }
+    )
+  }
+
+  // get city list as per state selection
+  getCityList(){
+    const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
+    this.isRippleLoad = true;
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.isRippleLoad = false;
+        if(res.result.length > 0){
+          this.cityList = res.result[0].cityList;
+          if(this.studentAddFormData.city_id != ""){
+            this.getAreaList();
+          }
+        }
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
+      }
+    )
+  }
+
+  getAreaList(){
+    const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
+    this.isRippleLoad = true;
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.isRippleLoad = false;
+        if(res.result.length > 0){
+          this.areaList = res.result[0].areaList;
+        }
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
+      }
+    )
+  }
+
+  toggleAddArea(){
+    if(this.addArea){
+      this.addArea = false;
+    }
+    else{
+      this.addArea = true;
+    }
+  }
+
+  resetStateCityArea(){
+    this.stateList = [];
+    this.cityList = [];
+    this.areaList = [];
+    this.studentAddFormData.state_id = "";
+    this.studentAddFormData.city_id = "";
+    this.studentAddFormData.area_id = "";
+    this.getStateList();
+  }
+  getNewCityList(){
+    this.cityList = [];
+    this.areaList = [];
+    this.studentAddFormData.city_id = "";
+    this.studentAddFormData.area_id = "";
+    this.getCityList()
+  }
+
+  getNewAreaList(){
+    this.areaList = [];
+    this.getAreaList();
+  }
+
   onChangeObj(event) {
     this.countryDetails.forEach(element => {
       if (element.id == event) {
@@ -381,8 +483,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
         this.country_id = element.id;
       }
-    }
-    );
+    });
+    this.resetStateCityArea();
   }
   getAcademicYearDetails() {
     this.academicList = [];
@@ -1093,7 +1195,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
           country_id='-1';
         }
-        
+
         this.studentPrefillService.fetchStudentCourseDetails(this.student_id, '-1', country_id).subscribe(
           res => {
             // console.log(res);
@@ -1250,7 +1352,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (data.photo != null && data.photo != "") {
           this.studentServerImage = data.photo;
         }
-
+        this.getStateList();  // fetch state according to country
         /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
         this.updateStudentFeeDetails();
         this.isRippleLoad = false;
@@ -1341,7 +1443,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         //       this.updateAssignedBatches(this.batchList);
         //     },
         //     err => {
-        // 
+        //
         //       let msg = err.error.message;
         //       this.isRippleLoad = false;
         //       let obj = {

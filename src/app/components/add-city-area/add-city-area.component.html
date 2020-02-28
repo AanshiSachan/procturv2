@@ -1,0 +1,44 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="jsonFlag.isRippleLoad">
+</loaders-css>
+<div id="addAreaModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="closePopups()">&times;</button>
+        <h3 class="modal-title">Add Area</h3>
+      </div>
+      <div class="modal-body">
+        <div class="add-area-container">
+          <div class="add-item field-wrapper">
+            <select class="form-ctrl" name="" [(ngModel)]="addArea.country_id" (ngModelChange)="getStateList()">
+              <option value="-1">Select Country</option>
+              <option title="{{country.country_name}}" [value]="country.id" *ngFor="let country of countryList">{{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}</option>
+            </select>
+          </div>
+          <div class="add-item field-wrapper">
+            <select class="form-ctrl" name="" [(ngModel)]="addArea.state_id" (ngModelChange)="getCityList()">
+              <option value="-1">Select State</option>
+              <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+            </select>
+          </div>
+          <div class="add-item field-wrapper">
+            <select class="form-ctrl" name="" [(ngModel)]="addArea.city_id">
+              <option value="-1">Select City</option>
+              <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
+            </select>
+          </div>
+          <div class="add-item field-wrapper">
+              <input type="text" name="" value="" [(ngModel)]="addArea.areaName" placeholder="Enter area name" class="edit-area-item form-ctrl">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="closePopups()">Close</button>
+        <button type="button" class="btn btn-default add-area-btn" (click)="addNewArea()">Add Area</button>
+      </div>
+    </div>
+
+  </div>
+</div>

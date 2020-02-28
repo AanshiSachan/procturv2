@@ -282,8 +282,32 @@
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.comments != ''}">
                     <label for="addCommentNote">Add Comment Note</label>
-
                     <input type="text" value="" name="addCommentNote" [(ngModel)]="studentAddFormData.comments" id="addCommentNote" class="form-ctrl">
+                  </div>
+
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.state_id != ''}">
+                    <label for="state">State</label>
+                      <select id="state" class="form-ctrl" [(ngModel)]="studentAddFormData.state_id" name="state" (ngModelChange)="getCityList()">
+                      <option value="">Select State</option>
+                      <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+                    </select>
+                  </div>
+
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.city_id != ''}">
+                    <label for="city">City</label>
+                    <select id="city" class="form-ctrl" [(ngModel)]="studentAddFormData.city_id" name="city" (ngModelChange)="getAreaList()">
+                      <option value="">Select City</option>
+                      <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
+                    </select>
+                  </div>
+
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.area_id != ''}">
+                    <label for="addCityArea">Area</label>
+                    <select id="area_id" class="form-ctrl" [(ngModel)]="studentAddFormData.area_id" name="area_id">
+                      <option value="">Select Area</option>
+                      <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">{{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}</option>
+                    </select>
+                    <span (click)="toggleAddArea()" class="sourceI iconPlus" style="right: -35px;">+</span>
                   </div>
 
                 </div>
@@ -1412,6 +1436,10 @@
     </div>
 
   </proctur-popup>
+
+
+  <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)">
+  </app-add-city-area>
   <!-- ======================================================== -->
   <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->
