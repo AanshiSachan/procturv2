@@ -406,7 +406,7 @@ export class StudentAddComponent implements OnInit {
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.isRippleLoad = false;
-        if(res.result.length > 0){
+        if(res.result && res.result.length > 0){
           this.stateList = res.result[0].stateList;
         }
         if(!this.checkStatusofStudent){
@@ -940,15 +940,23 @@ export class StudentAddComponent implements OnInit {
     if (data.status) {
       this.slotIdArr.push(data.value.slot_id);
       this.selectedSlots.push(data.value.slot_name);
-      if (this.selectedSlots.length != 0) { document.getElementById('slotwrapper').classList.add('has-value'); }
-      else { document.getElementById('slotwrapper').classList.remove('has-value'); }
+      if (document.getElementById('slotwrapper') && this.selectedSlots.length != 0) {
+        document.getElementById('slotwrapper').classList.add('has-value');
+      }
+      else if(document.getElementById('slotwrapper')){
+        document.getElementById('slotwrapper').classList.remove('has-value');
+     }
       this.selectedSlotsID = this.slotIdArr.join(',');
       this.selectedSlotsString = this.selectedSlots.join(',');
     }
     /* slot unchecked */
     else {
-      if (this.selectedSlots.length != 0) { document.getElementById('slotwrapper').classList.add('has-value'); }
-      else if (this.selectedSlots.length == 0) { document.getElementById('slotwrapper').classList.remove('has-value'); }
+      if (document.getElementById('slotwrapper') && this.selectedSlots.length != 0) {
+        document.getElementById('slotwrapper').classList.add('has-value');
+      }
+      else if (document.getElementById('slotwrapper') && this.selectedSlots.length == 0) { 
+        document.getElementById('slotwrapper').classList.remove('has-value');
+       }
       var index = this.selectedSlots.indexOf(data.value.slot_name);
       if (index > -1) {
         this.selectedSlots.splice(index, 1);

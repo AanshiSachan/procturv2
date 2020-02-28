@@ -25,7 +25,8 @@ export class CityAreaMapComponent implements OnInit {
   };
 
   editrecord: any;
-  editAreaName = '';
+  editAreaName: string = '';
+  editIsActiveStatus: boolean = true;
   countryStateAreaList: any[] = [];
   countryList: any[] = [];
   stateList: any[] = [];
@@ -34,6 +35,7 @@ export class CityAreaMapComponent implements OnInit {
   areaSearchInput: any;
   tempArealist: any[] = [];
   addArea: boolean = false;
+  deleteAreaId: any = '';
 
   // FOR PAGINATION
   pageIndex: number = 1;
@@ -50,8 +52,8 @@ export class CityAreaMapComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchArea();
     this.getCountryList();
+    this.searchArea();
   }
 
 
@@ -63,7 +65,6 @@ export class CityAreaMapComponent implements OnInit {
       Object.keys(item).some(
         k => item.is_default == 'Y')
     );
-    console.log(defaultCountry)
     this.filter.country_ids = defaultCountry[0].id;  //  set default country ID
     this.getStateList();
   }
@@ -93,6 +94,7 @@ export class CityAreaMapComponent implements OnInit {
   // get city list as per state selection
   getCityList(){
     this.cityList = [];
+    this.filter.city_ids = '-1';
     const url = `/api/v1/country/city?state_ids=${this.filter.state_ids}`
     this.jsonFlag.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
@@ -109,7 +111,7 @@ export class CityAreaMapComponent implements OnInit {
     )
   }
 
-  searchArea(){
+  searchArea(){  //get default institute all country, state, city & area.
     this.countryStateAreaList = [];
     let is_active_status = this.filter.is_active ? 'Y' : 'N';
     const url = `/api/v1/cityArea/area/view/${this.jsonFlag.institute_id}?country_ids=${this.filter.country_ids}&state_ids=${this.filter.state_ids}&city_ids=${this.filter.city_ids}&is_active=${is_active_status}`;
@@ -142,57 +144,62 @@ export class CityAreaMapComponent implements OnInit {
 
   editArea(record){
     this.editrecord = record;
-    this.editrecord.is_active_status = (this.editrecord.is_active == 'Y') ? true : false;
+    this.editAreaName = this.editrecord.area;
+    this.editIsActiveStatus = (this.editrecord.is_active == 'Y') ? true : false;
   }
 
   updateArea(){
     // use trim
-    if(this.editrecord.area){
-      if(!!this.editrecord.area && this.editrecord.area.length > 0){
-        let obj = {
-          "area": this.editrecord.area,
-        	"main_branch_instId": this.jsonFlag.institute_id,
-        	"city_id": this.editrecord.city_id,
-        	"is_active": 'Y'
-        };
-        obj.is_active = this.editrecord.is_active_status ? 'Y' : 'N';
-        const url = `/api/v1/cityArea/area/update/${this.editrecord.id}`
-        this.jsonFlag.isRippleLoad = true;
-        this.httpService.putData(url, obj).subscribe(
-          (res: any) => {
-            this.jsonFlag.isRippleLoad = false;
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
-            $('#editCityArea').modal('hide');
-            this.searchArea();
-          },
-          err => {
-            this.jsonFlag.isRippleLoad = false;
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
-          }
-        )
-      }
-      else{
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter Area name');
-      }
-    }
-  }
-
-  deleteArea(area_id){
-    if (confirm("Are you sure you want to delete it?")) {
-      const url = `/api/v1/cityArea/area/delete/${this.jsonFlag.institute_id}/${area_id}`
+    if(this.editAreaName.trim().length > 0){
+      let obj = {
+        "area": this.editAreaName,
+        "main_branch_instId": this.jsonFlag.institute_id,
+        "city_id": this.editrecord.city_id,
+        "is_active": 'Y'
+      };
+      obj.is_active = this.editIsActiveStatus ? 'Y' : 'N';
+      const url = `/api/v1/cityArea/area/update/${this.editrecord.id}`
       this.jsonFlag.isRippleLoad = true;
-      this.httpService.deleteData(url, null).subscribe(
+      this.httpService.putData(url, obj).subscribe(
         (res: any) => {
           this.jsonFlag.isRippleLoad = false;
+          this.editAreaName = '';
+          this.editIsActiveStatus = true;
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
+          $('#editCityArea').modal('hide');
           this.searchArea();
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
         }
       )
     }
+    else{
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter Area name');
+    }
+  }
+
+  setDeleteAreaId(areaId){
+    this.deleteAreaId = areaId;
+  }
+
+  deleteArea(){
+    const url = `/api/v1/cityArea/area/delete/${this.jsonFlag.institute_id}/${this.deleteAreaId}`
+    this.jsonFlag.isRippleLoad = true;
+    this.httpService.deleteData(url, null).subscribe(
+      (res: any) => {
+        this.jsonFlag.isRippleLoad = false;
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
+        this.deleteAreaId = '';
+        $('#deleteModal').modal('hide');
+        this.searchArea();
+      },
+      err => {
+        this.jsonFlag.isRippleLoad = false;
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+      }
+    )
   }
 
   toggleAddArea(){
