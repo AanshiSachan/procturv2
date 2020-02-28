@@ -1730,6 +1730,8 @@ export class StudentAddComponent implements OnInit {
 
     if (this.isConvertEnquiry) {
       this.router.navigate(['/view/leads/enquiry']);
+      sessionStorage.removeItem('studentPrefill');
+      this.clearFormAndMove();
     }
     else {
       this.router.navigate(['/view/students']);
