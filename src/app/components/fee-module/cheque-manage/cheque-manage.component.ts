@@ -117,7 +117,7 @@ tax_type_without_percentage : String;
       this.setDefaultValues();
     }
     this.checkDownloadRoleAccess();
-    this.isTaxEnabled=sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.isTaxEnabled=sessionStorage.getItem('enable_tax_applicable_fee_installments')=="1"?true:false;
     this.tax_type_without_percentage=sessionStorage.getItem('tax_type_without_percentage');
   }
 
