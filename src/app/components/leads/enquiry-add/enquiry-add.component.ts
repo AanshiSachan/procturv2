@@ -1718,7 +1718,13 @@ export class EnquiryAddComponent implements OnInit {
           },
           err => {
             this.isRippleLoad = false;
-            this.showErrorMessage('error', '', err.error.message);
+            let msg;
+            if(err.status == 500){
+              msg = JSON.parse(err._body);
+              this.showErrorMessage('error', '', msg.message);
+            } else {
+              this.showErrorMessage('error', '', err.error.message);
+            }
           }
         )
       }

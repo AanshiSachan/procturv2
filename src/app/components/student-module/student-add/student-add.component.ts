@@ -1030,12 +1030,12 @@ export class StudentAddComponent implements OnInit {
 
   /* function to add institute data to server */
   addInstituteData() {
-    if(this.createInstitute.instituteName!=''){
+    if(this.createInstitute.instituteName.trim()!=''){
       if((this.instituteList.filter(x=>x.school_name == this.createInstitute.instituteName.trim())).length == 0){
     this.prefill.createNewInstitute(this.createInstitute).subscribe(
       el => {
         if (el.message === "OK") {
-          this.msgToast.showErrorMessage('success', '', 'Institute added successfully !');
+          this.msgToast.showErrorMessage('success', '', 'Institution added successfully !');
           this.prefill.getSchoolDetails().subscribe(
             data => {
               this.school = data;
@@ -1061,10 +1061,10 @@ export class StudentAddComponent implements OnInit {
         this.msgToast.showErrorMessage('error', '', err.error.message);
       });
     } else {
-      this.msgToast.showErrorMessage('error', '', 'Institute name already exist!');
+      this.msgToast.showErrorMessage('error', '', 'Institution name already exist!');
     }
     } else {
-      this.msgToast.showErrorMessage('info', '', 'Please enter institute name');
+      this.msgToast.showErrorMessage('info', '', 'Please enter institution name');
     }
   }
 
@@ -1098,32 +1098,31 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  updateInstitute(id) {
-    this.instituteList.forEach(el => {
-      if (el.school_id == id) {
-        el.school_name = el.new_school_name;
-        this.postService.updateInstituteDetails(id, el).subscribe(
+  updateInstitute(id, school_name) {
+        if(school_name.trim()!=''){
+          this.postService.updateInstituteDetails(id, school_name).subscribe(
           res => {
-            this.msgToast.showErrorMessage('success', '', 'institute Name Update');
+            this.msgToast.showErrorMessage('success', '', 'Institution name updated successfully!');
             this.fetchInstituteInfo();
           },
           err => {
-            this.msgToast.showErrorMessage('error', 'We coudn\'t process your request', err.message);
+            this.msgToast.showErrorMessage('error', '', err.error.message);
             this.fetchInstituteInfo();
           }
         )
-      }
-    });
+      } else {
+      this.msgToast.showErrorMessage('info', '', 'Please enter institution name');
+    }
   }
 
   deleteInstitute(id) {
     this.postService.deleteInstitute(id).subscribe(
       res => {
-        this.msgToast.showErrorMessage('success', 'Institute Record Deleted', "Institute record deleted successfully");
+        this.msgToast.showErrorMessage('success', '', "Institute record deleted successfully");
         this.fetchInstituteInfo();
       },
       err => {
-        this.msgToast.showErrorMessage('error', 'Your request has been denied', "The requested institute is currently in use and cannot be deleted");
+        this.msgToast.showErrorMessage('error', '', "This institute is already in used, so cannot be deleted");
         this.fetchInstituteInfo();
       }
     )

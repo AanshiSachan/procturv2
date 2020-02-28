@@ -708,14 +708,9 @@
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountExclTax}}</span>
             </div>
-<<<<<<< HEAD
-            <div class="tax-Amount tooltipDiv" *ngIf="instituteCountryDetObj.id==1">
-              <span class="label">Tax on Installment</span>
-=======
             <!-- <div class="tax-Amount tooltipDiv" *ngIf="instituteCountryDetObj.id==1"> -->
 +              <div class="tax-Amount tooltipDiv" *ngIf="isTaxEnable">
   +              <span class="label">{{tax_type_without_percentage}} on Installment</span>
->>>>>>> vat_changes
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.taxAmount }}</span>
@@ -736,11 +731,7 @@
 
             <div class="discount-Amount" *ngIf="cardAmountObject.additionalFees > 0">
               <span class="label">Additional Fee
-<<<<<<< HEAD
-                <span *ngIf=" instituteCountryDetObj.id==1"> (Incl of Tax)</span>
-=======
                 <span *ngIf="isTaxEnable"> (Incl of {{tax_type_without_percentage}})</span>
->>>>>>> vat_changes
               </span>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.additionalFees }}</span>
@@ -748,11 +739,7 @@
 
             <div class="total-Amount">
               <span class="label">Total Fee
-<<<<<<< HEAD
-                <span *ngIf="instituteCountryDetObj.id==1"> (Incl. of tax)</span>
-=======
                 <span *ngIf="isTaxEnable"> (Incl. of {{tax_type_without_percentage}})</span>
->>>>>>> vat_changes
               </span>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountInclTax }}</span>
@@ -807,11 +794,7 @@
                 <aside class="column-name">
                   <div class="fee-amount amount">
                     <span>Fee
-<<<<<<< HEAD
-                      <span *ngIf="instituteCountryDetObj.id==1">(Incl. Tax)</span>
-=======
                       <span *ngIf="isTaxEnable">(Incl. {{tax_type_without_percentage}})</span>
->>>>>>> vat_changes
                     </span>
                   </div>
 
@@ -819,11 +802,7 @@
                     <span>Discount</span>
                   </div>
 
-<<<<<<< HEAD
-                  <div class="tax-amount amount" *ngIf="instituteCountryDetObj.id==1">
-=======
                   <div class="tax-amount amount" *ngIf="isTaxEnable">
->>>>>>> vat_changes
                     <span>Tax</span>
                   </div>
 
@@ -870,11 +849,7 @@
                       <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.discount }}</span>
                     </div>
 
-<<<<<<< HEAD
-                    <div class="tax-amount amount" *ngIf="instituteCountryDetObj.id==1">
-=======
                     <div class="tax-amount amount" *ngIf="isTaxEnable">
->>>>>>> vat_changes
                       <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.taxAmount }}</span>
                     </div>
 
@@ -968,11 +943,7 @@
                             }}</span>
                         </div>
 
-<<<<<<< HEAD
-                        <div class="Tax" *ngIf="instituteCountryDetObj.id==1">
-=======
                         <div class="Tax" *ngIf="isTaxEnable">
->>>>>>> vat_changes
                           <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.tax }}</span>
                         </div>
 
@@ -1249,13 +1220,13 @@
         </g>
       </svg>
     </span>
-    <h2 popup-header>Institute Editor</h2>
+    <h2 popup-header> Institution List</h2>
     <div class="institute-editor" popup-content>
 
       <div class="row clearFix add-edit">
         <a class="expend-box" (click)="toggleInstituteAdd()">
           <i id="add-institute-icon">-</i>
-          <span>Create New Institute</span>
+          <span>Add institution name</span>
         </a>
       </div>
 
@@ -1263,7 +1234,7 @@
         <div class="row">
           <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
             <div class="field-wrapper">
-              <label for="instituteName">Institute Name</label>
+              <label for="instituteName">Institution Name</label>
 
               <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
               />
@@ -1286,7 +1257,7 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th style="width: 50%;text-align: left;">Institute Name</th>
+                <th style="width: 50%;text-align: left;">Institution Name</th>
                 <th> Action </th>
               </tr>
             </thead>
@@ -1328,7 +1299,7 @@
                     </a>
                   </div>
                   <div class="">
-                    <a (click)="updateInstitute(sch.school_id)" style="cursor:pointer">
+                    <a (click)="updateInstitute(sch.school_id, sch.new_school_name)" style="cursor:pointer">
                       <i class="view-icon update-icon" aria-hidden="true"></i>Update
                     </a>
                   </div>
