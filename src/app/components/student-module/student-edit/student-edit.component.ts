@@ -134,6 +134,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   category_id: number | string = "";
   uploadedFileData: any[] = [];
   downloadStudentReportAccess: boolean = false;
+  is_tax_enabled: boolean ;
+  tax_type_without_percentage : String;
 
   studentAddFormData: StudentForm = {
     student_name: "",
@@ -328,6 +330,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
+    this. is_tax_enabled=sessionStorage.getItem('enable_tax_applicable_fee_installments')=="1"?true:false;
+    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
     if (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null) {
       this.switchToView('feeDetails-icon');
     }

@@ -29,6 +29,7 @@ export class StudentFeeTableComponent implements OnInit {
   isProfessional: boolean = false;
   service_tax: number = 0;
   taxEnableCheck: any = '1';
+  tax_type_without_percentage : String;
 
   addFeeInstallment: any = {
     amount_paid: '',
@@ -161,6 +162,7 @@ export class StudentFeeTableComponent implements OnInit {
 
   ngOnInit() {
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
     this.getInstType();
     console.log(this.resultForUnAssigned);
   }
@@ -384,6 +386,7 @@ export class StudentFeeTableComponent implements OnInit {
   }
 
   addNewInstallmentFee() {
+    debugger;
     if (this.addFeeInstallment.due_date == "" || this.addFeeInstallment.due_date == null || isNaN(this.addFeeInstallment.initial_fee_amount) || this.addFeeInstallment.initial_fee_amount == "" || this.addFeeInstallment.initial_fee_amount <= 0) {
       if (this.addFeeInstallment.due_date == "" || this.addFeeInstallment.due_date == null) {
         this.msgToast.showErrorMessage('error', 'Invalid Date', 'Please select a due date');
@@ -395,13 +398,17 @@ export class StudentFeeTableComponent implements OnInit {
     else if (this.addFeeInstallment.due_date != "" && !isNaN(this.addFeeInstallment.initial_fee_amount)) {
       this.addFeeInstallment.service_tax = 0;
       this.addFeeInstallment.service_tax_applicable = 'N';
-      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1' &&this.countryDetails.id==1) {
+      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1' ) {
         this.addFeeInstallment.service_tax = this.feeTemplateData.registeredServiceTax;
         this.addFeeInstallment.service_tax_applicable = 'Y';
       }
       this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
       this.addFeeInstallment.fee_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
       this.addFeeInstallment.fee_type = 0;
+      if (this.addFeeInstallment.student_fee_template_mapping_id == '-1' && sessionStorage.getItem("enable_fee_template_country_wise")=='1') {
+      return  this.msgToast.showErrorMessage('error', 'Select Course', 'Please select course');
+
+      }
 
       if (this.addFeeInstallment.student_fee_template_mapping_id != '-1') {
         let id = this.addFeeInstallment.student_fee_template_mapping_id.split(',')[0];

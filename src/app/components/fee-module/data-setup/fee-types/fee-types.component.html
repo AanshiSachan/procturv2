@@ -76,9 +76,10 @@
 
           </div>
         </div>
-        <div class="c-lg-2 c-md-2 c-sm-2" *ngIf="addNewFee.country_id==1">
+       <!-- <div class="c-lg-2 c-md-2 c-sm-2" *ngIf="addNewFee.country_id==1"> -->
+        <div class="c-lg-2 c-md-2 c-sm-2" *ngIf="is_tax_enabled" >
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_tax >= 0 }">
-            <label for="slotNew">Tax(%)
+            <label for="slotNew">{{tax_type_with_percentage}}
             </label>
             <input type="number" max="99" #idSlot class="form-ctrl" [readonly]="isTaxEnableFeeInstallments" [(ngModel)]="addNewFee.fee_type_tax"
               name="slotNew">
@@ -106,8 +107,8 @@
           <th>
             Fee Amount
           </th>
-          <th>
-            Tax(%)
+          <th *ngIf="is_tax_enabled">
+            {{tax_type_with_percentage}}
             <div class="questionInfo inline-relative">
               <span class="qInfoIcon i-class">i</span>
               <div class="tooltip-box-field">
@@ -145,7 +146,7 @@
        <input type="number" class="form-ctrl editCellInput" style="width:25%;display: inherit;" [(ngModel)]="row.fee_amount" name="label">
       </span>
     </td>
-    <td>
+    <td *ngIf="is_tax_enabled">
       <div class="field-wrapper">
         <!-- disabled =row.country_id!='1' && isTaxEnableFeeInstallments -->
     <input type="number"  class="form-ctrl editCellInput" [disabled]="row.country_id!='1'" [ngClass]="{'disable_input': row.country_id!='1'}" style="width:25%" [(ngModel)]="row.fee_type_tax"
