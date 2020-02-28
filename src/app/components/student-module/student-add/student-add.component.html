@@ -709,8 +709,8 @@
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountExclTax}}</span>
             </div>
             <!-- <div class="tax-Amount tooltipDiv" *ngIf="instituteCountryDetObj.id==1"> -->
-+              <div class="tax-Amount tooltipDiv" *ngIf="isTaxEnable">
-  +              <span class="label">{{tax_type_without_percentage}} on Installment</span>
+             <div class="tax-Amount tooltipDiv" *ngIf="isTaxEnable">
+              <span class="label">{{tax_type_without_percentage}} on Installment</span>
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.taxAmount }}</span>
