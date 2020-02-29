@@ -1910,7 +1910,7 @@
                         </div>
                         <div class="row" *ngIf="(isLangInst == false && test_series_feature == '1')">
                           <h3>Online Test Setting</h3>
-                          <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.test_buffer_duration >= '0'}">
+                          <div class="field-wrapper c-lg-5" [ngClass]="{'has-value' : instituteSettingDet.test_buffer_duration >= '0'}">
                             <label for="ch79">Buffered Duration in mins (before exam test Time)
                             </label>
                             <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" id="ch79">
@@ -3169,7 +3169,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <td>
+                      <td style="padding-bottom: 15px;">
                         <div class="row">
                           <div class="c-sm-4 c-md-4 c-lg-4" style="text-align: left;">
                             <div class="field-wrapper">
