@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "prod": "ng build --prod --aot=false --named-chunks --build-optimizer --output-hashing  --base-href ./",
+    "prod": "ng build --prod --aot=false --named-chunks  --output-hashing  --base-href ./",
     "minify": "minify-all dist"
   },
   "private": true,
