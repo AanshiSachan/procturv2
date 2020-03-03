@@ -345,7 +345,7 @@
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper" *ngIf="isAcad">
+                <div class="field-wrapper" *ngIf="!isProfessional">
                   <label for="standard">Standard</label>
 
                   <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard" class="form-ctrl">
@@ -356,7 +356,7 @@
                   </select>
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto" *ngIf="isAcad" (click)="openAssignBatch()">
+                <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto" *ngIf="!isProfessional" (click)="openAssignBatch()">
                   <label for="assignCourses"> </label>
                   <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" [ngModel]="assignedBatchString"
                     placeholder="Assign Courses" id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
@@ -1218,13 +1218,13 @@
         </g>
       </svg>
     </span>
-    <h2 popup-header>Institute Editor</h2>
+    <h2 popup-header> Institution List</h2>
     <div class="institute-editor" popup-content>
 
       <div class="row clearFix add-edit">
         <a class="expend-box" (click)="toggleInstituteAdd()">
           <i id="add-institute-icon">-</i>
-          <span>Create New Institute</span>
+          <span>Add institution name</span>
         </a>
       </div>
 
@@ -1232,7 +1232,7 @@
         <div class="row">
           <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
             <div class="field-wrapper">
-              <label for="instituteName">Institute Name</label>
+              <label for="instituteName">Institution Name</label>
 
               <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
               />
@@ -1255,7 +1255,7 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th style="width: 50%;text-align: left;">Institute Name</th>
+                <th style="width: 50%;text-align: left;">Institution Name</th>
                 <th> Action </th>
               </tr>
             </thead>
@@ -1297,7 +1297,7 @@
                     </a>
                   </div>
                   <div class="">
-                    <a (click)="updateInstitute(sch.school_id)" style="cursor:pointer">
+                    <a (click)="updateInstitute(sch.school_id, sch.new_school_name)" style="cursor:pointer">
                       <i class="view-icon update-icon" aria-hidden="true"></i>Update
                     </a>
                   </div>
@@ -1376,8 +1376,9 @@
   </proctur-popup>
   <!-- ======================================================== -->
   <!-- ========================User Selects a Template here================================ -->
-  <!-- =============== Configure Fees =============================== -->
-  <proctur-popup *ngIf="isConfigureFees">
+  <!-- =============== Configure Fees  =============================== -->
+  <!-- commented by laxmi -21-02-20 -->
+  <!-- <proctur-popup *ngIf="isConfigureFees">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeConfigureFees($event)" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -1434,15 +1435,13 @@
       </div>
     </div>
 
-  </proctur-popup>
-
-
+  </proctur-popup> -->
   <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)">
   </app-add-city-area>
   <!-- ======================================================== -->
   <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->
-  <student-fee-table *ngIf="isDefineFees" [countryDetails]="instituteCountryDetObj" [academicListData]="academicList" [courseDropdown]="courseDropdown"
+  <student-fee-table *ngIf="isDefineFees" [countryDetails]="instituteCountryDetObj" [academicListData]="academicYear" [courseDropdown]="courseDropdown"
     (closePopup)="closeAllFeePops($event)" [feeTemplateData]="feeTemplateById" [studentName]="studentName" [student_id]="student_id">
   </student-fee-table>
   <!-- ======================================================== -->

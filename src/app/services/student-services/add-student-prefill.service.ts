@@ -1,7 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AuthenticatorService } from '../authenticator.service';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class AddStudentPrefillService {
@@ -75,37 +75,9 @@ export class AddStudentPrefillService {
   }
 
   /* return the list of custom component for the selected institute ID */
-  fetchCustomComponent(en_id): Observable<any> {
-    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=0&isSearhable=undefined&student_enq_id="+en_id+"&page=2";
+  fetchCustomComponentById(id,en_id,page_id): Observable<any> {
+    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=" + id + "&isSearhable=undefined&student_enq_id="+en_id+"&page="+page_id//2";
     return this.http.get(this.urlCustomComponent, { headers: this.headers })
-      .map(
-        data => {
-          return data;
-        },
-        err => {
-          return err;
-        }
-      );
-  }
-
-  /* return the list of custom component for the selected institute ID */
-  fetchCustomComponentById(id): Observable<any> {
-    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=" + id + "&isSearhable=undefined&student_enq_id=undefined&page=2";
-    return this.http.get(this.urlCustomComponent, { headers: this.headers })
-      .map(
-        data => {
-          return data;
-        },
-        err => {
-          return err;
-        }
-      );
-  }
-
-  /* return the list of custom component for the selected institute ID */
-  fetchEnquiryCC(id): Observable<any> {
-    let url = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=" + id + "&isSearhable=undefined&page=1";
-    return this.http.get(url, { headers: this.headers })
       .map(
         data => {
           return data;

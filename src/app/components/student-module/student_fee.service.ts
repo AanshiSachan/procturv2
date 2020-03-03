@@ -836,9 +836,7 @@ export class StudentFeeService {
     }
 
     calculateInitialAmountOfRemainingAmount(amount: number, tax: number,country_id) {
-        // if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1' &&
-        // country_id==1) {
-            if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1' ) {
+        if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
             let initialAmount: number = (amount * 100) / (100 + tax);
             return initialAmount;
         } else {
@@ -847,9 +845,7 @@ export class StudentFeeService {
     }
 
     calucalteAmountAfterApplyingTax(amount, tax, country_id) {
-        // if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1' &&
-        //     country_id == 1) {
-            if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+        if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
             let taxAmount: number = (amount * tax) / 100;
             return amount + taxAmount;
         } else {

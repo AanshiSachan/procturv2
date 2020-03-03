@@ -11,13 +11,13 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { CourseListService } from '../../../services/course-services/course-list.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { HttpService } from '../../../services/http.service';
+import { MessageShowService } from '../../../services/message-show.service';
 import { ProductService } from '../../../services/products.service';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
-import { MessageShowService } from '../../../services/message-show.service';
-import { HttpService  } from '../../../services/http.service';
 
 
 
@@ -54,7 +54,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   isOtherActive: boolean = false;
   isFeeActive: boolean = false;
   isInventoryActive: boolean = false;
-  isConfigureFees: boolean = false;
+  // isConfigureFees: boolean = false;
   isPartialPayHistory: boolean = false;
   isEdit: boolean = true;
   isDefineFees: boolean = false;
@@ -78,7 +78,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   courseList: any[] = [];
   batchList: any[] = [];
   slots: any[] = [];
-  langStatus: any[] = [];
   selectedSlots: any[] = [];
   customComponents: any[] = [];
   slotIdArr: any[] = [];
@@ -98,7 +97,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   savedAssignedBatch: any[] = [];
   allocatedItem: any = [];
   subjectWiseInstallmentArray: any = [];
-  academicList: any = [];
   taxEnableCheck: any = '1';
   feeTempSelected: any = "";
   defaultAcadYear: any = '-1';
@@ -298,7 +296,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     hideReconfigure: false,
   };
 
-  isRippleLoad: boolean = false;
   // state and city list
   stateList: any[] = [];
   cityList: any[] = [];
@@ -321,24 +318,31 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     private msgToast: MessageShowService,
     private httpService: HttpService
   ) {
-    this.auth.showLoader();
     this.getInstType();
     this.getSettings();
     this.student_id = this.route.snapshot.paramMap.get('id');
-    this.fetchPrefillFormData();
   }
 
   ngOnInit() {
+    this.auth.showLoader()
+    this.getPermissions();
+    this.fetchDataForCountryDetails();
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
     this. is_tax_enabled=sessionStorage.getItem('enable_tax_applicable_fee_installments')=="1"?true:false;
     this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
     if (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null) {
       this.switchToView('feeDetails-icon');
     }
-    if (sessionStorage.getItem('editInv') != "" && sessionStorage.getItem('editInv') != null) {
+    else if (sessionStorage.getItem('editInv') != "" && sessionStorage.getItem('editInv') != null) {
       this.switchToView('inventory-icon');
     }
-    this.updateStudentForm(this.student_id);
+    else {
+      this.updateStudentForm(this.student_id);
+      this.fetchPrefillFormData();
+    }
+  }
+
+  getPermissions() {
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
 
@@ -350,7 +354,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       if (permissions.includes('710')) {
         this.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
-        this.getAcademicYearDetails();
       }
       if (permissions.includes('713')) {  //fee discount
         this.checkBoxGroup.feeDiscouting = true;
@@ -362,19 +365,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
         this.checkBoxGroup.manageCheque = true;
-        this.getAcademicYearDetails();
       }
     }
-    this.fetchDataForCountryDetails();
-    this.getUploadedFileData();
-    this.checkDownloadRoleAccess();
-  }
 
-  checkDownloadRoleAccess() {
     if (sessionStorage.getItem('downloadStudentReportAccess') == 'true') {
       this.downloadStudentReportAccess = true;
     }
+
   }
+
+
 
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
@@ -391,10 +391,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   getStateList(){
     const url = `/api/v1/country/state?country_ids=${this.country_id}`
-    this.isRippleLoad = true;
+    this.auth.showLoader()
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader()
         if(res.result.length > 0){
           this.stateList = res.result[0].stateList;
           if(this.studentAddFormData.state_id != ""){
@@ -403,7 +403,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader()
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
       }
     )
@@ -411,40 +411,44 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   // get city list as per state selection
   getCityList(){
-    const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
-    this.isRippleLoad = true;
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.isRippleLoad = false;
-        if(res.result.length > 0){
-          this.cityList = res.result[0].cityList;
-          if(this.studentAddFormData.city_id != ""){
-            this.getAreaList();
+    if(this.studentAddFormData.state_id != ""){
+      const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
+      this.auth.showLoader()
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader()
+          if(res.result.length > 0){
+            this.cityList = res.result[0].cityList;
+            if(this.studentAddFormData.city_id != ""){
+              this.getAreaList();
+            }
           }
+        },
+        err => {
+          this.auth.hideLoader()
+          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-      },
-      err => {
-        this.isRippleLoad = false;
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-      }
-    )
+      )
+    }
   }
 
   getAreaList(){
-    const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
-    this.isRippleLoad = true;
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.isRippleLoad = false;
-        if(res.result.length > 0){
-          this.areaList = res.result[0].areaList;
+    if(this.studentAddFormData.city_id != ""){
+      const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
+      this.auth.showLoader()
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader()
+          if(res.result.length > 0){
+            this.areaList = res.result[0].areaList;
+          }
+        },
+        err => {
+          this.auth.hideLoader()
+          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-      },
-      err => {
-        this.isRippleLoad = false;
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-      }
-    )
+      )
+    }
   }
 
   toggleAddArea(){
@@ -482,27 +486,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.countryDetails.forEach(element => {
       if (element.id == event) {
         this.instituteCountryDetObj = element;
-        console.log(this.instituteCountryDetObj );
+        console.log(this.instituteCountryDetObj);
         this.studentAddFormData.country_id = element.id;
         this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
         this.country_id = element.id;
       }
     });
     this.resetStateCityArea();
-  }
-  getAcademicYearDetails() {
-    this.academicList = [];
-    this.auth.showLoader();
-    this.apiService.getAcadYear().subscribe(
-      res => {
-        this.auth.hideLoader();
-        this.academicList = res;
-        // console.log("academicList", this.academicList);
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    )
   }
 
   // remove the object value from session
@@ -548,17 +538,23 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       case "kyc": {
         document.getElementById('li-two').classList.add('active');
+        this.fetchCustomeComponents();
+        this.getUploadedFileData();
         this.isOtherActive = true;
         break;
       }
       case "feeDetails": {
         document.getElementById('li-three').classList.add('active');
+        this.updateStudentForm(this.student_id);
+        this.updateStudentFeeDetails();
+        this.fetchAcademicYears()
         this.isFeeActive = true;
         break;
       }
       case "inventory": {
         document.getElementById('li-four').classList.add('active');
         this.isInventoryActive = true;
+        this.getAllocatedHistory();
         this.fetchInventoryList();
         break;
       }
@@ -570,11 +566,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.auth.showLoader();
     this.fetchService.getStudentCourseDetails(id).subscribe(
       res => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.courseDropdown = res;
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
       }
     )
   }
@@ -590,9 +586,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (userType == 1) {
       object['user_role'] = this.paymentMode;
     }
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.postService.getFeeInstallments(object).subscribe((res: any) => {
-      this.auth.hideLoader();
+      this.auth.hideLoader()
       if (userType == -1) {
         let byteArr = this.commonServiceFactory.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
@@ -614,7 +610,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     },
       (err: any) => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         // this.commonService.showErrorMessage('error', '', err.error.message);
         let obj = {
           type: 'error',
@@ -650,7 +646,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* we need to update the batch array on the updating student object manually as this data is received empty from server */
   /* ============================================================================================================================ */
   updateAssignedBatches(arr: any[]) {
-    this.auth.showLoader();
+    this.auth.showLoader()
     let batchString: any[] = [];
     this.studentAddFormData.assignedBatches = [];
     this.studentAddFormData.batchJoiningDates = [];
@@ -680,7 +676,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.studentAddFormData.batchJoiningDates = tempDate;
     this.assignedBatchString = batchString.join(',');
     this.JsonFlags.isDisabled = false;
-    this.auth.hideLoader();
+    this.auth.hideLoader()
   }
 
   getSlotName(e): string {
@@ -724,14 +720,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   fetchPrefillFormData() {
-    this.fetchInventoryList();
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.JsonFlags.isDisabled = true;
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
       err => {
         let msg = err.error.message;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let obj = {
           type: 'error',
           title: msg,
@@ -740,21 +735,20 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.appC.popToast(obj);
       }
     );
-    this.getAllocatedHistory();
-    this.auth.showLoader();
-    this.studentPrefillService.fetchAllFeeStructure().subscribe(
-      res => {
-        this.feeTemplateStore = res;
-      }
-    )
-    this.auth.showLoader();
+    // this.auth.showLoader() -- student not used code
+    // this.studentPrefillService.fetchAllFeeStructure().subscribe(
+    //   res => {
+    //     this.feeTemplateStore = res;
+    //   }
+    // )
+    // this.auth.showLoader()
     // this.studentPrefillService.getChequeStatus().subscribe(
     //   data => {
     //     this.pdcStatus = data;
     //   },
     //   err => {
     //     let msg = err.error.message;
-    //     this.auth.hideLoader();
+    //     this.auth.hideLoader()
     //     let obj = {
     //       type: 'error',
     //       title: msg,
@@ -763,13 +757,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     //     this.appC.popToast(obj);
     //   }
     // )
-    this.getPdcChequeList();
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
       err => {
         let msg = err.error.message;
-        this.auth.hideLoader();
         let obj = {
           type: 'error',
           title: msg,
@@ -779,35 +771,44 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.auth.showLoader();
-    this.prefill.getAllFinancialYear().subscribe(
-      (data: any) => {
-        this.auth.hideLoader();
-        this.academicYear = data;
-        // console.log(this.academicYear);
-        this.academicYear.forEach(e => {
-          if (e.default_academic_year == 1) {
-            this.defaultAcadYear = e.inst_acad_year_id;
-            // console.log(this.academicYearFilter)
-            this.academicYearFilter = this.defaultAcadYear;
+    this.fetchAcademicYears();
+
+  }
+
+
+  fetchAcademicYears() {
+    if (!this.academicYear.length) {
+      this.auth.showLoader()
+      this.prefill.getAllFinancialYear().subscribe(
+        (data: any) => {
+          this.academicYear = data;
+          this.academicYear.forEach(e => {
+            if (e.default_academic_year == 1) {
+              this.defaultAcadYear = e.inst_acad_year_id;
+              // console.log(this.academicYearFilter)
+              this.academicYearFilter = this.defaultAcadYear;
+            }
+          });
+        },
+        err => {
+          let msg = err.error.message;
+          this.auth.hideLoader()
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
           }
-        });
-      },
-      err => {
-        let msg = err.error.message;
-        this.auth.hideLoader();
-        let obj = {
-          type: 'error',
-          title: msg,
-          body: ""
+          this.appC.popToast(obj);
         }
-        this.appC.popToast(obj);
-      }
-    )
-    this.auth.showLoader();
-    this.studentPrefillService.fetchCustomComponentById(this.student_id).subscribe(
+      )
+    }
+  }
+
+  fetchCustomeComponents() {
+    this.auth.showLoader()
+    this.studentPrefillService.fetchCustomComponentById(this.student_id, undefined, 2).subscribe(
       data => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         if (data != null) {
           data.forEach(el => {
             let max_length = el.comp_length == 0 ? 100 : el.comp_length;
@@ -890,7 +891,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         let msg = err.error.message;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let obj = {
           type: 'error',
           title: msg,
@@ -1031,7 +1032,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* align the user selected batch into input and update the data into array to be updated to server */
   /* ============================================================================================================================ */
   getassignedBatchList(e) {
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.studentAddFormData.assignedBatches = e.assignedBatches;
     this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
     this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
@@ -1039,15 +1040,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.studentAddFormData.deleteCourse_SubjectUnPaidFeeSchedules = e.deleteCourse_SubjectUnPaidFeeSchedules;
     this.assignedBatchString = e.assignedBatchString;
     this.isAssignBatch = e.isAssignBatch;
-    this.auth.hideLoader();
+    this.auth.hideLoader()
   }
 
   getSlots() {
     this.slots = [];
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.studentPrefillService.fetchSlots().subscribe(
       res => {
-        this.auth.hideLoader();
         res.forEach(el => {
           let obj = {
             label: el.slot_name,
@@ -1056,13 +1056,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
           this.slots.push(obj);
         });
-        this.getlangStudentStatus();
+        this.updateSlotsByStudent();
         // console.log(this.slots);
 
       },
       err => {
         let msg = err.error.message;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let obj = {
           type: 'error',
           title: msg,
@@ -1075,26 +1075,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  getlangStudentStatus() {
-    this.auth.showLoader();
-    this.studentPrefillService.fetchLangStudentStatus().subscribe(
-      res => {
-        this.auth.hideLoader();
-        this.langStatus = res;
-        this.updateSlotsByStudent();
-      },
-      err => {
-        let msg = err.error.message;
-        this.auth.hideLoader();
-        let obj = {
-          type: 'error',
-          title: msg,
-          body: ""
-        }
-        this.appC.popToast(obj);
-      }
-    )
-  }
 
   multiselectVisible(elid) {
     let targetid = elid + "multi";
@@ -1195,9 +1175,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       /* fetch batch details */
       else {
         this.batchList = [];
-        this.auth.showLoader();
+        this.auth.showLoader()
         if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
-          country_id='-1';
+          country_id = '-1';
         }
 
         this.studentPrefillService.fetchStudentCourseDetails(this.student_id, '-1', country_id).subscribe(
@@ -1223,7 +1203,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 this.batchList.push(obj);
               });
               this.updateAssignedBatches(this.batchList);
-              this.auth.hideLoader();
+              this.auth.hideLoader()
               // console.log(this.batchList);
             } else {
               this.JsonFlags.isDisabled = false;
@@ -1231,7 +1211,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           },
           err => {
             let msg = err.error.message;
-            this.auth.hideLoader();
+            this.auth.hideLoader()
             let obj = {
               type: 'error',
               title: msg,
@@ -1249,10 +1229,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   registerDuplicateStudent(form: NgForm) {
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
       (res: any) => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let statusCode = res.statusCode;
         if (statusCode == 200) {
           let alert = {
@@ -1277,7 +1257,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         let msg = err.error.message;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let obj = {
           type: 'error',
           title: msg,
@@ -1330,12 +1310,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   updateStudentForm(id) {
-    this.auth.showLoader();
+    this.auth.showLoader()
     /* Fetching Student Details from server */
     this.fetchService.getStudentById(id).subscribe(
       (data: any) => {
         // console.log(data);
-        this.auth.hideLoader();
         this.studentName = data.student_name;
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
@@ -1358,8 +1337,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
         this.getStateList();  // fetch state according to country
         /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
-        this.updateStudentFeeDetails();
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.getCourseDropdown(id);
         let globalInactiveStudent = sessionStorage.getItem('global_search_edit_student');
         if (data.is_active == "Y") {
@@ -1376,7 +1354,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (this.isProfessional) {
           /* Fetching the student Slots */
           this.getSlots();
-          this.auth.showLoader();
+          this.auth.showLoader()
           this.JsonFlags.isDisabled = true;
           this.studentPrefillService.fetchStudentBatchDetails(id).subscribe(
             data => {
@@ -1401,12 +1379,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 this.batchList.push(obj);
               });
               this.updateAssignedBatches(this.batchList);
-              this.auth.hideLoader();
+              this.auth.hideLoader()
             },
             err => {
               this.JsonFlags.isDisabled = false;
               let msg = err.error.message;
-              this.auth.hideLoader();
+              this.auth.hideLoader()
               let obj = {
                 type: 'error',
                 title: msg,
@@ -1449,7 +1427,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         //     err => {
         //
         //       let msg = err.error.message;
-        //       this.auth.hideLoader();
+        //       this.auth.hideLoader()
         //       let obj = {
         //         type: 'error',
         //         title: msg,
@@ -1461,7 +1439,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         // }
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let al = {
           type: "error",
           title: err.error.message,
@@ -1631,11 +1609,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray;
       }
       this.btnSaveAndContinue.nativeElement.disabled = true;
-      this.auth.showLoader();
+      this.auth.showLoader()
       // console.log(this.studentAddFormData);
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         (res: any) => {
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           this.btnSaveAndContinue.nativeElement.disabled = false;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
@@ -1670,7 +1648,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         err => {
           this.btnSaveAndContinue.nativeElement.disabled = false;
           let msg = err.error.message;
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           let obj = {
             type: 'error',
             title: msg,
@@ -1724,8 +1702,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   /* function to add institute data to server */
   addInstituteData() {
-    this.prefill.createNewInstitute(this.createInstitute).subscribe(el => {
-      if (el.message === "OK") {
+    if(this.createInstitute.instituteName.trim()!=''){
+      if((this.instituteList.filter(x=>x.school_name == this.createInstitute.instituteName.trim())).length == 0){
+        this.prefill.createNewInstitute(this.createInstitute).subscribe(el => {
+        if (el.message === "OK") {
+          let alert = {
+            type: 'success',
+            title: '',
+            body: 'Institution added successfully !'
+          }
+          this.appC.popToast(alert);
         this.prefill.getSchoolDetails().subscribe(
           data => {
             this.school = data;
@@ -1748,9 +1734,34 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         //console.log("institute Added");
       }
       else {
-        //console.log("Institute Name already exist!");
+
       }
-    });
+    },
+    err=>{
+      let alert = {
+        type: 'error',
+        title: '',
+        body: err.error.message
+      }
+      this.appC.popToast(alert);
+    }
+    );
+    } else {
+      let alert = {
+        type: 'error',
+        title: '',
+        body: 'Institution name already exist!'
+      }
+      this.appC.popToast(alert);
+    }
+   } else {
+      let alert = {
+      type: 'info',
+      title: '',
+      body: 'Please enter institution name'
+    }
+    this.appC.popToast(alert);
+  }
   }
 
   fetchInstituteInfo() {
@@ -1769,47 +1780,27 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.instituteList.forEach(el => {
       if (el.school_id == id) {
         el.edit = true;
+        el.new_school_name = el.school_name;
       }
     });
   }
 
   cancelEditInstitute(id) {
-    this.fetchInstituteInfo();
+    let temp = this.instituteList.filter(el=> el.school_id == id);
+    if(temp) {
+      temp[0].edit = false;
+      temp[0].new_school_name = temp[0].school_name;
+    }
   }
 
-  updateInstitute(id) {
-    this.instituteList.forEach(el => {
-      if (el.school_id == id) {
-        this.postService.updateInstituteDetails(id, el).subscribe(
-          res => {
-            let alert = {
-              type: 'success',
-              title: 'institute Name Update',
-            }
-            this.appC.popToast(alert);
-            this.fetchInstituteInfo();
-          },
-          err => {
-            let alert = {
-              type: 'error',
-              title: 'We coudn\'t process your request',
-              body: err.message
-            }
-            this.appC.popToast(alert);
-            this.fetchInstituteInfo();
-          }
-        )
-      }
-    });
-  }
-
-  deleteInstitute(id) {
-    this.postService.deleteInstitute(id).subscribe(
+  updateInstitute(id, school_name) {
+    if(school_name.trim()!=''){
+      this.postService.updateInstituteDetails(id, school_name).subscribe(
       res => {
         let alert = {
           type: 'success',
-          title: 'Institute Record Deleted',
-          body: " Institute record deleted successfully"
+          title: '',
+          body: 'Institution name updated successfully!'
         }
         this.appC.popToast(alert);
         this.fetchInstituteInfo();
@@ -1818,7 +1809,38 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         let alert = {
           type: 'error',
           title: '',
-          body: "The requested institute is currently in use and cannot be deleted"
+          body: err.error.message
+        }
+        this.appC.popToast(alert);
+        this.fetchInstituteInfo();
+      }
+    )
+  } else {
+    let alert = {
+      type: 'info',
+      title: '',
+      body: 'Please enter institution name'
+    }
+    this.appC.popToast(alert);
+}
+}
+
+  deleteInstitute(id) {
+    this.postService.deleteInstitute(id).subscribe(
+      res => {
+        let alert = {
+          type: 'success',
+          title: '',
+          body: "Institute record deleted successfully"
+        }
+        this.appC.popToast(alert);
+        this.fetchInstituteInfo();
+      },
+      err => {
+        let alert = {
+          type: 'error',
+          title: '',
+          body: 'This institute is already in used, so cannot be deleted'
         }
         this.appC.popToast(alert);
         this.fetchInstituteInfo();
@@ -1893,10 +1915,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       is_archived = "Y";
     }
     // console.log(is_archived);
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.feeService.fetchStudentFeeSchedule(this.student_id, is_archived).subscribe(
       (res: FeeModel) => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.feeObject = res;
         this.clonedFeeObject = this.commonServiceFactory.keepCloning(res);
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
@@ -1906,7 +1928,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
             this.setTemplateDetails(res.customFeeSchedules[0]);// if setting is enable then country symbol and details will change --laxmi
           }
-          this.getAcademicYearDetails();
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
             if (permissions.includes('714')) {
@@ -1917,7 +1938,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             if ((permissions.includes('710'))) {
               this.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
-              this.getAcademicYearDetails();
             }
             else {
               this.checkBoxGroup.hideReconfigure = false;
@@ -1932,12 +1952,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
               this.checkBoxGroup.manageCheque = true;
-              this.getAcademicYearDetails();
             }
 
 
           }
-          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax,this.instituteCountryDetObj.id);
+          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax, this.instituteCountryDetObj.id);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
@@ -1951,7 +1970,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
-        this.auth.hideLoader();
+        this.auth.hideLoader()
       }
     )
   }
@@ -2134,12 +2153,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let JsonToSendOnServer = this.feeService.makePaymentFinalJson(this.subjectWiseInstallmentArray, this.paymentPopUpJson);
     JsonToSendOnServer.student_id = this.student_id;
     // console.log(JsonToSendOnServer);
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.btnPayment.nativeElement.disabled = true;
     this.postService.payPartialFeeAmount(JsonToSendOnServer).subscribe(
       res => {
         this.btnPayment.nativeElement.disabled = false;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.commonServiceFactory.showErrorMessage('success', '', 'Fee details has been updated');
         if (this.paymentPopUpJson.genFeeRecipt) {
           this.generateFeeRecipt(res);
@@ -2152,7 +2171,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         this.btnPayment.nativeElement.disabled = false;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.commonServiceFactory.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -2267,7 +2286,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.schedule_id = "";
   }
 
-  // Configure Fee
+  /* Configure Fee -- commeneted by laxmi 21-02-20
   configureFees($event) {
     $event.preventDefault();
     this.isConfigureFees = true;
@@ -2282,6 +2301,18 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     this.feeTempSelected = "";
   }
+
+   reCreateFeeAgain() {
+    if (confirm("By changing the fee template, all existing fee schedule and transactions shall be discarded and archived. Are you sure you want to continue?")) {
+      this.isConfigureFees = true;
+      this.is_undo = 'Y';
+      this.feeTemplateById = { feeTypeMap: "", customFeeSchedules: [], registeredServiceTax: "", studentArray: "", studentwise_total_fees_amount: "", studentwise_total_fees_balance_amount: "", studentwise_total_fees_amount_paid: "", studentwise_total_fees_discount: "", studentwise_fees_tax_applicable: "", no_of_installments: "", discount_fee_reason: "", template_name: "", template_id: "", template_effective_date: "", is_fee_schedule_created: "", is_fee_tx_done: "", is_undo: this.is_undo, is_fee_other_inst_created: "", is_delete_other_fee_types: "", chequeDetailsJson: "", payment_mode: "", remarks: "", paid_date: "", toCreate: false, is_cheque_details_required: "", reference_no: "", invoice_no: "", uiSelected: false };
+      this.isDefineFees = false;
+      this.isDiscountApplied = false;
+    }
+  }
+
+  */
 
   getInstasllemttDetails(installment) {
     console.log(installment);
@@ -2324,10 +2355,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     /* success */
     if ((this.feeTempSelected != "" && this.feeTempSelected != null) && (dd != "" && dd != null && dd != "Invalid date")) {
       this.feeStructureForm.template_effective_date = dd;
-      this.auth.showLoader();
+      this.auth.showLoader()
       this.studentPrefillService.getFeeStructureById(this.feeTempSelected, this.feeStructureForm).subscribe(
         res => {
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           this.feeTemplateById = res;
           this.feeTemplateById.template_effective_date = this.feeStructureForm.template_effective_date;
           this.feeTemplateById.template_id = this.feeTempSelected;
@@ -2352,11 +2383,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.service_tax = 0;
             }
           });
-          this.closeConfigureFees();
+          // this.closeConfigureFees();
         },
         err => {
           let msg = err.error.message;
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           let obj = {
             type: 'error',
             title: msg,
@@ -2412,15 +2443,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.feeTemplateById = this.feeObject;
   }
 
-  reCreateFeeAgain() {
-    if (confirm("By changing the fee template, all existing fee schedule and transactions shall be discarded and archived. Are you sure you want to continue?")) {
-      this.isConfigureFees = true;
-      this.is_undo = 'Y';
-      this.feeTemplateById = { feeTypeMap: "", customFeeSchedules: [], registeredServiceTax: "", studentArray: "", studentwise_total_fees_amount: "", studentwise_total_fees_balance_amount: "", studentwise_total_fees_amount_paid: "", studentwise_total_fees_discount: "", studentwise_fees_tax_applicable: "", no_of_installments: "", discount_fee_reason: "", template_name: "", template_id: "", template_effective_date: "", is_fee_schedule_created: "", is_fee_tx_done: "", is_undo: this.is_undo, is_fee_other_inst_created: "", is_delete_other_fee_types: "", chequeDetailsJson: "", payment_mode: "", remarks: "", paid_date: "", toCreate: false, is_cheque_details_required: "", reference_no: "", invoice_no: "", uiSelected: false };
-      this.isDefineFees = false;
-      this.isDiscountApplied = false;
-    }
-  }
 
   sort(key) {
     this.key = key;
@@ -2440,11 +2462,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('YYYY-MM-DD'),
       cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
     }
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.pdcAddForm.country_id = this.instituteCountryDetObj.id;
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let temp: any[] = [];
         res.forEach(el => {
           let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: el.cheque_date, cheque_date_from: el.cheque_date_from, cheque_date_to: el.cheque_date_from, cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status: el.cheque_status, cheque_status_key: el.cheque_status_key, clearing_date: el.clearing_date, genAck: el.genAck, institution_id: el.institution_id, sendAck: el.sendAck, student_id: el.student_id, student_name: el.student_name, student_phone: el.student_phone, uiSelected: false, country_id: el.country_id };
@@ -2452,7 +2474,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         });
         this.chequePdcList = temp;
       }, error => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
       }
     )
   }
@@ -2476,18 +2498,18 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.genPdcAck = false;
     this.sendPdcAck = false;
     this.btnPdcPopUpAdd.nativeElement.disabled = true;
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.postService.addChequePdc(temp).subscribe(
       res => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.btnPdcPopUpAdd.nativeElement.disabled = false;
         this.chequePdcList = [];
         this.newPdcArr = [];
-        this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0, country_id:'' };
+        this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0, country_id: '' };
         this.getPdcChequeList();
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.btnPdcPopUpAdd.nativeElement.disabled = false;
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
         this.chequePdcList = [];
@@ -2504,15 +2526,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   deletePDC(data, i) {
     if (confirm("Are you sure,you want to delete the Cheque?")) {
-      this.auth.showLoader();
+      this.auth.showLoader()
       this.postService.deletePdcById(data.cheque_id).subscribe(
         res => {
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           this.chequePdcList.splice(i, 1);
         },
         err => {
           let msg = err.error.message;
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           let obj = {
             type: 'error',
             title: msg,
@@ -2526,11 +2548,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   updatePDC(el) {
     if (this.validPdc(el)) {
-      let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id:el.country_id };
-      this.auth.showLoader();
+      let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id: el.country_id };
+      this.auth.showLoader()
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           // this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
           this.getPdcChequeList();
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.add('displayComp');
@@ -2538,7 +2560,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         },
         err => {
           let msg = err.error.message;
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           let obj = {
             type: 'error',
             title: msg,
@@ -2599,10 +2621,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   generateAcknowledgeAPi(chequeId, student_id, key) {
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.postService.generateAcknowledge(chequeId, student_id, key).subscribe(
       res => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         if (key == 'Y') {
           // this.commonServiceFactory.showErrorMessage('success', 'Send Successfullly', '');
           this.commonServiceFactory.showErrorMessage('success', '', 'Acknowledgement receipt sent to ' + this.studentAddFormData.student_email);
@@ -2611,7 +2633,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
       }
     )
@@ -2659,14 +2681,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   fetchInventoryList() {
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.studentPrefillService.fetchInventoryListById(this.student_id).subscribe(
       data => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.inventoryItemsArr = data;
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let msg = err.error.message;
         let obj = { type: 'error', title: msg, body: "" };
         this.appC.popToast(obj);
@@ -2704,10 +2726,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             docket_id: this.addInventory.docket_id,
             date_of_delivery_of_sm: this.addInventory.date_of_delivery_of_sm,
           };
-          this.auth.showLoader();
+          this.auth.showLoader()
           this.postService.allocateInventory(obj).subscribe(
             res => {
-              this.auth.hideLoader();
+              this.auth.hideLoader()
               this.appC.popToast({ type: "success", title: "", body: "Inventory Item Allocated Successfully" });
               this.addInventory = {
                 alloted_units: 0,
@@ -2722,7 +2744,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.fetchInventoryList();
             },
             err => {
-              this.auth.hideLoader();
+              this.auth.hideLoader()
               this.appC.popToast({ type: "error", title: '', body: err.error.message });
             }
           )
@@ -2822,9 +2844,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
       newxhr.setRequestHeader("x-proc-inst-id", sessionStorage.getItem('institute_id'));
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-      this.auth.showLoader();
+      this.auth.showLoader()
       newxhr.onreadystatechange = () => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         if (newxhr.readyState == 4) {
           if (newxhr.status >= 200 && newxhr.status < 300) {
             let data = {
@@ -2857,15 +2879,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   getUploadedFileData() {
-    this.auth.showLoader();
-    const url = `/users-file/downloadFile/?studentId=${this.student_id}`;
+    this.auth.showLoader()
+    const url = `/users-file/downloadFile?studentId=${this.student_id}`;
     this.productService.getUploadFileData(url).subscribe(
       (res: any) => {
         this.uploadedFileData = res;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
       }
     )
   }
@@ -2881,34 +2903,34 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   updateDownloadCount(object) {
-    this.auth.showLoader();
+    this.auth.showLoader()
     const url = `/users-file/update-File-download-count/?studentId=${this.student_id}&id=${object.id}`;
     this.productService.getUploadFileData(url).subscribe(
-      (res:any) => {
-        this.auth.hideLoader();
+      (res: any) => {
+        this.auth.hideLoader()
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
       }
     )
   }
 
   deletefile(id) {
     if (confirm('Are you sure, you want to delete file?')) {
-    this.auth.showLoader();
-    const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
-    this.productService.deleteFile(url).subscribe(
-      (res:any) => {
-        this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "File deleted successfully" });      
-        if(res){
-          this.getUploadedFileData();
+      this.auth.showLoader()
+      const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
+      this.productService.deleteFile(url).subscribe(
+        (res: any) => {
+          this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "File deleted successfully" });
+          if (res) {
+            this.getUploadedFileData();
+          }
+          this.auth.hideLoader()
+        },
+        err => {
+          this.auth.hideLoader()
         }
-          this.auth.hideLoader();
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    )
-  }
+      )
+    }
   }
 }

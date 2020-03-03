@@ -655,7 +655,7 @@
             <label for="refferedBy">Referred By</label>
             <select id="refferedBy" class="form-ctrl" [(ngModel)]="newEnqData.referred_by" name="reffered">
               <option value="-1"></option>
-              <option *ngFor="let refer of refferedBy" [value]="refer.id">{{refer.name}}</option>
+              <option *ngFor="let refer of referList" [value]="refer.id">{{refer.name}}</option>
             </select>
 
             <span style="right: 5px;" class="sourceI iconPlus" (click)="showAddReferPops()">+</span>
@@ -1043,7 +1043,7 @@
                   </a>
                 </div>
                 <div class="">
-                  <a (click)="deleteRefer(sch.id)" style="cursor:pointer;color: red;" id="deleteAnch5">
+                  <a (click)="deleteRefer(sch.id, sch.name)" style="cursor:pointer;color: red;" id="deleteAnch5">
                     <i class="view-icon cursor-icon fa fa-trash" title="Delete" aria-hidden="true" id="deleteIcon5"></i>
                   </a>
                 </div>

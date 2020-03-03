@@ -1,10 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
-import { PaymentHistoryMainService } from '../../../services/payment-history/payment-history-main.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 import { ExcelService } from '../../../services/excel.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
-import { CommonServiceFactory } from '../../../services/common-service';
+import { PaymentHistoryMainService } from '../../../services/payment-history/payment-history-main.service';
+import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 
 @Component({
   selector: 'app-gst-report',
@@ -126,6 +126,7 @@ export class GstReportComponent implements OnInit {
     this.tax_type_without_percentage=sessionStorage.getItem('tax_type_without_percentage');
 
     window.scroll(0,0);
+    this.tax_type_without_percentage=sessionStorage.getItem('tax_type_without_percentage');
     this.getGstReport(event, this.year);    
     this.checkDownloadRoleAccess();
   }

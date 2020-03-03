@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule } from '@angular/router';
 
+
+
 @NgModule({
     imports: [
         RouterModule.forRoot(
@@ -17,7 +19,8 @@ import { PreloadAllModules, RouterModule } from '@angular/router';
                 {
                     path: 'view',
                     loadChildren: 'app/components/component.module#ComponentModule'
-                }
+                },
+                { path: '**',  redirectTo: '/authPage', pathMatch: 'full' }
             ],
             {
                 useHash: true,

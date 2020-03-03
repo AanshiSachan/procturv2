@@ -417,7 +417,7 @@ export class InstituteSettingsComponent implements OnInit {
     let dataToSend: any = {};
     if (this.instituteSettingDet.gst_enabled) {
       if (this.instituteSettingDet.gst_no == "" || this.instituteSettingDet.gst_no == null) {
-        this.commonService.showErrorMessage('error', '', "Please specify GST NO.");
+        this.commonService.showErrorMessage('error', '', "Please specify "+this.instituteTaxType+" NO.");
         return;
       }
     }
@@ -843,6 +843,7 @@ export class InstituteSettingsComponent implements OnInit {
     if(this.instituteSettingDet.exam_marks_not_update_notification_contact_number != '' && this.instituteSettingDet.exam_marks_not_update_notification_contact_number != null){
       this.instituteSettingDet.enable_exam_marks_not_update_notification.other = true;
     }
+    this.instituteSettingDet.vat_percentage=data.cgst+data.sgst;
   }
 
 
@@ -1021,10 +1022,10 @@ export class InstituteSettingsComponent implements OnInit {
       }
     )
   }
- calculateCGSTAndSGSTFromVat(data){
-   if(this.instituteTaxType=='Vat'){
-    data.cgst=Math.floor(this.instituteSettingDet.vat_percentage/2);
-    data.sgst=this.instituteSettingDet.vat_percentage-data.cgst;
-   }
- }
+  calculateCGSTAndSGSTFromVat(data){
+    if(this.instituteTaxType=='Vat'){
+     data.cgst=Math.floor(this.instituteSettingDet.vat_percentage/2);
+     data.sgst=this.instituteSettingDet.vat_percentage-data.cgst;
+    }
+    }
 }
