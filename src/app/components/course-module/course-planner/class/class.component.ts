@@ -1,16 +1,14 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import 'rxjs/Rx';
-import { of } from 'rxjs/observable/of';
 import * as moment from 'moment';
-import { Observable } from 'rxjs/Observable';
-import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
+import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
+import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { WidgetService } from '../../../../services/widget.service';
 import { CoursePlanner } from '../course-planner.model';
 import { SessionFilter } from '../session-filter.model';
-import { WidgetService } from '../../../../services/widget.service';
-import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
 declare var $;
 
 @Component({

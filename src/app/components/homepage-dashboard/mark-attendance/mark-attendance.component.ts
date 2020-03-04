@@ -1,19 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation, Renderer2, ChangeDetectorRef } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
-import { AppComponent } from '../../../app.component';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CheckableSettings, TreeItemLookup } from '@progress/kendo-angular-treeview';
 import * as moment from 'moment';
-import { WidgetService } from '../../../services/widget.service';
-import { AuthenticatorService } from '../../../services/authenticator.service';
-import { Pipe, PipeTransform } from '@angular/core';
-
-import { TreeViewModule } from '@progress/kendo-angular-treeview';
-import { CheckableSettings } from '@progress/kendo-angular-treeview';
 import { of } from 'rxjs/observable/of';
+import { AppComponent } from '../../../app.component';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { TopicListingService } from '../../../services/course-services/topic-listing.service';
-import { Observable } from 'rxjs/Observable';
-import { TreeItemLookup } from '@progress/kendo-angular-treeview';
-import { element } from 'protractor';
+import { WidgetService } from '../../../services/widget.service';
+
 
 
 @Component({

@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
-import 'rxjs/Rx';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { Base64 } from 'js-base64';
-import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
-import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
+import 'rxjs/Rx';
+import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
+import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 
 @Component({
   selector: 'app-student-bulk',

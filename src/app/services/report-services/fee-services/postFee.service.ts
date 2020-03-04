@@ -1,11 +1,8 @@
-import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthenticatorService } from "../../authenticator.service";
+import { Injectable } from "@angular/core";
 import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
 import 'rxjs/Rx';
-import { Subscription } from 'rxjs';
-import * as moment from 'moment';
+import { AuthenticatorService } from "../../authenticator.service";
 
 @Injectable()
 export class PostFeeService {

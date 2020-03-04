@@ -1,12 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { instituteInfo } from '../../../model/instituteinfo';
-import { EnquiryCampaign } from '../../../model/enquirycampaign';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
 import 'rxjs/Rx';
-import { Subscription } from 'rxjs';
-import * as moment from 'moment';
+import { instituteInfo } from '../../../model/instituteinfo';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map'
-import 'rxjs/Rx';
+import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import 'rxjs/Rx';
 import { Observable } from 'rxjs/Rx';
 import { environment } from '../../environments/environment';
 /* Method declared for future purpose for setting authorization after successfull login */

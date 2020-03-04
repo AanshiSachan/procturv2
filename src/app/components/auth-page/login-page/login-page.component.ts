@@ -234,7 +234,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.login.postLoginDetails(this.loginDataForm).subscribe(
         res => {
           console.log(res);
-          sessionStorage.setItem('login-response',JSON.stringify(res));
+          sessionStorage.setItem('login-response', JSON.stringify(res));
           this.checkForAuthOptions(res);
         },
         err => {
@@ -360,8 +360,15 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
       this.auth.changeAuthenticationKey(Authorization);
       this.auth.changeInstituteId(institute_data.institution_id);
+      this.auth.course_flag.next(institute_data.course_structure_flag);
+      this.auth.institute_type.next(institute_data.institute_type);
+      this.auth.instituteType_name.next(institute_data.institute_type);
+      this.auth.changeMainBranchValue(institute_data.is_main_branch);
+      this.login.changeUserType(institute_data.userType);
+      this.auth.makeInstituteType(institute_data.institute_type, institute_data.course_structure_flag);
+      sessionStorage.setItem('user_permission', institute_data.user_permission);
       sessionStorage.setItem('institute_id', institute_data.institution_id);
-      sessionStorage.setItem('institution_id', institute_data.institution_id);
+      sessionStorage.setItem('institution_id', institute_data.institution_id); //y 
       sessionStorage.setItem('about_us_image', institute_data.about_us_image);
       sessionStorage.setItem('about_us_text', institute_data.about_us_text);
       sessionStorage.setItem('accountId', institute_data.accountId);
@@ -369,7 +376,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('biometric_attendance_feature', institute_data.biometric_attendance_feature);
       sessionStorage.setItem('courseType', institute_data.courseType);
       sessionStorage.setItem('course_structure_flag', institute_data.course_structure_flag);
-      this.auth.course_flag.next(institute_data.course_structure_flag);
       sessionStorage.setItem('enable_fee_payment_mandatory_student_creation', institute_data.enable_fee_payment_mandatory_student_creation);
       sessionStorage.setItem('enable_fee_templates', institute_data.enable_fee_templates);
       sessionStorage.setItem('enable_tax_applicable_fee_installments', institute_data.enable_tax_applicable_fee_installments);
@@ -383,9 +389,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('inst_reg_code', institute_data.inst_reg_code);
       sessionStorage.setItem('inst_set_up', institute_data.inst_set_up);
       sessionStorage.setItem('institute_type', institute_data.institute_type);
-      this.auth.institute_type.next(institute_data.institute_type);
-      this.auth.instituteType_name.next(institute_data.institute_type);
-      this.auth.makeInstituteType(institute_data.institute_type, institute_data.course_structure_flag);
       sessionStorage.setItem('institution_footer', institute_data.institution_footer);
       sessionStorage.setItem('institution_header1', institute_data.institution_header1);
       sessionStorage.setItem('institution_header2', institute_data.institution_header2);
@@ -396,7 +399,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('is_campaign_message_approve_feature', institute_data.is_campaign_message_approve_feature);
       sessionStorage.setItem('allow_sms_approve_feature', res.data.allow_sms_approve_feature);
       sessionStorage.setItem('is_main_branch', institute_data.is_main_branch);
-      this.auth.changeMainBranchValue(institute_data.is_main_branch);
       sessionStorage.setItem('is_student_bulk_upload_byClient', institute_data.is_student_bulk_upload_byClient);
       sessionStorage.setItem('is_student_mgmt_flag', institute_data.is_student_mgmt_flag);
       sessionStorage.setItem('login_student_id', institute_data.login_student_id);
@@ -414,8 +416,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('userCat', institute_data.userCat);
       sessionStorage.setItem('userTimeGrp', institute_data.userTimeGrp);
       sessionStorage.setItem('userType', institute_data.userType);
-      this.login.changeUserType(institute_data.userType);
-      sessionStorage.setItem('user_permission', institute_data.user_permission);
       sessionStorage.setItem('user_type_name', institute_data.user_type_name);
       sessionStorage.setItem('username', institute_data.username);
       sessionStorage.setItem('userid', institute_data.userid);
@@ -435,7 +435,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('website_url', institute_data.website_url);
       sessionStorage.setItem('enable_fee_template_country_wise', institute_data.enable_fee_template_country_wise);
       sessionStorage.setItem('tax_type_without_percentage', institute_data.tax_type);
-      sessionStorage.setItem('tax_type_with_percentage', institute_data.tax_type+"(%)");
+      sessionStorage.setItem('tax_type_with_percentage', institute_data.tax_type + "(%)");
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');

@@ -1,18 +1,9 @@
-import {
-    Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-    AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-    SimpleChanges, OnChanges
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Renderer2 } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
-import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import * as Muuri from 'muuri/muuri';
-import { Chart } from 'angular-highcharts';
+import { AppComponent } from '../../../app.component';
 import { WidgetService } from '../../../services/widget.service';
 
 
