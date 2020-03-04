@@ -697,7 +697,7 @@
         </section>
 
         <!--====================================middle <Main> section==========================-->
-        <section *ngIf="(!isRippleLoad) && checkBoxGroup.showFeeSection">
+        <section *ngIf="(!auth.isRippleLoad.getValue()) && checkBoxGroup.showFeeSection">
 
           <div class="card-layout">
 

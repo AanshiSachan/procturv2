@@ -287,7 +287,7 @@ export class StudentAddComponent implements OnInit {
   country_id: number = null;
   category_id: number | string = "";
   selectedFiles: any[] = [];
-  tax_type_without_percentage : String;
+  tax_type_without_percentage: String;
   isTaxEnable: boolean = false;
 
   isRippleLoad: boolean = false;
@@ -320,8 +320,8 @@ export class StudentAddComponent implements OnInit {
 
   ngOnInit() {
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
-    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
-    this.isTaxEnable = sessionStorage.getItem('enable_tax_applicable_fee_installments')=="1"?true:false;
+    this.tax_type_without_percentage = sessionStorage.getItem("tax_type_without_percentage");
+    this.isTaxEnable = sessionStorage.getItem('enable_tax_applicable_fee_installments') == "1" ? true : false;
     this.fetchPrefillFormData();
 
     if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
@@ -335,6 +335,7 @@ export class StudentAddComponent implements OnInit {
       this.updateBatchList();
     }
     else if (!this.isProfessional) {
+      this.studentAddFormData.standard_id = (!!this.studentAddFormData.standard_id) ? this.studentAddFormData.standard_id : -1;
       this.updateMasterCourseList(this.studentAddFormData.standard_id);
     }
 
@@ -391,8 +392,8 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  getStateList(){
-    if(this.checkStatusofStudent){
+  getStateList() {
+    if (this.checkStatusofStudent) {
       this.stateList = [];
       this.cityList = [];
       this.areaList = [];
@@ -401,66 +402,66 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.area_id = "";
     }
     const url = `/api/v1/country/state?country_ids=${this.studentAddFormData.country_id}`
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
-        if(res.result && res.result.length > 0){
+        this.auth.hideLoader();
+        if (res.result && res.result.length > 0) {
           this.stateList = res.result[0].stateList;
         }
-        if(!this.checkStatusofStudent){
+        if (!this.checkStatusofStudent) {
           this.getCityList();
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
       }
     )
   }
 
   // get city list as per state selection
-  getCityList(){
-    if(this.checkStatusofStudent){
+  getCityList() {
+    if (this.checkStatusofStudent) {
       this.cityList = [];
       this.areaList = [];
       this.studentAddFormData.city_id = "";
       this.studentAddFormData.area_id = "";
     }
     const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
-        if(res.result.length > 0){
+        this.auth.hideLoader();
+        if (res.result && res.result.length > 0) {
           this.cityList = res.result[0].cityList;
         }
-        if(!this.checkStatusofStudent){
+        if (!this.checkStatusofStudent) {
           this.getAreaList();
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
       }
     )
   }
 
-  getAreaList(){
-    if(this.checkStatusofStudent){
+  getAreaList() {
+    if (this.checkStatusofStudent) {
       this.areaList = [];
     }
     const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
-        if(res.result.length > 0){
+        this.auth.hideLoader();
+        if (res.result && res.result.length > 0) {
           this.areaList = res.result[0].areaList;
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
       }
     )
@@ -478,15 +479,13 @@ export class StudentAddComponent implements OnInit {
         this.country_id = this.instituteCountryDetObj.id;
       }
     });
-
-    this.getStateList();
   }
 
-  toggleAddArea(){
-    if(this.addArea){
+  toggleAddArea() {
+    if (this.addArea) {
       this.addArea = false;
     }
-    else{
+    else {
       this.addArea = true;
     }
   }
@@ -497,10 +496,10 @@ export class StudentAddComponent implements OnInit {
   /* ===================================== Data Prefill Method and General Methods ============================ */
   /* ========================================================================================================== */
   updateBatchList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentPrefillService.fetchBatchDetails().subscribe(data => {
       console.log('updateBatchList' + this.batchList.length);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.batchList = [];
       data.forEach(el => {
         if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
@@ -534,10 +533,10 @@ export class StudentAddComponent implements OnInit {
 
   updateMasterCourseList(id) {
     this.batchList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (data.coursesList != null && data.coursesList.length > 0) {
           data.coursesList.forEach(el => {
             if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
@@ -556,7 +555,7 @@ export class StudentAddComponent implements OnInit {
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage('info', '', 'No course assigned for standard');
       });
   }
@@ -692,7 +691,7 @@ export class StudentAddComponent implements OnInit {
       }
       case "inventory-icon": {
         this.navigateTo("inventory");
-        break;  
+        break;
       }
       default: {
         this.navigateTo("studentForm");
@@ -737,7 +736,7 @@ export class StudentAddComponent implements OnInit {
     //     this.msgToast.showErrorMessage('error', '', err.error.message);
     //   }
     // );
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
         this.academicYear = data;
@@ -758,10 +757,10 @@ export class StudentAddComponent implements OnInit {
   }
 
   fetchCustomComponents() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentPrefillService.fetchCustomComponentById(0, this.convertInstituteEnquiryId, 2).subscribe(
       data => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (data != null) {
           data.forEach(el => {
             let obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
@@ -783,10 +782,10 @@ export class StudentAddComponent implements OnInit {
         if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
           this.fetchEnquiryCustomComponentDetails();
         }
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -851,22 +850,17 @@ export class StudentAddComponent implements OnInit {
     /* batch has been already selected */
     if (this.studentAddFormData.assignedBatches != null && this.studentAddFormData.assignedBatches.length != 0) {
       for (let i in this.batchList) {
+        this.batchList[i].isSelected = false;
         if (this.isProfessional) {
           /* course has been assigned */
           if (this.studentAddFormData.assignedBatches.includes(this.batchList[i].data.batch_id.toString())) {
             this.batchList[i].isSelected = true;
-          }
-          else {
-            this.batchList[i].isSelected = false;
           }
         }
         else {
           /* course has been assigned */
           if (this.studentAddFormData.assignedBatches.includes(this.batchList[i].data.course_id.toString())) {
             this.batchList[i].isSelected = true;
-          }
-          else {
-            this.batchList[i].isSelected = false;
           }
         }
       }
@@ -893,7 +887,7 @@ export class StudentAddComponent implements OnInit {
 
   getSlots() {
     this.slots = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     return this.studentPrefillService.fetchSlots().subscribe(
       res => {
         res.forEach(el => {
@@ -913,7 +907,7 @@ export class StudentAddComponent implements OnInit {
   }
 
   getlangStudentStatus() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     return this.studentPrefillService.fetchLangStudentStatus().subscribe(
       res => {
         this.langStatus = res;
@@ -945,9 +939,9 @@ export class StudentAddComponent implements OnInit {
       if (document.getElementById('slotwrapper') && this.selectedSlots.length != 0) {
         document.getElementById('slotwrapper').classList.add('has-value');
       }
-      else if(document.getElementById('slotwrapper')){
+      else if (document.getElementById('slotwrapper')) {
         document.getElementById('slotwrapper').classList.remove('has-value');
-     }
+      }
       this.selectedSlotsID = this.slotIdArr.join(',');
       this.selectedSlotsString = this.selectedSlots.join(',');
     }
@@ -956,9 +950,9 @@ export class StudentAddComponent implements OnInit {
       if (document.getElementById('slotwrapper') && this.selectedSlots.length != 0) {
         document.getElementById('slotwrapper').classList.add('has-value');
       }
-      else if (document.getElementById('slotwrapper') && this.selectedSlots.length == 0) { 
+      else if (document.getElementById('slotwrapper') && this.selectedSlots.length == 0) {
         document.getElementById('slotwrapper').classList.remove('has-value');
-       }
+      }
       var index = this.selectedSlots.indexOf(data.value.slot_name);
       if (index > -1) {
         this.selectedSlots.splice(index, 1);
@@ -1040,39 +1034,39 @@ export class StudentAddComponent implements OnInit {
 
   /* function to add institute data to server */
   addInstituteData() {
-    if(this.createInstitute.instituteName.trim()!=''){
-      if((this.instituteList.filter(x=>x.school_name == this.createInstitute.instituteName.trim())).length == 0){
-    this.prefill.createNewInstitute(this.createInstitute).subscribe(
-      el => {
-        if (el.message === "OK") {
-          this.msgToast.showErrorMessage('success', '', 'Institution added successfully !');
-          this.prefill.getSchoolDetails().subscribe(
-            data => {
-              this.school = data;
-              this.instituteList = this.school;
-              this.instituteList.forEach(el => {
-                el.edit = false;
-              });
-              this.closeAddInstitute();
-            },
-            err => {
-              this.msgToast.showErrorMessage('error', '', 'There was an error processing your request');
+    if (this.createInstitute.instituteName.trim() != '') {
+      if ((this.instituteList.filter(x => x.school_name == this.createInstitute.instituteName.trim())).length == 0) {
+        this.prefill.createNewInstitute(this.createInstitute).subscribe(
+          el => {
+            if (el.message === "OK") {
+              this.msgToast.showErrorMessage('success', '', 'Institution added successfully !');
+              this.prefill.getSchoolDetails().subscribe(
+                data => {
+                  this.school = data;
+                  this.instituteList = this.school;
+                  this.instituteList.forEach(el => {
+                    el.edit = false;
+                  });
+                  this.closeAddInstitute();
+                },
+                err => {
+                  this.msgToast.showErrorMessage('error', '', 'There was an error processing your request');
+                }
+              );
             }
-          );
-        }
-        else {
+            else {
+              err => {
+                this.msgToast.showErrorMessage('error', '', 'There was an error processing your request');
+              }
+            }
+          },
           err => {
-            this.msgToast.showErrorMessage('error', '', 'There was an error processing your request');
-          }
-        }
-      },
-      err => {
-        console.log(err)
-        this.msgToast.showErrorMessage('error', '', err.error.message);
-      });
-    } else {
-      this.msgToast.showErrorMessage('error', '', 'Institution name already exist!');
-    }
+            console.log(err)
+            this.msgToast.showErrorMessage('error', '', err.error.message);
+          });
+      } else {
+        this.msgToast.showErrorMessage('error', '', 'Institution name already exist!');
+      }
     } else {
       this.msgToast.showErrorMessage('info', '', 'Please enter institution name');
     }
@@ -1101,26 +1095,26 @@ export class StudentAddComponent implements OnInit {
   }
 
   cancelEditInstitute(id) {
-    let temp = this.instituteList.filter(el=> el.school_id == id);
-    if(temp) {
+    let temp = this.instituteList.filter(el => el.school_id == id);
+    if (temp) {
       temp[0].edit = false;
       temp[0].new_school_name = temp[0].school_name;
     }
   }
 
   updateInstitute(id, school_name) {
-        if(school_name.trim()!=''){
-          this.postService.updateInstituteDetails(id, school_name).subscribe(
-          res => {
-            this.msgToast.showErrorMessage('success', '', 'Institution name updated successfully!');
-            this.fetchInstituteInfo();
-          },
-          err => {
-            this.msgToast.showErrorMessage('error', '', err.error.message);
-            this.fetchInstituteInfo();
-          }
-        )
-      } else {
+    if (school_name.trim() != '') {
+      this.postService.updateInstituteDetails(id, school_name).subscribe(
+        res => {
+          this.msgToast.showErrorMessage('success', '', 'Institution name updated successfully!');
+          this.fetchInstituteInfo();
+        },
+        err => {
+          this.msgToast.showErrorMessage('error', '', err.error.message);
+          this.fetchInstituteInfo();
+        }
+      )
+    } else {
       this.msgToast.showErrorMessage('info', '', 'Please enter institution name');
     }
   }
@@ -1655,10 +1649,10 @@ export class StudentAddComponent implements OnInit {
 
   fetchEnquiryCustomComponentDetails() {
     let id = this.institute_enquiry_id;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentPrefillService.fetchCustomComponentById(id, undefined, 1).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.enquiryCustomComp = res;
         this.filterStudentCustomComp();
       },
@@ -2491,7 +2485,7 @@ export class StudentAddComponent implements OnInit {
 
   // Inventory Page
   fetchInventoryList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.studentPrefillService.fetchInventoryList().subscribe(
       data => {
         this.auth.hideLoader();
