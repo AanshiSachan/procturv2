@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthenticatorService } from '../../services/authenticator.service';
-import { Observable } from 'rxjs';
-import { CommonServiceFactory } from '../../services/common-service';
+import { Injectable } from '@angular/core';
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
+import { AuthenticatorService } from '../../services/authenticator.service';
+import { CommonServiceFactory } from '../../services/common-service';
 
 export interface FeeModel {
     feeTypeMap?: any;
