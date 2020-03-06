@@ -1,15 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
+import * as moment from 'moment';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { AddBookService } from '../../../services/library/add/add-book.service';
 import { IssueBookService } from '../../../services/library/issue/issue-book.service';
 import { ReturnBookService } from '../../../services/library/return/return-book.service';
-import * as moment from 'moment';
-import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-return-book',

@@ -1,5 +1,3 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
-</loaders-css>
 <section class="middle-section homewrap clearFix">
 
   <section class="scroll-content" id="studentFlow">
@@ -699,7 +697,7 @@
         </section>
 
         <!--====================================middle <Main> section==========================-->
-        <section *ngIf="checkBoxGroup.showFeeSection">
+        <section *ngIf="(!auth.isRippleLoad.getValue()) && checkBoxGroup.showFeeSection">
 
           <div class="card-layout">
 

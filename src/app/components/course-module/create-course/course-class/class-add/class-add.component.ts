@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CheckableSettings, TreeItemLookup } from '@progress/kendo-angular-treeview';
 import * as moment from 'moment';
-import { CheckableSettings } from '@progress/kendo-angular-treeview';
 import { of } from 'rxjs/observable/of';
-import { TreeItemLookup } from '@progress/kendo-angular-treeview';
-import { LoginService, AuthenticatorService, MessageShowService } from '../../../../..';
+import { AuthenticatorService, LoginService, MessageShowService } from '../../../../..';
 import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
 import { TopicListingService } from '../../../../../services/course-services/topic-listing.service';
 

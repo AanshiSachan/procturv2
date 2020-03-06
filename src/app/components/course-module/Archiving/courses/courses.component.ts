@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticatorService } from '../../../../services/authenticator.service';
-import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
-import { concat } from 'rxjs/observable/concat';
-import { AppComponent } from '../../../../app.component';
 import { Router } from '@angular/router';
+import { AppComponent } from '../../../../app.component';
+import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'app-courses',

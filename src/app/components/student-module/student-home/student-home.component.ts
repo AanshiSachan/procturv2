@@ -2163,7 +2163,7 @@ export class StudentHomeComponent implements OnInit {
   updateStudentDataOnServer() {
     let customArr = [];
 
-    this.studentCustomComponent.forEach(el => {
+    this.studentByIdcustomComponents.forEach(el => {
       let max_length = el.comp_length == 0 ? 100 : el.comp_length;
       /* Not Checkbox and value not empty */
       if (el.value != '' && el.type != 2 && el.type != 5) {
@@ -2173,7 +2173,6 @@ export class StudentHomeComponent implements OnInit {
           enq_custom_id: el.data.enq_custom_id,
           enq_custom_value: el.value,
           type: el.type,
-          value: el.enq_custom_value,
           label: el.label,
           comp_length: max_length
         }
@@ -2187,7 +2186,6 @@ export class StudentHomeComponent implements OnInit {
             enq_custom_id: el.data.enq_custom_id,
             enq_custom_value: "Y",
             type: el.type,
-            value: el.enq_custom_value,
             label: el.label,
             comp_length: max_length
           }
@@ -2199,7 +2197,6 @@ export class StudentHomeComponent implements OnInit {
             enq_custom_id: el.data.enq_custom_id,
             enq_custom_value: "N",
             type: el.type,
-            value: el.enq_custom_value,
             label: el.label,
             comp_length: max_length
           }
@@ -2213,7 +2210,6 @@ export class StudentHomeComponent implements OnInit {
           enq_custom_id: el.data.enq_custom_id,
           enq_custom_value: moment(el.value).format("YYYY-MM-DD"),
           type: el.type,
-          value: el.enq_custom_value,
           label: el.label,
           comp_length: max_length
         }

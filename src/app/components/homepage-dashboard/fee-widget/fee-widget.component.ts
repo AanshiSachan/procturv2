@@ -1,20 +1,9 @@
-import {
-    Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-    AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-    SimpleChanges, OnChanges
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
-import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import * as Muuri from 'muuri/muuri';
-import { Chart } from 'angular-highcharts';
-import { WidgetService } from '../../../services/widget.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { WidgetService } from '../../../services/widget.service';
 
 
 @Component({
@@ -28,20 +17,20 @@ export class FeeWidgetComponent implements OnInit {
     public feeStat: any = null;
     public feeDate: any[] = [];
     public isOptionVisible: boolean = false;
-    instituteCountryDetObj:any = {
+    instituteCountryDetObj: any = {
         "id": "1",
         "country_name": "india",
-        "currency_code":"INR",
+        "currency_code": "INR",
         "country_code": "IND",
         "country_calling_code": "",
         "country_phone_number_length": ""
-      };
-    
-    constructor(private router: Router, private fb: FormBuilder,
-         private appC: AppComponent, private rd: Renderer2,
-          private widgetService: WidgetService, 
-          public _commService:CommonServiceFactory,
-          private cd: ChangeDetectorRef) {
+    };
+
+    constructor(
+        private router: Router,
+        private widgetService: WidgetService,
+        public _commService: CommonServiceFactory,
+        private cd: ChangeDetectorRef) {
         this.feeDate[0] = new Date();
         this.feeDate[1] = new Date();
     }
@@ -51,7 +40,7 @@ export class FeeWidgetComponent implements OnInit {
         this.fetchDataForCountryDetails();
     }
 
-    ngOnChanges(){
+    ngOnChanges() {
         this.cd.markForCheck();
         this.fetchDataForCountryDetails();
     }
@@ -59,18 +48,18 @@ export class FeeWidgetComponent implements OnInit {
     fetchDataForCountryDetails() {
         let countryCodeEncryptedData = sessionStorage.getItem('country_data');
         let temp = JSON.parse(countryCodeEncryptedData);
-          if (temp && temp.length > 0) {
+        if (temp && temp.length > 0) {
             temp.forEach(element => {
-                if(element.is_default=='Y'){
-                    this.instituteCountryDetObj =element;
+                if (element.is_default == 'Y') {
+                    this.instituteCountryDetObj = element;
                 }
-            });         
-        }else{
-            this.instituteCountryDetObj =   {"id":1,"country_name":"India","country_code":"IND","country_flag":null,"currency_name":"Indian Rupee","currency_code":"INR","currency_symbol":null,"country_calling_code":91,"country_phone_number_length":10,"is_tax_applicable":"N","tax_percentage":null,"is_default":"N"}
+            });
+        } else {
+            this.instituteCountryDetObj = { "id": 1, "country_name": "India", "country_code": "IND", "country_flag": null, "currency_name": "Indian Rupee", "currency_code": "INR", "currency_symbol": null, "country_calling_code": 91, "country_phone_number_length": 10, "is_tax_applicable": "N", "tax_percentage": null, "is_default": "N" }
         }
-      }
+    }
 
-    getDate(days){
+    getDate(days) {
         return moment().subtract(days, 'd').format('DD-MM-YYYY');
     }
 
@@ -130,12 +119,12 @@ export class FeeWidgetComponent implements OnInit {
     updateFeeByDate(e) {
         this.cd.markForCheck();
 
-        let obj = {   
-            institute_id:'',       
+        let obj = {
+            institute_id: '',
             from_date: moment(this.feeDate[0]).format('YYYY-MM-DD'),
             to_date: moment(this.feeDate[1]).format('YYYY-MM-DD')
         }
-        
+
         this.isOptionVisible = false;
         this.widgetService.fetchFeeWidgetData(obj).subscribe(
             res => {

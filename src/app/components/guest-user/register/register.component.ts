@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../../../services/login-services/login.service';
 import { Router } from '../../../../../node_modules/@angular/router';
-import { MessageShowService } from '../../../services/message-show.service';
 import { Observable } from '../../../../../node_modules/rxjs';
-import { error } from 'util';
+import { LoginService } from '../../../services/login-services/login.service';
+import { MessageShowService } from '../../../services/message-show.service';
 
 @Component({
   selector: 'app-register',

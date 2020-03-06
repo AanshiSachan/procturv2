@@ -1,17 +1,13 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
-import { ExamCourseService } from '../../../../services/course-services/exam-schedule.service';
-import { AppComponent } from '../../../../app.component';
+import { ChangeDetectorRef, Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { CheckableSettings, TreeItemLookup } from '@progress/kendo-angular-treeview';
 import * as moment from 'moment';
 import { SelectItem } from 'primeng/components/common/api';
-import { MenuItem } from 'primeng/primeng';
-import { Pipe, PipeTransform } from '@angular/core';
-import { AuthenticatorService } from '../../../../services/authenticator.service';
-
-import { TreeViewModule } from '@progress/kendo-angular-treeview';
-import { CheckableSettings } from '@progress/kendo-angular-treeview';
 import { of } from 'rxjs/observable/of';
+import { AppComponent } from '../../../../app.component';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { ExamCourseService } from '../../../../services/course-services/exam-schedule.service';
 import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
-import { TreeItemLookup } from '@progress/kendo-angular-treeview';
+
 
 
 @Component({

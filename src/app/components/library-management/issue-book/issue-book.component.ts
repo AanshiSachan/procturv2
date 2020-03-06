@@ -1,12 +1,12 @@
-import { Component, OnInit, AfterContentChecked } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
+import 'rxjs/add/observable/merge';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { AddBookService } from '../../../services/library/add/add-book.service';
 import { IssueBookService } from '../../../services/library/issue/issue-book.service';
-import * as moment from 'moment';
-import 'rxjs/add/observable/merge';
 
 @Component({
   selector: 'app-issue-book',
