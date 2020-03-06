@@ -15,7 +15,7 @@ export class AuthenticatorService {
 
     private instituteId = new BehaviorSubject<any>(null);
     private authToken = new BehaviorSubject<any>(null);
-
+    public isRippleLoad = new BehaviorSubject<boolean>(false);
     currentInstituteId = this.instituteId.asObservable();
     currentAuthKey = this.authToken.asObservable();
     isMainBranch = new BehaviorSubject('N');
@@ -44,6 +44,15 @@ export class AuthenticatorService {
         this.authToken.next(key);
     }
 
+    showLoader(){
+        console.log(true)
+        this.isRippleLoad.next(true);
+    }
+
+    hideLoader(){
+        console.log(false)
+        this.isRippleLoad.next(false);
+    }
 
     getAuthToken() {
         let obj: any = {

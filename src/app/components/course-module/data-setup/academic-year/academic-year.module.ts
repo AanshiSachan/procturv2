@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-
-import { SharedModule } from '../../../shared/shared.module';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { AcademicYearComponent } from './academic-year.component';
-import { AcademicyearService } from '../../../../services/academicYearService/academicyear.service';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
-import { HomeComponent } from './home/home.component';
+import { HttpService } from '../../../../services/http.service';
 import { ManageExamModule } from '../../../master/master.module';
+import { SharedModule } from '../../../shared/shared.module';
 import { AcademicYearRoutingModule } from './academic-year-routing.module';
+import { AcademicYearComponent } from './academic-year.component';
+import { HomeComponent } from './home/home.component';
+
 
 @NgModule({
     imports: [
@@ -27,9 +26,9 @@ import { AcademicYearRoutingModule } from './academic-year-routing.module';
         HomeComponent
     ],
     providers: [
-        AcademicyearService
+        HttpService
     ],
-    entryComponents:[
+    entryComponents: [
         HomeComponent,
         AcademicYearComponent
     ]

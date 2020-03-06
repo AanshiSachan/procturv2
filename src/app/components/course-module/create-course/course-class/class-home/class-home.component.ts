@@ -1,10 +1,9 @@
-import { Component, OnInit, Pipe, PipeTransform, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
-import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
 import { AppComponent } from '../../../../../app.component';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
+import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
 
 
 @Component({
@@ -32,7 +31,6 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
 
   showContent: boolean = false;
   isLangInstitute: boolean = false;
-  isRippleLoad: boolean = false;
   reschedulePopUp: boolean = false;
   isCourseCancel: boolean = false;
   showManageClass: boolean = false;
@@ -149,10 +147,10 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   }
 
   getCombinedData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.classService.getCombinedDataFromServer(this.batchData.standard_id, this.batchData.subject_id).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log('Combined data', res);
         this.combinedData = res;
         if (res.standardLi != null) {
@@ -166,7 +164,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        this.isRippleLoad =false;
+        this.auth.hideLoader();
         //console.log(err);
         this.messageToast('error', '', err.error.message);
       }
@@ -174,15 +172,15 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   }
 
   getMasterCourseList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.classService.getAllMasterCourse().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.masterCourse = res;
         //console.log('master', res);
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageToast('error', '', err.error.message);
         //console.log(err);
       }
@@ -190,11 +188,11 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   }
 
   getTeachers() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.classService.getAllTeachersList().subscribe(
       res => {
         // console.log('teacher', res);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.teacherList = res;
 
         this.teacherList.sort(function(a, b) {
@@ -204,7 +202,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         });
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageToast('error', '', err.error.message);
       }
     )
@@ -212,23 +210,23 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
 
   updateCourseList(ev) {
     this.showContent = false;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.classService.getCourseFromMasterById(ev).subscribe(
       res => {
         if (res.coursesList) {
           //console.log("course", res);
           this.courseList = res;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
         else {
           this.courseList = [];
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       },
       err => {
         //console.log(err);
         this.courseList = [];
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageToast('error', '', err.error.message);
       }
     )
@@ -236,16 +234,16 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
 
   updateSubjectList(event) {
     this.showContent = false;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.classService.getSubjectList(event).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log('Subject', res);
         this.subjectList = res.batchesList;
       },
       err => {
         this.messageToast('error', '', err.error.message);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -327,17 +325,17 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       data = this.makeJsonForSubmit();
     }
     this.weekScheduleList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.classService.getTimeTable(data).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.timeTableResponse = res;
         this.showContent = true;
         this.weekScheduleList = this.getClassList();
       },
       err => {
         //console.log(err);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageToast('error', '', err.error.message);
       }
     )
@@ -859,16 +857,16 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     let validate = this.validateAllFields();
     if (validate) {
       let dataToSend: any = this.makeJsonForAdvanceFilter();
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.classService.getTimeTable(dataToSend).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.timeTableResponse = res;
           this.showContent = true;
           this.weekScheduleList = this.getClassList();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageToast('error', '', err.error.message);
         }
       )

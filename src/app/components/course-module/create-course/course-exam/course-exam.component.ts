@@ -139,16 +139,11 @@ export class CourseExamComponent implements OnInit {
   topicLinkColor: boolean = false;
   changeColor: boolean = false;
   multiClickDisabled: boolean = false;
-  isRippleLoad: boolean = false;
   selectedRow = "";
   public topicsData: any;
   public children;
   public hasChildren;
   public isExpanded;
-
-
-
-
   coursePlannerStatus: any = false;
 
   constructor(
@@ -188,10 +183,10 @@ export class CourseExamComponent implements OnInit {
   }
 
   getMasterCourseBatchData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getCombinedList(this.batchData.standard_id, this.batchData.subject_id).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (this.masterCourseList.length == 0) {
           this.masterCourseList = res.standardLi;
         }
@@ -206,13 +201,13 @@ export class CourseExamComponent implements OnInit {
       },
       err => {
         console.log(err);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
 
   fetchTopics(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.totalTopicsList = [];
     this.selectedTopics = '';
     this.selectedTopicsListObj = [];
@@ -221,7 +216,7 @@ export class CourseExamComponent implements OnInit {
       this.topicsList = data;
       if(this.topicsList.length && this.topicsList != null){
         this.showTopicsPopUp = true;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.topicsList.forEach(tpc =>{
           this.totalTopicsList.push(tpc);
           tpc.checked = false;
@@ -231,10 +226,10 @@ export class CourseExamComponent implements OnInit {
         })
       }
       else{
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('info', 'Info', 'No topics available to link !');      }
     }, err=>{
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.messageNotifier('error','', err.error.message)
     })
   }
@@ -243,7 +238,7 @@ export class CourseExamComponent implements OnInit {
     /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
       this.messageNotifier('info','Info', 'Please select topics to save !')    }
     else { */
-     this.isRippleLoad = true;
+     this.auth.showLoader();
      this.selectedTopicsListObj = [];
      this.selectedTopicsListObj = this.totalTopicsList.filter(obj => obj.checked == true);
       if(this.selectedTopicsListObj != undefined){
@@ -253,19 +248,19 @@ export class CourseExamComponent implements OnInit {
       this.selectedTopics = this.selectedTopics.join('|');
       }
      this.messageNotifier('success','', 'Topics linked successfully');
-     this.isRippleLoad = false;
+     this.auth.hideLoader();
      this.showTopicsPopUp = false;
    // }
   }
 
   fetchSelectedTopics(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.showTopicsPopUp= true;
     this.selectedTopicsListObj.forEach(obj =>{
       var getTopicObject = this.totalTopicsList.find(ele => ele.topicId == obj.topicId);
       getTopicObject.checked = true;
     });
-    this.isRippleLoad = false;
+    this.auth.hideLoader();
   }
 
   getAllTopics(topic){
@@ -290,7 +285,7 @@ export class CourseExamComponent implements OnInit {
      this.messageNotifier('info','Info','No topics selected')
     }
     else { */
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
       var getTopicIds ;;
       if(getSelectedTopics !=undefined){
@@ -302,7 +297,7 @@ export class CourseExamComponent implements OnInit {
           this.examSchedule.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
       }
       this.showTopicsPopUp = false;
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.showExamEditModal = false;
       this.messageNotifier('success','','Topics updated successfully');
    // }
@@ -376,7 +371,7 @@ export class CourseExamComponent implements OnInit {
     console.log('inside edit topics:',row);
     this.getSubjectObject = '';
     this.getSubjectObject = row;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if(row.topics_covered != '' && row.topics_covered != null){
     var selectedTopicIds = row.topics_covered.split('|');
     }
@@ -387,7 +382,7 @@ export class CourseExamComponent implements OnInit {
       if(this.topicsList != null && this.topicsList.length){
        this.showTopicsPopUp = true;
        this.showExamEditModal = true;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.topicsList.forEach(obj =>{
          list.push(obj);
          if(selectedTopicIds !=undefined){
@@ -404,12 +399,12 @@ export class CourseExamComponent implements OnInit {
         this.totalTopicsList = list
       }
       else {
-       this.isRippleLoad = false;
+       this.auth.hideLoader();
       // this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', "No topics available to Link");
       this.messageNotifier('info','Info','No topics available to link')
       }
     },err => {
-     this.isRippleLoad = false;
+     this.auth.hideLoader();
     // this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
     this.messageNotifier('error', '', err.error.message);
    })
@@ -457,10 +452,10 @@ export class CourseExamComponent implements OnInit {
     if (this.batchData.batch_id != -1) {
       this.cancelledSchedule = [];
       this.examSchedule = [];
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.apiService.getExamSchedule(this.batchData.batch_id).subscribe(
         (res: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.showContentSection = true;
           this.jsonVar.isSheduleBatch = true;
           this.examScheduleData = res;
@@ -484,7 +479,7 @@ export class CourseExamComponent implements OnInit {
           }
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           //console.log(err);
           this.messageNotifier('error', '', err.error.message);
         }
@@ -562,16 +557,16 @@ export class CourseExamComponent implements OnInit {
     } else {
       type = "put";
     }
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.apiService.serverRequestToSaveSchedule(dataToSend, type).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('success', 'Successfully', 'Schedule Created Successfully');
           this.batchModelGoClick();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           //console.log(err);
           this.messageNotifier('error', '', err.error.message);
         }
@@ -746,8 +741,8 @@ export class CourseExamComponent implements OnInit {
       notify = "N";
     }
 
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       let obj: any = {
         batch_id: this.batchData.batch_id,
         exam_freq: "OTHER",
@@ -761,13 +756,13 @@ export class CourseExamComponent implements OnInit {
       this.apiService.cancelExamSchedule(obj).subscribe(
         res => {
           this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.batchModelGoClick();
           this.closeCancelExamPopUp();
         },
         err => {
           //console.log(err);
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )
@@ -786,10 +781,10 @@ export class CourseExamComponent implements OnInit {
       attendanceSchdId: this.markAttendanceData.schd_id,
       batch_id: this.batchData.batch_id
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.fetchStudentList(obj).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.studentList = res;
         this.getTotalCountForCourse(res);
         if (res.length > 0) {
@@ -800,7 +795,7 @@ export class CourseExamComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
         this.closeCourseLevelAttendance();
       }
@@ -931,16 +926,16 @@ export class CourseExamComponent implements OnInit {
   }
 
   updateCourseAttendance() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let dataToSend = this.makeJsonForAttendceMark();
     this.apiService.markAttendance(dataToSend).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('success', 'Attendance Marked', 'Attendance Marked Successfully');
         this.closeCourseLevelAttendance();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
         this.messageNotifier('error', '', err.error.message);
       }
@@ -1018,15 +1013,15 @@ export class CourseExamComponent implements OnInit {
   ////////// Course Model
 
   getMasterCourseList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getMasterCourse().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.masterCourseList = res;
       },
       err => {
         console.log(err);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -1035,15 +1030,15 @@ export class CourseExamComponent implements OnInit {
     this.courseList = [];
     this.courseData.course_id = -1;
     if (event != -1) {
-      this.isRippleLoad = true
+      this.auth.showLoader();
       this.apiService.fetchCourseListData(this.courseData.master_course).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.courseList = res;
         },
         err => {
           console.log(err);
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       )
     }
@@ -1085,11 +1080,11 @@ export class CourseExamComponent implements OnInit {
         return false;
       }
       this.clearAllField();
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.courseData.requested_date = moment(this.courseData.requested_date).format('YYYY-MM-DD');
       this.apiService.getSchedule(this.courseData).subscribe(
         (res: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.multiClickDisabled = false;
           this.examScheduleData = res;
           this.calculateDataAsPerSelection(res);
@@ -1098,7 +1093,7 @@ export class CourseExamComponent implements OnInit {
           //console.log(res);
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           //console.log(err);
           this.messageNotifier('error', '', err.error.message);
         }
@@ -1191,7 +1186,7 @@ export class CourseExamComponent implements OnInit {
       return;
     }
     else {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.topicService.getAllTopicsSubTopics(subject_id).subscribe(
         res => {
           this.topicLinkColor = true;
@@ -1199,7 +1194,7 @@ export class CourseExamComponent implements OnInit {
           temp = res;
           if (temp != null && temp.length != 0) {
             this.topicBox = false;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.topicsData = res;
 
             let subjectName = "";
@@ -1216,13 +1211,13 @@ export class CourseExamComponent implements OnInit {
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
           else {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.messageNotifier('info', 'Info', 'No topics available to Link');
           }
 
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )
@@ -1236,7 +1231,7 @@ export class CourseExamComponent implements OnInit {
       return;
     }
     else {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.topicService.getAllTopicsSubTopics(this.row_edit_subject_id).subscribe(
         res => {
           this.checkedKeys = [];
@@ -1244,7 +1239,7 @@ export class CourseExamComponent implements OnInit {
           temp = res;
           if (temp != null && temp.length != 0) {
             this.topicBox = false;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.topicsData = res;
             let subjectName = "";
             let tempCheckedKeys;
@@ -1275,13 +1270,13 @@ export class CourseExamComponent implements OnInit {
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
           else {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.messageNotifier('info', 'Info', 'No topics available to Link');
           }
 
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )
@@ -1294,14 +1289,14 @@ export class CourseExamComponent implements OnInit {
       return;
     }
     else {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.topicService.getAllTopicsSubTopics(this.subject_id).subscribe(
         res => {
           let temp: any;
           temp = res;
           if (temp != null && temp.length != 0) {
             this.topicBox = false;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.topicsData = res;
 
             let subjectName = "";
@@ -1316,13 +1311,13 @@ export class CourseExamComponent implements OnInit {
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
           else {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.messageNotifier('info', 'Info', 'No topics available to Link');
           }
 
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )
@@ -1390,14 +1385,14 @@ export class CourseExamComponent implements OnInit {
       return;
     }
     else {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.topicService.getAllTopicsSubTopics(this.edit_subject_id).subscribe(
         res => {
           let temp: any;
           temp = res;
           if (temp != null && temp.length != 0) {
             this.topicBox = false;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.topicsData = res;
             this.checkedKeys = this.edit_subject_topicId;
             this.subjectListDataSource.forEach(
@@ -1411,13 +1406,13 @@ export class CourseExamComponent implements OnInit {
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
           else {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.messageNotifier('info', 'Info', 'No topics available to Link');
           }
 
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )
@@ -1731,10 +1726,10 @@ export class CourseExamComponent implements OnInit {
 
   saveExamScheduleCourse() {
     this.multiClickDisabled = true;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let dataToSend = this.makeDataJsonToSendServer();
     if (dataToSend == false ||dataToSend==undefined) {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.multiClickDisabled = false;
       return;
     }
@@ -1757,7 +1752,7 @@ export class CourseExamComponent implements OnInit {
       if (flag) {
         this.apiService.updateExamSch(dataToSend).subscribe(
           (res: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             if (res.statusCode == 200) {
               this.messageNotifier('success', 'Success', 'Exam scheduled successfully');
               this.clearAllField();
@@ -1768,7 +1763,7 @@ export class CourseExamComponent implements OnInit {
             }
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.multiClickDisabled = false;
             console.log(err);
             this.messageNotifier('error', '', err.error.message);
@@ -1778,7 +1773,7 @@ export class CourseExamComponent implements OnInit {
     }
     else {
       this.multiClickDisabled = false;
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.messageNotifier('error', '', 'Required fields not mentioned!');
     }
 
@@ -2016,8 +2011,8 @@ export class CourseExamComponent implements OnInit {
     } else {
       notify = "N";
     }
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       let obj: any = {
         batch_id: this.cancelExamData.batch_id,
         exam_freq: "OTHER",
@@ -2029,14 +2024,14 @@ export class CourseExamComponent implements OnInit {
       }
       this.apiService.cancelExamSchedule(obj).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
           this.closeCancelExamPopUp();
           this.getExamSchedule();
         },
         err => {
           //console.log(err);
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )
@@ -2063,8 +2058,8 @@ export class CourseExamComponent implements OnInit {
       notify = "N";
     }
 
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       let obj = {
         cancel_reason: this.cancelPopUpData.reason,
         course_exam_schedule_id: this.cancelExamData.selectedCourseList.course_exam_schedule_id,
@@ -2074,14 +2069,14 @@ export class CourseExamComponent implements OnInit {
       }
       this.apiService.cancelExamScheduleCourse(obj).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
           this.closeCancelExamPopUp();
           this.getExamSchedule();
         },
         err => {
           //console.log(err);
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )

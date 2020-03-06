@@ -1,8 +1,7 @@
-import {Component} from '@angular/core';
-import { MessageShowService } from '../../../../app/services/message-show.service';
+import { Component } from '@angular/core';
 import { AuthenticatorService } from '../../../../../src/app/services/authenticator.service';
-import { MasterTagService } from './master-tag.component.service';
-
+import { MessageShowService } from '../../../../app/services/message-show.service';
+import { MasterTagService } from '../master-tag/master-tag.component.service';
 declare var $;
 
 
@@ -12,7 +11,7 @@ declare var $;
     styleUrls: ['./master-tag.component.scss']
 })
 export class MasterTagComponent {
-    isRippleLoad: boolean = true;
+
     allTagsList: any = [];
     selectedTag: string = '-1';
     tagDetailsData: any = [];
@@ -49,19 +48,19 @@ export class MasterTagComponent {
     }
     //fetch master tags
     getAllTags(){
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.tagDetailsData = [];
         this.allTagsList = [];
         this.tagSrvc.fetchAllMasterTags().subscribe(data =>{
             this.allTagsList = data;
             this.tagDetailsData = this.allTagsList;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             if(!this.allTagsList.length){
                 this.msgSrvc.showErrorMessage('info', '', 'No tags linked');
             }
            
         },error =>{
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgSrvc.showErrorMessage('Error', '',error.error.message);
         })
     }
@@ -72,21 +71,21 @@ export class MasterTagComponent {
     }
     //fetch tag details wrt tagId
     getTagDetails(){
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         if(this.selectedTag != '-1'){
         this.tagSrvc.fetchTagDetails(this.selectedTag).subscribe(data =>{
           //  this.showDetails = true;
             this.tagDetailsData = data;
             //converting object to array
             this.tagDetailsData = new Array(this.tagDetailsData);
-            this.isRippleLoad = false;            
+            this.auth.hideLoader();            
         }, err =>{
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', err.error.message);
         })
      }
      else {
-         this.isRippleLoad = false;
+         this.auth.hideLoader();
          this.getAllTags();
        //  this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error,'', 'Please select master tag')
      }
@@ -106,7 +105,7 @@ export class MasterTagComponent {
     }
 
     updateMasterTag(){
-         this.isRippleLoad = true;
+         this.auth.showLoader();
          let payload = {
             'tagId': this.tagId,
             'tagName': this.editTagName,
@@ -119,28 +118,28 @@ export class MasterTagComponent {
             let temp : any = resp;
             this.msgSrvc.showErrorMessage('success', '', temp.message);
             $('#updateTag').modal('hide');
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.getAllTags();
             this.getTagDetails();
         }, err =>{
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', err.error.message)
         })
     }
 
     // delete functionality
     deleteMasterTag(){
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.disableDelete = true;
         this.tagSrvc.deleteTagDetails(this.idToBeDeleted).subscribe(data =>{
             let temp: any = data;
             this.msgSrvc.showErrorMessage('success','', temp.message);
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             $('#deleteTag').modal('hide');
             this.selectedTag = '-1';
             this.getTagDetails();
         }, err =>{
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.disableDelete = false;
             this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', err.error.message)
         })
@@ -160,7 +159,7 @@ export class MasterTagComponent {
             return false;
         }
        // else {
-            this.isRippleLoad = true;
+            this.auth.showLoader();
             let payload = {};
              payload = {
                 "tagName":this.tagName,
@@ -170,14 +169,14 @@ export class MasterTagComponent {
             this.tagSrvc.addMasterTagInInstitute(payload).subscribe(data =>{
                 let temp: any = data;                           
                 this.msgSrvc.showErrorMessage('success', '', temp.message)
-                this.isRippleLoad = false;   
+                this.auth.hideLoader();   
                 this.tagDescription = '';
                 this.tagName = ''; 
                 $('#addTag').modal('hide'); 
                 this.getAllTags();
                 //this.getTagDetails();   
             }, error =>{
-                this.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', error.error.message)
             })
        //}

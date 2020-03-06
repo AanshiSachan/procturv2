@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '../../../../../node_modules/@angular/router';
 import { Observable } from '../../../../../node_modules/rxjs';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { MessageShowService } from '../../../services/message-show.service';
 
@@ -22,19 +23,19 @@ export class RegisterComponent implements OnInit {
     name: ""
   };
   otpVerificationInfo: any = {
-    otp_code:""
+    otp_code: ""
   };
   instituteListArr: any = [];
   messages: any;
   counter: number = 30;
   countDown: any;
-  isRippleLoad: boolean = false;
   isView = 'register';
 
   constructor(
     private login: LoginService,
     private router: Router,
     private msgService: MessageShowService,
+    private auth: AuthenticatorService
   ) {
     this.messages = msgService.getMessages();
   }
@@ -47,41 +48,41 @@ export class RegisterComponent implements OnInit {
     this.router.navigate(['/authPage']);
   }
 
-  alternateLoginOTPVerification() {  
-    
-    if(this.otpVerificationInfo.otp_code.trim()==""){
+  alternateLoginOTPVerification() {
+
+    if (this.otpVerificationInfo.otp_code.trim() == "") {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Please enter OTP ");
       return;
-      
+
     }
-    this.otpVerificationInfo.otp_validate_mode= 2;
-    this.isRippleLoad= true;
+    this.otpVerificationInfo.otp_validate_mode = 2;
+    this.auth.showLoader();
     this.login.validateOTPCode(this.otpVerificationInfo).subscribe(
       (res: any) => {
         if (res) {
           // institute
-          this.isRippleLoad= false;
-          switch(res.otp_status){
-            case 1:{
+          this.auth.hideLoader();
+          switch (res.otp_status) {
+            case 1: {
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Your OTP expired ");
               break;
             }
-            case 2:{
+            case 2: {
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Your OTP is wrong ");
               break;
             }
-            default:{
-              this. gotoLogin();
+            default: {
+              this.gotoLogin();
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "Your account verified successfully");
               break;
             }
           }
-         
+
         }
       },
       err => {
         console.log(err);
-        this.isRippleLoad= false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     );
@@ -89,7 +90,7 @@ export class RegisterComponent implements OnInit {
 
 
   registerGuestUser() {
-  
+
     let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/
     this.loginDataForm.institution_id = sessionStorage.getItem('institution_id');
     if (this.loginDataForm.alternate_email_id.trim() != ""
@@ -107,11 +108,11 @@ export class RegisterComponent implements OnInit {
             if (this.loginDataForm.password.length >= 5 && this.loginDataForm.confirmPassword.length >= 5) {
 
               if (this.loginDataForm.password == this.loginDataForm.confirmPassword) {
-                this.isRippleLoad= true;
+                this.auth.showLoader();
                 this.login.guestUserRegistration(this.loginDataForm).subscribe(
                   (res: any) => {
                     this.otpVerificationInfo = res;
-                    this.isRippleLoad= false;
+                    this.auth.hideLoader();
                     if (res.institutesList != null) {
                       // institute
                       this.instituteListArr = res.institutesList;
@@ -129,7 +130,7 @@ export class RegisterComponent implements OnInit {
                   err => {
                     console.log(err);
                     this.isView = 'register';
-                    this.isRippleLoad= false;
+                    this.auth.hideLoader();
                     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
                   }
                 );
@@ -160,12 +161,12 @@ export class RegisterComponent implements OnInit {
   }
 
   alternateLoginOTPRegenerate() {
-    this.isRippleLoad= true;
+    this.auth.showLoader();
     this.login.regenerateOTP(this.otpVerificationInfo).subscribe(
       (res: any) => {
         if (res) {
           // institute
-          this.isRippleLoad= false;
+          this.auth.hideLoader();
           this.otpVerificationInfo = res;
           this.otpVerificationInfo.otp_code = "";
           this.isView = 'validateOTP';
@@ -177,14 +178,14 @@ export class RegisterComponent implements OnInit {
       },
       err => {
         console.log(err);
-        this.isRippleLoad= false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     );
   }
 
   alternateLoginMultiInstituteData(institution_id) {
-    this.isRippleLoad= true;
+    this.auth.showLoader();
     if (this.loginDataForm.institution_id == institution_id) {
       this.loginDataForm.is_main_branch = "Y"
     }
@@ -194,7 +195,7 @@ export class RegisterComponent implements OnInit {
     this.loginDataForm.institution_id = institution_id;
     this.login.guestUserRegistration(this.loginDataForm).subscribe(
       (res: any) => {
-        this.isRippleLoad= false;
+        this.auth.hideLoader();
         if (res) {
           // institute
           this.otpVerificationInfo = res;
@@ -207,7 +208,7 @@ export class RegisterComponent implements OnInit {
         }
       },
       err => {
-        this.isRippleLoad= false;
+        this.auth.hideLoader();
         console.log(err);
       }
     );

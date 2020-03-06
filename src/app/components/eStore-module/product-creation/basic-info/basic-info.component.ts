@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
 import { Router } from '../../../../../../node_modules/@angular/router';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
 
@@ -16,7 +17,6 @@ export class BasicInfoComponent implements OnInit {
   productItems: any = [];
   @Input() product_item_stats: any;
   product_item_list: any[] = [];
-  isRippleLoad: boolean = false;
   isAdvanceProductEdit: boolean = false;
   @Output() nextForm = new EventEmitter<string>();
   @Output() startForm = new EventEmitter<string>();
@@ -75,11 +75,11 @@ export class BasicInfoComponent implements OnInit {
     private http: ProductService,
     private msgService: MessageShowService,
     private router: Router,
-  ) {
+    private auth:AuthenticatorService ) {
   }
 
   ngOnInit() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.getProductItemsData();
     this.toggleLoader.emit(true);
     this.initDataEcourse();
@@ -103,7 +103,7 @@ export class BasicInfoComponent implements OnInit {
           if (this.entity_id && this.entity_id.length > 0) {
             this.initForm();
           } else {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
           }
         }
         else {
@@ -118,10 +118,10 @@ export class BasicInfoComponent implements OnInit {
 
   initForm() {
     //Fetch Product Info
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
       (resp: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let response = resp.result;
         if (resp.validate) {
           this.prodForm = response;
@@ -152,7 +152,7 @@ export class BasicInfoComponent implements OnInit {
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
 
@@ -291,11 +291,11 @@ export class BasicInfoComponent implements OnInit {
 
   createProduct(object) {
 
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.http.postMethod('product/create', object).then(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let response = resp['body']
           if (response.validate) {
             this.msgService.showErrorMessage('success', "product created successfully", '');
@@ -309,7 +309,7 @@ export class BasicInfoComponent implements OnInit {
         },
         (err) => {
 
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', "something went wrong, try again", '');
         });
     }
@@ -317,12 +317,12 @@ export class BasicInfoComponent implements OnInit {
   }
 
   updateProduct(object) {
-    if (!this.isRippleLoad) {
+    if (!this.auth.isRippleLoad.getValue()) {
       let body = JSON.parse(JSON.stringify(object));
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.postMethod('product/update', body).then(
         (resp:any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let data = resp['body'];
           if (data.validate) {
             this.msgService.showErrorMessage('success', "Product updated successfully !", '');
@@ -333,7 +333,7 @@ export class BasicInfoComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', "something went wrong, try again", '');
         });
     }

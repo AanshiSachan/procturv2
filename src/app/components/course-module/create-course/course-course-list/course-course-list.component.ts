@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../../app.component';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CourseListService } from '../../../../services/course-services/course-list.service';
 
 
@@ -19,7 +20,6 @@ export class CourseCourseListComponent implements OnInit {
   academicList: any = [];
   standardList: any = [];
   courseList: any = [];
-  isRippleLoad: boolean = false;
   addStudentPopUp: boolean = false;
   allChecked: boolean = false;
   showTable: boolean = false;
@@ -45,6 +45,7 @@ export class CourseCourseListComponent implements OnInit {
 
   constructor(
     private apiService: CourseListService,
+    private auth:AuthenticatorService,
     private toastCtrl: AppComponent,
   ) {
 
@@ -86,14 +87,14 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   getCourseListForTable() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getCourseListFromServer().subscribe(
       (data: any) => {
         this.dataStatus = 2;
         this.courseListDataSource = data;
         this.totalRow = data.length;
         this.fetchTableDataByPage(this.PageIndex);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (data.length > 0) {
           setTimeout(
             () => {
@@ -104,7 +105,7 @@ export class CourseCourseListComponent implements OnInit {
       },
       error => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageToast('error', '', error.error.message);
       }
     )
@@ -228,7 +229,7 @@ export class CourseCourseListComponent implements OnInit {
       standard_id: Number(this.searchFilter.standard_id),
       isUnassignedStudent: unassign
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.showTable = true;
     this.apiService.getStudentList(data).subscribe(
       (res: any) => {
@@ -241,10 +242,10 @@ export class CourseCourseListComponent implements OnInit {
         this.studentListDataSource = this.keepCloning(data);
         this.studentList = data;
         this.getHeaderCheckBoxValue();
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -339,7 +340,7 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   apiToAllocateAndDeallocate() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let data = this.getCheckedRows();
     let dataToSend = {
       studentAssignedUnassigned_and_AcademicYearMapping: data,
@@ -351,11 +352,11 @@ export class CourseCourseListComponent implements OnInit {
         this.messageToast('success', '', 'Student\'(s) added successfully');
         this.studentList = [];
         this.addStudentPopUp = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.showTable = false;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageToast('error', '', err.error.message);
       }
     )

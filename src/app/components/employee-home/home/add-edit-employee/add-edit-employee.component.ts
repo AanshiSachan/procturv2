@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EmployeeService } from '../../../../services/employee-service/employee.service';
 import * as moment from 'moment';
 import { AppComponent } from '../../../../app.component';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { EmployeeService } from '../../../../services/employee-service/employee.service';
 
 @Component({
   selector: 'app-add-edit-employee',
@@ -11,7 +12,6 @@ import { AppComponent } from '../../../../app.component';
 })
 export class AddEditEmployeeComponent implements OnInit {
 
-  isRippleLoad: boolean = false;
   employeeId: any = '';
   containerWidth: any = "200px";
   @ViewChild('circle1') circle1: ElementRef;
@@ -168,6 +168,7 @@ export class AddEditEmployeeComponent implements OnInit {
 
   constructor(
     private activateRoute: ActivatedRoute,
+    private auth:AuthenticatorService,
     private apiService: EmployeeService,
     private toastCtrl: AppComponent
   ) { }
@@ -214,58 +215,58 @@ export class AddEditEmployeeComponent implements OnInit {
   ///// First Page Function ///////////////////////////////
 
   getEmployeeDetails(res) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getEmployeeDetails(res).subscribe(
       res => {
         console.log(res);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.employeeDetails = res;
         this.employeeDetails.emp_type = res.emp_type.toString();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
     )
   }
 
   getAllDesignationList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.fetchDesignationList().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.designationList = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', 'error', err.error.message);
       }
     )
   }
 
   getEmployeeList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.fetchEmployeeList().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.employeeList = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
   }
 
   fetchUserRoleList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getRoles().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.rolesList = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -346,16 +347,16 @@ export class AddEditEmployeeComponent implements OnInit {
       return;
     }
     else {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.apiService.createNewUser(check).subscribe(
         res => {
           console.log(res);
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('success', 'Successfully Added', '');
           this.clearEmployeeDetails();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )
@@ -385,14 +386,14 @@ export class AddEditEmployeeComponent implements OnInit {
       return;
     } else {
       check.emp_id = this.employeeId;
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.apiService.updateDetails(check).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('success', 'Successfully Updated', '');
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )
@@ -410,14 +411,14 @@ export class AddEditEmployeeComponent implements OnInit {
 
 
   getEmployeeSalary(empId) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getSalaryStructure(empId).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.salaryDet = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -474,14 +475,14 @@ export class AddEditEmployeeComponent implements OnInit {
       return;
     }
     data.emp_id = this.employeeId;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.createSalaryStructure(data).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('success', 'Saved Successfully', 'Salary Structure Saved Successfully');
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -493,14 +494,14 @@ export class AddEditEmployeeComponent implements OnInit {
       return;
     }
     data.id = this.salaryDet.id;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.updateSalaryStructure(data, this.employeeId).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('success', 'Updated Successfully', 'Salary Structure Updated Successfully');
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -509,14 +510,14 @@ export class AddEditEmployeeComponent implements OnInit {
   // Working Hours
 
   getEmployeeWorkingTime(empid) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getWorkingHours(empid).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.makeJsonToRender(res);
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -582,14 +583,14 @@ export class AddEditEmployeeComponent implements OnInit {
     let obj: any = {};
     obj.emp_id = Number(this.employeeId);
     obj.week = dataObject;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.createWorkingHours(obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('success', 'Saved Successfully', 'Working Hours Saved Successfully');
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -604,14 +605,14 @@ export class AddEditEmployeeComponent implements OnInit {
     obj.emp_id = Number(this.employeeId);
     obj.week = dataObject;
     obj.id = Number(this.workingDays.id);
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.updateWorkingHours(obj, this.employeeId).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('success', 'Updated Successfully', 'Working Hours Updated Successfully');
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -631,14 +632,14 @@ export class AddEditEmployeeComponent implements OnInit {
   }
 
   fetchUserInventoryDetails(emp_id) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getInventoryHistory(emp_id).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.allocationHistory = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -655,10 +656,10 @@ export class AddEditEmployeeComponent implements OnInit {
       }
     }
     this.allocateItem.emp_id = this.employeeId;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.allocateInventory(this.allocateItem).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('success', 'Allocated', 'Inventory allocated successfully');
         this.allocateItem = {
           item_id: -1,
@@ -667,7 +668,7 @@ export class AddEditEmployeeComponent implements OnInit {
         };
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )

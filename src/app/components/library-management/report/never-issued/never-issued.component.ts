@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
-import { ReportService } from '../../../../services/library/report/report.service';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { ReportService } from '../../../../services/library/report/report.service';
 
 @Component({
   selector: 'app-never-issued',
@@ -11,7 +12,6 @@ export class NeverIssuedComponent implements OnInit {
 
   jsonFlag = {
     isProfessional: false,
-    isRippleLoad: false
   };
   neverIssuedBookReportList: any[] = [];
   lostbookrange: any[] = [];
@@ -20,6 +20,7 @@ export class NeverIssuedComponent implements OnInit {
   searchText: string;
   constructor(
     private reportService: ReportService,
+    private auth:AuthenticatorService,
     private cd: ChangeDetectorRef,
   ) { }
 
@@ -46,17 +47,17 @@ getEndDate() {
 
   getNeverIssuedBookReport(){
 
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.reportService.getNeverIssuedBookReport().subscribe(
       response => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response
         this.neverIssuedBookReportList = res.response;
         console.log(this.neverIssuedBookReportList)
       },
       errorResponse => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }

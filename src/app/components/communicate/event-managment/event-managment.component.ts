@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { EventManagmentService } from '../../../services/event-managment.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { HttpService } from '../../../services/http.service';
 
 @Component({
   selector: 'app-event-managment',
@@ -38,7 +38,8 @@ export class EventManagmentComponent implements OnInit {
   searchflag: boolean = false;
   searchData: any = [];
   sendNotify_obj = {
-    event_id: ""
+    event_id: "",
+    institution_id:''
   };
   saveDataObj = {
     event_end_date: "",
@@ -49,7 +50,8 @@ export class EventManagmentComponent implements OnInit {
     holiday_name: "",
     holiday_type: "1",
     image: null,
-    public_url: ""
+    public_url: "",
+    institution_id:''    
   };
   updateListObj: any;
   newUpdateObj = {
@@ -62,7 +64,8 @@ export class EventManagmentComponent implements OnInit {
     holiday_name: "",
     holiday_type: "",
     image: null,
-    public_url: ""
+    public_url: "",
+    institution_id:''
   };
   acceptedFileFormat = {
     jpg: "0",
@@ -72,13 +75,17 @@ export class EventManagmentComponent implements OnInit {
     png: "4"
   };
   type: string = "";
+  institute_id:any;
 
   constructor(
-    private eve_mnge: EventManagmentService,
     private auth: AuthenticatorService,
+    private _http:HttpService,
     private commonService: CommonServiceFactory
   ) {
     this.commonService.removeSelectionFromSideNav();
+    this.auth.currentInstituteId.subscribe((id)=>{
+      this.institute_id = id;
+    })
   }
 
   ngOnInit() {
@@ -100,7 +107,8 @@ export class EventManagmentComponent implements OnInit {
     this.pageIndex = 1;
     this.searchDataFlag = false;
     this.searchDataFilter = "";
-    this.eve_mnge.getListEventDesc(this.list_obj).subscribe(
+    const url = "/api/v1/holiday_manager/getDetail/" + this.institute_id;
+    this._http.postData(url,this.list_obj).subscribe(
       res => {
         this.eventRecord = res;
         this.totalRow = this.eventRecord.length;
@@ -114,7 +122,7 @@ export class EventManagmentComponent implements OnInit {
   ============================================================================================= */
 
   getEvents() {
-    this.eve_mnge.getEventdata().subscribe(
+    this._http.getData("/api/v1/masterData/type/EVENT_TYPE/").subscribe(
       res => {
 
         this.getEvent = res;
@@ -129,7 +137,7 @@ export class EventManagmentComponent implements OnInit {
  =============================================================================================== */
 
   getHolidays() {
-    this.eve_mnge.getHolidayData().subscribe(
+    this._http.getData("/api/v1/masterData/type/HOLIDAY_TYPE/").subscribe(
       res => {
         this.getHoliday = res;
       },
@@ -202,7 +210,8 @@ export class EventManagmentComponent implements OnInit {
     if (this.saveDataObj.event_type == "2") {
       this.saveDataObj.image = (<HTMLImageElement>document.getElementById('imgAdd')).src.split(',')[1];
     }
-    this.eve_mnge.saveEventDescData(this.saveDataObj).subscribe(
+    this.saveDataObj.institution_id = this.institute_id;
+    this._http.postData("/api/v1/holiday_manager/create/",this.saveDataObj).subscribe(
       res => {
         this.commonService.showErrorMessage('success', 'Saved', 'Event Created Successfully');
         this.getAllListData();
@@ -262,7 +271,8 @@ export class EventManagmentComponent implements OnInit {
     if (this.newUpdateObj.event_type == "2") {
       this.newUpdateObj.image = (<HTMLImageElement>document.getElementById('imgUpdate')).src.split(',')[1];
     }
-    this.eve_mnge.getUpdateEventData(this.newUpdateObj).subscribe(
+    this.newUpdateObj.institution_id = this.institute_id;
+    this._http.putData("/api/v1/holiday_manager/update",this.newUpdateObj).subscribe(
       res => {
         this.commonService.showErrorMessage('success', 'Saved', 'Event Updated Successfully');
         this.closeEditPopup = false;
@@ -290,8 +300,8 @@ export class EventManagmentComponent implements OnInit {
   ===================================================================================== */
 
   updateEventForm(holidayId) {
-    this.eve_mnge.updateEventData(holidayId).subscribe(
-      res => {
+    this._http.getData("/api/v1/holiday_manager/fetch/" + this.institute_id + "/" + holidayId).subscribe(
+      (res:any) => {
         this.updateListObj = res;
         this.newUpdateObj.event_type = res.event_type;
         this.newUpdateObj.holiday_date = moment(res.holiday_date).format("YYYY-MM-DD");
@@ -321,7 +331,7 @@ export class EventManagmentComponent implements OnInit {
   /*===================================================delete event data========================
   ============================================================================================== */
   deleteEventDataFromList(holidayId) {
-    this.eve_mnge.deleteEventData(holidayId).subscribe(
+    this._http.deleteDataById("/api/v1/holiday_manager/delete/" + this.institute_id + "/" + holidayId).subscribe(
       res => {
         this.getAllListData();
       },
@@ -337,7 +347,8 @@ export class EventManagmentComponent implements OnInit {
     var prompt = confirm("Are you sure,you want to Send Push Notification?");
     if (prompt) {
       this.sendNotify_obj.event_id = e;
-      this.eve_mnge.sendNotifiation(this.sendNotify_obj).subscribe(
+      this.sendNotify_obj.institution_id = this.institute_id;
+      this._http.postData("/api/v1/pushNotification/send",this.sendNotify_obj).subscribe(
         res => {
           this.commonService.showErrorMessage('success', 'Saved', 'Notification Sent Successfully')
         },
@@ -361,7 +372,8 @@ export class EventManagmentComponent implements OnInit {
       holiday_name: "",
       holiday_type: "1",
       image: null,
-      public_url: ""
+      public_url: "",
+      institution_id:''
     }
   }
 

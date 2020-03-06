@@ -17,7 +17,6 @@ export class ExamWiseComponent implements OnInit {
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
-    isRippleLoad: false,
     type:'batch'
   };
 
@@ -59,10 +58,10 @@ export class ExamWiseComponent implements OnInit {
   }
 
   getExamWiseReport(){
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.examdata.getExamWiseReport(this.exam_schd_id, this.examSchdlType).subscribe(
       res => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         let reports: any = res;
         this.exam_wise_data = reports.courseWise;
         this.subjectWiseData = reports.courseWise.subjectWise_marks;
@@ -74,7 +73,7 @@ export class ExamWiseComponent implements OnInit {
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         sessionStorage.setItem('examSchdType', "");
       }
     );

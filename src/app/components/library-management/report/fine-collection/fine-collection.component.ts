@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ReportService } from '../../../../services/library/report/report.service';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { ReportService } from '../../../../services/library/report/report.service';
 
 @Component({
   selector: 'app-fine-collection',
@@ -11,8 +12,7 @@ import * as moment from 'moment';
 export class FineCollectionComponent implements OnInit {
 
   jsonFlag = {
-    isProfessional: false,
-    isRippleLoad: false
+    isProfessional: false
   };
   fineCollectionReportList: any={
     results:[],
@@ -27,12 +27,12 @@ export class FineCollectionComponent implements OnInit {
    displayBatchSize: number = 10;
    totalCount: number = 0;
    sizeArr: any[] = [10, 25, 50, 100, 150, 200, 500];
-
   searchText: string;
 
   constructor(
     private router: Router,
     private cd: ChangeDetectorRef,
+    private auth:AuthenticatorService,
     private reportService: ReportService
   ) { }
 
@@ -72,10 +72,10 @@ export class FineCollectionComponent implements OnInit {
   	  "noOfRecords": this.displayBatchSize
     }
 
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.reportService.getFineCollectionReport(obj).subscribe(
       response => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response
         this.fineCollectionReportList = res;
@@ -83,7 +83,7 @@ export class FineCollectionComponent implements OnInit {
         this.tempFineCollectionReportList = res.results;
      },
       errorResponse => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }

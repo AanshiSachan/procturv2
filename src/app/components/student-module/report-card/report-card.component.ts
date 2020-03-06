@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { StudentReportService } from '../../../services/report-services/student-report-service/student-report.service';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { HttpService } from '../../../services/http.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-import * as moment from 'moment';
+import { HttpService } from '../../../services/http.service';
+import { StudentReportService } from '../../../services/report-services/student-report-service/student-report.service';
 
 @Component({
   selector: 'app-report-card',
@@ -14,7 +13,6 @@ import * as moment from 'moment';
 export class ReportCardComponent implements OnInit {
 
   institute_id: any = null;
-  isRippleLoad: boolean = false;
   isLangInstitue: boolean = false;
   masterCourseList: any = [];
   courseList: any = [];
@@ -62,11 +60,11 @@ export class ReportCardComponent implements OnInit {
   //Next two method is used for student report download
 
   getDownload(student_id) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url='/api/v1/reports/Student/downloadReportCard/'+ this.institute_id + '/' + student_id;
     this._http.getData(url).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if(res.document!=""){
           let byteArr = this._commService.convertBase64ToArray(res.document);
           let fileName = res.docTitle;
@@ -83,7 +81,7 @@ export class ReportCardComponent implements OnInit {
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._commService.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -91,12 +89,12 @@ export class ReportCardComponent implements OnInit {
 
   fetchMasterCourseList() {
     this.studentList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.courseList = [];
     this.payLoad.subject_id = -1;
     this.apiService.getMasterCourseAndSubjectList(this.payLoad.standard_id, this.payLoad.subject_id, this.payLoad.assigned).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (this.masterCourseList.length == 0) {
           this.masterCourseList = res.standardLi;
         }
@@ -105,7 +103,7 @@ export class ReportCardComponent implements OnInit {
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageToast('error', '', err.error.message);
       }
     )
@@ -116,18 +114,18 @@ export class ReportCardComponent implements OnInit {
     if (obj == false) {
       return;
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.dataStatus = 1;
     this.studentList = [];
     this.apiService.getStudentList(this.payLoad.standard_id, this.payLoad.subject_id, this.payLoad.assigned, obj.name, obj.number).subscribe(
       res => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.studentList = res;
       },
       err => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageToast('error', '', err.error.message);
       }
     )

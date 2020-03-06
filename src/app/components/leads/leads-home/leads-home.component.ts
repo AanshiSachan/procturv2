@@ -1,9 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-leads-home',
@@ -16,8 +16,7 @@ export class LeadsHomeComponent implements OnInit {
   enquiryDate: any[] = [];
 
   jsonFlag = {
-    isProfessional: false,
-    isRippleLoad: false,
+    isProfessional: false
   };
 
   jsonRolesFlags = {
@@ -92,7 +91,7 @@ export class LeadsHomeComponent implements OnInit {
       updateDateFrom: moment().date(1).format("YYYY-MM-DD"),
       updateDateTo: moment().format("YYYY-MM-DD")
     }
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.enquire.fetchEnquiryWidgetView(obj).subscribe(
       res => {
         let result: any;
@@ -100,10 +99,10 @@ export class LeadsHomeComponent implements OnInit {
         this.enquiryStatus = result.statusMap;
         this.totalEnquiryCount = result.totalcount;
         console.log(res)
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }
@@ -125,10 +124,10 @@ export class LeadsHomeComponent implements OnInit {
       updateDateFrom: moment(e[0]).format("YYYY-MM-DD"),
       updateDateTo: moment(e[1]).format("YYYY-MM-DD")
     }
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.enquire.fetchEnquiryWidgetView(obj).subscribe(
       (res: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.cd.markForCheck();
         let result: any;
         result = res;

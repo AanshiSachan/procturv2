@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfitLossServiceService } from '../../../services/profit-loss-service/profit-loss-service.service';
+import * as moment from 'moment';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import * as moment from 'moment';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { ProfitLossServiceService } from '../../../services/profit-loss-service/profit-loss-service.service';
 
 @Component({
   selector: 'app-profit-loss',
@@ -18,7 +18,6 @@ export class ProfitLossComponent implements OnInit {
     institute_id: this.profitLoss.institute_id,
     type: 0
   }
-  isRippleLoad: boolean = false;
   expenseData: any[] = [];
   incomeData: any[] = [];
   collectionData: any[] = [];
@@ -37,7 +36,7 @@ export class ProfitLossComponent implements OnInit {
 
   constructor(private profitLoss: ProfitLossServiceService,
     private appc: AppComponent,
-    private institute_id: AuthenticatorService,
+    private auth: AuthenticatorService,
     private _commService:CommonServiceFactory) {
   }
 
@@ -71,7 +70,7 @@ export class ProfitLossComponent implements OnInit {
 
   fetchexpenseData(startdate, enddate) {
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.sumExpense = 0;
     this.profitLoss.fetchExpenseDetails(this.getExpenses).subscribe(
       (data: any) => {
@@ -80,10 +79,10 @@ export class ProfitLossComponent implements OnInit {
         for (let i in this.totalExpenseCollected) {
           this.sumExpense = this.sumExpense + this.totalExpenseCollected[i];
         }
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       (error: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let msg = {
           type: "error",
           body: error.error.message
@@ -101,10 +100,10 @@ export class ProfitLossComponent implements OnInit {
     this.profitLoss.fetchIncomeFeesCollection(this.getExpenses).subscribe(
       (data: any) => {
         this.collectionData.push(data);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       (error: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let msg = {
           type: "error",
           body: error.error.message
@@ -124,7 +123,7 @@ export class ProfitLossComponent implements OnInit {
         this.profitLossData.push(data);
       },
       (error: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let msg = {
           type: "error",
           body: error.error.message
@@ -141,14 +140,14 @@ export class ProfitLossComponent implements OnInit {
     this.profitLoss.fetchIncomeDetails(this.getExpenses).subscribe(
       (data: any) => {
         this.incomeData = data;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.totalCollectedData = data.map(ele => ele.amount);
         for (let i in this.totalCollectedData) {
           this.sum = this.sum + this.totalCollectedData[i];
         }
       },
       (error: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let msg = {
           type: "error",
           body: error.error.message

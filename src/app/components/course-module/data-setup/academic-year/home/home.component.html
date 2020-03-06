@@ -1,19 +1,19 @@
 <div class="middle-section clearFix">
   <section class="middle-top mb0 clearFix">
-        <div>
-          <div class="header-title">        
-            <h2>
-                <a routerLink="/view/{{type}}" style="color: #0084f6;">
-                  {{ type | titlecase }}
-                </a>
-                <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i> 
-                <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
-                  Data Setup
-                </a>
-                <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i>  Academic Year List
-            </h2>
-          </div>
-        </div>
+    <div>
+      <div class="header-title">
+        <h2>
+          <a routerLink="/view/{{type}}" style="color: #0084f6;">
+            {{ type | titlecase }}
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+          <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
+            Data Setup
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Academic Year List
+        </h2>
+      </div>
+    </div>
   </section>
 
   <section class="middle-main clearFix">
@@ -108,7 +108,7 @@
                 </th>
               </tr>
             </thead>
-            <tbody *ngIf="academicTableList.length !=0">
+            <tbody>
               <tr id="row{{i}}" class="displayComp" *ngFor="let row of academicTableList; let i = index; trackBy: i;">
                 <td>
                   {{i + 1}}
@@ -145,7 +145,8 @@
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper has-value">
-                    <input type="text" value="" class="form-ctrl editCellInput" name="endDate" readonly="true" [(ngModel)]="row.end_date" bsDatepicker id="rowEndDate">
+                    <input type="text" value="" class="form-ctrl editCellInput" name="endDate" readonly="true" [(ngModel)]="row.end_date" bsDatepicker
+                      id="rowEndDate">
                   </div>
                 </td>
                 <td class="view-comp">
@@ -178,14 +179,12 @@
                   <a class="anchorTagCursor anchorTag" (click)="cancelEditRow(i)" id="cancelBtn"> Cancel </a>
                 </td>
               </tr>
+              <tr *ngIf="academicTableList.length ==0">
+                <td class="col-new" colspan="8" style="color: black;font-weight: 600">
+                  No Academic Year List Available
+                </td>
+              </tr>
             </tbody>
-            <tbody *ngIf="academicTableList.length ==0">
-              <td class="col-new" colspan="7">
-                No Academic Year List Available
-              </td>
-            </tbody>
-
-
           </table>
         </div>
       </div>

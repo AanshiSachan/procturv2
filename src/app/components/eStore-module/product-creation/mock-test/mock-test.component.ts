@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
 import { Router } from '../../../../../../node_modules/@angular/router';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
 @Component({
@@ -18,7 +19,6 @@ export class MockTestComponent implements OnInit {
   @Output() previewEvent = new EventEmitter<boolean>();
   testlist: any = [];
   selectAll: boolean = false;
-  isRippleLoad: boolean = false;
   isAdvanceProductEdit: boolean = false;
   description: string = '';
   product_ecourse_maps: any = [];
@@ -26,6 +26,7 @@ export class MockTestComponent implements OnInit {
     private http: ProductService,
     private msgService: MessageShowService,
     private router: Router,
+    private auth:AuthenticatorService,
   ) { }
 
   ngOnInit() {
@@ -58,11 +59,11 @@ export class MockTestComponent implements OnInit {
   initMockTests(ecourse) {
     //Fetch Product Groups List
     //{course_type: "KAS Prelims", course_type_id: 145}
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.http.postMethod('ext/get-examdesk/' + ecourse.course_type, ["Mock_Test"]).then(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let response = resp['body'];
           if (response.validate) {
             let details = JSON.parse(response.result['Mock_Test']);
@@ -86,7 +87,7 @@ export class MockTestComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
@@ -95,12 +96,12 @@ export class MockTestComponent implements OnInit {
   initForm() {
     //Fetch Product Groups List
 
-    if (this.entity_id && this.entity_id.length > 0 && (!this.isRippleLoad)) {
+    if (this.entity_id && this.entity_id.length > 0 && (!this.auth.isRippleLoad.getValue())) {
       //Fetch Product Info
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let response = resp.result;
           if (resp.validate) {
             let productData = response;
@@ -132,7 +133,7 @@ export class MockTestComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
@@ -210,7 +211,7 @@ export class MockTestComponent implements OnInit {
     }
 
     {
-      if ((!this.isRippleLoad)) {
+      if ((!this.auth.isRippleLoad.getValue())) {
         //update test List
         let obj = {
           "page_type": "Mock_Test",
@@ -219,10 +220,10 @@ export class MockTestComponent implements OnInit {
           "item_list": objectArray,
           "description": this.description
         }
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
           (resp: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             let response = resp['body'];
             if (response.validate) {
               let details = response.result;
@@ -237,7 +238,7 @@ export class MockTestComponent implements OnInit {
             }
           },
           (err) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage('error', err['error'].errors.message, '');
           });
       }

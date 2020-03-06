@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../../../../services/products.service';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { ProductService } from '../../../../services/products.service';
 
 @Component({
   selector: 'app-coupon-list',
@@ -20,12 +21,12 @@ export class CouponListComponent implements OnInit {
   };
   productList: any[] = [];
   couponData: any[] = [];
-  isRippleLoad: boolean = false;
   tempData: any = {};
 
   constructor(
     private _productService: ProductService,
-    private _msgService: MessageShowService
+    private _msgService: MessageShowService,
+    private auth:AuthenticatorService,
   ) { }
 
   ngOnInit() {
@@ -38,14 +39,14 @@ export class CouponListComponent implements OnInit {
   }
 
   getProductList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this._productService.getMethod('product/get-product-list?status=30', null).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.productList = data.result;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -56,16 +57,16 @@ export class CouponListComponent implements OnInit {
   }
 
   deleteCoupon(obj) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     const url = `offer/delete/${obj.offer_id}`;
     this._productService.getMethod(url, null).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('success', '', res.result);
         this.couponData = this.couponData.filter(s => s.offer_id !== obj.offer_id);
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
     );
@@ -101,10 +102,10 @@ export class CouponListComponent implements OnInit {
       'noOfRecord': this.varJson.displayBatchSize,
       'offerType': 1
     };
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this._productService.getMethod('offer-map/advance-filter', object).subscribe(
       (resp: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (resp.validate) {
           this.couponData = resp.result.results;
           if (this.couponData) {
@@ -120,12 +121,12 @@ export class CouponListComponent implements OnInit {
           }
           this.varJson.total_items = resp.result.total_records;
         } else {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this._msgService.showErrorMessage('error', 'something went wrong, try again', '');
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('error', 'something went wrong, try again', '');
       });
 

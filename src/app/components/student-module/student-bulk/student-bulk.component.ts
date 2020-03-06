@@ -15,7 +15,6 @@ import { PostStudentDataService } from '../../../services/student-services/post-
 export class StudentBulkComponent implements OnInit {
   isCancelUpload: boolean = false;
   isUploadingXls: boolean = false;
-  isRippleLoad: boolean = false;
   progress: number = 0;
   fileLoading: string = "";
   isBulkUploadStatus: boolean = false;
@@ -45,7 +44,7 @@ export class StudentBulkComponent implements OnInit {
 
   /* base64 data to be converted to xls file */
   downloadTemplate() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.fetchData.fetchDownloadTemplate().subscribe(
       res => {
         let byteArr = this.commonService.convertBase64ToArray(res.document);
@@ -57,10 +56,10 @@ export class StudentBulkComponent implements OnInit {
         dwldLink.setAttribute("href", url);
         dwldLink.setAttribute("download", fileName);
         dwldLink.click();
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let msg = {
           type: "error",
           title: "",
@@ -116,7 +115,7 @@ export class StudentBulkComponent implements OnInit {
       comments: "",
       institute_id: sessionStorage.getItem('institute_id')
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.postData.uploadStudentBulk(obj).subscribe(
       res => {
         let msg = {
@@ -125,7 +124,7 @@ export class StudentBulkComponent implements OnInit {
           body: 'Selected file(s) has been uploaded'
         }
         this.appC.popToast(msg);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       err => {
         let msg = {
@@ -134,7 +133,7 @@ export class StudentBulkComponent implements OnInit {
           body: err.message
         }
         this.appC.popToast(msg);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
 
@@ -204,14 +203,14 @@ export class StudentBulkComponent implements OnInit {
 
   /* fetch the status of the data updated to server */
   fetchBulkUploadStatusData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.fetchData.fetchBulkUpdateStatusReport().subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.bulkUploadRecords = res;
       },
       err =>{
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -228,7 +227,7 @@ export class StudentBulkComponent implements OnInit {
 
   /* download the xls status report for a particular file uploaded */
   downloadSuccess(el) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.fetchData.fetchSuccess(el.list_id).subscribe(
       res => {
         let byteArr = this.commonService.convertBase64ToArray(res.document);
@@ -245,16 +244,16 @@ export class StudentBulkComponent implements OnInit {
           dwldLink.setAttribute("href", null);
           dwldLink.setAttribute("download", '');
         }
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       err => { 
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
 
   downloadFailure(el) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.fetchData.fetchFailure(el.list_id).subscribe(
       res => {
         let byteArr = this.commonService.convertBase64ToArray(res.document);
@@ -271,10 +270,10 @@ export class StudentBulkComponent implements OnInit {
           dwldLink.setAttribute("href", null);
           dwldLink.setAttribute("download", '');
         }
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       err => { 
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }

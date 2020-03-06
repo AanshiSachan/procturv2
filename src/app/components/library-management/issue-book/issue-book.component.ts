@@ -23,7 +23,6 @@ export class IssueBookComponent implements OnInit {
   borrower: any;
   selectedBorrowerId: any;
   searchInput: string;
-  isRippleLoad: boolean = false;
   multiClickDisabled: boolean = false;
   hoverTitle: string = "";
   hoverTitleAuthor: string = "";
@@ -89,10 +88,10 @@ export class IssueBookComponent implements OnInit {
   }
 
   getInstituteData(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.issueBookService.getInstituteSettingFromServer().subscribe(
       response => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response;
         this.numberOfLateDaysWithoutFine = res.lib_issue_for_days
@@ -102,17 +101,17 @@ export class IssueBookComponent implements OnInit {
 
       },
       errorResponse => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(errorResponse)
       }
     )
   }
 
   getAllMasterData(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.addBookService.getAllMasterData().subscribe(
       response => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response;
         console.log(response)
@@ -125,36 +124,36 @@ export class IssueBookComponent implements OnInit {
         this.languageList = res.response.languages;
       },
       errorResponse => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(errorResponse)
       }
     )
   }
 
   getSubCategory(ev){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.addBookService.getSubCategories(ev).subscribe(
       response => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response;
         console.log(response)
         this.subcategoryList = res.response;
       },
       errorResponse => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(errorResponse)
       }
     )
   }
 
   searchInBookList(search_string: any){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.issueBookService.getSearchedBooks(this.searchTitle).subscribe(
       response => {
         let res: any;
         res = response;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if(res.response.length > 0){
           this.bookSuggestionForTitle = true;
           this.bookSuggestionListForTitle = res.response;
@@ -218,7 +217,7 @@ export class IssueBookComponent implements OnInit {
 
     this.issueBookService.getBorrowerData(this.borrower).subscribe(
       response => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response;
         if(res.response != null && res.response.length != 0){
@@ -241,12 +240,12 @@ export class IssueBookComponent implements OnInit {
   }
 
   getSearchData(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.issueBookService.getSearchedBooks(this.searchInput).subscribe(
       response => {
         let res: any;
         res = response;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if(res.response.length > 0){
           this.suggestion = true;
           this.suggestionList = res.response;
@@ -305,10 +304,10 @@ export class IssueBookComponent implements OnInit {
 
     // console.log(obj);
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.issueBookService.getBookFilterData(obj).subscribe(
       response => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response;
         this.bookSearchData = [];
@@ -348,7 +347,7 @@ export class IssueBookComponent implements OnInit {
 
   selectBookForIssue(book_id){
     this.suggestion = false;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.issueBookService.getBookDetails(book_id).subscribe(
       response => {
 
@@ -361,13 +360,13 @@ export class IssueBookComponent implements OnInit {
           this.bookSearchData.forEach(element => {
             element.authorNameData = Array.prototype.map.call(element.authorObjects, author => author.author_name).toString();
           });
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
         else{
           if(res.errorResponse[0].errorCode == 700){
             this.messageHandler('error', 'Book alredy exists', '');
           }
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
 
       })
@@ -386,7 +385,7 @@ export class IssueBookComponent implements OnInit {
 
     this.issueBookService.getBooksStatusForStudent(this.selectedBorrowerId).subscribe(
       response => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response;
         if(res.response != null){
@@ -476,11 +475,11 @@ export class IssueBookComponent implements OnInit {
       }
 
       console.log(obj)
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.multiClickDisabled = true;
       this.issueBookService.issueBook(obj).subscribe(
         response => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.multiClickDisabled = false;
           let res: any;
           res = response;
