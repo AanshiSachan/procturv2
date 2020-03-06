@@ -1,13 +1,30 @@
 <proctur-popup [sizeWidth]="'large'">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBatchAssign()" close-button>
-      <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-        <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
-      </svg>
+        <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px"
+            x="0" y="0">
+            <path class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+                style="fill: currentColor"></path>
+        </svg>
     </span>
 
-    <h2 popup-header style="margin-bottom: 10px;font-size: 14px;" *ngIf="!isProfessional">Course and Fee Assignment</h2>
-    <h2 popup-header style="margin-bottom: 10px;font-size: 14px;" *ngIf="isProfessional">Batch and Fee Assignment</h2>
+    <div class="row" popup-header>
+        <div class="c-lg-9">
+            <h2 style="margin-bottom: 10px;font-size: 14px;" *ngIf="!isProfessional">Course and Fee Assignment</h2>
+            <h2 style="margin-bottom: 10px;font-size: 14px;" *ngIf="isProfessional">Batch and Fee Assignment</h2>
+        </div>
+        <div class="c-lg-3">
+            <div *ngIf="isShowCountry" class="field-wrapper header-select" style="padding: 0px 10px 10px 10px;">
+                <select [disabled]="is_country_disabled"  [(ngModel)]="country_id" class="form-ctrl" 
+                [ngClass]="{'disable_css': is_country_disabled}">
+                    <option value="-1">Select Country</option>
+                    <option [value]="country.id" *ngFor="let country of countryList">
+                        {{country.country_name}} 
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
 
     <div class="batch-wrapper" popup-content>
         <div class="filter-row row">
@@ -93,13 +110,13 @@
 
                         <td class="mcourse" [title]="batch.data.master_course" *ngIf="!isProfessional">{{batch.data.master_course}}</td>
 
-                        <td class="courseN"  [title]="batch.data.course_name" *ngIf="!isProfessional">{{batch.data.course_name}}</td>
+                        <td class="courseN" [title]="batch.data.course_name" *ngIf="!isProfessional">{{batch.data.course_name}}</td>
 
                         <td *ngIf="!isProfessional">{{batch.data.start_date}}</td>
 
                         <td *ngIf="!isProfessional">{{batch.data.end_date}}</td>
 
-                        <td *ngIf="isProfessional" [title]="batch.data.batch_name">  {{batch.data.batch_name}}</td>
+                        <td *ngIf="isProfessional" [title]="batch.data.batch_name"> {{batch.data.batch_name}}</td>
 
                         <td *ngIf="isProfessional">{{batch.data.start_date}}</td>
 
@@ -114,7 +131,8 @@
 
                         <td>
                             <div class="field-wrapper">
-                                <select name="acadyr" id="acadyr" [(ngModel)]="batch.data.academic_year_id" [disabled]="true" [ngStyle]="{'background':'lightgrey' ,'cursor':'not-allowed'}" class="form-ctrl">
+                                <select name="acadyr" id="acadyr" [(ngModel)]="batch.data.academic_year_id" [disabled]="true" [ngStyle]="{'background':'lightgrey' ,'cursor':'not-allowed'}"
+                                    class="form-ctrl">
                                     <option [value]="year.inst_acad_year_id" [selected]="batch.data.academic_year_id == year.inst_acad_year_id" *ngFor="let year of academicYear">{{year.inst_acad_year}}</option>
                                 </select>
                             </div>
@@ -124,11 +142,16 @@
                             <div class="field-wrapper">
                                 <select name="feetm" id="feetm" [(ngModel)]="batch.data.selected_fee_template_id" class="form-ctrl" (ngModelChange)="onFeeTemplateChanges(batch.data)">
                                     <option value="-1"></option>
-                                    <option [value]="fee.template_id" [selected]="batch.data.selected_fee_template_id == fee.template_id" *ngFor="let fee of getFeeTemplateCountryWisw(batch.data.feeTemplateList)">{{fee.template_name}}</option>
+                                    <option [value]="fee.template_id" [selected]="batch.data.selected_fee_template_id == fee.template_id" *ngFor="let fee of getFeeTemplateCountryWise(batch.data.feeTemplateList)">
+                                        <label title="{{fee.template_name}}">
+                                            {{ (fee.template_name.length > 20) ? (fee.template_name | slice:0:20) + '...' :fee.template_name }}
+                                          </label>
+                                    </option>
                                 </select>
                             </div>
                         </td>
                     </tr>
+
                 </tbody>
                 <tbody *ngIf="batchList.length == 0">
                     <tr>
@@ -153,26 +176,25 @@
 </proctur-popup>
 
 <section [hidden]="alertBox">
-  <div class="confirmation_popup">
-    <div class="confirm_title">
-      <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: rgba(255,0,0,0.7);"></i> &nbsp;
-      <span>Alert</span>
+    <div class="confirmation_popup">
+        <div class="confirm_title">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: rgba(255,0,0,0.7);"></i> &nbsp;
+            <span>Alert</span>
+        </div>
+        <div class="confirmation_msg_box">
+            <span id="confirm_msg">Do you wish to unassign student from the batch?</span>
+        </div>
+        <br>
+        <div class="field-checkbox-wrapper">
+            <input type="checkbox" id="delete_unpaid_fee" name="batch" [(ngModel)]="delete_unpaid_fee" class="form-checkbox">
+            <label> Delete unpaid fees installments</label>
+        </div>
+        <div class="confirmation_button_container">
+            <input type="button" value="Yes" class="btn" (click)="unassign_course()">
+            <input type="button" value="No" class="btn" (click)="closeAlert()">
+            <!-- <input type="button" value="Cancel" class="btn" (click)="closeAlert()"> -->
+        </div>
     </div>
-    <div class="confirmation_msg_box">
-      <span id="confirm_msg">Do you wish to unassign student from the batch?</span>
-    </div>
-    <br>
-    <div class="field-checkbox-wrapper">
-      <input type="checkbox" id="delete_unpaid_fee" name="batch" [(ngModel)]="delete_unpaid_fee"
-          class="form-checkbox">
-      <label> Delete unpaid fees installments</label>
-    </div>
-    <div class="confirmation_button_container">
-      <input type="button" value="Yes" class="btn" (click)="unassign_course()">
-      <input type="button" value="No" class="btn" (click)="closeAlert()">
-      <!-- <input type="button" value="Cancel" class="btn" (click)="closeAlert()"> -->
-    </div>
-  </div>
 </section>
 
 <div class="black-bg" id="black-bg" [hidden]="alertBox" (click)="closeAlert()">

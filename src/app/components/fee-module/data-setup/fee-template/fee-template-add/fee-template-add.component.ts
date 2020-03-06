@@ -10,10 +10,13 @@ import { FeeStrucService } from '../../../../../services/feeStruc.service';
   styleUrls: ['./fee-template-add.component.scss']
 })
 export class FeeTemplateAddComponent implements OnInit {
-
+  
+  showDefaultTemplate: any='0';
   masterCourseList: any = [];
   CourseList: any = [];
   countryAdditioalFeeTypes: any = {};
+  tax_type_without_percentage : String ;
+
   addNewTemplate = {
     template_name: '',
     fee_amount: "",
@@ -75,6 +78,8 @@ export class FeeTemplateAddComponent implements OnInit {
       }
     )
     this.enableTaxOptions = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.showDefaultTemplate = sessionStorage.getItem('enable_fee_template_country_wise');
+    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
     this.getAllMasterCourseList();
     this.getDetailOfFeeStructur();
     this.fetchDataForCountryDetails();
@@ -260,7 +265,7 @@ export class FeeTemplateAddComponent implements OnInit {
       let test: any = {};
       test.day_type = 1;
       test.days = 0;
-      if (this.enableTaxOptions == "1" && this.addNewTemplate.country_id == 1) {
+      if (this.enableTaxOptions == "1" ) {
         if (this.addNewTemplate.tax_type == "inclusive") {
           test.initial_fee_amount = amount - tax_amount;
           test.tax = tax_amount;
@@ -282,7 +287,7 @@ export class FeeTemplateAddComponent implements OnInit {
     if (Number(this.addNewTemplate.total_fee) != totalAmount) {
       let lastInstallment: any = obj[obj.length - 1];
       lastInstallment.totalAmount = lastInstallment.totalAmount + Number(this.addNewTemplate.total_fee) - totalAmount;
-      if (this.enableTaxOptions == '1' && this.addNewTemplate.country_id == 1) {
+      if (this.enableTaxOptions == '1') {
         lastInstallment.initial_fee_amount = Math.floor(Number(lastInstallment.totalAmount * 100 / (100 + this.feeStructure.registeredServiceTax)))
         lastInstallment.tax = lastInstallment.totalAmount - lastInstallment.initial_fee_amount;
       } else {
@@ -401,7 +406,7 @@ export class FeeTemplateAddComponent implements OnInit {
     } else {
       defaultValue = '0';
     }
-    if (this.addNewTemplate.apply_tax && this.addNewTemplate.country_id == 1) {
+    if (this.addNewTemplate.apply_tax ) {
       tax = "Y";
     } else {
       tax = "N";
@@ -448,7 +453,7 @@ export class FeeTemplateAddComponent implements OnInit {
     this.totalAmount = 0;
     let data: any = [];
     let registeredServiceTax = 0;
-    if (this.addNewTemplate.apply_tax && this.addNewTemplate.country_id == 1) {
+    if (this.addNewTemplate.apply_tax) {
       registeredServiceTax = this.feeStructure.registeredServiceTax;
     }
 
@@ -475,7 +480,7 @@ export class FeeTemplateAddComponent implements OnInit {
       test.service_tax = this.otherInstList[t].service_tax.toString();
       test.fees_amount = this.otherInstList[t].fees_amount.toString();
       test.service_tax_applicable = 0;
-      if (this.addNewTemplate.apply_tax && this.addNewTemplate.country_id == 1) {
+      if (this.addNewTemplate.apply_tax ) {
         test.service_tax_applicable = this.otherInstList[t].service_tax_applicable;
       }
       test.schedule_id = this.otherInstList[t].schedule_id.toString();

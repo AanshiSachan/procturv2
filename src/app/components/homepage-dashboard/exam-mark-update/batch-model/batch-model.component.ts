@@ -333,8 +333,8 @@ export class BatchModelComponent implements OnInit {
 
   closeAttendance() {
     if(this.coursePlannerStatus == 'true'){
-      this.isProfessional ? this.router.navigate(['/view/batch/coursePlanner/class']):
-      this.router.navigate(['/view/course/coursePlanner/class']);
+      this.isProfessional ? this.router.navigate(['/view/batch/coursePlanner/exam']):
+      this.router.navigate(['/view/course/coursePlanner/exam']);
     }
     else{
       this.router.navigate(['/view/home/admin']);
@@ -343,8 +343,8 @@ export class BatchModelComponent implements OnInit {
 
   backToHome() {
     if(this.coursePlannerStatus == 'true'){
-      this.isProfessional ? this.router.navigate(['/view/batch/coursePlanner/class']):
-      this.router.navigate(['/view/course/coursePlanner/class']);
+      this.isProfessional ? this.router.navigate(['/view/batch/coursePlanner/exam']):
+      this.router.navigate(['/view/course/coursePlanner/exam']);
     }
     else{
       sessionStorage.setItem('exam_info', '');

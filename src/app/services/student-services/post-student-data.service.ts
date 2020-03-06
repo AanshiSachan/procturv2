@@ -69,12 +69,12 @@ export class PostStudentDataService {
     }
 
 
-    updateInstituteDetails(id, req) {
+    updateInstituteDetails(id, school_name) {
 
         let urlInstituteUpdater = this.baseUrl + "/api/v1/schools/" + id;
 
         let data = {
-            school_name: req.school_name,
+            school_name: school_name,
             is_active: "Y",
             institution_id: this.institute_id
         }

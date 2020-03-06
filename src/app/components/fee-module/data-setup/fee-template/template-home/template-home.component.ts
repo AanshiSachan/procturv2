@@ -67,6 +67,8 @@ export class TemplateHomeComponent implements OnInit {
   searchText: string = '';
   addTemplatePopUp: boolean = false;
   searchDataFlag: boolean = false;
+  tax_type_without_percentage : String;
+  is_tax_enabled: boolean = false;
 
   constructor(
     private router: Router,
@@ -81,6 +83,8 @@ export class TemplateHomeComponent implements OnInit {
 
   ngOnInit() {
     this.enableTax = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
+    this.is_tax_enabled=this.enableTax=="1"?true:false;
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -178,13 +182,13 @@ export class TemplateHomeComponent implements OnInit {
           })
         }
         this.fillDataInYTable(res.customFeeSchedules);
-        if (res.studentwise_fees_tax_applicable == "Y") {
+        // if (res.studentwise_fees_tax_applicable == "Y") {
           if (this.enableTax == "1" &&
             document.getElementById('checkBoxtaxes')) {
             document.getElementById('checkBoxtaxes').checked = true;
             this.showTaxFields();
           }
-        }
+        
         this.totalAmountCal = res.studentwise_total_fees_amount;
       },
       err => {
@@ -204,7 +208,6 @@ export class TemplateHomeComponent implements OnInit {
 
   fillFeeType(data) {
     this.otherFeetype = [];
-
     data.forEach(object => {
       let keys = Object.keys(object);
       let test: any = {};

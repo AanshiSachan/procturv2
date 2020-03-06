@@ -173,18 +173,37 @@ export class CourseCourseListComponent implements OnInit {
     console.log("courseDetails", rowDetails);
     // this.getAllStudentList();
     this.getAllFeeTemplate();
+    // this.onRadioButtonChange();
   }
 
   // set default template and set 
   setDefaultTemplate(country_id, templates, data) {
-    templates[country_id] && templates[country_id].forEach(object => {
-      if (object.is_default == 'Y' && data.assigned_fee_template_id == -1) {
-        data.assigned_fee_template_id = object.template_id;
-      }
-    });
-    return templates[country_id];
-  }
+    // templates[country_id] && templates[country_id].forEach(object => {
+    //   if (object.is_default == 'Y' && data.assigned_fee_template_id == -1) {
+    //     data.assigned_fee_template_id = object.template_id;
+    //   }
+    // });
 
+    if (templates[country_id]) {
+      let array = templates[country_id].filter(object => object.is_default == 'Y');
+      if (data.assigned_fee_template_id == -1 && array.length) {
+        data.assigned_fee_template_id = array[0].template_id;
+      }
+    }
+
+    if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
+      let all_template = []
+      let keys = Object.keys(templates);
+      keys.forEach((key) => {
+        all_template =[...all_template,...templates[key]];    
+      });
+      return all_template;
+    } else {
+      return templates[country_id];
+    }
+
+
+  }
 
   getAcademicYearDetails() {
     this.academicList = [];
@@ -237,8 +256,8 @@ export class CourseCourseListComponent implements OnInit {
     } else if (this.searchFilter.unassignFlag == '1') {
       let data = [];
       res.forEach(element => {
-        if (element.assigned) {   
-            data.push(element);          
+        if (element.assigned) {
+          data.push(element);
         }
       });
       return data;

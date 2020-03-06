@@ -181,4 +181,12 @@ export class ExamCourseService {
         )
     }
 
+    updateExamSubjectWise(data){
+      let url = this.baseURL + "/api/v1/coursePlanner/update";
+      return this.http.put(url, data, { headers: this.headers }).map(
+          res => { return res; },
+          err => { return err }
+      )
+    }
+
 }

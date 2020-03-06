@@ -16,9 +16,13 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
     isProfessional: boolean = false;
     batchList: any[] = [];
+    countryList: any[] = [];
+    country_id: any = '-1';
     model: string;
     assignedCount: number = 0;
     modelChanged: Subject<string> = new Subject<string>();
+    isShowCountry: boolean = false;
+    is_country_disabled: boolean = false;
     batchFilter: any = {
         currentStd: '-1',
         state: '0'
@@ -53,7 +57,9 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                     this.isProfessional = false;
                 }
             }
-        )
+        );
+
+        this.countryList = JSON.parse(sessionStorage.getItem('country_data'));
     }
 
     ngOnInit() {
@@ -70,9 +76,14 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
     ngOnChanges() {
         this.batchList = [];
+        this.is_country_disabled = false;
+        this.getSettingsTemplateCountry();
         this.dataList.map(e => {
             e.data.deleteCourse_SubjectUnPaidFeeSchedules = false;
-             this.batchList.push(e);   
+            if (e.isSelected && (!this.is_country_disabled)) {
+                this.assginTemplate(e);
+            }
+            this.batchList.push(e);
         });
         this.clonedArray = this.commonService.keepCloning(this.batchList);
         if (this.defaultAcadYear == null && this.defaultAcadYear == undefined) {
@@ -81,12 +92,23 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         this.getAssignedCount();
     }
 
+    getSettingsTemplateCountry() {
+        this.country_id = this.countryId;
+        if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
+            this.isShowCountry = true;
+            this.country_id = '-1';
+        }
+    }
 
-    getFeeTemplateCountryWisw(feeTemplateList) {
+    getFeeTemplateCountryWise(feeTemplateList) {
         let templates = [];
         templates = feeTemplateList.filter((template) => {
-            // return template.country_id === 0;
-           return template.country_id ===this.countryId
+            if (this.country_id != '-1') {
+                return template.country_id == this.country_id;
+            }
+            else {
+                return template.country_id;
+            }
         });
         return templates;
     }
@@ -188,14 +210,26 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 if (this.dataList[i].data.course_id == batch.data.course_id) {
                     //finding index on dataList
                     this.createUpdate(value, i);
+                    this.assginTemplate(batch);
                 }
             } else {
                 if (this.dataList[i].data.batch_id == batch.data.batch_id) {
                     //finding index on dataList
                     this.createUpdate(value, i);
+                    this.assginTemplate(batch);
                 }
             }
         }
+    }
+
+    assginTemplate(batch) {
+        batch.data.feeTemplateList.map((template) => {
+            if (batch.data.selected_fee_template_id == template.template_id) {
+                this.country_id = template.country_id;
+                this.is_country_disabled = true;
+                this.cd.markForCheck();
+            }
+        })
     }
 
     createUpdate(value, index) {

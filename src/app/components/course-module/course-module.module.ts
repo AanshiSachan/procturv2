@@ -9,6 +9,7 @@ import { TimeTableComponent } from './time-table/time-table.component';
 import { timeTableService } from '../../services/TimeTable/timeTable.service';
 import { tableComponent } from './time-table/table/table.component';
 import { SharedModule } from '../shared/shared.module';
+import { MasterTagComponent } from './master-tag/master-tag.component';
 
 
 @NgModule({
@@ -22,14 +23,15 @@ import { SharedModule } from '../shared/shared.module';
     CourseModuleComponent,
     CourseHomeComponent,
     TimeTableComponent,
-    tableComponent
+    tableComponent,
+    MasterTagComponent
   ],
   entryComponents: [
       CourseModuleComponent,
       tableComponent
   ],
   providers: [
-    timeTableService
+    timeTableService    
   ],
   exports: []
 })

@@ -75,35 +75,37 @@ hr {
         ul {
             height: 100%;
             li {
-                border-bottom: 1px solid #d0f4ff;
+                border-bottom: 1px solid rgba(211, 212, 213, 0.5);
                 font-size: 14px;
                 font-weight: 600;
                 background: white;
                 padding: 10px;
+                padding-left: 20px;
+                // text-align: center;
                 span {
                     // margin-left: 20px;
                     a {
-                        color: #0084f6;
+                        color: black;
                     }
                     i {
                         display: none;
                     }
                 }
                 &.active {
-                    background: #d0f4ff;
+                    background: #0084f6;
                     span {
                         // margin-left: 20px;
                         a {
-                            color: #000000;
+                            color: white;
                         }
                     }
                 }
                 &:hover {
-                    background: #d0f4ff;
+                    background: #0084f6;
                     span {
                         margin-left: 20px;
                         a {
-                            color: #000000;
+                            color: white;
                         }
                     }
                 }
@@ -121,10 +123,10 @@ hr {
         tr {
             td {
                 &.tableHeader {
-                    background-color: #f8f5f5 !important;
+                    background-color: #e0eaec !important;
                     padding: 5px 15px !important;
                     font-size: 14px !important;
-                    font-weight: 400 !important;
+                    font-weight: 600 !important;
                 }
                 span {
                     &.i-class {
@@ -180,10 +182,10 @@ hr {
         .sms-setting-wrapper {
             margin-right: 10px;
             overflow-x: hidden;
-            border-top: 1px solid #dcdcdc;
-            border-bottom: 1px solid #dcdcdc;
-            border-left: 2px solid #dcdcdc;
-            border-right: 2px solid #dcdcdc;
+            // border-top: 1px solid #dcdcdc;
+            // border-bottom: 1px solid #dcdcdc;
+            // border-left: 2px solid #dcdcdc;
+            // border-right: 2px solid #dcdcdc;
             border-radius: 5px;
             overflow-y: hidden;
             table {
@@ -233,72 +235,73 @@ hr {
                 }
             }
         }
-        .examReportWrapper {
-            .row {
-                margin: 0px 5px;
-                .exam-table-wrapper {
-                    overflow-x: hidden;
-                    border-top: 1px solid #dcdcdc;
-                    border-bottom: 1px solid #dcdcdc;
-                    border-left: 2px solid #dcdcdc;
-                    border-right: 2px solid #dcdcdc;
-                    border-radius: 5px;
-                    .field-checkbox-wrapper {
-                        width: 40%;
-                        height: auto;
-                        margin-top: 10px;
-                    }
-                    .field-wrapper {
-                        height: auto;
-                        margin-top: 10px;
-                    }
-                    table {
-                        tbody {
-                            tr {
-                                background-color: white;
-                                border-bottom: 2px solid rgba(220, 220, 220, 0.2196078431372549);
-                                height: 45px;
-                                td {
-                                    padding: 15px 15px;
-                                    text-align: left;
-                                    .row {
-                                        margin: 0px 5px;
-                                        margin-top: 10px;
-                                        margin-bottom: 10px;
-                                        span {
-                                            color: #0084f6;
-                                            border: 1px solid #0084f6;
-                                            border-radius: 50%;
-                                            padding: 0px 6px;
-                                            margin-left: 3px;
-                                            font-size: 0.95em;
-                                            line-height: 20px;
-                                            font-weight: bolder;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                .checkbox-bundle-wrapper {
-                    margin-top: 10px;
-                    margin-bottom: 10px;
-                }
-                .rank-wrapper {
-                    margin-top: 10px;
-                    margin-bottom: 10px;
-                }
-            }
-        }
+    }
+        // .examReportWrapper {
+        //     .row {
+        //         margin: 0px 5px;
+        //         .exam-table-wrapper {
+        //             overflow-x: hidden;
+        //             // border-top: 1px solid #dcdcdc;
+        //             // border-bottom: 1px solid #dcdcdc;
+        //             // border-left: 2px solid #dcdcdc;
+        //             // border-right: 2px solid #dcdcdc;
+        //             border-radius: 5px;
+        //             .field-checkbox-wrapper {
+        //                 width: 40%;
+        //                 height: auto;
+        //                 margin-top: 10px;
+        //             }
+        //             .field-wrapper {
+        //                 height: auto;
+        //                 margin-top: 10px;
+        //             }
+        //             table {
+        //                 tbody {
+        //                     tr {
+        //                         background-color: white;
+        //                         border-bottom: 2px solid rgba(220, 220, 220, 0.2196078431372549);
+        //                         height: 45px;
+        //                         td {
+        //                             padding: 15px 15px;
+        //                             text-align: left;
+        //                             .row {
+        //                                 margin: 0px 5px;
+        //                                 margin-top: 10px;
+        //                                 margin-bottom: 10px;
+        //                                 span {
+        //                                     color: #0084f6;
+        //                                     border: 1px solid #0084f6;
+        //                                     border-radius: 50%;
+        //                                     padding: 0px 6px;
+        //                                     margin-left: 3px;
+        //                                     font-size: 0.95em;
+        //                                     line-height: 20px;
+        //                                     font-weight: bolder;
+        //                                 }
+        //                             }
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //         .checkbox-bundle-wrapper {
+        //             margin-top: 10px;
+        //             margin-bottom: 10px;
+        //         }
+        //         .rank-wrapper {
+        //             margin-top: 10px;
+        //             margin-bottom: 10px;
+        //         }
+        //     }
+        // }
         .fee-content-wrapper {
             .row {
                 .fee-table-wrapper {
-                    overflow-x: hidden;
-                    border-top: 1px solid #dcdcdc;
-                    border-bottom: 1px solid #dcdcdc;
-                    border-left: 2px solid #dcdcdc;
-                    border-right: 2px solid #dcdcdc;
+                    // overflow-x: hidden;
+                    // border-top: 1px solid #dcdcdc;
+                    // border-bottom: 1px solid #dcdcdc;
+                    // border-left: 2px solid #dcdcdc;
+                    // border-right: 2px solid #dcdcdc;
                     border-radius: 5px;
                     .field-checkbox-wrapper {
                         width: 40%;
@@ -348,101 +351,103 @@ hr {
                 border: 1px solid #777;
             }
         }
-        .report-content-wrapper {
-            .row {
-                .report-table-wrapper {
-                    overflow-x: hidden;
-                    border-top: 1px solid #dcdcdc;
-                    border-bottom: 1px solid #dcdcdc;
-                    border-left: 2px solid #dcdcdc;
-                    border-right: 2px solid #dcdcdc;
-                    border-radius: 5px;
-                    .field-checkbox-wrapper {
-                        width: 40%;
-                        height: auto;
-                        margin-top: 10px;
-                    }
-                    .field-wrapper {
-                        height: auto;
-                        margin-top: 10px;
-                    }
-                    table {
-                        tbody {
-                            tr {
-                                background-color: white;
-                                border-bottom: 2px solid rgba(220, 220, 220, 0.2196078431372549);
-                                height: 45px;
-                                td {
-                                    padding: 15px 15px;
-                                    text-align: left;
-                                    .row {
-                                        margin: 0px 5px;
-                                        margin-top: 10px;
-                                        margin-bottom: 10px;
-                                        label {
-                                            span {
-                                                color: #0084f6;
-                                                border: 1px solid #0084f6;
-                                                border-radius: 50%;
-                                                padding: 0px 6px;
-                                                margin-left: 3px;
-                                                font-size: 0.95em;
-                                                line-height: 20px;
-                                                font-weight: bolder;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        .misc-content-wrapper {
-            .row {
-                .misc-table-wrapper {
-                    overflow-x: hidden;
-                    border-top: 1px solid #dcdcdc;
-                    border-bottom: 1px solid #dcdcdc;
-                    border-left: 2px solid #dcdcdc;
-                    border-right: 2px solid #dcdcdc;
-                    border-radius: 5px;
-                    .field-checkbox-wrapper {
-                        width: 40%;
-                        height: auto;
-                        margin-top: 10px;
-                    }
-                    .field-wrapper {
-                        height: auto;
-                        margin-top: 10px;
-                    }
-                    table {
-                        tbody {
-                            tr {
-                                background-color: white;
-                                border-bottom: 2px solid rgba(220, 220, 220, 0.2196078431372549);
-                                height: 45px;
-                                td {
-                                    padding: 15px 15px;
-                                    text-align: left;
-                                    .row {
-                                        margin: 0px 5px;
-                                        margin-top: 10px;
-                                        margin-bottom: 10px;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+        
+        // .report-content-wrapper {
+        //     .row {
+        //         .report-table-wrapper {
+        //             overflow-x: hidden;
+        //             // border-top: 1px solid #dcdcdc;
+        //             // border-bottom: 1px solid #dcdcdc;
+        //             // border-left: 2px solid #dcdcdc;
+        //             // border-right: 2px solid #dcdcdc;
+        //             border-radius: 5px;
+        //             .field-checkbox-wrapper {
+        //                 width: 40%;
+        //                 height: auto;
+        //                 margin-top: 10px;
+        //             }
+        //             .field-wrapper {
+        //                 height: auto;
+        //                 margin-top: 10px;
+        //             }
+        //             table {
+        //                 tbody {
+        //                     tr {
+        //                         background-color: white;
+        //                         border-bottom: 2px solid rgba(220, 220, 220, 0.2196078431372549);
+        //                         height: 45px;
+        //                         td {
+        //                             padding: 15px 15px;
+        //                             text-align: left;
+        //                             .row {
+        //                                 margin: 0px 5px;
+        //                                 margin-top: 10px;
+        //                                 margin-bottom: 10px;
+        //                                 label {
+        //                                     span {
+        //                                         color: #0084f6;
+        //                                         border: 1px solid #0084f6;
+        //                                         border-radius: 50%;
+        //                                         padding: 0px 6px;
+        //                                         margin-left: 3px;
+        //                                         font-size: 0.95em;
+        //                                         line-height: 20px;
+        //                                         font-weight: bolder;
+        //                                     }
+        //                                 }
+        //                             }
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+//         .misc-content-wrapper {
+//             .row {
+//                 .misc-table-wrapper {
+//                     overflow-x: hidden;
+//                     // border-top: 1px solid #dcdcdc;
+//                     // border-bottom: 1px solid #dcdcdc;
+//                     // border-left: 2px solid #dcdcdc;
+//                     // border-right: 2px solid #dcdcdc;
+//                     border-radius: 5px;
+//                     .field-checkbox-wrapper {
+//                         width: 40%;
+//                         height: auto;
+//                         margin-top: 10px;
+//                     }
+//                     .field-wrapper {
+//                         height: auto;
+//                         margin-top: 10px;
+//                     }
+//                     table {
+//                         tbody {
+//                             tr {
+//                                 background-color: white;
+//                                 border-bottom: 2px solid rgba(220, 220, 220, 0.2196078431372549);
+//                                 height: 45px;
+//                                 td {
+//                                     padding: 15px 15px;
+//                                     text-align: left;
+//                                     .row {
+//                                         margin: 0px 5px;
+//                                         margin-top: 10px;
+//                                         margin-bottom: 10px;
+//                                     }
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
 }
-
 .middle-section {
-    padding: 1%;
+    // padding: 1%;
+    padding-top: 1%;
+    padding-bottom: 1%;
     width: 100%;
     box-sizing: border-box;
 }
@@ -709,4 +714,34 @@ tr {
     border: 0 !important;
     padding:  0 !important;
     margin: 0 !important
+}
+.sectionDevideContainer{
+    margin-bottom: 30px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.16);
+}
+.m-0{
+    margin: 0 !important;
+}
+.webkitBox{
+    display: -webkit-box;
+    -webkit-box-align: center;
+}
+.table-responsive{
+    overflow-x: inherit !important;
+    margin-bottom: 0;
+}
+.field-wrapper{
+    .form-ctrl{
+        border: 1px solid rgba(119, 119, 119, 0.419608);
+    }
+}
+.c-sm-5, .c-md-5, .c-lg-5{
+    margin-right: 5% !important;
+}
+.textClass{
+    padding: 0 !important;
+    margin-left: 0 !important;    
+    font-weight: normal !important;
+    color: black !important;
+    border: none !important;
 }

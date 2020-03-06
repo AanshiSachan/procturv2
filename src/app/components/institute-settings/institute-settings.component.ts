@@ -230,22 +230,27 @@ export class InstituteSettingsComponent implements OnInit {
     enable_exam_marks_not_update_notification: {
       teacher: '',
       admin: '',
+      other: false
     },
     enable_exam_attendance_not_marked_notification: {
       teacher: '',
       admin: '',
+      other: false
     },
     enable_class_attendance_not_marked_notification: {
       teacher: '',
       admin: '',
+      other: false
     },
     enable_exam_attendance_not_marked_daily_notification: {
       teacher: '',
       admin: '',
+      other: false
     },
     enable_class_attendance_not_marked_daily_notification: {
       teacher: '',
       admin: '',
+      other: false
     },
     exam_min_marks: '',
     exam_average_marks: '',
@@ -322,19 +327,27 @@ export class InstituteSettingsComponent implements OnInit {
 
     lib_issue_for_days: '',
     lib_due_date_fine_per_day: '',
-    jwt_secret_key: ''
+    jwt_secret_key: '',
+
+    class_attendance_not_marked_notification_contact_number: '',
+    class_attendance_not_marked_daily_notification_contact_number: '',
+    exam_attendance_not_marked_notification_contact_number: '',
+    exam_attendance_not_marked_daily_notification_contact_number: '',
+    exam_marks_not_update_notification_contact_number: '',
+    vat_percentage:''
 
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
   instituteName: any = '';
   biometricSetting: number = 0;
-  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib'];
-  contenTDiv: string[] = ['divSMSContent', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent'];
+  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport'];
+  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent'];
 
   // Library Role
   libraryRole: boolean = false;
   instituteId: any;
+  instituteTaxType : String;
 
   constructor(
     private apiService: InstituteSettingService,
@@ -350,6 +363,8 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteId = sessionStorage.getItem('institute_id');
     this.onlinePayment = sessionStorage.getItem('enable_online_payment_feature');
     this.biometricSetting = Number(sessionStorage.getItem('biometric_attendance_feature'));
+    this.instituteTaxType=sessionStorage.getItem("tax_type_without_percentage")=='Vat'?'Vat':'GST';
+
     this.checkInstitutionType();
     this.getSettingFromServer();
     this.libraryRoleSetting();
@@ -403,17 +418,17 @@ export class InstituteSettingsComponent implements OnInit {
     let dataToSend: any = {};
     if (this.instituteSettingDet.gst_enabled) {
       if (this.instituteSettingDet.gst_no == "" || this.instituteSettingDet.gst_no == null) {
-        this.commonService.showErrorMessage('error', '', "Please specify GST NO.");
+        this.commonService.showErrorMessage('error', '', "Please specify "+this.instituteTaxType+" NO.");
         return;
       }
     }
-    dataToSend = this.constructJsonToSend();
-    this.auth.showLoader();
+    dataToSend = this.constructJsonToSend();    
     if (dataToSend) {
+      this.auth.showLoader();
       this.apiService.saveSettingsToServer(dataToSend).subscribe(
         res => {
           this.auth.hideLoader();
-          this.commonService.showErrorMessage('success', 'Saved', "All your setting saved successfully");
+          this.commonService.showErrorMessage('success', '', "All your setting saved successfully");
         },
         err => {
           this.auth.hideLoader();
@@ -429,6 +444,7 @@ export class InstituteSettingsComponent implements OnInit {
 
   constructJsonToSend() {
     let obj: any = Object.assign({}, this.instituteSettingDet);
+    this.calculateCGSTAndSGSTFromVat(obj);
     obj.sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.sms_notification);
     obj.email_notification = this.convertBoolenToNumber(this.instituteSettingDet.email_notification);
     obj.sms_status_report = this.convertBoolenToNumber(this.instituteSettingDet.sms_status_report);
@@ -500,7 +516,48 @@ export class InstituteSettingsComponent implements OnInit {
         }
       }
     }
+    obj.class_attendance_not_marked_notification_contact_number = this.instituteSettingDet.class_attendance_not_marked_notification_contact_number;
+    obj.class_attendance_not_marked_daily_notification_contact_number = this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number;
+    obj.exam_attendance_not_marked_notification_contact_number = this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number;
+    obj.exam_attendance_not_marked_daily_notification_contact_number = this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number
+    obj.exam_marks_not_update_notification_contact_number = this.instituteSettingDet.exam_marks_not_update_notification_contact_number;
 
+    if (this.instituteSettingDet.class_attendance_not_marked_notification_contact_number != null && this.instituteSettingDet.class_attendance_not_marked_notification_contact_number != '') {
+      if (!(this.checkContactNoPattern(this.instituteSettingDet.class_attendance_not_marked_notification_contact_number))) {
+        this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
+        return false;
+      }
+    }
+
+    if (this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number != null && this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number != '') {
+      if (!(this.checkContactNoPattern(this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number))) {
+        this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
+        return false;
+      }
+    }
+
+    if (this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number != null && this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number != '') {
+      if (!(this.checkContactNoPattern(this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number))) {
+        this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
+        return false;
+      }
+    }
+
+    if (this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number != null && this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number != '') {
+      if (!(this.checkContactNoPattern(this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number))) {
+        this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
+        return false;
+      }
+    }
+
+    if (this.instituteSettingDet.exam_marks_not_update_notification_contact_number != null && this.instituteSettingDet.exam_marks_not_update_notification_contact_number != '') {
+      if (!(this.checkContactNoPattern(this.instituteSettingDet.exam_marks_not_update_notification_contact_number))) {
+        this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
+        return false;
+      }
+    }
+
+    
     obj.first_sms_low_balance_threshold = this.instituteSettingDet.first_sms_low_balance_threshold != null && this.instituteSettingDet.first_sms_low_balance_threshold != '' && this.instituteSettingDet.first_sms_low_balance_threshold != 0 ? this.instituteSettingDet.first_sms_low_balance_threshold : 0;
     obj.second_sms_low_balance_threshold = this.instituteSettingDet.second_sms_low_balance_threshold != null && this.instituteSettingDet.second_sms_low_balance_threshold != '' && this.instituteSettingDet.second_sms_low_balance_threshold != 0 ? this.instituteSettingDet.second_sms_low_balance_threshold : 0;
     obj.sms_low_balance_alert_contact_number = this.instituteSettingDet.sms_low_balance_alert_contact_number != '' && this.instituteSettingDet.sms_low_balance_alert_contact_number != null ? this.instituteSettingDet.sms_low_balance_alert_contact_number : null;
@@ -687,6 +744,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.gst_no = data.gst_no;
     this.instituteSettingDet.cgst = data.cgst;
     this.instituteSettingDet.sgst = data.sgst;
+    this.instituteSettingDet.vat_percentage=data.vat_percentage;
     this.instituteSettingDet.inst_fee_activity_email_recipients = data.inst_fee_activity_email_recipients;
     this.instituteSettingDet.pdc_reminder_setting = data.pdc_reminder_setting;
     this.instituteSettingDet.pdc_reminder_sent_on = data.pdc_reminder_sent_on;
@@ -764,6 +822,29 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.second_sms_low_balance_threshold = data.second_sms_low_balance_threshold;
     this.instituteSettingDet.sms_low_balance_alert_contact_number = (data.sms_low_balance_alert_contact_number == null || data.sms_low_balance_alert_contact_number == 'NULL') ? null : data.sms_low_balance_alert_contact_number;
     this.instituteSettingDet.jwt_secret_key = data.jwt_secret_key;
+
+    this.instituteSettingDet.class_attendance_not_marked_notification_contact_number = data.class_attendance_not_marked_notification_contact_number;
+    this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number = data.class_attendance_not_marked_daily_notification_contact_number;
+    this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number = data.exam_attendance_not_marked_notification_contact_number;
+    this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number = data.exam_attendance_not_marked_daily_notification_contact_number;
+    this.instituteSettingDet.exam_marks_not_update_notification_contact_number = data.exam_marks_not_update_notification_contact_number;
+
+    if(this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number != '' && this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number != null){
+      this.instituteSettingDet.enable_class_attendance_not_marked_daily_notification.other = true;
+    }
+    if(this.instituteSettingDet.class_attendance_not_marked_notification_contact_number != '' && this.instituteSettingDet.class_attendance_not_marked_notification_contact_number != null){
+      this.instituteSettingDet.enable_class_attendance_not_marked_notification.other = true;
+    }
+    if(this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number != '' && this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number != null){
+      this.instituteSettingDet.enable_exam_attendance_not_marked_notification.other = true;
+    }
+    if(this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number != '' && this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number != null){
+      this.instituteSettingDet.enable_exam_attendance_not_marked_daily_notification.other = true;
+    }
+    if(this.instituteSettingDet.exam_marks_not_update_notification_contact_number != '' && this.instituteSettingDet.exam_marks_not_update_notification_contact_number != null){
+      this.instituteSettingDet.enable_exam_marks_not_update_notification.other = true;
+    }
+    this.instituteSettingDet.vat_percentage=data.cgst+data.sgst;
   }
 
 
@@ -942,5 +1023,10 @@ export class InstituteSettingsComponent implements OnInit {
       }
     )
   }
-
+  calculateCGSTAndSGSTFromVat(data){
+    if(this.instituteTaxType=='Vat'){
+     data.cgst=Math.floor(this.instituteSettingDet.vat_percentage/2);
+     data.sgst=this.instituteSettingDet.vat_percentage-data.cgst;
+    }
+    }
 }

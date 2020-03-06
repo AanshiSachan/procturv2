@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "prod": "ng build --prod --aot=false --named-chunks --output-hashing  --base-href ./"
+    "prod": "ng build --prod --aot=false --named-chunks  --output-hashing  --base-href ./",
+    "minify": "minify-all dist"
   },
   "private": true,
   "dependencies": {
@@ -80,6 +81,7 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^1.0.0",
+    "minify-all": "^1.2.2",
     "protractor": "^5.4.0",
     "ts-node": "~6.0.2",
     "tslint": "~5.9.1",

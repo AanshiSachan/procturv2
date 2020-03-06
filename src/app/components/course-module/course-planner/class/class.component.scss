@@ -701,6 +701,8 @@
 // Edit class
 .edit-input-container{
   margin-bottom: 5px;
+  position: relative;
+
   label{
     font-size: 14px;
     margin-bottom: 2px;
@@ -711,8 +713,21 @@
     border-radius: 4px;
     padding: 5px;
   }
-  .topic-input{
-    border-color: #1283f4;
+  .topic-linked{
+    border: 1px solid #1283f4;
+    cursor: pointer;
+  }
+  .no-topic-linked{
+    border: 1px solid #d4d4d4;
+    cursor: pointer;
+  }
+  .topic-linked-fa{
+    color: #1283f4;
+    cursor: pointer;
+  }
+  .no-topic-linked-fa{
+    color: #d4d4d4;
+    cursor: pointer;
   }
 }
 
@@ -725,7 +740,7 @@
 
 // Topic
 .topic-container{
-    margin-right: 0!important; 
+    margin-right: 0!important;
     margin-left: 0!important;
     display: flex;
     flex-direction: row;

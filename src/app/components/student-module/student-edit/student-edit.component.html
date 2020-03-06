@@ -56,9 +56,11 @@
             <!-- Form 1 -->
             <div class="row">
               <div class="c-lg-8 c-md-8 c-sm-8">
-                <div class="form-type1" style="max-width: 360px;" >
+                <div class="form-type1" style="max-width: 360px;">
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_name != ''}">
-                    <label for="sName">Student Name <span class="text-danger">*</span></label>
+                    <label for="sName">Student Name
+                      <span class="text-danger">*</span>
+                    </label>
                     <input type="text" value="" class="form-ctrl" id="sName" [(ngModel)]="studentAddFormData.student_name" name="sName" maxlength="50"
                       #sname="ngModel" required>
                     <div *ngIf="sname.invalid && (sname.dirty || sname.touched)" class="alert invalid-alert">
@@ -72,20 +74,22 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
-                    <label for="cNumber">Contact Number<span class="text-danger">*</span></label><br>
-                    <span class="countryCallingCode"style="width: 22%">
-                        <!-- [disabled]="countryDetails.length<=1"  -->
-                        <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id"
-                        [disabled]="true" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
+                    <label for="cNumber">Contact Number
+                      <span class="text-danger">*</span>
+                    </label>
+                    <br>
+                    <span class="countryCallingCode" style="width: 22%">
+                      <!-- [disabled]="countryDetails.length<=1"  -->
+                      <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id" [disabled]="true"
+                        (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
                         <option value=""></option>
                         <option [value]="data.id" selected *ngFor='let data of countryDetails'>
                           {{data.country_code}} +{{data.country_calling_code}}
                         </option>
                       </select>
-                    </span> 
+                    </span>
                     <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
-                      #cNumber="ngModel" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                      required style="width: 78%">
+                      #cNumber="ngModel" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" required style="width: 78%">
                     <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
                       <div *ngIf="cNumber.errors.required">
                         phone number is required.
@@ -112,7 +116,9 @@
 
 
                   <div *ngIf="isManualDisplayId" class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_disp_id != ''}">
-                    <label for="manualId">Student Roll Number<span class="text-danger">*</span></label>
+                    <label for="manualId">Student Roll Number
+                      <span class="text-danger">*</span>
+                    </label>
                     <input type="text" value="" class="form-ctrl" id="manualId" [(ngModel)]="studentAddFormData.student_disp_id" name="manualId"
                       maxlength="50" #manualId="ngModel" required>
                     <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
@@ -144,11 +150,12 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
-                    <label for="parentContactNo">Parent Contact Number</label><br>
-                    <span class="countryCallingCode"style="width: 22%">
+                    <label for="parentContactNo">Parent Contact Number</label>
+                    <br>
+                    <span class="countryCallingCode" style="width: 22%">
                       <!-- [disabled]="countryDetails.length<=1"  -->
-                        <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id"
-                        disabled="true" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
+                      <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id" disabled="true" (change)="onChangeObj($event.target.value)"
+                        style="height: 29px;padding: 0">
                         <option value=""></option>
                         <option [value]="data.id" selected *ngFor='let data of countryDetails'>
                           {{data.country_code}} +{{data.country_calling_code}}
@@ -156,7 +163,7 @@
                       </select>
                     </span>
                     <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
-                    style="width: 78%" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel"
+                      style="width: 78%" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel"
                     />
                   </div>
 
@@ -173,7 +180,7 @@
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.expiry_date != ''}">
                     <label for="studExpiryDate">Course Expiry Date for Student</label>
                     <input type="text" value="" id="studExpiryDate" class="form-ctrl bsDatepicker" name="studExpiryDate" [(ngModel)]="studentAddFormData.expiry_date" #studExpiryDate="ngModel"
-                      readonly="true" bsDatepicker>
+                      readonly="true" bsDatepicker style="width: 100%;">
                   </div>
 
                   <div class="more-detail">
@@ -184,7 +191,8 @@
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <proctur-image [containerWidth]="containerWidth" [serverImg]="studentServerImage" (setImage)="setImage($event)" [thumbnailAvailable]="thumbnailAvailable" [defaultImg]="'assets/images/student_icon.png'">
+                <proctur-image [containerWidth]="containerWidth" [serverImg]="studentServerImage" (setImage)="setImage($event)" [thumbnailAvailable]="thumbnailAvailable"
+                  [defaultImg]="'assets/images/student_icon.png'">
                 </proctur-image>
               </div>
             </div>
@@ -197,7 +205,7 @@
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.dob != ''}">
                     <label for="sdob">Date of Birth</label>
                     <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob" [(ngModel)]="studentAddFormData.dob" #sdob="ngModel"
-                      readonly="true" bsDatepicker>
+                      readonly="true" bsDatepicker style="width: 100%;">
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_curr_addr != ''}">
@@ -217,11 +225,12 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_phone != ''}">
-                    <label for="guardianContact">Guardian Contact Number</label><br>
-                    <span class="countryCallingCode"style="width: 24%">
-                          <!-- [disabled]="countryDetails.length<=1"  -->
-                        <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id"
-                        disabled="true" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
+                    <label for="guardianContact">Guardian Contact Number</label>
+                    <br>
+                    <span class="countryCallingCode" style="width: 24%">
+                      <!-- [disabled]="countryDetails.length<=1"  -->
+                      <select id="country_id" class="form-ctrl" [(ngModel)]="studentAddFormData.country_id" name="country_id" disabled="true" (change)="onChangeObj($event.target.value)"
+                        style="height: 29px;padding: 0">
                         <option value=""></option>
                         <option [value]="data.id" selected *ngFor='let data of countryDetails'>
                           {{data.country_code}} +{{data.country_calling_code}}
@@ -254,6 +263,31 @@
                     <input type="text" value="" name="addCommentNote" [(ngModel)]="studentAddFormData.comments" id="addCommentNote" class="form-ctrl">
                   </div>
 
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.state_id != ''}">
+                    <label for="state">State</label>
+                      <select id="state" class="form-ctrl" [(ngModel)]="studentAddFormData.state_id" name="state" (ngModelChange)="getNewCityList()">
+                      <option value="">Select State</option>
+                      <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+                    </select>
+                  </div>
+
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.city_id != ''}">
+                    <label for="city">City</label>
+                    <select id="city" class="form-ctrl" [(ngModel)]="studentAddFormData.city_id" name="city" (ngModelChange)="getNewAreaList()">
+                      <option value="">Select City</option>
+                      <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
+                    </select>
+                  </div>
+
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.area_id != ''}">
+                    <label for="addArea">Area</label>
+                    <select id="area_id" class="form-ctrl" [(ngModel)]="studentAddFormData.area_id" name="area_id">
+                      <option value="">Select Area</option>
+                      <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">{{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}</option>
+                    </select>
+                    <span (click)="toggleAddArea()" class="sourceI iconPlus" style="right: -35px;">+</span>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -271,7 +305,7 @@
               <div style="min-height: 345px;" class="box-shadow-lite">
                 <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
                   <label for="doj">Date of Admission</label>
-                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" readonly="true" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj"
+                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" readonly="true" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj" style="width: 100%;"
                   />
                   <!-- <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span> -->
                 </div>
@@ -351,17 +385,6 @@
                   </div>
                 </div>
 
-                <div class="field-wrapper has-value hide" *ngIf="isProfessional">
-                  <label for="status">Status</label>
-                  <select id="status" [(ngModel)]="studentAddFormData.language_inst_status" name="status" class="form-ctrl">
-                    <option></option>
-                    <option *ngFor="let status of langStatus" [value]="status.data_key" [attr.selected]="status.data_key == 'admitted' ?
-                    '' : null">
-                      {{status.data_value}}
-                    </option>
-                  </select>
-                </div>
-
                 <div id="assignCoursesParent" class="field-wrapper" *ngIf="isProfessional" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
                   <label (click)="openAssignBatch()" for="assignCourses"></label>
 
@@ -392,8 +415,7 @@
           </div>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" id="form-continue" [disabled]="JsonFlags.isDisabled" value="Continue" class="btn fullBlue"
-              (click)="navigateTo('kyc')">
+            <input type="button" id="form-continue" [disabled]="JsonFlags.isDisabled" value="Continue" class="btn fullBlue" (click)="navigateTo('kyc')">
             <input type="button" id="form-submit" [class.hide]="!quickAddStudent" (click)="studentQuickAdder(values)" value="Submit"
               class="btn hide fullBlue">
           </aside>
@@ -426,36 +448,40 @@
         <section class="clearFix student-flow row " id="studentFlow">
           <aside class="pull-left middle-left">
             <div class="form-type1 other-detail-wrapper" style="max-width: 360px;">
-              <div> 
+              <div>
                 <div class="uploadText">
-                    <span style="font-weight: 600;">Upload Doument</span>
+                  <span style="font-weight: 600;">Upload Doument</span>
+                </div>
+                <div class="documentUploadDiv">
+                  <div class="row" style="padding-bottom:5px;padding-top: 5px;">
+                    <div class="field-wrapper">
+                      <label>Document Title
+                        <span style="color: red;">*</span>
+                      </label>
+                      <input type="text" id="category_id" [(ngModel)]="category_id" class="form-ctrl" name="category_id" [maxlength]="30" />
                     </div>
-            <div class="documentUploadDiv">
-              <div class="row" style="padding-bottom:5px;padding-top: 5px;">
-                <div class="field-wrapper">
-                  <label>Document Title <span style="color: red;">*</span></label>
-                  <input type="text" id="category_id" [(ngModel)]="category_id" class="form-ctrl" name="category_id"
-                    [maxlength]="30" />
+                  </div>
+                  <div class="row">
+                    <div class="field-wrapper">
+                      <label>Choose File(Ctrl + ) To Upload</label>
+                      <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox" (change)="storeFiles()" style="width: 75%;float: left;"
+                      />
+                      <a class="btn fullBlue" style="float: left;margin-left:10px ;" (click)="uploadHandler();navigateTo('kyc')">Upload</a>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="field-wrapper">
-                  <label>Choose File(Ctrl + ) To Upload</label>
-                  <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox" (change)="storeFiles()" style="width: 75%;float: left;"/>
-                  <a class="btn fullBlue" style="float: left;margin-left:10px ;" (click)="uploadHandler();navigateTo('kyc')" >Upload</a>
-                </div>
-              </div>
-            </div>
-            </div>
               <custom-student *ngFor="let component of customComponents">
 
                 <div class="row" *ngIf="component.type == 1" input-def>
                   <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}
+                      <span class="text-danger">*</span>
+                    </label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
                     <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
-                    [maxlength]="component.comp_length" />
+                      [maxlength]="component.comp_length" />
                   </div>
                 </div>
 
@@ -464,14 +490,18 @@
                   <div class="field-checkbox-wrapper">
                     <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
                       value="{{component.value}}">
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}
+                      <span class="text-danger">*</span>
+                    </label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                   </div>
                 </div>
 
                 <div class="row" *ngIf="component.type == 3" input-def>
                   <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}
+                      <span class="text-danger">*</span>
+                    </label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
                     <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
@@ -483,7 +513,9 @@
 
                 <div class="row" *ngIf="component.type == 4" input-def>
                   <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.value != ''}">
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}
+                      <span class="text-danger">*</span>
+                    </label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                     <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
                       readonly="true" />
@@ -516,27 +548,28 @@
 
           </aside>
           <aside class="pull-right middle-right" id="studentRightSideBar" style="height: 62vh;overflow-y: auto;">
-              <div class="common-right-section">
-              </div>
-          <section class="enquiry-detail common-right-section">
+            <div class="common-right-section">
+            </div>
+            <section class="enquiry-detail common-right-section">
               <h4>
-                <strong>Document Details</strong> 
+                <strong>Document Details</strong>
               </h4>
               <div style="min-height: 345px;padding: 0;" class="box-shadow-lite">
                 <div class="document_header">
-                <div class="uploadedData">File Name</div>
-                <div style="width: 25%;float: left;"></div>
-              </div>
-              <div class="document_data" *ngFor='let data of uploadedFileData' style="height: 30px;border-bottom: 1px solid #ccc;margin-bottom: 5px;">
-                <div style="padding-top: 5px;" class="uploadedData">{{data.title}} </div>
-                <div style="width: 25%;float: left;text-align: right;">
-                    <i  class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;" title="Delete File" (click)="deletefile(data.id)"></i>
-                    <a class="fa fa-download" id="downloadFile" style="font-size: 17px; color: #0084f6; margin-left: 1%;cursor: pointer;" title="Download File" (click)="downloadFile(data)" *ngIf="downloadStudentReportAccess"></a>
+                  <div class="uploadedData">File Name</div>
+                  <div style="width: 25%;float: left;"></div>
+                </div>
+                <div class="document_data" *ngFor='let data of uploadedFileData' style="height: 30px;border-bottom: 1px solid #ccc;margin-bottom: 5px;">
+                  <div style="padding-top: 5px;" class="uploadedData">{{data.title}} </div>
+                  <div style="width: 25%;float: left;text-align: right;">
+                    <i class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;" title="Delete File" (click)="deletefile(data.id)"></i>
+                    <a class="fa fa-download" id="downloadFile" style="font-size: 17px; color: #0084f6; margin-left: 1%;cursor: pointer;" title="Download File"
+                      (click)="downloadFile(data)" *ngIf="downloadStudentReportAccess"></a>
                     <a id="downloadFileClick" class="hide"></a>
+                  </div>
                 </div>
               </div>
-              </div>
-          </section>
+            </section>
           </aside>
         </section>
         <section class="middle-bottom clearFix ">
@@ -548,8 +581,7 @@
             <input type="button" #saveAndContinue id="form-kyc-continue" value="Save and Continue" class="btn fullBlue" [class.hide]="quickAddStudent"
               (click)="addStudentDataAndFetchFee(values)">
             <input type="button" id="form-kyc-submit" (click)="
-            (values)" value="Submit" [class.hide]="!quickAddStudent"
-              class="btn hide fullBlue">
+            (values)" value="Submit" [class.hide]="!quickAddStudent" class="btn hide fullBlue">
           </aside>
         </section>
       </section>
@@ -557,6 +589,10 @@
     </form>
     <!-- ======================================================== -->
     <!-- ======================================================== -->
+
+    <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)">
+    </app-add-city-area>
+
     <proctur-popup [sizeWidth]="'small'" *ngIf="isShareDetails">
 
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isShareDetails=false" close-button>
@@ -576,20 +612,17 @@
 
       <div class="paymentWrapper" popup-content>
         <div style="overflow: hidden; font-weight: 600; font-size: 14px;">
-          <div >
+          <div>
             <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
-              <input type="radio" class="form-radio" name="common" id="batch" [(ngModel)]="paymentMode"
-                [value]="0">
+              <input type="radio" class="form-radio" name="common" id="batch" [(ngModel)]="paymentMode" [value]="0">
               <label for="batch">Student</label>
             </div>
             <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
-              <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode"
-                [value]="1">
+              <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" [value]="1">
               <label for="student">Parent</label>
             </div>
             <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
-              <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode"
-                [value]="2">
+              <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" [value]="2">
               <label for="student">Both</label>
             </div>
           </div>
@@ -600,7 +633,7 @@
       <div class="" popup-footer>
         <div class="clearfix">
           <aside class="text-center popup-btn">
-              <input type="button" value="Send"  style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(1)" class="fullBlue btn">
+            <input type="button" value="Send" style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(1)" class="fullBlue btn">
             <input type="button" value="Cancel" style="font-size:12px; height: 30px;" class="btn" (click)="isShareDetails=false">
 
           </aside>
@@ -627,10 +660,10 @@
             </select> -->
 
             <label class="toggle">
-            	<span class="toggle-label" id="unassigned" [ngClass]="(this.resultForUnAssigned)?'inactive_toggle_button':'active_toggle_button'" >Unassigned/Archived courses</span>
-            	<input class="toggle-checkbox" type="checkbox" [(ngModel)]="resultForUnAssigned" (ngModelChange)="updateStudentFeeDetails()">
-            	<div class="toggle-switch"></div>
-            	<span class="toggle-label" id="assigned" [ngClass]="(this.resultForUnAssigned)?'active_toggle_button':'inactive_toggle_button'">Assigned courses</span>
+              <span class="toggle-label" id="unassigned" [ngClass]="(this.resultForUnAssigned)?'inactive_toggle_button':'active_toggle_button'">Unassigned/Archived courses</span>
+              <input class="toggle-checkbox" type="checkbox" [(ngModel)]="resultForUnAssigned" (ngModelChange)="updateStudentFeeDetails()">
+              <div class="toggle-switch"></div>
+              <span class="toggle-label" id="assigned" [ngClass]="(this.resultForUnAssigned)?'active_toggle_button':'inactive_toggle_button'">Assigned courses</span>
             </label>
 
             <button class="btn-header" (click)="openDiscountApply()" *ngIf="checkBoxGroup.feeDiscouting">
@@ -641,7 +674,7 @@
               <img src="../../../../assets/images/cheque.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Manage Cheques</span>
             </button>
-            <button  class="btn-header" (click)="reConfigureFees($event)" *ngIf="showFeeSection && checkBoxGroup.hideReconfigure">
+            <button class="btn-header" (click)="reConfigureFees($event)" *ngIf="showFeeSection && checkBoxGroup.hideReconfigure">
               <img src="../../../../assets/images/reconfigure.svg" style="width:16px; height:16px;">
               <span>Re-configure Fees</span>
             </button>
@@ -685,13 +718,15 @@
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountExclTax}}</span>
             </div>
 
-            <div class="tax-Amount tooltipDiv"  *ngIf="studentAddFormData.country_id==1">
-              <span class="label">Tax On Installment</span>
+            <!-- <div class="tax-Amount tooltipDiv" *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.country_id==1"> -->
+             <div class="tax-Amount tooltipDiv" *ngIf="is_tax_enabled">
+              <span class="label">{{tax_type_without_percentage}} On Installment</span>
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.taxAmount}}</span>
-              <span class="tooltip-content">Tax component in Summary card and total tax in individual Installments may differ due to rounding off decimal
-                values.</span>
+              <span class="tooltip-content">{{tax_type_without_percentage}} component in Summary card and total tax in individual Installments may differ due to rounding off decimal
+                values.
+              </span>
             </div>
 
             <div class="discount-Amount tooltipDiv" *ngIf="checkBoxGroup.feeDiscouting">
@@ -701,17 +736,25 @@
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.discountAmount}}</span>
               <span class="tooltip-content">The discount value is the total discount applied to the student across all its course(s). This value is the
                 combination of previous discount and the new discount applied post the release of new discount feature recently
-                introduced.</span>
+                introduced.
+              </span>
             </div>
 
             <div class="additional-Amount" *ngIf="cardAmountObject.additionalFees > 0" style="padding-left: 0;">
-              <span class="label">Additional Fee <span *ngIf="studentAddFormData.country_id==1">(Incl of Tax)</span> </span>
+              <span class="label">Additional Fee
+                <!-- <span *ngIf="studentAddFormData.country_id==1 &&instituteCountryDetObj.country_id==1">(Incl of Tax)</span> -->
+                <span *ngIf="is_tax_enabled">(Incl of {{tax_type_without_percentage}})</span>
+
+              </span>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.additionalFees}}</span>
             </div>
 
             <div class="total-Amount">
-              <span class="label">Total Fee <span *ngIf="studentAddFormData.country_id==1"> (Incl. of tax)</span></span>
+              <span class="label">Total Fee
+                <!-- <span *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.country_id==1"> (Incl. of tax)</span> -->
+                <span *ngIf="is_tax_enabled"> (Incl. of {{tax_type_without_percentage}})</span>
+              </span>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountInclTax}}</span>
             </div>
@@ -733,13 +776,13 @@
           <div class="row">
             <div class="c-sm-12 c-md-12 c-lg-12" style="margin-bottom: 10px ">
               <div class="field-checkbox-wrapper" style="display: inline-block;margin-right: 15px;">
-                <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="checkBoxGroup.unpaidInstallment" (ngModelChange)="onPaidOrUnpaidCheckbox(feeObject.country_id)"
+                <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="checkBoxGroup.unpaidInstallment" (ngModelChange)="onPaidOrUnpaidCheckbox(instituteCountryDetObj.id)"
                   name="chkBoxUnpaidMain" id="chkBoxUnpaidMain" />
                 <label for="chkBoxUnpaidMain">Unpaid</label>
               </div>
 
               <div class="field-checkbox-wrapper" style="display: inline-block;margin-right: 15px;">
-                <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="checkBoxGroup.paidInstallment" (ngModelChange)="onPaidOrUnpaidCheckbox(feeObject.country_id)"
+                <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="checkBoxGroup.paidInstallment" (ngModelChange)="onPaidOrUnpaidCheckbox(instituteCountryDetObj.id)"
                   name="chkBoxpaidMain" id="chkBoxpaidMain" />
                 <label for="chkBoxpaidMain">Paid</label>
               </div>
@@ -759,11 +802,10 @@
 
               <a id="hiddenAnchorTag2" class="hide">Element Made For fee Installment Download</a>
 
-              <input  style="right: 115px;" type="button" value="Share" (click)="isShareDetails= !isShareDetails"
-              class="btn downloadbtn">
-              <input *ngIf="showFeeSection" type="button" (click)="studentFeeInstallment()" >
-              <i  class="fa fa-download" (click)="studentFeeInstallment(-1)" style="font-size: 25px;color: #0084f6;position: absolute;right: 70px;top: 6px;cursor: pointer;"
-              placeholder="Download fee installment"></i>
+              <input style="right: 115px;" type="button" value="Share" (click)="isShareDetails= !isShareDetails" class="btn downloadbtn">
+              <input *ngIf="showFeeSection" type="button" (click)="studentFeeInstallment()">
+              <i class="fa fa-download" (click)="studentFeeInstallment(-1)" style="font-size: 25px;color: #0084f6;position: absolute;right: 70px;top: 6px;cursor: pointer;"
+                placeholder="Download fee installment"></i>
             </div>
           </div>
 
@@ -781,15 +823,19 @@
 
                 <aside class="column-name">
                   <div class="fee-amount amount">
-                    <span>Fee <span *ngIf="studentAddFormData.country_id==1">(Incl. Tax)</span></span>
+                    <span>Fee
+                      <!-- <span *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.country_id==1">(Incl. Tax)</span> -->
+                      <span *ngIf="is_tax_enabled">(Incl. {{tax_type_without_percentage}})</span>
+                  </span>
                   </div>
 
                   <div class="discount-amount amount">
                     <span>Discount</span>
                   </div>
 
-                  <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1">
-                    <span>Tax</span>
+                  <!-- <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.country_id==1"> -->
+                  <div class="tax-amount amount" *ngIf="is_tax_enabled">
+                    <span>{{tax_type_without_percentage}}</span>
                   </div>
 
                   <div class="paid-amount amount">
@@ -834,7 +880,8 @@
                       <span>{{data.discount }}</span>
                     </div>
 
-                    <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1">
+                    <!-- <div class="tax-amount amount" *ngIf="studentAddFormData.country_id==1 &&instituteCountryDetObj.country_id==1"> -->
+                        <div class="tax-amount amount" *ngIf="is_tax_enabled">
                       <span>{{data.taxAmount }}</span>
                     </div>
 
@@ -875,8 +922,9 @@
                           <span>Amount</span>
                         </div>
 
-                        <div class="Tax" *ngIf="studentAddFormData.country_id==1">
-                          <span>Tax</span>
+                        <!-- <div class="Tax" *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.country_id==1"> -->
+                       <div class="tax-amount amount" *ngIf="is_tax_enabled">
+                          <span>{{tax_type_without_percentage}}</span>
                         </div>
 
                         <div class="discount">
@@ -929,10 +977,12 @@
                         </div>
 
                         <div class="amount">
-                          <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.initial_fee_amount_before_disocunt_before_tax }}</span>
+                          <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.initial_fee_amount_before_disocunt_before_tax
+                            }}</span>
                         </div>
 
-                        <div class="Tax" *ngIf="studentAddFormData.country_id==1">
+                        <!-- <div class="Tax" *ngIf="studentAddFormData.country_id==1&&instituteCountryDetObj.country_id==1"> -->
+                            <div class="Tax" *ngIf="is_tax_enabled">
                           <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.tax }}</span>
                         </div>
 
@@ -942,7 +992,7 @@
 
                         <div class="balance" style="margin-right:5px">
                           <span *ngIf="installment.paid_full == 'Y'">{{instituteCountryDetObj.symbol}}&nbsp;{{ 0 }}</span>
-                          <span *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">{{instituteCountryDetObj.symbol}}   &nbsp;{{installment.balance_amount }}</span>
+                          <span *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">{{instituteCountryDetObj.symbol}} &nbsp;{{installment.balance_amount }}</span>
                           <span *ngIf="installment.balance_amount == 0 && installment.paid_full == 'N'"> {{instituteCountryDetObj.symbol}}&nbsp;{{installment.fees_amount }}</span>
                         </div>
 
@@ -1056,65 +1106,67 @@
 
           <section class="row invertory-add" style="padding-left: 2%;">
 
-              <section class="clearFix add-batch-section">
-                  <div class="row">
-                      <div class="c-lg-4 c-sm-4 c-md-4">
-                        <div class="field-wrapper">
-                          <label>Inventory Item
-                          </label>
-                          <select id="itemInventory" class="form-ctrl halfwidth" name="itemInventory" [(ngModel)]="addInventory.item_id"  (ngModelChange)="onInventoryItemSelction()">
-                            <option value="-1"></option>
-                            <option *ngFor="let item of inventoryItemsArr" [value]="item.item_id" title="{{item.item_name}}">
-                                {{ (item.item_name.length > 30) ? (item.item_name | slice:0:30) + '...' : item.item_name }}
-                              </option>
-                          </select>
-                          <p *ngIf="addInventory.item_id != '-1'">Available Units : {{addInventory.available_units}}</p>
-                        </div>
-                      </div>
+            <section class="clearFix add-batch-section">
+              <div class="row">
+                <div class="c-lg-4 c-sm-4 c-md-4">
+                  <div class="field-wrapper">
+                    <label>Inventory Item
+                    </label>
+                    <select id="itemInventory" class="form-ctrl halfwidth" name="itemInventory" [(ngModel)]="addInventory.item_id" (ngModelChange)="onInventoryItemSelction()">
+                      <option value="-1"></option>
+                      <option *ngFor="let item of inventoryItemsArr" [value]="item.item_id" title="{{item.item_name}}">
+                        {{ (item.item_name.length > 30) ? (item.item_name | slice:0:30) + '...' : item.item_name }}
+                      </option>
+                    </select>
+                    <p *ngIf="addInventory.item_id != '-1'">Available Units : {{addInventory.available_units}}</p>
+                  </div>
+                </div>
 
-                      <div class="c-lg-4 c-sm-4 c-md-4">
-                          <div class="field-wrapper">
-                            <label>Allocate Units
-                            </label>
-                            <input type="number" class="form-ctrl halfwidth" [(ngModel)]="addInventory.alloted_units" min="0">
-                          </div>
-                        </div>
+                <div class="c-lg-4 c-sm-4 c-md-4">
+                  <div class="field-wrapper">
+                    <label>Allocate Units
+                    </label>
+                    <input type="number" class="form-ctrl halfwidth" [(ngModel)]="addInventory.alloted_units" min="0">
+                  </div>
+                </div>
 
-                        <div class="c-lg-4 c-sm-4 c-md-4">
-                            <div class="field-wrapper">
-                              <label>Name of courier service
-                              </label>
-                              <input type="text" class="form-ctrl halfwidth" [(ngModel)]="addInventory.name_of_courier_service">
-                            </div>
-                          </div>
-                    </div>
+                <div class="c-lg-4 c-sm-4 c-md-4">
+                  <div class="field-wrapper">
+                    <label>Name of courier service
+                    </label>
+                    <input type="text" class="form-ctrl halfwidth" [(ngModel)]="addInventory.name_of_courier_service">
+                  </div>
+                </div>
+              </div>
 
-                    <div class="row">
-                        <div class="c-lg-4 c-sm-4 c-md-4">
-                            <div class="field-wrapper">
-                              <label>Docket Id
-                              </label>
-                              <input type="text" class="form-ctrl halfwidth" [(ngModel)]="addInventory.docket_id">
-                            </div>
-                          </div>
-  
-                          <div class="c-lg-4 c-sm-4 c-md-4">
-                              <div class="field-wrapper datePickerBox">
-                                <label>Date of dispatch
-                                </label>
-                                <input type="text" class="form-ctrl bsDatepicker halfwidth" readonly="true" [(ngModel)]="addInventory.date_of_dispatch" name="dob" bsDatepicker/>          
-                              </div>
-                            </div>
+              <div class="row">
+                <div class="c-lg-4 c-sm-4 c-md-4">
+                  <div class="field-wrapper">
+                    <label>Docket Id
+                    </label>
+                    <input type="text" class="form-ctrl halfwidth" [(ngModel)]="addInventory.docket_id">
+                  </div>
+                </div>
 
-                            <div class="c-lg-4 c-sm-4 c-md-4">
-                                <div class="field-wrapper datePickerBox">
-                                  <label>Date of delivery of SM
-                                  </label>
-                                  <input type="text" class="form-ctrl bsDatepicker halfwidth" readonly="true" [(ngModel)]="addInventory.date_of_delivery_of_sm" name="dob" bsDatepicker/>          
-                                </div>
-                              </div>
-                      </div>
-                    </section>
+                <div class="c-lg-4 c-sm-4 c-md-4">
+                  <div class="field-wrapper datePickerBox">
+                    <label>Date of dispatch
+                    </label>
+                    <input type="text" class="form-ctrl bsDatepicker halfwidth" readonly="true" [(ngModel)]="addInventory.date_of_dispatch" name="dob"
+                      bsDatepicker/>
+                  </div>
+                </div>
+
+                <div class="c-lg-4 c-sm-4 c-md-4">
+                  <div class="field-wrapper datePickerBox">
+                    <label>Date of delivery of SM
+                    </label>
+                    <input type="text" class="form-ctrl bsDatepicker halfwidth" readonly="true" [(ngModel)]="addInventory.date_of_delivery_of_sm"
+                      name="dob" bsDatepicker/>
+                  </div>
+                </div>
+              </div>
+            </section>
 
             <div class="c-sm-2 c-md-2 c-lg-2 btn-section" style="padding-left: 0;padding-top: 0;">
               <button class="btn fullBlue" (click)="allocateInventoryToStudent()" style="margin-left: 0;">Allocate</button>
@@ -1139,16 +1191,16 @@
                         Allocated Units
                       </th>
                       <th>
-                          Name of Courier Service
+                        Name of Courier Service
                       </th>
                       <th>
-                          Docket ID
+                        Docket ID
                       </th>
                       <th>
-                          Date of Dispatch
+                        Date of Dispatch
                       </th>
                       <th>
-                          Date of Delivery of SM
+                        Date of Delivery of SM
                       </th>
                       <th>
                         Action
@@ -1157,27 +1209,27 @@
                   </thead>
                   <tbody *ngIf="allocatedItem.length > 0">
                     <tr *ngFor="let item of allocatedItem;let i = index">
-                        <td title="{{item.item_name}}">
-                            {{ item.item_name!='' ? item.item_name : '-' }}
-                           </td>
-                           <td title="{{item.category_name}}">
-                               {{item.category_name!=''?item.category_name:'-'}}
-                           </td>
-                           <td title="{{item.alloted_units}}">
-                               {{item.alloted_units!=''?item.alloted_units:'-'}}
-                           </td>
-                           <td title="{{item.name_of_courier_service}}">
-                               {{item.name_of_courier_service!=''?item.name_of_courier_service:'-'}}                              
-                             </td>
-                             <td title="{{item.docket_id}}">
-                                 {{item.docket_id!=''?item.docket_id:'-'}}
-                             </td>
-                             <td title="{{item.date_of_dispatch}}">
-                                 {{item.date_of_dispatch!=''?item.date_of_dispatch:'-'}}
-                             </td>
-                              <td title="{{item.date_of_delivery_of_sm}}">
-                                 {{item.date_of_delivery_of_sm!=''?item.date_of_delivery_of_sm:'-'}}
-                              </td>
+                      <td title="{{item.item_name}}">
+                        {{ item.item_name!='' ? item.item_name : '-' }}
+                      </td>
+                      <td title="{{item.category_name}}">
+                        {{item.category_name!=''?item.category_name:'-'}}
+                      </td>
+                      <td title="{{item.alloted_units}}">
+                        {{item.alloted_units!=''?item.alloted_units:'-'}}
+                      </td>
+                      <td title="{{item.name_of_courier_service}}">
+                        {{item.name_of_courier_service!=''?item.name_of_courier_service:'-'}}
+                      </td>
+                      <td title="{{item.docket_id}}">
+                        {{item.docket_id!=''?item.docket_id:'-'}}
+                      </td>
+                      <td title="{{item.date_of_dispatch}}">
+                        {{item.date_of_dispatch!=''?item.date_of_dispatch:'-'}}
+                      </td>
+                      <td title="{{item.date_of_delivery_of_sm}}">
+                        {{item.date_of_delivery_of_sm!=''?item.date_of_delivery_of_sm:'-'}}
+                      </td>
                       <td>
                         <a *ngIf="item.alloted_units > 0" style="cursor: pointer;" (click)="deleteInventory(item)" class="fa fa-trash" title="Delete"></a>
                       </td>
@@ -1232,14 +1284,14 @@
       </svg>
     </span>
 
-    <h2 popup-header>Institute Editor</h2>
+    <h2 popup-header>Institution List</h2>
 
     <div class="institute-editor" popup-content>
 
       <div class="row clearFix add-edit">
         <a class="expend-box" (click)="toggleInstituteAdd()">
           <i id="add-institute-icon">-</i>
-          <span>Create New Institute</span>
+          <span>Add Institution name</span>
         </a>
       </div>
 
@@ -1247,7 +1299,7 @@
         <div class="row">
           <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
             <div class="field-wrapper">
-              <label for="instituteName">Institute Name</label>
+              <label for="instituteName">Institution Name</label>
               <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
               />
             </div>
@@ -1269,7 +1321,7 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Institute Name</th>
+                <th>Institution Name</th>
                 <th> Action </th>
               </tr>
             </thead>
@@ -1287,7 +1339,7 @@
 
                 <td *ngIf="sch.edit">
                   <div class="field-wrapper has-value">
-                    <input type="text" [(ngModel)]="sch.school_name" class="form-ctrl" name="instituteName" />
+                    <input type="text" [(ngModel)]="sch.new_school_name" class="form-ctrl" name="instituteName" />
                   </div>
                 </td>
 
@@ -1311,7 +1363,7 @@
                     </a>
                   </div>
                   <div class="">
-                    <a (click)="updateInstitute(sch.school_id)" style="cursor:pointer">
+                    <a (click)="updateInstitute(sch.school_id, sch.new_school_name)" style="cursor:pointer">
                       <i class="view-icon update-icon" aria-hidden="true"></i>Update
                     </a>
                   </div>
@@ -1331,7 +1383,8 @@
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
   <student-batch-list [assignedBatches]="studentAddFormData.assignedBatches" (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)"
-    *ngIf="isAssignBatch" [countryId]="studentAddFormData.country_id"  [dataList]="batchList" [isEdit]="isEdit" [standardList]="standardList" [academicYear]="academicYear"></student-batch-list>
+    *ngIf="isAssignBatch" [countryId]="studentAddFormData.country_id" [dataList]="batchList" [isEdit]="isEdit" [standardList]="standardList"
+    [academicYear]="academicYear"></student-batch-list>
 
   <!-- ======================================================== -->
   <!-- ======================================================== -->
@@ -1360,7 +1413,9 @@
       <div class="row">
         <form #semail="ngForm" (ngSubmit)="registerDuplicateStudent(semail)">
           <div class="field-wrapper">
-            <label for="sEmail2">Student's Email<span class="text-danger">*</span></label>
+            <label for="sEmail2">Student's Email
+              <span class="text-danger">*</span>
+            </label>
             <input type="text" value="" id="sEmail2" class="form-ctrl" [(ngModel)]="studentAddFormData.student_manual_username" name="sEmail2"
               pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$ss" #sEmail2="ngModel" required />
             <div *ngIf="sEmail2.invalid && (sEmail2.dirty || sEmail2.touched)" class="alert invalid-alert">
@@ -1391,7 +1446,8 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Configure Fees =============================== -->
-  <proctur-popup *ngIf="isConfigureFees">
+  <!-- commeneted by laxmi 21-02-20 -->
+  <!-- <proctur-popup *ngIf="isConfigureFees">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeConfigureFees($event)" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -1416,7 +1472,9 @@
       <div class="row">
 
         <div class="field-wrapper">
-          <label for="feeS">Fee Structure<span class="text-danger">*</span></label>
+          <label for="feeS">Fee Structure
+            <span class="text-danger">*</span>
+          </label>
           <select id="feeS" name="feeS" [(ngModel)]="feeTempSelected" class="form-ctrl">
             <option value="-1"></option>
             <option *ngFor="let fee of feeTemplateStore" [value]="fee.template_id">
@@ -1426,7 +1484,9 @@
         </div>
 
         <div class="field-wrapper datePickerBox has-value">
-          <label for="effD">Effective Date<span class="text-danger">*</span></label>
+          <label for="effD">Effective Date
+            <span class="text-danger">*</span>
+          </label>
           <input type="text" value="" id="effD" class="form-ctrl bsDatepicker" [(ngModel)]="feeStructureForm.template_effective_date"
             name="effD" readonly="true" bsDatepicker>
           <span class="date-clear" name="followupdate" (click)="clearEffectiveDate($event)">clear</span>
@@ -1444,13 +1504,14 @@
       </div>
     </div>
 
-  </proctur-popup>
+  </proctur-popup> -->
 
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== assign fees =============================== -->
-  <student-fee-table *ngIf="isDefineFees" [countryDetails]="instituteCountryDetObj" [academicListData]="academicList" [courseDropdown]="courseDropdown" (closePopup)="closeAllFeePops($event)" [feeTemplateData]="feeTemplateById"
-    [studentName]="studentName" [student_id]="student_id" [resultForUnAssigned]="resultForUnAssigned"></student-fee-table>
+  <student-fee-table *ngIf="isDefineFees" [countryDetails]="instituteCountryDetObj" [academicListData]="academicYear" [courseDropdown]="courseDropdown"
+    (closePopup)="closeAllFeePops($event)" [feeTemplateData]="feeTemplateById" [studentName]="studentName" [student_id]="student_id"
+    [resultForUnAssigned]="resultForUnAssigned"></student-fee-table>
 
 
   <!-- ======================================================== -->
@@ -1506,13 +1567,12 @@
               </li>
               <li>
                 <div class="field-wrapper">
-                  <select id="country_id" class="form-ctrl" [(ngModel)]="pdcAddForm.country_id" name="country_id"
-                  disabled="true" style="height: 29px;padding: 0">
-                  <option value=""></option>
-                  <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                   {{data.country_name}}
-                  </option>
-                </select>
+                  <select id="country_id" class="form-ctrl" [(ngModel)]="pdcAddForm.country_id" name="country_id" disabled="true" style="height: 29px;padding: 0">
+                    <option value=""></option>
+                    <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                      {{data.country_name}}
+                    </option>
+                  </select>
                 </div>
               </li>
               <li>
@@ -1525,8 +1585,8 @@
 
               <li>
                 <div class="form-wrapper datePickerBoxForCheque">
-                  <input type="text" value="" placeholder="Cheque Date" id="chequedate" class="form-ctrl bsDatepickerForCheque" name="chequedate" [(ngModel)]="pdcAddForm.cheque_date"
-                    readonly="true" #chequedate="ngModel" bsDatepicker>
+                  <input type="text" value="" placeholder="Cheque Date" id="chequedate" class="form-ctrl bsDatepickerForCheque" name="chequedate"
+                    [(ngModel)]="pdcAddForm.cheque_date" readonly="true" #chequedate="ngModel" bsDatepicker>
                 </div>
               </li>
 
@@ -1552,11 +1612,19 @@
           <div class="pdc-table">
             <ul class="table-header">
               <li></li>
-              <li>Bank<span class="text-danger">*</span></li>
-              <li>Cheque Number<span class="text-danger" style="padding: 7px 30px 7px 2px;">*</span></li>
-              <li>Cheque Date<span class="text-danger">*</span></li>
+              <li>Bank
+                <span class="text-danger">*</span>
+              </li>
+              <li>Cheque Number
+                <span class="text-danger" style="padding: 7px 30px 7px 2px;">*</span>
+              </li>
+              <li>Cheque Date
+                <span class="text-danger">*</span>
+              </li>
               <li>Clearing Date</li>
-              <li>Cheque Amount<span class="text-danger" style="padding: 7px 30px 7px 2px;">*</span></li>
+              <li>Cheque Amount
+                <span class="text-danger" style="padding: 7px 30px 7px 2px;">*</span>
+              </li>
               <li>Status</li>
               <li style="width: 11%;">Action</li>
             </ul>
@@ -1627,7 +1695,7 @@
                   {{ch.cheque_status}}
                 </li>
                 <li class="edit-comp">
-                    <!-- {{ch.cheque_status}} -->
+                  <!-- {{ch.cheque_status}} -->
                   <div class="field-wrapper">
                     <select id="" class="form-ctrl" name="" [(ngModel)]="ch.cheque_status_key">
                       <option *ngFor="let opt of pdcStatus" [value]="opt.data_key" [hidden]="opt.data_key == '3'">
@@ -1710,13 +1778,17 @@
           </div>
 
           <div class="field-wrapper datePickerBox">
-            <label for="pd">Payment Date<span class="text-danger">*</span></label>
+            <label for="pd">Payment Date
+              <span class="text-danger">*</span>
+            </label>
             <input type="text" value="" id="pd" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="paymentPopUpJson.paid_date"
               name="pd" bsDatepicker>
           </div>
 
           <div class="field-wrapper">
-            <label for="pMode">Payment Mode<span class="text-danger">*</span></label>
+            <label for="pMode">Payment Mode
+              <span class="text-danger">*</span>
+            </label>
             <!-- (ngModelChange)="paymentModeUpdate($event)" -->
             <select id="pMode" name="pMode" [(ngModel)]="paymentPopUpJson.payment_mode" class="form-ctrl" (ngModelChange)="paymentModeUpdate($event)">
               <option value="Cash" selected>Cash</option>
@@ -1747,7 +1819,9 @@
           <div [ngClass]="{'hide': chequePdcList.length == 0}" class="">
             <div class="c-lg-12">
               <div class="field-wrapper">
-                <label for="pMode">Select PDC Cheque <span class="text-danger">*</span></label>
+                <label for="pMode">Select PDC Cheque
+                  <span class="text-danger">*</span>
+                </label>
                 <div class="questionInfo pos-rel">
                   <span class="qInfoIcon">?</span>
                   <div class="tooltip-box-field">
@@ -1766,16 +1840,20 @@
 
           <div class="c-lg-12">
             <div class="field-wrapper">
-              <label for="pdcfeepay">Bank Name<span class="text-danger">*</span></label>
+              <label for="pdcfeepay">Bank Name
+                <span class="text-danger">*</span>
+              </label>
               <input disabled="true" type="text" value="" id="pdcfeepay" class="form-ctrl" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.bank_name"
-                name="" /> 
-                <!-- disabled="true" -->
+                name="" />
+              <!-- disabled="true" -->
             </div>
           </div>
 
           <div class="c-lg-12">
             <div class="field-wrapper datePickerBox">
-              <label for="pdcfeeselect">Cheque Date<span class="text-danger">*</span></label>
+              <label for="pdcfeeselect">Cheque Date
+                <span class="text-danger">*</span>
+              </label>
               <input *ngIf="paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect" class="form-ctrl bsDatepicker"
                 readonly="true" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="" bsDatepicker>
               <input *ngIf="!paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect" class="form-ctrl bsDatepicker"
@@ -1785,7 +1863,9 @@
 
           <div class="c-lg-12">
             <div class="field-wrapper">
-              <label for="pdccheque">Cheque No.<span class="text-danger">*</span></label>
+              <label for="pdccheque">Cheque No.
+                <span class="text-danger">*</span>
+              </label>
               <input disabled="true" id="pdccheque" type="text" minlength="6" maxlength="6" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                 class="form-ctrl" name="" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_no" />
             </div>
@@ -1794,7 +1874,9 @@
 
           <div class="c-lg-12">
             <div class="field-wrapper">
-              <label for="pdctrue">Cheque Amount<span class="text-danger">*</span></label>
+              <label for="pdctrue">Cheque Amount
+                <span class="text-danger">*</span>
+              </label>
               <input readonly='true' type="text" value="" id="pdctrue" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                 class="form-ctrl" name="" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_amount" />
             </div>
@@ -1836,6 +1918,7 @@
 
   <!-- ======================================================== -->
   <!-- ======================================================== -->
-  <partial-pay-history *ngIf="isPartialPayHistory" (closeHist)="closeHistory($event)" [schedule_id]="schedule_id" [studentid]="student_id" [instituteCountryDetObj]="instituteCountryDetObj" ></partial-pay-history>
+  <partial-pay-history *ngIf="isPartialPayHistory" (closeHist)="closeHistory($event)" [schedule_id]="schedule_id" [studentid]="student_id"
+    [instituteCountryDetObj]="instituteCountryDetObj"></partial-pay-history>
 
 </section>

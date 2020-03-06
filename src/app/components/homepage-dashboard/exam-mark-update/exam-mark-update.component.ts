@@ -316,7 +316,7 @@ export class ExamMarkUpdateComponent implements OnInit {
     this.widgetService.markStudentMarks(data).subscribe(
       res => {
         this.auth.hideLoader();
-        this.messageNotifier('success', 'Successfully Saved', 'Marks Saved Successfully');
+        this.messageNotifier('success', '', 'Marks saved successfully');
         sessionStorage.setItem('exam_info', '');
         this.backToHome();
       },
@@ -502,8 +502,8 @@ export class ExamMarkUpdateComponent implements OnInit {
 
   closeAttendance() {
     if(this.coursePlannerStatus== 'true'){
-      this.isProfessional ? this.router.navigate(['/view/batch/coursePlanner/class']):
-      this.router.navigate(['/view/course/coursePlanner/class']);
+      this.isProfessional ? this.router.navigate(['/view/batch/coursePlanner/exam']):
+      this.router.navigate(['/view/course/coursePlanner/exam']);
     }
     else{
       this.router.navigate(['/view/home/admin']);
@@ -512,8 +512,8 @@ export class ExamMarkUpdateComponent implements OnInit {
 
   backToHome() {
     if(this.coursePlannerStatus== 'true'){
-      this.isProfessional ? this.router.navigate(['/view/batch/coursePlanner/class']):
-      this.router.navigate(['/view/course/coursePlanner/class']);
+      this.isProfessional ? this.router.navigate(['/view/batch/coursePlanner/exam']):
+      this.router.navigate(['/view/course/coursePlanner/exam']);
     }
     else{
       sessionStorage.setItem('exam_info', '');

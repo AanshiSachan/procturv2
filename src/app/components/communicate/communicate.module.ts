@@ -10,6 +10,7 @@ import { postSMSService } from '../../services/report-services/post-sms.service'
 import { SharedModule } from '../shared/shared.module';
 import { CommunicateRoutingModule } from './communicate-routing.module';
 import { CoummunicateHomeComponent } from './coummunicate-home/coummunicate-home.component';
+// import { EventManagmentService } from '../../services/event-managment.service';
 
 @NgModule({
   imports: [

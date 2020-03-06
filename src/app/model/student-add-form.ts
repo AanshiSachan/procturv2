@@ -1,6 +1,9 @@
 export interface StudentForm {
 	student_name?: any, //"test 122",
 	country_id?:any,
+	state_id?:any,
+	city_id?:any,
+	area_id?:any,
 	student_sex?: any, //"M",
 	student_email?: any, // "tester@gmail.com",
 	student_phone?: any, // "8844334455",

@@ -74,6 +74,7 @@ export class EnquiryHomeComponent implements OnInit {
     sizeArr: any[] = [25, 50, 100, 150, 200, 500];
     commentFormData: any = {};
     emailGridData: any = [];
+    filterCustomComponent=[];
     EmailThumbnailUrl : any = '';
     EmailGridSelectedObject: any = null;
     selectedTableRow:any;
@@ -303,7 +304,7 @@ export class EnquiryHomeComponent implements OnInit {
         { primaryKey: 'source_name', header: 'Source', priority: 6 },
         { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.varJson.currentDirection, priority: 7, },
         { primaryKey: 'updateDate', header: 'Last Updated', priority: 8 },
-        { primaryKey: 'assigned_name', header: 'Asignee Name', priority: 9 },
+        { primaryKey: 'assigned_name', header: 'Assignee Name', priority: 9 },
         { primaryKey: 'follow_type', header: 'Follow Up Type', priority: 10 },
         { primaryKey: 'standard', header: 'Standard', priority: 11 },
         { primaryKey: 'referred_by_name', header: 'Referred By', priority: 12 },
@@ -478,6 +479,13 @@ export class EnquiryHomeComponent implements OnInit {
         if(sessionStorage.getItem('downloadEnquiryReportAccess')=='true'){
             this.downloadEnquiryReportAccess = true;
         }
+    }
+
+    // get custome filter component details if is_searchable is applicable --laxmi
+    getSearchableCustomeComponents(array){
+    
+        this.filterCustomComponent = array.filter((object)=>object.is_searchable=='Y');
+        console.log(this.filterCustomComponent);
     }
 
     timeChanges(ev) {
@@ -667,6 +675,7 @@ export class EnquiryHomeComponent implements OnInit {
                             this.customComponents.push(obj);
                         });
                     }
+                    this.getSearchableCustomeComponents(this.customComponents);// 
                     this.emptyCustomComponent = this.componentListObject;
                 });
     }
@@ -708,7 +717,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* if custom component is of type multielect then update the selected or unselected data*/
     updateMultiSelect(data, id) {
-        this.customComponents.forEach(el => {
+        this.filterCustomComponent.forEach(el => {
             if (el.id == id) {
                 let x = []
                 let y = el.prefilled_data;
@@ -738,16 +747,8 @@ export class EnquiryHomeComponent implements OnInit {
         /* Searchbar filled */
         else if (!this._commService.valueCheck(this.varJson.searchBarData)) {
             if (isNaN(this.varJson.searchBarData)) {
-
-                /* Valid string entered */
-                if (this.validateString(this.varJson.searchBarData)) {
                     this.instituteData = { name: this.varJson.searchBarData, phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
                     this.loadTableDatatoSource(this.instituteData);
-                }
-                else {
-                    this.showErrorMessage(this.messageService.toastTypes.info, '', 'Please enter a valid name or number');
-                }
-
             }
             /* In Case of Number */
             else {
@@ -1647,8 +1648,8 @@ export class EnquiryHomeComponent implements OnInit {
         // this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null, sorted_by: "", order_by: "", commentShow: 'false' };
         // this.instituteData.filtered_statuses = this.statusString.join(',');
         let tempCustomArr: any[] = [];
-        this.customComponents.forEach(el => {
-            if (el.is_searchable == 'Y' && el.value != "") {
+        this.filterCustomComponent.forEach(el => {
+            if (el.value != "") {
                 if (el.type == '5') {
                     let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: this.getDateFormated(el.value, "YYYY-MM-DD") };
                     tempCustomArr.push(obj);
@@ -1680,11 +1681,11 @@ export class EnquiryHomeComponent implements OnInit {
                 this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes From and To Dates');
                 return;
             }
-        } else if (this.advancedFilterForm.updateDateFrom != "" && this.advancedFilterForm.updateDateFrom != null) {
-            if (this.advancedFilterForm.updateDateTo == "" || this.advancedFilterForm.updateDateTo == null) {
-                this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes To Dates');
-                return;
-            }
+        // } else if (this.advancedFilterForm.updateDateFrom != "" && this.advancedFilterForm.updateDateFrom != null) {
+        //     if (this.advancedFilterForm.updateDateTo == "" || this.advancedFilterForm.updateDateTo == null) {
+        //         this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes To Dates');
+        //         return;
+        //     }
         } else if (this.advancedFilterForm.updateDateTo != "" && this.advancedFilterForm.updateDateTo != null) {
             if (this.advancedFilterForm.updateDateFrom == "" || this.advancedFilterForm.updateDateFrom == null) {
                 this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes From Dates');
@@ -1951,6 +1952,16 @@ export class EnquiryHomeComponent implements OnInit {
         )
     }
 
+    checkCustomeComponentElement(index){
+        if(!(index%3)){
+                return true;
+            }
+            else{
+                return false;
+            }
+
+    }
+
     ///// Download Summary Report
     toggleDateSection() {
         if (this.flagJSON.showDateRange == false) {
@@ -2053,6 +2064,9 @@ export class EnquiryHomeComponent implements OnInit {
                 this.selectedRow.address = data.curr_address;
                 this.selectedRow.curr_address = data.curr_address;
                 this.selectedRow.country_id = data.country_id;
+                this.selectedRow.state_id = data.state_id;
+                this.selectedRow.city_id = data.city_id;
+                this.selectedRow.area_id = data.area_id;
                 this.selectedRow.phone = data.phone;
                 sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
                 this.router.navigate(['/view/students/add'])

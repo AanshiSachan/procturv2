@@ -765,13 +765,13 @@
 
                             <div class="c-sm-2 c-lg-2 c-md-2 pull-right" >
                               <div class="action-Menu view-comp" *ngIf="row.isReferenced != 'Y'">
-                                <i class="fa fa-trash-o pull-right" style="color:red;margin: 0px 10px;" aria-hidden="true" (click)="deleteFromCourse(row , i , j)" title="Delete"></i>
-                                <i class="fa fa-pencil pull-right" style="color:#1283f4;margin: 0px 10px;" aria-hidden="true" (click)="editFromCourse(row , i , j)" title="Edit"></i>
+                                <i class="fa fa-trash-o pull-right" style="color:red;margin: 0px 10px;" aria-hidden="true" (click)="deleteFromCourse(row , i , j)" title="Delete"  *ngIf="row.is_attendance_marked!='Y'"></i>
+                                <i class="fa fa-pencil pull-right" style="color:#1283f4;margin: 0px 10px;" aria-hidden="true" (click)="editFromCourse(row , i , j)" title="Edit" *ngIf="row.is_attendance_marked!='Y'"></i>
                               </div>
                               <div class="action-Menu edit-comp" *ngIf="row.isReferenced != 'Y'">
-                                <i class="fa fa-trash-o pull-right" style="color:red;margin: 0px 10px;" aria-hidden="true" (click)="deleteFromCourse(row.subject_id)" title="Delete"></i>
+                                <i class="fa fa-trash-o pull-right" style="color:red;margin: 0px 10px;" aria-hidden="true" (click)="deleteFromCourse(row.subject_id)" title="Delete"  *ngIf="row.is_attendance_marked!='Y'"></i>
                                 <!-- <i class="fa fa-pencil pull-right" style="color:#1283f4;margin: 0px 10px;" aria-hidden="true" (click)="editSubject(i , row)" title="Edit"></i> -->
-                                <span style="color:#1283f4;margin: 0px 10px;" class="pull-right" (click)="updateEditedSubject(row , i , j)">Save</span>
+                                <span style="color:#1283f4;margin: 0px 10px;" class="pull-right" (click)="updateEditedSubject(row , i , j)" *ngIf="row.is_attendance_marked!='Y'">Save</span>
                               </div>
                             </div>
 
@@ -1038,8 +1038,8 @@
     <div class="popup pos-abs popup-body-container ">
         <div class="popup-wrapper pos-rel ">
             <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeCancelExamPopUp()">
-              <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-                <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+              <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+                <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
               </svg>
             </span>
             <div class="popup-content">

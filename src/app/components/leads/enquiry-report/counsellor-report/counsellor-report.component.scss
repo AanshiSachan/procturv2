@@ -58,3 +58,12 @@ $color-highlight: lighten($color-base, 7%);
         }
     }
 }
+
+
+::ng-deep .schedule-bottom ul.ul-body li {
+    text-align: center
+}
+
+::ng-deep .search-field{
+    border: 1px solid #e2ebee;
+}

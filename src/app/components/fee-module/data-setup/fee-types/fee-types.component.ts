@@ -23,9 +23,12 @@ export class FeeTypesComponent implements OnInit {
   }
   feeTypeList: any = [];
   countryDetails: any = [];
+ tax_type_with_percentage : String;
+ is_tax_enabled :boolean;
 
 
   constructor(
+    
     private apiService: FeeStrucService,
     private auth:AuthenticatorService,
     private commonService: CommonServiceFactory
@@ -35,7 +38,8 @@ export class FeeTypesComponent implements OnInit {
     this.getListOfFeeType();
     this.fetchDataForCountryDetails();
     this.isTaxEnableFeeInstallments = sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0' ? true : false;
-
+    this.tax_type_with_percentage =sessionStorage.getItem("tax_type_with_percentage");
+    this.is_tax_enabled=sessionStorage.getItem("enable_tax_applicable_fee_installments")=='1'?true:false;
   }
 
   getCurrencyDetails(value, currency, lang) {
@@ -62,9 +66,9 @@ export class FeeTypesComponent implements OnInit {
     });
 
 
-    if(country_id!='1'){
-      row.fee_type_tax=0;
-    } 
+    // if(country_id!='1'){
+    //   row.fee_type_tax=0;
+    // } 
   }
 
   getCountryDetails(amount,country_id){
@@ -77,7 +81,7 @@ export class FeeTypesComponent implements OnInit {
 
     return symbol;
   }
-
+  
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
     let data = JSON.parse(encryptedData);

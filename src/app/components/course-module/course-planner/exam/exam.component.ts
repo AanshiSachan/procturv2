@@ -6,6 +6,7 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
 import { ExamCourseService } from '../../../../services/course-services/exam-schedule.service';
 import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
+import { HttpService } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { WidgetService } from '../../../../services/widget.service';
 import { CoursePlanner } from '../course-planner.model';
@@ -124,6 +125,8 @@ export class ExamComponent implements OnInit {
   totalTopicsList: any = [];
   selectedTopics: any = '' //join ids by '|'
   selectedTopicsNames: any = '';
+  examList: any;
+  currentEditExam: any;
 
   constructor(
     private router: Router,
@@ -132,7 +135,8 @@ export class ExamComponent implements OnInit {
     private classService: ClassScheduleService,
     private widgetService: WidgetService,
     private topicService: TopicListingService,
-    private examService: ExamCourseService
+    private examService: ExamCourseService,
+    private httpService: HttpService
   ) { }
 
   ngOnInit() {
@@ -319,6 +323,7 @@ export class ExamComponent implements OnInit {
       this.coursePlannerFilters.standard_id = this.inputElements.standard_id;
       this.inputElements.subject_id = "-1";
       this.coursePlannerFilters.subject_id =  "-1";
+      this.inputElements.batch_id = '-1';
       if(this.inputElements.standard_id == "-1"){
         this.courseList = [];
       }
@@ -400,6 +405,13 @@ export class ExamComponent implements OnInit {
     }
     else{
       this.coursePlannerFilters.batch_id = this.inputElements.batch_id;
+      let temp = this.batchList.filter(x=>x.batch_id == this.inputElements.batch_id);
+      this.courseStartDate = '';
+      this.courseEndDate = '';
+      if(temp){
+      this.courseStartDate = temp[0].start_date;
+      this.courseEndDate = temp[0].end_date;
+      }
     }
   }
 
@@ -925,27 +937,42 @@ export class ExamComponent implements OnInit {
   }
 
 
-// Edit class functions
+// Edit Exam functions
   editCourseExam(course){
-    console.log(course)
-
-    this.editClass.description = course.description;
-    this.editClass.topic_covered_ids = course.topic_covered_ids;
-    this.editClass.topic_covered_names = course.topics_covered;
-    this.editClass.subject_id = course.subject_id;
-    this.editClass.course_id = course.course_id;
-    this.editClass.class_sche_date = course.date;
-    if(this.jsonFlag.isProfessional){
-      this.editClass.batch_id = course.batch_id;
+    if(!this.jsonFlag.isProfessional){
+      const url = `/api/v1/courseExamSchedule/fetch-exam-details?course_exam_schedule_id=${course.schedule_id}&exam_date=${course.date}`
+       this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+           this.auth.hideLoader();
+          console.log(res)
+          let result: any = res.result;
+          this.examList = result;
+          $('#editExamForCourse').modal('show');
+        },
+        err => {
+           this.auth.hideLoader();
+          //console.log(err);
+        }
+      )
     }
-    this.editClass.class_schedule_id = course.schedule_id;
-    this.editClass.start_time = course.start_time;
-    this.editClass.end_time = course.end_time;
-    this.editClass.total_marks = course.total_marks;
-    this.editClass.duration = course.duration;
-    this.editClass.course_exam_schedule_id = course.course_id;
-    this.editClass.room_no = course.room_no;
-
+    else{
+      $('#editExam').modal('show');
+      this.editClass.description = course.description;
+      this.editClass.topic_covered_ids = course.topic_covered_ids;
+      this.editClass.topic_covered_names = course.topics_covered;
+      this.editClass.subject_id = course.subject_id;
+      this.editClass.course_id = course.course_id;
+      this.editClass.class_sche_date = course.date;
+      this.editClass.batch_id = course.batch_id;
+      this.editClass.class_schedule_id = course.schedule_id;
+      this.editClass.start_time = course.start_time;
+      this.editClass.end_time = course.end_time;
+      this.editClass.total_marks = course.total_marks;
+      this.editClass.duration = course.duration;
+      this.editClass.course_exam_schedule_id = course.course_id;
+      this.editClass.room_no = course.room_no;
+    }
   }
 
   toggleArrow(topic){
@@ -955,12 +982,7 @@ export class ExamComponent implements OnInit {
   fetchTopics(){
     this.auth.showLoader();
     let subject_id = '';
-    if(this.jsonFlag.isProfessional){
-      subject_id = this.editClass.course_id;
-    }
-    else{
-      subject_id = this.editClass.subject_id;
-    }
+    subject_id = this.editClass.subject_id;
     this.topicService.getAllTopicsSubTopics(subject_id).subscribe((resp)=>{
       this.auth.hideLoader();
       this.topicsList = [];
@@ -969,7 +991,6 @@ export class ExamComponent implements OnInit {
       if(!!this.topicsList && this.topicsList.length > 0){
         $('#topicModel').modal('show');
         $('#editExam').modal('hide');
-
         this.topicsList.forEach(tpc =>{
           this.totalTopicsList.push(tpc);
           tpc.checked = false;
@@ -986,8 +1007,41 @@ export class ExamComponent implements OnInit {
               }
             })
         })
+      }
+      else {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to link");
+      }
+    },err =>{
+       this.auth.hideLoader();
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+    })
+  }
 
-        console.log(this.topicsList);
+  fetchTopicForSubject(exam){
+    this.currentEditExam = exam;
+    this.topicService.getAllTopicsSubTopics(exam.subject_id).subscribe((resp)=>{
+       this.auth.hideLoader();
+      this.topicsList = [];
+      this.totalTopicsList = [];
+      this.topicsList = resp;
+      if(!!this.topicsList && this.topicsList.length > 0){
+        $('#topicModel').modal('show');
+        $('#editExamForCourse').modal('hide');
+        this.topicsList.forEach(tpc =>{
+          this.totalTopicsList.push(tpc);
+          tpc.checked = false;
+          if(tpc.subTopic.length){
+            this.getAllTopics(tpc.subTopic)
+          }
+        })
+        let topicIds = exam.topics_covered.split('|');
+        topicIds.forEach(tpc =>{
+            this.topicsList.forEach(tp =>{
+              if(tp.topicId == tpc){
+                tp.checked = true;
+              }
+            })
+        })
       }
       else {
         this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to link");
@@ -1068,84 +1122,83 @@ export class ExamComponent implements OnInit {
     }
   }
 
+  showEditOption(){
+    if(!this.jsonFlag.isProfessional){
+      $('#topicModel').modal('hide');
+      $('#editExamForCourse').modal('show');
+    }
+    else{
+      $('#topicModel').modal('hide');
+      $('#editExam').modal('show');
+    }
+
+  }
+
   saveTopics(){
     var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
     var getTopicIds;
     if(getSelectedTopics != undefined){
-    getTopicIds = getSelectedTopics.map(obj =>{
-      return obj.topicId;
-    })
-    getTopicIds = getTopicIds.join('|')
-    console.log(getTopicIds);
-    console.log(getSelectedTopics)
+      getTopicIds = getSelectedTopics.map(obj =>{
+        return obj.topicId;
+      })
+      let getTopicNames = getSelectedTopics.map(obj =>{
+        return obj.topicName;
+      })
+      if(!this.jsonFlag.isProfessional){
 
-    this.editClass.topic_covered_ids = getTopicIds;
-    this.editClass.topic_covered_names = '';
-    for (let index = 0; index < getSelectedTopics.length; index++) {
-      this.editClass.topic_covered_names += getSelectedTopics[index].topicName;
+        getTopicIds = getTopicIds.join('|')
+        this.currentEditExam.topics_covered = getTopicIds;
+        this.currentEditExam.topic_name = getTopicNames.join('|');
+        $('#topicModel').modal('hide');
+        $('#editExamForCourse').modal('show');
+        for(let index = 0; index < this.examList.length; index++){
+          if(this.examList[index].exam_schedule_id == this.currentEditExam.exam_schedule_id){
+            this.examList[index].topics_covered = this.currentEditExam.topics_covered;
+            this.examList[index].topic_name = this.currentEditExam.topic_name;
+          }
+        }
+      }
+      else{
+        this.editClass.topic_covered_ids = getTopicIds;
+        this.editClass.topic_covered_names = getTopicNames.join('|');
+        $('#topicModel').modal('hide');
+        $('#editExam').modal('show');
+      }
     }
-    $('#topicModel').modal('hide');
-    $('#editExam').modal('show');
-  }
-
   }
 
   updateExam(){
     if(!this.jsonFlag.isProfessional){ // for course model
-        let obj = {
-          "master_course": this.inputElements.masterCourse,
-          "requested_date": this.editClass.class_sche_date,
-          "coursesList": [{
-            "course_id": this.editClass.course_id,
-            "course_exam_schedule_id": this.editClass.course_exam_schedule_id,
-            "exam_start_time": this.editClass.start_time,
-            "exam_end_time": this.editClass.end_time,
-            "courseClassSchdList": [{
-                    "batch_id": this.editClass.batch_id,
-                    "start_time": this.editClass.start_time,
-                    "end_time": this.editClass.end_time,
-                    "class_desc": this.editClass.description,
-                    "duration": this.editClass.duration,
-                    "total_marks": this.editClass.total_marks,
-                    "topics_covered": this.editClass.topic_covered_ids,
-                    "room_no": this.editClass.room_no,
-                    "class_schedule_id": this.editClass.class_schedule_id
-            }]
-          }]
-        }
+      let obj = {
+                "course_exam_schedule_id": this.examList[0].course_exam_schedule_id,
+                "batch_id": this.examList[0].batch_id,
+                "exam_detail_list": this.examList.map(exam => {
+                    let subject = {
+                        "exam_schedule_id": exam.exam_schedule_id,
+                        "topics_covered": exam.topics_covered,
+                        "exam_description": exam.exam_description,
+                        "subject_id": exam.subject_id
+                      }
+                    return subject;
+                  })
+                }
 
-      // let obj =  {
-      //   "batch_id": this.editClass.batch_id,
-      //   "exam_freq": "Other",
-      //   "otherSchd": [{
-      //           "exam_date": this.editClass.class_sche_date,
-      //           "start_time" : this.editClass.start_time,
-      //           "end_time": this.editClass.end_time,
-      //           "total_marks": this.editClass.total_marks,
-      //           "exam_desc": this.editClass.description,
-      //           "isReferenced": "N",
-      //           "duration": this.editClass.duration,
-      //           "schd_id": this.editClass.class_schedule_id
-      //             }]
-      //     }
-
-      	this.examService.updateExamSch(obj).subscribe(
-          res => {
-            this.auth.hideLoader();
-            let result: any = res;
-            $('#editExam').modal('hide');
-            if(result.statusCode == 200){
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Class updated successfully');
-              this.getData();
-            }
-          },
-          err => {
-            $('#editExam').modal('hide');
-            this.auth.hideLoader();
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+    	this.examService.updateExamSubjectWise(obj).subscribe(
+        res => {
+           this.auth.hideLoader();
+          let result: any = res;
+          $('#editExamForCourse').modal('hide');
+          if(result.statusCode == 200){
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Exam updated successfully');
+            this.getData();
           }
-        )
-
+        },
+        err => {
+          $('#editExamForCourse').modal('hide');
+           this.auth.hideLoader();
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+        }
+      )
     }
     else{
       let obj = {
@@ -1176,7 +1229,6 @@ export class ExamComponent implements OnInit {
       )
 
     }
-
   }
 
   clearEditValues(){

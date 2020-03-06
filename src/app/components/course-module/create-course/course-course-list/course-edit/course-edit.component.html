@@ -1,3 +1,4 @@
+
 <div class="middle-section clearFix head editCourseWrapper">
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
@@ -169,7 +170,7 @@
                             </div>
                           </td>
                           <td>
-                            <a *ngIf="(row.isAssigned == 'N')" (click)="deleteSubjectRow(row, i , y)"><i class="fa fa-trash" style="font-size: 16px;" title="Delete"> </i></a>
+                            <a *ngIf="(row.isAssigned == 'N')" (click)="deleteSubjectRow(row, i , y)"><i class="fa fa-trash" style="font-size: 16px;color: red;" title="Delete"> </i></a>
                           </td>
                         </tr>
                       </tbody>
@@ -199,8 +200,8 @@
   <div class="popup pos-abs popup-body-container">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="jsonVar.isallowGrading=false">
-        <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-          <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+        <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+          <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
         </svg>
       </span>
       <div class="popup-content">

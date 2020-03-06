@@ -11,6 +11,7 @@ import { StudentForm } from '../../../model/student-add-form';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { HttpService } from '../../../services/http.service';
 import { ProductService } from '../../../services/products.service';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
@@ -18,6 +19,7 @@ import { PostStudentDataService } from '../../../services/student-services/post-
 import { WidgetService } from '../../../services/widget.service';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 var jsPDF = require('jspdf');
+declare var $;
 
 @Component({
   selector: 'app-student-home',
@@ -58,6 +60,7 @@ export class StudentHomeComponent implements OnInit {
   selectedUserId: any = [];
   studentbatchList: any[] = [];
   studentByIdcustomComponents: any[] = [];
+  filterCustomComponent: any[] = []
 
   private studentdisplaysize: number = 100;
   perPage: number = 10;
@@ -82,7 +85,8 @@ export class StudentHomeComponent implements OnInit {
   isEdit: boolean = true;
   private selectedRow: any;
   studentDetailsById: any;
-  studentCustomComponent: any; today: any = Date.now();
+  studentCustomComponent: any;
+  today: any = Date.now();
   searchBarData: any = null;
   private selectedSlotsID: string = '';
   private selectedSlotsString: string = '';
@@ -107,7 +111,7 @@ export class StudentHomeComponent implements OnInit {
     language_inst_status: -1,
     subject_id: -1,
     slot_id: "",
-    master_course_name: "",
+    master_course_name: "-1",
     course_id: -1,
     start_index: 0,
     batch_size: this.studentdisplaysize,
@@ -126,7 +130,7 @@ export class StudentHomeComponent implements OnInit {
     mobile: "",
     language_inst_status: -1,
     subject_id: -1, slot_id: "",
-    master_course_name: "",
+    master_course_name: "-1",
     course_id: -1,
     start_index: 0,
     batch_size: this.studentdisplaysize,
@@ -204,7 +208,8 @@ export class StudentHomeComponent implements OnInit {
     stuCustomLi: [],
     deleteCourse_SubjectUnPaidFeeSchedules: false
   };
-
+  assignedStandard = "-1";
+  labelForAssignStandard = '';
   /* =================================================================================================== */
   constructor(private prefill: FetchprefilldataService,
     private router: Router,
@@ -216,15 +221,18 @@ export class StudentHomeComponent implements OnInit {
     private actRoute: ActivatedRoute,
     private auth: AuthenticatorService,
     private _commService: CommonServiceFactory,
-    private http: ProductService
+    private http: ProductService,
+    private http_service: HttpService
   ) {
 
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
-          this.isProfessional = true;
+          this.isProfessional = true; // batch module
+          this.labelForAssignStandard = 'Master Course';
         } else {
-          this.isProfessional = false;
+          this.isProfessional = false;  //course module
+          this.labelForAssignStandard = 'Standard';
         }
       }
     )
@@ -268,6 +276,7 @@ export class StudentHomeComponent implements OnInit {
             { primaryKey: 'student_class', header: 'Master Course' },
             { primaryKey: 'batchesAssigned', header: 'Batch Assigned' }
           ];
+          this.fetchLangStudentStatus();
         }
         else {
           this.StudentSettings = [
@@ -311,18 +320,84 @@ export class StudentHomeComponent implements OnInit {
           this.downloadStudentIDCard() // because fee install ment at multiple student has some issues
           // this.isShareDetails = true;
         }
+      },
+      {
+        label: 'Assign ' + this.labelForAssignStandard, icon: 'fa fa-users', command: () => {
+          $('#assignStandard').modal('show');
+        }
       }
     ];
     this.checkDownloadRoleAccess();
+    this.getAcademmicYear();
+    this.fetchCustomComponent();
+  }
+
+
+  checkCustomeComponentElement(index) {
+    if (!(index % 3)) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  // Assign standard to multiple students at single time. -- Developed by Swapnil
+  assignStandard() {
+    if (this.assignedStandard != "-1") {
+      if (confirm("Are you sure you want to assign the " + this.labelForAssignStandard + '?')) {
+        let studentArray = {};
+        for (let index = 0; index < this.selectedRowGroup.length; index++) {
+          studentArray[this.selectedRowGroup[index]] = true
+        }
+        let obj = {
+          "institute_id": sessionStorage.getItem('institute_id'),
+          "studentArray": studentArray
+        }
+        let url = `/api/v1/students/${this.assignedStandard}/assignStandard`;
+         this.auth.showLoader();
+        this.http_service.postData(url, obj).subscribe(
+          (data: any) => {
+            let alert = {
+              type: 'success',
+              title: '',
+              body: this.labelForAssignStandard + ' assigned to students successfully'
+            }
+            this.appC.popToast(alert);
+            this.auth.hideLoader();
+            this.assignedStandard = "-1";
+            this.loadTableDataSource(this.instituteData);
+            $('#assignStandard').modal('hide');
+          },
+          (error: any) => {
+            this.auth.hideLoader();
+            let alert = {
+              type: 'error',
+              title: '',
+              body: error
+            }
+            this.appC.popToast(alert);
+          }
+        )
+      }
+    }
+    else {
+      let alert = {
+        type: 'info',
+        title: '',
+        body: 'Please select ' + this.labelForAssignStandard
+      }
+      this.appC.popToast(alert);
+    }
   }
 
   checkDownloadRoleAccess() {
-    if(sessionStorage.getItem('downloadStudentReportAccess')=='true'){
-        this.downloadStudentReportAccess = true;
-    }else{
-      this.bulkActionItems.splice(3,1);
+    if (sessionStorage.getItem('downloadStudentReportAccess') == 'true') {
+      this.downloadStudentReportAccess = true;
+    } else {
+      this.bulkActionItems.splice(3, 1);
     }
-}
+  }
 
   /* Fetch data from server and convert to custom array */
   loadTableDataSource(obj) {
@@ -340,8 +415,8 @@ export class StudentHomeComponent implements OnInit {
           /* records */
           if (res.length != 0) {
             this.totalRow = res[0].total_student_count;
-          //  this._commService.contactNoPatternChange(res);
-           this.contactNoPatternChange(res);
+            //  this._commService.contactNoPatternChange(res);
+            this.contactNoPatternChange(res);
             this.studentDataSource = res;
           }
           else {
@@ -376,9 +451,9 @@ export class StudentHomeComponent implements OnInit {
         res => {
           this.auth.hideLoader();
           if (res.length != 0) {
-            //this._commService.contactNoPatternChange(res); 
+            //this._commService.contactNoPatternChange(res);
             this.contactNoPatternChange(res);
-            this.studentDataSource = res;            
+            this.studentDataSource = res;
           }
           else {
             let alert = {
@@ -409,26 +484,26 @@ export class StudentHomeComponent implements OnInit {
   }
 
   contactNoPatternChange(list) {
-    if(sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') { // if user is admin
-    if(sessionStorage.getItem('permissions') != null && sessionStorage.getItem('permissions') != ''){
+    if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') { // if user is admin
+      if (sessionStorage.getItem('permissions') != null && sessionStorage.getItem('permissions') != '') {
         var permissions = JSON.parse(sessionStorage.getItem('permissions'));
-        if(!permissions.includes('726')){
-            list.forEach(el =>{
+        if (!permissions.includes('726')) {
+          list.forEach(el => {
             var countryCode = el.student_phone.split('-')[0];
             var phnNo = el.student_phone.split('-')[1];
             var result;
-            if(phnNo.length > 4){
-            result = phnNo.replace(/\d{4}$/, 'XXXX');
+            if (phnNo.length > 4) {
+              result = phnNo.replace(/\d{4}$/, 'XXXX');
             }
             else {
-            result = phnNo.replace(/\d{1}$/, 'X');
+              result = phnNo.replace(/\d{1}$/, 'X');
             }
             el.student_phone = countryCode + '-' + result;
-        })
+          })
         }
+      }
     }
-    }
-}
+  }
 
   downloadStudentIDCard() {
     console.log(this.selectedUserId)
@@ -622,6 +697,11 @@ export class StudentHomeComponent implements OnInit {
     }
   }
 
+  // get custome filter component details if is_searchable is applicable --laxmi
+  getSearchableCustomeComponents(array) {
+    this.filterCustomComponent = array.filter((object) => object.is_searchable == 'Y');
+  }
+
   /* Function to open advanced filter */
   /* =================================================================================================== */
   /* =================================================================================================== */
@@ -633,6 +713,7 @@ export class StudentHomeComponent implements OnInit {
     document.getElementById('adFilterExit').classList.remove('hide');
     // document.getElementById('black-bg').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.remove('hide');
+    this.fetchStudentPrefill();
   }
 
   /* Function to close advanced filter */
@@ -652,9 +733,9 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   advancedSearch() {
     let tempCustomArr: any[] = [];
-    this.customComponents.forEach(el => {
+    this.filterCustomComponent.forEach(el => {
       //console.log(el);
-      if (el.is_searchable == 'Y' && el.value != "") {
+      if (el.value != "") {
         if (el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
           let obj = {
             component_id: el.id,
@@ -792,17 +873,6 @@ export class StudentHomeComponent implements OnInit {
   fetchStudentPrefill() {
 
     this.auth.showLoader();
-
-    this.prefill.getEnqStardards().subscribe(data => {
-      this.standardList = data;
-      //console.log(data);
-    });
-
-    this.prefill.getSchoolDetails().subscribe(data => {
-      this.schoolList = data;
-      //console.log(data);
-    });
-
     this.studentPrefill.fetchBatchDetails().subscribe(data => {
       this.batchList = data;
     });
@@ -815,13 +885,33 @@ export class StudentHomeComponent implements OnInit {
       this.auth.hideLoader();
       this.masterCourseList = data;
     });
-
-    if (this.isProfessional) {
-      this.getSlots();
+    
+    if (!this.standardList.length) {
+       this.auth.showLoader();
+      this.prefill.getEnqStardards().subscribe(data => {
+        this.standardList = data;
+      });
     }
 
+    if (!this.schoolList.length) {
+      this.prefill.getSchoolDetails().subscribe(data => {
+        this.schoolList = data;
+      });
+    }
+
+    if (this.isProfessional) {  // batch module
+      this.batchModuleCalls();
+    }
+    else { //course module
+      this.courseModuleCalls();
+    }
+  }
+
+  getAcademmicYear() {
+     this.auth.showLoader();
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
+        this.auth.hideLoader();
         this.academicYear = data;
         this.academicYear.forEach(e => {
           if (e.default_academic_year == 1) {
@@ -840,10 +930,12 @@ export class StudentHomeComponent implements OnInit {
         this.appC.popToast(obj);
       }
     )
+  }
 
-    let id = ''
-    this.studentPrefill.fetchCustomComponent(id).subscribe(data => {
+  fetchCustomComponent() {
+    this.studentPrefill.fetchCustomComponentById(0,'',2).subscribe(data => {
       if (data != null) {
+        this.auth.hideLoader();
         data.forEach(el => {
           let obj = {
             data: el,
@@ -915,11 +1007,35 @@ export class StudentHomeComponent implements OnInit {
           }
           this.customComponents.push(obj);
         });
+
+        this.getSearchableCustomeComponents(this.customComponents);
       }
     });
-
   }
 
+  //get default lang student status
+  fetchLangStudentStatus() {
+     this.auth.showLoader();
+    this.studentPrefill.fetchLangStudentStatus().subscribe(data => {
+      this.studentStatusList = data;
+      this.auth.hideLoader();
+    });
+  }
+
+  batchModuleCalls() {
+    this.getSlots();
+    (!this.batchList.length) && this.studentPrefill.fetchBatchDetails().subscribe(data => {
+      this.batchList = data;
+      this.auth.hideLoader();
+    });
+  }
+
+  courseModuleCalls() {
+    (!this.masterCourseList.length) && this.studentPrefill.fetchMasterCourse().subscribe(data => {
+      this.masterCourseList = data;
+      this.auth.hideLoader();
+    });
+  }
 
   /* =================================================================================================== */
   /* =================================================================================================== */
@@ -990,7 +1106,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   updateMultiSelect(data, id) {
-    this.customComponents.forEach(el => {
+    this.filterCustomComponent.forEach(el => {
       if (el.id == id) {
         let x = []
         let y = el.prefilled_data;
@@ -1045,11 +1161,13 @@ export class StudentHomeComponent implements OnInit {
       language_inst_status: -1,
       subject_id: -1,
       slot_id: "",
-      master_course_name: "",
+      master_course_name: "-1",
       course_id: -1,
       start_index: 0,
       batch_size: this.studentdisplaysize
     }
+
+    this.subjectList = [];
 
     this.customComponents.forEach(el => {
       //console.log(el);
@@ -1067,18 +1185,19 @@ export class StudentHomeComponent implements OnInit {
     this.instituteData.start_index = 0;
     /* If User has entered an empty value needs to be informed */
     if (this.searchBarData == '' || this.searchBarData == ' ' || this.searchBarData == null || this.searchBarData == undefined) {
-      this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+      this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
       this.loadTableDataSource(this.instituteData);
     }
     /* valid input detected, check for type of input */
     else {
+      this.searchBarData = this.searchBarData.trim();
       /* If input is of type string then validate string validity*/
       if (isNaN(this.searchBarData)) {
-        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: this.searchBarData, is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: this.searchBarData, is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
         this.loadTableDataSource(this.instituteData);
       }/* If not string then use the data as a number*/
       else {
-        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: this.searchBarData, language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: this.searchBarData, language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
         this.loadTableDataSource(this.instituteData);
       }
 
@@ -1149,23 +1268,26 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   getSlots() {
     this.auth.showLoader();
-    return this.studentPrefill.fetchSlots().subscribe(
-      res => {
-        this.auth.hideLoader();
-        res.forEach(el => {
-          let obj = {
-            label: el.slot_name,
-            value: el,
-            status: false
-          }
-          this.slots.push(obj);
-        });
-        // console.log(this.slots);
-      },
-      err => { 
-        this.isRippleLoad = false;
-      }
-    )
+    if(!this.slots.length){
+      return this.studentPrefill.fetchSlots().subscribe(
+        res => {
+          this.auth.hideLoader();
+          res.forEach(el => {
+            let obj = {
+              label: el.slot_name,
+              value: el,
+              status: false
+            }
+            this.slots.push(obj);
+          });
+          // console.log(this.slots);
+        },
+        err => {
+          this.auth.hideLoader();
+         }
+      )
+    }
+  
   }
 
   /* =================================================================================================== */
@@ -1281,7 +1403,7 @@ export class StudentHomeComponent implements OnInit {
         this.studentDetailsById = res;
         this.studentAddFormData = res;
         this.studentAddFormData.student_class = res.student_class_key;
-        this.subscriptionCustomComp = this.studentPrefill.fetchCustomComponentById(id).subscribe(
+        this.subscriptionCustomComp = this.studentPrefill.fetchCustomComponentById(id,undefined,2).subscribe(
           cus => {
             if (cus != null) {
               this.studentCustomComponent = cus;
@@ -2063,7 +2185,7 @@ export class StudentHomeComponent implements OnInit {
   updateStudentDataOnServer() {
     let customArr = [];
 
-    this.studentByIdcustomComponents.forEach(el => {
+    this.studentCustomComponent.forEach(el => {
       let max_length = el.comp_length == 0 ? 100 : el.comp_length;
       /* Not Checkbox and value not empty */
       if (el.value != '' && el.type != 2 && el.type != 5) {

@@ -9,14 +9,12 @@ import { ClassRoomService } from '../../services/class-roomService/class-roomlis
 import { ExamGradeServiceService } from '../../services/examgradeservice/exam-grade-service.service';
 import { HttpService } from '../../services/http.service';
 import { SlotApiService } from '../../services/slot-service/slot.service';
+import { AddCityAreaComponent } from '../add-city-area/add-city-area.component';
 import { SharedModule } from '../shared/shared.module';
 import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grades.component';
 import { MasterRoutingModule } from './master-routing.module';
 import { MasterComponent } from './master.component';
 import { SlotComponent } from './slot/slot.component';
-
-
-
 
 
 @NgModule({
@@ -28,14 +26,15 @@ import { SlotComponent } from './slot/slot.component';
         MasterRoutingModule
     ],
     exports: [
-
+      AddCityAreaComponent
     ],
     declarations: [
         MasterComponent,
         ManageExamGradesComponent,
         SlotComponent,
         ClassRoomComponent,
-        CityAreaMapComponent
+        CityAreaMapComponent,
+        AddCityAreaComponent
         ],
     providers: [
         ExamGradeServiceService,

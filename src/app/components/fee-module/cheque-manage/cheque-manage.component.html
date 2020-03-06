@@ -214,9 +214,9 @@
                                     <th>Academic Year</th>
                                     <th>Fee Type</th>
                                     <th class="Date">Due Date</th>
-                                    <th class="No" *ngIf="selectedRecord.country_code=='IND'">Intitial Fee Amount</th>
-                                    <th class="No" *ngIf="selectedRecord.country_code=='IND'">Tax</th>
-                                    <th class="No">Fee Amount <span *ngIf="selectedRecord.country_code=='IND'"> (Incl Tax)</span></th>
+                                    <th class="No" *ngIf="isTaxEnabled">Intitial Fee Amount</th>
+                                    <th class="No" *ngIf="isTaxEnabled">{{tax_type_without_percentage}}</th>
+                                    <th class="No">Fee Amount <span *ngIf="isTaxEnabled"> (Incl {{tax_type_without_percentage}})</span></th>
                                     <th class="No">Amount Paid</th>
                                     <th class="No">Balance Amount</th>
                                     <th class="No">Pay Amount</th>
@@ -238,8 +238,8 @@
                                     <td>{{c.academic_year}}</td>
                                     <td>{{c.fee_type_name}}</td>
                                     <td class="No">{{c.due_date}}</td>
-                                    <td class="No" *ngIf="selectedRecord.country_code=='IND'">{{ selectedRecord.symbol}}&nbsp;{{c.total_initial_amount}}</td>
-                                    <td class="No" *ngIf="selectedRecord.country_code=='IND'">{{ selectedRecord.symbol}}&nbsp;{{c.total_tax_applied}}</td>
+                                    <td class="No" *ngIf="isTaxEnabled">{{ selectedRecord.symbol}}&nbsp;{{c.total_initial_amount}}</td>
+                                    <td class="No" *ngIf="isTaxEnabled">{{ selectedRecord.symbol}}&nbsp;{{c.total_tax_applied}}</td>
                                     <td class="No">{{ selectedRecord.symbol}}&nbsp;{{c.total_amount_after_discount_after_tax}}</td>
                                     <td class="No">{{ selectedRecord.symbol}}&nbsp;{{c.total_amt_paid}}</td>
                                     <td class="No">{{ selectedRecord.symbol}}&nbsp;{{c.total_balance_amt}}</td>

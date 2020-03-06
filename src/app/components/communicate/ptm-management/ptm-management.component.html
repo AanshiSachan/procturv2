@@ -11,12 +11,12 @@
       </div>
       <div class="modal-body">
         <div class="cal-outer-container">
-          <span style="margin-top: 10px; margin-right: 10px;">PTM Schedule Date<span class="danger">*</span></span>
-          <div class="form-wrapper ptm-schedule-date-container">
+          <span style="margin-top: 7px; margin-right: 10px;">PTM Schedule Date<span class="danger">*</span></span>
+          <div class="form-wrapper ptm-schedule-date-container" (click)="openCalendar('ptmScheduleDate')">
             <span id="changeDate">{{today | date: 'dd MMM yyyy'}}</span> &nbsp;&nbsp;
             <input  type="text" value="" id="ptmScheduleDate" class="widgetDatepicker bsDatepicker" name="ptmScheduleDate"
              [(ngModel)]="ptmScheduleDate" (ngModelChange)="addNewDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
-            <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('ptmScheduleDate')"></i>
+            <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;"></i>
           </div>
         </div>
 
@@ -76,7 +76,68 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="scheduleNewPTM()">Create</button>
+        <button type="button" class="btn btn-default" (click)="scheduleNewPTM()">Create</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Create PTM Model -->
+<!-- Modal -->
+<div id="scheduledPTM" class="modal" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Scheduled PTM Details</h4>
+      </div>
+      <div class="modal-body">
+        <div class="cal-outer-container">
+          <span style="margin-top: 7px; margin-right: 10px;">Select PTM Date<span class="danger">*</span></span>
+          <div class="form-wrapper ptm-schedule-date-container" (click)="openCalendar('ptmScheduledDate')">
+            <span id="updatedScheDate">{{ptmScheduledDate | date: 'dd MMM yyyy'}}</span> &nbsp;&nbsp;
+            <input  type="text" value="" id="ptmScheduledDate" class="widgetDatepicker bsDatepicker" name="ptmScheduledDate" [(ngModel)]="ptmScheduledDate" (ngModelChange)="showScheduledPTM($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
+            <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;"></i>
+          </div>
+        </div>
+
+        <div class="ptm-batch-table-container">
+          <div class="ptm-heading-container">
+            <div class="ptm-heading-item large-item">
+              <span>Batch(s) Name</span>
+            </div>
+            <div class="ptm-heading-item medium-item">
+              <span>Timings</span>
+            </div>
+            <div class="ptm-heading-item medium-item">
+              <span>Action</span>
+            </div>
+          </div>
+          <div class="ptm-value-outer-container">
+            <div class="ptm-value-container" *ngFor="let batch of scheduledPTMList">
+              <div class="ptm-value-item large-item" style="margin-top: 3px;">
+                <span *ngIf="!jsonFlag.isProfessional">{{batch.master_course}}-{{batch.course}}-{{batch.subject}}</span>
+                <span *ngIf="jsonFlag.isProfessional">{{batch.batch}}</span>
+              </div>
+              <div class="medium-item scheduled" style="margin-top: 4px;">
+                <span>{{batch.start_time}} - {{batch.end_time}}</span>
+              </div>
+              <div class="medium-item scheduled">
+                <button type="button" name="button" class="send-notification-btn" (click)="sendPTMScheduleNotification(batch.ptm_id)">Send Notification</button>
+              </div>
+            </div>
+            <div *ngIf="scheduledPTMList.length == 0" class="not-found">
+              <span>No Schedule Found</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
       </div>
     </div>
 
@@ -150,6 +211,7 @@
       <div class="right-container">
         <button type="button" name="button" class="act-btn" (click)="cancelPTM()" *ngIf="!illustration">Cancel PTM</button>
         <button type="button" name="button" class="create-ptm-btn" (click)="showCreateNewPTM()" data-toggle="modal" data-target="#createPTM">Create PTM</button>
+        <button type="button" name="button" class="schedule-ptm-btn" (click)="showScheduledPTM()" data-toggle="modal" data-target="#scheduledPTM">Scheduled PTM Details</button>
       </div>
     </div>
   </section>
@@ -161,9 +223,6 @@
         <div class="search-filter-wrapper">
             <input type="text" class="normal-field" placeholder="Search" name="searchData" (keyup)="searchInList($event)" [(ngModel)]="searchInput">
         </div>
-      </div>
-      <div class="send-notification-container">
-        <button type="button" name="button" class="send-btn" (click)="sendNotification()">Send Notification</button>
       </div>
     </div>
   </section>
@@ -235,7 +294,7 @@
         <button type="button" name="button" class="act-btn" style="margin-right: 20px;" (click)="cancelPTM()">Cancel PTM</button>
       </div> -->
       <div class="action-btn-container">
-        <button type="button" name="button" class="act-btn full" (click)="updatePTM()">Update PTM</button>
+        <button type="button" name="button" class="act-btn full" (click)="updatePTM()">Update & Notify</button>
       </div>
     </div>
   </section>

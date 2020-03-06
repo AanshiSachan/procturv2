@@ -6,6 +6,14 @@
   right: 17px;
   border-radius: 6px;
 }
+.sourceI {
+    cursor: pointer;
+    line-height: 20px;
+    position: absolute;
+    right: -35px;
+    bottom: 5px;
+}
+
 @media only screen and (max-width: 767px) {
   .boxPadding15 {
     padding: 0;
@@ -2047,7 +2055,7 @@ input[type=number]::-webkit-outer-spin-button {
         content: '';
         background: url('../../../../assets/images/calendar.svg') no-repeat;
         position: absolute;
-        right: 40px;
+        right: 5px;
         top: 29px;
         width: 21px;
         height: 21px;

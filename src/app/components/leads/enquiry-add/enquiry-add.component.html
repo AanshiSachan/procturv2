@@ -108,28 +108,38 @@
                     <span class="date-clear" name="dob" (click)="newEnqData.dob = ''">clear</span>
                   </div>
 
-                  <!-- city -->
+                  <!-- State -->
                   <div class="field-wrapper">
-                    <label for="cityDdn">City
+                    <label for="state">
+                      State
+                      <span *ngIf="isStateMandatory == 1"><span class="text-danger">*</span></span>
+                    </label>
+                      <select id="state" class="form-ctrl" [(ngModel)]="newEnqData.state_id" name="state" (ngModelChange)="getCityList()">
+                      <option value="">Select State</option>
+                      <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+                    </select>
+                  </div>
+
+                  <!-- City -->
+                  <div class="field-wrapper">
+                    <label for="city">
+                      City
                       <span *ngIf="isCityMandatory == 1"><span class="text-danger">*</span></span>
                     </label>
-                    <select id="cityDdn" class="form-ctrl" [(ngModel)]="newEnqData.city"
-                      (ngModelChange)="onCitySelctionChanges($event)" name="city">
-                      <option value="-1"></option>
-                      <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
+                    <select id="city" class="form-ctrl" [(ngModel)]="newEnqData.city_id" name="city" (ngModelChange)="getAreaList()">
+                      <option value="">Select City</option>
+                      <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
                     </select>
-                    <span (click)="addNewAreaCity()" class="sourceI iconPlus">+</span>
                   </div>
 
                   <!-- area -->
                   <div class="field-wrapper">
-                    <label for="areaDdn">Area
-                    </label>
-                    <select id="areaDdn" class="form-ctrl" [(ngModel)]="newEnqData.area" name="area">
-                      <option value="-1"></option>
-                      <option *ngFor="let area of areaListDataSource" [value]="area.area">{{area.area}}</option>
+                    <label for="addArea">Area</label>
+                    <select id="area_id" class="form-ctrl" [(ngModel)]="newEnqData.area_id" name="area_id">
+                      <option value="">Select Area</option>
+                      <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">{{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}</option>
                     </select>
-
+                    <span (click)="toggleAddArea()" class="sourceI iconPlus" style="right: -35px;">+</span>
                   </div>
 
                   <!-- Source -->
@@ -460,7 +470,7 @@
                       </div>
                     </div>
 
-                  </custom-enquiry> 
+                  </custom-enquiry>
 
                 </div>
               </div>
@@ -734,6 +744,8 @@
 
 
 
+<app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)">
+</app-add-city-area>
 
 <!-- Add New institute -->
 <proctur-popup [hidden]="!isInstitutePop">
@@ -864,17 +876,14 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
       <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
         <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
-            transform="translate(992.81 305.77) rotate(45)" />
-          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
-            transform="translate(978.81 305.77) rotate(45)" />
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
         </g>
-        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
-          transform="translate(1012 297)" />
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
       </g>
     </svg>
   </span>
-
   <h2 popup-header> Source Editor</h2>
 
   <div class="institute-editor" popup-content>
@@ -905,33 +914,33 @@
         <table>
           <thead>
             <tr>
-              <th>Source</th>
-              <th> </th>
+              <th style="width: 70%;">Source</th>
+              <th>Action </th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let sch of sourceList">
-              <td *ngIf="!sch.edit">
+              <td *ngIf="!sch.edit" style="width: 70%;">
                 <div class="inst-name">
                   {{sch.name}}
                 </div>
               </td>
 
-              <td *ngIf="sch.edit">
+              <td *ngIf="sch.edit" style="width: 70%;">
                 <div class="field-wrapper ">
-                  <input type="text" [(ngModel)]="sch.name" class="form-ctrl" name="sourceName" id="schName" />
+                  <input type="text" [(ngModel)]="sch.new_source_name" class="form-ctrl" name="sourceName" id="schName" />
                 </div>
               </td>
 
               <td class="edit-view-btn" *ngIf="!sch.edit">
-                <div class="">
+                <div class="" style="width: 20%;">
                   <a (click)="editSource(sch.id)" style="cursor:pointer" id="editAnchor">
-                    <i class="edit-icon cursor-icon" aria-hidden="true"></i>Edit
+                    <i class="cursor-icon fa fa-edit" title="Edit" aria-hidden="true"></i>
                   </a>
                 </div>
                 <div class="">
-                  <a (click)="deleteSource(sch.id)" style="cursor:pointer" id="deleteAnchor">
-                    <i class="view-icon cursor-icon" aria-hidden="true" id="deleteIcon3"></i>Delete
+                  <a (click)="deleteSource(sch.id)" style="cursor:pointer;color: red;" id="deleteAnchor">
+                    <i class="view-icon cursor-icon fa fa-trash" title="Delete" aria-hidden="true" id="deleteIcon3"></i>
                   </a>
                 </div>
               </td>
@@ -939,7 +948,7 @@
               <td class="edit-view-btn" *ngIf="sch.edit">
                 <div class="">
                   <a (click)="cancelEditSource(sch.id)" style="cursor:pointer" id="cancelEditAnch4">
-                    <i class="edit-icon" aria-hidden="true" id="icon5"></i>Cancel
+                    <i aria-hidden="true" id="icon5"></i>Cancel
                   </a>
                 </div>
                 <div class="">
@@ -969,13 +978,11 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
       <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
         <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
-            transform="translate(992.81 305.77) rotate(45)" />
-          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
-            transform="translate(978.81 305.77) rotate(45)" />
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
         </g>
-        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
-          transform="translate(1012 297)" />
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
       </g>
     </svg>
   </span>
@@ -1011,33 +1018,33 @@
         <table>
           <thead>
             <tr>
-              <th>Referrer Name</th>
-              <th style="text-align: center;">Action</th>
+              <th style="width: 70%;">Referrer Name</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let sch of referList">
-              <td *ngIf="!sch.edit">
+              <td *ngIf="!sch.edit" style="width:70%">
                 <div class="inst-name">
                   {{sch.name}}
                 </div>
               </td>
 
-              <td *ngIf="sch.edit">
+              <td *ngIf="sch.edit" style="width: 70%;">
                 <div class="field-wrapper ">
-                  <input type="text" [(ngModel)]="sch.name" class="form-ctrl" name="sourceName" id="sourceName" />
+                  <input type="text" [(ngModel)]="sch.new_referrer_name" class="form-ctrl" name="sourceName" id="sourceName" />
                 </div>
               </td>
 
-              <td class="edit-view-btn" *ngIf="!sch.edit" style="text-align: center;">
-                <div class="">
+              <td class="edit-view-btn" *ngIf="!sch.edit">
+                <div class="" style="width: 20%;">
                   <a (click)="editRefer(sch.id)" style="cursor:pointer" id="editAnch5">
-                    <i class="edit-icon cursor-icon" aria-hidden="true" id="editIcon5"></i>Edit
+                    <i class="cursor-icon fa fa-edit" title="Edit" aria-hidden="true" id="editIcon5"></i>
                   </a>
                 </div>
                 <div class="">
-                  <a (click)="deleteRefer(sch.id)" style="cursor:pointer" id="deleteAnch5">
-                    <i class="view-icon cursor-icon" aria-hidden="true" id="deleteIcon5"></i>Delete
+                  <a (click)="deleteRefer(sch.id)" style="cursor:pointer;color: red;" id="deleteAnch5">
+                    <i class="view-icon cursor-icon fa fa-trash" title="Delete" aria-hidden="true" id="deleteIcon5"></i>
                   </a>
                 </div>
               </td>
@@ -1045,7 +1052,7 @@
               <td class="edit-view-btn" *ngIf="sch.edit">
                 <div class="">
                   <a (click)="cancelEditRefer(sch.id)" style="cursor:pointer" id="cancelAnch6">
-                    <i class="edit-icon" aria-hidden="true" id="cancelIcon6"></i>Cancel
+                    <i aria-hidden="true" id="cancelIcon6"></i>Cancel
                   </a>
                 </div>
                 <div class="">
