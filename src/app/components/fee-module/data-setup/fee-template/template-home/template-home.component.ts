@@ -5,7 +5,6 @@ import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../../services/common-service';
 import { FeeStrucService } from '../../../../../services/feeStruc.service';
-import { jsonpCallbackContext } from '../../../../../../../node_modules/@angular/common/http/src/module';
 
 @Component({
   selector: 'app-template-home',

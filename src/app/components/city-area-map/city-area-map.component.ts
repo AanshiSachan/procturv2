@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticatorService } from '../../services/authenticator.service';
 import { HttpService } from '../../services/http.service';
 import { MessageShowService } from '../../services/message-show.service';
+import { AuthenticatorService } from './../../services/authenticator.service';
 declare var $;
 
 @Component({
@@ -14,8 +14,7 @@ export class CityAreaMapComponent implements OnInit {
   // global variables
   jsonFlag = {
     isProfessional: false,
-    institute_id: '',
-    isRippleLoad: false
+    institute_id: ''
   };
 
   filter = {

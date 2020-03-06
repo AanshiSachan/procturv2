@@ -316,7 +316,7 @@ export class ExamMarkUpdateComponent implements OnInit {
     this.widgetService.markStudentMarks(data).subscribe(
       res => {
         this.auth.hideLoader();
-        this.messageNotifier('success', 'Successfully Saved', 'Marks Saved Successfully');
+        this.messageNotifier('success', '', 'Marks saved successfully');
         sessionStorage.setItem('exam_info', '');
         this.backToHome();
       },

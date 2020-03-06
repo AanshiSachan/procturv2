@@ -28,14 +28,13 @@ export class CourseEditComponent implements OnInit {
     message: '',
     tempObject:{}
   };
-  isRippleLoad: boolean = false;
 
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
     private route: ActivatedRoute,
-    private auth: AuthenticatorService,
-    private router: Router
+    private router: Router,
+    private auth:AuthenticatorService
   ) {
     this.route.params.subscribe(
       params => {
@@ -201,7 +200,7 @@ export class CourseEditComponent implements OnInit {
     }
     if (confirm(msg)) {
       if (row.hasOwnProperty('otherDetails')) {
-        this.auth.showLoader();
+      this.auth.showLoader();
         this.apiService.deleteSubjectFromServer(row.otherDetails.batch_id).subscribe(
           data => {
             row.isAssigned = 'Y';

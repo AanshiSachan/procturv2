@@ -118,9 +118,9 @@ export class InstituteDetailsComponent implements OnInit {
 
 
   updateAllDetails() {
-    this.auth.showLoader();
     let dataToSend = this.formatDataJsonToSend();
-    if (dataToSend) {
+    if(dataToSend){
+      this.auth.showLoader();
       this.apiService.updateDetailsToServer(dataToSend).subscribe(
         res => {
           this.auth.hideLoader();

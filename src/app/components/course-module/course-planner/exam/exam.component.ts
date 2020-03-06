@@ -941,17 +941,17 @@ export class ExamComponent implements OnInit {
   editCourseExam(course){
     if(!this.jsonFlag.isProfessional){
       const url = `/api/v1/courseExamSchedule/fetch-exam-details?course_exam_schedule_id=${course.schedule_id}&exam_date=${course.date}`
-      this.auth.showLoader();
+       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
         (res: any) => {
-          this.auth.hideLoader();
+           this.auth.hideLoader();
           console.log(res)
           let result: any = res.result;
           this.examList = result;
           $('#editExamForCourse').modal('show');
         },
         err => {
-          this.auth.hideLoader();
+           this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -1012,7 +1012,7 @@ export class ExamComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to link");
       }
     },err =>{
-      this.auth.hideLoader();
+       this.auth.hideLoader();
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
     })
   }
@@ -1020,7 +1020,7 @@ export class ExamComponent implements OnInit {
   fetchTopicForSubject(exam){
     this.currentEditExam = exam;
     this.topicService.getAllTopicsSubTopics(exam.subject_id).subscribe((resp)=>{
-      this.auth.hideLoader();
+       this.auth.hideLoader();
       this.topicsList = [];
       this.totalTopicsList = [];
       this.topicsList = resp;
@@ -1185,7 +1185,7 @@ export class ExamComponent implements OnInit {
 
     	this.examService.updateExamSubjectWise(obj).subscribe(
         res => {
-          this.auth.hideLoader();
+           this.auth.hideLoader();
           let result: any = res;
           $('#editExamForCourse').modal('hide');
           if(result.statusCode == 200){
@@ -1195,7 +1195,7 @@ export class ExamComponent implements OnInit {
         },
         err => {
           $('#editExamForCourse').modal('hide');
-          this.auth.hideLoader();
+           this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )

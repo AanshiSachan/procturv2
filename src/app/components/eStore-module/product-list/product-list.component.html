@@ -122,8 +122,9 @@
         </select>
       </div> -->
 
-      <button class="btn btn-primary btn-product btn_go" [disabled]="auth.isRippleLoad.getValue()" (click)="filterData()">GO</button>
-      <button class="btn btn-primary btn-product btn_go" [disabled]="auth.isRippleLoad.getValue()" (click)="Clearfilter()">Clear Filter</button>
+      <button class="btn btn-primary btn-product btn_go" [disabled]="isRippleLoad" (click)="filterData()">GO</button>
+      <button class="btn btn-primary btn-product btn_go" [disabled]="isRippleLoad" (click)="Clearfilter()">Clear
+        Filter</button>
 
     </div>
   </div>
@@ -294,7 +295,8 @@
         <div class="form-group m-0">
           <button type="button" class="btn btn-sm" data-dismiss="modal">No</button>
           &nbsp;
-          <button type="submit" class="btn btn-primary btn-sm" [disabled]="auth.isRippleLoad.getValue()" (click)="confirmAction(deleteItem.operation, deleteItem.entity_id)">Yes</button>
+          <button type="submit" class="btn btn-primary btn-sm" [disabled]="isRippleLoad"
+            (click)="confirmAction(deleteItem.operation, deleteItem.entity_id)">Yes</button>
         </div>
       </div>
     </div>

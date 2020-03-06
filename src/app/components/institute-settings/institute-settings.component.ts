@@ -421,7 +421,7 @@ export class InstituteSettingsComponent implements OnInit {
         return;
       }
     }
-    dataToSend = this.constructJsonToSend();
+    dataToSend = this.constructJsonToSend();    
     if (dataToSend) {
       this.auth.showLoader();
       this.apiService.saveSettingsToServer(dataToSend).subscribe(

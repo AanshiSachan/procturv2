@@ -8,9 +8,9 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { HttpService } from '../../../services/http.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
-import { HttpService  } from '../../../services/http.service';
 
 @Component({
   selector: 'app-enquiry-add',
@@ -322,16 +322,16 @@ export class EnquiryAddComponent implements OnInit {
     this.newEnqData.city_id = "";
     this.newEnqData.area_id = "";
     const url = `/api/v1/country/state?country_ids=${this.newEnqData.country_id}`
-    this.isRippleLoad = true;
+     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+         this.auth.hideLoader();
         if(res.result.length > 0){
           this.stateList = res.result[0].stateList;
         }
       },
       err => {
-        this.isRippleLoad = false;
+         this.auth.hideLoader();
         this.showErrorMessage('error', '', err);
       }
     )
@@ -344,16 +344,16 @@ export class EnquiryAddComponent implements OnInit {
     this.newEnqData.city_id = "";
     this.newEnqData.area_id = "";
     const url = `/api/v1/country/city?state_ids=${this.newEnqData.state_id}`
-    this.isRippleLoad = true;
+     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+         this.auth.hideLoader();
         if(res.result.length > 0){
           this.cityList = res.result[0].cityList;
         }
       },
       err => {
-        this.isRippleLoad = false;
+         this.auth.hideLoader();
         this.showErrorMessage('error', '', err);
       }
     )
@@ -362,16 +362,16 @@ export class EnquiryAddComponent implements OnInit {
   getAreaList(){
     this.areaList = [];
     const url = `/api/v1/cityArea/area/${this.createSource.inst_id}?city_ids=${this.newEnqData.city_id}`
-    this.isRippleLoad = true;
+     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+         this.auth.hideLoader();
         if(res.result.length > 0){
           this.areaList = res.result[0].areaList;
         }
       },
       err => {
-        this.isRippleLoad = false;
+         this.auth.hideLoader();
         this.showErrorMessage('error', '', err);
       }
     )
@@ -1663,15 +1663,15 @@ export class EnquiryAddComponent implements OnInit {
           name: el.new_referrer_name,
           inst_id: sessionStorage.getItem('institute_id')
         };
-        this.auth.showLoader();
+         this.auth.showLoader();
         this.poster.updateReferDetails(data).subscribe(
           res => {
-            this.auth.hideLoader();
+             this.auth.hideLoader();
             this.showErrorMessage('success', '', 'Reference updated Successfully');
             this.fetchReferInfo();
           },
           err => {
-            this.auth.hideLoader();
+             this.auth.hideLoader();
             this.showErrorMessage('error', '', err.error.message);
           }
         )
@@ -1686,17 +1686,23 @@ export class EnquiryAddComponent implements OnInit {
           name: name,
           inst_id: sessionStorage.getItem('institute_id')
         };
-        this.auth.showLoader();
+         this.auth.showLoader();
         this.poster.deleteRefer(data).subscribe(
           res => {
-            this.auth.hideLoader();
+             this.auth.hideLoader();
             this.showErrorMessage('success', '', 'Reference deleted Successfully');
             this.referList.filter(x=>(x.id == id)).splice(0,1);
             this.fetchReferInfo();
           },
           err => {
-            this.auth.hideLoader();
-            this.showErrorMessage('error', '', err.error.message);
+             this.auth.hideLoader();
+            let msg;
+            if(err.status == 500){
+              msg = JSON.parse(err._body);
+              this.showErrorMessage('error', '', msg.message);
+            } else {
+              this.showErrorMessage('error', '', err.error.message);
+            }
           }
         );
   }
@@ -1722,15 +1728,15 @@ export class EnquiryAddComponent implements OnInit {
   addSourceData() {    
     if(this.createSource.name.trim() != '') {
     if((this.sourceList.filter(x=>x.name == this.createSource.name.trim())).length == 0){
-      this.auth.showLoader();
+       this.auth.showLoader();
     this.prefill.createSource(this.createSource).subscribe(
       el => {
-        this.auth.hideLoader();
+         this.auth.hideLoader();
         this.fetchSourceInfo();
         this.closeAddSource();
       },
       err => {
-        this.auth.hideLoader();
+         this.auth.hideLoader();
         this.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -1815,15 +1821,15 @@ export class EnquiryAddComponent implements OnInit {
           name: el.new_source_name,
           inst_id: sessionStorage.getItem('institute_id')
         }
-        this.auth.showLoader();
+         this.auth.showLoader();
         this.poster.updateSourceDetails(data).subscribe(
           res => {
-            this.auth.hideLoader();
+             this.auth.hideLoader();
             this.showErrorMessage('success', '', 'Source updated successfully');
             this.fetchSourceInfo();
           },
           err => {
-            this.auth.hideLoader();
+             this.auth.hideLoader();
             this.showErrorMessage('error', '', err.error.message);
 
           }
@@ -1859,15 +1865,15 @@ export class EnquiryAddComponent implements OnInit {
           name: el.name,
           inst_id: sessionStorage.getItem('institute_id')
         }
-        this.auth.showLoader();
+         this.auth.showLoader();
         this.poster.deleteSource(data).subscribe(
           res => {
-            this.auth.hideLoader();
+             this.auth.hideLoader();
             this.showErrorMessage('success', '', 'Source deleted successfully');
             this.fetchSourceInfo();
           },
           err => {
-            this.auth.hideLoader();
+             this.auth.hideLoader();
             this.showErrorMessage('error', '', err.error.message);
           }
         )

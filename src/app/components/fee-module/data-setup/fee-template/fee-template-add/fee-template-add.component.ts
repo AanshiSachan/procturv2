@@ -10,7 +10,7 @@ import { FeeStrucService } from '../../../../../services/feeStruc.service';
   styleUrls: ['./fee-template-add.component.scss']
 })
 export class FeeTemplateAddComponent implements OnInit {
-
+  
   showDefaultTemplate: any='0';
   masterCourseList: any = [];
   CourseList: any = [];

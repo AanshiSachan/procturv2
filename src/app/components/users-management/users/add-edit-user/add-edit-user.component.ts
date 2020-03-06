@@ -201,7 +201,7 @@ export class AddEditUserComponent implements OnInit {
       this.apiService.updateUserDetails(obj, this.userId).subscribe(
         res => {
           this.auth.hideLoader();
-          this.messageNotifier('success', '', 'Details Updated Successfully');
+          this.messageNotifier('success', '', 'Details updated successfully');
           this.route.navigateByUrl('/view/manage/user');
         },
         err => {

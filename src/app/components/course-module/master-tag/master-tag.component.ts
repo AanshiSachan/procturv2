@@ -1,8 +1,7 @@
-import {Component} from '@angular/core';
-import { MessageShowService } from '../../../../app/services/message-show.service';
+import { Component } from '@angular/core';
 import { AuthenticatorService } from '../../../../../src/app/services/authenticator.service';
-import { MasterTagService } from './master-tag.component.service';
-
+import { MessageShowService } from '../../../../app/services/message-show.service';
+import { MasterTagService } from '../master-tag/master-tag.component.service';
 declare var $;
 
 

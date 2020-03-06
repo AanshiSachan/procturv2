@@ -16,8 +16,7 @@ export class AddCityAreaComponent implements OnInit {
   // global variables
   jsonFlag = {
     isProfessional: false,
-    institute_id: '',
-    isRippleLoad: false
+    institute_id: ''
   };
 
   countryList: any[] = [];

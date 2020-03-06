@@ -356,8 +356,8 @@ export class StudentHomeComponent implements OnInit {
           "studentArray": studentArray
         }
         let url = `/api/v1/students/${this.assignedStandard}/assignStandard`;
-        this.auth.showLoader();
-        this.http_service.postData(url,obj).subscribe(
+         this.auth.showLoader();
+        this.http_service.postData(url, obj).subscribe(
           (data: any) => {
             let alert = {
               type: 'success',
@@ -874,17 +874,6 @@ export class StudentHomeComponent implements OnInit {
   fetchStudentPrefill() {
 
     this.auth.showLoader();
-
-    this.prefill.getEnqStardards().subscribe(data => {
-      this.standardList = data;
-      //console.log(data);
-    });
-
-    this.prefill.getSchoolDetails().subscribe(data => {
-      this.schoolList = data;
-      //console.log(data);
-    });
-
     this.studentPrefill.fetchBatchDetails().subscribe(data => {
       this.batchList = data;
     });
@@ -897,6 +886,19 @@ export class StudentHomeComponent implements OnInit {
       this.auth.hideLoader();
       this.masterCourseList = data;
     });
+    
+    if (!this.standardList.length) {
+       this.auth.showLoader();
+      this.prefill.getEnqStardards().subscribe(data => {
+        this.standardList = data;
+      });
+    }
+
+    if (!this.schoolList.length) {
+      this.prefill.getSchoolDetails().subscribe(data => {
+        this.schoolList = data;
+      });
+    }
 
     if (this.isProfessional) {  // batch module
       this.batchModuleCalls();
@@ -907,10 +909,10 @@ export class StudentHomeComponent implements OnInit {
   }
 
   getAcademmicYear() {
-    this.isRippleLoad = true;
+     this.auth.showLoader();
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.academicYear = data;
         this.academicYear.forEach(e => {
           if (e.default_academic_year == 1) {
@@ -934,7 +936,7 @@ export class StudentHomeComponent implements OnInit {
   fetchCustomComponent() {
     this.studentPrefill.fetchCustomComponentById(0,'',2).subscribe(data => {
       if (data != null) {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         data.forEach(el => {
           let obj = {
             data: el,
@@ -1014,10 +1016,10 @@ export class StudentHomeComponent implements OnInit {
 
   //get default lang student status
   fetchLangStudentStatus() {
-    this.isRippleLoad = true;
+     this.auth.showLoader();
     this.studentPrefill.fetchLangStudentStatus().subscribe(data => {
       this.studentStatusList = data;
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
     });
   }
 
@@ -1025,14 +1027,14 @@ export class StudentHomeComponent implements OnInit {
     this.getSlots();
     (!this.batchList.length) && this.studentPrefill.fetchBatchDetails().subscribe(data => {
       this.batchList = data;
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
     });
   }
 
   courseModuleCalls() {
     (!this.masterCourseList.length) && this.studentPrefill.fetchMasterCourse().subscribe(data => {
       this.masterCourseList = data;
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
     });
   }
 
@@ -1267,23 +1269,26 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   getSlots() {
     this.auth.showLoader();
-    return this.studentPrefill.fetchSlots().subscribe(
-      res => {
-        this.auth.hideLoader();
-        res.forEach(el => {
-          let obj = {
-            label: el.slot_name,
-            value: el,
-            status: false
-          }
-          this.slots.push(obj);
-        });
-        // console.log(this.slots);
-      },
-      err => { 
-        this.auth.hideLoader();
-      }
-    )
+    if(!this.slots.length){
+      return this.studentPrefill.fetchSlots().subscribe(
+        res => {
+          this.auth.hideLoader();
+          res.forEach(el => {
+            let obj = {
+              label: el.slot_name,
+              value: el,
+              status: false
+            }
+            this.slots.push(obj);
+          });
+          // console.log(this.slots);
+        },
+        err => {
+          this.auth.hideLoader();
+         }
+      )
+    }
+  
   }
 
   /* =================================================================================================== */

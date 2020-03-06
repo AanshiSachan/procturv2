@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { MessageShowService } from '../../../services/message-show.service';
-// import { ActivityPtmService } from '../../../services/activity-ptmservice/activity-ptm.service';
 import { HttpService } from '../../../services/http.service';
+import { MessageShowService } from '../../../services/message-show.service';
 declare var $;
 
 @Component({
@@ -15,6 +14,7 @@ declare var $;
 export class PtmManagementComponent implements OnInit {
 
   jsonFlag = {
+    isRippleLoad: false,
     isProfessional: false,
     institute_id: sessionStorage.getItem('institute_id')
   }
@@ -89,9 +89,8 @@ export class PtmManagementComponent implements OnInit {
   constructor(
     private router: Router,
     private auth: AuthenticatorService,
-    // private ptmService: ActivityPtmService,
     private msgService: MessageShowService,
-    private httpService: HttpService
+    private _http: HttpService
   ) { }
 
   ngOnInit() {
@@ -117,7 +116,7 @@ export class PtmManagementComponent implements OnInit {
     this.auth.showLoader();
     //get master course - course - subject data  for course model
     const url = `/api/v1/courseMaster/fetch/${this.jsonFlag.institute_id}/all`;
-    this.httpService.getData(url).subscribe(
+    this._http.getData(url).subscribe(
       res => {
         this.masterCourseList = res;
         this.auth.hideLoader();
@@ -152,10 +151,10 @@ export class PtmManagementComponent implements OnInit {
   }
 
   fetchBatchesList() {
-    this.auth.showLoader();
+    this.jsonFlag.isRippleLoad = true;
     let isActive = this.batchQueryParam.is_active == 1 ? "Y" : "N";
     const url = `/api/v1/batches/all/${this.jsonFlag.institute_id}?${isActive}`;
-    this.httpService.getData(url).subscribe(
+    this._http.getData(url).subscribe(
       (data: any) => {
         this.getAllBatches = data;
         this.auth.hideLoader();
@@ -178,9 +177,9 @@ export class PtmManagementComponent implements OnInit {
         batch_id: this.inputElements.batch_id
       }
     }
-    this.auth.showLoader();
+    this.jsonFlag.isRippleLoad = true;
     const url = `/api/v1/ptm/batch/${this.getptmDates.batch_id}/schedules`;
-    this.httpService.postData(url, this.getptmDates).subscribe(
+    this._http.postData(url, this.getptmDates).subscribe(
       (data: any) => {
         this.auth.hideLoader();
         this.fetchPtmDates = data;
@@ -219,7 +218,7 @@ export class PtmManagementComponent implements OnInit {
     if(validation){
       this.auth.showLoader();
       const url = `/api/v1/ptm/${this.inputElements.ptmId}/details`;
-      this.httpService.getData(url).subscribe(
+      this._http.getData(url).subscribe(
         (data: any) => {
           this.auth.hideLoader();
           this.viewStudents = data;
@@ -263,7 +262,7 @@ export class PtmManagementComponent implements OnInit {
         }
         this.auth.showLoader();
         const url = `/api/v1/ptm/cancel/${obj.ptm_id}`;
-        this.httpService.putData(url, obj).subscribe(
+        this._http.putData(url, obj).subscribe(
           res => {
             this.auth.hideLoader();
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Cancelled Successfully');
@@ -280,7 +279,7 @@ export class PtmManagementComponent implements OnInit {
           }
         )
       }
-  }
+    }
   
 
   showCreateNewPTM() {
@@ -289,7 +288,7 @@ export class PtmManagementComponent implements OnInit {
     this.createPTMAllBatches = [];
     let isActive = this.batchQueryParam.is_active == 1 ? "Y" : "N";
     const url = `/api/v1/batches/all/${this.jsonFlag.institute_id}?${isActive}`;
-    this.httpService.getData(url).subscribe(
+    this._http.getData(url).subscribe(
       (data: any) => {
         this.createPTMAllBatches = data;
         this.createPTM.batchArray = [];
@@ -325,7 +324,7 @@ export class PtmManagementComponent implements OnInit {
       // document.getElementById("updatedScheDate").innerHTML = moment(this.ptmScheduledDate).format("DD MMM YYYY");
       this.auth.showLoader();
       const url = `/api/v1/ptm/ptm-schedule-details/${this.jsonFlag.institute_id}/${scheDate}`;
-      this.httpService.getData(url).subscribe(
+      this._http.getData(url).subscribe(
         (data: any) => {
           this.auth.hideLoader();
           this.scheduledPTMList = data.response;
@@ -341,7 +340,7 @@ export class PtmManagementComponent implements OnInit {
     this.auth.showLoader();
     const url = `/api/v1/ptm/ptmAlert/${ptmId}/alerts`;
     let obj = {}
-    this.httpService.postData(url, obj).subscribe(
+    this._http.postData(url, obj).subscribe(
       (data: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Notification has been sent successfully');
@@ -443,7 +442,7 @@ export class PtmManagementComponent implements OnInit {
     if(validation){
       this.auth.showLoader();
       const url = `/api/v1/ptm/create/${this.jsonFlag.institute_id}`;
-      this.httpService.postData(url, this.createPTM).subscribe(
+      this._http.postData(url, this.createPTM).subscribe(
         res => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Created Successfully');
           this.auth.hideLoader();
@@ -498,9 +497,9 @@ export class PtmManagementComponent implements OnInit {
       studentArray.push(studentObj);
     }
 
-    this.auth.showLoader();
+    this.jsonFlag.isRippleLoad = true;
     const url = `/api/v1/ptm/${this.inputElements.ptmId}/details/record`;
-    this.httpService.postData(url, studentArray).subscribe(
+    this._http.postData(url, studentArray).subscribe(
       res => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Updated Successfully');
         this.auth.hideLoader();
@@ -513,9 +512,7 @@ export class PtmManagementComponent implements OnInit {
     )
   }
 
-
-
-  /*** pagination functions */
+    /*** pagination functions */
   /* Fetch next set of data from server and update table */
   fetchNext() {
     this.pageIndex++;
@@ -553,6 +550,5 @@ export class PtmManagementComponent implements OnInit {
     this.displayBatchSize = parseInt(num);
     this.viewStudentsData();
   }
-
 
 }

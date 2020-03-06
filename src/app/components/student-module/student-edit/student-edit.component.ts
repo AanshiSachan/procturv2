@@ -324,7 +324,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.auth.showLoader()
+     this.auth.showLoader();
     this.getPermissions();
     this.fetchDataForCountryDetails();
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
@@ -391,10 +391,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   getStateList(){
     const url = `/api/v1/country/state?country_ids=${this.country_id}`
-    this.auth.showLoader()
+     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.auth.hideLoader()
+        this.auth.hideLoader();
         if(res.result.length > 0){
           this.stateList = res.result[0].stateList;
           if(this.studentAddFormData.state_id != ""){
@@ -403,7 +403,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        this.auth.hideLoader()
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
       }
     )
@@ -411,44 +411,40 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   // get city list as per state selection
   getCityList(){
-    if(this.studentAddFormData.state_id != ""){
-      const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
-      this.auth.showLoader()
-      this.httpService.getData(url).subscribe(
-        (res: any) => {
-          this.auth.hideLoader()
-          if(res.result.length > 0){
-            this.cityList = res.result[0].cityList;
-            if(this.studentAddFormData.city_id != ""){
-              this.getAreaList();
-            }
+    const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
+     this.auth.showLoader();
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        if(res.result.length > 0){
+          this.cityList = res.result[0].cityList;
+          if(this.studentAddFormData.city_id != ""){
+            this.getAreaList();
           }
-        },
-        err => {
-          this.auth.hideLoader()
-          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-      )
-    }
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
+      }
+    )
   }
 
   getAreaList(){
-    if(this.studentAddFormData.city_id != ""){
-      const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
-      this.auth.showLoader()
-      this.httpService.getData(url).subscribe(
-        (res: any) => {
-          this.auth.hideLoader()
-          if(res.result.length > 0){
-            this.areaList = res.result[0].areaList;
-          }
-        },
-        err => {
-          this.auth.hideLoader()
-          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
+    const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
+     this.auth.showLoader();
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        if(res.result.length > 0){
+          this.areaList = res.result[0].areaList;
         }
-      )
-    }
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
+      }
+    )
   }
 
   toggleAddArea(){
@@ -720,7 +716,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   fetchPrefillFormData() {
-    this.auth.showLoader()
+     this.auth.showLoader();
     this.JsonFlags.isDisabled = true;
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
@@ -735,13 +731,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.appC.popToast(obj);
       }
     );
-    // this.auth.showLoader() -- student not used code
+    //  this.auth.showLoader(); -- student not used code
     // this.studentPrefillService.fetchAllFeeStructure().subscribe(
     //   res => {
     //     this.feeTemplateStore = res;
     //   }
     // )
-    // this.auth.showLoader()
+    //  this.auth.showLoader();
     // this.studentPrefillService.getChequeStatus().subscribe(
     //   data => {
     //     this.pdcStatus = data;
@@ -757,11 +753,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     //     this.appC.popToast(obj);
     //   }
     // )
-    this.auth.showLoader()
+     this.auth.showLoader();
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
       err => {
         let msg = err.error.message;
+        this.auth.hideLoader();
         let obj = {
           type: 'error',
           title: msg,
@@ -778,7 +775,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   fetchAcademicYears() {
     if (!this.academicYear.length) {
-      this.auth.showLoader()
+       this.auth.showLoader();
       this.prefill.getAllFinancialYear().subscribe(
         (data: any) => {
           this.academicYear = data;
@@ -792,7 +789,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         },
         err => {
           let msg = err.error.message;
-          this.auth.hideLoader()
+          this.auth.hideLoader();
           let obj = {
             type: 'error',
             title: msg,
@@ -805,7 +802,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   fetchCustomeComponents() {
-    this.auth.showLoader()
+     this.auth.showLoader();
     this.studentPrefillService.fetchCustomComponentById(this.student_id, undefined, 2).subscribe(
       data => {
         this.auth.hideLoader()
@@ -1048,6 +1045,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.auth.showLoader()
     this.studentPrefillService.fetchSlots().subscribe(
       res => {
+        this.auth.hideLoader();
         res.forEach(el => {
           let obj = {
             label: el.slot_name,
@@ -1175,7 +1173,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       /* fetch batch details */
       else {
         this.batchList = [];
-        this.auth.showLoader()
+         this.auth.showLoader();
         if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
           country_id = '-1';
         }
@@ -1315,6 +1313,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.fetchService.getStudentById(id).subscribe(
       (data: any) => {
         // console.log(data);
+        this.auth.hideLoader();
         this.studentName = data.student_name;
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
@@ -1337,7 +1336,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
         this.getStateList();  // fetch state according to country
         /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
-        this.auth.hideLoader()
+        this.auth.hideLoader();
         this.getCourseDropdown(id);
         let globalInactiveStudent = sessionStorage.getItem('global_search_edit_student');
         if (data.is_active == "Y") {
@@ -2462,7 +2461,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('YYYY-MM-DD'),
       cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
     }
-    this.auth.showLoader()
+     this.auth.showLoader();
     this.pdcAddForm.country_id = this.instituteCountryDetObj.id;
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
@@ -2549,7 +2548,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   updatePDC(el) {
     if (this.validPdc(el)) {
       let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id: el.country_id };
-      this.auth.showLoader()
+       this.auth.showLoader();
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
           this.auth.hideLoader()
@@ -2879,7 +2878,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   getUploadedFileData() {
-    this.auth.showLoader()
+     this.auth.showLoader();
     const url = `/users-file/downloadFile?studentId=${this.student_id}`;
     this.productService.getUploadFileData(url).subscribe(
       (res: any) => {
@@ -2907,7 +2906,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     const url = `/users-file/update-File-download-count/?studentId=${this.student_id}&id=${object.id}`;
     this.productService.getUploadFileData(url).subscribe(
       (res: any) => {
-        this.auth.hideLoader()
+        this.auth.hideLoader();
       },
       err => {
         this.auth.hideLoader()
@@ -2917,20 +2916,20 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   deletefile(id) {
     if (confirm('Are you sure, you want to delete file?')) {
-      this.auth.showLoader()
-      const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
-      this.productService.deleteFile(url).subscribe(
-        (res: any) => {
-          this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "File deleted successfully" });
-          if (res) {
-            this.getUploadedFileData();
-          }
-          this.auth.hideLoader()
-        },
-        err => {
-          this.auth.hideLoader()
+    this.auth.showLoader();
+    const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
+    this.productService.deleteFile(url).subscribe(
+      (res:any) => {
+        this.appC.popToast({ type: "success", title: "", body: "File deleted successfully" });      
+        if(res){
+          this.getUploadedFileData();
         }
-      )
-    }
+          this.auth.hideLoader();
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+    )
+  }
   }
 }
