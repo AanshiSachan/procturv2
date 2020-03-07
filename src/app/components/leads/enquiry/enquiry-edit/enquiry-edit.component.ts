@@ -1,17 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import 'rxjs/Rx';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
+import 'rxjs/Rx';
 import { addEnquiryForm } from '../../../../model/add-enquiry-form';
-import { FetchprefilldataService } from '../../../../services/fetchprefilldata.service';
-import { LoginService } from '../../../../services/login-services/login.service';
-import { PostEnquiryDataService } from '../../../../services/enquiry-services/post-enquiry-data.service';
-import { PopupHandlerService } from '../../../../services/enquiry-services/popup-handler.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../../services/common-service';
+import { PopupHandlerService } from '../../../../services/enquiry-services/popup-handler.service';
+import { PostEnquiryDataService } from '../../../../services/enquiry-services/post-enquiry-data.service';
+import { FetchprefilldataService } from '../../../../services/fetchprefilldata.service';
+import { HttpService } from '../../../../services/http.service';
+import { LoginService } from '../../../../services/login-services/login.service';
 import { MultiBranchDataService } from '../../../../services/multiBranchdata.service';
 import { ClosingReasonService } from '../../services/closing-reason.service';
-import { CommonServiceFactory } from '../../../../services/common-service';
-import { HttpService  } from '../../../../services/http.service';
 
 @Component({
   selector: 'app-enquiry-edit',
@@ -315,7 +315,7 @@ export class EnquiryEditComponent implements OnInit {
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.isRippleLoad = false;
-        if(res.result.length > 0){
+        if(res.result&&res.result.length > 0){
           this.areaList = res.result[0].areaList;
         }
       },

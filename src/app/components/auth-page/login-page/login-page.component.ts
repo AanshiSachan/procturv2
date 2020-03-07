@@ -238,7 +238,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         res => {
           console.log(res);
           this.auth.hideLoader();
-          sessionStorage.setItem('login-response', JSON.stringify(res));
+          sessionStorage.setItem('login-response',JSON.stringify(res));
           this.checkForAuthOptions(res);
         },
         err => {

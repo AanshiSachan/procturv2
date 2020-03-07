@@ -131,12 +131,12 @@
                   </td>
                   <td class="view-comp" (click)="updatePopup(row.holidayId)">
                     <span class="pull-right" style="cursor: pointer;padding-right: 9% !important;text-align: left;">
-                      <i class="edit-icon" aria-hidden="true" style="margin-right: 5px;font-family: FontAwesome" title="Edit"></i>Edit
+                      <i class="fa fa-pencil " aria-hidden="true" style="color:#0084f6;margin-right: 5px;font-family: FontAwesome" title="Edit"></i>
                     </span>
                   </td>
                   <td class="view-comp" (click)="deleteEntryData(row.holidayId)">
                     <span class="pull-right" style="cursor: pointer;padding-right: 9% !important;text-align: left;">
-                      <i class="fa fa-trash-o" aria-hidden="true" style="margin-right: 5px;font-family: FontAwesome" title="delete"></i>Delete
+                      <i class="fa fa-trash-o " aria-hidden="true" style="color:red;margin-right: 5px;font-family: FontAwesome" title="Delete"></i>
                     </span>
 
                   </td>
@@ -147,7 +147,7 @@
               </tbody>
               <tbody *ngIf="pagedSourceData.length == 0">
                 <td colspan="8" style="text-align: center">
-                  No EVents Found
+                  No Events Found
                 </td>
               </tbody>
             </table>
@@ -163,11 +163,8 @@
           </pagination>
         </div>
       </div>
-
     </section>
-
   </section>
-
 </div>
 
 
