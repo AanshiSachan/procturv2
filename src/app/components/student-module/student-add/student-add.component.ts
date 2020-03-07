@@ -296,6 +296,7 @@ export class StudentAddComponent implements OnInit {
   stateList: any[] = [];
   cityList: any[] = [];
   areaList: any[] = [];
+  Payment_Modes: any = [];
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -1931,6 +1932,19 @@ export class StudentAddComponent implements OnInit {
     this.paymentPopUpJson.immutableAmount = this.totalAmountToPay;
     this.paymentPopUpJson.payingAmount = this.totalAmountToPay;
     this.isFeePaymentUpdate = true;
+    this.getPaymentModes();
+  }
+
+  getPaymentModes(){
+    this.httpService.getData('/api/v1/masterData/type/PAYMENT_MODES').subscribe(
+      (res:any)=>{
+        console.log(res);
+        this.Payment_Modes = res;
+      },
+      err=>{
+        console.log(err);
+      }
+    )
   }
 
   flushPaymentPopUpData() {

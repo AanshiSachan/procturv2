@@ -76,3 +76,50 @@ $tableHeadingBgColor: #004a7e;
         }
     }
 }
+
+.table-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+    .heading-container {
+      background: #e0eaec;
+      display: flex;
+      flex-direction: row;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: left;
+      padding: 10px;
+      border: 1px solid #ccc;
+      display: -webkit-box;
+      -webkit-box-align: center;
+      .heading-item {
+        width: 10%;
+        text-align: center;
+      }
+    }
+    .value-outer-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 53vh;
+      max-height: 54vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      .value-container {
+        display: flex;
+        flex-direction: row;
+        text-align: left;
+        padding: 4px;
+        font-size: 12px;
+        border-bottom: 1px solid #ccc;
+        display: -webkit-box;
+        -webkit-box-align: center;
+        border-top: none;
+        .value-item {
+          width: 10%;
+          text-align: center;
+        }
+      }
+    }
+  }

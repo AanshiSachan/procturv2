@@ -147,7 +147,7 @@ export class CourseSubjectComponent implements OnInit {
         res => {
           let msg = "";
           if (this.isLangInstitue) {
-            msg = "Course added Successfull!!";
+            msg = "Course added Successfully!";
           } else {
             msg = "Subject created successfully";
           }

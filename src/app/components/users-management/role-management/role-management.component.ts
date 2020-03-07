@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RoleService } from '../../../services/user-management/role.service';
 import { AppComponent } from '../../../app.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-role-management',
@@ -22,11 +23,28 @@ export class RoleManagementComponent implements OnInit {
 
   constructor(
     private apiService: RoleService,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    this.checkWhichTabIsOpen();
     this.getRolesList();
+  }
+
+  checkWhichTabIsOpen() {
+    let url = this.router.url;
+    if (url.includes('user')) {
+      this.switchActiveView('liUser');
+    } else {
+      this.switchActiveView('liRole');
+    }
+  }
+
+  switchActiveView(id) {
+    document.getElementById('liUser').classList.remove('active');
+    document.getElementById('liRole').classList.remove('active');
+    document.getElementById(id).classList.add('active');
   }
 
   getRolesList() {
@@ -47,7 +65,7 @@ export class RoleManagementComponent implements OnInit {
     if (confirm('Are you sure, you want to delete the role?')) {
       this.apiService.deleteRole(data.role_id).subscribe(
         res => {
-          this.messageNotifier('success', 'Deleted Successfully', 'Role deleted successfully');
+          this.messageNotifier('success', '', 'Role deleted successfully');
           this.getRolesList();
         },
         err => {

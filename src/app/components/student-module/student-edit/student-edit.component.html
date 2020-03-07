@@ -1794,12 +1794,7 @@
             </label>
             <!-- (ngModelChange)="paymentModeUpdate($event)" -->
             <select id="pMode" name="pMode" [(ngModel)]="paymentPopUpJson.payment_mode" class="form-ctrl" (ngModelChange)="paymentModeUpdate($event)">
-              <option value="Cash" selected>Cash</option>
-              <option value="Cheque/PDC/DD No.">Cheque/PDC/DD No.</option>
-              <option value="Credit/Debit Card">Credit/Debit Card</option>
-              <option value="Caution Deposit(Refundable)">Caution Deposit(Refundable)</option>
-              <option value="NEFT/RTGS"> NEFT/RTGS</option>
-              <option value="Other">Other</option>
+              <option *ngFor="let data of Payment_Modes" [value]="data.data_key" selected>{{data.data_value}}</option>
             </select>
           </div>
 
