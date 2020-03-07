@@ -318,10 +318,10 @@ export class StudentAddComponent implements OnInit {
 
   ngOnInit() {
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
-     this.auth.showLoader();
-    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
-    this.isTaxEnable = sessionStorage.getItem('enable_tax_applicable_fee_installments')=="1"?true:false;
-     
+    this.auth.showLoader();
+    this.tax_type_without_percentage = sessionStorage.getItem("tax_type_without_percentage");
+    this.isTaxEnable = sessionStorage.getItem('enable_tax_applicable_fee_installments') == "1" ? true : false;
+
     this.fetchPrefillFormData();
 
     if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
@@ -402,19 +402,21 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.area_id = "";
     }
     const url = `/api/v1/country/state?country_ids=${this.studentAddFormData.country_id}`
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-         this.auth.hideLoader();
-        if(res.result && res.result.length > 0){
-          this.stateList = res.result[0].stateList;
-        }
-        if (!this.checkStatusofStudent) {
-          this.getCityList();
+        this.auth.hideLoader();
+        if (res.statusCode == 200) {
+          if (res.result && res.result.length > 0) {
+            this.stateList = res.result[0].stateList;
+          }
+          if (!this.checkStatusofStudent) {
+            this.getCityList();
+          }
         }
       },
       err => {
-         this.auth.hideLoader();
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
       }
     )
@@ -428,23 +430,28 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.city_id = "";
       this.studentAddFormData.area_id = "";
     }
-    const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
-     this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-         this.auth.hideLoader();
-        if(res.result.length > 0){
-          this.cityList = res.result[0].cityList;
+    if (!!this.studentAddFormData.state_id) {
+      const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if (res.statusCode == 200) {
+            if (res && res.result && res.result.length > 0) {
+              this.cityList = res.result[0].cityList;
+            }
+            if (!this.checkStatusofStudent) {
+              this.getAreaList();
+            }
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-        if (!this.checkStatusofStudent) {
-          this.getAreaList();
-        }
-      },
-      err => {
-         this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-      }
-    )
+      )
+    }
+
   }
 
   getAreaList() {
@@ -452,16 +459,16 @@ export class StudentAddComponent implements OnInit {
       this.areaList = [];
     }
     const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-         this.auth.hideLoader();
-        if(res.result.length > 0){
+        this.auth.hideLoader();
+        if (res.statusCode == 200 && res.result && res.result.length > 0) {
           this.areaList = res.result[0].areaList;
         }
       },
       err => {
-         this.auth.hideLoader();
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
       }
     )
@@ -496,10 +503,10 @@ export class StudentAddComponent implements OnInit {
   /* ===================================== Data Prefill Method and General Methods ============================ */
   /* ========================================================================================================== */
   updateBatchList() {
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.studentPrefillService.fetchBatchDetails().subscribe(data => {
       console.log('updateBatchList' + this.batchList.length);
-       this.auth.hideLoader();
+      this.auth.hideLoader();
       this.batchList = [];
       data.forEach(el => {
         if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
@@ -533,10 +540,10 @@ export class StudentAddComponent implements OnInit {
 
   updateMasterCourseList(id) {
     this.batchList = [];
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(
       (data: any) => {
-         this.auth.hideLoader();
+        this.auth.hideLoader();
         if (data.coursesList != null && data.coursesList.length > 0) {
           data.coursesList.forEach(el => {
             if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
@@ -555,7 +562,7 @@ export class StudentAddComponent implements OnInit {
         }
       },
       err => {
-         this.auth.hideLoader();
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage('info', '', 'No course assigned for standard');
       });
   }
@@ -734,7 +741,7 @@ export class StudentAddComponent implements OnInit {
     //     this.msgToast.showErrorMessage('error', '', err.error.message);
     //   }
     // );
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
         this.academicYear = data;
@@ -755,10 +762,10 @@ export class StudentAddComponent implements OnInit {
   }
 
   fetchCustomComponents() {
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.studentPrefillService.fetchCustomComponentById(0, this.convertInstituteEnquiryId, 2).subscribe(
       data => {
-         this.auth.hideLoader();
+        this.auth.hideLoader();
         if (data != null) {
           data.forEach(el => {
             let obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
@@ -780,10 +787,10 @@ export class StudentAddComponent implements OnInit {
         if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
           this.fetchEnquiryCustomComponentDetails();
         }
-         this.auth.hideLoader();
+        this.auth.hideLoader();
       },
       err => {
-         this.auth.hideLoader();
+        this.auth.hideLoader();
         this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -885,7 +892,7 @@ export class StudentAddComponent implements OnInit {
 
   getSlots() {
     this.slots = [];
-     this.auth.showLoader();
+    this.auth.showLoader();
     return this.studentPrefillService.fetchSlots().subscribe(
       res => {
         res.forEach(el => {
@@ -905,7 +912,7 @@ export class StudentAddComponent implements OnInit {
   }
 
   getlangStudentStatus() {
-     this.auth.showLoader();
+    this.auth.showLoader();
     return this.studentPrefillService.fetchLangStudentStatus().subscribe(
       res => {
         this.langStatus = res;
@@ -1647,10 +1654,10 @@ export class StudentAddComponent implements OnInit {
 
   fetchEnquiryCustomComponentDetails() {
     let id = this.institute_enquiry_id;
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.studentPrefillService.fetchCustomComponentById(id, undefined, 1).subscribe(
       res => {
-         this.auth.hideLoader();
+        this.auth.hideLoader();
         this.enquiryCustomComp = res;
         this.filterStudentCustomComp();
       },
@@ -2262,7 +2269,7 @@ export class StudentAddComponent implements OnInit {
       cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('YYYY-MM-DD'),
       cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
     }
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.pdcAddForm.country_id = this.instituteCountryDetObj.id;
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
@@ -2307,17 +2314,17 @@ export class StudentAddComponent implements OnInit {
     this.newPdcArr = [];
     this.genPdcAck = false;
     this.sendPdcAck = false;
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.postService.addChequePdc(temp).subscribe(
       res => {
-         this.auth.hideLoader();
+        this.auth.hideLoader();
         this.chequePdcList = [];
         this.newPdcArr = [];
         this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0, country_id: '' };
         this.getPdcChequeList();
       },
       err => {
-         this.auth.hideLoader();
+        this.auth.hideLoader();
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
         this.chequePdcList = [];
         this.getPdcChequeList();
@@ -2483,7 +2490,7 @@ export class StudentAddComponent implements OnInit {
 
   // Inventory Page
   fetchInventoryList() {
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.studentPrefillService.fetchInventoryList().subscribe(
       data => {
         this.auth.hideLoader();

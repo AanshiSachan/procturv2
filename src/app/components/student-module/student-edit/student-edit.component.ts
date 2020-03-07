@@ -436,7 +436,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        if(res.result.length > 0){
+        if(res.result&&res.result.length > 0){
           this.areaList = res.result[0].areaList;
         }
       },
