@@ -1,10 +1,23 @@
+
+
+<div class="common-tab">
+      <ul>
+        <li id="liUser" (click)="switchActiveView('liUser')" class="">
+          <a routerLink="/view/manage">User</a>
+        </li>
+        <li id="liRole" (click)="switchActiveView('liRole')" class="active">
+          <a routerLink="/view/manage/role">Role</a>
+        </li>
+      </ul>
+  </div>
+
 <section class="middle-section clearFix">
   <div class="content-contaioner">
 
     <div class="head">
       <div class="row">
         <div class="pull-left" style="display: inline-flex;">
-          <h3>Roles</h3>
+          <h3>Roles</h3>&nbsp;&nbsp;
           <div style="margin-top: -8px">
             <rob-tooltip [textMessage]="'?'" [message]="toottip" [placement]="'left'" [customClass]="'left'">
             </rob-tooltip>
@@ -19,41 +32,50 @@
       </div>
     </div>
 
-    <div class="roles-table-wrapper">
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>S No.</th>
-              <th>Role</th>
-              <th>Description</th>
-              <th>Assigned User</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of rolesList; let i = index; trackBy: i">
-              <td>{{i + 1}}</td>
-              <td>{{data.role_name}}</td>
-              <td>{{data.role_desc}}</td>
-              <td>
-                <a class="viewTag" (click)="showAssignedUserList(data)" title="Click here to see assigned user list">{{data.total_user_count}}</a>
-              </td>
-              <td>
-                <div class="action-menu">
-                  <a [routerLink]='["./addedit" , data.role_id]'>Edit</a>
-                  <a (click)="deleteRole(data)">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <tr *ngIf="rolesList.length == 0">
-              <td colspan="5">
-                No Role List Found
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="table-container">
+      <div class="heading-container">
+        <div class="heading-item">
+          <span>S No.</span>
+        </div>
+        <div class="heading-item" style="width: 25%;text-align: left;">
+          <span>Role</span>
+        </div>
+        <div class="heading-item" style="width: 30%;">
+          <span>Description</span>
+        </div>
+        <div class="heading-item" style="width: 19%;">
+          <span>Assigned User</span>
+        </div>
+        <div class="heading-item">
+          <span>Action</span>
+        </div>
       </div>
+      <div class="value-outer-container" *ngIf="rolesList?.length>0">
+        <div class="value-container" *ngFor="let data of rolesList; let i = index; trackBy: i">
+          <div class="value-item">
+            {{i+1}}
+          </div>
+          <div class="value-item" style="width: 25%;text-align: left;">
+            <span title="{{data.role_name}}">{{(data.role_name > 30) ? (data.role_name | slice:0:30) + '...' : data.role_name}}</span>
+           </div>
+           <div class="value-item" style="width: 30%;">
+            <span title="{{data.role_desc}}" *ngIf="data.role_desc!=null || data.role_desc!=''">{{(data.role_desc > 30) ? (data.role_desc | slice:0:30) + '...' : data.role_desc}}</span>
+            <span *ngIf="data.role_desc==null || data.role_desc==''">-</span>
+          </div>
+          <div class="value-item" style="width: 19%;">
+            <a class="viewTag" (click)="showAssignedUserList(data)" style="cursor:pointer" title="Click here to see assigned user list">{{data.total_user_count}}</a>
+          </div>
+          <div class="value-item">
+            <div class="action-menu" style="font-size: 14px;">
+              <a [routerLink]='["./addedit" , data.role_id]' title="Edit"><i class="fa fa-edit"></i></a>
+              <a (click)="deleteRole(data)" title="Delete" style="color: red;"><i class="fa fa-trash"></i> </a>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="value-outer-container" *ngIf="rolesList?.length == 0" style="text-align: center;padding: 10%;font-weight: 600;">
+      No data found
+    </div>
     </div>
 
     <!-- Paginator Here -->

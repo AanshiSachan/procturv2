@@ -229,3 +229,46 @@
         cursor: pointer;
     }
 }
+.value-outer-container {
+        min-height: 58vh !important;
+        max-height: 60vh !important;
+}
+.heading-container, .value-container {
+    padding: 10px !important;
+}
+.common-tab {
+    padding-top: 5px;
+    ul {
+        font-size: 0;
+        // border-bottom: 1px solid #f1f1f1;
+        li {
+            margin-right: 1%;
+            display: inline-block;
+            width: 9%;
+            max-width: 158px;
+            cursor: pointer;
+            a {
+                display: block;
+                padding: 6px 20px 6px;
+                background: white;
+                border: 1px solid #0084f6;
+                color: $common-blue;
+                text-align: center;
+                font-size: 14px;
+                font-weight: 600;
+                border-radius: 4px;
+                height: 30px;
+            }
+            &:hover,
+            &.active {
+                a {
+                    background: $common-blue;
+                    color: $bg-white;
+                    border-color: $common-blue;
+                    font-weight: normal;
+                    border-radius: 4px;
+                }
+            }
+        }
+    }
+}

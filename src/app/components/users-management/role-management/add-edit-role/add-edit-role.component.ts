@@ -19,7 +19,8 @@ export class AddEditRoleComponent implements OnInit {
   roleDesc: any = "";
   instituteId: any;
   libraryRoleInstituteId: any;
-  kakadeRoleInstituteId:any;
+  kakadeRoleInstituteId: any;
+  selectedRoleLength: any = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -31,7 +32,7 @@ export class AddEditRoleComponent implements OnInit {
   ngOnInit() {
     this.instituteId = sessionStorage.getItem('institute_id');
     this.libraryRoleInstituteId = 101077;
-    this.kakadeRoleInstituteId=  100767;
+    this.kakadeRoleInstituteId = 100767;
     this.activatedRoute.params.subscribe(
       (res: any) => {
         this.getAllRolesList();
@@ -48,8 +49,8 @@ export class AddEditRoleComponent implements OnInit {
     this.apiService.getAllFeature().subscribe(
       res => {
         this.featuresArray = res;
-        if(this.instituteId != this.libraryRoleInstituteId ){
-          if(this.instituteId != 100127){
+        if (this.instituteId != this.libraryRoleInstituteId) {
+          if (this.instituteId != 100127) {
             for (let t = 0; t < this.featuresArray.length; t++) {
               if (this.featuresArray[t].feature_id == 721) {
                 this.featuresArray.splice(t, 1);
@@ -57,8 +58,8 @@ export class AddEditRoleComponent implements OnInit {
             }
           }
         }
-        if(this.instituteId != this.kakadeRoleInstituteId  || this.instituteId != 100127){
-          if(this.instituteId != 100767 && this.instituteId != 100127){
+        if (this.instituteId != this.kakadeRoleInstituteId || this.instituteId != 100127) {
+          if (this.instituteId != 100767 && this.instituteId != 100127) {
             for (let t = 0; t < this.featuresArray.length; t++) {
               if (this.featuresArray[t].feature_id == 718) {
                 this.featuresArray.splice(t, 1);
@@ -68,6 +69,7 @@ export class AddEditRoleComponent implements OnInit {
         }
 
         this.cloneFeatureArray = this.keepCloning(res);
+        this.cloneFeatureArray.filter(x => x.isChecked = false);
         if (this.roleId != "-1") {
           this.getRolesOfUser(this.roleId);
         }
@@ -98,15 +100,16 @@ export class AddEditRoleComponent implements OnInit {
       for (let i = 0; i < arr.length; i++) {
         for (let t = 0; t < this.cloneFeatureArray.length; t++) {
           if (arr[i] == this.cloneFeatureArray[t].feature_id) {
-            this.targetFeatures.push(this.cloneFeatureArray[t]);
-            this.cloneFeatureArray.splice(t, 1);
+            // this.targetFeatures.push(this.cloneFeatureArray[t]);
+            // this.cloneFeatureArray.splice(t, 1);
+            this.cloneFeatureArray[t].isChecked = true;
+            this.selectedRoleLength++;
           }
         }
       }
     } else {
       this.targetFeatures = [];
     }
-    //console.log(this.targetFeatures);
   }
 
   createNewRole() {
@@ -122,7 +125,7 @@ export class AddEditRoleComponent implements OnInit {
     else {
       this.apiService.createRole(data).subscribe(
         res => {
-          this.messageNotifier('success', 'Success', 'Role Added Successfully');
+          this.messageNotifier('success', '', 'Role Added Successfully');
           this.route.navigateByUrl('/view/manage/role');
         },
         err => {
@@ -141,12 +144,12 @@ export class AddEditRoleComponent implements OnInit {
     } else {
       this.apiService.updateRole(data, this.userData.role_id).subscribe(
         res => {
-          this.messageNotifier('success', 'Success', 'Role Updated Successfully');
+          this.messageNotifier('success', '', 'Role Updated Successfully');
           this.route.navigateByUrl('/view/manage/role');
         },
         err => {
           console.log(err);
-          this.messageNotifier('error', 'error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
@@ -163,8 +166,10 @@ export class AddEditRoleComponent implements OnInit {
       obj.role_id = this.userData.role_id;
       obj.role_desc = this.userData.role_desc;
     }
-    for (let i = 0; i < this.targetFeatures.length; i++) {
-      obj.feautreList.push(this.targetFeatures[i].feature_id);
+    for (let i = 0; i < this.cloneFeatureArray.length; i++) {
+      if (this.cloneFeatureArray[i].isChecked) {
+        obj.feautreList.push(this.cloneFeatureArray[i].feature_id);
+      }
     }
     return obj;
   }
@@ -190,4 +195,7 @@ export class AddEditRoleComponent implements OnInit {
     return temporaryStorage;
   }
 
+  checkLengthofRole(event) {
+    event ? this.selectedRoleLength++ : this.selectedRoleLength--;
+  }
 }

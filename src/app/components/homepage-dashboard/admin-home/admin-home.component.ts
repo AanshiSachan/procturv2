@@ -1393,7 +1393,7 @@ export class AdminHomeComponent implements OnInit {
   /* ======================================================================================================= */
 
   markAttendaceHide(row) {
-    if (moment(row.class_date) > moment()) {
+    if (moment(row) > moment()) {
       return "hide";
     } else {
       return "";

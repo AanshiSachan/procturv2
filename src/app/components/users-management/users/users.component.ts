@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { UserService } from '../../../services/user-management/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -37,14 +38,17 @@ export class UsersComponent implements OnInit {
   userSelected: any = [];
   searchText: any = "";
   toottip: string = "We can customize our users via providing or assigning different roles according to their activities.User can login with their credentials and can operate only their defined roles."
+  isActiveUsers: boolean = true;
 
   constructor(
     private apiService: UserService,
     private toastCtrl: AppComponent,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    this.checkWhichTabIsOpen();
     this.checkInstituteType();
     this.getAllUserList();
     if (sessionStorage.getItem('permitted_roles')) {
@@ -53,6 +57,21 @@ export class UsersComponent implements OnInit {
         this.dataFilter.is_show_credentials = true;
       }
     }
+  }
+
+  checkWhichTabIsOpen() {
+    let url = this.router.url;
+    if (url.includes('user')) {
+      this.switchActiveView('liUser');
+    } else {
+      this.switchActiveView('liRole');
+    }
+  }
+
+  switchActiveView(id) {
+    document.getElementById('liUser').classList.remove('active');
+    document.getElementById('liRole').classList.remove('active');
+    document.getElementById(id).classList.add('active');
   }
 
   getAllUserList() {
@@ -64,8 +83,10 @@ export class UsersComponent implements OnInit {
     let Active: any = "";
     if (this.dataFilter.is_active) {
       Active = "Y";
+      this.isActiveUsers = true;
     } else {
       Active = "N";
+      this.isActiveUsers = false;
     }
     let obj: any = {
       is_not_alr_users: 'N',
