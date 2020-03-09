@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import * as moment from 'moment';
-import { ExamService } from '../../../../../services/report-services/exam.service';
-import { CourseListService } from '../../../../../services/course-services/course-list.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
+import { CourseListService } from '../../../../../services/course-services/course-list.service';
 import { MessageShowService } from '../../../../../services/message-show.service';
+import { ExamService } from '../../../../../services/report-services/exam.service';
 @Component({
   selector: 'app-teacher-performance',
   templateUrl: './teacher-performance.component.html',
@@ -15,7 +14,6 @@ export class TeacherPerformanceComponent implements OnInit {
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
-    isRippleLoad: false,
     type:'batch'
   };
 
@@ -54,10 +52,10 @@ export class TeacherPerformanceComponent implements OnInit {
   }
 
   getSubjectWiseReport(){
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.examdata.getSubjectWiseReport(this.subject_id).subscribe(
       res => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         let result: any = res;
         this.teacherData = result.teacherPerformanceReport;
         this.subjectData = result.subjectWisePerformance;
@@ -84,7 +82,7 @@ export class TeacherPerformanceComponent implements OnInit {
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }

@@ -1,5 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import * as Muuri from 'muuri/muuri';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BiometricStatusServiceService } from '../../../services/biometric-status/biometric-status-service.service';
 @Component({
   selector: 'biometric-widget',

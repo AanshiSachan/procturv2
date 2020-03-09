@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentChecked } from '@angular/core';
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-library-management',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { SubjectApiService } from '../../../../services/course-services/subject.service';
-import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
+import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { SubjectApiService } from '../../../../services/course-services/subject.service';
 
 @Component({
   selector: 'app-course-subject',
@@ -11,7 +11,6 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 })
 export class CourseSubjectComponent implements OnInit {
 
-  isRippleLoad: boolean = false;
   createNewSubject: boolean = false;
   no_subject_name: boolean = false;
   subjectListDataSource;
@@ -47,7 +46,7 @@ export class CourseSubjectComponent implements OnInit {
   }
 
   getAllSubjectList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getAllSubjectListFromServer().subscribe(
       (data: any) => {
 
@@ -57,7 +56,7 @@ export class CourseSubjectComponent implements OnInit {
         })
         this.subjectListDataSource = data;
         this.fetchTableDataByPage(this.PageIndex);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.dataStatus = 2;
       },
       error => {
@@ -214,10 +213,10 @@ export class CourseSubjectComponent implements OnInit {
   }
 
   deleteRow(row) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.deleteSubject(row.subject_id).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let data = {
           type: "success",
           title: '',
@@ -227,7 +226,7 @@ export class CourseSubjectComponent implements OnInit {
         this.getAllSubjectList();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let data = {
           type: "error",
           title: "",

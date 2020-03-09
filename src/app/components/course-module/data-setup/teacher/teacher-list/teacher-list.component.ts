@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { AppComponent } from '../../../../../app.component';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
-import * as moment from 'moment';
+import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
 
 @Component({
   selector: 'app-teacher-list',
@@ -19,7 +19,6 @@ export class TeacherListComponent implements OnInit {
   totalRow: number;
   searchData: any = [];
   searchDataFlag: boolean = false;
-  isRippleLoad: boolean = false;
   dataStatus: number = 1;
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
@@ -49,11 +48,11 @@ export class TeacherListComponent implements OnInit {
 
   getDataFromServer() {
     this.PageIndex = 1;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.ApiService.getAllTeacherList().subscribe(
       (data: any) => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.totalRow = data.length;
         this.teacherListDataSource = data;
         this.teacherListDataSource.forEach(element => {
@@ -65,7 +64,7 @@ export class TeacherListComponent implements OnInit {
       },
       error => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let data = {
           type: "error",
           title: "",

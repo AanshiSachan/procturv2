@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { ReportService } from '../../../../services/library/report/report.service';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { ReportService } from '../../../../services/library/report/report.service';
 
 @Component({
   selector: 'app-issued-book',
@@ -29,6 +30,7 @@ export class IssuedBookComponent implements OnInit {
   constructor(
     private router: Router,
     private cd: ChangeDetectorRef,
+    private auth:AuthenticatorService,
     private reportService: ReportService
   ) { }
 
@@ -55,10 +57,10 @@ export class IssuedBookComponent implements OnInit {
   	  "noOfRecords": this.displayBatchSize
     }
 
-    this.jsonFlag.isRippleLoad = true;
+   this.auth.showLoader();
     this.reportService.getIssueBookReport(obj).subscribe(
       response => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response
         this.issueBookReportList = res.results;
@@ -66,7 +68,7 @@ export class IssuedBookComponent implements OnInit {
         this.totalCount = res.totalRecords;
       },
       errorResponse => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }

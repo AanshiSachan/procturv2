@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
-import { DataDisplayTableComponent } from '../../shared/data-display-table/data-display-table.component';
-import { ColumnData2 } from '../../shared/data-display-table/data-display-table.model';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { getCheque } from '../../../services/cheque-manage/get-cheque.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 import { ExcelService } from '../../../services/excel.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
-import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { MessageShowService } from '../../../services/message-show.service';
-import { CommonServiceFactory } from '../../../services/common-service';
+import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
+import { DataDisplayTableComponent } from '../../shared/data-display-table/data-display-table.component';
+import { ColumnData2 } from '../../shared/data-display-table/data-display-table.model';
 
 
 @Component({
@@ -42,7 +43,6 @@ export class ChequeManageComponent implements OnInit {
   studentFeeDues: any = {};
   flagJson: any = {
     showPreference: false,
-    isRippleLoad: false,
     isUpdatePopup: false,
     searchText: ''
   };
@@ -98,6 +98,7 @@ tax_type_without_percentage : String;
     private pdf: ExportToPdfService,
     private _tablePreferencesService: TablePreferencesService,
     private _msgService: MessageShowService ,
+    private auth:AuthenticatorService,
     private _commService:CommonServiceFactory) {
     this.dateRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
     this.dateRange[1] = new Date();
@@ -221,12 +222,12 @@ tax_type_without_percentage : String;
   }
 
   fetchChequeType(obj, flag) {
-    this.flagJson.isRippleLoad = true;
+    this.auth.showLoader();
     this.chequeDataSource = [];
     this.tempRecords = [];
     this.getter.getChequeTypes(obj).subscribe(
       res => {
-        this.flagJson.isRippleLoad = false;
+        this.auth.hideLoader();
         this.chequeDataSource = res;
         this.tempRecords = res;
 
@@ -239,7 +240,7 @@ tax_type_without_percentage : String;
         }
       },
       err => {
-        this.flagJson.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }
@@ -405,18 +406,18 @@ tax_type_without_percentage : String;
       dishonoured_reason:this.dishonouredReason
     }
 
-    this.flagJson.isRippleLoad = true;
+    this.auth.showLoader();
     this.getter.updateChequeStatus(obj).subscribe(
       res => {
         this.updateRecordOnClient();
         this._msgService.showErrorMessage('success', '',"Cheque Status Updated");
         this.flagJson.isUpdatePopup = false;
-        this.flagJson.isRippleLoad = false;
+        this.auth.hideLoader();
         this.filterCheques();
       },
       err => {
         this._msgService.showErrorMessage('error', '',"Please contact support@proctur.com");
-        this.flagJson.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
 

@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import * as moment from 'moment';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as Highcharts from "highcharts";
-import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
-import { MessageShowService } from '../../../../../services/message-show.service';
+import * as moment from 'moment';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
+import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
 import { CourseListService } from '../../../../../services/course-services/course-list.service';
+import { MessageShowService } from '../../../../../services/message-show.service';
 import { ExamService } from '../../../../../services/report-services/exam.service';
 
 @Component({
@@ -19,7 +19,6 @@ export class CourseWiseComponent implements OnInit {
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
-    isRippleLoad: false,
     type:'batch'
   };
 
@@ -76,16 +75,16 @@ export class CourseWiseComponent implements OnInit {
   }
 
   getCourseWiseReport(){
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.examdata.getCourseWiseReport(this.course_id).subscribe(
       res => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.courseWiseReportList = res;
         this.generateChartData(res);
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }
@@ -93,7 +92,7 @@ export class CourseWiseComponent implements OnInit {
   updateCoursesList(){
     this.courseList.getCourseListFromServer().subscribe(
       res => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.masterCourseList = res;
         for(let i = 0; i < this.masterCourseList.length; i++){
           if(this.masterCourseList[i].master_course == this.masterCourse){
@@ -104,7 +103,7 @@ export class CourseWiseComponent implements OnInit {
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }
@@ -117,17 +116,17 @@ export class CourseWiseComponent implements OnInit {
   preRequiredDataForBatchModel(){
     let subjectId = sessionStorage.getItem('subejctIdForReport');
     this.masterCourse = sessionStorage.getItem('masterCourseForReport');
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.reportJSON.subject_id = subjectId;
     this.examdata.getAllExamReport(this.reportJSON).subscribe(
       res => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.coursesList = res;
         this.course = this.course_id
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }

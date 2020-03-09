@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
+import { AuthenticatorService, CommonServiceFactory } from '../../../../..';
 import { AppComponent } from '../../../../../app.component';
-import { CommonServiceFactory } from '../../../../..';
-import * as  moment from 'moment';
+import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
 
 @Component({
   selector: 'app-teacher-edit',
@@ -28,7 +27,6 @@ export class TeacherEditComponent implements OnInit {
   countryDetails: any = [];
   maxlength: number = 10;
   country_id: number = null;
-  isRippleLoad: boolean = false;
 
   constructor(
     private route: Router,
@@ -36,6 +34,7 @@ export class TeacherEditComponent implements OnInit {
     private fb: FormBuilder,
     private toastCtrl: AppComponent,
     private routeParam: ActivatedRoute,
+    private auth:AuthenticatorService,
     private commonService: CommonServiceFactory
       ) {
     this.routeParam.params.subscribe(params => {
@@ -96,10 +95,10 @@ export class TeacherEditComponent implements OnInit {
   }
 
   getTeacherInfo() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.ApiService.getSelectedTeacherInfo(this.selectedTeacherId).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.selectedTeacherInfo = data;
         let setFormData = this.getFormFieldsdata(data);
         this.editTeacherForm.setValue(setFormData);
@@ -107,7 +106,7 @@ export class TeacherEditComponent implements OnInit {
         this.hasIdCard = data.hasIDCard;
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(error);
       }
     );
@@ -232,15 +231,15 @@ export class TeacherEditComponent implements OnInit {
     formData.country_id = this.instituteCountryDetObj.id;
     formData.dob = moment(formData.dob).format('YYYY-MM-DD');
     formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD');
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.ApiService.addNewTeacherDetails(formData).subscribe(
       data => {
-        this.isRippleLoad = false;
-        this.messageToast('success', '', 'Faculty Added Successfully.');
+        this.auth.hideLoader();
+        this.messageToast('success', '', 'Faculty added successfully.');
         this.route.navigateByUrl('/view/course/setup/teacher');
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageToast('error', '', err.error.message);
       }
     )
@@ -316,11 +315,11 @@ export class TeacherEditComponent implements OnInit {
     }
     formData.dob = moment(formData.dob).format('YYYY-MM-DD');
     formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD')
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.ApiService.saveEditTeacherInformation(this.selectedTeacherInfo.teacher_id, formData).subscribe(
       data => {
-        this.isRippleLoad = false;
-        this.messageToast('success', '', 'Faculty Updated Successfully.');
+        this.auth.hideLoader();
+        this.messageToast('success', '', 'Details updated successfully.');
         if (sessionStorage.getItem('userType') == '3') {
           this.route.navigateByUrl('/view/home/admin');
         } else {
@@ -328,7 +327,7 @@ export class TeacherEditComponent implements OnInit {
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageToast('error', '', err.error.message);
       }
     )

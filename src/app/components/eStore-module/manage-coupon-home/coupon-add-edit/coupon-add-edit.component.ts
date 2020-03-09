@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import { addCouponForm } from '../../../../model/add-coupon';
-import { ProductService } from '../../../../services/products.service';
-import { MessageShowService } from '../../../../services/message-show.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
-import * as  moment from 'moment';
+import { MessageShowService } from '../../../../services/message-show.service';
+import { ProductService } from '../../../../services/products.service';
 
 @Component({
   selector: 'app-coupon-add-edit',
@@ -13,7 +14,6 @@ import * as  moment from 'moment';
 })
 export class CouponAddEditComponent implements OnInit {
   addCouponModel: addCouponForm = new addCouponForm();
-  isRippleLoad = false;
   selectedCouponId: any = null;
   selected_products: any[] = [];
   productIds = [];
@@ -25,7 +25,8 @@ export class CouponAddEditComponent implements OnInit {
     private _msgService: MessageShowService,
     private router: Router,
     private routeParam: ActivatedRoute,
-    public _commService: CommonServiceFactory
+    public _commService: CommonServiceFactory,
+    private auth:AuthenticatorService,
   ) {
     this.routeParam.params.subscribe(params => {
       this.selectedCouponId = params['offer_id'];
@@ -53,14 +54,14 @@ export class CouponAddEditComponent implements OnInit {
   }
 
   getProductList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this._productService.getMethod('product/get-product-list?status=30', null).subscribe(
       (data: any) => {
         this.productList = data.result;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -99,10 +100,10 @@ export class CouponAddEditComponent implements OnInit {
     this.productIds = Array.prototype.map.call(this.selected_products, product => product.id);
     this.addCouponModel.product_id_list = this.productIds;
     if (this.validateForm()) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this._productService.postMethod('offer/create', this.addCouponModel).then(
       (result: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         const response = result['body'];
         if (response.validate) {
           this._msgService.showErrorMessage('success', '', response.result);
@@ -112,7 +113,7 @@ export class CouponAddEditComponent implements OnInit {
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
     );
@@ -124,11 +125,11 @@ export class CouponAddEditComponent implements OnInit {
   }
 
   getCouponById() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     const url = `offer-map/get/${this.selectedCouponId}`;
     this._productService.getMethod(url, null).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.addCouponModel = data.result;
         this.addCouponModel.discount_type = String(this.addCouponModel.discount_type);
         this.addCouponModel.product_id_list = data.result.product_details_list;
@@ -136,7 +137,7 @@ export class CouponAddEditComponent implements OnInit {
         this.addCouponModel.offer_status === 2 ? this.offerStatus = true : this.offerStatus = false;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -148,10 +149,10 @@ export class CouponAddEditComponent implements OnInit {
     this.addCouponModel.product_id_list = this.productIds;
     this.offerStatus === true ? this.addCouponModel.offer_status = 2 : this.addCouponModel.offer_status = 1;
   if (this.validateForm()) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this._productService.postMethod('offer/update', this.addCouponModel).then(
       (result: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         const response = result['body'];
         if (response.validate) {
           this._msgService.showErrorMessage('success', '', response.result);
@@ -161,7 +162,7 @@ export class CouponAddEditComponent implements OnInit {
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }

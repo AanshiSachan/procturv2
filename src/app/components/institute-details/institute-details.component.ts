@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { InstituteDetailService } from '../../services/institute-details/institute-details.service';
+import { AuthenticatorService } from '../../services/authenticator.service';
 import { CommonServiceFactory } from '../../services/common-service';
+import { InstituteDetailService } from '../../services/institute-details/institute-details.service';
 
 @Component({
   selector: 'app-institute-details',
@@ -9,7 +10,6 @@ import { CommonServiceFactory } from '../../services/common-service';
 })
 export class InstituteDetailsComponent implements OnInit {
 
-  isRippleLoad: boolean = false;
   instituteDetailsAll: any;
   instituteLogoDetails: any = [];
   kycType: any = [];
@@ -38,7 +38,8 @@ export class InstituteDetailsComponent implements OnInit {
 
   constructor(
     private apiService: InstituteDetailService,
-    private commonService: CommonServiceFactory
+    private commonService: CommonServiceFactory,
+    private auth:AuthenticatorService,
   ) { }
 
   ngOnInit() {
@@ -59,7 +60,7 @@ export class InstituteDetailsComponent implements OnInit {
   getInstituteDetails() {
     this.apiService.getInstituDetailsAll().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.instituteDetailsAll = res;
         this.instDetails = Object.assign({}, res);
         if (this.instDetails.is_student_displayId_manual == 0) {
@@ -67,7 +68,7 @@ export class InstituteDetailsComponent implements OnInit {
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
@@ -77,11 +78,11 @@ export class InstituteDetailsComponent implements OnInit {
   getInstituteKYCDetails() {
     this.apiService.getKycTypeDetails().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.kycType = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -90,11 +91,11 @@ export class InstituteDetailsComponent implements OnInit {
   getOptionDetailsFromServer() {
     this.apiService.getOptionDetails().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.instituteOptionDataSource = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -103,13 +104,13 @@ export class InstituteDetailsComponent implements OnInit {
   getPlanDetailsFromServer() {
     this.apiService.getPlanDetails().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.planDetailDataSource = res;
         this.instituteOptions = this.getOptionOfInstitute(this.instituteOptionDataSource);
         this.planDetail = this.getPlanOfInstitute(this.planDetailDataSource);
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -119,14 +120,14 @@ export class InstituteDetailsComponent implements OnInit {
   updateAllDetails() {
     let dataToSend = this.formatDataJsonToSend();
     if(dataToSend){
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.apiService.updateDetailsToServer(dataToSend).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('success', 'Updated Successfully', 'Details Updated Successfully');
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('error', '', err.error.message);
         }
       )
@@ -136,16 +137,16 @@ export class InstituteDetailsComponent implements OnInit {
 
   getPaymentDeatils() {
     this.paymentTable = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getPayementInfoFromServer().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.paymentTable = res;
         this.showAllocationPopup = true;
         this.openPopUpName = "PaymentHistory";
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -154,16 +155,16 @@ export class InstituteDetailsComponent implements OnInit {
 
   smsAllocationHistoryDeatils() {
     this.smsAllocation = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getSmsInfoFromServer().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.smsAllocation = res;
         this.showAllocationPopup = true;
         this.openPopUpName = "SMSHistory";
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -172,16 +173,16 @@ export class InstituteDetailsComponent implements OnInit {
 
   downLoadLimitAllocationHistory() {
     this.limitTable = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getDownloadLimitFromServer().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.limitTable = res;
         this.showAllocationPopup = true;
         this.openPopUpName = "DownloadLimit";
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
@@ -195,7 +196,7 @@ export class InstituteDetailsComponent implements OnInit {
         this.storageInfo.storage_allocated = this.storageInfo.storage_allocated;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
         this.commonService.showErrorMessage('error', '', err.error.message);
       }

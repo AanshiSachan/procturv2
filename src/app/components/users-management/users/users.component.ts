@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../../services/user-management/user.service';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { Router } from '@angular/router';
+import { UserService } from '../../../services/user-management/user.service';
 
 @Component({
   selector: 'app-users',
@@ -37,7 +37,6 @@ export class UsersComponent implements OnInit {
   totalRow: number = 0;
   userSelected: any = [];
   searchText: any = "";
-  isRippleLoad: boolean = false;
   toottip: string = "We can customize our users via providing or assigning different roles according to their activities.User can login with their credentials and can operate only their defined roles."
   isActiveUsers: boolean = true;
 
@@ -96,17 +95,17 @@ export class UsersComponent implements OnInit {
     }
     this.searchText = "";
     this.searchDataFlag = false;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getUserList(obj, Active).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.totalRow = res.length;
         this.showUserTable = true;
         this.userListDataSource = this.addKeys(res, false);
         this.fetchTableDataByPage(this.PageIndex);
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.showUserTable = false;
         console.log(err);
         this.messageNotifier('error', '', err.error.message);
@@ -161,28 +160,28 @@ export class UsersComponent implements OnInit {
   }
 
   getInventoryItemList(data) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getItemList(data.user_id).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.inventoryList = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
     )
   }
 
   getAllocatedItemHistrory(data) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getAllotedHistroy(data.user_id).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.inventoryAllocated = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
     )
@@ -207,10 +206,10 @@ export class UsersComponent implements OnInit {
       item_id: this.allocateInventory.item_id,
       user_id: this.tempdata.user_id
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.allocateItem(obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('success', 'Allocated', 'Inventory Allocate Successfully');
         this.getAllocatedItemHistrory(this.tempdata);
         this.allocateInventory = {
@@ -220,7 +219,7 @@ export class UsersComponent implements OnInit {
         this.showUnit = false;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
     )
@@ -242,15 +241,15 @@ export class UsersComponent implements OnInit {
 
   deleteInventoryItem(data) {
     if (confirm('Are you sure you want to delete?')) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.apiService.deleteInventory(data.allocation_id).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageNotifier('success', 'Deleted', 'Item Deleted Successfully');
           this.getAllocatedItemHistrory(this.tempdata);
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           console.log(err);
           this.messageNotifier('error', '', err.error.message);
         }

@@ -1,7 +1,6 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-campaign-reports-home',
@@ -11,8 +10,7 @@ import * as moment from 'moment';
 export class CampaignReportsHomeComponent implements OnInit {
 
   jsonFlag = {
-    isProfessional: false,
-    isRippleLoad: false,
+    isProfessional: false
   };
 
   constructor(

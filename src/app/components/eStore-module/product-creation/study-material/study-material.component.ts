@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '../../../../../../node_modules/@angular/router';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { HttpService } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
@@ -19,7 +20,6 @@ export class StudyMaterialComponent implements OnInit {
   @Output() startForm = new EventEmitter<string>();
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
-  isRippleLoad: boolean = false;
   isAdvanceProductEdit:boolean = false;
   institute_id: any = sessionStorage.getItem('institute_id');
   description: string = '';
@@ -31,6 +31,7 @@ export class StudyMaterialComponent implements OnInit {
   constructor(
     private router: Router,
     private msgService: MessageShowService,
+    private auth:AuthenticatorService,
     private _http: HttpService,
     private http: ProductService) { }
 
@@ -79,7 +80,7 @@ export class StudyMaterialComponent implements OnInit {
       return;
     }
 
-    if ((!this.isRippleLoad)) {
+    if ((!this.auth.isRippleLoad.getValue())) {
       //update test List
       let obj = {
         "page_type": "Study_Material",
@@ -88,10 +89,10 @@ export class StudyMaterialComponent implements OnInit {
         "item_list": this.testlist,
         "description": this.description
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let response = resp['body'];
           if (response.validate) {
             let details = response.result;
@@ -105,7 +106,7 @@ export class StudyMaterialComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', 'There is some problem in processing your request.Please try after some time.Or contact us at support@proctur.com for further assistance. ', '');
         });
     }
@@ -283,10 +284,10 @@ export class StudyMaterialComponent implements OnInit {
       "parent_topic_id": object.parent_topic_id
     }
 
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.http.postMethod('ext/get-topic-of-subject/Study_Material', params, null).then((res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (res && res.body && res.body.result) {
           let responce = JSON.parse(res.body.result);
           console.log(responce);
@@ -301,7 +302,7 @@ export class StudyMaterialComponent implements OnInit {
           });
         }
       }).catch((err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', err.message, '');
       });
     }
@@ -335,10 +336,10 @@ export class StudyMaterialComponent implements OnInit {
 
     if (this.entity_id && this.entity_id.length > 0) {
       //Fetch Product Info
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.initForm();
           let response = resp.result;
           if (resp.validate) {
@@ -371,7 +372,7 @@ export class StudyMaterialComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.initForm();
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });

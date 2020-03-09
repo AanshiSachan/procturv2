@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
 
@@ -19,20 +20,20 @@ export class OnlineClassComponent implements OnInit {
   @Output() startForm = new EventEmitter<string>();
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
-  products_ecourse_maps:any[]=[];
+  products_ecourse_maps: any[] = [];
   ecourseList: any = [];
-  mock_count:number =0;
-  online_count:number =0;
-  isRippleLoad:boolean = false;
-  description:string='';
+  mock_count: number = 0;
+  online_count: number = 0;
+  description: string = '';
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
+    private auth: AuthenticatorService,
     private router: Router,
   ) { }
 
   ngOnInit() {
-  this.initForm();
+    this.initForm();
   }
 
   initForm() {
@@ -40,10 +41,10 @@ export class OnlineClassComponent implements OnInit {
 
     if (this.entity_id && this.entity_id.length > 0) {
       //Fetch Product Info
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let response = resp.result;
           if (resp.validate) {
             this.prodForm = response;
@@ -60,13 +61,13 @@ export class OnlineClassComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
 
   }
-  
+
   // update parent state data
   updateProductItemStates(event, item) {
     if (item) {
@@ -82,29 +83,29 @@ export class OnlineClassComponent implements OnInit {
   }
 
   gotoNext() {
-    if(this.description == undefined ||this.description==''){
+    if (this.description == undefined || this.description == '') {
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }
 
-    if (this.description.length > 1500 ) {
+    if (this.description.length > 1500) {
       this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
       return;
     }
 
-    if ((!this.isRippleLoad)) {
+    if ((!this.auth.isRippleLoad.getValue())) {
       //update test List
-      let obj={
+      let obj = {
         "page_type": "Online_Class",
         "status": this.prodForm.status,
         "is_advance_product": this.prodForm.is_advance_product,
-        "item_list":[],
-        "description":this.description
+        "item_list": [],
+        "description": this.description
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let response = resp['body'];
           if (response.validate) {
             let details = response.result;
@@ -117,8 +118,8 @@ export class OnlineClassComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
-          this.msgService.showErrorMessage('error','There is some problem in processing your request.Please try after some time.Or contact us at support@proctur.com for further assistance. ', '');
+          this.auth.hideLoader();
+          this.msgService.showErrorMessage('error', 'There is some problem in processing your request.Please try after some time.Or contact us at support@proctur.com for further assistance. ', '');
         });
     }
   }
