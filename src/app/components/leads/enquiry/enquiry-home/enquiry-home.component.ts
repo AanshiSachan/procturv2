@@ -292,7 +292,10 @@ export class EnquiryHomeComponent implements OnInit {
         list_id: "-1",
         city: '',
         area: '',
-        referred_by: ''
+        referred_by: '',
+        country_id: '-1',
+        state_id: '-1',
+        city_id: '-1'
     };
     enquiryFullDetail: any;
     enquirySettings: ColumnSetting[] = [
@@ -327,6 +330,9 @@ export class EnquiryHomeComponent implements OnInit {
         actionSetting: {},
         displayMessage: "Enter Detail to Search"
     };
+    countryList: any[] = [];
+    stateList: any[] = [];
+    cityDetails: any[] = [];
 
 
     /*Declaration Fin*/
@@ -789,6 +795,7 @@ export class EnquiryHomeComponent implements OnInit {
         this.addHideClass(classArray);
         let removeClassNames = ['adFilterExit', 'advanced-filter-section'];
         this.removeHideClass(removeClassNames);
+        this.fetchDataForCountryDetails();
     }
 
     addHideClass(classArray) {
@@ -1746,7 +1753,8 @@ export class EnquiryHomeComponent implements OnInit {
             isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "",
             updateDateFrom: "", updateDateTo: "", start_index: 0,
             batch_size: this.varJson.displayBatchSize, closedReason: "",
-            enqCustomLi: null, commentShow: 'false'
+            enqCustomLi: null, commentShow: 'false',
+            country_id: '-1', state_id: '-1', city_id: '-1'
         };
         this.customComponents.forEach(el => { el.selectedString = ''; el.selected = []; el.value = ''; });
         this.varJson.PageIndex = 1;
@@ -1927,7 +1935,10 @@ export class EnquiryHomeComponent implements OnInit {
             commentShow: 'false',
             source_id: this.advancedFilterForm.source_id,
             school_id: this.advancedFilterForm.school_id,
-            list_id: this.advancedFilterForm.list_id
+            list_id: this.advancedFilterForm.list_id,
+            country_id:this.advancedFilterForm.country_id,
+            city_id: this.advancedFilterForm.city_id,
+            state_id: this.advancedFilterForm.state_id
         };
 
         this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
@@ -2796,5 +2807,58 @@ export class EnquiryHomeComponent implements OnInit {
             this.cd.markForCheck();
         }
     }
+
+    fetchDataForCountryDetails() {
+        let encryptedData = sessionStorage.getItem('country_data');
+        let data = JSON.parse(encryptedData);
+        if (data && data.length > 0) {
+          this.countryList = data;
+        }
+      }
+    
+      getStateList(){
+          this.stateList = [];
+          this.cityDetails = [];
+          this.advancedFilterForm.state_id = "-1";
+          this.advancedFilterForm.city_id = "-1";
+        if(this.advancedFilterForm.country_id!=-1) {
+        const url = `/api/v1/country/state?country_ids=${this.advancedFilterForm.country_id}`
+        this.auth.showLoader();
+        this.httpService.getData(url).subscribe(
+          (res: any) => {
+            this.auth.hideLoader();
+            if(res.result && res.result.length > 0){
+              this.stateList = res.result[0].stateList;
+            }
+          },
+          err => {
+            this.auth.hideLoader();
+            this.showErrorMessage(this.messageService.toastTypes.error, '', err.error.message);
+          }
+        )
+        }
+      }
+    
+      // get city list as per state selection
+      getCityList(){
+          this.cityList = [];
+          this.advancedFilterForm.city_id = "-1";
+        if(this.advancedFilterForm.state_id!=-1) {
+        const url = `/api/v1/country/city?state_ids=${this.advancedFilterForm.state_id}`
+        this.auth.showLoader();
+        this.httpService.getData(url).subscribe(
+          (res: any) => {
+            this.auth.hideLoader();
+            if(res.result.length > 0){
+              this.cityDetails = res.result[0].cityList;
+            }
+          },
+          err => {
+            this.auth.hideLoader();
+            this.showErrorMessage(this.messageService.toastTypes.error, '', err.error.message);
+          }
+        )
+      }
+      }
 
 }

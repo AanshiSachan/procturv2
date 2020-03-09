@@ -53,4 +53,7 @@ export interface instituteInfo {
     city?: any;
     area?: any;
     referred_by?:any;
+    country_id?: any;
+    state_id?: any;
+    city_id?: any;
 }
