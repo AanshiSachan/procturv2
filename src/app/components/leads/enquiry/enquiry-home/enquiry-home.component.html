@@ -316,7 +316,7 @@
               </div>
 
               <!-- City List  -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
+              <!-- <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="cityList">City</label>
                   <select id="cityList" class="form-ctrl" [(ngModel)]="advancedFilterForm.city" name="cityList" (ngModelChange)="onCitySelection($event)">
@@ -324,10 +324,10 @@
                     <option *ngFor="let obj of cityList" [value]="obj.city">{{obj.city}}</option>
                   </select>
                 </div>
-              </div>
+              </div> -->
 
               <!-- Area List  -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
+              <!-- <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="areaList">Area</label>
                   <select id="areaList" class="form-ctrl" [(ngModel)]="advancedFilterForm.area" name="areaList">
@@ -335,11 +335,7 @@
                     <option *ngFor="let obj of areaList" [value]="obj.area">{{obj.area}}</option>
                   </select>
                 </div>
-              </div>
-            </div>
-
-            <div class="row">
-
+              </div> -->
               <!-- Assigned -->
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="flagJSON.isEnquiryAdmin">
                 <div class="field-wrapper">
@@ -364,6 +360,9 @@
                   </select>
                 </div>
               </div>
+            </div>
+
+            <div class="row">
 
               <!-- Referred By -->
               <div class="c-lg-4 c-md-4 c-sm-4">
@@ -375,7 +374,39 @@
                   </select>
                 </div>
               </div>
+
+              <div class="c-lg-4 c-md-4 c-sm-4">
+                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.country_id != ''}">
+                    <label for="state">Country</label>
+                      <select id="state" class="form-ctrl" [(ngModel)]="advancedFilterForm.country_id" name="state" (ngModelChange)="getStateList()">
+                      <option value="-1">Select Country</option>
+                      <option title="{{country.country_name}}" [value]="country.id" *ngFor="let country of countryList">{{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="c-lg-4 c-md-4 c-sm-4">
+                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.state_id != ''}">
+                    <label for="state">State</label>
+                      <select id="state" class="form-ctrl" [(ngModel)]="advancedFilterForm.state_id" name="state" (ngModelChange)="getCityList()">
+                      <option value="-1">Select State</option>
+                      <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+                    </select>
+                  </div>
+                </div>
             </div>
+
+            <div class="row">
+              <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.city_id != ''}">
+                  <label for="city">City</label>
+                  <select id="city" class="form-ctrl" [(ngModel)]="advancedFilterForm.city_id" name="city" (ngModelChange)="getAreaList()">
+                    <option value="-1">Select City</option>
+                    <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityDetails">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
+                  </select>
+                </div>
+              </div>
+          </div>
 
             <div class="row">
               <!-- masterCourse course -->
