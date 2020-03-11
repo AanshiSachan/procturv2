@@ -72,6 +72,15 @@
   }
 }
 
+.customeAdd{
+  position: absolute;
+  right: 0px;
+  color: #0084f6;
+  cursor: pointer;
+  &:hover{
+    text-decoration: underline;
+  }
+}
 .remove-icon{
   color: red;
   font-size: 18px;

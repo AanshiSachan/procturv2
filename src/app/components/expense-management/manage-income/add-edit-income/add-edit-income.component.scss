@@ -78,7 +78,20 @@
   cursor: pointer;
   margin-left: 20px;
 }
-
+.customeAdd{
+  position: absolute;
+  right: 0px;
+  color: #0084f6;
+  cursor: pointer;
+  &:hover{
+    text-decoration: underline;
+  }
+}
+.download-icon{
+  font-size: 18px;
+  cursor: pointer;
+  color: #0084f6;
+}
 
 
 .upload-docs-container{

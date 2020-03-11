@@ -5,6 +5,7 @@ import { HttpService  } from '../../../../services/http.service';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'app-add-edit-expense',
@@ -48,11 +49,15 @@ export class AddEditExpenseComponent implements OnInit {
   fileUrl:any;
   editExpenseDetails: any;
 
+  payeeVisibilty: boolean = false;
+  accountVisibilty: boolean = false;
+
   constructor(
     private msgService: MessageShowService,
     private httpService: HttpService,
     private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private auth:AuthenticatorService
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
    }
@@ -72,12 +77,15 @@ export class AddEditExpenseComponent implements OnInit {
   }
 
   preFieldData(){
+    this.auth.showLoader();
     const url1 = `/api/v1/payment/party/expense/all/${this.jsonFlag.institute_id}`
     this.httpService.getData(url1).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.payeeList = res;
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -85,9 +93,11 @@ export class AddEditExpenseComponent implements OnInit {
     const url2 = `/api/v1/account/all/${this.jsonFlag.institute_id}`
     this.httpService.getData(url2).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.accountNamelist = res;
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -95,21 +105,23 @@ export class AddEditExpenseComponent implements OnInit {
     const url3 = `/api/v1/masterData/type/PAYMENT_MODE`
     this.httpService.getData(url3).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.paymentModelist = res;
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
   }
 
   getEditExpenseDetails(){
-
+    this.auth.showLoader();
     const url = `/api/v1/expense/${this.jsonFlag.institute_id}/${this.editExpenseId}`
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.editExpenseDetails = res;
-
         this.paymentDetails.payeeName = this.editExpenseDetails.party_id;
         this.paymentDetails.accountName = this.editExpenseDetails.account_id;
         this.paymentDetails.paymentDate = this.editExpenseDetails.payment_date;
@@ -142,6 +154,7 @@ export class AddEditExpenseComponent implements OnInit {
 
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', '', err);
       }
     )
@@ -276,26 +289,32 @@ export class AddEditExpenseComponent implements OnInit {
   }
 
   addNewExpense(obj){
+    this.auth.showLoader();
     const url = `/api/v1/expense/${this.jsonFlag.institute_id}`
     this.httpService.postData(url, obj).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', "Expense added successfully");
         this.router.navigate(['/view/expense/manage-expense']);
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', '', err);
       }
     )
   }
 
   updateExpense(obj){
+    this.auth.showLoader();
     const url = `/api/v1/expense/${this.jsonFlag.institute_id}/${this.editExpenseId}`
     this.httpService.putData(url, obj).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', "Expense updated successfully");
         this.router.navigate(['/view/expense/manage-expense']);
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', '', err);
       }
     )
@@ -351,6 +370,23 @@ export class AddEditExpenseComponent implements OnInit {
     if(diff > 0){
       this.msgService.showErrorMessage('info', '', "Future date is not allowed");
       this.paymentDetails.paymentDate = moment(new Date).format('YYYY-MM-DD');
+    }
+  }
+
+  togglePayee(){
+    if(this.payeeVisibilty){
+      this.payeeVisibilty = false;
+    }
+    else{
+      this.payeeVisibilty = true;
+    }
+  }
+  toggleAccount(){
+    if(this.accountVisibilty){
+      this.accountVisibilty = false;
+    }
+    else{
+      this.accountVisibilty = true;
     }
   }
 

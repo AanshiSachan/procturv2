@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, Input, ElementRef, HostListener, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { HttpService  } from '../../../../services/http.service';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 declare var $;
 @Component({
   selector: 'app-add-edit-payee',
@@ -15,8 +16,7 @@ export class AddEditPayeeComponent implements OnInit {
   // global variables
   jsonFlag = {
     isProfessional: false,
-    institute_id: '',
-    isRippleLoad: false
+    institute_id: ''
   };
 
   payeeDetails = {
@@ -37,7 +37,8 @@ export class AddEditPayeeComponent implements OnInit {
 
   constructor(
     private msgService: MessageShowService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private auth:AuthenticatorService
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
   }
@@ -51,25 +52,31 @@ export class AddEditPayeeComponent implements OnInit {
   }
 
   getVendorDetails(){
+    this.auth.showLoader();
     const url = `/api/v1/masterData/type/PARTY_TYPE`;
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.partyDetails = res;
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
   }
 
   setEditValues(){
+    this.auth.showLoader();
     const url = `/api/v1/payment/party/${this.editPayeeId}`;
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.editPartyDetails = res;
         this.setValue();
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -102,31 +109,39 @@ export class AddEditPayeeComponent implements OnInit {
         secondary_phone_no: this.payeeDetails.secondaryContactNo,
         notes: this.payeeDetails.notes,
         title: this.payeeDetails.title,
+        party_id: ''
       }
       const url = `/api/v1/payment/party`;
       if(this.isEditPayee){
-        // obj.party_id = this.editPartyDetails.party_id;
+        obj.party_id = this.editPartyDetails.party_id;
+        this.auth.showLoader();
         this.httpService.putData(url, obj).subscribe(
           (res: any) => {
+            this.auth.hideLoader();
             if(res.statusCode == 200){
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Institute party details updated successfully!');
               this.closePopups(false);
             }
           },
           err => {
+            this.auth.hideLoader();
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
           }
         )
       }
       else{
+        delete obj.party_id;
+        this.auth.showLoader();
         this.httpService.postData(url, obj).subscribe(
           (res: any) => {
+            this.auth.hideLoader();
             if(res.statusCode == 200){
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Institute party details added successfully!');
               this.closePopups(false);
             }
           },
           err => {
+            this.auth.hideLoader();
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
           }
         )

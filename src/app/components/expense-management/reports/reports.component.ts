@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { MessageShowService } from '../../../services/message-show.service';
 import { HttpService  } from '../../../services/http.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-reports',
@@ -14,7 +15,6 @@ export class ReportsComponent implements OnInit {
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
-    isRippleLoad: false,
     toggle: false
   };
 
@@ -42,6 +42,7 @@ export class ReportsComponent implements OnInit {
   constructor(
     private msgService: MessageShowService,
     private httpService: HttpService,
+    private auth:AuthenticatorService
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
    }
@@ -73,10 +74,10 @@ export class ReportsComponent implements OnInit {
   getExpenseList(obj){
     this.expenseTotal = 0;
     const url = `/api/v1/expense/all/${this.jsonFlag.institute_id}`
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.httpService.postData(url, obj).subscribe(
       (res: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.expenseRecordList = res;
         if(this.expenseRecordList.length > 0){
           for (let index = 0; index < this.expenseRecordList.length; index++) {
@@ -86,7 +87,7 @@ export class ReportsComponent implements OnInit {
         this.getIncomeList(obj);
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -95,10 +96,10 @@ export class ReportsComponent implements OnInit {
   getIncomeList(obj){
     this.incomeTotal = 0;
     const url = `/api/v1/income/all/${this.jsonFlag.institute_id}`
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.httpService.postData(url, obj).subscribe(
       (res: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.incomeRecordList = res;
         if(this.incomeRecordList.length > 0){
           for (let index = 0; index < this.incomeRecordList.length; index++) {
@@ -108,7 +109,7 @@ export class ReportsComponent implements OnInit {
         this.getProfitLossList(obj);
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -116,16 +117,16 @@ export class ReportsComponent implements OnInit {
 
   getProfitLossList(obj){
     const url = `/api/v1/inventory/item/getProfit_Lost/${this.jsonFlag.institute_id}`
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.httpService.postData(url, obj).subscribe(
       (res: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.profitLostList = res;
         this.expenseInventoryTotal = res.expense_inventory;
         this.getFeeCollection(obj);
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -133,10 +134,10 @@ export class ReportsComponent implements OnInit {
 
   getFeeCollection(obj){
     const url = `/api/v1/income/feesCollection/${this.jsonFlag.institute_id}`
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.httpService.postData(url, obj).subscribe(
       (res: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.feeCollectionList = res;
         this.totalFeeCollection = res.total_fees_collected;
         this.totalOtherFeeCollection = res.total_fees_collected_other;
@@ -148,7 +149,7 @@ export class ReportsComponent implements OnInit {
         this.netIncome = Number(tempNetWorth);
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )

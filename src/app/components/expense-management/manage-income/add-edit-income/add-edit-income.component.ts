@@ -4,6 +4,7 @@ import { MessageShowService } from '../../../../services/message-show.service';
 import { HttpService  } from '../../../../services/http.service';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { Router } from '@angular/router';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'app-add-edit-income',
@@ -16,7 +17,6 @@ export class AddEditIncomeComponent implements OnInit {
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
-    isRippleLoad: false,
     toggle: false
   };
 
@@ -44,13 +44,16 @@ export class AddEditIncomeComponent implements OnInit {
   docsList: any[] = [];
   docDescription: '';
   totalAmount: number = 0;
-
   editIncomeDetails: any;
+
+  payerVisibilty: boolean = false;
+  accountVisibilty: boolean = false;
 
   constructor(
     private msgService: MessageShowService,
     private httpService: HttpService,
     private router: Router,
+    private auth:AuthenticatorService
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
    }
@@ -70,12 +73,15 @@ export class AddEditIncomeComponent implements OnInit {
   }
 
   preFieldData(){
+    this.auth.showLoader();
     const url1 = `/api/v1/payment/party/income/all/${this.jsonFlag.institute_id}`
     this.httpService.getData(url1).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.payerList = res;
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -83,9 +89,11 @@ export class AddEditIncomeComponent implements OnInit {
     const url2 = `/api/v1/account/all/${this.jsonFlag.institute_id}`
     this.httpService.getData(url2).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.accountNamelist = res;
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -93,26 +101,27 @@ export class AddEditIncomeComponent implements OnInit {
     const url3 = `/api/v1/masterData/type/PAYMENT_MODE`
     this.httpService.getData(url3).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.paymentModelist = res;
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
   }
 
   getEditIncomeDetails(){
-
+    this.auth.showLoader();
     const url = `/api/v1/income/${this.jsonFlag.institute_id}/${this.editIncomeId}`
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.editIncomeDetails = res;
-
         this.paymentDetails.payerName = this.editIncomeDetails.party_id;
         this.paymentDetails.accountName = this.editIncomeDetails.account_id;
         this.paymentDetails.receivedDate = this.editIncomeDetails.payment_date;
         this.paymentDetails.paymentmode = this.editIncomeDetails.paying_mode;
-
         this.totalAmount = this.editIncomeDetails.amount;
 
         for (let index = 0; index < this.editIncomeDetails.itemList.length; index++) {
@@ -139,6 +148,7 @@ export class AddEditIncomeComponent implements OnInit {
 
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', '', err);
       }
     )
@@ -273,26 +283,32 @@ export class AddEditIncomeComponent implements OnInit {
   }
 
   addNewIncome(obj){
+    this.auth.showLoader();
     const url = `/api/v1/income/${this.jsonFlag.institute_id}`
     this.httpService.postData(url, obj).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', "Income added successfully");
         this.router.navigate(['/view/expense/manage-income']);
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', '', err);
       }
     )
   }
 
   updateIncome(obj){
+    this.auth.showLoader();
     const url = `/api/v1/income/${this.jsonFlag.institute_id}/${this.editIncomeId}`
     this.httpService.putData(url, obj).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', "Income updated successfully");
         this.router.navigate(['/view/expense/manage-income']);
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', '', err);
       }
     )
@@ -324,6 +340,23 @@ export class AddEditIncomeComponent implements OnInit {
     if(diff > 0){
       this.msgService.showErrorMessage('info', '', "Future date is not allowed");
       this.paymentDetails.receivedDate = moment(new Date).format('YYYY-MM-DD');
+    }
+  }
+
+  togglePayer(){
+    if(this.payerVisibilty){
+      this.payerVisibilty = false;
+    }
+    else{
+      this.payerVisibilty = true;
+    }
+  }
+  toggleAccount(){
+    if(this.accountVisibilty){
+      this.accountVisibilty = false;
+    }
+    else{
+      this.accountVisibilty = true;
     }
   }
 

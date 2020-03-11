@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { MessageShowService } from '../../../services/message-show.service';
 import { HttpService  } from '../../../services/http.service';
 import { Router } from '@angular/router';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-manage-expense',
@@ -15,7 +16,6 @@ export class ManageExpenseComponent implements OnInit {
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
-    isRippleLoad: false,
     toggle: false
   };
 
@@ -34,6 +34,7 @@ export class ManageExpenseComponent implements OnInit {
     private msgService: MessageShowService,
     private httpService: HttpService,
     private router: Router,
+    private auth:AuthenticatorService
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
    }
@@ -62,15 +63,15 @@ export class ManageExpenseComponent implements OnInit {
 
   getExpenseList(obj){
     const url = `/api/v1/expense/all/${this.jsonFlag.institute_id}`
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.httpService.postData(url, obj).subscribe(
       (res: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.expenseRecordList = res;
         this.tempExpenselist = res;
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
