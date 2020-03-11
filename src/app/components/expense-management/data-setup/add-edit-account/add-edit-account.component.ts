@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input, ElementRef, HostListener, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { MessageShowService } from '../../../../services/message-show.service';
+import { HttpService  } from '../../../../services/http.service';
+declare var $;
 
 @Component({
   selector: 'app-add-edit-account',
@@ -6,6 +9,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-edit-account.component.scss']
 })
 export class AddEditAccountComponent implements OnInit {
+
+  @Output() closePopup = new EventEmitter<boolean>();
+  @Input() isEditAccount: boolean;
+  @Input() editAccountId: any;
 
   constructor() { }
 
