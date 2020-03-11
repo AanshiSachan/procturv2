@@ -1,0 +1,126 @@
+.middle-section {
+  padding: 1%;
+}
+.filter-search-data-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .filter-container{
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    .filter-item{
+      width: 35%;
+    }
+  }
+  .net-worth-container{
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    justify-content: flex-end;
+    padding-top: 30px;
+    font-weight: 600;
+    .heading{
+      margin-right: 10px;
+    }
+  }
+
+}
+
+.outer-container{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 15px;
+  .section-container{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    width: 49%;
+    position: relative;
+    .title-container{
+      width: 100%;
+      background: #e0eaec;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px;
+    }
+    .section-table-container{
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      .table-header-container{
+        border: 1px solid #ccc;
+        display: flex;
+        flex-direction: row;
+        font-weight: 600;
+        text-align: left;
+        .header-item{
+          padding: 7px;
+          width: 33%;
+        }
+      }
+      .table-value-outer-container{
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ccc;
+        border-top: none;
+        min-height: 70vh;
+        max-height: 70vh;
+        overflow-y: auto;
+        .table-value-container{
+          display: flex;
+          flex-direction: row;
+          text-align: left;
+          border-bottom: 1px solid #ccc;
+          .value-item{
+            padding: 7px;
+            width: 33%;
+          }
+        }
+      }
+    }
+    .align-right{
+      text-align: right;
+    }
+    .align-center{
+      text-align: center;
+    }
+  }
+}
+
+.section-total-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  justify-content: flex-end;
+  .section-total-item{
+    display: flex;
+    flex-direction: row;
+    background: #e0eaec;
+    padding: 7px;
+    justify-content: flex-end;
+    font-weight: 600;
+    border-bottom: 1px solid #ccc;
+    .total-header{
+      margin-right: 10px;
+    }
+  }
+}
+
+
+
+.field-wrapper.datePickerBox:after {
+  content: '';
+  background: url(/./assets/images/calendar.svg) no-repeat;
+  position: absolute;
+  right: 5px;
+  top: 30px;
+  width: 21px;
+  height: 21px;
+  z-index: 0;
+}

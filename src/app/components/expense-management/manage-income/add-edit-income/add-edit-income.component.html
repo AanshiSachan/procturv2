@@ -1,0 +1,166 @@
+<section class="middle-section clearFix">
+  <!-- Header and Navigation -->
+  <section class="middle-top mb0 clearFix">
+    <h1 class="pull-left">
+      <a routerLink="/view/expense">
+        Expense
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      <a routerLink="/view/expense/manage-income">
+        Manage Income
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      <span>{{sectionName}} Income</span>
+    </h1>
+  </section>
+
+  <!-- payment details section -->
+  <section>
+    <div class="payment-details-container">
+      <div class="payment-details-item field-wrapper">
+        <label for="payer">Payer Name <span class="danger">*</span></label>
+        <select class="form-ctrl" name="payer" id="payer" [(ngModel)]="paymentDetails.payerName">
+          <option value="-1">Select Payer Name</option>
+          <option [value]="payer.party_id" *ngFor="let payer of payerList">{{payer.display_name}}</option>
+        </select>
+      </div>
+
+      <div class="payment-details-item field-wrapper">
+        <label for="account-name">Account Name <span class="danger">*</span></label>
+        <select class="form-ctrl" name="account-name" id="account-name" [(ngModel)]="paymentDetails.accountName">
+          <option value="-1">Select Account</option>
+          <option [value]="account.account_id" *ngFor="let account of accountNamelist">{{account.display_name}}</option>
+        </select>
+      </div>
+
+      <div class="payment-details-item field-wrapper datePickerBox">
+        <label for="payee">Received Date <span class="danger">*</span></label>
+        <input type="text" value="" id="payment-date" class="form-ctrl widgetDatepicker bsDatepicker"  [(ngModel)]="paymentDetails.receivedDate"
+        style="padding: 6px;" readonly="true" name="payment-date" placeholder="Date" bsDatepicker (ngModelChange)="checkFututreDate()" />
+      </div>
+
+      <div class="payment-details-item field-wrapper">
+        <label for="payment-mode">Payment Mode <span class="danger">*</span></label>
+        <select class="form-ctrl" name="payment-mode" id="payment-mode" [(ngModel)]="paymentDetails.paymentmode">
+          <option value="-1">Select Payment Mode</option>
+          <option [value]="mode.data_key" *ngFor="let mode of paymentModelist">{{mode.data_value}}</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Account Details  -->
+  <section>
+    <div class="account-details-container">
+      <div class="account-details-heading-container">
+        <div class="account-heading-item">
+          <span>Account/Item <span class="danger">*</span></span>
+        </div>
+        <div class="account-heading-item">
+          <span>Description</span>
+        </div>
+        <div class="account-heading-item">
+          <span>Quantity</span>
+        </div>
+        <div class="account-heading-item">
+          <span>Amount <span class="danger">*</span></span>
+        </div>
+      </div>
+
+      <div class="account-details-input-container">
+        <div class="account-input-item field-wrapper">
+          <input type="text" value="" id="item-name" class="form-ctrl"  [(ngModel)]="accountDetails.itemName"
+          style="padding: 6px;" name="item-name" placeholder="Item Name">
+        </div>
+        <div class="account-input-item field-wrapper">
+          <input type="text" value="" id="item-name" class="form-ctrl"  [(ngModel)]="accountDetails.description"
+          style="padding: 6px;" name="item-name" placeholder="Item Description">
+        </div>
+        <div class="account-input-item field-wrapper">
+          <input type="number" value="" id="item-name" class="form-ctrl"  [(ngModel)]="accountDetails.quantity"
+          style="padding: 6px;" name="item-name" placeholder="Item Quantity">
+        </div>
+        <div class="account-input-item field-wrapper">
+          <input type="number" value="" id="item-name" class="form-ctrl"  [(ngModel)]="accountDetails.amount"
+          style="padding: 6px;" name="item-name" placeholder="Item Amount">
+        </div>
+        <div class="account-input-item">
+          <button type="button" name="button" class="add-item-btn" (click)="addItem()">Add</button>
+        </div>
+      </div>
+      <div class="account-value-outer-container">
+        <div class="account-value-container" *ngFor="let item of addedItemList">
+          <div class="account-value-item">
+            <span>{{item.itemName}}</span>
+          </div>
+          <div class="account-value-item">
+            <span>{{item.description}}</span>
+          </div>
+          <div class="account-value-item">
+            <span>{{item.quantity}}</span>
+          </div>
+          <div class="account-value-item right-align">
+            <span>Rs.{{item.amount}}</span>
+          </div>
+          <div class="account-value-item">
+            <i class="fa fa-times remove-icon" aria-hidden="true" (click)="removeItem(item.itemName)" title="Remove Item"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="total-amount-container" *ngIf="totalAmount > 0">
+    <span style="font-size:14px; font-weight: 600;margin-right: 10px;">Total Amount:</span>
+    <span>Rs.{{totalAmount}}</span>
+  </div>
+
+  <!-- Upload Document Details -->
+  <section>
+    <div class="upload-docs-container">
+      <span class="upload-title">Upload Attachments</span>
+      <div class="upload-docs-input-container">
+        <div class="upload-docs-input-item field-wrapper">
+          <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox" accept=
+          "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+          text/plain, application/pdf, image/*"/>
+        </div>
+        <div class="upload-docs-input-item field-wrapper">
+          <input type="text" value="" id="item-name" class="form-ctrl"
+          style="padding: 6px;" name="item-name" placeholder="Document Description" [(ngModel)]="docDescription">
+        </div>
+        <div class="upload-docs-input-item">
+          <button type="button" name="button" class="upload-docs-btn" (click)="uploadHandler()">Add</button>
+        </div>
+      </div>
+      <div class="upload-docs-value-outer-container">
+        <div class="upload-docs-value-container" *ngFor="let doc of docsList">
+          <div class="upload-docs-value-item">
+            <span *ngIf="sectionName == 'Add'" title="{{doc.fileName}}">{{ (doc.fileName.length > 20) ? (doc.fileName | slice:0:20) + '...' : doc.fileName }}</span>
+            <span *ngIf="sectionName == 'Edit'" title="{{doc.fileName}}">
+              {{ (doc.file_name.length > 20) ? (doc.file_name | slice:0:20) + '...' : doc.file_name }}
+              <a [href]="doc.file_path" class="btn-ga-white-download" [download]="doc.file_path"><i class="fa fa-download" aria-hidden="true"></i></a>
+            </span>
+          </div>
+          <div class="upload-docs-value-item">
+            <span *ngIf="doc?.file_desc && !!doc.file_desc" title="{{doc.file_desc}}">{{ (doc.file_desc.length > 20) ? (doc.file_desc | slice:0:20) + '...' : doc.file_desc }}</span>
+          </div>
+          <div class="upload-docs-value-item">
+            <i class="fa fa-times remove-icon" aria-hidden="true" style="margin-left:0" (click)="removeDoc(doc.fileName)" title="Remove Attachment"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <footer>
+      <div class="action-container">
+        <button type="button" name="button" class="cancel-btn" routerLink="/view/expense/manage-income">Cancel</button>
+        <button type="button" name="button" class="save-btn" (click)="addIncome()">Save</button>
+      </div>
+    </footer>
+  </section>
+
+</section>

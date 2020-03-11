@@ -1,0 +1,122 @@
+.middle-section {
+  padding: 1%;
+}
+.filter-search-data-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .filter-container{
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    .filter-item{
+      width: 35%;
+    }
+  }
+  .search-data-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 50%;
+    .activity-item{
+      margin-top: 10px;
+    }
+    .search-box{
+      border-radius: 4px;
+      border: 1px solid #b4b6bd;
+      width: 100%;
+      line-height: 30px;
+      padding: 0 10px;
+      font-size: 12px;
+    }
+    .add-expense-btn{
+      background: #0084f6;
+      color: white;
+      padding: 6px 10px;
+      border: 2px solid #0084f6;
+      box-shadow: none;
+      border-radius: 4px;
+      margin-top: 10px;
+      margin-left: 15px;
+    }
+  }
+}
+.field-wrapper .form-ctrl{
+  border-radius: 4px;
+  border-color: #ccc;
+}
+.list-table-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 30px;
+  .list-header-container{
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: row;
+    background: #e0eaec;
+    font-weight: 600;
+    text-align: left;
+  }
+  .list-header-item{
+    padding: 10px;
+  }
+  .list-value-outer-container{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-top: none;
+    min-height: 71vh;
+    max-height: 71vh;
+    overflow-y: auto;
+    .list-value-container{
+      display: flex;
+      flex-direction: row;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+      .list-value-item{
+        padding: 10px;
+      }
+    }
+    .list-value-container:last-child{
+      border-bottom: none;
+    }
+  }
+  .small-item{
+    width: 15%;
+  }
+  .medium-item{
+    width: 20%;
+  }
+  .align-center{
+    text-align: center;
+  }
+  .align-right{
+    text-align: right;
+  }
+  .no-records{
+    display: block;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .fa-pencil{
+    color: #0084f6;
+    cursor: pointer;
+  }
+
+}
+
+
+
+.field-wrapper.datePickerBox:after {
+  content: '';
+  background: url(/./assets/images/calendar.svg) no-repeat;
+  position: absolute;
+  right: 5px;
+  top: 30px;
+  width: 21px;
+  height: 21px;
+  z-index: 0;
+}
