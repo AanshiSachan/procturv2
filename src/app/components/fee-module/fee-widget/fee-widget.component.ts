@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { GetFeeService } from '../../../services/report-services/fee-services/getFee.service';
 
 
@@ -13,7 +14,6 @@ export class FeeWidgetComponent implements OnInit {
 
     @ViewChild('chartWrap') chartWrap: ElementRef;
     chartType: any = "1";
-    isRippleLoad: boolean = false;
     default_symbol: any = "Rs";
     chartDate: any = {
         from_date: moment().startOf("year").format("YYYY-MM-DD"),
@@ -22,7 +22,8 @@ export class FeeWidgetComponent implements OnInit {
 
 
 
-    constructor(private getService: GetFeeService) {
+    constructor(private getService: GetFeeService,
+        private auth:AuthenticatorService) {
     }
 
     ngOnInit() {
@@ -120,10 +121,10 @@ export class FeeWidgetComponent implements OnInit {
     }
 
     fetchAllFeeData() {
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.getService.getFeeWidgetDataByDateRange(this.chartDate).subscribe(
-            res => { this.generateChartData(res); this.isRippleLoad = false; },
-            err => this.isRippleLoad = false
+            res => { this.generateChartData(res); this.auth.hideLoader(); },
+            err =>this.auth.hideLoader()
         );
 
     }

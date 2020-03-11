@@ -26,7 +26,6 @@ export class ReviewProductComponent implements OnInit {
   ecourseList: any = [];
   mock_count: number = 0;
   online_count: number = 0;
-  isRippleLoad: boolean = false;
   image_url: any = null;
   moderatorSettings: any = {
     singleSelection: false,
@@ -55,12 +54,12 @@ export class ReviewProductComponent implements OnInit {
   initForm() {
     //Fetch Product Groups List
 
-    if (this.entity_id && this.entity_id.length > 0 && (!this.isRippleLoad)) {
+    if (this.entity_id && this.entity_id.length > 0 && (!this.auth.isRippleLoad.getValue())) {
       //Fetch Product Info
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let response = resp.result;
           if (resp.validate) {
             let productData = response;
@@ -87,7 +86,7 @@ export class ReviewProductComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
@@ -100,11 +99,11 @@ export class ReviewProductComponent implements OnInit {
   // }
 
   initDataEcourse() {
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.http.getMethod('ext/get-ecources', null).subscribe(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let response = JSON.parse(resp.result);
           console.log(resp);
           if (resp.validate) {
@@ -115,19 +114,19 @@ export class ReviewProductComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           // this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
   }
 
   initFormSequence() {
-    if (this.entity_id && this.entity_id.length > 0 && (!this.isRippleLoad)) {
+    if (this.entity_id && this.entity_id.length > 0 && (!this.auth.isRippleLoad.getValue())) {
       //Fetch Product Info
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let response = resp.result;
           if (resp.validate) {
             let productData = response;
@@ -169,7 +168,7 @@ export class ReviewProductComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
@@ -202,11 +201,11 @@ export class ReviewProductComponent implements OnInit {
       newxhr.setRequestHeader("enctype", "multipart/form-data;");
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       newxhr.onreadystatechange = () => {
         if (newxhr.readyState == 4) {
           if (newxhr.status >= 200 && newxhr.status < 300) {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             let res = JSON.parse(newxhr.response);
             this.image_url = res.photo_url ? res.photo_url + "?t=" + new Date().getTime() : null;
             this.prodForm.logo_url = res.thumbnail_url;
@@ -214,7 +213,7 @@ export class ReviewProductComponent implements OnInit {
             this.msgService.showErrorMessage('success', '', 'File uploaded successfully');
 
           } else {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             // this.msgService.showErrorMessage('error', err['error'].errors.message, '');
 
           }
@@ -287,11 +286,11 @@ export class ReviewProductComponent implements OnInit {
   updateProduct(object) {
 
     let body = JSON.parse(JSON.stringify(object));
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.http.postMethod('product/update', body).then(
         (resp:any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let data = resp['body'];
           if (data.validate) {
             this.msgService.showErrorMessage('success', "product updated successfully", '');
@@ -302,7 +301,7 @@ export class ReviewProductComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', "something went wrong, try again", '');
         });
     }

@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import 'rxjs/Rx';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
-import { FeeStrucService } from '../../../../../services/feeStruc.service';
+import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../../services/common-service';
-import { jsonpCallbackContext } from '../../../../../../../node_modules/@angular/common/http/src/module';
+import { FeeStrucService } from '../../../../../services/feeStruc.service';
 
 @Component({
   selector: 'app-template-home',
@@ -54,7 +53,6 @@ export class TemplateHomeComponent implements OnInit {
   customJson: any = [];
   totalAmount: any = '';
   discountAmount: any = '';
-  isRippleLoad: boolean = false;
   feeTyeDetails: any = [];
   tabkeList: any = [];
   searchedData: any = [];
@@ -137,17 +135,17 @@ export class TemplateHomeComponent implements OnInit {
   }
 
   getFeeStructures() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.PageIndex = 1;
     this.fetchService.fetchFeeStruc().subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.totalRow = res.length;
         this.source = res;
         this.fetchTableDataByPage(this.PageIndex);
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -163,10 +161,10 @@ export class TemplateHomeComponent implements OnInit {
     this.selectedTemplate = fee;    
     this.feeStructure = [];
     this.isEditFee = true;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.fetchService.fetchFeeDetail(fee.template_id).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.feeStructure = res;
         if (res.is_default == "1") {
           this.feeStructure.is_default = true;
@@ -194,7 +192,7 @@ export class TemplateHomeComponent implements OnInit {
         this.totalAmountCal = res.studentwise_total_fees_amount;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -260,15 +258,15 @@ export class TemplateHomeComponent implements OnInit {
       template_id: this.selectedTemplate.template_id.toString(),
       template_name: this.selectedTemplate.template_name
     };
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.fetchService.updateFeeTemplate(data).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('success', 'Update Successfully', 'Fee Structure Updated Successfully');
         this.closeFeeEditor();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', err.error.message);
 
       }
@@ -657,30 +655,30 @@ export class TemplateHomeComponent implements OnInit {
   deleteFeeStructure(fee) {
     let is_archived = "N";
     if (confirm('Are you sure, you want to delete Fee Structure?')) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.fetchService.deleteFeeStructure(fee.template_id, is_archived).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('success', 'Deleted', 'Fee Structure Deleted Successfully');
           this.getFeeStructures();
           this.searchText = "";
           this.searchDataFlag = false;
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
 
           if (err.error.message.includes("Fee template(s) are assigned to student(s).")) {
             if (confirm('Fee template(s) are assigned to student(s). Do you wish to delete it ?')) {
               is_archived = "Y";
-              this.isRippleLoad = true;
+              this.auth.showLoader();
               this.fetchService.deleteFeeStructure(fee.template_id, is_archived).subscribe(
                 res => {
-                  this.isRippleLoad = false;
+                  this.auth.hideLoader();
                   this.commonService.showErrorMessage('success', 'Deleted', 'Fee Structure Deleted Successfully');
                   this.getFeeStructures();
                 },
                 err => {
-                  this.isRippleLoad = false;
+                  this.auth.hideLoader();
                   this.commonService.showErrorMessage('error', '', err.error.message);
                 }
               )

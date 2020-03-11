@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
-import { ReportService } from '../../../../services/library/report/report.service';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { ReportService } from '../../../../services/library/report/report.service';
 
 @Component({
   selector: 'app-overdue-book',
@@ -25,6 +26,7 @@ export class OverdueBookComponent implements OnInit {
 
   constructor(
     private cd: ChangeDetectorRef,
+    private auth:AuthenticatorService,
     private reportService: ReportService
   ) { }
 
@@ -72,10 +74,10 @@ getEndDate() {
   	  "noOfRecords": this.displayBatchSize
 
     }
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.reportService.getOverDueBookReport(obj).subscribe(
       response => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         let res: any;
         res = response
         if(res.results.length > 0){
@@ -85,18 +87,18 @@ getEndDate() {
         }
       },
       errorResponse => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
 
   // printFeeReceipt(issueBookId){
-  //   this.jsonFlag.isRippleLoad = true;
+  //   this.auth.showLoader();
   //   this.reportService.downloadReceipt(issueBookId).subscribe(
   //     response => {
   //       let res: any;
   //       res = response;
-  //       this.jsonFlag.isRippleLoad = false;
+  //       this.auth.hideLoader();
   //       let byteArr = this.convertBase64ToArray(res.document);
   //       let fileName = res.docTitle;
   //       let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });

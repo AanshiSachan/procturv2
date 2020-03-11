@@ -1,10 +1,11 @@
-import { Component, OnInit ,ChangeDetectorRef} from '@angular/core';
-import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
-import { AppComponent } from '../../../../app.component';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { HttpService} from '../../../../services/http.service';
+import { AppComponent } from '../../../../app.component';
+import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
+import { HttpService } from '../../../../services/http.service';
 declare var $;
 
 @Component({
@@ -15,7 +16,6 @@ declare var $;
 export class StudentsArchivedReportComponent implements OnInit {
 
   getStudents: any[] = []
-  isRippleLoad: boolean
   PageIndex: number = 1;
   PageIndexPopup: number = 1;
   pagedisplaysize: number = 10;
@@ -39,7 +39,9 @@ export class StudentsArchivedReportComponent implements OnInit {
   downloadStudentReportAccess: boolean = false;
 
 
-  constructor(private students: CoursesServiceService,
+  constructor(
+    private students: CoursesServiceService,
+    private auth:AuthenticatorService,
     private appc: AppComponent,
     private router: Router,
     private _http: HttpService,
@@ -59,12 +61,12 @@ export class StudentsArchivedReportComponent implements OnInit {
 }
 
   studentsArchivedData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.dataStatus = true;
     this.students.archivedStudents().subscribe(
       (data: any) => {
         this.dataStatus = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.arr = data;
         this.totalRow = data.length;
         this.PageIndex = 1;
@@ -104,10 +106,10 @@ export class StudentsArchivedReportComponent implements OnInit {
             url = url+'&&from_date='+moment(this.stdetchForm.from_date).format('YYYY-MM-DD');
             url = url+'&&to_date='+moment(this.stdetchForm.to_date).format('YYYY-MM-DD');
         }
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this._http.getData(url).subscribe((res: any) => {
           // console.log("fetchArchivedListDetails", res);
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.close_popup();
           if(res.validate){
             let result = res.result;
@@ -126,7 +128,7 @@ export class StudentsArchivedReportComponent implements OnInit {
           } 
 
         }, err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: "info",
             body:err.error.message

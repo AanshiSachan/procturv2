@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '../../../../../../node_modules/@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { HttpService } from '../../../../services/http.service';
-import { ActivatedRoute, Router } from '../../../../../../node_modules/@angular/router';
-import { UploadFileComponent } from '../core/upload-file/upload-file.component';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { UploadFileComponent } from '../core/upload-file/upload-file.component';
 declare var window;
 @Component({
   selector: 'app-ecourse-subject-list',
@@ -94,9 +94,9 @@ export class EcourseSubjectListComponent implements OnInit {
       this.tempData = video;
 
       console.log(video);
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this._http.postData(url, data).subscribe((response) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(response);
         if (response == null) {
           let obj = {
@@ -115,7 +115,7 @@ export class EcourseSubjectListComponent implements OnInit {
         }
       },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', '', err.error.message);
         });
     }
@@ -167,7 +167,7 @@ export class EcourseSubjectListComponent implements OnInit {
   getSubjectList() {
     this.subjectList = [];
     let array = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/instFileSystem/subjectMaterials";
     let object = {
       "institute_id": this.institute_id,
@@ -176,7 +176,7 @@ export class EcourseSubjectListComponent implements OnInit {
     }
     this._http.postData(url, object).subscribe((res: any) => {
       console.log(res);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       if (res && res.length > 0 && res[0].subjectsList && res[0].subjectsList.length > 0) {
         this.subjectList = res[0].subjectsList;
         this.subjectList.forEach((element) => {
@@ -194,7 +194,7 @@ export class EcourseSubjectListComponent implements OnInit {
       }
       this.subjectList = array;
     }, err => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
     });
   }
 
@@ -207,7 +207,7 @@ export class EcourseSubjectListComponent implements OnInit {
   }
 
   getTopicListData(subject_id, subject) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/topic_manager/subject/" + subject_id + "/topicMaterials";
     let data =
     {
@@ -217,7 +217,7 @@ export class EcourseSubjectListComponent implements OnInit {
 
     this._http.postData(url, data).subscribe((res) => {
       console.log(res);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       subject.subTopics = res;
       if (subject.subTopics.length == 0) {
         this.outputMessage = 'No data found';
@@ -233,7 +233,7 @@ export class EcourseSubjectListComponent implements OnInit {
       }
     },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       })
   }
 
@@ -251,7 +251,7 @@ export class EcourseSubjectListComponent implements OnInit {
 
   deleteFiles(key, fileIdArray) {
     this.showModal = false;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/instFileSystem/deleteFiles?key=" + key;
     let data =
     {
@@ -261,30 +261,30 @@ export class EcourseSubjectListComponent implements OnInit {
     console.log(data);
     this._http.deleteData(url, data).subscribe((res:any) => {
       // console.log(res);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.msgService.showErrorMessage('success', '', res.message);
       this.getSubjectList();
     },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', '', err.error.message);
       });
   }
 
   getVDOCipherLinkedDate(key) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/instFileSystem/VDOCipher/" + this.institute_id;
     this.existVideos = [];
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       if (res) {
 
         this.existVideos = res;
         this.UnlikeAllVideos();
       }
     }, (err) => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.existVideos = [];
     });
   }
@@ -315,7 +315,7 @@ export class EcourseSubjectListComponent implements OnInit {
   }
 
   addDownloadCount(file) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/instFileSystem/fileDownloadCount";
     let data =
     {
@@ -325,12 +325,12 @@ export class EcourseSubjectListComponent implements OnInit {
 
     this._http.postData(url, data).subscribe((res) => {
       // console.log(res);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       file.downloads++;
 
     },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       });
   }
 

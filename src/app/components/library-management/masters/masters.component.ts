@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
@@ -15,7 +14,6 @@ export class MastersComponent implements OnInit {
 
   currentSectionName: string = '';
   searchInput: string = '';
-  isRippleLoad: boolean = false;
   multiClickDisabled: boolean = false;
 
   // FOR Category and Subcategory
@@ -94,12 +92,12 @@ export class MastersComponent implements OnInit {
   searchInList(search_string: any){
     if(this.searchInput != '' && this.searchInput != null){
       if (search_string.which <= 90 && search_string.which >= 48 || search_string.which == 8){
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.masterService.searchData(this.currentSectionName, this.searchInput).subscribe(
           response => {
             let res: any;
             res = response;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             if(res.response != null){
               if(this.currentSectionName.includes('category')){
                 this.categorySubCatList = res.response;
@@ -214,14 +212,14 @@ export class MastersComponent implements OnInit {
         this.addBulkCatAndSubCat();
       }
       else{
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.multiClickDisabled = true;
         this.masterService.addCategory(obj).subscribe(
           response => {
             let res: any;
             res = response;
             this.multiClickDisabled = false;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             if(res.response != null){
               this.messageHandler('success', 'Category added successfully', '');
               this.categoryName = "";
@@ -251,14 +249,14 @@ export class MastersComponent implements OnInit {
       "category_name" : this.categoryName,
       "sub_category_name": this.subcategoryName
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.multiClickDisabled = true;
     this.masterService.addCatAndSubCat(obj).subscribe(
       response => {
         let res: any;
         res = response;
         this.multiClickDisabled = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if(res.response != null){
           this.messageHandler('success', 'Category added successfully', '');
           this.categoryName = "";
@@ -278,12 +276,12 @@ export class MastersComponent implements OnInit {
   }
 
   getAllCategory(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.masterService.getAllCategory().subscribe(
       response => {
         let res: any;
         res = response;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if(res.response != null){
           this.categorySubCatList = res.response;
           this.tempCatSubList = res.response;
@@ -296,12 +294,12 @@ export class MastersComponent implements OnInit {
   }
 
   getAllParentCategory(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.masterService.getAllParentCategory().subscribe(
       response => {
         let res: any;
         res = response;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if(res.response != null){
           this.categoryList = res.response;
           this.tempCatSubList = res.response;
@@ -344,13 +342,13 @@ export class MastersComponent implements OnInit {
           "sub_category_name": this.editSubCategoryName,
           "sub_category_id": subcat_id
         }
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.masterService.updateCatSubCat(obj).subscribe(
           response => {
             let res: any;
             res = response;
             this.categorySuggestions = false;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             if(res.response != null){
               this.messageHandler('success', 'Category updated successfully', '');
               this.editCategoryName = "";
@@ -375,13 +373,13 @@ export class MastersComponent implements OnInit {
           "category_name" : this.editCategoryName,
           "category_id": cat_id
         }
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.masterService.updateCat(obj).subscribe(
           response => {
             let res: any;
             res = response;
             this.categorySuggestions = false;
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             if(res.response != null){
               this.messageHandler('success', 'Category updated successfully', '');
               this.editCategoryName = "";
@@ -418,12 +416,12 @@ export class MastersComponent implements OnInit {
   // For Subject
 
   getAllSubjects(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.masterService.getAllSubjects().subscribe(
       response => {
         let res: any;
         res = response;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if(res.response != null){
           this.subjectList = res.response;
           console.log(this.subjectList);
@@ -439,14 +437,14 @@ export class MastersComponent implements OnInit {
       let obj = {
         "subject_name" : this.subjectName
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.multiClickDisabled = true;
       this.masterService.addSubject(obj).subscribe(
         response => {
           let res: any;
           res = response;
           this.multiClickDisabled = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if(res.response != null){
             this.messageHandler('success', 'Subject added successfully', '');
             this.subjectName = "";
@@ -486,12 +484,12 @@ export class MastersComponent implements OnInit {
         "subject_name" : this.editSubjectName,
         "subject_id": subject_id
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.masterService.updateSubject(obj).subscribe(
         response => {
           let res: any;
           res = response;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if(res.response != null){
             this.messageHandler('success', 'Subject updated successfully', '');
             this.editSubjectName = "";
@@ -511,12 +509,12 @@ export class MastersComponent implements OnInit {
   // FOR PUBLICATION
 
   getAllPublications(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.masterService.getAllPublications().subscribe(
       response => {
         let res: any;
         res = response;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if(res.response != null){
           this.publicationList = res.response;
         }
@@ -531,14 +529,14 @@ export class MastersComponent implements OnInit {
       let obj = {
         "publication_name" : this.publicationName
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.multiClickDisabled = true;
       this.masterService.addPublication(obj).subscribe(
         response => {
           let res: any;
           res = response;
           this.multiClickDisabled = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if(res.response != null){
             this.messageHandler('success', 'Publication added successfully', '');
             this.publicationName = "";
@@ -577,12 +575,12 @@ export class MastersComponent implements OnInit {
         "publication_name" : this.editPublicationName,
         "publication_id": publication_id
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.masterService.updatePublication(obj).subscribe(
         response => {
           let res: any;
           res = response;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if(res.response != null){
             this.messageHandler('success', 'Publication updated successfully', '');
             this.editPublicationName = "";
@@ -602,12 +600,12 @@ export class MastersComponent implements OnInit {
   // FOR AUTHOR
 
   getAllAuthors(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.masterService.getAllAuthors().subscribe(
       response => {
         let res: any;
         res = response;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if(res.response != null){
           this.authorList = res.response;
         }
@@ -622,13 +620,13 @@ export class MastersComponent implements OnInit {
       let obj = {
         "author_name" : this.authorName
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.multiClickDisabled = true;
       this.masterService.addAuthor(obj).subscribe(
         response => {
           let res: any;
           res = response;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.multiClickDisabled = false;
           if(res.response != null){
             this.messageHandler('success', 'Author added successfully', '');
@@ -668,12 +666,12 @@ export class MastersComponent implements OnInit {
         "author_name" : this.editAuthorName,
         "author_id": author_id
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.masterService.updateAuthor(obj).subscribe(
         response => {
           let res: any;
           res = response;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if(res.response != null){
             this.messageHandler('success', 'Author updated successfully', '');
             this.editAuthorName = "";
@@ -693,12 +691,12 @@ export class MastersComponent implements OnInit {
   // FOR REFERENCES
 
   getAllReferences(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.masterService.getAllReferences().subscribe(
       response => {
         let res: any;
         res = response;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if(res.response != null){
           this.referenceList = res.response;
         }
@@ -713,13 +711,13 @@ export class MastersComponent implements OnInit {
       let obj = {
         "reference_name" : this.referenceName
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.multiClickDisabled = true;
       this.masterService.addReference(obj).subscribe(
         response => {
           let res: any;
           res = response;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.multiClickDisabled = false;
           if(res.response != null){
             this.messageHandler('success', 'Reference added successfully', '');
@@ -759,12 +757,12 @@ export class MastersComponent implements OnInit {
         "reference_name" : this.editReferenceName,
         "reference_id": reference_id
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.masterService.updateReference(obj).subscribe(
         response => {
           let res: any;
           res = response;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if(res.response != null){
             this.messageHandler('success', 'Reference updated successfully', '');
             this.editReferenceName = "";
@@ -784,17 +782,17 @@ export class MastersComponent implements OnInit {
   // For Language
 
   getAllLanguages(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.masterService.getAllLanguages().subscribe(
       response => {
         let res: any;
         res = response;
         if(res.response != null){
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
             this.languageList = res.response;
         }
         else{
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           console.log(res.errorResponse)
         }
       })
@@ -805,7 +803,7 @@ export class MastersComponent implements OnInit {
       let obj = {
           "language_name" : this.languageName
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.multiClickDisabled = true;
       this.masterService.addLanguage(obj).subscribe(
         response => {
@@ -813,13 +811,13 @@ export class MastersComponent implements OnInit {
           res = response;
           this.multiClickDisabled = false;
           if(res.response != null){
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.messageHandler('success', 'Language added successfully', '');
             this.languageName = "";
             this.getAllLanguages();
           }
           else{
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             if(res.errorResponse[0].errorCode == 700){
               this.messageHandler('error', 'Language already exists', '');
             }
@@ -852,19 +850,19 @@ export class MastersComponent implements OnInit {
         "language_name" : this.editLanguageName,
         "language_id": language_id
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.masterService.updateLanguage(obj).subscribe(
         response => {
           let res: any;
           res = response;
           if(res.response != null){
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.messageHandler('success', 'Language updated successfully', '');
             this.editLanguageName = "";
             this.getAllLanguages();
           }
           else{
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             console.log(res.errorResponse)
           }
         })
@@ -877,13 +875,13 @@ export class MastersComponent implements OnInit {
 
   delete(id, key_name){
     let name = key_name.charAt(0).toUpperCase() + key_name.slice(1);
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.masterService.delete(id, key_name).subscribe(
       response => {
         let res: any;
         res = response;
         if(res.response != null){
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.messageHandler('success', name +' deleted successfully', '');
 
           if(key_name.includes('category')){
@@ -914,10 +912,10 @@ export class MastersComponent implements OnInit {
         }
         else if(res.errorResponse[0].errorCode == 3000){
           this.messageHandler('error', name +' is linked with data and cannot be deleted', '');
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
         else{
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           console.log(res.errorResponse)
         }
 

@@ -1,19 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
-import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
-import { LoginService } from '../../../services/login-services/login.service';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
-import 'rxjs/Rx';
 import * as Muuri from 'muuri/muuri';
-import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service'
+import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { SelectItem } from 'primeng/components/common/api';
-import { WidgetService } from '../../../services/widget.service';
+import 'rxjs/Rx';
+import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { BiometricStatusServiceService } from '../../../services/biometric-status/biometric-status-service.service';
+import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { HttpService } from '../../../services/http.service';
-
+import { LoginService } from '../../../services/login-services/login.service';
+import { WidgetService } from '../../../services/widget.service';
 declare var $;
 // import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
@@ -83,7 +82,7 @@ export class AdminHomeComponent implements OnInit {
   newMessageText: string = "";
   messageCount: number = 0;
   userType : any = ''; 
-
+  isRippleLoad:boolean= false;
   courseCommonExamCancelPopUP = false;
 
   isCourseAttendance: boolean = false;
@@ -104,7 +103,6 @@ export class AdminHomeComponent implements OnInit {
   public isCancelExamPop: boolean = false;
   public isReminderPop: boolean = false;
   public isReschedulePop: boolean = false;
-  public isRippleLoad: boolean = false;
   public AllPresent: boolean = true;
   public isProfessional: boolean = false;
   isSubjectView: boolean = false;
@@ -622,13 +620,11 @@ export class AdminHomeComponent implements OnInit {
     } else {
       this.markAttendanceServerCall("N");
     }
-
-
   }
 
   markAttendanceServerCall(sendSms) {
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let arr = [];
     this.studentAttList.forEach(e => {
       let arrDateLi = []; // as per v1 only single dateli array object will send --laxmi
@@ -647,7 +643,7 @@ export class AdminHomeComponent implements OnInit {
     });
     this.widgetService.updateAttendance(arr).subscribe(
       res => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         let msg = {
           type: 'success',
           title: 'Attendance Updated',
@@ -658,7 +654,7 @@ export class AdminHomeComponent implements OnInit {
         this.fetchScheduleWidgetData();
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Failed To Update Attendance',
@@ -738,10 +734,10 @@ export class AdminHomeComponent implements OnInit {
       is_notified: this.is_notified
     }
     obj.cancelSchd.push(schd);
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.cancelClassSchedule(obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         let msg = {
           type: 'success',
           title: 'Schedule Cancelled',
@@ -752,7 +748,7 @@ export class AdminHomeComponent implements OnInit {
         this.fetchScheduleWidgetData();
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Failed To Cancel Schedule',
@@ -788,10 +784,10 @@ export class AdminHomeComponent implements OnInit {
         is_exam_schedule: "N",
         remarks: this.reminderRemarks
       };
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.widgetService.notifyStudentSchedule(obj).subscribe(
         res => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           let msg = {
             type: 'success',
            /*  title: 'Reminder Sent', */
@@ -801,7 +797,7 @@ export class AdminHomeComponent implements OnInit {
           this.closeRemiderClass();
         },
         err => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           let msg = {
             type: 'error',
             title: 'Failed To Notify',
@@ -901,10 +897,10 @@ export class AdminHomeComponent implements OnInit {
       obj.cancelSchd.push(temp1);
       obj.extraSchd.push(temp2);
 
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.widgetService.reScheduleClass(obj).subscribe(
         res => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           let msg = {
             type: 'success',
             /* title: 'Class Rescheduled', */
@@ -915,7 +911,7 @@ export class AdminHomeComponent implements OnInit {
           this.fetchScheduleWidgetData();
         },
         err => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           let msg = {
             type: 'error',
             title: 'Failed To Reschedule',
@@ -1058,10 +1054,10 @@ export class AdminHomeComponent implements OnInit {
       inst_id: sessionStorage.getItem('institute_id'),
       requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.fetchCourseLevelWidgetData(obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         if (this.grid) {
           this.grid.refreshItems().layout();
         }
@@ -1109,7 +1105,7 @@ export class AdminHomeComponent implements OnInit {
         this.generateCourseLevelExam();
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         console.log(err);
         if (this.grid) {
           this.grid.refreshItems().layout();
@@ -1186,10 +1182,10 @@ export class AdminHomeComponent implements OnInit {
       master_course: this.classMarkedForAction.master_course,
       requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.cancelCourseSchedule(obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         let msg = {
           type: 'success',
           title: 'Course Schedule Cancelled',
@@ -1200,7 +1196,7 @@ export class AdminHomeComponent implements OnInit {
         this.generateCourseLevelWidget();
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Failed To Cancel Schedule',
@@ -1225,10 +1221,10 @@ export class AdminHomeComponent implements OnInit {
       batch_id: this.classMarkedForAction.batch_id,
       cancelSchd: this.getCancelReason()
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.cancelBatchSchedule(obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         let msg = {
           type: 'success',
           /* title: 'Batch Schedule Cancelled', */
@@ -1239,7 +1235,7 @@ export class AdminHomeComponent implements OnInit {
         this.fetchScheduleWidgetData();
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Failed To Cancel Schedule',
@@ -1269,10 +1265,10 @@ export class AdminHomeComponent implements OnInit {
       requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
       remarks: this.reminderRemarks
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.remindCourseLevel(obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         let msg = {
           type: 'success',
           title: 'Reminder Sent',
@@ -1283,7 +1279,7 @@ export class AdminHomeComponent implements OnInit {
         this.closeRemiderClass();
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Unable to Send Reminder',
@@ -1333,10 +1329,10 @@ export class AdminHomeComponent implements OnInit {
       }
       arr.push(temp);
     });
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.updateCourseAttendance(arr).subscribe(
       res => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         let msg = {
           type: 'success',
           title: 'Attendance Updated',
@@ -1347,7 +1343,7 @@ export class AdminHomeComponent implements OnInit {
         this.generateCourseLevelWidget();
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Failed To Update Attendance',
@@ -1360,7 +1356,7 @@ export class AdminHomeComponent implements OnInit {
 
   getTopicsUpdate() {
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.topicsList = [];
     let obj = { batch_id: this.classMarkedForAction.batch_id.toString() };
     this.widgetService.getListOfTopics(obj).subscribe(
@@ -1372,15 +1368,15 @@ export class AdminHomeComponent implements OnInit {
             body: "No toppics list found"
           }
           this.appC.popToast(msg);
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
         } else {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           this.topicsList = res;
           this.showTopicList = true;
         }
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Failed To Update Attendance',
@@ -1527,15 +1523,15 @@ export class AdminHomeComponent implements OnInit {
 
   getMaterCourseList() {
     this.flushData();
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.getAllMasterCourse().subscribe(
       res => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         //console.log(res);
         this.masterCourseList = res;
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -1550,15 +1546,15 @@ export class AdminHomeComponent implements OnInit {
     }
     this.flushData();
     if (this.sendNotificationCourse.master_course != "-1") {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.widgetService.getAllCourse(this.sendNotificationCourse.master_course).subscribe(
         (res: any) => {
           this.showTableFlag = false;
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           this.courseList = res.coursesList;
         },
         err => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -1567,7 +1563,7 @@ export class AdminHomeComponent implements OnInit {
 
   fetchDataFromFields() {
     if (this.sendNotificationCourse.course_id != "-1") {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       let obj = {
         course_id: this.sendNotificationCourse.course_id,
         master_course_name: this.sendNotificationCourse.master_course
@@ -1575,13 +1571,13 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.getStudentListOfCourse(obj).subscribe(
         res => {
           this.allChecked = true;
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           this.showTableFlag = true;
           this.selectedOption = "filter";
           this.studentList = this.addKeys(res, true);
         },
         err => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -1589,10 +1585,10 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getMasterCourseAndBatch(data) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.fetchCombinedData(data.standard_id, data.subject_id).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         this.combinedDataRes = res;
         if (res.standardLi != null) {
           this.masterCourseList = res.standardLi;
@@ -1606,7 +1602,7 @@ export class AdminHomeComponent implements OnInit {
 
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -1844,18 +1840,18 @@ export class AdminHomeComponent implements OnInit {
     if (event.target.checked) {
       this.allChecked = true;
       this.clearCheckBoxSelction(event.target.id);
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.studentList = [];
       this.widgetService.getAllActiveStudentList().subscribe(
         res => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           if (document.getElementById('chkBoxActiveSelection').checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
         },
         err => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -1870,18 +1866,18 @@ export class AdminHomeComponent implements OnInit {
     if (event.target.checked) {
       this.allChecked = true;
       this.clearCheckBoxSelction(event.target.id);
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.studentList = [];
       this.widgetService.getAllTeacherList().subscribe(
         res => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           if (document.getElementById('chkBoxTutorSelection').checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
         },
         err => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -1897,18 +1893,18 @@ export class AdminHomeComponent implements OnInit {
     if (event.target.checked) {
       this.allChecked = true;
       this.clearCheckBoxSelction(event.target.id);
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.studentList = [];
       this.widgetService.getAllInActiveList().subscribe(
         res => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           if (document.getElementById('chkBoxInActiveSelection').checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
         },
         err => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -1924,18 +1920,18 @@ export class AdminHomeComponent implements OnInit {
     if (event.target.checked) {
       this.allChecked = true;
       this.clearCheckBoxSelction(event.target.id);
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.studentList = [];
       this.widgetService.getAllAluminiList().subscribe(
         res => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           if (document.getElementById('chkBoxAluminiSelection').checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
         },
         err => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -1971,7 +1967,7 @@ export class AdminHomeComponent implements OnInit {
 
   getAllMessageFromServer() {
     this.messageList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let obj = {
       from_date: moment().subtract(1, 'months').format("YYYY-MM-DD"),
       status: 1,
@@ -1979,11 +1975,11 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.getMessageList(obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         this.messageList = this.addKeys(res, false);
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
       }
     )
   }
@@ -2273,10 +2269,10 @@ export class AdminHomeComponent implements OnInit {
       };
       obj.studentArray = obj.studentArray.split(",");
       obj.userArray = obj.userArray.split(",");
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.widgetService.smsForAddDownload(obj).subscribe(
         res => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           let tempMsg=type+' Sent successfully';
           let msg = {
             type: 'success',
@@ -2286,7 +2282,7 @@ export class AdminHomeComponent implements OnInit {
           this.appC.popToast(msg);
         },
         err => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           //console.log(err);
           let msg = {
             type: 'error',
@@ -2323,15 +2319,15 @@ export class AdminHomeComponent implements OnInit {
     let id = Number(data.course_exam_schedule_id);
     this.viewExamDetailsPopUp = true;
     const url = `/api/v1/courseExamSchedule/fetch-exam-details?course_exam_schedule_id=${id}&exam_date=${data.course_exam_date}`
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
           // let arr = this.constructExamJSONForTable(res.result);
           this.viewExamDetTable = res.result;
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -2503,9 +2499,9 @@ export class AdminHomeComponent implements OnInit {
 
   getAllExamsAndClass(obj) {
     this.schedStat = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.fetchSchedWidgetData(obj).subscribe(data => {
-      this.isRippleLoad = false;
+     this.auth.hideLoader();
       this.schedStat = data;
       if (this.isProfessional) {
         this.getExamSchedule(obj);
@@ -2513,7 +2509,7 @@ export class AdminHomeComponent implements OnInit {
       }
       this.classScheduleCount = this.schedStat.otherSchd.length;
     }, err => {
-      this.isRippleLoad = false;
+     this.auth.hideLoader();
       this.classScheduleCount = 0;
       console.log(err);
       if (this.isProfessional) {
@@ -2817,16 +2813,16 @@ export class AdminHomeComponent implements OnInit {
         is_notified: notify
       }]
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.cancelExamSchedule(obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         this.messageNotifier('success', 'Successfully Cancelled', 'Exam Schedule Cancelled Successfully');
         this.fetchScheduleWidgetData();
         this.closeExamPopup();
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         //console.log(err);
         this.messageNotifier('error', '', err.error.message);
       }
@@ -2837,14 +2833,14 @@ export class AdminHomeComponent implements OnInit {
 
   notifyExamSchedule(i, data) {
     if (confirm('Are you sure u want to send Exam Schedule SMS to the batch?')) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.widgetService.notifyStudentExam(data.schd_id).subscribe(
         res => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           this.messageNotifier('success', 'Notified', 'Notification Sent Successfully');
         },
         err => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -2861,14 +2857,14 @@ export class AdminHomeComponent implements OnInit {
         course_id: data.course_id,
         requested_date: moment(data.course_exam_date).format('YYYY-MM-DD')
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.widgetService.sendReminder(obj).subscribe(
         res => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
         },
         err => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           console.log(err);
           this.messageNotifier('error', '', err.error.message);
         }
@@ -3095,17 +3091,17 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getExamStudentList(id) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.getExamStudentsList(id).subscribe(
       res => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         this.studentList = this.addKeys(res, false);
         if (this.courseExamMarkPopup) {
           this.makeTableHeader();
         }
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         console.log(err);
         this.messageNotifier('error', '', err.error.message);
       }
@@ -3166,13 +3162,13 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.markStudentAttendance(data).subscribe(
       res => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         this.messageNotifier('success', 'Marked', 'Attendance Marked Successfully');
         this.closePopUpCommon();
         this.generateCourseLevelWidget();
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -3466,16 +3462,16 @@ export class AdminHomeComponent implements OnInit {
         is_cancel_notify: notify,
         requested_date: moment(this.tempData.course_exam_date).format('YYYY-MM-DD')
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.widgetService.cancelExamScheduleCourse(obj).subscribe(
         res => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           this.messageNotifier('success', 'Cancelled', 'Exam Cancelled Successfully');
           this.generateCourseLevelWidget();
           this.closePopUpCommon();
         },
         err => {
-          this.isRippleLoad = false;
+         this.auth.hideLoader();
           this.messageNotifier('error', '', err.error.message);
         }
       )
@@ -3489,16 +3485,16 @@ export class AdminHomeComponent implements OnInit {
     //       is_notified: notify
     //     }]
     //   }
-    //   this.isRippleLoad = true;
+    //   this.auth.showLoader();
     //   this.widgetService.cancelExamSchedule(obj).subscribe(
     //     res => {
-    //       this.isRippleLoad = false;
+    //      this.auth.hideLoader();
     //       this.messageNotifier('success', 'Cancelled', 'Exam Cancelled Successfully');
     //       this.generateCourseLevelWidget();
     //       this.closePopUpCommon();
     //     },
     //     err => {
-    //       this.isRippleLoad = false;
+    //      this.auth.hideLoader();
     //       this.messageNotifier('error', '', err.error.message);
     //     }
     //   )
@@ -3523,16 +3519,16 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getOpenStatusSMS() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.jsonFlag.openMessageFlag = true;
     this.openMessageList = [];
     this.widgetService.getMessageList({}).subscribe(
       res => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         this.openMessageList = res;
       },
       err => {
-        this.isRippleLoad = false;
+       this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -3563,10 +3559,10 @@ export class AdminHomeComponent implements OnInit {
 
   updateMessage() {
     let obj = { message: this.newMessageText };
-    this.isRippleLoad=true;
-    this.widgetService.changesSMSStatus(obj,this.jsonFlag.messageObject.message_id ).subscribe(
+    this.auth.showLoader();
+        this.widgetService.changesSMSStatus(obj,this.jsonFlag.messageObject.message_id ).subscribe(
       res => {
-        this.isRippleLoad=false;
+        this.auth.hideLoader();
         let msg = {
           type: 'success',
           title: 'Message updated Successfully',
@@ -3576,7 +3572,7 @@ export class AdminHomeComponent implements OnInit {
         this.onTabChange(this.jsonFlag.smsTabType);// as per view it get the sms data --laxmi
       },
       err => {
-        this.isRippleLoad=false;
+        this.auth.hideLoader();
         //console.log(err);
         let msg = {
           type: 'error',
@@ -3633,7 +3629,7 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  onOfLoaderFromTodoList(ev) {
+  onOfLoaderFromTodoList(ev) {    
     this.isRippleLoad = ev;
   }
 

@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ProductService } from '../../../../services/products.service';
-import { MessageShowService } from '../../../../services/message-show.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { MessageShowService } from '../../../../services/message-show.service';
+import { ProductService } from '../../../../services/products.service';
 
 @Component({
   selector: 'app-classroom-class',
@@ -19,10 +20,10 @@ export class ClassroomClassComponent implements OnInit {
   @Output() previewEvent = new EventEmitter<boolean>();
   description: string = '';
   selectAll: boolean = false;
-  isRippleLoad: boolean = false;
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
+    private auth:AuthenticatorService,
     private router: Router,
   ) { }
 
@@ -36,10 +37,10 @@ export class ClassroomClassComponent implements OnInit {
 
     if (this.entity_id && this.entity_id.length > 0) {
       //Fetch Product Info
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let response = resp.result;
           if (resp.validate) {
             this.prodForm = response;
@@ -55,7 +56,7 @@ export class ClassroomClassComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
@@ -86,17 +87,17 @@ export class ClassroomClassComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
       return;
     }
-    if ((!this.isRippleLoad)) {
+    if ((!this.auth.isRippleLoad.getValue())) {
       //update test List
       let obj = {
         "page_type": "Classroom_Class",
         "item_list": [],
         "description": this.description
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let response = resp['body'];
           if (response.validate) {
             let details = response.result;
@@ -109,7 +110,7 @@ export class ClassroomClassComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', 'There is some problem in processing your request.Please try after some time.Or contact us at support@proctur.com for further assistance. ', '');
         });
     }

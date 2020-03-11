@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TeacherAPIService } from '../../../services/teacherService/teacherApi.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { TeacherAPIService } from '../../../services/teacherService/teacherApi.service';
 
 @Component({
   selector: 'app-teacher-list',
@@ -17,7 +18,6 @@ export class TeacherListComponent implements OnInit {
   totalRow: number;
   searchData: any = [];
   searchDataFlag: boolean = false;
-  isRippleLoad: boolean = false;
   dataStatus: number = 1;
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
@@ -27,7 +27,8 @@ export class TeacherListComponent implements OnInit {
   constructor(
     private ApiService: TeacherAPIService,
     private route: Router,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private auth:AuthenticatorService,
   ) { }
 
   ngOnInit() {
@@ -36,18 +37,18 @@ export class TeacherListComponent implements OnInit {
 
   getDataFromServer() {
     this.PageIndex = 1;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.ApiService.getAllTeacherList().subscribe(
       (data: any) => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.totalRow = data.length;
         this.teacherListDataSource = data;
         this.fetchTableDataByPage(this.PageIndex);
       },
       error => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let data = {
           type: "error",
           title: '',

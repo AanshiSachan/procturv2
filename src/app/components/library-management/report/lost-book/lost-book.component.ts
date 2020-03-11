@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { ReportService } from '../../../../services/library/report/report.service';
 
 @Component({
@@ -12,7 +13,6 @@ export class LostBookComponent implements OnInit {
 
   jsonFlag = {
     isProfessional: false,
-    isRippleLoad: false
   };
   lostbookrange: any[] = [];
   lostBookReportList: any[] = [];
@@ -22,6 +22,7 @@ export class LostBookComponent implements OnInit {
   constructor(
     private router: Router,
     private cd: ChangeDetectorRef,
+    private auth:AuthenticatorService,
     private reportService: ReportService
   ) { }
 
@@ -45,10 +46,10 @@ export class LostBookComponent implements OnInit {
       ]
     }
 
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.reportService.getLostBookReport(obj).subscribe(
       response => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         let result : any;
         result = response;
         if(result.length > 0){
@@ -57,7 +58,7 @@ export class LostBookComponent implements OnInit {
         }
       },
       errorResponse => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }

@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../services/common-service';
+import { ExcelService } from '../../../services/excel.service';
+import { ExportToPdfService } from '../../../services/export-to-pdf.service';
+import { MessageShowService } from '../../../services/message-show.service';
+import { PaymentHistoryMainService } from '../../../services/payment-history/payment-history-main.service';
+import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { DataDisplayTableComponent } from '../../shared/data-display-table/data-display-table.component';
 import { ColumnData2 } from '../../shared/data-display-table/data-display-table.model';
-import { PaymentHistoryMainService } from '../../../services/payment-history/payment-history-main.service';
-import { ExcelService } from '../../../services/excel.service';
-import { MessageShowService } from '../../../services/message-show.service';
-import { ExportToPdfService } from '../../../services/export-to-pdf.service';
-import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
-import { CommonServiceFactory } from '../../../services/common-service';
 
 
 @Component({
@@ -49,7 +50,6 @@ export class PaymentHistoryMainComponent implements OnInit {
   chequeStatus: any = [{ value: 1, title: '' }, { value: 2, title: 'Dishonoured' }, { value: 3, title: 'Cleared' }];
   flagJson: any = {
     searchflag: false,
-    isRippleLoad: false,
     isChequePayment: false,
     addReportPopUp: false,
     showPreference: false,
@@ -126,6 +126,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     private msgService: MessageShowService,
     private pdf: ExportToPdfService,
     private ref: ChangeDetectorRef,
+    private auth:AuthenticatorService,
     private _tablePreferencesService: TablePreferencesService,
     private _commService:CommonServiceFactory
   ) { }
@@ -222,22 +223,22 @@ export class PaymentHistoryMainComponent implements OnInit {
       user_id: Number(this.sendPayload.user_id)
     }
 
-    this.flagJson.isRippleLoad = true;
+    this.auth.showLoader();
     this.payment.getUserList(object, 'Y').subscribe(
       (res: any) => {
-        this.flagJson.isRippleLoad = false;
+        this.auth.hideLoader();
         this.userList = res;
         // console.log(this.userList);
       },
       err => {
-        this.flagJson.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       });
 
   }
 
   getAllPaymentHistory() {
-    this.flagJson.isRippleLoad = true;
+    this.auth.showLoader();
     this.allPaymentRecords = this.tempRecords;
     if (this.varJson.searchName != "" || this.varJson.searchName != null) {
       if (this.isName(this.varJson.searchName)) {
@@ -250,7 +251,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       }
     }
     if (this.flagJson.searchflag) {
-      this.flagJson.isRippleLoad = false;
+      this.auth.hideLoader();
       if (this.allPaymentRecords.length == 0) {
         this.tableSetting.displayMessage = "Data not found";
       }
@@ -279,11 +280,11 @@ export class PaymentHistoryMainComponent implements OnInit {
           );
 
           if (this.newData.length) {
-            this.flagJson.isRippleLoad = false;
+            this.auth.hideLoader();
             /* update CollectionObject Data for display */
           }
           else {
-            this.flagJson.isRippleLoad = false;
+            this.auth.hideLoader();
           }
 
           if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
@@ -300,7 +301,7 @@ export class PaymentHistoryMainComponent implements OnInit {
           }
         },
         (error: any) => {
-          this.flagJson.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', error.error.message)
         })
     }
@@ -367,7 +368,7 @@ export class PaymentHistoryMainComponent implements OnInit {
   futureDateValid(selectDate) {
     if (moment(selectDate).diff(moment()) > 0) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', 'You cannot select future date');
-      this.flagJson.isRippleLoad = false;
+      this.auth.hideLoader();
       this.sendPayload.from_date = moment().format('YYYY-MM-DD');
       this.sendPayload.to_date = moment().format('YYYY-MM-DD');
     }

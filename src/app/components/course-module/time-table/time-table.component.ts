@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { timeTableService } from '../../../services/TimeTable/timeTable.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { MessageShowService } from '../../../services/message-show.service';
+import { timeTableService } from '../../../services/TimeTable/timeTable.service';
 ;
 
 @Component({
@@ -28,7 +28,6 @@ export class TimeTableComponent implements OnInit {
   selectData: string = "all";
   insContact: string;
   insName: string;
-  isRippleLoad: boolean;
   onlyMasterData: boolean = false;
   showtable: boolean;
   isProfessional: boolean;
@@ -116,7 +115,7 @@ export class TimeTableComponent implements OnInit {
   ========================================================================================================== */
 
   getMasterCoursesData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (this.isProfessional) {
       this.fetchFieldDataPro.standard_id = "-1";
       this.fetchFieldDataPro.batch_id = "-1";
@@ -125,26 +124,26 @@ export class TimeTableComponent implements OnInit {
         res => {
           this.masterPro = res.standardLi;
           this.batchPro = res.batchLi;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           console.log(err);
         }
         )
     }
     else {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.timeTableServ.getMasterCourses().subscribe
         (
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.masterCoursesData = res;
           // console.log(this.masterCoursesData);
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           console.log(err);
         }
         )
@@ -153,7 +152,7 @@ export class TimeTableComponent implements OnInit {
 
   getCourses(i) {
     if (i != '-1') {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       if (this.isProfessional) {
         this.coursePro = [];
         this.fetchFieldDataPro.batch_id = "-1";
@@ -161,18 +160,18 @@ export class TimeTableComponent implements OnInit {
         this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
           (
           res => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.coursePro = res.subjectLi;
             this.batchPro = res.batchLi;
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             console.log(err);
           }
           )
       }
       else {
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.fetchFieldData.batch_id = "-1";
         this.subjectData = [];
         this.fetchFieldData.course_id = "-1";
@@ -183,12 +182,12 @@ export class TimeTableComponent implements OnInit {
         this.timeTableServ.getCoursesData(i).subscribe
           (
           res => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.courseData = res.coursesList;
 
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             console.log(err);
           }
           )
@@ -201,23 +200,23 @@ export class TimeTableComponent implements OnInit {
 
   getSubjects(i) {
     if (i != '-1') {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       if (this.isProfessional) {
         this.fetchFieldDataPro.batch_id = "-1";
         this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
           (
           res => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.batchPro = res.batchLi;
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             console.log(err);
           }
           )
       }
       else {
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.onlyMasterData = false;
         this.fetchFieldData.subject_id = "-1";
         this.subjectData = [];
@@ -225,12 +224,12 @@ export class TimeTableComponent implements OnInit {
         this.timeTableServ.getSubjectData(i).subscribe
           (
           res => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.subjectData = res.batchesList;
             console.log(this.subjectData);
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             console.log(err);
           }
           )
@@ -242,10 +241,10 @@ export class TimeTableComponent implements OnInit {
 
   getTeachersNameData() {
     this.onlyMasterData = false;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.timeTableServ.getTeachersName().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let key = { primaryKey: 'teacher_name' };
         if (res.length > 0) {
           this.getTeachersData = this.commonService.SortArray(key, res);
@@ -260,7 +259,7 @@ export class TimeTableComponent implements OnInit {
         // });
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       })
   }
@@ -269,10 +268,10 @@ export class TimeTableComponent implements OnInit {
 
   /*fetch time table list for nonProfessional model */
   fetchTimeTableReport(flag) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (this.fetchFieldData.master_course == "-1" && this.fetchFieldData.teacher_id == "-1") {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", " Please Select a Master Course or Teacher");
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       return;
     }
     if (flag == '-1') {
@@ -293,7 +292,7 @@ export class TimeTableComponent implements OnInit {
     this.timeTableServ.getTimeTable(this.fetchFieldData).subscribe
       (
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.notProTimeTable = [];
         this.namesArr = [];
         if (res && res.length != 0 && this.onlyMasterData) {
@@ -308,7 +307,7 @@ export class TimeTableComponent implements OnInit {
           })
         }
         else {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.timeTableObj = res.batchTimeTableList;
           this.namesArr.push(res.course_name);
           this.maxEntries = 0;
@@ -319,7 +318,7 @@ export class TimeTableComponent implements OnInit {
       },
       err => {
 
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
       )
@@ -351,19 +350,19 @@ export class TimeTableComponent implements OnInit {
   }
   /*fecthing report in Professional model */
   fetchTimeTableReportPro(data) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (this.selectData == "teacher") {
       if (this.fetchFieldDataPro.teacher_id == "-1") {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Please Select a Teacher");
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         return;
       }
     }
     else if (this.selectData == "batch") {
       if (this.fetchFieldDataPro.batch_id == "-1") {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Please Select a Batch");
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         return;
       }
     }
@@ -386,7 +385,7 @@ export class TimeTableComponent implements OnInit {
     this.timeTableServ.getTimeTable(this.fetchFieldDataPro).subscribe
       (
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (res.length != 0) {
           this.timeTableObj = res.batchTimeTableList;
         }
@@ -396,7 +395,7 @@ export class TimeTableComponent implements OnInit {
         this.showtable = true;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
       )
@@ -467,10 +466,10 @@ export class TimeTableComponent implements OnInit {
 
 
   printTimeTableData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.timeTableServ.downloadTimeTable(this.forDownloadPDF).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let byteArr = this.commonService.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
@@ -482,7 +481,7 @@ export class TimeTableComponent implements OnInit {
         dwldLink.click();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     );

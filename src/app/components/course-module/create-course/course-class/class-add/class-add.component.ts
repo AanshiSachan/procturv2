@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CheckableSettings, TreeItemLookup } from '@progress/kendo-angular-treeview';
 import * as moment from 'moment';
-import { CheckableSettings } from '@progress/kendo-angular-treeview';
 import { of } from 'rxjs/observable/of';
-import { TreeItemLookup } from '@progress/kendo-angular-treeview';
-import { LoginService, AuthenticatorService, MessageShowService } from '../../../../..';
+import { AuthenticatorService, LoginService, MessageShowService } from '../../../../..';
 import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
 import { TopicListingService } from '../../../../../services/course-services/topic-listing.service';
 
@@ -161,7 +160,6 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   showPopUpRecurence: boolean = false;
   showPopUpCancellation: boolean = false;
   isProfessional: boolean = false;
-  isRippleLoad: boolean = false;
   isClassFormFilled: boolean = false;
   createCustomSchedule: boolean = false;
   showCancelWeeklyBtn: boolean = false;
@@ -280,15 +278,15 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
 
   // All day of the week
   getAllWeekDay(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.classService.getDayofWeekAll().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.weekDaysList = res;
         console.log(this.weekDaysList)
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
     )
@@ -395,7 +393,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
 
 
   fetchPrefillData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     /* Batch Model */
     if (this.isProfessional) {
       this.classService.getStandardSubjectList(this.fetchMasterBatchModule.standard_id, this.fetchMasterBatchModule.subject_id, this.fetchMasterBatchModule.assigned).subscribe(
@@ -447,7 +445,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
 
     return this.classService.getInstituteSettings().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.instituteSetting = res;
       },
       err => { }
@@ -457,22 +455,22 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
 
 
   updateCourseList(ev) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.isClassFormFilled = false;
     this.classService.getCourseFromMasterById(ev).subscribe(
       res => {
         if (res.coursesList) {
           this.courseList = res.coursesList;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
         else {
           this.courseList = [];
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       },
       err => {
         this.courseList = [];
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -501,12 +499,12 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
 
 
   updateSubjectList(ev) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.isClassFormFilled = false;
     this.fetchMasterBatchModule.subject_id = '-1';
     this.classService.getStandardSubjectList(ev, this.fetchMasterBatchModule.subject_id, this.fetchMasterBatchModule.assigned).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.courseModelBatch = res;
         if (ev == '-1') {
           if (this.fetchMasterBatchModule.subject_id == "-1") {
@@ -598,10 +596,10 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
 
   filterSubjectBatches(ev) {
     console.log(ev);
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.classService.getStandardSubjectList(this.fetchMasterBatchModule.standard_id, ev, this.fetchMasterBatchModule.assigned).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.courseModelBatch = res;
         if (this.fetchMasterBatchModule.standard_id == '-1' && this.fetchMasterBatchModule.subject_id == '-1') {
 
@@ -721,10 +719,10 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
 
 
   batchDetected(id) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.classService.getBatchDetailsById(id).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.isClassFormFilled = true;
         this.batchDetails = this.keepCloning(res);
         this.calculateFieldForTables(res);
@@ -748,18 +746,18 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
 
   getAllSubjectListFromServer(data) {
     this.isClassFormFilled = true;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.fetchMasterCourseModule.requested_date = moment(this.fetchMasterCourseModule.requested_date).format('YYYY-MM-DD');
     this.classService.getAllSubjectlist(this.fetchMasterCourseModule).subscribe(
       res => {
         this.fetchedCourseData = res;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.subjectListDataSource = this.getSubjectList(res);
         this.classScheduleArray = this.constructJSONForTable(res);
       },
       err => {
         //console.log(err);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
@@ -810,30 +808,30 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   }
 
   getCustomList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.classService.getCustomClassListFromServer().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.customListDataSource = res;
       },
       err => {
         //console.log(err);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
 
   getTeacherList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.classService.getAllActiveTeachersList().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.teacherListDataSource = res;
       },
       err => {
         //console.log(err);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
@@ -881,8 +879,8 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       return;
     }
     else {
-      if (!this.isRippleLoad) {
-        this.isRippleLoad = true;
+      if (!this.auth.isRippleLoad.getValue()) {
+        this.auth.showLoader();
         this.topicService.getAllTopicsSubTopics(this.addClassDetails.subject_id).subscribe(
           res => {
             let temp: any;
@@ -890,7 +888,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
             if (temp != null && temp.length != 0) {
               this.topicBox = false;
               console.log(res);
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.topicsData = res;
 
               let subjectName = "";
@@ -906,13 +904,13 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
               this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
             }
             else {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to Link");
             }
 
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           }
         )
@@ -921,14 +919,14 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   }
 
   fetchTopics(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.totalTopicsList = [];
     this.topicService.getAllTopicsSubTopics(this.fetchMasterBatchModule.subject_id).subscribe((resp)=>{
       this.topicsList = [];
       this.topicsList = resp;
       if(this.topicsList.length && this.topicsList != null){
         this.showTopicsModal = true;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.topicsList.forEach(tpc =>{
           this.totalTopicsList.push(tpc);
           tpc.checked = false;
@@ -939,11 +937,11 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         
       }
       else {
-        this.isRippleLoad = false;        
+        this.auth.hideLoader();        
         this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to Link");
       }
     },err =>{
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
     })
   }
@@ -1005,13 +1003,13 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   }
  
   fetchSelectedTopics(){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.showTopicsModal= true;
     this.selectedTopicsListObj.forEach(obj =>{
       var getTopicObject = this.totalTopicsList.find(ele => ele.topicId == obj.topicId);
       getTopicObject.checked = true;
     });
-    this.isRippleLoad = false;
+    this.auth.hideLoader();
   }
 
   saveSelectedTopics(){
@@ -1019,7 +1017,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics selected");
     }
     else { */
-     this.isRippleLoad = true;
+     this.auth.showLoader();
      this.selectedTopicsListObj = [];
      this.selectedTopicsListObj = this.totalTopicsList.filter(obj => obj.checked == true);
      if(this.selectedTopicsListObj !=undefined){
@@ -1033,7 +1031,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
      this.selectedTopicsNames = this.selectedTopicsNames.join(',');
     }
      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Topics linked successfully!");
-     this.isRippleLoad = false;
+     this.auth.hideLoader();
      this.showTopicsModal = false;
    // }
   }
@@ -1064,7 +1062,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics selected");
     } 
     else { */
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
       var getTopicIds;
       if(getSelectedTopics != undefined){
@@ -1083,7 +1081,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     }
       this.msgService.showErrorMessage('success', '', "Topics updated successfully");
       this.showTopicsModal = false;
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
 
     //}
   }
@@ -1092,7 +1090,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
    console.log('inside edit topics:',row);
    this.getSubjectObject = '';
    this.getSubjectObject = row;
-   this.isRippleLoad = true;
+   this.auth.showLoader();
    if(row.topics_covered != '' && row.topics_covered != null){
    var selectedTopicIds = row.topics_covered.split('|');
    }
@@ -1103,7 +1101,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
      if(this.topicsList != null && this.topicsList.length){
       this.showTopicsModal = true;
       this.showCustomEditModal = true;
-       this.isRippleLoad = false;
+       this.auth.hideLoader();
        this.topicsList.forEach(obj =>{
         list.push(obj);
         if(selectedTopicIds !=undefined){
@@ -1120,11 +1118,11 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
        this.totalTopicsList = list     
      }
      else {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', "No topics available to Link");
      }
    },err => {
-    this.isRippleLoad = false;
+    this.auth.hideLoader();
     this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
   })
   }
@@ -1151,8 +1149,8 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     this.selectedSubId = subject_id;
     this.selectedRow = row;
     this.topicsData = []
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.topicService.getAllTopicsSubTopics(subject_id).subscribe(
         res => {
           let temp: any;
@@ -1161,7 +1159,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
             this.checkedKeys = [];
             this.topicBox = false;
             console.log(res);
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.topicsData = res;
             let array = this.selectedRow.topics_covered.split("|"); //add selected array data
             array.forEach((value) => {
@@ -1175,13 +1173,13 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
           else {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "No topics available to Link");
           }
 
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
@@ -1415,17 +1413,17 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       return false;
     }
     if (dataTosend != undefined) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.classService.cancelClassSchedule(dataTosend).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Class Cancelled Successfull');
           this.showPopUpCancellation = false;
           this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
         },
         err => {
           //console.log(err);
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
@@ -1481,16 +1479,16 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       return;
     }
     let obj = this.makeJsonForCourseSave();
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.classService.saveDataOnServer(obj).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Saved', 'Your class added successfully');
         this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
         // this.router.navigate(['/view/course/class']);
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
@@ -1585,10 +1583,10 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   //////// POPUP /////////////////////////
 
   getWeeklyScheduleData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.classService.getWeeklySchedule(this.selctedScheduledClass.batch_id).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         // if (res.weekSchd && (res.weekSchd.length > 0)) {
           // this.selctedScheduledClass.startTime = this.getNewTimeFormatJson(res.weekSchd[0].start_time);
           // this.selctedScheduledClass.endTime = this.getNewTimeFormatJson(res.weekSchd[0].end_time);
@@ -1614,7 +1612,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         // }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
     )
@@ -1680,18 +1678,18 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   saveCustomRecurrences(){
 
     this.multiClickDisabled = true;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let JsonToSend = this.makeJsonForRecurrence();
     this.classService.saveCustomRecurrenceToServer(JsonToSend).subscribe(
       res => {
         this.showPopUpRecurence = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Saved Successfully');
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.multiClickDisabled = false;
       },
       err => {
         //console.log(err);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.multiClickDisabled = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
@@ -2169,17 +2167,17 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   }
 
   serverCallPUT(data) {
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.classService.createCustomBatchPUT(data).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Class scheduled successfully!');
           this.showWarningPopup = false;
           this.updateTableDataAgain();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           //console.log(err);
         }
@@ -2188,17 +2186,17 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   }
 
   serverCallPOST(data) {
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
       this.classService.createWeeklyBatchPost(data).subscribe(
         res => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Class scheduled successfully!');
           this.showWarningPopup = false
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.updateTableDataAgain();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           //console.log(err);
         }

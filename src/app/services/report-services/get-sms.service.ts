@@ -1,11 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, Response, Request, Headers, XHRBackend } from '@angular/http';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import * as moment from 'moment';
+import 'rxjs/Rx';
 import { AuthenticatorService } from "../authenticator.service";
 
 @Injectable()

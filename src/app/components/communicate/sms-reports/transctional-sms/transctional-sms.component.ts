@@ -41,7 +41,6 @@ export class TransctionalSmsComponent implements OnInit {
   isProfessional: boolean = false;
   searchflag: boolean = false;
   dataStatus: boolean = true;
-  isRippleLoad: boolean = false;
   smsFetchForm: any = {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
     from_date: moment(new Date()).format('YYYY-MM-DD'),
@@ -90,12 +89,12 @@ export class TransctionalSmsComponent implements OnInit {
   }
 
   getSmsReport(obj) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.dataStatus = true;
     if (obj.start_index == 0) {
       return this.getSms.fetchSmsReport(obj).subscribe(
         (res: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if (res.length != 0) {
             this.smsSource = res;
             this.totalRecords = res[0].totalCount;
@@ -107,14 +106,14 @@ export class TransctionalSmsComponent implements OnInit {
           }
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       )
     }
     else {
       return this.getSms.fetchSmsReport(obj).subscribe(
         (res: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.smsSource = res;
         }
       )

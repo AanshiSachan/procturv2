@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { HttpService } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
@@ -31,6 +32,7 @@ export class VideoLectureComponent implements OnInit {
   constructor(
     private router: Router,
     private msgService: MessageShowService,
+    private auth:AuthenticatorService,
     private _http: HttpService,
     private http: ProductService) { }
 
@@ -61,10 +63,10 @@ export class VideoLectureComponent implements OnInit {
         "item_list":this.testlist,
         "description":this.description
       }
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
         (resp: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let response = resp['body'];
           if (response.validate) {
             let details = response.result;
@@ -78,7 +80,7 @@ export class VideoLectureComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error','There is some problem in processing your request.Please try after some time.Or contact us at support@proctur.com for further assistance. ', '');
         });
     }
@@ -229,7 +231,7 @@ export class VideoLectureComponent implements OnInit {
     if (this.entity_id && this.entity_id.length > 0) {  
         this.http.getMethod('ext/get-subjects-of-ecourses/' + this.entity_id+'/Videos', null).subscribe(
           (resp: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             if (resp) {
               let response = JSON.parse(resp.result);
               console.log(response);
@@ -255,7 +257,7 @@ export class VideoLectureComponent implements OnInit {
             }
           },
           (err) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage('error','There is some problem in processing your request.Please try after some time.Or contact us at support@proctur.com for further assistance. ', '');
           });      
     }
@@ -269,9 +271,9 @@ export class VideoLectureComponent implements OnInit {
     }
 
     if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.postMethod('ext/get-topic-of-subject/Videos', params, null).then((res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (res && res.body && res.body.result) {
           let responce = JSON.parse(res.body.result);
           console.log(responce);
@@ -287,7 +289,7 @@ export class VideoLectureComponent implements OnInit {
           });
         }
       }).catch((err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', err.message, '');
       });
     }
@@ -317,7 +319,7 @@ export class VideoLectureComponent implements OnInit {
   }
 
   initProductForm() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (this.entity_id && this.entity_id.length > 0) {
       //Fetch Product Info
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(

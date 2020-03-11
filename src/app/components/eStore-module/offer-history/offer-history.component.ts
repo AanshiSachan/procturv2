@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
-import { ProductService } from '../../../services/products.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
+import { ProductService } from '../../../services/products.service';
+import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 
 @Component({
   selector: 'app-offer-history',
@@ -18,8 +19,6 @@ export class OfferHistoryComponent implements OnInit {
     displayBatchSize: 25,
     total_items: 0
   };
-  isRippleLoad: boolean = false;
-
   feeSettings1 = [
     { primaryKey: 'offer_code', header: 'Offer Code', priority: 1, allowSortingFlag: true },
     { primaryKey: 'product_name', header: 'Product Name', priority: 2, allowSortingFlag: true },
@@ -43,6 +42,7 @@ export class OfferHistoryComponent implements OnInit {
 
   constructor(private _tablePreferencesService: TablePreferencesService,
     private _productService: ProductService,
+    private auth:AuthenticatorService,
     private _msgService: MessageShowService
   ) { }
 
@@ -69,19 +69,19 @@ export class OfferHistoryComponent implements OnInit {
       'page_no': this.varJson.PageIndex,
       'no_of_records': this.varJson.displayBatchSize,
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this._productService.getMethod('use-offer/search-filter', object).subscribe(
       (data: any) => {
         if (data.validate) {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.offerHistoryData = data.result.results;
         } else {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this._msgService.showErrorMessage('error', 'something went wrong, try again', '');
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('error', '', err.error.message);
       }
     );

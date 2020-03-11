@@ -1,12 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/Router'
 
 @Component({
-    selector: 'loaders-css',
+    selector: 'app-loaders-css',
     templateUrl: './app-loader.html',
     styleUrls: ['./app-loader.scss'],
 })
-export class AppLoaderComponent{
+export class AppMainLoaderComponent{
     @Input() loader: string;
     @Input() loaderClass: string;
     

@@ -1,8 +1,7 @@
-import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthenticatorService } from "./authenticator.service";
-import { forkJoin } from "rxjs/observable/forkJoin";
+import { Injectable } from "@angular/core";
 import { Observable } from 'rxjs/Observable';
+import { AuthenticatorService } from "./authenticator.service";
 
 
 

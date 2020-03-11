@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { MessageShowService } from '../../../services/message-show.service';
 import { CampaignService } from '../services/campaign.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 declare var $;
 
 @Component({
@@ -81,6 +82,7 @@ export class ManageCampaignComponent implements OnInit {
   constructor(
     private campaignService: CampaignService,
     private msgService: MessageShowService,
+    private auth:AuthenticatorService,
     private _pdfService: ExportToPdfService
   ) { }
 
@@ -96,7 +98,7 @@ export class ManageCampaignComponent implements OnInit {
   }
 
   fetchPreFillData(){
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     // get all source list
     this.campaignService.getAllSources().subscribe(
       res => {
@@ -104,7 +106,7 @@ export class ManageCampaignComponent implements OnInit {
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
     // get all assigned list
@@ -114,7 +116,7 @@ export class ManageCampaignComponent implements OnInit {
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
     // get all referred by list
@@ -124,7 +126,7 @@ export class ManageCampaignComponent implements OnInit {
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
     // fetch all leads(students)
@@ -134,7 +136,7 @@ export class ManageCampaignComponent implements OnInit {
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
     this.searchCampaign(this.startindex);
@@ -145,7 +147,7 @@ export class ManageCampaignComponent implements OnInit {
       this.pageIndex = 1;
     }
     this.checkedIds = [];
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     let obj = {
       "assigned_to": this.filters.assignedTo,
     	"name": this.filters.stundetName,
@@ -160,7 +162,7 @@ export class ManageCampaignComponent implements OnInit {
       res => {
         let result: any;
         result = res;
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.leadsList = res;
         this.tempLeadlist = res;
         this.totalCount = 0;
@@ -175,7 +177,7 @@ export class ManageCampaignComponent implements OnInit {
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }
@@ -282,16 +284,16 @@ export class ManageCampaignComponent implements OnInit {
         "status": 1,
   	     "sms_type": "Promotional"
       }
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       $('#SMS').modal('show');
       this.campaignService.getPromoSMS(obj).subscribe(
         res => {
           this.promoSMSList = res;
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       );
     }
@@ -320,11 +322,11 @@ export class ManageCampaignComponent implements OnInit {
         "baseIds": this.checkedIds,
         "messageArray": this.selectedSMSList
       }
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.campaignService.sendPromoSMS(obj).subscribe(
         res => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Message has been sent successfully.');
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.selectedSMSList = [];
           $('#SMS').modal('hide');
           this.checkedIds = [];
@@ -332,7 +334,7 @@ export class ManageCampaignComponent implements OnInit {
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.selectedSMSList = [];
           $('#SMS').modal('hide');
         }
@@ -349,16 +351,16 @@ export class ManageCampaignComponent implements OnInit {
       let obj = {
         "baseIds": this.checkedIds
       }
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.campaignService.convertToEnq(obj).subscribe(
         res => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.checkedIds = [];
           this.searchCampaign(this.startindex);
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       );
     }
@@ -373,17 +375,17 @@ export class ManageCampaignComponent implements OnInit {
       let obj = {
         "baseIds": this.checkedIds.toString()
       }
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.campaignService.deleteMultiLeads(obj).subscribe(
         res => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead(s) deleted successfully!');
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.checkedIds = [];
           this.searchCampaign(this.startindex);
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       );
     }
@@ -420,18 +422,18 @@ export class ManageCampaignComponent implements OnInit {
       "source_id": this.addLead.source,
       "referred_by": this.addLead.referredBy
     };
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.campaignService.createLead(obj).subscribe(
       res => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead added successfully');
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         $('#addLead').modal('hide');
         this.clearLeadForm();
         this.searchCampaign(this.startindex);
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }
@@ -480,34 +482,34 @@ export class ManageCampaignComponent implements OnInit {
       "referred_by": this.editLead.referredBy,
       "is_active": "Y"
     };
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.campaignService.updateLead(obj, this.editLead.list_id, this.editLead.base_id).subscribe(
       res => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead updated successfully');
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         $('#editLead').modal('hide');
         this.clearEditLeadForm();
         this.searchCampaign(this.startindex);
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }
 
   deleteLead(row){
     if (confirm('Are you sure you want to delete lead?')){
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.campaignService.deleteLead(row.list_id, row.base_id).subscribe(
         res => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Lead deleted successfully');
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.searchCampaign(this.startindex);
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       );
     }

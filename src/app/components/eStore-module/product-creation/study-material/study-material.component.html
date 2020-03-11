@@ -24,9 +24,6 @@
 </div> -->
 
 
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper black-bg" [loaderClass]="'blueRipple'"
-  *ngIf="isRippleLoad">
-</loaders-css>
 <!-- <div style="padding: 10px 15px;">
   <div class="field-checkbox-wrapper">
     <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
@@ -414,6 +411,6 @@
 <div class="row basic-info-footer">
   <div class="col text-center">
     <button class="btn btn-outline-danger btn-round" (click)="gotoBack()">Cancel</button>
-    <button class="btn btn-primary btn-round" [disabled]="isRippleLoad" (click)="gotoNext()">Save & Next</button>
+    <button class="btn btn-primary btn-round" [disabled]="auth.isRippleLoad.getValue()" (click)="gotoNext()">Save & Next</button>
   </div>
 </div>

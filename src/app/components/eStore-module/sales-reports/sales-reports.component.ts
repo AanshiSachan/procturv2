@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { ColumnData2 } from '../../shared/data-display-table/data-display-table.model';
-import { MessageShowService } from '../../../services/message-show.service';
-import { AuthenticatorService } from '../../../services/authenticator.service';
-import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
-import { ExportToPdfService } from '../../../services/export-to-pdf.service';
-import { DataDisplayTableComponent } from '../../shared/data-display-table/data-display-table.component';
-import { HttpService } from '../../../services/http.service';
-import { ProductService } from '../../../services/products.service';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { ExportToPdfService } from '../../../services/export-to-pdf.service';
+import { HttpService } from '../../../services/http.service';
+import { MessageShowService } from '../../../services/message-show.service';
+import { ProductService } from '../../../services/products.service';
+import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
+import { DataDisplayTableComponent } from '../../shared/data-display-table/data-display-table.component';
+import { ColumnData2 } from '../../shared/data-display-table/data-display-table.model';
 @Component({
   selector: 'app-sales-reports',
   templateUrl: './sales-reports.component.html',
@@ -99,10 +99,10 @@ export class SalesReportsComponent implements OnInit {
       "no_of_records": 100
     }
 
-    this.showPopupKeys.isRippleLoad = true;
+    this.auth.showLoader();
     this.http.getMethod('product/get', null).subscribe(
       (resp: any) => {
-        this.showPopupKeys.isRippleLoad = false;
+        this.auth.hideLoader();
         if (resp.validate) {
           this.productLists = resp.result;
         }
@@ -111,7 +111,7 @@ export class SalesReportsComponent implements OnInit {
         }
       },
       (err) => {
-        this.showPopupKeys.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('error', "something went wrong, try again", '');
       });
 
@@ -133,10 +133,10 @@ export class SalesReportsComponent implements OnInit {
       ]
     }
 
-    this.showPopupKeys.isRippleLoad = true;
+    this.auth.showLoader();
     this.http.postMethod('order/sales-report', object).then(
       (resp: any) => {
-        this.showPopupKeys.isRippleLoad = false;
+        this.auth.hideLoader();
         let response = resp['body'];
         console.log(response);
         if (response.validate) {
@@ -161,7 +161,7 @@ export class SalesReportsComponent implements OnInit {
         }
       },
       (err) => {
-        this.showPopupKeys.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('error', "something went wrong, try again", '');
       });
 

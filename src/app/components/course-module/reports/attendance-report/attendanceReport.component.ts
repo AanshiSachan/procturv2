@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AttendanceReportServiceService } from '../../services/attendance-report-service.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import * as moment from 'moment';
+import { MessageShowService } from '../../../..';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from "../../../../services/authenticator.service";
-import * as moment from 'moment';
-import { ColumnSetting } from '../../../shared/custom-table/layout.model';
-import { HttpService } from '../../../../services/http.service';
-import { MessageShowService } from '../../../..';
 import { CommonServiceFactory } from '../../../../services/common-service';
+import { HttpService } from '../../../../services/http.service';
+import { ColumnSetting } from '../../../shared/custom-table/layout.model';
+import { AttendanceReportServiceService } from '../../services/attendance-report-service.service';
 
 
 @Component({
@@ -57,7 +57,6 @@ export class AttendanceReportComponent implements OnInit {
   columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   columnMaps2: any[] = [0, 1, 2, 3, 4, 5];
   dataStatus: boolean = false;
-  isRippleLoad: boolean = false;
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'student_disp_id', header: 'Student id' },
     { primaryKey: 'student_name', header: 'Student name' },
@@ -109,7 +108,7 @@ export class AttendanceReportComponent implements OnInit {
     private auth: AuthenticatorService,
     private _httpService: HttpService,
     private msgService: MessageShowService,
-    private commonService: CommonServiceFactory
+    private commonService: CommonServiceFactory,
   ) {
     //console.log(moment(moment().format('DD-MM-YYYY')).diff(moment('03-02-2018'),'months'));
   }
@@ -135,16 +134,16 @@ export class AttendanceReportComponent implements OnInit {
   /* this is ussed to fetch details for dropdown for master course/ Standard */
   getMasterCourseData() {
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (this.isProfessional) {
       this.reportService.fetchMasterCourseProfessional(this.queryParams).subscribe(
         (data: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.masterCoursePro = data.standardLi;
           this.batchPro = data.batchLi;
         },
         (error: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.dataStatus = false;
           let msg = {
             type: "error",
@@ -159,12 +158,12 @@ export class AttendanceReportComponent implements OnInit {
       this.reportService.getMasterCourse().subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.masterCourses = data;
         },
         error => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: "error",
             body: error.error.message
@@ -182,7 +181,7 @@ export class AttendanceReportComponent implements OnInit {
     this.attendanceFetchForm.batch_id = "-1";
     this.queryParams.batch_id="-1";
     this.isShowDownloadReport();
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.dataStatus = true;
     this.queryParams.standard_id = i;
     this.queryParams.subject_id = "-1";
@@ -194,13 +193,13 @@ export class AttendanceReportComponent implements OnInit {
       this.reportService.fetchMasterCourseProfessional(this.queryParams).subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.subjectPro = data.subjectLi;
           this.batchPro = data.batchLi;
         },
         (error: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: "error",
             body: error.error.message
@@ -214,7 +213,7 @@ export class AttendanceReportComponent implements OnInit {
     }
     else {
       this.dataStatus = true;
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.attendanceFetchForm.batch_id = "-1";
       this.attendanceFetchForm.course_id = "";
       this.reportService.getCourses(i).subscribe(
@@ -224,13 +223,13 @@ export class AttendanceReportComponent implements OnInit {
           this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
           this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
           this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.courses = data.coursesList;
         }
         ,
         (error: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: "error",
             body: error.error.message
@@ -250,7 +249,7 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   getSubjectData(i) {
     this.isShowDownloadReport();
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.dataStatus = true;
     this.queryParams.standard_id = this.queryParams.standard_id;
     if (this.isProfessional) {
@@ -262,12 +261,12 @@ export class AttendanceReportComponent implements OnInit {
           this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
           this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
           this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.batchPro = data.batchLi;
         },
         (error: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: "error",
             body: error.error.message
@@ -287,7 +286,7 @@ export class AttendanceReportComponent implements OnInit {
           this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
           this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
           this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.batchCourses = data.batchesList;
           // this.getPostData();
         }
@@ -301,7 +300,7 @@ export class AttendanceReportComponent implements OnInit {
   getBatchData(i) {
     this.isShowDownloadReport();
     this.dataStatus = true;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.queryParams.standard_id = this.queryParams.standard_id;
     this.queryParams.batch_id = this.queryParams.batch_id;
     if (this.isProfessional) {
@@ -313,7 +312,7 @@ export class AttendanceReportComponent implements OnInit {
           this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
           this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
           this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           // this.getPostData();
         }
       )
@@ -326,7 +325,7 @@ export class AttendanceReportComponent implements OnInit {
           this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
           this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
           this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           // this.getPostData();
         }
       )
@@ -336,7 +335,7 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   getPostData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.SummaryReports = true;
     this.dataStatus = true;
     this.PageIndex = 1;
@@ -344,7 +343,7 @@ export class AttendanceReportComponent implements OnInit {
     if (this.isProfessional) {
       this.reportService.postDataToTablePro(this.queryParams).subscribe(
         (data: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.dataStatus = false;
           this.queryParamsPro = data;
           this.totalRow = data.length;
@@ -354,7 +353,7 @@ export class AttendanceReportComponent implements OnInit {
         },
         (error: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: "error",
             body: error.error.message
@@ -373,7 +372,7 @@ export class AttendanceReportComponent implements OnInit {
       }
       this.reportService.postDataToTable(this.attendanceFetchForm).subscribe(
         (data: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.dataStatus = false;
           this.postData = data;
           this.totalRow = data.length;
@@ -382,7 +381,7 @@ export class AttendanceReportComponent implements OnInit {
         },
         (error: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: "error",
             body: error.error.message
@@ -397,7 +396,7 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   postDetails() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.dataStatus = true;
 
     this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
@@ -415,7 +414,7 @@ export class AttendanceReportComponent implements OnInit {
         }
         this.appc.popToast(msg);
         this.dataStatus = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
       else if (this.queryParams.from_date > this.queryParams.to_date) {
         let msg = {
@@ -425,7 +424,7 @@ export class AttendanceReportComponent implements OnInit {
         }
         this.appc.popToast(msg);
         this.dataStatus = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
 
       else if (diff < -4) {
@@ -437,7 +436,7 @@ export class AttendanceReportComponent implements OnInit {
 
         this.appc.popToast(msg);
         this.dataStatus = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
 
       else {
@@ -445,7 +444,7 @@ export class AttendanceReportComponent implements OnInit {
         this.typeAttendancePro = [];
         this.reportService.postDetailedData(this.queryParams).subscribe(
           (data: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.dataStatus = false;
             if (data.length) {
               this.dataStatus = false;
@@ -470,13 +469,13 @@ export class AttendanceReportComponent implements OnInit {
                 body: "We did not find any attendance marked for the selected dates "
               }
               this.appc.popToast(msg);
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.dataStatus = false;
             }
 
           },
           (error: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.dataStatus = false;
             let msg = {
               type: "error",
@@ -494,7 +493,7 @@ export class AttendanceReportComponent implements OnInit {
       this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
       let diff = moment(this.attendanceFetchForm.from_date).diff(moment(this.attendanceFetchForm.to_date), 'months');
       let futureDate = moment(this.attendanceFetchForm.to_date).add('days', 1).format('YYYY-MM-DD');
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       if (this.attendanceFetchForm.master_course_name == "" || this.attendanceFetchForm.course_id == "" || this.attendanceFetchForm.batch_id == "-1" || this.attendanceFetchForm.from_date == "" || this.attendanceFetchForm.to_date == "") {
 
         let msg = {
@@ -504,7 +503,7 @@ export class AttendanceReportComponent implements OnInit {
         }
         this.appc.popToast(msg);
         this.dataStatus = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
       else if (this.attendanceFetchForm.from_date > this.attendanceFetchForm.to_date) {
         let msg = {
@@ -514,7 +513,7 @@ export class AttendanceReportComponent implements OnInit {
         }
         this.appc.popToast(msg);
         this.dataStatus = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
       else if (diff < -4) {
         let msg = {
@@ -525,7 +524,7 @@ export class AttendanceReportComponent implements OnInit {
 
         this.appc.popToast(msg);
         this.dataStatus = false;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
       else {
         this.dataStatus = true;
@@ -535,7 +534,7 @@ export class AttendanceReportComponent implements OnInit {
           (data: any) => {
             if (data.length) {
               this.addReportPopUp = true;
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.dataStatus = false;
               this.dateWiseAttendance = data;
               this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
@@ -557,12 +556,12 @@ export class AttendanceReportComponent implements OnInit {
                 body: "We did not find any attendance marked for the selected dates "
               }
               this.appc.popToast(msg);
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.dataStatus = false;
             }
           },
           (error: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.dataStatus = false;
             let msg = {
               type: "error",
@@ -802,7 +801,7 @@ export class AttendanceReportComponent implements OnInit {
         body: "You cannot select future date"
       }
       this.appc.popToast(msg);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.attendanceFetchForm.from_date = moment().format('YYYY-MM-DD');
       this.attendanceFetchForm.to_date = moment().format('YYYY-MM-DD');
       this.queryParams.from_date = moment().format('YYYY-MM-DD');
@@ -835,7 +834,7 @@ export class AttendanceReportComponent implements OnInit {
   }
 
   downloadReport() {
-      this.isRippleLoad=true;
+    this.auth.showLoader();
       let obj:any;
       if(this.isProfessional){
         this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
@@ -849,7 +848,7 @@ export class AttendanceReportComponent implements OnInit {
     let url='/api/v1/reports/attendance/downloadAttendanceReport';   
     this._httpService.postData(url, obj).subscribe(
       (res:any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if(res){
           let resp = res;
           if(resp.document!=""){
@@ -872,7 +871,7 @@ export class AttendanceReportComponent implements OnInit {
       },
       err => {
         this.msgService.showErrorMessage('error', '', err.error.message);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
    }

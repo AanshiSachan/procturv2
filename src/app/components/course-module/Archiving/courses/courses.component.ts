@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticatorService } from '../../../../services/authenticator.service';
-import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
-import { concat } from 'rxjs/observable/concat';
-import { AppComponent } from '../../../../app.component';
 import { Router } from '@angular/router';
+import { AppComponent } from '../../../../app.component';
+import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'app-courses',
@@ -39,8 +38,6 @@ export class CoursesComponent implements OnInit {
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
   columnMaps2: any[] = [0, 1, 2, 3, 4, 5 ,6, 7];
   dataStatus: boolean;
-  isRippleLoad: boolean = false;
-
   sortedenabled: boolean = true;
   sortedBy: string = "";
   direction = 0;
@@ -65,12 +62,12 @@ export class CoursesComponent implements OnInit {
 
   getCoursesList() {
     this.dataStatus = true;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (this.isProfessional) {
       this.batch.getBatches().subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.getCourses = data;
           this.getCourses.map(
             (ele) => {
@@ -84,7 +81,7 @@ export class CoursesComponent implements OnInit {
         },
         (error: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: "error",
             body: error.error.message
@@ -95,11 +92,11 @@ export class CoursesComponent implements OnInit {
     }
     else {
       this.dataStatus = true;
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.batch.getCoursesList().subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.getCourses = data;
           this.getCourses.map(
             (ele) => {
@@ -112,7 +109,7 @@ export class CoursesComponent implements OnInit {
         },
         (error: any) => {
           this.dataStatus = false;
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let msg = {
             type: "error",
             body: error.error.message

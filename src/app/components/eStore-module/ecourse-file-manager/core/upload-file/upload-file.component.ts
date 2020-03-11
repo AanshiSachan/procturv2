@@ -1,11 +1,10 @@
-import { Component, OnInit, Input, AfterViewChecked, Renderer2  } from '@angular/core'
-import { Tree } from 'primeng/tree';
-import { Subject } from 'rxjs/Subject';
-import { HttpService } from '../../../../../services/http.service';
-import { AuthenticatorService } from '../../../../../services/authenticator.service';
-import { MessageShowService } from '../../../../../services/message-show.service';;
+import { AfterViewChecked, Component, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticatorService } from '../../../../../services/authenticator.service';
+import { HttpService } from '../../../../../services/http.service';
+import { MessageShowService } from '../../../../../services/message-show.service';
 import { FileService } from '../../file.service';
+;
 
 @Component({
   selector: 'app-upload-file',
@@ -23,7 +22,6 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   institute_id: any;
   showModal: boolean = false;
   dragoverflag: boolean = false;
-  isRippleLoad: boolean = false;
   addCategoryPopup: boolean = false;
   material_dataShow: boolean = false;
   showParentTopicModel: boolean = false;
@@ -95,15 +93,15 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   getVDOCipherLinkedDate() {
     let url = "/api/v1/instFileSystem/VDOCipher/" + this.institute_id;
     this.existVideos = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       if (res) {
         this.existVideos = res;
       }
     }, (err) => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.existVideos = [];
     });
   }
@@ -122,18 +120,18 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       "category_id": 235,
     }
     let flag = this.uploadDatavalidation();
-    if (!this.isRippleLoad && (flag)) {
-      this.isRippleLoad = true;
+    if (!this.auth.isRippleLoad.getValue() && (flag)) {
+      this.auth.showLoader();
       this._http.postData(url, object).subscribe((res: any) => {
         // console.log(res);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (res) {
           this.clearuploadObject();
           this.refreshList();
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
         }
       }, (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       });
     }
@@ -195,10 +193,10 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
 
-      if (!this.isRippleLoad) {
-        this.isRippleLoad = true;
+      if (!this.auth.isRippleLoad.getValue()) {
+        this.auth.showLoader();
         newxhr.onreadystatechange = () => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
@@ -325,10 +323,10 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
 
-      if (!this.isRippleLoad) {
-        this.isRippleLoad = true;
+      if (!this.auth.isRippleLoad.getValue()) {
+        this.auth.showLoader();
         newxhr.onreadystatechange = () => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               this.clearuploadObject();
@@ -478,7 +476,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
 
   getCategories() {
     this.categiesTypeList = [];
-    // this.isRippleLoad = true;
+    // this.auth.showLoader();
     let url = "/api/v1/instFileSystem/v2/categories";
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
@@ -492,7 +490,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
           temp.push(category);
         }
       });
-      // this.isRippleLoad = false;
+      // this.auth.hideLoader();
       this.categiesTypeList = temp;
       if (sessionStorage.getItem('enable_vdoCipher_feature') != '1') {
         temp.forEach((object, index) => {
@@ -505,37 +503,37 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
 
 
     }, err => {
-      // this.isRippleLoad = false;
+      // this.auth.hideLoader();
     });
   }
 
   getTopicsList(subjectId) {
     this.topicList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/topic_manager/" + this.institute_id + "/subjects/" + subjectId + "/topics";
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.topicList = res;
       this.varJson.sub_topic_id = 0;
       this.subtopicList = [];
     }, err => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
     });
   }
 
   //Get Subtopic of a Parent Topic
   getSubtopicList(subjectId) {
     this.subtopicList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/topic_manager/subTopicList/" + this.institute_id + "/" + subjectId;
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.subtopicList = res;
       this.varJson.sub_topic_id = 0;
     }, err => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
     });
   }
 
@@ -553,7 +551,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   //Get subjects of ecourse 
   getSubjectsList(ecourseId) {
     this.subjectList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/ecourse/" + this.institute_id + "/" + ecourseId + "/subjects";
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
@@ -563,9 +561,9 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       }
       this.varJson.sub_topic_id = 0;
       this.subtopicList = [];
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
     }, err => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
     });
   }
 
@@ -616,14 +614,14 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       newxhr.setRequestHeader("enctype", "multipart/form-data;");
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-      this.isRippleLoad = false;
-      if (!this.isRippleLoad) {
-        this.isRippleLoad = true;
+      this.auth.hideLoader();
+      if (!this.auth.isRippleLoad.getValue()) {
+        this.auth.showLoader();
         newxhr.onreadystatechange = () => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               var files = $event.files;
               this.file = files[0];
               // console.log(this.file);

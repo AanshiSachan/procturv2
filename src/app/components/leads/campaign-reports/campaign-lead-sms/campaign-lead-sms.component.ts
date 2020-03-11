@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { getSMSService } from '../../../../services/report-services/get-sms.service';
 import { CampaignService } from '../../services/campaign.service';
-import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'app-campaign-lead-sms',
@@ -14,8 +14,7 @@ export class CampaignLeadSmsComponent implements OnInit {
 
   // global variables
   jsonFlag = {
-    isProfessional: false,
-    isRippleLoad: false,
+    isProfessional: false
   };
 
   dateFilter = {
@@ -53,7 +52,7 @@ export class CampaignLeadSmsComponent implements OnInit {
   }
 
   getSmsReport(obj) {
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     obj.from_date = moment(obj.from_date).format("YYYY-MM-DD");
     if(obj.to_date != null && obj.to_date != ""){
       obj.to_date = moment(obj.to_date).format("YYYY-MM-DD");
@@ -63,7 +62,7 @@ export class CampaignLeadSmsComponent implements OnInit {
         (res: any) => {
           let result: any;
           result = res;
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.pageIndex = 1;
           this.totalCount = 0;
           this.leadSmsList = res;
@@ -76,14 +75,14 @@ export class CampaignLeadSmsComponent implements OnInit {
           }
         },
         err => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       )
     }
     else {
       return this.campaignService.fetchSmsReport(obj).subscribe(
         (res: any) => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.leadSmsList = res;
         }
       )

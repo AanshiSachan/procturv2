@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageShowService } from '../../../services/message-show.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
+import { MessageShowService } from '../../../services/message-show.service';
 import { ProductService } from '../../../services/products.service';
+import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 
 @Component({
   selector: 'app-registered-student',
@@ -22,7 +22,6 @@ export class RegisteredStudentComponent implements OnInit {
     product_id: '',
     slug: ''
   };
-  isRippleLoad = false;
   searchDataFlag = false;
 
   tableSetting: any = {
@@ -71,27 +70,27 @@ export class RegisteredStudentComponent implements OnInit {
   }
 
   getProductList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.http.getMethod('product/get-product-list', null).subscribe(
       (data: any) => {
         this.productList = data.result;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
   getSlugData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.http.getMethod('master/item-type/get', null).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.ItemTypeData = data.result;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this._msgService.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -112,10 +111,10 @@ export class RegisteredStudentComponent implements OnInit {
       ]
     };
     if (this.filter.product_id !== '' || this.filter.slug !== '') {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.postMethod('/user-product/get-user-details', data).then(
         (data: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           console.log(data.body.result);
           if (data.body.result != null) {
             let temp: any = {};
@@ -134,7 +133,7 @@ export class RegisteredStudentComponent implements OnInit {
           }
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this._msgService.showErrorMessage('error', '', err.error.message);
         }
       );

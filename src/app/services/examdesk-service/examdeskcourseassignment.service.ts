@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { AuthenticatorService } from '../authenticator.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { AuthenticatorService } from '../authenticator.service';
 
 @Injectable()
 

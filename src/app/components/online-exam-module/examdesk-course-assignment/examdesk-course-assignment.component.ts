@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../app.component';
 import { ExamDeskCourseAssignmentService } from '../../../services/examdesk-service/examdeskcourseassignment.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
 @Component({
@@ -33,7 +34,6 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   assignPopUp: boolean = false;
   headerChecked: boolean = false;
   isCourse: boolean = false;
-  isRippleLoad: boolean = false;
   isCourseModule: boolean = false;
 
   examAssignmentData = {
@@ -47,6 +47,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
 
   constructor(
     private apiService: ExamDeskCourseAssignmentService,
+    private auth:AuthenticatorService,
     private toastCtrl: AppComponent
   ) { }
 
@@ -74,32 +75,32 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   }
 
   fetchCoursesList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.dataStatus = 1;
     this.apiService.getCoursesList().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.dataStatus = 2;
         this.coursesList = res;
         this.coursesListDataSource = res;
       },
       err => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
   }
 
   getAllStandardList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getStandard().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.standardList = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -125,18 +126,18 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   }
 
   getExamAssignmentData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getStudentList2(this.examAssignmentData).subscribe(
       res => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.studentDataSourceList = res;
         this.studentList = this.keepCloning(res);
         this.onRadioButtonChange();
       },
       err => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       });
   }
@@ -144,7 +145,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   getAllStudentList() {
     this.studentList = [];
     this.studentDataSourceList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let obj: any = {
       standard_id: this.standard_id,
       course_type_id: this.tempData.course_type_id
@@ -153,14 +154,14 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     this.apiService.getStudentList(obj).subscribe(
       res => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.studentDataSourceList = res;
         this.studentList = this.keepCloning(res);
         this.onRadioButtonChange();
       },
       err => {
         this.dataStatus = 2;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -279,16 +280,16 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     let obj: any = {
       studentArray: data,
     };
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.assignStudentToCourse(obj, this.tempData.course_type_id).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('success', 'Student assigned successfully', '');
         this.fetchCoursesList();
         this.closePopup();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -296,16 +297,16 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   }
 
   getMasterCourse() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getAllMasterCourse().subscribe(
       (data: any) => {
         this.examAssignmentData.master_course_name = "";
         this.examAssignmentData.course_id = -1;
         this.masterCourse = data;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       (error) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         return error;
       }
     )
@@ -313,15 +314,15 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
 
 
   getCourses(name) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getAllCourse(name).subscribe(
       (data: any) => {
         this.courses = data.coursesList;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
 
       },
       (error) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         return error;
       }
     )

@@ -1,6 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { Toast, ToasterConfig, ToasterService } from 'angular2-toaster';
+import { AuthenticatorService } from './services/authenticator.service';
 import { CommonServiceFactory } from './services/common-service';
 import { LoginService } from './services/login-services/login.service';
 
@@ -25,7 +26,6 @@ export class AppComponent implements OnInit,AfterViewChecked {
 
   public config: ToasterConfig = new ToasterConfig({ positionClass: 'toast-top-right', limit: 1, timeout: 5000, mouseoverTimerStop: true, });
   isloggedInAdmin: boolean = false;
-  isRippleLoad: boolean = false;
 
   /* Variable for Zendesk */
   ticketId = "";
@@ -37,9 +37,9 @@ export class AppComponent implements OnInit,AfterViewChecked {
     private router: Router,
     private log: LoginService,
     public commonService: CommonServiceFactory,
+    public auth:AuthenticatorService,
     private cd :ChangeDetectorRef
   ) {
-    this.isRippleLoad = true;
   }
 
 
@@ -52,26 +52,25 @@ export class AppComponent implements OnInit,AfterViewChecked {
     this.cd.detectChanges();
   }
   // Router Event Ripple
-
   routerEvents() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         if (sessionStorage.getItem('userid') != null) {
           this.log.changeSidenavStatus('authorized');
         }
       }
       else if (event instanceof NavigationEnd) {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
       else if (event instanceof NavigationCancel) {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (sessionStorage.getItem('userid') != null) {
           this.log.changeSidenavStatus('authorized');
         }
       }
       else if (event instanceof NavigationError) {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (sessionStorage.getItem('userid') != null) {
           this.log.changeSidenavStatus('authorized');
         }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CourseListService } from '../../../../../services/course-services/course-list.service';
-import { AppComponent } from '../../../../../app.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
+import { AppComponent } from '../../../../../app.component';
+import { AuthenticatorService } from '../../../../../services/authenticator.service';
+import { CourseListService } from '../../../../../services/course-services/course-list.service';
 
 @Component({
   selector: 'app-course-edit',
@@ -27,13 +28,13 @@ export class CourseEditComponent implements OnInit {
     message: '',
     tempObject:{}
   };
-  isRippleLoad: boolean = false;
 
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private auth:AuthenticatorService
   ) {
     this.route.params.subscribe(
       params => {
@@ -204,18 +205,18 @@ export class CourseEditComponent implements OnInit {
     }
     if (confirm(msg)) {
       if (row.hasOwnProperty('otherDetails')) {
-        this.isRippleLoad = true;
+      this.auth.showLoader();
         this.apiService.deleteSubjectFromServer(row.otherDetails.batch_id).subscribe(
           data => {
             row.isAssigned = 'Y';
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.mainTableDataSource[mainTableIndex].batchesList[nestedTableIndex].uiSelected = false;
             this.mainTableDataSource[mainTableIndex].batchesList[nestedTableIndex].selected_teacher = '-1';
             this.checkIfAnySelectedRowExist(this.mainTableDataSource[mainTableIndex], mainTableIndex);
             this.messageToast('success', 'Deleted', 'Sucessfully deleted from the list.');
           },
           error => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.messageToast('error', '', error.error.message);
           }
         )
