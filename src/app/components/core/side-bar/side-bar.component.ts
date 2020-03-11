@@ -296,6 +296,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       'library': 'liseven',
       'e-store': 'lieight',
       'online-exam': 'linine',
+      'expense': 'liten',
     };
     if (document.getElementById(routesData[pathLastURL])) {
       this.activeSession = routesData[pathLastURL];

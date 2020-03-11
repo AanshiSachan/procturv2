@@ -1,0 +1,94 @@
+<section class="middle-section clearFix">
+  <!-- Header and Navigation -->
+  <section class="middle-top mb0 clearFix">
+    <h1 class="pull-left">
+      <a routerLink="/view/expense">
+        Expense
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      Manage Income
+    </h1>
+  </section>
+
+  <section>
+    <div class="filter-search-data-container">
+
+      <div class="filter-container">
+        <div class="filter-item field-wrapper">
+          <label for="filter">Filter</label>
+          <select class="form-ctrl" name="filter" id="filter" [(ngModel)]="incomeFilter.dateFilter" (ngModelChange)="getIncomeRecords()">
+            <option value="month">Current Month</option>
+            <option value="date">Till Date</option>
+            <option value="range">Date Range</option>
+          </select>
+        </div>
+        <div class="filter-item field-wrapper datePickerBox" style="margin-left: 10px;" *ngIf="incomeFilter.dateFilter == 'range'">
+          <label for="date-range">Select Date Range</label>
+          <input type="text" value="" id="date-range"  [(ngModel)]="dateFilterRange"  (ngModelChange)="dateRangeChange($event)"
+          class="form-ctrl widgetDatepicker bsDatepicker" style="padding: 6px;" readonly="true" name="date-range" placeholder="Date" bsDaterangepicker/>
+        </div>
+      </div>
+
+      <div class="search-data-container">
+        <div class="activity-item field-wrapper">
+          <input type="text" value="" id="search_bar" [(ngModel)]="incomeSearchInput" name="incomeSearchInput" (keyup)="searchDatabase(search)"
+             placeholder="Search here..." class="search-box" #search>
+        </div>
+        <div class="activity-item">
+          <button type="button" name="button" class="add-income-btn" [routerLink]="['/view/expense/add-income']">Add Income</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="list-table-container">
+      <div class="list-header-container">
+        <div class="list-header-item small-item">
+          <span>Received Date</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Reference No.	</span>
+        </div>
+        <div class="list-header-item medium-item">
+          <span>Payer</span>
+        </div>
+        <div class="list-header-item medium-item">
+          <span>Category</span>
+        </div>
+        <div class="list-header-item small-item align-center">
+          <span>Total(Rs.)</span>
+        </div>
+        <div class="list-header-item small-item align-center">
+          <span>Edit</span>
+        </div>
+      </div>
+      <div class="list-value-outer-container">
+        <div class="list-value-container" *ngFor="let income of incomeRecordList">
+          <div class="list-value-item small-item">
+            <span>{{income.payment_date}}</span>
+          </div>
+          <div class="list-value-item small-item">
+            <span>{{income.reference_no}}</span>
+          </div>
+          <div class="list-value-item medium-item">
+            <span>{{income.party_name}}</span>
+          </div>
+          <div class="list-value-item medium-item">
+            <span>{{income.category}}</span>
+          </div>
+          <div class="list-value-item small-item align-right" style="padding-right: 50px;">
+            <span>{{income.amount}}</span>
+          </div>
+          <div class="list-value-item small-item align-center">
+            <i class="fa fa-pencil" aria-hidden="true" title="Edit Income" (click)="editIncome(income.income_id)"></i>
+          </div>
+        </div>
+        <div class="no-records" *ngIf="incomeRecordList.length  == 0">
+          <span>No Records Found</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

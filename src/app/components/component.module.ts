@@ -24,10 +24,10 @@ import { TrainingVideoComponent } from './training-video/training-video.componen
     declarations: [
         ComponentsComponent,
         OverlayMenuComponent,
-        ChangePasswordComponent,        
+        ChangePasswordComponent,
         SearchBoxComponent,
         SideBarComponent,
-        TrainingVideoComponent
+        TrainingVideoComponent,
     ],
     entryComponents: [
     ],
