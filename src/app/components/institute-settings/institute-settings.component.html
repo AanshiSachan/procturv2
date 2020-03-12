@@ -2541,19 +2541,37 @@
                             </div>
                           </div>
                           <div class="c-sm-5 c-md-5 c-lg-5">
-                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.virtual_host_url != ''}">
-                              <label for="ch104">Virtual Host URL:
-                              </label>
-                              <input type="text" [(ngModel)]="instituteSettingDet.virtual_host_url" class="form-ctrl" id="ch104">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row m-0 webkitBox">
-                          <div class="c-sm-5 c-md-5 c-lg-5">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.jwt_secret_key != ''}" style="margin-top: 0;">
                               <label for="ch105">API Secret Key
                               </label>
                               <input type="text" [(ngModel)]="instituteSettingDet.jwt_secret_key" class="form-ctrl" id="ch105">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row m-0 webkitBox">
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px;margin-top:15px">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="enable_send__website_url_in_student_credentail" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_send__website_url_in_student_credentail"
+                                id="enable_send__website_url_in_student_credentail">
+                              <label for="enable_send__website_url_in_student_credentail">If enabled, will get website link in student credentials
+                                <!-- <div class="questionInfo inline-relative allowRegistration">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field md">
+                                    When enabled, Simple student registration message is sent without any app URLs.
+                                    <br>Student Registratoin SMS Format: Dear, Student Name, Your registration is complete.
+                                    <br>Please verify your details ID: Student Details. Please contact for any changes.
+                                    <br>Best Wishes,
+                                    <br>{{instituteName}}
+                                  </div>
+                                </div> -->
+                              </label>
+                            </div>
+                          </div>
+                          <div class="c-sm-5 c-md-5 c-lg-5">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.virtual_host_url != ''}">
+                              <label for="ch104">Virtual Host URL:
+                              </label>
+                              <input type="text" [(ngModel)]="instituteSettingDet.virtual_host_url" class="form-ctrl" id="ch104" [disabled]="!instituteSettingDet.enable_send__website_url_in_student_credentail" [ngStyle]="{'cursor':!instituteSettingDet.enable_send__website_url_in_student_credentail ? 'no-drop' : 'text' }">
                             </div>
                           </div>
                         </div>

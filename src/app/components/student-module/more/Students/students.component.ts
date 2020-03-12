@@ -219,7 +219,6 @@ export class StudentsComponent implements OnInit {
         // console.log(this.courseFetchForm)
         this.students.archiveStudents(this.courseFetchForm).subscribe(
           (data: any) => {
-            this.router.navigateByUrl("/view/students")
             let msg = {
               type: "success",
               body: "Students archived successfully"
