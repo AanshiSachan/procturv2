@@ -1,20 +1,10 @@
-import {
-    Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-    AfterViewInit, ChangeDetectionStrategy,
-    OnChanges,
-    ChangeDetectorRef
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
-import { AppComponent } from '../../../app.component';
-import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
-import 'rxjs/Rx';
-import * as Muuri from 'muuri/muuri';
 import { Chart } from 'angular-highcharts';
-import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service'
+import * as moment from 'moment';
+import 'rxjs/Rx';
+import { AppComponent } from '../../../app.component';
+import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { WidgetService } from '../../../services/widget.service';
 
 

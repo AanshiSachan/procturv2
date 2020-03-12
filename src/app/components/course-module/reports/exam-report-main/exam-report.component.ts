@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ColumnSetting } from '../../../shared/custom-table/layout.model';
-import { ExamService } from '../../../../services/report-services/exam.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AppComponent, AuthenticatorService } from '../../../..';
+import { ExamService } from '../../../../services/report-services/exam.service';
+import { ColumnSetting } from '../../../shared/custom-table/layout.model';
 
 
 
@@ -25,7 +25,6 @@ export class ExamReportMainComponent implements OnInit {
   courseData: any[] = [];
   pagedDetailExamSource: any[] = [];
   batchCourseData: any = [];
-  isRippleLoad: boolean = false;
   selectedSubject: any = '';
   subjectData: any[] = [];
   masterCourses: any[] = [];
@@ -138,9 +137,9 @@ export class ExamReportMainComponent implements OnInit {
   /* select exam repo fill master courses==================================================================================
   ================================================================================== */
   fetchExamData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (this.isProfessional) {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.batchExamRepo = [];
       this.subjectData = [];
       this.queryParam.subject_id = -1;
@@ -155,7 +154,7 @@ export class ExamReportMainComponent implements OnInit {
     else {
       this.examdata.ExamReport().subscribe(
         (data: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.masterCourses = data;
           console.log(this.masterCourses);
         }
@@ -168,7 +167,7 @@ export class ExamReportMainComponent implements OnInit {
   getCourseData(i) {
 
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (this.isProfessional) {
 
       this.batchCourseData = [];
@@ -179,7 +178,7 @@ export class ExamReportMainComponent implements OnInit {
 
       this.examdata.batchExamReport(this.queryParam).subscribe(
         (res) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           console.log(res.subjectLi);
 
           this.batchCourseData = res.subjectLi;
@@ -193,7 +192,7 @@ export class ExamReportMainComponent implements OnInit {
               body: ""
             }
             this.appC.popToast(obj);
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
           }
 
 
@@ -208,7 +207,7 @@ export class ExamReportMainComponent implements OnInit {
 
       this.examdata.getCourses(i).subscribe(
         (data: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.courseData = data.coursesList;
 
           if (this.courseData == null) {
@@ -218,12 +217,12 @@ export class ExamReportMainComponent implements OnInit {
               body: ""
             }
             this.appC.popToast(obj);
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
           }
         },
         (error: any) => {
 
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
 
           let obj = {
             type: "error",
@@ -238,7 +237,7 @@ export class ExamReportMainComponent implements OnInit {
   /*==================================================================================================
   ===================================================================================================== */
   getSubData(i) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     console.log(i);
 
     if (this.isProfessional) {
@@ -247,7 +246,7 @@ export class ExamReportMainComponent implements OnInit {
       this.examdata.batchExamReport(this.queryParam).subscribe(
         (res) => {
 
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.getSubjectData = res.batchLi;
           if (this.getSubjectData == null) {
             let obj = {
@@ -257,7 +256,7 @@ export class ExamReportMainComponent implements OnInit {
             }
             this.appC.popToast(obj);
 
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
 
           }
         })
@@ -268,7 +267,7 @@ export class ExamReportMainComponent implements OnInit {
       this.examdata.getSubject(i).subscribe((data: any) => {
 
         this.subjectData = data.batchesList;
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (this.subjectData == null) {
           let obj = {
             type: "info",
@@ -276,7 +275,7 @@ export class ExamReportMainComponent implements OnInit {
             body: ""
           }
           this.appC.popToast(obj);
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       })
     }
@@ -292,11 +291,11 @@ export class ExamReportMainComponent implements OnInit {
     else {
       this.selectedSubject = this.subjectData.filter(item => item.batch_id == i)[0].subject_name;
     }
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.fetchFieldData.exam_schd_id = "";
     console.log(i);
     this.examdata.getExamSchedule(i).subscribe((data: any) => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.exam_Sch_Data = data.otherSchd;
 
       if (this.exam_Sch_Data == null) {
@@ -306,7 +305,7 @@ export class ExamReportMainComponent implements OnInit {
           body: ""
         }
         this.appC.popToast(obj);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     })
   }
@@ -315,7 +314,7 @@ export class ExamReportMainComponent implements OnInit {
   }
   fetchExamReport() {
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.examSource = [];
     if (this.isProfessional) {
       if (this.fetchFieldData.batch_id == "" || this.fetchFieldData.exam_schd_id == "") {
@@ -326,7 +325,7 @@ export class ExamReportMainComponent implements OnInit {
           body: "All field(s) are required "
         }
         this.appC.popToast(msg);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
 
       }
       else {
@@ -349,7 +348,7 @@ export class ExamReportMainComponent implements OnInit {
               this.AverageMarks = this.examSource[0].average_marks;
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               if (this.examSource[0].isBatchExamGrade == 0) {
                 this.projectSettings = [
                   { primaryKey: 'student_disp_id', header: 'Student Id' },
@@ -383,11 +382,11 @@ export class ExamReportMainComponent implements OnInit {
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.appC.popToast(msg);
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
             }
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             console.log(err);
           }
         );
@@ -404,7 +403,7 @@ export class ExamReportMainComponent implements OnInit {
         }
 
         this.appC.popToast(msg);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
       else {
         let o = {
@@ -426,7 +425,7 @@ export class ExamReportMainComponent implements OnInit {
               this.AverageMarks = this.examSource[0].average_marks;
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               if (this.examSource[0].grade == "" || this.examSource[0].isBatchExamGrade == 0) {
                 this.projectSettings = [
                   { primaryKey: 'student_disp_id', header: 'Student Id' },
@@ -458,12 +457,12 @@ export class ExamReportMainComponent implements OnInit {
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.appC.popToast(msg);
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
             }
 
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             console.log(err);
           }
         );
@@ -472,7 +471,7 @@ export class ExamReportMainComponent implements OnInit {
   }
 
   fetchDetailReport() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (this.isProfessional) {
 
       if (this.fetchFieldData.batch_id == "") {
@@ -481,7 +480,7 @@ export class ExamReportMainComponent implements OnInit {
           body: "All field(s) are required "
         }
         this.appC.popToast(msg);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
       else {
         this.examdata.viewDetailData(this.fetchFieldData.batch_id)
@@ -492,7 +491,7 @@ export class ExamReportMainComponent implements OnInit {
 
                 this.dateSource = this.detailSource.map((store) => {
                   this.dateStore = store.detailExamReportList;
-                  this.isRippleLoad = false;
+                  this.auth.hideLoader();
                   //   this.totalRecords = this.detailSource.length;
                   //  this.fetchTableDataByPagePopup(this.pageIndexPopup);
                 });
@@ -506,12 +505,12 @@ export class ExamReportMainComponent implements OnInit {
                 }
 
                 this.appC.popToast(msg);
-                this.isRippleLoad = false;
+                this.auth.hideLoader();
               }
 
             },
             err => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
             }
           )
       }
@@ -522,7 +521,7 @@ export class ExamReportMainComponent implements OnInit {
           type: "error",
           body: "All Field must be filled"
         }
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.appC.popToast(msg);
       }
       else {
@@ -533,7 +532,7 @@ export class ExamReportMainComponent implements OnInit {
                 this.detailSource = res;
                 this.dateSource = this.detailSource.map((store) => {
                   this.dateStore = store.detailExamReportList;
-                  this.isRippleLoad = false;
+                  this.auth.hideLoader();
                   // this.totalRecords = this.detailSource.length;
                   //this.fetchTableDataByPagePopup(this.pageIndexPopup);
                 });
@@ -546,11 +545,11 @@ export class ExamReportMainComponent implements OnInit {
                   body: ""
                 }
                 this.appC.popToast(msg);
-                this.isRippleLoad = false;
+                this.auth.hideLoader();
               }
             },
             err => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
             }
           )
       }

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticatorService } from '../../../services/authenticator.service';
 import * as moment from 'moment';
-import { MessageShowService } from '../../../services/message-show.service';
-import { ActivityPtmService } from '../../../services/activity-ptmservice/activity-ptm.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { HttpService } from '../../../services/http.service';
+import { MessageShowService } from '../../../services/message-show.service';
 declare var $;
 
 @Component({
@@ -90,9 +89,8 @@ export class PtmManagementComponent implements OnInit {
   constructor(
     private router: Router,
     private auth: AuthenticatorService,
-    private ptmService: ActivityPtmService,
     private msgService: MessageShowService,
-    private httpService: HttpService
+    private _http: HttpService
   ) { }
 
   ngOnInit() {
@@ -109,7 +107,7 @@ export class PtmManagementComponent implements OnInit {
     if(this.jsonFlag.isProfessional){
       this.fetchBatchesList();
     }
-    else{
+    else {
       this.fetchPreFillData();
     }
   }
@@ -118,33 +116,33 @@ export class PtmManagementComponent implements OnInit {
     this.jsonFlag.isRippleLoad = true;
     //get master course - course - subject data  for course model
     const url = `/api/v1/courseMaster/fetch/${this.jsonFlag.institute_id}/all`;
-    this.httpService.getData(url).subscribe(
+    this._http.getData(url).subscribe(
       res => {
         this.masterCourseList = res;
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
-        this.jsonFlag.isRippleLoad = false;
-       }
+        this.auth.hideLoader();
+      }
     );
   }
 
-  updateCoursesList(){
+  updateCoursesList() {
     for (var i = 0; i < this.masterCourseList.length; i++) {
-      if(this.masterCourseList[i].master_course == this.inputElements.masterCourse){
-       this.courseList = this.masterCourseList[i].coursesList;
-          this.inputElements.course = "-1";
-          this.subjectList = [];
-          this.fetchPtmDates = [];
-          return;
+      if (this.masterCourseList[i].master_course == this.inputElements.masterCourse) {
+        this.courseList = this.masterCourseList[i].coursesList;
+        this.inputElements.course = "-1";
+        this.subjectList = [];
+        this.fetchPtmDates = [];
+        return;
       }
     }
   }
 
-  updateSubjectsList(){
+  updateSubjectsList() {
     for (var i = 0; i < this.courseList.length; i++) {
-      if(this.courseList[i].course_id == this.inputElements.course){
+      if (this.courseList[i].course_id == this.inputElements.course) {
         this.subjectList = this.courseList[i].batchesList;
         this.inputElements.subject = "-1";
         return;
@@ -156,63 +154,63 @@ export class PtmManagementComponent implements OnInit {
     this.jsonFlag.isRippleLoad = true;
     let isActive = this.batchQueryParam.is_active == 1 ? "Y" : "N";
     const url = `/api/v1/batches/all/${this.jsonFlag.institute_id}?${isActive}`;
-    this.httpService.getData(url).subscribe(
+    this._http.getData(url).subscribe(
       (data: any) => {
         this.getAllBatches = data;
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       (error: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
 
   loadPtmDates() {
     this.inputElements.ptmId = "-1";
-    if(!this.jsonFlag.isProfessional){
+    if (!this.jsonFlag.isProfessional) {
       this.getptmDates = {
         batch_id: this.inputElements.subject
       }
     }
-    else{
+    else {
       this.getptmDates = {
         batch_id: this.inputElements.batch_id
       }
     }
     this.jsonFlag.isRippleLoad = true;
     const url = `/api/v1/ptm/batch/${this.getptmDates.batch_id}/schedules`;
-    this.httpService.postData(url, this.getptmDates).subscribe(
+    this._http.postData(url, this.getptmDates).subscribe(
       (data: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.fetchPtmDates = data;
-        if(this.fetchPtmDates.length == 0){
+        if (this.fetchPtmDates.length == 0) {
           this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', 'No PTM schedule found');
         }
       },
       (error: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
 
   viewStudentsData() {
     let validation: boolean = true;
-    if(this.jsonFlag.isProfessional){
-      if(this.inputElements.batch_id == "-1"){
+    if (this.jsonFlag.isProfessional) {
+      if (this.inputElements.batch_id == "-1") {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select all mandatory field(s)');
         validation = false;
       }
-      else if(this.inputElements.ptmId == "-1"){
+      else if (this.inputElements.ptmId == "-1") {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select PTM schedule');
         validation = false;
       }
     }
-    else{
-      if(this.inputElements.masterCourse == "-1" || this.inputElements.course == "-1" || this.inputElements.subject == "-1"){
+    else {
+      if (this.inputElements.masterCourse == "-1" || this.inputElements.course == "-1" || this.inputElements.subject == "-1") {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select all mandatory field(s)');
         validation = false;
       }
-      else if(this.inputElements.ptmId == "-1"){
+      else if (this.inputElements.ptmId == "-1") {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select PTM schedule');
         validation = false;
       }
@@ -220,9 +218,9 @@ export class PtmManagementComponent implements OnInit {
     if(validation){
       this.jsonFlag.isRippleLoad = true;
       const url = `/api/v1/ptm/${this.inputElements.ptmId}/details`;
-      this.httpService.getData(url).subscribe(
+      this._http.getData(url).subscribe(
         (data: any) => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.viewStudents = data;
           for (let j = 0; j < this.viewStudents.length; j++) {
             this.viewStudents[j].isAttendanceChanged = "N";
@@ -236,18 +234,18 @@ export class PtmManagementComponent implements OnInit {
 
         },
         (error: any) => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       )
     }
 
   }
 
-  searchInList(search_string: any){
+  searchInList(search_string: any) {
     this.viewStudents = this.tempStudents;
     let temp = this.viewStudents;
-    if(this.searchInput != '' && this.searchInput != null){
-      temp = this.viewStudents.filter(element =>  element.student_name.toLocaleLowerCase().includes(this.searchInput.toLocaleLowerCase()) || element.student_disp_id.toLocaleLowerCase().includes(this.searchInput.toLocaleLowerCase()) );
+    if (this.searchInput != '' && this.searchInput != null) {
+      temp = this.viewStudents.filter(element => element.student_name.toLocaleLowerCase().includes(this.searchInput.toLocaleLowerCase()) || element.student_disp_id.toLocaleLowerCase().includes(this.searchInput.toLocaleLowerCase()));
     }
     this.viewStudents = temp;
     this.totalCount = this.viewStudents.length;
@@ -264,7 +262,7 @@ export class PtmManagementComponent implements OnInit {
         }
         this.jsonFlag.isRippleLoad = true;
         const url = `/api/v1/ptm/cancel/${obj.ptm_id}`;
-        this.httpService.putData(url, obj).subscribe(
+        this._http.putData(url, obj).subscribe(
           res => {
             this.jsonFlag.isRippleLoad = false;
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Cancelled Successfully');
@@ -281,15 +279,16 @@ export class PtmManagementComponent implements OnInit {
           }
         )
       }
-  }
+    }
+  
 
-  showCreateNewPTM(){
+  showCreateNewPTM() {
     this.createPTMShow = true;
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     this.createPTMAllBatches = [];
     let isActive = this.batchQueryParam.is_active == 1 ? "Y" : "N";
     const url = `/api/v1/batches/all/${this.jsonFlag.institute_id}?${isActive}`;
-    this.httpService.getData(url).subscribe(
+    this._http.getData(url).subscribe(
       (data: any) => {
         this.createPTMAllBatches = data;
         this.createPTM.batchArray = [];
@@ -305,10 +304,10 @@ export class PtmManagementComponent implements OnInit {
           this.createPTMAllBatches[j].endMM = "00";
           this.createPTMAllBatches[j].endMed = "PM";
         }
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       (error: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -324,7 +323,7 @@ export class PtmManagementComponent implements OnInit {
       this.scheduledPTMList = [];
       this.jsonFlag.isRippleLoad = true;
       const url = `/api/v1/ptm/ptm-schedule-details/${this.jsonFlag.institute_id}/${scheDate}`;
-      this.httpService.getData(url).subscribe(
+      this._http.getData(url).subscribe(
         (data: any) => {
           this.jsonFlag.isRippleLoad = false;
           this.scheduledPTMList = data.response;
@@ -340,7 +339,7 @@ export class PtmManagementComponent implements OnInit {
     this.jsonFlag.isRippleLoad = true;
     const url = `/api/v1/ptm/ptmAlert/${ptmId}/alerts`;
     let obj = {}
-    this.httpService.postData(url, obj).subscribe(
+    this._http.postData(url, obj).subscribe(
       (data: any) => {
         this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Notification has been sent successfully');
@@ -357,11 +356,11 @@ export class PtmManagementComponent implements OnInit {
       for (let j = 0; j < this.createPTMAllBatches.length; j++) {
         this.createPTMAllBatches[j].isSelected = true;
         this.createPTM.batchArray.push(this.createPTMAllBatches[j].batch_id);
-        this.createPTM.startTimeArray.push(this.createPTMAllBatches[j].startHH+":"+this.createPTMAllBatches[j].startMM+" "+this.createPTMAllBatches[j].startMed);
-        this.createPTM.endTimeArray.push(this.createPTMAllBatches[j].endHH+":"+this.createPTMAllBatches[j].endMM+" "+this.createPTMAllBatches[j].endMed);
+        this.createPTM.startTimeArray.push(this.createPTMAllBatches[j].startHH + ":" + this.createPTMAllBatches[j].startMM + " " + this.createPTMAllBatches[j].startMed);
+        this.createPTM.endTimeArray.push(this.createPTMAllBatches[j].endHH + ":" + this.createPTMAllBatches[j].endMM + " " + this.createPTMAllBatches[j].endMed);
       }
     }
-    else{
+    else {
       for (let j = 0; j < this.createPTMAllBatches.length; j++) {
         this.createPTMAllBatches[j].isSelected = false;
         this.createPTM.batchArray = [];
@@ -371,64 +370,64 @@ export class PtmManagementComponent implements OnInit {
     }
   }
 
-  checkBatch(batch, e){
-    if(batch.isSelected){
+  checkBatch(batch, e) {
+    if (batch.isSelected) {
       this.createPTM.batchArray.push(batch.batch_id);
-      this.createPTM.startTimeArray.push(batch.startHH+":"+batch.startMM+" "+batch.startMed);
-      this.createPTM.endTimeArray.push(batch.endHH+":"+batch.endMM+" "+batch.endMed);
+      this.createPTM.startTimeArray.push(batch.startHH + ":" + batch.startMM + " " + batch.startMed);
+      this.createPTM.endTimeArray.push(batch.endHH + ":" + batch.endMM + " " + batch.endMed);
     }
-    else{
+    else {
       for (let j = 0; j < this.createPTM.batchArray.length; j++) {
-        if(batch.batch_id == this.createPTM.batchArray[j]){
-          this.createPTM.batchArray.splice(j,1);
-          this.createPTM.startTimeArray.splice(j,1);
-          this.createPTM.endTimeArray.splice(j,1);
+        if (batch.batch_id == this.createPTM.batchArray[j]) {
+          this.createPTM.batchArray.splice(j, 1);
+          this.createPTM.startTimeArray.splice(j, 1);
+          this.createPTM.endTimeArray.splice(j, 1);
         }
       }
     }
   }
 
-  changeTime(batch){
+  changeTime(batch) {
     for (let j = 0; j < this.createPTM.batchArray.length; j++) {
-      if(batch.batch_id == this.createPTM.batchArray[j]){
+      if (batch.batch_id == this.createPTM.batchArray[j]) {
         let time1 = batch.startHH;
         let time2 = batch.endHH;
-        if(batch.startMed == "PM" && batch.startHH != "12"){
+        if (batch.startMed == "PM" && batch.startHH != "12") {
           time1 = Number(batch.startHH) + 12
         }
-        if(batch.endMed == "PM" && batch.endHH != "12"){
-          time2 =  Number(batch.endHH) + 12
+        if (batch.endMed == "PM" && batch.endHH != "12") {
+          time2 = Number(batch.endHH) + 12
         }
-        let startTime = moment(time1+":"+batch.startMM, "HH:mm");
-        let endTime = moment(time2+":"+batch.endMM, "HH:mm");
-        if(startTime.isAfter(endTime)){
+        let startTime = moment(time1 + ":" + batch.startMM, "HH:mm");
+        let endTime = moment(time2 + ":" + batch.endMM, "HH:mm");
+        if (startTime.isAfter(endTime)) {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Start time should not be greater than end time');
         }
-        else if(endTime.isBefore(startTime)){
+        else if (endTime.isBefore(startTime)) {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'End time should not be lesser than start time');
         }
-        else if(startTime == endTime){
+        else if (startTime == endTime) {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Start time and end time should not be same');
         }
 
-        this.createPTM.startTimeArray[j] = batch.startHH+":"+batch.startMM+" "+batch.startMed;
-        this.createPTM.endTimeArray[j] = batch.endHH+":"+batch.endMM+" "+batch.endMed;
+        this.createPTM.startTimeArray[j] = batch.startHH + ":" + batch.startMM + " " + batch.startMed;
+        this.createPTM.endTimeArray[j] = batch.endHH + ":" + batch.endMM + " " + batch.endMed;
 
         return;
       }
     }
   }
 
-  scheduleNewPTM(){
+  scheduleNewPTM() {
     let validation = true;
     for (let j = 0; j < this.createPTM.startTimeArray.length; j++) {
       let startTime = moment(this.createPTM.startTimeArray[j], "HH:mm A");
       let endTime = moment(this.createPTM.endTimeArray[j], "HH:mm A");
-      if(startTime.isAfter(endTime)){
+      if (startTime.isAfter(endTime)) {
         validation = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Start time should not be greater than end time');
       }
-      else if(endTime.isBefore(startTime)){
+      else if (endTime.isBefore(startTime)) {
         validation = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'End time should not be lesser than start time');
       }
@@ -442,16 +441,16 @@ export class PtmManagementComponent implements OnInit {
     if(validation){
       this.jsonFlag.isRippleLoad = true;
       const url = `/api/v1/ptm/create/${this.jsonFlag.institute_id}`;
-      this.httpService.postData(url, this.createPTM).subscribe(
+      this._http.postData(url, this.createPTM).subscribe(
         res => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Created Successfully');
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.createPTMShow = false;
           $('#createPTM').modal('hide');
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       )
     }
@@ -464,25 +463,25 @@ export class PtmManagementComponent implements OnInit {
   addNewDate() {
     let currentDate = moment().format("YYYY-MM-DD");
     let scheDate = moment(this.ptmScheduleDate).format("YYYY-MM-DD");
-    if(moment(scheDate).isBefore(currentDate)){
+    if (moment(scheDate).isBefore(currentDate)) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'PTM schedule date can not be past date');
     }
-    else{
+    else {
       document.getElementById("changeDate").innerHTML = moment(this.ptmScheduleDate).format("DD MMM YYYY");
       this.createPTM.ptm_date = moment(this.ptmScheduleDate).format("YYYY-MM-DD");
     }
   }
 
-  attendanceChange(student){
-    if(student.defaultAtt == student.attendance){
+  attendanceChange(student) {
+    if (student.defaultAtt == student.attendance) {
       student.isAttendanceChanged = "N";
     }
-    else{
+    else {
       student.isAttendanceChanged = "Y";
     }
   }
 
-  updatePTM(){
+  updatePTM() {
     let studentArray = [];
     for (let j = 0; j < this.viewStudents.length; j++) {
       let studentObj = {
@@ -499,22 +498,20 @@ export class PtmManagementComponent implements OnInit {
 
     this.jsonFlag.isRippleLoad = true;
     const url = `/api/v1/ptm/${this.inputElements.ptmId}/details/record`;
-    this.httpService.postData(url, studentArray).subscribe(
+    this._http.postData(url, studentArray).subscribe(
       res => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Updated Successfully');
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.viewStudentsData();
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
 
-
-
-  /*** pagination functions */
+    /*** pagination functions */
   /* Fetch next set of data from server and update table */
   fetchNext() {
     this.pageIndex++;
@@ -535,11 +532,11 @@ export class PtmManagementComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    if(this.searchInput != '' && this.searchInput != null){
+    if (this.searchInput != '' && this.searchInput != null) {
       let t = this.viewStudents.slice(startindex, startindex + this.displayBatchSize);
       return t;
     }
-    else{
+    else {
       let t = this.tempStudents.slice(startindex, startindex + this.displayBatchSize);
       return t;
     }
@@ -552,6 +549,5 @@ export class PtmManagementComponent implements OnInit {
     this.displayBatchSize = parseInt(num);
     this.viewStudentsData();
   }
-
 
 }

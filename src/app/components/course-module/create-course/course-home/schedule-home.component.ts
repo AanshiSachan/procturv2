@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import * as moment from 'moment';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../../app.component';
-import { StandardServices } from '../../../../services/course-services/standard.service';
-import * as moment from 'moment';
-import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { StandardServices } from '../../../../services/course-services/standard.service';
 
 
 @Component({
@@ -15,7 +14,6 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 })
 export class ScheduleHomeComponent implements OnInit {
 
-  isRippleLoad: boolean = false;
   no_standard_name: boolean = false;
   standardListDataSource: any = [];
   displayBatchSize = 15;
@@ -55,7 +53,7 @@ export class ScheduleHomeComponent implements OnInit {
 
 
   getAllStandardList() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.getAllStandardListFromServer().subscribe(
       (data: any) => {
         this.totalRow = data.length;
@@ -65,11 +63,11 @@ export class ScheduleHomeComponent implements OnInit {
         this.standardListDataSource = data;
         this.standardListDataSource.reverse();
         this.fetchTableDataByPage(this.PageIndex);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.dataStatus = 2;
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let data = {
           type: "error",
           title: "",
@@ -104,7 +102,7 @@ export class ScheduleHomeComponent implements OnInit {
     if (this.newStandardDetails.standard_name == "") {
       this.no_standard_name = true;
     } else {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       if (this.newStandardDetails.is_active == true || this.newStandardDetails.is_active == "Y") {
         this.newStandardDetails.is_active = "Y";
       }
@@ -133,12 +131,12 @@ export class ScheduleHomeComponent implements OnInit {
             standard_name: ""
           }
           this.getAllStandardList();
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.no_standard_name = false;
           this.toggleCreateNewStandard();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let data = {
             type: "error",
             title: "",
@@ -184,7 +182,7 @@ export class ScheduleHomeComponent implements OnInit {
     data.is_active = row.is_active;
     data.standard_name = row.standard_name;
     data.institution_id = row.institution_id;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.apiService.updateStanadardRowData(data, row.standard_id).subscribe(
       data => {
         let msg = {
@@ -194,10 +192,10 @@ export class ScheduleHomeComponent implements OnInit {
         }
         this.toastCtrl.popToast(msg);
         this.cancelRow(id);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       error => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let data = {
           type: "error",
           title: "",
@@ -215,10 +213,10 @@ export class ScheduleHomeComponent implements OnInit {
 
   deleteRow(data) {
     if (confirm('Are you sure you want to delete?')) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.apiService.deleteStandard(data.standard_id).subscribe(
         res => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let data = {
             type: "success",
             title: '',
@@ -228,7 +226,7 @@ export class ScheduleHomeComponent implements OnInit {
           this.getAllStandardList();
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           let data = {
             type: "error",
             title: '',

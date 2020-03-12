@@ -1,12 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
-import { AuthenticatorService } from '../../../services/authenticator.service';
-import * as Muuri from 'muuri/muuri';
-import { ToDoListService } from '../../../services/to-do-list.service';
 import * as moment from 'moment';
-import { CommonServiceFactory } from '../../../services/common-service';
+import * as Muuri from 'muuri/muuri';
 import { AppComponent } from '../../../app.component';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../services/common-service';
+import { HttpService } from '../../../services/http.service';
 
 @Component({
   selector: 'app-to-do-list',
@@ -22,7 +21,7 @@ export class ToDoListComponent implements OnInit {
   // toDoListDisplay: boolean = false;
   public order: string[] = [];
   sortDate: any;
-  editDate: any =[];
+  editDate: any = [];
   public isProfessional: boolean = false;
   defaultToDoList: any;
   completedToDoList: any;
@@ -33,28 +32,31 @@ export class ToDoListComponent implements OnInit {
   toDoListForReset: any;
   addTaskStatus: boolean = false;
   noRecord: boolean = false;
-  is_edit : boolean = false;
-
+  is_edit: boolean = false;
+  institute_id: any;
   // @Output() loaderOn = new EventEmitter<boolean>(false);
 
   constructor(
     private router: Router,
-    private toDoService: ToDoListService,
     private auth: AuthenticatorService,
-    private commonService : CommonServiceFactory,
+    private commonService: CommonServiceFactory,
     private appC: AppComponent,
+    private _http: HttpService,
     private elementRef: ElementRef
   ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
+    this.auth.currentInstituteId.subscribe(id => {
+      this.institute_id = id;
+    });
   }
 
   onClick(event) {
-   if (!this.elementRef.nativeElement.contains(event.target)) // or some similar check
-    console.log("clicked")
-     //alert('clicked')
-     //doSomething();
+    if (!this.elementRef.nativeElement.contains(event.target)) // or some similar check
+      console.log("clicked")
+    //alert('clicked')
+    //doSomething();
   }
 
   ngOnInit() {
@@ -73,11 +75,11 @@ export class ToDoListComponent implements OnInit {
 
   }
 
-  showAddOption(){
+  showAddOption() {
     if (this.taskInput != null && this.taskInput != "") {
       this.addTaskStatus = true;
     }
-    else{
+    else {
       this.addTaskStatus = false;
     }
   }
@@ -87,41 +89,43 @@ export class ToDoListComponent implements OnInit {
   }
 
 
-  changeDate(date,index,task_id){
+  changeDate(date, index, task_id) {
     let d = moment(date).format("YYYY-MM-DD");
 
-    if(date != null && date != ""){
+    if (date != null && date != "") {
       let currentDate = new Date();
-      if(currentDate <= date){
+      if (currentDate <= date) {
         this.defaultToDoList.forEach(e => {
-            if(e.task_id == task_id){
-              let obj = {
-                task_name: e.task_name,
-                is_completed: "N",
-                task_id: task_id,
-                task_squence: e.task_squence,
-                task_date: d
-              }
-
-              this.toDoService.updateToDo(obj).subscribe(
-                res => {
-                  let obj = {
-                    type: 'success',
-                    title: 'Updated Successfully',
-                    body: ''
-                  }
-                  this.appC.popToast(obj);
-                  this.editDate[index] = "";
-                  this.getAllTask();
-                },
-                err => {
-                  console.log(err)
-                }
-              )
+          if (e.task_id == task_id) {
+            let obj = {
+              task_name: e.task_name,
+              is_completed: "N",
+              task_id: task_id,
+              task_squence: e.task_squence,
+              task_date: d,
+              userid: sessionStorage.getItem('userid'),
+              institute_id: this.institute_id
             }
+
+            this._http.putData("/api/v2/toDoList/update", obj).subscribe(
+              res => {
+                let obj = {
+                  type: 'success',
+                  title: 'Updated Successfully',
+                  body: ''
+                }
+                this.appC.popToast(obj);
+                this.editDate[index] = "";
+                this.getAllTask();
+              },
+              err => {
+                console.log(err)
+              }
+            )
+          }
         })
       }
-      else{
+      else {
         let obj = {
           type: 'error',
           title: 'Please choose appropriate date',
@@ -138,23 +142,23 @@ export class ToDoListComponent implements OnInit {
 
   sortByDate() {
     let d = moment(this.sortDate).format("DD-MMM-YYYY");
-    if(this.sortDate != "" && this.sortDate != null){
-      document.getElementById("sortDateSpan").innerHTML = "&nbsp;&nbsp;"+ d +"&nbsp;&nbsp;&nbsp;";
+    if (this.sortDate != "" && this.sortDate != null) {
+      document.getElementById("sortDateSpan").innerHTML = "&nbsp;&nbsp;" + d + "&nbsp;&nbsp;&nbsp;";
       document.getElementById("refresh-icon").style.color = "#1283f4";
       document.getElementById("refresh-icon").style.cursor = "pointer";
     }
-    else{
+    else {
       document.getElementById("sortDateSpan").innerHTML = "&nbsp;&nbsp; Sort by date   &nbsp;&nbsp;&nbsp;";
       document.getElementById("refresh-icon").style.color = "gray";
       document.getElementById("refresh-icon").style.cursor = "default";
     }
 
     let currentDate = new Date();
-    if(currentDate <= this.sortDate){
+    if (currentDate <= this.sortDate) {
       this.is_edit = false;
       // (document.getElementById("taskInput") as HTMLInputElement).disabled  = false;
     }
-    else{
+    else {
       this.is_edit = true;
       // (document.getElementById("taskInput") as HTMLInputElement).disabled = true;
     }
@@ -196,10 +200,10 @@ export class ToDoListComponent implements OnInit {
       })
     })
 
-    if(shownItems.length > 0){
+    if (shownItems.length > 0) {
       this.noRecord = true;
     }
-    else{
+    else {
       this.noRecord = false;
     }
 
@@ -219,23 +223,25 @@ export class ToDoListComponent implements OnInit {
     this.getAllTask();
   }
 
-  editToDo(task_id){
-    document.getElementById("name_"+task_id).style.display = "none";
+  editToDo(task_id) {
+    document.getElementById("name_" + task_id).style.display = "none";
     document.getElementById(task_id).style.display = "block";
     document.getElementById(task_id).focus();
-    document.getElementById("fa_"+task_id).style.display = "block";
+    if (document.getElementById("fa_" + task_id)) { document.getElementById("fa_" + task_id).style.display = "block"; }
   }
 
   getAllTask() {
     // this.loaderOn.emit(true);
-    this.toDoService.getAllToDoList().subscribe(
+    //  let url = this.baseUrl + ;
+    // this.toDoService.getAllToDoList()
+    this._http.getData("/api/v2/toDoList/allToDoList/" + this.institute_id + "?sorted_by=''").subscribe(
       res => {
         // res = this.commonService.changeUiSelectedKeyValue(res,'date',new Date);
         this.defaultToDoList = res;
-        if(this.defaultToDoList.length > 0){
+        if (this.defaultToDoList.length > 0) {
           this.noRecord = true;
         }
-        else{
+        else {
           this.noRecord = false;
         }
         this.is_edit = false;
@@ -261,7 +267,7 @@ export class ToDoListComponent implements OnInit {
           // this.loaderOn.emit(false);
           this.toDoListDrag();
 
-          if(this.sortDate != "" && this.sortDate != null){
+          if (this.sortDate != "" && this.sortDate != null) {
             this.sortByDate();
           }
         }, 1000);
@@ -288,19 +294,21 @@ export class ToDoListComponent implements OnInit {
   //
   // }
 
-  updateToDo(toDo){
+  updateToDo(toDo) {
 
     let task_name = (<HTMLInputElement>document.getElementById(toDo.task_id)).value;
-    if(task_name != null && task_name != ""){
+    if (task_name != null && task_name != "") {
       let obj = {
         task_name: task_name,
         is_completed: "N",
         task_id: toDo.task_id,
         task_squence: toDo.task_squence,
-        task_date: moment(toDo.task_date).format("YYYY-MM-DD")
+        task_date: moment(toDo.task_date).format("YYYY-MM-DD"),
+        userid: sessionStorage.getItem('userid'),
+        institute_id: this.institute_id
       }
 
-      this.toDoService.updateToDo(obj).subscribe(
+      this._http.putData("/api/v2/toDoList/update", obj).subscribe(
         res => {
           let msg = {
             type: 'success',
@@ -323,9 +331,9 @@ export class ToDoListComponent implements OnInit {
             body: 'Failed to update'
           }
           this.appC.popToast(msg);
-          document.getElementById("name_"+toDo.task_id).style.display = "block";
+          document.getElementById("name_" + toDo.task_id).style.display = "block";
           document.getElementById(toDo.task_id).style.display = "none";
-          document.getElementById("fa_"+toDo.task_id).style.display = "none";
+          document.getElementById("fa_" + toDo.task_id).style.display = "none";
         }
       )
 
@@ -338,19 +346,19 @@ export class ToDoListComponent implements OnInit {
     if (this.taskInput != null && this.taskInput != "") {
       // this.loaderOn.emit(true);
       let date;
-      if(this.sortDate != "" && this.sortDate != null){
+      if (this.sortDate != "" && this.sortDate != null) {
         date = moment(this.sortDate).format("YYYY-MM-DD");
       }
-      else{
+      else {
         date = new Date();
         date = moment(date).format("YYYY-MM-DD")
       }
 
       let maxValue;
-      if(this.defaultToDoList.length > 0){
+      if (this.defaultToDoList.length > 0) {
         maxValue = Math.max.apply(Math, this.defaultToDoList.map(function (o) { return o.task_squence; }));
       }
-      else{
+      else {
         maxValue = 0;
       }
 
@@ -358,10 +366,12 @@ export class ToDoListComponent implements OnInit {
         task_name: this.taskInput,
         is_completed: "N",
         task_squence: maxValue + 1,
-        task_date: date
+        task_date: date,
+        institute_id: this.institute_id,
+        userid: sessionStorage.getItem('userid')
       }
 
-      this.toDoService.addToDoList(obj).subscribe(
+      this._http.postData("/api/v2/toDoList/create", obj).subscribe(
         res => {
           // console.log(res)
           this.defaultToDoList = [];
@@ -397,7 +407,8 @@ export class ToDoListComponent implements OnInit {
   }
 
   deleteToDo(task_id) {
-    this.toDoService.deleteToDo(task_id).subscribe(
+    let url = "/api/v2/toDoList/delete/" + this.institute_id + "/" + task_id;
+    this._http.deleteDataById(url).subscribe(
       res => {
         console.log(res)
         let msg = {
@@ -438,10 +449,12 @@ export class ToDoListComponent implements OnInit {
       is_completed: "Y",
       task_id: task_id,
       task_squence: '',
-      task_date: moment(selectedTaskDate).format("YYYY-MM-DD")
+      task_date: moment(selectedTaskDate).format("YYYY-MM-DD"),
+      institute_id: this.institute_id,
+      userid: sessionStorage.getItem('userid')
     }
 
-    this.toDoService.updateToDo(obj).subscribe(
+    this._http.putData("/api/v2/toDoList/update", obj).subscribe(
       res => {
         this.getAllTask();
       },

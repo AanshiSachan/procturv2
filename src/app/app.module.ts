@@ -1,29 +1,27 @@
 /* Modules */
-import { BrowserModule} from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule} from '@angular/common/http';
 import { HttpModule } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {ToasterModule} from 'angular2-toaster';
-import { AppRoutingModule } from './app-routing.module';
+import { ToasterModule } from 'angular2-toaster';
+import { Ng2OrderModule } from 'ng2-order-pipe';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
-import { Ng2OrderModule } from 'ng2-order-pipe';
+import { AppComponent, AuthenticatorService, CommonServiceFactory, ExpensesService, FetchenquiryService, FetchprefilldataService, HttpService, LoginService, MessageShowService, MultiBranchDataService, PaginationService, PostEnquiryDataService, TablePreferencesService } from '.';
+import { AppMainLoaderComponent } from './app-loader/app-loader.component';
+import { AppRoutingModule } from './app-routing.module';
+import { MasterTagService } from './components/course-module/master-tag/master-tag.component.service';
 import { SharedModule } from './components/shared/shared.module';
-
 /* Interceptors */
 // import { I1, I2 } from './interceptors/load-interceptor';
 import { AuthGuard } from './guards/auth.guard';
-import { FetchenquiryService, FetchprefilldataService, PostEnquiryDataService, AuthenticatorService, LoginService, 
-  ZendAuth, MultiBranchDataService, TablePreferencesService, PaginationService, CommonServiceFactory, MessageShowService, 
-  HttpService, ToDoListService, ExpensesService, AppComponent } from '.';
-import { ProductService } from './services/products.service';
-import { ReturnBookService } from './services/library/return/return-book.service';
+import { AddBookService } from './services/library/add/add-book.service';
 import { IssueBookService } from './services/library/issue/issue-book.service';
 import { MastersService } from './services/library/master/masters.service';
-import { AddBookService } from './services/library/add/add-book.service';
-import { MasterTagService } from './components/course-module/master-tag/master-tag.component.service';
+import { ReturnBookService } from './services/library/return/return-book.service';
+import { ProductService } from './services/products.service';
 
 @NgModule({
   imports: [
@@ -42,7 +40,8 @@ import { MasterTagService } from './components/course-module/master-tag/master-t
 
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+    AppMainLoaderComponent
   ],
   entryComponents: [
   ],
@@ -53,15 +52,13 @@ import { MasterTagService } from './components/course-module/master-tag/master-t
     AuthenticatorService,
     LoginService,
     AuthGuard,
-    ZendAuth,
     MultiBranchDataService,
     TablePreferencesService,
     PaginationService,
     CommonServiceFactory,
     MessageShowService,
     HttpService,
-    ToDoListService,
-    ExpensesService,
+       ExpensesService,
     MastersService,
     AddBookService,
     IssueBookService,

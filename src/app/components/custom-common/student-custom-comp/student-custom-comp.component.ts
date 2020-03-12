@@ -1,6 +1,7 @@
-import { Component, OnInit} from '@angular/core';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { Component, OnInit } from '@angular/core';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { MessageShowService } from '../../../services/message-show.service';
 /**  custome fields changes 
  * updated by laxmi wapte
@@ -16,7 +17,6 @@ export class StudentCustomComponent implements OnInit {
   componentShell: any[] = [];
   userCreatedComponent: any[] = [];
   isDelete: boolean = false;
-  isRippleLoad: boolean = false;
   isEdit: string = '';
   editCustomComponentForm: any = {
     comp_length: "",
@@ -35,6 +35,7 @@ export class StudentCustomComponent implements OnInit {
   constructor(
     private prefill: FetchprefilldataService,
     private postdata: PostEnquiryDataService,
+    private auth:AuthenticatorService,
     private msgService: MessageShowService
   ) {
   }
@@ -45,23 +46,23 @@ export class StudentCustomComponent implements OnInit {
 
   /* fetches list of user created component and the default type */
   fetchPrefillData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.prefill.fetchComponentGenerator().subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.componentShell = res;
       },(err)=>{
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     return this.prefill.fetchUserCreatedComponentStudent().subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.userCreatedComponent = res;
       },(err)=>{
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }
@@ -82,15 +83,15 @@ export class StudentCustomComponent implements OnInit {
         /* Validate Prefilled Data */
         if (this.validateDropDown(this.editCustomComponentForm.prefilled_data)) {
           if (this.validateDropdownDefvalue(this.editCustomComponentForm.prefilled_data, this.editCustomComponentForm.defaultValue)) {
-            this.isRippleLoad = true;
+            this.auth.showLoader();
             this.postdata.addNewCustomComponent(this.editCustomComponentForm).subscribe(
               res => {
-                this.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.msgService.showErrorMessage('success', '', 'Form-Field  Updated Successfully');
                 this.cancelEditRow();
               },
               err => {
-                this.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.msgService.showErrorMessage('error', '', 'Label name is already created with the same name');
               }
             );
@@ -108,15 +109,15 @@ export class StudentCustomComponent implements OnInit {
       else if (this.editCustomComponentForm.type == "5") {
         /* Date cannot be searchable and does not a default value */
         if (this.editCustomComponentForm.is_searchable == "N" && this.editCustomComponentForm.defaultValue.trim() == "") {
-          this.isRippleLoad = true;
+          this.auth.showLoader();
           this.postdata.addNewCustomComponent(this.editCustomComponentForm).subscribe(
             res => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.msgService.showErrorMessage('success', '', 'Form-Field Updated Successfully');
               this.fetchPrefillData();
             },
             err => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.msgService.showErrorMessage('error', '', 'There was an error processing your request' +err.error.message);
             }
           );
@@ -128,15 +129,15 @@ export class StudentCustomComponent implements OnInit {
 
       /* Textbox and Checkbox */
       else if (this.editCustomComponentForm.type != "3" && this.editCustomComponentForm.type != "4" && this.editCustomComponentForm.type != "5") {
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.postdata.addNewCustomComponent(this.editCustomComponentForm).subscribe(
           res => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage('success', 'Form-Field Updated Successfully', '');
             this.cancelEditRow();
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage('error', '', 'Label name is already created with the same name');
           }
         );
@@ -247,15 +248,15 @@ export class StudentCustomComponent implements OnInit {
 
       /* Textbox and Checkbox */
       else if (data.type != "3" && data.type != "4" && data.type != "5") {
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         this.postdata.updateCustomComponent(data).subscribe(
           res => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage('success', 'Form-Field Updated','');
             this.cancelEditRow();
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage('error', '', err.error.message);
           }
         );
@@ -301,16 +302,16 @@ export class StudentCustomComponent implements OnInit {
 
   DeleteRowConfirmed() {
     let data = this.editCustomComponentForm;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.postdata.deleteCustomComponent(data.component_id).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.isDelete = false;
         this.msgService.showErrorMessage('success', 'Form-field Deleted', 'requested form-field deleted successfully');
         this.cancelEditRow();
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', '', err.error.message);
         this.cancelRow();
       }

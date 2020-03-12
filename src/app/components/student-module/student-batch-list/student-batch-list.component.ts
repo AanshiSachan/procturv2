@@ -21,7 +21,6 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     model: string;
     assignedCount: number = 0;
     modelChanged: Subject<string> = new Subject<string>();
-    isRippleLoad: boolean = false;
     isShowCountry: boolean = false;
     is_country_disabled: boolean = false;
     batchFilter: any = {

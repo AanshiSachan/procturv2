@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
-import { MessageShowService } from '../../../../../services/message-show.service';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
+import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
 import { CourseListService } from '../../../../../services/course-services/course-list.service';
+import { MessageShowService } from '../../../../../services/message-show.service';
 import { ExamService } from '../../../../../services/report-services/exam.service';
 
 @Component({
@@ -17,9 +17,9 @@ export class ExamReportHomeComponent implements OnInit {
     jsonFlag = {
       isProfessional: false,
       institute_id: '',
-      isRippleLoad: false,
       type:'batch'
     };
+
     reportJSON: any = {
       master_course_name: "",
       standard_id:  "",
@@ -70,24 +70,24 @@ export class ExamReportHomeComponent implements OnInit {
 
     getExamReport(){
       this.examReport = [];
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.examdata.getAllExamReport(this.reportJSON).subscribe(
         res => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.examReport = res;
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', err.error.message);
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       );
     }
 
     getPreRequiredData(){
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.courseList.getCourseListFromServer().subscribe(    // get mastercourse
         res => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.masterCourseList = res;
           let master = sessionStorage.getItem('masterCourseForReport');
           if(master != "" && master != null && master != undefined){
@@ -98,14 +98,14 @@ export class ExamReportHomeComponent implements OnInit {
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       );
 
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.courseList.getStandardListFromServer().subscribe(  // get standard
         res => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.standardtList = res;
           let stand = sessionStorage.getItem('standaradForReport');
           if(stand != "" && stand != null && stand != undefined ){
@@ -116,7 +116,7 @@ export class ExamReportHomeComponent implements OnInit {
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       );
     }
@@ -132,16 +132,16 @@ export class ExamReportHomeComponent implements OnInit {
         this.reportJSON.to_date = moment(e[1]).format("YYYY-MM-DD");
         this.examReport = [];
         this.weeklyExamReportData = [];
-        this.jsonFlag.isRippleLoad = true;
+        this.auth.showLoader();
         this.examdata.getAllExamReport(this.reportJSON).subscribe(
           res => {
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
             this.examReport = res;
             this.weeklyExamReportData = this.examReport;
           },
           err => {
             this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', err.error.message);
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
           }
         );
       }
@@ -156,16 +156,16 @@ export class ExamReportHomeComponent implements OnInit {
       this.reportJSON.master_course_name = this.mastercourse;
       this.examReport = [];
       this.masterCourseExamReportData = [];
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.examdata.getAllExamReport(this.reportJSON).subscribe(
         res => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.examReport = res;
           this.masterCourseExamReportData = this.examReport;
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       );
     }
@@ -175,29 +175,29 @@ export class ExamReportHomeComponent implements OnInit {
         this.clearJSON();
         this.reportJSON.standard_id = this.standard;
         this.examReport = [];
-        this.jsonFlag.isRippleLoad = true;
+        this.auth.showLoader();
         this.examdata.getAllExamReport(this.reportJSON).subscribe(
           res => {
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
             this.examReport = res;
             this.standardExamReportData = this.examReport;
           },
           err => {
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
           }
         );
       }
       else{
         // Get Subject List for Batch Model
-        this.jsonFlag.isRippleLoad = true;
+        this.auth.showLoader();
         this.classService.getStandardSubjectList(this.standard, "-1", "Y").subscribe(
           res => {
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
             this.subjectList = res.subjectLi;
           },
           err => {
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
            }
         );
@@ -210,16 +210,16 @@ export class ExamReportHomeComponent implements OnInit {
       this.reportJSON.subject_id = this.subject;
       this.examReport = [];
       this.standardExamReportData = [];
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.examdata.getAllExamReport(this.reportJSON).subscribe(
         res => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.examReport = res;
           this.standardExamReportData = this.examReport;
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       );
     }

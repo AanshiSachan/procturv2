@@ -1,12 +1,12 @@
-import { Component, OnInit ,ViewEncapsulation} from '@angular/core';
-
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AuthenticatorService } from '../../../services/authenticator.service';
-import { AppComponent } from '../../../app.component';
-import { ProductService } from '../../../services/products.service';
-import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../..';
+import { AppComponent } from '../../../app.component';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { HttpService } from '../../../services/http.service';
+import { ProductService } from '../../../services/products.service';
+
 
 
 @Component({
@@ -23,9 +23,6 @@ export class EditClassComponent implements OnInit {
   class_id: any = 0;
   hour = ['01 AM', '02 AM', '03 AM', '04 AM', '05 AM', '06 AM', '07 AM', '08 AM', '09 AM', '10 AM', '11 AM', '12 PM', '01 PM', '02 PM', '03 PM', '04 PM', '05 PM', '06 PM', '07 PM', '08 PM', '09 PM', '10 PM', '11 PM', '12 AM'];
   minutes = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']
-
-
-  isRippleLoad: boolean = false;
   selectedStudentList: any[] = [];
   selectedUserList: any[] = [];
   selectedFacultyList: any[] = [];
@@ -193,15 +190,15 @@ export class EditClassComponent implements OnInit {
     let enable_eLearn_feature = sessionStorage.getItem('enable_eLearn_feature');
     if (enable_eLearn_feature == '1') {
       this.isShowProductOption = true;
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.product_service.getMethod('product/get-product-list',null).subscribe(
         (data: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.productData = data.result;
           console.log(this.productData);
         },
         (error: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           // this.clearOnlineSchedulesObject() ;
           this.appC.popToast({ type: "error", body: error.error.message })
         }
@@ -215,21 +212,21 @@ export class EditClassComponent implements OnInit {
   onChangeProduct(event) {
     let institute_id = sessionStorage.getItem('institute_id');
     let url = `/api/v1/meeting_manager/userDetailByProductID/${institute_id}/${event}`;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.http_service.getData(url).subscribe(
       (data: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.userList = data;
       },
       (error: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.appC.popToast({ type: "error", body: error.error.message })
       }
     );
   }
 
   getLiveClassData() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     const url ='/api/v1/meeting_manager/getMeeting/' + this.institution_id +"/"+this.editSessionId;
     this.http_service.getData(url).subscribe(
       (data: any) => {
@@ -282,7 +279,7 @@ export class EditClassComponent implements OnInit {
         // this.getStudentpreFillData();
       },
       (error: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.appC.popToast({ type: "error", body: error.error.message })
       }
     )
@@ -575,16 +572,16 @@ export class EditClassComponent implements OnInit {
       this.updateOnlineClass.product_id = this.product_id;
 
       if (this.repeat_session == 0) {
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         const url = '/api/v1/meeting_manager/update/'+ this.institution_id +"/"+ this.editSessionId;
         this.http_service.postData(url,this.updateOnlineClass).subscribe(
           (data: any) => {
             this.appC.popToast({ type: "success", body: "Live class session " + this.topicName + " " + "updated successfully" });
             this.router.navigate(['/view/live-classes']);
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
           },
           (error: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             // this.clearOnlineSchedulesObject() ;
             this.facultyId = [];
             this.custUserIds = [];
@@ -596,16 +593,16 @@ export class EditClassComponent implements OnInit {
 
       if (this.repeat_session == 1) {
         this.updateOnlineClass.studentIds = this.studentsId;
-        this.isRippleLoad = true;
+        this.auth.showLoader();
         const url = '/api/v1/meeting_manager/create'
         this.http_service.putData(url,this.updateOnlineClass).subscribe(
           (data: any) => {
             this.appC.popToast({ type: "success", body: this.topicName + " " + "created successfully" });
             this.router.navigate(['/view/live-classes']);
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
           },
           (error: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.facultyId = [];
             this.custUserIds = [];
             this.studentsId = [];
@@ -665,14 +662,14 @@ export class EditClassComponent implements OnInit {
 
   /** this function is used to fetch teacher details */
   getTeachers() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     const url =`/api/v1/teachers/all/+${this.institution_id}?active=Y`
     this.http_service.getData(url).subscribe(
       (data: any) => {
         this.teachersAssigned = data;
         console.log(this.teachersAssigned)
         // this.getCheckedBox(this.teachersAssigned);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
 
         let teachersIds = this.editData.teachersIds.split(',')
         let teachersNames = this.editData.teachersName.split(',')
@@ -694,21 +691,21 @@ export class EditClassComponent implements OnInit {
       (error: any) => {
         this.teachersAssigned = [];
         this.errorMessage(error);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
 
   /** this function is used to fetch customer details */
   getCustomUsers() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     const url = '/api/v1/profiles/custUsers/' + this.institution_id
     this.http_service.getData(url).subscribe(
       (data: any) => {
         this.userAssigned = data;
         console.log(this.userAssigned)
         // this.getCheckedBox(this.userAssigned);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
 
         let userid = this.editData.moderatorIds.split(',')
         let name = this.editData.moderatorName.split(',')
@@ -730,7 +727,7 @@ export class EditClassComponent implements OnInit {
       (error: any) => {
         this.errorMessage(error);
         this.userAssigned = [];
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     )
   }
@@ -756,7 +753,7 @@ export class EditClassComponent implements OnInit {
   }
 
   getBatchesCourses() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     if (this.isProfessional) {
       let url = '';
       if (this.userType === '3') {
@@ -768,10 +765,10 @@ export class EditClassComponent implements OnInit {
         (data: any) => {
           this.batches = data;
           console.log(this.batches)
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         },
         (error: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.errorMessage(error);
         }
       )
@@ -787,12 +784,12 @@ export class EditClassComponent implements OnInit {
         (data: any) => {
           this.masters = data;
           console.log(this.masters)
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         },
         (error: any) => {
           console.log(error)
           this.errorMessage(error);
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       )
     }
@@ -805,16 +802,16 @@ export class EditClassComponent implements OnInit {
       this.courses = [];
     }
     else {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       const url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/' + master_course_name
       this.http_service.getData(url).subscribe(
         (data: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.courses = data.coursesList;
         },
         (error: any) => {
           this.errorMessage(error);
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       )
     }
@@ -844,7 +841,7 @@ export class EditClassComponent implements OnInit {
   }
 
   fetchStudentsApi(courseArray) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.getPayloadBatch.coursesArray = courseArray;
     const url = '/api/v1/courseMaster/onlineClass/fetch/users'
     this.http_service.postData(url,this.getPayloadBatch).subscribe(
@@ -852,10 +849,10 @@ export class EditClassComponent implements OnInit {
         this.studentList = data.studentsAssigned;
         console.log(data.studentsAssigned)
         // this.getCheckedBox(this.studentsAssigned);
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       },
       (error: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.errorMessage(error);
       }
     )

@@ -1,8 +1,9 @@
-import { Component, OnInit, OnChanges, ViewChild, ElementRef, Renderer2, ChangeDetectorRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { LoginService } from '../../../services/login-services/login.service';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpService } from '../../../services/http.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { HttpService } from '../../../services/http.service';
+import { LoginService } from '../../../services/login-services/login.service';
 
 @Component({
     selector: 'search-box',
@@ -27,7 +28,6 @@ export class SearchBoxComponent implements OnInit, OnChanges {
     private recentlySearched = new Set;
     hasStudent: boolean = false;
     hasEnquiry: boolean = false;
-    isRippleLoad:boolean = false;
 
     constructor(
         private router: Router,
@@ -36,6 +36,7 @@ export class SearchBoxComponent implements OnInit, OnChanges {
         private eRef: ElementRef,
         private log: LoginService,
         private _http: HttpService,
+        private auth:AuthenticatorService,
         private commonService: CommonServiceFactory
     ) {
 
@@ -218,11 +219,11 @@ export class SearchBoxComponent implements OnInit, OnChanges {
 
 
     downloadStudentReportCard(student_id) {
-     this.isRippleLoad = true;
+        this.auth.showLoader();
         let url='/api/v1/reports/Student/downloadReportCard/'+sessionStorage.getItem('institute_id') + '/' + student_id;
         this._http.getData(url).subscribe(
           (res: any) => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.closeSearch.emit(false);
             this.closeMenu.emit(false);
             if(res.document!=""){
@@ -241,7 +242,7 @@ export class SearchBoxComponent implements OnInit, OnChanges {
             }
           },
           err => {
-            this.isRippleLoad = false;
+            this.auth.hideLoader();
             this.commonService.showErrorMessage('error', '', err.error.message);
           }
         )

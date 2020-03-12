@@ -1,8 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { instituteInfo } from '../../model/instituteinfo';
-import { Students } from '../../model/student-data';
 import { Observable } from 'rxjs/Observable';
+import { instituteInfo } from '../../model/instituteinfo';
 import { AuthenticatorService } from '../authenticator.service';
 
 

@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from '../../../../app.component';
-import * as moment from 'moment';
-import { WidgetService } from '../../../../services/widget.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { HttpService } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { WidgetService } from '../../../../services/widget.service';
 declare var $;
 
 @Component({
@@ -19,7 +18,6 @@ export class BatchModelComponent implements OnInit {
   @ViewChild('fileUpload') fileUpload: any;
   permissionArray = sessionStorage.getItem('permissions');
   public isProfessional: boolean = false;
-  isRippleLoad: boolean = false;
   exam_info: any;
   examGradeFeature: any;
   is_exam_grad_feature: any = 0;
@@ -100,10 +98,10 @@ export class BatchModelComponent implements OnInit {
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
       // this.uploaders.clear(); // this will clear your file
-      if (!this.isRippleLoad) {
-        this.isRippleLoad = true;
+      if (!this.auth.isRippleLoad.getValue()) {
+        this.auth.showLoader();
         newxhr.onreadystatechange = () => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             let res = JSON.parse(newxhr.response);
             if (res.status == undefined) {
@@ -130,15 +128,15 @@ export class BatchModelComponent implements OnInit {
     created by laxmi */
   downloadMarksDetails() {
     let url = '/api/v1/StdExam/download/' + this.exam_info.data.class_schedule_id;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this._httpService.postData(url, null).subscribe((resp: any) => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       console.log(resp);
       var bindata = window.atob(resp.document);
       this.displayContents(bindata, resp);
     },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       })
   }
@@ -196,14 +194,14 @@ export class BatchModelComponent implements OnInit {
   }
 
   getAllExamGrades() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.widgetService.getExamGrades().subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.gradesList = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         //console.log(err);
       }
     )

@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
-import 'rxjs/Rx';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
+import 'rxjs/Rx';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
-import { LoginService } from '../../../services/login-services/login.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-import { HttpService  } from '../../../services/http.service';
+import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { HttpService } from '../../../services/http.service';
+import { LoginService } from '../../../services/login-services/login.service';
+import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 
 @Component({
   selector: 'app-enquiry-add',
@@ -19,7 +19,6 @@ import { HttpService  } from '../../../services/http.service';
 })
 export class EnquiryAddComponent implements OnInit {
 
-  isRippleLoad: boolean;
   isRegisterStudent: boolean = false;
   /* Variable Declarations */
   countryDetails: any=[];
@@ -322,16 +321,16 @@ export class EnquiryAddComponent implements OnInit {
     this.newEnqData.city_id = "";
     this.newEnqData.area_id = "";
     const url = `/api/v1/country/state?country_ids=${this.newEnqData.country_id}`
-    this.isRippleLoad = true;
+     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+         this.auth.hideLoader();
         if(res.result.length > 0){
           this.stateList = res.result[0].stateList;
         }
       },
       err => {
-        this.isRippleLoad = false;
+         this.auth.hideLoader();
         this.showErrorMessage('error', '', err);
       }
     )
@@ -344,16 +343,16 @@ export class EnquiryAddComponent implements OnInit {
     this.newEnqData.city_id = "";
     this.newEnqData.area_id = "";
     const url = `/api/v1/country/city?state_ids=${this.newEnqData.state_id}`
-    this.isRippleLoad = true;
+     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
+         this.auth.hideLoader();
         if(res.result.length > 0){
           this.cityList = res.result[0].cityList;
         }
       },
       err => {
-        this.isRippleLoad = false;
+         this.auth.hideLoader();
         this.showErrorMessage('error', '', err);
       }
     )
@@ -362,16 +361,16 @@ export class EnquiryAddComponent implements OnInit {
   getAreaList(){
     this.areaList = [];
     const url = `/api/v1/cityArea/area/${this.createSource.inst_id}?city_ids=${this.newEnqData.city_id}`
-    this.isRippleLoad = true;
+     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-        this.isRippleLoad = false;
-        if(res.result.length > 0){
+         this.auth.hideLoader();
+        if(res.result&&res.result.length > 0){
           this.areaList = res.result[0].areaList;
         }
       },
       err => {
-        this.isRippleLoad = false;
+         this.auth.hideLoader();
         this.showErrorMessage('error', '', err);
       }
     )
@@ -1048,10 +1047,10 @@ export class EnquiryAddComponent implements OnInit {
             is_follow_up_time_notification: this.newEnqData.is_follow_up_time_notification,
           }
           console.log(obj);
-          this.isRippleLoad = true;
+          this.auth.showLoader();
           this.poster.postNewEnquiry(obj).subscribe(
             (data: any) => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.enquiryConfirm = data;
               let instituteEnqId = data.generated_id;
               this.prefill.fetchLastDetail().subscribe(data => {
@@ -1077,19 +1076,19 @@ export class EnquiryAddComponent implements OnInit {
                 });
             },
             err => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.isEnquirySubmit = true;
               this.showErrorMessage('error', '', err.error.message);
             }
           );
         }
         else {
-          this.isRippleLoad = true;
+          this.auth.showLoader();
           if (this.isEnquirySubmit) {
             this.isEnquirySubmit = false;
             this.poster.postNewEnquiry(this.newEnqData).subscribe(
               (data: any) => {
-                this.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.enquiryConfirm = data;
                 let instituteEnqId = data.generated_id;
                 this.prefill.fetchLastDetail().subscribe(data => {
@@ -1115,7 +1114,7 @@ export class EnquiryAddComponent implements OnInit {
                   });
               },
               err => {
-                this.isRippleLoad = false;
+                this.auth.hideLoader();
                 this.isEnquirySubmit = true;
                 this.showErrorMessage('error', '', err.error.message);
               }
@@ -1663,15 +1662,15 @@ export class EnquiryAddComponent implements OnInit {
           name: el.new_referrer_name,
           inst_id: sessionStorage.getItem('institute_id')
         };
-        this.isRippleLoad = true;
+         this.auth.showLoader();
         this.poster.updateReferDetails(data).subscribe(
           res => {
-            this.isRippleLoad = false;
+             this.auth.hideLoader();
             this.showErrorMessage('success', '', 'Reference updated Successfully');
             this.fetchReferInfo();
           },
           err => {
-            this.isRippleLoad = false;
+             this.auth.hideLoader();
             this.showErrorMessage('error', '', err.error.message);
           }
         )
@@ -1686,16 +1685,16 @@ export class EnquiryAddComponent implements OnInit {
           name: name,
           inst_id: sessionStorage.getItem('institute_id')
         };
-        this.isRippleLoad = true;
+         this.auth.showLoader();
         this.poster.deleteRefer(data).subscribe(
           res => {
-            this.isRippleLoad = false;
+             this.auth.hideLoader();
             this.showErrorMessage('success', '', 'Reference deleted Successfully');
             this.referList.filter(x=>(x.id == id)).splice(0,1);
             this.fetchReferInfo();
           },
           err => {
-            this.isRippleLoad = false;
+             this.auth.hideLoader();
             let msg;
             if(err.status == 500){
               msg = JSON.parse(err._body);
@@ -1728,15 +1727,15 @@ export class EnquiryAddComponent implements OnInit {
   addSourceData() {    
     if(this.createSource.name.trim() != '') {
     if((this.sourceList.filter(x=>x.name == this.createSource.name.trim())).length == 0){
-      this.isRippleLoad = true;
+       this.auth.showLoader();
     this.prefill.createSource(this.createSource).subscribe(
       el => {
-        this.isRippleLoad = false;
+         this.auth.hideLoader();
         this.fetchSourceInfo();
         this.closeAddSource();
       },
       err => {
-        this.isRippleLoad = false;
+         this.auth.hideLoader();
         this.showErrorMessage('error', '', err.error.message);
       }
     );
@@ -1821,15 +1820,15 @@ export class EnquiryAddComponent implements OnInit {
           name: el.new_source_name,
           inst_id: sessionStorage.getItem('institute_id')
         }
-        this.isRippleLoad = true;
+         this.auth.showLoader();
         this.poster.updateSourceDetails(data).subscribe(
           res => {
-            this.isRippleLoad = false;
+             this.auth.hideLoader();
             this.showErrorMessage('success', '', 'Source updated successfully');
             this.fetchSourceInfo();
           },
           err => {
-            this.isRippleLoad = false;
+             this.auth.hideLoader();
             this.showErrorMessage('error', '', err.error.message);
 
           }
@@ -1865,15 +1864,15 @@ export class EnquiryAddComponent implements OnInit {
           name: el.name,
           inst_id: sessionStorage.getItem('institute_id')
         }
-        this.isRippleLoad = true;
+         this.auth.showLoader();
         this.poster.deleteSource(data).subscribe(
           res => {
-            this.isRippleLoad = false;
+             this.auth.hideLoader();
             this.showErrorMessage('success', '', 'Source deleted successfully');
             this.fetchSourceInfo();
           },
           err => {
-            this.isRippleLoad = false;
+             this.auth.hideLoader();
             this.showErrorMessage('error', '', err.error.message);
           }
         )
@@ -1960,16 +1959,16 @@ export class EnquiryAddComponent implements OnInit {
 
 
   branchUpdated(e) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.newEnqData.source_instituteId = e;
     this.prefill.fetchAssignedToData(e).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.enqAssignTo = res;
         this.newEnqData.assigned_to = "-1";
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
       }
     );
   }

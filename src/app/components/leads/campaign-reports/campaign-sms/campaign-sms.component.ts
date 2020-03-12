@@ -1,13 +1,13 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-import 'rxjs/Rx';
-import * as moment from 'moment';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+import 'rxjs/Rx';
+import { Router } from '../../../../../../node_modules/@angular/router';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { ExcelService } from '../../../../services/excel.service';
+import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { getSMSService } from '../../../../services/report-services/get-sms.service';
-import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
-import { ExcelService } from '../../../../services/excel.service';
 import { DataDisplayTableComponent } from '../../../shared/data-display-table/data-display-table.component';
-import { Router } from '../../../../../../node_modules/@angular/router';
 
 /**
   * written by laxmi
@@ -59,6 +59,7 @@ export class CampaignSmsComponent implements OnInit {
     private getSms: getSMSService,
     private _excelService: ExcelService,
     private _pdfService: ExportToPdfService,
+    private auth:AuthenticatorService,
     private router: Router, ) {
     this.switchActiveView('sms');
   }
@@ -69,30 +70,30 @@ export class CampaignSmsComponent implements OnInit {
 
 
     fetchCampainSMSReport() {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       return this.getSms.fetchCampainSMSReport().subscribe(
         (res: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.smsSource = res;
         },
         err => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       )
     }
 
     deleteCampainSMS(obj) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
 
       return this.getSms.deleteCampaign(obj.campaign_list_message_id).subscribe(
         (res: any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this._msgService.showErrorMessage('success', '', 'campaign deleted successfully');
           this.fetchCampainSMSReport();
         },
         err => {
           this._msgService.showErrorMessage('error', '', 'error while deleting campaign');
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       )
     }

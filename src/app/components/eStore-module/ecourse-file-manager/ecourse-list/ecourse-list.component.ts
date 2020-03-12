@@ -1,8 +1,7 @@
-import { Component, OnInit, EventEmitter, Output, OnChanges, ChangeDetectorRef } from '@angular/core';
-import { HttpService } from '../../../../services/http.service';
-import { AuthenticatorService } from '../../../../services/authenticator.service';
-import { EcourseFileManagerComponent } from '../ecourse-file-manager.component';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { HttpService } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 
 @Component({
@@ -14,7 +13,6 @@ export class EcourseListComponent implements OnInit {
 
   categiesList: any = [];
   institute_id: any;
-  isRippleLoad: boolean = false;
   showSettings: boolean = true;
   is_video_public: boolean = true;
   outputMessage: any = '';
@@ -70,17 +68,17 @@ export class EcourseListComponent implements OnInit {
   getSettingDetails() {
     // <base_url>/instFileSystem/getStudyMaterialSetting/{institute_id}
     let url = "/api/v1/instFileSystem/getStudyMaterialSetting/" + this.institute_id;
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.showSettings = true;
     this._http.getData(url).subscribe((res: any) => {
       console.log("getSettingDetails", res);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.settingDetails = res;
       this.is_video_public = this.settingDetails.is_video_public == 'Y' ? true : false;
       this.showSettings = false;
 
     }, err => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
     });
   }
 
@@ -90,7 +88,7 @@ export class EcourseListComponent implements OnInit {
   }
 
   Save_Setting_Details() {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     //<base_url>/instFileSystem/updateStudyMaterialSetting
     let url = "/api/v1/instFileSystem/updateStudyMaterialSetting";
     this.settingDetails.institute_id = this.institute_id;
@@ -108,31 +106,31 @@ export class EcourseListComponent implements OnInit {
     }
     this._http.putData(url, object).subscribe((res: any) => {
       console.log(res);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.showSettings = true;
       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
 
     }, err => {
       console.log(err);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.message);
     });
   }
 
   getcategoriesList() {
     this.categiesList = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let url = "/api/v1/instFileSystem/institute/" + this.institute_id + "/ecoursesList";
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
       this.categiesList = res;
       if (this.categiesList.length == 0) {
         this.outputMessage = 'No data found';
       }
 
     }, err => {
-      this.isRippleLoad = false;
+      this.auth.hideLoader();
     });
   }
 

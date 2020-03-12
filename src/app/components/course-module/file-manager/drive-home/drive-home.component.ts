@@ -1,9 +1,9 @@
-import { Component, NgZone, OnInit, ViewChild, ElementRef, EventEmitter, Output, Input } from '@angular/core';
-import { Tree } from 'primeng/tree';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { TreeNode } from 'primeng/api';
-import { FileManagerService } from '../file-manager.service';
-import { UploadPopupComponent } from '../upload-popup/upload-popup.component';
+import { Tree } from 'primeng/tree';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { FileManagerService } from '../file-manager.service';
 
 @Component({
   selector: 'app-drive-home',
@@ -13,7 +13,6 @@ import { MessageShowService } from '../../../../services/message-show.service';
 export class DriveHomeComponent implements OnInit {
 
   jsonFlag = {
-    isRippleLoad: false,
     downloading: false,
     uploading: false
   };
@@ -73,6 +72,7 @@ export class DriveHomeComponent implements OnInit {
 
   constructor(private zone: NgZone,
     private fileService: FileManagerService,
+    private auth:AuthenticatorService,
     private msgService: MessageShowService) { }
 
 
@@ -215,10 +215,10 @@ export class DriveHomeComponent implements OnInit {
       let institute_id = sessionStorage.getItem("institute_id");
       path = this.pathArray.join('/') + '/'
       this.createFetchFolder.keyName = path;
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       this.fileService.craeteFolder(this.createFetchFolder).subscribe(
         (data: any) => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.createFolderControl = false;
           this.createFetchFolder.folderName = "";
           this.msgService.showErrorMessage('success', '', "Folder Created successfully");
@@ -226,7 +226,7 @@ export class DriveHomeComponent implements OnInit {
           // this.ngOnInit(true);
         },
         (error: any) => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', '', error.error.message);
         }
       )
@@ -250,18 +250,11 @@ export class DriveHomeComponent implements OnInit {
   }
 
 
-  openSettings() { }
-
-
   onNodeExpand(event) {
 
   }
 
   onNodeSelect(event) {
-
-  }
-
-  searchDatabase(eve) {
 
   }
 
@@ -598,13 +591,22 @@ export class DriveHomeComponent implements OnInit {
   }
 
   downloadStatus(event){
-    this.jsonFlag.isRippleLoad = event;
+    this.toggleLoader(event);
     this.jsonFlag.downloading = event;
   }
 
   uploadStatus(event){
-    this.jsonFlag.isRippleLoad = event;
+    
+    this.toggleLoader(event);
     this.jsonFlag.uploading = event;
+  }
+
+  toggleLoader(event){
+    if(event)
+    {this.auth.showLoader();}
+    else{
+      this.auth.hideLoader();
+    }
   }
 
   treeUpdater(event) {
