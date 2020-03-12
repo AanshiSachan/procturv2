@@ -1657,14 +1657,17 @@ export class EnquiryHomeComponent implements OnInit {
         let tempCustomArr: any[] = [];
         this.filterCustomComponent.forEach(el => {
             if (el.value != "") {
+                let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: ''};
                 if (el.type == '5') {
-                    let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: this.getDateFormated(el.value, "YYYY-MM-DD") };
-                    tempCustomArr.push(obj);
+                    obj.enq_custom_value = this.getDateFormated(el.value, "YYYY-MM-DD");
                 }
-                else if (el.type != '5') {
-                    let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: el.value };
-                    tempCustomArr.push(obj);
+                else if(el.type == '2'){
+                    obj.enq_custom_value = el.value?'Y':'N';
                 }
+                else{
+                    obj.enq_custom_value = el.value;
+                }
+                tempCustomArr.push(obj);
             }
         });
         if (tempCustomArr.length != 0) {

@@ -296,6 +296,7 @@
                   <label for="row.category_id">Select Fee Type</label>
                   <select id="" class="form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.fee_type" (ngModelChange)="onAdditionalFeeSelection($event)"
                     name="row.category_id">
+                    <option value=""></option>
                     <option *ngFor="let opt of otherFeetype; let i= index ; trackBy : index" [value]="opt.id">
                       {{opt.value}}
                     </option>

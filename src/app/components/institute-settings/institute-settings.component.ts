@@ -334,7 +334,8 @@ export class InstituteSettingsComponent implements OnInit {
     exam_attendance_not_marked_notification_contact_number: '',
     exam_attendance_not_marked_daily_notification_contact_number: '',
     exam_marks_not_update_notification_contact_number: '',
-    vat_percentage:''
+    vat_percentage:'',
+    enable_send__website_url_in_student_credentail: ''
 
   };
   onlinePayment: any = '0';
@@ -635,6 +636,7 @@ export class InstituteSettingsComponent implements OnInit {
     obj.lib_due_date_fine_per_day = this.instituteSettingDet.lib_due_date_fine_per_day;
     obj.new_student_addmission_email_notification = this.instituteSettingDet.new_student_addmission_email_notification;
     obj.new_student_addmission_sms_notification = this.instituteSettingDet.new_student_addmission_sms_notification;
+    obj.enable_send__website_url_in_student_credentail = this.convertBoolenToNumber(this.instituteSettingDet.enable_send__website_url_in_student_credentail);
     if (this.checkPhoneValidation(this.instituteSettingDet.new_student_addmission_sms_notification) == false) {
       this.commonService.showErrorMessage('error', '', 'Please enter valid contact number.');
     } else {
@@ -844,6 +846,10 @@ export class InstituteSettingsComponent implements OnInit {
       this.instituteSettingDet.enable_exam_marks_not_update_notification.other = true;
     }
     this.instituteSettingDet.vat_percentage=data.cgst+data.sgst;
+    this.instituteSettingDet.enable_send__website_url_in_student_credentail = data.enable_send__website_url_in_student_credentail;
+    if (this.instituteSettingDet.virtual_host_url == '' && this.instituteSettingDet.enable_send__website_url_in_student_credentail == 1) {
+      this.instituteSettingDet.virtual_host_url = 'web.proctur.com';
+    }
   }
 
 
