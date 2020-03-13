@@ -109,7 +109,7 @@ export class AddEditAccountComponent implements OnInit {
               },
               err => {
                 this.auth.hideLoader();
-                this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+                this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
               }
             )
           }
@@ -126,7 +126,7 @@ export class AddEditAccountComponent implements OnInit {
               },
               err => {
                 this.auth.hideLoader();
-                this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+                this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
               }
             )
           }

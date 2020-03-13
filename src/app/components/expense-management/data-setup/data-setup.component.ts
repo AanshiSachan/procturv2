@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageShowService } from '../../../services/message-show.service';
 import { HttpService  } from '../../../services/http.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-data-setup',
@@ -40,6 +41,7 @@ export class DataSetupComponent implements OnInit {
   constructor(
     private msgService: MessageShowService,
     private httpService: HttpService,
+    private auth:AuthenticatorService
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
    }
@@ -102,11 +104,14 @@ export class DataSetupComponent implements OnInit {
       url = `/api/v1/account/all/${this.jsonFlag.institute_id}`;
     }
 
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.tableValueData = res;
       },
       err => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
@@ -133,6 +138,7 @@ export class DataSetupComponent implements OnInit {
   togglePayee(){
     if(this.payeeVisibilty){
       this.payeeVisibilty = false;
+      this.getTableData(this.selectedSection);
     }
     else{
       this.payeeVisibilty = true;
@@ -144,6 +150,7 @@ export class DataSetupComponent implements OnInit {
   togglePayer(){
     if(this.payerVisibilty){
       this.payerVisibilty = false;
+      this.getTableData(this.selectedSection);
     }
     else{
       this.editPayerId = '';
@@ -155,6 +162,7 @@ export class DataSetupComponent implements OnInit {
   toggleAccount(){
     if(this.accountVisibilty){
       this.accountVisibilty = false;
+      this.getTableData(this.selectedSection);
     }
     else{
       this.editAccountId = '';
@@ -162,11 +170,5 @@ export class DataSetupComponent implements OnInit {
       this.accountVisibilty = true;
     }
   }
-
-
-
-
-
-
 
 }

@@ -59,7 +59,9 @@ export class AddEditIncomeComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.preFieldData();
+    this.getPayerList();
+    this.getAccountDetails();
+    this.getPaymentMode();
     let currentURL = window.location.href;
     if(currentURL.includes('add-income')){
       this.sectionName = 'Add';
@@ -72,7 +74,7 @@ export class AddEditIncomeComponent implements OnInit {
     }
   }
 
-  preFieldData(){
+  getPayerList(){
     this.auth.showLoader();
     const url1 = `/api/v1/payment/party/income/all/${this.jsonFlag.institute_id}`
     this.httpService.getData(url1).subscribe(
@@ -85,7 +87,10 @@ export class AddEditIncomeComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
+  }
 
+  getAccountDetails(){
+    this.auth.showLoader();
     const url2 = `/api/v1/account/all/${this.jsonFlag.institute_id}`
     this.httpService.getData(url2).subscribe(
       (res: any) => {
@@ -97,7 +102,10 @@ export class AddEditIncomeComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
+  }
 
+  getPaymentMode(){
+    this.auth.showLoader();
     const url3 = `/api/v1/masterData/type/PAYMENT_MODE`
     this.httpService.getData(url3).subscribe(
       (res: any) => {
@@ -346,6 +354,7 @@ export class AddEditIncomeComponent implements OnInit {
   togglePayer(){
     if(this.payerVisibilty){
       this.payerVisibilty = false;
+      this.getPayerList();
     }
     else{
       this.payerVisibilty = true;
@@ -354,10 +363,10 @@ export class AddEditIncomeComponent implements OnInit {
   toggleAccount(){
     if(this.accountVisibilty){
       this.accountVisibilty = false;
+      this.getAccountDetails();
     }
     else{
       this.accountVisibilty = true;
     }
   }
-
 }
