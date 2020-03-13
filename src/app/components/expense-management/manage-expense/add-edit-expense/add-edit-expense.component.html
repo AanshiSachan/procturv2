@@ -78,12 +78,12 @@
           style="padding: 6px;" name="item-name" placeholder="Item Description">
         </div>
         <div class="account-input-item field-wrapper">
-          <input type="number" value="" id="item-name" class="form-ctrl"  [(ngModel)]="accountDetails.quantity"
-          style="padding: 6px;" name="item-name" placeholder="Item Quantity">
+          <input type="text" value="" id="item-name" class="form-ctrl"  [(ngModel)]="accountDetails.quantity"
+          style="padding: 6px;" name="item-name" placeholder="Item Quantity" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
         </div>
         <div class="account-input-item field-wrapper">
-          <input type="number" value="" id="item-name" class="form-ctrl"  [(ngModel)]="accountDetails.amount"
-          style="padding: 6px;" name="item-name" placeholder="Item Amount">
+          <input type="text" value="" id="item-name" class="form-ctrl"  [(ngModel)]="accountDetails.amount"
+          style="padding: 6px;" name="item-name" placeholder="Item Amount" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
         </div>
         <div class="account-input-item">
           <button type="button" name="button" class="add-item-btn" (click)="addItem()">Add</button>
@@ -95,7 +95,7 @@
             <span>{{item.itemName}}</span>
           </div>
           <div class="account-value-item">
-            <span>{{item.description}}</span>
+            <span title="{{item?.description}}" >{{ (!item.description) ? '-' : (item.description.length > 20) ? (item.description | slice:0:20) + '...' : item.description}}</span>
           </div>
           <div class="account-value-item">
             <span>{{item.quantity}}</span>

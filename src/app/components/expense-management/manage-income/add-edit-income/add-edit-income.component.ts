@@ -143,15 +143,17 @@ export class AddEditIncomeComponent implements OnInit {
           this.addedItemList.push(obj)
         }
 
-        for (let index = 0; index < this.editIncomeDetails.attachmentList.length; index++) {
-          let obj = {
-            fileName: this.editIncomeDetails.attachmentList[index].file_name+"."+this.editIncomeDetails.attachmentList[index].file_extn,
-            file_desc: this.editIncomeDetails.attachmentList[index].file_desc,
-            file_id: this.editIncomeDetails.attachmentList[index].file_id,
-            file: this.editIncomeDetails.attachmentList[index].file,
-            file_path: this.editIncomeDetails.attachmentList[index].file_path
+        if(!!this.editIncomeDetails.attachmentList){
+          for (let index = 0; index < this.editIncomeDetails.attachmentList.length; index++) {
+            let obj = {
+              fileName: this.editIncomeDetails.attachmentList[index].file_name+"."+this.editIncomeDetails.attachmentList[index].file_extn,
+              file_desc: this.editIncomeDetails.attachmentList[index].file_desc,
+              file_id: this.editIncomeDetails.attachmentList[index].file_id,
+              file: this.editIncomeDetails.attachmentList[index].file,
+              file_path: this.editIncomeDetails.attachmentList[index].file_path
+            }
+            this.docsList.push(obj)
           }
-          this.docsList.push(obj)
         }
 
       },
@@ -301,7 +303,7 @@ export class AddEditIncomeComponent implements OnInit {
       },
       err => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage('error', '', err);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
@@ -317,7 +319,7 @@ export class AddEditIncomeComponent implements OnInit {
       },
       err => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage('error', '', err);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
