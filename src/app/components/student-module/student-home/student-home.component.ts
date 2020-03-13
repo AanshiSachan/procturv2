@@ -137,7 +137,10 @@ export class StudentHomeComponent implements OnInit {
     sorted_by: '',
     order_by: '',
     doa_from_date: moment().format('YYYY-MM-DD'),
-    doa_to_date: moment().format('YYYY-MM-DD')
+    doa_to_date: moment().format('YYYY-MM-DD'),
+    country_id: '-1',
+    state_id: '-1',
+    city_id: '-1'
   };
 
   applyLeave = {
@@ -210,6 +213,9 @@ export class StudentHomeComponent implements OnInit {
   };
   assignedStandard = "-1";
   labelForAssignStandard = '';
+  countryList: any[] = [];
+  stateList: any[] = [];
+  cityList: any[] = [];
   /* =================================================================================================== */
   constructor(private prefill: FetchprefilldataService,
     private router: Router,
@@ -736,20 +742,19 @@ export class StudentHomeComponent implements OnInit {
     this.filterCustomComponent.forEach(el => {
       //console.log(el);
       if (el.value != "") {
+        let obj = {
+          component_id: el.id,
+          enq_custom_value: ''
+        }
         if (el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
-          let obj = {
-            component_id: el.id,
-            enq_custom_value: moment(el.value).format("YYYY-MM-DD")
-          }
-          tempCustomArr.push(obj);
+            obj.enq_custom_value = moment(el.value).format("YYYY-MM-DD");
+        }else if(el.type == '2'){
+          obj.enq_custom_value = el.value?'Y':'N';
         }
         else {
-          let obj = {
-            component_id: el.id,
-            enq_custom_value: el.value
-          }
-          tempCustomArr.push(obj);
+            obj.enq_custom_value = el.value;
         }
+        tempCustomArr.push(obj);
       }
     });
 
@@ -837,7 +842,10 @@ export class StudentHomeComponent implements OnInit {
       is_active_status: this.instituteData.is_active_status,
       mobile: "",
       master_course_name: this.instituteData.master_course_name,
-      course_id: this.instituteData.course_id
+      course_id: this.instituteData.course_id,
+      country_id:this.advancedFilterForm.country_id,
+      city_id: this.advancedFilterForm.city_id,
+      state_id: this.advancedFilterForm.state_id
     }
 
     this.auth.showLoader();
@@ -905,6 +913,8 @@ export class StudentHomeComponent implements OnInit {
     else { //course module
       this.courseModuleCalls();
     }
+
+    this.fetchDataForCountryDetails();
   }
 
   getAcademmicYear() {
@@ -1164,7 +1174,10 @@ export class StudentHomeComponent implements OnInit {
       master_course_name: "-1",
       course_id: -1,
       start_index: 0,
-      batch_size: this.studentdisplaysize
+      batch_size: this.studentdisplaysize,
+      country_id: '-1',
+      state_id: '-1',
+      city_id: '-1'
     }
 
     this.subjectList = [];
@@ -2385,5 +2398,69 @@ export class StudentHomeComponent implements OnInit {
       doc.save("certificate.pdf");
     });
     document.getElementById('dvContainer').className = 'hide';
+  }
+
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data && data.length > 0) {
+      this.countryList = data;
+    }
+    console.log(this.countryList)
+  }
+
+  getStateList(){
+      this.stateList = [];
+      this.cityList = [];
+      this.advancedFilterForm.state_id = "-1";
+      this.advancedFilterForm.city_id = "-1";
+    if(this.advancedFilterForm.country_id!=-1) {
+    const url = `/api/v1/country/state?country_ids=${this.advancedFilterForm.country_id}`
+    this.auth.showLoader();
+    this.http_service.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        if(res.result && res.result.length > 0){
+          this.stateList = res.result[0].stateList;
+        }
+      },
+      err => {
+        this.auth.hideLoader();
+        let obj = {
+          type: 'error',
+          title: "",
+          body: err
+        }
+        this.appC.popToast(obj);
+      }
+    )
+    }
+  }
+
+  // get city list as per state selection
+  getCityList(){
+      this.cityList = [];
+      this.advancedFilterForm.city_id = "-1";
+    if(this.advancedFilterForm.state_id!=-1) {
+    const url = `/api/v1/country/city?state_ids=${this.advancedFilterForm.state_id}`
+    this.auth.showLoader();
+    this.http_service.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        if(res.result.length > 0){
+          this.cityList = res.result[0].cityList;
+        }
+      },
+      err => {
+        this.auth.hideLoader();
+        let obj = {
+          type: 'error',
+          title: "",
+          body: err
+        }
+        this.appC.popToast(obj);
+      }
+    )
+  }
   }
 }

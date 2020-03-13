@@ -133,6 +133,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   downloadStudentReportAccess: boolean = false;
   is_tax_enabled: boolean ;
   tax_type_without_percentage : String;
+  Payment_Modes: any =[];
 
   studentAddFormData: StudentForm = {
     student_name: "",
@@ -2076,6 +2077,19 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.paymentPopUpJson.immutableAmount = this.totalAmountToPay;
     this.paymentPopUpJson.payingAmount = this.totalAmountToPay;
     this.isFeePaymentUpdate = true;
+    this.getPaymentModes();
+  }
+
+  getPaymentModes(){
+    this.httpService.getData('/api/v1/masterData/type/PAYMENT_MODES').subscribe(
+      (res:any)=>{
+        console.log(res);
+        this.Payment_Modes = res;
+      },
+      err=>{
+        console.log(err);
+      }
+    )
   }
 
   flushPaymentPopUpData() {

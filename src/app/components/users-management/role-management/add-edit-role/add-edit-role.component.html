@@ -1,10 +1,17 @@
 <section class="middle-section clearFix">
   <div class="content-container">
-
+    <section class="middle-top mb0 clearFix ">
     <div class="header">
-      <h2 *ngIf="roleId == '-1'">Add Role</h2>
-      <h2 *ngIf="roleId != '-1'">Edit Role</h2>
+      <h2 class="pull-left">
+        <a routerLink="/view/manage/role">
+          Role
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+          <span *ngIf="roleId == '-1'">Add Role</span>
+          <span *ngIf="roleId != '-1'">Edit Role</span>
+      </h2>
     </div>
+  </section>
 
     <div class="addEditRole">
       <div class="row" *ngIf="roleId == '-1'">
@@ -24,7 +31,7 @@
 
       <div class="row" *ngIf="roleId != '-1'">
         <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 30px;">
-          <span>Role Name : {{userData.role_name}}</span>
+          <span><b>Role Name :</b> {{userData.role_name}}</span>
         </div>
         <div class="c-sm-3 c-md-3 c-lg-3">
           <div class="field-wrapper">
@@ -36,17 +43,30 @@
 
     </div>
 
-
-    <div class="picklist-wrapper">
+    <!-- <div class="picklist-wrapper">
       <p-pickList [source]="cloneFeatureArray" [target]="targetFeatures" [showSourceControls]="false" [showTargetControls]="false"
         [responsive]="true" filterBy="feature_name,description" dragdrop="true">
         <ng-template let-car pTemplate="item">
           <div class="ui-helper-clearfix">
-            <!-- <img src="assets/showcase/images/demo/car/{{car.brand}}.png" style="display:inline-block;margin:2px 0 2px 2px" width="48"> -->
             <div>{{car.feature_name}}</div>
           </div>
         </ng-template>
       </p-pickList>
+    </div> -->
+
+    <div style="margin-top: 20px;" class="role-container">
+      <div style="margin-bottom: 10px;">
+      <span style="font-weight: 600;">Role List</span>
+      <span style="float: right;margin-right: 1%;">Selected Roles : {{selectedRoleLength}} </span>
+      </div>
+      <div class="role-list-container">
+        <div *ngFor="let item of cloneFeatureArray;let i=index" class="role-data-container">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" [(ngModel)]="item.isChecked" (change)="checkLengthofRole($event.target.checked)" [checked]="item.isChecked" class="form-checkbox" [id]="'checkbox-'+i">
+            <label [for]="'checkbox-'+i">{{item.feature_name}}</label>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="btn-section pull-right">

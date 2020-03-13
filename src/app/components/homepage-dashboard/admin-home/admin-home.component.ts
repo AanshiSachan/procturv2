@@ -1392,8 +1392,12 @@ export class AdminHomeComponent implements OnInit {
   /* ====================================================================== */
   /* ======================================================================================================= */
 
-  markAttendaceHide(row) {
-    if (moment(row.class_date) > moment()) {
+  markAttendaceHide(row, time) {
+    if(!time) {
+      time = '';
+    }
+    row = moment(row).format('YYYY-MM-DD');
+    if (moment(row + ' ' + time) > moment(new Date)) {
       return "hide";
     } else {
       return "";
@@ -3025,14 +3029,6 @@ export class AdminHomeComponent implements OnInit {
       body: msg
     }
     this.appC.popToast(data);
-  }
-
-  hideFutureExamSchedule(row) {
-    if (moment(row.exam_date) > moment()) {
-      return "hide";
-    } else {
-      return "";
-    }
   }
 
   /// Course Level Exam Schedule For Course Model

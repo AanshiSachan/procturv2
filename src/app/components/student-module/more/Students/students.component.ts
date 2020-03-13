@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
 import { AppComponent } from '../../../../app.component';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 
 @Component({
@@ -49,7 +50,8 @@ export class StudentsComponent implements OnInit {
 
   constructor(private students: CoursesServiceService,
     private appc: AppComponent,
-    private router: Router) { }
+    private router: Router,
+    private auth: AuthenticatorService) { }
 
   ngOnInit() {
     this.studentsData();
@@ -58,8 +60,10 @@ export class StudentsComponent implements OnInit {
 
   studentsData() {
     this.dataStatus = true;
+    this.auth.showLoader();
     this.students.studentsArchiveData().subscribe(
       (data: any) => {
+        this.auth.hideLoader();
         let arr = [];
         let str = ""
         this.dataStatus = false;
@@ -92,6 +96,7 @@ export class StudentsComponent implements OnInit {
         this.sortedData('student_disp_id');
       },
       (error: any) => {
+        this.auth.hideLoader();
         this.dataStatus = false;
         let msg = {
           type: "error",
@@ -217,9 +222,11 @@ export class StudentsComponent implements OnInit {
     else{
       if (confirm("If the selected student(s) are archived, the related data can not be recovered. \nDo you wish to archive the student(s) ?")) {
         // console.log(this.courseFetchForm)
+        this.auth.showLoader();
         this.students.archiveStudents(this.courseFetchForm).subscribe(
           (data: any) => {
-            this.router.navigateByUrl("/view/studentst")
+            this.auth.hideLoader();
+            this.router.navigateByUrl("/view/students/archived_status")
             let msg = {
               type: "success",
               body: "Students archived successfully"
@@ -227,6 +234,7 @@ export class StudentsComponent implements OnInit {
             this.appc.popToast(msg);
           },
           (error: any) => {
+            this.auth.hideLoader();
             let msg = {
               type: "error",
               body: error.error.message

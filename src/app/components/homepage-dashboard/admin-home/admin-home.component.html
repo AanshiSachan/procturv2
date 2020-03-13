@@ -171,8 +171,8 @@
                             </li>
                             <li class="action">
                               <div title="" class="pull-right">
-                                <img src="./assets/images/checked-att.svg" alt="Mark Attendance" title="Update Attendance" *ngIf="class.is_attendance_marked =='Y' " (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
-                                <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" *ngIf="class.is_attendance_marked !='Y' " (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/checked-att.svg" alt="Mark Attendance" title="Update Attendance" [ngClass]="markAttendaceHide(class.class_date, class.start_time)" *ngIf="class.is_attendance_marked =='Y' " (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" [ngClass]="markAttendaceHide(class.class_date, class.start_time)" *ngIf="class.is_attendance_marked !='Y' " (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
                                 <img src="./assets/images/reschedule.svg" alt="reschedule" title="Reschedule" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" (click)="initiateRescheduleClass(i, class)">
                                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' (click)="initiateRemiderClass(i, class)"></i>
                                 <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" *ngIf='class.is_attendance_marked!="Y"' (click)="initiateCancelClass(i, class)"></i>
@@ -221,8 +221,8 @@
                             </li>
                             <li class="action">
                               <div *ngIf="!class.isExam" class="che-action pull-right">
-                                <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y' &&(userType!=3)" (click)="initiateCourseMarkAttendance(i, class)">
-                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Attendance" title="Update Attendance" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">
+                                <img src="./assets/images/att.svg" alt="Mark Attendance" [ngClass]="markAttendaceHide(courseLevelSchedDate, class.exam_start_time)" title="Mark Attendance" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y' &&(userType!=3)" (click)="initiateCourseMarkAttendance(i, class)">
+                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Attendance" title="Update Attendance" [ngClass]="markAttendaceHide(courseLevelSchedDate, class.exam_start_time)" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">
                                 <i class="fa fa-eye" aria-hidden="true" style="color: #1283f4;ursor:pointer" (click)="viewClassDetails(i, class)" title="View Details"></i>
                                 <!-- <img src="./assets/images/exam-update.svg" style="cursor:pointer" alt="Update Exam Marks" title="Update Exam Marks" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)"> -->
                                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;ursor:pointer" title="Notify" (click)="initiateRemiderClass(i, class)" *ngIf='hideVisibilty() && class.is_attendance_marked!="Y"'></i>
@@ -230,8 +230,8 @@
                               </div>
 
                               <div *ngIf="class.isExam" class="che-action pull-right">
-                                <img src="./assets/images/att.svg" alt="Mark Exam Attendance" title="Mark Exam Attendance" style="cursor:pointer" *ngIf="class.course_marks_update_level == '0' &&(userType!=3)" (click)="markAttendanceExamCourse(class)">
-                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Exam Attendance" title="Update Exam Attendance" *ngIf="class.course_marks_update_level != '0'" (click)="markAttendanceExamCourse(class)">
+                                <img src="./assets/images/att.svg" alt="Mark Exam Attendance" [ngClass]="markAttendaceHide(courseLevelSchedDate, class.exam_start_time)" title="Mark Exam Attendance" style="cursor:pointer" *ngIf="class.course_marks_update_level == '0' &&(userType!=3)" (click)="markAttendaceHide(courseLevelSchedDate, class.exam_start_time)">
+                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Exam Attendance" [ngClass]="markAttendaceHide(courseLevelSchedDate, class.exam_start_time)" title="Update Exam Attendance" *ngIf="class.course_marks_update_level != '0'" (click)="markAttendaceHide(courseLevelSchedDate, class.exam_start_time)">
                                 <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer" *ngIf="class.course_marks_update_level != '0' && class.course_marks_update_level != '1' && class.course_marks_update_level != '2'" (click)="examMarksUpdateCourse(class)">
                                 <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Update Exam Marks" style="cursor:pointer" *ngIf="class.course_marks_update_level == '1' || class.course_marks_update_level == '2'" (click)="examMarksUpdateCourse(class)">
                                 <i class="fa fa-eye" aria-hidden="true" style="color: #1283f4;cursor:pointer" (click)="viewExamDetails(i, class)" title="View Details"></i>
@@ -282,16 +282,16 @@
                             </li>
                             <li class="action">
                               <div *ngIf="class.isExam" class="che-action pull-right"  [ngClass]="{hide : checkIfUserHadAccess('112')}">
-                                <img src="./assets/images/att.svg" alt="Mark Exam Attendance" title="Mark Exam Attendance" style="cursor:pointer" *ngIf="class.isReferenced == 'N'" [ngClass]="hideFutureExamSchedule(class)" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
-                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Exam Attendance" title="Update Exam Attendance" *ngIf="class.isReferenced == 'Y'" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/att.svg" alt="Mark Exam Attendance" title="Mark Exam Attendance" style="cursor:pointer" *ngIf="class.isReferenced == 'N'" [ngClass]="markAttendaceHide(class.exam_date, class.start_time)" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Exam Attendance" title="Update Exam Attendance" *ngIf="class.isReferenced == 'Y'" [ngClass]="markAttendaceHide(class.exam_date, class.start_time)" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
                                 <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y' && class.is_exam_marks=='N'" (click)="examMarksUpdate(class)">
                                 <img src="./assets/images/exam-update.svg" alt="Update Exam Marks " title="Update Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y' && class.is_exam_marks=='Y'" (click)="examMarksUpdate(class)">
                                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;cursor:pointer" title="Notify" (click)="notifyExamSchedule(i, class)" *ngIf='class.isReferenced != "Y"'></i>
                                 <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel Exam" *ngIf="class.isReferenced != 'Y'" (click)="onCancelExamClick(class)"></i>
                               </div>
                               <div *ngIf="!class.isExam" class="che-action pull-right" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                                <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
-                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Attendance" title="Update Attendance" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="markAttendaceHide(class.class_date, class.start_time)" (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Attendance" title="Update Attendance" [ngClass]="markAttendaceHide(class.class_date, class.start_time)" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
                                 <img src="./assets/images/reschedule.svg" alt="reschedule" title="Reschedule" [ngClass]="getReminderAndCancel(class)" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" (click)="initiateRescheduleClass(i, class)">
                                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;ursor:pointer" title="Notify" (click)="initiateRemiderClass(i, class)" [ngClass]="getReminderAndCancel(class)" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"'></i>
                                 <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel Class" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseCancelClass(i, class)"></i>
