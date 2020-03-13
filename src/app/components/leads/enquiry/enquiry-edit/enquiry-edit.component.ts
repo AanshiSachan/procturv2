@@ -159,7 +159,6 @@ export class EnquiryEditComponent implements OnInit {
   course_mastercourse_id: any = '-1';
   course_course: any[] = [];
   masterCourseData: any[] = [];
-  isEnquirySubmit: boolean = false;
   closingReasonDataSource: any = [];
   closingReasonOpen: boolean = false;
   isNewRefer: boolean;
@@ -911,7 +910,6 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Function to submit validated form data */
   submitForm() {
-    this.isEnquirySubmit = true;
     //Validates if the custom component required fields are selected or not
     let customComponentValidator = this.validateCustomComponent();
 
@@ -1005,7 +1003,6 @@ export class EnquiryEditComponent implements OnInit {
         }
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
           (data: any) => {
-            this.isEnquirySubmit = false;
             if (data.statusCode == 200) {
               this.showErrorMessage('success', "", 'Enquiry updated successfully');
               if (this.isConvertToStudent) {
@@ -1041,7 +1038,6 @@ export class EnquiryEditComponent implements OnInit {
             }
           },
           err => {
-            this.isEnquirySubmit = false;
             this.showErrorMessage('error', "Error updating Enquiry", err.error.message);
 
           }
@@ -1051,10 +1047,6 @@ export class EnquiryEditComponent implements OnInit {
 
         this.showErrorMessage('error', '', 'Please select a valid time for follow up');
       }
-    }
-    /* Do Nothing if the formData is Still Invalid  */
-    else {
-      this.isEnquirySubmit = false;
     }
   }
 
@@ -1137,58 +1129,41 @@ export class EnquiryEditComponent implements OnInit {
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
     let phoneFlag = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone, this.maxlength,this.country_id);
-    // if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
-    //   return this.showErrorMessage('error', 'Enquirer Please enter name', '');
-    // }
-    // else
-    if (phoneFlag == false || phoneFlag == 'noNumber') {
-      if (phoneFlag == 'noNumber') {
-        return this.showErrorMessage('error', 'Please enter valid contact no.', '');
-      }
-      else {
-        let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
-        return this.showErrorMessage('error', msg, '');
-      }
-    }
-    else if (this.commonServiceFactory.checkValueType(this.editEnqData.enquiry_date)) {
-      return this.showErrorMessage('error', 'Please select enquiry date ', '');
-    }
-
-    else if (this.commonServiceFactory.sourceValueCheck(this.editEnqData.source_id)) {
-      return this.showErrorMessage('error', 'Please select enquiry source', '');
-    }
-    else if (this.editEnqData.parent_phone != "" || this.editEnqData.parent_phone != null){
-      let parentPhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.parent_phone, this.maxlength,this.country_id);
-      if (parentPhoneCheck == false) {
+    if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
+      return this.showErrorMessage('error', 'Please enter name', '');
+    } else if(phoneFlag == 'noNumber') {
+          return this.showErrorMessage('error', 'Please enter contact no.', '');
+    } else if(phoneFlag == false){
           let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
           return this.showErrorMessage('error', msg, '');
-      }
-      else{
-        return true;
-      }
-    }
-    else if (this.editEnqData.phone2 != "" || this.editEnqData.phone2 != null){
-      let alternatePhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone2, this.maxlength,this.country_id);
-      if (alternatePhoneCheck == false || phoneFlag == 'noNumber') {
-        if (alternatePhoneCheck == 'noNumber') {
-          return this.showErrorMessage('error', 'Please enter valid contact no.', '');
-        }
-        else {
+    } else if (this.commonServiceFactory.checkValueType(this.editEnqData.enquiry_date)) {
+        return this.showErrorMessage('error', 'Please select enquiry date ', '');
+    } else if (this.commonServiceFactory.sourceValueCheck(this.editEnqData.source_id)) {
+        return this.showErrorMessage('error', 'Please select enquiry source', '');
+    } else if (this.editEnqData.parent_phone != "" || this.editEnqData.parent_phone != null) {
+        let parentPhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.parent_phone, this.maxlength,this.country_id);
+        if (parentPhoneCheck == false) {
           let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
           return this.showErrorMessage('error', msg, '');
+        } else {
+            return true;
         }
+    } else if (this.editEnqData.phone2 != "" || this.editEnqData.phone2 != null){
+        let alternatePhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone2, this.maxlength,this.country_id);
+          if (alternatePhoneCheck == 'noNumber') {
+            return this.showErrorMessage('error', 'Please enter valid contact no.', '');
+          } else if(alternatePhoneCheck == false) {
+            let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
+            return this.showErrorMessage('error', msg, '');
+          } else {
+          return true;
       }
-      else{
-        return true;
-      }
-    }
-    else {
-      if (this.validateEnquiryDate()) {
-        return true;
-      }
-      else {
-        return this.showErrorMessage('error', '', 'Cannot set future enquiry date');
-      }
+    } else {
+        if (this.validateEnquiryDate()) {
+          return true;
+        } else {
+            return this.showErrorMessage('error', '', 'Cannot set future enquiry date');
+        }
     }
   }
 
