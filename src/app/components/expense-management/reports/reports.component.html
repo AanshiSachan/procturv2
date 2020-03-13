@@ -78,7 +78,18 @@
             <span>₹{{expenseInventoryTotal?.toLocaleString('en-IN')}}</span>
           </div>
           <div class="section-total-item">
-            <span class="total-header">Total Expenses	</span>
+            <span>
+              <label for="">
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Sum of all expenses
+                    <br> & expenses on inventories
+                  </div>
+                </div>
+              </label>
+            </span>
+            <span class="total-header">Total Expenses</span>
             <span>₹{{expenseTotal?.toLocaleString('en-IN')}}</span>
           </div>
         </div>
@@ -102,7 +113,7 @@
               <span>Amount(Rs)</span>
             </div>
           </div>
-          <div class="table-value-outer-container" style="padding-bottom: 90px;">
+          <div class="table-value-outer-container" style="padding-bottom: 55px;">
             <div class="table-value-container" *ngFor="let income of incomeRecordList">
               <div class="value-item">
                 <span>{{income.payment_date}}</span>
@@ -122,11 +133,22 @@
             <span class="total-header">Total Fees Collection	</span>
             <span>₹{{totalFeeCollection?.toLocaleString('en-IN')}}</span>
           </div>
-          <div class="section-total-item">
+          <!-- <div class="section-total-item">
             <span class="total-header">Total Fees Collection(Others)	</span>
             <span>₹{{totalOtherFeeCollection?.toLocaleString('en-IN')}}</span>
-          </div>
+          </div> -->
           <div class="section-total-item">
+            <span>
+              <label for="">
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Sum of all incomes
+                    <br> & total fees collection
+                  </div>
+                </div>
+              </label>
+            </span>
             <span class="total-header">Total Sales Revenue</span>
             <span>₹{{totalSalesRevenue?.toLocaleString('en-IN')}}</span>
           </div>
