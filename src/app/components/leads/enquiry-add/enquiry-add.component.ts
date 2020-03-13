@@ -33,7 +33,6 @@ export class EnquiryAddComponent implements OnInit {
   enqSub2: any = [];
   school: any = [];
   sourceLead: any = [];
-  refferedBy: any = [];
   occupation: any = [];
   lastDetail: any = {
     name: '',
@@ -117,9 +116,9 @@ export class EnquiryAddComponent implements OnInit {
   customComponents: any[] = [];
   instituteList: any;
   isNewSource: boolean = true;
-  sourceList: any;
+  sourceList: any = [];
   isNewRefer: boolean = true;
-  referList: any;
+  referList: any = [];
   minArr: any[] = ['', '00', '15', '30', '45'];
   hour: string = '';
   minute: string = '';
@@ -484,19 +483,7 @@ export class EnquiryAddComponent implements OnInit {
       }
     );
 
-    this.prefill.getLeadReffered().subscribe(
-      data => {
-        this.refferedBy = data;
-        this.referList = this.refferedBy;
-
-        this.referList.forEach(el => {
-          el.edit = false;
-        });
-      },
-      err => {
-        //  console.log(err);
-      }
-    );
+    this.fetchReferInfo();
 
     this.prefill.getOccupation().subscribe(
       data => { this.occupation = data; },
@@ -1585,7 +1572,6 @@ export class EnquiryAddComponent implements OnInit {
     this.isReferPop = false;
     this.isNewRefer = false;
     this.createReferer.name = '';
-    this.fetchReferInfo();
   }
 
 
@@ -1595,17 +1581,8 @@ export class EnquiryAddComponent implements OnInit {
     if((this.referList.filter(x=>x.name == this.createReferer.name.trim())).length == 0){
     this.prefill.createReferer(this.createReferer).subscribe(
       el => {
-        this.prefill.getLeadReffered().subscribe(
-          res => {
-            this.refferedBy = res;
-            this.referList = this.refferedBy;
-            this.referList.forEach(el => {
-              el.edit = false;
-            });
-            this.closeAddRefer();
-
-          }
-        )
+        this.closeAddRefer();
+       this.fetchReferInfo();
       },
       err => {
         this.showErrorMessage('error', '', err.error.message);
@@ -1646,12 +1623,14 @@ export class EnquiryAddComponent implements OnInit {
   fetchReferInfo() {
     this.prefill.getLeadReffered().subscribe(
       data => {
-        this.refferedBy = data;
-        this.referList = this.refferedBy;
+        this.referList = data;
         this.referList.forEach(el => {
           el.edit = false;
         });
       },
+      err => {
+        this.referList = [];
+      }
     )
   }
 
@@ -1700,12 +1679,10 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-  deleteRefer(id) {
-    this.referList.forEach(el => {
-      if (el.id == id) {
+  deleteRefer(id, name) {
         let data = {
           id: id,
-          name: el.name,
+          name: name,
           inst_id: sessionStorage.getItem('institute_id')
         };
          this.auth.showLoader();
@@ -1713,6 +1690,7 @@ export class EnquiryAddComponent implements OnInit {
           res => {
              this.auth.hideLoader();
             this.showErrorMessage('success', '', 'Reference deleted Successfully');
+            this.referList.filter(x=>(x.id == id)).splice(0,1);
             this.fetchReferInfo();
           },
           err => {
@@ -1725,9 +1703,7 @@ export class EnquiryAddComponent implements OnInit {
               this.showErrorMessage('error', '', err.error.message);
             }
           }
-        )
-      }
-    });
+        );
   }
   /* --------------------------------------------------------------------------------------------------------- */
   /* ---------------------------------------------- Source Editor Logic ------------------------------------------------- */
