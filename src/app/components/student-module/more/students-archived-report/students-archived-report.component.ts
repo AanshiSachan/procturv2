@@ -63,16 +63,18 @@ export class StudentsArchivedReportComponent implements OnInit {
   studentsArchivedData() {
     this.auth.showLoader();
     this.dataStatus = true;
+    this.auth.showLoader();
     this.students.archivedStudents().subscribe(
       (data: any) => {
-        this.dataStatus = false;
         this.auth.hideLoader();
+        this.dataStatus = false;
         this.arr = data;
         this.totalRow = data.length;
         this.PageIndex = 1;
         this.fetchTableDataByPage(this.PageIndex);
       },
       (error: any) => {
+        this.auth.hideLoader();
         this.dataStatus = false;
         let msg = {
           type: "error",
