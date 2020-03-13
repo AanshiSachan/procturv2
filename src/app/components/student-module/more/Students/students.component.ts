@@ -226,6 +226,7 @@ export class StudentsComponent implements OnInit {
         this.students.archiveStudents(this.courseFetchForm).subscribe(
           (data: any) => {
             this.auth.hideLoader();
+            this.router.navigateByUrl("/view/students/archived_status")
             let msg = {
               type: "success",
               body: "Students archived successfully"
