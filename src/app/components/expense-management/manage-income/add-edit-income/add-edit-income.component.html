@@ -18,7 +18,7 @@
   <section>
     <div class="payment-details-container">
       <div class="payment-details-item field-wrapper">
-        <label for="payer">Payer Name <span class="danger">*</span><span class="customeAdd" (click)="togglePayer()">Add Payee</span></label>
+        <label for="payer">Payer Name <span class="danger">*</span><span class="customeAdd" (click)="togglePayer()">Add Payer</span></label>
         <select class="form-ctrl" name="payer" id="payer" [(ngModel)]="paymentDetails.payerName">
           <option value="-1">Select Payer Name</option>
           <option [value]="payer.party_id" *ngFor="let payer of payerList">{{payer.display_name}}</option>

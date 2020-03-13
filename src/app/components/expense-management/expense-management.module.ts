@@ -5,6 +5,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
 
+import { ExcelService } from '../../services/excel.service';
 
 import { ExpenseManagementRoutingModule } from './expense-management-routing.module';
 import { ExpenseManagementComponent } from './expense-management.component';
@@ -41,6 +42,9 @@ import { AddEditAccountComponent } from './data-setup/add-edit-account/add-edit-
     AddEditPayeeComponent,
     AddEditPayerComponent,
     AddEditAccountComponent
-  ]
+  ],
+  providers: [
+    ExcelService
+  ],
 })
 export class ExpenseManagementModule { }

@@ -63,7 +63,9 @@ export class AddEditExpenseComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.preFieldData();
+    this.getPayeeDetails();
+    this.getAccountDetails();
+    this.getPaymentMode();
     let currentURL = window.location.href;
     if(currentURL.includes('add-expense')){
       this.sectionName = 'Add';
@@ -76,7 +78,7 @@ export class AddEditExpenseComponent implements OnInit {
     }
   }
 
-  preFieldData(){
+  getPayeeDetails(){
     this.auth.showLoader();
     const url1 = `/api/v1/payment/party/expense/all/${this.jsonFlag.institute_id}`
     this.httpService.getData(url1).subscribe(
@@ -89,7 +91,10 @@ export class AddEditExpenseComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
+  }
 
+  getAccountDetails(){
+    this.auth.showLoader();
     const url2 = `/api/v1/account/all/${this.jsonFlag.institute_id}`
     this.httpService.getData(url2).subscribe(
       (res: any) => {
@@ -101,7 +106,10 @@ export class AddEditExpenseComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
+  }
 
+  getPaymentMode(){
+    this.auth.showLoader();
     const url3 = `/api/v1/masterData/type/PAYMENT_MODE`
     this.httpService.getData(url3).subscribe(
       (res: any) => {
@@ -195,7 +203,6 @@ export class AddEditExpenseComponent implements OnInit {
       if (preview != null || preview != undefined) {
         let extension = preview.name.split('.').pop().toLowerCase(),  //file extension from input file
         isSuccess = fileTypes.indexOf(extension) > -1;  //is extension in acceptable types
-
         if(isSuccess){
           var myReader: FileReader = new FileReader();
           let temp: any = {};
@@ -340,16 +347,19 @@ export class AddEditExpenseComponent implements OnInit {
   }
 
   downloadattachemnt(file_id, file_type, fileName){
+    this.auth.showLoader();
     const url = "/api/v1/expense/download/"+this.jsonFlag.institute_id+"/"+file_id;
     this.httpService.downloadItem(url, file_type).subscribe(
       (response:any)=>{
+        this.auth.hideLoader();
         if(response){
-          const blob = new Blob([response]);
+          const blob = new Blob([response.document], { type: file_type });
           this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
           if(this.fileUrl != null){
-          this.fileName = response.docTitle
+          this.fileName = fileName
             setTimeout(() => {
               var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
+              hiddenDownload.href = this.fileUrl.changingThisBreaksApplicationSecurity;
               hiddenDownload.download = fileName;
               hiddenDownload.click();
             }, 500);
@@ -357,7 +367,7 @@ export class AddEditExpenseComponent implements OnInit {
         }
       },
        err=>{
-        // this.downloadStatus.emit(false);
+        this.auth.hideLoader();
         console.log(err);
       }
     )
@@ -376,6 +386,7 @@ export class AddEditExpenseComponent implements OnInit {
   togglePayee(){
     if(this.payeeVisibilty){
       this.payeeVisibilty = false;
+      this.getPayeeDetails();
     }
     else{
       this.payeeVisibilty = true;
@@ -384,6 +395,7 @@ export class AddEditExpenseComponent implements OnInit {
   toggleAccount(){
     if(this.accountVisibilty){
       this.accountVisibilty = false;
+      this.getAccountDetails();
     }
     else{
       this.accountVisibilty = true;

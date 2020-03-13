@@ -140,7 +140,7 @@
             <span *ngIf="sectionName == 'Add'" title="{{doc.fileName}}">{{ (doc.fileName.length > 20) ? (doc.fileName | slice:0:20) + '...' : doc.fileName }}</span>
             <span *ngIf="sectionName == 'Edit'" title="{{doc.fileName}}">
               {{ (doc.fileName.length > 20) ? (doc.fileName | slice:0:20) + '...' : doc.fileName }}
-              <i class="fa fa-download download-icon" aria-hidden="true" (click)="downloadattachemnt(doc.file_id, doc.file_extn, fileName)"></i>
+              <i class="fa fa-download download-icon" aria-hidden="true" (click)="downloadattachemnt(doc.file_id, doc.file_extn, doc.fileName)"></i>
               <a id="downloadFileClick" [href]="fileUrl" class="hide"></a>
             </span>
           </div>

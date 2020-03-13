@@ -4,6 +4,7 @@ import { MessageShowService } from '../../../services/message-show.service';
 import { HttpService  } from '../../../services/http.service';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { ExcelService } from '../../../services/excel.service';
 
 @Component({
   selector: 'app-manage-expense',
@@ -34,7 +35,8 @@ export class ManageExpenseComponent implements OnInit {
     private msgService: MessageShowService,
     private httpService: HttpService,
     private router: Router,
-    private auth:AuthenticatorService
+    private auth:AuthenticatorService,
+    private excelService: ExcelService,
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
    }
@@ -107,6 +109,24 @@ export class ManageExpenseComponent implements OnInit {
     this.router.navigate(['/view/expense/edit-expense/'+id]);
   }
 
+  exportToExcel(event) {
+    let temp: any[] = [];
+    temp = this.tempExpenselist.map(e => {
+      let obj: any = {
+        Payment_Date: e.payment_date,
+        Reference_No: e.reference_no,
+        Payee: e.party_name,
+        Category: e.category,
+        Total: e.amount,
+      }
+      return obj;
+    });
+
+    this.excelService.exportAsExcelFile(
+      temp,
+      'Expense_report'
+    )
+  }
 
 
 }

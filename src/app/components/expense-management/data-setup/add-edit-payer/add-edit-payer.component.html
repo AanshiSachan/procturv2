@@ -5,8 +5,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" (click)="closePopups()">&times;</button>
-        <h3 class="modal-title" *ngIf="isEditPayer">Update Payee Details</h3>
-        <h3 class="modal-title" *ngIf="!isEditPayer">Create Institute Payment Party</h3>
+        <h3 class="modal-title" *ngIf="isEditPayer">Update Customer</h3>
+        <h3 class="modal-title" *ngIf="!isEditPayer">Create Customer</h3>
       </div>
       <div class="modal-body">
         <div class="payee-container">
@@ -18,8 +18,8 @@
             </select>
           </div>
           <div class="payee-item field-wrapper">
-            <label for="">Payee Name</label>
-            <input type="text" name="" value="" [(ngModel)]="payerDetails.name" placeholder="Enter Payee Name" class="form-ctrl">
+            <label for="">Payer Name</label>
+            <input type="text" name="" value="" [(ngModel)]="payerDetails.name" placeholder="Enter Payer Name" class="form-ctrl">
           </div>
           <div class="payee-item field-wrapper">
             <label for="">Vendor Type</label>
@@ -30,7 +30,7 @@
           </div>
           <div class="payee-item field-wrapper">
             <label for="">Primary Contact No.</label>
-            <input type="text" name="" value="" [(ngModel)]="payerDetails.primaryContactNo" placeholder="Enter Primary Contact Number" class="form-ctrl">
+            <input type="number" name="" value="" [(ngModel)]="payerDetails.primaryContactNo" placeholder="Enter Primary Contact Number" class="form-ctrl">
           </div>
           <div class="payee-item field-wrapper">
             <label for="">Company Name</label>
@@ -38,7 +38,7 @@
           </div>
           <div class="payee-item field-wrapper">
             <label for="">Alternative Contact No.</label>
-            <input type="text" name="" value="" [(ngModel)]="payerDetails.secondaryContactNo" placeholder="Enter Alternative Contact Number" class="form-ctrl">
+            <input type="number" name="" value="" [(ngModel)]="payerDetails.secondaryContactNo" placeholder="Enter Alternative Contact Number" class="form-ctrl">
           </div>
           <div class="payee-item field-wrapper">
             <label for="">Email ID</label>

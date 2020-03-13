@@ -57,7 +57,13 @@ export class AddEditPayeeComponent implements OnInit {
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.partyDetails = res;
+        if(res.length > 0){
+          for (let index = 0; index < res.length; index++) {
+            if(res[index].data_value != 'Customer'){
+              this.partyDetails.push(res[index]);
+            }
+          }
+        }
       },
       err => {
         this.auth.hideLoader();
@@ -125,7 +131,7 @@ export class AddEditPayeeComponent implements OnInit {
           },
           err => {
             this.auth.hideLoader();
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           }
         )
       }
@@ -142,7 +148,7 @@ export class AddEditPayeeComponent implements OnInit {
           },
           err => {
             this.auth.hideLoader();
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           }
         )
       }
