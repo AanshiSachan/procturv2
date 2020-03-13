@@ -77,10 +77,10 @@
             <span>{{expense.reference_no}}</span>
           </div>
           <div class="list-value-item medium-item">
-            <span>{{expense.party_name}}</span>
+            <span title="{{expense?.party_name}}" >{{ (!expense.party_name) ? '-' : (expense.party_name.length > 30) ? (expense.party_name | slice:0:30) + '...' : expense.party_name}}</span>
           </div>
           <div class="list-value-item medium-item">
-            <span>{{expense.category}}</span>
+            <span title="{{expense?.category}}" >{{ (!expense.category) ? '-' : (expense.category.length > 30) ? (expense.category | slice:0:30) + '...' : expense.category}}</span>
           </div>
           <div class="list-value-item small-item align-right" style="padding-right: 50px;">
             <span>{{expense.amount}}</span>
