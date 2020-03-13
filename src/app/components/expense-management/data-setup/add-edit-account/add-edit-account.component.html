@@ -5,8 +5,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" (click)="closePopups()">&times;</button>
-        <h3 class="modal-title" *ngIf="isEditPayer">Update Payee Details</h3>
-        <h3 class="modal-title" *ngIf="!isEditPayer">Create Institute Payment Party</h3>
+        <h3 class="modal-title" *ngIf="isEditAccount">Update Account Details</h3>
+        <h3 class="modal-title" *ngIf="!isEditAccount">Create Account</h3>
       </div>
       <div class="modal-body">
         <div class="payee-container">

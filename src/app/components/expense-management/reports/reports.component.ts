@@ -123,6 +123,7 @@ export class ReportsComponent implements OnInit {
         this.auth.hideLoader();
         this.profitLostList = res;
         this.expenseInventoryTotal = res.expense_inventory;
+        this.expenseTotal =  Number(this.expenseTotal) + Number(this.expenseInventoryTotal)
         this.getFeeCollection(obj);
       },
       err => {
@@ -141,7 +142,8 @@ export class ReportsComponent implements OnInit {
         this.feeCollectionList = res;
         this.totalFeeCollection = res.total_fees_collected;
         this.totalOtherFeeCollection = res.total_fees_collected_other;
-        this.totalSalesRevenue = Number(this.incomeTotal) + Number(this.totalFeeCollection) + Number(this.totalOtherFeeCollection);
+        // this.totalSalesRevenue = Number(this.incomeTotal) + Number(this.totalFeeCollection) + Number(this.totalOtherFeeCollection);
+        this.totalSalesRevenue = Number(this.incomeTotal) + Number(this.totalFeeCollection);
         let tempSalesRevenue = this.totalSalesRevenue.toFixed(2);
         this.totalSalesRevenue = Number(tempSalesRevenue);
         this.netIncome = Number(this.totalSalesRevenue) - Number(this.expenseTotal);

@@ -148,17 +148,20 @@ export class AddEditExpenseComponent implements OnInit {
           this.addedItemList.push(obj)
         }
 
-        for (let index = 0; index < this.editExpenseDetails.attachmentList.length; index++) {
-          let obj = {
-            fileName: this.editExpenseDetails.attachmentList[index].file_name,
-            file_desc: this.editExpenseDetails.attachmentList[index].file_desc,
-            file_id: this.editExpenseDetails.attachmentList[index].file_id,
-            file: this.editExpenseDetails.attachmentList[index].file,
-            file_path: this.editExpenseDetails.attachmentList[index].file_path,
-            file_extn: this.editExpenseDetails.attachmentList[index].file_extn
+        if(!!this.editExpenseDetails.attachmentList){
+          for (let index = 0; index < this.editExpenseDetails.attachmentList.length; index++) {
+            let obj = {
+              fileName: this.editExpenseDetails.attachmentList[index].file_name,
+              file_desc: this.editExpenseDetails.attachmentList[index].file_desc,
+              file_id: this.editExpenseDetails.attachmentList[index].file_id,
+              file: this.editExpenseDetails.attachmentList[index].file,
+              file_path: this.editExpenseDetails.attachmentList[index].file_path,
+              file_extn: this.editExpenseDetails.attachmentList[index].file_extn
+            }
+            this.docsList.push(obj)
           }
-          this.docsList.push(obj)
         }
+
 
       },
       err => {
@@ -306,7 +309,7 @@ export class AddEditExpenseComponent implements OnInit {
       },
       err => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage('error', '', err);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
@@ -322,7 +325,7 @@ export class AddEditExpenseComponent implements OnInit {
       },
       err => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage('error', '', err);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }

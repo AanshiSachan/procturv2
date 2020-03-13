@@ -61,6 +61,7 @@ export class AddEditPayeeComponent implements OnInit {
           for (let index = 0; index < res.length; index++) {
             if(res[index].data_value != 'Customer'){
               this.partyDetails.push(res[index]);
+              this.payeeDetails.vendorType = this.partyDetails[0].data_key;
             }
           }
         }
@@ -107,6 +108,14 @@ export class AddEditPayeeComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter valid email Id');
         return;
       }
+    }
+    if(this.payeeDetails.primaryContactNo.trim() != "" && this.payeeDetails.primaryContactNo.length < 10){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter valid primary contact number');
+      return;
+    }
+    if(this.payeeDetails.secondaryContactNo.trim() != "" && this.payeeDetails.secondaryContactNo.length < 10){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter valid secondary contact number');
+      return;
     }
     if(this.payeeDetails.displayName.trim() != ""){
       let obj = {

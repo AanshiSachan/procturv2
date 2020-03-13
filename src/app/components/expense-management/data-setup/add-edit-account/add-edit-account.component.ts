@@ -103,7 +103,7 @@ export class AddEditAccountComponent implements OnInit {
               (res: any) => {
                 this.auth.hideLoader();
                 if(res.statusCode == 200){
-                  this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Accout updated successfully');
+                  this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Account updated successfully');
                   this.closePopups(false);
                 }
               },
@@ -120,7 +120,7 @@ export class AddEditAccountComponent implements OnInit {
               (res: any) => {
                 this.auth.hideLoader();
                 if(res.statusCode == 200){
-                  this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Accout created successfully');
+                  this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Account created successfully');
                   this.closePopups(false);
                 }
               },
