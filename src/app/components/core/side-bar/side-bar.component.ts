@@ -87,7 +87,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isShoweStore: false,
     isShoweOnlineExam: false,
     isAdmin: false,
-    isShowPowerBy: false
+    isShowPowerBy: false,
+    isShowExpense: false
   }
 
 
@@ -298,6 +299,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       'library': 'liseven',
       'e-store': 'lieight',
       'online-exam': 'linine',
+      'expense': 'liten',
     };
     if (document.getElementById(routesData[pathLastURL])) {
       this.activeSession = routesData[pathLastURL];
@@ -450,7 +452,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.isLiveClassesAllow(type);
     this.isElearnAllow();
     this.isLibraryFeatureAllow(permission); // check librabry feature
-
+    this.isExpenseFeatureAllow();
   }
 
   // check only default values
@@ -483,6 +485,19 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       (username == "admin" && this.instituteId == 100135) ||
       (permission && permission.indexOf('721') != -1)) {
       this.jsonFlags.isShowLibrabry = true;
+    }
+  }
+
+  isExpenseFeatureAllow(){
+    this.jsonFlags.isShowExpense = false;
+    if (this.instituteId == 101238 ||
+        this.instituteId == 101242 ||
+        this.instituteId == 101243 ||
+        this.instituteId == 101244 ||
+        this.instituteId == 100058 ||
+        this.instituteId == 100127 ||
+        this.instituteId == 100126) {
+      this.jsonFlags.isShowExpense = true;
     }
   }
 

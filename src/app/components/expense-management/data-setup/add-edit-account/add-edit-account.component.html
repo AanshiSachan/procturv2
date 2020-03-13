@@ -1,0 +1,36 @@
+<div id="addAccountModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="closePopups()">&times;</button>
+        <h3 class="modal-title" *ngIf="isEditAccount">Update Account Details</h3>
+        <h3 class="modal-title" *ngIf="!isEditAccount">Create Account</h3>
+      </div>
+      <div class="modal-body">
+        <div class="payee-container">
+          <div class="payee-item field-wrapper">
+            <label for="">Account Name<span class="danger">*</span></label>
+            <input type="text" name="" value="" [(ngModel)]="accountDetails.accountName" placeholder="Enter Account Name" class="form-ctrl">
+          </div>
+          <div class="payee-item field-wrapper">
+            <label for="">Account Type<span class="danger">*</span></label>
+            <select class="form-ctrl" name="" [(ngModel)]="accountDetails.accountType">
+              <option title="{{acc.data_value}}" [value]="acc.data_key" *ngFor="let acc of account">{{ (acc.data_value.length > 30) ? (acc.data_value | slice:0:30) + '...' : acc.data_value }}</option>
+            </select>
+          </div>
+          <div class="payee-item field-wrapper">
+            <label for="">Description<span class="danger">*</span></label>
+            <input type="text" name="" value="" [(ngModel)]="accountDetails.accountDescription" placeholder="Enter Account Description" class="form-ctrl">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-default" (click)="closePopups()">Close</button> -->
+        <button type="button" class="btn btn-default add-area-btn" (click)="saveAccountDetails()">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>

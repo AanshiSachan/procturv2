@@ -1,0 +1,162 @@
+<section class="middle-section clearFix">
+  <!-- Header and Navigation -->
+  <section class="middle-top mb0 clearFix">
+    <h1 class="pull-left">
+      <a routerLink="/view/expense">
+        Expense
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      Report
+    </h1>
+  </section>
+
+  <section>
+    <div class="filter-search-data-container">
+
+      <div class="filter-container">
+        <div class="filter-item field-wrapper">
+          <label for="filter">Filter</label>
+          <select class="form-ctrl" name="filter" id="filter" [(ngModel)]="recordFilter.dateFilter" (ngModelChange)="getAllRecords()">
+            <option value="month">Current Month</option>
+            <option value="date">Till Date</option>
+            <option value="range">Date Range</option>
+          </select>
+        </div>
+        <div class="filter-item field-wrapper datePickerBox" style="margin-left: 10px;" *ngIf="recordFilter.dateFilter == 'range'">
+          <label for="date-range">Select Date Range</label>
+          <input type="text" value="" id="date-range"  [(ngModel)]="dateFilterRange"  (ngModelChange)="dateRangeChange($event)"
+          class="form-ctrl widgetDatepicker bsDatepicker" style="padding: 6px;" readonly="true" name="date-range" placeholder="Date" bsDaterangepicker/>
+        </div>
+      </div>
+      <div class="net-worth-container">
+        <span class="heading">Net Income:</span>
+        <span>₹{{netIncome?.toLocaleString('en-IN')}}</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Expense & Income Outer container -->
+  <section>
+    <div class="outer-container">
+
+      <div class="section-container">
+        <div class="title-container">
+          <span>Expenses Details</span>
+        </div>
+
+        <div class="section-table-container">
+          <div class="table-header-container">
+            <div class="header-item">
+              <span>Payment Date	</span>
+            </div>
+            <div class="header-item">
+              <span>Category</span>
+            </div>
+            <div class="header-item align-center">
+              <span>Amount(Rs)</span>
+            </div>
+          </div>
+          <div class="table-value-outer-container" style="padding-bottom: 60px;">
+            <div class="table-value-container" *ngFor="let expense of expenseRecordList">
+              <div class="value-item">
+                <span>{{expense.payment_date}}</span>
+              </div>
+              <div class="value-item">
+                <span title="{{expense?.category}}" >{{ (!expense.category) ? '-' : (expense.category.length > 25) ? (expense.category | slice:0:25) + '...' : expense.category}}</span>
+              </div>
+              <div class="value-item align-right" style="padding-right: 55px;">
+                <span>₹{{expense?.amount.toLocaleString('en-IN')}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-total-container">
+          <div class="section-total-item">
+            <span class="total-header">Expenses On Inventories</span>
+            <span>₹{{expenseInventoryTotal?.toLocaleString('en-IN')}}</span>
+          </div>
+          <div class="section-total-item">
+            <span>
+              <label for="">
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Sum of all expenses &
+                    <br>expenses on inventories
+                  </div>
+                </div>
+              </label>
+            </span>
+            <span class="total-header">Total Expenses</span>
+            <span>₹{{expenseTotal?.toLocaleString('en-IN')}}</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="section-container">
+        <div class="title-container">
+          <span>Income Details</span>
+        </div>
+
+        <div class="section-table-container">
+          <div class="table-header-container">
+            <div class="header-item">
+              <span>Received Date	</span>
+            </div>
+            <div class="header-item">
+              <span>Category</span>
+            </div>
+            <div class="header-item align-center">
+              <span>Amount(Rs)</span>
+            </div>
+          </div>
+          <div class="table-value-outer-container" style="padding-bottom: 55px;">
+            <div class="table-value-container" *ngFor="let income of incomeRecordList">
+              <div class="value-item">
+                <span>{{income.payment_date}}</span>
+              </div>
+              <div class="value-item">
+                <span title="{{income?.category}}" >{{ (!income.category) ? '-' : (income.category.length > 25) ? (income.category | slice:0:25) + '...' : income.category}}</span>
+              </div>
+              <div class="value-item align-right" style="padding-right: 55px;">
+                <span>₹{{income.amount.toLocaleString('en-IN')}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-total-container">
+          <div class="section-total-item">
+            <span class="total-header">Total Fees Collection	</span>
+            <span>₹{{totalFeeCollection?.toLocaleString('en-IN')}}</span>
+          </div>
+          <!-- <div class="section-total-item">
+            <span class="total-header">Total Fees Collection(Others)	</span>
+            <span>₹{{totalOtherFeeCollection?.toLocaleString('en-IN')}}</span>
+          </div> -->
+          <div class="section-total-item">
+            <span>
+              <label for="">
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Sum of all incomes &
+                    <br>total fees collection
+                  </div>
+                </div>
+              </label>
+            </span>
+            <span class="total-header">Total Sales Revenue</span>
+            <span>₹{{totalSalesRevenue?.toLocaleString('en-IN')}}</span>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </section>
+
+</section>
