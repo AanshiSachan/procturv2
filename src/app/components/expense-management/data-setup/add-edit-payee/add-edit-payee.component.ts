@@ -102,6 +102,12 @@ export class AddEditPayeeComponent implements OnInit {
   }
 
   savePayeeDetails(){
+    if(this.payeeDetails.emailId.trim() != ""){
+      if(!this.ValidateEmail(this.payeeDetails.emailId)){
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter valid email Id');
+        return;
+      }
+    }
     if(this.payeeDetails.displayName.trim() != ""){
       let obj = {
         name: this.payeeDetails.name,
@@ -125,7 +131,7 @@ export class AddEditPayeeComponent implements OnInit {
           (res: any) => {
             this.auth.hideLoader();
             if(res.statusCode == 200){
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Institute party details updated successfully!');
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Details updated successfully');
               this.closePopups(false);
             }
           },
@@ -142,7 +148,7 @@ export class AddEditPayeeComponent implements OnInit {
           (res: any) => {
             this.auth.hideLoader();
             if(res.statusCode == 200){
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Institute party details added successfully!');
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Payee added successfully');
               this.closePopups(false);
             }
           },
@@ -152,13 +158,18 @@ export class AddEditPayeeComponent implements OnInit {
           }
         )
       }
-
     }
     else{
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Display Name!');
     }
   }
 
+  ValidateEmail(mail) {
+    if (/^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/.test(mail)) {
+      return true;
+    }
+    return false;
+  }
 
   closePopups($event) {
     $('#addPayeeModal').modal('hide');
