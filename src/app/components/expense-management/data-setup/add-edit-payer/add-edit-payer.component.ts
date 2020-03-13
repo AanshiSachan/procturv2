@@ -105,6 +105,12 @@ export class AddEditPayerComponent implements OnInit {
   }
 
   savepayerDetails(){
+    if(this.payerDetails.emailId.trim() != ""){
+      if(!this.ValidateEmail(this.payerDetails.emailId)){
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter valid email Id');
+        return;
+      }
+    }
     if(this.payerDetails.displayName.trim() != ""){
       let obj = {
         name: this.payerDetails.name,
@@ -128,7 +134,7 @@ export class AddEditPayerComponent implements OnInit {
           (res: any) => {
             this.auth.hideLoader();
             if(res.statusCode == 200){
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Institute party details updated successfully!');
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Details updated successfully');
               this.closePopups(false);
             }
           },
@@ -145,7 +151,7 @@ export class AddEditPayerComponent implements OnInit {
           (res: any) => {
             this.auth.hideLoader();
             if(res.statusCode == 200){
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Institute party details added successfully!');
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Payer added successfully');
               this.closePopups(false);
             }
           },
@@ -162,6 +168,12 @@ export class AddEditPayerComponent implements OnInit {
     }
   }
 
+  ValidateEmail(mail) {
+    if (/^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/.test(mail)) {
+      return true;
+    }
+    return false;
+  }
 
   closePopups($event) {
     $('#addPayerModal').modal('hide');
