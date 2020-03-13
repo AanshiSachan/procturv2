@@ -19,7 +19,7 @@ export class AddEditAccountComponent implements OnInit {
 
   accountDetails = {
     accountName: '',
-    accountType: '',
+    accountType: 0,
     accountDescription: ''
   }
 
@@ -85,7 +85,7 @@ export class AddEditAccountComponent implements OnInit {
 
   saveAccountDetails(){
     if(this.accountDetails.accountName.trim() != ''){
-      if(this.accountDetails.accountType.trim() != ""){
+      if(!isNaN(this.accountDetails.accountType)){
         if(this.accountDetails.accountDescription.trim() != ""){
 
           let obj = {

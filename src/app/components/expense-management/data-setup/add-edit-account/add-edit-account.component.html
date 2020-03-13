@@ -17,7 +17,6 @@
           <div class="payee-item field-wrapper">
             <label for="">Account Type<span class="danger">*</span></label>
             <select class="form-ctrl" name="" [(ngModel)]="accountDetails.accountType">
-              <option value="">Select Account Type</option>
               <option title="{{acc.data_value}}" [value]="acc.data_key" *ngFor="let acc of account">{{ (acc.data_value.length > 30) ? (acc.data_value | slice:0:30) + '...' : acc.data_value }}</option>
             </select>
           </div>
