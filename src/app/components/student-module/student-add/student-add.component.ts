@@ -488,6 +488,7 @@ export class StudentAddComponent implements OnInit {
         this.country_id = this.instituteCountryDetObj.id;
       }
     });
+    this.getStateList();
   }
 
   toggleAddArea() {
