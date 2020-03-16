@@ -1,0 +1,206 @@
+<div class="middle-section clear-fix">
+  <!-- breadcrumb -->
+  <section class="middle-top clearFix bulk-header">
+    <div>
+      <h1 class="pull-left">
+        <a routerLink="/view/course"  *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
+          Course
+        </a>
+        <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional" style="padding:0px; ">
+          Batch
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        <a routerLink="/view/{{jsonFlag.type}}/online-assignment"  style="padding:0px; ">
+          Online Assignment
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+         <span>Manage Assignment</span>
+      </h1>
+    </div>
+  </section>
+
+  <section>
+    <div class="manage-assignment-container">
+
+      <div class="assignment-details">
+        <div class="assignment-details-item" style="flex-direction: column;">
+          <label for="tags" style="font-size: 14px; margin-top:10px; margin-right: 10px;">Assign Title<span class="danger"></span></label>
+          <input type="text" name="" class="assignment-input" value="" [(ngModel)]="assignmentDetails.title" placeholder="Assignment Title">
+        </div>
+        <div class="assignment-details-item" style="flex-direction: column;">
+          <label for="tags" style="font-size: 14px; margin-top:10px; margin-right: 10px;">Assignment Description</label>
+          <textarea name="name" class="assignment-textarea" rows="5" [(ngModel)]="assignmentDetails.description" placeholder="Description" cols="78"></textarea>
+        </div>
+        <div class="assignment-details-item field-wrapper">
+          <label for="tags" style="font-size: 14px; margin-top:10px; margin-right: 10px;">Tags</label>
+          <ng-multiselect-dropdown class="container dropdown"
+            [placeholder]="'Select Tags(s)'"
+            [data]="tagList"
+            [settings]="tagsListSettings"
+            [(ngModel)]="selectedTagsList" >
+          </ng-multiselect-dropdown>
+        </div>
+        <div class="assignment-details-item">
+          <div class="field-radio-wrapper">
+            <input type="radio" value="false" class="form-radio" name="marks" id="marks" [(ngModel)]="assignmentDetails.marks" (ngModelChange)="toggleMarks()">
+            <label for="marks">Marks</label>
+          </div>
+          <div class="field-radio-wrapper" style="margin-left: 20px;">
+            <input type="radio" value="true" class="form-radio"  name="marks" id="unmarks" [(ngModel)]="!assignmentDetails.marks" checked (ngModelChange)="toggleMarks()">
+            <label for="unmarks">Unmarks</label>
+          </div>
+          <div class="marks-container" *ngIf="showMarks">
+            <input type="number" name="" value="" placeholder="Enter marks">
+          </div>
+        </div>
+        <div class="assignment-details-item">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="late-submission" [(ngModel)]="assignmentDetails.lateSubmission">
+            <label for="late-submission">Late Submission Allow</label>
+          </div>
+        </div>
+        <div class="assignment-details-item " style="flex-direction: row;">
+          <div class="date-time field-wrapper datePickerBox">
+            <label for="state-date" style="font-size: 14px;">Start Date & Time</label>
+            <input type="text" value="" id="state-date" class="form-ctrl widgetDatepicker bsDatepicker datepicker1" [(ngModel)]="assignmentDetails.startDate"
+            style="padding: 6px;" readonly="true" name="payment-date" placeholder="Date" bsDatepicker />
+            <div>
+              <select class="made-out" id="from1" [(ngModel)]="assignmentDetails.startHr" (ngModelChange)="getEventHourFrom($event)">
+                <option value="" disabled  selected="selected" hidden>HH</option>
+                <option *ngFor="let i of hour" [value]="i">
+                    {{i}}
+                </option>
+              </select>
+              <select class="made-out" id="from2" style="margin-left:10px;" [(ngModel)]="assignmentDetails.startMin" (ngModelChange)="getEventHourFrom($event)">
+                <option value="" disabled  selected="selected" hidden>MM</option>
+                <option [value]="i" *ngFor="let i of minutes" >
+                    {{i}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="date-time field-wrapper datePickerBox">
+            <label for="end-date" style="font-size: 14px;">End Date & Time<span class="danger"></span></label>
+            <input type="text" value="" id="end-date" class="form-ctrl widgetDatepicker bsDatepicker datepicker1" [(ngModel)]="assignmentDetails.endDate"
+            style="padding: 6px;" readonly="true" name="payment-date" placeholder="Date" bsDatepicker />
+            <div>
+              <select class="made-out" id="from1" [(ngModel)]="assignmentDetails.endHr" (ngModelChange)="getEventHourFrom($event)">
+                <option value="" disabled  selected="selected" hidden>HH</option>
+                <option *ngFor="let i of hour" [value]="i">
+                    {{i}}
+                </option>
+              </select>
+              <select class="made-out" id="from2" style="margin-left:10px;" [(ngModel)]="assignmentDetails.endMin" (ngModelChange)="getEventHourFrom($event)">
+                <option value="" disabled  selected="selected" hidden>MM</option>
+                <option [value]="i" *ngFor="let i of minutes" >
+                    {{i}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="assignment-details-item field-wrapper">
+          <label for="uploadFileControl" style="font-size: 14px;margin-top: 7px;">Upload File</label>
+          <input type="file" class="form-ctrl upload-file" id="uploadFileControl" name="uploadFileBox" accept=
+          "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+          text/plain, application/pdf, image/*" [(ngModel)]="upFile"/>
+          <button type="button" name="button" class="upload-docs-btn" (click)="uploadFile()">Upload</button>
+        </div>
+
+        <div class="assignment-details-item field-wrapper">
+          <input type="text" name="" class="assignment-input url" value="" placeholder="URL Name" [(ngModel)]="urlDetails.name">
+          <input type="text" name="" class="assignment-input url" value="" placeholder="URL" style="margin-left: 10px;" [(ngModel)]="urlDetails.url">
+          <button type="button" name="button" class="upload-docs-btn" (click)="uploadURL()">Upload</button>
+        </div>
+
+        <div class="attachment-container">
+          <div class="link-attachment-container" *ngIf="assignmentDetails?.urlLists.length > 0">
+            <div class="link-attachment-item" *ngFor="let url of assignmentDetails.urlLists">
+              <i class="fa fa-globe" aria-hidden="true"></i>
+              <span>{{url.display_name}}</span>
+              <i class="fa fa-times" aria-hidden="true" (click)="removeLink(url.display_name)" style="color:red;"></i>
+            </div>
+          </div>
+          <div class="file-attachment-container">
+            <div class="file-attachment-item" *ngFor="let file of selectedFiles">
+              <i class="fa fa-file" aria-hidden="true"></i>
+              <span>{{file.fileName}}</span>
+              <i class="fa fa-times" aria-hidden="true" (click)="removeFile(file.fileName)" style="color:red;"></i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="course-details">
+        <div class="course-details-item field-wrapper">
+          <label for="state-date" style="font-size: 14px;">Master Course<span class="danger"></span></label>
+          <select class="course-input" name="" [(ngModel)]="assignmentDetails.masterCourse" (ngModelChange)="getCourses()">
+            <option value="-1">Select Master Course</option>
+            <option [value]="master.master_course" *ngFor="let master of masterCourseList">{{ (master.master_course.length > 30) ? (master.master_course | slice:0:30) + '...' : master.master_course }}</option>
+          </select>
+        </div>
+        <div class="course-details-item field-wrapper">
+          <label for="state-date" style="font-size: 14px;">Course<span class="danger"></span></label>
+          <select class="course-input" name="" [(ngModel)]="assignmentDetails.course" (ngModelChange)="getSubjects()">
+            <option value="-1">Select Course</option>
+            <option [value]="course.course_id" *ngFor="let course of courseList">{{ (course.course_name.length > 30) ? (course.course_name | slice:0:30) + '...' : course.course_name }}</option>
+          </select>
+        </div>
+        <div class="course-details-item field-wrapper">
+          <label for="state-date" style="font-size: 14px;">Subject<span class="danger"></span></label>
+          <select class="course-input" name="" [(ngModel)]="assignmentDetails.subject" (ngModelChange)="getTopic()">
+            <option value="-1">Select Subject</option>
+            <option [value]="subject.subject_id" *ngFor="let subject of subjectList">{{ (subject.subject_name.length > 30) ? (subject.subject_name | slice:0:30) + '...' : subject.subject_name }}</option>
+          </select>
+        </div>
+        <div class="course-details-item field-wrapper">
+          <label for="state-date" style="font-size: 14px;">Topic</label>
+          <select class="course-input" name="" [(ngModel)]="assignmentDetails.topic" (ngModelChange)="getSubTopic()">
+            <option value="-1">Select Topic</option>
+            <option [value]="topic.topicId" *ngFor="let topic of topicList">{{ (topic.topicName.length > 30) ? (topic.topicName | slice:0:30) + '...' : topic.topicName }}</option>
+          </select>
+        </div>
+        <div class="course-details-item field-wrapper">
+          <label for="state-date" style="font-size: 14px;">Sub Topic</label>
+          <select class="course-input" name="" [(ngModel)]="assignmentDetails.subtopic">
+            <option value="-1">Select Sub Topic</option>
+            <option [value]="topic.topicId" *ngFor="let topic of subTopicList">{{ (topic.topicName.length > 30) ? (topic.topicName | slice:0:30) + '...' : topic.topicName }}</option>
+          </select>
+        </div>
+        <div class="course-details-item field-wrapper">
+          <label for="state-date" style="font-size: 14px;">Student(s)<span class="danger"></span></label>
+          <ng-multiselect-dropdown class="container dropdown"
+            [placeholder]="'Select Student(s)'"
+            [data]="studentsList"
+            [settings]="studentListSettings"
+            [(ngModel)]="selectedStudentList" >
+          </ng-multiselect-dropdown>
+        </div>
+        <div class="course-details-item field-wrapper">
+          <label for="state-date" style="font-size: 14px;">Faculty</label>
+          <select class="course-input" name="" [(ngModel)]="assignmentDetails.teacher">
+            <option value="-1">Select Faculty</option>
+            <option [value]="teacher.teacher_id" *ngFor="let teacher of facultyList">{{ (teacher.teacher_name.length > 30) ? (teacher.teacher_name | slice:0:30) + '...' : teacher.teacher_name }}</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="action-btn-container">
+      <div class="action-btn">
+        <button type="button" name="button" class="btn btn-light">Save Assignment</button>
+      </div>
+      <div class="action-btn">
+        <button type="button" name="button" class="btn btn-primary">Save & Publish</button>
+      </div>
+    </div>
+  </footer>
+
+</div>

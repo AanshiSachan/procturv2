@@ -5,7 +5,6 @@ import { CourseHomeComponent } from './course-home/course-home.component';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { MasterTagComponent } from './master-tag/master-tag.component';
 
-
 @NgModule({
   imports: [RouterModule.forChild([
       {
@@ -59,6 +58,11 @@ import { MasterTagComponent } from './master-tag/master-tag.component';
             {
                 path: 'master-tag',
                 component: MasterTagComponent
+            },
+            {
+                path: 'online-assignment',
+                loadChildren: 'app/components/course-module/online-assignment/online-assignment.module#OnlineAssignmentModule',
+                pathMatch: 'prefix',
             }
           ]
       }

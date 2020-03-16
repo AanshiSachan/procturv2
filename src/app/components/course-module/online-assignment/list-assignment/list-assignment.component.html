@@ -1,0 +1,42 @@
+<div class="middle-section clear-fix">
+  <!-- breadcrumb -->
+  <section class="middle-top clearFix bulk-header">
+    <div>
+      <h1 class="pull-left">
+        <a routerLink="/view/course"  *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
+          Course
+        </a>
+        <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional" style="padding:0px; ">
+          Batch
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+         <span>Online Assignment</span>
+      </h1>
+    </div>
+  </section>
+
+  <!-- filter container -->
+  <section>
+    <div class="filter-container">
+      <div class="search-filter-wrapper">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <input type="text" class="normal-field" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
+      </div>
+      <div class="manage-assignment-btn-container">
+        <button type="button" name="button" class="manage-assignment-btn"  routerLink='/view/course/online-assignment/manage-assignment'>
+          <i class="fa fa-plus" aria-hidden="true" style="color: #0084f6;"></i>&nbsp;
+          Create Assignment</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- list container -->
+  <section>
+    <div class="list-outer-container">
+      <div class="list-item-container">
+        
+      </div>
+    </div>
+  </section>
+
+</div>
