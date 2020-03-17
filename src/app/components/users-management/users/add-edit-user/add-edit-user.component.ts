@@ -267,7 +267,7 @@ export class AddEditUserComponent implements OnInit {
   }
 
   ValidateEmail(mail) {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/.test(mail)) {
       return true;
     }
     return false;
