@@ -492,6 +492,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.jsonFlags.isShowExpense = false;
     if (this.instituteId == 101238 ||
         this.instituteId == 101242 ||
+        this.instituteId == 101008 ||
         this.instituteId == 101243 ||
         this.instituteId == 101244 ||
         this.instituteId == 100058 ||
