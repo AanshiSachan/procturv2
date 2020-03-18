@@ -487,14 +487,20 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   }
 
   isExpenseFeatureAllow(){
+    // this.jsonFlags.isShowExpense = false;
+    // if (this.instituteId == 101238 ||
+    //     this.instituteId == 101242 ||
+    //     this.instituteId == 101008 ||
+    //     this.instituteId == 101243 ||
+    //     this.instituteId == 101244 ||
+    //     this.instituteId == 100058 ||
+    //     this.instituteId == 100127 ||
+    //     this.instituteId == 100126) {
+    //   this.jsonFlags.isShowExpense = true;
+    // }
+    // this senction is used for enable Expense feature
     this.jsonFlags.isShowExpense = false;
-    if (this.instituteId == 101238 ||
-        this.instituteId == 101242 ||
-        this.instituteId == 101243 ||
-        this.instituteId == 101244 ||
-        this.instituteId == 100058 ||
-        this.instituteId == 100127 ||
-        this.instituteId == 100126) {
+    if (sessionStorage.getItem('enable_expense_management') == '1') {
       this.jsonFlags.isShowExpense = true;
     }
   }

@@ -373,7 +373,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.auth.makeInstituteType(institute_data.institute_type, institute_data.course_structure_flag);
       sessionStorage.setItem('user_permission', institute_data.user_permission);
       sessionStorage.setItem('institute_id', institute_data.institution_id);
-      sessionStorage.setItem('institution_id', institute_data.institution_id); //y 
+      sessionStorage.setItem('institution_id', institute_data.institution_id); //y
       sessionStorage.setItem('about_us_image', institute_data.about_us_image);
       sessionStorage.setItem('about_us_text', institute_data.about_us_text);
       sessionStorage.setItem('accountId', institute_data.accountId);
@@ -437,6 +437,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('institute_setup_type', institute_data.institute_setup_type);
       sessionStorage.setItem('enable_elearn_course_mapping_feature', institute_data.enable_elearn_course_mapping_feature);
       sessionStorage.setItem('enable_eLearn_feature', institute_data.enable_eLearn_feature);
+      sessionStorage.setItem('enable_expense_management', institute_data.enable_expense_management);
       sessionStorage.setItem('website_url', institute_data.website_url);
       sessionStorage.setItem('enable_fee_template_country_wise', institute_data.enable_fee_template_country_wise);
       sessionStorage.setItem('tax_type_without_percentage', institute_data.tax_type);
