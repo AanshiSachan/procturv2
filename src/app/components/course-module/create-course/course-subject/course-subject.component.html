@@ -24,10 +24,10 @@
   </div>
 
   <section class="clearFix create-standard-form" *ngIf="createNewSubject">
-    <div class="c-lg-8 c-sm-8 c-md-8">
+    <div class="c-lg-10 c-sm-10 c-md-10">
       <div class="row create-standard-field">
 
-        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4">
+        <div class="field-wrapper c-lg-3 c-sm-3 c-md-3">
           <label *ngIf="(isLangInstitue != true )" for="masterCourse">Standard Name
             <span class="text-danger">*</span>
           </label>
@@ -37,16 +37,17 @@
           <select id="masterCourse" class="form-ctrl" [(ngModel)]="newSubjectDetails.standard_id">
             <option value="-1"> </option>
             <option *ngFor="let opt of standardList" [value]="opt.standard_id">
-              {{opt.standard_name}}
+              {{ (opt.standard_name?.length > 20) ? (opt.standard_name | slice:0:20) + '...' : opt.standard_name }}
             </option>
           </select>
 
           <p>* Example English, Science</p>
         </div>
 
-        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4">
+        <div class="field-wrapper c-lg-3 c-sm-3 c-md-3">
           <label *ngIf="(isLangInstitue != true )" for="subname">
             Subject Name
+            <span class="text-danger">*</span>
           </label>
           <label *ngIf="(isLangInstitue == true )" for="subname">
             Course Name
@@ -55,6 +56,14 @@
           <input type="text" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_name" id="subname" name="label">
 
           <p>(Eg. Maths or Science or Accounts)</p>
+        </div>
+
+        <div class="field-wrapper c-lg-3 c-sm-3 c-md-3" *ngIf="!isLangInstitue">
+          <label for="sub_code">
+            Subject Code
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" maxlength="4" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_code" id="sub_code" name="sub_code">
         </div>
 
         <div class="c-lg-2 c-sm-2 c-md-2" style="padding-top: 10px">
@@ -66,7 +75,7 @@
 
       </div>
     </div>
-    <div class="c-lg-4 c-sm-4 c-md-4" style="padding-top: 20px">
+    <div class="c-lg-2 c-sm-2 c-md-2" style="padding-top: 20px">
       <aside class="">
         <input type="button" value="Cancel" class="btn cancel-btn" style="" (click)="toggleCreateNewSubject()">
         <input type="button" value="Add" class="btn fullBlue" (click)="addNewSubject()">
@@ -89,6 +98,9 @@
             <th>
               <label *ngIf="(isLangInstitue != true )" style="cursor:pointer;" (click)="sortTable('subject_name')">Subject</label>
               <label *ngIf="(isLangInstitue == true )" style="cursor:pointer;" (click)="sortTable('subject_name')">Course</label>
+            </th>
+            <th *ngIf="!isLangInstitue">
+              Subject Code
             </th>
             <th>
               <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
@@ -119,6 +131,15 @@
             <td class="edit-comp">
               <div class="field-wrapper">
                 <input type="text" class="form-ctrl" [(ngModel)]="row.subject_name" name="label" style="margin:auto">
+              </div>
+            </td>
+
+            <td class="view-comp" *ngIf="!isLangInstitue">
+              {{row.subject_code}}
+            </td>
+            <td class="edit-comp" *ngIf="!isLangInstitue">
+              <div class="field-wrapper">
+                <input type="text" maxlength="4" class="form-ctrl" [(ngModel)]="row.subject_code" name="label" style="margin:auto">
               </div>
             </td>
 
