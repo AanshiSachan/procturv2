@@ -315,7 +315,7 @@ export class InstituteSettingsComponent implements OnInit {
     course_or_batch_expiry_notification: '',
     course_or_batch_expiry_notification_before_no_days: '',
     course_or_batch_expiry_notification_contact_no: '',
-    //student expiry notifctn 
+    //student expiry notifctn
     enable_student_expiry_notification: '',
     student_expiry_notification_before_no_days: '',
     student_expiry_notification_contact_no: '',
@@ -335,8 +335,8 @@ export class InstituteSettingsComponent implements OnInit {
     exam_attendance_not_marked_daily_notification_contact_number: '',
     exam_marks_not_update_notification_contact_number: '',
     vat_percentage:'',
-    enable_send__website_url_in_student_credentail: ''
-
+    enable_send__website_url_in_student_credentail: '',
+    summaryReportDownloadOptions: ''
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
@@ -349,7 +349,11 @@ export class InstituteSettingsComponent implements OnInit {
   libraryRole: boolean = false;
   instituteId: any;
   instituteTaxType : String;
-
+  reportFor = {
+    enquiry: false,
+    admissions: false,
+    fees: false,
+  };
   constructor(
     private apiService: InstituteSettingService,
     private auth: AuthenticatorService,
@@ -423,7 +427,7 @@ export class InstituteSettingsComponent implements OnInit {
         return;
       }
     }
-    dataToSend = this.constructJsonToSend();    
+    dataToSend = this.constructJsonToSend();
     if (dataToSend) {
       this.auth.showLoader();
       this.apiService.saveSettingsToServer(dataToSend).subscribe(
@@ -558,7 +562,7 @@ export class InstituteSettingsComponent implements OnInit {
       }
     }
 
-    
+
     obj.first_sms_low_balance_threshold = this.instituteSettingDet.first_sms_low_balance_threshold != null && this.instituteSettingDet.first_sms_low_balance_threshold != '' && this.instituteSettingDet.first_sms_low_balance_threshold != 0 ? this.instituteSettingDet.first_sms_low_balance_threshold : 0;
     obj.second_sms_low_balance_threshold = this.instituteSettingDet.second_sms_low_balance_threshold != null && this.instituteSettingDet.second_sms_low_balance_threshold != '' && this.instituteSettingDet.second_sms_low_balance_threshold != 0 ? this.instituteSettingDet.second_sms_low_balance_threshold : 0;
     obj.sms_low_balance_alert_contact_number = this.instituteSettingDet.sms_low_balance_alert_contact_number != '' && this.instituteSettingDet.sms_low_balance_alert_contact_number != null ? this.instituteSettingDet.sms_low_balance_alert_contact_number : null;
@@ -585,6 +589,9 @@ export class InstituteSettingsComponent implements OnInit {
     //   return;
     // }
     obj.daily_account_summary = this.convertBoolenToNumber(this.instituteSettingDet.daily_account_summary);
+    if(this.instituteSettingDet.daily_account_summary || this.instituteSettingDet.daily_account_summary == '1'){
+      obj.summaryReportDownloadOptions = this.getSumOfTableFieldForReport(this.reportFor);
+    }
     obj.teacher_monthly_report = this.convertBoolenToNumber(this.instituteSettingDet.teacher_monthly_report);
     obj.allow_simple_registration = this.convertBoolenToNumber(this.instituteSettingDet.allow_simple_registration);
     obj.enable_online_payment_email_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_email_notification);
@@ -768,6 +775,10 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.allow_simple_registration = data.allow_simple_registration;
     this.instituteSettingDet.virtual_host_url = data.virtual_host_url;
     this.instituteSettingDet.daily_account_summary = data.daily_account_summary;
+    if(data.daily_account_summary || data.daily_account_summary == '1'){
+      // this.instituteSettingDet.summaryReportDownloadOptions =  data.summaryReportDownloadOptions;
+      this.fillSummaryReport(data.summaryReportDownloadOptions)
+    }
     this.instituteSettingDet.teacher_monthly_report = data.teacher_monthly_report;
     this.instituteSettingDet.emailids_for_report = data.emailids_for_report;
     this.instituteSettingDet.emailid_for_teacher_report = data.emailid_for_teacher_report;
@@ -920,6 +931,50 @@ export class InstituteSettingsComponent implements OnInit {
     return total;
   }
 
+  getSumOfTableFieldForReport(data){
+    let total: number = 0;
+    for (let i = 0; i < Object.keys(data).length; i++) {
+      if (Object.keys(data)[i] == 'enquiry' && data.enquiry == true) {
+        total = total + 8;
+      }
+       else if (Object.keys(data)[i] == 'admissions' && data.admissions == true) {
+        total = total + 2;
+      }
+       else if (Object.keys(data)[i] == 'fees' && data.fees == true) {
+        total = total + 4;
+      }
+    }
+    return total;
+  }
+  fillSummaryReport(key){
+    // this.instituteSettingDet.summaryReportDownloadOptions
+    if (key == 8) { //student
+      this.reportFor.enquiry = true;
+    }
+    else if (key == 2) { //student
+      this.reportFor.admissions = true;
+    }
+    else if (key == 4) { //student
+      this.reportFor.fees = true;
+    }
+    else if (key == 10) { //others
+      this.reportFor.enquiry = true;
+      this.reportFor.admissions = true;
+    }
+    else if (key == 6) { //both
+      this.reportFor.admissions = true;
+      this.reportFor.fees = true;
+    }
+    else if (key == 12) { //both
+      this.reportFor.enquiry = true;
+      this.reportFor.fees = true;
+    }
+    else if (key == 16) { //both
+      this.reportFor.enquiry = true;
+      this.reportFor.fees = true;
+      this.reportFor.admissions = true;
+    }
+  }
   enableRankSpecifier() {
     let data = document.getElementById('enableRank').checked;
     if (data) {
