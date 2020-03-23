@@ -23,13 +23,15 @@ export class AddEditUserComponent implements OnInit {
     role_id: '-1',
     attendance_device_id: '',
     userType: '',
-    is_employee_to_be_create: 'true'
+    is_employee_to_be_create: 'true',
+    is_office_only_access: false
   }
   biometricEnable: any = '0';
   instituteCountryDetObj: any = {};
   countryDetails: any = [];
   maxlength: number = null;
-  country_id: number = null;
+  country_id:number = null;
+  enable_ip_lock_feature: any = 'N';
 
   constructor(
     private route: Router,
@@ -64,6 +66,7 @@ export class AddEditUserComponent implements OnInit {
     )
     this.getRolesList();
     this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
+    this.enable_ip_lock_feature = sessionStorage.getItem('enable_ip_lock_feature');
     this.fetchDataForCountryDetails();
 
   }
@@ -127,6 +130,8 @@ export class AddEditUserComponent implements OnInit {
         } else {
           this.roleDetails.is_active = false;
         }
+
+        this.roleDetails.is_office_only_access = (this.roleDetails.is_office_only_access == 'Y') ? true : false;
       },
       err => {
         this.auth.hideLoader();
@@ -145,6 +150,7 @@ export class AddEditUserComponent implements OnInit {
     } else {
       this.roleDetails.is_employee_to_be_create = 'N';
     }
+    this.roleDetails.is_office_only_access = this.roleDetails.is_office_only_access ? 'Y' : 'N';
     let obj: any = {
       address: this.roleDetails.address,
       attendance_device_id: this.roleDetails.attendance_device_id,
@@ -154,7 +160,8 @@ export class AddEditUserComponent implements OnInit {
       country_id: this.roleDetails.country_id,
       role_id: this.roleDetails.role_id,
       username: this.roleDetails.username,
-      alternate_email_id: this.roleDetails.alternate_email_id
+      alternate_email_id: this.roleDetails.alternate_email_id,
+      is_office_only_access: this.roleDetails.is_office_only_access
     }
     console.log(obj);
     if (!this.auth.isRippleLoad.getValue()) {
@@ -185,6 +192,7 @@ export class AddEditUserComponent implements OnInit {
     } else {
       this.roleDetails.is_active = 'N';
     }
+    this.roleDetails.is_office_only_access = this.roleDetails.is_office_only_access ? 'Y' : 'N';
     let obj: any = {
       address: this.roleDetails.address,
       attendance_device_id: this.roleDetails.attendance_device_id,
@@ -193,7 +201,8 @@ export class AddEditUserComponent implements OnInit {
       phone: this.roleDetails.username,
       country_id: this.roleDetails.country_id,
       role_id: this.roleDetails.role_id,
-      alternate_email_id: this.roleDetails.alternate_email_id
+      alternate_email_id: this.roleDetails.alternate_email_id,
+      is_office_only_access: this.roleDetails.is_office_only_access
     }
     console.log(obj);
     if (!this.auth.isRippleLoad.getValue()) {

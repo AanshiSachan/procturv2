@@ -442,6 +442,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('enable_fee_template_country_wise', institute_data.enable_fee_template_country_wise);
       sessionStorage.setItem('tax_type_without_percentage', institute_data.tax_type);
       sessionStorage.setItem('tax_type_with_percentage', institute_data.tax_type + "(%)");
+      sessionStorage.setItem('enable_ip_lock_feature', institute_data.enable_ip_lock_feature);
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');

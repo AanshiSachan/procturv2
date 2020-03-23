@@ -113,6 +113,16 @@
         </div>
       </div>
 
+      <div class="row" *ngIf="enable_ip_lock_feature=='Y'">
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="field-checkbox-wrapper">
+            <input id="is_office_only_access" name="is_office_only_access" type="checkbox" class="form-checkbox"
+              [(ngModel)]="roleDetails.is_office_only_access">
+            <label for="is_office_only_access">Enable IP Lock Functionality</label>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="c-sm-6 c-lg-6 c-md-6">
           <div class="pull-right">

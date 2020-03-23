@@ -4,6 +4,7 @@ import { AuthenticatorService } from '../../services/authenticator.service';
 import { CommonServiceFactory } from '../../services/common-service';
 import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting.service';
 import { MessageShowService } from '../../services/message-show.service';
+import { HttpService } from '../../services/http.service';
 @Component({
   selector: 'app-institute-settings',
   templateUrl: './institute-settings.component.html',
@@ -342,8 +343,17 @@ export class InstituteSettingsComponent implements OnInit {
   test_series_feature: any = '0';
   instituteName: any = '';
   biometricSetting: number = 0;
-  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport'];
-  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent'];
+  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport', 'liAccess'];
+  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent', 'divAccessControl'];
+
+  IPJson: any = {
+    'institute_id': sessionStorage.getItem('institute_id'),
+    'ip_address': '',
+    'floor_details': null,
+    'description': null
+  };
+  enable_ip_lock_feature: any= '';
+  IPDetails: any[] = [];
 
   // Library Role
   libraryRole: boolean = false;
@@ -358,7 +368,8 @@ export class InstituteSettingsComponent implements OnInit {
     private apiService: InstituteSettingService,
     private auth: AuthenticatorService,
     private commonService: CommonServiceFactory,
-    private msgSrvc: MessageShowService
+    private msgSrvc: MessageShowService,
+    private httpService: HttpService
   ) {
     this.commonService.removeSelectionFromSideNav();
   }
@@ -369,9 +380,13 @@ export class InstituteSettingsComponent implements OnInit {
     this.onlinePayment = sessionStorage.getItem('enable_online_payment_feature');
     this.biometricSetting = Number(sessionStorage.getItem('biometric_attendance_feature'));
     this.instituteTaxType=sessionStorage.getItem("tax_type_without_percentage")=='Vat'?'Vat':'GST';
+    this.enable_ip_lock_feature = sessionStorage.getItem('enable_ip_lock_feature');
+    console.log(this.enable_ip_lock_feature);
+
     this.checkInstitutionType();
     this.getSettingFromServer();
     this.libraryRoleSetting();
+    this.getIPAllDetails();
   }
 
   libraryRoleSetting() {
@@ -1088,5 +1103,91 @@ export class InstituteSettingsComponent implements OnInit {
      data.cgst=Math.floor(this.instituteSettingDet.vat_percentage/2);
      data.sgst=this.instituteSettingDet.vat_percentage-data.cgst;
     }
+    }
+
+    saveIPDetails() {
+      if(this.IPJson.ip_address!=''){
+      this.auth.showLoader();
+      this.httpService.postData('/api/v2/ipAddress/create', this.IPJson).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('success', '', res.message);
+          this.getIPAllDetails();
+          this.IPJson = {
+            ip_address : '',
+            floor_details: '',
+            description: ''
+          };
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('error', '', err.error.message);
+        }
+      );
+      } else {
+        this.msgSrvc.showErrorMessage('info', '', 'Please enter IP Address');
+      }
+    }
+
+    getIPAllDetails() {
+      this.auth.showLoader();
+      this.httpService.getData('/api/v2/ipAddress/getAll/' + sessionStorage.getItem('institute_id')).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.IPDetails = res.result;
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('error', '', err.error.message);
+        }
+      );
+    }
+
+    updateIp(obj) {
+      console.log(obj);
+      this.auth.showLoader();
+      this.httpService.putData('/api/v2/ipAddress/update', obj).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('success', '', res.message);
+          this.getIPAllDetails();
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('error', '', err.error.message);
+        }
+      );
+    }
+
+    deleteIp(id) {
+      if(confirm('Do you really want to delete?')) {
+      this.auth.showLoader();
+      this.httpService.deleteData('/api/v2/ipAddress/delete/' + sessionStorage.getItem('institute_id') + '/' + id, '').subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('success', '', res.message);
+          this.getIPAllDetails();
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('error', '', err.error.message);
+        }
+      );
+      }
+    }
+
+    editIP(id) {
+      if (document.getElementById(("data" + id).toString()).classList) {
+      document.getElementById(("data" + id).toString()).classList.remove('displayComp');
+      document.getElementById(("data" + id).toString()).classList.add('editComp');
+      }
+    }
+
+    cancelRow(id) {
+      if (document.getElementById(("data" + id).toString()).classList) {
+      document.getElementById(("data" + id).toString()).classList.remove('editComp');
+      document.getElementById(("data" + id).toString()).classList.add('displayComp');
+      }
+      this.getIPAllDetails();
     }
 }
