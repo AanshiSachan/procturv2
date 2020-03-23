@@ -334,6 +334,11 @@ export class EnquiryHomeComponent implements OnInit {
     stateList: any[] = [];
     cityDetails: any[] = [];
 
+    downloadReportFor = {
+      enquiry: false,
+      admissions: false,
+      fees: false
+    }
 
     /*Declaration Fin*/
     constructor(
@@ -489,7 +494,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     // get custome filter component details if is_searchable is applicable --laxmi
     getSearchableCustomeComponents(array){
-    
+
         this.filterCustomComponent = array.filter((object)=>object.is_searchable=='Y');
         console.log(this.filterCustomComponent);
     }
@@ -681,7 +686,7 @@ export class EnquiryHomeComponent implements OnInit {
                             this.customComponents.push(obj);
                         });
                     }
-                    this.getSearchableCustomeComponents(this.customComponents);// 
+                    this.getSearchableCustomeComponents(this.customComponents);//
                     this.emptyCustomComponent = this.componentListObject;
                 });
     }
@@ -1994,14 +1999,30 @@ export class EnquiryHomeComponent implements OnInit {
         }, 100);
     }
 
+    reportFor(){
+      let reportFor = [];
+      if(this.downloadReportFor.enquiry){
+        reportFor.push("Enquiry");
+      }
+      if(this.downloadReportFor.admissions){
+        reportFor.push("Admissions");
+      }
+      if(this.downloadReportFor.fees){
+        reportFor.push("Fees");
+      }
+      return reportFor.toString();
+    }
     downloadSummaryReportXl() {
+
+      let report = this.reportFor()
+
         switch (Number(this.varJson.downloadReportOption)) {
             case 1:
                 this.showErrorMessage(this.messageService.toastTypes.error, 'Selection', 'Please select other options');
                 break;
             case 2: {
                 this.auth.showLoader();
-                this.enquire.getSummaryReportOfThisMonth().subscribe(
+                this.enquire.getSummaryReportOfThisMonth(report).subscribe(
                     res => {
                         this.auth.hideLoader();
                         this.performDownloadAction(res);
@@ -2014,7 +2035,7 @@ export class EnquiryHomeComponent implements OnInit {
                 break;
             case 3: {
                 this.auth.showLoader();
-                this.enquire.getPreviousMSummary().subscribe(
+                this.enquire.getPreviousMSummary(report).subscribe(
                     res => {
                         this.auth.hideLoader();
                         this.performDownloadAction(res);
@@ -2025,7 +2046,7 @@ export class EnquiryHomeComponent implements OnInit {
                 break;
             case 4: {
                 this.auth.showLoader();
-                this.enquire.getSummaryReportOfLastTwoMonth().subscribe(
+                this.enquire.getSummaryReportOfLastTwoMonth(report).subscribe(
                     res => {
                         this.auth.hideLoader();
                         this.performDownloadAction(res);
@@ -2040,8 +2061,9 @@ export class EnquiryHomeComponent implements OnInit {
     downloadSummaryReportXlDateWise() {
         if (this.varJson.summaryReport.to_date != "" && this.varJson.summaryReport.from_date != "") {
             this.auth.showLoader();
+            let report = this.reportFor()
             let obj = { to_date: this.getDateFormated(this.varJson.summaryReport.to_date, 'YYYY-MM-DD'), from_date: this.getDateFormated(this.varJson.summaryReport.from_date, 'YYYY-MM-DD') }
-            this.enquire.getSummaryReportFromDates(obj).subscribe(
+            this.enquire.getSummaryReportFromDates(obj, report).subscribe(
                 res => { this.auth.hideLoader(); this.performDownloadAction(res); },
                 err => { this.auth.hideLoader(); }
             );
@@ -2818,7 +2840,7 @@ export class EnquiryHomeComponent implements OnInit {
           this.countryList = data;
         }
       }
-    
+
       getStateList(){
           this.stateList = [];
           this.cityDetails = [];
@@ -2841,7 +2863,7 @@ export class EnquiryHomeComponent implements OnInit {
         )
         }
       }
-    
+
       // get city list as per state selection
       getCityList(){
           this.cityList = [];

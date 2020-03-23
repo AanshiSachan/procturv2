@@ -62,7 +62,7 @@
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('subject_name') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('subject_name') && direction != 1"></i>
               </th>
-              <th *ngIf="!isProfessional" style="text-align: left;" (click)="sortedData('subjects') ">
+              <th *ngIf="!isProfessional" style="text-align: left;" (click)="sortedData('subjects') " style="width: 30%;text-align:left;">
                 Subjects &nbsp;
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('subjects') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('subjects') && direction != 1"></i>
