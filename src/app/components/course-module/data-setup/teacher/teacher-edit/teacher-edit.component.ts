@@ -27,7 +27,7 @@ export class TeacherEditComponent implements OnInit {
   countryDetails: any = [];
   maxlength: number = 10;
   country_id: number = null;
-  enable_ip_lock_feature: any = false;
+  enable_ip_lock_feature: any = 'N';
 
   constructor(
     private route: Router,
@@ -166,11 +166,7 @@ export class TeacherEditComponent implements OnInit {
       dataToBind.is_allow_teacher_to_only_mark_attendance = false;
     }
 
-    if (data.is_office_only_access == "Y") {
-      dataToBind.is_office_only_access = true;
-    } else {
-      dataToBind.is_office_only_access = false;
-    }
+    dataToBind.is_office_only_access = (data.is_office_only_access == 'Y') ? true : false;
 
     if (data.is_student_mgmt_flag == "1") {
       dataToBind.is_student_mgmt_flag = true;
@@ -238,11 +234,8 @@ export class TeacherEditComponent implements OnInit {
     } else {
       formData.is_allow_teacher_to_only_mark_attendance = "N";
     }
-    if (formData.is_office_only_access == true) {
-      formData.is_office_only_access = "Y";
-    } else {
-      formData.is_office_only_access = "N";
-    }
+
+    formData.is_office_only_access = formData.is_office_only_access ? 'Y' : 'N';
     formData.is_employee_to_be_create = "N";
     formData.country_id = this.instituteCountryDetObj.id;
     formData.dob = moment(formData.dob).format('YYYY-MM-DD');
@@ -321,11 +314,7 @@ export class TeacherEditComponent implements OnInit {
       formData.is_allow_teacher_to_only_mark_attendance = "N";
     }
 
-    if (formData.is_office_only_access == true) {
-      formData.is_office_only_access = "Y";
-    } else {
-      formData.is_office_only_access = "N";
-    }
+    formData.is_office_only_access = formData.is_office_only_access ? 'Y' : 'N';
 
     //this section is to handle id card
 

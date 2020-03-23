@@ -1065,7 +1065,7 @@ export class InstituteSettingsComponent implements OnInit {
           };
         },
         err => {
-          this.auth.showLoader();
+          this.auth.hideLoader();
           this.msgSrvc.showErrorMessage('error', '', err.error.message);
         }
       );
@@ -1082,21 +1082,7 @@ export class InstituteSettingsComponent implements OnInit {
           this.IPDetails = res.result;
         },
         err => {
-          this.auth.showLoader();
-          this.msgSrvc.showErrorMessage('error', '', err.error.message);
-        }
-      );
-    }
-
-    getIPDetailsById(id) {
-      this.auth.showLoader();
-      this.httpService.getData('/api/v2/ipAddress/get/' + sessionStorage.getItem('institute_id') + '/' + id).subscribe(
-        (res: any) => {
           this.auth.hideLoader();
-          this.IPDetails = res.result;
-        },
-        err => {
-          this.auth.showLoader();
           this.msgSrvc.showErrorMessage('error', '', err.error.message);
         }
       );
@@ -1112,7 +1098,7 @@ export class InstituteSettingsComponent implements OnInit {
           this.getIPAllDetails();
         },
         err => {
-          this.auth.showLoader();
+          this.auth.hideLoader();
           this.msgSrvc.showErrorMessage('error', '', err.error.message);
         }
       );
@@ -1128,7 +1114,7 @@ export class InstituteSettingsComponent implements OnInit {
           this.getIPAllDetails();
         },
         err => {
-          this.auth.showLoader();
+          this.auth.hideLoader();
           this.msgSrvc.showErrorMessage('error', '', err.error.message);
         }
       );

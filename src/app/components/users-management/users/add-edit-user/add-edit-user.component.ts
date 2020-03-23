@@ -31,7 +31,7 @@ export class AddEditUserComponent implements OnInit {
   countryDetails: any = [];
   maxlength: number = null;
   country_id:number = null;
-  enable_ip_lock_feature: any = false;
+  enable_ip_lock_feature: any = 'N';
 
   constructor(
     private route: Router,
@@ -131,11 +131,7 @@ export class AddEditUserComponent implements OnInit {
           this.roleDetails.is_active = false;
         }
 
-        if(this.roleDetails.is_office_only_access == 'Y') {
-          this.roleDetails.is_office_only_access = true;
-        } else {
-          this.roleDetails.is_office_only_access = false;
-        }
+        this.roleDetails.is_office_only_access = (this.roleDetails.is_office_only_access == 'Y') ? true : false;
       },
       err => {
         this.auth.hideLoader();
