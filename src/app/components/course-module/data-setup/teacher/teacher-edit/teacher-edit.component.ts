@@ -27,6 +27,7 @@ export class TeacherEditComponent implements OnInit {
   countryDetails: any = [];
   maxlength: number = 10;
   country_id: number = null;
+  enable_ip_lock_feature: any = false;
 
   constructor(
     private route: Router,
@@ -51,6 +52,7 @@ export class TeacherEditComponent implements OnInit {
       this.getTeacherInfo();
       this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
     }
+    this.enable_ip_lock_feature = sessionStorage.getItem('enable_ip_lock_feature');
   }
 
   // created by: Nalini Walunj
@@ -87,7 +89,8 @@ export class TeacherEditComponent implements OnInit {
           is_allow_teacher_to_only_mark_attendance: this.editTeacherForm.value.is_allow_teacher_to_only_mark_attendance,
           is_student_mgmt_flag: this.editTeacherForm.value.is_student_mgmt_flag,
           dob: this.editTeacherForm.value.dob,
-          date_of_joining: this.editTeacherForm.value.date_of_joining
+          date_of_joining: this.editTeacherForm.value.date_of_joining,
+          is_office_only_access: this.editTeacherForm.value.is_office_only_access
         });
         return;
       }
@@ -126,9 +129,10 @@ export class TeacherEditComponent implements OnInit {
       attendance_device_id: [''],
       is_active: [true],
       is_allow_teacher_to_only_mark_attendance: [false],
+      is_office_only_access: [false],
       is_student_mgmt_flag: [true],
       dob:[''],
-      date_of_joining:['']
+      date_of_joining:[''],
     })
   }
 
@@ -161,6 +165,13 @@ export class TeacherEditComponent implements OnInit {
     else {
       dataToBind.is_allow_teacher_to_only_mark_attendance = false;
     }
+
+    if (data.is_office_only_access == "Y") {
+      dataToBind.is_office_only_access = true;
+    } else {
+      dataToBind.is_office_only_access = false;
+    }
+
     if (data.is_student_mgmt_flag == "1") {
       dataToBind.is_student_mgmt_flag = true;
     }
@@ -227,10 +238,16 @@ export class TeacherEditComponent implements OnInit {
     } else {
       formData.is_allow_teacher_to_only_mark_attendance = "N";
     }
+    if (formData.is_office_only_access == true) {
+      formData.is_office_only_access = "Y";
+    } else {
+      formData.is_office_only_access = "N";
+    }
     formData.is_employee_to_be_create = "N";
     formData.country_id = this.instituteCountryDetObj.id;
     formData.dob = moment(formData.dob).format('YYYY-MM-DD');
     formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD');
+    // formData.is_office_only_access = formData.is_office_only_access ? 'Y' : 'N';
     this.auth.showLoader();
     this.ApiService.addNewTeacherDetails(formData).subscribe(
       data => {
@@ -302,6 +319,12 @@ export class TeacherEditComponent implements OnInit {
       formData.is_allow_teacher_to_only_mark_attendance = "Y";
     } else {
       formData.is_allow_teacher_to_only_mark_attendance = "N";
+    }
+
+    if (formData.is_office_only_access == true) {
+      formData.is_office_only_access = "Y";
+    } else {
+      formData.is_office_only_access = "N";
     }
 
     //this section is to handle id card
