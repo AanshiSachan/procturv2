@@ -354,6 +354,7 @@ export class InstituteSettingsComponent implements OnInit {
   };
   enable_ip_lock_feature: any= '';
   IPDetails: any[] = [];
+  ipAddress: any = '';
 
   // Library Role
   libraryRole: boolean = false;
@@ -387,6 +388,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.getSettingFromServer();
     this.libraryRoleSetting();
     this.getIPAllDetails();
+    this.getIP();
   }
 
   libraryRoleSetting() {
@@ -1190,4 +1192,12 @@ export class InstituteSettingsComponent implements OnInit {
       }
       this.getIPAllDetails();
     }
+
+    getIP() {
+    this.apiService.getIPAddress().subscribe(
+      (res: any) => {
+      this.ipAddress = res.ip;
+    });
+  }
+
 }
