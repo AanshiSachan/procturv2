@@ -170,9 +170,7 @@ export class ManageAssignmentComponent implements OnInit {
 
     this.assignmentDetails.title = this.editAssignmentDetails.title;
     this.assignmentDetails.description = this.editAssignmentDetails.description;
-    for(let i = 0; i < this.editAssignmentDetails.tag_list.length; i++){
-      this.selectedTagsList.push(this.editAssignmentDetails.tag_lis[i].tagId)
-    }
+
     if(this.editAssignmentDetails.evaluation_required == "N"){
       this.assignmentDetails.marks = "1";
       this.showMarks = true;
@@ -339,7 +337,10 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   getTopic(){
-    this.getStudentsListForBatch();
+    if(this.jsonFlag.isProfessional){
+      this.getStudentsListForBatch();
+    }
+
     this.auth.showLoader();
     let url = "";
     if(this.jsonFlag.isProfessional){
@@ -396,6 +397,11 @@ export class ManageAssignmentComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.tagList = res;
+        if(this.sectionName == "Edit"){
+          for(let i = 0; i < this.editAssignmentDetails.tag_lists.length; i++){
+            this.selectedTagsList.push(this.editAssignmentDetails.tag_lists[i].tagId)
+          }
+        }
       },
       err => {
         this.auth.hideLoader();
@@ -449,6 +455,9 @@ export class ManageAssignmentComponent implements OnInit {
               marks = 0;
             }
 
+            let shr = this.assignmentDetails.startHr.split(' ');
+            let ehr = this.assignmentDetails.endHr.split(' ');
+
             let obj = {
               institute_id: this.jsonFlag.institute_id,
               category_id: "255",   // set by default // hardcoded // as saved in master table
@@ -459,10 +468,10 @@ export class ManageAssignmentComponent implements OnInit {
               sub_topic_id: this.assignmentDetails.subtopic,
               title: this.assignmentDetails.title,
               desc: this.assignmentDetails.description,
-              start_date: this.assignmentDetails.startDate,
-              end_date: this.assignmentDetails.endDate,
-              start_time: this.assignmentDetails.startHr +":"+ this.assignmentDetails.startMin,
-              end_time: this.assignmentDetails.endHr +":"+ this.assignmentDetails.endMin,
+              start_date: moment(this.assignmentDetails.startDate).format('YYYY-MM-DD'),
+              end_date: moment(this.assignmentDetails.endDate).format('YYYY-MM-DD'),
+              start_time: shr[0]+":"+this.assignmentDetails.startMin+" "+shr[1],
+              end_time: ehr[0]+":"+this.assignmentDetails.endMin+" "+ehr[1],
               allow_assignment_late_submission: lateSub,
               evaluation_marks: marks,
               evaluation_required: ev,
@@ -475,6 +484,7 @@ export class ManageAssignmentComponent implements OnInit {
               attachmentId_array: []
             }
             this.createOnlineAssignment(obj);
+            console.log(obj)
         }
         else{
           this.msgService.showErrorMessage('error', '', "Please select master course");
@@ -516,6 +526,9 @@ export class ManageAssignmentComponent implements OnInit {
                   marks = 0;
                 }
 
+                let shr = this.assignmentDetails.startHr.split(' ');
+                let ehr = this.assignmentDetails.endHr.split(' ');
+
                 let obj = {
                   institute_id: this.jsonFlag.institute_id,
                   category_id: "255",   // set by default // hardcoded // as saved in master table
@@ -526,10 +539,10 @@ export class ManageAssignmentComponent implements OnInit {
                   sub_topic_id: this.assignmentDetails.subtopic,
                   title: this.assignmentDetails.title,
                   desc: this.assignmentDetails.description,
-                  start_date: this.assignmentDetails.startDate,
-                  end_date: this.assignmentDetails.endDate,
-                  start_time: this.assignmentDetails.startHr +":"+ this.assignmentDetails.startMin,
-                  end_time: this.assignmentDetails.endHr +":"+ this.assignmentDetails.endMin,
+                  start_date: moment(this.assignmentDetails.startDate).format('YYYY-MM-DD'),
+                  end_date: moment(this.assignmentDetails.endDate).format('YYYY-MM-DD'),
+                  start_time: shr[0]+":"+this.assignmentDetails.startMin+" "+shr[1],
+                  end_time: ehr[0]+":"+this.assignmentDetails.endMin+" "+ehr[1],
                   allow_assignment_late_submission: lateSub,
                   evaluation_marks: marks,
                   evaluation_required: ev,
@@ -543,6 +556,8 @@ export class ManageAssignmentComponent implements OnInit {
                 }
 
                 this.createOnlineAssignment(obj);
+                console.log(obj)
+
               }
               else{
                 this.msgService.showErrorMessage('error', '', "Please select faculty");
@@ -601,7 +616,7 @@ export class ManageAssignmentComponent implements OnInit {
         if (newxhr.readyState == 4) {
 
           if (newxhr.status >= 200 && newxhr.status < 300) {
-            this.msgService.showErrorMessage('success', '', newxhr.response);
+            this.msgService.showErrorMessage('success', '', 'Assignment created successfully');
              this.router.navigate(['/view/course/online-assignment']);
           }
           else {
