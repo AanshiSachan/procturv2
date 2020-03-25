@@ -1,0 +1,270 @@
+.middle-section{
+    padding: 1%;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance:textfield;
+}
+
+.manage-assignment-container{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 10px;
+  margin-top: 10px;
+  height: 82vh;
+  max-height: 82vh;
+  overflow-y: auto;
+  .assignment-details{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    color: #5f6368;
+    .assignment-details-item{
+      width: 70%;
+      margin-bottom: 10px;
+      display: flex;
+      position: relative;
+      .assignment-input{
+        width: 100%;
+        border: 1px solid #e0e0e0;
+        padding: 6px;
+        border-radius: 4px;
+      }
+      .assignment-textarea{
+        border: 1px solid #e0e0e0;
+        padding: 6px;
+        border-radius: 4px;
+      }
+      .field-checkbox-wrapper, .field-radio-wrapper {
+        position: relative;
+        padding-left: 25px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+      .marks-container{
+        margin-left: 20px;
+        input{
+          width: 75%;
+          border: 1px solid #e0e0e0;
+          padding: 10px;
+          border-radius: 4px;
+        }
+      }
+      .add-btn{
+        background: white;
+        color: #202124;
+        display: flex;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        .add-btn-svg{
+          -webkit-box-align: center;
+          box-align: center;
+          -webkit-align-items: center;
+          align-items: center;
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: flex;
+          color: currentcolor;
+          fill: currentcolor;
+          margin-right: 8px;
+          svg{
+            height: 1.125rem;
+            width: 1.125rem;
+          }
+        }
+        .add-btn-text{
+          display: inline-block;
+          margin: 0;
+          overflow: hidden;
+        }
+      }
+      .attachment-container{
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        background: white;
+        box-shadow: 0 3px 6px #ccc;
+        border-radius: 4px;
+        width: 20%;
+        top: 45px;
+        border-bottom: 1px solid rgba(0,0,0,0.87);
+        .attachment-item-container{
+          padding: 6px;
+          color: rgba(0,0,0,0.87);
+          .fa{
+            margin-right: 5px;
+          }
+          &:hover{
+            background: #5f6368;
+            color: white;
+            .fa{
+              color: white;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .date-time{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    position: relative;
+  }
+
+  .made-out {
+    border: 1px solid #efefef;
+    text-align: center;
+    padding: 5px;
+    border-radius: 4px;
+    width: 21%;
+  }
+  .datepicker1{
+    width: 40%;
+    margin: 10px 0;
+  }
+  .time-container{
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+  }
+  .upload-docs-btn{
+    background: #0084f6;
+    color: white;
+    padding: 6px 10px;
+    border: 2px solid #0084f6;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 4px;
+    margin-left: 10px;
+  }
+
+  .upload-file{
+    width: 60%;
+    margin: 0 10px;
+  }
+  .url{
+    width: 40%;
+  }
+  .attachment-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 0;
+    .link-attachment-container, .file-attachment-container{
+      display: flex;
+      flex-direction: column;
+      width: 70%;
+      .link-attachment-item, .file-attachment-item{
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        .fa{
+          width: 24px;
+        }
+        .fa-times{
+          cursor: pointer;
+        }
+        span{
+          width: 92%;
+        }
+      }
+    }
+  }
+
+  .course-details{
+    width: 30%;
+    border-left: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    color: #5f6368;
+    .course-details-item{
+      margin-bottom: 7px;
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      margin-left: 10%;
+      .course-input{
+        width: 100%;
+        border: 1px solid #e0e0e0;
+        padding: 6px;
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+
+.action-btn-container{
+  margin: 10px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  bottom: 0px;
+  width: 86%;
+  margin-bottom: 0px;
+  .action-btn{
+    margin: 10px;
+  }
+}
+
+
+.multiselect-dropdown{
+  font-size: 12px;
+  .dropdown-down{
+    border-top: 5px solid black;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+  }
+  .dropdown-up{
+    border-bottom: 5px solid black;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+  }
+}
+
+.dropdown{
+  width: 100% !important;
+  padding: 0px !important;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.field-wrapper .form-ctrl{
+  border-radius: 4px;
+  border-color: #ccc;
+}
+.field-wrapper.datePickerBox:after {
+  content: '';
+  background: url(/./assets/images/calendar.svg) no-repeat;
+  position: absolute;
+  right: 63%;
+  top: 40px;
+  width: 21px;
+  height: 21px;
+  z-index: 0;
+}
+::ng-deep bs-datepicker-container, bs-daterangepicker-container{
+  margin-left:5% !important;
+}

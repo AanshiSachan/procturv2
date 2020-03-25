@@ -1,13 +1,13 @@
 
 <section class="middle-section">
   <!-- course module -->
-  <section class="header-section"> 
+  <section class="header-section">
       <div>
           <div class="header-title">
               <span  *ngIf="(!isLangInstitue)">Course</span>
               <span  *ngIf="(isLangInstitue)"> Batch</span>
             </div>
-      </div>  
+      </div>
     </section>
   <div class="course-menu-section-container" *ngIf="(!isLangInstitue)">
     <div class="course-menu-item" routerLink="/view/course/setup" *ngIf="jsonFlags.isShowSetup">
@@ -112,6 +112,15 @@
         <span>Create tags for future reference while creating products.</span>
       </div>
     </div>
+    <div class="course-menu-item" routerLink="/view/course/online-assignment">
+      <div class="menu-title">
+        <img src="./assets/images/course/reports.svg" alt="reports">
+        <span>Online Assignment</span>
+      </div>
+      <div class="menu-description">
+        <span>Assignment Description</span>
+      </div>
+    </div>
   </div>
 
   <!-- batch module -->
@@ -200,7 +209,7 @@
           students.</span>
       </div>
     </div>
-    
+
     <div class="course-menu-item" routerLink="/view/batch/reports">
       <div class="menu-title">
         <img src="./assets/images/course/reports.svg" alt="reports">
@@ -220,6 +229,17 @@
         <span>Create tags for future reference while creating products.</span>
       </div>
     </div>
+
+    <div class="course-menu-item" routerLink="/view/course/online-assignment">
+      <div class="menu-title">
+        <img src="./assets/images/course/reports.svg" alt="reports">
+        <span>Online Assignment</span>
+      </div>
+      <div class="menu-description">
+        <span>Assignment Description</span>
+      </div>
+    </div>
+
   </div>
 
 </section>
