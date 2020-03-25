@@ -265,3 +265,6 @@ input[type=number]::-webkit-outer-spin-button {
   height: 21px;
   z-index: 0;
 }
+::ng-deep bs-datepicker-container, bs-daterangepicker-container{
+  margin-left:5% !important;
+}

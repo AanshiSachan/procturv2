@@ -18,12 +18,17 @@
   <!-- filter container -->
   <section>
     <div class="filter-container">
+      <div class="filter-item field-wrapper datePickerBox">
+        <!-- <label for="date-range">Select Date Range</label> -->
+        <input type="text" value="" id="date-range"  [(ngModel)]="dateFilterRange"  (ngModelChange)="dateRangeChange($event)"
+        class="form-ctrl widgetDatepicker bsDatepicker" style="padding: 6px;" readonly="true" name="date-range" placeholder="Date" bsDaterangepicker/>
+      </div>
       <div class="search-filter-wrapper">
         <i class="fa fa-search" aria-hidden="true"></i>
-        <input type="text" class="normal-field" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
+        <input type="text" class="normal-field" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchDatabase()">
       </div>
       <div class="manage-assignment-btn-container">
-        <button type="button" name="button" class="manage-assignment-btn"  routerLink='/view/course/online-assignment/manage-assignment'>
+        <button type="button" name="button" class="manage-assignment-btn"  routerLink='/view/course/online-assignment/create-assignment'>
           <i class="fa fa-plus" aria-hidden="true" style="color: #0084f6;"></i>&nbsp;
           Create Assignment</button>
       </div>
@@ -32,11 +37,74 @@
 
   <!-- list container -->
   <section>
-    <div class="list-outer-container">
-      <div class="list-item-container">
-        
+    <div class="list-table-container">
+      <div class="list-header-container">
+        <div class="list-header-item v-small-item">
+          <span>ID</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Assignmnent Title</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Date</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Course</span>
+        </div>
+        <div class="list-header-item medium-item">
+          <span>Subject</span>
+        </div>
+        <div class="list-header-item medium-item">
+          <span>Topic</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Publish Status</span>
+        </div>
+        <div class="list-header-item small-item align-center">
+          <span>Action</span>
+        </div>
       </div>
-    </div>
+      <div class="list-value-outer-container">
+        <div class="list-value-container" *ngFor="let assignment of assignmentList">
+          <div class="list-value-item v-small-item">
+            <span>{{assignment.file_id}}</span>
+          </div>
+          <div class="list-value-item small-item">
+            <span title="{{assignment?.title}}" >{{ (!assignment.title) ? '-' : (assignment.title.length > 25) ? (assignment.title | slice:0:25) + '...' : assignment.title}}</span>
+          </div>
+          <div class="list-value-item small-item">
+            <span>{{assignment.start_date}}</span>
+          </div>
+          <div class="list-value-item small-item">
+            <span title="{{assignment?.course_name}}" >{{ (!assignment.course_name) ? '-' : (assignment.course_name.length > 25) ? (assignment.course_name | slice:0:25) + '...' : assignment.course_name}}</span>
+          </div>
+          <div class="list-value-item medium-item">
+            <span title="{{assignment?.subject_name}}" >{{ (!assignment.subject_name) ? '-' : (assignment.subject_name.length > 30) ? (assignment.subject_name | slice:0:30) + '...' : assignment.subject_name}}</span>
+          </div>
+          <div class="list-value-item medium-item">
+            <span>{{assignment.topic_name}}-{{assignment.sub_topic_name}}</span>
+            <!-- <span title="{{assignment?.title}}" >{{ (!assignment.title) ? '-' : (assignment.title.length > 30) ? (assignment.title | slice:0:30) + '...' : assignment.title}}</span> -->
+          </div>
+          <div class="list-value-item small-item">
+            <span>{{assignment.assignment_status}}</span>
+          </div>
+          <div class="list-value-item small-item align-center">
+            <select class="action-drop" name="" [(ngModel)]="action" (ngModelChange)="assignAction(assignment.file_id)">
+              <option value="-1">Action</option>
+              <option value="status" *ngIf="assignment.assignment_status == 'Publish'">View Status</option>
+              <option value="manage" *ngIf="assignment.assignment_status == 'Unpublish'">Manage</option>
+              <option value="delete" *ngIf="assignment.assignment_status == 'Unpublish'">Delete</option>
+            </select>
+          </div>
+        </div>
+        <div class="no-records" *ngIf="assignmentList?.length  == 0">
+          <span>No Records Found</span>
+        </div>
+      </div>
+
+
+
+      </div>
   </section>
 
 </div>

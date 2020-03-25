@@ -22,12 +22,17 @@ import { ReviewAssignmentComponent } from './review-assignment/review-assignment
                 pathMatch: 'prefix',
             },
             {
-                path: 'manage-assignment',
+                path: 'create-assignment',
                 component: ManageAssignmentComponent,
                 pathMatch: 'prefix',
             },
             {
-                path: 'review-assignment',
+                path: 'manage-assignment/:id',
+                component: ManageAssignmentComponent,
+                pathMatch: 'prefix',
+            },
+            {
+                path: 'review-assignment/:id',
                 component: ReviewAssignmentComponent,
                 pathMatch: 'prefix',
             },

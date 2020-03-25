@@ -18,6 +18,10 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
+    BsDatepickerModule,
+    FileUploadModule,
+    SplitButtonModule,
     OnlineAssignmentRoutingModule,
     NgMultiSelectDropDownModule.forRoot()
   ],

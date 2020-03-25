@@ -1,3 +1,272 @@
-<p>
-  review-assignment works!
-</p>
+<div class="middle-section clear-fix">
+
+  <div id="bulk" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Upload solution in Bulk</h4>
+      </div>
+      <div class="modal-body">
+        <div class="assignment-details-item field-wrapper">
+          <label for="uploadFileControl" style="font-size: 14px;margin-top: 7px;">Upload File</label>
+          <input type="file" class="form-ctrl upload-file" id="uploadFileControl" name="uploadFileBox" accept=
+          "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+          text/plain, application/pdf, image/*" [(ngModel)]="upFile" />
+          <button type="button" name="button" class="upload-docs-btn" (click)="fillFiles()">Upload</button>
+        </div>
+
+        <div class="assignment-details-item field-wrapper">
+          <input type="text" name="" class="assignment-input url" value="" placeholder="URL Name" [(ngModel)]="urlDetails.name">
+          <input type="text" name="" class="assignment-input url" value="" placeholder="URL" style="margin-left: 10px;" [(ngModel)]="urlDetails.url">
+          <button type="button" name="button" class="upload-docs-btn" (click)="uploadURL()">Upload</button>
+        </div>
+
+        <div class="attachment-container">
+          <div class="link-attachment-container" *ngIf="bulkUrlList?.length > 0">
+            <div class="link-attachment-item" *ngFor="let url of bulkUrlList">
+              <i class="fa fa-globe" aria-hidden="true"></i>
+              <span>{{url.display_name}}</span>
+              <i class="fa fa-times" aria-hidden="true" (click)="removeLink(url.display_name)" style="color:red;"></i>
+            </div>
+          </div>
+          <div class="file-attachment-container">
+            <div class="file-attachment-item" *ngFor="let file of fileArray">
+              <i class="fa fa-file" aria-hidden="true"></i>
+              <span>{{file.fileName}}.{{file.fileType}}</span>
+              <i class="fa fa-times" aria-hidden="true" (click)="removeFile(file.name)" style="color:red;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" (click)="uploadAttachments()">Update</button>
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+  <!-- Modal -->
+<div id="updateStudent" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Update Status</h4>
+      </div>
+      <div class="modal-body">
+        <div class="update-status-container" *ngIf="editStatus && editStatus != '' && editStatus != null">
+          <div class="student-container">
+            <div class="name-status-container">
+              <div class="name-container">
+                <span class="name">Student Name: </span>
+                <span title="{{editStatus?.student_name}}" >{{ (!editStatus.student_name) ? '-' : (editStatus.student_name.length > 30) ? (editStatus.student_name | slice:0:30) + '...' : editStatus.student_name}}</span>
+              </div>
+              <div class="status-container">
+                <span class="name">Student Status: </span>
+                <span title="{{editStatus?.student_status}}" >{{ (!editStatus.student_status) ? '-' : (editStatus.student_status.length > 30) ? (editStatus.student_status | slice:0:30) + '...' : editStatus.student_status}}</span>
+              </div>
+            </div>
+            <div class="student-remarks-container">
+              <span class="name">Student Remarks:</span>
+              <span title="{{editStatus?.student_comment}}" >{{ (!editStatus.student_comment) ? '-' : (editStatus.student_comment.length > 30) ? (editStatus.student_comment | slice:0:30) + '...' : editStatus.student_comment}}</span>
+            </div>
+            <div class="url-list-container" *ngIf="editStudentAttachments.urlList?.length > 0">
+              <div class="link-attachment-item" *ngFor="let url of editStudentAttachments.urlList">
+                <i class="fa fa-globe" aria-hidden="true"></i>
+                <span style="width: 40%;">{{url.display_name}}</span>
+                <span style="width: 40%;">{{url.attachment_url}}</span>
+              </div>
+            </div>
+            <div class="attachment-list" *ngIf="editStudentAttachments.attachmentList?.length > 0">
+              <div class="file-attachment-item" *ngFor="let file of editStudentAttachments.attachmentList">
+                <i class="fa fa-file" aria-hidden="true"></i>
+                <span>{{file.attachment_name}}</span>
+                <i class="fa fa-download" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+          <div class="faculty-container">
+            <div class="name-status-container">
+              <div class="status-container field-wrapper" *ngIf="editStatus?.teacher_status != null" style="flex-direction: column;">
+                <label for="state-date">Faculty Status</label>
+                <select name="" class="course-input marks-input form-ctrl" [(ngModel)]="editStatus.teacher_status" style="width:78%; margin-top: 5px;">
+                  <option value="">Status</option>
+                  <option value="Open">Open</option>
+                  <option value="Inreview">In-Review</option>
+                  <option value="Reviewed">Reviewed</option>
+                </select>
+              </div>
+              <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y'">
+                <label for="state-date" style="font-size: 12px;">Faculty Marks</label>
+                <input type="text" name="" value="" class="form-ctrl marks-input"  placeholder="Faculty Marks" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  [(ngModel)]="editStatus.evaluation_marks">
+              </div>
+            </div>
+
+            <div class="marks-remarks-container">
+              <div class="remarks-container field-wrapper" *ngIf="editStatus?.teacher_comment">
+                <label for="state-date" style="font-size: 12px;">Faculty Remarks</label>
+                <textarea name="name" rows="4" cols="40" class="form-ctrl" placeholder="Faculty Remarks" [(ngModel)]="editStatus.teacher_comment"></textarea>
+              </div>
+            </div>
+
+            <div class="assignment-details-item field-wrapper">
+              <label for="updateUploadFile" style="font-size: 12px;margin-top: 7px;">Upload File</label>
+              <input type="file" class="form-ctrl upload-file" id="updateUploadFile" name="uploadFileBox" accept=
+              "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+              text/plain, application/pdf, image/*" [(ngModel)]="uploadFiles" />
+              <button type="button" name="button" class="upload-docs-btn" (click)="updateUpdateFile()">Upload</button>
+            </div>
+
+            <div class="assignment-details-item field-wrapper">
+              <input type="text" name="" class="assignment-input url" value="" placeholder="URL Name" [(ngModel)]="UploadUrlDetails.name">
+              <input type="text" name="" class="assignment-input url" value="" placeholder="URL" style="margin-left: 10px;" [(ngModel)]="UploadUrlDetails.url">
+              <button type="button" name="button" class="upload-docs-btn" (click)="updateUploadURL()">Upload</button>
+            </div>
+
+            <div class="url-list-container" *ngIf="editTeacherAttachments.urlList?.length > 0" style="padding-top: 10px; border-top: 1px solid #ccc;">
+              <div class="link-attachment-item" *ngFor="let url of editTeacherAttachments.urlList">
+                <i class="fa fa-globe" aria-hidden="true"></i>
+                <span>{{url.attachment_display_name}}</span>
+                <i class="fa fa-times" aria-hidden="true" (click)="removeUpdateLink(url.attachment_display_name)" style="color:red;"></i>
+              </div>
+            </div>
+            <div class="attachment-list" *ngIf="editTeacherAttachments.attachmentList?.length > 0">
+              <div class="file-attachment-item" *ngFor="let file of editTeacherAttachments.attachmentList">
+                <i class="fa fa-file" aria-hidden="true"></i>
+                <span *ngIf="file?.attachment_name">{{file.attachment_name}}</span>
+                <i class="fa fa-times" aria-hidden="true" (click)="removeFacultyAttachment(file.attachment_id)" style="color:red;"></i>
+              </div>
+            </div>
+
+            <div class="url-list-container" *ngIf="facultyUrlList?.length > 0" style="padding-top: 10px; border-top: 1px solid #ccc;">
+              <div class="link-attachment-item" *ngFor="let url of facultyUrlList">
+                <i class="fa fa-globe" aria-hidden="true"></i>
+                <span>{{url.display_name}}</span>
+                <i class="fa fa-times" aria-hidden="true" (click)="removeNewlyAddedLink(url.display_name)" style="color:red;"></i>
+              </div>
+            </div>
+            <div class="attachment-list" *ngIf="facultyAttachments?.length > 0">
+              <div class="file-attachment-item" *ngFor="let file of facultyAttachments">
+                <i class="fa fa-file" aria-hidden="true"></i>
+                <span>{{file.name}}</span>
+                <i class="fa fa-times" aria-hidden="true" (click)="removeNewlyAddedFile(file.name)" style="color:red;"></i>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" (click)="updateStudentStatus()">Update</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <!-- breadcrumb -->
+  <section class="middle-top clearFix bulk-header">
+    <div>
+      <h1 class="pull-left">
+        <a routerLink="/view/course"  *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
+          Course
+        </a>
+        <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional" style="padding:0px; ">
+          Batch
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        <a routerLink="/view/{{jsonFlag.type}}/online-assignment"  style="padding:0px; ">
+          Online Assignment
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        <span>Student Status</span>
+      </h1>
+    </div>
+  </section>
+
+  <!-- filter container -->
+  <section>
+    <div class="filter-container">
+      <div class="manage-assignment-btn-container">
+        <button type="button" name="button" class="manage-assignment-btn" (click)='bulkUpload()'>Bulk Upload</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="list-table-container">
+      <div class="list-header-container">
+        <div class="list-header-item small-item field-checkbox-wrapper" style="background: transparent;">
+          <input type="checkbox" value="" name="check" [checked]="isAllChecked()" (change)="selectAllRows($event)" class="form-checkbox">
+          <label></label>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Student Id</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Student Name</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Phone Number</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Status</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Student Remarks</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Faculty Status</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Faculty Remarks</span>
+        </div>
+        <div class="list-header-item small-item align-center">
+          <span>Action</span>
+        </div>
+      </div>
+      <div class="list-value-outer-container">
+        <div class="list-value-container" *ngFor="let student of tempStudentList" [class.selected]="i == selectedRow">
+          <div class="list-value-item small-item field-checkbox-wrapper">
+            <input type="checkbox" name="recordcb[]" value="" name="check" class="rowCheckbox form-checkbox" [(ngModel)]="student.uiSelected" (ngModelChange)="rowCheckboxChange(student)">
+            <label></label>
+          </div>
+          <div class="list-value-item small-item">
+            <span>{{student.student_display_id}}</span>
+          </div>
+          <div class="list-value-item small-item">
+            <span>{{student.student_name}}</span>
+          </div>
+          <div class="list-value-item small-item">
+            <span title="{{student?.student_phone}}" >{{ (!student.student_phone) ? '-' : (student.student_phone.length > 25) ? (student.student_phone | slice:0:25) + '...' : student.student_phone}}</span>
+          </div>
+          <div class="list-value-item small-item">
+            <span title="{{student?.student_status}}" >{{ (!student.student_status) ? '-' : (student.student_status.length > 25) ? (student.student_status | slice:0:25) + '...' : student.student_status}}</span>
+          </div>
+          <div class="list-value-item small-item">
+            <span title="{{student?.student_comment}}" >{{ (!student.student_comment) ? '-' : (student.student_comment.length > 25) ? (student.student_comment | slice:0:25) + '...' : student.student_comment}}</span>
+          </div>
+          <div class="list-value-item small-item">
+            <span title="{{student?.teacher_status}}" >{{ (!student.teacher_status) ? '-' : (student.teacher_status.length > 25) ? (student.teacher_status | slice:0:25) + '...' : student.teacher_status}}</span>
+          </div>
+          <div class="list-value-item small-item">
+            <span title="{{student?.teacher_comment}}" >{{ (!student.teacher_comment) ? '-' : (student.teacher_comment.length > 25) ? (student.teacher_comment | slice:0:25) + '...' : student.teacher_comment}}</span>
+          </div>
+          <div class="list-value-item small-item align-center">
+            <button type="button" name="button" class="status-btn" (click)="updateStatus(student)">Update Status</button>
+          </div>
+        </div>
+        <div class="no-records" *ngIf="tempStudentList?.length  == 0">
+          <span>No Records Found</span>
+        </div>
+      </div>
+    </div>
+  </section>
