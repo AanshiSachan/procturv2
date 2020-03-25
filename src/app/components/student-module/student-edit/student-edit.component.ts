@@ -302,6 +302,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   cityList: any[] = [];
   areaList: any[] = [];
   addArea:boolean = false;
+  studdentEdit = true;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
