@@ -126,6 +126,8 @@ export class ManageAssignmentComponent implements OnInit {
       }
     )
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
+
+
   }
 
   ngOnInit() {
@@ -137,17 +139,39 @@ export class ManageAssignmentComponent implements OnInit {
     }
     this.getFacultyList();
     this.setMultiSelectSetting();
+    
+    // this.doAsyncTask().then(
+    //     (val) => {
+          let currentURL = window.location.href;
+          if(currentURL.includes('create')){
+            this.sectionName = 'Add';
+          }
+          else{
+            this.sectionName = 'Edit';
+            let splitURL = currentURL.split("/");
+            this.editFileId = splitURL[splitURL.length - 1];
+            this.getEditAssignmentDetails();
 
-    let currentURL = window.location.href;
-    if(currentURL.includes('create')){
-      this.sectionName = 'Add';
-    }
-    else{
-      this.sectionName = 'Edit';
-      let splitURL = currentURL.split("/");
-      this.editFileId = splitURL[splitURL.length - 1];
-      this.getEditAssignmentDetails();
-    }
+          }
+    //     },
+    //     (err) => console.error(err)
+    // );
+
+  }
+
+  doAsyncTask() {
+    return new Promise((resolve, reject) => {
+      if(this.jsonFlag.isProfessional){
+        this.getBatchList();
+      }
+      else{
+        this.getMasterCourse();
+      }
+      this.getFacultyList();
+      this.setMultiSelectSetting();
+      console.log("Async Work Complete");
+
+    });
   }
 
   getEditAssignmentDetails(){
@@ -157,6 +181,7 @@ export class ManageAssignmentComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.editAssignmentDetails = res.result;
+        console.log("edit");
         this.setEditDetails();
       },
       err => {
@@ -186,25 +211,39 @@ export class ManageAssignmentComponent implements OnInit {
     else{
       this.assignmentDetails.lateSubmission = false;
     }
-    // for(let i = 0; i < .length; i++){
-    //
-    // }
-    //
 
-    this.assignmentDetails.masterCourse = this.editAssignmentDetails;
+    for(let i = 0; i < this.editAssignmentDetails.tag_lists.length; i++){
+      this.selectedTagsList.push(this.editAssignmentDetails.tag_lists[i].tagId)
+    }
+
+    if(!this.jsonFlag.isProfessional){
+      this.assignmentDetails.masterCourse = this.editAssignmentDetails.master_course_name;
+    }
+
+
     this.assignmentDetails.course = this.editAssignmentDetails.course_id;
     this.assignmentDetails.subject = this.editAssignmentDetails.subject_id
     this.assignmentDetails.topic = this.editAssignmentDetails.topic_id;
     this.assignmentDetails.subtopic = this.editAssignmentDetails.sub_topic_id;
+
     this.assignmentDetails.students = [];
     this.assignmentDetails.teacher = this.editAssignmentDetails.teacher_id;
 
     this.assignmentDetails.startDate = moment(this.editAssignmentDetails.start_date).format('YYYY-MM-DD');
-    this.assignmentDetails.startHr = this.editAssignmentDetails.start_time.split(':')[0];
-    this.assignmentDetails.startMin = this.editAssignmentDetails.start_time.split(':')[1];
     this.assignmentDetails.endDate = moment(this.editAssignmentDetails.end_date).format('YYYY-MM-DD');
-    this.assignmentDetails.endHr = this.editAssignmentDetails.end_time.split(':')[0];
-    this.assignmentDetails.endMin = this.editAssignmentDetails.end_time.split(':')[1];
+
+    if(this.editAssignmentDetails.start_time != null){
+      this.assignmentDetails.startHr = this.editAssignmentDetails.start_time.split(':')[0];
+      this.assignmentDetails.startMin = this.editAssignmentDetails.start_time.split(':')[1];
+    }
+    if(this.editAssignmentDetails.end_time != null){
+      this.assignmentDetails.endHr = this.editAssignmentDetails.end_time.split(':')[0];
+      this.assignmentDetails.endMin = this.editAssignmentDetails.end_time.split(':')[1];
+    }
+
+    // studentsList
+    // selectedStudentList
+
     this.assignmentDetails.urlLists = [];
     this.assignmentDetails.attachmentId_array = this.editAssignmentDetails.attachment_lists;
   }
@@ -229,6 +268,7 @@ export class ManageAssignmentComponent implements OnInit {
       enableCheckAll: true
     };
     this.getTagList();
+    console.log("tag list");
   }
 
   getBatchList(){
@@ -311,6 +351,7 @@ export class ManageAssignmentComponent implements OnInit {
         this.auth.hideLoader();
         this.courseModelList = res;
         this.masterCourseList = this.courseModelList;
+        console.log("master c");
       },
       err => {
         this.auth.hideLoader();
@@ -325,6 +366,7 @@ export class ManageAssignmentComponent implements OnInit {
         this.courseList = this.masterCourseList[index].coursesList;
       }
     }
+    console.log("course");
   }
 
   getSubjects(){
@@ -334,6 +376,7 @@ export class ManageAssignmentComponent implements OnInit {
         this.subjectList = this.courseList[index].batchesList;
       }
     }
+    console.log("subject");
   }
 
   getTopic(){
@@ -397,11 +440,7 @@ export class ManageAssignmentComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.tagList = res;
-        if(this.sectionName == "Edit"){
-          for(let i = 0; i < this.editAssignmentDetails.tag_lists.length; i++){
-            this.selectedTagsList.push(this.editAssignmentDetails.tag_lists[i].tagId)
-          }
-        }
+
       },
       err => {
         this.auth.hideLoader();
@@ -439,7 +478,7 @@ export class ManageAssignmentComponent implements OnInit {
     }
 
     if(this.assignmentDetails.title.trim() != '' && this.assignmentDetails.title.trim() != null){
-        if(this.assignmentDetails.masterCourse != '-1'){
+        if(this.assignmentDetails.course != '-1'){
             let lateSub = 'Y';
             if(!this.assignmentDetails.lateSubmission){
               lateSub = 'N';
@@ -487,7 +526,7 @@ export class ManageAssignmentComponent implements OnInit {
             console.log(obj)
         }
         else{
-          this.msgService.showErrorMessage('error', '', "Please select master course");
+          this.msgService.showErrorMessage('error', '', "Please select course");
         }
 
     }
@@ -604,6 +643,8 @@ export class ManageAssignmentComponent implements OnInit {
       institution_id: sessionStorage.getItem('institute_id'),
     }
 
+    this.auth.showLoader();
+
     let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
 
     newxhr.open("POST", urlPostXlsDocument, true);
@@ -614,10 +655,17 @@ export class ManageAssignmentComponent implements OnInit {
 
       newxhr.onreadystatechange = () => {
         if (newxhr.readyState == 4) {
+          this.auth.hideLoader();
 
           if (newxhr.status >= 200 && newxhr.status < 300) {
-            this.msgService.showErrorMessage('success', '', 'Assignment created successfully');
-             this.router.navigate(['/view/course/online-assignment']);
+            let data = JSON.parse((newxhr.response))
+            if(data.statusCode >= 200 && data.statusCode < 300){
+              this.msgService.showErrorMessage('success', '', 'Assignment created successfully');
+              this.router.navigate(['/view/course/online-assignment']);
+            }
+            else{
+              this.msgService.showErrorMessage('error', '', data.message);
+            }
           }
           else {
             this.msgService.showErrorMessage('error', '', newxhr.response);
@@ -676,6 +724,7 @@ export class ManageAssignmentComponent implements OnInit {
   removeFile(fileName){
     for (let index = 0; index < this.selectedFiles.length; index++) {
       if(this.selectedFiles[index].fileName == fileName){
+        this.fileArray.splice(index, 1);
         this.selectedFiles.splice(index, 1);
         break;
       }

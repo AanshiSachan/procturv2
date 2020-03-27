@@ -42,21 +42,21 @@ export class ListAssignmentComponent implements OnInit {
 
 
   getAssignmentList(){
-    this.auth.showLoader();
     let obj = {
       "institute_id": this.jsonFlag.institute_id,
     	"category_id": "255",
     	"course_id": -1,
     	"batch_id": -1,
     	"subject_id": -1,
-    	"from_date": this.startDate,
-    	"to_date": this.endDate,
+    	"from_date": moment(this.startDate).format('YYYY-MM-DD'),
+    	"to_date": moment(this.endDate).format('YYYY-MM-DD'),
     	"assignment_status": null
     }
     this.getAllAssignment(obj);
   }
 
   getAllAssignment(obj){
+    this.auth.showLoader();
     const url = `/api/v2/onlineAssignment/getAssignmentsDetail`;
     this.httpService.postData(url, obj).subscribe(
       (res: any) => {
@@ -102,13 +102,22 @@ export class ListAssignmentComponent implements OnInit {
   }
 
   assignAction(file_id){
+    this.auth.showLoader();
     if(this.action == 'delete'){
       let obj = {};
       const url = `/api/v2/onlineAssignment/delete/${this.jsonFlag.institute_id}/${file_id}`;
       this.httpService.deleteData(url, obj).subscribe(
         (res: any) => {
+          if(res.statusCode >= "200" && res.statusCode < "300"){
+            this.msgService.showErrorMessage('success', '', 'Assignment deleted successfully');
+            this.getAssignmentList();
+            this.router.navigate(['/view/course/online-assignment']);
+          }
+          else{
+            this.msgService.showErrorMessage('error', '', res.message);
+          }
           this.auth.hideLoader();
-          this.getAssignmentList();
+          this.action = '-1';
         },
         err => {
           this.auth.hideLoader();
