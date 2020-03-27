@@ -139,7 +139,7 @@ export class ManageAssignmentComponent implements OnInit {
     }
     this.getFacultyList();
     this.setMultiSelectSetting();
-    
+
     // this.doAsyncTask().then(
     //     (val) => {
           let currentURL = window.location.href;
@@ -470,6 +470,8 @@ export class ManageAssignmentComponent implements OnInit {
 
   saveAsDraft(){
     this.assignment_status = "Unpublish";
+    this.assignmentDetails.tags = [];
+    this.assignmentDetails.students = [];
     for(let i = 0; i < this.selectedTagsList.length; i++){
       this.assignmentDetails.tags.push(this.selectedTagsList[i].tagId)
     }
@@ -528,7 +530,6 @@ export class ManageAssignmentComponent implements OnInit {
         else{
           this.msgService.showErrorMessage('error', '', "Please select course");
         }
-
     }
     else{
       this.msgService.showErrorMessage('error', '', "Please enter assignment title");
@@ -536,6 +537,8 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   saveAssignment(){
+    this.assignmentDetails.tags = [];
+    this.assignmentDetails.students = [];
     for(let i = 0; i < this.selectedTagsList.length; i++){
       this.assignmentDetails.tags.push(this.selectedTagsList[i].tagId)
     }
@@ -668,8 +671,8 @@ export class ManageAssignmentComponent implements OnInit {
             }
           }
           else {
-            this.msgService.showErrorMessage('error', '', newxhr.response);
-
+            let data = JSON.parse((newxhr.response))
+            this.msgService.showErrorMessage('error', '', data.message);
           }
         }
       }
