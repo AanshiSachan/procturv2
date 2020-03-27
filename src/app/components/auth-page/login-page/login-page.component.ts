@@ -373,7 +373,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.auth.makeInstituteType(institute_data.institute_type, institute_data.course_structure_flag);
       sessionStorage.setItem('user_permission', institute_data.user_permission);
       sessionStorage.setItem('institute_id', institute_data.institution_id);
-      sessionStorage.setItem('institution_id', institute_data.institution_id); //y 
+      sessionStorage.setItem('institution_id', institute_data.institution_id); //y
       sessionStorage.setItem('about_us_image', institute_data.about_us_image);
       sessionStorage.setItem('about_us_text', institute_data.about_us_text);
       sessionStorage.setItem('accountId', institute_data.accountId);
@@ -642,7 +642,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   alternateLoginOTPVerification() {
     //console.log("##### trying to Validate OTP #####");
     //console.log(this.otpVerificationInfo);
-    if (this.otpVerificationInfo.otp_code == null || this.otpVerificationInfo.otp_code == "") {
+    if (this.otpVerificationInfo.otp_code.trim() == null || this.otpVerificationInfo.otp_code.trim() == "") {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.opt.notFound.title, this.messages.loginMsg.opt.notFound.body);
     } else {
       this.login.validateOTPCode(this.otpVerificationInfo).subscribe((el: any) => {
