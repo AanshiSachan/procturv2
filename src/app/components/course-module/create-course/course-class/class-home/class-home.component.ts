@@ -800,7 +800,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       date: data.id.split('(')[0]
     }
     sessionStorage.setItem('editClass', JSON.stringify(obj));
-    this.router.navigateByUrl('/view/course/class/add');
+    this.router.navigate(['view/course/create/class/add']);
   }
 
   printTimeTableData() {
