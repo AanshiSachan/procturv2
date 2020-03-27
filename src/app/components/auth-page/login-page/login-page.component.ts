@@ -644,7 +644,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   alternateLoginOTPVerification() {
     //console.log("##### trying to Validate OTP #####");
     //console.log(this.otpVerificationInfo);
-    if (this.otpVerificationInfo.otp_code == null || this.otpVerificationInfo.otp_code == "") {
+    if (this.otpVerificationInfo.otp_code.trim() == null || this.otpVerificationInfo.otp_code.trim() == "") {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.opt.notFound.title, this.messages.loginMsg.opt.notFound.body);
     } else {
       this.login.validateOTPCode(this.otpVerificationInfo).subscribe((el: any) => {
