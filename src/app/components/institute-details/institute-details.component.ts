@@ -232,6 +232,8 @@ export class InstituteDetailsComponent implements OnInit {
     obj.institute_footer = this.instDetails.institute_footer;
     obj.fb_page_url = this.instDetails.fb_page_url;
     obj.website_url = this.instDetails.website_url;
+    obj.youtube_url = this.instDetails.youtube_url;
+    obj.whatsapp_url = this.instDetails.whatsapp_url;
     obj.institute_short_code = this.instDetails.institute_short_code;
     obj.tag_line = this.instDetails.tag_line;
     obj.about_us_text = this.instDetails.about_us_text;
