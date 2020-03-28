@@ -1111,7 +1111,7 @@ export class InstituteSettingsComponent implements OnInit {
     }
 
     saveIPDetails() {
-      if(this.IPJson.ip_address!=''){
+      if (this.validateIp()) {
       this.auth.showLoader();
       this.httpService.postData('/api/v2/ipAddress/create', this.IPJson).subscribe(
         (res: any) => {
@@ -1121,7 +1121,8 @@ export class InstituteSettingsComponent implements OnInit {
           this.IPJson = {
             ip_address : '',
             floor_details: '',
-            description: ''
+            description: '',
+            'institute_id': sessionStorage.getItem('institute_id'),
           };
         },
         err => {
@@ -1130,7 +1131,16 @@ export class InstituteSettingsComponent implements OnInit {
         }
       );
       } else {
-        this.msgSrvc.showErrorMessage('info', '', 'Please enter IP Address');
+        this.msgSrvc.showErrorMessage('info', '', 'Please enter valid IP Address');
+      }
+    }
+
+    validateIp() {
+      const regExPattern = /^[0-9]+(.[0-9]+)*$/;
+      if ((this.IPJson.ip_address == '') || !(regExPattern.test(this.IPJson.ip_address))) {
+        return false;
+      } else {
+        return true;
       }
     }
 
