@@ -377,7 +377,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     } else {
       this.fetchMasterCourseModule = {
         master_course: data.master_course,
-        requested_date: moment(data.id).format("YYYY-MM-DD"),
+        requested_date: moment(data.date).format("YYYY-MM-DD"),
         inst_id: sessionStorage.getItem('institute_id'),
         course_id: data.course_id
       }
