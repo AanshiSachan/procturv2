@@ -1079,7 +1079,7 @@ export class InstituteSettingsComponent implements OnInit {
 
     validateIp() {
       const regExPattern = /^[0-9]+(.[0-9]+)*$/;
-      if ((this.IPJson.ip_address == '') || !(regExPattern.test(this.IPJson.ip_address))) {
+      if ((this.IPJson.ip_address.trim() == '') || !(regExPattern.test(this.IPJson.ip_address.trim()))) {
         return false;
       } else {
         return true;
