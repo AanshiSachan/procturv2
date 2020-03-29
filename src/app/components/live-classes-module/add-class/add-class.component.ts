@@ -87,8 +87,22 @@ export class AddClassComponent implements OnInit {
     access_enable_lobby: false,
     access_before_start: 0,
     batch_list: null,
-    course_list: null
-  }
+    course_list: null,
+    host_video: true,
+    participant_video: false,
+    join_before_host: true,
+    mute_upon_entry: true,
+    auto_recording: "none",
+    is_zoom_live_class: false
+  };
+  // Zoom
+  auto_recording: boolean = false;
+  is_zoom_integration_enable: boolean = true;
+  zoom_integration_api_key: any;
+  live_class_for: any = "1";
+  zoom_integration_secret_key: any;
+  singleSelectionOfFaculty: boolean = false;
+  zoom_enable: boolean = false;
 
   constructor(
     private auth: AuthenticatorService,
@@ -111,9 +125,50 @@ export class AddClassComponent implements OnInit {
         }
       }
     )
+    let zoom = sessionStorage.getItem('is_zoom_enable');
+    this.is_zoom_integration_enable = JSON.parse(zoom);
+    if(this.is_zoom_integration_enable && this.live_class_for == "2"){
+      this.singleSelectionOfFaculty = true;
+      this.zoom_enable = true
+    }
 
+    this.setMultiSelectSetting();
+    this.getTeachers();
+    this.getCustomUsers();
+    this.checkIsEnableElearnFeature();
+  }
+
+  changeLiveClassFor(){
+    if(this.live_class_for == "2"){
+      this.singleSelectionOfFaculty = true;
+      this.zoom_enable = true;
+      this.selectedFacultyList = [];
+      this.selectedModeratorList = [];
+      this.facultySettings = {
+        singleSelection: this.singleSelectionOfFaculty,
+        idField: 'teacher_id',
+        textField: 'teacher_name',
+        itemsShowLimit: 2,
+        enableCheckAll: false
+      };
+    }
+    else if(this.live_class_for == "1"){
+      this.singleSelectionOfFaculty = false;
+      this.zoom_enable = false;
+      this.selectedModeratorList = [];
+      this.facultySettings = {
+        singleSelection: this.singleSelectionOfFaculty,
+        idField: 'teacher_id',
+        textField: 'teacher_name',
+        itemsShowLimit: 2,
+        enableCheckAll: false
+      };
+    }
+  }
+
+  setMultiSelectSetting(){
     this.facultySettings = {
-      singleSelection: false,
+      singleSelection: this.singleSelectionOfFaculty,
       idField: 'teacher_id',
       textField: 'teacher_name',
       itemsShowLimit: 2,
@@ -167,18 +222,10 @@ export class AddClassComponent implements OnInit {
       itemsShowLimit: 10,
       enableCheckAll: true
     }
-
-    this.getTeachers();
-    this.getCustomUsers();
-    this.checkIsEnableElearnFeature();
   }
 
   checkIsEnableElearnFeature() {
     let data = sessionStorage.getItem('enable_eLearn_feature');
-    // let data: any;
-    // data = atob(enable_eLearn_feature);
-    // data = JSON.parse(data);
-    // console.log(data);
     if (data == '1') {
       this.isShowProductOption = true;
       this.auth.showLoader();
@@ -190,7 +237,6 @@ export class AddClassComponent implements OnInit {
         },
         (error: any) => {
           this.auth.hideLoader();
-          // this.clearOnlineSchedulesObject() ;
           this.appC.popToast({ type: "error", body: error.error.message })
         }
       )
@@ -216,7 +262,6 @@ export class AddClassComponent implements OnInit {
     );
   }
 
-
   getEvent(event) {
     let proctur_live_expiry_date: any = sessionStorage.getItem('proctur_live_expiry_date');
     if (moment(event).diff(moment(), 'days') < 0) {
@@ -239,7 +284,6 @@ export class AddClassComponent implements OnInit {
   }
 
   getEventHourFrom(e) {
-    // this.minuteFrom = "00";
     if (this.hoursFrom != "" && this.hoursFrom != null && this.minuteFrom == "") {
       this.minuteFrom = "00";
     }
@@ -285,7 +329,6 @@ export class AddClassComponent implements OnInit {
     }
 
   }
-
 
   checkMandatoryFields() {
     // this.navigateTo("assignStudent")
@@ -415,10 +458,24 @@ export class AddClassComponent implements OnInit {
       if (!this.addOnlineClass.access_before_start) {
         this.addOnlineClass.access_before_start = 0;
       }
+
+      if(this.live_class_for == "1"){
+        this.addOnlineClass.is_zoom_live_class = false;
+      }
+      else{
+        this.addOnlineClass.is_zoom_live_class = true;
+      }
+
+      if (this.auto_recording) {
+        this.addOnlineClass.auto_recording = "true";
+      }
+      else if (!this.auto_recording) {
+        this.addOnlineClass.auto_recording = "none";
+      }
+
       console.log(this.addOnlineClass)
 
       this.auth.showLoader();
-      console.log(this.addOnlineClass);
       const url = '/api/v1/meeting_manager/create'
       this.http_service.putData(url, this.addOnlineClass).subscribe(
         (data: any) => {
@@ -460,7 +517,13 @@ export class AddClassComponent implements OnInit {
       access_enable_lobby: false,
       access_before_start: 0,
       batch_list: null,
-      course_list: null
+      course_list: null,
+      host_video: false,
+      participant_video: false,
+      join_before_host: false,
+      mute_upon_entry: false,
+      auto_recording: "none",
+      is_zoom_live_class: false
     };
 
     this.topicName = "";
@@ -486,11 +549,10 @@ export class AddClassComponent implements OnInit {
 
   }
 
-
   /** this function is used to fetch teacher details */
   getTeachers() {
     this.auth.showLoader();
-    let url = `/api/v1/teachers/all/+${this.institution_id}?active=Y`
+    let url = `/api/v1/teachers/all/${this.institution_id}?active=Y`
     this.http_service.getData(url).subscribe(
       (data: any) => {
         this.teachersAssigned = data;
@@ -578,7 +640,6 @@ export class AddClassComponent implements OnInit {
       this.http_service.getData(url).subscribe(
         (data: any) => {
           this.masters = data;
-          // console.log(this.masters)
           this.auth.hideLoader();
         },
         (error: any) => {
@@ -673,7 +734,6 @@ export class AddClassComponent implements OnInit {
       }
     }
   }
-
 
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
   navigateTo(text) {

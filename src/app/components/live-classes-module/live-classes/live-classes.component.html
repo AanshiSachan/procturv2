@@ -116,7 +116,7 @@
               <div class="action_container" *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)">
                 <div class="questionInfo inline-relative">
                   <span class=" i-class">
-                    <button type="button" name="button" class="action_edit" (click)="editStudent(class.session_id)" [disabled]="proctur_live_expiry_date_check"
+                    <button type="button" name="button" class="action_edit" (click)="editStudent(class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check"
                       [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                       Edit
                       <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -207,8 +207,8 @@
               </div>
               <div class="item_type_2">
                   <div class="questionInfo inline-relative">
-                      <span class=" i-class">  
-                          <button type="button" name="button" *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="allowStartLiveCLass(class.session_link, class.session_id)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                      <span class=" i-class">
+                          <button type="button" name="button"  *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                               <i class="fa fa-play" aria-hidden="true"></i>
                               &nbsp;
                               Start Class
@@ -216,14 +216,14 @@
                       </span>
                       <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
                           Your Proctur Live<br>
-                          subscription is over.<br> 
+                          subscription is over.<br>
                           Please pay quickly<br>
                           to continue using it.
                       </div>
-                    </div> 
-               
+                    </div>
+
                     <div class="questionInfo inline-relative">
-                        <span class=" i-class">  
+                        <span class=" i-class">
                             <button type="button" name="button" class="repeat_session" *ngIf="liveClassFor" [disabled]="proctur_live_expiry_date_check" (click)="repeatSession(class.session_id)"  [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                                 <i class="fa fa-repeat" aria-hidden="true"></i>
                                 &nbsp;
@@ -232,12 +232,12 @@
                         </span>
                         <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
                             Your Proctur Live<br>
-                            subscription is over.<br> 
+                            subscription is over.<br>
                             Please pay quickly<br>
                             to continue using it.
                         </div>
                     </div>
-            
+
               </div>
               <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0">
                 &nbsp;&nbsp;

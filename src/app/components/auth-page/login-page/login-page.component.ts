@@ -91,6 +91,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     userid: "",
     otp_validate_mode: 1
   }
+  // zoom
+  zoom_enable: any = false;
 
   constructor(
     private login: LoginService,
@@ -239,6 +241,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           console.log(res);
           this.auth.hideLoader();
           sessionStorage.setItem('login-response',JSON.stringify(res));
+          this.zoom_enable = JSON.stringify(res.data.is_zoom_integration_enable)
           this.checkForAuthOptions(res);
         },
         err => {
@@ -443,6 +446,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('tax_type_without_percentage', institute_data.tax_type);
       sessionStorage.setItem('tax_type_with_percentage', institute_data.tax_type + "(%)");
       sessionStorage.setItem('enable_ip_lock_feature', institute_data.enable_ip_lock_feature);
+      sessionStorage.setItem('is_zoom_enable', this.zoom_enable)
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
