@@ -230,8 +230,13 @@ export class LiveClassesComponent implements OnInit {
     }
   }
 
-  allowStartLiveCLass(link, session_id) {
-    const url = `/api/v1/meeting_manager/session/start/${this.institution_id}/${session_id}`;
+  allowStartLiveCLass(link, session_id, meeting_with) {
+    let zoom = sessionStorage.getItem('is_zoom_enable');
+    let zoom_enable = 0;
+    if(meeting_with == "Zoom"){
+      zoom_enable = 1;
+    }
+    const url = `/api/v1/meeting_manager/session/start/${this.institution_id}/${session_id}?isZoomLiveClass=${zoom_enable}`;
     this.auth.showLoader();
     this._http.getData(url).subscribe(
       (res: any) => {
@@ -331,8 +336,14 @@ export class LiveClassesComponent implements OnInit {
   }
 
 
-  editStudent(session_id) {
-    this.router.navigate(['/view/live-classes/edit/' + session_id], { queryParams: { repeat: 0 } });
+  editStudent(session_id, meeting_with) {
+    let zoom_enable = 0;
+    if(meeting_with == "Zoom"){
+      zoom_enable = 1;
+    }
+    // this.router.navigate(['/view/live-classes/edit/' + session_id+"?isZoomLiveClass="+zoom_enable], { queryParams: { repeat: 0 } });
+    this.router.navigate(['/view/live-classes/edit/' + session_id], { queryParams: { repeat: 0, isZoomLiveClass : zoom_enable} });
+
   }
 
   repeatSession(session_id) {
@@ -752,7 +763,7 @@ export class LiveClassesComponent implements OnInit {
     var video = new window.VdoPlayer({
       otp: otpString,
       playbackInfo: playbackInfoString,
-      theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",// please never changes 
+      theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",// please never changes
       container: document.querySelector("#embedBox"),
     });
     this.videoObject = video;
@@ -767,7 +778,7 @@ export class LiveClassesComponent implements OnInit {
     this.showVideo = true;
     this.JsonVars.video_url = null;
     if (this.videoObject) {
-      this.videoObject.pause(); // removes video 
+      this.videoObject.pause(); // removes video
     }
   }
 

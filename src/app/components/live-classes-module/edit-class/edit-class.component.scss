@@ -112,6 +112,23 @@ html {
   }
 }
 
+.field-radio-wrapper {
+  width: 20% !important;
+  padding-left: 15px !important;
+    .form-radio:checked+label:before {
+        content: '';
+        width: 10px;
+        height: 10px;
+        background: #0084f6;
+        border-radius: 50%;
+        left: 3px;
+        top: 3px;
+    }
+    label {
+        margin-left: 10px;
+    }
+}
+
 .multiselect-dropdown{
   font-size: 12px;
   .dropdown-down{
@@ -227,7 +244,7 @@ html {
 .field-checkbox-wrapper, .field-radio-wrapper {
   position: relative;
   padding-left: 25px;
-  width: 40%;
+  width: 33%;
 }
 
 .qInfoIcon {
@@ -254,28 +271,28 @@ html {
 }
 
 .tooltip-box-field {
-// width: 170px;
-white-space: nowrap;
-min-height: 41px;
-line-height: 12px;
-padding: 5px 5px;
-overflow: visible;
-color: black;
-font-weight: bold;
-top: 30px;
-&.lg {
-    width: 200px;
-    white-space: nowrap;
-    min-height: 50px;
-    line-height: 20px;
-    padding: 5px 5px;
-}
-&.sm {
-    width: 100px;
-    white-space: nowrap;
-    min-height: 40px;
-    padding: 5px 5px;
-}
+  white-space: nowrap;
+  min-height: 41px;
+  line-height: 12px;
+  padding: 5px 5px;
+  overflow: visible;
+  color: black;
+  font-weight: bold;
+  top: 30px;
+  width: 140px;
+  &.lg {
+      width: 200px;
+      white-space: nowrap;
+      min-height: 50px;
+      line-height: 20px;
+      padding: 5px 5px;
+  }
+  &.sm {
+      width: 100px;
+      white-space: nowrap;
+      min-height: 40px;
+      padding: 5px 5px;
+  }
 }
 
 .AdvanceSetting {
@@ -307,4 +324,15 @@ top: 30px;
   margin-top: -1%;
   padding-bottom: 5%;
   margin-bottom: 1%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.advance-setting-item{
+  display: flex;
+  justify-content: flex-start;
+  margin:5px;
+  margin-top: 20px;
+  margin-left: 10px;
+  width: 30%
 }

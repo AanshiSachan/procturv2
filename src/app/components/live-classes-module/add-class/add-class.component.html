@@ -39,6 +39,19 @@
 
       <section id="classDetails" *ngIf="isBasicActive">
         <div class="class_details_container">
+          <div class="field-wrapper" style="display: flex;" *ngIf="is_zoom_integration_enable">
+            <div class="field-radio-wrapper">
+              <input class="form-radio" type="radio" name="classFor" value="1" id='live' checked  [(ngModel)]="live_class_for" (ngModelChange)="changeLiveClassFor()">
+              <label for="live" class="l1">Proctur Live</label>
+            </div>
+            <div class="field-radio-wrapper">
+              <input class="form-radio" type="radio" name="classFor" value="2" id='zoom'  [(ngModel)]="live_class_for" (ngModelChange)="changeLiveClassFor()">
+              <label for="zoom" class="l1">Zoom</label>
+            </div>
+          </div>
+
+
+
           <div class="field-wrapper">
             <label for="topicName">Topic Name<span class="text-danger">*</span> </label>
             <input type="text" value="" id="topicName" class="form-ctrl" name="topicName" required [(ngModel)]="topicName" placeholder="Enter Topic Name"/>
@@ -101,7 +114,7 @@
             </ng-multiselect-dropdown>
           </div>
 
-          <div class="field-wrapper moderator_container">
+          <div class="field-wrapper moderator_container" *ngIf="!is_zoom_integration_enable">
             <label for="moderator">Moderator Name(s) </label>
             <ng-multiselect-dropdown
               [placeholder]="'Select Moderator'"
@@ -183,7 +196,7 @@
               [placeholder]="'Select Batch'"
               [data]="batches"
               [settings]="batchListSetting"
-              [(ngModel)]="selectedBatchList" 
+              [(ngModel)]="selectedBatchList"
               (ngModelChange)="getBatchesCoursesIds($event)">
             </ng-multiselect-dropdown>
           </div>
@@ -194,7 +207,7 @@
               [placeholder]="'Select Course'"
               [data]="courses"
               [settings]="courseListSetting"
-              [(ngModel)]="selectedCourseList" 
+              [(ngModel)]="selectedCourseList"
               (ngModelChange)="getBatchesCoursesIds($event)">
             </ng-multiselect-dropdown>
           </div>
@@ -210,28 +223,28 @@
           </div>
 
 
-              <div> 
+              <div>
                   <div class="AdvanceSetting">
                       <span style="font-weight: 600;">Advance settings</span>
                   </div>
                       <div class="AdvanceSettingDiv">
-                              <div class="field-checkbox-wrapper" style="display: inline-block;margin:5px;margin-top: 20px;margin-left: 10px;">
+                              <div class="field-checkbox-wrapper advance-setting-item">
                                   <input type="checkbox" name="expenses" [(ngModel)]="addOnlineClass.sent_notification_flag" [value]="0" class="form-checkbox" id="qun">
                                   <label for="qun">Send Notification</label>
                                   <div class="questionInfo inline-relative">
                                     <span class="qInfoIcon i-class">i</span>
                                     <div class="tooltip-box-field">
-                                        All the members in 
+                                        All the members in
                                         <br>meeting will recieve
-                                        <br>sms notification for 
+                                        <br>sms notification for
                                         <br>the session.
                                     </div>
                                   </div>
                                   <!-- <i class="fa fa-commenting" aria-hidden="true" style="color: #1283f4;margin-left: 5px;"></i> -->
                               </div>
-                
+
                             <!-- Private Access -->
-                            <div class="field-checkbox-wrapper" style="display: inline-block;margin:5px;margin-top: 20px;">
+                            <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
                               <input type="checkbox" name="private_access" [(ngModel)]="addOnlineClass.private_access" [value]="0" class="form-checkbox" id="private_access">
                               <label for="private_access">Private Access</label>
                               <div class="questionInfo inline-relative">
@@ -240,44 +253,110 @@
                                     Only the users invited
                                     <br> using e-mail ID would
                                     <br> be able to join. Direct
-                                    <br> link sharing of session 
+                                    <br> link sharing of session
                                     <br>won't work.
                                 </div>
                               </div>
                             </div>
-                
+
                             <!-- Enable lobby -->
-                            <div class="field-checkbox-wrapper" style="display: inline-block;margin:5px;margin-top: 20px;margin-left: 10px;">
+                            <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
                               <input type="checkbox" name="access_enable_lobby" [(ngModel)]="addOnlineClass.access_enable_lobby" [value]="0" class="form-checkbox" id="access_enable_lobby">
                               <label for="access_enable_lobby">Access Enable Lobby</label>
                               <div class="questionInfo inline-relative">
                                 <span class="qInfoIcon i-class">i</span>
                                 <div class="tooltip-box-field">
-                                    All the students will 
+                                    All the students will
                                     <br>wait in waiting room
-                                    <br> after joining the 
+                                    <br> after joining the
                                     <br> session. Teachers will
                                     <br> have access to allow
-                                    <br> students in the 
+                                    <br> students in the
                                     <br>meeting.
                                 </div>
                               </div>
                             </div>
-                
-                            <!-- Access before start -->
-                            <!-- <div class="field-checkbox-wrapper" style="display: inline-block;margin:5px;margin-top: 20px;">
-                                <input type="checkbox" name="access_before_start" [(ngModel)]="addOnlineClass.access_before_start" [value]="0" class="form-checkbox" id="access_before_start">
-                                <label for="access_before_start">Access before start</label>
-                                <div class="questionInfo inline-relative">
-                                  <span class="qInfoIcon i-class">i</span>
-                                  <div class="tooltip-box-field">
-                                      The meeting can only 
-                                      <br> be started one minute
-                                      <br> before the start time 
-                                      <br>of the session.
-                                  </div>
+
+                            <!-- Enable Host -->
+                            <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
+                              <input type="checkbox" name="host_video" [(ngModel)]="addOnlineClass.host_video" [value]="0" class="form-checkbox" id="host_video">
+                              <label for="host_video">Host Video</label>
+                              <div class="questionInfo inline-relative">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field">
+                                  Automatically video
+                                  <br> will be started
+                                  <br>once the host
+                                  <br>(teacher) starts
+                                  <br>the meeting.
                                 </div>
-                              </div> -->
+                              </div>
+                            </div>
+
+                            <!-- Enable Participant -->
+                            <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
+                              <input type="checkbox" name="participant_video" [(ngModel)]="addOnlineClass.participant_video" [value]="0" class="form-checkbox" id="participant_video">
+                              <label for="participant_video">Participant Video</label>
+                              <div class="questionInfo inline-relative">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field">
+                                  Automatically video
+                                  <br>will be started
+                                  <br>once the participant
+                                  <br>(student) joins
+                                  <br>the meeting.
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <!-- Enable Join before Host -->
+                            <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
+                              <input type="checkbox" name="join_before_host" [(ngModel)]="addOnlineClass.join_before_host" [value]="0" class="form-checkbox" id="join_before_host">
+                              <label for="join_before_host">Join Before Host</label>
+                              <div class="questionInfo inline-relative">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field">
+                                  Allow
+                                  <br>participants(students)
+                                  <br>to join the meeting
+                                  <br> before the host starts
+                                  <br> the meeting.
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Enable Mute Upon Entry -->
+                            <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
+                              <input type="checkbox" name="mute_upon_entry" [(ngModel)]="addOnlineClass.mute_upon_entry" [value]="0" class="form-checkbox" id="mute_upon_entry">
+                              <label for="mute_upon_entry">Mute Upon Entry</label>
+                              <div class="questionInfo inline-relative">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field">
+                                  Automatically
+                                  <br>participants(students)
+                                  <br> will be muted after
+                                  <br> joining the meeting.
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Enable Auto Recording -->
+                            <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
+                              <input type="checkbox" name="auto_recording" [(ngModel)]="auto_recording" [value]="0" class="form-checkbox" id="auto_recording">
+                              <label for="auto_recording">Auto Recording</label>
+                              <div class="questionInfo inline-relative">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field">
+                                  Automatically
+                                  <br>recording
+                                  <br> will get started
+                                  <br>once host (teacher)
+                                  <br> starts the meeting.
+                                </div>
+                              </div>
+                            </div>
+
                       </div>
                   </div>
 
