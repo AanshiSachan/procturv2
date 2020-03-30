@@ -964,7 +964,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       }
       this.classService.deleteMultiple(dataToSend).subscribe(
         res => {
-          this.messageToast('success', 'Deleted Successfully', '');
+          this.messageToast('success', '', 'Deleted Successfully');
           if (this.showAdvanceFilter) {
             this.advanceFilterView();
           } else {

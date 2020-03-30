@@ -208,7 +208,7 @@ export class CourseEditComponent implements OnInit {
             this.mainTableDataSource[mainTableIndex].batchesList[nestedTableIndex].uiSelected = false;
             this.mainTableDataSource[mainTableIndex].batchesList[nestedTableIndex].selected_teacher = '-1';
             this.checkIfAnySelectedRowExist(this.mainTableDataSource[mainTableIndex], mainTableIndex);
-            this.messageToast('success', 'Deleted', 'Sucessfully deleted from the list.');
+            this.messageToast('success', '', 'Sucessfully deleted from the list.');
           },
           error => {
             this.auth.hideLoader();

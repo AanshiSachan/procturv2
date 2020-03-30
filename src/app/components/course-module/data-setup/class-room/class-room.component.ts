@@ -133,7 +133,7 @@ export class ClassRoomComponent {
       }
       this.ClassList.saveClassroomDetail(classRoomobj).subscribe(
         data => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, "Added", 'ClassRoom Added Successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", 'ClassRoom Added Successfully');
           this.getClassList();
           this.enterclassdata = "";
           this.enterclassdataDesc = "";
@@ -155,6 +155,13 @@ export class ClassRoomComponent {
     }
   }
 
+  cancelRow(row, index){
+    this.pagedclassRoomData[this.tempIndex] = this.tempObj;
+    console.log(this.pagedclassRoomData[this.tempIndex]);
+    document.getElementById(("row" + this.tempIndex).toString()).classList.remove('editComp');
+    document.getElementById(("row" + this.tempIndex).toString()).classList.add('displayComp');
+  }
+
   /*===================================saving classroom info========================
   ================================================================================= */
   saveclassRoomInfo(row, index) {
@@ -162,7 +169,6 @@ export class ClassRoomComponent {
       class_room_name: row.class_room_name,
       class_room_desc: row.class_room_desc,
       class_room_id: row.class_room_id,
-
     }
 
     for (var j = 0; j < this.classRoomData.length; j++) {
