@@ -241,7 +241,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           console.log(res);
           this.auth.hideLoader();
           sessionStorage.setItem('login-response',JSON.stringify(res));
-          this.zoom_enable = JSON.stringify(res.data.is_zoom_integration_enable)
+          if(res.data != null){
+            this.zoom_enable = JSON.stringify(res.data.is_zoom_integration_enable)
+          }
           this.checkForAuthOptions(res);
         },
         err => {
