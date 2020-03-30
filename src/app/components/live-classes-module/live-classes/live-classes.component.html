@@ -71,7 +71,7 @@
                 </div>
                 <div class="session_id">
                   <span>Session Id : {{class.session_id}}</span>
-                  <span style="color: #585574;">({{class.live_meeting_with}})</span>
+                  <span class="class-for-name">({{class.live_meeting_with}})</span>
                 </div>
               </div>
               <div class="notification_container" *ngIf="!liveClassFor">
@@ -83,7 +83,7 @@
                 </div> -->
                 <div class="questionInfo inline-relative">
                   <span class=" i-class">
-                    <button type="button" name="button" class="notification_btn" (click)="smsNotification(class.session_id)" *ngIf="!timeLeft(today, class.start_datetime)"
+                    <button type="button" name="button" class="notification_btn" (click)="smsNotification(class.session_id, class.live_meeting_with)" *ngIf="!timeLeft(today, class.start_datetime)"
                       [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                       Send SMS Notification
                       <i class="fa fa-commenting" aria-hidden="true"></i>
@@ -169,7 +169,7 @@
                   <span style="color: #9898a3;">Time : </span>
                   <span>{{class.startDateTime | date: 'shortTime'}} - {{class.endDateTime | date: 'shortTime'}}</span>
                 </span>
-                <span style="color: #585574;" *ngIf="class.live_meeting_with == 'ProcturLive'">
+                <span style="color: #585574;" *ngIf="class.live_meeting_with != 'Zoom'">
                   <span style="color: #9898a3;">Moderator : </span>
                   <span *ngIf="class.moderatorName != '' && class.moderatorName != null" title="{{class.moderatorName}}">
                     {{ (class.moderatorName?.length>15) ? (class.moderatorName | slice:0:15 ) + '...' : (class.moderatorName) }}
@@ -242,7 +242,7 @@
               </div>
               <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0">
                 &nbsp;&nbsp;
-                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0" *ngIf="class.live_meeting_with == 'ProcturLive'"
+                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0" *ngIf="class.live_meeting_with != 'Zoom'"
                   [ngClass]="{'disabledButton': class.download_links?.length==0}">
                   <!-- <i class="fa fa-repeat" aria-hidden="true" ></i> &nbsp; -->
                   View Recording

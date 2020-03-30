@@ -543,12 +543,14 @@ export class LiveClassesComponent implements OnInit {
     }
   }
 
-  smsNotification(id) {
-    let obj = {
-
-    }
+  smsNotification(id, meeting_wih) {
+    let obj = {}
     if (confirm("Are you sure you want to send SMS notification ? ")) {
-      const url = "/api/v1/meeting_manager/sendSMSNotification/" + id;
+      let zoom_enable = 0;
+      if(meeting_wih == "Zoom"){
+        zoom_enable = 1;
+      }
+      const url = "/api/v1/meeting_manager/sendSMSNotification/" + id+"?isZoomLiveClass="+zoom_enable;
       this._http.postData(url, obj).subscribe(
         (data: any) => {
           this.appC.popToast({ type: "success", body: "SMS notification sent successfully" })
