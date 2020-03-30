@@ -133,7 +133,7 @@ export class ClassRoomComponent {
       }
       this.ClassList.saveClassroomDetail(classRoomobj).subscribe(
         data => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", 'ClassRoom Added Successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", 'ClassRoom added successfully');
           this.getClassList();
           this.enterclassdata = "";
           this.enterclassdataDesc = "";
