@@ -465,7 +465,7 @@ export class AddClassComponent implements OnInit {
       }
 
       if (this.auto_recording) {
-        this.addOnlineClass.auto_recording = "true";
+        this.addOnlineClass.auto_recording = "local";
       }
       else if (!this.auto_recording) {
         this.addOnlineClass.auto_recording = "none";
