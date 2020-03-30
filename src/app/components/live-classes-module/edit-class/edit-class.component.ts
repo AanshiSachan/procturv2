@@ -946,7 +946,9 @@ export class EditClassComponent implements OnInit {
         document.getElementById('li-two').classList.add('active');
         this.isBasicActive = false;
         this.isOtherActive = true;
-        this.getBatchpreFillData();
+        if(this.batchesIds != null){
+          this.getBatchpreFillData();
+        }
         this.getStudentpreFillData();
       }
       else {
