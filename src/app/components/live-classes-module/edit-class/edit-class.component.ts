@@ -303,7 +303,7 @@ export class EditClassComponent implements OnInit {
         if(this.editData.auto_recording == "none"){
           this.auto_recording = false;
         }
-        else if(this.editData.auto_recording == "true"){
+        else if(this.editData.auto_recording == "local"){
           this.auto_recording = true;
         }
 
@@ -329,13 +329,15 @@ export class EditClassComponent implements OnInit {
         }
 
         this.batchesIds = this.editData.batch_list;
-        if(this.editData.course_list.length>0){
-        this.courseValue = this.editData.course_list[0].master_course_name;
+        if(this.editData.course_list != null && this.editData.course_list.length>0){
+          this.courseValue = this.editData.course_list[0].master_course_name;
         }
         this.getCourses(this.courseValue);
         this.courseIds = this.editData.course_list;
         this.getBatchesCourses();
-        this.getCoursepreFillData();
+        if(this.editData.course_list != null && this.editData.course_list.length>0){
+          this.getCoursepreFillData();
+        }
         this.getTeachers();
         if(!this.zoom_enable){
           this.getCustomUsers();
@@ -647,10 +649,38 @@ export class EditClassComponent implements OnInit {
       }
 
       if (this.auto_recording) {
-        this.updateOnlineClass.auto_recording = "true";
+        this.updateOnlineClass.auto_recording = "local";
       }
       else if (!this.auto_recording) {
         this.updateOnlineClass.auto_recording = "none";
+      }
+
+      if(this.editData.mute_upon_entry){
+        this.updateOnlineClass.mute_upon_entry = true;
+      }
+      else{
+        this.updateOnlineClass.mute_upon_entry = false;
+      }
+
+      if(this.editData.host_video){
+        this.updateOnlineClass.host_video = true;
+      }
+      else{
+        this.updateOnlineClass.host_video = false;
+      }
+
+      if(this.editData.participant_video){
+        this.updateOnlineClass.participant_video = true;
+      }
+      else{
+        this.updateOnlineClass.participant_video = false;
+      }
+
+      if(this.editData.join_before_host){
+        this.updateOnlineClass.join_before_host = true;
+      }
+      else{
+        this.updateOnlineClass.join_before_host = false;
       }
 
       this.updateOnlineClass.product_id = this.product_id;
