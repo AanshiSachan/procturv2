@@ -71,6 +71,7 @@
                 </div>
                 <div class="session_id">
                   <span>Session Id : {{class.session_id}}</span>
+                  <span style="color: #585574;">({{class.live_meeting_with}})</span>
                 </div>
               </div>
               <div class="notification_container" *ngIf="!liveClassFor">
@@ -168,7 +169,7 @@
                   <span style="color: #9898a3;">Time : </span>
                   <span>{{class.startDateTime | date: 'shortTime'}} - {{class.endDateTime | date: 'shortTime'}}</span>
                 </span>
-                <span style="color: #585574;">
+                <span style="color: #585574;" *ngIf="class.live_meeting_with == 'ProcturLive'">
                   <span style="color: #9898a3;">Moderator : </span>
                   <span *ngIf="class.moderatorName != '' && class.moderatorName != null" title="{{class.moderatorName}}">
                     {{ (class.moderatorName?.length>15) ? (class.moderatorName | slice:0:15 ) + '...' : (class.moderatorName) }}
@@ -241,7 +242,7 @@
               </div>
               <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0">
                 &nbsp;&nbsp;
-                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0"
+                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0" *ngIf="class.live_meeting_with == 'ProcturLive'"
                   [ngClass]="{'disabledButton': class.download_links?.length==0}">
                   <!-- <i class="fa fa-repeat" aria-hidden="true" ></i> &nbsp; -->
                   View Recording

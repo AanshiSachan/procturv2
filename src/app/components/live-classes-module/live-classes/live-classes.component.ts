@@ -132,6 +132,8 @@ export class LiveClassesComponent implements OnInit {
   proctur_live_view_or_download_visibility: any = 0;
   searchText: any = "";
 
+  is_zoom_integration_enable: boolean = true;
+  // zoom_enable: boolean = false;
 
   constructor(
     private auth: AuthenticatorService,
@@ -153,6 +155,12 @@ export class LiveClassesComponent implements OnInit {
         }
       }
     )
+
+    let zoom = sessionStorage.getItem('is_zoom_enable');
+    this.is_zoom_integration_enable = JSON.parse(zoom);
+    if(this.is_zoom_integration_enable){
+      // this.zoom_enable = true
+    }
 
     const userType = sessionStorage.getItem('userType');
     const userName = sessionStorage.getItem('userName');

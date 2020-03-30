@@ -98,9 +98,7 @@ export class AddClassComponent implements OnInit {
   // Zoom
   auto_recording: boolean = false;
   is_zoom_integration_enable: boolean = true;
-  zoom_integration_api_key: any;
   live_class_for: any = "1";
-  zoom_integration_secret_key: any;
   singleSelectionOfFaculty: boolean = false;
   zoom_enable: boolean = false;
 
