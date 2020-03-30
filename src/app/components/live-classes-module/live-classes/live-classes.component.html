@@ -132,7 +132,7 @@
                 </div>
                 <div class="questionInfo inline-relative">
                   <span class=" i-class">
-                    <button type="button" name="button" class="action_delete" (click)="cancel(class.session_id)" [disabled]="proctur_live_expiry_date_check"
+                    <button type="button" name="button" class="action_delete" (click)="cancel(class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check"
                       [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                       Cancel
                       <i class="fa fa-times" aria-hidden="true"></i>
