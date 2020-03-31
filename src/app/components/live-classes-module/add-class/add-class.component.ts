@@ -525,6 +525,7 @@ export class AddClassComponent implements OnInit {
     };
 
     this.topicName = "";
+    this.product_id = "";
     this.studentsId = [];
     this.facultyId = [];
     this.scheduledateFrom = moment().format('YYYY-MM-DD');
