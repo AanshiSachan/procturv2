@@ -65,7 +65,7 @@ export class ManageAssignmentComponent implements OnInit {
    title: "",
    description: "",
    tags: [],
-   marks: "1",
+   marks: false,
    mark: 0,
    lateSubmission : false,
    masterCourse: '-1',
@@ -89,7 +89,7 @@ export class ManageAssignmentComponent implements OnInit {
 
  addAttachment: boolean = false;
  showAttachments: boolean = true;
- showMarks: boolean = true;
+ showMarks: boolean = false;
 
  // File upload
  customFileArr: fileObj[] = [];
@@ -197,12 +197,12 @@ export class ManageAssignmentComponent implements OnInit {
     this.assignmentDetails.description = this.editAssignmentDetails.description;
 
     if(this.editAssignmentDetails.evaluation_required == "N"){
-      this.assignmentDetails.marks = "1";
-      this.showMarks = true;
+      this.assignmentDetails.marks = false;
+      this.showMarks = false;
     }
     else if(this.editAssignmentDetails.evaluation_required == "Y"){
-      this.assignmentDetails.marks = "0";
-      this.showMarks = false;
+      this.assignmentDetails.marks = true;
+      this.showMarks = true;
     }
 
     if(this.editAssignmentDetails.allow_assignment_late_submission == 'Y'){
@@ -791,12 +791,10 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   toggleMarks(){
-    if(this.assignmentDetails.marks == "0"){
-      this.assignmentDetails.marks = "1";
+    if(this.assignmentDetails.marks){
       this.showMarks = true;
     }
-    else if(this.assignmentDetails.marks == "1"){
-      this.assignmentDetails.marks = "0";
+    else{
       this.showMarks = false;
     }
 
