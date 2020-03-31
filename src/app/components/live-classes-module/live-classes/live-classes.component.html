@@ -225,7 +225,7 @@
 
                     <div class="questionInfo inline-relative">
                         <span class=" i-class">
-                            <button type="button" name="button" class="repeat_session" *ngIf="liveClassFor" [disabled]="proctur_live_expiry_date_check" (click)="repeatSession(class.session_id)"  [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                            <button type="button" name="button" class="repeat_session" *ngIf="liveClassFor" [disabled]="proctur_live_expiry_date_check" (click)="repeatSession(class.session_id, class.live_meeting_with)"  [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                                 <i class="fa fa-repeat" aria-hidden="true"></i>
                                 &nbsp;
                                 Repeat Class
