@@ -121,6 +121,7 @@ export class LiveClassesComponent implements OnInit {
   }
   alertBox: boolean = true;
   cancelSessionId: any;
+  cancelMeetingWith: any;
   sendSMSNotification: boolean = false;
   sendPushNotification: boolean = false;
   forUser: boolean = false;
@@ -132,6 +133,8 @@ export class LiveClassesComponent implements OnInit {
   proctur_live_view_or_download_visibility: any = 0;
   searchText: any = "";
 
+  is_zoom_integration_enable: boolean = true;
+  // zoom_enable: boolean = false;
 
   constructor(
     private auth: AuthenticatorService,
@@ -153,6 +156,12 @@ export class LiveClassesComponent implements OnInit {
         }
       }
     )
+
+    let zoom = sessionStorage.getItem('is_zoom_enable');
+    this.is_zoom_integration_enable = JSON.parse(zoom);
+    if(this.is_zoom_integration_enable){
+      // this.zoom_enable = true
+    }
 
     const userType = sessionStorage.getItem('userType');
     const userName = sessionStorage.getItem('userName');
@@ -230,8 +239,13 @@ export class LiveClassesComponent implements OnInit {
     }
   }
 
-  allowStartLiveCLass(link, session_id) {
-    const url = `/api/v1/meeting_manager/session/start/${this.institution_id}/${session_id}`;
+  allowStartLiveCLass(link, session_id, meeting_with) {
+    let zoom = sessionStorage.getItem('is_zoom_enable');
+    let zoom_enable = 0;
+    if(meeting_with == "Zoom"){
+      zoom_enable = 1;
+    }
+    const url = `/api/v1/meeting_manager/session/start/${this.institution_id}/${session_id}?isZoomLiveClass=${zoom_enable}`;
     this.auth.showLoader();
     this._http.getData(url).subscribe(
       (res: any) => {
@@ -331,12 +345,20 @@ export class LiveClassesComponent implements OnInit {
   }
 
 
-  editStudent(session_id) {
-    this.router.navigate(['/view/live-classes/edit/' + session_id], { queryParams: { repeat: 0 } });
+  editStudent(session_id, meeting_with) {
+    let zoom_enable = 0;
+    if(meeting_with == "Zoom"){
+      zoom_enable = 1;
+    }
+    this.router.navigate(['/view/live-classes/edit/' + session_id], { queryParams: { repeat: 0, isZoomLiveClass : zoom_enable} });
   }
 
-  repeatSession(session_id) {
-    this.router.navigate(['/view/live-classes/edit/' + session_id], { queryParams: { repeat: 1 } });
+  repeatSession(session_id, meeting_with) {
+    let zoom_enable = 0;
+    if(meeting_with == "Zoom"){
+      zoom_enable = 1;
+    }
+    this.router.navigate(['/view/live-classes/edit/' + session_id], { queryParams: { repeat: 1, isZoomLiveClass : zoom_enable } });
   }
 
   getClassesFor() {
@@ -523,12 +545,14 @@ export class LiveClassesComponent implements OnInit {
     }
   }
 
-  smsNotification(id) {
-    let obj = {
-
-    }
+  smsNotification(id, meeting_wih) {
+    let obj = {}
     if (confirm("Are you sure you want to send SMS notification ? ")) {
-      const url = "/api/v1/meeting_manager/sendSMSNotification/" + id;
+      let zoom_enable = 0;
+      if(meeting_wih == "Zoom"){
+        zoom_enable = 1;
+      }
+      const url = "/api/v1/meeting_manager/sendSMSNotification/" + id+"?isZoomLiveClass="+zoom_enable;
       this._http.postData(url, obj).subscribe(
         (data: any) => {
           this.appC.popToast({ type: "success", body: "SMS notification sent successfully" })
@@ -557,13 +581,18 @@ export class LiveClassesComponent implements OnInit {
     }
   }
 
-  cancel(id) {
+  cancel(id, live_meeting_with) {
     this.alertBox = false;
     this.cancelSessionId = id;
+    this.cancelMeetingWith = live_meeting_with;
   }
 
   cancelSession() {
-    let url = "/api/v1/meeting_manager/delete/" + sessionStorage.getItem('institution_id') + "/" + this.cancelSessionId;
+    let zoom_enable = 0;
+    if(this.cancelMeetingWith == "Zoom"){
+      zoom_enable = 1;
+    }
+    let url = "/api/v1/meeting_manager/delete/" + sessionStorage.getItem('institution_id') + "/" + this.cancelSessionId+"?isZoomLiveClass="+zoom_enable;
     this._http.deleteData(url, this.cancelSessionId).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: "Live class session cancelled successfully" })
@@ -752,7 +781,7 @@ export class LiveClassesComponent implements OnInit {
     var video = new window.VdoPlayer({
       otp: otpString,
       playbackInfo: playbackInfoString,
-      theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",// please never changes 
+      theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",// please never changes
       container: document.querySelector("#embedBox"),
     });
     this.videoObject = video;
@@ -767,7 +796,7 @@ export class LiveClassesComponent implements OnInit {
     this.showVideo = true;
     this.JsonVars.video_url = null;
     if (this.videoObject) {
-      this.videoObject.pause(); // removes video 
+      this.videoObject.pause(); // removes video
     }
   }
 

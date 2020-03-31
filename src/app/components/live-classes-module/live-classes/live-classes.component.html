@@ -71,6 +71,7 @@
                 </div>
                 <div class="session_id">
                   <span>Session Id : {{class.session_id}}</span>
+                  <span class="class-for-name">({{class.live_meeting_with}})</span>
                 </div>
               </div>
               <div class="notification_container" *ngIf="!liveClassFor">
@@ -82,7 +83,7 @@
                 </div> -->
                 <div class="questionInfo inline-relative">
                   <span class=" i-class">
-                    <button type="button" name="button" class="notification_btn" (click)="smsNotification(class.session_id)" *ngIf="!timeLeft(today, class.start_datetime)"
+                    <button type="button" name="button" class="notification_btn" (click)="smsNotification(class.session_id, class.live_meeting_with)" *ngIf="!timeLeft(today, class.start_datetime)"
                       [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                       Send SMS Notification
                       <i class="fa fa-commenting" aria-hidden="true"></i>
@@ -116,7 +117,7 @@
               <div class="action_container" *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)">
                 <div class="questionInfo inline-relative">
                   <span class=" i-class">
-                    <button type="button" name="button" class="action_edit" (click)="editStudent(class.session_id)" [disabled]="proctur_live_expiry_date_check"
+                    <button type="button" name="button" class="action_edit" (click)="editStudent(class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check"
                       [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                       Edit
                       <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -131,7 +132,7 @@
                 </div>
                 <div class="questionInfo inline-relative">
                   <span class=" i-class">
-                    <button type="button" name="button" class="action_delete" (click)="cancel(class.session_id)" [disabled]="proctur_live_expiry_date_check"
+                    <button type="button" name="button" class="action_delete" (click)="cancel(class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check"
                       [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                       Cancel
                       <i class="fa fa-times" aria-hidden="true"></i>
@@ -168,7 +169,7 @@
                   <span style="color: #9898a3;">Time : </span>
                   <span>{{class.startDateTime | date: 'shortTime'}} - {{class.endDateTime | date: 'shortTime'}}</span>
                 </span>
-                <span style="color: #585574;">
+                <span style="color: #585574;" *ngIf="class.live_meeting_with != 'Zoom'">
                   <span style="color: #9898a3;">Moderator : </span>
                   <span *ngIf="class.moderatorName != '' && class.moderatorName != null" title="{{class.moderatorName}}">
                     {{ (class.moderatorName?.length>15) ? (class.moderatorName | slice:0:15 ) + '...' : (class.moderatorName) }}
@@ -207,8 +208,8 @@
               </div>
               <div class="item_type_2">
                   <div class="questionInfo inline-relative">
-                      <span class=" i-class">  
-                          <button type="button" name="button" *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="allowStartLiveCLass(class.session_link, class.session_id)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                      <span class=" i-class">
+                          <button type="button" name="button"  *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                               <i class="fa fa-play" aria-hidden="true"></i>
                               &nbsp;
                               Start Class
@@ -216,15 +217,15 @@
                       </span>
                       <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
                           Your Proctur Live<br>
-                          subscription is over.<br> 
+                          subscription is over.<br>
                           Please pay quickly<br>
                           to continue using it.
                       </div>
-                    </div> 
-               
+                    </div>
+
                     <div class="questionInfo inline-relative">
-                        <span class=" i-class">  
-                            <button type="button" name="button" class="repeat_session" *ngIf="liveClassFor" [disabled]="proctur_live_expiry_date_check" (click)="repeatSession(class.session_id)"  [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                        <span class=" i-class">
+                            <button type="button" name="button" class="repeat_session" *ngIf="liveClassFor" [disabled]="proctur_live_expiry_date_check" (click)="repeatSession(class.session_id, class.live_meeting_with)"  [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                                 <i class="fa fa-repeat" aria-hidden="true"></i>
                                 &nbsp;
                                 Repeat Class
@@ -232,16 +233,16 @@
                         </span>
                         <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
                             Your Proctur Live<br>
-                            subscription is over.<br> 
+                            subscription is over.<br>
                             Please pay quickly<br>
                             to continue using it.
                         </div>
                     </div>
-            
+
               </div>
               <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0">
                 &nbsp;&nbsp;
-                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0"
+                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0" *ngIf="class.live_meeting_with != 'Zoom'"
                   [ngClass]="{'disabledButton': class.download_links?.length==0}">
                   <!-- <i class="fa fa-repeat" aria-hidden="true" ></i> &nbsp; -->
                   View Recording

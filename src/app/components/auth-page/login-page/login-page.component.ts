@@ -91,6 +91,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     userid: "",
     otp_validate_mode: 1
   }
+  // zoom
+  zoom_enable: any = false;
 
   constructor(
     private login: LoginService,
@@ -239,6 +241,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           console.log(res);
           this.auth.hideLoader();
           sessionStorage.setItem('login-response',JSON.stringify(res));
+          if(res.data != null){
+            this.zoom_enable = JSON.stringify(res.data.is_zoom_integration_enable)
+          }
           this.checkForAuthOptions(res);
         },
         err => {
@@ -373,7 +378,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.auth.makeInstituteType(institute_data.institute_type, institute_data.course_structure_flag);
       sessionStorage.setItem('user_permission', institute_data.user_permission);
       sessionStorage.setItem('institute_id', institute_data.institution_id);
-      sessionStorage.setItem('institution_id', institute_data.institution_id); //y 
+      sessionStorage.setItem('institution_id', institute_data.institution_id); //y
       sessionStorage.setItem('about_us_image', institute_data.about_us_image);
       sessionStorage.setItem('about_us_text', institute_data.about_us_text);
       sessionStorage.setItem('accountId', institute_data.accountId);
@@ -441,6 +446,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('enable_fee_template_country_wise', institute_data.enable_fee_template_country_wise);
       sessionStorage.setItem('tax_type_without_percentage', institute_data.tax_type);
       sessionStorage.setItem('tax_type_with_percentage', institute_data.tax_type + "(%)");
+      sessionStorage.setItem('is_zoom_enable', this.zoom_enable)
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
