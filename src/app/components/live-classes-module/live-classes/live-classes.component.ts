@@ -350,13 +350,15 @@ export class LiveClassesComponent implements OnInit {
     if(meeting_with == "Zoom"){
       zoom_enable = 1;
     }
-    // this.router.navigate(['/view/live-classes/edit/' + session_id+"?isZoomLiveClass="+zoom_enable], { queryParams: { repeat: 0 } });
     this.router.navigate(['/view/live-classes/edit/' + session_id], { queryParams: { repeat: 0, isZoomLiveClass : zoom_enable} });
-
   }
 
-  repeatSession(session_id) {
-    this.router.navigate(['/view/live-classes/edit/' + session_id], { queryParams: { repeat: 1 } });
+  repeatSession(session_id, meeting_with) {
+    let zoom_enable = 0;
+    if(meeting_with == "Zoom"){
+      zoom_enable = 1;
+    }
+    this.router.navigate(['/view/live-classes/edit/' + session_id], { queryParams: { repeat: 1, isZoomLiveClass : zoom_enable } });
   }
 
   getClassesFor() {
