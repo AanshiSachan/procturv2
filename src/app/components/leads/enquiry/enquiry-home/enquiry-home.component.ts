@@ -339,6 +339,9 @@ export class EnquiryHomeComponent implements OnInit {
       admissions: false,
       fees: false
     }
+    // pre fill data flag
+    preFill: boolean = false;
+
 
     /*Declaration Fin*/
     constructor(
@@ -404,7 +407,7 @@ export class EnquiryHomeComponent implements OnInit {
         }
 
         this.isEnquiryAdministrator();
-        this.FetchEnquiryPrefilledData();
+        // this.FetchEnquiryPrefilledData();
         //this.prefill.getLeadSource().subscribe( (data)=>{ console.log(data)})
         /* Fetch prefill data after table data load completes */
 
@@ -453,7 +456,7 @@ export class EnquiryHomeComponent implements OnInit {
             }
         });
         sessionStorage.setItem('varJson.displayBatchSize', this.varJson.displayBatchSize.toString());
-        this.checkMultiBranchStatus();
+        // this.checkMultiBranchStatus();
 
         // Customizable Table
         this.tableSetting.keys = this.enquirySettings;
@@ -494,9 +497,11 @@ export class EnquiryHomeComponent implements OnInit {
 
     // get custome filter component details if is_searchable is applicable --laxmi
     getSearchableCustomeComponents(array){
+<<<<<<< HEAD
 
+=======
+>>>>>>> v3EnquiryImp
         this.filterCustomComponent = array.filter((object)=>object.is_searchable=='Y');
-        console.log(this.filterCustomComponent);
     }
 
     timeChanges(ev) {
@@ -589,71 +594,131 @@ export class EnquiryHomeComponent implements OnInit {
     }
     /* Function to fetch prefill data for advanced filter */
     FetchEnquiryPrefilledData() {
-        /* Status */
-        this.prefill.getEnqStatus().subscribe(data => { this.enqstatus = data; });
-
+      this.auth.showLoader();
+      /* Status */
+      const getEnqStatus = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getEnqStatus().subscribe(data => { this.enqstatus = data;  resolve()});
+        })
+      }
         /* Campaigns */
-        this.prefill.getCampaignsList().subscribe((data: any) => { this.campaignList = data; });
+      const getCampaignsList = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getCampaignsList().subscribe((data: any) => { this.campaignList = data; resolve()});
+        })
+      }
+      /* Priority */
+      const getEnqPriority = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getEnqPriority().subscribe(data => { this.enqPriority = data; resolve()});
+        })
+      }
+      /* FollowUp Type */
+      const getFollowupType = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getFollowupType().subscribe(data => { this.enqFollowType = data; resolve()});
+        })
+      }
+      /* Assign To */
+      const getAssignTo = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getAssignTo().subscribe(data => { this.enqAssignTo = data; resolve()});
+        })
+      }
+      /* Sources */
+      const getLeadSource = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getLeadSource().subscribe(data => { this.sources = data; resolve() });
+        })
+      }
+      /* Schools */
+      const getSchoolDetails = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getSchoolDetails().subscribe(data => { this.schools = data; resolve() });
+        })
+      }
+      /* Standard */
+      const getEnqStardards = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getEnqStardards().subscribe(data => { this.enqStd = data; resolve()});
+        })
+      }
+      /* Slots */
+      const getEnquirySlots = () => {
+        return new Promise((resolve, reject) => {
+          if (this.flagJSON.isProfessional) {
+             this.prefill.getEnquirySlots().subscribe((res: any) => { res.forEach(el => {
+               let obj = { label: el.slot_name, value: el, status: false };
+                this.slots.push(obj);
+               });
+             })
+          }
+          resolve();
+        })
+      }
+      /* Payment Modes */
+      const fetchPaymentModes = () => {
+        return new Promise((resolve, reject) => {
+            this.prefill.fetchPaymentModes().subscribe((data: any) => { this.paymentMode = data; resolve() });
+        })
+      }
+      // City Area Fetch //
+      const getCityList = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getCityList().subscribe(res => { this.cityList = res; resolve()});
+        })
+      }
+      // Closing Reason //
+      const getClosingReasons = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getClosingReasons().subscribe(res => { this.closingReasonDataSource = res; resolve()})
+        })
+      }
 
-        /* Priority */
-        let priority = this.prefill.getEnqPriority().subscribe(data => { this.enqPriority = data; });
+      const promises = [];
+      let arr = [getEnqStatus(),getCampaignsList(),getEnqPriority(),getFollowupType(), getAssignTo(), getLeadSource(), getSchoolDetails(), getEnqStardards(), getEnquirySlots(), fetchPaymentModes(), getCityList(), getClosingReasons() ];
 
-        /* FollowUp Type */
-        this.prefill.getFollowupType().subscribe(data => { this.enqFollowType = data });
+      for(let i = 0; i < arr.length; i++ ){
+         promises.push(arr[i]);
+      }
 
-        /* Assign To */
-        this.prefill.getAssignTo().subscribe(data => { this.enqAssignTo = data; });
 
-        /* Sources */
-        this.prefill.getLeadSource().subscribe(data => { this.sources = data });
-
-        /* Schools */
-        this.prefill.getSchoolDetails().subscribe(data => { this.schools = data });
-
-        /* Standard */
-        this.prefill.getEnqStardards().subscribe(data => { this.enqStd = data; });
-
-        /* Slots */
-        if (this.flagJSON.isProfessional) { this.prefill.getEnquirySlots().subscribe((res: any) => { res.forEach(el => { let obj = { label: el.slot_name, value: el, status: false }; this.slots.push(obj); }); }) }
-
-        /* Payment Modes */
-        this.prefill.fetchPaymentModes().subscribe((data: any) => { this.paymentMode = data; });
+      Promise.all(promises)
+      .then(response => {
 
         /* Custom Components */
         this.fetchCustomComponentData();
 
         /* Master Course / Standard */
-        if (!this.flagJSON.isProfessional) { this.fetchMasterCourseDetails(); };
-
-        // City Area Fetch //
-
-        this.prefill.getCityList().subscribe(res => { this.cityList = res; });
-
-        // Closing Reason //
-
-        this.prefill.getClosingReasons().subscribe(res => { this.closingReasonDataSource = res; })
+        if (!this.flagJSON.isProfessional) { this.prefill.getMasterCourseData().subscribe((res: any) => { this.masterCourseData = res; }) };
 
         //  Referred By //
-
         this.fetchReferredByData();
+
+        this.checkMultiBranchStatus();
+
+        this.preFill = true;
+        this.auth.hideLoader()
+      })
+
     }
 
     fetchReferredByData() {
         let url = '/api/v1/enquiry_campaign/master/lead_referred_by/' + sessionStorage.getItem('institute_id') + '/all'
+        // this.auth.showLoader();
         this.httpService.getData(url).subscribe(
             (res: any) => {
-                this.referredByData = res;
+              // this.auth.hideLoader();
+              this.referredByData = res;
             },
             err => {
-                console.log(err);
+              this.auth.hideLoader();
+              console.log(err);
             }
         )
 
     }
 
-    fetchMasterCourseDetails() {
-        this.prefill.getMasterCourseData().subscribe((res: any) => { this.masterCourseData = res; });
-    }
 
     fetchCustomComponentData() {
         this.customComponents = [];
@@ -794,6 +859,9 @@ export class EnquiryHomeComponent implements OnInit {
         //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter')
         //console.log(this.advancedFilterForm);
         //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
+        if(!this.preFill){
+          this.FetchEnquiryPrefilledData();
+        }
         this.closeEnquiryFullDetails();
         this.flagJSON.isSideBar = false;
         let classArray = ['adFilterOpen', 'adFilterExitVisible', 'qfilt', 'customizableTableSection'];
@@ -1582,6 +1650,9 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Bulk Assign popup open */
     bulkAssignEnquiriesOpen() {
+      if(!this.preFill){
+        this.FetchEnquiryPrefilledData();
+      }
         this.cd.markForCheck();
         /* If Admin */
         if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == '') {
@@ -2277,6 +2348,9 @@ export class EnquiryHomeComponent implements OnInit {
                 this.cd.markForCheck();
                 if (res != null) {
                     this.customCompid = res;
+                }
+                if(!this.preFill){
+                  this.FetchEnquiryPrefilledData();
                 }
                 this.flagJSON.isSideBar = true;
             },
