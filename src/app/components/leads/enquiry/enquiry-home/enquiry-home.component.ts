@@ -497,10 +497,6 @@ export class EnquiryHomeComponent implements OnInit {
 
     // get custome filter component details if is_searchable is applicable --laxmi
     getSearchableCustomeComponents(array){
-<<<<<<< HEAD
-
-=======
->>>>>>> v3EnquiryImp
         this.filterCustomComponent = array.filter((object)=>object.is_searchable=='Y');
     }
 
