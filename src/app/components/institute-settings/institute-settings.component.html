@@ -54,6 +54,12 @@
             <i class="fas fa-random" style="font-family: FontAwesome"></i>
           </span>
         </li>
+        <li id="liAccess" class="menu-item" style="cursor: pointer" (click)="changeView('liAccess','divAccessControl')" *ngIf="enable_ip_lock_feature=='Y'">
+          <span>
+            <a class="">Access Control</a>
+            <i class="fas fa-random" style="font-family: FontAwesome"></i>
+          </span>
+        </li>
       </ul>
     </aside>
 
@@ -1603,13 +1609,13 @@
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field lg">
-  
+
                                     Specify Contact Numbers
                                     <br>here to be displayed
                                     <br> on Fee Receipts
                                   </div>
                                 </div>
-  
+
                               </label> -->
                               <p>Multiple number's separated by comma's</p>
                               <input type="text" [(ngModel)]="instituteSettingDet.exam_attendance_not_marked_notification_contact_number" class="form-ctrl"
@@ -1672,7 +1678,7 @@
                                 <br> to mark exam attendance,
                                 <br> reminder will be sent after
                                 <br> 2 hours of class completion to
-                                <br> respective faculty to mark 
+                                <br> respective faculty to mark
                                 <br> attendance
                               </div>
                             </div> -->
@@ -1758,7 +1764,7 @@
                               <br> to mark class attendance,
                               <br> reminder will be sent after
                               <br> 2 hours of class completion to
-                              <br> respective faculty to mark 
+                              <br> respective faculty to mark
                               <br> attendance
                             </div>
                           </div> -->
@@ -2196,7 +2202,7 @@
                               </label>
                             </div>
                           </div>
-                          
+
                       </td>
                     </tr>
                     <tr>
@@ -2433,6 +2439,23 @@
                                 </div>
                               </label>
                               <input type="text" [(ngModel)]="instituteSettingDet.emailids_for_report" class="form-ctrl" name="daily_account_summary" id="dailyConatctID">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row m-0 webkitBox" *ngIf="instituteSettingDet.daily_account_summary == '1' || instituteSettingDet.daily_account_summary == true">
+                          <div class="c-lg-12" style="padding-left: 0px;">
+                            <span style="margin-right: 15px;">Summary Report for</span>
+                            <div class="field-checkbox-wrapper" style="width: 10%;">
+                              <input type="checkbox" value="" name="slotLabel" [(ngModel)]="reportFor.enquiry" class="form-checkbox" id="enq-download">
+                              <label for="enq-download">Enquiry</label>
+                            </div>
+                            <div class="field-checkbox-wrapper" style="width: 10%;">
+                              <input type="checkbox" value="" name="slotLabel" [(ngModel)]="reportFor.admissions" class="form-checkbox" id="enq-admissions">
+                              <label for="enq-admissions">Admissions</label>
+                            </div>
+                            <div class="field-checkbox-wrapper" style="width: 10%;">
+                              <input type="checkbox" value="" name="slotLabel" [(ngModel)]="reportFor.fees" class="form-checkbox" id="enq-fees">
+                              <label for="enq-fees">Fees</label>
                             </div>
                           </div>
                         </div>
@@ -3229,6 +3252,115 @@
         </div>
       </section>
 
+      <section id="divAccessControl" class="fee-content-wrapper sectionDevideContainer" *ngIf="enable_ip_lock_feature=='Y'">
+        <div class="row m-0">
+          <div class="fee-table-wrapper">
+            <div class="table-scroll-wrapper">
+              <div class="table table-responsive">
+                <table>
+                  <tbody>
+                    <tr style="height: 45px; background-color: #efefef">
+                      <td class="tableHeader" colspan="6">
+                        ACCOUNT ACCESS CONTROL SETTING (IP BASED)
+                        <span style="float: right;">Current IP Address : {{ipAddress}}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row m-0 webkitBox">
+                          <div class="c-sm-3 c-md-3 c-lg-3" style="text-align: left;">
+                            <div class="field-wrapper" style="margin:0">
+                              <label for="IPJson.ip_address">IP Address</label>
+                              <input type="text" [(ngModel)]="IPJson.ip_address" class="form-ctrl" id="IPJson.ip_address">
+                            </div>
+                          </div>
+                          <div class="c-sm-3 c-md-3 c-lg-3" style="text-align: left;">
+                            <div class="field-wrapper" style="margin:0">
+                              <label for="IPJson.floor_details">Floor Details</label>
+                              <input type="text" [(ngModel)]="IPJson.floor_details" class="form-ctrl" id="IPJson.floor_details">
+                            </div>
+                          </div>
+                          <div class="c-sm-3 c-md-3 c-lg-3" style="text-align: left;">
+                            <div class="field-wrapper" style="margin:0">
+                              <label for="IPJson.description">Description</label>
+                              <input type="text" [(ngModel)]="IPJson.description" class="form-ctrl" id="IPJson.description">
+                            </div>
+                          </div>
+                          <div class="c-sm-2 c-sm-3 c-lg-2" style="margin:0">
+                           <div (click)="saveIPDetails()" class="addIP" style="margin-top: 25px;">Add</div> 
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div style="min-height: 15vh;max-height: 15vh;overflow-y: auto;">
+                        <div class="row webkitBox m-0 tableDataContainer displayComp" id="data{{i}}" *ngFor="let data of IPDetails;let i = index">
+                          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
+                            <span class="view-comp">{{data.ip_address}}</span>
+                            <span class="edit-comp">
+                              <div class="field-wrapper" style="margin:0;padding: 0;">
+                                <input type="text" [(ngModel)]="data.ip_address" class="form-ctrl" id="data.ip_address">
+                              </div>
+                            </span>
+                          </div>
+                          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
+                            <span class="view-comp">{{(data.floor_details == null) ? '-' : data.floor_details}}</span>
+                            <span class="edit-comp">
+                              <div class="field-wrapper" style="margin:0;padding: 0;">
+                                <input type="text" [(ngModel)]="data.floor_details" class="form-ctrl" id="data.floor_details">
+                              </div>
+                            </span>
+                          </div>
+                          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
+                            <span class="view-comp">{{(data.description == null) ? '-' : data.description}}</span>
+                            <span class="edit-comp">
+                              <div class="field-wrapper" style="margin:0;padding: 0;">
+                                <input type="text" [(ngModel)]="data.description" class="form-ctrl" id="data.description">
+                              </div>
+                            </span>
+                          </div>
+                          <div class="c-sm-2 c-md-2 c-lg-2 tableValueContainer" style="width: 15%;">
+                            <span class="view-comp">{{data.is_active == 'Y' ? 'Active' : 'InActive'}}</span>
+                            <span class="edit-comp">
+                              <div class="field-wrapper" style="margin:0;padding: 0;">
+                                <select [(ngModel)]="data.is_active" class="form-ctrl">
+                                  <option value="Y">Active</option>
+                                  <option value="N">InActive</option>
+                                </select>
+                              </div>
+                            </span>
+                          </div>
+                          <div class="tableValueContainer" style="width: 6%;">
+                            <span class="view-comp">
+                              <span title="Edit" class="fa fa-edit" (click)="editIP(i)" style="color: #0084f6;"></span>
+                            </span>
+                            <span class="edit-comp">
+                              <span (click)="updateIp(data)">Update</span>
+                            </span>
+                          </div>
+                          <div class="tableValueContainer" style="width: 5%;">
+                            <span class="view-comp">
+                              <span title="Delete" class="fa fa-trash" (click)="deleteIp(data.id)" style="color: red;"></span>
+                            </span>
+                            <span class="edit-comp">
+                              <span (click)="cancelRow(i)">Cancel</span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    
+
+      
     </aside>
 
 

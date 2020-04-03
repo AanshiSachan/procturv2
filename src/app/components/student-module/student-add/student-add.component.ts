@@ -764,6 +764,7 @@ export class StudentAddComponent implements OnInit {
   }
 
   fetchCustomComponents() {
+    this.customComponents = [];
     this.auth.showLoader();
     this.studentPrefillService.fetchCustomComponentById(0, this.convertInstituteEnquiryId, 2).subscribe(
       data => {
@@ -1241,7 +1242,7 @@ export class StudentAddComponent implements OnInit {
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
-      let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/;
+      let email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;
       if (this.studentAddFormData.student_email != "") {
         if (!email.test(this.studentAddFormData.student_email)) {
           this.msgToast.showErrorMessage('error', '', "Please enter valid email id");

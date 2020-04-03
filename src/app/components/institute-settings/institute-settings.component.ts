@@ -4,6 +4,7 @@ import { AuthenticatorService } from '../../services/authenticator.service';
 import { CommonServiceFactory } from '../../services/common-service';
 import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting.service';
 import { MessageShowService } from '../../services/message-show.service';
+import { HttpService } from '../../services/http.service';
 @Component({
   selector: 'app-institute-settings',
   templateUrl: './institute-settings.component.html',
@@ -315,7 +316,7 @@ export class InstituteSettingsComponent implements OnInit {
     course_or_batch_expiry_notification: '',
     course_or_batch_expiry_notification_before_no_days: '',
     course_or_batch_expiry_notification_contact_no: '',
-    //student expiry notifctn 
+    //student expiry notifctn
     enable_student_expiry_notification: '',
     student_expiry_notification_before_no_days: '',
     student_expiry_notification_contact_no: '',
@@ -335,26 +336,41 @@ export class InstituteSettingsComponent implements OnInit {
     exam_attendance_not_marked_daily_notification_contact_number: '',
     exam_marks_not_update_notification_contact_number: '',
     vat_percentage:'',
-    enable_send__website_url_in_student_credentail: ''
-
+    enable_send__website_url_in_student_credentail: '',
+    summaryReportDownloadOptions: ''
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
   instituteName: any = '';
   biometricSetting: number = 0;
-  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport'];
-  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent'];
+  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport', 'liAccess'];
+  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent', 'divAccessControl'];
+
+  IPJson: any = {
+    'institute_id': sessionStorage.getItem('institute_id'),
+    'ip_address': '',
+    'floor_details': null,
+    'description': null
+  };
+  enable_ip_lock_feature: any= '';
+  IPDetails: any[] = [];
+  ipAddress: any = '';
 
   // Library Role
   libraryRole: boolean = false;
   instituteId: any;
   instituteTaxType : String;
-
+  reportFor = {
+    enquiry: false,
+    admissions: false,
+    fees: false,
+  };
   constructor(
     private apiService: InstituteSettingService,
     private auth: AuthenticatorService,
     private commonService: CommonServiceFactory,
-    private msgSrvc: MessageShowService
+    private msgSrvc: MessageShowService,
+    private httpService: HttpService
   ) {
     this.commonService.removeSelectionFromSideNav();
   }
@@ -365,10 +381,14 @@ export class InstituteSettingsComponent implements OnInit {
     this.onlinePayment = sessionStorage.getItem('enable_online_payment_feature');
     this.biometricSetting = Number(sessionStorage.getItem('biometric_attendance_feature'));
     this.instituteTaxType=sessionStorage.getItem("tax_type_without_percentage")=='Vat'?'Vat':'GST';
+    this.enable_ip_lock_feature = sessionStorage.getItem('enable_ip_lock_feature');
+    console.log(this.enable_ip_lock_feature);
 
     this.checkInstitutionType();
     this.getSettingFromServer();
     this.libraryRoleSetting();
+    this.getIPAllDetails();
+    this.getIP();
   }
 
   libraryRoleSetting() {
@@ -423,7 +443,7 @@ export class InstituteSettingsComponent implements OnInit {
         return;
       }
     }
-    dataToSend = this.constructJsonToSend();    
+    dataToSend = this.constructJsonToSend();
     if (dataToSend) {
       this.auth.showLoader();
       this.apiService.saveSettingsToServer(dataToSend).subscribe(
@@ -558,7 +578,7 @@ export class InstituteSettingsComponent implements OnInit {
       }
     }
 
-    
+
     obj.first_sms_low_balance_threshold = this.instituteSettingDet.first_sms_low_balance_threshold != null && this.instituteSettingDet.first_sms_low_balance_threshold != '' && this.instituteSettingDet.first_sms_low_balance_threshold != 0 ? this.instituteSettingDet.first_sms_low_balance_threshold : 0;
     obj.second_sms_low_balance_threshold = this.instituteSettingDet.second_sms_low_balance_threshold != null && this.instituteSettingDet.second_sms_low_balance_threshold != '' && this.instituteSettingDet.second_sms_low_balance_threshold != 0 ? this.instituteSettingDet.second_sms_low_balance_threshold : 0;
     obj.sms_low_balance_alert_contact_number = this.instituteSettingDet.sms_low_balance_alert_contact_number != '' && this.instituteSettingDet.sms_low_balance_alert_contact_number != null ? this.instituteSettingDet.sms_low_balance_alert_contact_number : null;
@@ -585,6 +605,9 @@ export class InstituteSettingsComponent implements OnInit {
     //   return;
     // }
     obj.daily_account_summary = this.convertBoolenToNumber(this.instituteSettingDet.daily_account_summary);
+    if(this.instituteSettingDet.daily_account_summary || this.instituteSettingDet.daily_account_summary == '1'){
+      obj.summaryReportDownloadOptions = this.getSumOfTableFieldForReport(this.reportFor);
+    }
     obj.teacher_monthly_report = this.convertBoolenToNumber(this.instituteSettingDet.teacher_monthly_report);
     obj.allow_simple_registration = this.convertBoolenToNumber(this.instituteSettingDet.allow_simple_registration);
     obj.enable_online_payment_email_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_email_notification);
@@ -768,6 +791,10 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.allow_simple_registration = data.allow_simple_registration;
     this.instituteSettingDet.virtual_host_url = data.virtual_host_url;
     this.instituteSettingDet.daily_account_summary = data.daily_account_summary;
+    if(data.daily_account_summary || data.daily_account_summary == '1'){
+      // this.instituteSettingDet.summaryReportDownloadOptions =  data.summaryReportDownloadOptions;
+      this.fillSummaryReport(data.summaryReportDownloadOptions)
+    }
     this.instituteSettingDet.teacher_monthly_report = data.teacher_monthly_report;
     this.instituteSettingDet.emailids_for_report = data.emailids_for_report;
     this.instituteSettingDet.emailid_for_teacher_report = data.emailid_for_teacher_report;
@@ -920,6 +947,50 @@ export class InstituteSettingsComponent implements OnInit {
     return total;
   }
 
+  getSumOfTableFieldForReport(data){
+    let total: number = 0;
+    for (let i = 0; i < Object.keys(data).length; i++) {
+      if (Object.keys(data)[i] == 'enquiry' && data.enquiry == true) {
+        total = total + 8;
+      }
+       else if (Object.keys(data)[i] == 'admissions' && data.admissions == true) {
+        total = total + 2;
+      }
+       else if (Object.keys(data)[i] == 'fees' && data.fees == true) {
+        total = total + 4;
+      }
+    }
+    return total;
+  }
+  fillSummaryReport(key){
+    // this.instituteSettingDet.summaryReportDownloadOptions
+    if (key == 8) { //student
+      this.reportFor.enquiry = true;
+    }
+    else if (key == 2) { //student
+      this.reportFor.admissions = true;
+    }
+    else if (key == 4) { //student
+      this.reportFor.fees = true;
+    }
+    else if (key == 10) { //others
+      this.reportFor.enquiry = true;
+      this.reportFor.admissions = true;
+    }
+    else if (key == 6) { //both
+      this.reportFor.admissions = true;
+      this.reportFor.fees = true;
+    }
+    else if (key == 12) { //both
+      this.reportFor.enquiry = true;
+      this.reportFor.fees = true;
+    }
+    else if (key == 16) { //both
+      this.reportFor.enquiry = true;
+      this.reportFor.fees = true;
+      this.reportFor.admissions = true;
+    }
+  }
   enableRankSpecifier() {
     let data = document.getElementById('enableRank').checked;
     if (data) {
@@ -1034,5 +1105,109 @@ export class InstituteSettingsComponent implements OnInit {
      data.cgst=Math.floor(this.instituteSettingDet.vat_percentage/2);
      data.sgst=this.instituteSettingDet.vat_percentage-data.cgst;
     }
+  }
+
+    saveIPDetails() {
+      if (this.validateIp()) {
+      this.auth.showLoader();
+      this.httpService.postData('/api/v2/ipAddress/create', this.IPJson).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('success', '', res.message);
+          this.getIPAllDetails();
+          this.IPJson = {
+            ip_address : '',
+            floor_details: '',
+            description: '',
+            'institute_id': sessionStorage.getItem('institute_id'),
+          };
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('error', '', err.error.message);
+        }
+      );
+      } else {
+        this.msgSrvc.showErrorMessage('info', '', 'Please enter valid IP Address');
+      }
     }
+
+    validateIp() {
+      const regExPattern = /^[0-9]+(.[0-9]+)*$/;
+      if ((this.IPJson.ip_address.trim() == '') || !(regExPattern.test(this.IPJson.ip_address.trim()))) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    getIPAllDetails() {
+      this.auth.showLoader();
+      this.httpService.getData('/api/v2/ipAddress/getAll/' + sessionStorage.getItem('institute_id')).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.IPDetails = res.result;
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('error', '', err.error.message);
+        }
+      );
+    }
+
+    updateIp(obj) {
+      console.log(obj);
+      this.auth.showLoader();
+      this.httpService.putData('/api/v2/ipAddress/update', obj).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('success', '', res.message);
+          this.getIPAllDetails();
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('error', '', err.error.message);
+        }
+      );
+    }
+
+    deleteIp(id) {
+      if(confirm('Do you really want to delete?')) {
+      this.auth.showLoader();
+      this.httpService.deleteData('/api/v2/ipAddress/delete/' + sessionStorage.getItem('institute_id') + '/' + id, '').subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('success', '', res.message);
+          this.getIPAllDetails();
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgSrvc.showErrorMessage('error', '', err.error.message);
+        }
+      );
+      }
+    }
+
+    editIP(id) {
+      if (document.getElementById(("data" + id).toString()).classList) {
+      document.getElementById(("data" + id).toString()).classList.remove('displayComp');
+      document.getElementById(("data" + id).toString()).classList.add('editComp');
+      }
+    }
+
+    cancelRow(id) {
+      if (document.getElementById(("data" + id).toString()).classList) {
+      document.getElementById(("data" + id).toString()).classList.remove('editComp');
+      document.getElementById(("data" + id).toString()).classList.add('displayComp');
+      }
+      this.getIPAllDetails();
+    }
+
+    getIP() {
+    this.apiService.getIPAddress().subscribe(
+      (res: any) => {
+      this.ipAddress = res.ip;
+    });
+  }
+
 }

@@ -2,20 +2,20 @@
 
   <section class="middle-top mb0 clearFix" style="padding-bottom:0px;">
     <h1 class="pull-left marginhead">
-        <div class="header-title">        
+        <div class="header-title">
             <h2>
                 <a routerLink="/view/{{type}}" style="color: #0084f6;">
                   {{ type | titlecase }}
                 </a>
-                <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i> 
+                <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i>
                 <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
                   Data Setup
                 </a>
                 <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i>Classroom
             </h2>
-          </div> 
+          </div>
     </h1>
-   
+
   </section>
 
   <section class="middle-main clearFix">
@@ -30,11 +30,11 @@
           <div class="search-filter-wrapper">
             <input #search type="textbox" class="normal-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
           </div>
-        </div> 
-    
+        </div>
+
     </div>
-  
-    
+
+
     <section class="clearFix create-standard-form" *ngIf="CreateNewList">
       <form action="">
         <div class="row ">
@@ -81,44 +81,45 @@
                     </th>
                   </tr>
                 </thead>
-  
+
                 <tbody *ngIf="classRoomData.length !=0">
-  
+
                   <tr id="row{{i}}" class="displayComp" *ngFor="let row of pagedclassRoomData; let i = index; trackBy: i;">
-  
+
                     <td>
                       {{i + 1}}
                     </td>
-    
+
                     <td class="view-comp">
                       {{row.class_room_name}}
                     </td>
-  
+
                     <td class="edit-comp">
                       <div class="field-wrapper">
                         <textarea id="" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" style="overflow: hidden;" name="label" cols="1" rows="1"></textarea>
                         <!-- <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" name="label"> -->
                       </div>
                     </td>
-    
+
                     <td class="view-comp">
                       {{row.class_room_desc}}
                     </td>
-    
+
                     <td class="edit-comp">
                       <div class="field-wrapper">
                         <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_desc" style="overflow: hidden;"  name="label">
                       </div>
                     </td>
-    
+
                     <td class="view-comp">
                       <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
                     </td>
-  
+
                     <td class="edit-comp">
+                      <a class="anchorTagCursor" (click)="cancelRow(row , j)" style="margin-right: 5x;color:red;">Cancel</a>
                       <a class="anchorTagCursor" (click)="saveclassRoomInfo(row , i)">Update</a>
                     </td>
-    
+
                   </tr>
                 </tbody>
                 <tbody *ngIf="classRoomData.length ==0">
@@ -130,7 +131,7 @@
             </div>
           </div>
         </div>
-    
+
         <!-- Paginator Here -->
         <div class="row filter-res pagination" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
@@ -141,5 +142,3 @@
         </div>
       </section>
     </div>
-      
-  

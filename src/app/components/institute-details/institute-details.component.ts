@@ -124,7 +124,7 @@ export class InstituteDetailsComponent implements OnInit {
       this.apiService.updateDetailsToServer(dataToSend).subscribe(
         res => {
           this.auth.hideLoader();
-          this.commonService.showErrorMessage('success', 'Updated Successfully', 'Details Updated Successfully');
+          this.commonService.showErrorMessage('success', '', 'Details updated successfully');
         },
         err => {
           this.auth.hideLoader();
@@ -232,6 +232,11 @@ export class InstituteDetailsComponent implements OnInit {
     obj.institute_footer = this.instDetails.institute_footer;
     obj.fb_page_url = this.instDetails.fb_page_url;
     obj.website_url = this.instDetails.website_url;
+    obj.youtube_url = this.instDetails.youtube_url;
+    obj.whatsapp_url = this.instDetails.whatsapp_url;
+    obj.instagram_url = this.instDetails.instagram_url;
+    obj.linkedin_url = this.instDetails.linkedin_url;
+    obj.qna_doubt_url = this.instDetails.qna_doubt_url;
     obj.institute_short_code = this.instDetails.institute_short_code;
     obj.tag_line = this.instDetails.tag_line;
     obj.about_us_text = this.instDetails.about_us_text;
@@ -363,7 +368,7 @@ export class InstituteDetailsComponent implements OnInit {
 
   validateCaseSensitiveEmail(email) {
     if (email != '' && email != null) {
-      var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+      var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;
       if (reg.test(email)) {
         return true;
       }

@@ -447,6 +447,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('tax_type_without_percentage', institute_data.tax_type);
       sessionStorage.setItem('tax_type_with_percentage', institute_data.tax_type + "(%)");
       sessionStorage.setItem('is_zoom_enable', this.zoom_enable)
+      sessionStorage.setItem('enable_ip_lock_feature', institute_data.enable_ip_lock_feature);
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
@@ -648,7 +649,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   alternateLoginOTPVerification() {
     //console.log("##### trying to Validate OTP #####");
     //console.log(this.otpVerificationInfo);
-    if (this.otpVerificationInfo.otp_code == null || this.otpVerificationInfo.otp_code == "") {
+    if (this.otpVerificationInfo.otp_code.trim() == null || this.otpVerificationInfo.otp_code.trim() == "") {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.opt.notFound.title, this.messages.loginMsg.opt.notFound.body);
     } else {
       this.login.validateOTPCode(this.otpVerificationInfo).subscribe((el: any) => {

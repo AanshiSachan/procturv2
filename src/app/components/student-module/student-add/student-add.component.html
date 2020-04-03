@@ -113,11 +113,11 @@
 
                     <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.student_email" name="sEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$"
                       #sEmail="ngModel" />
-                    <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
+                    <!-- <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="sEmail.errors.pattern" class="text-danger">
                         Enter email in format eg. someone@xyz.com
                       </div>
-                    </div>
+                    </div> -->
                   </div>
 
                   <div class="field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value': studentAddFormData.attendance_device_id != ''}">

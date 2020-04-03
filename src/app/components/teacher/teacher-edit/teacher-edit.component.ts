@@ -350,7 +350,7 @@ export class TeacherEditComponent implements OnInit {
 
   validateCaseSensitiveEmail(email) {
     if (email != "" && email != null) {
-      var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+      var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;
       if (reg.test(email)) {
         return true;
       }

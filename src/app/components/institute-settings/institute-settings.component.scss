@@ -745,3 +745,38 @@ tr {
     color: black !important;
     border: none !important;
 }
+.tableDataContainer{
+    display: flex;
+    flex-direction: row;
+    padding: 10px !important;
+    border-bottom: 1px solid #eee;
+}
+.tableValueContainer{
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.addIP{
+    margin-top: 25px;
+    width: 50px;
+    padding: 5px;
+    border: 1px solid #0084f6;
+    color: #0084f6;
+    border-radius: 4px;
+    text-align: center;    
+}
+
+.displayComp {
+    height: 0%;
+     .view-comp {}
+     .edit-comp {
+         display: none
+     }
+ }
+ .editComp {
+     .view-comp {
+         display: none
+     }
+     .edit-comp {}
+ }

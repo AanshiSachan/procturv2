@@ -7,6 +7,7 @@
           <div class="overlay" #overlay>
             <p *ngIf="!readonly">📷</p>
             <p *ngIf="!readonly">Change Picture</p>
+            <p *ngIf="studdentEdit && readonly && isImgAvailable" (click)="DownloadImage()"><i class="fa fa-download"></i></p>
           </div>
         </div>
       </a>
@@ -22,6 +23,9 @@
         </tr>
         <tr>
           <input type="button" (click)="removeImage()" class="btn" value="Delete Photo">
+        </tr>
+        <tr *ngIf="studdentEdit && isImgAvailable">
+          <input type="button" (click)="DownloadImage()" class="btn" value="Download Photo">
         </tr>
       </table>
     </div>
