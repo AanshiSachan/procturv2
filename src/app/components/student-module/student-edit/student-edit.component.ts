@@ -302,6 +302,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   cityList: any[] = [];
   areaList: any[] = [];
   addArea:boolean = false;
+  studdentEdit = true;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -1556,7 +1557,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       });
 
-      let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/;
+      let email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;;
       if (this.studentAddFormData.student_email != null && this.studentAddFormData.student_email != "") {
         if (!email.test(this.studentAddFormData.student_email)) {
           let alert = {

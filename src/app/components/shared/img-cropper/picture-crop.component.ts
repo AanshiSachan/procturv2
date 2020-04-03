@@ -31,6 +31,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
   @Input() isSidenav: boolean = false;
   @Input() defaultImg: string = 'assets/images/bluecamera.png';
   @Input() thumbnailAvailable: boolean = false;
+  @Input() studdentEdit: boolean = false;
 
   @Output() getImage = new EventEmitter<boolean>();
   @Output() setImage = new EventEmitter<any>();
@@ -44,6 +45,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
   isCanvas: boolean = false;
   isSnap: boolean = false;
   isCrop: boolean = false;
+  isImgAvailable: boolean = false;
 
   constructor(private renderer: Renderer2, private eRef: ElementRef) { }
 
@@ -74,6 +76,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
 
   setServerImg() {
     if (this.serverImg === '' || this.serverImg === null) {
+      this.isImgAvailable = false;
       this.removeImage();
     }
     else {
@@ -90,7 +93,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
         this.uploadedImage.nativeElement.src = "";
         this.uploadedImage.nativeElement.src = imgFile;
       }, 300)
-
+      this.isImgAvailable = true;
     }
   }
 
@@ -230,6 +233,10 @@ export class PictureCropComponent implements OnInit, OnChanges {
     if ($event.target.id === "myModal") {
       this.flushModal();
     }
+  }
+
+  DownloadImage() {
+    window.open(this.serverImg);
   }
 
   @HostListener("document:click", ['$event'])
