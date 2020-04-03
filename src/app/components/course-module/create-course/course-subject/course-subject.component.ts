@@ -95,8 +95,8 @@ export class CourseSubjectComponent implements OnInit {
       data => {
         let msg = {
           type: "success",
-          title: "Standard Updated",
-          body: "Standard Updated Successfully!"
+          title: "",
+          body: "Subject Updated Successfully!"
         }
         this.toastCtrl.popToast(msg);
 

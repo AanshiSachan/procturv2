@@ -105,7 +105,7 @@ export class FetchenquiryService {
     /* return the template user has to edit */
     fetchEnquiryStudentData(instituteID,id) {
       this.urlDownloadTemplate = this.baseUrl + "/api/v1/enquiry/"+instituteID+"/"+id;
-  
+
       return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).map(
         data => { return data },
         err => { return err; }
@@ -195,8 +195,8 @@ export class FetchenquiryService {
 
   // Download Report Summary
 
-  getSummaryReportOfThisMonth() {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/this_month/NA";
+  getSummaryReportOfThisMonth(reportFor) {
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/this_month/NA?download_type="+reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
     ).map(
@@ -205,8 +205,8 @@ export class FetchenquiryService {
     )
   }
 
-  getPreviousMSummary() {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/prev_month/NA";
+  getPreviousMSummary(reportFor) {
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/prev_month/NA?download_type="+reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
     ).map(
@@ -216,8 +216,8 @@ export class FetchenquiryService {
   }
 
 
-  getSummaryReportOfLastTwoMonth() {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/last_two_months/NA";
+  getSummaryReportOfLastTwoMonth(reportFor) {
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/last_two_months/NA?download_type="+reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
     ).map(
@@ -226,8 +226,8 @@ export class FetchenquiryService {
     )
   }
 
-  getSummaryReportFromDates(obj) {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/" + obj.from_date + "/" + obj.to_date;
+  getSummaryReportFromDates(obj, reportFor) {
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/" + obj.from_date + "/" + obj.to_date+"?download_type="+reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
     ).map(

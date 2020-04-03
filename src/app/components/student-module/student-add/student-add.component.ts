@@ -764,6 +764,7 @@ export class StudentAddComponent implements OnInit {
   }
 
   fetchCustomComponents() {
+    this.customComponents = [];
     this.auth.showLoader();
     this.studentPrefillService.fetchCustomComponentById(0, this.convertInstituteEnquiryId, 2).subscribe(
       data => {

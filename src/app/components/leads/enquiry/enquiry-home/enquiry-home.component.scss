@@ -1762,7 +1762,7 @@ ul.customDropdown li:hover {
 
     .field-radio-wrapper .form-radio:checked+label {
       color: $common-blue;
-    }    
+    }
   }
 
   .sms-grid-table {
@@ -2373,6 +2373,17 @@ table tr.selected {
   }
 }
 
+.download-report{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  .checkbox-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+}
 input[type=radio]{
   appearance: radio;
 }
