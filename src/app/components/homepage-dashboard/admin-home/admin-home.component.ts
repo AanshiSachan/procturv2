@@ -55,7 +55,8 @@ export class AdminHomeComponent implements OnInit {
     vDOCipher_allocated_storage:0,
     vDOCipher_used_storage:0,
     vDOCipher_used_bandwidth:0,
-    storage_allocated:0
+    storage_allocated:0,
+    consumed_storage: 0
   };
 
 
@@ -81,7 +82,7 @@ export class AdminHomeComponent implements OnInit {
   biometricEnable: string = "0";
   newMessageText: string = "";
   messageCount: number = 0;
-  userType : any = ''; 
+  userType : any = '';
   isRippleLoad:boolean= false;
   courseCommonExamCancelPopUP = false;
 
@@ -254,7 +255,7 @@ export class AdminHomeComponent implements OnInit {
     });
 
     this.fetchWidgetPrefill();
-    
+
   }
 
   closeSubscriptionAlert(){
@@ -314,7 +315,8 @@ export class AdminHomeComponent implements OnInit {
         res => {
           if(res){
             this.storageData = res;
-            this.storageData.storage_allocated = (Number(this.storageData.storage_allocated) / 1024).toFixed(3);   
+            this.storageData.storage_allocated = (Number(this.storageData.storage_allocated) / 1024).toFixed(3);
+            this.storageData.consumed_storage = ((Number(this.storageData.uploaded_size)  + Number(this.storageData.downloaded_size))/ 1024).toFixed(3);
             this.storageData.vDOCipher_allocated_bandwidth = (Number(this.storageData.vDOCipher_allocated_bandwidth) / 1024).toFixed(3);
             this.storageData.vDOCipher_used_bandwidth = (Number(this.storageData.vDOCipher_used_bandwidth) / 1024).toFixed(3);
             this.storageData.vDOCipher_allocated_storage = (Number(this.storageData.vDOCipher_allocated_storage) / 1024).toFixed(3);
@@ -383,11 +385,11 @@ export class AdminHomeComponent implements OnInit {
       });
   }
 
-  
+
   checkVdoCipherRole() {
     return sessionStorage.getItem('enable_vdoCipher_feature') == '1' ? false : true;
   }
-  
+
   getCheckedStatus(id: string) {
     if (id === "notifyCancel") {
       return true;
@@ -3625,7 +3627,7 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  onOfLoaderFromTodoList(ev) {    
+  onOfLoaderFromTodoList(ev) {
     this.isRippleLoad = ev;
   }
 
