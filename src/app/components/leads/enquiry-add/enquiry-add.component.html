@@ -744,7 +744,7 @@
 
 
 
-<app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)">
+<app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)" [selectedData]="selectedData">
 </app-add-city-area>
 
 <!-- Add New institute -->
@@ -1063,97 +1063,6 @@
               </td>
 
             </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-  </div>
-
-</proctur-popup>
-
-<!-- Add New City Area -->
-<proctur-popup *ngIf="addCityAreaPopUp.showPopUp">
-
-  <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCityAreaPopup()" close-button>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
-            transform="translate(992.81 305.77) rotate(45)" />
-          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
-            transform="translate(978.81 305.77) rotate(45)" />
-        </g>
-        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
-          transform="translate(1012 297)" />
-      </g>
-    </svg>
-  </span>
-
-  <h2 popup-header>Add Area And City </h2>
-
-  <div class="institute-editor" popup-content>
-
-    <div class="row clearFix add-edit">
-      <a class="expend-box" (click)="toggleCityAreaAdd()" id="toggleAnch">
-        <i id="add-areaCity-icon">+</i>
-        <span>Create New Area And City</span>
-      </a>
-    </div>
-
-    <section class="row clearFix input-section" *ngIf="addCityAreaPopUp.addNew">
-      <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
-        <div class="field-wrapper">
-          <label for="CityName">City<span class="text-danger">*</span></label>
-          <input type="text" value="" id="CityName" class="form-ctrl" [(ngModel)]="addCityAreaPopUp.newCity.city"
-            name="CityName" />
-        </div>
-      </div>
-
-      <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
-        <div class="field-wrapper">
-          <label for="AreaName">Area</label>
-          <input type="text" value="" id="AreaName" class="form-ctrl" [(ngModel)]="addCityAreaPopUp.newCity.area"
-            name="AreaName" />
-        </div>
-      </div>
-
-      <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3 hide">
-        <div class="field-wrapper">
-          <label for="selectBranchPop">Branch</label>
-          <select id="selectBranchPop" class="form-ctrl" [(ngModel)]="addCityAreaPopUp.newCity.branch"
-            name="selectBranchPop">
-            <option *ngFor="let data of branchesList" [value]="data.institute_id">{{data.institute_name}}</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3 btn-grp">
-        <input type="button" value="Add" class="fullBlue btn" (click)="addNewCityArea()" id="btnAdd5">
-      </div>
-    </section>
-
-    <div class="row">
-      <div class="table-responsive institute-table">
-        <table>
-          <thead>
-            <tr>
-              <th>City</th>
-              <th>Area</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let sch of cityListDataSource">
-              <td>{{sch.city}}</td>
-              <td>{{sch.area}}</td>
-            </tr>
-
-            <tr *ngIf="cityListDataSource.length ==0">
-              <td colspan="2" style="text-align: center">
-                No City Area List Available
-              </td>
-            </tr>
-
           </tbody>
         </table>
       </div>

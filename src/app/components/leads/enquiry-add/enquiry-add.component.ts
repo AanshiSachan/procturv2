@@ -183,6 +183,11 @@ export class EnquiryAddComponent implements OnInit {
   cityList: any[] = [];
   areaList: any[] = [];
   addArea: boolean = false;
+  selectedData = {
+    country: '',
+    state: '',
+    city:''
+  };
 
   constructor(
     private prefill: FetchprefilldataService,
@@ -320,20 +325,23 @@ export class EnquiryAddComponent implements OnInit {
     this.newEnqData.state_id = "";
     this.newEnqData.city_id = "";
     this.newEnqData.area_id = "";
-    const url = `/api/v1/country/state?country_ids=${this.newEnqData.country_id}`
-     this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-         this.auth.hideLoader();
-        if(res.result.length > 0){
-          this.stateList = res.result[0].stateList;
+    if(this.newEnqData.country_id != ""){
+      const url = `/api/v1/country/state?country_ids=${this.newEnqData.country_id}`
+       this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+           this.auth.hideLoader();
+          if(res.result.length > 0){
+            this.stateList = res.result[0].stateList;
+          }
+        },
+        err => {
+           this.auth.hideLoader();
+          this.showErrorMessage('error', '', err);
         }
-      },
-      err => {
-         this.auth.hideLoader();
-        this.showErrorMessage('error', '', err);
-      }
-    )
+      )
+    }
+
   }
 
   // get city list as per state selection
@@ -342,38 +350,42 @@ export class EnquiryAddComponent implements OnInit {
     this.areaList = [];
     this.newEnqData.city_id = "";
     this.newEnqData.area_id = "";
-    const url = `/api/v1/country/city?state_ids=${this.newEnqData.state_id}`
-     this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-         this.auth.hideLoader();
-        if(res.result.length > 0){
-          this.cityList = res.result[0].cityList;
+    if(this.newEnqData.state_id != "-1" && this.newEnqData.state_id != ""){
+      const url = `/api/v1/country/city?state_ids=${this.newEnqData.state_id}`
+       this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+           this.auth.hideLoader();
+          if(res.result.length > 0){
+            this.cityList = res.result[0].cityList;
+          }
+        },
+        err => {
+           this.auth.hideLoader();
+          this.showErrorMessage('error', '', err);
         }
-      },
-      err => {
-         this.auth.hideLoader();
-        this.showErrorMessage('error', '', err);
-      }
-    )
+      )
+    }
   }
 
   getAreaList(){
     this.areaList = [];
-    const url = `/api/v1/cityArea/area/${this.createSource.inst_id}?city_ids=${this.newEnqData.city_id}`
-     this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-         this.auth.hideLoader();
-        if(res.result&&res.result.length > 0){
-          this.areaList = res.result[0].areaList;
+    if(this.newEnqData.city_id != "-1" && this.newEnqData.city_id != ""){
+      const url = `/api/v1/cityArea/area/${this.createSource.inst_id}?city_ids=${this.newEnqData.city_id}`
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+           this.auth.hideLoader();
+          if(res.result&&res.result.length > 0){
+            this.areaList = res.result[0].areaList;
+          }
+        },
+        err => {
+           this.auth.hideLoader();
+          this.showErrorMessage('error', '', err);
         }
-      },
-      err => {
-         this.auth.hideLoader();
-        this.showErrorMessage('error', '', err);
-      }
-    )
+      )
+    }
   }
 
   toggleAddArea(){
@@ -382,6 +394,10 @@ export class EnquiryAddComponent implements OnInit {
     }
     else{
       this.addArea = true;
+      this.selectedData.country = this.newEnqData.country_id;
+      this.selectedData.state = this.newEnqData.state_id;
+      this.selectedData.city = this.newEnqData.city_id;
+
     }
   }
 
@@ -1724,7 +1740,7 @@ export class EnquiryAddComponent implements OnInit {
 
 
   /* function to add Source data to server */
-  addSourceData() {    
+  addSourceData() {
     if(this.createSource.name.trim() != '') {
     if((this.sourceList.filter(x=>x.name == this.createSource.name.trim())).length == 0){
        this.auth.showLoader();
