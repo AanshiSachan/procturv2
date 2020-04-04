@@ -303,6 +303,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   areaList: any[] = [];
   addArea:boolean = false;
   studdentEdit = true;
+  selectedData = {
+    country: '',
+    state: '',
+    city:''
+  };
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -392,61 +397,67 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   getStateList(){
-    const url = `/api/v1/country/state?country_ids=${this.country_id}`
-     this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if(res.result.length > 0){
-          this.stateList = res.result[0].stateList;
-          if(this.studentAddFormData.state_id != ""){
-            this.getCityList();
+    if(this.studentAddFormData.country_id != ""){
+      const url = `/api/v1/country/state?country_ids=${this.country_id}`
+       this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if(res.result.length > 0){
+            this.stateList = res.result[0].stateList;
+            if(this.studentAddFormData.state_id != ""){
+              this.getCityList();
+            }
           }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-      },
-      err => {
-        this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-      }
-    )
+      )
+    }
   }
 
   // get city list as per state selection
   getCityList(){
-    const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
-     this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if(res.result.length > 0){
-          this.cityList = res.result[0].cityList;
-          if(this.studentAddFormData.city_id != ""){
-            this.getAreaList();
+    if(this.studentAddFormData.state_id != "-1" && this.studentAddFormData.state_id != ""){
+      const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
+       this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if(res.result.length > 0){
+            this.cityList = res.result[0].cityList;
+            if(this.studentAddFormData.city_id != ""){
+              this.getAreaList();
+            }
           }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-      },
-      err => {
-        this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-      }
-    )
+      )
+    }
   }
 
   getAreaList(){
-    const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
-     this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if(res.result&&res.result.length > 0){
-          this.areaList = res.result[0].areaList;
+    if(this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != ""){
+      const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
+       this.auth.showLoader();
+       this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if(res.result&&res.result.length > 0){
+            this.areaList = res.result[0].areaList;
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-      },
-      err => {
-        this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-      }
-    )
+      )
+    }
   }
 
   toggleAddArea(){
@@ -455,6 +466,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     else{
       this.addArea = true;
+      this.selectedData.country = this.studentAddFormData.country_id;
+      this.selectedData.state = this.studentAddFormData.state_id;
+      this.selectedData.city = this.studentAddFormData.city_id;
     }
   }
 
@@ -2935,7 +2949,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
     this.productService.deleteFile(url).subscribe(
       (res:any) => {
-        this.appC.popToast({ type: "success", title: "", body: "File deleted successfully" });      
+        this.appC.popToast({ type: "success", title: "", body: "File deleted successfully" });
         if(res){
           this.getUploadedFileData();
         }

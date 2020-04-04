@@ -177,12 +177,16 @@ export class EnquiryEditComponent implements OnInit {
   maxlength: any = 10;
   country_id:any=null;
 
-  isRippleLoad: boolean = false;
   // state and city list
   stateList: any[] = [];
   cityList: any[] = [];
   areaList: any[] = [];
   addArea: boolean = false;
+  selectedData = {
+    country: '',
+    state: '',
+    city:''
+  };
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(
@@ -267,62 +271,68 @@ export class EnquiryEditComponent implements OnInit {
   }
 
   getStateList(){
-    const url = `/api/v1/country/state?country_ids=${this.editEnqData.country_id}`
-    this.isRippleLoad = true;
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.isRippleLoad = false;
-        if(res.result.length > 0){
-          this.stateList = res.result[0].stateList;
+    if(this.editEnqData.country_id != ""){
+      const url = `/api/v1/country/state?country_ids=${this.editEnqData.country_id}`
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if(res.result.length > 0){
+            this.stateList = res.result[0].stateList;
+          }
+          if(this.editEnqData.state_id != ""){
+            this.getCityList();
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.showErrorMessage('error', '', err);
         }
-        if(this.editEnqData.state_id != ""){
-          this.getCityList();
-        }
-      },
-      err => {
-        this.isRippleLoad = false;
-        this.showErrorMessage('error', '', err);
-      }
-    )
+      )
+    }
   }
 
   // get city list as per state selection
   getCityList(){
-    const url = `/api/v1/country/city?state_ids=${this.editEnqData.state_id}`
-    this.isRippleLoad = true;
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.isRippleLoad = false;
-        if(res.result.length > 0){
-          this.cityList = res.result[0].cityList;
-          if(this.editEnqData.city_id != ""){
-            this.getAreaList();
+    if(this.editEnqData.state_id != "" && this.editEnqData.state_id != "-1"){
+      const url = `/api/v1/country/city?state_ids=${this.editEnqData.state_id}`
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if(res.result.length > 0){
+            this.cityList = res.result[0].cityList;
+            if(this.editEnqData.city_id != ""){
+              this.getAreaList();
+            }
           }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.showErrorMessage('error', '', err);
         }
-      },
-      err => {
-        this.isRippleLoad = false;
-        this.showErrorMessage('error', '', err);
-      }
-    )
+      )
+    }
   }
 
   getAreaList(){
     // this.areaList = [];
-    this.isRippleLoad = true;
-    const url = `/api/v1/cityArea/area/${this.createNewReasonObj.institution_id}?city_ids=${this.editEnqData.city_id}`
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.isRippleLoad = false;
-        if(res.result&&res.result.length > 0){
-          this.areaList = res.result[0].areaList;
+    if(this.editEnqData.city_id != "" && this.editEnqData.city_id != "-1"){
+      this.auth.showLoader();
+      const url = `/api/v1/cityArea/area/${this.createNewReasonObj.institution_id}?city_ids=${this.editEnqData.city_id}`
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if(res.result&&res.result.length > 0){
+            this.areaList = res.result[0].areaList;
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.showErrorMessage('error', '', err);
         }
-      },
-      err => {
-        this.isRippleLoad = false;
-        this.showErrorMessage('error', '', err);
-      }
-    )
+      )
+    }
   }
 
   toggleAddArea(){
@@ -331,6 +341,9 @@ export class EnquiryEditComponent implements OnInit {
     }
     else{
       this.addArea = true;
+      this.selectedData.country = this.editEnqData.country_id;
+      this.selectedData.state = this.editEnqData.state_id;
+      this.selectedData.city = this.editEnqData.city_id;
     }
   }
 
