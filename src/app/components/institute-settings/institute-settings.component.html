@@ -1603,13 +1603,13 @@
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field lg">
-  
+
                                     Specify Contact Numbers
                                     <br>here to be displayed
                                     <br> on Fee Receipts
                                   </div>
                                 </div>
-  
+
                               </label> -->
                               <p>Multiple number's separated by comma's</p>
                               <input type="text" [(ngModel)]="instituteSettingDet.exam_attendance_not_marked_notification_contact_number" class="form-ctrl"
@@ -1672,7 +1672,7 @@
                                 <br> to mark exam attendance,
                                 <br> reminder will be sent after
                                 <br> 2 hours of class completion to
-                                <br> respective faculty to mark 
+                                <br> respective faculty to mark
                                 <br> attendance
                               </div>
                             </div> -->
@@ -1758,7 +1758,7 @@
                               <br> to mark class attendance,
                               <br> reminder will be sent after
                               <br> 2 hours of class completion to
-                              <br> respective faculty to mark 
+                              <br> respective faculty to mark
                               <br> attendance
                             </div>
                           </div> -->
@@ -2196,7 +2196,7 @@
                               </label>
                             </div>
                           </div>
-                          
+
                       </td>
                     </tr>
                     <tr>
@@ -2335,6 +2335,22 @@
                         </div>
                       </td>
                     </tr>
+
+                    <tr>
+                      <td>
+                        <div class="row m-0 webkitBox">
+                          <div class="c-sm-5 c-md-5 c-lg-5">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="enableName" class="form-checkbox" [(ngModel)]="instituteSettingDet.show_counseller_name_in_fee_receipt "
+                                id="enableName">
+                              <label for="enableName">Show Councellor Name in Fee Receipt</label>
+                            </div>
+                          </div>
+
+                        </div>
+                      </td>
+                    </tr>
+                    
                   </tbody>
                 </table>
                 </div>
