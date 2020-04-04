@@ -104,7 +104,8 @@ export class LoginService {
 
   forgotPassowrdServiceMethod(data) {
     this.forgotPasswordURL = this.baseUrl + "/api/v1/alternateLogin/forgotPswd";
-    return this.http.post(this.forgotPasswordURL, data, { headers: this.headers }).map(
+    let header =  new HttpHeaders({ "Content-Type": "application/json"});
+    return this.http.post(this.forgotPasswordURL, data, { headers: header }).map(
       res => {
         return res;
       })
