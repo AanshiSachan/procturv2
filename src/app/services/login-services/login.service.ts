@@ -83,7 +83,8 @@ export class LoginService {
 
   guestUserRegistration(data){
     const URL = this.baseUrl + "/api/v1/alternateLogin/register";
-    return this.http.post(URL, data, { headers: this.headers }).map(res => {
+    let header =  new HttpHeaders({ "Content-Type": "application/json"});
+    return this.http.post(URL, data, { headers: header }).map(res => {
       return res;
     })
   }
