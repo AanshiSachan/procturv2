@@ -188,7 +188,7 @@ export class ClassRoomComponent {
       }
       this.ClassList.updateclassListData(data).subscribe(
         res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, "Updated", 'ClassRoom Updated Successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", 'ClassRoom updated successfully');
           this.editFlag = false;
           this.tempIndex = "";
           this.tempObj = null;

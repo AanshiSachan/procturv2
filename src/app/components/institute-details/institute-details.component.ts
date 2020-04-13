@@ -124,7 +124,7 @@ export class InstituteDetailsComponent implements OnInit {
       this.apiService.updateDetailsToServer(dataToSend).subscribe(
         res => {
           this.auth.hideLoader();
-          this.commonService.showErrorMessage('success', 'Updated Successfully', 'Details Updated Successfully');
+          this.commonService.showErrorMessage('success', '', 'Details updated successfully');
         },
         err => {
           this.auth.hideLoader();

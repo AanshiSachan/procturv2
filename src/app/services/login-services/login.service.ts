@@ -83,28 +83,32 @@ export class LoginService {
 
   guestUserRegistration(data){
     const URL = this.baseUrl + "/api/v1/alternateLogin/register";
-    return this.http.post(URL, data, { headers: this.headers }).map(res => {
+    let header =  new HttpHeaders({ "Content-Type": "application/json"});
+    return this.http.post(URL, data, { headers: header }).map(res => {
       return res;
     })
   }
 
   validateOTPCode(data) {
     const URL  = this.baseUrl + "/api/v1/alternateLogin/register/validateOTP";
-    return this.http.post(URL , data, { headers: this.headers }).map(res => {
+    let header =  new HttpHeaders({ "Content-Type": "application/json"});
+    return this.http.post(URL , data, { headers: header }).map(res => {
       return res;
     })
   }
 
   regenerateOTP(data) {
     const URL = this.baseUrl + "/api/v1/authenticate/regenerateOTP";
-    return this.http.post(URL, data, { headers: this.headers }).map(res => {
+    let header =  new HttpHeaders({ "Content-Type": "application/json"});
+    return this.http.post(URL, data, { headers: header }).map(res => {
       return res;
     })
   }
 
   forgotPassowrdServiceMethod(data) {
     this.forgotPasswordURL = this.baseUrl + "/api/v1/alternateLogin/forgotPswd";
-    return this.http.post(this.forgotPasswordURL, data, { headers: this.headers }).map(
+    let header =  new HttpHeaders({ "Content-Type": "application/json"});
+    return this.http.post(this.forgotPasswordURL, data, { headers: header }).map(
       res => {
         return res;
       })
