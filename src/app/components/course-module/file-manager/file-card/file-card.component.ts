@@ -90,10 +90,8 @@ export class FileCardComponent implements OnChanges {
     if(data.data.category_id != "230"){
     this.setImageAndIcons(type);
     } else {
-      // this.fileHeader.nativeElement.classList.add("youtube");
-      // this.fileHeader.nativeElement.classList.add("youtube-url");
-      this.fileHeader.nativeElement.classList.add("video");
-      this.fileHeader.nativeElement.classList.add("video-file");
+      this.fileHeader.nativeElement.classList.add("youtube");
+      this.fileHeader.nativeElement.classList.add("youtube-url");
     }
     this.cd.detectChanges();
     this.cd.detach();
