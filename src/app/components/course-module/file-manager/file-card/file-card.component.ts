@@ -88,6 +88,10 @@ export class FileCardComponent implements OnChanges {
     var type = data.label.substring(data.label.lastIndexOf(".")+1);
     this.fileObj = new File(name, type, data.data);
     this.setImageAndIcons(type);
+    } else {
+      this.fileHeader.nativeElement.classList.add("youtube");
+      this.fileHeader.nativeElement.classList.add("youtube-url");
+    }
     this.cd.detectChanges();
     this.cd.detach();
   }
