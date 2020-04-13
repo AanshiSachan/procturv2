@@ -87,6 +87,7 @@ export class FileCardComponent implements OnChanges {
     var name = data.label.substring(0, data.label.lastIndexOf("_"));
     var type = data.label.substring(data.label.lastIndexOf(".")+1);
     this.fileObj = new File(name, type, data.data);
+    if(data.data.category_id != "230"){
     this.setImageAndIcons(type);
     } else {
       this.fileHeader.nativeElement.classList.add("youtube");
@@ -95,6 +96,7 @@ export class FileCardComponent implements OnChanges {
     this.cd.detectChanges();
     this.cd.detach();
   }
+
 
   setImageAndIcons(type: string) {
 
