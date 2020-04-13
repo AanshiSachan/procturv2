@@ -53,6 +53,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   type: string = "";
   customFileArr: fileObj[] = [];
   category_id: number | string = "-1";
+  youtubeUrl: any = '';
 
   category_image = {
     png: "1",
@@ -285,6 +286,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
 
   uploadHandler() {
 
+    if(this.category_id!=230){
     if (this.categoryCheck(this.category_id) == true) {
 
       if (this.selectedFiles.length == 0) {
@@ -297,7 +299,17 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         return
       }
 
-      this.uploadStatus.emit(true);
+      this.uploadFile();
+    }
+  } else {
+    this.uploadFile();
+  }
+
+
+  }
+
+  uploadFile() {
+    this.uploadStatus.emit(true);
       let path: string = "";
       let institute_id = sessionStorage.getItem("institute_id");
 
@@ -318,6 +330,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         userType: sessionStorage.getItem('userType'),
         password: sessionStorage.getItem('password'),
         institution_id: sessionStorage.getItem('institute_id'),
+        category_id: this.category_id,
       }
       let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
 
@@ -328,11 +341,12 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       // newxhr.setRequestHeader("processData", "false");
       newxhr.setRequestHeader("category_id", this.category_id.toString());
       newxhr.setRequestHeader("institute_id", institute_id);
+      newxhr.setRequestHeader("youtubeUrl", this.youtubeUrl);
       newxhr.setRequestHeader("Authorization", Authorization);
       newxhr.setRequestHeader("enctype", "multipart/form-data;");
       newxhr.setRequestHeader("keyName", path);
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
-      // newxhr.setRequestHeader("contentType", "false");
+      // newxhr.setRequestHeader("Access-Control-Allow-Headers", "*");
       // newxhr.setRequestHeader("dataType", "json");
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
 
@@ -379,9 +393,6 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         }
       }
       newxhr.send(formData);
-    }
-
-
   }
 
   duplicateFileCheck() {
@@ -403,6 +414,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       return false;
     }
     else {
+      if(this.category_id!=230){
       this.type = Object.keys(this.acceptedFiles[this.category_id]).join()
       for (let i = 0; i < this.selectedFiles.length; i++) {
         let type = this.getType(this.selectedFiles[i].name);
@@ -410,6 +422,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
           this.createErrorToast("File doesn\'t match with the selected category ");
           return false;
         }
+      }
       }
       return true;
     }
