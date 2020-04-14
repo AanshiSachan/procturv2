@@ -16,12 +16,17 @@ export class CourseHomeComponent implements OnInit {
     isShowModel:false,
     isShowClass:false,
     isShowExam:false,
-    isShowClassPlanner:false
+    isShowClassPlanner:false,
+    isShowEcourseMapping: false,
+    isEcourseFileManager: false
   }
 
   constructor(   private auth: AuthenticatorService) { }
 
   ngOnInit() {
+    const permissionArray = sessionStorage.getItem('permissions');
+    const permittedRoles = sessionStorage.getItem('permitted_roles');
+    const userType = sessionStorage.getItem('userType');
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
@@ -33,6 +38,17 @@ export class CourseHomeComponent implements OnInit {
     );
 
     this.checkPermissions();
+    if (userType == '0' && (permissionArray == "" || permissionArray == null)) {
+      this.jsonFlags.isShowEcourseMapping = true;
+    }
+
+    if (sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1') {
+      this.jsonFlags.isShowEcourseMapping = true;
+    }
+
+    if (permittedRoles['718'] != undefined && sessionStorage.getItem('enable_eLearn_feature') == '1') {
+      this.jsonFlags.isEcourseFileManager = true;
+    }
 
   }
 

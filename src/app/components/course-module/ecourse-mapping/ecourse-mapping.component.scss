@@ -74,4 +74,14 @@
       opacity: 1;
       transform: translateX(0);
     }
+
+  }
+  .radio {
+    -webkit-appearance: radio;
+    float: left;
+    width: 20%;
+    margin-top: 2px;
+  }
+  .online_offline_label{
+    padding-left: 10px;;
   }

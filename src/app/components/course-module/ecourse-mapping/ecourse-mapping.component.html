@@ -5,11 +5,8 @@
             padding-bottom: 20px;    background: #fff;">
         <div class="row" style="margin-left: 0;margin-right: 0">
           <h2 style="padding: 16px 0px 3px 10px;" class="pull-left">
-            <a routerLink="/view/e-store/home" *ngIf="!jsonflag.isShowOnlineExam">
-              eStore
-            </a>
-            <a routerLink="/view/online-exam"  *ngIf="jsonflag.isShowOnlineExam">
-              Online Exam
+            <a routerLink="/view/course">
+              {{jsonflag.isProfessional ? 'Batch' : 'Course'}}
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> E-course Mapping
           </h2>
@@ -37,6 +34,21 @@
               </div>
               <a style="cursor:pointer" *ngIf="!jsonflag.isProfessional" (click)="openAssignBatch()">Assign Courses</a>
               <a style="cursor:pointer" *ngIf="jsonflag.isProfessional" (click)="openAssignBatch()">Assign Standard</a>
+            </div>
+
+            <div class="c-lg-3 field-wrapper" *ngIf="jsonflag.allowMapping=='1'" style="width: 20%;">
+              <!-- <div class="field-wrapper"> -->
+                <!-- <br> -->
+                <div class="c-lg-2" style="width: 50%;">
+                <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="Y"
+                  id="is_offline_or_online" [(ngModel)]="ecourseObject.is_online"><label
+                  class="online_offline_label">Online</label>
+                </div>
+                <div class="c-lg-2" style="width: 50%;padding-left: 0;">
+                <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="N"
+                  id="is_offline_or_online" style="-webkit-appearance: radio;" [(ngModel)]="ecourseObject.is_online"><label>Offline</label>
+                </div>
+              <!-- </div> -->
             </div>
 
             <div class="c-lg-2" style="margin-top:2%;"> 

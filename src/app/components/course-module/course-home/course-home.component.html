@@ -121,6 +121,28 @@
         <span>Assignment Description</span>
       </div>
     </div>
+    <div class="course-menu-item" *ngIf="jsonFlags.isShowEcourseMapping" routerLink="../ecoursemapping">
+      <div class="menu-title">
+        <img src="./assets/images/activity/ecourse.svg" alt="">
+        <span>E-course Mapping</span>
+      </div>
+      <div class="menu-description">
+        <span *ngIf="!isLangInstitue">Create E-courses and assign multiple standards to the E-courses.</span>
+        <span *ngIf="isLangInstitue">Create E-courses and assign multiple batches to the E-courses</span>
+      </div>
+    </div>
+    <div class="course-menu-item" routerLink="../ecourse-file-manager"
+            *ngIf="jsonFlags.isEcourseFileManager">
+            <div class="menu-title">
+              <img src="./assets/images/activity/study_material.svg" alt="">
+              <span>Study Materials</span>
+            </div>
+            <div class="menu-description">
+              <span>Manage storage of uploaded and downloaded files by E-Course. Upload or download the files and manage
+                files in folders and
+                by category.</span>
+            </div>
+          </div>
   </div>
 
   <!-- batch module -->
@@ -240,6 +262,28 @@
       </div>
     </div>
 
+    <div class="course-menu-item" *ngIf="jsonFlags.isShowEcourseMapping" routerLink="../ecoursemapping">
+      <div class="menu-title">
+        <img src="./assets/images/activity/ecourse.svg" alt="">
+        <span>E-course Mapping</span>
+      </div>
+      <div class="menu-description">
+        <span *ngIf="!isLangInstitue">Create E-courses and assign multiple standards to the E-courses.</span>
+        <span *ngIf="isLangInstitue">Create E-courses and assign multiple batches to the E-courses</span>
+      </div>
+    </div>
+
+    <div class="course-menu-item" routerLink="../ecourse-file-manager"
+            *ngIf="jsonFlags.isEcourseFileManager">
+            <div class="menu-title">
+              <img src="./assets/images/activity/study_material.svg" alt="">
+              <span>Study Materials</span>
+            </div>
+            <div class="menu-description">
+          <span>Manage storage of uploaded and downloaded files by E-Course. Upload or download the files and manage
+              files in folders and by category.</span>
+        </div>
+      </div>
   </div>
 
 </section>
