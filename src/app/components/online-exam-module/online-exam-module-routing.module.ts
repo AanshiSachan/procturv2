@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { OnlineExamModuleComponent, OnlineExamHomeComponent, ExamdeskCourseAssignmentComponent } from '.';
-import { EcourseMappingComponent } from '../eStore-module';
 
 const routes: Routes = [
   {
@@ -12,12 +11,7 @@ const routes: Routes = [
       {
         path: '',
         component: OnlineExamHomeComponent
-      },
-      {
-        path: 'ecoursemapping',
-        component: EcourseMappingComponent,
-        pathMatch: 'prefix'
-    }
+      }
     ]
   },
   {
