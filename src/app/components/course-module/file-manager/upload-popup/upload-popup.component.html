@@ -42,7 +42,7 @@
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="type!=''" style="margin-top: 10px;
+      <div class="row" *ngIf="type!='' && category_id!=230" style="margin-top: 10px;
       margin-left: 14px;">
         <label>Format supported :
           <span>{{type}}</span>
@@ -111,17 +111,23 @@
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="type!=''" style="margin-top: 10px;
+      <div class="row" *ngIf="type!='' && category_id!=230" style="margin-top: 10px;
       margin-left: 14px;">
         <label>Format supported :
           <span>{{type}}</span>
         </label>
       </div>
       <div class="row">
-        <div class="c-lg-8 field-wrapper">
+        <div class="c-lg-8 field-wrapper" *ngIf='category_id!="230"'>
           <label>Choose Multiple Files(Ctrl + ) To Upload</label>
           <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox" (change)="fillFiles()" multiple/>
         </div>
+
+        <div class="c-lg-8 field-wrapper" *ngIf='category_id=="230"'>
+          <label></label>
+          <input type="text" class="form-ctrl" placeholder="Please enter URL" id="youtubeUrl" name="youtubeUrl" [(ngModel)]="youtubeUrl">
+        </div>
+        
 
         <div class="c-lg-2">
           <button class="btn fullBlue" (click)="uploadHandler()" style="margin-top: 4vh;">Upload</button>
