@@ -449,6 +449,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('tax_type_with_percentage', institute_data.tax_type + "(%)");
       sessionStorage.setItem('is_zoom_enable', this.zoom_enable)
       sessionStorage.setItem('enable_ip_lock_feature', institute_data.enable_ip_lock_feature);
+      sessionStorage.setItem("student_study_material_visibility", institute_data.student_study_material_visibility);
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
