@@ -76,11 +76,6 @@
               </div>
               <div class="notification_container" *ngIf="!liveClassFor">
                 <span class="upcoming_class" *ngIf="timeLeft(today, class.start_datetime)">Ongoing</span>
-                <!-- <div class="spinner">
-                  <div class="bounce1"></div>
-                  <div class="bounce2"></div>
-                  <div class="bounce3"></div>
-                </div> -->
                 <div class="questionInfo inline-relative">
                   <span class=" i-class">
                     <button type="button" name="button" class="notification_btn" (click)="smsNotification(class.session_id, class.live_meeting_with)" *ngIf="!timeLeft(today, class.start_datetime)"
@@ -96,7 +91,6 @@
                     <br> to continue using it.
                   </div>
                 </div>
-
 
                 <div class="questionInfo inline-relative">
                   <span class=" i-class">
@@ -145,6 +139,14 @@
                     <br> to continue using it.
                   </div>
                 </div>
+              </div>
+              <div class="notification_container" *ngIf="liveClassFor">
+                <span class="i-class">
+                  <button type="button" name="button" class="action_upload" data-toggle="modal" data-target="#uploadRec" (click)="upload(class.session_id, class.live_meeting_with)">
+                    Upload Recording
+                    <i class="fa fa-upload" aria-hidden="true"></i>
+                  </button>
+                </span>
               </div>
             </div>
             <div class="sub-item-2">
@@ -242,7 +244,7 @@
               </div>
               <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0">
                 &nbsp;&nbsp;
-                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0" *ngIf="class.live_meeting_with != 'Zoom'"
+                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0" 
                   [ngClass]="{'disabledButton': class.download_links?.length==0}">
                   <!-- <i class="fa fa-repeat" aria-hidden="true" ></i> &nbsp; -->
                   View Recording
@@ -278,6 +280,31 @@
   </aside>
 </div>
 
+<!-- Upload record pop up -->
+<div id="uploadRec" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Upload Recording</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="c-lg-8 field-wrapper">
+            <label>Choose Multiple Files(Ctrl + ) To Upload</label>
+            <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox" accept=
+          "video/mp4,video/x-m4v,video/*" (change)="fillFiles()" multiple [(ngModel)]="fileUploadInput" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" (click)="uploadHandler()">Upload</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <section [hidden]="alertBox">
   <div class="confirmation_popup">
@@ -343,21 +370,25 @@
               <span title="{{data.video_duration}}" *ngIf="data.video_duration!=null">{{data.video_duration}}&nbsp;mins</span>
               <span *ngIf="data.video_duration==null">-</span>
             </div>
-            <div class="value-item" style="width: 20%;text-align: center;">
-              <div style="float: left;" *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3">
-              <button class="fa fa-download" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="Download" (click)="downloadFile(data);"
+            <div class="value-item" style="width: 20%; display: flex; justify-content: space-around;">
+              <div *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3">
+              <button class="fa fa-download" style="font-size: 14px; color: #0084f6;background: none;" title="Download" (click)="downloadFile(data);"
               id="downloadFile" [disabled]="data.download_id==null || auth.isRippleLoad.getValue()" [ngClass]="{'disabledButton': data.download_id==null || auth.isRippleLoad.getValue()}"></button>
               <a id="downloadFileClick" [href]="fileUrl" class="hide"></a>
               </div>
-            <div style="float: left;padding-left: 15px;" (click)="getVdocipherVideoOtp(data)" *ngIf="(JsonVars.view_proctur_live_recorded_session==2||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3)">
-              <button class="fa fa-eye" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="play on Vdocipher "
-                [disabled]="data.video_id==null" [ngStyle]="{'opacity':data.video_id==null ? '0.5' : '1' }">
-              </button>
-            </div>
-            <div (click)="getVdoLink(data)" *ngIf="(JsonVars.view_proctur_live_recorded_session==1||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==3 || proctur_live_view_or_download_visibility==2)">
-              <button class="fa fa-play" style="font-size: 17px; color: #0084F6; margin-left: 1%;background: none;" title="View">
-              </button>
-            </div>
+              <div (click)="getVdocipherVideoOtp(data)" *ngIf="(JsonVars.view_proctur_live_recorded_session==2||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3)">
+                <button class="fa fa-eye" style="font-size: 15px; color: #0084f6; background: none;" title="play on Vdocipher "
+                  [disabled]="data.video_id==null" [ngStyle]="{'opacity':data.video_id==null ? '0.5' : '1' }">
+                </button>
+              </div>
+              <div (click)="getVdoLink(data)" *ngIf="(JsonVars.view_proctur_live_recorded_session==1||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==3 || proctur_live_view_or_download_visibility==2)">
+                <button class="fa fa-play" style="font-size: 15px; color: #0084F6;background: none;" title="View">
+                </button>
+              </div>
+              <div (click)="deleteRecording(data.id)">
+                <button class="fa fa-trash" style="font-size: 15px; color: red; background: none;" title="Delete recoding">
+                </button>
+              </div>
           </div>
         </div>
       </div>
