@@ -842,6 +842,9 @@ export class LiveClassesComponent implements OnInit {
 
   // upload recording // By Swapnil
 
+  identify(index,item){
+    return item.session_id
+  }
   deleteRecording(session_id){
     const url = `/api/v1/meeting_manager/deleteRecording?session_id=${session_id}`;
     this.auth.showLoader();
@@ -850,6 +853,8 @@ export class LiveClassesComponent implements OnInit {
         this.auth.hideLoader();
         if(res.statusCode == 200){
           this.msgService.showErrorMessage('success', '', res.result);
+            this.viewDownloadPopup = false;
+          this.getClassesList();
         }
         else{
           this.msgService.showErrorMessage('error', '', res.message);
@@ -941,6 +946,7 @@ export class LiveClassesComponent implements OnInit {
               this.msgService.showErrorMessage('success', '', 'File(s) uploaded successfully');
               this.fileUploadInput = '';
               $('#uploadRec').modal('hide');
+              this.getClassesList();
             }
             else{
               this.msgService.showErrorMessage('error', '', data.message);

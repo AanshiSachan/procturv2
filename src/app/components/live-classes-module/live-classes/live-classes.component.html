@@ -63,7 +63,7 @@
 
       <section class="live-class">
         <div class="live-class-list-container" *ngIf="getClasses?.length !=0">
-          <div class="live-class-item" *ngFor="let class of getClasses">
+          <div class="live-class-item" *ngFor="let class of getClasses; trackBy:identify">
             <div class="sub-item-1">
               <div class="session_name_and_id_container">
                 <div class="session_name">
@@ -244,7 +244,7 @@
               </div>
               <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0">
                 &nbsp;&nbsp;
-                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0" 
+                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0"
                   [ngClass]="{'disabledButton': class.download_links?.length==0}">
                   <!-- <i class="fa fa-repeat" aria-hidden="true" ></i> &nbsp; -->
                   View Recording
