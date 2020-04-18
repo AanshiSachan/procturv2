@@ -97,7 +97,6 @@ export class FileCardComponent implements OnChanges {
     this.cd.detach();
   }
 
-
   setImageAndIcons(type: string) {
 
     /* Document File */
@@ -295,5 +294,10 @@ export class FileCardComponent implements OnChanges {
     // }else{
       return fileName;
     // }    
+  }
+
+  getYoutubeLink(file) {
+    // console.log(file);
+    window.open(file.res.video_url);
   }
 }
