@@ -71,7 +71,7 @@
                 </div>
                 <div class="session_id">
                   <span>Session Id : {{class.session_id}}</span>
-                  <span class="class-for-name">({{class.live_meeting_with}})</span>
+                  <span class="class-for-name" *ngIf="class.live_meeting_with == 'Zoom'">({{class.live_meeting_with}})</span>
                 </div>
               </div>
               <div class="notification_container" *ngIf="!liveClassFor">
@@ -350,7 +350,7 @@
               <a id="downloadFileClick" [href]="fileUrl" class="hide"></a>
               </div>
             <div style="float: left;padding-left: 15px;" (click)="getVdocipherVideoOtp(data)" *ngIf="(JsonVars.view_proctur_live_recorded_session==2||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3)">
-              <button class="fa fa-eye" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="play on Vdocipher "
+              <button class="fa fa-play" style="font-size: 17px; color: #0084f6; margin-left: 1%;background: none;" title="play on Vdocipher "
                 [disabled]="data.video_id==null" [ngStyle]="{'opacity':data.video_id==null ? '0.5' : '1' }">
               </button>
             </div>
