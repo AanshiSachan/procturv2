@@ -450,6 +450,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('is_zoom_enable', this.zoom_enable)
       sessionStorage.setItem('enable_ip_lock_feature', institute_data.enable_ip_lock_feature);
       sessionStorage.setItem("student_study_material_visibility", institute_data.student_study_material_visibility);
+      sessionStorage.setItem('youtube_url', institute_data.youtube_url);
+      sessionStorage.setItem('facebook_url', institute_data.facebook_url);
+      sessionStorage.setItem('whatsapp_url', institute_data.whatsapp_url);
+      sessionStorage.setItem('linkedin_url', institute_data.linkedin_url);
+      sessionStorage.setItem('instagram_url', institute_data.instagram_url);
+      sessionStorage.setItem('website_url', institute_data.website_url);
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');

@@ -161,7 +161,7 @@ export class BasicInfoComponent implements OnInit {
 
 
   initDataEcourse() {
-    this.http.getMethod('ext/get-ecources?isOnline = "Y"', null).subscribe(
+    this.http.getMethod('ext/get-ecources?isOnline=Y', null).subscribe(
       (resp: any) => {
         let response = JSON.parse(resp.result);
         console.log(response);
