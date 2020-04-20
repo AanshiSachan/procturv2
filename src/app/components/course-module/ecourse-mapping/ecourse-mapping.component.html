@@ -127,3 +127,37 @@
   </div>
 
 </proctur-popup>
+
+<div class="ga-modal-wrapper" *ngIf="statusOption">
+  <div class="ga-modal-container">
+    <div class="ga-modal" style="width: 40% !important;">
+      <div class="ga-modal-head" style="font-weight: 600;border-bottom: 1px solid #eee;">
+        <span style="font-size:16px">Status :</span>
+        <div style="padding: 0;float: right;cursor: pointer;" (click)="statusOption = false">
+          X
+        </div>
+      </div>
+
+      <div class="ga-modal-body" style="text-align: left;padding-bottom: 10px;">
+        <div class="field-wrapper">
+          <!-- <div class="field-wrapper"> -->
+            <!-- <br> -->
+            <div class="c-lg-3">
+            <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="Online"
+              id="is_offline_or_online" [(ngModel)]="ecourseObject.status"><label
+              class="online_offline_label">Online</label>
+            </div>
+            <div class="c-lg-3" style="width: 50%;padding-left: 0;padding-bottom: 15px;">
+            <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="Offline"
+              id="is_offline_or_online" style="-webkit-appearance: radio;" [(ngModel)]="ecourseObject.status"><label>Offline</label>
+            </div>
+
+          <!-- </div> -->
+        </div><br>
+        <div style="padding-bottom: 10px;float: right;cursor: pointer;background: #0084f6;color: white;border-radius: 4px;padding: 5px;margin-bottom: 10px;" (click)="updateCourseMapping()">
+          Update
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

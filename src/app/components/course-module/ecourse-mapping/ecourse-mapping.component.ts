@@ -32,6 +32,7 @@ export class EcourseMappingComponent implements OnInit {
       master_course_ids: "",
       master_course_names: "",
       is_online: 'Y',
+      status: 'Y'
     }
 
   displayKeys: any[] = [
@@ -43,6 +44,7 @@ export class EcourseMappingComponent implements OnInit {
   batchList: any[] = [];
   tempBatchList: any[] = [];
   assignCourses: any[] = [];
+  statusOption: any = false;
   //table setting
   tableSetting: any = {//inventory.item
     tableDetails: { title: 'Ecourse mapping', key: 'reports.fee.ecoursemapping', showTitle: false },
@@ -93,8 +95,8 @@ export class EcourseMappingComponent implements OnInit {
             this.tableSetting.actionSetting.options.push({ title: "Assign Standard", class: 'fa fa-check updateCss', optionType: 'assign' });
             this.tableSetting.actionSetting.editOptions.push({ title: "Assign Standard", class: 'fa fa-check updateCss', optionType: 'assign' });
             this.tableSetting.keys.push({ primaryKey: 'is_online', header: 'Status', priority: 3, allowSortingFlag: true, inputType: 'noEdit' });
-            this.tableSetting.actionSetting.options.push({ title: "Status", class: 'fa fa-check updateCss', optionType: 'assign' });
-            this.tableSetting.actionSetting.editOptions.push({ title: "Status", class: 'fa fa-check updateCss', optionType: 'assign' });
+            this.tableSetting.actionSetting.options.push({ title: "Status", class: 'fa fa-check updateCss', optionType: 'status' });
+            this.tableSetting.actionSetting.editOptions.push({ title: "Status", class: 'fa fa-check updateCss', optionType: 'status' });
           }
 
 
@@ -110,8 +112,8 @@ export class EcourseMappingComponent implements OnInit {
             this.tableSetting.actionSetting.options.push({ title: "Assign Courses", class: 'fa fa-check updateCss', optionType: 'assign' });
             this.tableSetting.actionSetting.editOptions.push({ title: "Assign Courses", class: 'fa fa-check updateCss', optionType: 'assign' });
             this.tableSetting.keys.push({ primaryKey: 'is_online', header: 'Status', priority: 3, allowSortingFlag: true, inputType: 'noEdit' });
-            this.tableSetting.actionSetting.options.push({ title: "Status", class: 'fa fa-check updateCss', optionType: 'assign' });
-            this.tableSetting.actionSetting.editOptions.push({ title: "Status", class: 'fa fa-check updateCss', optionType: 'assign' });
+            this.tableSetting.actionSetting.options.push({ title: "Status", class: 'fa fa-check updateCss', optionType: 'status' });
+            this.tableSetting.actionSetting.editOptions.push({ title: "Status", class: 'fa fa-check updateCss', optionType: 'status' });
           }
         }
       }
@@ -210,6 +212,7 @@ export class EcourseMappingComponent implements OnInit {
         master_course_names: "",
         master_course_ids: "",
         is_online: '',
+        status: 'Y'
       }
   }
 
@@ -220,6 +223,7 @@ export class EcourseMappingComponent implements OnInit {
       case 'assign': {
         this.updateEcourseObject = Object.assign({}, $event.data);// copy the object instead get reference to that object
         this.updateEcourseObject.master_course_names = $event.data.assignCourses;
+        this.ecourseObject.status = $event.data.is_online;
         this.batchList.forEach((obj) => obj.isSelected = false);
         if (this.updateEcourseObject.master_course_names) {
           let names = this.updateEcourseObject.master_course_names.split(",");
@@ -251,8 +255,15 @@ export class EcourseMappingComponent implements OnInit {
 
       case 'update': {
         this.updateEcourseObject = Object.assign({}, $event.data); // copy the object instead get reference to that object
+        this.ecourseObject.status = $event.data.is_online;
         this.updateCourseMapping();
         break;
+      }
+      
+      case 'status': {
+        this.ecourseObject.status = $event.data.is_online;
+        this.updateEcourseObject = Object.assign({}, $event.data); // copy the object instead get reference to that object
+        this.statusOption = true;
       }
     }
     console.log($event);
@@ -260,6 +271,7 @@ export class EcourseMappingComponent implements OnInit {
   }
 
   updateCourseMapping() {
+    this.statusOption = false;
     let url = '/api/v1/institute/courseMapping/update/' + this.institute_id;
     let data = [];
     if (this.updateEcourseObject.course_type == undefined || this.updateEcourseObject.course_type.trim() == '') {
@@ -267,12 +279,18 @@ export class EcourseMappingComponent implements OnInit {
       return;
     }
 
+    if (this.ecourseObject.status == 'Online') {
+      this.ecourseObject.status = 'Y';
+    } else {
+      this.ecourseObject.status = 'N';
+    }
+
     let obj = {
       course_type: this.updateEcourseObject.course_type,
       course_type_id: this.updateEcourseObject.course_type_id,
       is_test_series: "Y",
       master_course_ids: this.updateEcourseObject.master_course_ids,
-      is_online: this.ecourseObject.is_online
+      is_online: this.ecourseObject.status
     }
     // data.push(obj);
     console.log(this.updateEcourseObject, data);
