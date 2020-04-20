@@ -4,6 +4,7 @@ import { CourseModuleComponent } from './course-module.component';
 import { CourseHomeComponent } from './course-home/course-home.component';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { MasterTagComponent } from './master-tag/master-tag.component';
+import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
 
 
 @NgModule({
@@ -59,7 +60,17 @@ import { MasterTagComponent } from './master-tag/master-tag.component';
             {
                 path: 'master-tag',
                 component: MasterTagComponent
-            }
+            },
+            {
+                path: 'ecoursemapping',
+                component: EcourseMappingComponent,
+                pathMatch: 'prefix'
+            },
+            {
+                path: 'ecourse-file-manager',
+                loadChildren: 'app/components/course-module/ecourse-file-manager/ecourse-file-manager.module#EcourseFileManagerModule',
+                pathMatch: 'prefix'
+            },
           ]
       }
   ]

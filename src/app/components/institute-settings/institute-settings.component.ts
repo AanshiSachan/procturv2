@@ -338,7 +338,9 @@ export class InstituteSettingsComponent implements OnInit {
     exam_marks_not_update_notification_contact_number: '',
     vat_percentage:'',
     enable_send__website_url_in_student_credentail: '',
-    summaryReportDownloadOptions: ''
+    summaryReportDownloadOptions: '',
+    student_study_material_visibility: '',
+    notification_for_studymaterial_upload: ''
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
@@ -663,6 +665,8 @@ export class InstituteSettingsComponent implements OnInit {
     obj.new_student_addmission_email_notification = this.instituteSettingDet.new_student_addmission_email_notification;
     obj.new_student_addmission_sms_notification = this.instituteSettingDet.new_student_addmission_sms_notification;
     obj.enable_send__website_url_in_student_credentail = this.convertBoolenToNumber(this.instituteSettingDet.enable_send__website_url_in_student_credentail);
+    obj.student_study_material_visibility = this.convertBoolenToNumber(this.instituteSettingDet.student_study_material_visibility);
+    obj.notification_for_studymaterial_upload = this.convertBoolenToNumber(this.instituteSettingDet.notification_for_studymaterial_upload);
     if (this.checkPhoneValidation(this.instituteSettingDet.new_student_addmission_sms_notification) == false) {
       this.commonService.showErrorMessage('error', '', 'Please enter valid contact number.');
     } else {
@@ -878,6 +882,8 @@ export class InstituteSettingsComponent implements OnInit {
     }
     this.instituteSettingDet.vat_percentage=data.cgst+data.sgst;
     this.instituteSettingDet.enable_send__website_url_in_student_credentail = data.enable_send__website_url_in_student_credentail;
+    this.instituteSettingDet.student_study_material_visibility = data.student_study_material_visibility;
+    this.instituteSettingDet.notification_for_studymaterial_upload = data.notification_for_studymaterial_upload;
     if (this.instituteSettingDet.virtual_host_url == '' && this.instituteSettingDet.enable_send__website_url_in_student_credentail == 1) {
       this.instituteSettingDet.virtual_host_url = 'web.proctur.com';
     }

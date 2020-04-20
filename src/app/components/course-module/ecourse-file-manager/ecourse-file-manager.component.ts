@@ -15,6 +15,7 @@ export class EcourseFileManagerComponent implements OnInit {
   @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
   showUploadFileModal: boolean = false;
   institute_id: any;
+  isLangInstitue: any;
 
   constructor(private _http: HttpService,
     private auth: AuthenticatorService,
@@ -30,6 +31,16 @@ export class EcourseFileManagerComponent implements OnInit {
       this.institute_id = id;
       this.getDataUsedInCourseList();
     });
+    
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isLangInstitue = true;
+        } else {
+          this.isLangInstitue = false;
+        }
+      }
+    );
   }
 
   toggleFileUploadModal() {
@@ -38,7 +49,7 @@ export class EcourseFileManagerComponent implements OnInit {
   }
 
   gotoPageData(route){
-    // console.log(route)
+    console.log(route)
     this.router.navigate([route.routeLink], { queryParams: route.data });
   }
 

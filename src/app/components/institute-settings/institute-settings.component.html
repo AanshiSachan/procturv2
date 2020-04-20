@@ -2614,6 +2614,23 @@
                             </div>
                           </div>
                         </div>
+                        <div class="row m-0 webkitBox" style="padding-top: 10px;">
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="usRegSendSms" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_study_material_visibility"
+                                id="student_study_material_visibility">
+                              <label for="student_study_material_visibility">Student study material visibility</label>
+                            </div>
+                          </div>
+
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin:0" *ngIf="instituteSettingDet.student_study_material_visibility">
+                            <div class="field-checkbox-wrapper" style="width: 100%;margin-left: 0;">
+                              <input type="checkbox" value="" name="usRegSendSms" class="form-checkbox" [(ngModel)]="instituteSettingDet.notification_for_studymaterial_upload"
+                                id="notification_for_studymaterial_upload">
+                              <label for="notification_for_studymaterial_upload">Study material upload notification</label>
+                            </div>
+                          </div>
+                        </div>
                       </td>
                     </tr>
 

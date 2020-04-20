@@ -74,4 +74,47 @@
       opacity: 1;
       transform: translateX(0);
     }
+
+  }
+  .radio {
+    -webkit-appearance: radio;
+    float: left;
+    width: 20%;
+    margin-top: 2px;
+  }
+  .online_offline_label{
+    padding-left: 10px;;
+  }
+  .ga-modal-wrapper {
+    right: 0;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(136, 136, 136, 0.6);
+    z-index: 999;
+  }
+  .ga-modal-container {
+    display: flex;
+    overflow-y: auto;
+    height: 100%;
+  }
+  .ga-modal {
+    margin: auto;
+    background: #fff;
+    border: 2pt solid #fff;
+    border-radius: 0.2em;
+    /* -webkit-box-shadow: 0 2pt 3pt #999; */
+    box-shadow: 0 2pt 3pt #999;
+    min-width: 30%;
+  }
+  .ga-modal-head {
+    border-bottom: none;
+    font-weight: bold;
+    padding: 10px;
+  }
+  .ga-modal-body {
+    padding: 1em;
+    text-align: center;
+    /*  padding: 10px 0; */
   }
