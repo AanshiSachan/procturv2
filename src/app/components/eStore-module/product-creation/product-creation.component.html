@@ -1,6 +1,6 @@
 <div class="container-fluid product-contents-wrapper mainDiv">
   <div class="row m-0 form-steps-wrapper">
-    <ul id="progressbar" class="row" [ngStyle]="{'padding-left': jsonData.padding_left+'rem'}">
+    <ul id="progressbar" class="row">
       <li class="col" [ngClass]="{'active' : activeForm == 1, 'completed' : activeForm > 1}"
         *ngIf="formSequence[1].show" (click)="visitForm(1,formSequence[1])">Basic Info </li>
       <li class="col" [ngClass]="{'active' : activeForm == 2, 'completed' : activeForm > 2}"
@@ -21,7 +21,7 @@
         *ngIf="formSequence[9].show" (click)="visitForm(9,formSequence[9])">Review Product</li>
     </ul>
   </div>
-  <div class="row ml-0 mr-0 product-creation-wrapper"
+  <div class="ml-0 mr-0 product-creation-wrapper"
     style="background: #fafafa; padding-left: 15rem;  padding-right: 15rem;">
     <div class="col-md-12 product-form-wrapper">
       <div class="divWrapper">
@@ -35,10 +35,6 @@
           (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
           *ngIf="activeForm == 3">
         </app-video-lecture>
-        <!-- <app-study-material [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
-        (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
-        *ngIf="activeForm == 3">
-      </app-study-material> -->
         <app-mock-test [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
           (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
           *ngIf="activeForm == 4"></app-mock-test>

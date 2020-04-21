@@ -15,10 +15,7 @@ export class ProductCreationComponent implements OnInit {
   activeForm: number = 3;
   entity_id: any = 0;
   productItems: any = [];
-  jsonData={
-    padding_right:34,
-    padding_left:34
-  }
+
   // prodForm: product_details = new product_details();
   prodForm: any = {
     entity_id: 0,
@@ -109,13 +106,12 @@ export class ProductCreationComponent implements OnInit {
     private msgService: MessageShowService
   ) {
     this.route.params.subscribe(params => {
-      console.log(params);
       if (Object.keys(params).length > 0) {
         this.entity_id = params.entity_id;
         switch (params.form) {
           case 'basic': this.activeForm = 1; break;
           case 'Study_Material': this.activeForm = 2; break;
-          case 'Videos': this.activeForm = 3; break;         
+          case 'Videos': this.activeForm = 3; break;
           case 'Mock_Test': this.activeForm = 4; break;
           case 'Online_Test': this.activeForm = 5; break;
           case 'Online_Class': this.activeForm = 6; break;
@@ -178,7 +174,7 @@ export class ProductCreationComponent implements OnInit {
 
   }
 
-  // get value of previedata and set 
+  // get value of previedata and set
   previewSetter($event) {
     this.prodForm = $event;
     let keys = Object.keys(this.formSequence);
@@ -188,33 +184,20 @@ export class ProductCreationComponent implements OnInit {
     });
     this.formSequence[1].show = true;
     this.formSequence[9].show = true;
-      this.setPaddingDetails();
+
   }
 
-   setPaddingDetails(){
-    this.jsonData.padding_left =35;
-    let obj={1:30,2:30,3:28,4:23,5:19,6:14,7:13,8:8,9:6};
-    let keys = Object.keys(this.formSequence);
-    let flag_count=0;
-   keys.forEach((element, index) => {
-     let i = index + 1;
-     if(this.formSequence[i].show){
-       flag_count++;
-       this.jsonData.padding_left = obj[flag_count];
-     }
-   });
-   }
+
 
   toggleLoader(show) {
     this.formLoading = show;
   }
 
   visitForm(form_id, data) {
-    //console.log(this.formSequence);
+    console.log(this.formSequence);
     let moveForward = false;
     for (let index = data.index - 1; index > 0; index--) {
       let form = this.formSequence[index];
-      console.log(form);
       if (!form.show) {
         continue;
       }
@@ -227,7 +210,7 @@ export class ProductCreationComponent implements OnInit {
       }
     }
 
-    if (form_id > this.activeForm && !moveForward) {
+    if (!moveForward) {
       this.msgService.showErrorMessage('error', 'Please complete previous forms first', '');
     }
     else {

@@ -21,8 +21,7 @@ export class ProductListComponent implements OnInit {
       title: null,
       publishDate: null,
       isPaid: null,
-      minPrice: null,
-      maxPrice: null,
+      ecourseId: '-1',
       status: null,
       productType:-1
     },
@@ -40,7 +39,6 @@ export class ProductListComponent implements OnInit {
   };
   productList: any = [];
   productDetails:any=[];
-  isRippleLoad: boolean = false;
   ecourseList: any = [];
   subjectsList: any = [];
   studentDetails: any = [];
@@ -102,12 +100,15 @@ export class ProductListComponent implements OnInit {
   }
 
   getAllProductDetails(){
+    this.auth.showLoader();
     this.http.getMethod('product/get-product-list',null).subscribe(
       (data: any) => {
+        this.auth.hideLoader();
         this.productDetails = data.result;
         console.log(this.productDetails);
       },
       (error: any) => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', error.message, '');
       }
     )
@@ -120,31 +121,31 @@ export class ProductListComponent implements OnInit {
       "no_of_records": this.varJson.displayBatchSize
     }
 
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.http.postMethod('product/get', object).then(
       (resp: any) => {
         let response = resp['body'];
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (response.validate) {
           this.productList = response.result.results;
           console.log(this.productList);
           this.varJson.total_items = response.result.total_records;
           // -- added by laxmi
-          // this code is used to laod image url dynamically not save in locally so dont remove it 
+          // this code is used to laod image url dynamically not save in locally so dont remove it
           this.productList.forEach(obj => {
             if(obj.logo_url){
-              obj.logo_url =obj.logo_url+"?t="+new Date().getTime();// 
-            }            
+              obj.logo_url =obj.logo_url+"?t="+new Date().getTime();//
+            }
           });
 
         }
         else {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('error', "something went wrong, try again", '');
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', "something went wrong, try again", '');
       });
 
@@ -158,7 +159,7 @@ export class ProductListComponent implements OnInit {
     var hours = date.getHours();
 
     newDate.setHours(hours - offset);
-    return moment(newDate).format('DD MMM YYYY');   
+    return moment(newDate).format('DD MMM YYYY');
 }
 
   /* Fetches Data as per the user selected batch size */
@@ -171,18 +172,18 @@ export class ProductListComponent implements OnInit {
   getSubjectList() {
     //  Fetch Subjects List
     //<base_url>/ecourse/{institute_id}/{ecourse_id}/subjects
-    this.isRippleLoad = false;
+    this.auth.hideLoader();
     this.filter.subject_id = '-1';
     this.subjectsList = [];
     this._http.getData('/api/v1/ecourse/' + this.jsonKeys.institute_id + '/' + this.filter.ecourse_id + '/subjects').subscribe(
       (resp: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (resp && resp.length) {
           this.subjectsList = resp;
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
     // }
@@ -268,11 +269,11 @@ export class ProductListComponent implements OnInit {
     }
   }
     console.log(object);
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     const url = `user-product/student-details/${this.product_details_for_student.entity_id}`;
     this.http.postMethod(url, object).then(
       (resp:any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (resp) {
           let data = resp['body'];
           if (resp && data.validate) {
@@ -284,7 +285,7 @@ export class ProductListComponent implements OnInit {
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
       }
     );
@@ -302,7 +303,7 @@ export class ProductListComponent implements OnInit {
   // }
 
   getMasterCourseData() {
-    // this.isRippleLoad = true;
+    // this.auth.showLoader();
     let ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
     let object = {
       'ecourse_ids': ecourse,
@@ -310,19 +311,19 @@ export class ProductListComponent implements OnInit {
     };
     this._http.postData('/api/v1/institute/courseMapping/get-mastercourse-or-standard', object).subscribe(
       (resp: any) => {
-        // this.isRippleLoad = false;
+        // this.auth.hideLoader();
         if (resp) {
           this.masterCourseDetails = resp;
         }
       },
       (err) => {
-        // this.isRippleLoad = false;
+        // this.auth.hideLoader();
         this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
   }
 
   getCourseDetails(event) {
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     let ecourse = [];
     if(event == ''){
        ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
@@ -334,28 +335,28 @@ export class ProductListComponent implements OnInit {
     };
     this._http.postData('/api/v1/institute/courseMapping/get-courses', object).subscribe(
       (resp: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (resp) {
           this.courseDetails = resp.course_list;
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
   }
 
   getSubjectDetails(event){
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this._http.getData('/api/v1/batches/fetchCombinedBatchData/' + this.jsonKeys.institute_id + '?standard_id=' + event+'&subject_id =-1'+'&assigned = N').subscribe(
       (resp: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (resp) {
           this.courseDetails = resp;
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
   }
@@ -377,10 +378,10 @@ export class ProductListComponent implements OnInit {
       'is_send_sms': is_send_sms
     };
     console.log(object);
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.http.postMethod('order/assign-product', object).then(
       (resp:any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         if (resp) {
           let data = resp['body'];
           if (resp && data.validate) {
@@ -392,7 +393,7 @@ export class ProductListComponent implements OnInit {
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
       }
     );
@@ -422,11 +423,10 @@ export class ProductListComponent implements OnInit {
     }
     switch (operation) {
       case 'delete': {
-        if (!this.isRippleLoad) {
-          this.isRippleLoad = true;
+          this.auth.showLoader();
           this.http.getMethod('product/delete/' + id, null).subscribe(
             (resp: any) => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
 
               console.log(resp);
               if (resp && resp.validate) {
@@ -446,10 +446,9 @@ export class ProductListComponent implements OnInit {
               }
             },
             (err) => {
-              this.isRippleLoad = false;
+              this.auth.hideLoader();
               this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
             });
-        }
         break;
       }
 
@@ -479,11 +478,10 @@ export class ProductListComponent implements OnInit {
 
 
   tempFucntion(id, item, body, operation) {
-    if (!this.isRippleLoad) {
-      this.isRippleLoad = true;
+      this.auth.showLoader();
       this.http.postMethod('product/change-status', body).then(
         (resp:any) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           if (resp) {
             let data = resp['body'];
             item.status = body.status;
@@ -497,11 +495,10 @@ export class ProductListComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad = false;
+          this.auth.hideLoader();
           this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
         }
       );
-    }
 
   }
   getPublishedDate(entity_id) {
@@ -556,29 +553,29 @@ export class ProductListComponent implements OnInit {
     this.varJson.PageIndex = 1;
     if (JSON.parse(this.filter.by.isPaid)) {
 
-      if (!this.filter.by.minPrice) {
-        this.msgService.showErrorMessage('error', 'please enter product minimun price', '');
-        return;
-      }
-      if (!this.filter.by.maxPrice) {
-        this.msgService.showErrorMessage('error', 'please enter product maximum price ', '');
-        return;
-      }
-
-      if (Number(this.filter.by.maxPrice) < Number(this.filter.by.minPrice)) {
-        this.msgService.showErrorMessage('error', 'product maximum price should be grater than minimum price ', '');
-        return;
-      }
+      // if (!this.filter.by.minPrice) {
+      //   this.msgService.showErrorMessage('error', 'please enter product minimun price', '');
+      //   return;
+      // }
+      // if (!this.filter.by.maxPrice) {
+      //   this.msgService.showErrorMessage('error', 'please enter product maximum price ', '');
+      //   return;
+      // }
+      //
+      // if (Number(this.filter.by.maxPrice) < Number(this.filter.by.minPrice)) {
+      //   this.msgService.showErrorMessage('error', 'product maximum price should be grater than minimum price ', '');
+      //   return;
+      // }
     }
     data = {
       'page_no': this.varJson.PageIndex,
       'no_of_records': this.varJson.displayBatchSize,
       'between': between,
       'by': [
-        {
-          'column': 'title',
-          'value': this.filter.by.title
-        },
+        // {
+        //   'column': 'title',
+        //   'value': this.filter.by.title
+        // },
         {
           'column': 'publishDate',
           'value': this.filter.by.publishDate ? moment(this.filter.by.publishDate).format('YYYY-MM-DD') : null
@@ -588,22 +585,22 @@ export class ProductListComponent implements OnInit {
           'column': 'isPaid',
           'value': JSON.parse(this.filter.by.isPaid)
         },
-        {
-          'column': 'minPrice',
-          'value': Number(this.filter.by.minPrice)
-        },
-        {
-          'column': 'maxPrice',
-          'value': this.filter.by.maxPrice ? Number(this.filter.by.maxPrice) : this.filter.by.maxPrice
-        },
+        // {
+        //   'column': 'minPrice',
+        //   'value': Number(this.filter.by.minPrice)
+        // },
+        // {
+        //   'column': 'maxPrice',
+        //   'value': this.filter.by.maxPrice ? Number(this.filter.by.maxPrice) : this.filter.by.maxPrice
+        // },
         {
           'column': 'status',
           'value': this.filter.by.status ? Number(this.filter.by.status) : this.filter.by.status
         },
-        {
-        	"column": "productType",
-            "value": Number(this.filter.by.productType) 
-        }
+        // {
+        // 	"column": "productType",
+        //     "value": Number(this.filter.by.productType)
+        // }
 
       ],
       'sort': {
@@ -611,10 +608,10 @@ export class ProductListComponent implements OnInit {
         'assending': false
       }
     };
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.http.postMethod('product/advance-filter', data).then(
       (resp: any) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         let response = resp['body'];
         console.log(response);
         if (response.validate) {
@@ -623,7 +620,7 @@ export class ProductListComponent implements OnInit {
         }
       },
       (err) => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
       }
     );

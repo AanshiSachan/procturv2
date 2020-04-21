@@ -4,6 +4,8 @@ import { Router } from '../../../../../../node_modules/@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
+// import { FroalaEditorModule , FroalaEditorCompnoent} from 'ng2-froala-editor/ng2-froala-editor';
+
 
 @Component({
   selector: 'app-basic-info',
@@ -71,6 +73,16 @@ export class BasicInfoComponent implements OnInit {
 
     }
   };
+
+  public options: Object = {
+    placeholderText: 'Edit Your Content Here!',
+    charCounterCount: false,
+    toolbarButtons: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
+    toolbarButtonsXS: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
+    toolbarButtonsSM: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
+    toolbarButtonsMD: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
+}
+
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
@@ -224,7 +236,7 @@ export class BasicInfoComponent implements OnInit {
     }
 
 
-    if ((!this.prodForm.is_duration) && 
+    if ((!this.prodForm.is_duration) &&
     (moment(this.prodForm.valid_from_date).valueOf() < moment(this.prodForm.sales_from_date).valueOf())) {
       this.msgService.showErrorMessage('error', 'Product visibility start date cannot be prior to sales start date', '');
       return;
@@ -347,7 +359,7 @@ export class BasicInfoComponent implements OnInit {
     // var hours = date.getHours();
 
     // newDate.setHours(hours - offset);
-    return moment(date_s).format('YYYY-MM-DD');   
+    return moment(date_s).format('YYYY-MM-DD');
 }
 
 

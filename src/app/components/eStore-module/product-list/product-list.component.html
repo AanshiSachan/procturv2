@@ -14,11 +14,39 @@
       </section>
     </div>
     <div class="col-md-4 col-sm-4 text-right m-auto">
-      <button class="btn btn-primary btn-product " routerLink="/view/e-store/create">New Product</button>
+      <button class="btn btn-product pr-btn" routerLink="/view/e-store/create">
+        <i class="fa fa-plus" style="color: white;" aria-hidden="true"></i>
+        New Product</button>
     </div>
   </div>
   <div class="row m-0 action-bar">
     <div class="col-md-12 col-sm-12 container">
+
+      <div class="form-group field-wrapper form-el-width">
+        <label class="text-bold">eCourse</label>
+        <select [(ngModel)]="filter.by.ecourseId" class="form-ctrl">
+          <option value="-1">All</option>
+        </select>
+      </div>
+
+      <div class="form-group field-wrapper form-el-width">
+        <label class="text-bold">Status</label>
+        <select [(ngModel)]="filter.by.status" class="form-ctrl">
+          <option value=10>Draft</option>
+          <option value=20>Ready </option>
+          <option value=30>Published</option>
+          <option value=40>Unpublished</option>
+          <option value=50>Closed</option>
+        </select>
+      </div>
+
+      <div class="form-group field-wrapper form-el-width">
+        <label class="text-bold">Is Paid</label>
+        <select [(ngModel)]="filter.by.isPaid" class="form-ctrl">
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </select>
+      </div>
 
       <div class="form-group field-wrapper form-el-width datePickerBox">
         <label class="text-bold">Sales From Date</label>
@@ -37,93 +65,8 @@
           [(ngModel)]="filter.by.publishDate" name="FD" bsDatepicker readonly="true" />
       </div>
 
-      <div class="form-group field-wrapper form-el-width">
-        <label class="text-bold">Product</label>
-        <select [(ngModel)]="filter.by.title" class="form-ctrl" (change)="getPublishedDate($event.target.value)">
-          <option *ngFor="let product of productDetails" title="{{product.title}}" [value]="product.title">
-            {{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}
-
-          </option>
-        </select>
-      </div>
-      <div class="form-group field-wrapper form-el-width">
-        <label class="text-bold">Status</label>
-        <select [(ngModel)]="filter.by.status" class="form-ctrl">
-          <option value=10>Draft</option>
-          <option value=20>Ready </option>
-          <option value=30>Published</option>
-          <option value=40>Unpublished</option>
-          <option value=50>Closed</option>
-        </select>
-      </div>
-
-      <div class="form-group field-wrapper form-el-width">
-        <label class="text-bold">Product Type</label>
-        <select [(ngModel)]="filter.by.productType" class="form-ctrl">
-          <option value="-1">Both</option>
-          <option value="1">Advance</option>
-          <option value="0">Normal</option>
-        </select>
-      </div>
-      <div class="form-group field-wrapper form-el-width">
-        <label class="text-bold">Is Paid</label>
-        <select [(ngModel)]="filter.by.isPaid" class="form-ctrl">
-          <option value="true">True</option>
-          <option value="false">False</option>
-        </select>
-      </div>
-
-      <div class="form-group field-wrapper form-el-width" *ngIf="filter.by.isPaid=='true'">
-        <label class="text-bold">Minimum Price
-          <span class="text-danger">*</span>
-        </label>
-        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="minPrice"
-          class="form-ctrl" [(ngModel)]="filter.by.minPrice" name="minPrice" />
-      </div>
-
-      <div class="form-group field-wrapper form-el-width" *ngIf="filter.by.isPaid=='true'">
-        <label class="text-bold">Maximum Price
-          <span class="text-danger">*</span>
-        </label>
-        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="maxPrice"
-          class="form-ctrl" [(ngModel)]="filter.by.maxPrice" name="maxPrice" />
-      </div>
-
-
-      <!-- 
-      <div class="form-group field-wrapper form-el-width">
-        <label class="text-bold">E-course</label>
-        <select [(ngModel)]="filter.ecourse_id" class="form-ctrl" (ngModelChange)="getSubjectList()">
-          <option value="-1" selected>Select E-course</option>
-          <option *ngFor="let course of ecourseList" [value]="course.course_type_id">
-            <span
-              title="{{course.course_type}}">{{ (course.course_type.length > 50) ? (course.course_type | slice:0:50) + '...' : course.course_type}}</span>
-          </option>
-        </select>
-      </div> -->
-
-      <!-- <div class="form-group field-wrapper form-el-width">
-        <label class="text-bold">Standard</label>
-        <select [(ngModel)]="filter.standard_id" class="form-ctrl" (ngModelChange)="getSubjectList()" name="cc" id="cc">
-          <option value="-1" disabled selected>Select Standard</option>
-          <option *ngFor="let std of standardList" [value]="std.exam_id">{{std.standard_name}}</option>
-        </select>
-      </div> -->
-
-      <!-- <div class="form-group  field-wrapper form-el-width">
-        <label class="text-bold">Subject</label>
-        <select [(ngModel)]="filter.subject_id" class="form-ctrl" name="cc" id="cc">
-          <option value="-1" selected>Select Subject</option>
-          <option *ngFor="let sub of subjectsList" [value]="sub.subject_id">
-            <span
-              title="{{sub.subject_name}}">{{ (sub.subject_name.length > 50) ? (sub.subject_name | slice:0:50) + '...' : sub.subject_name }}</span>
-          </option>
-
-        </select>
-      </div> -->
-
-      <button class="btn btn-primary btn-product btn_go" [disabled]="isRippleLoad" (click)="filterData()">GO</button>
-      <button class="btn btn-primary btn-product btn_go" [disabled]="isRippleLoad" (click)="Clearfilter()">Clear
+      <button class="btn pr-btn btn-product btn_go" [disabled]="isRippleLoad" (click)="filterData()">GO</button>
+      <button class="btn pr-btn btn-product btn_go" [disabled]="isRippleLoad" (click)="Clearfilter()">Clear
         Filter</button>
 
     </div>
