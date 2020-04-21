@@ -451,8 +451,8 @@ export class ProductListComponent implements OnInit {
               this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
             });
         break;
+        }
       }
-
       case 'ready': {
         object.status = 20;
         this.tempFucntion(id, item, object, operation);
@@ -501,7 +501,7 @@ export class ProductListComponent implements OnInit {
           this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
         }
       );
-
+    }
   }
   getPublishedDate(entity_id) {
     this.filter.by.title = entity_id;
