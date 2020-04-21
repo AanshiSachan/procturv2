@@ -27,6 +27,7 @@ export class StudyMaterialComponent implements OnInit {
   outputMessage: any = '';
   materialData: any[] = [];
   testlist: any[] = [];
+  selectAll: any;
 
   constructor(
     private router: Router,

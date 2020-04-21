@@ -18,12 +18,13 @@
         <div class="form-group">
           <label class="text-bold">E-courses <span class="text-danger">*</span>
             <div class="questionInfo inline-relative">
-                <span class="qInfoIcon i-class">i</span>
-                <div class="tooltip-box-field">
-                    Multiple Ecourses can be selected to create a product. 
-                    Product items from all the selected Ecourses will be fetched
-                </div>
-              </div></label>
+              <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
+              <div class="tooltip-box-field">
+                Multiple Ecourses can be selected to create a product.
+                Product items from all the selected Ecourses will be fetched
+              </div>
+            </div>
+          </label>
           <ng-multiselect-dropdown  [placeholder]="'Select E-courses'" [(ngModel)]="products_ecourse_maps"
             [data]="ecourseList" [settings]="moderatorSettings" [disabled]="isAdvanceProductEdit">
           </ng-multiselect-dropdown>
@@ -35,24 +36,27 @@
         <div class="form-group">
           <label class="text-bold">Description  <span class="text-danger">*</span>
             <div class="questionInfo inline-relative">
-                <span class="qInfoIcon i-class">i</span>
+                <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
                 <div class="tooltip-box-field">
                     The given description will be shown as
                      short description of the product on the website
                 </div>
               </div></label>
           <textarea [(ngModel)]="prodForm.about" name="description" class="form-control form-control-sm"
-            placeholder="Write a short description about this product" maxLength="1500"></textarea>
+            placeholder="Write a short description about this product" maxLength="1500" ></textarea>
         </div>
       </div>
+      <!-- <div class="">
+        <div [froalaEditor]="options" >Hello, Froala!</div>
+      </div> -->
       <div class="col-md-12">
         <div class="col-md-6" style=" padding-left: 0px;">
           <div class="form-group">
             <label class="text-bold">Product Sell Limit <span class="text-danger">*</span>
               <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
+                  <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
                   <div class="tooltip-box-field">
-                      No. of products which can be sold from the 
+                      No. of products which can be sold from the
                       website will be as per the defined product sell limit
                   </div>
                 </div></label>
@@ -65,7 +69,7 @@
             <label class="text-bold" style="position: absolute; left: 19px;">Price</label>
             <span class="field-checkbox-wrapper">
               <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_paid"
-                (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price =0" 
+                (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price =0"
                 name="free_price" name="is_paid" [disabled]="isAdvanceProductEdit">
               <label for="free_price">Free</label>
             </span>
@@ -75,22 +79,29 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12">    
+      <div class="col-md-12">
           <div class="form-group">
             <span class="field-checkbox-wrapper">
               <input class="form-checkbox" type="checkbox" id="adv_product" [(ngModel)]="prodForm.is_advance_product"
                   name="is_advance_product" [disabled]="isAdvanceProductEdit">
-              <label for="adv_product">Is Advance Product</label>
+              <label for="adv_product">Is Advance Product
+                <div class="questionInfo inline-relative">
+                    <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
+                    <div class="tooltip-box-field">
+                        Help text for Advance product
+                    </div>
+                  </div>
+              </label>
             </span>
           </div>
       </div>
-      <div class="col-md-12">
+      <div class="col-md-12" style="border: 1px solid #ccc;padding: 10px;margin-left: 10px;margin-bottom: 10px;">
         <div class="form-group">
           <label class="text-bold">Product Items <div class="questionInfo inline-relative">
-              <span class="qInfoIcon i-class">i</span>
+              <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
               <div class="tooltip-box-field">
-                  These are the items which can be added to the product, 
-                  whose data will be fetched on the basis of selected Ecourses 
+                  These are the items which can be added to the product,
+                  whose data will be fetched on the basis of selected Ecourses
               </div>
             </div></label>
         </div>
@@ -105,12 +116,12 @@
           </div>
         </div>
       </div>
-      <div class="row m-0">
-        <div class="col-md-12 form-group m-0">
+      <div class="col-md-12" style="border: 1px solid #ccc;padding: 10px;margin-left: 10px;margin-bottom: 10px;">
+        <div class="col-md-12 form-group m-0" style="padding-left: 0;">
           <label class="text-bold">Sales Date Range <div class="questionInfo inline-relative">
-              <span class="qInfoIcon i-class">i</span>
+              <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
               <div class="tooltip-box-field">
-                  This is the date range in which the product can be sold. 
+                  This is the date range in which the product can be sold.
                   Sales end date cannot be prior to sales start date
               </div>
             </div></label>
@@ -130,14 +141,14 @@
           </div>
         </div>
       </div>
-      <div class="row m-0">
-        <div class="col-md-9 form-group m-0">
+      <div class="col-md-12" style="border: 1px solid #ccc;padding: 10px;margin-left: 10px;margin-bottom: 10px;">
+        <div class="col-md-9 form-group m-0" style="padding-left: 0;">
           <label class="text-bold">Visibility Date Range<div class="questionInfo inline-relative">
-              <span class="qInfoIcon i-class">i</span>
+              <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
               <div class="tooltip-box-field">
-                This is the product validity date range. 
+                This is the product validity date range.
                 The student can access the product in the defined date range only.
-                 Product visibility start date cannot be prior to sales start date 
+                 Product visibility start date cannot be prior to sales start date
               </div>
             </div></label>
         </div>
@@ -169,18 +180,18 @@
           <div class="col-md-12 " style="padding-top: 0px;padding-bottom: 10px;">
             <label for="from">Duration<span class="text-danger">*</span></label>
             <div class="questionInfo inline-relative">
-              <span class="qInfoIcon i-class">i</span>
+              <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
               <div class="tooltip-box-field">
                   This is the product validity duration.
-                   The student can access the product in the defined duration only, 
-                  starting from the purchase date. 
+                   The student can access the product in the defined duration only,
+                  starting from the purchase date.
                   Product visibility duration can be set in no. of days
               </div>
             </div>
             <input type="text" maxlength="4" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="prodForm.duration"  name="from"
               class="form-control form-control-sm" autocomplete="off" >
           </div>
-        </div>      
+        </div>
         <!-- <div class="col-md-6 form-group"  style="margin-top: 1.6rem;">
           <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
             <label for="from">{{prodForm.valid_from_date}}</label> to <label

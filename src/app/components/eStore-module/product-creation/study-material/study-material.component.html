@@ -40,6 +40,11 @@
     </div>
   </div>
 
+  <!-- <div class="field-checkbox-wrapper" style="margin-left: 10px;">
+    <input type="checkbox"  class="form-checkbox" [(ngModel)]="selectAll" name="has_mock_tests" id="Select_All">
+    <label for="Select_All">Select All</label>
+  </div> -->
+
   <div class="row main-topic-row" *ngFor="let ecourse of materialData;">
     <div class="row singleton-row col-md-12 topic-data main-topic-data">
       <div class="col-md-8 topic-name">
@@ -111,7 +116,7 @@
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="subject.isExpand" (click)="toggleObject(subject)"></i>
           <i class="fa fa-plus" *ngIf="!subject.isExpand" (click)="toggleObject(subject)"></i>
-        </button> {{subject.subject_name}} 
+        </button> {{subject.isExpand}} {{subject.subject_name}}
       </div>
       <div class="col-md-4">
       </div>
@@ -157,7 +162,7 @@
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="subjectListToggle(topic)"></i>
           <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="subjectListToggle(topic)"></i>
-        </button> {{topic.topic_name}} 
+        </button>  {{topic.isExpand}} {{topic.topic_id}} {{topic.topic_name}}
       </div>
       <div class="col-md-4">
       </div>

@@ -71,7 +71,7 @@
                 </div>
                 <div class="session_id">
                   <span>Session Id : {{class.session_id}}</span>
-                  <span class="class-for-name">({{class.live_meeting_with}})</span>
+                  <span class="class-for-name" *ngIf="class.live_meeting_with == 'Zoom'">({{class.live_meeting_with}})</span>
                 </div>
               </div>
               <div class="notification_container" *ngIf="!liveClassFor">

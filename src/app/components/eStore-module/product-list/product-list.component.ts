@@ -21,8 +21,7 @@ export class ProductListComponent implements OnInit {
       title: null,
       publishDate: null,
       isPaid: null,
-      minPrice: null,
-      maxPrice: null,
+      ecourseId: '-1',
       status: null,
       productType:-1
     },
@@ -101,12 +100,15 @@ export class ProductListComponent implements OnInit {
   }
 
   getAllProductDetails(){
+    this.auth.showLoader();
     this.http.getMethod('product/get-product-list',null).subscribe(
       (data: any) => {
+        this.auth.hideLoader();
         this.productDetails = data.result;
         console.log(this.productDetails);
       },
       (error: any) => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error', error.message, '');
       }
     )
@@ -129,11 +131,11 @@ export class ProductListComponent implements OnInit {
           console.log(this.productList);
           this.varJson.total_items = response.result.total_records;
           // -- added by laxmi
-          // this code is used to laod image url dynamically not save in locally so dont remove it 
+          // this code is used to laod image url dynamically not save in locally so dont remove it
           this.productList.forEach(obj => {
             if(obj.logo_url){
-              obj.logo_url =obj.logo_url+"?t="+new Date().getTime();// 
-            }            
+              obj.logo_url =obj.logo_url+"?t="+new Date().getTime();//
+            }
           });
 
         }
@@ -157,7 +159,7 @@ export class ProductListComponent implements OnInit {
     var hours = date.getHours();
 
     newDate.setHours(hours - offset);
-    return moment(newDate).format('DD MMM YYYY');   
+    return moment(newDate).format('DD MMM YYYY');
 }
 
   /* Fetches Data as per the user selected batch size */
@@ -448,7 +450,6 @@ export class ProductListComponent implements OnInit {
               this.auth.hideLoader();
               this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
             });
-        }
         break;
       }
 
@@ -500,7 +501,6 @@ export class ProductListComponent implements OnInit {
           this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
         }
       );
-    }
 
   }
   getPublishedDate(entity_id) {
@@ -555,29 +555,29 @@ export class ProductListComponent implements OnInit {
     this.varJson.PageIndex = 1;
     if (JSON.parse(this.filter.by.isPaid)) {
 
-      if (!this.filter.by.minPrice) {
-        this.msgService.showErrorMessage('error', 'please enter product minimun price', '');
-        return;
-      }
-      if (!this.filter.by.maxPrice) {
-        this.msgService.showErrorMessage('error', 'please enter product maximum price ', '');
-        return;
-      }
-
-      if (Number(this.filter.by.maxPrice) < Number(this.filter.by.minPrice)) {
-        this.msgService.showErrorMessage('error', 'product maximum price should be grater than minimum price ', '');
-        return;
-      }
+      // if (!this.filter.by.minPrice) {
+      //   this.msgService.showErrorMessage('error', 'please enter product minimun price', '');
+      //   return;
+      // }
+      // if (!this.filter.by.maxPrice) {
+      //   this.msgService.showErrorMessage('error', 'please enter product maximum price ', '');
+      //   return;
+      // }
+      //
+      // if (Number(this.filter.by.maxPrice) < Number(this.filter.by.minPrice)) {
+      //   this.msgService.showErrorMessage('error', 'product maximum price should be grater than minimum price ', '');
+      //   return;
+      // }
     }
     data = {
       'page_no': this.varJson.PageIndex,
       'no_of_records': this.varJson.displayBatchSize,
       'between': between,
       'by': [
-        {
-          'column': 'title',
-          'value': this.filter.by.title
-        },
+        // {
+        //   'column': 'title',
+        //   'value': this.filter.by.title
+        // },
         {
           'column': 'publishDate',
           'value': this.filter.by.publishDate ? moment(this.filter.by.publishDate).format('YYYY-MM-DD') : null
@@ -587,22 +587,22 @@ export class ProductListComponent implements OnInit {
           'column': 'isPaid',
           'value': JSON.parse(this.filter.by.isPaid)
         },
-        {
-          'column': 'minPrice',
-          'value': Number(this.filter.by.minPrice)
-        },
-        {
-          'column': 'maxPrice',
-          'value': this.filter.by.maxPrice ? Number(this.filter.by.maxPrice) : this.filter.by.maxPrice
-        },
+        // {
+        //   'column': 'minPrice',
+        //   'value': Number(this.filter.by.minPrice)
+        // },
+        // {
+        //   'column': 'maxPrice',
+        //   'value': this.filter.by.maxPrice ? Number(this.filter.by.maxPrice) : this.filter.by.maxPrice
+        // },
         {
           'column': 'status',
           'value': this.filter.by.status ? Number(this.filter.by.status) : this.filter.by.status
         },
-        {
-        	"column": "productType",
-            "value": Number(this.filter.by.productType) 
-        }
+        // {
+        // 	"column": "productType",
+        //     "value": Number(this.filter.by.productType)
+        // }
 
       ],
       'sort': {
