@@ -18,8 +18,8 @@ import { ProductCreationComponent } from './product-creation/product-creation.co
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
 import { EstoreRoutingModule } from './estore-routing.module';
 import { ProductService } from '../../services/products.service';
- 
 
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 
@@ -31,10 +31,11 @@ import { ProductService } from '../../services/products.service';
     BsDatepickerModule,
     TimepickerModule,
     SharedModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    CKEditorModule,
   ],
   declarations: [
-    ProductListComponent,    
+    ProductListComponent,
     ProductCreationComponent,
     BasicInfoComponent,
     MockTestComponent,

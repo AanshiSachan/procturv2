@@ -4,8 +4,7 @@ import { Router } from '../../../../../../node_modules/@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
-// import { FroalaEditorModule , FroalaEditorCompnoent} from 'ng2-froala-editor/ng2-froala-editor';
-
+import * as InLineEditor from '@ckeditor/ckeditor5-build-inline';
 
 @Component({
   selector: 'app-basic-info',
@@ -14,6 +13,11 @@ import { ProductService } from '../../../../services/products.service';
 })
 export class BasicInfoComponent implements OnInit {
 
+
+  public InlineEditor = InLineEditor;
+  public config = {
+       toolbar: [ 'heading', '|', 'bold', 'italic', 'fontColor', '|', 'bulletedList', 'numberedList', 'insertTable', '|', 'undo', 'redo']
+   };
 
   @Input() entity_id: any;
   productItems: any = [];
