@@ -247,8 +247,13 @@ export class LiveClassesComponent implements OnInit {
         this.proctur_live_view_or_download_visibility = data.proctur_live_view_or_download_visibility;
         this.getClassesFor();
         // console.log(this.getClasses)
-        this.totalRow = this.getClasses.length;
 
+        if (this.liveClassFor) {
+          this.totalRow = this.previosLiveClasses.length;
+        }
+        else {
+          this.totalRow = this.futureLiveClasses.length;
+        }
         this.fetchTableDataByPage(this.PageIndex);
         this.getClasses.map((ele) => {
           ele.start_datetime = moment(ele.start_datetime).format('YYYY-MM-DD hh:mm a')
