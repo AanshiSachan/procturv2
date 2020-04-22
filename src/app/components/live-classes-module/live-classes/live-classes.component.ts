@@ -948,7 +948,7 @@ export class LiveClassesComponent implements OnInit {
             this.auth.hideLoader();
             let data = JSON.parse((newxhr.response))
             if(data.statusCode >= 200 && data.statusCode < 300){
-              this.msgService.showErrorMessage('success', '', 'File(s) uploaded successfully');
+              this.msgService.showErrorMessage('success', '', 'File uploaded successfully');
               this.fileUploadInput = '';
               $('#uploadRec').modal('hide');
               this.getClassesList();
