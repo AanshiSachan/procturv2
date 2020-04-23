@@ -140,8 +140,11 @@ export class StudentHomeComponent implements OnInit {
     doa_to_date: moment().format('YYYY-MM-DD'),
     country_id: '-1',
     state_id: '-1',
-    city_id: '-1'
+    city_id: '-1',
+    assign_to: '0'
   };
+
+  enqAssignTo: any = [];
 
   applyLeave = {
     student_id: '',
@@ -894,7 +897,7 @@ export class StudentHomeComponent implements OnInit {
       this.auth.hideLoader();
       this.masterCourseList = data;
     });
-    
+
     if (!this.standardList.length) {
        this.auth.showLoader();
       this.prefill.getEnqStardards().subscribe(data => {
@@ -907,6 +910,13 @@ export class StudentHomeComponent implements OnInit {
         this.schoolList = data;
       });
     }
+
+    this.prefill.getAssignTo().subscribe(
+      data => { this.enqAssignTo = data; },
+      err => {
+        this.auth.hideLoader();
+      }
+    );
 
     if (this.isProfessional) {  // batch module
       this.batchModuleCalls();
@@ -1301,7 +1311,7 @@ export class StudentHomeComponent implements OnInit {
          }
       )
     }
-  
+
   }
 
   /* =================================================================================================== */

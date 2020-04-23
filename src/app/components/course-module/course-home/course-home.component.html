@@ -28,22 +28,15 @@
         <span>Create and manage courses with ease. Define standards, subjects, and topics as well as schedule classes and exams for the course.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/create/class/add" *ngIf="jsonFlags.isShowClass">
+    <div class="course-menu-item" routerLink="../ecourse-file-manager" *ngIf="jsonFlags.isEcourseFileManager">
       <div class="menu-title">
-        <img src="./assets/images/course/add-class.svg" alt="add class">
-        <span>Add Class</span>
+        <img src="./assets/images/activity/study_material.svg" alt="">
+        <span>Study Materials</span>
       </div>
       <div class="menu-description">
-        <span>Plan and schedule a class</span>
-      </div>
-    </div>
-    <div class="course-menu-item" routerLink="/view/course/create/exam" *ngIf="jsonFlags.isShowExam">
-      <div class="menu-title">
-        <img src="./assets/images/course/add-exam.svg" alt="add exam">
-        <span>Add Exam</span>
-      </div>
-      <div class="menu-description">
-        <span>Schedule exam for any of the courses.</span>
+        <span>Manage storage of uploaded and downloaded files by E-Course. Upload or download the files and manage
+          files in folders and
+          by category.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/course/file-manager">
@@ -82,18 +75,7 @@
         <span>Time table as per the subject on weekly basis.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/archiving" *ngIf="jsonFlags.isShowArchiving">
-      <div class="menu-title">
-        <img src="./assets/images/activity/archive.svg" alt="archiving">
-        <span>Archiving</span>
-      </div>
-      <div class="menu-description">
-        <span *ngIf="(isLangInstitue)">Archive the batches, students and get the report of archived batches and
-          students.</span>
-        <span *ngIf="(!isLangInstitue)">Archive the courses, students and get the report of archived courses and
-          students.</span>
-      </div>
-    </div>
+
     <div class="course-menu-item" routerLink="/view/course/reports">
       <div class="menu-title">
         <img src="./assets/images/course/reports.svg" alt="reports">
@@ -131,18 +113,19 @@
         <span *ngIf="isLangInstitue">Create E-courses and assign multiple batches to the E-courses</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="../ecourse-file-manager"
-            *ngIf="jsonFlags.isEcourseFileManager">
-            <div class="menu-title">
-              <img src="./assets/images/activity/study_material.svg" alt="">
-              <span>Study Materials</span>
-            </div>
-            <div class="menu-description">
-              <span>Manage storage of uploaded and downloaded files by E-Course. Upload or download the files and manage
-                files in folders and
-                by category.</span>
-            </div>
-          </div>
+    <div class="course-menu-item" routerLink="/view/course/archiving" *ngIf="jsonFlags.isShowArchiving">
+      <div class="menu-title">
+        <img src="./assets/images/activity/archive.svg" alt="archiving">
+        <span>Archiving</span>
+      </div>
+      <div class="menu-description">
+        <span *ngIf="(isLangInstitue)">Archive the batches, students and get the report of archived batches and
+          students.</span>
+        <span *ngIf="(!isLangInstitue)">Archive the courses, students and get the report of archived courses and
+          students.</span>
+      </div>
+    </div>
+
   </div>
 
   <!-- batch module -->
@@ -165,22 +148,14 @@
         <span>Create and manage batches with ease</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/create/class/add" *ngIf="jsonFlags.isShowClass">
+    <div class="course-menu-item" routerLink="../ecourse-file-manager" *ngIf="jsonFlags.isEcourseFileManager">
       <div class="menu-title">
-        <img src="./assets/images/course/add-class.svg" alt="add class">
-        <span>Add Class</span>
+        <img src="./assets/images/activity/study_material.svg" alt="">
+        <span>Study Materials</span>
       </div>
       <div class="menu-description">
-        <span> Plan and schedule a class</span>
-      </div>
-    </div>
-    <div class="course-menu-item" routerLink="/view/batch/create/exam" *ngIf="jsonFlags.isShowExam">
-      <div class="menu-title">
-        <img src="./assets/images/course/add-exam.svg" alt="add exam">
-        <span>Add Exam</span>
-      </div>
-      <div class="menu-description">
-        <span>Schedule exam for any of the batches.</span>
+        <span>Manage storage of uploaded and downloaded files by E-Course. Upload or download the files and manage
+            files in folders and by category.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/batch/file-manager" *ngIf="jsonFlags.isShowFileManager">
@@ -219,19 +194,6 @@
         <span>Time table as per the subject on weekly basis.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/archiving" *ngIf="jsonFlags.isShowArchiving">
-      <div class="menu-title">
-        <img src="./assets/images/activity/archive.svg" alt="archiving">
-        <span>Archiving</span>
-      </div>
-      <div class="menu-description">
-        <span *ngIf="(isLangInstitue)">Archive the batches, students and get the report of archived batches and
-          students.</span>
-        <span *ngIf="(!isLangInstitue)">Archive the courses, students and get the report of archived courses and
-          students.</span>
-      </div>
-    </div>
-
     <div class="course-menu-item" routerLink="/view/batch/reports">
       <div class="menu-title">
         <img src="./assets/images/course/reports.svg" alt="reports">
@@ -241,7 +203,6 @@
         <span>Track performance on each and every aspect with detailed reports.</span>
       </div>
     </div>
-
     <div class="course-menu-item" routerLink="../master-tag">
       <div class="menu-title">
         <img src="./assets/images/activity/manage_tag.svg" alt="">
@@ -272,18 +233,20 @@
         <span *ngIf="isLangInstitue">Create E-courses and assign multiple batches to the E-courses</span>
       </div>
     </div>
-
-    <div class="course-menu-item" routerLink="../ecourse-file-manager"
-            *ngIf="jsonFlags.isEcourseFileManager">
-            <div class="menu-title">
-              <img src="./assets/images/activity/study_material.svg" alt="">
-              <span>Study Materials</span>
-            </div>
-            <div class="menu-description">
-          <span>Manage storage of uploaded and downloaded files by E-Course. Upload or download the files and manage
-              files in folders and by category.</span>
-        </div>
+    <div class="course-menu-item" routerLink="/view/batch/archiving" *ngIf="jsonFlags.isShowArchiving">
+      <div class="menu-title">
+        <img src="./assets/images/activity/archive.svg" alt="archiving">
+        <span>Archiving</span>
       </div>
+      <div class="menu-description">
+        <span *ngIf="(isLangInstitue)">Archive the batches, students and get the report of archived batches and
+          students.</span>
+        <span *ngIf="(!isLangInstitue)">Archive the courses, students and get the report of archived courses and
+          students.</span>
+      </div>
+    </div>
+
+
   </div>
 
 </section>

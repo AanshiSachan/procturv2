@@ -177,8 +177,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     slot_id: null,
     language_inst_status: "admitted",
     stuCustomLi: [],
-    deleteCourse_SubjectUnPaidFeeSchedules: false
+    deleteCourse_SubjectUnPaidFeeSchedules: false,
+    assigned_to_id: "0"
   };
+
+  enqAssignTo: any = [];
 
   // PDC Cheque PopUp
   pdcAddForm: any = {
@@ -784,6 +787,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.auth.showLoader();
+    this.prefill.getAssignTo().subscribe(
+      data => { this.enqAssignTo = data; },
+      err => {
+        this.auth.hideLoader();
+        this.msgToast.showErrorMessage('error', '', err.error.message);
+      }
+    );
+
     this.fetchAcademicYears();
 
   }
@@ -1334,6 +1346,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
+        this.studentAddFormData.assigned_to_id = data.assigned_to_id;
         this.fetchCourseFromMaster(this.studentAddFormData.standard_id, this.studentAddFormData.country_id);
         this.countryDetails.forEach(element => {
           if (element.id == this.studentAddFormData.country_id) {

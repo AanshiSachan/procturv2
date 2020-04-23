@@ -334,6 +334,17 @@
                   </select>
                 </div>
 
+                <!-- Assign To -->
+                <div class="field-wrapper" *ngIf="!isProfessional">
+                  <label for="assignTo">Assign To</label>
+                  <select id="assignTo" [(ngModel)]="studentAddFormData.assigned_to_id" name="standard" class="form-ctrl">
+                    <option value="0"></option>
+                    <option [value]="assign.userid" *ngFor="let assign of enqAssignTo">
+                      {{assign.name}}
+                    </option>
+                  </select>
+                </div>
+
 
 
                 <div id="assignCoursesParent" class="form-wrapper field-view" *ngIf="isAcad" (click)="openAssignBatch()">

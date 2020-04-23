@@ -340,7 +340,9 @@ export class InstituteSettingsComponent implements OnInit {
     enable_send__website_url_in_student_credentail: '',
     summaryReportDownloadOptions: '',
     student_study_material_visibility: '',
-    notification_for_studymaterial_upload: ''
+    notification_for_studymaterial_upload: '',
+    enable_assign_to_feature: '',
+    feedback_email_ids : ''
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
@@ -527,6 +529,9 @@ export class InstituteSettingsComponent implements OnInit {
         }
       }
     }
+
+    obj.enable_assign_to_feature = this.convertBoolenToNumber(this.instituteSettingDet.enable_assign_to_feature);
+    obj.feedback_email_ids = this.instituteSettingDet.feedback_email_ids;
 
     obj.student_expiry_notification_before_no_days = this.instituteSettingDet.student_expiry_notification_before_no_days;
     obj.student_expiry_notification_contact_no = this.instituteSettingDet.student_expiry_notification_contact_no;
@@ -758,6 +763,8 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.biometric_class_in_time_buffer_in_min = data.biometric_class_in_time_buffer_in_min;
     this.instituteSettingDet.biometric_class_out_time_buffer_in_min = data.biometric_class_out_time_buffer_in_min;
 
+    this.instituteSettingDet.enable_assign_to_feature = data.enable_assign_to_feature;
+    this.instituteSettingDet.feedback_email_ids = data.feedback_email_ids;
     this.instituteSettingDet.exam_min_marks = data.exam_min_marks;
     this.instituteSettingDet.exam_average_marks = data.exam_average_marks;
     this.instituteSettingDet.exam_max_marks = data.exam_max_marks;
