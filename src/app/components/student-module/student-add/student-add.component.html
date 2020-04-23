@@ -356,6 +356,17 @@
                   </select>
                 </div>
 
+                <!-- Assign To -->
+                <div class="field-wrapper" *ngIf="!isProfessional">
+                  <label for="assignTo">Assign To</label>
+                  <select id="assignTo" [(ngModel)]="studentAddFormData.assigned_to_id" name="standard" class="form-ctrl">
+                    <option value="0"></option>
+                    <option [value]="assign.userid" *ngFor="let assign of enqAssignTo">
+                      {{assign.name}}
+                    </option>
+                  </select>
+                </div>
+
                 <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto" *ngIf="!isProfessional" (click)="openAssignBatch()">
                   <label for="assignCourses"> </label>
                   <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" [ngModel]="assignedBatchString"

@@ -316,8 +316,18 @@
                                     </select>
                                   </div>
                                 </div>
+                                <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.city_id != ''}">
+                                    <label for="assignTo">Assign To</label>
+                                    <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assign_to" name="assign_to">
+                                      <option value="0"></option>
+                                      <option [value]="assign.userid" *ngFor="let assign of enqAssignTo">
+                                        {{assign.name}}
+                                      </option>
+                                    </select>
+                                  </div>
+                                </div>
                             </div>
-
 
                             <ng-template [ngIf]="true" *ngFor="let component of filterCustomComponent; let i= index;">
                                 <div class="row" *ngIf="checkCustomeComponentElement(i)">

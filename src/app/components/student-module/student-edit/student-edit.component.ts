@@ -177,8 +177,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     slot_id: null,
     language_inst_status: "admitted",
     stuCustomLi: [],
-    deleteCourse_SubjectUnPaidFeeSchedules: false
+    deleteCourse_SubjectUnPaidFeeSchedules: false,
+    assigned_to_id: "0"
   };
+
+  enqAssignTo: any = [];
 
   // PDC Cheque PopUp
   pdcAddForm: any = {
@@ -770,6 +773,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.auth.showLoader();
+    this.prefill.getAssignTo().subscribe(
+      data => { this.enqAssignTo = data; },
+      err => {
+        this.auth.hideLoader();
+        this.msgToast.showErrorMessage('error', '', err.error.message);
+      }
+    );
+
     this.fetchAcademicYears();
 
   }
@@ -1320,6 +1332,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
+        this.studentAddFormData.assigned_to_id = data.assigned_to_id;
         this.fetchCourseFromMaster(this.studentAddFormData.standard_id, this.studentAddFormData.country_id);
         this.countryDetails.forEach(element => {
           if (element.id == this.studentAddFormData.country_id) {
@@ -1735,7 +1748,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         //console.log("institute Added");
       }
       else {
-        
+
       }
     },
     err=>{
@@ -2315,7 +2328,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     this.feeTempSelected = "";
   }
-  
+
    reCreateFeeAgain() {
     if (confirm("By changing the fee template, all existing fee schedule and transactions shall be discarded and archived. Are you sure you want to continue?")) {
       this.isConfigureFees = true;
@@ -2935,7 +2948,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
     this.productService.deleteFile(url).subscribe(
       (res:any) => {
-        this.appC.popToast({ type: "success", title: "", body: "File deleted successfully" });      
+        this.appC.popToast({ type: "success", title: "", body: "File deleted successfully" });
         if(res){
           this.getUploadedFileData();
         }
