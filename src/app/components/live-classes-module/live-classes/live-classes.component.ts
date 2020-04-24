@@ -152,6 +152,8 @@ export class LiveClassesComponent implements OnInit {
   searchText: any = "";
 
   is_zoom_integration_enable: boolean = true;
+  is_proctur_live_recording_allow: any;
+  videoLimitExceed: any;
   // zoom_enable: boolean = false;
 
   // upload file
@@ -196,7 +198,8 @@ export class LiveClassesComponent implements OnInit {
     if (userType == '3') {
       this.forUser = true;
     }
-
+    let limit = sessionStorage.getItem('videoLimitExceeded');
+    this.videoLimitExceed = JSON.parse(limit);
     this.getClassesList();
     this.getAuthKey();
     this.institution_id = sessionStorage.getItem('institution_id')
@@ -238,6 +241,10 @@ export class LiveClassesComponent implements OnInit {
         this.auth.hideLoader();
         this.previosLiveClasses = data.pastLiveClasses;
         this.futureLiveClasses = data.upcomingLiveClasses;
+        this.is_proctur_live_recording_allow = data.is_proctur_live_recording_allow;
+        if(this.is_proctur_live_recording_allow == 1 && this.videoLimitExceed == 1){
+          $('#videoLimit').modal('show');
+        }
         const proctur_live_expiry_date = data.proctur_live_expiry_date;
         this.JsonVars.view_proctur_live_recorded_session = data.view_proctur_live_recorded_session;
         sessionStorage.setItem('proctur_live_expiry_date', proctur_live_expiry_date);

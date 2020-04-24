@@ -12,12 +12,12 @@
       <section>
         <div class="live-class-list">
           <div class="live-class-container" style="width:50%;">
-            <div class="field-radio-wrapper">
+            <div class="field-radio-wrapper" style="width: 25%;">
               <input type="radio" [value]="false" class="form-radio" [(ngModel)]="liveClassFor" (ngModelChange)="getClassesFor()" name="liveClasses"
                 id="liveClasses1">
               <label for="liveClasses1">Upcoming Classes</label>
             </div>
-            <div class="field-radio-wrapper">
+            <div class="field-radio-wrapper" style="width: 25%;">
               <input type="radio" [value]="true" class="form-radio" [(ngModel)]="liveClassFor" (ngModelChange)="getClassesFor()" name="liveClasses"
                 id="liveClasses2">
               <label for="liveClasses2">Previous Classes</label>
@@ -152,28 +152,22 @@
             <div class="sub-item-2">
               <div class="item_type_1">
                 <span style="color: #9898a3;">Faculty : </span>
-                <span style="color: #585574;font-weight: 600;" title="{{class.teachersName}}">
+                <span style="color: #585574;font-weight: 600; color: #0084f6" title="{{class.teachersName}}">
                   {{ (class.teachersName?.length>20) ? (class.teachersName | slice:0:20 ) + '...' : (class.teachersName) }}
                 </span>
               </div>
               <div class="item_type_1" style="width:14% ;">
-                <span  style="color: #585574;">
-                  <span style="color: #9898a3;">Date : </span>
-                  {{class.startDateTime | date: 'dd MMM yyyy'}}
-                </span>
-                <span style="color: #585574;">
-                  <span style="color: #9898a3;">Duration : </span>
-                  {{diffDate(class.startDateTime, class.endDateTime) }} hrs
-                </span>
+                <span style="color: #9898a3;">Date : <span style="color: #585574;font-weight: 600;">{{class.startDateTime | date: 'dd MMM yyyy'}}</span></span>
+                <span style="color: #9898a3;">Duration : <span style="color: #585574;font-weight: 600;">{{diffDate(class.startDateTime, class.endDateTime)}}</span></span>
               </div>
               <div class="item_type_1">
                 <span style="color: #585574;">
                   <span style="color: #9898a3;">Time : </span>
-                  <span>{{class.startDateTime | date: 'shortTime'}} - {{class.endDateTime | date: 'shortTime'}}</span>
+                  <span style="font-weight: 600;">{{class.startDateTime | date: 'shortTime'}} - {{class.endDateTime | date: 'shortTime'}}</span>
                 </span>
                 <span style="color: #585574;" *ngIf="class.live_meeting_with != 'Zoom'">
                   <span style="color: #9898a3;">Moderator : </span>
-                  <span *ngIf="class.moderatorName != '' && class.moderatorName != null" title="{{class.moderatorName}}">
+                  <span *ngIf="class.moderatorName != '' && class.moderatorName != null" title="{{class.moderatorName}}"  style="font-weight: 600;">
                     {{ (class.moderatorName?.length>15) ? (class.moderatorName | slice:0:15 ) + '...' : (class.moderatorName) }}
                   </span>
                   <span *ngIf="class.moderatorName == '' || class.moderatorName == null">-</span>
@@ -190,13 +184,13 @@
               <div class="item_type_1" *ngIf="!isProfessional" style="width: 19%;">
                 <span style="color: #585574;">
                   <span style="color: #9898a3;">Master Course : </span>
-                  <span title="{{class.course_list[0].master_course_name}}" *ngIf="class.course_list!=null && class.course_list?.length!=0">
+                  <span title="{{class.course_list[0].master_course_name}}" *ngIf="class.course_list!=null && class.course_list?.length!=0"  style="font-weight: 600;">
                     {{ (class.course_list[0]?.master_course_name?.length>15) ? (class.course_list[0].master_course_name | slice:0:15 ) + '...' : (class.course_list[0].master_course_name) }}
                   </span>
                 </span>
                 <span style="color: #585574;">
                   <span style="color: #9898a3;">Course : </span>
-                  <span title="{{class.course}}">
+                  <span title="{{class.course}}"  style="font-weight: 600;color: #0084f6">
                     {{ (class.course?.length>15) ? (class.course | slice:0:15 ) + '...' : (class.course) }}
                   </span>
                 </span>
@@ -278,6 +272,26 @@
 
     </section>
   </aside>
+</div>
+
+<!-- Video Limit Exceed pop up -->
+<div id="videoLimit" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Low Data Storage Warning!</h4>
+      </div>
+      <div class="modal-body">
+        <p>Message: You have only 20% data storage left! Please purchase additional storage soon to continue to record and store your lectures!
+        To purchase storage please contact our team at support@proctur.com</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Upload record pop up -->

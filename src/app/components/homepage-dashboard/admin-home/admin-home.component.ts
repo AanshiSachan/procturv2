@@ -321,6 +321,13 @@ export class AdminHomeComponent implements OnInit {
             this.storageData.vDOCipher_used_bandwidth = (Number(this.storageData.vDOCipher_used_bandwidth) / 1024).toFixed(3);
             this.storageData.vDOCipher_allocated_storage = (Number(this.storageData.vDOCipher_allocated_storage) / 1024).toFixed(3);
             this.storageData.vDOCipher_used_storage = (Number(this.storageData.vDOCipher_used_storage) / 1024).toFixed(3);
+            let per = (Number(this.storageData.vDOCipher_allocated_storage) * 80)/100;
+            if(per.toFixed(3) <= Number(this.storageData.vDOCipher_used_storage).toFixed(3)){
+              sessionStorage.setItem('videoLimitExceeded', "1");
+            }
+            else{
+              sessionStorage.setItem('videoLimitExceeded', "0");
+            }
           }
             },
         err => {
