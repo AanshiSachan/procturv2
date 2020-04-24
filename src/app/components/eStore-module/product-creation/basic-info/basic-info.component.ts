@@ -4,7 +4,6 @@ import { Router } from '../../../../../../node_modules/@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
-import * as InLineEditor from '@ckeditor/ckeditor5-build-inline';
 
 @Component({
   selector: 'app-basic-info',
@@ -12,12 +11,6 @@ import * as InLineEditor from '@ckeditor/ckeditor5-build-inline';
   styleUrls: ['./basic-info.component.scss']
 })
 export class BasicInfoComponent implements OnInit {
-
-
-  public InlineEditor = InLineEditor;
-  public config = {
-       toolbar: [ 'heading', '|', 'bold', 'italic', 'fontColor', '|', 'bulletedList', 'numberedList', 'insertTable', '|', 'undo', 'redo']
-   };
 
   @Input() entity_id: any;
   productItems: any = [];
@@ -78,14 +71,19 @@ export class BasicInfoComponent implements OnInit {
     }
   };
 
-  public options: Object = {
-    placeholderText: 'Edit Your Content Here!',
-    charCounterCount: false,
-    toolbarButtons: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
-    toolbarButtonsXS: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
-    toolbarButtonsSM: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
-    toolbarButtonsMD: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
-}
+  editorConf = {
+    height: 150,
+    menubar: false,
+    branding: false,
+    plugins: [
+      'preview anchor',
+      'visualblocks code ',
+      'insertdatetime  table paste code  wordcount'
+    ],
+    toolbar: 'undo redo | formatselect | bold italic backcolor | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent'
+  };
 
   constructor(
     private http: ProductService,

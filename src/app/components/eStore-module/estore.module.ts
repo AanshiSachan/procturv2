@@ -18,8 +18,7 @@ import { ProductCreationComponent } from './product-creation/product-creation.co
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
 import { EstoreRoutingModule } from './estore-routing.module';
 import { ProductService } from '../../services/products.service';
-
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 
 
@@ -32,7 +31,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     TimepickerModule,
     SharedModule,
     NgMultiSelectDropDownModule.forRoot(),
-    CKEditorModule,
+    EditorModule
   ],
   declarations: [
     ProductListComponent,
