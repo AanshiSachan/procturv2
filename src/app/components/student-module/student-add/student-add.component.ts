@@ -1656,6 +1656,7 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.area_id = this.enquiryData.area_id;
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
+    this.studentAddFormData.assigned_to_id = this.enquiryData.assigned_to;
     this.studentAddFormData.dob = new Date(this.enquiryData.dob);
     if (this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null ||
       this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid Date') {

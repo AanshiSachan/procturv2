@@ -2104,6 +2104,7 @@ export class EnquiryHomeComponent implements OnInit {
                 this.selectedRow.city_id = data.city_id;
                 this.selectedRow.area_id = data.area_id;
                 this.selectedRow.phone = data.phone;
+                this.selectedRow.assigned_to = data.assigned_to;
                 sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
                 this.router.navigate(['/view/students/add'])
                 this.closePopup();
