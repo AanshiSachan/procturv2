@@ -238,7 +238,7 @@
               </div>
               <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0">
                 &nbsp;&nbsp;
-                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" 
+                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)"
                 *ngIf="class.download_links?.length > 0"
                   [ngClass]="{'disabledButton': class.download_links?.length==0}">
                   <!-- <i class="fa fa-repeat" aria-hidden="true" ></i> &nbsp; -->
@@ -392,12 +392,12 @@
               <a id="downloadFileClick" [href]="fileUrl" class="hide"></a>
               </div>
               <div (click)="getVdocipherVideoOtp(data)" *ngIf="(JsonVars.view_proctur_live_recorded_session==2||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3)">
-                <button class="fa fa-eye" style="font-size: 15px; color: #0084f6; background: none;" title="Play"
+                <button class="fa fa-play" style="font-size: 15px; color: #0084f6; background: none;" title="Play"
                   [disabled]="data.video_id==null" [ngStyle]="{'opacity':data.video_id==null ? '0.5' : '1' }">
                 </button>
               </div>
               <div (click)="getVdoLink(data)" *ngIf="(JsonVars.view_proctur_live_recorded_session==1||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==3 || proctur_live_view_or_download_visibility==2)">
-                <button class="fa fa-play" style="font-size: 15px; color: #0084F6;background: none;" title="View">
+                <button class="fa fa-play" style="font-size: 15px; color: #0084F6;background: none;" title="Play">
                 </button>
               </div>
               <div (click)="deleteRecording(data.id)">
