@@ -220,8 +220,11 @@ export class StudentAddComponent implements OnInit {
     stuCustomLi: [],
     deleteCourse_SubjectUnPaidFeeSchedules: false,
     archivedStudent: false,
-    studentFileUploadJson: []
+    studentFileUploadJson: [],
+    assigned_to_id: "0"
   };
+
+  enqAssignTo: any = [];
 
   checkBoxGroup: any = {
     unpaidInstallment: true,
@@ -758,6 +761,14 @@ export class StudentAddComponent implements OnInit {
         this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     )
+
+    this.prefill.getAssignTo().subscribe(
+      data => { this.enqAssignTo = data; },
+      err => {
+        this.auth.hideLoader();
+        this.msgToast.showErrorMessage('error', '', err.error.message);
+      }
+    );
 
     this.getSlots();
     this.getlangStudentStatus();
@@ -1645,6 +1656,7 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.area_id = this.enquiryData.area_id;
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
+    this.studentAddFormData.assigned_to_id = this.enquiryData.assigned_to;
     this.studentAddFormData.dob = new Date(this.enquiryData.dob);
     if (this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null ||
       this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid Date') {

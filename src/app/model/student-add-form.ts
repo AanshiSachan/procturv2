@@ -43,5 +43,6 @@ export interface StudentForm {
 	stuCustomLi?: any, //
 	deleteCourse_SubjectUnPaidFeeSchedules: any,
 	archivedStudent?: any,
-	studentFileUploadJson?:any
+	studentFileUploadJson?:any,
+	assigned_to_id?:any
 }

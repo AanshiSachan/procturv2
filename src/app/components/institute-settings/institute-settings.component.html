@@ -2356,7 +2356,7 @@
                         </div>
                       </td>
                     </tr>
-                    
+
                   </tbody>
                 </table>
                 </div>
@@ -2979,6 +2979,37 @@
                         </div>
                       </td>
                     </tr>
+
+                    <tr>
+                      <td>
+                        <div class="row m-0">
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="idEnableAssignTo" [(ngModel)]="instituteSettingDet.enable_assign_to_feature" class="form-checkbox"
+                                id="idEnableAssignTo">
+                              <label for="idEnableAssignTo">Enable Assign to Feature</label>
+                            </div>
+                          </div>
+
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.feedback_email_ids  != ''}">
+                              <label for="ch106">Feedback Email ID(s)
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field lg">
+                                    Provide multiple
+                                    <br>id(s) separated by
+                                    <br> comma’s
+                                  </div>
+                                </div>
+                              </label>
+                              <input type="text" [(ngModel)]="instituteSettingDet.feedback_email_ids " class="form-ctrl" id="ch106">
+                            </div>
+                          </div>
+
+                        </div>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -3320,7 +3351,7 @@
                             </div>
                           </div>
                           <div class="c-sm-2 c-sm-3 c-lg-2" style="margin:0">
-                           <div (click)="saveIPDetails()" class="addIP" style="margin-top: 25px;">Add</div> 
+                           <div (click)="saveIPDetails()" class="addIP" style="margin-top: 25px;">Add</div>
                           </div>
                         </div>
                       </td>
@@ -3391,9 +3422,9 @@
           </div>
         </div>
       </section>
-    
 
-      
+
+
     </aside>
 
 
