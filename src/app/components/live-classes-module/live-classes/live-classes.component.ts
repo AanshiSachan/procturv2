@@ -874,7 +874,7 @@ export class LiveClassesComponent implements OnInit {
       },
       (err) => {
         this.auth.hideLoader();
-        console.log(err);
+        this.msgService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
