@@ -21,13 +21,15 @@
       <div class="col-md-12">
         <div class="col-md-8 form-group" style="padding-right: 0px;padding-left: 0px;">
           <label class="text-bold">Description</label>
-          <textarea rows="3" class="form-control form-control-sm" maxLength="1500" [(ngModel)]="prodForm.about"></textarea>
+          <!-- <textarea rows="3" class="form-control form-control-sm" maxLength="1500" [(ngModel)]="prodForm.about"></textarea> -->
+          <editor
+           [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="prodForm.about"></editor>
         </div>
         <div class="col-md-4 form-group image-upload">
               <label for="file-input">
                   <img src="{{image_url==null?'https://cdn.vox-cdn.com/thumbor/30bQJLedP0p2KHehrHJyPc2dZ5A=/0x0:600x579/920x0/filters:focal(0x0:600x579):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/16019250/log_2048.png':image_url}}"/>
-              </label>        
-              <span style=" margin: 2em;">Change image</span>  
+              </label>
+              <span style=" margin: 2em;">Change image</span>
               <input id="file-input" type="file" (change)="uploadHandler($event)"/>
         </div>
       </div>
@@ -36,7 +38,7 @@
         <label class="text-bold">E-courses
           <span class="text-danger">*</span>
         </label>
-        <ng-multiselect-dropdown [placeholder]="'Select E-courses'" [(ngModel)]="products_ecourse_maps" [data]="ecourseList" 
+        <ng-multiselect-dropdown [placeholder]="'Select E-courses'" [(ngModel)]="products_ecourse_maps" [data]="ecourseList"
         [disabled]="isAdvanceProductEdit" [settings]="moderatorSettings">
         </ng-multiselect-dropdown>
       </div>
@@ -63,7 +65,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12">    
+      <div class="col-md-12">
         <div class="form-group">
           <span class="field-checkbox-wrapper">
             <input class="form-checkbox" type="checkbox" id="adv_product" [(ngModel)]="prodForm.is_advance_product"

@@ -29,6 +29,19 @@ export class VideoLectureComponent implements OnInit {
   materialData: any[] = [];
   testlist: any[] = [];
   isAdvanceProductEdit:boolean=false;
+  editorConf = {
+    height: 150,
+    menubar: false,
+    branding: false,
+    plugins: [
+      'preview anchor',
+      'visualblocks code ',
+      'insertdatetime  table paste code  wordcount'
+    ],
+    toolbar: 'undo redo | formatselect | bold italic backcolor | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent'
+  };
   constructor(
     private router: Router,
     private msgService: MessageShowService,
@@ -49,7 +62,7 @@ export class VideoLectureComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }
-    
+
     if (this.description.length > 1500 ) {
       this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
       return;
@@ -159,7 +172,7 @@ export class VideoLectureComponent implements OnInit {
           // this.testlist.push(object);
         }
       });
-    }   
+    }
   }
 
 
@@ -228,7 +241,7 @@ export class VideoLectureComponent implements OnInit {
 
   initForm() {
     //Fetch Product List
-    if (this.entity_id && this.entity_id.length > 0) {  
+    if (this.entity_id && this.entity_id.length > 0) {
         this.http.getMethod('ext/get-subjects-of-ecourses/' + this.entity_id+'/Videos', null).subscribe(
           (resp: any) => {
             this.auth.hideLoader();
@@ -259,7 +272,7 @@ export class VideoLectureComponent implements OnInit {
           (err) => {
             this.auth.hideLoader();
             this.msgService.showErrorMessage('error','There is some problem in processing your request.Please try after some time.Or contact us at support@proctur.com for further assistance. ', '');
-          });      
+          });
     }
   }
 
@@ -281,7 +294,7 @@ export class VideoLectureComponent implements OnInit {
           object.subTopics.forEach(element => {
             element.isExpand = false;
             // element.isSelected = false
-            element.subTopics = [];        
+            element.subTopics = [];
             element.subject_id =object.subject_id;
             element.course_type_id = object.course_type_id;
             element.parent_topic_id = object.parent_topic_id;
