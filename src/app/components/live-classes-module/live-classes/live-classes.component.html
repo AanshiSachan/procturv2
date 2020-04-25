@@ -238,7 +238,8 @@
               </div>
               <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0">
                 &nbsp;&nbsp;
-                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)" [disabled]="class.download_links?.length==0"
+                <button class="viewAction" title="download/view" (click)="viewdownload_links(class)"
+                *ngIf="class.download_links?.length > 0"
                   [ngClass]="{'disabledButton': class.download_links?.length==0}">
                   <!-- <i class="fa fa-repeat" aria-hidden="true" ></i> &nbsp; -->
                   View Recording
@@ -358,7 +359,7 @@
     <section>
       <div class="table-container">
         <div class="heading-container">
-          <div class="heading-item">
+          <div class="heading-item" style="text-align: left;">
             <span>Title</span>
           </div>
           <div class="heading-item" style="width: 17%;">
@@ -373,7 +374,7 @@
         </div>
         <div class="value-outer-container">
           <div class="value-container" *ngFor="let data of download_links.download_links">
-            <div class="value-item">
+            <div class="value-item" style="text-align: left;">
               <span title="{{data.session_name}}">{{(data.session_name.length > 80) ? (data.session_name | slice:0:80) + '...' : data.session_name}}</span>
               </div>
             <div class="value-item" style="width: 17%;">
@@ -391,12 +392,12 @@
               <a id="downloadFileClick" [href]="fileUrl" class="hide"></a>
               </div>
               <div (click)="getVdocipherVideoOtp(data)" *ngIf="(JsonVars.view_proctur_live_recorded_session==2||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3)">
-                <button class="fa fa-eye" style="font-size: 15px; color: #0084f6; background: none;" title="play on Vdocipher "
+                <button class="fa fa-play" style="font-size: 15px; color: #0084f6; background: none;" title="Play"
                   [disabled]="data.video_id==null" [ngStyle]="{'opacity':data.video_id==null ? '0.5' : '1' }">
                 </button>
               </div>
               <div (click)="getVdoLink(data)" *ngIf="(JsonVars.view_proctur_live_recorded_session==1||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==3 || proctur_live_view_or_download_visibility==2)">
-                <button class="fa fa-play" style="font-size: 15px; color: #0084F6;background: none;" title="View">
+                <button class="fa fa-play" style="font-size: 15px; color: #0084F6;background: none;" title="Play">
                 </button>
               </div>
               <div (click)="deleteRecording(data.id)">
