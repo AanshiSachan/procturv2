@@ -16,7 +16,7 @@
         <div class="c-lg-12 ">
           <span class="form-file">File Name :
           </span>
-          <span class="bold-font">{{fileName.res.keyName}}</span>
+          <span class="bold-font" title="{{fileName.res.keyName}}">{{(fileName.res.keyName.length > 25) ? (fileName.res.keyName | slice:0:25) + '...' : fileName.res.keyName}} </span>
         </div>
         <div class="c-lg-12">
           <span class="form-file">Downloads :
@@ -86,7 +86,7 @@
               [value]="0">
             <label for="batch">Batch Level</label>
           </div>
-          <div class="c-lg-2 field-radio-wrapper" style="margin-top: 10px; margin-left: 15px;">
+          <div class="c-lg-3 field-radio-wrapper" style="margin-top: 10px; margin-left: 15px;">
             <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="getStudent" (ngModelChange)="fetchCoursesData(subjectId , $event, editBatchShare)"
               [value]="1">
             <label for="student">Student Level</label>
@@ -130,7 +130,7 @@
                   </div>
                   Id
                 </th>
-                <th>
+                <th style="text-align: left;">
                   Student Name
                 </th>
                 <th style="text-align: left;">
@@ -148,8 +148,7 @@
                     <input type="checkbox" class="form-checkbox" [(ngModel)]="i.isChecked" (ngModelChange)="getFileSharedBatches($event , j)">
                     <label></label>
                   </div>
-                  {{i.batch_name}}
-
+                <span title="{{i.batch_name}}">{{(i.batch_name.length > 30) ? (i.batch_name | slice:0:30) + '...' : i.batch_name}}</span>
                 </td>
                 <td style="text-align: left; padding: 0px;">
                   <div class="field-wrapper datePickerBox">
@@ -247,7 +246,7 @@
                   </div>
                   {{i.student_disp_id}}
                 </td>
-                <td>
+                <td style="text-align: left;">
                   {{i.student_name}}
                 </td>
                 <td style="text-align: left; padding: 0px;">

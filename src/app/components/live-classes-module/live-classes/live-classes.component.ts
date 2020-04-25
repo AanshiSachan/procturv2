@@ -6,6 +6,24 @@ import { DomSanitizer } from '../../../../../node_modules/@angular/platform-brow
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 declare var window;
+declare var $;
+
+class fileObj {
+  private fileName: string;
+  private fileType: string;
+  private fileSize: any;
+  constructor(fileName: string, fileType: string, fileSize: any) {
+    this.fileName = fileName;
+    this.fileType = fileType;
+    this.fileSize = this.getSizeMB(fileSize);
+  }
+  public getSizeMB(size: any): string {
+    return size + "KB";
+  }
+  public getSize(): any {
+    return this.fileSize;
+  }
+}
 
 @Component({
   selector: 'app-live-classes',
@@ -134,7 +152,19 @@ export class LiveClassesComponent implements OnInit {
   searchText: any = "";
 
   is_zoom_integration_enable: boolean = true;
+  is_proctur_live_recording_allow: any;
+  videoLimitExceed: any;
   // zoom_enable: boolean = false;
+
+  // upload file
+  type: string = "";
+  customFileArr: fileObj[] = [];
+  selectedFiles: any[] = [];
+  tempArr: any[] = [];
+  Authorization: any;
+  uploadSessionId: any;
+  uploadClassType: any;
+  fileUploadInput: any;
 
   constructor(
     private auth: AuthenticatorService,
@@ -168,9 +198,17 @@ export class LiveClassesComponent implements OnInit {
     if (userType == '3') {
       this.forUser = true;
     }
-
+    let limit = sessionStorage.getItem('videoLimitExceeded');
+    this.videoLimitExceed = JSON.parse(limit);
     this.getClassesList();
+    this.getAuthKey();
     this.institution_id = sessionStorage.getItem('institution_id')
+  }
+
+  getAuthKey(){
+    this.auth.currentAuthKey.subscribe(key => {
+        this.Authorization = key;
+    })
   }
 
   checkLiveClassExpiry(proctur_live_expiry_date) {
@@ -203,6 +241,10 @@ export class LiveClassesComponent implements OnInit {
         this.auth.hideLoader();
         this.previosLiveClasses = data.pastLiveClasses;
         this.futureLiveClasses = data.upcomingLiveClasses;
+        this.is_proctur_live_recording_allow = data.is_proctur_live_recording_allow;
+        if(this.is_proctur_live_recording_allow == 1 && this.videoLimitExceed == 1){
+          $('#videoLimit').modal('show');
+        }
         const proctur_live_expiry_date = data.proctur_live_expiry_date;
         this.JsonVars.view_proctur_live_recorded_session = data.view_proctur_live_recorded_session;
         sessionStorage.setItem('proctur_live_expiry_date', proctur_live_expiry_date);
@@ -212,8 +254,13 @@ export class LiveClassesComponent implements OnInit {
         this.proctur_live_view_or_download_visibility = data.proctur_live_view_or_download_visibility;
         this.getClassesFor();
         // console.log(this.getClasses)
-        this.totalRow = this.getClasses.length;
 
+        if (this.liveClassFor) {
+          this.totalRow = this.previosLiveClasses.length;
+        }
+        else {
+          this.totalRow = this.futureLiveClasses.length;
+        }
         this.fetchTableDataByPage(this.PageIndex);
         this.getClasses.map((ele) => {
           ele.start_datetime = moment(ele.start_datetime).format('YYYY-MM-DD hh:mm a')
@@ -804,6 +851,130 @@ export class LiveClassesComponent implements OnInit {
     this.viewDownloadPopup = true;
     this.download_links = obj;
   }
+
+  // upload recording // By Swapnil
+
+  identify(index,item){
+    return item.session_id
+  }
+  deleteRecording(session_id){
+    const url = `/api/v1/meeting_manager/deleteRecording?session_id=${session_id}`;
+    this.auth.showLoader();
+    this._http.deleteDataById(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        if(res.statusCode == 200){
+          this.msgService.showErrorMessage('success', '', res.result);
+            this.viewDownloadPopup = false;
+          this.getClassesList();
+        }
+        else{
+          this.msgService.showErrorMessage('error', '', res.message);
+        }
+      },
+      (err) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('error', '', err.error.message);
+      }
+    )
+  }
+
+  upload(seesion_id, classType){
+    this.uploadSessionId = seesion_id;
+    this.uploadClassType = classType;
+    this.fileUploadInput = '';
+  }
+
+  fillFiles(files) {
+    setTimeout(() => {
+      let manualUploadedFileList = (<HTMLInputElement>document.getElementById('uploadFileControl')).files;
+      let filesArr = Array.from(manualUploadedFileList);
+      this.selectedFiles = filesArr;
+      this.customFileArr = this.generateFilePreview(this.selectedFiles);
+    }, 500)
+  }
+
+
+    generateFilePreview(fileList: any[]): fileObj[] {
+      let size = fileList.length;
+      let tempArr: fileObj[] = [];
+      this.tempArr = tempArr
+      let file;
+      if (size > 0) {
+        for (let i = 0; i < size; i++) {
+          file = fileList[i];
+          tempArr.push(new fileObj(this.getName(file.name), this.getType(file.name), file.size));
+        }
+      }
+      return tempArr;
+    }
+
+    getName(file: string): string {
+      return file.split(".")[0];
+    }
+
+    getType(file: string): string {
+      let str = file.substring(file.lastIndexOf(".") + 1, file.length);
+      return str;
+    }
+
+    uploadHandler() {
+
+      if (this.selectedFiles.length == 0) {
+        this.appC.popToast({ type: "error", body: "No file selected" })
+        return
+      }
+
+      let institute_id = sessionStorage.getItem("institute_id");
+      let formData = new FormData();
+
+      for(let i = 0; i <  this.selectedFiles.length; i++){
+        formData.append("files", this.selectedFiles[i]);
+      }
+
+      this.auth.showLoader();
+      let isZoom = true;
+      if(this.uploadClassType != 'Zoom'){
+        isZoom = false;
+      }
+      let base = this.auth.getBaseUrl();
+      let urlPostXlsDocument = base + "/api/v1/meeting_manager/uploadRecording?isZoomLiveClass="+isZoom;
+      let newxhr = new XMLHttpRequest();
+
+      newxhr.open("POST", urlPostXlsDocument, true);
+      newxhr.setRequestHeader("institute_id", institute_id);
+      newxhr.setRequestHeader("session_id", this.uploadSessionId);
+      newxhr.setRequestHeader("Authorization", this.Authorization);
+      newxhr.setRequestHeader("enctype", "multipart/form-data;");
+      newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      newxhr.setRequestHeader("Accept", "application/json, text/javascript");
+
+      newxhr.onreadystatechange = () => {
+        if (newxhr.readyState == 4) {
+          if (newxhr.status >= 200 && newxhr.status < 300) {
+            this.auth.hideLoader();
+            let data = JSON.parse((newxhr.response))
+            if(data.statusCode >= 200 && data.statusCode < 300){
+              this.msgService.showErrorMessage('success', '', 'File(s) uploaded successfully');
+              this.fileUploadInput = '';
+              $('#uploadRec').modal('hide');
+              this.getClassesList();
+            }
+            else{
+              this.msgService.showErrorMessage('error', '', data.message);
+            }
+          }
+           else {
+             this.auth.hideLoader();
+             let data = JSON.parse((newxhr.response))
+            this.msgService.showErrorMessage('error', '', data.message);
+          }
+        }
+      }
+      newxhr.send(formData);
+
+    }
+
 
   @HostListener('document:keydown', ['$event'])
   onPopState(event) {

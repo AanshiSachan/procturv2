@@ -207,6 +207,7 @@ html {
         margin-right: 20px;
         margin-bottom: 0px;
         margin-top: 10px;
+        width: 25% !important;
         label{
           color: rgb(51, 51, 51);
           font-weight: bold;
@@ -278,8 +279,8 @@ html {
   }
 
   .live-class{
-    height: 66vh;
-    max-height: 66vh;
+    height: 70vh;
+    max-height: 70vh;
     overflow-x: hidden;
     overflow-y: auto;
     ::-webkit-scrollbar {
@@ -460,13 +461,14 @@ html {
               font-weight: 600;
             }
             .repeat_session{
-              background: #1283f4;
-              color: white;
+              background: white;
+              color: #1283f4;
               border-radius: 4px;
               text-align: center;
               text-transform: uppercase;
-              padding: 10px 19px;
+              padding: 8px;
               font-weight: 600;
+              border: 1px solid #1283f4;
             }
           }
           .item_type_3{
@@ -707,16 +709,16 @@ html {
 .viewAction{
   // margin-top: 10px;
   background: white;
-    border-radius: 4px;
-    border: 1px solid #0084f6;
-    outline: none;
-    text-align: center;
-    padding: 8px 20px;
-    height: 52px;
-    font-weight: 600;
-    color: #0084f6;
-    box-shadow: 0px 0px 1px #0084f6;
-    cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #0084f6;
+  outline: none;
+  text-align: center;
+  padding: 10px;
+  height: 34px;
+  font-weight: 600;
+  color: #0084f6;
+  box-shadow: 0px 0px 1px #0084f6;
+  cursor: pointer;
 }
 .download_popup{
   border: none;
@@ -805,4 +807,15 @@ html {
 .disabledButton{
  cursor:no-drop;
  opacity: 0.5;
+}
+.action_upload{
+  padding: 5px;
+  text-align: center;
+  color: #1283f4;
+  font-size: 13px;
+  border: 1px solid #daecfd;
+  outline: none;
+  background: white;
+  height: 30px;
+  width: 100%;
 }
