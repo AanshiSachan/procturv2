@@ -140,7 +140,7 @@
                   </div>
                 </div>
               </div>
-              <div class="notification_container" *ngIf="liveClassFor">
+              <div class="notification_container" *ngIf="liveClassFor && is_proctur_live_recording_allow == '1'">
                 <span class="i-class">
                   <button type="button" name="button" class="action_upload" data-toggle="modal" data-target="#uploadRec" (click)="upload(class.session_id, class.live_meeting_with)">
                     Upload Recording

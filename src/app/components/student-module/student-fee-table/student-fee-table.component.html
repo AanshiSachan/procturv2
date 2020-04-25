@@ -39,7 +39,7 @@
                         <li>
                             <div class="form-wrapper">
                                 <label for="courseType">Course</label>
-                                <select class="form-ctrl" style=" width: 150%;" name="courseType" [(ngModel)]="addFeeInstallment.student_fee_template_mapping_id"
+                                <select class="form-ctrl" style=" width: 100%;" name="courseType" [(ngModel)]="addFeeInstallment.student_fee_template_mapping_id"
                                     id="courseType" (ngModelChange)="changeAcademicyear($event)">
                                     <option value="-1"></option>
                                     <option [value]="course.template_mapping_idWithCourseOrSubjectName" *ngFor="let course of courseDropdown">
@@ -51,7 +51,7 @@
                         <li>
                             <div class="form-wrapper">
                                 <label for="courseType">Academic Year </label>
-                                <select class="form-ctrl" [ngStyle]="{'width':isProfessional? '140%':'150%'}" name="AcademicYearType" [(ngModel)]="addFeeInstallment.academic_year_id"
+                                <select class="form-ctrl" [ngStyle]="{'width':isProfessional? '100%':'100%'}" name="AcademicYearType" [(ngModel)]="addFeeInstallment.academic_year_id"
                                     [disabled]="addFeeInstallment.student_fee_template_mapping_id !='-1'"
                                     id="AcademicYearType">
                                     <option value="-1"></option>
