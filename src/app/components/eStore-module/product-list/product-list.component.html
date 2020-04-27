@@ -120,7 +120,7 @@
             <span>Action</span>
           </div>
         </div>
-        <div class="value-outer-container" style="border: none;" *ngIf="productList?.length > 1">
+        <div class="value-outer-container" style="border: none;" *ngIf="productList?.length > 0">
           <div class="value-container dataContiner" *ngFor="let item of productList;let i= index"
             [ngClass]="{'adv_prod_border': item.is_advance_product==1,'normal_prod_border': item.is_advance_product==0}">
             <!-- <div class="value-item" style="width: 10%;">
