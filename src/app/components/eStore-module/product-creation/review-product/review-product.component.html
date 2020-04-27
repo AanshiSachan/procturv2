@@ -29,7 +29,7 @@
               <label for="file-input">
                   <img src="{{image_url==null?'https://cdn.vox-cdn.com/thumbor/30bQJLedP0p2KHehrHJyPc2dZ5A=/0x0:600x579/920x0/filters:focal(0x0:600x579):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/16019250/log_2048.png':image_url}}"/>
               </label>
-              <span style=" margin: 2em;">Change image</span>
+              <span style=" margin: 2em;">Change Thumbnail</span>
               <input id="file-input" type="file" (change)="uploadHandler($event)"/>
         </div>
       </div>
@@ -54,7 +54,7 @@
         </div>
         <div class="col-md-6" style=" padding-right: 0px;">
           <div class="form-group" style="text-align: right;">
-            <label class="text-bold" style="position: absolute; left: 19px;">Price</label>
+            <label class="text-bold" style="position: absolute; left: 19px;">Price(Rs.)</label>
             <span class="field-checkbox-wrapper">
               <input class="form-checkbox" type="checkbox" id="free_price" [disabled]="isAdvanceProductEdit" [(ngModel)]="prodForm.is_paid" (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price =0"
                 name="free_price" name="is_paid">
@@ -163,9 +163,9 @@
   </div>
 </div>
 
-<div class="row basic-info-footer">
+<div class="basic-info-footer">
   <div class="col text-center">
-    <button class="btn btn-outline-danger btn-round" (click)="gotoBack()"> Cancel</button>
+    <button class="btn btn-outline-danger btn-round" (click)="gotoBack()" style="color:red;"> Cancel</button>
     <button class="btn btn-primary btn-round" (click)="saveProduct()">Save</button>
   </div>
 </div>

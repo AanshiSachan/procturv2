@@ -415,9 +415,9 @@
 
 
 
-<div class="row basic-info-footer">
+<div class="basic-info-footer">
   <div class="col text-center">
-    <button class="btn btn-outline-danger btn-round" (click)="gotoBack()">Cancel</button>
+    <button class="btn btn-outline-danger btn-round" (click)="gotoBack()" style="color:red;">Cancel</button>
     <button class="btn btn-primary btn-round" [disabled]="auth.isRippleLoad.getValue()" (click)="gotoNext()">Save & Next</button>
   </div>
 </div>

@@ -44,7 +44,7 @@
               </div></label>
           <!-- <textarea [(ngModel)]="prodForm.about" name="description" class="form-control form-control-sm"
             placeholder="Write a short description about this product" maxLength="1500" ></textarea> -->
-            
+
             <editor
              [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="prodForm.about" placeholder="Write a short description about this product"
            ></editor>
@@ -68,7 +68,7 @@
         </div>
         <div class="col-md-6" style=" padding-right: 0px;">
           <div class="form-group" style="text-align: right;">
-            <label class="text-bold" style="position: absolute; left: 19px;">Price</label>
+            <label class="text-bold" style="position: absolute; left: 19px;">Price(Rs.)</label>
             <span class="field-checkbox-wrapper">
               <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_paid"
                 (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price =0"
@@ -211,7 +211,7 @@
 
   <div class="row basic-info-footer">
     <div class="col text-center">
-      <button class="btn btn-outline-danger btn-round" (click)="gotoBack()"> Cancel</button>
+      <button class="btn btn-outline-danger btn-round" style="color:red;" (click)="gotoBack()"> Cancel</button>
       <button class="btn btn-primary btn-round" (click)="saveProduct()">Save & Next</button>
     </div>
   </div>
