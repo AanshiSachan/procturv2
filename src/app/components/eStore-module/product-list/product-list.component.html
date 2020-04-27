@@ -20,7 +20,7 @@
     </div>
   </div>
   <div class="row m-0 action-bar">
-    <div class="col-md-12 col-sm-12 container">
+    <div class="col-md-12 col-sm-12 container" style="width: 100%;display: flex; flex-wrap: wrap;">
 
       <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">eCourse</label>
@@ -62,13 +62,13 @@
       <div class="form-group field-wrapper form-el-width datePickerBox">
         <label class="text-bold">Publish Date</label>
         <input type="text" value="" id="publishDate" class="form-ctrl bsDatepicker dateFormat"
-          [(ngModel)]="filter.by.publishDate" name="FD" bsDatepicker readonly="true" />
+          [(ngModel)]="filter.by.publishDate" name="FD" bsDatepicker readonly="true"/>
       </div>
 
-      <button class="btn pr-btn btn-product btn_go" [disabled]="isRippleLoad" (click)="filterData()">GO</button>
-      <button class="btn pr-btn btn-product btn_go" [disabled]="isRippleLoad" (click)="Clearfilter()">Clear
-        Filter</button>
-
+      <button class="btn pr-btn btn-product btn_go" [disabled]="isRippleLoad" (click)="filterData()" style="height: 35px;margin-top: 25px;">GO</button>
+      <!-- <button class="btn pr-btn btn-product btn_go" >Clear Filter</button> -->
+      <!-- <button type="button" name="button" (click)="Clearfilter()" style="color: red; cursor: pointer;">Clear Filter</button> -->
+      <span (click)="Clearfilter()" style="color: red;cursor: pointer;margin-top: 35px;margin-left: 1em;">Clear Filter</span>
     </div>
   </div>
 
@@ -236,10 +236,10 @@
           <p class="lead">{{deleteItem.textTitle}}</p>
         </div>
         <div class="form-group m-0">
-          <button type="button" class="btn btn-sm" data-dismiss="modal">No</button>
-          &nbsp;
           <button type="submit" class="btn btn-primary btn-sm" [disabled]="isRippleLoad"
             (click)="confirmAction(deleteItem.operation, deleteItem.entity_id)">Yes</button>
+              &nbsp;
+          <button type="button" class="btn btn-sm" data-dismiss="modal">No</button>
         </div>
       </div>
     </div>

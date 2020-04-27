@@ -8,9 +8,12 @@
   background: #fff;
   box-shadow: 0pt -2pt 6pt #e6e6e6;
   z-index: 5;
+  background: #fafafa;
+  width: 90%;
+  margin-left: 10%;
   .btn-round{
       padding: 0.2em 1em;
-      border-radius: 2em;
+      border-radius: 4px;
       margin: 0.2em;
   }
 }
@@ -18,12 +21,12 @@
 .row {
   margin-left: 0px;
   margin-right: 0px;
-}   
+}
 
 .product-list-wrapper {
   padding: 1em;
 }
-.product-table { 
+.product-table {
   .product-table-head {
     background: #fff;
 
@@ -59,7 +62,7 @@
 
 table tr{
   border-left:0;
-  border-right:0; 
+  border-right:0;
 }
 
 .field-checkbox-wrapper{
