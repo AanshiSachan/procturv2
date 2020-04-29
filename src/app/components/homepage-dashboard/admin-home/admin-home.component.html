@@ -264,7 +264,7 @@
                                 <!-- <span class="class-type-status" [ngClass]="getClassStatus(class)" >ongoing</span> -->
                               </div>
                             </li>
-                           
+
                             <li class="batch">
                               <div><span title="{{class.batch_name}}">{{ (class.batch_name.length > 15) ? (class.batch_name | slice:0:15)+'..':(class.batch_name) }} </span></div>
                             </li>
@@ -2399,7 +2399,7 @@
 
 <div class="black-bg" id="black-bg" *ngIf="showExpenseToDo" (click)="closeShowList()">
 
-  
+
 </div>
 <div class="modal fade" id="loginSubscription" role="dialog"  tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
@@ -2411,12 +2411,41 @@
           <br>
           Kindly contact our team at <span class="text-bold">9971839153</span> or drop email at <span style="color: blue;">info@proctur.com</span> for renewal.
         </h3>
-      </div>     
+      </div>
       <div class="modal-footer" style="padding: 8px !important;">
         <button type="button" class="btn btn-primary create-btn" (click)="closeSubscriptionAlert()">Okay</button>
       </div>
     </div>
-    
+
   </div>
 </div>
 
+
+<div class="modal fade" id="privacy" role="dialog"  tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="left:10% !important;top: 110px;">
+      <div class="modal-body privacy">
+        <h3>Dear Partner, </h3>
+        <br>
+        <p>Hope you and your family is keeping safe. </p>
+        <br>
+        <p>This is to update you that on 29th April we faced one issue with all Proctur Mobile Apps  being suspended from Google. Please note below:</p>
+        <ul class="modal-list">
+          <li>No action required from your side for now, all existing installed apps are working fine.</li>
+          <li>New app installs will be halted until we hear back from Google (it may take 2-3 days time)</li>
+          <li>Upon revert from Google, we will update you accordingly.</li>
+          <li>In case you have a personal app, our team will get in touch with you separately to discuss.</li>
+        </ul>
+        <br>
+        <p>We are very sorry for your inconvenience, but this is something not in our control. We are doing our best to get resolution at earliest.</p>
+        <p>If you have any queries, please connect with us at Your watsapp group  / 9971839153 / Email at info@proctur.com</p>
+        <br>
+        <h3>Team Proctur</h3>
+      </div>
+      <div class="modal-footer" style="padding: 8px !important;">
+        <button type="button" class="btn btn-primary create-btn" data-dismiss="modal">Okay</button>
+      </div>
+    </div>
+
+  </div>
+</div>
