@@ -456,6 +456,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('instagram_url', institute_data.instagram_url);
       sessionStorage.setItem('website_url', institute_data.website_url);
       sessionStorage.setItem('privacy_alert', 'true');
+      sessionStorage.setItem('liveClassExpiryPop', "true")
+
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
         this.login.changePermissions('');

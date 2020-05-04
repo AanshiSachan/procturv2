@@ -434,3 +434,22 @@
 </div>
 
 <!-- <div id="black-bg" (click)="stopVideo()"  [hidden]="showVideo"></div> -->
+
+<div class="modal fade" id="liveClassExpiry" role="dialog"  tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Dear Partner, your Live class subscription is due for
+          <span *ngIf="daysLeftForSubscriptionExpiry > 0"> renewal in <span class="text-bold">{{daysLeftForSubscriptionExpiry}} days</span>.</span>
+          <span *ngIf="daysLeftForSubscriptionExpiry == 0"> today.</span>
+          <br>
+          Kindly contact our team at <span class="text-bold">9971839153</span> or drop email at <span style="color: blue;">info@proctur.com</span> for renewal.
+        </h3>
+      </div>
+      <div class="modal-footer" style="padding: 8px !important;">
+        <button type="button" class="btn btn-primary create-btn" data-dismiss="modal">Okay</button>
+      </div>
+    </div>
+
+  </div>
+</div>
