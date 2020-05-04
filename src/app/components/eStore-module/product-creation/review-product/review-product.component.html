@@ -25,11 +25,12 @@
           <editor
            [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="prodForm.about"></editor>
         </div>
-        <div class="col-md-4 form-group image-upload">
+        <div class="col-md-4 form-group image-upload" style="text-align:center;">
               <label for="file-input">
                   <img src="{{image_url==null?'https://cdn.vox-cdn.com/thumbor/30bQJLedP0p2KHehrHJyPc2dZ5A=/0x0:600x579/920x0/filters:focal(0x0:600x579):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/16019250/log_2048.png':image_url}}"/>
               </label>
-              <span style=" margin: 2em;">Change Thumbnail</span>
+              <span style=" margin: 2em;">Change Thumbnail </span>
+              <br><span style="color:#ccc">(size: 250x150)</span>
               <input id="file-input" type="file" (change)="uploadHandler($event)"/>
         </div>
       </div>
