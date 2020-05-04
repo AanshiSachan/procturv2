@@ -312,7 +312,7 @@ export class StudyMaterialComponent implements OnInit {
     console.log($event, object);
     if (object.selected) {
       let obj = {
-        "source_item_id": Number(object.file_id),
+        "source_item_id": object.file_id,
         "source_subject_id": object.subject_id,
         "course_type_id": object.course_type_id,
         "parent_topic_id": object.parent_topic_id,
