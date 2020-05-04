@@ -337,8 +337,6 @@ export class AdminHomeComponent implements OnInit {
               sessionStorage.setItem('videoLimitExceeded', "0");
             }
 
-            alert(this.storageData.storage_allocated)
-            alert(this.storageData.consumed_storage)
             if((Number(this.storageData.storage_allocated)) != 0 && Number(this.storageData.consumed_storage) != 0){
               let perUsed = ((Number(this.storageData.storage_allocated) * 80)/100).toFixed(3);
               let usedSpace = Number(this.storageData.consumed_storage).toFixed(3);
