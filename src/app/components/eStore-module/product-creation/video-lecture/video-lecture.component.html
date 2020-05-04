@@ -94,7 +94,7 @@
   <div class="row singleton-row material-row" *ngFor="let video of youtube">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" [disabled]="video.is_existed_selected" class="form-checkbox" [(ngModel)]="video.selected"
+        <input type="checkbox" [disabled]="video.is_existed_selected || isPaid == 'Y'" class="form-checkbox" [(ngModel)]="video.selected"
           (ngModelChange)="selectAllDetails($event,video)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
