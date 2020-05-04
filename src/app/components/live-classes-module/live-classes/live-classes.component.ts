@@ -166,6 +166,8 @@ export class LiveClassesComponent implements OnInit {
   uploadClassType: any;
   fileUploadInput: any;
 
+  daysLeftForSubscriptionExpiry: number;
+
   constructor(
     private auth: AuthenticatorService,
     private appC: AppComponent,
@@ -216,6 +218,8 @@ export class LiveClassesComponent implements OnInit {
     proctur_live_expiry_date = (new Date(proctur_live_expiry_date));
     currentDate.setHours(0, 0, 0, 0);
     proctur_live_expiry_date.setHours(0, 0, 0, 0);
+    let difference_In_Time = proctur_live_expiry_date.getTime() - currentDate.getTime();
+    this.daysLeftForSubscriptionExpiry = difference_In_Time / (1000 * 3600 * 24);
     if (proctur_live_expiry_date < currentDate) {
       this.proctur_live_expiry_date_check = true;
     }
@@ -250,6 +254,12 @@ export class LiveClassesComponent implements OnInit {
         sessionStorage.setItem('proctur_live_expiry_date', proctur_live_expiry_date);
         if (proctur_live_expiry_date != null) {
           this.checkLiveClassExpiry(proctur_live_expiry_date);
+          let expiry = sessionStorage.getItem('liveClassExpiryPop');
+
+          if(this.daysLeftForSubscriptionExpiry <= 5 && JSON.parse(expiry)){
+            $('#liveClassExpiry').modal('show');
+            sessionStorage.setItem('liveClassExpiryPop', "false")
+          }
         }
         this.proctur_live_view_or_download_visibility = data.proctur_live_view_or_download_visibility;
         this.getClassesFor();
