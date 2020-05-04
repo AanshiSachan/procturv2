@@ -30,7 +30,7 @@ export class ExamDeskCourseAssignmentService {
     }
 
     getCoursesList(): Observable<any> {
-        let url = `${this.baseUrl}/api/v1/institute/courseMapping/${this.institute_id}`;
+        let url = `${this.baseUrl}/api/v1/institute/courseMapping/${this.institute_id}?isOnline=all`;
         return this.http.get(url, { headers: this.headers }).map(
             res => { return res },
             err => { return err }

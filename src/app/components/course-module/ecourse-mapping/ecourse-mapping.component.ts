@@ -362,7 +362,7 @@ export class EcourseMappingComponent implements OnInit {
 
   //get course mapping 
   getEcourseMappingData() {
-    let objecturl = '/api/v1/institute/courseMapping/' + this.institute_id;
+    let objecturl = '/api/v1/institute/courseMapping/' + this.institute_id + '?isOnline=all';
     this._http.getData(objecturl).subscribe((data: any) => {
       this.ecourseData = [];
       data.forEach(obj => {
