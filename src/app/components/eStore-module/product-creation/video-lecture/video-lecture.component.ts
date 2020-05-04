@@ -28,6 +28,7 @@ export class VideoLectureComponent implements OnInit {
   outputMessage: any = '';
   materialData: any[] = [];
   testlist: any[] = [];
+  isPaid: string;
   isAdvanceProductEdit:boolean=false;
   editorConf = {
     height: 150,
@@ -340,6 +341,7 @@ export class VideoLectureComponent implements OnInit {
           let response = resp.result;
           if (resp.validate) {
             this.prodForm = response;
+            this.isPaid = this.prodForm.is_paid;
             this.description = response.page_description['Videos'];
             this.prodForm.product_item_stats = {};
              this.testlist = this.prodForm.product_item_list;

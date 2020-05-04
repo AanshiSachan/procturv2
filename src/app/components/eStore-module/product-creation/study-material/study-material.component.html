@@ -118,7 +118,7 @@
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="subject.isExpand" (click)="toggleObject(subject)"></i>
           <i class="fa fa-plus" *ngIf="!subject.isExpand" (click)="toggleObject(subject)"></i>
-        </button> {{subject.isExpand}} {{subject.subject_name}}
+        </button> {{subject.subject_name}}
       </div>
       <div class="col-md-4">
       </div>
@@ -164,7 +164,7 @@
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="subjectListToggle(topic)"></i>
           <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="subjectListToggle(topic)"></i>
-        </button>  {{topic.isExpand}} {{topic.topic_id}} {{topic.topic_name}}
+        </button> {{topic.topic_name}}
       </div>
       <div class="col-md-4">
       </div>
