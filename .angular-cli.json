@@ -22,20 +22,14 @@
         "assets/css/style.scss",
         "../node_modules/primeng/resources/primeng.min.css",
         "../node_modules/primeng/resources/themes/omega/theme.css",
-        "../node_modules/croppie/croppie.css",
-        "../node_modules/tinymce/skins/lightgray/skin.min.css",
-        "../node_modules/tinymce/skins/lightgray/content.min.css",
-        "../node_modules/tinymce/skins/lightgray/content.inline.min.css"
+        "../node_modules/croppie/croppie.css"
       ],
       "scripts": [
         "../node_modules/croppie/croppie.js",
         "../node_modules/hammerjs/hammer.min.js",
         "../node_modules/muuri/muuri.min.js",
         "../node_modules/jspdf/dist/jspdf.min.js",
-        "../node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.min.js",
-        "../node_modules/tinymce/tinymce.min.js",
-        "../node_modules/tinymce/themes/modern/theme.js"
-
+        "../node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
