@@ -93,7 +93,9 @@ export class AddClassComponent implements OnInit {
     join_before_host: true,
     mute_upon_entry: true,
     auto_recording: "none",
-    is_zoom_live_class: false
+    is_zoom_live_class: false,
+    hide_recording_notifications: false,
+    prevent_user_count: false
   };
   // Zoom
   auto_recording: boolean = false;
@@ -477,10 +479,16 @@ export class AddClassComponent implements OnInit {
       const url = '/api/v1/meeting_manager/create'
       this.http_service.putData(url, this.addOnlineClass).subscribe(
         (data: any) => {
-          this.appC.popToast({ type: "success", body: "Live class session " + this.topicName + " " + "created successfully" });
-          this.navigateTo("studentForm");
           this.auth.hideLoader();
-          this.clearOnlineSchedulesObject();
+          if(data.statusCode >= 200 && data.statusCode <= 300){
+            this.appC.popToast({ type: "success", body: "Live class session " + this.topicName + " " + "created successfully" });
+            this.navigateTo("studentForm");
+            this.clearOnlineSchedulesObject();
+          }
+          else{
+            this.appC.popToast({ type: "error", body: data.message })
+          }
+
         },
         (error: any) => {
           this.auth.hideLoader();
@@ -521,7 +529,9 @@ export class AddClassComponent implements OnInit {
       join_before_host: false,
       mute_upon_entry: false,
       auto_recording: "none",
-      is_zoom_live_class: false
+      is_zoom_live_class: false,
+      hide_recording_notifications: false,
+      prevent_user_count: false
     };
 
     this.topicName = "";
