@@ -551,22 +551,7 @@ export class ProductListComponent implements OnInit {
       }
     }
     this.varJson.PageIndex = 1;
-    if (JSON.parse(this.filter.by.isPaid)) {
 
-      // if (!this.filter.by.minPrice) {
-      //   this.msgService.showErrorMessage('error', 'please enter product minimun price', '');
-      //   return;
-      // }
-      // if (!this.filter.by.maxPrice) {
-      //   this.msgService.showErrorMessage('error', 'please enter product maximum price ', '');
-      //   return;
-      // }
-      //
-      // if (Number(this.filter.by.maxPrice) < Number(this.filter.by.minPrice)) {
-      //   this.msgService.showErrorMessage('error', 'product maximum price should be grater than minimum price ', '');
-      //   return;
-      // }
-    }
     data = {
       'page_no': this.varJson.PageIndex,
       'no_of_records': this.varJson.displayBatchSize,
