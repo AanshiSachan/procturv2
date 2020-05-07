@@ -22,12 +22,12 @@
   <div class="row m-0 action-bar">
     <div class="col-md-12 col-sm-12 container" style="width: 100%;display: flex; flex-wrap: wrap;">
 
-      <div class="form-group field-wrapper form-el-width">
+      <!-- <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">eCourse</label>
         <select [(ngModel)]="filter.by.ecourseId" class="form-ctrl">
           <option value="-1">All</option>
         </select>
-      </div>
+      </div> -->
 
       <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">Status</label>
@@ -198,7 +198,7 @@
                     *ngIf="item.status == 20">Publish</a>
                   <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)"
                     style="border: none;" *ngIf="item.status == 30">Unpublished</a>
-                  <a class="dropdown-item" (click)="showAssignStudentPopup(item)" *ngIf="item.status == 30">Assign
+                  <a class="dropdown-item" (click)="showAssignStudentPopup(item)" *ngIf="item.status == 30 && item.product_user_type == '16'">Assign
                     Student</a>
                   <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;"
                     *ngIf="item.status == 40">Closed</a>

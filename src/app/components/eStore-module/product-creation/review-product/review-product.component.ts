@@ -289,7 +289,8 @@ export class ReviewProductComponent implements OnInit {
       "product_ecourse_maps": this.products_ecourse_maps,
       "product_items_types": this.prodForm.product_items_types,
       "product_item_list": this.prodForm.product_item_list,
-      "publish_date": this.prodForm.publish_date
+      "publish_date": this.prodForm.publish_date,
+      "product_user_type": this.prodForm.product_user_type
     }
     this.updateProduct(object);
 

@@ -82,20 +82,27 @@
         </div>
       </div>
       <div class="col-md-12">
-          <div class="form-group">
+        <div class="col-md-6" style=" padding-right: 0px;">
+          <div class="form-group" style="margin-top: 30px;">
             <span class="field-checkbox-wrapper">
               <input class="form-checkbox" type="checkbox" id="adv_product" [(ngModel)]="prodForm.is_advance_product"
                   name="is_advance_product" [disabled]="isAdvanceProductEdit">
-              <label for="adv_product">Is Advance Product
-                <div class="questionInfo inline-relative">
-                    <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
-                    <div class="tooltip-box-field">
-                        Help text for Advance product
-                    </div>
-                  </div>
-              </label>
+              <label for="adv_product">Is Advance Product</label>
             </span>
           </div>
+        </div>
+        <div class="col-md-6" style=" padding-right: 0px;">
+          <div class="form-group field-wrapper form-el-width">
+            <label class="text-bold">Product User Type</label>
+            <select [(ngModel)]="prodForm.product_user_type" class="form-ctrl">
+              <option value="-1">Select Product Type</option>
+              <option value="2">Product For Student</option>
+              <option value="4">Product For Open App User</option>
+              <option value="8">Product For Both</option>
+              <option value="16">Offline assignment of product</option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="col-md-12" style="border: 1px solid #ccc;padding: 10px;margin-left: 10px;margin-bottom: 10px;">
         <div class="form-group">
