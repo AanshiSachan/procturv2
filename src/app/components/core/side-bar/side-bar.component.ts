@@ -975,6 +975,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('enable_fee_template_country_wise', res.enable_fee_template_country_wise);
     sessionStorage.setItem('tax_type_without_percentage', res.tax_type);
     sessionStorage.setItem('tax_type_with_percentage', res.tax_type+"(%)");
+    sessionStorage.setItem('enable_elearn_course_mapping_feature', res.enable_elearn_course_mapping_feature);
   }
 
   // closeSubMenu(){

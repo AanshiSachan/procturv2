@@ -2644,3 +2644,15 @@ div#enqChart {
 ::ng-deep bs-datepicker-container, bs-daterangepicker-container{
     margin-left:1% !important;
   }
+
+  .modal-list{
+    // font-size:12px;
+    list-style-type: disc;
+    padding-left: 2em;
+  }
+  .privacy{
+    font-size: 14px;
+    p{
+      font-size: 14px;
+    }
+  }

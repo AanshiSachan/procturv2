@@ -202,6 +202,11 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
+    let privacy = JSON.parse(sessionStorage.getItem('privacy_alert'));
+    if(privacy){
+      $('#privacy').modal('show');
+      sessionStorage.setItem('privacy_alert', 'false');
+    }
     // added for account expiry popup notification
     var institute_info = JSON.parse(sessionStorage.getItem('institute_info'))
     var loginResp = JSON.parse(sessionStorage.getItem('login-response'));
