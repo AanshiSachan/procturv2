@@ -72,6 +72,11 @@ export class BasicInfoComponent implements OnInit {
     }
   };
 
+  advanceProduct = {
+    forStudent: true,
+    forOpenUser: true
+  };
+
   editorConf = {
     height: 150,
     menubar: false,
@@ -147,6 +152,23 @@ export class BasicInfoComponent implements OnInit {
             this.products_ecourse_maps.push(obj);
           });
           this.prodForm.is_duration = this.prodForm.duration ? true : false;
+          if(this.prodForm.product_user_type == 8){
+            this.advanceProduct.forStudent = true;
+            this.advanceProduct.forOpenUser = true;
+          }
+          else if(this.prodForm.product_user_type == 16){
+            this.advanceProduct.forStudent = false;
+            this.advanceProduct.forOpenUser = false;
+          }
+          else if(this.prodForm.product_user_type == 2){
+            this.advanceProduct.forStudent = true;
+            this.advanceProduct.forOpenUser = false;
+          }
+          else if(this.prodForm.product_user_type == 4){
+            this.advanceProduct.forStudent = false;
+            this.advanceProduct.forOpenUser = true;
+          }
+
           this.prodForm.is_advance_product = this.prodForm.is_advance_product ? true : false;
          this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status== 30) ?true:false;
           this.prodForm.product_item_stats = {};
@@ -272,6 +294,17 @@ export class BasicInfoComponent implements OnInit {
       this.prodForm.valid_from_date = null;
       this.prodForm.valid_to_date = null;
     }
+    let productFor = 16;
+    if(this.advanceProduct.forStudent && this.advanceProduct.forOpenUser){
+      productFor = 8;
+    }
+    else if(this.advanceProduct.forStudent){
+      productFor = 2;
+    }
+    else if(this.advanceProduct.forOpenUser){
+      productFor = 4;
+    }
+    this.prodForm.product_user_type = productFor;
     const is_advance_product = this.prodForm.is_advance_product ? 1 : 0;
     let object = {
       "entity_id": this.prodForm.entity_id,
