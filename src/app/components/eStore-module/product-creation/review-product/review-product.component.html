@@ -21,9 +21,9 @@
       <div class="col-md-12">
         <div class="col-md-8 form-group" style="padding-right: 0px;padding-left: 0px;">
           <label class="text-bold">Description</label>
-          <!-- <textarea rows="3" class="form-control form-control-sm" maxLength="1500" [(ngModel)]="prodForm.about"></textarea> -->
-          <editor
-           [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="prodForm.about"></editor>
+          <textarea rows="3" class="form-control form-control-sm" maxLength="1500" [(ngModel)]="prodForm.about"></textarea>
+          <!-- <editor
+           [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="prodForm.about"></editor> -->
         </div>
         <div class="col-md-4 form-group image-upload" style="text-align:center;">
               <label for="file-input">
@@ -68,7 +68,7 @@
       </div>
       <div class="col-md-12">
         <div class="col-md-6" style=" padding-right: 0px;">
-          <div class="form-group" style="margin-top: 30px;">
+          <div class="form-group" style="margin-top: 20px;">
             <span class="field-checkbox-wrapper">
               <input class="form-checkbox" type="checkbox" id="adv_product" [(ngModel)]="prodForm.is_advance_product"
                   name="is_advance_product" [disabled]="isAdvanceProductEdit">
@@ -77,15 +77,18 @@
           </div>
         </div>
         <div class="col-md-6" style=" padding-right: 0px;">
+          <span style="font-weight: 600;">Product For</span>
           <div class="form-group field-wrapper form-el-width">
-            <label class="text-bold">Product User Type</label>
-            <select [(ngModel)]="prodForm.product_user_type" class="form-ctrl">
-              <option value="-1">Select Product Type</option>
-              <option value="2">Product For Student</option>
-              <option value="4">Product For Open App User</option>
-              <option value="8">Product For Both</option>
-              <option value="16">Offline assignment of product</option>
-            </select>
+            <span class="field-checkbox-wrapper" style="margin-right: 10px;">
+              <input class="form-checkbox" type="checkbox" id="forStudent" [(ngModel)]="advanceProduct.forStudent"
+                  name="is_advance_product">
+              <label for="forStudent">Student</label>
+            </span>
+            <span class="field-checkbox-wrapper">
+              <input class="form-checkbox" type="checkbox" id="forOpenUser" [(ngModel)]="advanceProduct.forOpenUser"
+                  name="is_advance_product">
+              <label for="forOpenUser">Open User</label>
+            </span>
           </div>
         </div>
       </div>
