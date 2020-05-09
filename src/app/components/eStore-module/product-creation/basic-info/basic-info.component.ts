@@ -47,7 +47,7 @@ export class BasicInfoComponent implements OnInit {
     short_description: '',
     about: '',
     is_paid: true,
-    is_advance_product:false,
+    is_advance_product:true,
     price: 0,
     cateory: 0,
     itemStates: [],

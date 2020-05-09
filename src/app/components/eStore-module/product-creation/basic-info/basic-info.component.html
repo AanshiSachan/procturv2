@@ -86,7 +86,14 @@
             <span class="field-checkbox-wrapper">
               <input class="form-checkbox" type="checkbox" id="adv_product" [(ngModel)]="prodForm.is_advance_product"
                   name="is_advance_product" [disabled]="isAdvanceProductEdit">
-              <label for="adv_product">Is Advance Product</label>
+              <label for="adv_product">Is Advance Product
+                <div class="questionInfo inline-relative">
+                    <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
+                    <div class="tooltip-box-field">
+                      Enabling this option published product will available for editing
+                    </div>
+                  </div>
+              </label>
             </span>
           </div>
         </div>
