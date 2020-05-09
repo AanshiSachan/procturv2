@@ -652,7 +652,7 @@ export class LiveClassesComponent implements OnInit {
     let url = "/api/v1/meeting_manager/delete/" + sessionStorage.getItem('institution_id') + "/" + this.cancelSessionId+"?isZoomLiveClass="+zoom_enable;
     this._http.deleteData(url, this.cancelSessionId).subscribe(
       (data: any) => {
-        this.appC.popToast({ type: "success", body: "Live class session cancelled successfully" })
+        this.appC.popToast({ type: "success", body: data.message })
         this.alertBox = true;
         this.getClassesList();
       },
