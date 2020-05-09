@@ -18,8 +18,7 @@ import { ProductCreationComponent } from './product-creation/product-creation.co
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
 import { EstoreRoutingModule } from './estore-routing.module';
 import { ProductService } from '../../services/products.service';
- 
-
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 
 
@@ -31,10 +30,11 @@ import { ProductService } from '../../services/products.service';
     BsDatepickerModule,
     TimepickerModule,
     SharedModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    EditorModule
   ],
   declarations: [
-    ProductListComponent,    
+    ProductListComponent,
     ProductCreationComponent,
     BasicInfoComponent,
     MockTestComponent,

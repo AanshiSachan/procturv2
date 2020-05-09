@@ -33,6 +33,23 @@ export class ReviewProductComponent implements OnInit {
     textField: 'course_type',
     enableCheckAll: false
   };
+  advanceProduct = {
+    forStudent: true,
+    forOpenUser: true
+  };
+  editorConf = {
+    height: 150,
+    menubar: false,
+    branding: false,
+    plugins: [
+      'preview anchor',
+      'visualblocks code ',
+      'insertdatetime  table paste code  wordcount'
+    ],
+    toolbar: 'undo redo | formatselect | bold italic backcolor | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent'
+  };
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
@@ -65,6 +82,22 @@ export class ReviewProductComponent implements OnInit {
             let productData = response;
             this.prodForm = response;
             this.prodForm.product_item_stats = {};
+            // if(this.prodForm.product_user_type == 8){
+            //   this.advanceProduct.forStudent = true;
+            //   this.advanceProduct.forOpenUser = true;
+            // }
+            // else if(this.prodForm.product_user_type == 16){
+            //   this.advanceProduct.forStudent = false;
+            //   this.advanceProduct.forOpenUser = false;
+            // }
+            // else if(this.prodForm.product_user_type == 2){
+            //   this.advanceProduct.forStudent = true;
+            //   this.advanceProduct.forOpenUser = false;
+            // }
+            // else if(this.prodForm.product_user_type == 4){
+            //   this.advanceProduct.forStudent = false;
+            //   this.advanceProduct.forOpenUser = true;
+            // }
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
@@ -145,6 +178,22 @@ export class ReviewProductComponent implements OnInit {
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
+            // if(this.prodForm.product_user_type == 8){
+            //   this.advanceProduct.forStudent = true;
+            //   this.advanceProduct.forOpenUser = true;
+            // }
+            // else if(this.prodForm.product_user_type == 16){
+            //   this.advanceProduct.forStudent = false;
+            //   this.advanceProduct.forOpenUser = false;
+            // }
+            // else if(this.prodForm.product_user_type == 2){
+            //   this.advanceProduct.forStudent = true;
+            //   this.advanceProduct.forOpenUser = false;
+            // }
+            // else if(this.prodForm.product_user_type == 4){
+            //   this.advanceProduct.forStudent = false;
+            //   this.advanceProduct.forOpenUser = true;
+            // }
             this.mock_count = 0;
             this.online_count = 0;
             this.prodForm.product_item_list.forEach((data) => {
@@ -253,6 +302,17 @@ export class ReviewProductComponent implements OnInit {
       this.prodForm.valid_to_date = null;
     }
 
+    let productFor = 16;
+    if(this.advanceProduct.forStudent && this.advanceProduct.forOpenUser){
+      productFor = 8;
+    }
+    else if(this.advanceProduct.forStudent){
+      productFor = 2;
+    }
+    else if(this.advanceProduct.forOpenUser){
+      productFor = 4;
+    }
+    // this.prodForm.product_user_type = productFor;
 
     this.prodForm.is_paid = (this.prodForm.price) ? 'Y' : 'N';
     this.prodForm.price = this.prodForm.price ? this.prodForm.price : 0;
@@ -276,7 +336,8 @@ export class ReviewProductComponent implements OnInit {
       "product_ecourse_maps": this.products_ecourse_maps,
       "product_items_types": this.prodForm.product_items_types,
       "product_item_list": this.prodForm.product_item_list,
-      "publish_date": this.prodForm.publish_date
+      "publish_date": this.prodForm.publish_date,
+      // "product_user_type": this.prodForm.product_user_type
     }
     this.updateProduct(object);
 

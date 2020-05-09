@@ -27,6 +27,20 @@ export class StudyMaterialComponent implements OnInit {
   outputMessage: any = '';
   materialData: any[] = [];
   testlist: any[] = [];
+  selectAll: any;
+  editorConf = {
+    height: 150,
+    menubar: false,
+    branding: false,
+    plugins: [
+      'preview anchor',
+      'visualblocks code ',
+      'insertdatetime  table paste code  wordcount'
+    ],
+    toolbar: 'undo redo | formatselect | bold italic backcolor | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent'
+  };
 
   constructor(
     private router: Router,

@@ -24,6 +24,8 @@
       <label class="text-bold">Description <span class="text-danger">*</span></label>
       <textarea [(ngModel)]="description" name="description" style="height:120px" maxLength="1500"
         class="form-control form-control-sm" placeholder="Write a description about online test"></textarea>
+        <!-- <editor
+         [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="description"></editor> -->
     </div>
   </div>
 
@@ -51,16 +53,16 @@
         <ng-template [ngIf]="true">
           <ng-container *ngFor="let ecourse of product_ecourse_maps;">
             <tr>
-              <td>              
+              <td>
                   <i class="fa fa-minus" *ngIf="ecourse.isExpand" (click)="expandEcourse(ecourse)"></i>
                   <i class="fa fa-plus" *ngIf="!ecourse.isExpand" (click)="expandEcourse(ecourse)"></i>
               </td>
               <td colspan="7" class="text-left">
                 <label>{{ecourse.course_type}}</label>
               </td>
-            </tr>  
+            </tr>
           <ng-template [ngIf]="ecourse.isExpand">
-            
+
               <tr *ngFor="let test of ecourse.testlist;let i =index;">
                   <td>
                     <div class="field-checkbox-wrapper">
@@ -71,7 +73,7 @@
                       </div>
                   </td>
                   <td style="text-align: left;">
-                    <label [for]="'ch'+index" title="{{test.test_name}}">                      
+                    <label [for]="'ch'+index" title="{{test.test_name}}">
                       {{ (test.test_name.length > 20) ? (test.test_name | slice:0:20) + '...' : test.test_name }}
                       </label>
                   </td>
@@ -91,18 +93,18 @@
                   <td class="text-center">
                     {{test.difficulty_title}}
                   </td>
-                </tr>   
+                </tr>
           </ng-template>
-                   
+
           </ng-container>
         </ng-template>
-      </tbody>      
+      </tbody>
   </table>
 </div>
 </div>
-<div class="row basic-info-footer">
+<div class="basic-info-footer">
   <div class="col text-center">
-    <button class="btn btn-outline-danger btn-round" (click)="gotoBack()">Cancel</button>
+    <button class="btn btn-outline-danger btn-round" (click)="gotoBack()" style="color:red;">Cancel</button>
     <button class="btn btn-primary btn-round" [disabled]="isRippleLoad" (click)="gotoNext()">Save & Next</button>
   </div>
 

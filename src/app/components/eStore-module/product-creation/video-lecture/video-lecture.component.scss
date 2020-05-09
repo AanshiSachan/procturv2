@@ -14,9 +14,12 @@
     background: #fff;
     box-shadow: 0pt -2pt 6pt #e6e6e6;
     z-index: 5;
+    background: #fafafa;
+    width: 90%;
+    margin-left: 10%;
     .btn-round{
         padding: 0.2em 1em;
-        border-radius: 2em;
+        border-radius: 4px;
         margin: 0.2em;
     }
 }
@@ -38,37 +41,37 @@
 .row {
     margin: 0;
   }
-  
+
   .text-red {
     color: red;
   }
-  
+
   .text-blue {
     color: #2680eb;
   }
   .img-color {
     color: blueviolet;
   }
-  
+
   .doc-color {
     color: #3d89f0;
   }
-  
+
   .assign-color {
     color: #c59441;
   }
-  
+
   .btn-ga-white-download {
     color: #555;
   }
   .txt-notes{
     color: #3d89f0;
   }
-  
+
   .audio-color{
     color: #9968be;
   }
-  
+
   .pdf-color {
     color: #d55252;
   }
@@ -79,54 +82,54 @@
   .epub-color{
     color:#2bc38a;
   }
-  
+
   i.fa {
     margin-right: .4em;
     margin-left: .9em;
     font-size: 18px;
   }
-  
+
   .txt-color {
     color: #3f2e2e !important;
-    text-decoration: none; 
+    text-decoration: none;
     .txt-title{
       font-weight: 400;
-      font-size:12px; 
+      font-size:12px;
       display: inline-block;
       overflow: hidden;
       width: 72%;
       text-overflow: ellipsis;
       line-height: 15px;
       white-space: nowrap;
-    } 
+    }
   }
-  
+
   .txt-font{
-    font-size:12px; 
+    font-size:12px;
   }
   .btn-ga-collapse {
     vertical-align: middle;
     background: transparent;
-  
+
     &:hover {
       color: #3f2e2e;//#07f;
     }
   }
-  
+
   .btn-ga-white {
     padding: .2em .8em;
     height: auto;
     box-shadow: 1pt 1pt 0 #f1f1f1;
     color: #555;
-  
+
     &:hover {
       color: #07f;
     }
-  
+
     &:focus {
       outline: none;
     }
-  
+
     &:active {
       box-shadow: none;
       color: #fff;
@@ -134,72 +137,72 @@
       border: 1px solid #0084f6;
     }
   }
-  
+
   .btn-xs {
     font-size: .8em;
   }
-  
+
   .field-checkbox-wrapper,
   .field-radio-wrapper {
     position: absolute;
     margin-left: -0.6em;
   }
-  
+
   .singleton-row {
     .action-buttons {
       visibility: hidden;
     }
-  
+
     &:hover {
       background: #ebf6ff;
-  
+
       .action-buttons {
         visibility: visible;
       }
     }
   }
-  
+
   .material-row,
   .topic-data {
     padding-left: 1.2em !important;
   }
-  
+
   .main-topic-row {
     padding: 0;
     margin: 1em 0;
     border: 1pt solid #ddd;
     background: white;
   }
-  
+
   .topic-row {
     padding: 0;
   }
-  
+
   .topic-data {
     border-top: 1px solid #eee;
     padding: .4em 0;
     display: flex;
-  
+
     .topic-name {
       margin: auto;
       // color: #0084f6;
     }
   }
-  
+
   .main-topic-data {
     color: #000;
     font-weight: bold;
     padding-left: 0 !important;
   }
-  
+
   .topic-material-data {
     padding: 0;
-  
+
     .material-row {
       border-top: 1px solid #eee;
       padding: .4em 0;
       display: flex;
-  
+
       .material-title {
         margin: auto;
         display: inline-block;
@@ -209,11 +212,11 @@
       }
     }
   }
-  
+
   .subTopics-data {
     padding: 0;
   }
-  
+
   .ga-modal-wrapper {
     right: 0;
     position: fixed;
@@ -222,12 +225,12 @@
     left: 0;
     background: rgba(136, 136, 136, 0.6);
     z-index: 999;
-  
+
     .ga-modal-container {
       display: flex;
       overflow-y: auto;
       height: 100%;
-  
+
       .ga-modal {
         margin: auto;
         background: #fff;
@@ -235,14 +238,14 @@
         border-radius: .2em;
         box-shadow: 0 2pt 3pt #999;
         min-width: 30%;
-  
+
         .ga-modal-head {
           padding: .5em 1em;
           border-bottom: 1pt solid #ddd;
           font-weight: bold;
           text-align: center;
         }
-  
+
         .ga-modal-body {
           padding: 1em;
           text-align: center;
@@ -250,8 +253,7 @@
       }
     }
   }
-  
+
   .p-0 {
     padding: 0 !important;
   }
-  
