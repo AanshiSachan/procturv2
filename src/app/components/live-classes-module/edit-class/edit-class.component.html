@@ -279,6 +279,45 @@
                           </div>
                         </div>
 
+                        <!-- hide all notification -->
+                        <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
+                          <input type="checkbox" name="hide_recording_notifications" [(ngModel)]="editData.hide_recording_notifications" [value]="0" class="form-checkbox" id="hide_recording_notifications">
+                          <label for="hide_recording_notifications">Hide all notifications in recordings </label>
+                          <div class="questionInfo inline-relative">
+                            <span class="qInfoIcon i-class">i</span>
+                            <div class="tooltip-box-field">
+                                Remove all UI
+                                <br>notifications
+                                <br>from recordings.
+                                <br>The MP4 files will
+                                <br>not contain
+                                <br>notifications.
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Hide user count -->
+                        <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
+                          <input type="checkbox" name="prevent_user_count" [(ngModel)]="editData.prevent_user_count" [value]="0" class="form-checkbox" id="prevent_user_count">
+                          <label for="prevent_user_count">Hide user count </label>
+                          <div class="questionInfo inline-relative">
+                            <span class="qInfoIcon i-class">i</span>
+                            <div class="tooltip-box-field">
+                                Do not show
+                                <br>how many users
+                                <br>are participating
+                                <br>to participants
+                                <br>and observers.
+                                <br>Moderators can
+                                <br>always see this.
+                                <br>This will also
+                                <br>disable join
+                                <br>meeting and leave
+                                <br>meeting messages.
+                            </div>
+                          </div>
+                        </div>
+
                         <!-- Enable Host -->
                         <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
                           <input type="checkbox" name="host_video" [(ngModel)]="editData.host_video" [value]="0" class="form-checkbox" id="host_video">

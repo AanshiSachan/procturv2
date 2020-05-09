@@ -98,7 +98,9 @@ export class EditClassComponent implements OnInit {
     join_before_host: true,
     mute_upon_entry: true,
     auto_recording: "none",
-    is_zoom_live_class: false
+    is_zoom_live_class: false,
+    hide_recording_notifications: false,
+    prevent_user_count: false
   }
   // Zoom
   auto_recording: boolean = false;
