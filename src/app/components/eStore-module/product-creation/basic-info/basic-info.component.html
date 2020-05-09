@@ -82,15 +82,22 @@
       </div>
       <div class="col-md-12">
         <div class="col-md-6" style=" padding-right: 0px;">
-          <div class="form-group" style="margin-top: 20px;">
+          <div class="form-group" style="margin-top: 10px;">
             <span class="field-checkbox-wrapper">
               <input class="form-checkbox" type="checkbox" id="adv_product" [(ngModel)]="prodForm.is_advance_product"
                   name="is_advance_product" [disabled]="isAdvanceProductEdit">
-              <label for="adv_product">Is Advance Product</label>
+              <label for="adv_product">Is Advance Product
+                <div class="questionInfo inline-relative">
+                    <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
+                    <div class="tooltip-box-field">
+                      Enabling this option published product will available for editing
+                    </div>
+                  </div>
+              </label>
             </span>
           </div>
         </div>
-        <div class="col-md-6" style=" padding-right: 0px;">
+        <!-- <div class="col-md-6" style=" padding-right: 0px;">
           <span style="font-weight: 600;">Product For</span>
           <div class="form-group field-wrapper form-el-width">
             <span class="field-checkbox-wrapper" style="margin-right: 10px;">
@@ -104,7 +111,7 @@
               <label for="forOpenUser">Open User</label>
             </span>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="col-md-12" style="border: 1px solid #ccc;padding: 10px;margin-left: 10px;margin-bottom: 10px;">
         <div class="form-group">
