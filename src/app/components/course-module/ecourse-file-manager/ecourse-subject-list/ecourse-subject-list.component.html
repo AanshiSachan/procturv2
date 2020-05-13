@@ -132,13 +132,14 @@
   <div class="row singleton-row material-row" *ngFor="let video of youtube">
     <div class="col-md-4 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{video.title}}">
-        <i class="fa fa-youtube-play text-red"  *ngIf="video.category_name!='VDOCipher'"></i>
+        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="video.category_id!=235 && (video.posterList!=null && video.posterList[0].posterUrl!=null) && video.category_id==230">
+        <i class="fa fa-youtube-play text-red" aria-hidden="true" *ngIf="video.category_id!=235 && (video.posterList==null || video.posterList[0].posterUrl==null) && video.category_id==230"></i>
         <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="video.category_name=='VDOCipher'"></i>
 
-        <a [href]="video.video_url" *ngIf="video.category_name!='VDOCipher'" target="_blank" class="txt-color">
-          <span class="txt-title"
-            title="{{video.title}}">{{(video.title?.length>30)?(video.title | slice:0:30) + '...':(video.title)}}</span>
-        </a>
+        <!-- <div> -->
+          <span
+            title="{{video.title}}" *ngIf="video.category_name!='VDOCipher'" target="_blank" class="txt-color txt-title" (click)="playYoutubeVideo(video)" style="cursor: pointer;">{{(video.title?.length>30)?(video.title | slice:0:30) + '...':(video.title)}}</span>
+        <!-- </div> -->
         <a *ngIf="video.category_name=='VDOCipher'"  class="txt-color">
           <span class="txt-title"  style="cursor: pointer"
             title="{{video.title}}">{{(video.title?.length>30)?(video.title | slice:0:30) + '...':(video.title)}}</span>
@@ -400,5 +401,15 @@
     </div>
   </div>
 </div>
+
+<div class="videoplayer" *ngIf="videoplayer">
+  <iframe width="650" height="400"
+    [src]="currentProjectUrl"
+    frameborder="0" style="border-radius: 10px;"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+  </iframe>
+</div>
+
+<div class="black-bg" id="black-bg" *ngIf="videoplayer" (click)="closePlayer()"></div>
 
 <app-upload-file></app-upload-file>

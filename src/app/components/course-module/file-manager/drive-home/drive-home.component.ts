@@ -4,6 +4,7 @@ import { Tree } from 'primeng/tree';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { FileManagerService } from '../file-manager.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-drive-home',
@@ -69,11 +70,14 @@ export class DriveHomeComponent implements OnInit {
   str: string;
   getPath: string = "";
   headertext: string = '';
+  videoplayer: boolean = false;
+  currentProjectUrl: any;
 
   constructor(private zone: NgZone,
     private fileService: FileManagerService,
     private auth:AuthenticatorService,
-    private msgService: MessageShowService) { }
+    private msgService: MessageShowService,
+    private sanitizer: DomSanitizer) { }
 
 
   ngOnInit(refreshTree?) {
@@ -630,6 +634,15 @@ export class DriveHomeComponent implements OnInit {
 
   closeFolderControl() {
     this.createFolderControl = false;
+  }
+
+  getYoutubeLink(file) {
+    this.videoplayer = true;
+    const video_id = atob(file.res.proc_id);
+    this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video_id);
+  }
+  closePlayer(){
+    this.videoplayer = false;
   }
 
 }

@@ -1,5 +1,7 @@
 <div #fileHeader class="file" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
-  <div #fileImage class="file__img"></div>
+  <div #fileImage class="file__img" *ngIf="fileObj.res.category_id!=230"></div>
+  <div  #fileImage class="file__img" *ngIf="fileObj.res.category_id==230 &&(fileObj.res.thumbnail_list==null || fileObj.res.thumbnail_list[0].posterUrl==null)"></div>
+  <img class="youtube_thumbnail" aria-hidden="true" *ngIf="fileObj.res.category_id==230 && (fileObj.res.thumbnail_list!=null && fileObj.res.thumbnail_list[0].posterUrl!=null)" src="{{fileObj.res.thumbnail_list[0].posterUrl}}">
   <div class="file__info" *ngIf="fileDisplayArr.length!=0">
     <h2 class="file__title" title="{{fileObj.name}}">
       {{getOriginalFileName(fileObj.res.file_name)}}
