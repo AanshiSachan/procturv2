@@ -175,11 +175,11 @@ export class StudyMaterialComponent implements OnInit {
         break;
       }
       case "previousYearQuesList": {
-        slug = 'Previous_Year_Questions_Paper';
+        slug = 'Previous Year Questions Paper';
         break;
       }
       case "audioNotesList": {
-        slug = 'Audio_Notes';
+        slug = 'Audio Notes';
         break;
       }
       case "slidesList": {
