@@ -144,10 +144,10 @@
               <span>
                 <label title="{{item.title}}">
                   {{ (item.title.length > 20) ? (item.title | slice:0:20) + '...' : item.title }}
-                  <!-- <span *ngIf="item.product_user_type == '2'">(For Student)</span>
+                  <span *ngIf="item.product_user_type == '2'">(For Student)</span>
                   <span *ngIf="item.product_user_type == '4'">(For Open User)</span>
                   <span *ngIf="item.product_user_type == '8'">(For Both)</span>
-                  <span *ngIf="item.product_user_type == '16'">(For Offline)</span> -->
+                  <span *ngIf="item.product_user_type == '16'">(For Offline)</span>
                 </label>
               </span>
             </div>
@@ -202,7 +202,7 @@
                     *ngIf="item.status == 20">Publish</a>
                   <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)"
                     style="border: none;" *ngIf="item.status == 30">Unpublished</a>
-                  <a class="dropdown-item" (click)="showAssignStudentPopup(item)" *ngIf="item.status == 30">Assign
+                  <a class="dropdown-item" (click)="showAssignStudentPopup(item)" *ngIf="item.status == 30 && item.product_user_type == '16'">Assign
                     Student</a>
                   <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;"
                     *ngIf="item.status == 40">Closed</a>
