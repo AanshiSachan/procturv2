@@ -69,19 +69,14 @@
 </div>
 
 
-<proctur-popup [sizeWidth]="'extraSmall'" *ngIf="jsonflag.isAssignBatch">
+<proctur-popup [sizeWidth]="'large'" *ngIf="jsonflag.isAssignBatch">
 
   <span class="closePopup pos-abs fbold show" (click)="jsonflag.isAssignBatch = false" close-button>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-        </g>
-        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-        />
-      </g>
-    </svg>
+    <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px"
+        x="0" y="0">
+        <path class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+          style="fill: currentColor"></path>
+      </svg>
   </span>
 
   <h2 popup-header *ngIf="!jsonflag.isProfessional">Select Courses</h2>
@@ -128,36 +123,76 @@
 
 </proctur-popup>
 
-<div class="ga-modal-wrapper" *ngIf="statusOption">
-  <div class="ga-modal-container">
-    <div class="ga-modal" style="width: 40% !important;">
-      <div class="ga-modal-head" style="font-weight: 600;border-bottom: 1px solid #eee;">
-        <span style="font-size:16px">Status :</span>
-        <div style="padding: 0;float: right;cursor: pointer;" (click)="statusOption = false">
-          X
-        </div>
-      </div>
 
-      <div class="ga-modal-body" style="text-align: left;padding-bottom: 10px;">
-        <div class="field-wrapper">
-          <!-- <div class="field-wrapper"> -->
-            <!-- <br> -->
-            <div class="c-lg-3">
-            <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="Online"
-              id="is_offline_or_online" [(ngModel)]="ecourseObject.status"><label
-              class="online_offline_label">Online</label>
-            </div>
-            <div class="c-lg-3" style="width: 50%;padding-left: 0;padding-bottom: 15px;">
-            <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="Offline"
-              id="is_offline_or_online" style="-webkit-appearance: radio;" [(ngModel)]="ecourseObject.status"><label>Offline</label>
-            </div>
+<proctur-popup [sizeWidth]="'large'" *ngIf="statusOption">
 
-          <!-- </div> -->
-        </div><br>
-        <div style="padding-bottom: 10px;float: right;cursor: pointer;background: #0084f6;color: white;border-radius: 4px;padding: 5px;margin-bottom: 10px;" (click)="updateCourseMapping()">
-          Update
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+              <span class="closePopup pos-abs fbold show" (click)="statusOption = false" close-button>
+                <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px"
+                x="0" y="0">
+                <path class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+                  style="fill: currentColor"></path>
+              </svg>
+              </span>
+            
+              <h2 popup-header>Edit E-course</h2>
+              <!-- <h2 popup-header>Select Standards</h2> -->
+            
+              <div popup-content class="student-assign-popup">
+                <div class=" filter-section">
+                  <div class="batch-table row">
+                    <div class="c-lg-12" style="margin-bottom: 10px;padding: 0;">
+                      <div class="c-lg-6" style="margin-top: 10px;">
+                      <label class="course_type" style="margin-right: 10px;font-weight: 600;">E-course Name</label>
+                      <input type="text" class="form-ctrl" name="course_type"
+                        id="course_type" [(ngModel)]="updateEcourseObject.course_type" style="border-radius: 4px;border: 1px solid #ccc;padding: 5px;">
+                      </div>
+                        <div class="c-lg-6" style="margin-top: 10px;">
+                          <label class="course_type" style="margin-right: 10px;float: left;font-weight: 600;">Status</label>
+                        <div class="c-lg-3" style="padding: 0;">
+                          <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="Online"
+                            id="is_offline_or_online" [(ngModel)]="ecourseObject.status"><label
+                            class="online_offline_label">Online</label>
+                          </div>
+                          <div class="c-lg-3" style="padding: 0;padding-bottom: 15px;">
+                          <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="Offline"
+                            id="is_offline_or_online" style="-webkit-appearance: radio;" [(ngModel)]="ecourseObject.status"><label class="online_offline_label">Offline</label>
+                          </div>
+                        </div>
+                      </div>
+                      <h2 popup-header *ngIf="!jsonflag.isProfessional" style="padding-left: 15px;">Select Courses</h2>
+                      <h2 popup-header *ngIf="jsonflag.isProfessional" style="padding-left: 15px;">Select Standard</h2>
+                    <table>
+                      <tbody *ngIf="batchList.length != 0">
+                        <tr *ngFor="let batch of batchList; let i = index">
+                          <td style="text-align: left;">
+                            <div class="inst-no">
+                              <div class="field-checkbox-wrapper">
+                                <input type="checkbox" name="batchcheck{{i}}" id="batchcheck{{i}}" name="batch" [(ngModel)]="batch.isSelected" class="form-checkbox">
+                                <label for="batchcheck{{i}}">{{batch.title}}</label>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="batchList.length == 0">
+                        <tr>
+                          <td colspan="7">
+                            No data found
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="" popup-footer>
+                <div class="clearfix" style="margin-top :10px">
+                  <aside class="pull-right popup-btn">
+                    <input type="button" value="Cancel" class="btn" (click)="statusOption = false">
+                    <input type="button" value="Update" class="fullBlue btn" (click)="addCourseOrStandard()">
+                  </aside>
+                </div>
+              </div>
+            
+</proctur-popup>
