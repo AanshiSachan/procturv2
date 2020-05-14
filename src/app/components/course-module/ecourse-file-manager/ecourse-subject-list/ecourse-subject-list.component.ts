@@ -4,6 +4,7 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 import { HttpService } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { UploadFileComponent } from '../core/upload-file/upload-file.component';
+import { DomSanitizer } from '@angular/platform-browser';
 declare var window;
 @Component({
   selector: 'app-ecourse-subject-list',
@@ -25,6 +26,8 @@ export class EcourseSubjectListComponent implements OnInit {
   outputMessage: string = '';
   tempfile: any;
   tempData: any = {};
+  videoplayer: boolean = false;
+  currentProjectUrl: any;
 
   constructor(
     private _http: HttpService,
@@ -32,6 +35,7 @@ export class EcourseSubjectListComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private msgService: MessageShowService,
+    public sanitizer:DomSanitizer
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -403,5 +407,13 @@ export class EcourseSubjectListComponent implements OnInit {
     });
 
 
+  }
+  playYoutubeVideo(obj) {
+    this.videoplayer = true;
+    const video_id = atob(obj.proc_id);
+    this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video_id);
+  }
+  closePlayer(){
+    this.videoplayer = false;
   }
 }

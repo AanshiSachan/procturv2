@@ -112,7 +112,7 @@
             <file-card (draggedover)="onDragOver($event)" (draggedleave)="onDragLeave($event)" [data]="folder" *ngFor="let folder of fileDisplayArr"
               (getFilesAndFolder)="getFilesAndFolder($event)" (status)="status($event)" (downloadStatus)="downloadStatus($event)" (getPopupValue)="getPopupValue($event)"
               (fileid)="fileId($event)" (fileArr)="fileArr($event)" (shareOptions)="handleOptions($event)" [fileDisplayArr]="fileDisplayArr"
-              [selectedFolder]="selectedFolder" (filePath)="filePath($event)">
+              [selectedFolder]="selectedFolder" (filePath)="filePath($event)" (playYoutubeVideo)="getYoutubeLink($event)">
             </file-card>
           </div>
 
@@ -176,3 +176,12 @@
 <div class="black-bg" *ngIf="jsonFlag.uploading">
   <span>Uploading...</span>
 </div>
+<div class="videoplayer" *ngIf="videoplayer">
+  <iframe width="650" height="400"
+    [src]="currentProjectUrl"
+    frameborder="0" style="border-radius: 10px;"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+  </iframe>
+</div>
+
+<div class="black-bg" id="black-bg" *ngIf="videoplayer" (click)="closePlayer()"></div>

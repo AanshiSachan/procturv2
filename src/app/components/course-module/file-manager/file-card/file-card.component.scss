@@ -209,7 +209,7 @@
 }
 
 .youtube .file__title:before {
-    content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAWQAAAFkBqp2phgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAADHSURBVDiNxdMtTgNREMDx33tBApKtwqwlmCYV1SRwj56hx+kVeosuSSXBrqnqWkBAzWC6CeKVLF3BJP+MmK/MV4oIYySPisYFSOkWd7guAG8FXkXsBI/BVxB/5DN4EKzPCO5ZZ0yKzdX1kBFMMqqiablks2E6/S1BdToBzOdst6xWVEW3m7FrzBndSXPTMJuxWNAV3TpBU5xwXQ/ZwnPGvli9bYe0sO8P6XDGDRyCpxQRpFTjHlc/uDxqeMfHUfe8iGjTv3/jNy6Ep9IgbWhqAAAAAElFTkSuQmCC')
+    // content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAWQAAAFkBqp2phgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAADHSURBVDiNxdMtTgNREMDx33tBApKtwqwlmCYV1SRwj56hx+kVeosuSSXBrqnqWkBAzWC6CeKVLF3BJP+MmK/MV4oIYySPisYFSOkWd7guAG8FXkXsBI/BVxB/5DN4EKzPCO5ZZ0yKzdX1kBFMMqqiablks2E6/S1BdToBzOdst6xWVEW3m7FrzBndSXPTMJuxWNAV3TpBU5xwXQ/ZwnPGvli9bYe0sO8P6XDGDRyCpxQRpFTjHlc/uDxqeMfHUfe8iGjTv3/jNy6Ep9IgbWhqAAAAAElFTkSuQmCC')
 }
 
 
@@ -416,4 +416,11 @@
     .row__title {
         font-size: 16px;
     }
+}
+.youtube_thumbnail {
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 5px;
+    margin-left: 10px;
 }
