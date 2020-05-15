@@ -153,13 +153,13 @@ export class ProductListComponent implements OnInit {
 
   convertUTCDateToLocalDate(date_s) {
     var date =new Date(date_s)
-    var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
-
-    var offset = date.getTimezoneOffset() / 60;
-    var hours = date.getHours();
-
-    newDate.setHours(hours - offset);
-    return moment(newDate).format('DD MMM YYYY');
+    // var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+    //
+    // var offset = date.getTimezoneOffset() / 60;
+    // var hours = date.getHours();
+    //
+    // newDate.setHours(hours - offset);
+    return moment(date).format('DD MMM YYYY');
 }
 
   /* Fetches Data as per the user selected batch size */
