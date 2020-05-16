@@ -229,7 +229,7 @@ export class AddClassComponent implements OnInit {
     if (data == '1') {
       this.isShowProductOption = true;
       this.auth.showLoader();
-      this.product_service.getMethod('product/get-product-list', null).subscribe(
+      this.product_service.getMethod('product/get-product-list?slug:Online_Class', null).subscribe(
         (data: any) => {
           this.auth.hideLoader();
           this.productData = data.result;
