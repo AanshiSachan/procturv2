@@ -36,7 +36,7 @@ export class EcourseMappingComponent implements OnInit {
     }
 
   displayKeys: any[] = [
-    { primaryKey: 'course_type', header: 'E-Course Name', priority: 1, allowSortingFlag: true, inputType: 'text' },
+    { primaryKey: 'course_type', header: 'E-Course Name', priority: 1, allowSortingFlag: true, inputType: 'noEdit' },
     { primaryKey: 'assignCourses', header: 'Courses', priority: 2, allowSortingFlag: true, amountValue: true, inputType: 'noEdit' },
     { primaryKey: 'is_online', header: 'Status', priority: 3, allowSortingFlag: true, amountValue: true, inputType: 'noEdit' }
   ];
@@ -56,10 +56,8 @@ export class EcourseMappingComponent implements OnInit {
       editOption: 'button',//or popup 
       isEditRowShow: true,
       condition: [],
-      options: [{ title: "Assign Courses", class: 'fa fa-check updateCss', optionType: 'assign' },
-      { title: "Edit", class: 'fa fa-check updateCss', optionType: 'editRow' }],
-      editOptions: [{ title: "Assign Courses", class: 'fa fa-check updateCss', optionType: 'assign' },
-      { title: "update", class: 'fa fa-check updateCss', optionType: 'update' }]
+      options: [
+      { title: "Edit", class: 'fa fa-check updateCss', optionType: 'edit' }],
     },
     displayMessage: "Enter Detail to Search"
   };
@@ -87,33 +85,25 @@ export class EcourseMappingComponent implements OnInit {
         if (res == 'LANG') {
           this.jsonflag.isProfessional = true;// batch      
           this.tableSetting.keys = [{ primaryKey: 'course_type', header: 'E-Course Name', priority: 1, allowSortingFlag: true, inputType: 'text' }]
-          this.tableSetting.actionSetting.options = [{ title: "Edit", class: 'fa fa-check updateCss', optionType: 'editRow' }];
+          this.tableSetting.actionSetting.options = [{ title: "Edit", class: 'fa fa-check updateCss', optionType: 'edit' }];
           this.tableSetting.actionSetting.editOptions = [{ title: "update", class: 'fa fa-check updateCss', optionType: 'update' }];
           if (this.jsonflag.allowMapping == '1') { // if assign Standard enabled
             this.getListOfBatches();
             this.tableSetting.keys.push({ primaryKey: 'assignCourses', header: 'Standard', priority: 2, allowSortingFlag: true, inputType: 'noEdit' });
-            this.tableSetting.actionSetting.options.push({ title: "Assign Standard", class: 'fa fa-check updateCss', optionType: 'assign' });
-            this.tableSetting.actionSetting.editOptions.push({ title: "Assign Standard", class: 'fa fa-check updateCss', optionType: 'assign' });
             this.tableSetting.keys.push({ primaryKey: 'is_online', header: 'Status', priority: 3, allowSortingFlag: true, inputType: 'noEdit' });
-            this.tableSetting.actionSetting.options.push({ title: "Status", class: 'fa fa-check updateCss', optionType: 'status' });
-            this.tableSetting.actionSetting.editOptions.push({ title: "Status", class: 'fa fa-check updateCss', optionType: 'status' });
           }
 
 
         } else {
           this.jsonflag.isProfessional = false;// course
           this.tableSetting.keys = [{ primaryKey: 'course_type', header: 'E-Course Name', priority: 1, allowSortingFlag: true, inputType: 'text' }];
-          this.tableSetting.actionSetting.options = [{ title: "Edit", class: 'fa fa-check updateCss', optionType: 'editRow' }];
+          this.tableSetting.actionSetting.options = [{ title: "Edit", class: 'fa fa-check updateCss', optionType: 'edit' }];
           this.tableSetting.actionSetting.editOptions = [{ title: "update", class: 'fa fa-check updateCss', optionType: 'update' }];
 
           if (this.jsonflag.allowMapping == '1') { // if assign course enabled
             this.getListOfCourses();
             this.tableSetting.keys.push({ primaryKey: 'assignCourses', header: 'Courses', priority: 2, allowSortingFlag: true, inputType: 'noEdit' });
-            this.tableSetting.actionSetting.options.push({ title: "Assign Courses", class: 'fa fa-check updateCss', optionType: 'assign' });
-            this.tableSetting.actionSetting.editOptions.push({ title: "Assign Courses", class: 'fa fa-check updateCss', optionType: 'assign' });
             this.tableSetting.keys.push({ primaryKey: 'is_online', header: 'Status', priority: 3, allowSortingFlag: true, inputType: 'noEdit' });
-            this.tableSetting.actionSetting.options.push({ title: "Status", class: 'fa fa-check updateCss', optionType: 'status' });
-            this.tableSetting.actionSetting.editOptions.push({ title: "Status", class: 'fa fa-check updateCss', optionType: 'status' });
           }
         }
       }
@@ -265,6 +255,38 @@ export class EcourseMappingComponent implements OnInit {
         this.updateEcourseObject = Object.assign({}, $event.data); // copy the object instead get reference to that object
         this.statusOption = true;
       }
+
+      case 'edit': {
+        this.updateEcourseObject = Object.assign({}, $event.data);// copy the object instead get reference to that object
+        this.updateEcourseObject.master_course_names = $event.data.assignCourses;
+        this.ecourseObject.status = $event.data.is_online;
+        this.batchList.forEach((obj) => obj.isSelected = false);
+        if (this.updateEcourseObject.master_course_names) {
+          let names = this.updateEcourseObject.master_course_names.split(",");
+          this.assignCourses = this.updateEcourseObject.master_course_names.split(',');
+          names.forEach((title) => {
+            if (this.jsonflag.isProfessional) {
+              let obj: any = this.batchList.filter((data) => data.title == title);
+              if (obj.length) {
+                obj.forEach((element) => {
+                  element.isSelected = true;
+                })
+              }
+            }
+            else {
+              this.batchList.filter((data) => {
+                if (data.temp == title) {
+                  data.isSelected = true;
+                }
+              });
+            }
+
+          })
+          console.log(this.batchList);
+        }
+        // this.jsonflag.isAssignBatch = true;
+        this.statusOption = true;
+      }
     }
     console.log($event);
 
@@ -332,6 +354,7 @@ export class EcourseMappingComponent implements OnInit {
 
   //assign standard or course in e-course for mapping 
   addCourseOrStandard() {
+    if(this.jsonflag.allowMapping == '1'){
     let selectedData = this.batchList.filter((data) => data.isSelected == true);
     if (!selectedData.length) {
       let msg = this.jsonflag.isProfessional ? 'please select batch' : 'please select course';
@@ -352,11 +375,17 @@ export class EcourseMappingComponent implements OnInit {
         }
       });
       this.assignCourses = this.ecourseObject.master_course_names.split(',');
-      this.jsonflag.isAssignBatch = (!this.jsonflag.isAssignBatch);
+      this.jsonflag.isAssignBatch = false;
       if (this.jsonflag.isUpadted) {
         this.updateCourseMapping();
       }
 
+    }
+    } else {
+      this.jsonflag.isAssignBatch = false;
+      if (this.jsonflag.isUpadted) {
+        this.updateCourseMapping();
+      }
     }
   }
 
