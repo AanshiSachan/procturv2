@@ -354,6 +354,7 @@ export class EcourseMappingComponent implements OnInit {
 
   //assign standard or course in e-course for mapping 
   addCourseOrStandard() {
+    if(this.jsonflag.allowMapping == '1'){
     let selectedData = this.batchList.filter((data) => data.isSelected == true);
     if (!selectedData.length) {
       let msg = this.jsonflag.isProfessional ? 'please select batch' : 'please select course';
@@ -379,6 +380,12 @@ export class EcourseMappingComponent implements OnInit {
         this.updateCourseMapping();
       }
 
+    }
+    } else {
+      this.jsonflag.isAssignBatch = false;
+      if (this.jsonflag.isUpadted) {
+        this.updateCourseMapping();
+      }
     }
   }
 
