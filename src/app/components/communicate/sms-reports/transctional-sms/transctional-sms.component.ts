@@ -25,9 +25,7 @@ export class TransctionalSmsComponent implements OnInit {
     { primaryKey: 'message', header: 'Message', priority: 3, allowSortingFlag: true },
     { primaryKey: 'sentDateTime', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
     { primaryKey: 'role', header: 'Role', priority: 5, allowSortingFlag: true },
-    { primaryKey: 'sms_type', header: 'Type', priority: 6, allowSortingFlag: true },
     { primaryKey: 'func_type', header: 'Event', priority: 7, allowSortingFlag: true },
-    { primaryKey: 'sentStatus', header: 'Status', priority: 8, allowSortingFlag: true }
   ];
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   smsSource: any[] = [];
@@ -97,6 +95,9 @@ export class TransctionalSmsComponent implements OnInit {
           this.auth.hideLoader();
           if (res.length != 0) {
             this.smsSource = res;
+            this.smsSource.forEach(elem => {
+              elem.sentDateTime = moment(elem.sentDateTime).format('DD-MMM-YYYY HH:MM');
+            });
             this.totalRecords = res[0].totalCount;
           }
           else {
@@ -115,6 +116,11 @@ export class TransctionalSmsComponent implements OnInit {
         (res: any) => {
           this.auth.hideLoader();
           this.smsSource = res;
+          if(this.smsSource.length) {
+          this.smsSource.forEach(elem => {
+            elem.sentDateTime = moment(elem.sentDateTime).format('DD-MMM-YYYY HH:MM');
+          });
+        }
         }
       )
     }
@@ -178,9 +184,7 @@ export class TransctionalSmsComponent implements OnInit {
       obj["Message"] = data.message;
       obj["Sent Date-Time"] = data.sentDateTime;
       obj["Role"] = data.role;
-      obj["Type"] = data.sms_type;
       obj["Event"] = data.func_type;
-      obj["Status"] = data.sentStatus;
       exportedArray.push(obj);
     })
     this._excelService.exportAsExcelFile(
@@ -210,7 +214,7 @@ export class TransctionalSmsComponent implements OnInit {
       })
 
     let rows = [];
-    rows = [['Name', "Contact No.", "Message", 'Sent Date-Time', 'Role', 'Type', 'Event', 'Status']]
+    rows = [['Name', "Contact No.", "Message", 'Sent Date-Time', 'Role', 'Event']]
     let columns = arr;
     let columnStyles = {
       1: {
