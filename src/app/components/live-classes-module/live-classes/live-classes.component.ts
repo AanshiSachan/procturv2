@@ -248,6 +248,8 @@ export class LiveClassesComponent implements OnInit {
         this.is_proctur_live_recording_allow = data.is_proctur_live_recording_allow;
         if(this.is_proctur_live_recording_allow == 1 && this.videoLimitExceed == 1){
           $('#videoLimit').modal('show');
+          this.videoLimitExceed = 0;
+          sessionStorage.setItem('videoLimitExceeded', '0');
         }
         const proctur_live_expiry_date = data.proctur_live_expiry_date;
         this.JsonVars.view_proctur_live_recorded_session = data.view_proctur_live_recorded_session;
