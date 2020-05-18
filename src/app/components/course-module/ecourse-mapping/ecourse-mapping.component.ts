@@ -194,6 +194,7 @@ export class EcourseMappingComponent implements OnInit {
 
   clearObjects() {
     this.jsonflag.isUpadted = false;
+    this.statusOption = false;
     this.assignCourses = [];
     this.ecourseObject =
       {
