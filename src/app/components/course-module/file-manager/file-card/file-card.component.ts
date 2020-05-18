@@ -212,7 +212,8 @@ export class FileCardComponent implements OnChanges {
           this.filePath.emit(newPath);
           this.status.emit(data.statusCode);
           } else {
-            this.filePath.emit(getDeletedFiles[0].keyName.split('/https'));
+            let temp = getDeletedFiles[0].keyName.split('/https');
+            this.filePath.emit(temp[0]);
           }
           this.appC.popToast(msg);
           this.status.emit(data.statusCode);
