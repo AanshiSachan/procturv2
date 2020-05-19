@@ -10,6 +10,9 @@ import { postSMSService } from '../../services/report-services/post-sms.service'
 import { SharedModule } from '../shared/shared.module';
 import { CommunicateRoutingModule } from './communicate-routing.module';
 import { CoummunicateHomeComponent } from './coummunicate-home/coummunicate-home.component';
+import { WidgetService } from '../../services/widget.service';
+import { ProcturWidgetPopUpComponent } from './proctur-widget-pop-up/proctur-widget-pop-up.component';
+// import { EventManagmentService } from '../../services/event-managment.service';
 
 @NgModule({
   imports: [
@@ -23,7 +26,8 @@ import { CoummunicateHomeComponent } from './coummunicate-home/coummunicate-home
     ExamReportComponent,
     EmailReportComponent,
     EventManagmentComponent,
-    FilterPipe
+    FilterPipe,
+    ProcturWidgetPopUpComponent,
   ],
   exports: [
     FilterPipe
@@ -35,7 +39,8 @@ import { CoummunicateHomeComponent } from './coummunicate-home/coummunicate-home
     ExportToPdfService,
     ExamService,
     getEmailService,
-    HttpService
+    HttpService,
+    WidgetService
   ]
 })
 export class CommunicateModule { }
