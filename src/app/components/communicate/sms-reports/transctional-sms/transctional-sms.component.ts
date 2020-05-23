@@ -20,12 +20,14 @@ export class TransctionalSmsComponent implements OnInit {
   @ViewChild('child') private child: DataDisplayTableComponent;
   busy: Subscription;
   projectSettings: any[] = [
+    { primaryKey: 'sentDateTime', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
     { primaryKey: 'name', header: 'Name', priority: 1, allowSortingFlag: true },
     { primaryKey: 'phone', header: 'Contact No.', priority: 2, allowSortingFlag: true },
-    { primaryKey: 'message', header: 'Message', priority: 3, allowSortingFlag: true },
-    { primaryKey: 'sentDateTime', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
     { primaryKey: 'role', header: 'Role', priority: 5, allowSortingFlag: true },
     { primaryKey: 'func_type', header: 'Event', priority: 7, allowSortingFlag: true },
+    { primaryKey: 'message', header: 'Message', priority: 3, allowSortingFlag: true },
+    // { primaryKey: 'sms_type', header: 'Type', priority: 6, allowSortingFlag: true },
+    // { primaryKey: 'sentStatus', header: 'Status', priority: 8, allowSortingFlag: true }
   ];
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   smsSource: any[] = [];
@@ -67,7 +69,7 @@ export class TransctionalSmsComponent implements OnInit {
     actionSetting:
     {
       showActionButton: false,
-      editOption: '',//or button 
+      editOption: '',//or button
       // options: this.menuOptions
     },
     displayMessage: "Enter Detail to Search"
@@ -173,7 +175,7 @@ export class TransctionalSmsComponent implements OnInit {
   }
 
   /** this function is used to download execel
-   * written by laxmi 
+   * written by laxmi
   */
   exportToExcel() {
     let exportedArray: any[] = [];
@@ -194,7 +196,7 @@ export class TransctionalSmsComponent implements OnInit {
   }
 
   /** this function is used to download pdf
-   * written by laxmi 
+   * written by laxmi
   */
   exportToPdf() {
     let arr = [];

@@ -1,11 +1,19 @@
 <section class="middle-section">
     <!-- course module -->
-    <section class="header-section"> 
+    <section class="header-section">
       <div>
           <div class="header-title">
               <span> Communicate</span>
             </div>
-      </div>  
+      </div>
+      <div class="pull-right act-right-sec">
+        <button class="btn hide add_send_noti" [ngClass]="{hide : checkIfUserHadAccess('105')}" (click)="addSendNotification()">
+
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          &nbsp;
+          Add/Send Notification
+        </button>
+      </div>
     </section>
   <div class="course-menu-section-container" >
     <!-- <div class="course-menu-item hide" routerLink="/view/communicate/manage-sms">
@@ -65,3 +73,550 @@
     </div>
   </div>
 </section>
+
+
+<app-proctur-widget-pop-up *ngIf="notificationPopUp">
+  <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeNotificationPopUp()" close-button>
+    <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+      <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+    </svg>
+  </span>
+
+
+  <h2 style="margin-left: 15px;margin-bottom: 5px; font-size: 14px;" widget-header>Send Notification
+    <div class="questionInfo send-notificaton-tooltip">
+      <span class="qInfoIcon">?</span>
+      <div class="tooltip-box-field" style="left: 35px !important;top: -30px !important;">
+        Select audience first
+        <br>then click on Send
+        <br>Message Tab to select
+        <br>the message to send.
+      </div>
+    </div>
+  </h2>
+
+  <div class="notificationCOntent" widget-content>
+    <div class="notification-content-wrapper">
+
+      <div class="add-notificaton-wrapper" *ngIf="addNotification">
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" style="padding-top:0px;">
+              <textarea class="form-ctrl textBox" value="" [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()" placeholder="Message/SMS"></textarea>
+              <div style="width:100%; display:flex; justify-content:space-between;">
+                <span>Character Count : {{newMessageText.length}}</span>
+                <span>Message Count : <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="c-sm-5 c-md-5 c-lg-5 note-section">
+            <h3>Note</h3>
+            <span>1. Always start with "Dear Student, Dear Parent, Dear Faculty etc".</span>
+            <br>
+            <span>2. Please check spelling and grammar of the SMS.</span>
+            <br>
+            <span>3. Do not use any improper or derogatory statements.</span>
+            <br>
+            <span>4. Message approval may generally take 15 to 30 minutes.</span>
+            <br>
+          </div>
+          <div class="c-sm-3 c-md-3 c-lg-3 btn-Group">
+            <button class="btn" (click)="closeNewMessageDiv()">Cancel</button>
+            <button class="btn fullBlue" *ngIf="!jsonFlag.editMessage" (click)="saveNewMessage()">Save</button>
+            <button class="btn fullBlue" *ngIf="jsonFlag.editMessage" (click)="updateMessage()">Update</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section-wrapper">
+
+
+        <div class="common-tab">
+          <ul>
+            <li id="idAudience" (click)="selectTabMenu('idAudience','divAudience')" class="active" style="width:150px">
+              <a>Select Audience</a>
+            </li>
+            <li id="idSendMessage" (click)="selectTabMenu('idSendMessage','divSendMessage')" style="width:150px">
+              <a>Send Message</a>
+            </li>
+            <li id="liAdd" class="pull-right hide" (click)="addNewNotification()">
+              <a>Add</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="main-content-wrapper">
+
+          <div id="divAudience" class="active">
+
+            <div class="row filter-section" *ngIf="isProfessional">
+
+              <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
+                <label for="masterCourse">Master Course</label>
+                <div class="" style="padding: 0px;">
+                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotification.standard_id" (ngModelChange)="onMasterCourseSelection($event)"
+                    name="masterCourse">
+                    <option value="-1"></option>
+                    <option *ngFor="let opt of masterCourseList" [value]="opt.standard_id">
+                      {{opt.standard_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
+                <label for="course">Course</label>
+                <div class="" style="padding: 0px;">
+                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotification.subject_id" (ngModelChange)="onCourseSelection($event)"
+                    name="course">
+                    <option value="-1"></option>
+                    <option *ngFor="let opt of courseList" [value]="opt.subject_id">
+                      {{opt.subject_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
+                <label for="batch">Batch</label>
+                <div class="" style="padding: 0px;">
+                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotification.batch_id" (ngModelChange)="fetchDataOnBatchBasis(event)"
+                    name="batch">
+                    <option value="-1"></option>
+                    <option *ngFor="let opt of batchList" [value]="opt.batch_id">
+                      {{opt.batch_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- <div class="c-sm-3 c-md-3 c-lg-3">
+                <button class="btn" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
+              </div> -->
+
+              <div *ngIf="studentList.length > 0" class="pull-right" style="margin-top: 15px">
+                <div class="search-filter">
+                  <input type="text" [(ngModel)]="searchData" class="normal-field" placeholder="Search" name="searchData" #searchVal>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row filter-section" *ngIf="!isProfessional">
+
+              <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
+                <label for="masterCourse">Master Course</label>
+                <div class="" style="padding: 0px;">
+                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotificationCourse.master_course" (ngModelChange)="onMasterCourseChange($event)"
+                    name="masterCourse">
+                    <option value="-1"></option>
+                    <option *ngFor="let opt of masterCourseList" [value]="opt.master_course">
+                      {{opt.master_course}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
+                <label for="course">Course</label>
+                <div class="" style="padding: 0px;">
+                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotificationCourse.course_id" (ngModelChange)="($event)"
+                    name="course">
+                    <option value="-1"></option>
+                    <option *ngFor="let opt of courseList" [value]="opt.course_id">
+                      {{opt.course_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="c-sm-3 c-md-3 c-lg-3">
+                <button class="btn fullBlue" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
+              </div>
+
+              <div *ngIf="studentList.length > 0" class="pull-right" style="margin-top: 15px">
+                <div class="search-filter">
+                  <input type="text" [(ngModel)]="searchData" class="normal-field" placeholder="Search" name="searchData" #searchVal>
+                </div>
+              </div>
+
+            </div>
+
+            <span class="borderWithText">
+              <h2>
+                <span>OR</span>
+              </h2>
+            </span>
+
+            <div class="row checkbox-Group">
+              <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                <input type="checkbox" value="" (click)="chkBoxAllActiveStudent($event)" name="activeStudent" class="form-checkbox" id="chkBoxActiveSelection">
+                <label for="activeStudent" style=" margin-left: 10px;">All Active Students</label>
+              </div>
+
+              <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                <input type="checkbox" value="" name="tutorName" (click)="chkBoxAllTeacher($event)" class="form-checkbox" id="chkBoxTutorSelection">
+                <label for="tutorName" style=" margin-left: 10px;">All Faculty</label>
+              </div>
+
+              <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                <input type="checkbox" value="" name="inactiveStudent" (click)="chkBoxAllInActiveStudent($event)" class="form-checkbox" id="chkBoxInActiveSelection">
+                <label for="inactiveStudent" style=" margin-left: 10px;">All Inactive Students</label>
+              </div>
+
+              <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                <input type="checkbox" value="" name="aluminiStudent" (click)="chkBoxAllAluminiStudent($event)" class="form-checkbox" id="chkBoxAluminiSelection">
+                <label for="aluminiStudent" style=" margin-left: 10px;">All Alumni Students</label>
+              </div>
+            </div>
+
+            <div *ngIf="showTableFlag" class="table-content-wrapper">
+              <table *ngIf="selectedOption != 'showTutor'" class="table-wrapper">
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="field-checkbox-wrapper">
+                        <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus()" (click)="checkAllChechboxes($event , studentList)">
+                        <label></label>
+                      </div>
+                    </th>
+                    <th>
+                      ID
+                    </th>
+                    <th>
+                      Name
+                    </th>
+                    <th>
+                      Contact No
+                    </th>
+                    <th>
+                      Standard
+                    </th>
+                    <th>
+                      Joining Date
+                    </th>
+                    <th>
+                      Email
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i; ">
+                    <td>
+                      <div class="field-checkbox-wrapper">
+                        <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)" [(ngModel)]="row.assigned">
+                        <label></label>
+                      </div>
+                    </td>
+                    <td>
+                      {{row.student_disp_id}}
+                    </td>
+                    <td>
+                      {{row.student_name}}
+                    </td>
+                    <td>
+                      {{row.student_phone}}
+                    </td>
+                    <td>
+                      {{row.student_class}}
+                    </td>
+                    <td>
+                      {{row.doj}}
+                    </td>
+                    <td>
+                      {{row.student_email}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="studentList.length == 0">
+                    <td colspan="7">
+                      No Student Found
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Special Case OF Tutor -->
+              <table *ngIf="selectedOption == 'showTutor'" class="table-wrapper">
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="field-checkbox-wrapper">
+                        <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus()" (click)="checkAllChechboxes($event , studentList)">
+                        <label></label>
+                      </div>
+                    </th>
+                    <th>
+                      Name
+                    </th>
+                    <th>
+                      Contact No
+                    </th>
+                    <th>
+                      Subject
+                    </th>
+                    <th>
+                      IsActive
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
+                    <td>
+                      <div class="field-checkbox-wrapper">
+                        <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)" [(ngModel)]="row.assigned">
+                        <label></label>
+                      </div>
+                    </td>
+                    <td>
+                      {{row.teacher_name}}
+                    </td>
+                    <td>
+                      {{row.teacher_phone}}
+                    </td>
+                    <td>
+                      {{row.teacher_subjects}}
+                    </td>
+                    <td>
+                      {{row.is_active}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="studentList.length == 0">
+                    <td colspan="5">
+                      No Faculty Data Found
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div *ngIf="showTableFlag">
+              <input type="button" value="Next" class="btn fullBlue pull-right" (click)="selectTabMenu('idSendMessage','divSendMessage')"
+                id="next_tab">
+            </div>
+          </div>
+
+          <div id="divSendMessage" class="hide">
+            <div class="row">
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" (click)="changeCurrentView($event)" value="" name="loginMessage" class="form-checkbox" id="sendLoginChkbx">
+                <label for="sendLoginChkbx" style=" margin-left: 10px;">Send Login Message</label>
+              </div>
+            </div>
+
+            <div id="divDeliveryMode" class="show">
+              <div class="row" style="margin-left: -15px">
+                <div class="c-sm-4 c-md-4 c-lg-4">
+                  <h3>Delivery Mode</h3>
+                </div>
+                <div id="sendToHead" class="c-sm-6 c-md-6 c-lg-6">
+                  <h3>Send To</h3>
+                </div>
+              </div>
+
+              <div class="row deliverModeSection">
+                <div id="divSendOption" class="c-sm-4 c-md-4 c-lg-4">
+                  <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
+                    <input type="checkbox" checked="true" value="" name="sms" class="form-checkbox" id="chkbxSmsSend">
+                    <label for="chkbxSmsSend" style=" margin-left: 10px;">SMS</label>
+                  </div>
+                  <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
+                    <input type="checkbox" value="" (click)="emailCheckBoxClick($event)" name="mail" class="form-checkbox" id="chkbxEmailSend">
+                    <label for="chkbxEmailSend" style=" margin-left: 10px;">Mail</label>
+                  </div>
+                </div>
+                <div id="divParentOrGaurdian" class="c-sm-6 c-md-6 c-lg-6">
+                  <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                    <input type="checkbox" checked="true" value="" name="student" class="form-checkbox" id="chkBoxStudent">
+                    <label for="chkBoxStudent" style=" margin-left: 10px;">Student</label>
+                  </div>
+                  <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                    <input type="checkbox" value="" name="parent" class="form-checkbox" id="chkBoxParent">
+                    <label for="chkBoxParent" style=" margin-left: 10px;">Parent</label>
+                  </div>
+                  <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                    <input type="checkbox" value="" name="guardian" class="form-checkbox" id="chkBoxGaurdian">
+                    <label for="chkBoxGaurdian" style=" margin-left: 10px;">Guardian</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="showEmailSubject">
+
+                <div class="form-wrapper datepicker c-sm-6 c-xs-6">
+                  <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
+                  <input type="text" [(ngModel)]="messageSubject" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                    id="divSubjectMessage" />
+                </div>
+
+              </div>
+
+              <div class="row" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
+
+                <div class="schedSwitcher row" [ngClass]="{'hide' : checkRoleMAnagement() }">
+                  <ul>
+                    <li (click)="onTabChange('approved')" id="approvedSMSTab" class="active">Approved</li>
+                    <li (click)="onTabChange('open')" id="openSMSTab" class="">Open</li>
+                  </ul>
+                </div>
+
+                <div class="row" *ngIf="!jsonFlag.openMessageFlag">
+                  <span>
+                    <b style="font-weight: 600;">Configured Notification Messages</b>
+                    <b *ngIf="!jsonFlag.showAllMessage">&nbsp;&nbsp;(showing last 30 days added messages)</b>:</span>
+                  <a class="pull-right" style="cursor: pointer; margin-right: 10px;" (click)="getAllSavedMessages()">See All Messages</a>
+                </div>
+
+                <div class="row message-table-wrapper" *ngIf="!jsonFlag.openMessageFlag">
+                  <table class="message-table">
+                    <thead>
+                      <tr>
+                        <th>
+                          <!-- <div class="field-checkbox-wrapper">
+                            <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus(messageList)" (click)="checkAllChechboxes($event , messageList)">
+                            <label></label>
+                          </div> -->
+                        </th>
+                        <th class="dateSection">
+                          Date
+                        </th>
+                        <th style="text-align: left">
+                          Message
+                        </th>
+                        <th>
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
+                        <td>
+                          <div class="field-checkbox-wrapper">
+                            <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned" (ngModelChange)="onCheckBoxSelection(index , row)">
+                            <label></label>
+                          </div>
+                        </td>
+                        <td class="dateSection">
+                          {{row.date}}
+                        </td>
+                        <td style="text-align: left;    word-wrap: break-word;">
+                          {{row.message}}
+                        </td>
+                        <td>
+                          <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )" ></i> &nbsp;
+                        </td>
+                      </tr>
+                      <tr *ngIf="messageList.length == 0">
+                        <td colspan="4">
+                          No Notification Available
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="row message-table-wrapper" *ngIf="jsonFlag.openMessageFlag">
+                  <table class="message-table " style="table-layout: fixed;
+                  width: 100%">
+                    <thead>
+                      <tr>
+                        <th class="dateSection">
+                          Date
+                        </th>
+                        <th style="text-align: left ;     width: 46rem;">
+                          Message
+                        </th>
+                        <th>
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of openMessageList; let i = index; trackBy: i;">
+                        <td class="dateSection">
+                          {{row.date}}
+                        </td>
+                        <td style="text-align: left; width: 46rem; word-wrap: break-word;">
+                          {{row.message}}
+                        </td>
+                        <td>
+                          <div>
+                            <span style="padding: 5px">
+                              <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )"></i>
+                            </span> &nbsp;
+                            <span style="padding: 5px">
+                              <i class="fas fa-check" *ngIf="showApproveButtons(row)" (click)="approveRejectSms(row , '1')"
+                                style="font-family: FontAwesome;font-size: 16px;color: green;"></i>
+                            </span>&nbsp;
+                            <span style="padding: 5px">
+                              <i class="fa fa-times" (click)="approveRejectSms(row,'400')" style="font-family: FontAwesome;font-size: 16px;margin-left: 5px;"></i>
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr *ngIf="messageList.length == 0">
+                        <td colspan="3">
+                          No Notification Available
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+
+              <div class="row" *ngIf="studentSelected && selectedOption == 'showTextBox'">
+                <div class="form-wrapper datepicker c-sm-6 c-xs-6">
+                  <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Message
+                    <span class="text-danger">*</span>
+                  </label>
+                  <input type="text" [(ngModel)]="messageArea" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                    id="divMessageTextbox" />
+                </div>
+              </div>
+
+              <div class="pull-right" *ngIf="studentSelected">
+                <button class="btn" (click)="sendNotificationMessage()">Send</button>
+                <button class="btn" *ngIf="selectedOption == 'showTable' || selectedOption == 'filter'" (click)="sendPushNotification()">Send Push Notification</button>
+              </div>
+
+            </div>
+
+            <div id="divLoginMode" class="hide">
+
+              <div class="row">
+                <div class="radio-options">
+                  <div class="field-radio-wrapper">
+                    <input type="radio" [checked]="(loginField.checkBox == '0')" [(ngModel)]="loginField.checkBox" value="0" name="student" class="form-radio">
+                    <label for="student">Student Only</label>
+                  </div>
+                  <div class="field-radio-wrapper">
+                    <input type="radio" value="1" [(ngModel)]="loginField.checkBox" name="parent" class="form-radio">
+                    <label for="parent">Parent Only</label>
+                  </div>
+                  <div class="field-radio-wrapper">
+                    <input type="radio" value="2" [(ngModel)]="loginField.checkBox" name="both" class="form-radio">
+                    <label for="both">Both</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row btn-loginGroup" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter')">
+                <button class="btn" (click)="sendSmsForApp('1',0)">SMS For App Download</button>
+                <button class="btn" (click)="sendSmsForApp('2',0)">SMS For App Upgradation</button>
+                <button class="btn" (click)="sendSmsForApp('4',0)">Send Credentials via SMS</button>
+                <button class="btn" (click)="sendSmsForApp('4',1)">Send Credentials via Email</button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</app-proctur-widget-pop-up>
