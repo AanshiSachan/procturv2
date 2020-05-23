@@ -635,12 +635,12 @@ table tr:nth-child(odd):hover{
    :hover{
     text-decoration: underline;
     color: #0084f6;
-   } 
+   }
    .procturSiliconImg{
     min-height: 30%;
     max-height: 30%;
-    min-width: 30%;
-    max-width: 30%;
+    min-width: 100%;
+    max-width: 100%;
     vertical-align: middle;
 }
 }
