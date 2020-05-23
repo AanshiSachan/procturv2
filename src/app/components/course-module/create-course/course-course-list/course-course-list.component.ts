@@ -171,12 +171,12 @@ export class CourseCourseListComponent implements OnInit {
     this.addStudentPopUp = true;
     this.courseDetails = rowDetails;
     console.log("courseDetails", rowDetails);
-    // this.getAllStudentList();
+    this.getAllStudentList();
     this.getAllFeeTemplate();
     // this.onRadioButtonChange();
   }
 
-  // set default template and set 
+  // set default template and set
   setDefaultTemplate(country_id, templates, data) {
     // templates[country_id] && templates[country_id].forEach(object => {
     //   if (object.is_default == 'Y' && data.assigned_fee_template_id == -1) {
@@ -195,7 +195,7 @@ export class CourseCourseListComponent implements OnInit {
       let all_template = []
       let keys = Object.keys(templates);
       keys.forEach((key) => {
-        all_template =[...all_template,...templates[key]];    
+        all_template =[...all_template,...templates[key]];
       });
       return all_template;
     } else {
