@@ -171,7 +171,7 @@ export class CourseCourseListComponent implements OnInit {
     this.addStudentPopUp = true;
     this.courseDetails = rowDetails;
     console.log("courseDetails", rowDetails);
-    this.getAllStudentList();
+    // this.getAllStudentList();
     this.getAllFeeTemplate();
     // this.onRadioButtonChange();
   }
