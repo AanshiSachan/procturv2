@@ -58,6 +58,7 @@ export class RegisteredStudentComponent implements OnInit {
     this.getSlugData();
     this.tableSetting.keys = this.feeSettings1;
     this.setDefaultValues();
+    this.filterData();
   }
   setDefaultValues() {
     this.tableSetting.keys = [
@@ -110,7 +111,7 @@ export class RegisteredStudentComponent implements OnInit {
         }
       ]
     };
-    if (this.filter.product_id !== '' || this.filter.slug !== '') {
+    // if (this.filter.product_id !== '' || this.filter.slug !== '') {
       this.auth.showLoader();
       this.http.postMethod('/user-product/get-user-details', data).then(
         (data: any) => {
@@ -138,9 +139,9 @@ export class RegisteredStudentComponent implements OnInit {
         }
       );
     }
-    else {
-      this._msgService.showErrorMessage('error', '', 'Please select Product/ Item type');
-    }
+    // else {
+    //   this._msgService.showErrorMessage('error', '', 'Please select Product/ Item type');
+    // }
   }
 }
 

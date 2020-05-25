@@ -108,3 +108,6 @@
 .image-upload:hover .overlay {
   opacity: .5;
 }
+input[type="text"][disabled]{
+  background: #dddddd !important;
+}
