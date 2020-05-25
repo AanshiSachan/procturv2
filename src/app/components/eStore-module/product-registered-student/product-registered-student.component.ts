@@ -138,7 +138,7 @@ export class RegisteredStudentComponent implements OnInit {
           this._msgService.showErrorMessage('error', '', err.error.message);
         }
       );
-    }
+    // }
     // else {
     //   this._msgService.showErrorMessage('error', '', 'Please select Product/ Item type');
     // }
