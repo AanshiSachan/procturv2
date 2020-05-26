@@ -15,7 +15,11 @@
       <div class="body">
         <span *ngIf="ecourse.categoryDtoList.length==0" style="display: flex;font-size: 12px;padding-bottom: 5px;">No materials added</span>
         <div style="flex-wrap: wrap;display: flex;flex-direction: row;">
-          <div style=" width: 20%;justify-content: flex-start;display: flex;flex-direction: column;font-size:12px;padding-bottom:5px" *ngFor="let item of ecourse.categoryDtoList">{{item.category_name}} - {{item.count}}</div>
+          <div style=" width: 20%;justify-content: flex-start;display: flex;flex-direction: column;font-size:12px;padding-bottom:5px" *ngFor="let item of ecourse.categoryDtoList">            
+            <span *ngIf="item.category_name != 'VDOCipher' && item.category_name != 'Youtube URL'">{{item.category_name}} - {{item.count}}</span>
+                <span *ngIf="item.category_name == 'VDOCipher'">Video - {{item.count}}</span>
+                <span *ngIf="item.category_name == 'Youtube URL'">Youtube video - {{item.count}}</span>
+          </div>
         </div>
       </div>
     </div>
