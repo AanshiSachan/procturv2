@@ -205,16 +205,16 @@ export class FileCardComponent implements OnChanges {
             body: "File Deleted Successfully"
           }
 
-          if(event.res.category_id!='230'){
+          // if(event.res.category_id!='230'){
           let path = getDeletedFiles[0].keyName.split('/');
           path.pop();
           let newPath = path.join('/');
           this.filePath.emit(newPath);
           this.status.emit(data.statusCode);
-          } else {
-            let temp = getDeletedFiles[0].keyName.split('/https');
-            this.filePath.emit(temp[0]);
-          }
+          // } else {
+            // let temp = getDeletedFiles[0].keyName.split('/https');
+            // this.filePath.emit(temp[0]);
+          // }
           this.appC.popToast(msg);
           this.status.emit(data.statusCode);
 

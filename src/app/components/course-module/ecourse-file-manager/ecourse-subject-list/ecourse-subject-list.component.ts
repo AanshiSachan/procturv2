@@ -28,6 +28,7 @@ export class EcourseSubjectListComponent implements OnInit {
   tempData: any = {};
   videoplayer: boolean = false;
   currentProjectUrl: any;
+  subjectId: any = '';
 
   constructor(
     private _http: HttpService,
@@ -79,10 +80,32 @@ export class EcourseSubjectListComponent implements OnInit {
     this.uploadFile.material_dataFlag = 'subject-list';
     this.uploadFile.varJson.course_types = this.ecourse_id;
     this.uploadFile.getSubjectsList(this.ecourse_id);
-    this.uploadFile.varJson.subject_id = topic.subject_id;
-    this.uploadFile.getTopicsList(topic.subject_id);
-    if (topic.topic_id && topic.topic_id != '-1') {
+    this.uploadFile.varJson.subject_id = topic.subjectId;
+    this.uploadFile.getTopicsList(topic.subjectId);
+    // if (a.topicId && a.topicId != '-1') {
+    //   this.uploadTopicPopupOpen(a);
+    // }
+  }
+
+  uploadTopicLevelPopupOpen(topic, subtopic) {
+    this.uploadFile.showParentTopicModel = (this.uploadFile.showParentTopicModel) ? false : true;
+    this.uploadFile.showModal = true;
+    this.uploadFile.material_dataShow = true;
+    this.uploadFile.material_dataFlag = 'subject-list';
+    this.uploadFile.varJson.course_types = this.ecourse_id;
+    this.uploadFile.getSubjectsList(this.ecourse_id);
+    this.uploadFile.varJson.subject_id = this.subjectId;
+    this.uploadFile.getTopicsList(this.subjectId);
+    if(topic.topicId && topic.topicId != '-1') {
+      if(subtopic.topicId && subtopic.topicId!='-1'){
+        topic.parent_topic_id = topic.topicId;
+        topic.parent_topic_name = topic.topicName;
+        topic.sub_topic_id = subtopic.topicId;
+        topic.topic_name = subtopic.topicName;
+      }
       this.uploadTopicPopupOpen(topic);
+    } else if(subtopic.topicId && subtopic.topicId != ''){
+      this.uploadTopicPopupOpen(subtopic);
     }
   }
 
@@ -154,16 +177,18 @@ export class EcourseSubjectListComponent implements OnInit {
 
   uploadTopicPopupOpen(topic) {
     // console.log(topic);
-    if (topic.parent_topic_id == 0) {
+    if (!topic.parent_topic_id || topic.parent_topic_id == 0) {
       this.uploadFile.showModal = true;
-      this.uploadFile.varJson.topic_id = topic.topic_id;// parent 
-      this.uploadFile.getSubtopicList(topic.topic_id);
+      this.uploadFile.varJson.topic_id = topic.topicId;// parent 
+      this.uploadFile.getSubtopicList(topic.topicId);
     } else {
       this.uploadFile.showModal = false;
       this.uploadFile.jsonData.mainTopic = topic.topic_name;
-      this.uploadFile.varJson.sub_topic_id = topic.parent_topic_id // topic
-      this.uploadFile.varJson.topic_id = topic.topic_id;// parent  
+      this.uploadFile.jsonData.mainTopicId = topic.sub_topic_id;
+      this.uploadFile.varJson.sub_topic_id = topic.sub_topic_id // topic
+      this.uploadFile.varJson.topic_id = topic.parent_topic_id;// parent  
       this.uploadFile.jsonData.parentTopic = topic.parent_topic_name;
+      this.uploadFile.jsonData.parentTopicId = topic.parent_topic_id;
     }
   }
 
@@ -172,19 +197,18 @@ export class EcourseSubjectListComponent implements OnInit {
     this.subjectList = [];
     let array = [];
     this.auth.showLoader();
-    let url = "/api/v1/instFileSystem/subjectMaterials";
+    let url = "/api/v1/instFileSystem/get-study-material";
     let object = {
       "institute_id": this.institute_id,
-      "ecoursesIDArray": [this.ecourse_id],
-      "itemTypesArray": []
+      "ecourse_id": this.ecourse_id,
     }
     this._http.postData(url, object).subscribe((res: any) => {
       console.log(res);
       this.auth.hideLoader();
-      if (res && res.length > 0 && res[0].subjectsList && res[0].subjectsList.length > 0) {
-        this.subjectList = res[0].subjectsList;
+      if (res.result && res.result.length > 0) {
+        this.subjectList = res.result;
         this.subjectList.forEach((element) => {
-          if (element && element.subject_id) {
+          if (element && element.subjectId) {
             element.isExpand = false;
             this.addMaterialExtension(element);
             array.push(element)
@@ -193,52 +217,25 @@ export class EcourseSubjectListComponent implements OnInit {
         });
 
       }
+      this.subjectList = array;
       if (this.subjectList.length == 0) {
         this.outputMessage = 'No data found';
       }
-      this.subjectList = array;
     }, err => {
       this.auth.hideLoader();
     });
   }
 
   toggleObject(subject) {
+    if (subject.subjectId) {
+    this.subjectId = subject.subjectId;
+    }
     subject.isExpand = !subject.isExpand;
     if (subject.isExpand) {
-      subject.topic_id = subject.topic_id == undefined ? '-1' : subject.topic_id;
-      this.getTopicListData(subject.subject_id, subject);
+      subject.topicId = subject.topicId == undefined ? '-1' : subject.topicId;
+      this.addMaterialExtension(subject);
+      // this.getTopicListData(subject.subject_id, subject);
     }
-  }
-
-  getTopicListData(subject_id, subject) {
-    this.auth.showLoader();
-    let url = "/api/v1/topic_manager/subject/" + subject_id + "/topicMaterials";
-    let data =
-    {
-      "institute_id": this.institute_id,
-      "parent_topic_id": subject.topic_id,
-    }
-
-    this._http.postData(url, data).subscribe((res) => {
-      console.log(res);
-      this.auth.hideLoader();
-      subject.subTopics = res;
-      if (subject.subTopics.length == 0) {
-        this.outputMessage = 'No data found';
-      } else {
-        subject.subTopics.forEach(element => {
-          element.parent_topic_name = subject.topic_id == '-1' ? null : subject.topic_name;
-          element.subject_id = subject_id;
-          element.isExpand = false;
-          element.subTopics = [];
-          this.addMaterialExtension(element);
-        });
-        // console.log(this.subTopics);
-      }
-    },
-      (err) => {
-        this.auth.hideLoader();
-      })
   }
 
   /// removed data
@@ -349,12 +346,16 @@ export class EcourseSubjectListComponent implements OnInit {
     this.showModal = true;
   }
 
+  calculateStudyMaterialMapLength(object) {
+    return Object.keys(object.studyMaterialMap).length;
+  }
+
 
   addMaterialExtension(object) {
-    let keys = ["notesList", "assignmentList", "studyMaterialList", "imageList", "previousYearQuesList", "audioNotesList", "slidesList"];
-    keys.forEach(key => {
-      if (object[key]) {
-        object[key].forEach(element => {
+    let keys = ["Notes", "Assignment", "EBook", "Images", "PreviousYearQuestionsPaper", "AudioNotes", "Slides"];
+    keys.forEach(key => {      
+      if (object.studyMaterialMap[key]) {
+        object.studyMaterialMap[key].forEach(element => {
           let str = element.file_path;
           let ext = str.substr(str.lastIndexOf(".") + 1, str.length);
           switch (ext) {
