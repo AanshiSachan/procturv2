@@ -5,8 +5,8 @@
 
 .subject-title{
     cursor: pointer;
-    font-weight: 900;
-    font-size: 1.4em;
+    font-weight: 600;
+    font-size: 14px;
     margin-bottom: 0.4em;
 }
 
@@ -43,7 +43,7 @@
   
     .btn_addecourse {
       padding: 8px;
-      border-radius: 13px;
+      border-radius: 4px;
       color: #fff;
       background: #2680eb;
       font-weight: 600;
@@ -215,8 +215,8 @@
       display: flex;
   
       .material-title {
-        margin: auto;
-        width: 32%;
+        margin: 0;
+        // width: 32%;
         display: inline-block;
         line-height: 15px;
         padding: 0 7px;
@@ -281,3 +281,12 @@
     z-index: 6;
     width: 100%;
   }
+  .category_name {
+    width: 15%;
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: normal;
+}
+.fa-trash {
+  color: red;
+}
