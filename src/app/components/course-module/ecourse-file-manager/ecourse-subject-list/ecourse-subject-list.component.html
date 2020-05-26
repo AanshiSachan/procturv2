@@ -97,8 +97,8 @@
       <div class="col-md-4">
 
       </div>
-      <div class="col-md-1">
-        <div>
+      <div class="col-md-1" style="padding-right: 0;">
+        <div style="float: right;">
           <button class="btn btn-xs btn-ga-white" (click)="uploadTopicLevelPopupOpen(subTopics,topic)"><i class="fa fa-upload" title="Upload"></i></button>
           <!-- <button class="btn btn-xs btn-ga-white">Add Topic</button> -->
         </div>
@@ -152,8 +152,8 @@
     <div class="col-md-4 txt-font" *ngIf="video.category_name!='VDOCipher'">
       {{video.category_name}}
     </div>
-    <div class="col-md-1">
-      <div class="action-buttons">
+    <div class="col-md-1" style="padding:0">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white"  (click)="setRemoveDataFile(video,'delete')"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
@@ -186,7 +186,7 @@
         {{video.video_status |titlecase}} &nbsp;
       </div>
     <div class="col-md-2" style="padding: 0;">
-      <div class="action-buttons">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked!='N'" (click)="setRemoveDataFile(video,'unlink')">Unlink</button>
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'delete')"><i class="fa fa-trash" title="Delete"></i></button>
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'unlink all')">Unlink All</button>
@@ -211,7 +211,7 @@
         {{file.downloads}} &nbsp;Downloads 
       </div>
     <div class="col-md-2" style="padding: 0;">
-      <div class="action-buttons">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
@@ -237,7 +237,7 @@
         {{file.downloads}} &nbsp;Downloads 
       </div>
     <div class="col-md-2" style="padding: 0;">
-      <div class="action-buttons">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
@@ -263,7 +263,7 @@
         {{file.downloads}} &nbsp;Downloads 
       </div>
     <div class="col-md-2" style="padding: 0;">
-      <div class="action-buttons">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
@@ -289,7 +289,7 @@
         {{audio.downloads}} &nbsp;Downloads 
       </div>
     <div class="col-md-2" style="padding: 0;">
-      <div class="action-buttons">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(audio)">
           <a [href]="audio.file_name" class="btn-ga-white" [download]="audio.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
@@ -315,7 +315,7 @@
         {{file.downloads}} &nbsp;Downloads 
       </div>
     <div class="col-md-2" style="padding: 0;">
-      <div class="action-buttons">
+      <div class="action-buttons" style="float: right;">
         {{file.downloads}}&nbsp;Downloads &nbsp; &nbsp;
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
@@ -343,7 +343,7 @@
         {{file.downloads}} &nbsp;Downloads 
       </div>
     <div class="col-md-2" style="padding: 0;">
-      <div class="action-buttons">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
@@ -369,7 +369,7 @@
         {{file.downloads}} &nbsp;Downloads 
       </div>
     <div class="col-md-2" style="padding: 0;">
-      <div class="action-buttons">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
