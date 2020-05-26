@@ -40,7 +40,10 @@
               </div>
               <div class="col-md-7">
               <span *ngFor="let count of topic.category_count" title="{{count.category_name}}" class="category_name">
-                {{(count.category_name.length > 13) ? (count.category_name | slice:0:13) + '...' : count.category_name}} - {{count.count}}
+                <span *ngIf="count.category_name != 'VDOCipher' && count.category_name != 'Youtube URL'">{{(count.category_name.length > 13) ? (count.category_name | slice:0:13) + '...' : count.category_name}}</span>
+                <span *ngIf="count.category_name == 'VDOCipher'">Video</span>
+                <span *ngIf="count.category_name == 'Youtube URL'">Youtube video</span>
+                 - {{count.count}}
               </span>
               </div>
             </div>
