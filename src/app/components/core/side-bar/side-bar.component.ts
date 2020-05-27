@@ -749,6 +749,12 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.clearSearch();
     if (this.log.logoutUser()) {
       this.multiBranchService.subBranchSelected.next(false);
+      this.auth.clearStoredData();
+      this.auth.changeAuthenticationKey(null);
+      this.auth.changeInstituteId(null);
+      this.log.changeSidenavStatus('unauthorized');
+      sessionStorage.clear();
+
       this.router.navigateByUrl('/authPage');
     }
   }

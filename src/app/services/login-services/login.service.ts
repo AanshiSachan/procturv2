@@ -114,15 +114,29 @@ export class LoginService {
       })
   }
 
-  logoutUser(): boolean {
+  logoutUser() {
+    let url = this.baseUrl + "/api/v1/alternateLogin/logout";
+    let header =  new HttpHeaders({"Authorization": this.Authorization});
+    return  this.http.get(url, { headers: header }).map(
+      res => {
+        // this.auth.clearStoredData();
+        // this.auth.changeAuthenticationKey(null);
+        // this.auth.changeInstituteId(null);
+        // this.changeSidenavStatus('unauthorized');
+        // sessionStorage.clear();
+        // localStorage.clear();
+        return true;
+       },
+      err => {
+      return false;
+     }
+    )
     // remove user from local storage to log user out
-    this.auth.clearStoredData();
-    this.auth.changeAuthenticationKey(null);
-    this.auth.changeInstituteId(null);
-    this.changeSidenavStatus('unauthorized');
-    sessionStorage.clear();
-    // localStorage.clear();
-    return true;
+
+    // return true;
+
+
+
   }
 
   getAllInstituteId() {
