@@ -130,11 +130,11 @@ export class ProductListComponent implements OnInit {
           console.log(this.productList);
           this.varJson.total_items = response.result.total_records;
           // -- added by laxmi
-          // this code is used to laod image url dynamically not save in locally so dont remove it 
+          // this code is used to laod image url dynamically not save in locally so dont remove it
           this.productList.forEach(obj => {
             if(obj.logo_url){
-              obj.logo_url =obj.logo_url+"?t="+new Date().getTime();// 
-            }            
+              obj.logo_url =obj.logo_url+"?t="+new Date().getTime();//
+            }
           });
 
         }
@@ -158,7 +158,7 @@ export class ProductListComponent implements OnInit {
     var hours = date.getHours();
 
     newDate.setHours(hours - offset);
-    return moment(newDate).format('DD MMM YYYY');   
+    return moment(newDate).format('DD MMM YYYY');
 }
 
   /* Fetches Data as per the user selected batch size */
@@ -260,11 +260,29 @@ export class ProductListComponent implements OnInit {
       "course_id": this.course_id
     };
   } else{
-    object = {
-      "ecourse_ids": ecourse,
-      'standard_id': this.master_course_name,
-      'subject_id' : this.course_id,
-      'batch_id' : this.batch_id
+    if(this.master_course_name != "" && this.course_id != "" && this.batch_id != ""){
+      object = {
+        "ecourse_ids": [],
+        'standard_id': "",
+        'subject_id' : "",
+        'batch_id' : this.batch_id
+      }
+    }
+    else if(this.master_course_name != "" && this.course_id != ""){
+      object = {
+        "ecourse_ids": [],
+        'standard_id': this.master_course_name,
+        'subject_id' : this.course_id,
+        'batch_id' : ""
+      }
+    }
+    else if(this.master_course_name == "" && this.course_id == "" && this.batch_id == ""){
+      object = {
+        "ecourse_ids": ecourse,
+        'standard_id': "",
+        'subject_id' : "",
+        'batch_id' : ""
+      }
     }
   }
     console.log(object);
@@ -602,7 +620,7 @@ export class ProductListComponent implements OnInit {
         },
         {
         	"column": "productType",
-            "value": Number(this.filter.by.productType) 
+            "value": Number(this.filter.by.productType)
         }
 
       ],
