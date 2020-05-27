@@ -11,7 +11,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
-
+declare var $;
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -72,7 +72,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     alternate_email_id: "",
     password: "",
     userid: "",
-    institution_id: ""
+    institution_id: "",
+    source: "WEB"
   }
 
   multiUserLoginInfo: any = {
@@ -80,7 +81,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     password: "",
     userid: "",
     institution_id: "",
-    user_role: ""
+    user_role: "",
+    source: "WEB"
   }
 
   otpVerificationInfo: any = {
@@ -89,7 +91,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     alternate_email_id: "",
     password: "",
     userid: "",
-    otp_validate_mode: 1
+    otp_validate_mode: 1,
+    source: "WEB"
   }
   // zoom
   zoom_enable: any = false;
@@ -108,14 +111,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('userid') != null) {
       this.loginDataForm = {
         alternate_email_id: "",
-        password: ""
+        password: "",
+        source: "WEB"
       }
       this.createRoleBasedSidenav();
     }
     else {
       this.loginDataForm = {
         alternate_email_id: "",
-        password: ""
+        password: "",
+        source: "WEB"
       }
     }
     //     sessionStorage.clear();
@@ -247,7 +252,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           this.checkForAuthOptions(res);
         },
         err => {
-          this.auth.showLoader();
+          this.auth.hideLoader();
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", err.error.message);
           console.log(err);
         }
       );
@@ -316,15 +322,60 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       case 5:
         this.alternateLoginMultiUser(res);
         break;
+      case 10:
+        this.multiDeviceLogin(res);
+        break;
     }
   }
 
+  multiDeviceLogin(res){
+    this.auth.hideLoader();
+    $('#multiLogin').modal('show');
+
+  }
+
+  logOutFromOtherDeveices(){
+    this.loginDataForm.logout_from_all_devices = true;
+    this.auth.showLoader();
+    this.login.postLoginDetails(this.loginDataForm).subscribe(
+      res => {
+        console.log(res);
+        this.auth.hideLoader();
+        sessionStorage.setItem('login-response',JSON.stringify(res));
+        sessionStorage.setItem('institute_info', JSON.stringify(res.data));
+
+        let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
+        sessionStorage.setItem('userid', institute_data.userid);
+        sessionStorage.setItem('userType', institute_data.userType);
+        sessionStorage.setItem('password', institute_data.password);
+        sessionStorage.setItem('institute_id', institute_data.institution_id);
+        sessionStorage.setItem('deviceId', institute_data.device_id);
+        sessionStorage.setItem('source', 'WEB');
+        this.auth.getAuthToken(true);
+        this.alternateLoginSuccess(res);
+      },
+      err => {
+        this.auth.showLoader();
+        console.log(err);
+      }
+    );
+  }
+
   setAuthToken(institute_data) {
+
     sessionStorage.setItem('userid', institute_data.userid);
     sessionStorage.setItem('userType', institute_data.userType);
     sessionStorage.setItem('password', institute_data.password);
     sessionStorage.setItem('institute_id', institute_data.institution_id);
-    this.auth.getAuthToken();
+    if(institute_data.userType == '1' || institute_data.userType == '99'){
+      sessionStorage.setItem('deviceId', institute_data.device_id);
+      sessionStorage.setItem('source', 'WEB');
+      this.auth.getAuthToken(false);
+    }
+    else{
+      this.auth.getAuthToken(false);
+    }
+
   }
 
   //End - 1
@@ -367,9 +418,18 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
-      let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
-      this.auth.changeAuthenticationKey(Authorization);
-      this.auth.changeInstituteId(institute_data.institution_id);
+      let type = sessionStorage.getItem('source');
+      if(institute_data.userType != '1' && institute_data.userType != '99'){
+        let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+        this.auth.changeAuthenticationKey(Authorization);
+      }
+      else{
+        let deviceId = sessionStorage.getItem('deviceId');
+        let source = sessionStorage.getItem('source');
+        let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id + ":" + res.device_id + ":WEB");
+        this.auth.changeAuthenticationKey(Authorization);
+      }
+      // this.auth.changeInstituteId(institute_data.institution_id);
       this.auth.course_flag.next(institute_data.course_structure_flag);
       this.auth.institute_type.next(institute_data.institute_type);
       this.auth.instituteType_name.next(institute_data.institute_type);

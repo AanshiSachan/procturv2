@@ -28,7 +28,7 @@ export class AuthenticatorService {
 
     constructor() {
         this.baseUrl = environment.production ? "https://app.proctur.com/StdMgmtWebAPI" : "https://test999.proctur.com/StdMgmtWebAPI";
-        this.getAuthToken();
+        this.getAuthToken(false);
         this.getInstituteId();
         this.getIsMainBranchValue();
         this.getInstituteType();
@@ -52,7 +52,7 @@ export class AuthenticatorService {
         this.isRippleLoad.next(false);
     }
 
-    getAuthToken() {
+    getAuthToken(studnetValidation) {
         let obj: any = {
             userid: sessionStorage.getItem('userid'),
             userType: sessionStorage.getItem('userType'),
@@ -61,7 +61,15 @@ export class AuthenticatorService {
         }
 
         if (obj != null && obj != undefined) {
-            let Authorization = btoa(obj.userid + "|" + obj.userType + ":" + obj.password + ":" + obj.institution_id);
+            let Authorization;
+            if(studnetValidation){
+              let deviceId = sessionStorage.getItem('deviceId');
+              let source = sessionStorage.getItem('source');
+              Authorization = btoa(obj.userid + "|" + obj.userType + ":" + obj.password + ":" + obj.institution_id + ":" + deviceId + ":" + source);
+            }
+            else{
+              Authorization = btoa(obj.userid + "|" + obj.userType + ":" + obj.password + ":" + obj.institution_id);
+            }
             let token = Authorization;
             if (token != null) {
                 this.changeAuthenticationKey(token);
