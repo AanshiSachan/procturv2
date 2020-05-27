@@ -4,8 +4,9 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 import { HttpService } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { UploadFileComponent } from '../core/upload-file/upload-file.component';
+import { Create_Topic } from '../../create-course/topic/topic.model';
 import { DomSanitizer } from '@angular/platform-browser';
-declare var window;
+declare var window, $;
 @Component({
   selector: 'app-ecourse-subject-list',
   templateUrl: './ecourse-subject-list.component.html',
@@ -29,6 +30,9 @@ export class EcourseSubjectListComponent implements OnInit {
   videoplayer: boolean = false;
   currentProjectUrl: any;
   subjectId: any = '';
+  addTopic: Create_Topic = new Create_Topic();	
+  subjectTempData: any[] = [];	
+  standardData: any[] = [];
 
   constructor(
     private _http: HttpService,
@@ -416,5 +420,63 @@ export class EcourseSubjectListComponent implements OnInit {
   }
   closePlayer(){
     this.videoplayer = false;
+  }
+
+  gotoAddTopic() {
+    $('#addTopic').modal('show');
+    this.getAllStandards();
+  }
+
+  getAllStandards() {	
+    let userType: any = sessionStorage.getItem('userType');	
+    let teacher_id: any = -1;	
+    if (userType == 3) {	
+     teacher_id = sessionStorage.getItem('login_teacher_id');	
+    }	
+    let url = "/api/v1/standards/all/" + this.institute_id + "?active=Y" + '&teacher_id=' + teacher_id;	
+    this.auth.showLoader();	
+    this._http.getData(url).subscribe(	
+      (data: any) => {	
+        this.auth.hideLoader();	
+        this.standardData = data;	
+        // console.log(data);	
+      },	
+      (error: any) => {	
+        this.auth.hideLoader();	
+        console.log(error);	
+      }	
+    )	
+  }	
+  getAllSubjectList(standards_id) {	
+    this.subjectTempData = [];	
+    this.auth.showLoader();	
+    let url = "/api/v1/subjects/standards/" + standards_id + '?active=Y';	
+    this._http.getData(url).subscribe(	
+      (data: any) => {	
+        this.auth.hideLoader();	
+        this.subjectTempData = data;	
+        console.log(data);	
+      },	
+      error => {	
+        this.auth.hideLoader();	
+        console.log(error);	
+      }	
+    );	
+  }	
+  Add_New_Topic_Details() {	
+    this.auth.showLoader();	
+    let url = "/api/v1/topic_manager/add/" + this.institute_id;	
+    this._http.postData(url, this.addTopic).subscribe(	
+      (data: any) => {	
+        this.auth.hideLoader();	
+        this.msgService.showErrorMessage('success', '', "Topic Added Successfully");	
+        $('#addTopic').modal('hide');	
+      },	
+      (error: any) => {	
+        this.auth.hideLoader();	
+        this.msgService.showErrorMessage('error', '', "Something went wrong try again ");	
+        console.log(error);	
+      }	
+    );	
   }
 }

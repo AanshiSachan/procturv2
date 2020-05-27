@@ -33,7 +33,7 @@
     </ul>
   </div> -->
 
-    <div class="sidecard">
+    <!-- <div class="sidecard">
       <div class="wrap">
         <h4>Download Usage<div class="questionInfo inline-relative">
           <span class="qInfoIcon i-class">i</span>
@@ -48,7 +48,7 @@
           <div class="progress-stat" [ngStyle]="{'width': _fservice.storageData.width+'%'}"></div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="sidecard" *ngIf="enable_vdoCipher_feature">
       <div class="wrap">
@@ -66,6 +66,26 @@
         </h4>
         <p class="small usage">
           {{(vDOCipher_used_bandwidth?vDOCipher_used_bandwidth:0)| number:'.2-3'}} GB
+        </p>
+      </div>
+    </div>
+
+    <div class="sidecard" *ngIf="enable_vdoCipher_feature">
+      <div class="wrap">
+        <h4>Storage Capacity
+        </h4>
+        <p class="small usage">
+          {{(vDOCipher_allocated_storage?vDOCipher_allocated_storage:0)| number:'.2-3'}} GB
+        </p>
+      </div>
+    </div>
+
+    <div class="sidecard" *ngIf="enable_vdoCipher_feature">
+      <div class="wrap">
+        <h4>Used Storage Capacity
+        </h4>
+        <p class="small usage">
+          {{(vDOCipher_used_storage?vDOCipher_used_storage:0)| number:'.2-3'}} GB
         </p>
       </div>
     </div>
@@ -106,42 +126,42 @@
         <div class="row upload-box">
           <div style="height: 430px;overflow-x: hidden;padding-bottom: 10px;" class="model_body_div">
             <div class="field-wrapper">
-              <label>Watermark 
-                <div class="questionInfo inline-relative">
+              <label>Privacy Settings<div class="questionInfo inline-relative">
                   <span class="qInfoIcon i-class">i</span>
                   <div class="tooltip-box-field">
-                    Set the text to be shown <br> as
-                    watermark in the video
+                    Set the video visibility <br>mode to private or public.<br>
+                    In private mode, video will<br> be visible to the enrolled <br>students.
+                    In public mode,<br> video will be visible to<br> guest users & enrolled<br> students
                   </div>
-                </div>
-              </label>
-              <div class="dropdown-div">
-                <input class="dropdown" [(ngModel)]="settingDetails.video_watermark" type="text"
-                  placeholder="  enter watermark" />
+                </div></label>
+              <div class="row" style="padding: 15px 30px;">
+                <label class="toggle">
+                  <span class="toggle-label" id="unassigned"
+                    [ngClass]="(is_video_public)?'inactive_toggle_button':'active_toggle_button'">Private</span>
+                  <input class="toggle-checkbox" type="checkbox" [(ngModel)]="is_video_public">
+                  <div class="toggle-switch"></div>
+                  <span class="toggle-label" id="assigned"
+                    [ngClass]="(is_video_public)?'active_toggle_button':'inactive_toggle_button'">Public
+                  </span>
+                </label>
               </div>
             </div>
             <br>
             <div class="row">
-              <div class="col-md-7">
+              <div class="col-md-7" style="padding-left: 0;">
                 <div class="field-wrapper">
-                  <label>Privacy Settings<div class="questionInfo inline-relative">
+                  <label>Watermark 
+                    <div class="questionInfo inline-relative">
                       <span class="qInfoIcon i-class">i</span>
                       <div class="tooltip-box-field">
-                        Set the video visibility <br>mode to private or public.<br>
-                        In private mode, video will<br> be visible to the enrolled <br>students.
-                        In public mode,<br> video will be visible to<br> guest users & enrolled<br> students
+                        Set the text to be shown <br> as
+                        watermark in the video
                       </div>
-                    </div></label>
-                  <div class="row" style="padding: 15px 30px;">
-                    <label class="toggle">
-                      <span class="toggle-label" id="unassigned"
-                        [ngClass]="(is_video_public)?'inactive_toggle_button':'active_toggle_button'">Private</span>
-                      <input class="toggle-checkbox" type="checkbox" [(ngModel)]="is_video_public">
-                      <div class="toggle-switch"></div>
-                      <span class="toggle-label" id="assigned"
-                        [ngClass]="(is_video_public)?'active_toggle_button':'inactive_toggle_button'">Public
-                      </span>
-                    </label>
+                    </div>
+                  </label>
+                  <div class="dropdown-div">
+                    <input class="dropdown" [(ngModel)]="settingDetails.video_watermark" type="text"
+                      placeholder="  enter watermark" />
                   </div>
                 </div>
               </div>
@@ -200,6 +220,23 @@
               </div>
             </div>
             <div class="field-wrapper">
+              <label>Interval <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Specify the interval over<br> which
+                    watermark changes<br> position.
+                    The value is the <br> interval in
+                    seconds when <br>the text changes position.
+                  </div>
+                </div></label>
+              <div class="row" style="padding: 15px 30px;">
+                <div class="col-md-9">
+                  <input type="range" min="1" max="100" [(ngModel)]="settingDetails.watermark_text_moving_interval" />
+                </div>
+                <div class="col-md-3">{{settingDetails.watermark_text_moving_interval}} Sec</div>
+              </div>
+            </div>
+            <div class="field-wrapper">
               <label>Bandwidth Threshold Alerts <div class="questionInfo inline-relative">
                   <span class="qInfoIcon i-class">i</span>
                   <div class="tooltip-box-field">
@@ -230,23 +267,6 @@
                     [(ngModel)]="settingDetails.vdocipher_storage_capacity_threshold" />
                 </div>
                 <div class="col-md-3">{{settingDetails.vdocipher_storage_capacity_threshold}} %</div>
-              </div>
-            </div>
-            <div class="field-wrapper">
-              <label>Interval <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    Specify the interval over<br> which
-                    watermark changes<br> position.
-                    The value is the <br> interval in
-                    seconds when <br>the text changes position.
-                  </div>
-                </div></label>
-              <div class="row" style="padding: 15px 30px;">
-                <div class="col-md-9">
-                  <input type="range" min="1" max="100" [(ngModel)]="settingDetails.watermark_text_moving_interval" />
-                </div>
-                <div class="col-md-3">{{settingDetails.watermark_text_moving_interval}} Sec</div>
               </div>
             </div>
           </div>

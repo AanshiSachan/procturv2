@@ -19,6 +19,8 @@ export class EcourseFileManagerComponent implements OnInit {
   isLangInstitue: any;
   vDOCipher_allocated_bandwidth: any;
   vDOCipher_used_bandwidth: any;
+  vDOCipher_allocated_storage: any ='0';
+  vDOCipher_used_storage: any = '0';
   enable_vdoCipher_feature: any = false;
   showSettings: boolean = true;
   is_video_public: boolean = true;
@@ -82,6 +84,8 @@ export class EcourseFileManagerComponent implements OnInit {
       this._fservice.storageData.uploaded_size =(Number(res.uploaded_size) * 0.001048576);
       this.vDOCipher_allocated_bandwidth = (Number(res.vDOCipher_allocated_bandwidth) / 1024).toFixed(3);
       this.vDOCipher_used_bandwidth = (Number(res.vDOCipher_used_bandwidth) / 1024).toFixed(3);
+      this.vDOCipher_allocated_storage = (Number(res.vDOCipher_allocated_storage) / 1024).toFixed(3);
+      this.vDOCipher_used_storage = (Number(res.vDOCipher_used_storage) / 1024).toFixed(3);
       let width =1;
       if (this._fservice.storageData.uploaded_size!=0 &&
         this._fservice.storageData.uploaded_size<=this._fservice.storageData.storage_allocated) { width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated; }
