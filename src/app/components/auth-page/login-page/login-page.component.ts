@@ -310,7 +310,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.alternateLoginFailure(res.login_error_message);
         break;
       case 3:
-        this.setAuthToken(res.data);
+        this.setAuthToken(res.data, res.device_id);
         this.alternateLoginSuccess(res);
         break;
       case 7:
@@ -349,7 +349,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('userType', institute_data.userType);
         sessionStorage.setItem('password', institute_data.password);
         sessionStorage.setItem('institute_id', institute_data.institution_id);
-        sessionStorage.setItem('deviceId', institute_data.device_id);
+        sessionStorage.setItem('deviceId', res.device_id);
         sessionStorage.setItem('source', 'WEB');
         this.auth.getAuthToken(true);
         this.alternateLoginSuccess(res);
@@ -361,14 +361,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  setAuthToken(institute_data) {
+  setAuthToken(institute_data, device_id) {
 
     sessionStorage.setItem('userid', institute_data.userid);
     sessionStorage.setItem('userType', institute_data.userType);
     sessionStorage.setItem('password', institute_data.password);
     sessionStorage.setItem('institute_id', institute_data.institution_id);
     if(institute_data.userType == '1' || institute_data.userType == '99'){
-      sessionStorage.setItem('deviceId', institute_data.device_id);
+      sessionStorage.setItem('deviceId', device_id);
       sessionStorage.setItem('source', 'WEB');
       this.auth.getAuthToken(false);
     }
