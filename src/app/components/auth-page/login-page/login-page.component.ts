@@ -96,7 +96,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
   // zoom
   zoom_enable: any = false;
-
+  single_login_login_check = false;
   constructor(
     private login: LoginService,
     private route: Router,
@@ -246,6 +246,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           console.log(res);
           this.auth.hideLoader();
           sessionStorage.setItem('login-response',JSON.stringify(res));
+          this.single_login_login_check = res.single_device_login;
           if(res.data != null){
             this.zoom_enable = JSON.stringify(res.data.is_zoom_integration_enable)
           }
@@ -351,7 +352,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('institute_id', institute_data.institution_id);
         sessionStorage.setItem('deviceId', res.device_id);
         sessionStorage.setItem('source', 'WEB');
-        this.auth.getAuthToken(true);
+        if(this.single_login_login_check){
+          this.auth.getAuthToken(true);
+        }
+        else{
+          this.auth.getAuthToken(false);
+        }
         this.alternateLoginSuccess(res);
       },
       err => {
@@ -370,7 +376,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if(institute_data.userType == '1' || institute_data.userType == '99'){
       sessionStorage.setItem('deviceId', device_id);
       sessionStorage.setItem('source', 'WEB');
-      this.auth.getAuthToken(false);
+      if(this.single_login_login_check){
+        this.auth.getAuthToken(true);
+      }
+      else{
+        this.auth.getAuthToken(false);
+      }
     }
     else{
       this.auth.getAuthToken(false);
@@ -424,10 +435,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.auth.changeAuthenticationKey(Authorization);
       }
       else{
-        let deviceId = sessionStorage.getItem('deviceId');
-        let source = sessionStorage.getItem('source');
-        let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id + ":" + res.device_id + ":WEB");
-        this.auth.changeAuthenticationKey(Authorization);
+        if(this.single_login_login_check){
+          let deviceId = sessionStorage.getItem('deviceId');
+          let source = sessionStorage.getItem('source');
+          let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id + ":" + res.device_id + ":WEB");
+          this.auth.changeAuthenticationKey(Authorization);
+        }
+        else{
+          let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+          this.auth.changeAuthenticationKey(Authorization);
+        }
       }
       // this.auth.changeInstituteId(institute_data.institution_id);
       this.auth.course_flag.next(institute_data.course_structure_flag);
