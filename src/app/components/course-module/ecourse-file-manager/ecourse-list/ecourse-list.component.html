@@ -7,7 +7,11 @@
 </div>
 
 <div class="row  wrap-data">
-  <div class="col-md-3 ecourse-item" *ngFor="let ecourse of categiesList;  ">
+  <div class="search-filter-wrapper">
+    <input type="text" style="width: 25%;padding: 5px;border: 1px solid #ddd;border-radius: 4px;margin-right: 5px;" #teacherSearch class="normal-field pull-right" id="searchTeacher" placeholder="Search"
+     [(ngModel)]="searchValue" (keyup)="searchTeacher()">
+  </div>
+  <div class="col-md-3 ecourse-item" *ngFor="let ecourse of searchData;  ">
     <div class="ecourse-card" (click)="getToSubject(ecourse)">
       <div class="head" title="{{ecourse.course_type}}">
         {{ecourse.course_type}}
@@ -18,7 +22,7 @@
           <div style=" width: 20%;justify-content: flex-start;display: flex;flex-direction: column;font-size:12px;padding-bottom:5px" *ngFor="let item of ecourse.categoryDtoList">            
             <span *ngIf="item.category_name != 'VDOCipher' && item.category_name != 'Youtube URL'">{{item.category_name}} - {{item.count}}</span>
                 <span *ngIf="item.category_name == 'VDOCipher'">Video - {{item.count}}</span>
-                <span *ngIf="item.category_name == 'Youtube URL'">Youtube video - {{item.count}}</span>
+                <span *ngIf="item.category_name == 'Youtube URL'">Youtube Video - {{item.count}}</span>
           </div>
         </div>
       </div>

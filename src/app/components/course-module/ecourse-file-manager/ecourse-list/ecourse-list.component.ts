@@ -12,9 +12,11 @@ import { MessageShowService } from '../../../../services/message-show.service';
 export class EcourseListComponent implements OnInit {
 
   categiesList: any = [];
+  searchData: any = [];
   institute_id: any;
   is_video_public: boolean = true;
   outputMessage: any = '';
+  searchValue: any = '';
 
 
   constructor(
@@ -61,6 +63,7 @@ export class EcourseListComponent implements OnInit {
       console.log(res);
       this.auth.hideLoader();
       this.categiesList = res;
+      this.searchData = res;
       if (this.categiesList.length == 0) {
         this.outputMessage = 'No data found';
       }
@@ -68,6 +71,18 @@ export class EcourseListComponent implements OnInit {
     }, err => {
       this.auth.hideLoader();
     });
+  }
+
+  searchTeacher() {
+    if (this.searchValue != "" && this.searchValue != null) {
+      let searchData = this.categiesList.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchValue.toLowerCase()))
+      );
+      this.searchData = searchData;
+    } else {
+      this.searchData = this.categiesList;
+    }
   }
 
 }
