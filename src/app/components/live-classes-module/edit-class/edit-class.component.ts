@@ -641,6 +641,8 @@ export class EditClassComponent implements OnInit {
         this.updateOnlineClass.sent_notification_flag = 0;
       }
 
+      this.updateOnlineClass.private_access = this.editData.private_access;
+      this.updateOnlineClass.access_enable_lobby = this.editData.access_enable_lobby;
       if (this.editData.access_before_start) {
         this.updateOnlineClass.access_before_start = 1;
       }
