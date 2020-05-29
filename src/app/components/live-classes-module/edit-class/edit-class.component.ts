@@ -687,6 +687,9 @@ export class EditClassComponent implements OnInit {
 
       this.updateOnlineClass.product_id = this.product_id;
 
+      this.updateOnlineClass.hide_recording_notifications = this.editData.hide_recording_notifications;
+      this.updateOnlineClass.prevent_user_count = this.editData.prevent_user_count;
+
       if (this.repeat_session == 0) {
         this.auth.showLoader();
         const url = '/api/v1/meeting_manager/update/'+ this.institution_id +"/"+ this.editSessionId;
