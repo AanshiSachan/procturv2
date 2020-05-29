@@ -59,6 +59,7 @@ export class BasicInfoComponent implements OnInit {
     end_timestamp: '',
     status: 10,
     duration: 0,
+    publish_date: null,
     product_user_type: "-1",
     product_item_stats: {
       mock_test: 0,
@@ -325,7 +326,8 @@ export class BasicInfoComponent implements OnInit {
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
       "product_items_types": this.product_item_list,
-      "product_user_type": this.prodForm.product_user_type
+      "product_user_type": this.prodForm.product_user_type,
+      "publish_date": this.prodForm.publish_date
     }
     if (this.prodForm.entity_id == null || this.prodForm.entity_id == 0) {
       this.createProduct(object);
