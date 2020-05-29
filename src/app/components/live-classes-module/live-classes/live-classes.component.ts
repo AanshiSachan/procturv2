@@ -140,7 +140,7 @@ export class LiveClassesComponent implements OnInit {
   alertBox: boolean = true;
   cancelSessionId: any;
   cancelMeetingWith: any;
-  sendSMSNotification: boolean = false;
+  sendSMSNotification: boolean = true;
   sendPushNotification: boolean = false;
   forUser: boolean = false;
   proctur_live_expiry_date_check: boolean = false;
@@ -642,6 +642,7 @@ export class LiveClassesComponent implements OnInit {
     this.alertBox = false;
     this.cancelSessionId = id;
     this.cancelMeetingWith = live_meeting_with;
+    this.sendSMSNotification = true;
   }
 
   cancelSession() {
