@@ -261,11 +261,29 @@ export class ProductListComponent implements OnInit {
       "course_id": this.course_id
     };
   } else{
-    object = {
-      "ecourse_ids": ecourse,
-      'standard_id': this.master_course_name,
-      'subject_id' : this.course_id,
-      'batch_id' : this.batch_id
+    if(this.master_course_name != "" && this.course_id != "" && this.batch_id != ""){
+      object = {
+        "ecourse_ids": [],
+        'standard_id': "",
+        'subject_id' : "",
+        'batch_id' : this.batch_id
+      }
+    }
+    else if(this.master_course_name != "" && this.course_id != ""){
+      object = {
+        "ecourse_ids": [],
+        'standard_id': this.master_course_name,
+        'subject_id' : this.course_id,
+        'batch_id' : ""
+      }
+    }
+    else if(this.master_course_name == "" && this.course_id == "" && this.batch_id == ""){
+      object = {
+        "ecourse_ids": ecourse,
+        'standard_id': "",
+        'subject_id' : "",
+        'batch_id' : ""
+      }
     }
   }
     console.log(object);

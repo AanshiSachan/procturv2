@@ -140,7 +140,7 @@ export class LiveClassesComponent implements OnInit {
   alertBox: boolean = true;
   cancelSessionId: any;
   cancelMeetingWith: any;
-  sendSMSNotification: boolean = false;
+  sendSMSNotification: boolean = true;
   sendPushNotification: boolean = false;
   forUser: boolean = false;
   proctur_live_expiry_date_check: boolean = false;
@@ -644,6 +644,7 @@ export class LiveClassesComponent implements OnInit {
     this.alertBox = false;
     this.cancelSessionId = id;
     this.cancelMeetingWith = live_meeting_with;
+    this.sendSMSNotification = true;
   }
 
   cancelSession() {
@@ -651,7 +652,7 @@ export class LiveClassesComponent implements OnInit {
     if(this.cancelMeetingWith == "Zoom"){
       zoom_enable = 1;
     }
-    let url = "/api/v1/meeting_manager/delete/" + sessionStorage.getItem('institution_id') + "/" + this.cancelSessionId+"?isZoomLiveClass="+zoom_enable;
+    let url = "/api/v1/meeting_manager/delete/" + sessionStorage.getItem('institution_id') + "/" + this.cancelSessionId+"?isZoomLiveClass="+zoom_enable+"&isSendNotification="+this.sendSMSNotification;
     this._http.deleteData(url, this.cancelSessionId).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: data.message })
