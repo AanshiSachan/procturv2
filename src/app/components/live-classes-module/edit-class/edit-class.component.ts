@@ -308,13 +308,18 @@ export class EditClassComponent implements OnInit {
         }
 
 
-        // if (this.editData.access_before_start == 1) {
-        //   this.editData.access_before_start = true;
-        // }
-        // else {
+        if (this.editData.access_before_start == 1) {
+          this.editData.access_before_start = true;
+        }
+        else {
           this.editData.access_before_start = false;
-          this.editData.private_access = 0;
-        // }
+        }
+        this.editData.access_enable_lobby = data.access_enable_lobby;
+        this.editData.private_access = data.private_access;
+        this.editData.host_video = data.host_video;
+        this.editData.participant_video = data.participant_video;
+        this.editData.join_before_host = data.join_before_host;
+        this.editData.mute_upon_entry = data.mute_upon_entry;
 
         if (this.repeat_session == 0) {
           this.scheduledateFrom = moment(this.editData.start_datetime).format('YYYY-MM-DD');
