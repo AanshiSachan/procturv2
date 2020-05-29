@@ -522,6 +522,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.jsonFlags.isShoweStore = false;
     if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
       this.jsonFlags.isShoweStore = true;
+      if((this.instituteId == 101884 || this.instituteId == 100057) && this.userType == 3){
+        this.jsonFlags.isShoweStore = false;
+      }
     }
   }
 

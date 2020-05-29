@@ -651,7 +651,7 @@ export class LiveClassesComponent implements OnInit {
     if(this.cancelMeetingWith == "Zoom"){
       zoom_enable = 1;
     }
-    let url = "/api/v1/meeting_manager/delete/" + sessionStorage.getItem('institution_id') + "/" + this.cancelSessionId+"?isZoomLiveClass="+zoom_enable;
+    let url = "/api/v1/meeting_manager/delete/" + sessionStorage.getItem('institution_id') + "/" + this.cancelSessionId+"?isZoomLiveClass="+zoom_enable+"isSendNotification="+this.sendSMSNotification;
     this._http.deleteData(url, this.cancelSessionId).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: data.message })
