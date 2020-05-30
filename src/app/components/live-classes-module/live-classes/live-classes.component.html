@@ -331,6 +331,11 @@
       <span id="confirm_msg">Are you sure you want to cancel the session?</span>
     </div>
     <br>
+    <div class="field-checkbox-wrapper" style="width: 100%;">
+      <input type="checkbox" id="sms" name="batch" [(ngModel)]="sendSMSNotification"
+          class="form-checkbox">
+      <label for="sms"> Send SMS Notification</label>
+    </div>
     <!-- <div class="field-checkbox-wrapper">
       <input type="checkbox" id="sms" name="batch" [(ngModel)]="sendSMSNotification"
           class="form-checkbox">

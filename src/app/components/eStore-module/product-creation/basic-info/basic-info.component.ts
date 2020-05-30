@@ -59,7 +59,8 @@ export class BasicInfoComponent implements OnInit {
     end_timestamp: '',
     status: 10,
     duration: 0,
-    // product_user_type: "-1",
+    publish_date: null,
+    product_user_type: "-1",
     product_item_stats: {
       mock_test: 0,
       online_exams: 0,
@@ -152,22 +153,22 @@ export class BasicInfoComponent implements OnInit {
             this.products_ecourse_maps.push(obj);
           });
           this.prodForm.is_duration = this.prodForm.duration ? true : false;
-          // if(this.prodForm.product_user_type == 8){
-          //   this.advanceProduct.forStudent = true;
-          //   this.advanceProduct.forOpenUser = true;
-          // }
-          // else if(this.prodForm.product_user_type == 16){
-          //   this.advanceProduct.forStudent = false;
-          //   this.advanceProduct.forOpenUser = false;
-          // }
-          // else if(this.prodForm.product_user_type == 2){
-          //   this.advanceProduct.forStudent = true;
-          //   this.advanceProduct.forOpenUser = false;
-          // }
-          // else if(this.prodForm.product_user_type == 4){
-          //   this.advanceProduct.forStudent = false;
-          //   this.advanceProduct.forOpenUser = true;
-          // }
+          if(this.prodForm.product_user_type == 8){
+            this.advanceProduct.forStudent = true;
+            this.advanceProduct.forOpenUser = true;
+          }
+          else if(this.prodForm.product_user_type == 16){
+            this.advanceProduct.forStudent = false;
+            this.advanceProduct.forOpenUser = false;
+          }
+          else if(this.prodForm.product_user_type == 2){
+            this.advanceProduct.forStudent = true;
+            this.advanceProduct.forOpenUser = false;
+          }
+          else if(this.prodForm.product_user_type == 4){
+            this.advanceProduct.forStudent = false;
+            this.advanceProduct.forOpenUser = true;
+          }
 
           this.prodForm.is_advance_product = this.prodForm.is_advance_product ? true : false;
          this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status== 30) ?true:false;
@@ -294,17 +295,17 @@ export class BasicInfoComponent implements OnInit {
       this.prodForm.valid_from_date = null;
       this.prodForm.valid_to_date = null;
     }
-    // let productFor = 16;
-    // if(this.advanceProduct.forStudent && this.advanceProduct.forOpenUser){
-    //   productFor = 8;
-    // }
-    // else if(this.advanceProduct.forStudent){
-    //   productFor = 2;
-    // }
-    // else if(this.advanceProduct.forOpenUser){
-    //   productFor = 4;
-    // }
-    // this.prodForm.product_user_type = productFor;
+    let productFor = 16;
+    if(this.advanceProduct.forStudent && this.advanceProduct.forOpenUser){
+      productFor = 8;
+    }
+    else if(this.advanceProduct.forStudent){
+      productFor = 2;
+    }
+    else if(this.advanceProduct.forOpenUser){
+      productFor = 4;
+    }
+    this.prodForm.product_user_type = productFor;
     const is_advance_product = this.prodForm.is_advance_product ? 1 : 0;
     let object = {
       "entity_id": this.prodForm.entity_id,
@@ -325,7 +326,8 @@ export class BasicInfoComponent implements OnInit {
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
       "product_items_types": this.product_item_list,
-      // "product_user_type": this.prodForm.product_user_type
+      "product_user_type": this.prodForm.product_user_type,
+      "publish_date": this.prodForm.publish_date
     }
     if (this.prodForm.entity_id == null || this.prodForm.entity_id == 0) {
       this.createProduct(object);

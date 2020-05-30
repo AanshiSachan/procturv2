@@ -153,13 +153,13 @@ export class ProductListComponent implements OnInit {
 
   convertUTCDateToLocalDate(date_s) {
     var date =new Date(date_s)
-    var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
-
-    var offset = date.getTimezoneOffset() / 60;
-    var hours = date.getHours();
-
-    newDate.setHours(hours - offset);
-    return moment(newDate).format('DD MMM YYYY');
+    // var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+    //
+    // var offset = date.getTimezoneOffset() / 60;
+    // var hours = date.getHours();
+    //
+    // newDate.setHours(hours - offset);
+    return moment(date).format('DD MMM YYYY');
 }
 
   /* Fetches Data as per the user selected batch size */
@@ -261,11 +261,29 @@ export class ProductListComponent implements OnInit {
       "course_id": this.course_id
     };
   } else{
-    object = {
-      "ecourse_ids": ecourse,
-      'standard_id': this.master_course_name,
-      'subject_id' : this.course_id,
-      'batch_id' : this.batch_id
+    if(this.master_course_name != "" && this.course_id != "" && this.batch_id != ""){
+      object = {
+        "ecourse_ids": [],
+        'standard_id': "",
+        'subject_id' : "",
+        'batch_id' : this.batch_id
+      }
+    }
+    else if(this.master_course_name != "" && this.course_id != ""){
+      object = {
+        "ecourse_ids": [],
+        'standard_id': this.master_course_name,
+        'subject_id' : this.course_id,
+        'batch_id' : ""
+      }
+    }
+    else if(this.master_course_name == "" && this.course_id == "" && this.batch_id == ""){
+      object = {
+        "ecourse_ids": ecourse,
+        'standard_id': "",
+        'subject_id' : "",
+        'batch_id' : ""
+      }
     }
   }
     console.log(object);
