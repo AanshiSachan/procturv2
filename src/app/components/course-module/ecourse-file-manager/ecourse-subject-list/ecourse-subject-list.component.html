@@ -170,8 +170,8 @@
   <div class="row singleton-row material-row" *ngFor="let video of youtube">
     <div class="col-md-6 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{video.title}}">
-        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="video.category_id!=235 && (video.posterList!=null && video.posterList[0].posterUrl!=null) && video.category_id==230">
-        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="video.category_name=='VDOCipher'"></i>
+        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList[0].posterUrl!=null)">
+        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="(video.posterList==null || video.posterList[0].posterUrl==null)"></i>
 
         <a class="txt-color">
           <span class="txt-title"  style="cursor: pointer"
@@ -330,7 +330,6 @@
       <div class="col-md-1"></div>
     <div class="col-md-2" style="padding: 0;">
       <div class="action-buttons" style="float: right;">
-        {{file.downloads}}&nbsp;Downloads &nbsp; &nbsp;
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
