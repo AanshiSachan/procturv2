@@ -336,9 +336,24 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   logOutFromOtherDeveices(){
-    this.loginDataForm.logout_from_all_devices = true;
+
     this.auth.showLoader();
-    this.login.postLoginDetails(this.loginDataForm).subscribe(
+    let obj = {}
+    if(this.multiInstituteLoginInfo.userid != "" && this.multiInstituteLoginInfo.institution_id != ""){
+      obj = {
+        alternate_email_id: this.multiInstituteLoginInfo.alternate_email_id,
+        password: this.multiInstituteLoginInfo.password,
+        userid: this.multiInstituteLoginInfo.userid,
+        institution_id: this.multiInstituteLoginInfo.institution_id,
+        source: "WEB",
+        logout_from_all_devices: true
+      }
+    }
+    else{
+      this.loginDataForm.logout_from_all_devices = true;
+      obj = this.loginDataForm;
+    }
+    this.login.postLoginDetails(obj).subscribe(
       res => {
         console.log(res);
         this.auth.hideLoader();
@@ -352,6 +367,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('institute_id', institute_data.institution_id);
         sessionStorage.setItem('deviceId', res.device_id);
         sessionStorage.setItem('source', 'WEB');
+        this.single_login_login_check = res.single_device_login;
         if(this.single_login_login_check){
           this.auth.getAuthToken(true);
         }
