@@ -311,13 +311,13 @@ export class ShareFileComponent implements OnInit {
         let currentDate = new Date();
         this.dataStatus = false;
        let filterbatches = data;
-       filterbatches.forEach(batch => { /// expire batch removes from data 
-         let batchDate = new Date(batch.file_access_end_time);   
+       filterbatches.forEach(batch => { /// expire batch removes from data
+         let batchDate = new Date(batch.file_access_end_time);
            if(batchDate.getTime() >= currentDate.getTime()){
             batchesData.push(batch)
            }
        });
-         
+
         this.getBatchesData = batchesData;
 
         this.getBatchesData.map(
@@ -334,7 +334,9 @@ export class ShareFileComponent implements OnInit {
             if (update != 1) {
               data.is_file_shared = "N"
               data.isChecked = false
-            } else {
+            }
+            else {
+              data.isUpdated = false;
               if (data.is_file_shared == 'Y') {
                 data.isChecked = true;
               } else {
@@ -513,11 +515,17 @@ export class ShareFileComponent implements OnInit {
     if (event == true) {
       this.getBatchesData[index].is_file_shared = "Y"
       this.getBatchesData[index].isChecked = true;
+      if(!this.getBatchesData[index].isUpdated){
+        this.getBatchesData[index].isUpdated = true;
+      }
     }
     else {
       this.getBatchesData[index].is_file_shared = "N"
       this.isChecked = false;
       this.getBatchesData[index].isChecked = false;
+      if(!this.getBatchesData[index].isUpdated){
+        this.getBatchesData[index].isUpdated = true;
+      }
     }
   }
 
@@ -609,7 +617,9 @@ export class ShareFileComponent implements OnInit {
           }
         }
         else {
-          isNotCountSelected++;
+          if(!this.getBatchesData[i].isUpdated){
+            isNotCountSelected++;
+          }
         }
 
       }
@@ -824,7 +834,3 @@ export class ShareFileComponent implements OnInit {
     this.chooseTab(tabIndex);
   }
 }
-
-
-
-
