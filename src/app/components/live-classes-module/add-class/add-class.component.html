@@ -38,7 +38,7 @@
       </section>
 
       <section id="classDetails" *ngIf="isBasicActive">
-        <div class="class_details_container">
+        <div class="class_details_container" style="margin-right: 0;float: left;">
           <div class="field-wrapper" style="display: flex;" *ngIf="is_zoom_integration_enable">
             <div class="field-radio-wrapper">
               <input class="form-radio" type="radio" name="classFor" value="1" id='live' checked  [(ngModel)]="live_class_for" (ngModelChange)="changeLiveClassFor()">
@@ -159,7 +159,7 @@
       </section>
 
       <section id="assignStudent" *ngIf="isOtherActive">
-        <div class="add_student_container">
+        <div class="add_student_container" style="margin-right: 0;float: left;">
           <div class="field-wrapper"  *ngIf="!isProfessional">
             <label for="master_course">Master Course<span class="text-danger">*</span> </label>
             <select class="form-ctrl" name="master_course" id="master_course" [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)">
@@ -412,7 +412,9 @@
 
         </div>
       </section>
-
+      <div class="class_details_container zoomMsgSection" *ngIf="live_class_for=='2'">
+        <span style="font-weight: 600;">Note : </span> While scheduling class with zoom, please do not schedule class more than two hours in advance to avoid getting an error message. We are working on this with zoom and will get a solution soon.
+       </div>
     </section>
   </aside>
 </div>
