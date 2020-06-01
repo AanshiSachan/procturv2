@@ -145,6 +145,11 @@ export class StudyMaterialComponent implements OnInit {
     topic.isExpand = !topic.isExpand;
   }
 
+  calculateStudyMaterialMapLength(object) {
+    return Object.keys(object.studyMaterialMap).length;
+  }
+
+
   getSlugname(key) {
     let slug = 'Slides';
     switch (key) {

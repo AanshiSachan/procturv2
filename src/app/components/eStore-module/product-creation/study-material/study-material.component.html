@@ -93,7 +93,7 @@
       <div class="row col-md-12 subTopics-data">
         <ng-container *ngTemplateOutlet="subjectsNodes; context: { $implicit: ecourse.subjectsList, level: 1 } ">
         </ng-container>
-        <div *ngIf="ecourse.subjectsList?.length==0">
+        <div *ngIf="ecourse.subjectsList?.length==0" style="text-align: center;">
           No data found
         </div>
       </div>
@@ -109,18 +109,28 @@
 <ng-template #subjectsNodes let-subjectList let-level="level">
   <div class="row topic-row" *ngFor="let subject of subjectList">
     <div class="row singleton-row col-md-12 topic-data topic-name">
-      <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
+      <div class="col-md-12 topic-name" [ngStyle]="{'padding-left': level+'em'}">
         <!-- <div class="field-checkbox-wrapper">
             <input type="checkbox" class="form-checkbox" [(ngModel)]="subject.selected"
               (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test">
             <label for="ch2"></label>
           </div> -->
+        <div class="col-md-1">
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="subject.isExpand" (click)="toggleObject(subject)"></i>
           <i class="fa fa-plus" *ngIf="!subject.isExpand" (click)="toggleObject(subject)"></i>
-        </button> {{subject.subjectName}}
+        </button>
+        </div>
+        <div class="col-md-4">
+          {{subject.subjectName}}
+        </div>
+        <div class="col-md-7" style="text-align: right;">
+        <span *ngFor="let count of subject.category_count" title="{{count.category_name}}" class="category_name" style="font-size: 12px;font-weight: normal;">
+          <span *ngIf="count.category_name != 'VDOCipher'">{{(count.category_name.length > 13) ? (count.category_name | slice:0:13) + '...' : count.category_name}}</span>
+          <span *ngIf="count.category_name == 'VDOCipher'">Video</span>
+           - {{count.count}}
+        </span>
       </div>
-      <div class="col-md-4">
       </div>
     </div>
     <div class="row col-md-12 p-0" *ngIf="subject.isExpand">
