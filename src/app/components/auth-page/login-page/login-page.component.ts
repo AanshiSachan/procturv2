@@ -97,6 +97,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   // zoom
   zoom_enable: any = false;
   single_login_login_check = false;
+  multiWindowLogin: boolean = false;
   constructor(
     private login: LoginService,
     private route: Router,
@@ -331,8 +332,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   multiDeviceLogin(res){
     this.auth.hideLoader();
+    this.multiWindowLogin = true;
     $('#multiLogin').modal('show');
-
   }
 
   logOutFromOtherDeveices(){
@@ -689,7 +690,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.login.postLoginDetails(this.multiInstituteLoginInfo).subscribe(el => {
       //console.log(el);
       this.checkForAuthOptions(el);
-      if (el.institution_id != null) {
+      if (el.institution_id != null && !this.multiWindowLogin) {
         this.getCountryDetails(el.institution_id);
       }
     });
