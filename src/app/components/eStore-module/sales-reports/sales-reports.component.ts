@@ -8,6 +8,8 @@ import { ProductService } from '../../../services/products.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { DataDisplayTableComponent } from '../../shared/data-display-table/data-display-table.component';
 import { ColumnData2 } from '../../shared/data-display-table/data-display-table.model';
+import { ExcelService } from '../../../services/excel.service';
+
 @Component({
   selector: 'app-sales-reports',
   templateUrl: './sales-reports.component.html',
@@ -67,6 +69,7 @@ export class SalesReportsComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private _msgService: MessageShowService,
     private _http: HttpService,
+    private _excelService: ExcelService,
     private http: ProductService, ) { }
 
   ngOnInit() {
@@ -227,7 +230,7 @@ export class SalesReportsComponent implements OnInit {
       { primaryKey: 'name', header: 'Student Name', priority: 2, allowSortingFlag: true },
       { primaryKey: 'phone', header: 'Phone No', priority: 3, allowSortingFlag: true },
       { primaryKey: 'title', header: 'Product Name', priority: 4, allowSortingFlag: true },
-      { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' }  
+      { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' }
     ];
     this.displayKeys = this.tableSetting.keys;
     this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
@@ -293,4 +296,20 @@ export class SalesReportsComponent implements OnInit {
     console.log(this.displayKeys);
   }
 
+  exportToExcel() {
+    let exportedArray: any[] = [];
+    this.salesDataSource.map((data: any) => {
+      let obj = {};
+      obj["Order ID"] = data.order_id;
+      obj["Student Name"] = data.name;
+      obj["Phone No"] = data.phone;
+      obj["Product Name"] = data.title;
+      obj["Purchase Date"] = moment(data.publish_date).format("DD MMM YYYY");
+      exportedArray.push(obj);
+    })
+    this._excelService.exportAsExcelFile(
+      exportedArray,
+      'Sales Report'
+    )
+  }
 }
