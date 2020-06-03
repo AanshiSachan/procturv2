@@ -671,7 +671,7 @@
 
     <h2 class="heading-setting-main">Mobile app details</h2>
 
-    <div class="general-setting show-left" style="padding-bottom: 10%;">
+    <div class="general-setting show-left">
       <div class="row">
         <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
           <label for="ch32">Announcement
@@ -707,6 +707,333 @@
       </div>
     </div>
 
+    <div *ngIf="instituteDetailsAll.zoom_enabled && instituteDetailsAll.zoom_account_type == 'CLIENT'">
+    <h2 class="heading-setting-main">Zoom details</h2>
+
+    <div class="general-setting show-left" style="padding-bottom: 10%;">
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch32">Zoom Account Name
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.account_name != ''}">
+            <input type="textbox" id="ch32" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.account_name">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch33">Zoom Email ID
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.email_id != ''}">
+            <input type="textbox" id="ch33" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.email_id">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch34">API Key
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.jwt_api_key != ''}">
+            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.jwt_api_key">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch34">API Secret
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.jwt_api_secret != ''}">
+            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.jwt_api_secret">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch34">JWT Token
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.jwt_access_token != ''}">
+            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.jwt_access_token">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch34">SDK Key
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.sdk_api_key != ''}">
+            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.sdk_api_key">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch34">SDK Secret
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.sdk_api_secret != ''}">
+            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.sdk_api_secret">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch34">User Limit
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.user_limit != ''}">
+            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.user_limit">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3" style="float: right;">
+        <button class="btn" (click)="ClearZoomJSON()">Cancel</button>
+        <button class="btn fullBlue" (click)="saveZoomDetails()">Add</button>
+        </div>
+      </div>
+      <div class="row">
+        <!-- <div class="row">
+          <div class="c-lg-10">
+            <h3 class="heading-setting">Promotional SMS</h3>
+          </div>
+        </div> -->
+        <div class="table table-responsive show-left" style="margin-top: 15px;">
+          <table class="assign-width zoomTable">
+            <thead>
+              <tr>
+                <th>
+                  Zoom Account Name
+                </th>
+                <th>
+                  Zoom Email ID
+                </th>
+                <th>
+                  API Key
+                </th>
+                <th>
+                  API Secret
+                </th>
+                <th style="width: 20%;">
+                  JWT Token
+                </th>
+                <th>
+                  SDK Key
+                </th>
+                <th>
+                  SDK Secret
+                </th>
+                <th>
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody *ngIf="zoomDetails.length>0">
+              <tr class="displayComp" id="data{{i}}" *ngFor="let data of zoomDetails;let i = index">
+                <td>
+                    <span class="view-comp" title="{{data.account_name}}">
+                      {{data.account_name}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.account_name" class="form-ctrl" id="data.account_name">
+                      </div>
+                    </span>
+                </td>
+                <td>
+                  <span class="view-comp" title="{{data.email_id}}">
+                    {{data.email_id}}
+                  </span>
+                  <span class="edit-comp">
+                    <div class="field-wrapper" style="margin:0;padding: 0;">
+                      <input type="text" [(ngModel)]="data.email_id" class="form-ctrl" id="data.email_id">
+                    </div>
+                  </span>
+                </td>
+                <td>
+                  <span class="view-comp" title="{{data.jwt_api_key}}">
+                    {{data.jwt_api_key}}
+                    <!-- {{(data.jwt_api_key?.length > 10) ? (data.jwt_api_key | slice:0:10) + '...' : data.jwt_api_key}} -->
+                  </span>
+                  <span class="edit-comp">
+                    <div class="field-wrapper" style="margin:0;padding: 0;">
+                      <input type="text" [(ngModel)]="data.jwt_api_key" class="form-ctrl" id="data.jwt_api_key">
+                    </div>
+                  </span>
+                </td>
+                <td>
+                  <span class="view-comp" title="{{data.jwt_api_secret}}">
+                    {{data.jwt_api_secret}}
+                  </span>
+                  <span class="edit-comp">
+                    <div class="field-wrapper" style="margin:0;padding: 0;">
+                      <input type="text" [(ngModel)]="data.jwt_api_secret" class="form-ctrl" id="data.jwt_api_secret">
+                    </div>
+                  </span>
+                </td>
+                <td style="width: 20%;">
+                  <span class="view-comp" title="{{data.jwt_access_token}}">
+                    {{data.jwt_access_token}}
+                  </span>
+                  <span class="edit-comp">
+                  <div class="field-wrapper" style="margin:0;padding: 0;">
+                    <input type="text" [(ngModel)]="data.jwt_access_token" class="form-ctrl" id="data.jwt_access_token">
+                  </div>
+                  </span>
+                </td>
+                <td>
+                  <span class="view-comp" title="{{data.sdk_api_key}}">
+                    {{data.sdk_api_key}}
+                  </span>
+                  <span class="edit-comp">
+                    <div class="field-wrapper" style="margin:0;padding: 0;">
+                      <input type="text" [(ngModel)]="data.sdk_api_key" class="form-ctrl" id="data.sdk_api_key">
+                    </div>
+                  </span>
+                </td>
+                <td>
+                  <span class="view-comp" title="{{data.sdk_api_secret}}">
+                    {{data.sdk_api_secret}}
+                  </span>
+                  <span class="edit-comp">
+                    <div class="field-wrapper" style="margin:0;padding: 0;">
+                      <input type="text" [(ngModel)]="data.sdk_api_secret" class="form-ctrl" id="data.sdk_api_secret">
+                    </div>
+                  </span>
+                </td>
+                <td>
+                  <span class="view-comp">
+                    <span title="Edit" class="fa fa-edit" (click)="editZoom(i)" style="color: #0084f6;"></span>
+                  </span>
+                  <span class="edit-comp">
+                    <span (click)="updateZoom(data)">Update</span>
+                  </span>
+                  <span class="view-comp">
+                    <span title="Delete" class="fa fa-trash" (click)="deleteZoom(data.id)" style="color: red;"></span>
+                  </span>
+                  <span class="edit-comp">
+                    <span (click)="cancelRow(i)">Cancel</span>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="zoomDetails.length == 0">
+              <tr>
+               <td colspan="8"> No Data Found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+        <div class="row webkitBox m-0 tableDataContainer displayComp" id="data{{i}}" *ngFor="let data of IPDetails;let i = index">
+          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
+            <span class="view-comp">{{data.account_name}}</span>
+            <span class="edit-comp">
+              <div class="field-wrapper" style="margin:0;padding: 0;">
+                <input type="text" [(ngModel)]="data.account_name" class="form-ctrl" id="data.account_name">
+              </div>
+            </span>
+          </div>
+          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
+            <span class="view-comp">{{(data.email_id == null) ? '-' : data.email_id}}</span>
+            <span class="edit-comp">
+              <div class="field-wrapper" style="margin:0;padding: 0;">
+                <input type="text" [(ngModel)]="data.email_id" class="form-ctrl" id="data.email_id">
+              </div>
+            </span>
+          </div>
+          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
+            <span class="view-comp">{{(data.jwt_api_key == null) ? '-' : data.jwt_api_key}}</span>
+            <span class="edit-comp">
+              <div class="field-wrapper" style="margin:0;padding: 0;">
+                <input type="text" [(ngModel)]="data.jwt_api_key" class="form-ctrl" id="data.jwt_api_key">
+              </div>
+            </span>
+          </div>
+          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
+            <span class="view-comp">{{(data.jwt_api_secret == null) ? '-' : data.jwt_api_secret}}</span>
+            <span class="edit-comp">
+              <div class="field-wrapper" style="margin:0;padding: 0;">
+                <input type="text" [(ngModel)]="data.jwt_api_secret" class="form-ctrl" id="data.jwt_api_secret">
+              </div>
+            </span>
+          </div>
+          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
+            <span class="view-comp">{{(data.jwt_api_key == null) ? '-' : data.jwt_api_key}}</span>
+            <span class="edit-comp">
+              <div class="field-wrapper" style="margin:0;padding: 0;">
+                <input type="text" [(ngModel)]="data.jwt_api_key" class="form-ctrl" id="data.jwt_api_key">
+              </div>
+            </span>
+          </div>
+          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
+            <span class="view-comp">{{(data.jwt_access_token == null) ? '-' : data.jwt_access_token}}</span>
+            <span class="edit-comp">
+              <div class="field-wrapper" style="margin:0;padding: 0;">
+                <input type="text" [(ngModel)]="data.jwt_access_token" class="form-ctrl" id="data.jwt_access_token">
+              </div>
+            </span>
+          </div>
+          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
+            <span class="view-comp">{{(data.sdk_api_key == null) ? '-' : data.sdk_api_key}}</span>
+            <span class="edit-comp">
+              <div class="field-wrapper" style="margin:0;padding: 0;">
+                <input type="text" [(ngModel)]="data.sdk_api_key" class="form-ctrl" id="data.sdk_api_key">
+              </div>
+            </span>
+          </div>
+          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
+            <span class="view-comp">{{(data.sdk_api_secret == null) ? '-' : data.sdk_api_secret}}</span>
+            <span class="edit-comp">
+              <div class="field-wrapper" style="margin:0;padding: 0;">
+                <input type="text" [(ngModel)]="data.sdk_api_secret" class="form-ctrl" id="data.sdk_api_secret">
+              </div>
+            </span>
+          </div>
+          <div class="c-sm-2 c-md-2 c-lg-2 tableValueContainer" style="width: 15%;">
+            <span class="view-comp">{{data.is_active == 'Y' ? 'Active' : 'InActive'}}</span>
+            <span class="edit-comp">
+              <div class="field-wrapper" style="margin:0;padding: 0;">
+                <select [(ngModel)]="data.is_active" class="form-ctrl">
+                  <option value="Y">Active</option>
+                  <option value="N">InActive</option>
+                </select>
+              </div>
+            </span>
+          </div>
+          <div class="tableValueContainer" style="width: 6%;">
+            <span class="view-comp">
+              <span title="Edit" class="fa fa-edit" (click)="editIP(i)" style="color: #0084f6;"></span>
+            </span>
+            <span class="edit-comp">
+              <span (click)="updateIp(data)">Update</span>
+            </span>
+          </div>
+          <div class="tableValueContainer" style="width: 5%;">
+            <span class="view-comp">
+              <span title="Delete" class="fa fa-trash" (click)="deleteIp(data.id)" style="color: red;"></span>
+            </span>
+            <span class="edit-comp">
+              <span (click)="cancelRow(i)">Cancel</span>
+            </span>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    </div>
     <section class="row setting-footer">
       <button class="btn" routerLink="/view/home/admin">Cancel</button>
       <button class="btn fullBlue" (click)="updateAllDetails()">Update</button>

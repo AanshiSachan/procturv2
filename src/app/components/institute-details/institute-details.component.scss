@@ -378,3 +378,52 @@ table {
 .field-radio-wrapper .form-radio:checked+label {
     color: $common-blue;
 }
+.tableDataContainer{
+    display: flex;
+    flex-direction: row;
+    padding: 10px !important;
+    border-bottom: 1px solid #eee;
+}
+.tableValueContainer{
+    display: flex;
+    flex-direction: column;
+    width: 13%;
+    font-size: 12px;
+}
+
+.addIP{
+    margin-top: 25px;
+    width: 50px;
+    padding: 5px;
+    border: 1px solid #0084f6;
+    color: #0084f6;
+    border-radius: 4px;
+    text-align: center;    
+}
+
+.displayComp {
+    height: 0%;
+     .view-comp {}
+     .edit-comp {
+         display: none
+     }
+ }
+ .editComp {
+     .view-comp {
+         display: none
+     }
+     .edit-comp {}
+ }
+ .webkitBox{
+    display: -webkit-box;
+    -webkit-box-align: center;
+}
+.zoomTable {
+    th{
+        width: 10%;
+    }
+    td{
+        width: 10%;
+        word-break: break-all;
+    }
+}
