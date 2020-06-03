@@ -202,7 +202,7 @@
                     *ngIf="item.status == 20">Publish</a>
                   <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)"
                     style="border: none;" *ngIf="item.status == 30">Unpublished</a>
-                  <a class="dropdown-item" (click)="showAssignStudentPopup(item)" *ngIf="item.status == 30 && item.product_user_type == '16'">Assign
+                  <a class="dropdown-item" (click)="showAssignStudentPopup(item)" *ngIf="item.status == 30">Assign
                     Student</a>
                   <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;"
                     *ngIf="item.status == 40">Closed</a>
