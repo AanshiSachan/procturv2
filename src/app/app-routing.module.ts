@@ -1,14 +1,22 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule } from '@angular/router';
+import { CustomPreloadingStrategy } from './custom-preloading-strategy.service';
 
 @NgModule({
     imports: [
         RouterModule.forRoot(
             [
-                { path: '', redirectTo: '/authPage', pathMatch: 'full' },
+                { 
+                    path: '', 
+                    redirectTo: '/authPage',
+                    pathMatch: 'full',
+                    data:{preload:true}
+                },
                 {
                     path: 'authPage',
-                    loadChildren: 'app/components/auth-page/auth-page.module#AuthPageModule'
+                    loadChildren: 'app/components/auth-page/auth-page.module#AuthPageModule',
+                    //data:{preload:true}
+
                 },
                 {
                     path: 'guest',
@@ -22,16 +30,14 @@ import { PreloadAllModules, RouterModule } from '@angular/router';
             ],
             {
                 useHash: true,
-                preloadingStrategy: PreloadAllModules
+                preloadingStrategy: CustomPreloadingStrategy
             }
         )
     ],
     exports: [
         RouterModule
     ],
-    providers: [
-        /* CanDeactivateGuard */
-    ]
+    providers: [ CustomPreloadingStrategy]
 })
 export class AppRoutingModule {
 }

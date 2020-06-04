@@ -58,6 +58,7 @@
     "ng2-order-pipe": "^0.1.5",
     "ngx-bootstrap-custome": "^1.0.0",
     "ngx-treeview": "^6.0.2",
+    "node-sass": "^4.14.1",
     "primeng": "~5.2.6",
     "rxjs": "^5.5.12",
     "tinymce": "^5.2.2",
