@@ -441,7 +441,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
     else {
       if (res.institution_id != null) {
-        this.getCountryDetails(res.institution_id);
+        if(sessionStorage.getItem('userType') != '1' && sessionStorage.getItem('userType') != '99'){
+          this.getCountryDetails(res.institution_id);
+        }
       }
       this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
@@ -453,12 +455,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       }
       else{
         if(this.single_login_login_check){
+          sessionStorage.setItem('single_device_login', 'true');
           let deviceId = sessionStorage.getItem('deviceId');
           let source = sessionStorage.getItem('source');
           let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id + ":" + res.device_id + ":WEB");
           this.auth.changeAuthenticationKey(Authorization);
         }
         else{
+          sessionStorage.setItem('single_device_login', 'false');
           let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
           this.auth.changeAuthenticationKey(Authorization);
         }
