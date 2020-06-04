@@ -79,7 +79,9 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       // this.displayKeys.displayMessage = "Data not found";
     }
     if (this.displayData.length == 1) {
-      $('#printDiv tbody').css('height', '35vh');
+      // $('#printDiv tbody').css('height', '35vh');
+      $('#printDiv tbody').css('min-height', '35vh');
+      $('#printDiv tbody').css('max-height', '60vh');
     }
   }
 
@@ -206,7 +208,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
           });
 
           this.recordsTrimmed = sortedArray;
-          // console.log(this.recordsTrimmed);          
+          // console.log(this.recordsTrimmed);
         }
         else {
           this.newSortArray(key);
