@@ -17,8 +17,7 @@ import { CustomPreloadingStrategy } from './custom-preloading-strategy.service';
                 },
                 {
                     path: 'guest',
-                    loadChildren: 'app/components/guest-user/guest-user.module#GuestUserModule',
-
+                    loadChildren: 'app/components/guest-user/guest-user.module#GuestUserModule'
                 },
                 {
                     path: 'view',
