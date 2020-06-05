@@ -862,6 +862,9 @@
                   SDK Secret
                 </th>
                 <th>
+                  User Limit
+                </th>
+                <th>
                   Action
                 </th>
               </tr>
@@ -940,6 +943,16 @@
                   </span>
                 </td>
                 <td>
+                  <span class="view-comp" title="{{data.user_limit}}">
+                    {{data.user_limit}}
+                  </span>
+                  <span class="edit-comp">
+                    <div class="field-wrapper" style="margin:0;padding: 0;">
+                      <input type="text" [(ngModel)]="data.user_limit" class="form-ctrl" id="data.user_limit">
+                    </div>
+                  </span>
+                </td>
+                <td>
                   <span class="view-comp">
                     <span title="Edit" class="fa fa-edit" (click)="editZoom(i)" style="color: #0084f6;"></span>
                   </span>
@@ -963,99 +976,6 @@
           </table>
         </div>
       </div>
-        <div class="row webkitBox m-0 tableDataContainer displayComp" id="data{{i}}" *ngFor="let data of IPDetails;let i = index">
-          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
-            <span class="view-comp">{{data.account_name}}</span>
-            <span class="edit-comp">
-              <div class="field-wrapper" style="margin:0;padding: 0;">
-                <input type="text" [(ngModel)]="data.account_name" class="form-ctrl" id="data.account_name">
-              </div>
-            </span>
-          </div>
-          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
-            <span class="view-comp">{{(data.email_id == null) ? '-' : data.email_id}}</span>
-            <span class="edit-comp">
-              <div class="field-wrapper" style="margin:0;padding: 0;">
-                <input type="text" [(ngModel)]="data.email_id" class="form-ctrl" id="data.email_id">
-              </div>
-            </span>
-          </div>
-          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
-            <span class="view-comp">{{(data.jwt_api_key == null) ? '-' : data.jwt_api_key}}</span>
-            <span class="edit-comp">
-              <div class="field-wrapper" style="margin:0;padding: 0;">
-                <input type="text" [(ngModel)]="data.jwt_api_key" class="form-ctrl" id="data.jwt_api_key">
-              </div>
-            </span>
-          </div>
-          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
-            <span class="view-comp">{{(data.jwt_api_secret == null) ? '-' : data.jwt_api_secret}}</span>
-            <span class="edit-comp">
-              <div class="field-wrapper" style="margin:0;padding: 0;">
-                <input type="text" [(ngModel)]="data.jwt_api_secret" class="form-ctrl" id="data.jwt_api_secret">
-              </div>
-            </span>
-          </div>
-          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
-            <span class="view-comp">{{(data.jwt_api_key == null) ? '-' : data.jwt_api_key}}</span>
-            <span class="edit-comp">
-              <div class="field-wrapper" style="margin:0;padding: 0;">
-                <input type="text" [(ngModel)]="data.jwt_api_key" class="form-ctrl" id="data.jwt_api_key">
-              </div>
-            </span>
-          </div>
-          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
-            <span class="view-comp">{{(data.jwt_access_token == null) ? '-' : data.jwt_access_token}}</span>
-            <span class="edit-comp">
-              <div class="field-wrapper" style="margin:0;padding: 0;">
-                <input type="text" [(ngModel)]="data.jwt_access_token" class="form-ctrl" id="data.jwt_access_token">
-              </div>
-            </span>
-          </div>
-          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
-            <span class="view-comp">{{(data.sdk_api_key == null) ? '-' : data.sdk_api_key}}</span>
-            <span class="edit-comp">
-              <div class="field-wrapper" style="margin:0;padding: 0;">
-                <input type="text" [(ngModel)]="data.sdk_api_key" class="form-ctrl" id="data.sdk_api_key">
-              </div>
-            </span>
-          </div>
-          <div class="c-sm-3 c-md-3 c-lg-3 tableValueContainer">
-            <span class="view-comp">{{(data.sdk_api_secret == null) ? '-' : data.sdk_api_secret}}</span>
-            <span class="edit-comp">
-              <div class="field-wrapper" style="margin:0;padding: 0;">
-                <input type="text" [(ngModel)]="data.sdk_api_secret" class="form-ctrl" id="data.sdk_api_secret">
-              </div>
-            </span>
-          </div>
-          <div class="c-sm-2 c-md-2 c-lg-2 tableValueContainer" style="width: 15%;">
-            <span class="view-comp">{{data.is_active == 'Y' ? 'Active' : 'InActive'}}</span>
-            <span class="edit-comp">
-              <div class="field-wrapper" style="margin:0;padding: 0;">
-                <select [(ngModel)]="data.is_active" class="form-ctrl">
-                  <option value="Y">Active</option>
-                  <option value="N">InActive</option>
-                </select>
-              </div>
-            </span>
-          </div>
-          <div class="tableValueContainer" style="width: 6%;">
-            <span class="view-comp">
-              <span title="Edit" class="fa fa-edit" (click)="editIP(i)" style="color: #0084f6;"></span>
-            </span>
-            <span class="edit-comp">
-              <span (click)="updateIp(data)">Update</span>
-            </span>
-          </div>
-          <div class="tableValueContainer" style="width: 5%;">
-            <span class="view-comp">
-              <span title="Delete" class="fa fa-trash" (click)="deleteIp(data.id)" style="color: red;"></span>
-            </span>
-            <span class="edit-comp">
-              <span (click)="cancelRow(i)">Cancel</span>
-            </span>
-          </div>
-        </div>
       </div> 
     </div>
     <section class="row setting-footer">

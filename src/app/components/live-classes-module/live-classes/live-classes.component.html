@@ -72,6 +72,7 @@
                 <div class="session_id">
                   <span>Session Id : {{class.session_id}}</span>
                   <span class="class-for-name" *ngIf="class.live_meeting_with == 'Zoom'">({{class.live_meeting_with}})</span>
+                  <span style="margin-left: 10px;" *ngIf="class.live_meeting_with == 'Zoom'">Account Name : {{class.account_name==null ? '-' : class.account_name}}</span>
                 </div>
               </div>
               <div class="notification_container" *ngIf="!liveClassFor">

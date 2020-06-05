@@ -426,14 +426,15 @@ export class InstituteDetailsComponent implements OnInit {
 
   
   validateZoomDetails(obj) {
+    var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;
     if(obj.account_name.trim() != ''){
-      if(obj.email_id.trim() != ''){
+      if(obj.email_id.trim() != '' && reg.test(obj.email_id)){
         if(obj.sdk_api_key.trim() != ''){
           if(obj.sdk_api_secret.trim() != ''){
             if(obj.jwt_access_token.trim() != ''){
               if(obj.jwt_api_key.trim() != ''){
                 if(obj.jwt_api_secret.trim() != ''){
-                  if(obj.user_limit.trim() != '' && obj.user_limit > 0) {
+                  if(obj.user_limit != '' && obj.user_limit > 0) {
                     return true;
                   } else {
                     this.commonService.showErrorMessage('error', '','User limit should be greater than 0');
@@ -459,7 +460,7 @@ export class InstituteDetailsComponent implements OnInit {
           return false;
         }
       } else {
-        this.commonService.showErrorMessage('error','','Please enter Email ID');
+        this.commonService.showErrorMessage('error','','Please enter valid Email ID');
         return false;
       }
     }else {
@@ -519,6 +520,7 @@ export class InstituteDetailsComponent implements OnInit {
 
   ClearZoomJSON() {
     this.zoomOBJ = {
+      institute_id: sessionStorage.getItem('institute_id'),
       email_id: '',
       account_name: '',
       sdk_api_key: '',
@@ -539,6 +541,7 @@ export class InstituteDetailsComponent implements OnInit {
         this.commonService.showErrorMessage('success', '', 'Created successfully');
         this.getZoomDetails();
         this.zoomOBJ = {
+          institute_id: sessionStorage.getItem('institute_id'),
           email_id: '',
           account_name: '',
           sdk_api_key: '',
