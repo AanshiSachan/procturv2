@@ -769,6 +769,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           this.msgService.showErrorMessage(this.msgService.toastTypes.warning, this.messages.loginMsg.opt.inCorrect.title, this.messages.loginMsg.opt.inCorrect.body);
         } else if (el.login_option == 3) {
           this.single_login_login_check = el.single_device_login;
+          sessionStorage.setItem('deviceId', el.device_id);
+          sessionStorage.setItem('source', 'WEB');
           //console.log("OTP Verified Success");
           this.alternateLoginSuccess(el);
           this.closeOTPValidationModal();
