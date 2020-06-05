@@ -503,6 +503,7 @@ export class InstituteDetailsComponent implements OnInit {
 
   ClearZoomJSON() {
     this.zoomOBJ = {
+      institute_id: sessionStorage.getItem('institute_id'),
       email_id: '',
       account_name: '',
       sdk_api_key: '',
@@ -523,6 +524,7 @@ export class InstituteDetailsComponent implements OnInit {
         this.commonService.showErrorMessage('success', '', 'Created successfully');
         this.getZoomDetails();
         this.zoomOBJ = {
+          institute_id: sessionStorage.getItem('institute_id'),
           email_id: '',
           account_name: '',
           sdk_api_key: '',
