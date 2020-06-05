@@ -504,6 +504,20 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch18">Single Device Login
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <label class="switch switch-n">
+              <input type="checkbox" [checked]="(instDetails.single_device_login)"
+                (click)="checkSingleDevice($event)" [(ngModel)]="singleDevice"
+                name="sFilter" class="form-radio" value="singleDeviceLogin" id="singleDeviceLogin">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
       </div>
     </div>
 
