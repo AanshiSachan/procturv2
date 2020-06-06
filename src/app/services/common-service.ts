@@ -8,8 +8,8 @@ import { BehaviorSubject } from '../../../node_modules/rxjs/BehaviorSubject';
 
 export class CommonServiceFactory {
 
-    currency_default_symbol:any='Rs';
-    show_loader = new BehaviorSubject('hide');    
+    currency_default_symbol:any='₹​ ';
+    show_loader = new BehaviorSubject('hide');
     constructor(private toasterService: ToasterService) { }
 
     // Check User Is Admin Or not return boolean
@@ -132,7 +132,7 @@ export class CommonServiceFactory {
     }
 
 
-    /// validation functions 
+    /// validation functions
 
     validateName(value): boolean {
         let regex = /^[a-zA-Z. ]*$/;
@@ -174,10 +174,10 @@ export class CommonServiceFactory {
         if (country_id == 1) {
             if (inputtxt.length == maxlength) {
                 return true;
-            } 
+            }
             else if(inputtxt.length==0){
                 return 'noNumber';
-            } 
+            }
             else {
                 return false;
             }
@@ -190,7 +190,7 @@ export class CommonServiceFactory {
             }
         }
     }
-    // toast function 
+    // toast function
     showErrorMessage(objType, massage, body) {
         var toast: Toast = {
             type: objType,
@@ -201,7 +201,7 @@ export class CommonServiceFactory {
 
     }
 
-    // Remove Selection From SideNav 
+    // Remove Selection From SideNav
 
     removeSelectionFromSideNav() {
         let array =['lione','litwo','lithree','lifour','lifive','lisix','liseven','lieight','linine','lizero'];
@@ -218,7 +218,7 @@ export class CommonServiceFactory {
         let sortedArray = array.sort((obj1, obj2) => {
             let a = obj1[key.primaryKey];
             let b = obj2[key.primaryKey];
-            // for case insensitive compare 
+            // for case insensitive compare
             if ((typeof obj1[key.primaryKey] === "string") && (obj1[key.primaryKey] != null && obj2[key.primaryKey] != null)) {
                 a = obj1[key.primaryKey].toLowerCase();
                 b = obj2[key.primaryKey].toLowerCase();
