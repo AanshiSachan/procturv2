@@ -1071,24 +1071,29 @@
               </span>
 
               <div class="row checkbox-Group">
-                <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">
                   <input type="checkbox" value="" (click)="chkBoxAllActiveStudent($event)" name="activeStudent" class="form-checkbox" id="chkBoxActiveSelection">
                   <label for="activeStudent" style=" margin-left: 10px;">All Active Students</label>
                 </div>
 
-                <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">
                   <input type="checkbox" value="" name="tutorName" (click)="chkBoxAllTeacher($event)" class="form-checkbox" id="chkBoxTutorSelection">
                   <label for="tutorName" style=" margin-left: 10px;">All Faculty</label>
                 </div>
 
-                <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">
                   <input type="checkbox" value="" name="inactiveStudent" (click)="chkBoxAllInActiveStudent($event)" class="form-checkbox" id="chkBoxInActiveSelection">
                   <label for="inactiveStudent" style=" margin-left: 10px;">All Inactive Students</label>
                 </div>
 
-                <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">
                   <input type="checkbox" value="" name="aluminiStudent" (click)="chkBoxAllAluminiStudent($event)" class="form-checkbox" id="chkBoxAluminiSelection">
                   <label for="aluminiStudent" style=" margin-left: 10px;">All Alumni Students</label>
+                </div>
+
+                <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">
+                  <input type="checkbox" value="" name="openAppUser" (click)="chkBoxAllOpenAppUsers($event)" class="form-checkbox" id="chkBoxOpenAppSelection">
+                  <label for="openAppUser" style=" margin-left: 10px;">All Open App Users</label>
                 </div>
               </div>
 
@@ -1122,7 +1127,7 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody *ngIf="!openAppUserSelected">
                     <tr *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i; ">
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -1147,6 +1152,39 @@
                       </td>
                       <td>
                         {{row.student_email}}
+                      </td>
+                    </tr>
+                    <tr *ngIf="studentList.length == 0">
+                      <td colspan="7">
+                        No Student Found
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="openAppUserSelected">
+                    <tr *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i; ">
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)" [(ngModel)]="row.assigned">
+                          <label></label>
+                        </div>
+                      </td>
+                      <td>
+                        {{row.user_id}}
+                      </td>
+                      <td>
+                        {{row.name}}
+                      </td>
+                      <td>
+                        {{row.phone}}
+                      </td>
+                      <td>
+                        {{row.student_class}}
+                      </td>
+                      <td>
+                        {{row.doj}}
+                      </td>
+                      <td>
+                        {{row.email_id}}
                       </td>
                     </tr>
                     <tr *ngIf="studentList.length == 0">
@@ -1397,8 +1435,8 @@
                 </div>
 
                 <div class="pull-right" *ngIf="studentSelected">
-                  <button class="btn" (click)="sendNotificationMessage()">Send</button>
-                  <button class="btn" *ngIf="selectedOption == 'showTable' || selectedOption == 'filter'" (click)="sendPushNotification()">Send Push Notification</button>
+                  <button class="btn" (click)="sendNotificationMessage()" *ngIf="!openAppUserSelected">Send</button>
+                  <button class="btn" *ngIf="selectedOption == 'showTable' || selectedOption == 'filter' || openAppUserSelected" (click)="sendPushNotification()">Send Push Notification</button>
                 </div>
 
               </div>

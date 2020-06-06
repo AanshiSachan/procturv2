@@ -13,6 +13,7 @@ import { FetchenquiryService } from '../../../services/enquiry-services/fetchenq
 import { HttpService } from '../../../services/http.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { WidgetService } from '../../../services/widget.service';
+import { ProductService } from '../../../services/products.service';
 declare var $;
 // import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
@@ -50,6 +51,7 @@ export class AdminHomeComponent implements OnInit {
   public teacher_id: number = -1;
   public home_work_notifn: number = 0;
   public topics_covered_notifn: number = 0;
+  openAppUserSelected = false;
   storageData:any={
     vDOCipher_allocated_bandwidth:0,
     vDOCipher_allocated_storage:0,
@@ -180,7 +182,8 @@ export class AdminHomeComponent implements OnInit {
     private widgetService: WidgetService,
     private auth: AuthenticatorService,
     private biometric: BiometricStatusServiceService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private productService: ProductService
   ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
@@ -1589,6 +1592,8 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('chkBoxTutorSelection').checked = false;
     document.getElementById('chkBoxInActiveSelection').checked = false;
     document.getElementById('chkBoxAluminiSelection').checked = false;
+    document.getElementById('chkBoxOpenAppSelection').checked = false;
+    this.openAppUserSelected = false;
     }
     this.flushData();
     if (this.sendNotificationCourse.master_course != "-1") {
@@ -1766,7 +1771,7 @@ export class AdminHomeComponent implements OnInit {
       this.selectedOption = "";
     }
 
-    if (document.getElementById('chkBoxInActiveSelection').checked || document.getElementById('chkBoxAluminiSelection').checked) {
+    if (document.getElementById('chkBoxInActiveSelection').checked || document.getElementById('chkBoxAluminiSelection').checked || document.getElementById('chkBoxOpenAppSelection').checked) {
       this.selectedOption = "showTextBox";
       return
     } else {
@@ -1793,6 +1798,7 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('chkBoxTutorSelection').checked = false;
     document.getElementById('chkBoxInActiveSelection').checked = false;
     document.getElementById('chkBoxAluminiSelection').checked = false;
+    document.getElementById('chkBoxOpenAppSelection').checked = false;
     }
     this.batchList = [];
     this.courseList = [];
@@ -1809,6 +1815,7 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('chkBoxTutorSelection').checked = false;
     document.getElementById('chkBoxInActiveSelection').checked = false;
     document.getElementById('chkBoxAluminiSelection').checked = false;
+    document.getElementById('chkBoxOpenAppSelection').checked = false;
     }
     this.showTableFlag = false;
     this.batchList = [];
@@ -1822,6 +1829,7 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('chkBoxTutorSelection').checked = false;
     document.getElementById('chkBoxInActiveSelection').checked = false;
     document.getElementById('chkBoxAluminiSelection').checked = false;
+    document.getElementById('chkBoxOpenAppSelection').checked = false;
     }
     if (this.sendNotification.batch_id == "-1") {
       this.showTableFlag = false;
@@ -1877,11 +1885,14 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('chkBoxTutorSelection').checked = false;
     document.getElementById('chkBoxInActiveSelection').checked = false;
     document.getElementById('chkBoxAluminiSelection').checked = false;
+    document.getElementById('chkBoxOpenAppSelection').checked = false;
     document.getElementById(id).checked = true;
+    this.openAppUserSelected = false;
     this.whichCheckBoxSelected();
   }
 
   chkBoxAllActiveStudent(event) {
+    this.openAppUserSelected = false;
     this.clearDropDownBinding();
     if (event.target.checked) {
       this.allChecked = true;
@@ -1908,6 +1919,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   chkBoxAllTeacher(event) {
+    this.openAppUserSelected = false;
     this.clearDropDownBinding();
     if (event.target.checked) {
       this.allChecked = true;
@@ -1935,6 +1947,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   chkBoxAllInActiveStudent(event) {
+    this.openAppUserSelected = false;
     this.clearDropDownBinding();
     if (event.target.checked) {
       this.allChecked = true;
@@ -1961,7 +1974,51 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+  chkBoxAllOpenAppUsers(event) {
+    this.clearDropDownBinding();
+    if (event.target.checked) {
+      this.allChecked = true;
+      this.clearCheckBoxSelction(event.target.id);
+      this.auth.showLoader();
+      this.studentList = [];
+      let obj = {
+        "by": [
+            {
+                "column": "productId",
+                "value": ""
+            },
+            {
+                "column": "eCourseId",
+                "value": 0
+            }
+        ],
+        "start_index":0,
+        "no_of_records":0   
+    }
+      this.productService.postMethod('user-product/get-user-details',obj).then(
+        res => {
+          this.openAppUserSelected = true;
+         this.auth.hideLoader();
+         let response = res['body'];
+          if (document.getElementById('chkBoxOpenAppSelection').checked) {
+            this.showTableFlag = true;
+            this.studentList = this.addKeys(response.result, true);
+          }
+        },
+        err => {
+         this.auth.hideLoader();
+          //console.log(err);
+        }
+      )
+    } else {
+      this.flushData();
+      this.showTableFlag = false;
+
+    }
+  }
+
   chkBoxAllAluminiStudent(event) {
+    this.openAppUserSelected = false;
     this.clearDropDownBinding();
     if (event.target.checked) {
       this.allChecked = true;
@@ -2261,10 +2318,16 @@ export class AdminHomeComponent implements OnInit {
     if (messageSelected === false) {
       return
     }
+    let student_id:any='';
+    if(this.openAppUserSelected){
+      student_id = this.getListOfIds('user_id')
+    } else {
+      student_id = this.getListOfIds('student_id')
+    }
     let obj = {
       notifn_message: messageSelected.message,
       message_id: messageSelected.messageId,
-      student_ids: this.getListOfIds('student_id'),
+      student_ids: student_id,
     }
     this.widgetService.sendPushNotificationToServer(obj).subscribe(
       res => {
