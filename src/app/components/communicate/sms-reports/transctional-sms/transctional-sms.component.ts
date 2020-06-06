@@ -96,11 +96,13 @@ export class TransctionalSmsComponent implements OnInit {
         (res: any) => {
           this.auth.hideLoader();
           if (res.length != 0) {
-            this.smsSource = res;
-            this.smsSource.forEach(elem => {
+            let temp = res;
+            temp.forEach(elem => {
               let x = elem.sentDateTime.split(":");
-              elem.sentDateTime = x[0]+":"+x[1];
+              let y = elem.sentDateTime.split(" ");
+              elem.sentDateTime = x[0]+":"+x[1]+" "+y[2];
             });
+            this.smsSource = temp;
             this.totalRecords = res[0].totalCount;
           }
           else {
@@ -118,12 +120,14 @@ export class TransctionalSmsComponent implements OnInit {
       return this.getSms.fetchSmsReport(obj).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          this.smsSource = res;
-          if(this.smsSource.length) {
-            this.smsSource.forEach(elem => {
+          let temp = res;
+          if(temp.length) {
+            temp.forEach(elem => {
               let x = elem.sentDateTime.split(":");
-              elem.sentDateTime = x[0]+":"+x[1];
+              let y = elem.sentDateTime.split(" ");
+              elem.sentDateTime = x[0]+":"+x[1]+" "+y[2];
             });
+            this.smsSource = temp;
           }
         }
       )
