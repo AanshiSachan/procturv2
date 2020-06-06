@@ -48,6 +48,7 @@ export class InstituteDetailsComponent implements OnInit {
     4: true,
     5: true
   }
+  singleDevice: any;
 
   constructor(
     private apiService: InstituteDetailService,
@@ -78,6 +79,7 @@ export class InstituteDetailsComponent implements OnInit {
         this.auth.hideLoader();
         this.instituteDetailsAll = res;
         this.instDetails = Object.assign({}, res);
+        this.singleDevice = this.instDetails.single_device_login;
         if (this.instDetails.is_student_displayId_manual == 0) {
           this.showPrefix = true;
         }
@@ -261,6 +263,7 @@ export class InstituteDetailsComponent implements OnInit {
     obj.owner_secondary_email = this.instDetails.owner_secondary_email;
     obj.owner_primary_phone = this.instDetails.owner_primary_phone;
     obj.admin_name = this.instDetails.admin_name;
+    obj.single_device_login = this.instDetails.single_device_login;
     if (!(this.validatePhoneNumber(this.instDetails.admin_primary_phone))) {
       this.commonService.showErrorMessage('error', '', 'Please check contact number');
       return
@@ -311,6 +314,19 @@ export class InstituteDetailsComponent implements OnInit {
       this.instDetails.student_id_type = "Automatic"
     }
   }
+
+  checkSingleDevice(event){
+    console.log(event)
+    console.log(this.singleDevice)
+    if(this.singleDevice){
+      this.instDetails.single_device_login = false;
+    }
+    else{
+    this.instDetails.single_device_login = true;
+    }
+  }
+
+
 
   //check contact no pattern (comma seperator)
   checkContactNoPattern(pattern) {
