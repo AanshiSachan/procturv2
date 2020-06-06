@@ -107,7 +107,7 @@ export class SalesReportsComponent implements OnInit {
     }
 
     this.auth.showLoader();
-    this.http.getMethod('product/get', null).subscribe(
+    this.http.getMethod('product/get?module=SALES_REPORT', null).subscribe(
       (resp: any) => {
         this.auth.hideLoader();
         if (resp.validate) {
