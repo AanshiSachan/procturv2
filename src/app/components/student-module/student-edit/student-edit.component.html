@@ -324,7 +324,7 @@
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}">
+                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.standard_id!= ''}">
                   <label for="standard">Standards</label>
                   <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard" class="form-ctrl">
                     <option value="-1"></option>
@@ -337,7 +337,7 @@
                 <!-- Assign To -->
                 <div class="field-wrapper" *ngIf="!isProfessional">
                   <label for="assignTo">Assign To</label>
-                  <select id="assignTo" [(ngModel)]="studentAddFormData.assigned_to_id" name="standard" class="form-ctrl">
+                  <select id="assignTo" [(ngModel)]="studentAddFormData.assigned_to_id" name="assignTo" class="form-ctrl">
                     <option value="0"></option>
                     <option [value]="assign.userid" *ngFor="let assign of enqAssignTo">
                       {{assign.name}}
