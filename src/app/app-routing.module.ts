@@ -7,16 +7,13 @@ import { CustomPreloadingStrategy } from './custom-preloading-strategy.service';
         RouterModule.forRoot(
             [
                 { 
-                    path: '', 
-                    redirectTo: '/authPage',
-                    pathMatch: 'full',
-                    data:{preload:true}
-                },
+                    path: '', redirectTo: '/authPage', pathMatch: 'full',
+                    data:{preload: true}
+                 },
                 {
                     path: 'authPage',
                     loadChildren: 'app/components/auth-page/auth-page.module#AuthPageModule',
-                    //data:{preload:true}
-
+                    data:{preload: true}
                 },
                 {
                     path: 'guest',
@@ -24,7 +21,8 @@ import { CustomPreloadingStrategy } from './custom-preloading-strategy.service';
                 },
                 {
                     path: 'view',
-                    loadChildren: 'app/components/component.module#ComponentModule'
+                    loadChildren: 'app/components/component.module#ComponentModule',
+
                 },
                 { path: '**',  redirectTo: '/authPage', pathMatch: 'full' }
             ],
@@ -34,10 +32,8 @@ import { CustomPreloadingStrategy } from './custom-preloading-strategy.service';
             }
         )
     ],
-    exports: [
-        RouterModule
-    ],
-    providers: [ CustomPreloadingStrategy]
+    exports: [RouterModule],
+    providers: [CustomPreloadingStrategy]
 })
 export class AppRoutingModule {
 }
