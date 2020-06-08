@@ -34,6 +34,9 @@
                 <th style="width:20%">
                   <label style="cursor:pointer;" (click)="sortTable('coursee_names')">Course(s)</label>
                 </th>
+                <th style="width: 10%;">
+                  Course End Date
+                </th>
                 <th style="width:15%">
                   <label style="cursor:pointer;" >Academic Year </label>
                 </th>
@@ -42,9 +45,6 @@
                 </th>
                 <th style="width: 5%;">
                   <label style="cursor:pointer;" >Total Students </label>
-                </th>
-                <th style="width: 10%;">
-                  End Date
                 </th>
                 <th style="width:10%">Action</th>
 
@@ -72,6 +72,7 @@
                       <tr *ngFor="let sc of row.coursesList; let y= index;">
                         <td style="width:25%"></td>
                         <td style="width:20%">{{sc.course_name}}</td>
+                        <td style="width: 10%;">{{sc.end_date}}</td>
                         <td style="width:15%">
                           <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':sc.academic_year_id? 'lightgrey':'','cursor':sc.academic_year_id ? 'not-allowed':''}" [(ngModel)]="sc.academic_year_id" >
                             <option value="-1">Select</option>
@@ -82,7 +83,6 @@
                         </td>
                         <td style="width:15%">{{row.standard_name}}</td>
                         <td style="width: 5%;">{{sc.total_students}}</td>
-                        <td style="width: 10%;">{{sc.end_date}}</td>
                         <td style="width:10%">
                           <div class="action-box ">
                             <a style="cursor:pointer"  *ngIf="jsonFlags.isShowAddStudent" (click)="addStudentToBatch(sc)">Add Student
@@ -106,7 +106,7 @@
             </tbody>
             <tbody *ngIf="(courseList.length ==0 && dataStatus === 2)">
               <tr>
-                <td colspan="7" style="text-align:center">
+                <td colspan="8" style="text-align:center">
                   No Course Found
                 </td>
               </tr>
