@@ -735,7 +735,7 @@
     <div *ngIf="instituteDetailsAll?.zoom_enabled && instituteDetailsAll?.zoom_account_type == 'CLIENT'">
     <h2 class="heading-setting-main">Zoom details &nbsp;<span *ngIf="instituteDetailsAll?.no_of_zoom_hosts" style="font-weight: normal;">(You can add upto {{instituteDetailsAll?.no_of_zoom_hosts}} hosts.)</span></h2>
 
-    <div class="general-setting show-left" style="padding-bottom: 10%;">
+    <div class="general-setting show-left">
       <div class="row">
         <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
           <label for="ch32">Zoom Account Name
@@ -978,6 +978,7 @@
       </div>
       </div> 
     </div>
+    <div style="padding-bottom: 10%;"></div>
     <section class="row setting-footer">
       <button class="btn" routerLink="/view/home/admin">Cancel</button>
       <button class="btn fullBlue" (click)="updateAllDetails()">Update</button>
