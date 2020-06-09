@@ -1256,7 +1256,7 @@
             </div>
 
             <div id="divSendMessage" class="hide">
-              <div class="row">
+              <div class="row" *ngIf="!openAppUserSelected">
                 <div class="field-checkbox-wrapper">
                   <input type="checkbox" (click)="changeCurrentView($event)" value="" name="loginMessage" class="form-checkbox" id="sendLoginChkbx">
                   <label for="sendLoginChkbx" style=" margin-left: 10px;">Send Login Message</label>
@@ -1268,7 +1268,7 @@
                   <div class="c-sm-4 c-md-4 c-lg-4">
                     <h3>Delivery Mode</h3>
                   </div>
-                  <div id="sendToHead" class="c-sm-6 c-md-6 c-lg-6">
+                  <div id="sendToHead" class="c-sm-6 c-md-6 c-lg-6" *ngIf="!openAppUserSelected">
                     <h3>Send To</h3>
                   </div>
                 </div>
@@ -1284,7 +1284,7 @@
                       <label for="chkbxEmailSend" style=" margin-left: 10px;">Mail</label>
                     </div>
                   </div>
-                  <div id="divParentOrGaurdian" class="c-sm-6 c-md-6 c-lg-6">
+                  <div id="divParentOrGaurdian" class="c-sm-6 c-md-6 c-lg-6" *ngIf="!openAppUserSelected">
                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
                       <input type="checkbox" checked="true" value="" name="student" class="form-checkbox" id="chkBoxStudent">
                       <label for="chkBoxStudent" style=" margin-left: 10px;">Student</label>
@@ -1310,7 +1310,7 @@
 
                 </div>
 
-                <div class="row" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
+                <div class="row" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor' || openAppUserSelected)">
 
                   <div class="schedSwitcher row" [ngClass]="{'hide' : checkRoleMAnagement() }">
                     <ul>
@@ -1435,7 +1435,7 @@
                 </div>
 
                 <div class="pull-right" *ngIf="studentSelected">
-                  <button class="btn" (click)="sendNotificationMessage()" *ngIf="!openAppUserSelected">Send</button>
+                  <button class="btn" (click)="sendNotificationMessage()">Send</button>
                   <button class="btn" *ngIf="selectedOption == 'showTable' || selectedOption == 'filter' || openAppUserSelected" (click)="sendPushNotification()">Send Push Notification</button>
                 </div>
 
