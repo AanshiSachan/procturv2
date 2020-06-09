@@ -1726,12 +1726,24 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('divSendMessage').classList.add('hide');
     document.getElementById('idAudience').classList.remove('active');
     document.getElementById('idSendMessage').classList.remove('active');
+    if(document.getElementById(id)){
     document.getElementById(id).classList.add('active');
+    }
+    if(document.getElementById(div)){
     document.getElementById(div).classList.remove('hide');
+    }
+    if(document.getElementById('divParentOrGaurdian')){
     document.getElementById('divParentOrGaurdian').classList.remove('hide');
+    }
+    if(document.getElementById('sendToHead')){
     document.getElementById('sendToHead').classList.remove('hide');
+    }
+    if(document.getElementById('chkbxEmailSend')){
     document.getElementById('chkbxEmailSend').checked = false;
+    }
+    if(document.getElementById('sendLoginChkbx')){
     document.getElementById('sendLoginChkbx').checked = false;
+    }
     this.showEmailSubject = false;
     if (div == "divSendMessage") {
       this.showViewContent();
@@ -2247,9 +2259,12 @@ export class AdminHomeComponent implements OnInit {
     if (delivery_mode === false) {
       return;
     }
-    let destination = this.getDestinationValue();
+    let destination:any;
+    if(!this.openAppUserSelected) {
+    destination = this.getDestinationValue();
     if (destination === false) {
       return;
+    }
     }
 
     let batch_id;
@@ -2259,13 +2274,18 @@ export class AdminHomeComponent implements OnInit {
       batch_id = this.sendNotificationCourse.course_id;
     }
     let studentID: any;
+    let userId:any;
     let isTeacherSMS: number = 0;
     if (this.selectedOption == "showTutor") {
       studentID = this.getListOfIds('teacher_id');
       isTeacherSMS = 1;
       destination = 0;
     } else {
-      studentID = this.getListOfIds('student_id');
+      if(this.openAppUserSelected){
+        userId = this.getListOfIds('user_id')
+      } else {
+        studentID = this.getListOfIds('student_id');
+      }
     }
     let isAlumini = 0;
     if (document.getElementById('chkBoxAluminiSelection').checked) {
@@ -2278,12 +2298,17 @@ export class AdminHomeComponent implements OnInit {
       notifn_subject: check,
       destination: Number(destination),
       student_ids: studentID,
+      user_ids: [userId],
       cancel_date: '',
       isEnquiry_notifn: 0,
       isAlumniSMS: isAlumini,
       isTeacherSMS: isTeacherSMS,
       configuredMessage: configuredMessage,
-      message_id: messageSelected.messageId
+      message_id: messageSelected.messageId,
+      is_user_notify: 0
+    }
+    if(this.openAppUserSelected) {
+      obj.is_user_notify = 1
     }
 
     this.widgetService.sendNotification(obj).subscribe(
