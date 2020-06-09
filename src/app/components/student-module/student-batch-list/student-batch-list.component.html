@@ -102,7 +102,7 @@
                             <div class="inst-no">
                                 <div class="field-checkbox-wrapper">
                                     <input type="checkbox" id="batchcheck{{i}}" name="batch" [(ngModel)]="batch.isSelected" (ngModelChange)="batchChangeAlert($event, batch)"
-                                        class="form-checkbox">
+                                        class="form-checkbox" [disabled]="batch.data.disabled">
                                     <label></label>
                                 </div>
                             </div>
