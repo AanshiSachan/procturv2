@@ -12,7 +12,7 @@ import { CourseListService } from '../../../../services/course-services/course-l
 export class CourseCourseListComponent implements OnInit {
 
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
-  columnMaps: any[] = [0, 1, 2, 3, 4, 5];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6, 7];
   courseListDataSource: any = [];
   studentListDataSource: any = [];
   feeTemplateDataSource: any = [];
