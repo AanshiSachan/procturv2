@@ -732,10 +732,33 @@
       </div>
     </div>
 
+    <h2 class="heading-setting-main">Miscellaneous setting </h2>
+
+    <div class="general-setting show-left">
+      <div class="row">
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.enable_faculty_all_file_access != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="instDetails.enable_faculty_all_file_access" 
+                name="enable_faculty_all_file_access" id="enable_faculty_all_file_access">
+              <label for="enable_faculty_all_file_access" style="font-size: 14px;padding-left: 5px;">File Manager (Faculty)
+              </label>
+              <div class="questionInfo inline-relative">
+                <span class="qInfoIcon i-class">i</span>
+                <div class="tooltip-box-field">
+                  After enabling faculty can view all<br> files in file manager but they can’t<br> delete and download the files.
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          
+        </div>
+      </div>
+    </div>
     <div *ngIf="instituteDetailsAll?.zoom_enabled && instituteDetailsAll?.zoom_account_type == 'CLIENT'">
     <h2 class="heading-setting-main">Zoom details &nbsp;<span *ngIf="instituteDetailsAll?.no_of_zoom_hosts" style="font-weight: normal;">(You can add upto {{instituteDetailsAll?.no_of_zoom_hosts}} hosts.)</span></h2>
 
-    <div class="general-setting show-left" style="padding-bottom: 10%;">
+    <div class="general-setting show-left">
       <div class="row">
         <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
           <label for="ch32">Zoom Account Name
@@ -978,6 +1001,8 @@
       </div>
       </div> 
     </div>
+
+    <div style="padding-bottom: 10%;"></div>
     <section class="row setting-footer">
       <button class="btn" routerLink="/view/home/admin">Cancel</button>
       <button class="btn fullBlue" (click)="updateAllDetails()">Update</button>

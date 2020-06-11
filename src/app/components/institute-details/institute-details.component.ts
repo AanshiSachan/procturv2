@@ -296,6 +296,10 @@ export class InstituteDetailsComponent implements OnInit {
     } else {
       obj.gst_in = this.instDetails.gst_in;
     }
+    obj.enable_faculty_all_file_access = 0;
+    if(this.instDetails.enable_faculty_all_file_access) {
+      obj.enable_faculty_all_file_access = 1;
+    }
 
     obj.kyc_document_name = this.instDetails.kyc_document_name;
     obj.kyc_document = this.instDetails.kyc_document;
