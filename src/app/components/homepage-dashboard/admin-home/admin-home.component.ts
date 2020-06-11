@@ -2113,6 +2113,16 @@ export class AdminHomeComponent implements OnInit {
     )
   }
 
+  getListOfUserIds(key){
+    let id: any = [];
+    for (let t = 0; t < this.studentList.length; t++) {
+      if (this.studentList[t].assigned == true) {
+        id.push(Number(this.studentList[t][key]));
+      }
+    }
+    return id;
+  }
+
   getListOfIds(key) {
     let id: any = [];
     for (let t = 0; t < this.studentList.length; t++) {
@@ -2282,7 +2292,7 @@ export class AdminHomeComponent implements OnInit {
       destination = 0;
     } else {
       if(this.openAppUserSelected){
-        userId = this.getListOfIds('user_id')
+        userId = this.getListOfUserIds('user_id')
       } else {
         studentID = this.getListOfIds('student_id');
       }
@@ -2298,7 +2308,7 @@ export class AdminHomeComponent implements OnInit {
       notifn_subject: check,
       destination: Number(destination),
       student_ids: studentID,
-      user_ids: [userId],
+      user_ids: userId,
       cancel_date: '',
       isEnquiry_notifn: 0,
       isAlumniSMS: isAlumini,
