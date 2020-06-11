@@ -58,6 +58,7 @@ export class FileCardComponent implements OnChanges {
   @Output() fileArr = new EventEmitter<any>();
   @Output() shareOptions = new EventEmitter<any>();
   @Output() playYoutubeVideo = new EventEmitter<any>();
+  @Output() editYoutubeVideo = new EventEmitter<any>();
   dwnldLink = "";
   arr: any[] = [];
   fileURL: any;
@@ -305,5 +306,9 @@ export class FileCardComponent implements OnChanges {
 
   getYoutubeLink(file) {
     this.playYoutubeVideo.emit(file);
+  }
+
+  editYoutubeUrl(file) {
+    this.editYoutubeVideo.emit(file);
   }
 }

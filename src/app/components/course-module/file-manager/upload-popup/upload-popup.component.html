@@ -123,14 +123,19 @@
           <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox" (change)="fillFiles()" multiple/>
         </div>
 
-        <div class="c-lg-8 field-wrapper" *ngIf='category_id=="230"'>
+        <div class="c-lg-8 field-wrapper" *ngIf='category_id=="230" && !editView.editView'>
           <label></label>
           <input type="text" class="form-ctrl" placeholder="Please enter URL" id="youtubeUrl" name="youtubeUrl" [(ngModel)]="youtubeUrl">
+        </div>
+        <div class="c-lg-8 field-wrapper" *ngIf='category_id=="230" && editView.editView'>
+          <label></label>
+          <input type="text" class="form-ctrl" placeholder="Please enter title" id="youtubeUrl" name="youtubeUrl" [(ngModel)]="youtubeUrl">
         </div>
         
 
         <div class="c-lg-2">
-          <button class="btn fullBlue" (click)="uploadHandler()" style="margin-top: 4vh;">Upload</button>
+          <button class="btn fullBlue" (click)="uploadHandler()" *ngIf="!editView.editView" style="margin-top: 4vh;">Upload</button>
+          <button class="btn fullBlue" (click)="updateYoutubeURL()" *ngIf="editView.editView" style="margin-top: 4vh;">Update</button>
         </div>
       </div>
     </div>

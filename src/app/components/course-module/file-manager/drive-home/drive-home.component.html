@@ -112,7 +112,7 @@
             <file-card (draggedover)="onDragOver($event)" (draggedleave)="onDragLeave($event)" [data]="folder" *ngFor="let folder of fileDisplayArr"
               (getFilesAndFolder)="getFilesAndFolder($event)" (status)="status($event)" (downloadStatus)="downloadStatus($event)" (getPopupValue)="getPopupValue($event)"
               (fileid)="fileId($event)" (fileArr)="fileArr($event)" (shareOptions)="handleOptions($event)" [fileDisplayArr]="fileDisplayArr"
-              [selectedFolder]="selectedFolder" (filePath)="filePath($event)" (playYoutubeVideo)="getYoutubeLink($event)">
+              [selectedFolder]="selectedFolder" (filePath)="filePath($event)" (playYoutubeVideo)="getYoutubeLink($event)" (editYoutubeVideo)="editYoutubeVideo($event)">
             </file-card>
           </div>
 
@@ -132,7 +132,7 @@
 
 <app-upload-popup *ngIf="addCategoryPopup" [manualUpload]="manualUpload" [selectedFiles]="selectedFiles" [currentFolder]="selectedFolder"
   [pathArray]="pathArray" (closePopupValue)="close($event)" (getFilesAndFolder)="getFilesAndFolder($event)" (filePath)="filePathUpload($event)"
-  [currentFilesArray]="fileDisplayArr" (uploadStatus)="uploadStatus($event)">
+  [currentFilesArray]="fileDisplayArr" (uploadStatus)="uploadStatus($event)" [editView]="editYoutubeFile">
 </app-upload-popup>
 
 <share-file *ngIf="getPopupOpen" (treeUpdater)="treeUpdater($event)" (closePopup)="closeSharePopup($event)" [fileIdGet]="fileIdGet"
