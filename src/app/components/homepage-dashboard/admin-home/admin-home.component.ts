@@ -2315,7 +2315,7 @@ export class AdminHomeComponent implements OnInit {
       res => {
         let msg = {
           type: 'success',
-          title: 'Message',
+          title: '',
           body: "Sent successfully"
         };
         this.appC.popToast(msg);
@@ -2359,7 +2359,7 @@ export class AdminHomeComponent implements OnInit {
         //console.log(res);
         let msg = {
           type: 'success',
-          title: 'Message',
+          title: '',
           body: "Sent successfully"
         };
         this.appC.popToast(msg);
@@ -2971,7 +2971,7 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.notifyStudentExam(data.schd_id).subscribe(
         res => {
          this.auth.hideLoader();
-          this.messageNotifier('success', 'Notified', 'Notification Sent Successfully');
+          this.messageNotifier('success', '', 'Notification Sent Successfully');
         },
         err => {
          this.auth.hideLoader();
@@ -2995,7 +2995,7 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.sendReminder(obj).subscribe(
         res => {
          this.auth.hideLoader();
-          this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
+          this.messageNotifier('success', '', 'Reminder Sent Successfull');
         },
         err => {
          this.auth.hideLoader();
