@@ -577,7 +577,7 @@ export class CoummunicateHomeComponent implements OnInit {
       res => {
         let msg = {
           type: 'success',
-          title: 'Message',
+          title: '',
           body: "Sent successfully"
         };
         this.appC.popToast(msg);
@@ -621,7 +621,7 @@ export class CoummunicateHomeComponent implements OnInit {
         //console.log(res);
         let msg = {
           type: 'success',
-          title: 'Message',
+          title: '',
           body: "Sent successfully"
         };
         this.appC.popToast(msg);
