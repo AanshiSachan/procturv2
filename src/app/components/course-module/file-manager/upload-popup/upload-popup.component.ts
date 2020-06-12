@@ -470,7 +470,8 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         this.manualUpload = false;
         let temp = this.editView.res.keyName.split('/https');
         if(temp && temp.length) {
-        this.filePath.emit(temp[0]);
+        let newPath = temp[0].concat('/');
+        this.filePath.emit(newPath);
         }
         this.getFilesAndFolder.emit(200);
         this.closePopupValue.emit(false);

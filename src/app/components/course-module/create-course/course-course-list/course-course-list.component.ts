@@ -353,6 +353,7 @@ export class CourseCourseListComponent implements OnInit {
         this.studentList = [];
         this.addStudentPopUp = false;
         this.auth.hideLoader();
+        this.getCourseListForTable();
         this.showTable = false;
       },
       err => {
