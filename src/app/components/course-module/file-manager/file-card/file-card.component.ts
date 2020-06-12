@@ -84,6 +84,7 @@ export class FileCardComponent implements OnChanges {
     if (data.data.category_id == "182") {
       data.data.category_name = "Study Material"
     }
+    data.data.user_type = sessionStorage.getItem('userType');
     // let name = data.label.split(".")[0];
     // let type = data.label.split(".")[1];
     var name = data.label.substring(0, data.label.lastIndexOf("_"));
