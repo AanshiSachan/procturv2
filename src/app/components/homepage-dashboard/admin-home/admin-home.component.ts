@@ -1783,7 +1783,7 @@ export class AdminHomeComponent implements OnInit {
       this.selectedOption = "";
     }
 
-    if (document.getElementById('chkBoxInActiveSelection').checked || document.getElementById('chkBoxAluminiSelection').checked || document.getElementById('chkBoxOpenAppSelection').checked) {
+    if (document.getElementById('chkBoxInActiveSelection').checked || document.getElementById('chkBoxAluminiSelection').checked) {
       this.selectedOption = "showTextBox";
       return
     } else {
