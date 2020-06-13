@@ -342,7 +342,10 @@ export class InstituteSettingsComponent implements OnInit {
     student_study_material_visibility: '',
     notification_for_studymaterial_upload: '',
     enable_assign_to_feature: '',
-    feedback_email_ids : ''
+    feedback_email_ids : '',
+    enable_student_app_url: '',
+    student_app_url:'',
+    student_app_ios_url: ''
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
@@ -669,7 +672,10 @@ export class InstituteSettingsComponent implements OnInit {
     obj.lib_due_date_fine_per_day = this.instituteSettingDet.lib_due_date_fine_per_day;
     obj.new_student_addmission_email_notification = this.instituteSettingDet.new_student_addmission_email_notification;
     obj.new_student_addmission_sms_notification = this.instituteSettingDet.new_student_addmission_sms_notification;
+    obj.student_app_ios_url = this.instituteSettingDet.student_app_ios_url;
+    obj.student_app_url = this.instituteSettingDet.student_app_url;
     obj.enable_send__website_url_in_student_credentail = this.convertBoolenToNumber(this.instituteSettingDet.enable_send__website_url_in_student_credentail);
+    obj.enable_student_app_url = this.convertBoolenToNumber(this.instituteSettingDet.enable_student_app_url);
     obj.student_study_material_visibility = this.convertBoolenToNumber(this.instituteSettingDet.student_study_material_visibility);
     obj.notification_for_studymaterial_upload = this.convertBoolenToNumber(this.instituteSettingDet.notification_for_studymaterial_upload);
     if (this.checkPhoneValidation(this.instituteSettingDet.new_student_addmission_sms_notification) == false) {
@@ -889,6 +895,9 @@ export class InstituteSettingsComponent implements OnInit {
     }
     this.instituteSettingDet.vat_percentage=data.cgst+data.sgst;
     this.instituteSettingDet.enable_send__website_url_in_student_credentail = data.enable_send__website_url_in_student_credentail;
+    this.instituteSettingDet.enable_student_app_url = data.enable_student_app_url;
+    this.instituteSettingDet.student_app_url = data.student_app_url;
+    this.instituteSettingDet.student_app_ios_url = data.student_app_ios_url;
     this.instituteSettingDet.student_study_material_visibility = data.student_study_material_visibility;
     this.instituteSettingDet.notification_for_studymaterial_upload = data.notification_for_studymaterial_upload;
     if (this.instituteSettingDet.virtual_host_url == '' && this.instituteSettingDet.enable_send__website_url_in_student_credentail == 1) {
