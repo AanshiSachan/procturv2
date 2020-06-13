@@ -7,7 +7,7 @@
       <label *ngIf="!isProfessional">Standard<span class="text-danger">*</span></label>
       <label *ngIf="isProfessional">Master Course<span class="text-danger">*</span></label>
       <div class="dropdown-div">
-        <select class="dropdown" [(ngModel)]="filterData.standard_id" (change)="getAllSubjectListFromServer($event.target.value)"> 
+        <select class="dropdown" [(ngModel)]="filterData.standard_id" (change)="getAllSubjectListFromServer($event.target.value)">
           <option value="-1"></option>
             <option *ngFor="let standard of standardData;let i=index; " [value]="standard.standard_id">{{standard.standard_name}}</option>
         </select>
@@ -23,9 +23,12 @@
         </select>
       </div>
     </div>
-    <button class="btn fullBlue" style="margin-bottom: 5px;" [disabled]="(filterData.standard_id==-1) || (filterData.subject_id==-1)" (click)="getTopicDetails('view')" >View</button>  
-    <button class="btn fullBlue pull-right" style="margin-top: 18px;" data-backdrop="static" data-toggle="modal" data-target="#addTopic">
-      <i class="fa fa-plus" aria-hidden="true" (click)="clearObject()"></i>&nbsp; Add Topic</button>
+    <button class="btn fullBlue" style="margin-bottom: 5px;" [disabled]="(filterData.standard_id==-1) || (filterData.subject_id==-1)" (click)="getTopicDetails('view')" >View</button>
+    <div class="pull-right">
+      <input type="button" [routerLink]="['./bulkUpload']" value="Bulk Upload" class="btn fullBlue" style="margin-top: 20px;">
+      <button class="btn fullBlue " style="margin-top: 18px;" data-backdrop="static" data-toggle="modal" data-target="#addTopic">
+        <i class="fa fa-plus" aria-hidden="true" (click)="clearObject()"></i>&nbsp; Add Topic</button>
+    </div>
   </div>
 </div>
 
@@ -33,6 +36,7 @@
     <app-topic-list [dataList]="subjectList" (editView)="eventAction($event)"></app-topic-list>
 </div>
 
+<router-outlet></router-outlet>
 
 <!-- Modal -->
 <div class="modal topic-add-model" id="addTopic" tabindex="-1" role="dialog" aria-hidden="true">

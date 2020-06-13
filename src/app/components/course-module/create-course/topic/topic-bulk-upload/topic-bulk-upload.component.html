@@ -1,0 +1,49 @@
+<div class="middle-section clearFix">
+
+  <section class="middle-top clearFix bulk-header">
+    <div class="row">
+      <h1 class="pull-left">
+        Upload Topic
+      </h1>
+      <aside class="pull-right">
+        <!-- <input type="button" value="Student Upload Report" (click)="bulkStatusReporter()" class="btn" /> -->
+        <a id="template_link">
+          <input type="button" value="Download Template" class="btn fullBlue" (click)="downloadTemplate()" />
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <!--====================================middle <Main> section==========================-->
+  <section class="middle-main clearFix" id="bulkEnquiryMain">
+    <div class="file-upload-box">
+      <div class="select-file-upload">
+        <h5>Select a file to upload</h5>
+        <div class="file-wrapper">
+          <ul>
+            <li>
+              <!-- accept="application/vnd.ms-excel" -->
+              <p-fileUpload customUpload="true" (uploadHandler)="uploadHandler($event)" [showCancelButton]="false">
+              </p-fileUpload>
+
+
+
+              <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
+                <div class="file-uploaded">
+                  {{fileLoading}}
+                </div>
+                <div class="progress-bar-wrapper">
+                  <div class="upload-bar">
+                    <div id="progress-width"></div>
+                  </div>
+                  <span>{{progress}} %</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
