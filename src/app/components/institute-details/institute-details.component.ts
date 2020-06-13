@@ -303,7 +303,6 @@ export class InstituteDetailsComponent implements OnInit {
 
     obj.kyc_document_name = this.instDetails.kyc_document_name;
     obj.kyc_document = this.instDetails.kyc_document;
-    obj.student_app_url = this.instDetails.student_app_url;
     obj.kyc_document_type = this.instDetails.kyc_document_type;
 
     return obj;
