@@ -978,15 +978,15 @@
                 <td>
                   <span class="view-comp">
                     <span title="Edit" class="fa fa-edit" (click)="editZoom(i)" style="color: #0084f6;"></span>
-                  </span>
+                  </span>&nbsp;
                   <span class="edit-comp">
-                    <span (click)="updateZoom(data)">Update</span>
-                  </span>
+                    <span (click)="updateZoom(data)"><i _ngcontent-c26="" class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;color: #0084f6;" title="Update"></i></span>
+                  </span>&nbsp;
                   <span class="view-comp">
                     <span title="Delete" class="fa fa-trash" (click)="deleteZoom(data.id)" style="color: red;"></span>
                   </span>
                   <span class="edit-comp">
-                    <span (click)="cancelRow(i)">Cancel</span>
+                    <span (click)="cancelRow(i)"><i _ngcontent-c26="" class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;color: red;" title="Cancel"></i></span>
                   </span>
                 </td>
               </tr>
@@ -1001,7 +1001,6 @@
       </div>
       </div> 
     </div>
-
     <div style="padding-bottom: 10%;"></div>
     <section class="row setting-footer">
       <button class="btn" routerLink="/view/home/admin">Cancel</button>
