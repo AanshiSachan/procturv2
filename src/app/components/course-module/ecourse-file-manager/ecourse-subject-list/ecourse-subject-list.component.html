@@ -163,11 +163,13 @@
       </div>
     <div class="col-md-4">
       <div class="action-buttons" *ngIf="video.category_name=='VDOCipher'">
+        <button class="btn btn-xs btn-ga-white" (click)="editFile(video)">Edit</button>
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked!='N'" (click)="setRemoveDataFile(video,'unlink')">Unlink</button>
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'delete')">Delete</button>
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'unlink all')">Unlink All</button>
       </div>
       <div class="action-buttons" *ngIf="video.category_name!='VDOCipher'">
+        <button class="btn btn-xs btn-ga-white" (click)="editFile(video)">Edit</button>
         <button class="btn btn-xs btn-ga-white"  (click)="setRemoveDataFile(video,'delete')">Delete</button>
       </div>
     </div>
@@ -194,6 +196,7 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
         </button>
+        <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file,'delete')">Delete</button>
       </div>
     </div>
@@ -217,6 +220,7 @@
       </div>
     <div class="col-md-5">
       <div class="action-buttons">
+        <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
         </button>
@@ -243,6 +247,7 @@
       </div>
     <div class="col-md-5">
       <div class="action-buttons">
+        <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
         </button>
@@ -269,6 +274,7 @@
       </div>
     <div class="col-md-5">
       <div class="action-buttons">
+        <button class="btn btn-xs btn-ga-white" (click)="editFile(audio)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(audio)">
           <a [href]="audio.file_name" class="btn-ga-white" [download]="audio.title">Download</a>
         </button>
@@ -296,6 +302,7 @@
     <div class="col-md-5">
       <div class="action-buttons">
         {{file.downloads}}&nbsp;Downloads &nbsp; &nbsp;
+        <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
         </button>
@@ -323,6 +330,7 @@
       </div>
     <div class="col-md-5">
       <div class="action-buttons">
+        <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
         </button>
@@ -349,6 +357,7 @@
       </div>
     <div class="col-md-5">
       <div class="action-buttons">
+        <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
         </button>
@@ -375,6 +384,34 @@
           <div class="col-md-12 file-form">
             <button class="btn btn-xs btn-ga-white btn-border btn-type" (click)="removeData(type)">{{type|titlecase}}</button>
             <button class="btn btn-xs btn-ga-white btn-border" (click)="showModal = false">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ga-modal-wrapper" *ngIf="showEditModal">
+  <div class="ga-modal-container">
+    <div class="ga-modal">
+      <div class="ga-modal-head">
+        <span>Edit File</span>
+      </div>
+      <div class="ga-modal-body" style="text-align: left;">
+        <div class="row upload-box">
+          <div class="c-lg-12 field-wrapper">
+            <label>Title</label>
+            <input type="text" class="form-ctrl" style="margin-top: 5px;" placeholder="Please enter title" id="youtubeUrl" name="youtubeUrl" [(ngModel)]="editObj.title">
+          </div>
+          <div class="col-md-12 file-form" style="margin-top: 10px;">
+            <div class="form-group">
+              <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="editObj.is_readonly">
+              <label class="title">Is Read-Only</label>
+            </div>
+          </div>
+          <div class="col-md-12 file-form" style="text-align: right;">
+            <button class="btn btn-xs btn-ga-white btn-border btn-type" (click)="updateFile()">Update</button>
+            <button class="btn btn-xs btn-ga-white btn-border" (click)="showEditModal = false">Cancel</button>
           </div>
         </div>
       </div>
