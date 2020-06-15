@@ -56,6 +56,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   customFileArr: fileObj[] = [];
   category_id: number | string = "-1";
   youtubeUrl: any = '';
+  is_readonly:any = '';
 
   category_image = {
     png: "1",
@@ -211,6 +212,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
     if(this.editView && this.editView.editView == true) {
       this.category_id = this.editView.res.category_id;
       this.youtubeUrl = this.editView.res.file_name;
+      this.is_readonly = this.editView.res.is_readonly;
     }
     console.log(this.editView)
   }
@@ -461,7 +463,8 @@ export class UploadPopupComponent implements OnInit, OnChanges {
     let obj = {
         "title":this.youtubeUrl,
         "institute_id": sessionStorage.getItem('institute_id'),
-        "category_id":230
+        "category_id":this.category_id,
+        "is_readonly":this.is_readonly
     }
     this.auth.showLoader();
     this.httpService.putData('/api/v1/instFileSystem/update/'+this.editView.res.file_id, obj).subscribe(
@@ -474,10 +477,18 @@ export class UploadPopupComponent implements OnInit, OnChanges {
           body: ''
         }
         this.appC.popToast(data);
+        if(this.category_id == 230){
         let temp = this.editView.res.keyName.split('/https');
         if(temp && temp.length) {
         let newPath = temp[0].concat('/');
         this.filePath.emit(newPath);
+        }
+        } else {
+          let path = this.editView.res.keyName.split('/');
+          path.pop();
+          let newPath = path.join('/');
+          newPath = newPath.concat('/');
+          this.filePath.emit(newPath);
         }
         this.getFilesAndFolder.emit(200);
         this.closePopupValue.emit(false);

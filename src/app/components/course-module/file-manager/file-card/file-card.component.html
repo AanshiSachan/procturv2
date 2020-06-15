@@ -19,8 +19,8 @@
 
     <div class="file__details">{{fileObj.res.downloads}}</div>
 
-    <i class="fa fa-edit" *ngIf="fileObj.res.category_id==230" style="font-size: 15px;  color: #52454596;" title="Edit File" (click)="editYoutubeUrl(fileObj)"></i> &nbsp;
     <i class="fa fa-trash" style="font-size: 17px;  color: #52454596;" title="Delete File" *ngIf="fileObj.res.user_type!=3" (click)="getFilesDeleted(fileObj)"></i>
+    <i class="fa fa-edit" style="font-size: 15px;  color: #52454596;margin-left: 1%;" title="Edit File" (click)="editYoutubeUrl(fileObj)"></i>
     <i class="fa fa-share-alt" style="font-size: 17px; color: #52454596; margin-left: 1%;" title="Share File" (click)="getPopupOpen(fileObj)"></i>
     <a class="fa fa-download" style="font-size: 17px; color: #52454596; margin-left: 1%;" *ngIf="fileObj.res.category_id!=230 && fileObj.res.user_type!=3" title="Download File" (click)="getFileDownloaded(fileObj);"
       id="downloadFile" ></a>
