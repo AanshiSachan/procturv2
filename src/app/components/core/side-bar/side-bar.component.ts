@@ -937,6 +937,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('Authorization', Authorization);
     this.auth.changeAuthenticationKey(Authorization);
     sessionStorage.setItem('institute_id', res.institution_id);
+    sessionStorage.setItem('institution_id', res.institution_id);
     this.auth.changeInstituteId(res.institution_id);
     sessionStorage.setItem('accountId', res.accountId);
     sessionStorage.setItem('alternate_email_id', res.alternate_email_id);
