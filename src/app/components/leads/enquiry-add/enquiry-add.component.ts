@@ -189,6 +189,7 @@ export class EnquiryAddComponent implements OnInit {
     state: '',
     city:''
   };
+  convertEnquiry: boolean = false;
 
   constructor(
     private prefill: FetchprefilldataService,
@@ -275,6 +276,10 @@ export class EnquiryAddComponent implements OnInit {
       is_follow_up_time_notification: false
     };
 
+    if (sessionStorage.getItem('enquiryPrefill') != null && sessionStorage.getItem('enquiryPrefill') != undefined) {
+      this.convertToEnquiryDetected();
+    } 
+
     // Multi Branch Check
     this.auth.isMainBranch.subscribe(
       (value: any) => {
@@ -302,6 +307,30 @@ export class EnquiryAddComponent implements OnInit {
     this.fetchDataForCountryDetails();
     this.getStateList();
 
+  }
+
+  convertToEnquiryDetected() {
+    this.convertEnquiry = true;
+    let data = JSON.parse(sessionStorage.getItem('enquiryPrefill'));
+    this.newEnqData = {
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
+      gender: data.gender,
+      dob: data.dob,
+      parent_email: data.parent_email,
+      standard_id: data.standard_id,
+      parent_name: data.parent_name,
+      parent_phone: data.parent_phone,
+      school_id: data.school_id,
+      curr_address: data.address,
+      country_id: data.country_id,
+      walkin_followUpDate: '',
+      walkin_followUpTime: '',
+      closing_reason_id:'',
+      user_id: data.user_id
+    }
+    this.onChangeObj(this.newEnqData.country_id);
   }
 
   // created by: Nalini Walunj
@@ -1014,7 +1043,7 @@ export class EnquiryAddComponent implements OnInit {
 
         if (!this.isProfessional && (this.isEnquirySubmit)) {
           this.isEnquirySubmit = false;
-          let obj = {
+          let obj:any = {
             area: this.newEnqData.area,
             assigned_to: this.newEnqData.assigned_to,
             city: this.newEnqData.city,
@@ -1062,6 +1091,9 @@ export class EnquiryAddComponent implements OnInit {
             walkin_followUpDate: this.newEnqData.walkin_followUpDate,
             walkin_followUpTime: this.newEnqData.walkin_followUpTime,
             is_follow_up_time_notification: this.newEnqData.is_follow_up_time_notification,
+          }
+          if (this.convertEnquiry == true) {
+            obj.user_id = this.newEnqData.user_id
           }
           console.log(obj);
           this.auth.showLoader();
@@ -1148,6 +1180,8 @@ export class EnquiryAddComponent implements OnInit {
       this.isEnquirySubmit = true;
       this.submitError = true;
     }
+    sessionStorage.removeItem('enquiryPrefill');
+    this.convertEnquiry = false;
   }
 
 
@@ -1310,11 +1344,15 @@ export class EnquiryAddComponent implements OnInit {
     }
     else {
       if (this.validateEnquiryDate()) {//newEnqData.parent_phone
+        if(this.newEnqData.parent_phone != '' && this.newEnqData.parent_phone !=null){
         if (this.commonServiceFactory.phonenumberCheck(this.newEnqData.parent_phone, this.maxlength, this.country_id)==false && this.newEnqData.parent_phone != "") {
           return this.showErrorMessage('error', '', msg);
         }
+        }
+        if(this.newEnqData.phone2 != ''&& this.newEnqData.phone2!=null){
         if (this.commonServiceFactory.phonenumberCheck(this.newEnqData.phone2, this.maxlength,this.country_id)==false && this.newEnqData.phone2 != "") {
           return this.showErrorMessage('error',  '',msg);
+        }
         }
         if (this.hour == '' && Number(this.minute) > 0) {
           return this.showErrorMessage('error', '', 'Please select time');

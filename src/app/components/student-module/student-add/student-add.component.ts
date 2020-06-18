@@ -1265,14 +1265,14 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.student_sex = "M";
       }
       let email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;
-      if (this.studentAddFormData.student_email != "") {
+      if (this.studentAddFormData.student_email && this.studentAddFormData.student_email != "") {
         if (!email.test(this.studentAddFormData.student_email)) {
           this.msgToast.showErrorMessage('error', '', "Please enter valid email id");
           return;
         }
       }
 
-      if (this.studentAddFormData.parent_email != "") {
+      if (this.studentAddFormData.parent_email && this.studentAddFormData.parent_email != "") {
         if (!email.test(this.studentAddFormData.parent_email)) {
           this.msgToast.showErrorMessage('error', '', "Please enter valid email ID");
           return;

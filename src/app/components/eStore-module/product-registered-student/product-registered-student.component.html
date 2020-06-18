@@ -12,36 +12,102 @@
     </div>
   </section>
 
-  <!-- <div class="filter-section" *ngIf="!enable_elearn_feature_flag">
-    <div class="row">
-      <div class="searchbox1">
+  <div class="filter-section">
+    <div class="row" style="display: -webkit-box;-webkit-box-align: center;">
+      <!-- <div class="searchbox1" style="width: 20%;padding-right: 0;">
         <div style="margin-top: 20px;padding-left: 1%">
           <div class="search-filter-wrapper">
-            <input type="text" class="normal-field" placeholder="Search" name="searchData" [(ngModel)]="searchText"
+            <input type="text" class="normal-field form-class" placeholder="Search" name="searchData" [(ngModel)]="searchText"
               (keyup)="searchInList()"
-              style="border-radius: 4px; border: 1px solid #ccc;padding: 6px 10px;width: 200px;margin-top: 10px;margin-bottom: 10px;">
+              style="width: 100%;">
           </div>
         </div>
-      </div>
-      <div class="searchbox1">
-        <div style="margin-top: 20px;padding-right: 1%">
-          <div class="search-filter-wrapper" style="text-align: right;">
-            <input [(ngModel)]="dateRange" type="text" name="range" class="form-ctrl bsDatepicker" id="range" readonly="true" bsDaterangepicker style="border-radius: 4px; border: 1px solid #ccc;padding: 6px 10px;width: 200px;margin-top: 10px;margin-bottom: 10px;"><br>
-            <span class="pull-right cleat-txt" (click)="clearDateRange()">clear</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-  <div class="filter-section">
-    <div class="row">
+      </div> -->
       <div class="searchbox2">
-        <div style="margin-top: 20px;padding-left: 1%">
+        <div style="padding-left: 1%">
           <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
             <label for="product_id" style="width: 100%">Product</label>
-            <select [(ngModel)]="filter.product_id" class="form-ctrl"
-              style="border-radius: 4px; border: 1px solid #ccc;padding: 6px 10px;width: 200px;margin-top: 5px;margin-bottom: 10px;">
+            <select [(ngModel)]="filter.product_id" class="form-ctrl form-class">
+              <option value="" selected>Select Product</option>
+              <option *ngFor="let product of productList" [value]="product.id" title="{{product.title}}">
+                {{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div> 
+      <span style="margin-left: 15px;">OR</span>
+      <div class="searchbox2">
+        <div style="padding-right: 1%">
+          <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
+            <label for="slug"style="width: 100%">Ecourse</label>
+            <select [(ngModel)]="filter.course_type_id" class="form-ctrl form-class">
+              <option value="0" selected>Select Ecourse</option>
+              <option *ngFor="let item of EcourseData" [value]="item.course_type_id" title="{{item.course_type}}">
+                  {{ (item.course_type.length > 30) ? (item.course_type | slice:0:30) + '...' : item.course_type }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="searchbox2" style="padding-left: 0;padding-right: 0;">
+        <div class="c-lg-1 btn-wrap" style="margin-top: 4%">
+          <button class="btn fullBlue" (click)="filterData()">Search</button>
+        </div>
+      </div>
+      <!-- <div class="searchbox2" style="text-align: right;width: 50%;" *ngIf="!AdvanceFilter">
+        <span (click)="AdvanceFilter = true" class="advance-filter-text" style="color: #0084f6;">Advance Filter </span>
+      </div> -->
+    </div>
+  </div>
+
+  <!-- <div class="filter-section AdvanceFilterSection" *ngIf="AdvanceFilter">
+    <div class="row">
+      <div class="searchbox2" style="text-align: right;width: 98%;">
+        <span (click)="AdvanceFilter = false" class="advance-filter-text" style="color: red">X Close Advance Filter </span>
+      </div>
+    </div>
+    <div class="row" style="display: -webkit-box;-webkit-box-align: center;">
+
+      <div class="searchbox2">
+        <div style="padding-right: 1%" class="form-group field-wrapper form-el-width datePickerBox">
+          <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
+            <label class="text-bold">Sales From Date</label>
+            <input type="text" value="" id="FromDate" class="form-ctrl form-class bsDatepicker dateFormat"
+              [(ngModel)]="searchText" name="FD" bsDatepicker readonly="true" />
+          </div>
+        </div>
+      </div>
+
+      <div class="searchbox2">
+        <div style="padding-right: 1%" class="form-group field-wrapper form-el-width datePickerBox">
+          <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
+            <label class="text-bold">Sales To Date</label>
+            <input type="text" value="" id="ToDate" class="form-ctrl form-class bsDatepicker dateFormat"
+              [(ngModel)]="searchText" name="FD" bsDatepicker readonly="true" />
+          </div>
+        </div>
+      </div>
+
+      <div class="searchbox2">
+        <div style="padding-right: 1%">
+          <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
+            <label for="slug"style="width: 100%">Status</label>
+            <select [(ngModel)]="filter.slug" class="form-ctrl form-class">
+              <option value="" selected>Select</option>
+              <option value="open">Open</option>
+              <option value="student admitted">Student Admitted</option>
+              <option value="student enquired">Student Enquired</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="searchbox2">
+        <div style="padding-left: 1%">
+          <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
+            <label for="product_id" style="width: 100%">Product</label>
+            <select [(ngModel)]="filter.product_id" class="form-ctrl form-class">
               <option value="" selected>Select Product</option>
               <option *ngFor="let product of productList" [value]="product.id" title="{{product.title}}">
                 {{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}
@@ -51,11 +117,10 @@
         </div>
       </div>
       <div class="searchbox2">
-        <div style="margin-top: 20px;padding-right: 1%">
+        <div style="padding-right: 1%">
           <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
             <label for="slug"style="width: 100%">Item Type</label>
-            <select [(ngModel)]="filter.slug" class="form-ctrl"
-              style="border-radius: 4px; border: 1px solid #ccc;padding: 6px 10px;width: 200px;margin-top: 5px;margin-bottom: 10px;">
+            <select [(ngModel)]="filter.slug" class="form-ctrl form-class">
               <option value="" selected>Select Item</option>
               <option *ngFor="let item of ItemTypeData" [value]="item.slug" title="{{item.name}}">
                   {{ (item.name.length > 30) ? (item.name | slice:0:30) + '...' : item.name }}
@@ -64,18 +129,235 @@
           </div>
         </div>
       </div>
-      <div class="searchbox2">
-        <div class="c-lg-1 btn-wrap" style="margin-top: 17%">
+      <div class="searchbox2" style="width: 5%;">
+        <div class="c-lg-1 btn-wrap">
           <button class="btn fullBlue" (click)="filterData()">Go</button>
         </div>
       </div>
     </div>
+  </div> -->
+
+
+  <!-- <br> -->
+  <!-- <data-display-table #child [displayKeys]="tableSetting" [displayData]="usersList" (editView)='optionSelected($event)'>
+  </data-display-table> -->
+  <div class="btn-container" style="float: right;">
+    <div class="btn-item">
+      <button type="button" *ngIf="selectedRowCount != 0" class="btn pull-right" name="button" (click)="isOptions = !isOptions">
+          {{selectedRowCount}} Students Selected &nbsp;
+          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+      </button>
+      <div class="more-info-container" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
+
+          <div class="more-info-item hand_icon">
+              <span style="cursor: pointer;" (click)="getAllMessageFromServer()"><i class="fa fa-bell"></i> Send Notification</span>
+          </div>
+      </div>
+  </div>
+</div>
+  <section style="margin-top: 10px;">
+    <div class="table-container" style="margin-bottom: 10px;">
+      <div class="heading-container">
+        <div class="heading-item" style="width: 5%;">
+          <span>
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" class="form-checkbox" [checked]="isAllChecked()"
+                [(ngModel)]="selectAll" (change)="toggleAllCheckBox()" id="ch2">
+              <label for="ch2"></label>
+            </div>
+          </span>
+        </div>
+        <div class="heading-item" style="text-align: left;">
+          <span>Name</span>
+        </div>
+        <div class="heading-item" style="width: 20%;">
+          <span>Contact No.</span>
+        </div>
+        <div class="heading-item" style="width: 25%;">
+          <span>Email Id</span>
+        </div>
+        <div class="heading-item" style="width: 20%;">
+          <span>Registered Date</span>
+        </div>
+        <div class="heading-item" style="width: 10%;">
+          <span>Status</span>
+        </div>
+        <div class="heading-item" style="width: 10%;">
+          <span>Action</span>
+        </div>
+      </div>
+      <div class="value-outer-container" *ngIf="usersList?.length!=0">
+        <div class="value-container" *ngFor="let data of usersList;let i= index">
+          <div class="value-item" style="width: 5%;">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" class="form-checkbox"
+                [checked]="data.isSelected" [(ngModel)]="data.isSelected" [id]="'checkbox-'+i" (ngModelChange)="rowCheckboxChange(data)">
+              <label [for]="'checkbox-'+i"></label>
+            </div>
+          </div>
+          <div class="value-item" style="text-align: left;">
+            <span
+              title="{{data.name}}">{{(data.name.length > 80) ? (data.name | slice:0:80) + '...' : data.name}}</span>
+          </div>
+          <div class="value-item" style="width: 20%">
+            {{(data.phone != '') ? (data.phone) : '-'}}
+          </div>
+          <div class="value-item" style="width: 25%;">
+            {{(data.email_id != '') ? (data.email_id) : '-'}}
+          </div>
+          <div class="value-item" style="width: 20%;">
+            {{(data.registered_date != '') ? (data.registered_date) : '-'}}
+          </div>
+          <div class="value-item" style="width: 10%;">
+            {{(data.open_user_status != '') ? (data.open_user_status) : '-'}}
+          </div>
+          <div class="value-item" style="width: 10%;">
+              <drop-menu [dropType]="dropType" *ngIf="data.open_user_status == '-'" [info]="data" [menuOptions]="menuOptions"
+                (selectedRecord)="optionSelected($event)"></drop-menu>
+                <span *ngIf="data.open_user_status != '-'" style="cursor: no-drop;">
+                  <i class="fa fa-ellipsis-v" style="font-size: 24px;padding-left: 10px;" aria-hidden="true"></i>
+                </span>
+          </div>
+        </div>
+      </div>
+      <div class="value-outer-container" style="text-align: center;padding-top: 5%;font-weight: 600;"
+        *ngIf="usersList?.length==0">
+        <div *ngIf="!isRippleLoad"> No data found </div>
+      </div>
+    </div>
+  </section>
+  <div class="row filter-res pagination" #pager id="pager" style="width: 100%;margin: 0;">
+    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+      <pagination (goPage)="filterData($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+        [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="varJson.sizeArr" (sizeChange)="updateTableBatchSize($event)"
+        [count]="varJson.total_items">
+      </pagination>
+    </div>
   </div>
 
-
-  <br>
-  <data-display-table #child [displayKeys]="tableSetting" [displayData]="usersList">
-  </data-display-table>
-
-
 </div>
+
+<div *ngIf="notificationPopup" class="notification_popup">
+  <div class="row c-md-12" style="padding:0;">
+    <span style="width: 100%;text-align: right;">
+       <span style="cursor: pointer;font-size: 16px;font-weight: 600;" (click)="notificationPopup = false"> X </span>
+    </span>
+  </div>
+  <div class="row c-md-12" style="padding: 0;margin-bottom: 5px;">
+    <div class="c-md-4">
+      <div class="c-md-12" style="padding: 0">
+        <span style="font-weight: 600;"> Send Notification:</span>
+      </div>
+      <div class="c-md-12" style="padding:0">
+        <div class="c-md-12" style="padding: 0;margin-top: 10px;margin-bottom: 5px;font-weight: 600;">
+          <span>SMS Type </span>
+        </div>
+        <div class="c-md-6" style="padding:0">
+          <input style="-webkit-appearance:checkbox" type="checkbox" id="transactional"
+          class="form-checkbox" [(ngModel)]="transational_type">
+          <label for="transactional">Tranasactional</label>
+        </div>
+        <div class="c-md-6" style="padding:0">
+          <input style="-webkit-appearance:checkbox" type="checkbox" id="promotional"
+          class="form-checkbox" [(ngModel)]="promotional_type">
+          <label for="promotional">Promotional</label>
+        </div>
+      </div>      
+     </div>
+    <div class="c-md-5" [ngStyle]="{'background':addSMS?'#efefef':'none'}">
+      <div *ngIf="addSMS">
+      <textarea placeholder="Write your message here..." [(ngModel)]="message" name="message">
+      </textarea>
+      <div style="font-size: 12px;display: -webkit-box;-webkit-box-align: center;margin-top: 5px;margin-bottom: 10px;"
+        class="row c-md-12">
+        <div class="c-md-4" style="padding:0;">Character Count</div>
+        <div class="c-md-4" style="padding-right: 0;">
+          <div class="msgCount">{{message?.length}}</div>
+        </div>
+        <div class="c-md-6" style="text-align: right;padding-right: 25px;">Message Count: 1</div>
+      </div>
+    </div>
+    </div>
+    <div class="c-md-3" style="text-align: right;margin-top: 10px;padding: 0;">
+      <div class="c-md-12">
+        <span (click)="addSMS=!addSMS" style="border: 1px solid #0084f6;cursor: pointer;color: #0084f6;border-radius: 4px;padding: 5px;">
+          <i *ngIf="!addSMS" class="fa fa-plus"></i>
+          <i *ngIf="addSMS" class="fa fa-minus"></i>
+            Add SMS</span>
+      </div>
+      <div class="c-md-12" style="margin-top: 45px;">
+        <div *ngIf="addSMS">
+          <button class="btn fullBlue" style="background: no-repeat;color: #0084f6;" (click)="addSMS = false">Cancel</button>
+          <button class="btn fullBlue" (click)="saveMSG()">Save SMS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="row c-md-12" style="margin-top: 10px;">
+    <div class="c-md-12">
+      SMS Type
+    </div>
+    <div class="c-md-12">
+      <span>Tranasactional </span>
+      <span>Promotional</span>
+    </div>
+  </div> -->
+  <div class="table-container">
+    <div class="heading-container" style="background: #fafafa;font-size: 12px;font-weight: 600;">
+      <div class="heading-item" style="width: 5%">
+      </div>
+      <div class="heading-item" style="text-align: left;">
+        <span>SMS</span>
+      </div>
+      <div class="heading-item" style="text-align: left;width: 15%;">
+        <span>SMS Status</span>
+      </div>
+      <div class="heading-item" style="width: 15%;text-align: left;">
+        Date
+      </div>
+      <div class="heading-item" style="width: 15%;text-align: left;">
+        Action
+      </div>
+    </div>
+    <div class="value-outer-container" *ngIf="messageList?.length>0" style="min-height: 40vh;max-height: 40vh;">
+      <div class="value-container" *ngFor="let data of messageList; let i = index;" style="padding:10px">
+        <div class="heading-item" style="width: 5%">
+          <!-- <input type="radio" class="form-ctrl" name="selected" [(ngModel)]="data.selected" [id]="'selected-'+i" [value]="data.selected" [checked]="data.selected"> -->
+          <!-- <div class="field-radio-wrapper"> -->
+          <input style="-webkit-appearance:radio" type="radio" name="bothRadio" [id]="'bothRadio-'+i"
+            class="form-radio" [value]="i" [checked]="data.selected" [(ngModel)]="data.selected"
+            (ngModelChange)="changeSelectedMsg(data)">
+          <!-- </div> -->
+        </div>
+        <div class="value-item" style="text-align: left;">
+          {{data.message}}
+        </div>
+        <div class="value-item" style="text-align: left;width: 15%;">
+          {{data.statusValue}}
+        </div>
+        <div class="value-item" style="text-align: left;width: 15%;">
+          {{data.date}}
+        </div>
+        <div class="value-item" style="width: 15%;text-align: left;">
+          <span *ngIf="data.statusValue == 'Open'" title="Approve" (click)="ApproveMsg(data.message_id)"
+            style="padding:10px;cursor: pointer;"><i class="fa fa-check-circle"
+              style="font-size: 14px;color: #01DF01;"></i> </span>
+          <span title="Edit" (click)="editSMS(data)" style="padding:10px;cursor: pointer;"><i
+              class="fa fa-pencil edit-icon-pencil" style="font-size: 14px;color: #0084f6;"></i></span>
+          <span *ngIf="data.statusValue == 'Open'"  title="Delete" (click)="DeleteMsg(data.message_id)"
+            style="padding:10px;cursor: pointer;"><i class="fa fa-times-circle"
+              style="color: red;font-size: 14px;"></i></span>
+        </div>
+      </div>
+    </div>
+    <div class="value-outer-container" *ngIf="messageList?.length == 0"
+      style="text-align: center;padding: 10%;font-weight: 600;">
+      <span>No data found</span>
+    </div>
+  </div>
+  <div class="c-md-12" style="margin-top: 20px;text-align: right;">
+      <button class="btn fullBlue" (click)="sendNotification()">Send</button>
+      <button class="btn fullBlue" (click)="sendPushNotification()">Send Push Notification</button>
+  </div>
+</div>
+<div *ngIf="notificationPopup" class="black-bg" (click)="notificationPopup = false"></div>
