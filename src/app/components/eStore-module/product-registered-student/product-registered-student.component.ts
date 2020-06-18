@@ -6,7 +6,7 @@ import { TablePreferencesService } from '../../../services/table-preference/tabl
 import { DropData } from '../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-registered-student',
