@@ -28,7 +28,22 @@ export class RegisteredStudentComponent implements OnInit {
   };
   searchDataFlag = false;
   AdvanceFilter:boolean = false;
-  selectedRecord:any;
+  selectedRecord:any = {
+    name: '',
+    phone: '',
+    email: '',
+    gender: '',
+    dob: '',
+    parent_email: '',
+    school_name: '',
+    standard_id: '',
+    parent_name: '',
+    parent_phone: '',
+    school_id: '',
+    curr_address: '',
+    country_id: '',
+    user_id: ''
+  };
   selectAll: any = false;
   showDropMenu: any = false;
   selectedRowCount: any = 0;
@@ -40,6 +55,8 @@ export class RegisteredStudentComponent implements OnInit {
   editObj: any;
   editMsg: any = false;
   selectedMsg: any = '';
+  promotional_type: any = false;
+  transational_type: any = false;
 
   menuOptions: DropData[] = [
     {
@@ -123,25 +140,9 @@ export class RegisteredStudentComponent implements OnInit {
       this.http.postMethod('user-product/get-user-details', data).then(
         (data: any) => {
           this.auth.hideLoader();
+          this.selectedRowCount = 0;
           if (data.body.result != null) {
-            let temp: any = {};
-            let temp2: any = [];
-            data.body.result.forEach(element => {
-              if(element.open_user_status == 'No Action'){
-                element.open_user_status = '-';
-              }
-              temp = {
-                name: element.name,
-                username: element.phone,
-                alternate_email_id: element.email_id,
-                created_date: element.registered_date,
-                user_id: element.user_id,
-                open_user_status: element.open_user_status
-              };
-              temp2.push(temp);
-            },
-            );
-            this.usersList = temp2;
+            this.usersList = data.body.result;
             this.varJson.total_items = this.usersList.length;
           }
         },
@@ -159,23 +160,11 @@ export class RegisteredStudentComponent implements OnInit {
     this.auth.showLoader();
     this.httpService.getData('/api/v2/user/' + obj.user_id).subscribe(
       (res:any)=>{
-        let data = res.result;
+        this.selectedRecord = res.result;
         this.selectedRecord = {
-          name: data.name,
-          phone: data.mobile_no,
-          email: data.email_id,
-          gender: data.gender,
-          dob: moment(data.dob).format("YYYY-MM-DD"),
-          parent_email: data.parent_email,
-          school_name: data.school_id,
-          standard_id: data.standard_id,
-          parent_name: data.parent_name,
-          parent_phone: data.parent_phone,
-          school_id: data.school_id,
-          curr_address: data.address,
-          country_id: data.country_id,
+          dob: moment(res.result.dob).format("YYYY-MM-DD"),
           user_id: obj.user_id
-    }
+      };
         this.auth.hideLoader();
         this.performAction(action);
       },
@@ -208,20 +197,12 @@ export class RegisteredStudentComponent implements OnInit {
     // } else {}
   }
 
-  isAllSelected($event, item) {
-    console.log($event, item);
-  }
-
   isAllChecked(): boolean {
     return this.usersList.every(_ => _.isSelected);
 }
 
   rowCheckboxChange(record) {
-    if(record.isSelected) {
-      this.selectedRowCount++;
-    } else {
-      this.selectedRowCount--;
-    }
+    (record.isSelected) ? (this.selectedRowCount++) : (this.selectedRowCount--);
   }
 
  /*** pagination functions */
@@ -275,11 +256,7 @@ export class RegisteredStudentComponent implements OnInit {
   }
 
   saveMSG() {
-    if(this.editMsg) {
-      this.updateSMS();
-    } else {
-      this.saveSMS();
-    }
+    (this.editMsg) ? this.updateSMS() : this.saveSMS();
   }
 
   saveSMS() {
@@ -359,8 +336,7 @@ export class RegisteredStudentComponent implements OnInit {
   }
 
   sendNotification() {
-    let MSGstatus = this.getNotificationMessage();
-    if(!MSGstatus){
+    if(!this.getNotificationMessage()){
       return;
     }
     let studentID = this.getListOfIds('user_id');
@@ -374,10 +350,13 @@ export class RegisteredStudentComponent implements OnInit {
       isEnquiry_notifn: 0,
       isAlumniSMS: 0,
       isTeacherSMS: 0,
-      configuredMessage: 0,
+      configuredMessage: true,
       message_id: this.selectedMsg.message_id,
       is_user_notify: 1,
       institution_id: sessionStorage.getItem('institute_id')
+    };
+    if (this.promotional_type) {
+      obj.configuredMessage = false;
     }
     this.auth.showLoader();
     this.httpService.postData('/api/v1/alerts/config', obj).subscribe(
@@ -395,8 +374,7 @@ export class RegisteredStudentComponent implements OnInit {
   sendPushNotification() {
     let student_id = this.getListOfIds('user_id');
     student_id = student_id.join(',');
-    let MSGstatus = this.getNotificationMessage();
-    if(!MSGstatus){
+    if (!this.getNotificationMessage()) {
       return;
     }
     let obj = {

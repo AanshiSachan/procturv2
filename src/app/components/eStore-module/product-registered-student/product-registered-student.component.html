@@ -200,13 +200,13 @@
               title="{{data.name}}">{{(data.name.length > 80) ? (data.name | slice:0:80) + '...' : data.name}}</span>
           </div>
           <div class="value-item" style="width: 20%">
-            {{(data.username != '') ? (data.username) : '-'}}
+            {{(data.phone != '') ? (data.phone) : '-'}}
           </div>
           <div class="value-item" style="width: 25%;">
-            {{(data.alternate_email_id != '') ? (data.alternate_email_id) : '-'}}
+            {{(data.email_id != '') ? (data.email_id) : '-'}}
           </div>
           <div class="value-item" style="width: 20%;">
-            {{(data.created_date != '') ? (data.created_date) : '-'}}
+            {{(data.registered_date != '') ? (data.registered_date) : '-'}}
           </div>
           <div class="value-item" style="width: 10%;">
             {{(data.open_user_status != '') ? (data.open_user_status) : '-'}}
@@ -238,13 +238,31 @@
 </div>
 
 <div *ngIf="notificationPopup" class="notification_popup">
+  <div class="row c-md-12" style="padding:0;">
+    <span style="width: 100%;text-align: right;">
+       <span style="cursor: pointer;font-size: 16px;font-weight: 600;" (click)="notificationPopup = false"> X </span>
+    </span>
+  </div>
   <div class="row c-md-12" style="padding: 0;margin-bottom: 5px;">
     <div class="c-md-4">
       <div class="c-md-12" style="padding: 0">
         <span style="font-weight: 600;"> Send Notification:</span>
       </div>
-      <span>SMS Type </span>
-      <div>Tranasactional Promotional</div>
+      <div class="c-md-12" style="padding:0">
+        <div class="c-md-12" style="padding: 0;margin-top: 10px;margin-bottom: 5px;font-weight: 600;">
+          <span>SMS Type </span>
+        </div>
+        <div class="c-md-6" style="padding:0">
+          <input style="-webkit-appearance:checkbox" type="checkbox" id="transactional"
+          class="form-checkbox" [(ngModel)]="transational_type">
+          <label for="transactional">Tranasactional</label>
+        </div>
+        <div class="c-md-6" style="padding:0">
+          <input style="-webkit-appearance:checkbox" type="checkbox" id="promotional"
+          class="form-checkbox" [(ngModel)]="promotional_type">
+          <label for="promotional">Promotional</label>
+        </div>
+      </div>      
      </div>
     <div class="c-md-5" [ngStyle]="{'background':addSMS?'#efefef':'none'}">
       <div *ngIf="addSMS">
@@ -262,7 +280,7 @@
     </div>
     <div class="c-md-3" style="text-align: right;margin-top: 10px;padding: 0;">
       <div class="c-md-12">
-        <span (click)="addSMS=!addSMS" style="border: 1px solid #ccc;border-radius: 4px;padding: 5px;">
+        <span (click)="addSMS=!addSMS" style="border: 1px solid #0084f6;cursor: pointer;color: #0084f6;border-radius: 4px;padding: 5px;">
           <i *ngIf="!addSMS" class="fa fa-plus"></i>
           <i *ngIf="addSMS" class="fa fa-minus"></i>
             Add SMS</span>
@@ -301,7 +319,7 @@
         Action
       </div>
     </div>
-    <div class="value-outer-container" *ngIf="messageList?.length>0" style="min-height: 35vh;max-height: 35vh;">
+    <div class="value-outer-container" *ngIf="messageList?.length>0" style="min-height: 40vh;max-height: 40vh;">
       <div class="value-container" *ngFor="let data of messageList; let i = index;" style="padding:10px">
         <div class="heading-item" style="width: 5%">
           <!-- <input type="radio" class="form-ctrl" name="selected" [(ngModel)]="data.selected" [id]="'selected-'+i" [value]="data.selected" [checked]="data.selected"> -->
