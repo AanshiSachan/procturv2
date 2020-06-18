@@ -34,7 +34,10 @@ export class EcourseFileManagerComponent implements OnInit {
     "video_watch_limit_per_video": 1,
     "storage_capacity_threshold_alerts": 1,
     "bandwidth_threshold_alerts": 1,
-    "watermark_text_moving_interval": 1
+    "watermark_text_moving_interval": 1,
+    watermark_name: '',
+    watermark_phone: '',
+    watermark_email: ''
   }
 
   constructor(private _http: HttpService,
@@ -103,6 +106,18 @@ export class EcourseFileManagerComponent implements OnInit {
       this.auth.hideLoader();
       this.settingDetails = res;
       this.is_video_public = this.settingDetails.is_video_public == 'Y' ? true : false;
+      if(this.settingDetails.dynamic_watermark_text!=null) {
+        let temp_details = this.settingDetails.dynamic_watermark_text.split(',');
+        for(let i=0;i<3;i++) {
+          if (temp_details[i] == 'name') {
+            this.settingDetails.watermark_name = true;
+          } else if(temp_details[i] == 'phone') {
+            this.settingDetails.watermark_phone = true;
+          } else if(temp_details[i] == 'email') {
+            this.settingDetails.watermark_email = true;
+          }
+        }
+      }
       this.showSettings = false;
 
     }, err => {
@@ -120,6 +135,11 @@ export class EcourseFileManagerComponent implements OnInit {
     let url = "/api/v1/instFileSystem/updateStudyMaterialSetting";
     this.settingDetails.institute_id = this.institute_id;
     this.settingDetails.is_video_public = this.is_video_public == true ? 'Y' : 'N';
+    let temp :any = [];
+    (this.settingDetails.watermark_name) ? (temp.push('name')) : '';
+    (this.settingDetails.watermark_phone) ? (temp.push('phone')) : '';
+    (this.settingDetails.watermark_email) ? (temp.push('email')) : '';
+    temp = temp.join(',');
     let object = {
       "institute_id": this.settingDetails.institute_id,
       "video_watermark": this.settingDetails.video_watermark,
@@ -129,7 +149,8 @@ export class EcourseFileManagerComponent implements OnInit {
       "watermark_font_size": this.settingDetails.watermark_font_size,
       "watermark_text_moving_interval": this.settingDetails.watermark_text_moving_interval,
       "vdocipher_bandwidth_threshold": this.settingDetails.vdocipher_bandwidth_threshold,
-      "vdocipher_storage_capacity_threshold": this.settingDetails.vdocipher_storage_capacity_threshold
+      "vdocipher_storage_capacity_threshold": this.settingDetails.vdocipher_storage_capacity_threshold,
+      dynamic_watermark_text: temp
     }
     this._http.putData(url, object).subscribe((res: any) => {
       console.log(res);
