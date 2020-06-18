@@ -50,6 +50,23 @@
         <div class="row upload-box">
           <div style="height: 350px;overflow-x: hidden; padding-bottom: 10px;" class="model_body_div">
             <div class="field-wrapper">
+              <label>Dynamic Watermark</label>
+              <div class="row" style="padding: 15px 30px;">
+                <div class="col-md-4">
+                  <input type="checkbox" id="name" style="-webkit-appearance: checkbox;" [(ngModel)]="settingDetails.watermark_name" />
+                  <label for="name">Name</label>
+                </div>
+                <div class="col-md-4">
+                  <input id="phone" type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="settingDetails.watermark_phone" />
+                  <label for="phone">Phone</label>
+                </div>
+                <div class="col-md-4">
+                  <input id="email" type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="settingDetails.watermark_email" />
+                  <label for="email">Email</label>
+                </div>
+              </div>
+            </div>
+            <div class="field-wrapper">
               <label>Watermark 
                 <div class="questionInfo inline-relative">
                   <span class="qInfoIcon i-class">i</span>
