@@ -48,5 +48,6 @@ export interface addEnquiryForm {
 	country_id?: any,
 	state_id?: any,
 	city_id?: any,
-	area_id?: any
+	area_id?: any,
+	user_id?:any
 }

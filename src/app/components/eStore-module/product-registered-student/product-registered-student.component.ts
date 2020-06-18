@@ -3,6 +3,10 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ProductService } from '../../../services/products.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
+import { DropData } from '../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
+import { Router } from '@angular/router';
+import { HttpService } from '../../../services/http.service';
+import moment = require('moment');
 
 @Component({
   selector: 'app-registered-student',
@@ -15,58 +19,60 @@ export class RegisteredStudentComponent implements OnInit {
   userListDataSource: any = [];
   searchedData: any = [];
   productList: any = [];
-  ItemTypeData: any = [];
+  EcourseData: any = [];
   displayKeys: any = [];
   searchText: any = '';
   filter: any = {
     product_id: '',
-    slug: ''
+    course_type_id: '0'
   };
   searchDataFlag = false;
+  AdvanceFilter:boolean = false;
+  selectedRecord:any;
+  selectAll: any = false;
+  showDropMenu: any = false;
+  selectedRowCount: any = 0;
+  isOptions:any = false;
+  notificationPopup: any = false;
+  messageList: any = [];
+  message: any = '';
+  addSMS: any = false;
+  editObj: any;
+  editMsg: any = false;
+  selectedMsg: any = '';
 
-  tableSetting: any = {
-    tableDetails: { title: 'Open App Users', key: 'registeredStudents', showTitle: false },
-    search: { title: 'Search', showSearch: false },
-    keys: this.displayKeys,
-    selectAll: { showSelectAll: false, title: '', checked: true, key: 'student_disp_id' },
-    actionSetting:
+  menuOptions: DropData[] = [
     {
-      showActionButton: false,
-      editOption: 'popup',//or button
-      // options: this.menuOptions
+      key: 'student',
+      header: 'Convert to Admission',
     },
-    displayMessage: 'No data found'
-  };
-
-  feeSettings1 = [
-    { primaryKey: 'name', header: 'Name', priority: 1, allowSortingFlag: true },
-    { primaryKey: 'username', header: 'Contact No', priority: 2, allowSortingFlag: true },
-    { primaryKey: 'alternate_email_id', header: 'Email Id', priority: 3, allowSortingFlag: true },
-    { primaryKey: 'created_date', header: 'Registered Date', priority: 4, allowSortingFlag: true}
+    {
+      key: 'enquiry',
+      header: 'Convert to Enquiry',
+    }
   ];
+
+
+  varJson: any = {
+    PageIndex: 1,
+    sizeArr: [5, 25, 50, 100, 150, 200, 500],
+    displayBatchSize: 25,
+    total_items: 0
+  };
 
   constructor(
     private _msgService: MessageShowService,
     private auth: AuthenticatorService,
     private _tablePreferencesService: TablePreferencesService,
     private http: ProductService,
+    private router: Router,
+    private httpService: HttpService
   ) {
   }
 
   ngOnInit() {
     this.getProductList();
-    this.getSlugData();
-    this.tableSetting.keys = this.feeSettings1;
-    this.setDefaultValues();
-  }
-  setDefaultValues() {
-    this.tableSetting.keys = [
-      { primaryKey: 'name', header: 'Name', priority: 1, allowSortingFlag: true },
-      { primaryKey: 'username', header: 'Contact No', priority: 2, allowSortingFlag: true },
-      { primaryKey: 'alternate_email_id', header: 'Email Id', priority: 3, allowSortingFlag: true, },
-      { primaryKey: 'created_date', header: 'Registered Date', priority: 4, allowSortingFlag: true,}
-    ];
-    this.displayKeys = this.tableSetting.keys;
+    this.getEcourseList();
   }
 
   getProductList() {
@@ -82,12 +88,13 @@ export class RegisteredStudentComponent implements OnInit {
       }
     )
   }
-  getSlugData() {
+
+  getEcourseList() {
     this.auth.showLoader();
-    this.http.getMethod('master/item-type/get', null).subscribe(
+    this.httpService.getData('/api/v1/institute/courseMapping/' + sessionStorage.getItem('institute_id') + '?isOnline=all').subscribe(
       (data: any) => {
         this.auth.hideLoader();
-        this.ItemTypeData = data.result;
+        this.EcourseData = data;
       },
       err => {
         this.auth.hideLoader();
@@ -96,7 +103,7 @@ export class RegisteredStudentComponent implements OnInit {
     );
   }
 
-  filterData() {
+  filterData(PageIndex) {
     let data: any;
     data = {
       'by': [
@@ -105,31 +112,37 @@ export class RegisteredStudentComponent implements OnInit {
           'value': this.filter.product_id
         },
         {
-          'column': 'slug',
-          'value': this.filter.slug
+          'column': 'eCourseId',
+          'value': Number(this.filter.course_type_id)
         }
-      ]
+      ],
+      'start_index': PageIndex,
+      'no_of_records': 0,
     };
-    if (this.filter.product_id !== '' || this.filter.slug !== '') {
       this.auth.showLoader();
-      this.http.postMethod('/user-product/get-user-details', data).then(
+      this.http.postMethod('user-product/get-user-details', data).then(
         (data: any) => {
           this.auth.hideLoader();
-          console.log(data.body.result);
           if (data.body.result != null) {
             let temp: any = {};
             let temp2: any = [];
             data.body.result.forEach(element => {
+              if(element.open_user_status == 'No Action'){
+                element.open_user_status = '-';
+              }
               temp = {
                 name: element.name,
                 username: element.phone,
                 alternate_email_id: element.email_id,
-                created_date: element.registered_date
+                created_date: element.registered_date,
+                user_id: element.user_id,
+                open_user_status: element.open_user_status
               };
               temp2.push(temp);
             },
             );
             this.usersList = temp2;
+            this.varJson.total_items = this.usersList.length;
           }
         },
         err => {
@@ -137,10 +150,291 @@ export class RegisteredStudentComponent implements OnInit {
           this._msgService.showErrorMessage('error', '', err.error.message);
         }
       );
+
+  }
+
+  optionSelected(e) {
+    let action = e.action._value;
+    let obj = e.data;
+    this.auth.showLoader();
+    this.httpService.getData('/api/v2/user/' + obj.user_id).subscribe(
+      (res:any)=>{
+        let data = res.result;
+        this.selectedRecord = {
+          name: data.name,
+          phone: data.mobile_no,
+          email: data.email_id,
+          gender: data.gender,
+          dob: moment(data.dob).format("YYYY-MM-DD"),
+          parent_email: data.parent_email,
+          school_name: data.school_id,
+          standard_id: data.standard_id,
+          parent_name: data.parent_name,
+          parent_phone: data.parent_phone,
+          school_id: data.school_id,
+          curr_address: data.address,
+          country_id: data.country_id,
+          user_id: obj.user_id
     }
-    else {
-      this._msgService.showErrorMessage('error', '', 'Please select Product/ Item type');
+        this.auth.hideLoader();
+        this.performAction(action);
+      },
+      err => {
+        this.auth.hideLoader();
+        this.performAction(action);
+      }
+    )
+  }
+
+  performAction(action) {
+    if(action == 'Convert to Admission') {
+      sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRecord));
+      this.router.navigate(['/view/students/add']);
     }
+    if(action == 'Convert to Enquiry'){
+      sessionStorage.setItem('enquiryPrefill',JSON.stringify(this.selectedRecord));
+      this.router.navigate(['view/leads/add']);
+    }
+  }
+
+  toggleAllCheckBox($event) {
+    console.log('toggleAllCheckBox');
+    this.usersList.forEach(element => {
+      element.isSelected = this.selectAll;
+    });
+    this.selectAll ? (this.selectedRowCount = this.usersList.length) : (this.selectedRowCount = 0);
+    // if(this.selectAll){
+    //   this.selectedRowCount = this.usersList.length;
+    // } else {}
+  }
+
+  isAllSelected($event, item) {
+    console.log($event, item);
+  }
+
+  isAllChecked(): boolean {
+    return this.usersList.every(_ => _.isSelected);
+}
+
+  rowCheckboxChange(record) {
+    if(record.isSelected) {
+      this.selectedRowCount++;
+    } else {
+      this.selectedRowCount--;
+    }
+  }
+
+ /*** pagination functions */
+  /* Fetch next set of data from server and update table */
+  fetchNext() {
+    this.varJson.PageIndex++;
+    this.filterData(this.varJson.PageIndex);
+  }
+
+  /* Fetch previous set of data from server and update table */
+  fetchPrevious() {
+    this.varJson.PageIndex--;
+    this.filterData(this.varJson.PageIndex);
+  }
+
+  updateTableBatchSize(num) {
+    this.varJson.PageIndex = 1;
+    this.varJson.displayBatchSize = parseInt(num);
+    this.filterData(this.varJson.PageIndex);
+  }
+
+  getAllMessageFromServer() {
+    this.notificationPopup = true;
+    this.messageList = [];
+    this.auth.showLoader();
+    let obj = {
+      from_date: '',
+      to_date: moment().format("YYYY-MM-DD")
+    }
+    this.httpService.postData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/all', obj).subscribe(
+      res => {
+       this.auth.hideLoader();
+        this.messageList = res;
+        if (this.messageList && this.messageList.length > 0) {
+          this.messageList.forEach(msg => {
+            msg.selected = false;
+          });
+        }
+      },
+      err => {
+       this.auth.hideLoader();
+      }
+    )
+  }
+
+  editSMS(obj) {
+    this.editMsg = true;
+    this.addSMS = true;
+    this.editObj = obj;
+    this.message = obj.message;
+  }
+
+  saveMSG() {
+    if(this.editMsg) {
+      this.updateSMS();
+    } else {
+      this.saveSMS();
+    }
+  }
+
+  saveSMS() {
+    let obj = { message: this.message };
+    this.auth.showLoader();
+    this.httpService.postData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id'), obj).subscribe(
+      (res: any) => {
+        this._msgService.showErrorMessage('success', '', 'Message created Successfully');
+        this.auth.hideLoader();
+        this.getAllMessageFromServer();
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+    )
+    this.addSMS = false;
+  }
+
+  updateSMS() {
+    let obj = { message: this.message };
+    this.auth.showLoader();
+    this.httpService.putData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id')  + '/' + this.editObj.message_id, obj).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this._msgService.showErrorMessage('success', '', 'Message updated Successfully');
+        this.getAllMessageFromServer();
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+    )
+    this.addSMS = false;
+  }
+
+  ApproveMsg(message_id) {
+    if (confirm('Are you sure, You want to approve the message?')) {
+    const obj = {
+      status: 1
+    };
+    this.auth.showLoader();
+    this.httpService.putData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/' + message_id, obj).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this._msgService.showErrorMessage('success', '', 'Message approved successfully');
+        this.getAllMessageFromServer();
+      },
+      err => {
+        this.auth.hideLoader();
+        this._msgService.showErrorMessage('error', '', err.error.message);
+      }
+    );
+    }
+  }
+
+  DeleteMsg(message_id) {
+    if (confirm('Are you sure, You want to reject the message?')) {
+      const obj = {
+        status: 400
+      };
+      this.auth.showLoader();
+      this.httpService.putData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/' + message_id, obj).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this._msgService.showErrorMessage('success', '', 'Message deleted successfully');
+          this.messageList = this.messageList.filter(msg => msg.message_id != message_id);
+        },
+        err => {
+          this.auth.hideLoader();
+          this._msgService.showErrorMessage('error', '', err.error.message);
+        }
+      );
+    }
+  }
+
+  changeSelectedMsg(obj) {
+    this.selectedMsg = obj;
+  }
+
+  sendNotification() {
+    let MSGstatus = this.getNotificationMessage();
+    if(!MSGstatus){
+      return;
+    }
+    let studentID = this.getListOfIds('user_id');
+    let obj = {
+      delivery_mode: 0,
+      notifn_message: this.selectedMsg.message,
+      notifn_subject: "",
+      destination: null,
+      user_ids: studentID,
+      cancel_date: '',
+      isEnquiry_notifn: 0,
+      isAlumniSMS: 0,
+      isTeacherSMS: 0,
+      configuredMessage: 0,
+      message_id: this.selectedMsg.message_id,
+      is_user_notify: 1,
+      institution_id: sessionStorage.getItem('institute_id')
+    }
+    this.auth.showLoader();
+    this.httpService.postData('/api/v1/alerts/config', obj).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this._msgService.showErrorMessage('success','','Message sent successfully');
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+    )
+    this.notificationPopup = false;
+  }
+
+  sendPushNotification() {
+    let student_id = this.getListOfIds('user_id');
+    student_id = student_id.join(',');
+    let MSGstatus = this.getNotificationMessage();
+    if(!MSGstatus){
+      return;
+    }
+    let obj = {
+      notifn_message: this.selectedMsg.message,
+      message_id: this.selectedMsg.messageId,
+      student_ids: student_id,
+      institution_id: sessionStorage.getItem('institute_id')
+    }
+    this.auth.showLoader();
+    this.httpService.postData('/api/v1/pushNotification/send',obj).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this._msgService.showErrorMessage('success', '', 'Message sent successfully');
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+    )
+    this.notificationPopup = false;
+  }
+
+  getNotificationMessage() {
+    if (this.selectedMsg == '') {
+      this._msgService.showErrorMessage('error', '', 'Please select message');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  getListOfIds(key) {
+    let id: any = [];
+    for (let t = 0; t < this.usersList.length; t++) {
+      if (this.usersList[t].isSelected == true) {
+        id.push(this.usersList[t][key]);
+      }
+    }
+    return id;
   }
 }
 
