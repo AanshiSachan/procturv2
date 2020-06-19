@@ -442,6 +442,7 @@ export class EcourseSubjectListComponent implements OnInit {
       this.auth.hideLoader();
     }
   );
+  this.editObj.is_readonly = (this.editObj.is_readonly) ? 'Y' : 'N';
   this.showEditModal = false;
   }
 }
