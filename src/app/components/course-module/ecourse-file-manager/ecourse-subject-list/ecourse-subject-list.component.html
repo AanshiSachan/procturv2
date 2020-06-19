@@ -228,6 +228,7 @@
       <div class="col-md-1"></div>
     <div class="col-md-2" style="padding: 0;">
       <div class="action-buttons" style="float: right;">
+        <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
@@ -443,13 +444,13 @@
             <label>Title</label>
             <input type="text" class="form-ctrl" style="margin-top: 5px;" placeholder="Please enter title" id="youtubeUrl" name="youtubeUrl" [(ngModel)]="editObj.title">
           </div>
-          <div class="col-md-12 file-form" style="margin-top: 10px;">
+          <div class="col-md-12 file-form" style="margin-top: 10px;" *ngIf="(editObj.category_id==63 || editObj.category_id==182 || editObj.category_id==229 || editObj.category_id==233)">
             <div class="form-group">
               <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="editObj.is_readonly">
               <label class="title">Is Read-Only</label>
             </div>
           </div>
-          <div class="col-md-12 file-form" style="text-align: right;">
+          <div class="col-md-12 file-form" style="text-align: right;margin-top: 10px;">
             <button class="btn btn-xs btn-ga-white btn-border btn-type" (click)="updateFile()">Update</button>
             <button class="btn btn-xs btn-ga-white btn-border" (click)="showEditModal = false">Cancel</button>
           </div>

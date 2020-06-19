@@ -115,7 +115,7 @@ export class PtmManagementComponent implements OnInit {
   fetchPreFillData(){
     this.auth.showLoader();
     //get master course - course - subject data  for course model
-    const url = `/api/v1/courseMaster/fetch/${this.jsonFlag.institute_id}/all`;
+    const url = `/api/v1/courseMaster/fetch/${this.jsonFlag.institute_id}/all?isActiveNotExpire=Y`;
     this._http.getData(url).subscribe(
       res => {
         this.masterCourseList = res;
@@ -153,7 +153,7 @@ export class PtmManagementComponent implements OnInit {
   fetchBatchesList() {
     this.jsonFlag.isRippleLoad = true;
     let isActive = this.batchQueryParam.is_active == 1 ? "Y" : "N";
-    const url = `/api/v1/batches/all/${this.jsonFlag.institute_id}?${isActive}`;
+    const url = `/api/v1/batches/all/${this.jsonFlag.institute_id}?${isActive}&isActiveNotExpire=Y`;
     this._http.getData(url).subscribe(
       (data: any) => {
         this.getAllBatches = data;
