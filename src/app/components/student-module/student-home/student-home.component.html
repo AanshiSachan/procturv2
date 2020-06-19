@@ -901,7 +901,7 @@
 
 </proctur-popup>
 
-<div class="outer-container hide" id="dvContainer" #content>
+<div class="outer-container hide" id="dvContainer" #content *ngIf="!attendanceCertificate">
     <div class="partner-logo-container" style="padding-bottom:0">
         <img src="../../../../assets/images/certificate/google.svg" alt="google">
         <img src="../../../../assets/images/certificate/iso.jpg" alt="google">
@@ -982,4 +982,79 @@
             <span>www.webteklabs.com</span>
         </div>
     </div>
+</div>
+
+<div class="certificate-outer-container hide" id="dvContainer_one" #content *ngIf="attendanceCertificate">
+
+  <div class="body-outer-container">
+    <div class="body-container">
+      <div class="main-logo-container">
+        <div class="logo-container">
+          <img src="./../../../assets/images/certificate-bora/logo-one.png" alt="institute logo" style="width: 10em;">
+        </div>
+        <div class="logo-container">
+          <img src="./../../../assets/images/certificate-bora/logo-t.png" alt="read first" style="margin-top:4em;">
+        </div>
+      </div>
+
+      <div class="cert-title">
+        <span>Certificate of attendance</span>
+      </div>
+
+      <div class="cert-description">
+        <span>This is to recognize</span>
+      </div>
+
+      <div class="stundet-name-container">
+        <span>{{studentData.studentName}}</span>
+      </div>
+
+      <div class="cert-description">
+        <span>for attending the</span>
+      </div>
+
+      <div class="cert-sub-heading">
+        <span>Transform your learning habit</span>
+      </div>
+
+      <div class="cert-description">
+        <span>webinar.</span>
+      </div>
+
+      <div class="cert-footer-container">
+        <div class="date-container">
+          <span class="todays-date">{{today}}</span>
+          <span>Date</span>
+        </div>
+        <div class="signature-container">
+          <img src="./../../../assets/images/certificate-bora/signature.svg" alt="signature">
+          <span class="speaker-name">piyush Keshav</span>
+          <span>Speaker</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="social-media-container">
+      <div class="social-media-icon-item">
+        <img src="./../../../assets/images/certificate-bora/facebook.png" alt="facebook">
+        <span>: Readfirst.in</span>
+      </div>
+      <div class="social-media-icon-item">
+        <img src="./../../../assets/images/certificate-bora/instagram.svg" alt="instagram">
+        <span>: Readfirst_edu</span>
+      </div>
+      <div class="social-media-icon-item">
+        <img src="./../../../assets/images/certificate-bora/twitter.png" alt="twitter">
+        <span>: Readfirst_edu</span>
+      </div>
+      <div class="social-media-icon-item">
+        <span style="font-weight: 600; font-size: 20px;">#IsupportSMILE</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-container">
+  </div>
+
+
 </div>
