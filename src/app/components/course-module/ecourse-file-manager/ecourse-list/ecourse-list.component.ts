@@ -78,7 +78,7 @@ export class EcourseListComponent implements OnInit {
       this.auth.hideLoader();
       this.settingDetails = res;
       this.is_video_public = this.settingDetails.is_video_public == 'Y' ? true : false;
-      if(this.settingDetails.dynamic_watermark_text!=null) {
+      if(this.settingDetails.dynamic_watermark_text!=null &&  this.settingDetails.dynamic_watermark_text!='NA') {
         let temp_details = this.settingDetails.dynamic_watermark_text.split(',');
         for(let i=0;i<3;i++) {
           if (temp_details[i] == 'name') {
@@ -113,6 +113,9 @@ export class EcourseListComponent implements OnInit {
     (this.settingDetails.watermark_phone) ? (temp.push('phone')) : '';
     (this.settingDetails.watermark_email) ? (temp.push('email')) : '';
     temp = temp.join(',');
+    if(temp == '' || temp == null) {
+      temp = 'NA';
+    }
     let object = {
       "institute_id": this.settingDetails.institute_id,
       "video_watermark": this.settingDetails.video_watermark,
