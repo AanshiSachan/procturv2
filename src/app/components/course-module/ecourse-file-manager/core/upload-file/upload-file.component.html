@@ -99,10 +99,10 @@
               </div>
               <input type="text" style="margin-bottom: 0.8em;" *ngIf="varJson.category_id==235"
                 class="form-ctrl video-input" placeholder="Video Title" [(ngModel)]="varJson.title">
-            
+
                 <input type="text" style="margin-bottom: 0.8em;" class="form-ctrl video-input"
                 *ngIf="varJson.category_id==230" placeholder="Video URL" [(ngModel)]="varJson.video_url">
-         
+
                 <div class="btn-div" *ngIf="varJson.category_id==230">
                 <input class="btn fullBlue" type="button" value="Upload" [disabled]="varJson.video_url==''"
                   (click)="uploadYoutubeURL($event)">
@@ -165,7 +165,7 @@
                 [showCancelButton]="false"
                 *ngIf="varJson.category_id==235 && varJson.category_id!=0 && varJson.category_id!=330">
               </p-fileUpload>
-              
+
               <p-fileUpload customUpload="true" multiple="multiple" type="submit"
                 (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false"
                 *ngIf="varJson.category_id!=230 && varJson.category_id!=235 && varJson.category_id!=330">
@@ -194,7 +194,7 @@
                 (change)="getSubjectsList($event.target.value)">
                 <option value=""> Select course</option>
                 <option *ngFor="let exam of categiesList; " title="{{exam.course_type}}" [value]="exam.course_type_id">
-                 {{(exam.course_type?.length>30)?(exam.course_type | slice:0:30) + '...':(exam.course_type)}}     
+                 {{(exam.course_type?.length>30)?(exam.course_type | slice:0:30) + '...':(exam.course_type)}}
                 </option>
               </select>
             </div>
@@ -207,7 +207,7 @@
                 <option value="0">Select subject</option>
                 <option *ngFor="let subject of subjectList;" title="{{subject.subject_name}}" [value]="subject.subject_id">
                     {{(subject.subject_name?.length>30)?(subject.subject_name| slice:0:30) + '...':(subject.subject_name)}}
-  
+
                 </option>
               </select>
             </div>
@@ -391,6 +391,15 @@
                 (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false"
                 *ngIf="varJson.category_id!=230 && varJson.category_id!=235 && varJson.category_id!=330">
               </p-fileUpload>
+
+              <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
+                <div class="progress-bar-wrapper">
+                  <div class="upload-bar">
+                    <div id="progress-width"></div>
+                  </div>
+                  <span>{{progress}} %</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
