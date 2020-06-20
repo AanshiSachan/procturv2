@@ -1487,7 +1487,7 @@ ul.customDropdown li:hover {
   * {
     -webkit-print-color-adjust: exact;
     -webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
-    color-adjust: exact !important;       
+    color-adjust: exact !important;
 }
   @media print {
       * {
@@ -1496,3 +1496,139 @@ ul.customDropdown li:hover {
       }
 
   }
+
+// Bora Class Certificate style
+.certificate-outer-container{
+  display: flex;
+  flex-direction: row;
+  height: 845px;
+  width: 100%;
+}
+
+.bg-container{
+  width: 10%;
+  background-image: url("../../../../assets/images/certificate-bora/bg.png");
+  background-position: right !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 845px;
+}
+.body-outer-container{
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.body-container {
+  width: 100%;
+  background-color: #eff1e6 !important;
+  padding: 5em;
+  padding-bottom: 1em;
+  padding-top: 3em;
+  font-family: 'Poppins', sans-serif;
+  .main-logo-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .logo-container {
+      img{
+        width: 12em;
+      }
+    }
+  }
+  .cert-title{
+    text-transform: uppercase;
+    color: #3d6c97;
+    font-size: 42px;
+    text-align: center;
+    margin-top: 1em;
+    word-spacing: 5px;
+    font-family: 'Anton', sans-serif;
+  }
+  .cert-description{
+    font-size: 22px;
+    text-align: center;
+    margin: 1em 0;
+    letter-spacing: 1px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    word-spacing: 3px;
+  }
+  .stundet-name-container{
+    width: 50%;
+    border-bottom: 2px solid #3d6c97;
+    font-size: 24px;
+    font-weight: 600;
+    min-height: 20px;
+    margin: 1em 25%;
+    margin-bottom: 2em;
+    text-align: center;
+  }
+  .cert-sub-heading{
+    text-transform: uppercase;
+    color: #3d6c97;
+    font-size: 36px;
+    text-align: center;
+    margin-top: 1em;
+    word-spacing: 5px;
+    font-family: 'Anton', sans-serif;
+  }
+
+  .cert-footer-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+    margin: 1em 10%;
+    margin-top: 2em;
+    .date-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      font-size: 16px;
+      text-transform: uppercase;
+      text-align: center;
+      .todays-date {
+        font-size: 20px;
+        font-weight: 600;
+        color: #3d6c97;
+        margin-bottom: 10px;
+      }
+    }
+    .signature-container {
+      display: flex;
+      flex-direction: column;
+      font-size: 16px;
+      text-transform: uppercase;
+      text-align: center;
+      img{
+        height: 6em;
+      }
+      .speaker-name{
+        font-size: 20px;
+        font-weight: 600;
+        color: #3d6c97;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+.social-media-container{
+  background: #3d6c97;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 1em;
+  font-size: 16px;
+  .social-media-icon-item{
+    display: flex;
+    flex-direction: row;
+    img{
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+    }
+  }
+}

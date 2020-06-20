@@ -86,7 +86,7 @@ export class StudentHomeComponent implements OnInit {
   private selectedRow: any;
   studentDetailsById: any;
   studentCustomComponent: any;
-  today: any = Date.now();
+  today: any;
   searchBarData: any = null;
   private selectedSlotsID: string = '';
   private selectedSlotsString: string = '';
@@ -219,6 +219,7 @@ export class StudentHomeComponent implements OnInit {
   countryList: any[] = [];
   stateList: any[] = [];
   cityList: any[] = [];
+  attendanceCertificate: boolean = false;
   /* =================================================================================================== */
   constructor(private prefill: FetchprefilldataService,
     private router: Router,
@@ -246,6 +247,11 @@ export class StudentHomeComponent implements OnInit {
       }
     )
 
+    this.today = moment().format('DD MMM YYYY');
+    let institute_id = sessionStorage.getItem('institute_id');
+    if(institute_id == "100292" || institute_id == "100058" || institute_id == "100127"){
+      this.attendanceCertificate = true;
+    }
     this.actRoute.queryParams.subscribe(e => {
       if (e.id != null && e.id != undefined && e.id != '') {
         if (e.action == undefined || e.action == undefined || e.action == '') {
@@ -2395,19 +2401,28 @@ export class StudentHomeComponent implements OnInit {
   }
 
   printDiv() {
-    document.getElementById('dvContainer').className = 'outer-container';
-    const doc = new jsPDF('l', 'in', 'a4');
-    console.log(doc);
-    doc.internal.scaleFactor = 1;
 
-    // window.html2pdf(this.content.nativeElement, pdf, function (doc) {
-    //   doc.save('certificate.pdf');
-    // });
+    if(this.attendanceCertificate){
+      document.getElementById('dvContainer_one').className = 'certificate-outer-container';
+      const doc = new jsPDF('l', 'in', 'a4');
+      console.log(doc);
+      doc.internal.scaleFactor = 1;
+      doc.addHTML(this.content.nativeElement, function () {
+        doc.save("certificate.pdf");
+      });
+      document.getElementById('dvContainer_one').className = 'hide';
+    }
+    else{
+      document.getElementById('dvContainer').className = 'outer-container';
+      const doc = new jsPDF('l', 'in', 'a4');
+      console.log(doc);
+      doc.internal.scaleFactor = 1;
 
-    doc.addHTML(this.content.nativeElement, function () {
-      doc.save("certificate.pdf");
-    });
-    document.getElementById('dvContainer').className = 'hide';
+      doc.addHTML(this.content.nativeElement, function () {
+        doc.save("certificate.pdf");
+      });
+      document.getElementById('dvContainer').className = 'hide';
+    }
   }
 
   fetchDataForCountryDetails() {
