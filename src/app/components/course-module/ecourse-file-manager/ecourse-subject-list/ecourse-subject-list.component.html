@@ -443,7 +443,7 @@
             <label>Title</label>
             <input type="text" class="form-ctrl" style="margin-top: 5px;" placeholder="Please enter title" id="youtubeUrl" name="youtubeUrl" [(ngModel)]="editObj.title">
           </div>
-          <div class="col-md-12 file-form" style="margin-top: 10px;" *ngIf="(editObj.category_id==63 || editObj.category_id==182 || editObj.category_id==229 || editObj.category_id==233)">
+          <div class="col-md-12 file-form" style="margin-top: 10px;" *ngIf="editObj.extension == 'fa fa-file-pdf-o pdf-color'">
             <div class="form-group">
               <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="editObj.is_readonly">
               <label class="title">Is Read-Only</label>
