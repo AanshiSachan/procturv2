@@ -72,6 +72,9 @@ export class DriveHomeComponent implements OnInit {
   headertext: string = '';
   videoplayer: boolean = false;
   currentProjectUrl: any;
+  editYoutubeFile: any = {
+    editView : false
+  };
 
   constructor(private zone: NgZone,
     private fileService: FileManagerService,
@@ -82,6 +85,7 @@ export class DriveHomeComponent implements OnInit {
 
   ngOnInit(refreshTree?) {
     let institute_id = sessionStorage.getItem("institute_id");
+    this.editYoutubeFile.editView = false;
     if (refreshTree == true) {
       this.fetchPrefillFolderAndFiles(institute_id + "/", refreshTree);
     } else {
@@ -573,6 +577,8 @@ export class DriveHomeComponent implements OnInit {
   close(event) {
     this.manualUpload = false;
     this.addCategoryPopup = false;
+    this.editYoutubeFile = {};
+    this.editYoutubeFile.editView = false;
   }
 
   onSelect(event, uploaders) {
@@ -645,4 +651,10 @@ export class DriveHomeComponent implements OnInit {
     this.videoplayer = false;
   }
 
+  editYoutubeVideo(file) {
+    this.manualUpload = true;
+    this.addCategoryPopup = true;
+    this.editYoutubeFile = file;
+    this.editYoutubeFile.editView = true;
+  }
 }

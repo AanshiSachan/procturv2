@@ -84,12 +84,12 @@
             </div>
           </div>
 
-          <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+          <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="allow" formControlName="is_allow_teacher_to_only_mark_attendance" class="form-checkbox">
               <label for="allow">Allow faculty to only mark attendance</label>
             </div>
-          </div>
+          </div> -->
 
 
           <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
@@ -100,9 +100,9 @@
           </div> -->
         </div>
         <div class="row">
-          <div class="pull-right">
+          <div class="pull-right" style="margin-top: 10px;">
             <button routerLink="/view/course/setup/teacher" class="btn">Cancel</button>
-            <button [disabled]='!addTeacherForm.valid' class="btn fullBlue" style="font-size: 16px;height: 40px;" type="submit">Save</button>
+            <button [disabled]='!addTeacherForm.valid' class="btn fullBlue" style="font-size: 16px;" type="submit">Save</button>
           </div>
         </div>
       </form>
