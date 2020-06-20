@@ -256,6 +256,7 @@ export class InstituteDetailsComponent implements OnInit {
     obj.institute_short_code = this.instDetails.institute_short_code;
     obj.tag_line = this.instDetails.tag_line;
     obj.about_us_text = this.instDetails.about_us_text;
+    obj.student_ios_app_url = this.instDetails.student_ios_app_url;
     obj.institute_testprep_logo = this.instDetails.institute_testprep_logo;
     obj.announcement = this.instDetails.announcement;
     obj.owner_name = this.instDetails.owner_name;
