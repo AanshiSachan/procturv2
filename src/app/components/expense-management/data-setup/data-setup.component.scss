@@ -1,0 +1,102 @@
+.middle-section {
+  padding: 1%;
+}
+
+
+.common-tab {
+    padding-top: 5px;
+    ul {
+        margin-top: 5px;
+        li {
+            margin-right: 1px;
+            display: inline-block;
+            width: 12%;
+            max-width: 158px;
+            cursor: pointer;
+            span {
+                display: block;
+                padding: 7px 5px;
+                border: 1px solid #cccdcd;
+                color: #9b9b9b;
+                text-align: center;
+                font-size: 14px;
+                font-weight: 600;
+                text-decoration: none;
+            }
+            &:hover,
+            &.active {
+                span {
+                    background: #e1f3ff;
+                    color: #1283f4;
+                    border-color: #1283f4;
+                    font-weight: normal;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}
+
+.fa-pencil{
+  color: #1283f4;
+  cursor: pointer;
+}
+
+.add-container{
+  display: flex;
+  justify-content: flex-end;
+  .add-btn{
+    background: #0084f6;
+    color: white;
+    padding: 6px 10px;
+    border: 2px solid #0084f6;
+    box-shadow: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-left: 15px;
+  }
+}
+
+
+.table-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 10px;
+  .table-header-container{
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: row;
+    background: #e0eaec;
+    font-weight: 600;
+    text-align: left;
+    justify-content: space-evenly;
+    .table-header-item{
+      width: 15%;
+      padding: 10px;
+    }
+  }
+  .table-value-outer-container{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-top: none;
+    min-height: 71vh;
+    max-height: 71vh;
+    overflow-y: auto;
+    .table-value-container{
+      display: flex;
+      flex-direction: row;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+      justify-content: space-evenly;
+      .table-value-item{
+        padding: 10px;
+        width: 15%;
+      }
+    }
+    .table-value-container:last-child{
+      border-bottom: none;
+    }
+  }
+}

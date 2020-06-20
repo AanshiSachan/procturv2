@@ -90,6 +90,21 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             this.defaultAcadYear = "-1";
         }
         this.getAssignedCount();
+        this.checkActiveBatches();
+    }
+
+    checkActiveBatches() {
+        if(this.batchList && this.batchList.length) {
+            let todaysDate = new Date();
+            this.batchList.forEach(batch => {
+                if(todaysDate <= new Date(batch.data.end_date)){
+                    batch.data.disabled = false;
+                } else {
+                    batch.data.disabled = true;
+                }
+            })
+        }
+        console.log(this.batchList);
     }
 
     getSettingsTemplateCountry() {

@@ -22,7 +22,8 @@ export class CourseSubjectComponent implements OnInit {
   newSubjectDetails: any = {
     is_active: "Y",
     standard_id: "-1",
-    subject_name: ''
+    subject_name: '',
+    subject_code: ''
   }
   searchedData: any = [];
   searchDataFlag: boolean = false;
@@ -82,6 +83,7 @@ export class CourseSubjectComponent implements OnInit {
     data.is_active = row.is_active;
     data.subject_name = row.subject_name;
     data.institution_id = row.institution_id;
+    data.subject_code = row.subject_code.toUpperCase();
     if (data.subject_name == "" && data.data.subject_name == null) {
       let msg = {
         type: "error",
@@ -90,13 +92,21 @@ export class CourseSubjectComponent implements OnInit {
       }
       this.toastCtrl.popToast(msg);
       return;
+    } else if (!this.isLangInstitue && data.subject_code.trim() == ''){
+      let msg = {
+        type: "error",
+        title: "",
+        body: "Please enter Subject Code"
+      }
+      this.toastCtrl.popToast(msg);
+      return;
     }
     this.apiService.updateSubjectRowData(data, row.subject_id).subscribe(
       data => {
         let msg = {
           type: "success",
-          title: "Standard Updated",
-          body: "Standard Updated Successfully!"
+          title: "",
+          body: "Subject Updated Successfully!"
         }
         this.toastCtrl.popToast(msg);
 
@@ -128,7 +138,7 @@ export class CourseSubjectComponent implements OnInit {
   }
 
   addNewSubject() {
-    if (this.newSubjectDetails.standard_id == "" || this.newSubjectDetails.subject_name == "" || this.newSubjectDetails.standard_id == '-1') {
+    if (this.newSubjectDetails.standard_id == "" || this.newSubjectDetails.subject_name == "" || this.newSubjectDetails.standard_id == '-1' || (!this.isLangInstitue && this.newSubjectDetails.subject_code.trim() == '')) {
       let data = {
         type: "error",
         title: "",
@@ -142,11 +152,12 @@ export class CourseSubjectComponent implements OnInit {
       } else {
         this.newSubjectDetails.is_active = "N";
       }
+      this.newSubjectDetails.subject_code = this.newSubjectDetails.subject_code.toUpperCase();
       this.apiService.createNewSubject(this.newSubjectDetails).subscribe(
         res => {
           let msg = "";
           if (this.isLangInstitue) {
-            msg = "Course added Successfull!!";
+            msg = "Course added Successfully!";
           } else {
             msg = "Subject created successfully";
           }
@@ -160,7 +171,8 @@ export class CourseSubjectComponent implements OnInit {
           this.newSubjectDetails = {
             is_active: "Y",
             standard_id: "",
-            subject_name: ''
+            subject_name: '',
+            subject_code: ''
           }
         },
         err => {
@@ -207,7 +219,8 @@ export class CourseSubjectComponent implements OnInit {
       this.newSubjectDetails = {
         is_active: "Y",
         standard_id: "",
-        subject_name: ''
+        subject_name: '',
+        subject_code: ''
       }
     }
   }

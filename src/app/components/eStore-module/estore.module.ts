@@ -12,14 +12,13 @@ import { TablePreferencesService } from '../../services/table-preference/table-p
 import { BasicInfoComponent, MockTestComponent, OnlineExamComponent,
   StudyMaterialComponent, ReviewProductComponent, VideoLectureComponent, ClassroomClassComponent,
   OnlineClassComponent, OfflineMaterialComponent,  ProductListComponent, HomeComponent, SalesReportsComponent,
-  EcourseMappingComponent, OfferHistoryComponent
+  OfferHistoryComponent
 } from '.';
 import { ProductCreationComponent } from './product-creation/product-creation.component';
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
 import { EstoreRoutingModule } from './estore-routing.module';
 import { ProductService } from '../../services/products.service';
- 
-
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 
 
@@ -31,12 +30,12 @@ import { ProductService } from '../../services/products.service';
     BsDatepickerModule,
     TimepickerModule,
     SharedModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    EditorModule
   ],
   declarations: [
-    ProductListComponent,    
+    ProductListComponent,
     ProductCreationComponent,
-    EcourseMappingComponent,
     BasicInfoComponent,
     MockTestComponent,
     OnlineExamComponent,
@@ -58,6 +57,6 @@ import { ProductService } from '../../services/products.service';
     TablePreferencesService,
     ProductService
   ],
-  exports:[EcourseMappingComponent]
+  exports:[]
 })
 export class EstoreModule { }

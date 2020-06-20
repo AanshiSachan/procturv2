@@ -125,7 +125,7 @@
     <div class="row" style="margin-top:12px">
       <div class="c-lg-4">
         <h4>
-          <span class="txt_font" style="font-weight: 600">Total Count</span> &nbsp;:&nbsp;{{userCreatedComponent.length}}</h4>
+          <span class="txt_font" style="font-weight: 600">Total Count</span> &nbsp;:&nbsp;{{userCreatedComponent?.length}}</h4>
       </div>
       <div class="c-lg-8"></div>
     </div>
@@ -176,7 +176,7 @@
                 </ul>
               </td>
             </tr>
-            <tr *ngIf="(!isRippleLoad) && (!userCreatedComponent.length)">
+            <tr *ngIf="(!isRippleLoad) && (!userCreatedComponent?.length)">
               <td class="no_data_css" colspan="8">No Data Found</td>
             </tr>
           </tbody>

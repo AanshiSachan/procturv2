@@ -1,7 +1,7 @@
 @import "./src/assets/css/common/variables.scss";
 @import "./src/assets/css/common/common-web.scss";
 
-.form-grop{
+.form-group{
     label{
         font-size: 0.9em;
         color: #555;
@@ -12,7 +12,7 @@
 
 .btn-round{
     padding: 0.2em 1em;
-    border-radius: 2em;
+    border-radius: 4px;
     margin: 0.2em;
 }
 
@@ -56,6 +56,9 @@
     background: #fff;
     box-shadow: 0pt -2pt 6pt #e6e6e6;
     z-index: 5;
+    background: #fafafa;
+    width: 90%;
+    margin-left: 10%;
 }
 
 .count-input-box{
@@ -140,52 +143,92 @@ input[type="checkbox"], label{
       font: 400 12px 'Open sans',sans-serif;
       width: 100% !important;
     }
-  
+
     &:after {
       content: '';
       background: url('../../../../../assets/images/calendar.svg') no-repeat;
       position: absolute;
       left: 80% !important;
-      top: 27px !important;
+      top: 25px !important;
       width: 21px;
       height: 21px;
       z-index: 0;
     }
   }
 
-  .questionInfo {
-    position: absolute;
-    // right: 55px;
-    // bottom: 37px;
-    height: 20px;
-    width: 20px;
-    z-index: 2;
-    .qInfoIcon {
-        width: 20px;
-        height: 20px;
-        border: 1px solid #ccc;
-        border-radius: 50%;
-        display: block;
-        text-align: center;
-        box-sizing: border-box;
-        line-height: 20px;
-        font-weight: 600;
-        font-size: 12px;
-        cursor: pointer;
-        box-shadow: 0px 0px 1px 0px #ccc inset;
-        color: #888;
-        transition: all 0.6s linear;
-        &:hover {
-            border-color: $header-bg;
-            box-shadow: 0px 0px 1px 0px $header-bg inset;
-            color: $header-bg;
-        }
-    }
-  }
+input[type="text"][disabled]{
+  background: #dddddd !important;
+}
 
-  .tooltip-box-field {
-    width: 200px;
-    overflow: visible;
-    color: black;
-    font-weight: bold;
+:host ::ng-deep .ck-editor__editable_inline {
+  border: 1px solid #ccc;
+  min-height: 100px;
+}
+.ck-editor__editable{
+  border: 1px solid #ccc;
+}
+
+
+.questionInfo {
+	position: absolute;
+	height: 20px;
+	width: 20px;
+	z-index: 2;
+	.qInfoIcon {
+			width: 20px;
+			height: 20px;
+			border: 1px solid  rgba(0,0,0,0.7);
+			border-radius: 50%;
+			display: block;
+			text-align: center;
+			box-sizing: border-box;
+			line-height: 20px;
+			font-weight: 600;
+			font-size: 12px;
+			cursor: pointer;
+			box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.7) inset;
+			color: #888;
+			transition: all 0.6s linear;
+			&:hover {
+					border-color: $header-bg;
+					box-shadow: 0px 0px 1px 0px $header-bg inset;
+					color: $header-bg;
+			}
+	}
+}
+
+.tooltip-box-field {
+	min-width: 200px;
+	max-width: 200px;
+	overflow: visible;
+	color: #b4b6bd;
+	background: #2e3345;
+	font-weight: 400;
+	font-size: 12px;
+	padding: 1em;
+	border-radius: 4px;
+	line-height: 14px;
+	&:hover{
+		background: rgba(0,0,0,1);
+	}
+}
+
+.tooltip-box-field:after {
+	content: '';
+	width: 0;
+	height: 0;
+	border-right: 8px solid #2e3345;
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid transparent;
+	position: absolute;
+	left: -7px;
+	top: 4px;
+	bottom: 0;
+}
+
+.infomation-icon{
+	color: $header-bg;
+	margin: 0 5px;
+	padding: 2px;
+	font-weight: 900;
 }

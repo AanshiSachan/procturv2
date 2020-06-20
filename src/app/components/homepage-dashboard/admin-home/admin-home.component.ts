@@ -55,7 +55,8 @@ export class AdminHomeComponent implements OnInit {
     vDOCipher_allocated_storage:0,
     vDOCipher_used_storage:0,
     vDOCipher_used_bandwidth:0,
-    storage_allocated:0
+    storage_allocated:0,
+    consumed_storage: 0
   };
 
 
@@ -81,7 +82,7 @@ export class AdminHomeComponent implements OnInit {
   biometricEnable: string = "0";
   newMessageText: string = "";
   messageCount: number = 0;
-  userType : any = ''; 
+  userType : any = '';
   isRippleLoad:boolean= false;
   courseCommonExamCancelPopUP = false;
 
@@ -201,6 +202,11 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
+    let privacy = JSON.parse(sessionStorage.getItem('privacy_alert'));
+    if(privacy){
+      $('#privacy').modal('show');
+      sessionStorage.setItem('privacy_alert', 'false');
+    }
     // added for account expiry popup notification
     var institute_info = JSON.parse(sessionStorage.getItem('institute_info'))
     var loginResp = JSON.parse(sessionStorage.getItem('login-response'));
@@ -254,7 +260,7 @@ export class AdminHomeComponent implements OnInit {
     });
 
     this.fetchWidgetPrefill();
-    
+
   }
 
   closeSubscriptionAlert(){
@@ -314,11 +320,47 @@ export class AdminHomeComponent implements OnInit {
         res => {
           if(res){
             this.storageData = res;
-            this.storageData.storage_allocated = (Number(this.storageData.storage_allocated) / 1024).toFixed(3);   
+            this.storageData.storage_allocated = (Number(this.storageData.storage_allocated) / 1024).toFixed(3);
+            this.storageData.consumed_storage = ((Number(this.storageData.uploaded_size)  + Number(this.storageData.downloaded_size))/ 1024).toFixed(3);
             this.storageData.vDOCipher_allocated_bandwidth = (Number(this.storageData.vDOCipher_allocated_bandwidth) / 1024).toFixed(3);
             this.storageData.vDOCipher_used_bandwidth = (Number(this.storageData.vDOCipher_used_bandwidth) / 1024).toFixed(3);
             this.storageData.vDOCipher_allocated_storage = (Number(this.storageData.vDOCipher_allocated_storage) / 1024).toFixed(3);
             this.storageData.vDOCipher_used_storage = (Number(this.storageData.vDOCipher_used_storage) / 1024).toFixed(3);
+            let storageExceed = false;
+            if((Number(this.storageData.vDOCipher_allocated_storage)) != 0 && Number(this.storageData.vDOCipher_used_storage) != 0){
+              let perUsed = ((Number(this.storageData.vDOCipher_allocated_storage) * 80)/100).toFixed(3);
+              let usedSpace = Number(this.storageData.vDOCipher_used_storage).toFixed(3);
+              if(parseFloat(perUsed) <= parseFloat(usedSpace)){
+                sessionStorage.setItem('videoLimitExceeded', "1");
+                storageExceed = true;
+              }
+              else{
+                sessionStorage.setItem('videoLimitExceeded', "0");
+              }
+            }
+            else{
+              sessionStorage.setItem('videoLimitExceeded', "0");
+            }
+
+            if((Number(this.storageData.storage_allocated)) != 0 && Number(this.storageData.consumed_storage) != 0){
+              let perUsed = ((Number(this.storageData.storage_allocated) * 80)/100).toFixed(3);
+              let usedSpace = Number(this.storageData.consumed_storage).toFixed(3);
+              if(parseFloat(perUsed) <= parseFloat(usedSpace)){
+                sessionStorage.setItem('videoLimitExceeded', "1");
+              }
+              else{
+                if(!storageExceed){
+                  sessionStorage.setItem('videoLimitExceeded', "0");
+                }
+              }
+            }
+            else{
+              if(!storageExceed){
+                sessionStorage.setItem('videoLimitExceeded', "0");
+              }
+            }
+
+
           }
             },
         err => {
@@ -383,11 +425,11 @@ export class AdminHomeComponent implements OnInit {
       });
   }
 
-  
+
   checkVdoCipherRole() {
     return sessionStorage.getItem('enable_vdoCipher_feature') == '1' ? false : true;
   }
-  
+
   getCheckedStatus(id: string) {
     if (id === "notifyCancel") {
       return true;
@@ -1392,8 +1434,12 @@ export class AdminHomeComponent implements OnInit {
   /* ====================================================================== */
   /* ======================================================================================================= */
 
-  markAttendaceHide(row) {
-    if (moment(row.class_date) > moment()) {
+  markAttendaceHide(row, time) {
+    if(!time) {
+      time = '';
+    }
+    row = moment(row).format('YYYY-MM-DD');
+    if (moment(row + ' ' + time) > moment(new Date)) {
       return "hide";
     } else {
       return "";
@@ -3027,14 +3073,6 @@ export class AdminHomeComponent implements OnInit {
     this.appC.popToast(data);
   }
 
-  hideFutureExamSchedule(row) {
-    if (moment(row.exam_date) > moment()) {
-      return "hide";
-    } else {
-      return "";
-    }
-  }
-
   /// Course Level Exam Schedule For Course Model
 
   courseExamAttPopup: boolean = false;
@@ -3629,7 +3667,7 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  onOfLoaderFromTodoList(ev) {    
+  onOfLoaderFromTodoList(ev) {
     this.isRippleLoad = ev;
   }
 

@@ -133,6 +133,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   downloadStudentReportAccess: boolean = false;
   is_tax_enabled: boolean ;
   tax_type_without_percentage : String;
+  Payment_Modes: any =[];
 
   studentAddFormData: StudentForm = {
     student_name: "",
@@ -176,8 +177,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     slot_id: null,
     language_inst_status: "admitted",
     stuCustomLi: [],
-    deleteCourse_SubjectUnPaidFeeSchedules: false
+    deleteCourse_SubjectUnPaidFeeSchedules: false,
+    assigned_to_id: "0"
   };
+
+  enqAssignTo: any = [];
 
   // PDC Cheque PopUp
   pdcAddForm: any = {
@@ -301,6 +305,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   cityList: any[] = [];
   areaList: any[] = [];
   addArea:boolean = false;
+  studdentEdit = true;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -765,6 +770,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           body: ""
         }
         this.appC.popToast(obj);
+      }
+    );
+
+    this.auth.showLoader();
+    this.prefill.getAssignTo().subscribe(
+      data => { this.enqAssignTo = data; },
+      err => {
+        this.auth.hideLoader();
+        this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     );
 
@@ -1318,6 +1332,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
+        this.studentAddFormData.assigned_to_id = data.assigned_to_id;
         this.fetchCourseFromMaster(this.studentAddFormData.standard_id, this.studentAddFormData.country_id);
         this.countryDetails.forEach(element => {
           if (element.id == this.studentAddFormData.country_id) {
@@ -1555,7 +1570,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       });
 
-      let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/;
+      let email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;;
       if (this.studentAddFormData.student_email != null && this.studentAddFormData.student_email != "") {
         if (!email.test(this.studentAddFormData.student_email)) {
           let alert = {
@@ -1733,7 +1748,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         //console.log("institute Added");
       }
       else {
-        
+
       }
     },
     err=>{
@@ -2076,6 +2091,19 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.paymentPopUpJson.immutableAmount = this.totalAmountToPay;
     this.paymentPopUpJson.payingAmount = this.totalAmountToPay;
     this.isFeePaymentUpdate = true;
+    this.getPaymentModes();
+  }
+
+  getPaymentModes(){
+    this.httpService.getData('/api/v1/masterData/type/PAYMENT_MODES').subscribe(
+      (res:any)=>{
+        console.log(res);
+        this.Payment_Modes = res;
+      },
+      err=>{
+        console.log(err);
+      }
+    )
   }
 
   flushPaymentPopUpData() {
@@ -2300,7 +2328,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     this.feeTempSelected = "";
   }
-  
+
    reCreateFeeAgain() {
     if (confirm("By changing the fee template, all existing fee schedule and transactions shall be discarded and archived. Are you sure you want to continue?")) {
       this.isConfigureFees = true;
@@ -2920,7 +2948,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
     this.productService.deleteFile(url).subscribe(
       (res:any) => {
-        this.appC.popToast({ type: "success", title: "", body: "File deleted successfully" });      
+        this.appC.popToast({ type: "success", title: "", body: "File deleted successfully" });
         if(res){
           this.getUploadedFileData();
         }

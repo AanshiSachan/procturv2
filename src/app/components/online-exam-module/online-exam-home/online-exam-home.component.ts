@@ -126,6 +126,9 @@ checkInstSetupType(value, role): boolean {
     }
   }
 
+  openExamdesk() {
+    window.open('https://examdesk.co/');
+  }
 
 
 }

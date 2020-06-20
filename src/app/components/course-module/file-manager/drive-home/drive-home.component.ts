@@ -4,6 +4,7 @@ import { Tree } from 'primeng/tree';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { FileManagerService } from '../file-manager.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-drive-home',
@@ -69,15 +70,22 @@ export class DriveHomeComponent implements OnInit {
   str: string;
   getPath: string = "";
   headertext: string = '';
+  videoplayer: boolean = false;
+  currentProjectUrl: any;
+  editYoutubeFile: any = {
+    editView : false
+  };
 
   constructor(private zone: NgZone,
     private fileService: FileManagerService,
     private auth:AuthenticatorService,
-    private msgService: MessageShowService) { }
+    private msgService: MessageShowService,
+    private sanitizer: DomSanitizer) { }
 
 
   ngOnInit(refreshTree?) {
     let institute_id = sessionStorage.getItem("institute_id");
+    this.editYoutubeFile.editView = false;
     if (refreshTree == true) {
       this.fetchPrefillFolderAndFiles(institute_id + "/", refreshTree);
     } else {
@@ -569,6 +577,8 @@ export class DriveHomeComponent implements OnInit {
   close(event) {
     this.manualUpload = false;
     this.addCategoryPopup = false;
+    this.editYoutubeFile = {};
+    this.editYoutubeFile.editView = false;
   }
 
   onSelect(event, uploaders) {
@@ -632,4 +642,19 @@ export class DriveHomeComponent implements OnInit {
     this.createFolderControl = false;
   }
 
+  getYoutubeLink(file) {
+    this.videoplayer = true;
+    const video_id = atob(file.res.proc_id);
+    this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video_id);
+  }
+  closePlayer(){
+    this.videoplayer = false;
+  }
+
+  editYoutubeVideo(file) {
+    this.manualUpload = true;
+    this.addCategoryPopup = true;
+    this.editYoutubeFile = file;
+    this.editYoutubeFile.editView = true;
+  }
 }

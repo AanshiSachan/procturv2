@@ -57,6 +57,8 @@ export class FileCardComponent implements OnChanges {
 
   @Output() fileArr = new EventEmitter<any>();
   @Output() shareOptions = new EventEmitter<any>();
+  @Output() playYoutubeVideo = new EventEmitter<any>();
+  @Output() editYoutubeVideo = new EventEmitter<any>();
   dwnldLink = "";
   arr: any[] = [];
   fileURL: any;
@@ -82,12 +84,18 @@ export class FileCardComponent implements OnChanges {
     if (data.data.category_id == "182") {
       data.data.category_name = "Study Material"
     }
+    data.data.user_type = sessionStorage.getItem('userType');
     // let name = data.label.split(".")[0];
     // let type = data.label.split(".")[1];
     var name = data.label.substring(0, data.label.lastIndexOf("_"));
     var type = data.label.substring(data.label.lastIndexOf(".")+1);
     this.fileObj = new File(name, type, data.data);
+    if(data.data.category_id != "230"){
     this.setImageAndIcons(type);
+    } else {
+      this.fileHeader.nativeElement.classList.add("youtube");
+      this.fileHeader.nativeElement.classList.add("youtube-url");
+    }
     this.cd.detectChanges();
     this.cd.detach();
   }
@@ -199,10 +207,16 @@ export class FileCardComponent implements OnChanges {
             body: "File Deleted Successfully"
           }
 
+          // if(event.res.category_id!='230'){
           let path = getDeletedFiles[0].keyName.split('/');
           path.pop();
           let newPath = path.join('/');
           this.filePath.emit(newPath);
+          this.status.emit(data.statusCode);
+          // } else {
+            // let temp = getDeletedFiles[0].keyName.split('/https');
+            // this.filePath.emit(temp[0]);
+          // }
           this.appC.popToast(msg);
           this.status.emit(data.statusCode);
 
@@ -289,5 +303,13 @@ export class FileCardComponent implements OnChanges {
     // }else{
       return fileName;
     // }    
+  }
+
+  getYoutubeLink(file) {
+    this.playYoutubeVideo.emit(file);
+  }
+
+  editYoutubeUrl(file) {
+    this.editYoutubeVideo.emit(file);
   }
 }

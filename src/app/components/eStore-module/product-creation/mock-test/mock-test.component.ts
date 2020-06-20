@@ -22,6 +22,19 @@ export class MockTestComponent implements OnInit {
   isAdvanceProductEdit: boolean = false;
   description: string = '';
   product_ecourse_maps: any = [];
+  editorConf = {
+    height: 150,
+    menubar: false,
+    branding: false,
+    plugins: [
+      'preview anchor',
+      'visualblocks code ',
+      'insertdatetime  table paste code  wordcount'
+    ],
+    toolbar: 'undo redo | formatselect | bold italic backcolor | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent'
+  };
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,

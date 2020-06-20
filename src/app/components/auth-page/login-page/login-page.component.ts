@@ -11,7 +11,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
-
+declare var $;
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -72,7 +72,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     alternate_email_id: "",
     password: "",
     userid: "",
-    institution_id: ""
+    institution_id: "",
+    source: "WEB"
   }
 
   multiUserLoginInfo: any = {
@@ -80,7 +81,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     password: "",
     userid: "",
     institution_id: "",
-    user_role: ""
+    user_role: "",
+    source: "WEB"
   }
 
   otpVerificationInfo: any = {
@@ -89,9 +91,13 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     alternate_email_id: "",
     password: "",
     userid: "",
-    otp_validate_mode: 1
+    otp_validate_mode: 1,
+    source: "WEB"
   }
-
+  // zoom
+  zoom_enable: any = false;
+  single_login_login_check = false;
+  multiWindowLogin: boolean = false;
   constructor(
     private login: LoginService,
     private route: Router,
@@ -106,14 +112,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('userid') != null) {
       this.loginDataForm = {
         alternate_email_id: "",
-        password: ""
+        password: "",
+        source: "WEB"
       }
       this.createRoleBasedSidenav();
     }
     else {
       this.loginDataForm = {
         alternate_email_id: "",
-        password: ""
+        password: "",
+        source: "WEB"
       }
     }
     //     sessionStorage.clear();
@@ -239,10 +247,15 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           console.log(res);
           this.auth.hideLoader();
           sessionStorage.setItem('login-response',JSON.stringify(res));
+          this.single_login_login_check = res.single_device_login;
+          if(res.data != null){
+            this.zoom_enable = JSON.stringify(res.data.is_zoom_integration_enable)
+          }
           this.checkForAuthOptions(res);
         },
         err => {
-          this.auth.showLoader();
+          this.auth.hideLoader();
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", err.error.message);
           console.log(err);
         }
       );
@@ -299,7 +312,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.alternateLoginFailure(res.login_error_message);
         break;
       case 3:
-        this.setAuthToken(res.data);
+        this.setAuthToken(res.data, res.device_id);
         this.alternateLoginSuccess(res);
         break;
       case 7:
@@ -311,15 +324,86 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       case 5:
         this.alternateLoginMultiUser(res);
         break;
+      case 10:
+        this.multiDeviceLogin(res);
+        break;
     }
   }
 
-  setAuthToken(institute_data) {
+  multiDeviceLogin(res){
+    this.auth.hideLoader();
+    this.multiWindowLogin = true;
+    $('#multiLogin').modal('show');
+  }
+
+  logOutFromOtherDeveices(){
+
+    this.auth.showLoader();
+    let obj = {}
+    if(this.multiInstituteLoginInfo.userid != "" && this.multiInstituteLoginInfo.institution_id != ""){
+      obj = {
+        alternate_email_id: this.multiInstituteLoginInfo.alternate_email_id,
+        password: this.multiInstituteLoginInfo.password,
+        userid: this.multiInstituteLoginInfo.userid,
+        institution_id: this.multiInstituteLoginInfo.institution_id,
+        source: "WEB",
+        logout_from_all_devices: true
+      }
+    }
+    else{
+      this.loginDataForm.logout_from_all_devices = true;
+      obj = this.loginDataForm;
+    }
+    this.login.postLoginDetails(obj).subscribe(
+      res => {
+        console.log(res);
+        this.auth.hideLoader();
+        sessionStorage.setItem('login-response',JSON.stringify(res));
+        sessionStorage.setItem('institute_info', JSON.stringify(res.data));
+
+        let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
+        sessionStorage.setItem('userid', institute_data.userid);
+        sessionStorage.setItem('userType', institute_data.userType);
+        sessionStorage.setItem('password', institute_data.password);
+        sessionStorage.setItem('institute_id', institute_data.institution_id);
+        sessionStorage.setItem('deviceId', res.device_id);
+        sessionStorage.setItem('source', 'WEB');
+        this.single_login_login_check = res.single_device_login;
+        if(this.single_login_login_check){
+          this.auth.getAuthToken(true);
+        }
+        else{
+          this.auth.getAuthToken(false);
+        }
+        this.alternateLoginSuccess(res);
+      },
+      err => {
+        this.auth.showLoader();
+        console.log(err);
+      }
+    );
+  }
+
+  setAuthToken(institute_data, device_id) {
+
     sessionStorage.setItem('userid', institute_data.userid);
     sessionStorage.setItem('userType', institute_data.userType);
     sessionStorage.setItem('password', institute_data.password);
     sessionStorage.setItem('institute_id', institute_data.institution_id);
-    this.auth.getAuthToken();
+    if(institute_data.userType == '1' || institute_data.userType == '99'){
+      sessionStorage.setItem('deviceId', device_id);
+      sessionStorage.setItem('source', 'WEB');
+      if(this.single_login_login_check){
+        this.auth.getAuthToken(true);
+      }
+      else{
+        this.auth.getAuthToken(false);
+      }
+    }
+    else{
+      this.auth.getAuthToken(false);
+    }
+
   }
 
   //End - 1
@@ -357,14 +441,33 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
     else {
       if (res.institution_id != null) {
-        this.getCountryDetails(res.institution_id);
+        if(sessionStorage.getItem('userType') != '1' && sessionStorage.getItem('userType') != '99'){
+          this.getCountryDetails(res.institution_id);
+        }
       }
       this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
-      let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
-      this.auth.changeAuthenticationKey(Authorization);
-      this.auth.changeInstituteId(institute_data.institution_id);
+      let type = sessionStorage.getItem('source');
+      if(institute_data.userType != '1' && institute_data.userType != '99'){
+        let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+        this.auth.changeAuthenticationKey(Authorization);
+      }
+      else{
+        if(this.single_login_login_check){
+          sessionStorage.setItem('single_device_login', 'true');
+          let deviceId = sessionStorage.getItem('deviceId');
+          let source = sessionStorage.getItem('source');
+          let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id + ":" + res.device_id + ":WEB");
+          this.auth.changeAuthenticationKey(Authorization);
+        }
+        else{
+          sessionStorage.setItem('single_device_login', 'false');
+          let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+          this.auth.changeAuthenticationKey(Authorization);
+        }
+      }
+      // this.auth.changeInstituteId(institute_data.institution_id);
       this.auth.course_flag.next(institute_data.course_structure_flag);
       this.auth.institute_type.next(institute_data.institute_type);
       this.auth.instituteType_name.next(institute_data.institute_type);
@@ -373,7 +476,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.auth.makeInstituteType(institute_data.institute_type, institute_data.course_structure_flag);
       sessionStorage.setItem('user_permission', institute_data.user_permission);
       sessionStorage.setItem('institute_id', institute_data.institution_id);
-      sessionStorage.setItem('institution_id', institute_data.institution_id); //y 
+      sessionStorage.setItem('institution_id', institute_data.institution_id); //y
       sessionStorage.setItem('about_us_image', institute_data.about_us_image);
       sessionStorage.setItem('about_us_text', institute_data.about_us_text);
       sessionStorage.setItem('accountId', institute_data.accountId);
@@ -441,6 +544,17 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('enable_fee_template_country_wise', institute_data.enable_fee_template_country_wise);
       sessionStorage.setItem('tax_type_without_percentage', institute_data.tax_type);
       sessionStorage.setItem('tax_type_with_percentage', institute_data.tax_type + "(%)");
+      sessionStorage.setItem('is_zoom_enable', this.zoom_enable)
+      sessionStorage.setItem('enable_ip_lock_feature', institute_data.enable_ip_lock_feature);
+      sessionStorage.setItem("student_study_material_visibility", institute_data.student_study_material_visibility);
+      sessionStorage.setItem('youtube_url', institute_data.youtube_url);
+      sessionStorage.setItem('facebook_url', institute_data.facebook_url);
+      sessionStorage.setItem('whatsapp_url', institute_data.whatsapp_url);
+      sessionStorage.setItem('linkedin_url', institute_data.linkedin_url);
+      sessionStorage.setItem('instagram_url', institute_data.instagram_url);
+      sessionStorage.setItem('website_url', institute_data.website_url);
+      sessionStorage.setItem('privacy_alert', 'true');
+      sessionStorage.setItem('liveClassExpiryPop', "true")
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
@@ -579,7 +693,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.login.postLoginDetails(this.multiInstituteLoginInfo).subscribe(el => {
       //console.log(el);
       this.checkForAuthOptions(el);
-      if (el.institution_id != null) {
+      if (el.institution_id != null && !this.multiWindowLogin) {
         this.getCountryDetails(el.institution_id);
       }
     });
@@ -642,7 +756,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   alternateLoginOTPVerification() {
     //console.log("##### trying to Validate OTP #####");
     //console.log(this.otpVerificationInfo);
-    if (this.otpVerificationInfo.otp_code == null || this.otpVerificationInfo.otp_code == "") {
+    if (this.otpVerificationInfo.otp_code.trim() == null || this.otpVerificationInfo.otp_code.trim() == "") {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.opt.notFound.title, this.messages.loginMsg.opt.notFound.body);
     } else {
       this.login.validateOTPCode(this.otpVerificationInfo).subscribe((el: any) => {
@@ -654,6 +768,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           //console.log("Incorrect OTP");
           this.msgService.showErrorMessage(this.msgService.toastTypes.warning, this.messages.loginMsg.opt.inCorrect.title, this.messages.loginMsg.opt.inCorrect.body);
         } else if (el.login_option == 3) {
+          this.single_login_login_check = el.single_device_login;
+          sessionStorage.setItem('deviceId', el.device_id);
+          sessionStorage.setItem('source', 'WEB');
           //console.log("OTP Verified Success");
           this.alternateLoginSuccess(el);
           this.closeOTPValidationModal();

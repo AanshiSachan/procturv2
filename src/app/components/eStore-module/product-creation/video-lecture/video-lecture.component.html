@@ -2,8 +2,11 @@
   <div class="row main-topic-row" style="margin-bottom: 10px;border: none;">
     <div class="form-group">
       <label class="text-bold">Description <span class="text-danger">*</span></label>
-      <textarea [(ngModel)]="description" name="description" style="height:120px" maxLength="1500" class="form-control form-control-sm"
-        placeholder="Write a description about this video lecture"></textarea>
+      <!-- <textarea [(ngModel)]="description" name="description" style="height:120px" maxLength="1500" class="form-control form-control-sm"
+        placeholder="Write a description about this video lecture"></textarea> -->
+      <editor
+       [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="description"
+     ></editor>
     </div>
   </div>
 
@@ -91,26 +94,27 @@
   <div class="row singleton-row material-row" *ngFor="let video of youtube">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" [disabled]="video.is_existed_selected" class="form-checkbox" [(ngModel)]="video.selected"
+        <input type="checkbox" [disabled]="video.is_existed_selected || (isPaid == 'Y' && video.category_name == 'Youtube URL')" class="form-checkbox" [(ngModel)]="video.selected"
           (ngModelChange)="selectAllDetails($event,video)" name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
       <h4 class="file__title" title="{{video.title}}">
-        <i class="fa fa-youtube-play text-red"></i>
+        <i class="fa fa-youtube-play text-red" *ngIf="video.category_name!='VDOCipher'"></i>
+        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="video.category_name=='VDOCipher'"></i>
         <a target="_blank" class="txt-color">
           <span class="txt-title">{{video.title}}</span>
         </a>
       </h4>
     </div>
     <div class="col-md-4 txt-font">
-      {{video.category_name}}
+      {{video.category_name=='VDOCipher' ? 'Video' : video.category_name}}
     </div>
   </div>
 </ng-template>
 
-<div class="row basic-info-footer">
+<div class="basic-info-footer">
   <div class="col text-center">
-    <button class="btn btn-outline-danger btn-round" (click)="gotoBack()">Cancel</button>
+    <button class="btn btn-outline-danger btn-round" (click)="gotoBack()" style="color:red;">Cancel</button>
     <button class="btn btn-primary btn-round" [disabled]="isRippleLoad" (click)="gotoNext()">Save & Next</button>
   </div>
 </div>

@@ -292,7 +292,10 @@ export class EnquiryHomeComponent implements OnInit {
         list_id: "-1",
         city: '',
         area: '',
-        referred_by: ''
+        referred_by: '',
+        country_id: '-1',
+        state_id: '-1',
+        city_id: '-1'
     };
     enquiryFullDetail: any;
     enquirySettings: ColumnSetting[] = [
@@ -327,7 +330,15 @@ export class EnquiryHomeComponent implements OnInit {
         actionSetting: {},
         displayMessage: "Enter Detail to Search"
     };
+    countryList: any[] = [];
+    stateList: any[] = [];
+    cityDetails: any[] = [];
 
+    downloadReportFor = {
+      enquiry: false,
+      admissions: false,
+      fees: false
+    }
 
     /*Declaration Fin*/
     constructor(
@@ -483,7 +494,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     // get custome filter component details if is_searchable is applicable --laxmi
     getSearchableCustomeComponents(array){
-    
+
         this.filterCustomComponent = array.filter((object)=>object.is_searchable=='Y');
         console.log(this.filterCustomComponent);
     }
@@ -675,7 +686,7 @@ export class EnquiryHomeComponent implements OnInit {
                             this.customComponents.push(obj);
                         });
                     }
-                    this.getSearchableCustomeComponents(this.customComponents);// 
+                    this.getSearchableCustomeComponents(this.customComponents);//
                     this.emptyCustomComponent = this.componentListObject;
                 });
     }
@@ -789,6 +800,7 @@ export class EnquiryHomeComponent implements OnInit {
         this.addHideClass(classArray);
         let removeClassNames = ['adFilterExit', 'advanced-filter-section'];
         this.removeHideClass(removeClassNames);
+        this.fetchDataForCountryDetails();
     }
 
     addHideClass(classArray) {
@@ -1650,14 +1662,17 @@ export class EnquiryHomeComponent implements OnInit {
         let tempCustomArr: any[] = [];
         this.filterCustomComponent.forEach(el => {
             if (el.value != "") {
+                let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: ''};
                 if (el.type == '5') {
-                    let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: this.getDateFormated(el.value, "YYYY-MM-DD") };
-                    tempCustomArr.push(obj);
+                    obj.enq_custom_value = this.getDateFormated(el.value, "YYYY-MM-DD");
                 }
-                else if (el.type != '5') {
-                    let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: el.value };
-                    tempCustomArr.push(obj);
+                else if(el.type == '2'){
+                    obj.enq_custom_value = el.value?'Y':'N';
                 }
+                else{
+                    obj.enq_custom_value = el.value;
+                }
+                tempCustomArr.push(obj);
             }
         });
         if (tempCustomArr.length != 0) {
@@ -1746,7 +1761,8 @@ export class EnquiryHomeComponent implements OnInit {
             isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "",
             updateDateFrom: "", updateDateTo: "", start_index: 0,
             batch_size: this.varJson.displayBatchSize, closedReason: "",
-            enqCustomLi: null, commentShow: 'false'
+            enqCustomLi: null, commentShow: 'false',
+            country_id: '-1', state_id: '-1', city_id: '-1'
         };
         this.customComponents.forEach(el => { el.selectedString = ''; el.selected = []; el.value = ''; });
         this.varJson.PageIndex = 1;
@@ -1927,7 +1943,10 @@ export class EnquiryHomeComponent implements OnInit {
             commentShow: 'false',
             source_id: this.advancedFilterForm.source_id,
             school_id: this.advancedFilterForm.school_id,
-            list_id: this.advancedFilterForm.list_id
+            list_id: this.advancedFilterForm.list_id,
+            country_id:this.advancedFilterForm.country_id,
+            city_id: this.advancedFilterForm.city_id,
+            state_id: this.advancedFilterForm.state_id
         };
 
         this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
@@ -1980,14 +1999,30 @@ export class EnquiryHomeComponent implements OnInit {
         }, 100);
     }
 
+    reportFor(){
+      let reportFor = [];
+      if(this.downloadReportFor.enquiry){
+        reportFor.push("Enquiry");
+      }
+      if(this.downloadReportFor.admissions){
+        reportFor.push("Admissions");
+      }
+      if(this.downloadReportFor.fees){
+        reportFor.push("Fees");
+      }
+      return reportFor.toString();
+    }
     downloadSummaryReportXl() {
+
+      let report = this.reportFor()
+
         switch (Number(this.varJson.downloadReportOption)) {
             case 1:
                 this.showErrorMessage(this.messageService.toastTypes.error, 'Selection', 'Please select other options');
                 break;
             case 2: {
                 this.auth.showLoader();
-                this.enquire.getSummaryReportOfThisMonth().subscribe(
+                this.enquire.getSummaryReportOfThisMonth(report).subscribe(
                     res => {
                         this.auth.hideLoader();
                         this.performDownloadAction(res);
@@ -2000,7 +2035,7 @@ export class EnquiryHomeComponent implements OnInit {
                 break;
             case 3: {
                 this.auth.showLoader();
-                this.enquire.getPreviousMSummary().subscribe(
+                this.enquire.getPreviousMSummary(report).subscribe(
                     res => {
                         this.auth.hideLoader();
                         this.performDownloadAction(res);
@@ -2011,7 +2046,7 @@ export class EnquiryHomeComponent implements OnInit {
                 break;
             case 4: {
                 this.auth.showLoader();
-                this.enquire.getSummaryReportOfLastTwoMonth().subscribe(
+                this.enquire.getSummaryReportOfLastTwoMonth(report).subscribe(
                     res => {
                         this.auth.hideLoader();
                         this.performDownloadAction(res);
@@ -2026,8 +2061,9 @@ export class EnquiryHomeComponent implements OnInit {
     downloadSummaryReportXlDateWise() {
         if (this.varJson.summaryReport.to_date != "" && this.varJson.summaryReport.from_date != "") {
             this.auth.showLoader();
+            let report = this.reportFor()
             let obj = { to_date: this.getDateFormated(this.varJson.summaryReport.to_date, 'YYYY-MM-DD'), from_date: this.getDateFormated(this.varJson.summaryReport.from_date, 'YYYY-MM-DD') }
-            this.enquire.getSummaryReportFromDates(obj).subscribe(
+            this.enquire.getSummaryReportFromDates(obj, report).subscribe(
                 res => { this.auth.hideLoader(); this.performDownloadAction(res); },
                 err => { this.auth.hideLoader(); }
             );
@@ -2068,6 +2104,7 @@ export class EnquiryHomeComponent implements OnInit {
                 this.selectedRow.city_id = data.city_id;
                 this.selectedRow.area_id = data.area_id;
                 this.selectedRow.phone = data.phone;
+                this.selectedRow.assigned_to = data.assigned_to;
                 sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
                 this.router.navigate(['/view/students/add'])
                 this.closePopup();
@@ -2796,5 +2833,58 @@ export class EnquiryHomeComponent implements OnInit {
             this.cd.markForCheck();
         }
     }
+
+    fetchDataForCountryDetails() {
+        let encryptedData = sessionStorage.getItem('country_data');
+        let data = JSON.parse(encryptedData);
+        if (data && data.length > 0) {
+          this.countryList = data;
+        }
+      }
+
+      getStateList(){
+          this.stateList = [];
+          this.cityDetails = [];
+          this.advancedFilterForm.state_id = "-1";
+          this.advancedFilterForm.city_id = "-1";
+        if(this.advancedFilterForm.country_id!=-1) {
+        const url = `/api/v1/country/state?country_ids=${this.advancedFilterForm.country_id}`
+        this.auth.showLoader();
+        this.httpService.getData(url).subscribe(
+          (res: any) => {
+            this.auth.hideLoader();
+            if(res.result && res.result.length > 0){
+              this.stateList = res.result[0].stateList;
+            }
+          },
+          err => {
+            this.auth.hideLoader();
+            this.showErrorMessage(this.messageService.toastTypes.error, '', err.error.message);
+          }
+        )
+        }
+      }
+
+      // get city list as per state selection
+      getCityList(){
+          this.cityList = [];
+          this.advancedFilterForm.city_id = "-1";
+        if(this.advancedFilterForm.state_id!=-1) {
+        const url = `/api/v1/country/city?state_ids=${this.advancedFilterForm.state_id}`
+        this.auth.showLoader();
+        this.httpService.getData(url).subscribe(
+          (res: any) => {
+            this.auth.hideLoader();
+            if(res.result.length > 0){
+              this.cityDetails = res.result[0].cityList;
+            }
+          },
+          err => {
+            this.auth.hideLoader();
+            this.showErrorMessage(this.messageService.toastTypes.error, '', err.error.message);
+          }
+        )
+      }
+      }
 
 }

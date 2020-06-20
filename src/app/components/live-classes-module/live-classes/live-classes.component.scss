@@ -8,7 +8,7 @@ html {
       width: 32px;
       padding-top: 8px;
   }
-  
+
   .widget {
       height: auto;
       width: 85%;
@@ -18,7 +18,7 @@ html {
       box-shadow: -1px -1px 9px 4px #efefef;
       border-radius: 10px;
   }
-  
+
   $color-base: #efefef;
   $color-base: #efefef;
   $color-highlight: lighten($color-base, 7%);
@@ -40,18 +40,18 @@ html {
           animation: progress 1s ease-in-out infinite;
       }
   }
-  
-  
+
+
   .madeNe {
       width: 95%;
       margin-left: 3%;
       margin-top: 17px;
   }
-  
+
   .made-out {
       border: 1px solid #efefef;
   }
-  
+
   .madeNe {
       height: 180px;
       overflow: hidden;
@@ -60,7 +60,7 @@ html {
           overflow: auto;
       }
   }
-  
+
   .form-submit {
       .field-radio-wrapper {
           width: 20px;
@@ -87,7 +87,7 @@ html {
           }
       }
   }
-  
+
   .alignment {
       th {
           text-align: left;
@@ -96,11 +96,11 @@ html {
           text-align: left;
       }
   }
-  
+
   .pointed-one {
       cursor: pointer;
   }
-  
+
   .row-inner {
       .field-wrapper {
           position: relative;
@@ -124,7 +124,7 @@ html {
           }
       }
   }
-  
+
   .made-in {
       .field-checkbox-wrapper {
           .form-checkbox {
@@ -143,7 +143,7 @@ html {
           }
       }
   }
-  
+
   table {
       thead {
           tr {
@@ -153,13 +153,13 @@ html {
           }
       }
   }
-  
+
   .view-class {
       margin-right: 10%;
       margin-top: -2%;
       cursor: pointer;
   }
-  
+
   .teacherId {
       th {
           text-align: left;
@@ -168,15 +168,15 @@ html {
           text-align: left;
       }
   }
-  
+
   .made-teacher {
       width: 95%;
       margin-left: 3%;
       margin-top: 17px;
   }
-  
+
   .tooltip {}
-  
+
   .made-teacher {
       height: 292px;
       overflow: hidden;
@@ -185,15 +185,15 @@ html {
           overflow: auto;
       }
   }
-  
-  
+
+
   .middle-section{
     padding: 1%;
   }
   .border-container{
     border-top: 1px solid #e3e3e3;
   }
-  
+
   .live-class-list{
     display: flex;
     flex-direction: row;
@@ -207,6 +207,7 @@ html {
         margin-right: 20px;
         margin-bottom: 0px;
         margin-top: 10px;
+        width: 25% !important;
         label{
           color: rgb(51, 51, 51);
           font-weight: bold;
@@ -276,10 +277,10 @@ html {
       }
     }
   }
-  
+
   .live-class{
-    height: 66vh;
-    max-height: 66vh;
+    height: 70vh;
+    max-height: 70vh;
     overflow-x: hidden;
     overflow-y: auto;
     ::-webkit-scrollbar {
@@ -318,6 +319,10 @@ html {
               color: #acacac;
               font-size: 14px;
             }
+            .class-for-name{
+              font-weight: 600;
+              color: #0084f6;
+            }
           }
           .notification_container{
             display: flex;
@@ -337,28 +342,28 @@ html {
                 width: 5px;
                 height: 5px;
                 background-color: #ec7600;
-  
+
                 border-radius: 100%;
                 display: inline-block;
                 -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
                 animation: sk-bouncedelay 1.4s infinite ease-in-out both;
               }
-  
+
               .spinner .bounce1 {
                 -webkit-animation-delay: -0.32s;
                 animation-delay: -0.32s;
               }
-  
+
               .spinner .bounce2 {
                 -webkit-animation-delay: -0.16s;
                 animation-delay: -0.16s;
               }
-  
+
               @-webkit-keyframes sk-bouncedelay {
                 0%, 80%, 100% { -webkit-transform: scale(0) }
                 40% { -webkit-transform: scale(1.0) }
               }
-  
+
               @keyframes sk-bouncedelay {
                 0%, 80%, 100% {
                   -webkit-transform: scale(0);
@@ -456,13 +461,14 @@ html {
               font-weight: 600;
             }
             .repeat_session{
-              background: #1283f4;
-              color: white;
+              background: white;
+              color: #1283f4;
               border-radius: 4px;
               text-align: center;
               text-transform: uppercase;
-              padding: 10px 19px;
+              padding: 8px;
               font-weight: 600;
+              border: 1px solid #1283f4;
             }
           }
           .item_type_3{
@@ -474,13 +480,13 @@ html {
             padding-right: 15px;
             height: 52px;
           }
-  
+
         }
-  
+
       }
     }
   }
-  
+
   .note-container{
     margin-left: 1%;
     margin-top: 15px;
@@ -490,15 +496,15 @@ html {
     padding: 10px;
     color: #3f4260;
   }
-  
-  
+
+
   .filter-res.pagination {
       width: 100%;
       // margin-top: 15px;
   }
-  
-  
-  
+
+
+
   .pagination {
       // margin-top: 15px;
       .first {
@@ -539,13 +545,13 @@ html {
           }
       }
   }
-  
+
   .pagination li:last-child {
       border-right: 0;
       padding-right: 0;
   }
-  
-  
+
+
   @media screen and (max-width: 2000px) and (min-width: 1400px) {
     .search-filter-wrapper {
       i {
@@ -554,9 +560,9 @@ html {
         }
       }
   }
-  
-  
-  
+
+
+
   .black-bg{
     background: rgba(10,10,10,0.3);
     position: fixed;
@@ -566,7 +572,7 @@ html {
     z-index: 1;
     width: 100%;
   }
-  
+
   .confirmation_popup{
     position: fixed;
     top: 35%;
@@ -599,7 +605,7 @@ html {
        border: 2px solid #0084f6;
      }
     }
-  
+
     .field-checkbox-wrapper .form-checkbox+label {
         vertical-align: middle;
         font-size: 14px;
@@ -643,7 +649,7 @@ html {
         color: #0084f6;
     }
   }
-  
+
   .confirmation_button_container{
     margin-top: 20px;
     display: flex;
@@ -703,16 +709,16 @@ html {
 .viewAction{
   // margin-top: 10px;
   background: white;
-    border-radius: 4px;
-    border: 1px solid #0084f6;
-    outline: none;
-    text-align: center;
-    padding: 8px 20px;
-    height: 52px;
-    font-weight: 600;
-    color: #0084f6;
-    box-shadow: 0px 0px 1px #0084f6;
-    cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #0084f6;
+  outline: none;
+  text-align: center;
+  padding: 10px;
+  height: 34px;
+  font-weight: 600;
+  color: #0084f6;
+  box-shadow: 0px 0px 1px #0084f6;
+  cursor: pointer;
 }
 .download_popup{
   border: none;
@@ -801,4 +807,15 @@ html {
 .disabledButton{
  cursor:no-drop;
  opacity: 0.5;
+}
+.action_upload{
+  padding: 5px;
+  text-align: center;
+  color: #1283f4;
+  font-size: 13px;
+  border: 1px solid #daecfd;
+  outline: none;
+  background: white;
+  height: 30px;
+  width: 100%;
 }

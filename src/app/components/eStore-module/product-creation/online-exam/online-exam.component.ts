@@ -25,6 +25,19 @@ export class OnlineExamComponent implements OnInit {
   description: string = '';
   selectAll: boolean = false;
   isAdvanceProductEdit:boolean = false;
+  editorConf = {
+    height: 150,
+    menubar: false,
+    branding: false,
+    plugins: [
+      'preview anchor',
+      'visualblocks code ',
+      'insertdatetime  table paste code  wordcount'
+    ],
+    toolbar: 'undo redo | formatselect | bold italic backcolor | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent'
+  };
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
@@ -37,7 +50,7 @@ export class OnlineExamComponent implements OnInit {
   }
 
   expandEcourse(ecourse) {
-    ecourse.isExpand = !ecourse.isExpand;  
+    ecourse.isExpand = !ecourse.isExpand;
     if (ecourse.isExpand && ecourse.testlist.length == 0) {
       this.initOnlineTests(ecourse);
     }
@@ -69,10 +82,10 @@ export class OnlineExamComponent implements OnInit {
               this.prodForm.product_item_list.forEach((obj) => {
                 ecourse.testlist.forEach((test) => {
                   if (test.test_id == obj.source_item_id && obj.course_type_id == ecourse.course_type_id
-                    && obj.slug == "Online_Test") { 
-                      test.isChecked = true; 
+                    && obj.slug == "Online_Test") {
+                      test.isChecked = true;
                       test.is_existed_selected= (test.isChecked && this.isAdvanceProductEdit)? true : false;
-                      
+
                     }
                 });
               });
@@ -181,7 +194,7 @@ export class OnlineExamComponent implements OnInit {
     // console.log(array);
     // if (this.testlist.length == 0) {
     //   this.nextForm.emit();
-    // } else 
+    // } else
     let objectArray = [];
     this.prodForm.product_item_list && this.prodForm.product_item_list.forEach((object) => {
       if (object.slug != 'Online_Test') {

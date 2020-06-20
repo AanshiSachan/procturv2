@@ -12,7 +12,6 @@ import { ProductService } from '../../../../services/products.service';
 })
 export class BasicInfoComponent implements OnInit {
 
-
   @Input() entity_id: any;
   productItems: any = [];
   @Input() product_item_stats: any;
@@ -48,7 +47,7 @@ export class BasicInfoComponent implements OnInit {
     short_description: '',
     about: '',
     is_paid: true,
-    is_advance_product:false,
+    is_advance_product:true,
     price: 0,
     cateory: 0,
     itemStates: [],
@@ -60,6 +59,8 @@ export class BasicInfoComponent implements OnInit {
     end_timestamp: '',
     status: 10,
     duration: 0,
+    publish_date: null,
+    product_user_type: "-1",
     product_item_stats: {
       mock_test: 0,
       online_exams: 0,
@@ -71,6 +72,26 @@ export class BasicInfoComponent implements OnInit {
 
     }
   };
+
+  advanceProduct = {
+    forStudent: true,
+    forOpenUser: true
+  };
+
+  editorConf = {
+    height: 150,
+    menubar: false,
+    branding: false,
+    plugins: [
+      'preview anchor',
+      'visualblocks code ',
+      'insertdatetime  table paste code  wordcount'
+    ],
+    toolbar: 'undo redo | formatselect | bold italic backcolor | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent'
+  };
+
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
@@ -132,6 +153,23 @@ export class BasicInfoComponent implements OnInit {
             this.products_ecourse_maps.push(obj);
           });
           this.prodForm.is_duration = this.prodForm.duration ? true : false;
+          if(this.prodForm.product_user_type == 8){
+            this.advanceProduct.forStudent = true;
+            this.advanceProduct.forOpenUser = true;
+          }
+          else if(this.prodForm.product_user_type == 16){
+            this.advanceProduct.forStudent = false;
+            this.advanceProduct.forOpenUser = false;
+          }
+          else if(this.prodForm.product_user_type == 2){
+            this.advanceProduct.forStudent = true;
+            this.advanceProduct.forOpenUser = false;
+          }
+          else if(this.prodForm.product_user_type == 4){
+            this.advanceProduct.forStudent = false;
+            this.advanceProduct.forOpenUser = true;
+          }
+
           this.prodForm.is_advance_product = this.prodForm.is_advance_product ? true : false;
          this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status== 30) ?true:false;
           this.prodForm.product_item_stats = {};
@@ -161,7 +199,7 @@ export class BasicInfoComponent implements OnInit {
 
 
   initDataEcourse() {
-    this.http.getMethod('ext/get-ecources', null).subscribe(
+    this.http.getMethod('ext/get-ecources?isOnline=Y', null).subscribe(
       (resp: any) => {
         let response = JSON.parse(resp.result);
         console.log(response);
@@ -224,7 +262,7 @@ export class BasicInfoComponent implements OnInit {
     }
 
 
-    if ((!this.prodForm.is_duration) && 
+    if ((!this.prodForm.is_duration) &&
     (moment(this.prodForm.valid_from_date).valueOf() < moment(this.prodForm.sales_from_date).valueOf())) {
       this.msgService.showErrorMessage('error', 'Product visibility start date cannot be prior to sales start date', '');
       return;
@@ -257,6 +295,17 @@ export class BasicInfoComponent implements OnInit {
       this.prodForm.valid_from_date = null;
       this.prodForm.valid_to_date = null;
     }
+    let productFor = 16;
+    if(this.advanceProduct.forStudent && this.advanceProduct.forOpenUser){
+      productFor = 8;
+    }
+    else if(this.advanceProduct.forStudent){
+      productFor = 2;
+    }
+    else if(this.advanceProduct.forOpenUser){
+      productFor = 4;
+    }
+    this.prodForm.product_user_type = productFor;
     const is_advance_product = this.prodForm.is_advance_product ? 1 : 0;
     let object = {
       "entity_id": this.prodForm.entity_id,
@@ -276,7 +325,9 @@ export class BasicInfoComponent implements OnInit {
       "purchase_limit": this.prodForm.purchase_limit,
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
-      "product_items_types": this.product_item_list
+      "product_items_types": this.product_item_list,
+      "product_user_type": this.prodForm.product_user_type,
+      "publish_date": this.prodForm.publish_date
     }
     if (this.prodForm.entity_id == null || this.prodForm.entity_id == 0) {
       this.createProduct(object);
@@ -347,7 +398,7 @@ export class BasicInfoComponent implements OnInit {
     // var hours = date.getHours();
 
     // newDate.setHours(hours - offset);
-    return moment(date_s).format('YYYY-MM-DD');   
+    return moment(date_s).format('YYYY-MM-DD');
 }
 
 

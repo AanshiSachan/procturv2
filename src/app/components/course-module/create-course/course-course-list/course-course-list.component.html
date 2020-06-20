@@ -34,19 +34,25 @@
                 <th style="width:20%">
                   <label style="cursor:pointer;" (click)="sortTable('coursee_names')">Course(s)</label>
                 </th>
-                <th style="width:20%">
+                <th style="width: 10%;">
+                  Course End Date
+                </th>
+                <th style="width:15%">
                   <label style="cursor:pointer;" >Academic Year </label>
                 </th>
-                <th style="width:20%">
+                <th style="width:15%">
                   <label style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
                 </th>
-                <th style="width:15%">Action</th>
+                <th style="width: 5%;">
+                  <label style="cursor:pointer;" >Total Students </label>
+                </th>
+                <th style="width:10%">Action</th>
 
               </tr>
             </thead>
             <tbody id="tbodyItem{{i}}" class="table-accor-head" *ngFor="let row of courseList; let i=index;">
               <tr>
-                <td colspan="5">
+                <td colspan="7">
                   <div class="accordian-heading">
                     <h4 class="clearFix ">
                       <span class="close-accor" (click)="toggleTbodyClass(i)">-</span>
@@ -60,13 +66,14 @@
                 </td>
               </tr>
               <tr id="tbodyView{{i}}" class="hide">
-                <td colspan="5">
+                <td colspan="7">
                   <table>
                     <tbody class="table-accor-view accorInnerTable">
                       <tr *ngFor="let sc of row.coursesList; let y= index;">
                         <td style="width:25%"></td>
                         <td style="width:20%">{{sc.course_name}}</td>
-                        <td style="width:20%">
+                        <td style="width: 10%;">{{sc.end_date}}</td>
+                        <td style="width:15%">
                           <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':sc.academic_year_id? 'lightgrey':'','cursor':sc.academic_year_id ? 'not-allowed':''}" [(ngModel)]="sc.academic_year_id" >
                             <option value="-1">Select</option>
                             <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
@@ -74,8 +81,9 @@
                             </option>
                           </select>
                         </td>
-                        <td style="width:20%">{{row.standard_name}}</td>
-                        <td style="width:15%">
+                        <td style="width:15%">{{row.standard_name}}</td>
+                        <td style="width: 5%;">{{sc.total_students}}</td>
+                        <td style="width:10%">
                           <div class="action-box ">
                             <a style="cursor:pointer"  *ngIf="jsonFlags.isShowAddStudent" (click)="addStudentToBatch(sc)">Add Student
                               <!-- <i class="far fa fa-plus-square" style="font-size: 25px" alt="Add Student" title="Add Student"></i> -->
@@ -98,7 +106,7 @@
             </tbody>
             <tbody *ngIf="(courseList.length ==0 && dataStatus === 2)">
               <tr>
-                <td colspan="6" style="text-align:center">
+                <td colspan="8" style="text-align:center">
                   No Course Found
                 </td>
               </tr>

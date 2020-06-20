@@ -1,17 +1,6 @@
 <div class="middle-section clearFix">
 
   <section class="middle-main clearFix">
-    <div class="common-tab">
-      <ul>
-        <li id="liUser" (click)="switchActiveView('liUser')" class="">
-          <a routerLink="/view/manage">User</a>
-        </li>
-        <li id="liRole" (click)="switchActiveView('liRole')" class="active">
-          <a routerLink="/view/manage/role">Role</a>
-        </li>
-      </ul>
-    </div>
-
     <div class="router-container">
       <router-outlet></router-outlet>
     </div>

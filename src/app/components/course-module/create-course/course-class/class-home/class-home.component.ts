@@ -800,7 +800,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       date: data.id.split('(')[0]
     }
     sessionStorage.setItem('editClass', JSON.stringify(obj));
-    this.router.navigateByUrl('/view/course/class/add');
+    this.router.navigate(['view/course/create/class/add']);
   }
 
   printTimeTableData() {
@@ -964,7 +964,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       }
       this.classService.deleteMultiple(dataToSend).subscribe(
         res => {
-          this.messageToast('success', 'Deleted Successfully', '');
+          this.messageToast('success', '', 'Deleted Successfully');
           if (this.showAdvanceFilter) {
             this.advanceFilterView();
           } else {

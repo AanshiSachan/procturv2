@@ -12,7 +12,7 @@ import { CourseListService } from '../../../../services/course-services/course-l
 export class CourseCourseListComponent implements OnInit {
 
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
-  columnMaps: any[] = [0, 1, 2, 3, 4, 5];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6, 7];
   courseListDataSource: any = [];
   studentListDataSource: any = [];
   feeTemplateDataSource: any = [];
@@ -176,7 +176,7 @@ export class CourseCourseListComponent implements OnInit {
     // this.onRadioButtonChange();
   }
 
-  // set default template and set 
+  // set default template and set
   setDefaultTemplate(country_id, templates, data) {
     // templates[country_id] && templates[country_id].forEach(object => {
     //   if (object.is_default == 'Y' && data.assigned_fee_template_id == -1) {
@@ -195,7 +195,7 @@ export class CourseCourseListComponent implements OnInit {
       let all_template = []
       let keys = Object.keys(templates);
       keys.forEach((key) => {
-        all_template =[...all_template,...templates[key]];    
+        all_template =[...all_template,...templates[key]];
       });
       return all_template;
     } else {
@@ -353,6 +353,7 @@ export class CourseCourseListComponent implements OnInit {
         this.studentList = [];
         this.addStudentPopUp = false;
         this.auth.hideLoader();
+        this.getCourseListForTable();
         this.showTable = false;
       },
       err => {

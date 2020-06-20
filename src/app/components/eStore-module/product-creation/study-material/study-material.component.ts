@@ -27,6 +27,20 @@ export class StudyMaterialComponent implements OnInit {
   outputMessage: any = '';
   materialData: any[] = [];
   testlist: any[] = [];
+  selectAll: any;
+  editorConf = {
+    height: 150,
+    menubar: false,
+    branding: false,
+    plugins: [
+      'preview anchor',
+      'visualblocks code ',
+      'insertdatetime  table paste code  wordcount'
+    ],
+    toolbar: 'undo redo | formatselect | bold italic backcolor | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent'
+  };
 
   constructor(
     private router: Router,
@@ -161,11 +175,11 @@ export class StudyMaterialComponent implements OnInit {
         break;
       }
       case "previousYearQuesList": {
-        slug = 'Previous_Year_Questions_Paper';
+        slug = 'Previous Year Questions Paper';
         break;
       }
       case "audioNotesList": {
-        slug = 'Audio_Notes';
+        slug = 'Audio Notes';
         break;
       }
       case "slidesList": {

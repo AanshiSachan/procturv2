@@ -44,6 +44,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   readonly: boolean = true;
   institute_id:any;
   downloadStudentReportAccess:boolean = false;
+  studdentEdit = true;
 
   /* Model for institute Data for fetching student enquiry */
   currRow: instituteInfo = {

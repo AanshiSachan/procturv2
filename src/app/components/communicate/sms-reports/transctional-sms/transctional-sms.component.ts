@@ -20,14 +20,14 @@ export class TransctionalSmsComponent implements OnInit {
   @ViewChild('child') private child: DataDisplayTableComponent;
   busy: Subscription;
   projectSettings: any[] = [
+    { primaryKey: 'sentDateTime', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
     { primaryKey: 'name', header: 'Name', priority: 1, allowSortingFlag: true },
     { primaryKey: 'phone', header: 'Contact No.', priority: 2, allowSortingFlag: true },
     { primaryKey: 'message', header: 'Message', priority: 3, allowSortingFlag: true },
-    { primaryKey: 'sentDateTime', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
     { primaryKey: 'role', header: 'Role', priority: 5, allowSortingFlag: true },
-    { primaryKey: 'sms_type', header: 'Type', priority: 6, allowSortingFlag: true },
     { primaryKey: 'func_type', header: 'Event', priority: 7, allowSortingFlag: true },
-    { primaryKey: 'sentStatus', header: 'Status', priority: 8, allowSortingFlag: true }
+    // { primaryKey: 'sms_type', header: 'Type', priority: 6, allowSortingFlag: true },
+    // { primaryKey: 'sentStatus', header: 'Status', priority: 8, allowSortingFlag: true }
   ];
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   smsSource: any[] = [];
@@ -69,7 +69,7 @@ export class TransctionalSmsComponent implements OnInit {
     actionSetting:
     {
       showActionButton: false,
-      editOption: '',//or button 
+      editOption: '',//or button
       // options: this.menuOptions
     },
     displayMessage: "Enter Detail to Search"
@@ -96,7 +96,13 @@ export class TransctionalSmsComponent implements OnInit {
         (res: any) => {
           this.auth.hideLoader();
           if (res.length != 0) {
-            this.smsSource = res;
+            let temp = res;
+            temp.forEach(elem => {
+              let x = elem.sentDateTime.split(":");
+              let y = elem.sentDateTime.split(" ");
+              elem.sentDateTime = x[0]+":"+x[1]+" "+y[2];
+            });
+            this.smsSource = temp;
             this.totalRecords = res[0].totalCount;
           }
           else {
@@ -114,7 +120,15 @@ export class TransctionalSmsComponent implements OnInit {
       return this.getSms.fetchSmsReport(obj).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          this.smsSource = res;
+          let temp = res;
+          if(temp.length) {
+            temp.forEach(elem => {
+              let x = elem.sentDateTime.split(":");
+              let y = elem.sentDateTime.split(" ");
+              elem.sentDateTime = x[0]+":"+x[1]+" "+y[2];
+            });
+            this.smsSource = temp;
+          }
         }
       )
     }
@@ -167,7 +181,7 @@ export class TransctionalSmsComponent implements OnInit {
   }
 
   /** this function is used to download execel
-   * written by laxmi 
+   * written by laxmi
   */
   exportToExcel() {
     let exportedArray: any[] = [];
@@ -178,9 +192,7 @@ export class TransctionalSmsComponent implements OnInit {
       obj["Message"] = data.message;
       obj["Sent Date-Time"] = data.sentDateTime;
       obj["Role"] = data.role;
-      obj["Type"] = data.sms_type;
       obj["Event"] = data.func_type;
-      obj["Status"] = data.sentStatus;
       exportedArray.push(obj);
     })
     this._excelService.exportAsExcelFile(
@@ -190,7 +202,7 @@ export class TransctionalSmsComponent implements OnInit {
   }
 
   /** this function is used to download pdf
-   * written by laxmi 
+   * written by laxmi
   */
   exportToPdf() {
     let arr = [];
@@ -210,7 +222,7 @@ export class TransctionalSmsComponent implements OnInit {
       })
 
     let rows = [];
-    rows = [['Name', "Contact No.", "Message", 'Sent Date-Time', 'Role', 'Type', 'Event', 'Status']]
+    rows = [['Name', "Contact No.", "Message", 'Sent Date-Time', 'Role', 'Event']]
     let columns = arr;
     let columnStyles = {
       1: {

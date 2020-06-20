@@ -316,7 +316,7 @@
               </div>
 
               <!-- City List  -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
+              <!-- <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="cityList">City</label>
                   <select id="cityList" class="form-ctrl" [(ngModel)]="advancedFilterForm.city" name="cityList" (ngModelChange)="onCitySelection($event)">
@@ -324,10 +324,10 @@
                     <option *ngFor="let obj of cityList" [value]="obj.city">{{obj.city}}</option>
                   </select>
                 </div>
-              </div>
+              </div> -->
 
               <!-- Area List  -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
+              <!-- <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="areaList">Area</label>
                   <select id="areaList" class="form-ctrl" [(ngModel)]="advancedFilterForm.area" name="areaList">
@@ -335,11 +335,7 @@
                     <option *ngFor="let obj of areaList" [value]="obj.area">{{obj.area}}</option>
                   </select>
                 </div>
-              </div>
-            </div>
-
-            <div class="row">
-
+              </div> -->
               <!-- Assigned -->
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="flagJSON.isEnquiryAdmin">
                 <div class="field-wrapper">
@@ -364,6 +360,9 @@
                   </select>
                 </div>
               </div>
+            </div>
+
+            <div class="row">
 
               <!-- Referred By -->
               <div class="c-lg-4 c-md-4 c-sm-4">
@@ -375,7 +374,39 @@
                   </select>
                 </div>
               </div>
+
+              <div class="c-lg-4 c-md-4 c-sm-4">
+                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.country_id != ''}">
+                    <label for="state">Country</label>
+                      <select id="state" class="form-ctrl" [(ngModel)]="advancedFilterForm.country_id" name="state" (ngModelChange)="getStateList()">
+                      <option value="-1">Select Country</option>
+                      <option title="{{country.country_name}}" [value]="country.id" *ngFor="let country of countryList">{{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="c-lg-4 c-md-4 c-sm-4">
+                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.state_id != ''}">
+                    <label for="state">State</label>
+                      <select id="state" class="form-ctrl" [(ngModel)]="advancedFilterForm.state_id" name="state" (ngModelChange)="getCityList()">
+                      <option value="-1">Select State</option>
+                      <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+                    </select>
+                  </div>
+                </div>
             </div>
+
+            <div class="row">
+              <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.city_id != ''}">
+                  <label for="city">City</label>
+                  <select id="city" class="form-ctrl" [(ngModel)]="advancedFilterForm.city_id" name="city" (ngModelChange)="getAreaList()">
+                    <option value="-1">Select City</option>
+                    <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityDetails">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
+                  </select>
+                </div>
+              </div>
+          </div>
 
             <div class="row">
               <!-- masterCourse course -->
@@ -1441,23 +1472,35 @@
 
     <div class="popup pos-abs popup-body-container" style="max-width: 30%">
       <div class="popup-wrapper pos-rel">
-
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-              </g>
-              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-              />
-            </g>
+          <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px"
+            x="0" y="0">
+            <path class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+              style="fill: currentColor"></path>
           </svg>
         </span>
-
         <div class="popup-content">
           <h2>Download Summary Report</h2>
           <div class="content-section">
+            <div class="download-report">
+              <div class="label-container">
+                <span>Download summary report for</span>
+              </div>
+              <div class="checkbox-container">
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="slotLabel" [(ngModel)]="downloadReportFor.enquiry" class="form-checkbox" id="enq-download">
+                  <label for="enq-download">Enquiry</label>
+                </div>
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="slotLabel" [(ngModel)]="downloadReportFor.admissions" class="form-checkbox" id="enq-admissions">
+                  <label for="enq-admissions">Admissions</label>
+                </div>
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="slotLabel" [(ngModel)]="downloadReportFor.fees" class="form-checkbox" id="enq-fees">
+                  <label for="enq-fees">Fees</label>
+                </div>
+              </div>
+            </div>
             <div id="divDropDownSection" *ngIf="!flagJSON.showDateRange" class="row dropDownSection">
               <div class="c-sm-6 c-lg-6 c-lg-6">
                 <div class="field-wrapper has-value">

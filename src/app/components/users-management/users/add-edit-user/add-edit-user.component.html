@@ -1,8 +1,17 @@
 <section class="middle-section clearFix">
   <div class="content-container">
-
-    <h3 *ngIf="userId == -1">Add User</h3>
-    <h3 *ngIf="userId != -1">Edit User Detail</h3>
+    <section class="middle-top mb0 clearFix ">
+      <div class="header">
+        <h2 class="pull-left">
+          <a routerLink="/view/manage">
+            User
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <span *ngIf="userId == '-1'">Add User</span>
+            <span *ngIf="userId != '-1'">Edit User</span>
+        </h2>
+      </div>
+    </section>
 
     <div class="user-form-section">
       <div class="row">
@@ -100,6 +109,16 @@
             <input id="is_active" name="is_active" type="checkbox" class="form-checkbox"
               [(ngModel)]="roleDetails.is_active">
             <label for="is_active">Is Active</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="enable_ip_lock_feature=='Y'">
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="field-checkbox-wrapper">
+            <input id="is_office_only_access" name="is_office_only_access" type="checkbox" class="form-checkbox"
+              [(ngModel)]="roleDetails.is_office_only_access">
+            <label for="is_office_only_access">Enable IP Lock Functionality</label>
           </div>
         </div>
       </div>

@@ -61,7 +61,7 @@ import { TrainingVideoComponent } from './training-video/training-video.componen
                         },
                         {
                             path: 'expense',
-                            loadChildren: 'app/components/expense-home/expense-home.module#ExpenseHomeModule',
+                            loadChildren: 'app/components/expense-management/expense-management.module#ExpenseManagementModule',
                             canLoad: [AuthGuard]
                         }, 
                        {

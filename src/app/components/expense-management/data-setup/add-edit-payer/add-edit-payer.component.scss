@@ -1,0 +1,24 @@
+.payee-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  flex-wrap: wrap;
+  .payee-item{
+    width: 49%;
+  }
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.form-ctrl{
+  border: 1px solid #ccc;
+}
+.modal-dialog {
+  width: 800px;
+  margin: 30px auto;
+}

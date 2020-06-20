@@ -378,3 +378,145 @@ table {
 .field-radio-wrapper .form-radio:checked+label {
     color: $common-blue;
 }
+.tableDataContainer{
+    display: flex;
+    flex-direction: row;
+    padding: 10px !important;
+    border-bottom: 1px solid #eee;
+}
+.tableValueContainer{
+    display: flex;
+    flex-direction: column;
+    width: 13%;
+    font-size: 12px;
+}
+
+.addIP{
+    margin-top: 25px;
+    width: 50px;
+    padding: 5px;
+    border: 1px solid #0084f6;
+    color: #0084f6;
+    border-radius: 4px;
+    text-align: center;    
+}
+
+.displayComp {
+    height: 0%;
+     .view-comp {}
+     .edit-comp {
+         display: none
+     }
+ }
+ .editComp {
+     .view-comp {
+         display: none
+     }
+     .edit-comp {}
+ }
+ .webkitBox{
+    display: -webkit-box;
+    -webkit-box-align: center;
+}
+.zoomTable {
+    th{
+        width: 10%;
+    }
+    td{
+        width: 10%;
+        word-break: break-all;
+    }
+}
+
+.qInfoIcon {
+    width: 20px;
+    margin-left: 5px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+    line-height: 20px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0px 0px 1px 0px #ccc inset;
+    color: #888;
+    transition: all 0.2s linear;
+    &:hover {
+        border-color: $header-bg;
+        box-shadow: 0px 0px 1px 0px $header-bg inset;
+        color: $header-bg;
+    }
+}
+
+.tooltip-box-field {
+    width: 200px;
+    white-space: nowrap;
+    min-height: 41px;
+    line-height: 18px;
+    padding: 5px 5px;
+    overflow: visible;
+    color: black;
+    font-weight: bold;
+    &.lg {
+        width: 200px;
+        white-space: nowrap;
+        min-height: 50px;
+        line-height: 20px;
+        padding: 5px 5px;
+    }
+    &.sm {
+        width: 100px;
+        white-space: nowrap;
+        min-height: 40px;
+        padding: 5px 5px;
+    }
+}
+.qInfoIcon {
+    width: 20px;
+    margin-left: 5px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+    line-height: 20px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0px 0px 1px 0px #ccc inset;
+    color: #888;
+    transition: all 0.2s linear;
+    &:hover {
+        border-color: $header-bg;
+        box-shadow: 0px 0px 1px 0px $header-bg inset;
+        color: $header-bg;
+    }
+}
+
+.tooltip-box-field {
+    width: 200px;
+    white-space: nowrap;
+    min-height: 41px;
+    line-height: 18px;
+    padding: 5px 5px;
+    overflow: visible;
+    color: black;
+    font-weight: bold;
+    &.lg {
+        width: 200px;
+        white-space: nowrap;
+        min-height: 50px;
+        line-height: 20px;
+        padding: 5px 5px;
+    }
+    &.sm {
+        width: 100px;
+        white-space: nowrap;
+        min-height: 40px;
+        padding: 5px 5px;
+    }
+}

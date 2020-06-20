@@ -1,0 +1,67 @@
+<div id="addPayeeModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="closePopups()">&times;</button>
+        <h3 class="modal-title" *ngIf="isEditPayee">Update Payee Details</h3>
+        <h3 class="modal-title" *ngIf="!isEditPayee">Create Institute Payment Party</h3>
+      </div>
+      <div class="modal-body">
+        <div class="payee-container">
+          <div class="payee-item field-wrapper">
+            <label for="">Title</label>
+            <select class="form-ctrl" name="" [(ngModel)]="payeeDetails.title">
+              <option value="Mr.">Mr.</option>
+              <option value="Ms.">Ms.</option>
+            </select>
+          </div>
+          <div class="payee-item field-wrapper">
+            <label for="">Payee Name</label>
+            <input type="text" name="" value="" [(ngModel)]="payeeDetails.name" placeholder="Enter Payee Name" class="form-ctrl">
+          </div>
+          <div class="payee-item field-wrapper">
+            <label for="">Vendor Type</label>
+            <select class="form-ctrl" name="" [(ngModel)]="payeeDetails.vendorType">
+              <option title="{{party.data_value}}" [value]="party.data_key" *ngFor="let party of partyDetails">{{ (party.data_value.length > 30) ? (party.data_value | slice:0:30) + '...' : party.data_value }}</option>
+            </select>
+          </div>
+          <div class="payee-item field-wrapper">
+            <label for="">Primary Contact No.</label>
+            <input type="text" name="" value="" [(ngModel)]="payeeDetails.primaryContactNo" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="10"  placeholder="Enter Primary Contact Number" class="form-ctrl">
+          </div>
+          <div class="payee-item field-wrapper">
+            <label for="">Company Name</label>
+            <input type="text" name="" value="" [(ngModel)]="payeeDetails.companyName" placeholder="Enter Company Name" class="form-ctrl">
+          </div>
+          <div class="payee-item field-wrapper">
+            <label for="">Alternative Contact No.</label>
+            <input type="text" name="" value="" [(ngModel)]="payeeDetails.secondaryContactNo" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="10" placeholder="Enter Alternative Contact Number" class="form-ctrl">
+          </div>
+          <div class="payee-item field-wrapper">
+            <label for="">Email ID</label>
+            <input type="text" name="" value="" [(ngModel)]="payeeDetails.emailId" placeholder="Enter Email Id" class="form-ctrl">
+          </div>
+          <div class="payee-item field-wrapper">
+            <label for="">Display Name <span class="danger">*</span></label>
+            <input type="text" name="" value="" [(ngModel)]="payeeDetails.displayName" placeholder="Enter Display Name" class="form-ctrl">
+          </div>
+          <div class="payee-item field-wrapper">
+            <label for="">Address</label>
+            <input type="text" name="" value="" [(ngModel)]="payeeDetails.address" placeholder="Enter Address" class="form-ctrl">
+          </div>
+          <div class="payee-item field-wrapper">
+            <label for="">Notes</label>
+            <input type="text" name="" value="" [(ngModel)]="payeeDetails.notes" placeholder="Enter Notes" class="form-ctrl">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-default" (click)="closePopups()">Close</button> -->
+        <button type="button" class="btn btn-default add-area-btn" (click)="savePayeeDetails()">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>

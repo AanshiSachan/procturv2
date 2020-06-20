@@ -87,7 +87,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isShoweStore: false,
     isShoweOnlineExam: false,
     isAdmin: false,
-    isShowPowerBy: false
+    isShowPowerBy: false,
+    isShowExpense: false
   }
 
 
@@ -298,6 +299,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       'library': 'liseven',
       'e-store': 'lieight',
       'online-exam': 'linine',
+      'expense': 'liten',
     };
     if (document.getElementById(routesData[pathLastURL])) {
       this.activeSession = routesData[pathLastURL];
@@ -450,7 +452,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.isLiveClassesAllow(type);
     this.isElearnAllow();
     this.isLibraryFeatureAllow(permission); // check librabry feature
-
+    this.isExpenseFeatureAllow();
   }
 
   // check only default values
@@ -481,8 +483,23 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       (username == "admin" && this.instituteId == 100058) ||
       (username == "admin" && this.instituteId == 100952) ||
       (username == "admin" && this.instituteId == 100135) ||
+      (username == "admin" && this.instituteId == 101923) ||
       (permission && permission.indexOf('721') != -1)) {
       this.jsonFlags.isShowLibrabry = true;
+    }
+  }
+
+  isExpenseFeatureAllow(){
+    this.jsonFlags.isShowExpense = false;
+    if (this.instituteId == 101238 ||
+        this.instituteId == 101242 ||
+        this.instituteId == 101008 ||
+        this.instituteId == 101243 ||
+        this.instituteId == 101244 ||
+        this.instituteId == 100058 ||
+        this.instituteId == 100127 ||
+        this.instituteId == 100126) {
+      this.jsonFlags.isShowExpense = true;
     }
   }
 
@@ -490,6 +507,11 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.jsonFlags.isShowLiveclass = false;
     // if user is not admin
     this.jsonFlags.isShowLiveclass = this.checkInstSetupType(type, 256);
+    // if zoom is enable then also show live class // added by Swapnil
+    let zoom = sessionStorage.getItem('is_zoom_enable');
+    if(JSON.parse(zoom)){
+      this.jsonFlags.isShowLiveclass = true;
+    }
 
   }
 
@@ -498,6 +520,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.jsonFlags.isShoweStore = false;
     if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
       this.jsonFlags.isShoweStore = true;
+      if((this.instituteId == 101884 || this.instituteId == 100057) && this.userType == 3){
+        this.jsonFlags.isShoweStore = false;
+      }
     }
   }
 
@@ -728,6 +753,12 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.clearSearch();
     if (this.log.logoutUser()) {
       this.multiBranchService.subBranchSelected.next(false);
+      this.auth.clearStoredData();
+      this.auth.changeAuthenticationKey(null);
+      this.auth.changeInstituteId(null);
+      this.log.changeSidenavStatus('unauthorized');
+      sessionStorage.clear();
+
       this.router.navigateByUrl('/authPage');
     }
   }
@@ -951,6 +982,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('enable_fee_template_country_wise', res.enable_fee_template_country_wise);
     sessionStorage.setItem('tax_type_without_percentage', res.tax_type);
     sessionStorage.setItem('tax_type_with_percentage', res.tax_type+"(%)");
+    sessionStorage.setItem('enable_elearn_course_mapping_feature', res.enable_elearn_course_mapping_feature);
   }
 
   // closeSubMenu(){

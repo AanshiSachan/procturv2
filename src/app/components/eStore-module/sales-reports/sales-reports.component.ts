@@ -8,6 +8,8 @@ import { ProductService } from '../../../services/products.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { DataDisplayTableComponent } from '../../shared/data-display-table/data-display-table.component';
 import { ColumnData2 } from '../../shared/data-display-table/data-display-table.model';
+import { ExcelService } from '../../../services/excel.service';
+
 @Component({
   selector: 'app-sales-reports',
   templateUrl: './sales-reports.component.html',
@@ -37,14 +39,14 @@ export class SalesReportsComponent implements OnInit {
   }
   feeSettings1: ColumnData2[] = [
     { primaryKey: 'order_id', header: 'Order ID', priority: 1, allowSortingFlag: true },
-    { primaryKey: 'name', header: 'Student Name', priority: 2, allowSortingFlag: true },
-    { primaryKey: 'phone', header: 'Phone No', priority: 3, allowSortingFlag: true },
-    { primaryKey: 'title', header: 'Product Name', priority: 4, allowSortingFlag: true },
+    { primaryKey: 'title', header: 'Product Name', priority: 2, allowSortingFlag: true },
+    { primaryKey: 'name', header: 'Student Name', priority: 3, allowSortingFlag: true },
+    { primaryKey: 'phone', header: 'Phone No', priority: 4, allowSortingFlag: true },
     { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
     { primaryKey: 'price', header: 'Price', priority: 6, amountValue: true, allowSortingFlag: true },
     {
       primaryKey: 'status', header: 'Status', priority: 7, allowSortingFlag: true, dataType: 'array',
-      arrayValue: { '10': 'Ready', '20': 'Ready To Publish', '30': 'Publish', '40': 'Unpublished', '50': 'Closed' }
+      arrayValue: { '10': 'Ready', '20': 'Ready To Publish', '30': 'Published', '40': 'Unpublished', '50': 'Closed' }
     }
   ];
 
@@ -61,12 +63,17 @@ export class SalesReportsComponent implements OnInit {
     displayMessage: "Data Not Found"
   };
 
+  searchText = "";
+  searchflag: boolean = false;
+  tempSalesData: any[] = [];
+
   constructor(private auth: AuthenticatorService,
     private _tablePreferencesService: TablePreferencesService,
     private pdf: ExportToPdfService,
     private ref: ChangeDetectorRef,
     private _msgService: MessageShowService,
     private _http: HttpService,
+    private _excelService: ExcelService,
     private http: ProductService, ) { }
 
   ngOnInit() {
@@ -100,7 +107,7 @@ export class SalesReportsComponent implements OnInit {
     }
 
     this.auth.showLoader();
-    this.http.getMethod('product/get', null).subscribe(
+    this.http.getMethod('product/get?module=SALES_REPORT', null).subscribe(
       (resp: any) => {
         this.auth.hideLoader();
         if (resp.validate) {
@@ -145,16 +152,16 @@ export class SalesReportsComponent implements OnInit {
           data && data.forEach((object) => {
             let saleData = {
               "order_id": object.order_id,
+              "title": object.product.title,
               "name": object.name,
               "phone": object.phone,
-              "title": object.product.title,
               "price":object.price,
               "publish_date": object.purchase_date,
               "status": object.product.status,
             }
             this.salesDataSource.push(saleData);
           });
-
+          this.tempSalesData = this.salesDataSource;
         }
         else {
           this._msgService.showErrorMessage('error', "something went wrong, try again", '');
@@ -224,10 +231,10 @@ export class SalesReportsComponent implements OnInit {
   setDefaultValues() {
     this.tableSetting.keys = [
       { primaryKey: 'order_id', header: 'Order ID', priority: 1, allowSortingFlag: true },
-      { primaryKey: 'name', header: 'Student Name', priority: 2, allowSortingFlag: true },
-      { primaryKey: 'phone', header: 'Phone No', priority: 3, allowSortingFlag: true },
-      { primaryKey: 'title', header: 'Product Name', priority: 4, allowSortingFlag: true },
-      { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' }  
+      { primaryKey: 'title', header: 'Product Name', priority: 2, allowSortingFlag: true },
+      { primaryKey: 'name', header: 'Student Name', priority: 3, allowSortingFlag: true },
+      { primaryKey: 'phone', header: 'Phone No', priority: 4, allowSortingFlag: true },
+      { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' }
     ];
     this.displayKeys = this.tableSetting.keys;
     this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
@@ -293,4 +300,38 @@ export class SalesReportsComponent implements OnInit {
     console.log(this.displayKeys);
   }
 
+  exportToExcel() {
+    let exportedArray: any[] = [];
+    this.salesDataSource.map((data: any) => {
+      let obj = {};
+      obj["Order ID"] = data.order_id;
+      obj["Product Name"] = data.title;
+      obj["Student Name"] = data.name;
+      obj["Phone No"] = data.phone;
+      obj["Purchase Date"] = moment(data.publish_date).format("DD MMM YYYY");
+      exportedArray.push(obj);
+    })
+    this._excelService.exportAsExcelFile(
+      exportedArray,
+      'Sales Report'
+    )
+  }
+
+  searchDatabase() {
+    this.salesDataSource = this.tempSalesData;
+    if (this.searchText != "" && this.searchText != null) {
+      let searchData: any;
+      searchData = this.salesDataSource.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+      );
+      this.salesDataSource = searchData;
+      this.searchflag = true;
+
+    }
+    else {
+      this.salesDataSource = this.tempSalesData;
+      this.searchflag = false;
+    }
+  }
 }

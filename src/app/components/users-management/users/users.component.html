@@ -1,3 +1,15 @@
+
+<div class="common-tab">
+  <ul>
+    <li id="liUser" (click)="switchActiveView('liUser')" class="">
+      <a routerLink="/view/manage">User</a>
+    </li>
+    <li id="liRole" (click)="switchActiveView('liRole')" class="active">
+      <a routerLink="/view/manage/role">Role</a>
+    </li>
+  </ul>
+</div>
+
 <section class="middle-section clearFix">
   <div class="content-container">
 
@@ -59,66 +71,82 @@
       </div>
     </div>
 
-    <div class="user-table-wrapper" *ngIf="showUserTable">
-      <div class="table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th class="align-txt-lft">Name</th>
-              <th class="align-txt-lft">Contact No</th>
-              <th class="align-txt-lft">Email Id</th>
-              <th class="align-txt-lft" *ngIf="(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 )&& dataFilter.is_show_credentials">Credentials</th>
-              <th *ngIf="(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 ) && dataFilter.is_show_credentials"></th>
-              <th class="align-txt-lft">User Type</th>
-              <th class="align-txt-lft"> Inventory</th>
-              <th class="align-txt-lft">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of usersList; let i = index; trackBy: i">
-              <td>
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" class="form-checkbox" [(ngModel)]="data.assigned" (click)="userSelectedEvent($event , data)">
-                  <label></label>
-                </div>
-              </td>
-              <td class="align-txt-lft">{{data.name}}</td>
-              <td class="align-txt-lft">{{data.username}}</td>
-              <td class="align-txt-lft">{{data.alternate_email_id}}</td>
-              <td class="align-txt-lft" *ngIf="(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 ) && dataFilter.is_show_credentials">
-                <div class="credentials-view">
-                  <span>Username :</span>
-                  <span>{{data.username}}</span>
-                </div>
-                <div class="credentials-view">
-                  <span>Password :</span>
-                  <span *ngIf="data.isEncript">****</span>
-                  <span *ngIf="!data.isEncript">{{data.password}}</span>
-                </div>
-              </td>
-              <td *ngIf="( dataFilter.role==1 || dataFilter.role==3 || dataFilter.role==5 ) && dataFilter.is_show_credentials">
-                <i class="fa fa-eye psw-show" aria-hidden="true" (click)="descriptPassword(data)" *ngIf="!data.isEncript"></i>
-                <i class="fa fa-eye-slash psw-show" aria-hidden="true" (click)="descriptPassword(data)" *ngIf="data.isEncript"></i>
-              </td>
-
-              <td class="align-txt-lft">{{data.userType}}</td>
-              <td class="align-txt-lft">
-                <a (click)="allocateItemToUser(data)">Allocate</a>
-              </td>
-              <td class="action-menu align-txt-lft">
-                <a [routerLink]='["./addedit" , data.user_id]'>Edit</a>
-                <!-- <a (click)="deleteUser(data)">Delete</a> -->
-              </td>
-            </tr>
-            <tr *ngIf="usersList.length == 0">
-              <td colspan="9">
-                No User Data Found
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="table-container" *ngIf="showUserTable">
+      <div class="heading-container">
+        <div class="heading-item" style="width: 5%;">
+        </div>
+        <div class="heading-item" style="width: 17%;text-align: left;">
+          <span>Name</span>
+        </div>
+        <div class="heading-item" style="text-align: left;"[ngStyle]="{'width':(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 ) && dataFilter.is_show_credentials?'14%':'18%'}">
+          <span>Contact No</span>
+        </div>
+        <div class="heading-item" [ngStyle]="{'width':(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 ) && dataFilter.is_show_credentials?'16%':'20%'}">
+          <span>Email Id</span>
+        </div>
+        <div class="heading-item" *ngIf="(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 )&& dataFilter.is_show_credentials" style="width: 15%;text-align: left;">
+          <span>Credentials</span>
+        </div>
+        <div class="heading-item" *ngIf="(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 ) && dataFilter.is_show_credentials" style="width: 5%;">
+          <span></span>
+        </div>
+        <div class="heading-item">
+          <span>User Type</span>
+        </div>
+        <div class="heading-item" style="width: 10%;">
+          <span>Inventory</span>
+        </div>
+        <div class="heading-item">
+          <span>Action</span>
+        </div>
       </div>
+      <div class="value-outer-container" *ngIf="usersList?.length>0">
+        <div class="value-container" *ngFor="let data of usersList; let i = index; trackBy: i">
+          <div class="value-item" style="width: 5%;padding-left: 10px;">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" class="form-checkbox" [(ngModel)]="data.assigned" (click)="userSelectedEvent($event , data)">
+              <label></label>
+            </div>
+          </div>
+           <div class="value-item" style="width: 17%;text-align: left;">
+            {{data.name}}
+          </div>
+          <div class="value-item" style="text-align: left;" [ngStyle]="{'width':(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 ) && dataFilter.is_show_credentials?'14%':'18%'}">
+            {{data.username}}
+          </div>
+          <div class="value-item" [ngStyle]="{'width':(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 ) && dataFilter.is_show_credentials?'16%':'20%'}">
+            <span>{{(data.alternate_email_id=='') ? '-' : data.alternate_email_id}}</span>
+          </div>
+          <div class="value-item" *ngIf="(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 ) && dataFilter.is_show_credentials" style="width: 15%;text-align: left;">
+            <div class="credentials-view">
+              <span>Username :</span>
+              <span>{{data.username}}</span>
+            </div>
+            <div class="credentials-view">
+              <span>Password :</span>
+              <span *ngIf="data.isEncript">****</span>
+              <span *ngIf="!data.isEncript">{{data.password}}</span>
+            </div>
+          </div>
+          <div class="value-item" *ngIf="( dataFilter.role==1 || dataFilter.role==3 || dataFilter.role==5 ) && dataFilter.is_show_credentials" style="width: 5%;">
+            <i class="fa fa-eye psw-show" aria-hidden="true" (click)="descriptPassword(data)" *ngIf="!data.isEncript"></i>
+                <i class="fa fa-eye-slash psw-show" aria-hidden="true" (click)="descriptPassword(data)" *ngIf="data.isEncript"></i>
+          </div>
+          <div class="value-item">
+            {{data.userType}}
+          </div>
+          <div class="value-item" style="width: 10%;">
+            <a (click)="allocateItemToUser(data)">Allocate</a>
+          </div>
+          <div class="value-item">
+            <a [routerLink]='["./addedit" , data.user_id]' title="Edit"><i class="fa fa-edit"></i></a>
+                <!-- <a (click)="deleteUser(data)">Delete</a> -->
+          </div>
+      </div>
+    </div>
+    <div class="value-outer-container" *ngIf="usersList?.length == 0" style="text-align: center;padding: 10%;font-weight: 600;">
+      <span *ngIf="!isRippleLoad">No data found</span>
+    </div>
     </div>
 
     <!-- Paginator Here -->
@@ -130,7 +158,7 @@
       </div>
     </div>
 
-    <div class="btn-group pull-right" *ngIf="usersList.length > 0">
+    <div class="btn-group pull-right" *ngIf="usersList.length > 0 && isActiveUsers">
       <button (click)="sendSmsForApp('1')" class="btn fullBlue">SMS For APP Download</button>
       <button (click)="sendSmsForApp('2')" class="btn fullBlue">SMS For APP Upgradation</button>
       <!-- <button (click)="sendSmsForApp('3')" class="btn fullBlue">SMS For APP Alternate Login Registration</button> -->

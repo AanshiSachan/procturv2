@@ -72,13 +72,13 @@
                     <div class="row field-wrapper datePickerBox">
                         <label for="CurrentAddress">Date of Birth
                         </label>
-                        <input type="text" class="form-ctrl" readonly="true" formControlName="dob" name="dob" bsDatepicker/>          
+                        <input type="text" class="form-ctrl" readonly="true" formControlName="dob" name="dob" bsDatepicker/>
                     </div>
 
                     <div class="row field-wrapper datePickerBox">
                             <label for="CurrentAddress">Date of Joining
                             </label>
-                            <input type="text" class="form-ctrl" readonly="true" formControlName="date_of_joining" name="date_of_joining" bsDatepicker/>                   
+                            <input type="text" class="form-ctrl" readonly="true" formControlName="date_of_joining" name="date_of_joining" bsDatepicker/>
                     </div>
 
                     <div class="row field-wrapper">
@@ -129,10 +129,17 @@
                             </div>
                         </div>
 
-                        <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+                        <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
                             <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" name="allow" formControlName="is_allow_teacher_to_only_mark_attendance" class="form-checkbox">
                                 <label for="allow">Allow faculty to only mark attendance</label>
+                            </div>
+                        </div> -->
+
+                        <div class="row field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'" style="padding-left: 0;">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" name="is_office_only_access" id="is_office_only_access" formControlName="is_office_only_access" class="form-checkbox">
+                                <label for="is_office_only_access">Enable IP Lock Functionality</label>
                             </div>
                         </div>
 
@@ -145,9 +152,9 @@
                         </div> -->
                     </div>
                     <div class="row">
-                        <div class="pull-right">
+                        <div class="pull-right" style="margin-top: 10px;">
                             <button routerLink="/view/course/setup/teacher" class="btn">Cancel</button>
-                            <button  class="btn fullBlue" style="font-size: 16px;height: 40px;" type="submit">Save</button>
+                            <button  class="btn fullBlue" style="font-size: 16px;" type="submit">Save</button>
                         </div>
                     </div>
                 </form>

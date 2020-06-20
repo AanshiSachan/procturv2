@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Even
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { FileManagerService } from '../file-manager.service';
+import { HttpService } from '../../../../services/http.service';
 
 
 class fileObj {
@@ -43,6 +44,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   @Input() manualUpload: boolean = false;
   @Input() pathArray: any[] = [];
   @Input() currentFilesArray: any[] = [];
+  @Input() editView: any;
   @Output() getFilesAndFolder: any = new EventEmitter<any>();
   @Output() filesAndFolder: any = new EventEmitter<any>();
   @Output() filePath: any = new EventEmitter<any>();
@@ -53,6 +55,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   type: string = "";
   customFileArr: fileObj[] = [];
   category_id: number | string = "-1";
+  youtubeUrl: any = '';
 
   category_image = {
     png: "1",
@@ -199,10 +202,17 @@ export class UploadPopupComponent implements OnInit, OnChanges {
     private cd: ChangeDetectorRef,
     private fileService: FileManagerService,
     private appC: AppComponent,
-    private auth: AuthenticatorService) { }
+    private auth: AuthenticatorService,
+    private httpService: HttpService
+    ) { }
 
   ngOnInit() {
     this.getCategories();
+    if(this.editView && this.editView.editView == true) {
+      this.category_id = this.editView.res.category_id;
+      this.youtubeUrl = this.editView.res.file_name;
+    }
+    console.log(this.editView)
   }
 
   ngOnChanges() {
@@ -285,6 +295,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
 
   uploadHandler() {
 
+    if(this.category_id!=230){
     if (this.categoryCheck(this.category_id) == true) {
 
       if (this.selectedFiles.length == 0) {
@@ -297,7 +308,17 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         return
       }
 
-      this.uploadStatus.emit(true);
+      this.uploadFile();
+    }
+  } else {
+    this.uploadFile();
+  }
+
+
+  }
+
+  uploadFile() {
+    this.uploadStatus.emit(true);
       let path: string = "";
       let institute_id = sessionStorage.getItem("institute_id");
 
@@ -318,6 +339,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         userType: sessionStorage.getItem('userType'),
         password: sessionStorage.getItem('password'),
         institution_id: sessionStorage.getItem('institute_id'),
+        category_id: this.category_id,
       }
       let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
 
@@ -328,11 +350,12 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       // newxhr.setRequestHeader("processData", "false");
       newxhr.setRequestHeader("category_id", this.category_id.toString());
       newxhr.setRequestHeader("institute_id", institute_id);
+      newxhr.setRequestHeader("youtubeUrl", this.youtubeUrl);
       newxhr.setRequestHeader("Authorization", Authorization);
       newxhr.setRequestHeader("enctype", "multipart/form-data;");
       newxhr.setRequestHeader("keyName", path);
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
-      // newxhr.setRequestHeader("contentType", "false");
+      // newxhr.setRequestHeader("Access-Control-Allow-Headers", "*");
       // newxhr.setRequestHeader("dataType", "json");
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
 
@@ -379,9 +402,6 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         }
       }
       newxhr.send(formData);
-    }
-
-
   }
 
   duplicateFileCheck() {
@@ -403,13 +423,18 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       return false;
     }
     else {
+      if(this.category_id!=230){
       this.type = Object.keys(this.acceptedFiles[this.category_id]).join()
       for (let i = 0; i < this.selectedFiles.length; i++) {
         let type = this.getType(this.selectedFiles[i].name);
         if (this.acceptedFiles[this.category_id].hasOwnProperty(type) == false) {
           this.createErrorToast("File doesn\'t match with the selected category ");
           return false;
+        } else if((new RegExp('[~#%\&_{}+\|]|\\.\\.|^\\.|\\.$')).test(this.selectedFiles[i].name)) {
+            this.createErrorToast("Special characters in file name are not allowed");
+            return false;
         }
+      }
       }
       return true;
     }
@@ -430,5 +455,33 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       body: message
     }
     this.appC.popToast(msg);
+  }
+
+  updateYoutubeURL() {
+    let obj = {
+        "title":this.youtubeUrl,
+        "institute_id": sessionStorage.getItem('institute_id'),
+        "category_id":230
+    }
+    this.auth.showLoader();
+    this.httpService.putData('/api/v1/instFileSystem/update/'+this.editView.res.file_id, obj).subscribe(
+      (res:any) => {
+        this.auth.hideLoader();
+        this.manualUpload = false;
+        let data = {
+          type: 'success',
+          title: "File updated successfully",
+          body: ''
+        }
+        this.appC.popToast(data);
+        let temp = this.editView.res.keyName.split('/https');
+        if(temp && temp.length) {
+        let newPath = temp[0].concat('/');
+        this.filePath.emit(newPath);
+        }
+        this.getFilesAndFolder.emit(200);
+        this.closePopupValue.emit(false);
+      }
+    )
   }
 }

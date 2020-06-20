@@ -9,7 +9,7 @@
                       </a>
                       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
                       <span> Sales Report </span>
-                    </h2>                    
+                    </h2>
                 </div>
 
                 <div class="row fee-filter long"  style="margin-left: 0px;margin-bottom: 1em;margin-top: 1em;">
@@ -25,7 +25,7 @@
                                         <li *ngFor="let product of productLists">
                                             <div class="field-checkbox-wrapper">
                                                 <input type="checkbox" [id]="product.title" [value]="product.title" name="{{product.title}}"
-                                                 [(ngModel)]="product.isChecked" 
+                                                 [(ngModel)]="product.isChecked"
                                                  (ngModelChange)="updateSlotSelected(product)"
                                                     class="form-checkbox">
                                                 <label for="{{product.title}}"> {{product.title}}</label>
@@ -60,7 +60,8 @@
                     <div class="c-lg-3">
                         <div id="basic-search" class="c-lg-11">
                             <form autocomplete="off" #form="ngForm">
-                                <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar" style="padding:7px 10px; width:200px; height:35px; float:right; margin-bottom: 10px;">
+                                <input type="text" name="searchValue" [(ngModel)]="searchText" placeholder="Search" class="form-ctrl" id="searchBar"
+                                (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px; float:right; margin-bottom: 10px;">
                             </form>
                         </div>
 

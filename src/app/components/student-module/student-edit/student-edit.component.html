@@ -101,11 +101,11 @@
                     <label for="sEmail">Email ID</label>
                     <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.student_email" name="sEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$"
                       #sEmail="ngModel" />
-                    <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
+                    <!-- <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="sEmail.errors.pattern">
                         Enter email in format eg. someone@xyz.com
                       </div>
-                    </div>
+                    </div> -->
                   </div>
 
                   <div class="field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value': studentAddFormData.attendance_device_id != ''}">
@@ -192,7 +192,7 @@
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <proctur-image [containerWidth]="containerWidth" [serverImg]="studentServerImage" (setImage)="setImage($event)" [thumbnailAvailable]="thumbnailAvailable"
-                  [defaultImg]="'assets/images/student_icon.png'">
+                  [defaultImg]="'assets/images/student_icon.png'" [studdentEdit]="studdentEdit">
                 </proctur-image>
               </div>
             </div>
@@ -324,12 +324,23 @@
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}">
+                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.standard_id!= ''}">
                   <label for="standard">Standards</label>
                   <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard" class="form-ctrl">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
+                    </option>
+                  </select>
+                </div>
+
+                <!-- Assign To -->
+                <div class="field-wrapper" *ngIf="!isProfessional">
+                  <label for="assignTo">Assign To</label>
+                  <select id="assignTo" [(ngModel)]="studentAddFormData.assigned_to_id" name="assignTo" class="form-ctrl">
+                    <option value="0"></option>
+                    <option [value]="assign.userid" *ngFor="let assign of enqAssignTo">
+                      {{assign.name}}
                     </option>
                   </select>
                 </div>
@@ -1791,12 +1802,7 @@
             </label>
             <!-- (ngModelChange)="paymentModeUpdate($event)" -->
             <select id="pMode" name="pMode" [(ngModel)]="paymentPopUpJson.payment_mode" class="form-ctrl" (ngModelChange)="paymentModeUpdate($event)">
-              <option value="Cash" selected>Cash</option>
-              <option value="Cheque/PDC/DD No.">Cheque/PDC/DD No.</option>
-              <option value="Credit/Debit Card">Credit/Debit Card</option>
-              <option value="Caution Deposit(Refundable)">Caution Deposit(Refundable)</option>
-              <option value="NEFT/RTGS"> NEFT/RTGS</option>
-              <option value="Other">Other</option>
+              <option *ngFor="let data of Payment_Modes" [value]="data.data_key" selected>{{data.data_value}}</option>
             </select>
           </div>
 

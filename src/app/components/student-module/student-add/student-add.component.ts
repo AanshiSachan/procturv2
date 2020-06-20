@@ -220,8 +220,11 @@ export class StudentAddComponent implements OnInit {
     stuCustomLi: [],
     deleteCourse_SubjectUnPaidFeeSchedules: false,
     archivedStudent: false,
-    studentFileUploadJson: []
+    studentFileUploadJson: [],
+    assigned_to_id: "0"
   };
+
+  enqAssignTo: any = [];
 
   checkBoxGroup: any = {
     unpaidInstallment: true,
@@ -295,6 +298,7 @@ export class StudentAddComponent implements OnInit {
   stateList: any[] = [];
   cityList: any[] = [];
   areaList: any[] = [];
+  Payment_Modes: any = [];
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -486,6 +490,7 @@ export class StudentAddComponent implements OnInit {
         this.country_id = this.instituteCountryDetObj.id;
       }
     });
+    this.getStateList();
   }
 
   toggleAddArea() {
@@ -757,11 +762,20 @@ export class StudentAddComponent implements OnInit {
       }
     )
 
+    this.prefill.getAssignTo().subscribe(
+      data => { this.enqAssignTo = data; },
+      err => {
+        this.auth.hideLoader();
+        this.msgToast.showErrorMessage('error', '', err.error.message);
+      }
+    );
+
     this.getSlots();
     this.getlangStudentStatus();
   }
 
   fetchCustomComponents() {
+    this.customComponents = [];
     this.auth.showLoader();
     this.studentPrefillService.fetchCustomComponentById(0, this.convertInstituteEnquiryId, 2).subscribe(
       data => {
@@ -1239,7 +1253,7 @@ export class StudentAddComponent implements OnInit {
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
-      let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/;
+      let email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;
       if (this.studentAddFormData.student_email != "") {
         if (!email.test(this.studentAddFormData.student_email)) {
           this.msgToast.showErrorMessage('error', '', "Please enter valid email id");
@@ -1642,6 +1656,7 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.area_id = this.enquiryData.area_id;
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
+    this.studentAddFormData.assigned_to_id = this.enquiryData.assigned_to;
     this.studentAddFormData.dob = new Date(this.enquiryData.dob);
     if (this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null ||
       this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid Date') {
@@ -1932,6 +1947,19 @@ export class StudentAddComponent implements OnInit {
     this.paymentPopUpJson.immutableAmount = this.totalAmountToPay;
     this.paymentPopUpJson.payingAmount = this.totalAmountToPay;
     this.isFeePaymentUpdate = true;
+    this.getPaymentModes();
+  }
+
+  getPaymentModes(){
+    this.httpService.getData('/api/v1/masterData/type/PAYMENT_MODES').subscribe(
+      (res:any)=>{
+        console.log(res);
+        this.Payment_Modes = res;
+      },
+      err=>{
+        console.log(err);
+      }
+    )
   }
 
   flushPaymentPopUpData() {
