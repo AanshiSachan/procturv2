@@ -53,7 +53,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
     sub_topic_id: 0,
     subject_id: 0,
     file_id: 0,
-    is_readonly: 'N',
+    is_readonly: '',
     title: '',
     is_private: false,
     enable_watermark: true
@@ -172,7 +172,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         sub_topic_id: this.varJson.sub_topic_id,
         subject_id: this.varJson.subject_id,
         file_id: -1,
-        is_readonly: 'N',
+        is_readonly: this.varJson.is_readonly ? 'Y' : 'N',
         "size": 0
       }
 
@@ -295,7 +295,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         sub_topic_id: this.varJson.sub_topic_id,
         subject_id: this.varJson.subject_id,
         file_id: -1,
-        is_readonly: 'N',
+        is_readonly: this.varJson.is_readonly ? 'Y' : 'N',
         size: 0
       }
       if ($event.files && $event.files.length) {
