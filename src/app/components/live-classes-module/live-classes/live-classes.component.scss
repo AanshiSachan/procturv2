@@ -819,3 +819,28 @@ html {
   height: 30px;
   width: 100%;
 }
+
+.progress-bar-wrapper {
+    float: left;
+    width: 80%;
+}
+
+.upload-bar {
+    position: relative;
+    height: 8px;
+    width: 100%;
+    background: #ccc;
+    border-radius: 0;
+    overflow: hidden;
+    margin: 10px 0 5px;
+    &>div {
+        position: absolute;
+        height: 100%;
+        width: 0%;
+        left: 0;
+        background: blue;
+        top: 0;
+        border-radius: 0;
+        transition: all 0.5s ease;
+    }
+}
