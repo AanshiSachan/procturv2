@@ -642,7 +642,7 @@ export class AddClassComponent implements OnInit {
     else {
       let url = '';
       if (this.userType === '3') {
-        url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y &isActiveNotExpire=Y';
+        url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y&isActiveNotExpire=Y';
       } else {
         url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all?isActiveNotExpire=Y';
       }
