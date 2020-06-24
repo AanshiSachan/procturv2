@@ -47,7 +47,7 @@
       </div>
 
       <!-- Preview Mode for Viewing the files on grid or list view -->
-      <div class="col-sm-9">
+      <div class="col-sm-9" style="min-height: 90vh;max-height: 90vh;overflow-y: auto;">
         <div class="" (dragover)="onDragOverFolder($event, null)" (dragleave)="onDragLeaveFolder($event, null)">
           <div class="file table__header">
             <div class="file__img"></div>
@@ -72,20 +72,24 @@
                 File Size
               </div>
 
-              <div class="file__details">
+              <div class="file__details" style="width: 10%;">
                 Downloads
               </div>
-
+              <div class="file__details" style="width: 7%;">
+                Action
+              </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div (dragover)="onDragOverFolder($event, folder)" (dragleave)="onDragLeaveFolder($event, folder)" (dblclick)="folderSelected(folder)"
-            *ngFor="let folder of folderDisplayArr" class="file folder folder-file">
+          <div (dragover)="onDragOverFolder($event, folder)" (dragleave)="onDragLeaveFolder($event, folder)" (click)="folderSelected(folder)"
+            *ngFor="let folder of folderDisplayArr" class="file folder folder-file row">
+            <div class="c-md-1" style="width: 1%;"></div>
+            <div class="c-md-11" style="width: 96%;padding: 0;">
             <div class="file__img"></div>
             <div class="file__info">
-
+              
               <h2 class="file__title" title="{{folder.label}}">
                 {{folder.label}}
               </h2>
@@ -102,9 +106,9 @@
 
               <div class="file__details file__Data">{{folder.data.downloads}}</div>
 
-              <i class="fa fa-trash" style="font-size: 17px; color: #52454596;" title="Delete folder" (click)="getFilesDeleted(folder)"></i>
+              <i class="fa fa-trash" style="font-size: 17px; color: red;" title="Delete folder" (click)="getFilesDeleted(folder)"></i>
 
-
+            </div>
             </div>
           </div>
 
@@ -112,7 +116,7 @@
             <file-card (draggedover)="onDragOver($event)" (draggedleave)="onDragLeave($event)" [data]="folder" *ngFor="let folder of fileDisplayArr"
               (getFilesAndFolder)="getFilesAndFolder($event)" (status)="status($event)" (downloadStatus)="downloadStatus($event)" (getPopupValue)="getPopupValue($event)"
               (fileid)="fileId($event)" (fileArr)="fileArr($event)" (shareOptions)="handleOptions($event)" [fileDisplayArr]="fileDisplayArr"
-              [selectedFolder]="selectedFolder" (filePath)="filePath($event)" (playYoutubeVideo)="getYoutubeLink($event)" (editYoutubeVideo)="editYoutubeVideo($event)">
+              [selectedFolder]="selectedFolder" (filePath)="filePath($event)" (playYoutubeVideo)="getYoutubeLink($event)" (editYoutubeVideo)="editYoutubeVideo($event)" (deleteFile)="deleteFile($event)">
             </file-card>
           </div>
 
@@ -151,14 +155,15 @@
   </div>
   <div popup-content class="popup-header-content">
     <div class="row">
-      <div class="c-lg-4 field-wrapper">
+      <div class="c-lg-8 field-wrapper">
         <label>Folder Name
-          <div class="questionInfo inline-relative">
+          <!-- <div class="questionInfo inline-relative">
             <span class="qInfoIcon i-class"> ?</span>
             <div class="tooltip-box-field">
                 Dot(.) is not allowed .
             </div>
-          </div>
+          </div> -->
+          <span style="padding-left: 10px;">* Dot(.) is not allowed .</span>
         </label>
         <input type="text" class="form-ctrl" [(ngModel)]="createFetchFolder.folderName">
       </div>
@@ -185,3 +190,28 @@
 </div>
 
 <div class="black-bg" id="black-bg" *ngIf="videoplayer" (click)="closePlayer()"></div>
+
+<proctur-popup [sizeWidth]="'medium'" *ngIf="deletePopup">
+
+  <span class="closePopup pos-abs fbold show" close-button (click)="closeDeletePopup()">
+    <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+      <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+    </svg>
+  </span>
+  <div popup-header class="popup-header-content">
+    <h2>Delete Files</h2>
+  </div>
+  <div popup-content class="popup-header-content">
+    <!-- <div class="row"> -->
+      <span>Are you sure, you want to delete files?
+        <span *ngIf="fileSharedArray?.length>0"> as file is shared with following : </span></span><br>
+      <span *ngFor="let msg of fileSharedArray">
+        <span> {{msg.errorMessage}}</span><br>
+      </span>
+    <!-- </div> -->
+    <div style="text-align: right;margin-top: 10px;">
+    <input type="button" value="Cancel" style="color: #0084f6;background: white;" class="btn fullBlue" (click)="closeDeletePopup()">
+    <input type="button" value="Delete" class="btn fullBlue" (click)="confirmDelete()">
+  </div>
+  </div>
+</proctur-popup>

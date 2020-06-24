@@ -57,6 +57,16 @@
             bottom: 0;
             margin: auto;
         }
+        &.medium {
+            max-width: 70%;
+            width: 60%;
+            height: auto;
+            left: 0;
+            right: 0;
+            top: 5%;
+            bottom: 0;
+            margin: auto;
+        }
         ::-webkit-scrollbar {
             display: block;
             width: 7px;
