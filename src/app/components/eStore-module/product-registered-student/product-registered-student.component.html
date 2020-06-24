@@ -209,12 +209,12 @@
             {{(data.registered_date != '') ? (data.registered_date) : '-'}}
           </div>
           <div class="value-item" style="width: 10%;">
-            {{(data.open_user_status != '') ? (data.open_user_status) : '-'}}
+            {{(data.open_user_status != 'No Action') ? (data.open_user_status) : '-'}}
           </div>
           <div class="value-item" style="width: 10%;">
-              <drop-menu [dropType]="dropType" *ngIf="data.open_user_status == '-'" [info]="data" [menuOptions]="menuOptions"
+              <drop-menu [dropType]="dropType" *ngIf="data.open_user_status == 'No Action'" [info]="data" [menuOptions]="menuOptions"
                 (selectedRecord)="optionSelected($event)"></drop-menu>
-                <span *ngIf="data.open_user_status != '-'" style="cursor: no-drop;">
+                <span *ngIf="data.open_user_status != 'No Action'" style="cursor: no-drop;">
                   <i class="fa fa-ellipsis-v" style="font-size: 24px;padding-left: 10px;" aria-hidden="true"></i>
                 </span>
           </div>
