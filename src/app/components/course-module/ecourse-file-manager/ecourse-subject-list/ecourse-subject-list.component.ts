@@ -33,6 +33,11 @@ export class EcourseSubjectListComponent implements OnInit {
   addTopic: Create_Topic = new Create_Topic();	
   subjectTempData: any[] = [];	
   standardData: any[] = [];
+  fileSharedArray: any = [];
+  selectedFilesArray: any = [];
+  deletePopup: boolean = false;
+  vdoCipherFile: any = false;
+  Confirm_deleteFile: any = false;
 
   constructor(
     private _http: HttpService,
@@ -344,10 +349,74 @@ export class EcourseSubjectListComponent implements OnInit {
     this.router.navigate(["/view/activity/ecourse-file-manager/ecourses/" + this.ecourse_id + "/subjects/" + subject.subject_id + "/materials"], { queryParams: { data: window.btoa(subject.subject_name) } });
   }
 
-  setRemoveDataFile(file, type) {
+  checkVDOCipherSelectedFile(obj, event) {
+    event ? (this.vdoCipherFile = true) : (this.vdoCipherFile = false);
+    this.checkSelectedFile(obj, event);
+  }
+
+  checkSelectedFile(obj, event) {
+    if(event) {
+        this.selectedFilesArray.push(obj);
+    }
+  }
+
+  deleteVideoCipherFile(file, type) {
     this.tempfile = file;
     this.type = type;
     this.showModal = true;
+  }
+
+  setRemoveDataFile() {
+    let temp: any = [];
+    this.selectedFilesArray.forEach(data=>{
+      if(data.selected) {
+        temp.push(data.file_id);
+      }
+    })
+    let obj:any = {
+      "source":2,
+      "file_id_list": temp,
+      "institute_id": sessionStorage.getItem('institute_id'),
+    }
+    if(this.vdoCipherFile) {
+      obj.video_status = 'Delete';
+    }
+    if(this.Confirm_deleteFile) {
+      obj.delete_source = 3;
+    }
+    this._http.postData('/api/v1/instFileSystem/files/delete', obj).subscribe(
+      (res: any) => {
+         if (this.Confirm_deleteFile) {
+          this.msgService.showErrorMessage('success','','Deleted Successfully');
+          this.closeDeletePopup();
+          this.getSubjectList();
+         } else {
+         this.fileSharedArray = [];
+         this.deletePopup = true;
+         }
+      },
+      err=>{
+        this.msgService.showErrorMessage('error','',err.error.message);
+        this.fileSharedArray = err.error.error;
+        if (!this.Confirm_deleteFile) {
+        this.deletePopup = true;
+        }
+      }
+    )
+  }
+
+  closeDeletePopup() {
+    this.deletePopup = false;
+    console.log(this.selectedFilesArray);
+    this.selectedFilesArray.forEach(data=>{
+      data.selected = false;
+    })
+    this.Confirm_deleteFile = false;
+  }
+
+  confirmDelete() {
+    this.Confirm_deleteFile = true;
+    this.setRemoveDataFile();
   }
 
   calculateStudyMaterialMapLength(object) {
