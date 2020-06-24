@@ -83,6 +83,9 @@ export class InstituteDetailsComponent implements OnInit {
         if (this.instDetails.is_student_displayId_manual == 0) {
           this.showPrefix = true;
         }
+        if(this.instDetails.enable_student_app_url == 1) {
+          this.instDetails.enable_student_app_url = true;
+        }
       },
       err => {
         this.auth.hideLoader();
@@ -257,6 +260,7 @@ export class InstituteDetailsComponent implements OnInit {
     obj.tag_line = this.instDetails.tag_line;
     obj.about_us_text = this.instDetails.about_us_text;
     obj.student_ios_app_url = this.instDetails.student_ios_app_url;
+    obj.student_app_url = this.instDetails.student_app_url;
     obj.institute_testprep_logo = this.instDetails.institute_testprep_logo;
     obj.announcement = this.instDetails.announcement;
     obj.owner_name = this.instDetails.owner_name;
@@ -305,6 +309,7 @@ export class InstituteDetailsComponent implements OnInit {
     obj.kyc_document_name = this.instDetails.kyc_document_name;
     obj.kyc_document = this.instDetails.kyc_document;
     obj.kyc_document_type = this.instDetails.kyc_document_type;
+    (this.instDetails.enable_student_app_url) ? (obj.enable_student_app_url = 1 ) : (obj.enable_student_app_url = 0 );
 
     return obj;
   }
