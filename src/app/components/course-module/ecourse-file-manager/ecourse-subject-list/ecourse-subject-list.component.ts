@@ -28,6 +28,8 @@ export class EcourseSubjectListComponent implements OnInit {
   tempData: any = {};
   videoplayer: boolean = false;
   currentProjectUrl: any;
+  showEditModal:boolean = false;
+  editObj: any = '';
 
   constructor(
     private _http: HttpService,
@@ -415,5 +417,32 @@ export class EcourseSubjectListComponent implements OnInit {
   }
   closePlayer(){
     this.videoplayer = false;
+  }
+
+  editFile(obj) {
+    this.editObj = obj;
+    this.editObj.is_readonly = (this.editObj.is_readonly == 'Y') ? true : false;
+    this.showEditModal = true;
+  }
+
+  updateFile() {
+    let obj = {
+      "title":this.editObj.title,
+      "institute_id": sessionStorage.getItem('institute_id'),
+      "category_id":this.editObj.category_id,
+      "is_readonly": this.editObj.is_readonly ? 'Y' : 'N'
+  }
+  this.auth.showLoader();
+  this._http.putData('/api/v1/instFileSystem/update/'+this.editObj.file_id, obj).subscribe(
+    (res:any) => {
+      this.auth.hideLoader();
+      this.msgService.showErrorMessage('success','','File updated successfully');
+    },
+    err=>{
+      this.auth.hideLoader();
+    }
+  );
+  this.editObj.is_readonly = (this.editObj.is_readonly) ? 'Y' : 'N';
+  this.showEditModal = false;
   }
 }

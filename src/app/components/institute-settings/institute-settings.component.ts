@@ -672,7 +672,6 @@ export class InstituteSettingsComponent implements OnInit {
     obj.lib_due_date_fine_per_day = this.instituteSettingDet.lib_due_date_fine_per_day;
     obj.new_student_addmission_email_notification = this.instituteSettingDet.new_student_addmission_email_notification;
     obj.new_student_addmission_sms_notification = this.instituteSettingDet.new_student_addmission_sms_notification;
-    obj.student_app_ios_url = this.instituteSettingDet.student_app_ios_url;
     obj.student_app_url = this.instituteSettingDet.student_app_url;
     obj.enable_send__website_url_in_student_credentail = this.convertBoolenToNumber(this.instituteSettingDet.enable_send__website_url_in_student_credentail);
     obj.enable_student_app_url = this.convertBoolenToNumber(this.instituteSettingDet.enable_student_app_url);

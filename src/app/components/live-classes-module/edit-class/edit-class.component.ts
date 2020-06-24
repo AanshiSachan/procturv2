@@ -844,9 +844,9 @@ export class EditClassComponent implements OnInit {
     if (this.isProfessional) {
       let url = '';
       if (this.userType === '3') {
-        url = '/api/v1/batches/all/' + this.institution_id + '?active=Y' + '&isAllCourses=Y';
+        url = '/api/v1/batches/all/' + this.institution_id + '?active=Y' + '&isAllCourses=Y&isActiveNotExpire=Y';
       } else {
-        url =  '/api/v1/batches/all/' + this.institution_id + '?active=Y';
+        url =  '/api/v1/batches/all/' + this.institution_id + '?active=Y&isActiveNotExpire=Y';
       }
       this.http_service.getData(url).subscribe(
         (data: any) => {
@@ -863,9 +863,9 @@ export class EditClassComponent implements OnInit {
     else {
       let url = '';
       if (this.userType === '3') {
-        url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y';
+        url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y&isActiveNotExpire=Y';
       } else {
-        url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all';
+        url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all?isActiveNotExpire=Y';
       }
       this.http_service.getData(url).subscribe(
         (data: any) => {

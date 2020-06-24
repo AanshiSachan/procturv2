@@ -713,12 +713,35 @@
           <label for="ch33">About Us
           </label>
         </div>
-        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="field-wrapper" [ngClass]="{'has-value':instDetails.about_us_text != ''}">
             <input type="textbox" id="ch33" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.about_us_text">
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch34">App Url
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_app_url != ''}">
+            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.student_app_url">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="student_app_ios_url">Student IOS App URL
+          </label>
+        </div>
+      <div class="c-sm-6 c-md-6 c-lg-6">
+        <div class="field-wrapper" [ngClass]="{'has-value' : instDetails.student_ios_app_url != ''}">
+          <input type="textbox" style="width: 75%;" [(ngModel)]="instDetails.student_ios_app_url" class="form-ctrl" id="student_app_ios_url">
+        </div>
+      </div>
+    </div>
     </div>
 
     <h2 class="heading-setting-main">Miscellaneous setting </h2>
