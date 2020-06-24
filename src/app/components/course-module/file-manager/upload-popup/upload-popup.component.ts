@@ -432,7 +432,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         if (this.acceptedFiles[this.category_id].hasOwnProperty(type) == false) {
           this.createErrorToast("File doesn\'t match with the selected category ");
           return false;
-        } else if((new RegExp('[~#%\&_{}+\|]|\\.\\.|^\\.|\\.$')).test(this.selectedFiles[i].name)) {
+        } else if((new RegExp("[~#%\&'{}+\|]|\\.\\.|^\\.|\\.$")).test(this.selectedFiles[i].name)) {
             this.createErrorToast("Special characters in file name are not allowed");
             return false;
         }
