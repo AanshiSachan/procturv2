@@ -142,6 +142,9 @@
 
 <ng-template #youtubeData let-youtube let-level="level">
   <div class="row singleton-row material-row" *ngFor="let video of youtube">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(video, $event.target.checked)" [(ngModel)]="video.selected" style="-webkit-appearance: checkbox;">
+    </div>
     <div class="col-md-6 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{video.title}}">
         <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList[0].posterUrl!=null) && video.category_id==230">
@@ -169,6 +172,9 @@
 
 <ng-template #VDOCipher let-youtube let-level="level">
   <div class="row singleton-row material-row" *ngFor="let video of youtube">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkVDOCipherSelectedFile(video, $event.target.checked)" [(ngModel)]="video.selected" style="-webkit-appearance: checkbox;">
+    </div>
     <div class="col-md-6 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{video.title}}">
         <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList[0].posterUrl!=null)">
@@ -212,6 +218,9 @@
 
 <ng-template #imagelistData let-image let-level="level">
   <div class="row singleton-row material-row" *ngFor="let file of image">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(file, $event.target.checked)" [(ngModel)]="file.selected" style="-webkit-appearance: checkbox;">
+    </div>
     <div class="col-md-6 material-title txt-color " [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
@@ -232,7 +241,7 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file,'delete')"><i class="fa fa-trash" title="Delete"></i></button>
+        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -240,6 +249,9 @@
 
 <ng-template #assignmentData let-assignment let-level="level">
   <div class="row singleton-row material-row" *ngFor="let file of assignment">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(file, $event.target.checked)" [(ngModel)]="file.selected" style="-webkit-appearance: checkbox;">
+    </div>
     <div class="col-md-6 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
@@ -260,7 +272,7 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file,'delete')"><i class="fa fa-trash" title="Delete"></i></button>
+        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -268,6 +280,9 @@
 
 <ng-template #notesData let-notes let-level="level">
   <div class="row singleton-row material-row" *ngFor="let file of notes">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(file, $event.target.checked)" [(ngModel)]="file.selected" style="-webkit-appearance: checkbox;">
+    </div>
     <div class="col-md-6 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
@@ -288,7 +303,7 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file,'delete')"><i class="fa fa-trash" title="Delete"></i></button>
+        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -296,6 +311,9 @@
 
 <ng-template #audioNotesData let-audios let-level="level">
   <div class="row singleton-row material-row" *ngFor="let audio of audios">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(audio, $event.target.checked)" [(ngModel)]="audio.selected" style="-webkit-appearance: checkbox;">
+    </div>
     <div class="col-md-6 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{audio.title}}">
         <i [class]="audio?.extension" aria-hidden="true"></i>
@@ -316,7 +334,7 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(audio)">
           <a [href]="audio.file_name" class="btn-ga-white" [download]="audio.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(audio,'delete')"><i class="fa fa-trash" title="Delete"></i></button>
+        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -324,6 +342,9 @@
 
 <ng-template #previousYearQuesListData let-previousYearQuesList let-level="level">
   <div class="row singleton-row material-row" *ngFor="let file of previousYearQuesList">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(file, $event.target.checked)" [(ngModel)]="file.selected" style="-webkit-appearance: checkbox;">
+    </div>
     <div class="col-md-6 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
@@ -344,7 +365,7 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file,'delete')"><i class="fa fa-trash" title="Delete"></i></button>
+        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -353,6 +374,9 @@
 
 <ng-template #slidesListData let-slidesList let-level="level">
   <div class="row singleton-row material-row" *ngFor="let file of slidesList">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(file, $event.target.checked)" [(ngModel)]="file.selected" style="-webkit-appearance: checkbox;">
+    </div>
     <div class="col-md-6 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
@@ -373,7 +397,7 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file,'delete')"><i class="fa fa-trash" title="Delete"></i></button>
+        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -381,6 +405,9 @@
 
 <ng-template #studyMaterialList let-studyList let-level="level">
   <div class="row singleton-row material-row" *ngFor="let file of studyList">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(file, $event.target.checked)" [(ngModel)]="file.selected" style="-webkit-appearance: checkbox;">
+    </div>
     <div class="col-md-6 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
@@ -401,7 +428,7 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file,'delete')"><i class="fa fa-trash" title="Delete"></i></button>
+        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -546,3 +573,28 @@
 <div class="black-bg" id="black-bg" *ngIf="videoplayer" (click)="closePlayer()"></div>
 
 <app-upload-file></app-upload-file>
+
+<proctur-popup [sizeWidth]="'medium'" *ngIf="deletePopup">
+
+  <span class="closePopup pos-abs fbold show" close-button (click)="closeDeletePopup()">
+    <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+      <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+    </svg>
+  </span>
+  <div popup-header class="popup-header-content">
+    <h2>Delete Files</h2>
+  </div>
+  <div popup-content class="popup-header-content">
+    <!-- <div class="row"> -->
+      <span>Are you sure, you want to delete files?
+        <span *ngIf="fileSharedArray?.length>0"> as file is shared with following : </span></span><br>
+      <span *ngFor="let msg of fileSharedArray">
+        <span> {{msg.errorMessage}}</span><br>
+      </span>
+    <!-- </div> -->
+    <div style="text-align: right;margin-top: 10px;">
+    <input type="button" value="Cancel" style="color: #0084f6;background: white;" class="btn fullBlue" (click)="closeDeletePopup()">
+    <input type="button" value="Delete" class="btn fullBlue" (click)="confirmDelete()">
+  </div>
+  </div>
+</proctur-popup>
