@@ -2629,31 +2629,7 @@
                               <label for="notification_for_studymaterial_upload">Study material upload notification</label>
                             </div>
                           </div>
-                        </div>
-                        <div class="row m-0 webkitBox">
-                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px;margin-top:15px">
-                            <div class="field-checkbox-wrapper" style="width: 100%">
-                              <input type="checkbox" value="" name="enable_student_app_url" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_student_app_url"
-                                id="enable_student_app_url">
-                              <label for="enable_student_app_url">Enable student app URL
-                              </label>
-                            </div>
-                          </div>
-                          <div class="c-sm-3 c-md-3 c-lg-3">
-                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.student_app_url != ''}">
-                              <label for="student_app_url">Student App URL
-                              </label>
-                              <input type="text" [(ngModel)]="instituteSettingDet.student_app_url" class="form-ctrl" id="student_app_url" [disabled]="!instituteSettingDet.enable_student_app_url" [ngStyle]="{'cursor':!instituteSettingDet.enable_student_app_url ? 'no-drop' : 'text' }">
-                            </div>
-                          </div>
-                          <div class="c-sm-3 c-md-3 c-lg-3">
-                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.student_app_ios_url != ''}">
-                              <label for="student_app_ios_url">Student IOS App URL
-                              </label>
-                              <input type="text" [(ngModel)]="instituteSettingDet.student_app_ios_url" class="form-ctrl" id="student_app_ios_url">
-                            </div>
-                          </div>
-                        </div>
+                        </div>                      
                       </td>
                     </tr>
 
