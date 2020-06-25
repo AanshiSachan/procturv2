@@ -160,7 +160,22 @@ export class RegisteredStudentComponent implements OnInit {
     this.auth.showLoader();
     this.httpService.getData('/api/v2/user/' + obj.user_id).subscribe(
       (res:any)=>{
-        this.selectedRecord = res.result;
+        this.selectedRecord = {
+          name: res.result.name,
+          phone: res.result.mobile_no,
+          email: res.result.email_id,
+          gender: res.result.gender,
+          dob: res.result.dob,
+          parent_email: res.result.parent_email,
+          school_name: res.result.school_id,
+          standard_id: res.result.standard_id,
+          parent_name: res.result.parent_name,
+          parent_phone: res.result.parent_phone,
+          school_id: res.result.school_id,
+          curr_address: res.result.address,
+          country_id: res.result.country_id,
+          user_id: res.result.user_id
+        };
         this.auth.hideLoader();
         this.performAction(action);
       },
