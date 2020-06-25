@@ -42,7 +42,7 @@ export class TransactionalComponent implements OnInit {
 
   openRazorpayCheckout() {
     var self = this;
-    let merchant_acc = [{ key_id: "rzp_live_pQXvkbWD4oVatb" }] //rzp_test_vuWxy6G3R70M8C
+    let merchant_acc = [{ key_id: "rzp_live_ZAmgveArrf1mQO" }] //rzp_test_vuWxy6G3R70M8C
     // console.log(merchant_acc[0]);
     let total_amount = this.transactionSMS[this.radioSelected].total_price * 100;
     let options = {
