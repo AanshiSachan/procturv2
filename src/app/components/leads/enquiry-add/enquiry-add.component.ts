@@ -2031,5 +2031,10 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
+  cancelForm() {
+    this.router.navigate(['/view/leads']);
+    sessionStorage.removeItem('enquiryPrefill');
+  }
+
 
 }

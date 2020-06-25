@@ -494,7 +494,7 @@
             <label for="addNextEnquiry">Add Next Enquiry</label>
           </div>
           <input style="display: inline-block;" type="button" value="Cancel" class="btn cancle"
-            routerLink="/view/leads" id="btnCancel2">
+           (click)="cancelForm()" id="btnCancel2">
           <input *ngIf="newEnqData.status != 12 && newEnqData.status != 1" style="display: inline-block;" type="button"
             value="Add & Admit Enquiry" class="btn fullBlue"
             (click)="submitRegisterForm()" id="btnAddUpdate">
