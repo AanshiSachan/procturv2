@@ -89,7 +89,7 @@
                         <th *ngIf="!isProfessional">Course Assign Date</th>
                         <th *ngIf="isProfessional">Batch Assign Date</th>
                         <th>Academic Year</th>
-                        <th>Fee Template</th>
+                        <th style="width: 20%;">Fee Template</th>
                     </tr>
                 </thead>
             </table>
@@ -138,7 +138,7 @@
                             </div>
                         </td>
 
-                        <td>
+                        <td style="width: 20%;">
                             <div class="field-wrapper">
                                 <select name="feetm" id="feetm" [(ngModel)]="batch.data.selected_fee_template_id" class="form-ctrl" (ngModelChange)="onFeeTemplateChanges(batch.data)">
                                     <option value="-1"></option>
