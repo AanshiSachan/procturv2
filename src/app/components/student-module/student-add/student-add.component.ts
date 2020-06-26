@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Pipe, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Pipe, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
@@ -22,7 +22,7 @@ import { FeeModel, StudentFeeService } from '../student_fee.service';
   templateUrl: './student-add.component.html',
   styleUrls: ['./student-add.component.scss']
 })
-export class StudentAddComponent implements OnInit {
+export class StudentAddComponent implements OnInit, OnDestroy {
 
 
   /* Local Variable and scope declaration */
@@ -378,6 +378,9 @@ export class StudentAddComponent implements OnInit {
     this.getStateList();
   }
 
+  ngOnDestroy() {
+    sessionStorage.removeItem('studentPrefill');
+  }
 
 
   fetchDataForCountryDetails() {

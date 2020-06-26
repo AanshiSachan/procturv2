@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
@@ -17,7 +17,7 @@ import { MultiBranchDataService } from '../../../services/multiBranchdata.servic
   templateUrl: './enquiry-add.component.html',
   styleUrls: ['./enquiry-add.component.scss']
 })
-export class EnquiryAddComponent implements OnInit {
+export class EnquiryAddComponent implements OnInit, OnDestroy {
 
   isRegisterStudent: boolean = false;
   /* Variable Declarations */
@@ -307,6 +307,10 @@ export class EnquiryAddComponent implements OnInit {
     this.fetchDataForCountryDetails();
     this.getStateList();
 
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem('enquiryPrefill');
   }
 
   convertToEnquiryDetected() {
