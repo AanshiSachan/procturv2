@@ -1079,7 +1079,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
             walkin_followUpTime: this.newEnqData.walkin_followUpTime,
             is_follow_up_time_notification: this.newEnqData.is_follow_up_time_notification,
           }
-          if (this.convertEnquiry == true) {
+          if (this.convertEnquiry) {
             obj.user_id = this.newEnqData.user_id
           }
           console.log(obj);
@@ -1167,8 +1167,6 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       this.isEnquirySubmit = true;
       this.submitError = true;
     }
-    sessionStorage.removeItem('enquiryPrefill');
-    this.convertEnquiry = false;
   }
 
 
