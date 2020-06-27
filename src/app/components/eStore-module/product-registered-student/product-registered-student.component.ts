@@ -120,8 +120,8 @@ export class RegisteredStudentComponent implements OnInit {
   }
 
   filterData(PageIndex) {
-    console.log(PageIndex);
     this.varJson.PageIndex = PageIndex;
+    let start_index = this.varJson.displayBatchSize * (PageIndex - 1);
     let data: any;
     data = {
       'by': [
@@ -134,7 +134,7 @@ export class RegisteredStudentComponent implements OnInit {
           'value': Number(this.filter.course_type_id)
         }
       ],
-      'start_index': PageIndex,
+      'start_index': start_index,
       'no_of_records': this.varJson.displayBatchSize,
     };
       this.auth.showLoader();
