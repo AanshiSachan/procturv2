@@ -13,7 +13,7 @@
       <form autocomplete="off" #form="ngForm">
         <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput
           [ngClass]="{'has-focus': isResultDisplayed}" (focus)="triggerSearchBox($event)" autocomplete="off"
-          maxlength="20" placeholder="Search here..."
+          placeholder="Search here..."
           class="search-input searchbox form-ctrl-head search-item searchBox">
       </form>
       <i class="fa fa-search search-icon" aria-hidden="true"></i>
