@@ -30,7 +30,6 @@ import { HttpService } from '../../services/http.service';
 import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
 import {VdocipherComponent} from  './vdocipher/vdocipher.component';
 import { StudentBirthdayComponent } from './student-birthday/student-birthday.component';
-import { EditorModule } from '@tinymce/tinymce-angular';
 
 @NgModule({
     imports: [
@@ -42,8 +41,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
         BsDatepickerModule,
         SharedModule,
         ChartModule,
-        FileUploadModule ,
-        EditorModule
+        FileUploadModule
         // MdFormFieldModule,
         // MdInputModule
     ],

@@ -62,19 +62,7 @@ export class CoummunicateHomeComponent implements OnInit {
   openMessageList: any = [];
   allChecked: boolean = true;
   searchData: string = "";
-  editorConf = {
-   height: 150,
-   menubar: false,
-   branding: false,
-   plugins: [
-     'preview anchor',
-     'visualblocks code ',
-     'insertdatetime  table paste code  wordcount'
-   ],
-   toolbar: 'undo redo | formatselect | bold italic backcolor | \
-             alignleft aligncenter alignright alignjustify | \
-             bullist numlist outdent indent'
- };
+
   constructor(
     private auth: AuthenticatorService,
     private widgetService: WidgetService,
