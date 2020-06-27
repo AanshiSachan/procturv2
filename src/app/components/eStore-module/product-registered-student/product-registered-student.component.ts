@@ -144,7 +144,9 @@ export class RegisteredStudentComponent implements OnInit {
           this.selectedRowCount = 0;
           if (data.body.result != null) {
             this.usersList = data.body.result;
+            if(this.usersList && this.usersList.length) {
             this.varJson.total_items = this.usersList[0].total_record;
+            }
           }
         },
         err => {

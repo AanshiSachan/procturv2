@@ -7,7 +7,7 @@
           eStore
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-        <span>Registered Students</span>
+        <span>Registered User</span>
       </h1>
     </div>
   </section>
@@ -24,24 +24,10 @@
         </div>
       </div> -->
       <div class="searchbox2">
-        <div style="padding-left: 1%">
-          <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
-            <label for="product_id" style="width: 100%">Product</label>
-            <select [(ngModel)]="filter.product_id" class="form-ctrl form-class">
-              <option value="" selected>Select Product</option>
-              <option *ngFor="let product of productList" [value]="product.id" title="{{product.title}}">
-                {{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}
-              </option>
-            </select>
-          </div>
-        </div>
-      </div> 
-      <span style="margin-left: 15px;">OR</span>
-      <div class="searchbox2">
         <div style="padding-right: 1%">
           <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
             <label for="slug"style="width: 100%">Ecourse</label>
-            <select [(ngModel)]="filter.course_type_id" class="form-ctrl form-class">
+            <select [(ngModel)]="filter.course_type_id" [disabled]="filter.product_id!=''" class="form-ctrl form-class">
               <option value="0" selected>Select Ecourse</option>
               <option *ngFor="let item of EcourseData" [value]="item.course_type_id" title="{{item.course_type}}">
                   {{ (item.course_type.length > 30) ? (item.course_type | slice:0:30) + '...' : item.course_type }}
@@ -50,6 +36,20 @@
           </div>
         </div>
       </div>
+      <span style="margin-left: 15px;">OR</span>
+      <div class="searchbox2">
+        <div style="padding-left: 1%">
+          <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
+            <label for="product_id" style="width: 100%">Product</label>
+            <select [(ngModel)]="filter.product_id" [disabled]="filter.course_type_id!=0" class="form-ctrl form-class">
+              <option value="" selected>Select Product</option>
+              <option *ngFor="let product of productList" [value]="product.id" title="{{product.title}}">
+                {{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div> 
       <div class="searchbox2" style="padding-left: 0;padding-right: 0;">
         <div class="c-lg-1 btn-wrap" style="margin-top: 4%">
           <button class="btn fullBlue" (click)="filterData('1')">Search</button>
@@ -214,8 +214,17 @@
           <div class="value-item" style="width: 10%;">
               <drop-menu [dropType]="dropType" *ngIf="data.open_user_status == 'No Action'" [info]="data" [menuOptions]="menuOptions"
                 (selectedRecord)="optionSelected($event)"></drop-menu>
-                <span *ngIf="data.open_user_status != 'No Action'" style="cursor: no-drop;">
-                  <i class="fa fa-ellipsis-v" style="font-size: 24px;padding-left: 10px;" aria-hidden="true"></i>
+                <span *ngIf="data.open_user_status != 'No Action'">
+                  <button aria-expanded="true" style="cursor: no-drop;" class="d-item dropdown-trigger">
+                    <span class="d-item svg-icon-wrap">
+                        <span class="visually-hidden"></span>
+                        <div aria-hidden="true" type="ellipsis-horizontal-icon">
+                            <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+                                <path class="large-icon" d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" style="fill: currentColor"></path>
+                            </svg>
+                        </div>
+                    </span>
+                </button>
                 </span>
           </div>
         </div>
