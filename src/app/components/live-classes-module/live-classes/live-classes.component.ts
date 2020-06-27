@@ -764,7 +764,11 @@ export class LiveClassesComponent implements OnInit {
         this.auth.hideLoader();
         if (err.status == 400) {
           this.msgService.showErrorMessage('error', '', 'You are out of storage! Please contact our support');
-        } else {
+        }
+        else if(err.status == 422){
+          this.msgService.showErrorMessage('error', '', 'Dear Admin, You have insufficient storage limit to store your current recording hence we could not save your video. To purchase new storage limit please contact our support team 9971839153.');
+        }
+        else {
           this.msgService.showErrorMessage('error', '', 'There is some problem processing your request.Please contact support@proctur.com');
         }
         console.log(err);
