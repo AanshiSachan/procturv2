@@ -55,8 +55,7 @@ export class RegisteredStudentComponent implements OnInit {
   editObj: any;
   editMsg: any = false;
   selectedMsg: any = '';
-  promotional_type: any = false;
-  transational_type: any = false;
+  transational_type: any = 1;
 
   menuOptions: DropData[] = [
     {
@@ -121,6 +120,8 @@ export class RegisteredStudentComponent implements OnInit {
   }
 
   filterData(PageIndex) {
+    console.log(PageIndex);
+    this.varJson.PageIndex = PageIndex;
     let data: any;
     data = {
       'by': [
@@ -134,7 +135,7 @@ export class RegisteredStudentComponent implements OnInit {
         }
       ],
       'start_index': PageIndex,
-      'no_of_records': 0,
+      'no_of_records': this.varJson.displayBatchSize,
     };
       this.auth.showLoader();
       this.http.postMethod('user-product/get-user-details', data).then(
@@ -143,7 +144,7 @@ export class RegisteredStudentComponent implements OnInit {
           this.selectedRowCount = 0;
           if (data.body.result != null) {
             this.usersList = data.body.result;
-            this.varJson.total_items = this.usersList.length;
+            this.varJson.total_items = this.usersList[0].total_record;
           }
         },
         err => {
@@ -366,7 +367,7 @@ export class RegisteredStudentComponent implements OnInit {
       is_user_notify: 1,
       institution_id: sessionStorage.getItem('institute_id')
     };
-    if (this.promotional_type) {
+    if (this.transational_type ==2) {
       obj.configuredMessage = false;
     }
     this.auth.showLoader();
