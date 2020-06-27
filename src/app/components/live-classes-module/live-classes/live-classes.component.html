@@ -313,6 +313,14 @@
           "video/mp4,video/x-m4v,video/*" (change)="fillFiles()"  [(ngModel)]="fileUploadInput" />
           </div>
         </div>
+        <div class="row" *ngIf="progressBar">
+          <div class="c-lg-8 progress-bar-wrapper">
+            <div class="upload-bar">
+              <div id="progress-width"></div>
+            </div>
+            <span>{{progress}} %</span>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -415,6 +423,14 @@
       </div>
       </div>
     </section>
+    <div class="row" *ngIf="donloadBar">
+      <div class="c-lg-8 progress-bar-wrapper">
+        <div class="upload-bar">
+          <div id="progress-width"></div>
+        </div>
+        <span>{{download}} %</span>
+      </div>
+    </div>
   </div>
 </section>
 <div class="black-bg" id="black-bg" *ngIf="viewDownloadPopup" (click)="viewDownloadPopup=false">

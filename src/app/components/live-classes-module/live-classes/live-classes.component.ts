@@ -165,6 +165,10 @@ export class LiveClassesComponent implements OnInit {
   uploadSessionId: any;
   uploadClassType: any;
   fileUploadInput: any;
+  progress: number = 0;
+  progressBar: boolean = false;
+  download: number = 0;
+  donloadBar: boolean = false;
 
   daysLeftForSubscriptionExpiry: number;
 
@@ -962,14 +966,25 @@ export class LiveClassesComponent implements OnInit {
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
 
+      this.progressBar = true;
+      newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
+        if (e.lengthComputable) {
+          this.progress = Math.round((e.loaded * 100) / e.total);
+          document.getElementById('progress-width').style.width = this.progress + '%';
+        }
+      }, false);
+
       newxhr.onreadystatechange = () => {
         if (newxhr.readyState == 4) {
+
           if (newxhr.status >= 200 && newxhr.status < 300) {
             this.auth.hideLoader();
             let data = JSON.parse((newxhr.response))
             if(data.statusCode >= 200 && data.statusCode < 300){
               this.msgService.showErrorMessage('success', '', 'File(s) uploaded successfully');
               this.fileUploadInput = '';
+              this.progress = 0;
+              this.progressBar = false;
               $('#uploadRec').modal('hide');
               this.getClassesList();
             }
@@ -978,6 +993,8 @@ export class LiveClassesComponent implements OnInit {
             }
           }
            else {
+             this.progress = 0;
+             this.progressBar = false;
              this.auth.hideLoader();
              let data = JSON.parse((newxhr.response))
             this.msgService.showErrorMessage('error', '', data.message);

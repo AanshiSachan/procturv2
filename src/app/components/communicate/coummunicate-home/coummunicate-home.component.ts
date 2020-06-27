@@ -160,7 +160,7 @@ export class CoummunicateHomeComponent implements OnInit {
       )
     }
   }
-  
+
   onMasterCourseChange(event) {
     if(this.userType!=3){
     document.getElementById('chkBoxActiveSelection').checked = false;

@@ -41,7 +41,7 @@ import { StudentBirthdayComponent } from './student-birthday/student-birthday.co
         BsDatepickerModule,
         SharedModule,
         ChartModule,
-        FileUploadModule ,     
+        FileUploadModule
         // MdFormFieldModule,
         // MdInputModule
     ],
