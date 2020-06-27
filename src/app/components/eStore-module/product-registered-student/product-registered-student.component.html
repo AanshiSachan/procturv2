@@ -52,7 +52,7 @@
       </div>
       <div class="searchbox2" style="padding-left: 0;padding-right: 0;">
         <div class="c-lg-1 btn-wrap" style="margin-top: 4%">
-          <button class="btn fullBlue" (click)="filterData()">Search</button>
+          <button class="btn fullBlue" (click)="filterData('1')">Search</button>
         </div>
       </div>
       <!-- <div class="searchbox2" style="text-align: right;width: 50%;" *ngIf="!AdvanceFilter">
@@ -253,13 +253,13 @@
           <span>SMS Type </span>
         </div>
         <div class="c-md-6" style="padding:0">
-          <input style="-webkit-appearance:checkbox" type="checkbox" id="transactional"
-          class="form-checkbox" [(ngModel)]="transational_type">
+          <input style="-webkit-appearance:radio" type="radio" id="transactional" name="transactional"
+          class="form-checkbox" value="1" [checked]="transational_type" [(ngModel)]="transational_type">
           <label for="transactional">Tranasactional</label>
         </div>
         <div class="c-md-6" style="padding:0">
-          <input style="-webkit-appearance:checkbox" type="checkbox" id="promotional"
-          class="form-checkbox" [(ngModel)]="promotional_type">
+          <input style="-webkit-appearance:radio" type="radio" id="promotional" name="promotional"
+          class="form-checkbox" value="2" [checked]="transational_type" [(ngModel)]="transational_type">
           <label for="promotional">Promotional</label>
         </div>
       </div>      
@@ -326,7 +326,7 @@
           <!-- <div class="field-radio-wrapper"> -->
           <input style="-webkit-appearance:radio" type="radio" name="bothRadio" [id]="'bothRadio-'+i"
             class="form-radio" [value]="i" [checked]="data.selected" [(ngModel)]="data.selected"
-            (ngModelChange)="changeSelectedMsg(data)">
+            (ngModelChange)="changeSelectedMsg(data)" [disabled]="data.statusValue == 'Open'">
           <!-- </div> -->
         </div>
         <div class="value-item" style="text-align: left;">
