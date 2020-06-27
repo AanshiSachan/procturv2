@@ -79,6 +79,7 @@ export class DriveHomeComponent implements OnInit {
   fileSharedArray:any = [];
   deletePopup : boolean = false;
   deleteConfirmation: boolean = false;
+  SelectedFilesArray: any[] = [];
 
   constructor(private zone: NgZone,
     private fileService: FileManagerService,
@@ -269,11 +270,17 @@ export class DriveHomeComponent implements OnInit {
   }
 
   onNodeSelect(event) {
-
+    this.filePathPopup = event.node.data.keyName;
+    this.selectedFolder = event;
+    this.getFilesAndFolder('200');
   }
 
   onNodeCollapse(event) {
 
+  }
+
+  onNodeClick(event) {
+    console.log(event);
   }
 
 
@@ -664,30 +671,32 @@ export class DriveHomeComponent implements OnInit {
     this.editYoutubeFile.editView = true;
   }
 
-  deleteFile(file) {
-    let temp :any = [];
+  ShowDeleteFileButton(file) {
+    this.SelectedFilesArray = [];
     this.fileDisplayArr.forEach(data=>{
       if(data.data.selected) {
-        temp.push(data.data);
+        this.SelectedFilesArray.push(data.data);
       }
-    })
-    console.log(temp);
+    });
+  }
+
+  deleteFile() {
     let fileArray: any = [];
-    if(temp &&  temp.length) {
-    if(temp[0].category_id == 230){
-      let key = temp[0].keyName.split('/https');
+    if(this.SelectedFilesArray &&  this.SelectedFilesArray.length) {
+    if(this.SelectedFilesArray[0].category_id == 230){
+      let key = this.SelectedFilesArray[0].keyName.split('/https');
       if(key && key.length) {
       let newPath = key[0].concat('/');
       this.filePathPopup = newPath;
       }
       } else {
-        let path = temp[0].keyName.split('/');
+        let path = this.SelectedFilesArray[0].keyName.split('/');
         path.pop();
         let newPath = path.join('/');
         newPath = newPath.concat('/');
         this.filePathPopup = newPath;
       }
-      temp.forEach(element => {
+      this.SelectedFilesArray.forEach(element => {
         fileArray.push(element.file_id);
       });
     } else {
@@ -702,8 +711,10 @@ export class DriveHomeComponent implements OnInit {
     if(this.deleteConfirmation){
         obj.delete_source = 3
     }
+    this.auth.showLoader();
     this.http.postData('/api/v1/instFileSystem/files/delete', obj).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
          if(this.deleteConfirmation) {
             this.msgService.showErrorMessage('success','','Deleted Successfully');
             this.closeDeletePopup();
@@ -714,7 +725,7 @@ export class DriveHomeComponent implements OnInit {
          }
       },
       err => {
-        this.msgService.showErrorMessage('error','',err.error.message);
+        this.auth.hideLoader();
         this.fileSharedArray = err.error.error;
         if (!this.deleteConfirmation) {
         this.deletePopup = true;
@@ -729,11 +740,12 @@ export class DriveHomeComponent implements OnInit {
       data.data.selected = false;
     });
     this.getFilesAndFolder('200');
+    this.SelectedFilesArray = [];
     this.deleteConfirmation = false;
   }
 
   confirmDelete() {
     this.deleteConfirmation = true;
-    this.deleteFile('');
+    this.deleteFile();
   }
 }
