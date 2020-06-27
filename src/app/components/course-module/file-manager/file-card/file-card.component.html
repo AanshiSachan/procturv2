@@ -1,6 +1,6 @@
 <div #fileHeader class="file row" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
   <div class="form-ctrl c-md-1" style="width: 1%;">
-    <input type="checkbox" [(ngModel)]="fileObj.res.selected" style="-webkit-appearance: checkbox;float: left;" >
+    <input type="checkbox" [(ngModel)]="fileObj.res.selected" (ngModelChange)="getFilesDeleted(fileObj)" style="-webkit-appearance: checkbox;float: left;" >
   </div>
   <div class="c-md-11" style="padding: 0;width: 96%;">
   <div #fileImage class="file__img" *ngIf="fileObj.res.category_id!=230"></div>
@@ -23,13 +23,13 @@
 
     <div class="file__details">{{fileObj.res.downloads}}</div>
 
-    <i class="fa fa-trash" style="font-size: 17px;  color: red;" title="Delete File" *ngIf="fileObj.res.user_type!=3" (click)="getFilesDeleted(fileObj)"></i>
+    <!-- <i class="fa fa-trash" style="font-size: 17px;  color: red;" title="Delete File" *ngIf="fileObj.res.user_type!=3" (click)="getFilesDeleted(fileObj)"></i> -->
     <i class="fa fa-edit" style="font-size: 15px;  color: #0084f6;margin-left: 1%;" title="Edit File" (click)="editYoutubeUrl(fileObj)"></i>
     <i class="fa fa-share-alt" style="font-size: 17px; color: #0084f6; margin-left: 1%;" title="Share File" (click)="getPopupOpen(fileObj)"></i>
     <a class="fa fa-download" style="font-size: 17px; color: #0084f6; margin-left: 1%;" *ngIf="fileObj.res.category_id!=230 && fileObj.res.user_type!=3" title="Download File" (click)="getFileDownloaded(fileObj);"
       id="downloadFile" ></a>
     <a [href]='fileURL' id="downloadFileClick" class="hide" ></a>
-    <a class="fa fa-play" style="font-size: 17px; color: #0084f6; margin-left: 1%;" *ngIf="fileObj.res.category_id==230" title="Download File" (click)="getYoutubeLink(fileObj);"
+    <a class="fa fa-play" style="font-size: 17px; color: #0084f6; margin-left: 1%;" *ngIf="fileObj.res.category_id==230" title="Play" (click)="getYoutubeLink(fileObj);"
       id="downloadFile" ></a>
   </div>
 </div>

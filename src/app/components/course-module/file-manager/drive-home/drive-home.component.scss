@@ -264,13 +264,15 @@ FILE
         height: 70vh;
     }
     .tree__view {
-        overflow: auto;
-        height: 88vh;
+        // overflow: auto;
+        // height: 88vh;
     }
 }
 
 ::ng-deep .tree__view_list {
     width: 100%;
+    height: 88vh;
+    overflow-y: auto;
 }
 
 ::ng-deep .prime__btn {

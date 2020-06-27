@@ -59,7 +59,7 @@ export class FileCardComponent implements OnChanges {
   @Output() shareOptions = new EventEmitter<any>();
   @Output() playYoutubeVideo = new EventEmitter<any>();
   @Output() editYoutubeVideo = new EventEmitter<any>();
-  @Output() deleteFile = new EventEmitter<any>();
+  @Output() ShowDeleteFileButton = new EventEmitter<any>();
   dwnldLink = "";
   arr: any[] = [];
   fileURL: any;
@@ -196,7 +196,7 @@ export class FileCardComponent implements OnChanges {
   }
 
   getFilesDeleted(event) {
-    this.deleteFile.emit(event);
+    this.ShowDeleteFileButton.emit(event);
      }
 
   getPopupOpen(fileObj) {

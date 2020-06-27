@@ -25,12 +25,15 @@
         </a>
       </div>
     </h1>
-    <div class="pull-right" style="position: relative;top: 14px; width:10%;">
-      <i class="fa fa-upload" (click)="uploadBox()" title="Upload File" style="font-family: 'FontAwesome' ; display: inline-block; font-size: 17px; color: #52454596;"
+    <div class="pull-right" style="position: relative;top: 14px; width:15%;">
+      <i class="fa fa-upload" (click)="uploadBox()" title="Upload File" style="font-family: 'FontAwesome' ; display: inline-block; font-size: 19px; color: #52454596;"
         id="upload">
       </i>&nbsp;&nbsp;&nbsp;
-      <i class="fa fa-folder-open" style="font-size: 17px; color: #52454596; margin-left: 1%; display: inline-block;" title="Make Folder"
+      <i class="fa fa-folder-open" style="font-size: 19px; color: #52454596; margin-left: 1%; display: inline-block;" title="Create Folder"
         (click)="makeFolderOpen()"></i>
+      <span *ngIf="SelectedFilesArray?.length>0">
+        <input type="button" value="Delete File" class="btn fullBlue" style="background: none;color: #0084f6;margin-right: 10px;" (click)="deleteFile()">
+      </span>
     </div>
   </header>
 
@@ -41,7 +44,7 @@
       <div class="col-sm-3 tree__view" (dragover)="onDragOverFolder($event, null)" (dragleave)="onDragLeaveFolder($event, null)">
         <h3></h3>
         <p-tree (onNodeCollapse)="onNodeCollapse($event)" (onNodeContextMenuSelect)="onNodeContextMenuSelect($event)" (onNodeExpand)="onNodeExpand($event)"
-          (onNodeSelect)="onNodeSelect($event)" [styleClass]="'tree__view_list'" #expandingTree [value]="treeNodeData">
+          (onNodeSelect)="onNodeSelect($event)" selectionMode="single" [styleClass]="'tree__view_list'" #expandingTree [value]="treeNodeData">
         </p-tree>
 
       </div>
@@ -51,31 +54,31 @@
         <div class="" (dragover)="onDragOverFolder($event, null)" (dragleave)="onDragLeaveFolder($event, null)">
           <div class="file table__header">
             <div class="file__img"></div>
-            <div class="file__info">
-              <h2 class="file__details file__header__name">
+            <div class="file__info" style="background: #e0eaec;">
+              <h2 class="file__details file__header__name" style="font-weight: 600;color: black;">
                 File Name
               </h2>
 
-              <div class="file__details" style="width:15%;">
+              <div class="file__details" style="width:15%;font-weight: 600;color: black;">
                 Category
               </div>
 
-              <div class="file__details file__owner">
+              <div class="file__details file__owner" style="font-weight: 600;color: black;">
                 Owner
               </div>
 
-              <div class="file__details file__date">
+              <div class="file__details file__date" style="font-weight: 600;color: black;">
                 Uploaded On
               </div>
 
-              <div class="file__details file__size">
+              <div class="file__details file__size" style="font-weight: 600;color: black;">
                 File Size
               </div>
 
-              <div class="file__details" style="width: 10%;">
+              <div class="file__details" style="width: 10%;font-weight: 600;color: black;">
                 Downloads
               </div>
-              <div class="file__details" style="width: 7%;">
+              <div class="file__details" style="width: 7%;font-weight: 600;color: black;">
                 Action
               </div>
             </div>
@@ -94,7 +97,7 @@
                 {{folder.label}}
               </h2>
 
-              <div class="file__details">
+              <div class="file__details" style="text-transform: capitalize;">
                 {{folder.type}}
               </div>
 
@@ -116,7 +119,7 @@
             <file-card (draggedover)="onDragOver($event)" (draggedleave)="onDragLeave($event)" [data]="folder" *ngFor="let folder of fileDisplayArr"
               (getFilesAndFolder)="getFilesAndFolder($event)" (status)="status($event)" (downloadStatus)="downloadStatus($event)" (getPopupValue)="getPopupValue($event)"
               (fileid)="fileId($event)" (fileArr)="fileArr($event)" (shareOptions)="handleOptions($event)" [fileDisplayArr]="fileDisplayArr"
-              [selectedFolder]="selectedFolder" (filePath)="filePath($event)" (playYoutubeVideo)="getYoutubeLink($event)" (editYoutubeVideo)="editYoutubeVideo($event)" (deleteFile)="deleteFile($event)">
+              [selectedFolder]="selectedFolder" (filePath)="filePath($event)" (playYoutubeVideo)="getYoutubeLink($event)" (editYoutubeVideo)="editYoutubeVideo($event)" (ShowDeleteFileButton)="ShowDeleteFileButton($event)">
             </file-card>
           </div>
 
@@ -168,7 +171,7 @@
         <input type="text" class="form-ctrl" [(ngModel)]="createFetchFolder.folderName">
       </div>
       <div class="c-lg-2" style="margin-top: 4%;">
-        <input type="button" value="GO" class="btn fullBlue" (click)="createFolder()">
+        <input type="button" value="Create" class="btn fullBlue" (click)="createFolder()">
       </div>
     </div>
   </div>
@@ -191,7 +194,7 @@
 
 <div class="black-bg" id="black-bg" *ngIf="videoplayer" (click)="closePlayer()"></div>
 
-<proctur-popup [sizeWidth]="'medium'" *ngIf="deletePopup">
+<proctur-popup [sizeWidth]="'small'" *ngIf="deletePopup">
 
   <span class="closePopup pos-abs fbold show" close-button (click)="closeDeletePopup()">
     <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
@@ -199,13 +202,13 @@
     </svg>
   </span>
   <div popup-header class="popup-header-content">
-    <h2>Delete Files</h2>
+    <h2>Delete Files ({{SelectedFilesArray?.length>0}} Files Selected)</h2>
   </div>
-  <div popup-content class="popup-header-content">
+  <div popup-content class="popup-header-content" style="font-size:14px">
     <!-- <div class="row"> -->
-      <span>Are you sure, you want to delete files?
-        <span *ngIf="fileSharedArray?.length>0"> as file is shared with following : </span></span><br>
-      <span *ngFor="let msg of fileSharedArray">
+      <span style="font-weight: 600;font-size: 14px;">Are you sure, you want to delete files?
+        <span *ngIf="fileSharedArray?.length>0" style="font-weight: 600;font-size: 14px;"> as file is shared with following : </span></span><br>
+      <span *ngFor="let msg of fileSharedArray" style="font-size: 14px;">
         <span> {{msg.errorMessage}}</span><br>
       </span>
     <!-- </div> -->
