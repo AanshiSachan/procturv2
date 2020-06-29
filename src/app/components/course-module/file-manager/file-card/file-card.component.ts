@@ -85,7 +85,11 @@ export class FileCardComponent implements OnChanges {
     if (data.data.category_id == "182") {
       data.data.category_name = "Study Material"
     }
-    data.data.user_type = sessionStorage.getItem('userType');
+    let userid = sessionStorage.getItem('userid');
+    data.data.teacher_access = true;
+    if((sessionStorage.getItem('userType')) == '3' && userid != data.data.uploadedUserId){
+      data.data.teacher_access = false;
+    }
     data.data.selected = false;
     // let name = data.label.split(".")[0];
     // let type = data.label.split(".")[1];

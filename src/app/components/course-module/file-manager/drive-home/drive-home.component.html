@@ -26,14 +26,14 @@
       </div>
     </h1>
     <div class="pull-right" style="position: relative;top: 14px; width:15%;">
+      <span *ngIf="SelectedFilesArray?.length>0">
+        <input type="button" value="Delete File" class="btn fullBlue" style="background: none;color: #0084f6;margin-right: 10px;" (click)="deleteFile()">
+      </span>
       <i class="fa fa-upload" (click)="uploadBox()" title="Upload File" style="font-family: 'FontAwesome' ; display: inline-block; font-size: 19px; color: #52454596;"
         id="upload">
       </i>&nbsp;&nbsp;&nbsp;
       <i class="fa fa-folder-open" style="font-size: 19px; color: #52454596; margin-left: 1%; display: inline-block;" title="Create Folder"
         (click)="makeFolderOpen()"></i>
-      <span *ngIf="SelectedFilesArray?.length>0">
-        <input type="button" value="Delete File" class="btn fullBlue" style="background: none;color: #0084f6;margin-right: 10px;" (click)="deleteFile()">
-      </span>
     </div>
   </header>
 
