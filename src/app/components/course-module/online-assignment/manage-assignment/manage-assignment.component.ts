@@ -711,7 +711,7 @@ export class ManageAssignmentComponent implements OnInit {
                   evaluation_required: ev,
                   file_id: "-1",
                   teacher_id: this.assignmentDetails.teacher,
-                  assignment_status: this.assignment_status,
+                  assignment_status: 'Publish',
                   tagId_array: this.assignmentDetails.tags,
                   studentId_array: this.assignmentDetails.students,
                   url_lists: this.assignmentDetails.urlLists,
