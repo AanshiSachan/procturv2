@@ -15,15 +15,20 @@
   <header class="top-nav">
 
     <h1 class="pull-left">
-      <a routerLink="/view/course">
+      <a routerLink="/view/course" style="float: left;">
         Course
       </a>
-      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>File Manager
-      <div style="font-size: 12px;margin-top: 6px;">
+      <div style="float: left;">
+      &nbsp;<i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> File Manager
+      <span *ngIf="pathArray?.length>0">
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      </span>
+      <span style="font-size: 14px;margin-top: 6px;">
         <a class="pathAnchor" *ngFor="let path of pathArray; let j = index" (click)="collapseString(j)">
           {{path}} /
         </a>
-      </div>
+      </span>
+    </div>
     </h1>
     <div class="pull-right" style="position: relative;top: 14px; width:15%;">
       <span *ngIf="SelectedFilesArray?.length>0">
@@ -109,7 +114,9 @@
 
               <div class="file__details file__Data">{{folder.data.downloads}}</div>
 
+              <div style="width: 7%;float: right;">
               <i class="fa fa-trash" style="font-size: 17px; color: red;" title="Delete folder" (click)="getFilesDeleted(folder)"></i>
+            </div>
 
             </div>
             </div>
@@ -202,15 +209,17 @@
     </svg>
   </span>
   <div popup-header class="popup-header-content">
-    <h2>Delete Files ({{SelectedFilesArray?.length>0}} Files Selected)</h2>
+    <h2>Delete Files ({{SelectedFilesArray?.length}} Files Selected)</h2>
   </div>
   <div popup-content class="popup-header-content" style="font-size:14px">
     <!-- <div class="row"> -->
       <span style="font-weight: 600;font-size: 14px;">Are you sure, you want to delete files?
-        <span *ngIf="fileSharedArray?.length>0" style="font-weight: 600;font-size: 14px;"> as file is shared with following : </span></span><br>
-      <span *ngFor="let msg of fileSharedArray" style="font-size: 14px;">
-        <span> {{msg.errorMessage}}</span><br>
-      </span>
+        <span *ngIf="fileSharedArray?.length>0" style="font-weight: 600;font-size: 14px;"> As file is shared with following : </span></span>
+      <div style="margin-top: 10px;">
+        <span *ngFor="let msg of fileSharedArray" style="font-size: 14px;">
+          <span> {{msg.errorMessage}}</span><br>
+        </span>
+    </div>
     <!-- </div> -->
     <div style="text-align: right;margin-top: 10px;">
     <input type="button" value="Cancel" style="color: #0084f6;background: white;" class="btn fullBlue" (click)="closeDeletePopup()">

@@ -106,9 +106,11 @@ export class DriveHomeComponent implements OnInit {
 
     let institute_id = sessionStorage.getItem("institute_id");
     let obj = { keyName: path, institute_id: institute_id };
-
+    this.SelectedFilesArray = [];
+    this.auth.showLoader();
     this.fileService.getAllFolderFiles(obj).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.children = res;
         this.getPath = obj.keyName;
         this.pathArray = this.getPath.split('/');
@@ -271,8 +273,10 @@ export class DriveHomeComponent implements OnInit {
 
   onNodeSelect(event) {
     this.filePathPopup = event.node.data.keyName;
+    if (event.node.type == 'folder') {
     this.selectedFolder = event;
     this.getFilesAndFolder('200');
+    }
   }
 
   onNodeCollapse(event) {
