@@ -61,8 +61,13 @@ export class ListAssignmentComponent implements OnInit {
     this.httpService.postData(url, obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.assignmentList = res.result;
-        this.tempAssignmnetList = res.result;
+        if(res.statusCode >= 200 && res.statusCode < 300){
+          this.assignmentList = res.result;
+          this.tempAssignmnetList = res.result;
+        }
+        else{
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', res.message);
+        }
       },
       err => {
         this.auth.hideLoader();
