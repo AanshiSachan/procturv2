@@ -732,3 +732,9 @@ input[type=checkbox], input[type=radio]{
     border: 1px solid #bdbdbd;
     border-radius: 4px;
 }
+.topicDiv {
+    margin:2px !important;
+    min-height: 55vh;
+    max-height: 55vh;
+    overflow-y: auto;
+}
