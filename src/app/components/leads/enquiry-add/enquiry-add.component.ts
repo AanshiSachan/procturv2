@@ -326,9 +326,14 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       walkin_followUpDate: '',
       walkin_followUpTime: '',
       closing_reason_id:'',
-      user_id: data.user_id
+      user_id: data.user_id,
+      city_id: data.city_id,
+      state_id: data.state_id,
+      source_id: data.source,
+      enquiry_date: moment().format('YYYY-MM-DD'),
     }
-    this.onChangeObj(this.newEnqData.country_id);
+    this.course_mastercourse_id = data.master_course;
+    this.selectedCourseIds = data.course_assign;
   }
 
   // created by: Nalini Walunj
@@ -347,12 +352,6 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
 
   getStateList(){
-    this.stateList = [];
-    this.cityList = [];
-    this.areaList = [];
-    this.newEnqData.state_id = "";
-    this.newEnqData.city_id = "";
-    this.newEnqData.area_id = "";
     const url = `/api/v1/country/state?country_ids=${this.newEnqData.country_id}`
      this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -369,12 +368,31 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     )
   }
 
-  // get city list as per state selection
-  getCityList(){
+  
+  resetStateCityArea(){
+    this.stateList = [];
+    this.cityList = [];
+    this.areaList = [];
+    this.newEnqData.state_id = "";
+    this.newEnqData.city_id = "";
+    this.newEnqData.area_id = "";
+    this.getStateList();
+  }
+  getNewCityList(){
     this.cityList = [];
     this.areaList = [];
     this.newEnqData.city_id = "";
     this.newEnqData.area_id = "";
+    this.getCityList()
+  }
+
+  getNewAreaList(){
+    this.areaList = [];
+    this.getAreaList();
+  }
+
+  // get city list as per state selection
+  getCityList(){
     const url = `/api/v1/country/city?state_ids=${this.newEnqData.state_id}`
      this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -392,7 +410,6 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   }
 
   getAreaList(){
-    this.areaList = [];
     const url = `/api/v1/cityArea/area/${this.createSource.inst_id}?city_ids=${this.newEnqData.city_id}`
      this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -428,7 +445,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         this.country_id = element.id;
       }
     });
-    this.getStateList();
+    this.resetStateCityArea();
   }
 
   /* Function for Toggling Form Visibility */
@@ -1326,6 +1343,9 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     }
     else if(this.newEnqData.name == '' || this.newEnqData.name ==null){
       return this.showErrorMessage('error',  '','Please enter name');
+    }
+    else if(this.newEnqData.follow_type == '' || this.newEnqData.follow_type == null) {
+      return this.showErrorMessage('error',  '','Please select follow up type');
     }
     else {
       if (this.validateEnquiryDate()) {//newEnqData.parent_phone
