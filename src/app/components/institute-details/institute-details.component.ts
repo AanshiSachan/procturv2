@@ -270,6 +270,10 @@ export class InstituteDetailsComponent implements OnInit {
     obj.owner_primary_phone = this.instDetails.owner_primary_phone;
     obj.admin_name = this.instDetails.admin_name;
     obj.single_device_login = this.instDetails.single_device_login;
+    obj.feedback_url = this.instDetails.feedback_url;
+    obj.help_url = this.instDetails.help_url;
+    obj.privacy_policy_url = this.instDetails.privacy_policy_url;
+    obj.terms_and_condition_url = this.instDetails.terms_and_condition_url;
     if (!(this.validatePhoneNumber(this.instDetails.admin_primary_phone))) {
       this.commonService.showErrorMessage('error', '', 'Please check contact number');
       return
