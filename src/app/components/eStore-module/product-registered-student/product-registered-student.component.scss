@@ -1,3 +1,4 @@
+@import "./src/assets/css/common/common-web.scss";
 
 .middle-section{
     padding: 1%;
@@ -268,4 +269,7 @@ th{
     position: absolute;
     white-space: nowrap;
     width: 1px;
+}
+.login-tube nav > ul > li .dropdown {
+  min-width: 205px;
 }

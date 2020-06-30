@@ -7,6 +7,7 @@ import { DropData } from '../../shared/ng-robAdvanceTable/dropmenu/dropmenu.mode
 import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import * as moment from 'moment';
+import { ExcelService } from '../../../services/excel.service';
 
 @Component({
   selector: 'app-registered-student',
@@ -68,6 +69,15 @@ export class RegisteredStudentComponent implements OnInit {
     }
   ];
 
+  tableSetting: any = {
+    keys: [
+    { primaryKey: 'name', header: 'Name'},
+    { primaryKey: 'phone', header: 'Phone'},
+    { primaryKey: 'email_id', header: 'Email ID'},
+    { primaryKey: 'registered_date', header: 'Registered Date'},
+    { primaryKey: 'open_user_status', header: 'Status'},
+  ]};
+
 
   varJson: any = {
     PageIndex: 1,
@@ -82,7 +92,8 @@ export class RegisteredStudentComponent implements OnInit {
     private _tablePreferencesService: TablePreferencesService,
     private http: ProductService,
     private router: Router,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private excelService: ExcelService
   ) {
   }
 
@@ -146,6 +157,11 @@ export class RegisteredStudentComponent implements OnInit {
             this.usersList = data.body.result;
             if(this.usersList && this.usersList.length) {
             this.varJson.total_items = this.usersList[0].total_record;
+            this.usersList.forEach(element => {
+              if(element.open_user_status == 'No Action') {
+                element.open_user_status = '-';
+              }
+            });
             }
           }
         },
@@ -433,6 +449,23 @@ export class RegisteredStudentComponent implements OnInit {
       }
     }
     return id;
+  }
+
+  exportToExcel() {
+    let arr = [];
+    this.usersList.map(
+      (ele: any) => {
+        let json = {}
+        this.tableSetting.keys.map((keys) => {
+          json[keys.header] = ele[keys.primaryKey]
+        })
+        arr.push(json);
+      }
+    )
+    this.excelService.exportAsExcelFile(
+      arr,
+      'register_user'
+    );
   }
 }
 
