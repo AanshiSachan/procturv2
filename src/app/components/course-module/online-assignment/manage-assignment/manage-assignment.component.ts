@@ -83,7 +83,8 @@ export class ManageAssignmentComponent implements OnInit {
    endHr: "",
    endMin: "",
    urlLists: [],
-   attachmentId_array: []
+   attachmentId_array: [],
+   file_id: "-1"
  }
 
 
@@ -107,6 +108,10 @@ export class ManageAssignmentComponent implements OnInit {
  sectionName = '';
  editFileId = '';
  editAssignmentDetails: any;
+ editUrlList = [];
+ editAttachmentList = [];
+ removedAttachments = [];
+ removedLinks = [];
 
   constructor(
     private msgService: MessageShowService,
@@ -131,47 +136,38 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    const promises = [];
+    let arr = [];
+
     if(this.jsonFlag.isProfessional){
-      this.getBatchList();
+      arr.push(this.getBatchList())
     }
     else{
-      this.getMasterCourse();
+      arr.push(this.getMasterCourse())
     }
-    this.getFacultyList();
-    this.setMultiSelectSetting();
+    arr.push(this.getFacultyList())
+    arr.push(this.setMultiSelectSetting())
+    arr.push(this.getTagList())
 
-    // this.doAsyncTask().then(
-    //     (val) => {
-          let currentURL = window.location.href;
-          if(currentURL.includes('create')){
-            this.sectionName = 'Add';
-          }
-          else{
-            this.sectionName = 'Edit';
-            let splitURL = currentURL.split("/");
-            this.editFileId = splitURL[splitURL.length - 1];
-            this.getEditAssignmentDetails();
-
-          }
-    //     },
-    //     (err) => console.error(err)
-    // );
-
-  }
-
-  doAsyncTask() {
-    return new Promise((resolve, reject) => {
-      if(this.jsonFlag.isProfessional){
-        this.getBatchList();
+    // console.log("before promise")
+    Promise.all(promises)
+    .then(response => {
+      let currentURL = window.location.href;
+      if(currentURL.includes('create')){
+        this.sectionName = 'Add';
       }
       else{
-        this.getMasterCourse();
+        this.sectionName = 'Edit';
+        let splitURL = currentURL.split("/");
+        this.editFileId = splitURL[splitURL.length - 1];
+        // console.log("before edit")
+        this.getEditAssignmentDetails();
       }
-      this.getFacultyList();
-      this.setMultiSelectSetting();
-      console.log("Async Work Complete");
+    })
 
-    });
+
+
   }
 
   getEditAssignmentDetails(){
@@ -181,7 +177,7 @@ export class ManageAssignmentComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.editAssignmentDetails = res.result;
-        console.log("edit");
+        // console.log("edit");
         this.setEditDetails();
       },
       err => {
@@ -192,7 +188,8 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   setEditDetails(){
-
+    // console.log("after edit")
+    this.assignmentDetails.file_id = this.editAssignmentDetails.file_id;
     this.assignmentDetails.title = this.editAssignmentDetails.title;
     this.assignmentDetails.description = this.editAssignmentDetails.description;
 
@@ -203,6 +200,7 @@ export class ManageAssignmentComponent implements OnInit {
     else if(this.editAssignmentDetails.evaluation_required == "Y"){
       this.assignmentDetails.marks = true;
       this.showMarks = true;
+      this.assignmentDetails.mark = this.editAssignmentDetails.evaluation_marks;
     }
 
     if(this.editAssignmentDetails.allow_assignment_late_submission == 'Y'){
@@ -212,13 +210,21 @@ export class ManageAssignmentComponent implements OnInit {
       this.assignmentDetails.lateSubmission = false;
     }
 
-    for(let i = 0; i < this.editAssignmentDetails.tag_lists.length; i++){
-      this.selectedTagsList.push(this.editAssignmentDetails.tag_lists[i].tagId)
+    let tags = [];
+    if(this.editAssignmentDetails.tag_lists){
+      for(let i = 0; i < this.editAssignmentDetails.tag_lists.length; i++){
+        tags.push(this.editAssignmentDetails.tag_lists[i])
+      }
+      this.selectedTagsList = tags
     }
+    // console.log(this.selectedTagsList)
 
     if(!this.jsonFlag.isProfessional){
       this.assignmentDetails.masterCourse = this.editAssignmentDetails.master_course_name;
     }
+    // else{
+    //   this.assignmentDetails.masterCours
+    // }
 
 
     this.assignmentDetails.course = this.editAssignmentDetails.course_id;
@@ -233,19 +239,36 @@ export class ManageAssignmentComponent implements OnInit {
     this.assignmentDetails.endDate = moment(this.editAssignmentDetails.end_date).format('YYYY-MM-DD');
 
     if(this.editAssignmentDetails.start_time != null){
-      this.assignmentDetails.startHr = this.editAssignmentDetails.start_time.split(':')[0];
-      this.assignmentDetails.startMin = this.editAssignmentDetails.start_time.split(':')[1];
+      let start = this.editAssignmentDetails.start_time.split(' ')[0]
+      let min = this.editAssignmentDetails.start_time.split(':')[1]
+      let shh = start.split(':')[0];
+      start = shh+" "+this.editAssignmentDetails.start_time.split(' ')[1];
+      this.assignmentDetails.startHr = start;
+      this.assignmentDetails.startMin = min.split(' ')[0];
     }
     if(this.editAssignmentDetails.end_time != null){
-      this.assignmentDetails.endHr = this.editAssignmentDetails.end_time.split(':')[0];
-      this.assignmentDetails.endMin = this.editAssignmentDetails.end_time.split(':')[1];
+      let start = this.editAssignmentDetails.end_time.split(' ')[0]
+      let min = this.editAssignmentDetails.end_time.split(':')[1]
+      let shh = start.split(':')[0];
+      start = shh+" "+this.editAssignmentDetails.end_time.split(' ')[1];
+      this.assignmentDetails.endHr = start;
+      this.assignmentDetails.endMin = min.split(' ')[0];
     }
 
-    // studentsList
-    // selectedStudentList
+    if(this.editAssignmentDetails.attachment_lists){
+      for (let index = 0; index < this.editAssignmentDetails.attachment_lists.length; index++) {
+        if(this.editAssignmentDetails.attachment_lists[index].attachment_name == "URL"){
+          this.editUrlList.push(this.editAssignmentDetails.attachment_lists[index]);
+        }
+        else{
+          this.editAttachmentList.push(this.editAssignmentDetails.attachment_lists[index]);
+        }
+      }
+    }
 
-    this.assignmentDetails.urlLists = [];
-    this.assignmentDetails.attachmentId_array = this.editAssignmentDetails.attachment_lists;
+
+
+
   }
 
   setMultiSelectSetting(){
@@ -267,8 +290,6 @@ export class ManageAssignmentComponent implements OnInit {
       itemsShowLimit: 3,
       enableCheckAll: true
     };
-    this.getTagList();
-    console.log("tag list");
   }
 
   getBatchList(){
@@ -352,6 +373,9 @@ export class ManageAssignmentComponent implements OnInit {
         this.courseModelList = res;
         this.masterCourseList = this.courseModelList;
         console.log("master c");
+        if(this.sectionName == 'Edit'){
+          this.getCourses();
+        }
       },
       err => {
         this.auth.hideLoader();
@@ -361,60 +385,135 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   getCourses(){
-    for (let index = 0; index < this.masterCourseList.length; index++) {
-      if(this.masterCourseList[index].master_course == this.assignmentDetails.masterCourse){
-        this.courseList = this.masterCourseList[index].coursesList;
+    if(this.assignmentDetails.masterCourse != "-1"){
+      for (let index = 0; index < this.masterCourseList.length; index++) {
+        if(this.masterCourseList[index].master_course == this.assignmentDetails.masterCourse){
+          this.courseList = this.masterCourseList[index].coursesList;
+        }
+      }
+      console.log("course");
+      if(this.sectionName == 'Edit'){
+        this.getSubjects();
       }
     }
-    console.log("course");
+    else{
+      this.courseList = [];
+      this.subjectList = [];
+      this.topicList = [];
+      this.subTopicList = [];
+      this.studentsList = [];
+      this.selectedStudentList = [];
+      this.assignmentDetails.course = "-1";
+      this.assignmentDetails.subject = "-1";
+      this.assignmentDetails.batch = "-1";
+      this.assignmentDetails.topic = "-1";
+      this.assignmentDetails.subtopic = "-1";
+      this.assignmentDetails.students = [];
+    }
   }
 
   getSubjects(){
-    this.getStudentsList();
-    for (let index = 0; index < this.courseList.length; index++) {
-      if(this.courseList[index].course_id == this.assignmentDetails.course){
-        this.subjectList = this.courseList[index].batchesList;
+    if(this.assignmentDetails.course != "-1"){
+      this.getStudentsList();
+      for (let index = 0; index < this.courseList.length; index++) {
+        if(this.courseList[index].course_id == this.assignmentDetails.course){
+          this.subjectList = this.courseList[index].batchesList;
+        }
+      }
+      if(this.sectionName == 'Edit' && this.assignmentDetails.subject != "0"){
+        this.getTopic();
+      }
+      else{
+        this.assignmentDetails.topic = "-1";
+        this.assignmentDetails.subtopic = "-1";
       }
     }
-    console.log("subject");
+    else{
+      this.subjectList = [];
+      this.topicList = [];
+      this.subTopicList = [];
+      this.studentsList = [];
+      this.selectedStudentList = [];
+      this.assignmentDetails.subject = "-1";
+      this.assignmentDetails.batch = "-1";
+      this.assignmentDetails.topic = "-1";
+      this.assignmentDetails.subtopic = "-1";
+      this.assignmentDetails.students = [];
+    }
   }
 
   getTopic(){
     if(this.jsonFlag.isProfessional){
       this.getStudentsListForBatch();
     }
-
-    this.auth.showLoader();
     let url = "";
+    if(!this.jsonFlag.isProfessional){
+      if(this.assignmentDetails.subject != "-1"){
+        url = `/api/v1/topic_manager/standards/-1/subjects/${this.assignmentDetails.subject}/topics`;
+      }
+      else{
+        this.topicList = [];
+        this.subTopicList = [];
+        this.studentsList = [];
+        this.selectedStudentList = [];
+        this.assignmentDetails.subject = "-1";
+        this.assignmentDetails.topic = "-1";
+        this.assignmentDetails.subtopic = "-1";
+        this.assignmentDetails.students = [];
+      }
+    }
+
     if(this.jsonFlag.isProfessional){
-      for(let i = 0; i < this.batchList.length; i++){
-        if(this.batchList[i].batch_id == this.assignmentDetails.batch){
-          url = `/api/v1/topic_manager/standards/-1/subjects/${this.batchList[i].subject_id}/topics`;
-          break;
+      if(this.assignmentDetails.batch != "-1"){
+        for(let i = 0; i < this.batchList.length; i++){
+          if(this.batchList[i].batch_id == this.assignmentDetails.batch){
+            url = `/api/v1/topic_manager/standards/-1/subjects/${this.batchList[i].subject_id}/topics`;
+            break;
+          }
+        }
+      }
+      else{
+        this.topicList = [];
+        this.subTopicList = [];
+        this.studentsList = [];
+        this.selectedStudentList = [];
+        this.assignmentDetails.batch = "-1";
+        this.assignmentDetails.topic = "-1";
+        this.assignmentDetails.subtopic = "-1";
+        this.assignmentDetails.students = [];
+      }
+    }
+
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.topicList = res;
+          if(this.sectionName == 'Edit'){
+            this.getSubTopic();
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+        }
+      )
+  }
+
+  getSubTopic(){
+    if(this.assignmentDetails.topic != "-1"){
+      for (let index = 0; index < this.topicList.length; index++) {
+        if(this.topicList[index].topicId == this.assignmentDetails.topic){
+          this.subTopicList = this.topicList[index].subTopic;
         }
       }
     }
     else{
-      url = `/api/v1/topic_manager/standards/-1/subjects/${this.assignmentDetails.subject}/topics`;
-    }
-
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this.topicList = res;
-      },
-      err => {
-        this.auth.hideLoader();
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
-      }
-    )
-  }
-
-  getSubTopic(){
-    for (let index = 0; index < this.topicList.length; index++) {
-      if(this.topicList[index].topicId == this.assignmentDetails.topic){
-        this.subTopicList = this.topicList[index].subTopic;
-      }
+      this.subTopicList = [];
+      this.studentsList = [];
+      this.selectedStudentList = [];
+      this.assignmentDetails.subtopic = "-1";
+      this.assignmentDetails.students = [];
     }
   }
 
@@ -440,7 +539,7 @@ export class ManageAssignmentComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.tagList = res;
-
+        console.log("tag list");
       },
       err => {
         this.auth.hideLoader();
@@ -460,6 +559,18 @@ export class ManageAssignmentComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.studentsList = res;
+        console.log(this.studentsList)
+        if(this.sectionName == 'Edit'){
+          let studentArr = [];
+            for(let i = 0; i < this.studentsList.length; i++){
+              for(let j = 0; j < this.editAssignmentDetails.studentId_lists.length; j++){
+                if(this.studentsList[i].student_id == this.editAssignmentDetails.studentId_lists[j]){
+                  studentArr.push(this.studentsList[i])
+                }
+              }
+            }
+            this.selectedStudentList = studentArr;
+        }
       },
       err => {
         this.auth.hideLoader();
@@ -480,56 +591,66 @@ export class ManageAssignmentComponent implements OnInit {
     }
 
     if(this.assignmentDetails.title.trim() != '' && this.assignmentDetails.title.trim() != null){
-        if(this.assignmentDetails.course != '-1'){
-            let lateSub = 'Y';
-            if(!this.assignmentDetails.lateSubmission){
-              lateSub = 'N';
-            }
+      if(this.assignmentDetails.startHr.trim() != '' && this.assignmentDetails.startMin.trim() != ''){
+        if(this.assignmentDetails.endHr.trim() != '' && this.assignmentDetails.endMin.trim() != ''){
+          if(this.assignmentDetails.course != '-1'){
+              let lateSub = 'Y';
+              if(!this.assignmentDetails.lateSubmission){
+                lateSub = 'N';
+              }
 
-            let ev = 'N';
-            let marks = 0;
-            if(this.assignmentDetails.marks){
-              marks = this.assignmentDetails.mark;
-              ev = 'Y'
-            }
-            else{
-              marks = 0;
-            }
+              let ev = 'N';
+              let marks = 0;
+              if(this.assignmentDetails.marks){
+                marks = this.assignmentDetails.mark;
+                ev = 'Y'
+              }
+              else{
+                marks = 0;
+              }
 
-            let shr = this.assignmentDetails.startHr.split(' ');
-            let ehr = this.assignmentDetails.endHr.split(' ');
+              let shr = this.assignmentDetails.startHr.split(' ');
+              let ehr = this.assignmentDetails.endHr.split(' ');
 
-            let obj = {
-              institute_id: this.jsonFlag.institute_id,
-              category_id: "255",   // set by default // hardcoded // as saved in master table
-              course_id: this.assignmentDetails.course,
-              batch_id: "-1",
-              subject_id: this.assignmentDetails.subject,
-              topic_id: this.assignmentDetails.topic,
-              sub_topic_id: this.assignmentDetails.subtopic,
-              title: this.assignmentDetails.title,
-              desc: this.assignmentDetails.description,
-              start_date: moment(this.assignmentDetails.startDate).format('YYYY-MM-DD'),
-              end_date: moment(this.assignmentDetails.endDate).format('YYYY-MM-DD'),
-              start_time: shr[0]+":"+this.assignmentDetails.startMin+" "+shr[1],
-              end_time: ehr[0]+":"+this.assignmentDetails.endMin+" "+ehr[1],
-              allow_assignment_late_submission: lateSub,
-              evaluation_marks: marks,
-              evaluation_required: ev,
-              file_id: "-1",
-              teacher_id: this.assignmentDetails.teacher,
-              assignment_status: this.assignment_status,
-              tagId_array: this.assignmentDetails.tags,
-              studentId_array: this.assignmentDetails.students,
-              url_lists: this.assignmentDetails.urlLists,
-              attachmentId_array: []
-            }
-            this.createOnlineAssignment(obj);
-            console.log(obj)
+              let obj = {
+                institute_id: this.jsonFlag.institute_id,
+                category_id: "255",   // set by default // hardcoded // as saved in master table
+                course_id: this.assignmentDetails.course,
+                batch_id: this.assignmentDetails.batch,
+                subject_id: this.assignmentDetails.subject,
+                topic_id: this.assignmentDetails.topic,
+                sub_topic_id: this.assignmentDetails.subtopic,
+                title: this.assignmentDetails.title,
+                desc: this.assignmentDetails.description,
+                start_date: moment(this.assignmentDetails.startDate).format('YYYY-MM-DD'),
+                end_date: moment(this.assignmentDetails.endDate).format('YYYY-MM-DD'),
+                start_time: shr[0]+":"+this.assignmentDetails.startMin+" "+shr[1],
+                end_time: ehr[0]+":"+this.assignmentDetails.endMin+" "+ehr[1],
+                allow_assignment_late_submission: lateSub,
+                evaluation_marks: marks,
+                evaluation_required: ev,
+                file_id: this.assignmentDetails.file_id,
+                teacher_id: this.assignmentDetails.teacher,
+                assignment_status: this.assignment_status,
+                tagId_array: this.assignmentDetails.tags,
+                studentId_array: this.assignmentDetails.students,
+                url_lists: this.assignmentDetails.urlLists,
+                attachmentId_array: this.removeOldFile
+              }
+              this.createOnlineAssignment(obj);
+              console.log(obj)
+          }
+          else{
+            this.msgService.showErrorMessage('error', '', "Please select course");
+          }
         }
         else{
-          this.msgService.showErrorMessage('error', '', "Please select course");
+          this.msgService.showErrorMessage('error', '', "Please select assignment end time hrs & mins");
         }
+      }
+      else{
+        this.msgService.showErrorMessage('error', '', "Please select assignment start time hrs & mins");
+      }
     }
     else{
       this.msgService.showErrorMessage('error', '', "Please enter assignment title");
@@ -575,7 +696,7 @@ export class ManageAssignmentComponent implements OnInit {
                   institute_id: this.jsonFlag.institute_id,
                   category_id: "255",   // set by default // hardcoded // as saved in master table
                   course_id: this.assignmentDetails.course,
-                  batch_id: "-1",
+                  batch_id: this.assignmentDetails.batch,
                   subject_id: this.assignmentDetails.subject,
                   topic_id: this.assignmentDetails.topic,
                   sub_topic_id: this.assignmentDetails.subtopic,
@@ -590,7 +711,7 @@ export class ManageAssignmentComponent implements OnInit {
                   evaluation_required: ev,
                   file_id: "-1",
                   teacher_id: this.assignmentDetails.teacher,
-                  assignment_status: this.assignment_status,
+                  assignment_status: 'Publish',
                   tagId_array: this.assignmentDetails.tags,
                   studentId_array: this.assignmentDetails.students,
                   url_lists: this.assignmentDetails.urlLists,
@@ -632,12 +753,16 @@ export class ManageAssignmentComponent implements OnInit {
 
     formData.append("fileJson", JSON.stringify(obj));
 
-    for(let i = 0; i <  this.selectedFiles.length; i++){
-      formData.append("files", this.selectedFiles[i]);
+    if(this.selectedFiles.length > 0){
+      for(let i = 0; i <  this.selectedFiles.length; i++){
+        formData.append("files", this.selectedFiles[i]);
+      }
     }
+    // else{
+    //   formData.append('files', );
+    // }
 
-    let base = this.auth.getBaseUrl();
-    let urlPostXlsDocument = base + "/api/v2/onlineAssignment/create";
+
     let newxhr = new XMLHttpRequest();
     let auths: any = {
       userid: sessionStorage.getItem('userid'),
@@ -650,7 +775,17 @@ export class ManageAssignmentComponent implements OnInit {
 
     let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
 
-    newxhr.open("POST", urlPostXlsDocument, true);
+    let base = this.auth.getBaseUrl();
+    let urlPostXlsDocument = '';
+    if(this.sectionName == 'Edit'){
+      urlPostXlsDocument = base + "/api/v2/onlineAssignment/update";
+      newxhr.open("POST", urlPostXlsDocument, true);
+    }
+    else{
+      urlPostXlsDocument = base + "/api/v2/onlineAssignment/create";
+      newxhr.open("POST", urlPostXlsDocument, true);
+    }
+
     newxhr.setRequestHeader("Authorization", Authorization);
     newxhr.setRequestHeader("enctype", "multipart/form-data;");
     newxhr.setRequestHeader("Accept", "application/json, text/javascript");
@@ -787,6 +922,27 @@ export class ManageAssignmentComponent implements OnInit {
     if (this.assignmentDetails.startHr != "" && this.assignmentDetails.startHr != null && this.assignmentDetails.startMin != "" && this.assignmentDetails.startMin != null
       && this.assignmentDetails.endHr != "" && this.assignmentDetails.endHr != null && this.assignmentDetails.endMin != "" && this.assignmentDetails.endMin != null) {
       // this.getEventHourTo();
+    }
+  }
+
+  // removed url while edit
+  removeOldLink(display_name){
+    for (let index = 0; index < this.editUrlList.length; index++) {
+      if(this.editUrlList[index].attachment_display_name == display_name){
+        this.editUrlList.splice(index, 1);
+        break;
+      }
+    }
+  }
+
+  // removed File while edit
+  removeOldFile(file_id){
+    for (let index = 0; index < this.editAttachmentList.length; index++) {
+      if(this.editAttachmentList[index].file_id == file_id){
+        this.editAttachmentList.splice(index, 1);
+        this.removedAttachments.push(file_id);
+        break;
+      }
     }
   }
 

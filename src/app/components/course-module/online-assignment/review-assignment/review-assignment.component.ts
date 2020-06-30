@@ -71,7 +71,21 @@ export class ReviewAssignmentComponent implements OnInit {
     url: ''
   }
   // status update
-  editStatus: any;
+  editStatus = {
+    evaluation_marks: 0,
+    evaluation_required: "",
+    file_id: "",
+    student_comment: "",
+    student_display_id: "",
+    student_email: "",
+    student_id: "",
+    student_marks: "",
+    student_name: "",
+    student_phone: "",
+    student_status: "Open",
+    teacher_comment: "",
+    teacher_status: "Open"
+  };
   editStudentAttachments = {
     urlList: [],
     attachmentList: []
@@ -140,7 +154,20 @@ export class ReviewAssignmentComponent implements OnInit {
   }
 
   updateStatus(student){
-    this.editStatus = student;
+    this.editStatus.evaluation_marks = student.evaluation_marks;
+    this.editStatus.evaluation_required = student.evaluation_required;
+    this.editStatus.file_id = student.file_id;
+    this.editStatus.student_comment = student.student_comment;
+    this.editStatus.student_display_id = student.student_display_id;
+    this.editStatus.student_email = student.student_email;
+    this.editStatus.student_id = student.student_id;
+    this.editStatus.student_marks = student.student_marks;
+    this.editStatus.student_name = student.student_name;
+    this.editStatus.student_phone = student.student_phone;
+    this.editStatus.student_status = student.student_status;
+    this.editStatus.teacher_comment = student.teacher_comment;
+    this.editStatus.teacher_status = student.teacher_status;
+
     this.auth.showLoader();
     const url = `/api/v2/onlineAssignment/studentAttachmentsDetail/${this.jsonFlag.institute_id}/${this.editStatus.student_id}/${this.reviewAssignmentId}`;
     this.httpService.getData(url).subscribe(
@@ -292,7 +319,21 @@ export class ReviewAssignmentComponent implements OnInit {
             this.msgService.showErrorMessage('success', '', 'Updated successfully');
             $('#updateStudent').modal('hide');
 
-            this.editStatus;
+            this.editStatus.evaluation_marks = 0;
+            this.editStatus.evaluation_required = "";
+            this.editStatus.file_id = "";
+            this.editStatus.student_comment = "";
+            this.editStatus.student_display_id = "";
+            this.editStatus.student_email = "";
+            this.editStatus.student_id = "";
+            this.editStatus.student_marks = "";
+            this.editStatus.student_name = "";
+            this.editStatus.student_phone = "";
+            this.editStatus.student_status = "Open";
+            this.editStatus.teacher_comment = "";
+            this.editStatus.teacher_status = "Open";
+
+
             this.editStudentAttachments.urlList = [];
             this.editStudentAttachments.attachmentList = [];
             this.editTeacherAttachments.urlList = [];
@@ -300,6 +341,8 @@ export class ReviewAssignmentComponent implements OnInit {
             this.removedAttchedDocsIds = []
             this.facultyAttachments = [];
             this.facultyUrlList = [];
+
+            this.getStudentsList();
           }
           else {
             this.msgService.showErrorMessage('error', '', newxhr.response.message);
@@ -530,6 +573,41 @@ export class ReviewAssignmentComponent implements OnInit {
     }
     this.isAllChecked();
     this.getSelectedRows();
+  }
+
+  // Download files
+  downloadFile(object){
+    let obj = {
+      'institute_id': this.jsonFlag.institute_id,
+      'attachmentId_array': [object.attachment_id]
+    }
+    this.auth.showLoader();
+    const url = `/api/v2/onlineAssignment/downloadFile`;
+    this.httpService.postData(url, obj).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        var result = res.result;
+
+
+        var hiddenDownloader = document.getElementById('downloadFile');
+        hiddenDownloader.setAttribute('href', result.body)
+        hiddenDownloader.setAttribute('target', '_blank');
+        hiddenDownloader.click();
+
+        // if (result.data != '' && result.data != null) {
+        //     var blob = new Blob([result.data]);
+        //     let fileUrl = (window.URL.createObjectURL(blob));
+        //     if (fileUrl != null) {
+        //       var file = object.attachment_display_name + '.' + object.extension;
+        //     }
+        // }
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+      }
+    )
+
   }
 
 }
