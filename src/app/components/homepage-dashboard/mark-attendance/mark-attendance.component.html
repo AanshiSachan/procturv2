@@ -452,7 +452,7 @@
 </section>
 
 <ng-template #topicsRecursiveList let-topicsList let-level="level">
-  <div style="margin:2px !important" *ngFor="let topic of topicsList">
+  <div class="topicDiv" *ngFor="let topic of topicsList">
     <div class="topic-container" [ngClass]="level == 1 ? 'level1Topic': 'subTopicLevel'">
       <div class="arrow-icon" *ngIf="topic.subTopic.length" (click)="onArrowToggle(topic)">
         <i [ngClass]="topic.isExpand ? 'fa fa-caret-down': 'fa fa-caret-right'" style="font-size: 15px!important;"></i>
