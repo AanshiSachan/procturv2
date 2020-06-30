@@ -177,7 +177,13 @@ export class RegisteredStudentComponent implements OnInit {
           school_id: res.result.school_id,
           curr_address: res.result.address,
           country_id: res.result.country_id,
-          user_id: res.result.user_id
+          user_id: res.result.user_id,
+          state_id: res.result.state_id,
+          city_id: res.result.city_id,
+          source: res.result.source,
+          master_course: res.result.master_course,
+          course_id: res.result.course_id,
+          course_assign: res.result.course_assign
         };
         this.auth.hideLoader();
         this.performAction(action);
