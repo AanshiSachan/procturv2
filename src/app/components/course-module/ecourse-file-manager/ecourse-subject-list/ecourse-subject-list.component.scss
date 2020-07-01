@@ -338,3 +338,15 @@
     }	
   }	
 }
+.deleteFile {
+  float: right;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  color: #2680eb;
+  background: #fff;
+  font-weight: 600;
+  font-size: 12px;
+  border: 1px solid #2680eb;
+  box-shadow: 0 1pt 3pt 0 rgba(0, 0, 0, 0.16);
+}
