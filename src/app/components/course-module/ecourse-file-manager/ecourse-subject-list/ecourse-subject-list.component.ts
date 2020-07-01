@@ -204,6 +204,7 @@ export class EcourseSubjectListComponent implements OnInit {
 
   getSubjectList() {
     this.subjectList = [];
+    this.selectedFilesArray = [];
     let array = [];
     this.auth.showLoader();
     let url = "/api/v1/instFileSystem/get-study-material";
@@ -368,6 +369,7 @@ export class EcourseSubjectListComponent implements OnInit {
 
   setRemoveDataFile() {
     let temp: any = [];
+    if(this.selectedFilesArray && this.selectedFilesArray.length) {
     this.selectedFilesArray.forEach(data=>{
       if(data.selected) {
         temp.push(data.file_id);
@@ -384,8 +386,10 @@ export class EcourseSubjectListComponent implements OnInit {
     if(this.Confirm_deleteFile) {
       obj.delete_source = 3;
     }
+    this.auth.showLoader();
     this._http.postData('/api/v1/instFileSystem/files/delete', obj).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
          if (this.Confirm_deleteFile) {
           this.msgService.showErrorMessage('success','','Deleted Successfully');
           this.closeDeletePopup();
@@ -396,6 +400,7 @@ export class EcourseSubjectListComponent implements OnInit {
          }
       },
       err=>{
+        this.auth.hideLoader();
         this.msgService.showErrorMessage('error','',err.error.message);
         this.fileSharedArray = err.error.error;
         if (!this.Confirm_deleteFile) {
@@ -403,6 +408,9 @@ export class EcourseSubjectListComponent implements OnInit {
         }
       }
     )
+    } else {
+      this.msgService.showErrorMessage('error','','Please select file(s)');
+    }
   }
 
   closeDeletePopup() {
@@ -411,6 +419,7 @@ export class EcourseSubjectListComponent implements OnInit {
     this.selectedFilesArray.forEach(data=>{
       data.selected = false;
     })
+    this.selectedFilesArray = [];
     this.Confirm_deleteFile = false;
   }
 

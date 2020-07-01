@@ -12,6 +12,9 @@
           <div class="subject-title">
             Subject List 
           </div>
+          <div class="deleteFile" (click)="setRemoveDataFile()">
+            Delete File
+          </div>
         </div>
       </div>
       <div class="row" *ngIf="subjectList.length==0">
@@ -163,7 +166,6 @@
     <div class="col-md-1"></div>
     <div class="col-md-1" style="padding:0">
       <div class="action-buttons" style="float: right;">
-        <button class="btn btn-xs btn-ga-white"  (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -203,7 +205,6 @@
     <div class="col-md-2" style="padding: 0;">
       <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked!='N'" (click)="deleteVideoCipherFile(video,'unlink')">Unlink</button>
-        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
         <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="deleteVideoCipherFile(video,'unlink all')">Unlink All</button>
       </div>
     </div>
@@ -234,7 +235,6 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -264,7 +264,7 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
+        <!-- <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button> -->
       </div>
     </div>
   </div>
@@ -294,7 +294,6 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -324,7 +323,6 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(audio)">
           <a [href]="audio.file_name" class="btn-ga-white" [download]="audio.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -354,7 +352,6 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -385,7 +382,6 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -415,7 +411,6 @@
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
           <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button>
       </div>
     </div>
   </div>
@@ -533,7 +528,7 @@
 
 <app-upload-file></app-upload-file>
 
-<proctur-popup [sizeWidth]="'medium'" *ngIf="deletePopup">
+<proctur-popup [sizeWidth]="'small'" *ngIf="deletePopup">
 
   <span class="closePopup pos-abs fbold show" close-button (click)="closeDeletePopup()">
     <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
@@ -545,8 +540,10 @@
   </div>
   <div popup-content class="popup-header-content">
     <!-- <div class="row"> -->
-      <span>Are you sure, you want to delete files?
-        <span *ngIf="fileSharedArray?.length>0"> as file is shared with following : </span></span><br>
+      <div style="margin-bottom: 10px;">
+      <span style="font-size: 14px;font-weight: 600;">Are you sure, you want to delete files?
+        <span style="font-size: 14px;" *ngIf="fileSharedArray?.length>0"> As file is shared with following : </span></span>
+      </div>
       <span *ngFor="let msg of fileSharedArray">
         <span> {{msg.errorMessage}}</span><br>
       </span>
