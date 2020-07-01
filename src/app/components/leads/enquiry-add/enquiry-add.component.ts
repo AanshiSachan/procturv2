@@ -337,6 +337,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       state_id: data.state_id,
       source_id: data.source,
       enquiry_date: moment().format('YYYY-MM-DD'),
+      status: '0'
     }
     this.course_mastercourse_id = data.master_course;
     this.selectedCourseIds = data.course_assign;
