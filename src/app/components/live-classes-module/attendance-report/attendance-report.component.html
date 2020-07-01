@@ -1,0 +1,119 @@
+
+<div class="middle-section">
+  <aside class="middle-full">
+    <section class="middle-main clearFix activity-wrapper">
+      <section class="row header" style="margin-right: 0px; margin-left: 0px;margin-bottom: 5px;">
+        <div class="row" style="margin-left: 0px;margin-right: 0px;">
+          <h2 class="pull-left">
+           <a routerLink="/view/live-classes">
+            Live class
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <span>View Attendance</span>
+
+          </h2>
+        </div>
+      </section>
+
+      <section class="header-container">
+        <div class="header-item">
+          <div class="header-title">
+            <span>Date : </span>
+          </div>
+          <div class="header-value">
+            <span></span>
+          </div>
+        </div>
+        <div class="header-item">
+          <div class="header-title">
+            <span>Invited : </span>
+          </div>
+          <div class="header-value">
+            <span>{{session_data.totale_user}}</span>
+          </div>
+        </div>
+        <div class="header-item">
+          <div class="header-title">
+            <span>Topic : </span>
+          </div>
+          <div class="header-value">
+            <span></span>
+          </div>
+        </div>
+        <div class="header-item">
+          <div class="header-title">
+            <span>Attended : </span>
+          </div>
+          <div class="header-value">
+            <span>{{session_data.total_present}}</span>
+          </div>
+        </div>
+        <div class="header-item">
+          <div class="header-title">
+            <span>Guest : </span>
+          </div>
+          <div class="header-value">
+            <span>{{guest_attendance_list.length}}</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="search-bar-container">
+        <div class="field-wrapper">
+          <input type="text" value="" id="search_bar" [(ngModel)]="searchInput" name="searchInput" (keyup)="searchDatabase(search)"
+             placeholder="Search here..." class="search-box" #search>
+        </div>
+      </section>
+
+      <section class="table-container">
+        <div class="table-heading-container">
+          <div class="table-heading-item sm-item">
+            <span>Id</span>
+          </div>
+          <div class="table-heading-item md-item">
+            <span>Name</span>
+          </div>
+          <div class="table-heading-item md-item">
+            <span>Status</span>
+          </div>
+          <div class="table-heading-item md-item">
+            <span>Start Time</span>
+          </div>
+          <div class="table-heading-item md-item">
+            <span>End Time</span>
+          </div>
+          <div class="table-heading-item md-item">
+            <span>Duration</span>
+          </div>
+        </div>
+        <div class="table-outer-value-container">
+          <div class="table-value-container" *ngFor="let record of attendance_list">
+            <div class="table-value-item sm-item">
+              <span>{{record.id}}</span>
+            </div>
+            <div class="table-value-item md-item">
+              <span title="{{record.name}}}">{{ (record.name.length > 20) ? (record.name | slice:0:20) + '...' : record.name }}</span>
+            </div>
+            <div class="table-value-item md-item">
+              <span *ngIf="record.attendance_status == 'ABSENT'" class="absent">{{record.attendance_status}}</span>
+              <span *ngIf="record.attendance_status == 'PRESENT'" class="present">{{record.attendance_status}}</span>
+              <span *ngIf="record.attendance_status == 'PARTIALLY_PRESENT'" class="partially">{{record.attendance_status}}</span>
+            </div>
+            <div class="table-value-item md-item">
+              <span >{{record.join_time}}</span>
+              <span *ngIf="record.attendance_status == 'ABSENT'">-</span>
+            </div>
+            <div class="table-value-item md-item">
+              <span>{{record.leave_join}}</span>
+              <span *ngIf="record.attendance_status == 'ABSENT'">-</span>
+            </div>
+            <div class="table-value-item md-item">
+              <span>{{record.duration}}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </section>
+  </aside>
+  </div>
