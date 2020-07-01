@@ -467,6 +467,13 @@ export class RegisteredStudentComponent implements OnInit {
       'register_user'
     );
   }
+
+  clearFilter() {
+    this.filter = {
+      product_id: '',
+      course_type_id: '0'
+    };
+  }
 }
 
   // searchInList() {
