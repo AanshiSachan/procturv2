@@ -555,7 +555,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('instagram_url', institute_data.instagram_url);
       sessionStorage.setItem('website_url', institute_data.website_url);
       sessionStorage.setItem('privacy_alert', 'true');
-      sessionStorage.setItem('liveClassExpiryPop', "true")
+      sessionStorage.setItem('liveClassExpiryPop', "true");
+      sessionStorage.setItem('feedback_url', institute_data.feedback_url);
+      sessionStorage.setItem('help_url', institute_data.help_url);
+      sessionStorage.setItem('terms_and_condition_url', institute_data.terms_and_condition_url);
+      sessionStorage.setItem('privacy_policy_url', institute_data.privacy_policy_url);
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
