@@ -17,7 +17,6 @@ import { ExcelService } from '../../../services/excel.service';
 export class RegisteredStudentComponent implements OnInit {
 
   usersList: any = [];
-  userListDataSource: any = [];
   searchedData: any = [];
   productList: any = [];
   EcourseData: any = [];
@@ -56,7 +55,8 @@ export class RegisteredStudentComponent implements OnInit {
   editObj: any;
   editMsg: any = false;
   selectedMsg: any = '';
-  transational_type: any = 1;
+  smsNotification: any = true;
+  pushNotification: any = true;
 
   menuOptions: DropData[] = [
     {
@@ -164,6 +164,7 @@ export class RegisteredStudentComponent implements OnInit {
             });
             }
           }
+          this.searchedData = this.usersList;
         },
         err => {
           this.auth.hideLoader();
@@ -372,6 +373,15 @@ export class RegisteredStudentComponent implements OnInit {
   }
 
   sendNotification() {
+    console.log(this.smsNotification, this.pushNotification);
+    this.smsNotification ? this.sendSMSNotification() : '';
+    this.pushNotification ? this.sendPushNotification() : '';
+    if (!this.smsNotification && !this.pushNotification) {
+      this._msgService.showErrorMessage('info', 'Please select Notification type', '');
+    }
+  }
+
+  sendSMSNotification() {
     if(!this.getNotificationMessage()){
       return;
     }
@@ -391,9 +401,9 @@ export class RegisteredStudentComponent implements OnInit {
       is_user_notify: 1,
       institution_id: sessionStorage.getItem('institute_id')
     };
-    if (this.transational_type ==2) {
-      obj.configuredMessage = false;
-    }
+    // if (this.transational_type ==2) {
+    //   obj.configuredMessage = false;
+    // }
     this.auth.showLoader();
     this.httpService.postData('/api/v1/alerts/config', obj).subscribe(
       (res: any) => {
@@ -404,7 +414,14 @@ export class RegisteredStudentComponent implements OnInit {
         this.auth.hideLoader();
       }
     )
+   this.closeNotificationPopup();
+  }
+
+  closeNotificationPopup() {
     this.notificationPopup = false;
+    this.smsNotification = true;
+    this.pushNotification = true;
+    this.addSMS = false;
   }
 
   sendPushNotification() {
@@ -429,7 +446,7 @@ export class RegisteredStudentComponent implements OnInit {
         this.auth.hideLoader();
       }
     )
-    this.notificationPopup = false;
+    this.closeNotificationPopup();
   }
 
   getNotificationMessage() {
@@ -474,42 +491,22 @@ export class RegisteredStudentComponent implements OnInit {
       course_type_id: '0'
     };
   }
+
+   searchInList() {
+    if (this.searchText != "" && this.searchText != null) {
+      let searchData = this.usersList.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+      );
+      this.searchedData = searchData;
+      this.varJson.total_items = searchData.length;
+      this.searchDataFlag = true;
+      this.varJson.PageIndex = 1;
+    } else {
+      console.log(this.usersList);
+      this.searchDataFlag = false;
+      this.filterData(this.varJson.PageIndex);
+    }
+  }
 }
 
-  // searchInList() {
-  //   if (this.searchText != "" && this.searchText != null) {
-  //     let data1: any = {};
-  //     let data2: any = [];
-  //     this.userListDataSource.forEach(element => {
-  //       data1 = {
-  //         name : element.name,
-  //         user_id: element.user_id,
-  //         username : element.username
-  //       }
-  //       data2.push(data1);
-  //     },
-  //     );
-  //     console.log(data2);
-  //     let searchData = data2.filter(item =>
-  //       Object.keys(item).some(
-  //         k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
-  //     );
-  //     searchData.forEach(element => {
-  //       if(element.user_id == this.userListDataSource.user_id){
-  //         data1 = this.userListDataSource;
-  //       }
-  //       data2.push(data1);
-  //     },
-  //     );
-  //     console.log(data2);
-  //     this.searchedData = data2;
-  //     this.totalRow = searchData.length;
-  //     this.searchDataFlag = true;
-  //     this.PageIndex = 1;
-  //     this.fetchTableDataByPage(this.PageIndex);
-  //   } else {
-  //     this.searchDataFlag = false;
-  //     this.fetchTableDataByPage(this.PageIndex);
-  //     this.totalRow = this.userListDataSource.length;
-  //   }
-  // }

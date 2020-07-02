@@ -24,7 +24,7 @@
 .searchbox2{
     display: flex;
     flex-direction: column;
-    width: 26%;
+    width: 28%;
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -98,7 +98,7 @@ th{
     padding: 6px 10px;
     width: 200px;
     margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
   .AdvanceFilterSection {
     padding-top: 10px;
@@ -123,7 +123,7 @@ th{
       padding: 7px;
       border: 1px solid #ccc;
       .heading-item {
-        width: 60%;
+        width: 50%;
         text-align: center;
         display: -webkit-box;
         -webkit-box-align: center;
@@ -137,7 +137,7 @@ th{
       overflow-x: hidden;
       overflow-y: auto;
       border: 1px solid #ccc;
-      padding-bottom: 45px;
+      // padding-bottom: 45px;
       .value-container {
         display: flex;
         flex-direction: row;
@@ -149,7 +149,7 @@ th{
         border-bottom: 1px solid #ccc;
         border-top: none;
         .value-item {
-          width: 60%;
+          width: 50%;
           text-align: center;
           display: -webkit-box;
           -webkit-box-align: center;
@@ -275,13 +275,13 @@ th{
 .user-detail {
     background: #fff;
     text-align: center;
-    padding: 8px;
-    border: 1px solid #eaeaeb;
+    padding: 5px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    border-top: 0;
-    margin-top: 3px;
-    width: 120px;
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 6px 10px 0 rgba(0, 0, 0, 0.12)
+    // border-top: 0;
+    margin-top: 4px;
+    width: 25px;
+    // box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 6px 10px 0 rgba(0, 0, 0, 0.12)
 }
 .clearButton{
   background: no-repeat;
@@ -289,4 +289,87 @@ th{
   border: none;
   padding: 0;
   outline: none;
+}
+.addSmsSection {
+  text-align: right;
+  padding: 0;
+  background: #efefef;
+  width: 50%;
+}
+.addSectionHide {
+  width: 75%;
+  background: none;
+  text-align: right;
+  padding: 0;
+  margin-top: 10px;
+}
+.filter-section {
+  padding: 5px 0px;
+  border-top: 1px solid #d4d4d4;
+  border-bottom: 1px solid #d4d4
+}
+
+.table_container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 10px;
+  .table_header{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    border-bottom: 1px solid #ccc;
+  .table_header_item{
+    color: #585574;
+    font-weight: 600;
+    font-size: 12px;
+    // padding: 0px 5px;
+  }
+}
+
+.table-value-outer-container{
+  height: 58vh;
+  overflow-y: auto;
+}
+  .table_value{
+    min-height: 34px;
+    display: flex;
+    flex-direction: row;
+    background: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+    margin-bottom: 10px;
+    padding: 3px 0px;
+    position: relative;
+    .table_value_item{
+      color: #585574;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-box-align: center;
+      padding: 0px 5px;
+      word-break: break-all;
+    }
+  }
+  .large{
+    width: 30%;
+    font-size: 12px;
+  }
+  .action{
+    width: 10%;
+    position: absolute;
+    right: 0px;
+  }
+  .illustration-container{
+    display: block;
+    .illustration-img{
+      width: 40%;
+      margin-left: 12%;
+      margin-top: -2%;
+  
+    }
+  }
 }
