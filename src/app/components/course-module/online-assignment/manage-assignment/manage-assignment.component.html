@@ -1,3 +1,34 @@
+<!--add tag master modal-->
+<div class="modal fade" id="addTag" role="dialog"  tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Create Master Tag</h3>
+      </div>
+      <div class="modal-body">
+        <div class="field-wrapper">
+           <label>Tag Name<span class="text-danger">*</span></label>
+           <div class="dropdown-div pt-2">
+             <input class="tags-dropdown" type="text" [(ngModel)]="newTagName" placeholder=" Enter Tag Name" />
+           </div>
+        </div>
+        <div class="field-wrapper">
+          <label>Description</label>
+          <div class="dropdown-div pt-2">
+            <input class="tags-dropdown" type="text" [(ngModel)]="newTagDescription" placeholder=" Enter Description" />
+          </div>
+       </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary create-btn" (click)="createMasterTag()">Create</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div class="middle-section clear-fix">
   <!-- breadcrumb -->
   <section class="middle-top clearFix bulk-header">
@@ -24,37 +55,56 @@
 
       <div class="assignment-details">
         <div class="assignment-details-item" style="flex-direction: column;">
-          <label for="tags" style="font-size: 12px; margin-top:10px; margin-right: 10px;">Assign Title<span class="danger">*</span></label>
+          <label for="tags" style="font-size: 12px; margin-top:10px; margin-right: 10px;">Title<span class="danger">*</span></label>
           <input type="text" name="" class="assignment-input" value="" [(ngModel)]="assignmentDetails.title" placeholder="Assignment Title">
         </div>
         <div class="assignment-details-item" style="flex-direction: column;">
-          <label for="tags" style="font-size: 12px; margin-top:10px; margin-right: 10px;">Assignment Description</label>
+          <label for="tags" style="font-size: 12px; margin-top:10px; margin-right: 10px;">Description</label>
           <textarea name="name" class="assignment-textarea" rows="5" [(ngModel)]="assignmentDetails.description" placeholder="Description" cols="78"></textarea>
         </div>
-        <div class="assignment-details-item field-wrapper">
-          <label for="tags" style="font-size: 12px; margin-top:10px; margin-right: 10px;">Tags</label>
+        <div class="assignment-details-item field-wrapper tags">
+          <label for="tags" style="font-size: 12px; margin-top:5px; margin-right: 10px;">
+            Tags
+            <div class="questionInfo inline-relative" style="left:0%;top:5px;">
+              <span class="qInfoIcon i-class">i</span>
+              <div class="tooltip-box-field md">
+                Tags will help you
+                <br> in searching particular
+                <br> assignments later on
+              </div>
+            </div>
+          </label>
           <ng-multiselect-dropdown class="container dropdown"
             [placeholder]="'Select Tags(s)'"
             [data]="tagList"
             [settings]="tagsListSettings"
             [(ngModel)]="selectedTagsList" >
           </ng-multiselect-dropdown>
+          <button type="button" name="button" class="manage-assignment-btn" data-target="#addTag" data-toggle="modal">
+            <i class="fa fa-plus" aria-hidden="true" style="color: #0084f6;"></i>&nbsp;
+            Add Tags</button>
         </div>
         <div class="assignment-details-item">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="marks" [(ngModel)]="assignmentDetails.marks" (ngModelChange)="toggleMarks($event)">
-            <label for="marks">Evaluation required</label>
+            <label for="marks">
+              Evaluation required
+            </label>
+            <div class="questionInfo inline-relative" style="position: absolute;left: 100%;top: 0;">
+              <span class="qInfoIcon i-class" style="line-height: 17px;">i</span>
+              <div class="tooltip-box-field md">
+                Choose this to
+                <br> specify the evaluation
+                <br> marks for this
+                <br> assignment
+              </div>
+            </div>
           </div>
           <div class="marks-container" *ngIf="showMarks">
             <input type="number" name="" value="" placeholder="Enter marks" [(ngModel)]=assignmentDetails.mark>
           </div>
         </div>
-        <div class="assignment-details-item">
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" id="late-submission" [(ngModel)]="assignmentDetails.lateSubmission">
-            <label for="late-submission">Late Submission Allow</label>
-          </div>
-        </div>
+
         <div class="assignment-details-item " style="flex-direction: row;">
           <div class="date-time field-wrapper datePickerBox">
             <label for="state-date" style="font-size: 12px;">Start Date & Time<span class="danger">*</span></label>
@@ -95,11 +145,15 @@
               </select>
             </div>
           </div>
-
         </div>
-
+        <div class="assignment-details-item">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="late-submission" [(ngModel)]="assignmentDetails.lateSubmission">
+            <label for="late-submission">Allow late submission</label>
+          </div>
+        </div>
         <div class="assignment-details-item field-wrapper">
-          <label for="uploadFileControl" style="font-size: 12px;margin-top: 7px;">Upload File</label>
+          <label for="uploadFileControl" style="font-size: 12px;margin-top: 7px;">Upload Assignment</label>
           <input type="file" class="form-ctrl upload-file" id="uploadFileControl" name="uploadFileBox" accept=
           "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
           text/plain, application/pdf, image/*" [(ngModel)]="upFile" />
@@ -107,9 +161,9 @@
         </div>
 
         <div class="assignment-details-item field-wrapper">
-          <input type="text" name="" class="assignment-input url" value="" placeholder="URL Name" [(ngModel)]="urlDetails.name">
-          <input type="text" name="" class="assignment-input url" value="" placeholder="URL" style="margin-left: 10px;" [(ngModel)]="urlDetails.url">
-          <button type="button" name="button" class="upload-docs-btn" (click)="uploadURL()">Upload</button>
+          <input type="text" name="" class="assignment-input url" value="" placeholder="Link Title" [(ngModel)]="urlDetails.name">
+          <input type="text" name="" class="assignment-input url" value="" placeholder="Provide Link" style="margin-left: 10px;" [(ngModel)]="urlDetails.url">
+          <button type="button" name="button" class="upload-docs-btn" (click)="uploadURL()">Add</button>
         </div>
 
         <!-- used while createing assignmnet -->

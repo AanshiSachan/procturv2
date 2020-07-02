@@ -22,7 +22,6 @@ export class ListAssignmentComponent implements OnInit {
   searchText: any;
   assignmentList: any[] = [];
   tempAssignmnetList: any[] = [];
-  action: string = "-1";
   startDate: any = new Date(moment().date(1).format("YYYY-MM-DD"));
   endDate: any = moment(new Date).format("YYYY-MM-DD");
 
@@ -106,9 +105,18 @@ export class ListAssignmentComponent implements OnInit {
     }
   }
 
-  assignAction(file_id){
-    this.auth.showLoader();
-    if(this.action == 'delete'){
+  viewSubmission(file_id){
+    this.router.navigate(['/view/course/online-assignment/review-assignment/'+file_id]);
+  }
+
+  editAssignment(file_id){
+    this.router.navigate(['/view/course/online-assignment/manage-assignment/'+file_id]);
+  }
+
+  deleteAssignment(file_id){
+    var prompt = confirm("Are you sure, you want to delete the assignment?");
+    if (prompt) {
+      this.auth.showLoader();
       let obj = {};
       const url = `/api/v2/onlineAssignment/delete/${this.jsonFlag.institute_id}/${file_id}`;
       this.httpService.deleteData(url, obj).subscribe(
@@ -122,7 +130,6 @@ export class ListAssignmentComponent implements OnInit {
             this.msgService.showErrorMessage('error', '', res.message);
           }
           this.auth.hideLoader();
-          this.action = '-1';
         },
         err => {
           this.auth.hideLoader();
@@ -130,12 +137,7 @@ export class ListAssignmentComponent implements OnInit {
         }
       )
     }
-    else if(this.action == 'manage'){
-      this.router.navigate(['/view/course/online-assignment/manage-assignment/'+file_id]);
-    }
-    else if(this.action == 'status'){
-      this.router.navigate(['/view/course/online-assignment/review-assignment/'+file_id]);
-    }
   }
+
 
 }

@@ -53,20 +53,24 @@
   flex-direction: column;
   width: 100%;
   .list-header-container{
-    border: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
     display: flex;
     flex-direction: row;
-    background: #e0eaec;
+    font-size: 12px;
     font-weight: 600;
     text-align: left;
-  }
-  .list-header-item{
     padding: 10px;
+    padding-left: 15px;
+    margin-bottom: 10px;
+    .list-header-item{
+      color: #585574;
+    }
   }
+
   .list-value-outer-container{
     display: flex;
     flex-direction: column;
-    border: 1px solid #ccc;
     border-top: none;
     min-height: 71vh;
     max-height: 71vh;
@@ -75,13 +79,21 @@
       display: flex;
       flex-direction: row;
       text-align: left;
-      border-bottom: 1px solid #ccc;
+      background: #ffffff;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+      padding: 10px;
       .list-value-item{
-        padding: 10px;
+        color: #585574;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-box-align: center;
+        padding: 0px 5px;
+        word-break: break-all;
       }
-    }
-    .list-value-container:last-child{
-      border-bottom: none;
     }
   }
   .small-item{
@@ -106,9 +118,23 @@
     font-size: 14px;
     font-weight: 600;
   }
-  .fa-pencil{
-    color: #0084f6;
-    cursor: pointer;
+
+  .border-draft-class{
+    border-left: 5px solid #8d8d8d;
+  }
+  .border-published-class{
+    border-left: 5px solid #00b55a;
+  }
+  .action-container{
+    display: flex;
+    justify-content: center;
+    .fa{
+      margin: 0px 5px;
+      max-width: 14px;
+      height: 14px;
+      cursor: pointer;
+
+    }
   }
 
 }

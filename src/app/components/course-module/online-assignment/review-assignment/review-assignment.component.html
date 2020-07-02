@@ -19,9 +19,9 @@
         </div>
 
         <div class="assignment-details-item field-wrapper">
-          <input type="text" name="" class="assignment-input url" value="" placeholder="URL Name" [(ngModel)]="urlDetails.name">
-          <input type="text" name="" class="assignment-input url" value="" placeholder="URL" style="margin-left: 10px;" [(ngModel)]="urlDetails.url">
-          <button type="button" name="button" class="upload-docs-btn" (click)="uploadURL()">Upload</button>
+          <input type="text" name="" class="assignment-input url" value="" placeholder="Link Title" [(ngModel)]="urlDetails.name">
+          <input type="text" name="" class="assignment-input url" value="" placeholder="Provide Link" style="margin-left: 10px;" [(ngModel)]="urlDetails.url">
+          <button type="button" name="button" class="upload-docs-btn" (click)="uploadURL()">Add</button>
         </div>
 
         <div class="attachment-container">
@@ -111,7 +111,7 @@
             </div>
 
             <div class="marks-remarks-container">
-              <div class="remarks-container field-wrapper" *ngIf="editStatus?.teacher_comment">
+              <div class="remarks-container field-wrapper">
                 <label for="state-date" style="font-size: 12px;">Faculty Remarks</label>
                 <textarea name="name" rows="4" cols="40" class="form-ctrl" placeholder="Faculty Remarks" [(ngModel)]="editStatus.teacher_comment"></textarea>
               </div>
@@ -193,11 +193,35 @@
     </div>
   </section>
 
+  <section class="stats-container" *ngIf="assignmentDetails">
+    <div class="stat-item">
+      <span class="stat-heading">Assignment Title : </span>
+      <span title="{{assignmentDetails.title}}">{{ (assignmentDetails?.title.length > 20) ? (assignmentDetails.title | slice:0:20) + '...' : assignmentDetails.title }}</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-heading">Start Date : </span>
+      <span>{{assignmentDetails?.start_date}} {{assignmentDetails.start_time}}</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-heading">End Date : </span>
+      <span>{{assignmentDetails?.end_date}} {{assignmentDetails.end_time}}</span>
+    </div>
+    <div class="stat-item" *ngIf="assignmentDetails?.evaluation_required == 'Y'">
+      <span class="stat-heading">Evaluation Marks : </span>
+      <span>{{assignmentDetails?.evaluation_marks}}</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-heading">No of Students Assigned : </span>
+      <span>{{assignmentDetails.studentId_lists.length}}</span>
+    </div>
+  </section>
+
+
   <!-- filter container -->
   <section>
-    <div class="filter-container">
+    <div class="filter-container" [hidden]="rowSelectedCount == 0">
       <div class="manage-assignment-btn-container">
-        <button type="button" name="button" class="manage-assignment-btn" (click)='bulkUpload()'>Bulk Upload</button>
+        <button type="button" name="button" class="manage-assignment-btn" (click)='bulkUpload()'>Share File / Link</button>
       </div>
     </div>
   </section>
@@ -221,15 +245,6 @@
         <div class="list-header-item small-item">
           <span>Status</span>
         </div>
-        <div class="list-header-item small-item">
-          <span>Student Remarks</span>
-        </div>
-        <div class="list-header-item small-item">
-          <span>Faculty Status</span>
-        </div>
-        <div class="list-header-item small-item">
-          <span>Faculty Remarks</span>
-        </div>
         <div class="list-header-item small-item align-center">
           <span>Action</span>
         </div>
@@ -252,17 +267,8 @@
           <div class="list-value-item small-item">
             <span title="{{student?.student_status}}" >{{ (!student.student_status) ? '-' : (student.student_status.length > 25) ? (student.student_status | slice:0:25) + '...' : student.student_status}}</span>
           </div>
-          <div class="list-value-item small-item">
-            <span title="{{student?.student_comment}}" >{{ (!student.student_comment) ? '-' : (student.student_comment.length > 25) ? (student.student_comment | slice:0:25) + '...' : student.student_comment}}</span>
-          </div>
-          <div class="list-value-item small-item">
-            <span title="{{student?.teacher_status}}" >{{ (!student.teacher_status) ? '-' : (student.teacher_status.length > 25) ? (student.teacher_status | slice:0:25) + '...' : student.teacher_status}}</span>
-          </div>
-          <div class="list-value-item small-item">
-            <span title="{{student?.teacher_comment}}" >{{ (!student.teacher_comment) ? '-' : (student.teacher_comment.length > 25) ? (student.teacher_comment | slice:0:25) + '...' : student.teacher_comment}}</span>
-          </div>
-          <div class="list-value-item small-item align-center">
-            <button type="button" name="button" class="status-btn" (click)="updateStatus(student)">Update Status</button>
+          <div class="list-value-item small-item align-center" style="display: flex;justify-content: center;">
+            <button type="button" name="button" class="status-btn" (click)="updateStatus(student)">Evaluate</button>
           </div>
         </div>
         <div class="no-records" *ngIf="tempStudentList?.length  == 0">

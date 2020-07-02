@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { HttpService  } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { MasterTagService } from '../../master-tag/master-tag.component.service';
 import * as moment from 'moment';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+declare var $;
 
 class fileObj {
   private fileName: string;
@@ -38,6 +40,10 @@ export class ManageAssignmentComponent implements OnInit {
    showHideColumn: false,
    type: 'course'
  };
+
+ // new tags
+ newTagName: string = '';
+ newTagDescription: string = '';
 
  studentListSettings = {};
  tagsListSettings = {};
@@ -77,11 +83,11 @@ export class ManageAssignmentComponent implements OnInit {
    students: [],
    teacher: "-1",
    startDate: moment(new Date).format('YYYY-MM-DD'),
-   startHr: "",
-   startMin: "",
-   endDate: moment(new Date).format('YYYY-MM-DD'),
-   endHr: "",
-   endMin: "",
+   startHr: "12 AM",
+   startMin: "00",
+   endDate: moment(new Date).add(1,'days').format('YYYY-MM-DD'),
+   endHr: "12 AM",
+   endMin: "00",
    urlLists: [],
    attachmentId_array: [],
    file_id: "-1"
@@ -115,6 +121,7 @@ export class ManageAssignmentComponent implements OnInit {
 
   constructor(
     private msgService: MessageShowService,
+    private tagSrvc: MasterTagService,
     private httpService: HttpService,
     private auth: AuthenticatorService,
     private router: Router,
@@ -288,7 +295,8 @@ export class ManageAssignmentComponent implements OnInit {
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 3,
-      enableCheckAll: true
+      enableCheckAll: true,
+      allowSearchFilter: true
     };
   }
 
@@ -580,7 +588,7 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   saveAsDraft(){
-    this.assignment_status = "Unpublish";
+    this.assignment_status = "Draft";
     this.assignmentDetails.tags = [];
     this.assignmentDetails.students = [];
     for(let i = 0; i < this.selectedTagsList.length; i++){
@@ -667,6 +675,11 @@ export class ManageAssignmentComponent implements OnInit {
       this.assignmentDetails.students.push(this.selectedStudentList[i].student_id)
     }
 
+    let file_id = "-1";
+    if(this.sectionName == "Edit"){
+      file_id = this.assignmentDetails.file_id;
+    }
+
     if(this.assignmentDetails.title.trim() != '' && this.assignmentDetails.title.trim() != null){
       if(this.assignmentDetails.startHr.trim() != '' && this.assignmentDetails.startMin.trim() != ''){
         if(this.assignmentDetails.masterCourse != '-1'){
@@ -709,9 +722,9 @@ export class ManageAssignmentComponent implements OnInit {
                   allow_assignment_late_submission: lateSub,
                   evaluation_marks: marks,
                   evaluation_required: ev,
-                  file_id: "-1",
+                  file_id: file_id,
                   teacher_id: this.assignmentDetails.teacher,
-                  assignment_status: 'Publish',
+                  assignment_status: 'Published',
                   tagId_array: this.assignmentDetails.tags,
                   studentId_array: this.assignmentDetails.students,
                   url_lists: this.assignmentDetails.urlLists,
@@ -954,6 +967,43 @@ export class ManageAssignmentComponent implements OnInit {
       this.showMarks = false;
     }
 
+  }
+
+
+  createMasterTag(){
+      if(this.newTagName == ''){
+          this.msgService.showErrorMessage('info','',"Enter tag name");
+          return false;
+      }
+      if(this.newTagName.length > 100){
+          this.msgService.showErrorMessage('info','',"Tag name cannot be so long");
+          return false;
+      }
+      if(this.newTagDescription.length > 500){
+          this.msgService.showErrorMessage('info','',"Description cannot be so long");
+          return false;
+      }
+     // else {
+          this.auth.showLoader();
+          let payload = {};
+           payload = {
+            "tagName":this.newTagName,
+            "description":this.newTagDescription,
+            "instituteId":this.jsonFlag.institute_id
+          }
+          this.tagSrvc.addMasterTagInInstitute(payload).subscribe(data =>{
+              let temp: any = data;
+              this.msgService.showErrorMessage('success', '', temp.message)
+              this.auth.hideLoader();
+              this.newTagDescription = '';
+              this.newTagName = '';
+              $('#addTag').modal('hide');
+              this.getTagList();
+          }, error =>{
+              this.auth.hideLoader();
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', error.error.message)
+          })
+     //}
   }
 
 }
