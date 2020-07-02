@@ -143,6 +143,32 @@
 // end of the pop up bulk
 
 
+// stats styles
+.stats-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 1em;
+  .stat-item {
+    display: flex;
+    flex-direction: row;
+    width: 25%;
+    font-size: 14px;
+    font-weight: 400;
+    .stat-heading {
+      font-weight: 600;
+      margin-right: 5px;
+    }
+
+  }
+}
+
+
+
+
+
+// Stats style end
+
 //  update status pop up
 .update-status-container{
   display: flex;
@@ -170,6 +196,9 @@
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
+      label{
+        font-weight: 600;
+      }
     }
   }
   .student-remarks-container{
@@ -216,6 +245,7 @@
   display: flex;
   flex-direction: row;
   margin: 10px 0;
+  margin-top: 0;
   justify-content: flex-end;
   .manage-assignment-btn-container{
     margin: 0 20px;
@@ -242,20 +272,23 @@
   width: 100%;
   margin-top: 10px;
   .list-header-container{
-    border: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
     display: flex;
     flex-direction: row;
-    background: #e0eaec;
+    font-size: 12px;
     font-weight: 600;
     text-align: left;
+    padding: 10px;
+    padding-left: 15px;
+    margin-bottom: 10px;
   }
   .list-header-item{
-    padding: 10px;
+    color: #585574;
   }
   .list-value-outer-container{
     display: flex;
     flex-direction: column;
-    border: 1px solid #ccc;
     border-top: none;
     min-height: 71vh;
     max-height: 71vh;
@@ -264,10 +297,21 @@
       display: flex;
       flex-direction: row;
       text-align: left;
-      border-bottom: 1px solid #ccc;
+      background: #ffffff;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+      padding: 10px;
       .list-value-item{
-        padding: 10px;
         position: relative;
+        color: #585574;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-box-align: center;
+        padding: 0px 5px;
+        word-break: break-all;
       }
     }
     .list-value-container:last-child{
@@ -333,7 +377,7 @@
     width: 12px;
     height: 5px;
     left: 31px;
-    top: 14px;
+    top: 5px;
 }
 
 .field-checkbox-wrapper .form-checkbox + label:after {
@@ -344,7 +388,7 @@
     border-radius: 2px;
     position: absolute;
     left: 29px;
-    top: 9px;
+    top: 0;
 }
 .list-table-container{
   .field-checkbox-wrapper .form-checkbox {

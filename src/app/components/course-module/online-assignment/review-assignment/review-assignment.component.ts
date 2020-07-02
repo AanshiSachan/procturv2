@@ -98,6 +98,8 @@ export class ReviewAssignmentComponent implements OnInit {
   facultyAttachments: any[] = [];
   facultyUrlList: any[] = [];
 
+  assignmentDetails: any;
+
   constructor(
     private msgService: MessageShowService,
     private httpService: HttpService,
@@ -124,6 +126,22 @@ export class ReviewAssignmentComponent implements OnInit {
     let splitURL = currentURL.split("/");
     this.reviewAssignmentId = splitURL[splitURL.length - 1];
     this.getStudentsList();
+    this.getAssignmentDetails();
+  }
+
+  getAssignmentDetails(){
+    this.auth.showLoader();
+    const url = `/api/v2/onlineAssignment/get/${this.jsonFlag.institute_id}/${this.reviewAssignmentId}`;
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.assignmentDetails = res.result;
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+      }
+    )
   }
 
   getStudentsList(){
