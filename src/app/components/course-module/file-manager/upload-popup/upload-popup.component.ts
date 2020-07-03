@@ -473,7 +473,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         this.manualUpload = false;
         let data = {
           type: 'success',
-          title: "File updated successfully",
+          title: this.youtubeUrl + " updated successfully",
           body: ''
         }
         this.appC.popToast(data);

@@ -59,6 +59,7 @@ export class FileCardComponent implements OnChanges {
   @Output() shareOptions = new EventEmitter<any>();
   @Output() playYoutubeVideo = new EventEmitter<any>();
   @Output() editYoutubeVideo = new EventEmitter<any>();
+  @Output() ShowDeleteFileButton = new EventEmitter<any>();
   dwnldLink = "";
   arr: any[] = [];
   fileURL: any;
@@ -84,7 +85,12 @@ export class FileCardComponent implements OnChanges {
     if (data.data.category_id == "182") {
       data.data.category_name = "Study Material"
     }
-    data.data.user_type = sessionStorage.getItem('userType');
+    let userid = sessionStorage.getItem('userid');
+    data.data.teacher_access = true;
+    if((sessionStorage.getItem('userType')) == '3' && userid != data.data.uploadedUserId){
+      data.data.teacher_access = false;
+    }
+    data.data.selected = false;
     // let name = data.label.split(".")[0];
     // let type = data.label.split(".")[1];
     var name = data.label.substring(0, data.label.lastIndexOf("_"));
@@ -194,43 +200,8 @@ export class FileCardComponent implements OnChanges {
   }
 
   getFilesDeleted(event) {
-    let getDeletedFiles = [{
-      file_id: event.res.file_id,
-      keyName: event.res.keyName
-    }]
-
-    if (confirm('Are you sure, you want to delete the file?')) {
-      this.fileService.deleteFiles(getDeletedFiles).subscribe(
-        (data: any) => {
-          let msg = {
-            type: "success",
-            body: "File Deleted Successfully"
-          }
-
-          // if(event.res.category_id!='230'){
-          let path = getDeletedFiles[0].keyName.split('/');
-          path.pop();
-          let newPath = path.join('/');
-          this.filePath.emit(newPath);
-          this.status.emit(data.statusCode);
-          // } else {
-            // let temp = getDeletedFiles[0].keyName.split('/https');
-            // this.filePath.emit(temp[0]);
-          // }
-          this.appC.popToast(msg);
-          this.status.emit(data.statusCode);
-
-        },
-        (error: any) => {
-          let msg = {
-            type: 'error',
-            body: error.error.message
-          }
-          this.appC.popToast(msg);
-        }
-      )
-    }
-  }
+    this.ShowDeleteFileButton.emit(event);
+     }
 
   getPopupOpen(fileObj) {
     let shareOptions = {

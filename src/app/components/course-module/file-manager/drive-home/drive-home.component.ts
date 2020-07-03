@@ -5,6 +5,7 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 import { MessageShowService } from '../../../../services/message-show.service';
 import { FileManagerService } from '../file-manager.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { HttpService } from '../../../../services/http.service';
 
 @Component({
   selector: 'app-drive-home',
@@ -75,12 +76,18 @@ export class DriveHomeComponent implements OnInit {
   editYoutubeFile: any = {
     editView : false
   };
+  fileSharedArray:any = [];
+  deletePopup : boolean = false;
+  deleteConfirmation: boolean = false;
+  SelectedFilesArray: any[] = [];
 
   constructor(private zone: NgZone,
     private fileService: FileManagerService,
     private auth:AuthenticatorService,
     private msgService: MessageShowService,
-    private sanitizer: DomSanitizer) { }
+    private sanitizer: DomSanitizer,
+    private http: HttpService
+    ) { }
 
 
   ngOnInit(refreshTree?) {
@@ -99,9 +106,11 @@ export class DriveHomeComponent implements OnInit {
 
     let institute_id = sessionStorage.getItem("institute_id");
     let obj = { keyName: path, institute_id: institute_id };
-
+    this.SelectedFilesArray = [];
+    this.auth.showLoader();
     this.fileService.getAllFolderFiles(obj).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.children = res;
         this.getPath = obj.keyName;
         this.pathArray = this.getPath.split('/');
@@ -263,11 +272,19 @@ export class DriveHomeComponent implements OnInit {
   }
 
   onNodeSelect(event) {
-
+    this.filePathPopup = event.node.data.keyName;
+    if (event.node.type == 'folder') {
+    this.selectedFolder = event;
+    this.getFilesAndFolder('200');
+    }
   }
 
   onNodeCollapse(event) {
 
+  }
+
+  onNodeClick(event) {
+    console.log(event);
   }
 
 
@@ -656,5 +673,83 @@ export class DriveHomeComponent implements OnInit {
     this.addCategoryPopup = true;
     this.editYoutubeFile = file;
     this.editYoutubeFile.editView = true;
+  }
+
+  ShowDeleteFileButton(file) {
+    this.SelectedFilesArray = [];
+    this.fileDisplayArr.forEach(data=>{
+      if(data.data.selected) {
+        this.SelectedFilesArray.push(data.data);
+      }
+    });
+  }
+
+  deleteFile() {
+    let fileArray: any = [];
+    if(this.SelectedFilesArray &&  this.SelectedFilesArray.length) {
+    if(this.SelectedFilesArray[0].category_id == 230){
+      let key = this.SelectedFilesArray[0].keyName.split('/https');
+      if(key && key.length) {
+      let newPath = key[0].concat('/');
+      this.filePathPopup = newPath;
+      }
+      } else {
+        let path = this.SelectedFilesArray[0].keyName.split('/');
+        path.pop();
+        let newPath = path.join('/');
+        newPath = newPath.concat('/');
+        this.filePathPopup = newPath;
+      }
+      this.SelectedFilesArray.forEach(element => {
+        fileArray.push(element.file_id);
+      });
+    } else {
+      this.msgService.showErrorMessage('error','','Please select File');
+      return;
+    }
+    let obj:any = {
+      "source": 1,
+      "file_id_list": fileArray,
+      "institute_id": sessionStorage.getItem('institute_id'),
+    }
+    if(this.deleteConfirmation){
+        obj.delete_source = 3
+    }
+    this.auth.showLoader();
+    this.http.postData('/api/v1/instFileSystem/files/delete', obj).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+         if(this.deleteConfirmation) {
+            this.msgService.showErrorMessage('success','','Deleted Successfully');
+            this.closeDeletePopup();
+            this.getFilesAndFolder('200');
+         } else {
+         this.fileSharedArray = [];
+         this.deletePopup = true;
+         }
+      },
+      err => {
+        this.auth.hideLoader();
+        this.fileSharedArray = err.error.error;
+        if (!this.deleteConfirmation) {
+        this.deletePopup = true;
+        }
+      }
+    )
+  }
+
+  closeDeletePopup() {
+    this.deletePopup = false;
+    this.fileDisplayArr.forEach(data=>{
+      data.data.selected = false;
+    });
+    this.getFilesAndFolder('200');
+    this.SelectedFilesArray = [];
+    this.deleteConfirmation = false;
+  }
+
+  confirmDelete() {
+    this.deleteConfirmation = true;
+    this.deleteFile();
   }
 }

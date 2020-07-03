@@ -258,6 +258,7 @@ export class InstituteDetailsComponent implements OnInit {
     obj.qna_doubt_url = this.instDetails.qna_doubt_url;
     obj.institute_short_code = this.instDetails.institute_short_code;
     obj.tag_line = this.instDetails.tag_line;
+    obj.sms_shortcode = this.instDetails.sms_shortcode;
     obj.about_us_text = this.instDetails.about_us_text;
     obj.student_ios_app_url = this.instDetails.student_ios_app_url;
     obj.student_app_url = this.instDetails.student_app_url;
