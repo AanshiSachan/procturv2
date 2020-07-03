@@ -298,6 +298,7 @@ export class RegisteredStudentComponent implements OnInit {
 
   saveSMS() {
     let obj = { message: this.message };
+    if(this.message !='' && this.message.trim()!=''){
     this.auth.showLoader();
     this.httpService.postData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id'), obj).subscribe(
       (res: any) => {
@@ -310,10 +311,14 @@ export class RegisteredStudentComponent implements OnInit {
       }
     )
     this.addSMS = false;
+    } else {
+      this._msgService.showErrorMessage('error', '', 'Please enter message');
+    }
   }
 
   updateSMS() {
     let obj = { message: this.message };
+    if(this.message !='' && this.message.trim()!=''){
     this.auth.showLoader();
     this.httpService.putData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id')  + '/' + this.editObj.message_id, obj).subscribe(
       (res: any) => {
@@ -326,6 +331,9 @@ export class RegisteredStudentComponent implements OnInit {
       }
     )
     this.addSMS = false;
+    } else {
+      this._msgService.showErrorMessage('error', '', 'Please enter message');
+    }
   }
 
   ApproveMsg(message_id) {

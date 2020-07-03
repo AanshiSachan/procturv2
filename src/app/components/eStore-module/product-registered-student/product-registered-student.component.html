@@ -25,7 +25,7 @@
                   {{ (item.course_type.length > 30) ? (item.course_type | slice:0:30) + '...' : item.course_type }}
               </option>
             </select>
-            <span style="font-size: 11px;color: red;cursor: pointer;" (click)="filter.course_type_id ='0'">Clear</span>
+            <span class="clearButton" (click)="filter.course_type_id ='0'">Clear</span>
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@
                 {{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}
               </option>
             </select>
-            <span style="font-size: 11px;color: red;cursor: pointer;" (click)="filter.product_id =''">Clear</span>
+            <span class="clearButton" (click)="filter.product_id =''">Clear</span>
           </div>
         </div>
       </div> 
@@ -56,7 +56,7 @@
       <div class="searchbox2 c-md-1" style="width: 8%;float: right;margin-top: 10px;">
         <section class="login-tube pull-right user-detail">
           <span title="Export as Excel" style="cursor: pointer;" (click)="exportToExcel()">
-            <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;cursor: pointer;"></i>
+            <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;cursor: pointer;color: #0084f6;"></i>
           </span>
         </section>
       </div>
@@ -204,7 +204,9 @@
         </div>
       </div>
       <div class="table-value-outer-container" *ngIf="searchedData?.length!=0">
-        <div class="table_value" *ngFor="let data of searchedData;let i= index">
+        <div class="table_value"
+        [ngClass]="{'student-class': data.open_user_status == 'Student',
+                      'enquiry-class': data.open_user_status == 'Enquiry'}" *ngFor="let data of searchedData;let i= index">
           <div class="table_value_item" style="width: 5%;">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" class="form-checkbox"
@@ -232,7 +234,7 @@
               <drop-menu [dropType]="dropType" *ngIf="data.open_user_status == '-'" [info]="data" [menuOptions]="menuOptions"
                 (selectedRecord)="optionSelected($event)"></drop-menu>
                 <span *ngIf="data.open_user_status != '-'">
-                  <button aria-expanded="true" style="cursor: no-drop;" class="d-item dropdown-trigger">
+                  <button aria-expanded="true" style="cursor: no-drop;opacity: 0.5;" class="d-item dropdown-trigger">
                     <span class="d-item svg-icon-wrap">
                         <span class="visually-hidden"></span>
                         <div aria-hidden="true" type="ellipsis-horizontal-icon">
