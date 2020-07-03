@@ -357,7 +357,7 @@ export class RegisteredStudentComponent implements OnInit {
   }
 
   DeleteMsg(message_id) {
-    if (confirm('Are you sure, You want to reject the message?')) {
+    if (confirm('Are you sure, You want to delete the message?')) {
       const obj = {
         status: 400
       };
@@ -477,20 +477,54 @@ export class RegisteredStudentComponent implements OnInit {
   }
 
   exportToExcel() {
-    let arr = [];
-    this.usersList.map(
-      (ele: any) => {
-        let json = {}
-        this.tableSetting.keys.map((keys) => {
-          json[keys.header] = ele[keys.primaryKey]
-        })
-        arr.push(json);
-      }
-    )
-    this.excelService.exportAsExcelFile(
-      arr,
-      'register_user'
-    );
+    let data = {
+      'by': [
+        {
+          'column': 'productId',
+          'value': this.filter.product_id
+        },
+        {
+          'column': 'eCourseId',
+          'value': Number(this.filter.course_type_id)
+        }
+      ],
+      'start_index': 0,
+      'no_of_records': 0,
+    };
+      this.auth.showLoader();
+      this.http.postMethod('user-product/get-user-details', data).then(
+        (data: any) => {
+          this.auth.hideLoader();
+          if (data.body.result != null) {
+            let arr = data.body.result;
+            if(arr && arr.length) {
+            arr.forEach(element => {
+              if(element.open_user_status == 'No Action') {
+                element.open_user_status = '-';
+              }
+            });
+            }
+            let Excelarr = [];
+            arr.map(
+              (ele: any) => {
+                let json = {}
+                this.tableSetting.keys.map((keys) => {
+                json[keys.header] = ele[keys.primaryKey]
+              })
+              Excelarr.push(json);
+          }
+          )
+          this.excelService.exportAsExcelFile(
+            Excelarr,
+            'register_user'
+          );
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this._msgService.showErrorMessage('error', '', err.error.message);
+        }
+      );
   }
 
   clearFilter() {

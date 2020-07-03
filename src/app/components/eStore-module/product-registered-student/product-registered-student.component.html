@@ -206,7 +206,8 @@
       <div class="table-value-outer-container" *ngIf="searchedData?.length!=0">
         <div class="table_value"
         [ngClass]="{'student-class': data.open_user_status == 'Student',
-                      'enquiry-class': data.open_user_status == 'Enquiry'}" *ngFor="let data of searchedData;let i= index">
+                      'enquiry-class': data.open_user_status == 'Enquiry',
+                      'open-class': data.open_user_status == '-'}" *ngFor="let data of searchedData;let i= index">
           <div class="table_value_item" style="width: 5%;">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" class="form-checkbox"
