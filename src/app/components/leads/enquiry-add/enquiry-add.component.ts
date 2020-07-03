@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
@@ -17,7 +17,7 @@ import { MultiBranchDataService } from '../../../services/multiBranchdata.servic
   templateUrl: './enquiry-add.component.html',
   styleUrls: ['./enquiry-add.component.scss']
 })
-export class EnquiryAddComponent implements OnInit {
+export class EnquiryAddComponent implements OnInit, OnDestroy {
 
   isRegisterStudent: boolean = false;
   /* Variable Declarations */
@@ -183,6 +183,7 @@ export class EnquiryAddComponent implements OnInit {
   cityList: any[] = [];
   areaList: any[] = [];
   addArea: boolean = false;
+  convertEnquiry: boolean = false;
 
   constructor(
     private prefill: FetchprefilldataService,
@@ -269,6 +270,10 @@ export class EnquiryAddComponent implements OnInit {
       is_follow_up_time_notification: false
     };
 
+    if (sessionStorage.getItem('enquiryPrefill') != null && sessionStorage.getItem('enquiryPrefill') != undefined) {
+      this.convertToEnquiryDetected();
+    } 
+
     // Multi Branch Check
     this.auth.isMainBranch.subscribe(
       (value: any) => {
@@ -298,6 +303,40 @@ export class EnquiryAddComponent implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    sessionStorage.removeItem('enquiryPrefill');
+  }
+
+  convertToEnquiryDetected() {
+    this.convertEnquiry = true;
+    let data = JSON.parse(sessionStorage.getItem('enquiryPrefill'));
+    this.newEnqData = {
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
+      gender: data.gender,
+      dob: data.dob,
+      parent_email: data.parent_email,
+      standard_id: data.standard_id,
+      parent_name: data.parent_name,
+      parent_phone: data.parent_phone,
+      school_id: data.school_id,
+      curr_address: data.address,
+      country_id: data.country_id,
+      walkin_followUpDate: '',
+      walkin_followUpTime: '',
+      closing_reason_id:'',
+      user_id: data.user_id,
+      city_id: data.city_id,
+      state_id: data.state_id,
+      source_id: data.source,
+      enquiry_date: moment().format('YYYY-MM-DD'),
+      status: '0'
+    }
+    this.course_mastercourse_id = data.master_course;
+    this.selectedCourseIds = data.course_assign;
+  }
+
   // created by: Nalini Walunj
   // Below three functions are written to fetch country details from the session stored at the time of login of institute
   fetchDataForCountryDetails() {
@@ -314,12 +353,6 @@ export class EnquiryAddComponent implements OnInit {
 
 
   getStateList(){
-    this.stateList = [];
-    this.cityList = [];
-    this.areaList = [];
-    this.newEnqData.state_id = "";
-    this.newEnqData.city_id = "";
-    this.newEnqData.area_id = "";
     const url = `/api/v1/country/state?country_ids=${this.newEnqData.country_id}`
      this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -336,12 +369,31 @@ export class EnquiryAddComponent implements OnInit {
     )
   }
 
-  // get city list as per state selection
-  getCityList(){
+  
+  resetStateCityArea(){
+    this.stateList = [];
+    this.cityList = [];
+    this.areaList = [];
+    this.newEnqData.state_id = "";
+    this.newEnqData.city_id = "";
+    this.newEnqData.area_id = "";
+    this.getStateList();
+  }
+  getNewCityList(){
     this.cityList = [];
     this.areaList = [];
     this.newEnqData.city_id = "";
     this.newEnqData.area_id = "";
+    this.getCityList()
+  }
+
+  getNewAreaList(){
+    this.areaList = [];
+    this.getAreaList();
+  }
+
+  // get city list as per state selection
+  getCityList(){
     const url = `/api/v1/country/city?state_ids=${this.newEnqData.state_id}`
      this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -359,7 +411,6 @@ export class EnquiryAddComponent implements OnInit {
   }
 
   getAreaList(){
-    this.areaList = [];
     const url = `/api/v1/cityArea/area/${this.createSource.inst_id}?city_ids=${this.newEnqData.city_id}`
      this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -395,7 +446,7 @@ export class EnquiryAddComponent implements OnInit {
         this.country_id = element.id;
       }
     });
-    this.getStateList();
+    this.resetStateCityArea();
   }
 
   /* Function for Toggling Form Visibility */
@@ -997,7 +1048,7 @@ export class EnquiryAddComponent implements OnInit {
 
         if (!this.isProfessional && (this.isEnquirySubmit)) {
           this.isEnquirySubmit = false;
-          let obj = {
+          let obj:any = {
             area: this.newEnqData.area,
             assigned_to: this.newEnqData.assigned_to,
             city: this.newEnqData.city,
@@ -1045,6 +1096,9 @@ export class EnquiryAddComponent implements OnInit {
             walkin_followUpDate: this.newEnqData.walkin_followUpDate,
             walkin_followUpTime: this.newEnqData.walkin_followUpTime,
             is_follow_up_time_notification: this.newEnqData.is_follow_up_time_notification,
+          }
+          if (this.convertEnquiry) {
+            obj.user_id = this.newEnqData.user_id
           }
           console.log(obj);
           this.auth.showLoader();
@@ -1291,13 +1345,20 @@ export class EnquiryAddComponent implements OnInit {
     else if(this.newEnqData.name == '' || this.newEnqData.name ==null){
       return this.showErrorMessage('error',  '','Please enter name');
     }
+    else if(this.newEnqData.follow_type == '' || this.newEnqData.follow_type == null) {
+      return this.showErrorMessage('error',  '','Please select follow up type');
+    }
     else {
       if (this.validateEnquiryDate()) {//newEnqData.parent_phone
+        if(this.newEnqData.parent_phone != '' && this.newEnqData.parent_phone !=null){
         if (this.commonServiceFactory.phonenumberCheck(this.newEnqData.parent_phone, this.maxlength, this.country_id)==false && this.newEnqData.parent_phone != "") {
           return this.showErrorMessage('error', '', msg);
         }
+        }
+        if(this.newEnqData.phone2 != ''&& this.newEnqData.phone2!=null){
         if (this.commonServiceFactory.phonenumberCheck(this.newEnqData.phone2, this.maxlength,this.country_id)==false && this.newEnqData.phone2 != "") {
           return this.showErrorMessage('error',  '',msg);
+        }
         }
         if (this.hour == '' && Number(this.minute) > 0) {
           return this.showErrorMessage('error', '', 'Please select time');
@@ -1991,6 +2052,11 @@ export class EnquiryAddComponent implements OnInit {
     else {
       this.course_course = [];
     }
+  }
+
+  cancelForm() {
+    this.router.navigate(['/view/leads']);
+    sessionStorage.removeItem('enquiryPrefill');
   }
 
 
