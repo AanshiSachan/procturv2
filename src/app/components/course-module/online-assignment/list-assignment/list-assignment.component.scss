@@ -29,14 +29,15 @@
     }
   }
   .manage-assignment-btn-container{
-    margin: 0 20px;
+    margin: 0 10px;
+    margin-right: 0;
     .manage-assignment-btn{
       background: white;
       border-radius: 4px;
       border: 1px solid #0084f6;
       outline: none;
       text-align: center;
-      padding: 8px 20px;
+      padding: 8px 10px;
       height: 35px;
       font-weight: 600;
       color: #0084f6;
@@ -91,7 +92,6 @@
         line-height: 1.5;
         display: -webkit-box;
         -webkit-box-align: center;
-        padding: 0px 5px;
         word-break: break-all;
       }
     }
