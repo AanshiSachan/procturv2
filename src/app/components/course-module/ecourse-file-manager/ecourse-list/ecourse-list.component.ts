@@ -34,7 +34,6 @@ export class EcourseListComponent implements OnInit {
     watermark_email: ''
   }
 
-
   constructor(
     private _http: HttpService,
     private auth: AuthenticatorService,
@@ -155,6 +154,12 @@ export class EcourseListComponent implements OnInit {
       console.log(res);
       this.auth.hideLoader();
       this.categiesList = res;
+      this.categiesList.forEach(element => {
+        element.size = 0
+        element.categoryDtoList.forEach(category => {
+          element.size = element.size + category.size;
+        });
+      });
       this.searchData = res;
       if (this.categiesList.length == 0) {
         this.outputMessage = 'No data found';
