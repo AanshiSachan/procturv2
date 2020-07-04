@@ -114,7 +114,7 @@
                       State
                       <span *ngIf="isStateMandatory == 1"><span class="text-danger">*</span></span>
                     </label>
-                      <select id="state" class="form-ctrl" [(ngModel)]="newEnqData.state_id" name="state" (ngModelChange)="getCityList()">
+                      <select id="state" class="form-ctrl" [(ngModel)]="newEnqData.state_id" name="state" (ngModelChange)="getNewCityList()">
                       <option value="">Select State</option>
                       <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
                     </select>
@@ -126,7 +126,7 @@
                       City
                       <span *ngIf="isCityMandatory == 1"><span class="text-danger">*</span></span>
                     </label>
-                    <select id="city" class="form-ctrl" [(ngModel)]="newEnqData.city_id" name="city" (ngModelChange)="getAreaList()">
+                    <select id="city" class="form-ctrl" [(ngModel)]="newEnqData.city_id" name="city" (ngModelChange)="getNewAreaList()">
                       <option value="">Select City</option>
                       <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
                     </select>
@@ -494,7 +494,7 @@
             <label for="addNextEnquiry">Add Next Enquiry</label>
           </div>
           <input style="display: inline-block;" type="button" value="Cancel" class="btn cancle"
-            routerLink="/view/leads" id="btnCancel2">
+           (click)="cancelForm()" id="btnCancel2">
           <input *ngIf="newEnqData.status != 12 && newEnqData.status != 1" style="display: inline-block;" type="button"
             value="Add & Admit Enquiry" class="btn fullBlue"
             (click)="submitRegisterForm()" id="btnAddUpdate">
@@ -563,7 +563,7 @@
 
           </div>
           <div class="field-wrapper">
-            <label for="followUpType">Follow Up Type
+            <label for="followUpType">Follow Up Type <span class="text-danger">*</span>
               <div class="questionInfo">
                 <span class="qInfoIcon">?</span>
                 <span class="tooltip-box-field">Information regarding follow up</span>

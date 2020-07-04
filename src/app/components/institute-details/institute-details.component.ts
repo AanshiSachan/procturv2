@@ -83,6 +83,9 @@ export class InstituteDetailsComponent implements OnInit {
         if (this.instDetails.is_student_displayId_manual == 0) {
           this.showPrefix = true;
         }
+        if(this.instDetails.enable_student_app_url == 1) {
+          this.instDetails.enable_student_app_url = true;
+        }
       },
       err => {
         this.auth.hideLoader();
@@ -255,8 +258,10 @@ export class InstituteDetailsComponent implements OnInit {
     obj.qna_doubt_url = this.instDetails.qna_doubt_url;
     obj.institute_short_code = this.instDetails.institute_short_code;
     obj.tag_line = this.instDetails.tag_line;
+    obj.sms_shortcode = this.instDetails.sms_shortcode;
     obj.about_us_text = this.instDetails.about_us_text;
     obj.student_ios_app_url = this.instDetails.student_ios_app_url;
+    obj.student_app_url = this.instDetails.student_app_url;
     obj.institute_testprep_logo = this.instDetails.institute_testprep_logo;
     obj.announcement = this.instDetails.announcement;
     obj.owner_name = this.instDetails.owner_name;
@@ -265,6 +270,10 @@ export class InstituteDetailsComponent implements OnInit {
     obj.owner_primary_phone = this.instDetails.owner_primary_phone;
     obj.admin_name = this.instDetails.admin_name;
     obj.single_device_login = this.instDetails.single_device_login;
+    obj.feedback_url = this.instDetails.feedback_url;
+    obj.help_url = this.instDetails.help_url;
+    obj.privacy_policy_url = this.instDetails.privacy_policy_url;
+    obj.terms_and_condition_url = this.instDetails.terms_and_condition_url;
     if (!(this.validatePhoneNumber(this.instDetails.admin_primary_phone))) {
       this.commonService.showErrorMessage('error', '', 'Please check contact number');
       return
@@ -304,8 +313,8 @@ export class InstituteDetailsComponent implements OnInit {
 
     obj.kyc_document_name = this.instDetails.kyc_document_name;
     obj.kyc_document = this.instDetails.kyc_document;
-    obj.student_app_url = this.instDetails.student_app_url;
     obj.kyc_document_type = this.instDetails.kyc_document_type;
+    (this.instDetails.enable_student_app_url) ? (obj.enable_student_app_url = 1 ) : (obj.enable_student_app_url = 0 );
 
     return obj;
   }
