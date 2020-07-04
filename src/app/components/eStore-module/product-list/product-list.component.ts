@@ -255,18 +255,35 @@ export class ProductListComponent implements OnInit {
     let ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
     let object = {};
     if(!this.isProfessional) {
-     object = {
-      "ecourse_ids": ecourse,
-      "master_course_name": this.master_course_name,
-      "course_id": this.course_id
-    };
-  } else{
-    if(this.master_course_name != "" && this.course_id != "" && this.batch_id != ""){
-      object = {
-        "ecourse_ids": [],
-        'standard_id': "",
-        'subject_id' : "",
-        'batch_id' : this.batch_id
+      if(this.master_course_name == "" && this.course_id == ""){
+        object = {
+         "ecourse_ids": ecourse,
+         "master_course_name": "",
+         "course_id": ""
+         };
+      }
+      else if(this.master_course_name != "" && this.course_id == ""){
+        object = {
+         "ecourse_ids": [],
+         "master_course_name": this.master_course_name,
+         "course_id": ""
+         };
+      }
+      else if(this.master_course_name != "" && this.course_id != ""){
+        object = {
+         "ecourse_ids": [],
+         "master_course_name": "",
+         "course_id": this.course_id
+         };
+      }
+    }
+    else{
+      if(this.master_course_name != "" && this.course_id != "" && this.batch_id != ""){
+        object = {
+          "ecourse_ids": [],
+          'standard_id': "",
+          'subject_id' : "",
+          'batch_id' : this.batch_id
       }
     }
     else if(this.master_course_name != "" && this.course_id != ""){
@@ -419,6 +436,7 @@ export class ProductListComponent implements OnInit {
 
   studentDataOnMasterCourse() {
     // this.activeStudents = false;
+    this.courseDetails = [];
     this.getStudentDetails();
   }
 
