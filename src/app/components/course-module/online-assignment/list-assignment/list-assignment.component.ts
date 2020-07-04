@@ -22,8 +22,15 @@ export class ListAssignmentComponent implements OnInit {
   searchText: any;
   assignmentList: any[] = [];
   tempAssignmnetList: any[] = [];
+  allData: any = [];  // used for pagination purpose
   startDate: any = new Date(moment().date(1).format("YYYY-MM-DD"));
   endDate: any = moment(new Date).format("YYYY-MM-DD");
+
+  // FOR PAGINATION
+  pageIndex: number = 1;
+  displayBatchSize: number = 10;
+  totalCount: number = 0;
+  sizeArr: any[] = [20, 50, 100, 150, 200, 500];
 
   constructor(
     private msgService: MessageShowService,
@@ -63,6 +70,11 @@ export class ListAssignmentComponent implements OnInit {
         if(res.statusCode >= 200 && res.statusCode < 300){
           this.assignmentList = res.result;
           this.tempAssignmnetList = res.result;
+          this.allData = res.result;
+
+          this.totalCount = this.allData.length;
+          this.pageIndex = 1;
+          this.fectchTableDataByPage(this.pageIndex);
         }
         else{
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', res.message);
@@ -139,5 +151,38 @@ export class ListAssignmentComponent implements OnInit {
     }
   }
 
+
+  /*** pagination functions */
+  /* Fetch next set of data from server and update table */
+  fetchNext() {
+    this.pageIndex++;
+    this.fectchTableDataByPage(this.pageIndex);
+  }
+
+  /* Fetch previous set of data from server and update table */
+  fetchPrevious() {
+    this.pageIndex--;
+    this.fectchTableDataByPage(this.pageIndex);
+  }
+
+  /* Fetch table data by page index */
+  fectchTableDataByPage(index) {
+    this.pageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.assignmentList = this.getDataFromDataSource(startindex);
+  }
+
+  // get  appropriate course planner data according to page
+  getDataFromDataSource(startindex) {
+    let t = this.allData.slice(startindex, startindex + this.displayBatchSize);
+    return t;
+  }
+
+  /* Fetches Data as per the user selected batch size */
+  updateTableBatchSize(num) {
+    this.pageIndex = 1;
+    this.displayBatchSize = parseInt(num);
+    this.getAssignmentList();
+  }
 
 }

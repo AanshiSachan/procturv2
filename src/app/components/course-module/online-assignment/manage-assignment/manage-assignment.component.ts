@@ -934,8 +934,40 @@ export class ManageAssignmentComponent implements OnInit {
     }
     if (this.assignmentDetails.startHr != "" && this.assignmentDetails.startHr != null && this.assignmentDetails.startMin != "" && this.assignmentDetails.startMin != null
       && this.assignmentDetails.endHr != "" && this.assignmentDetails.endHr != null && this.assignmentDetails.endMin != "" && this.assignmentDetails.endMin != null) {
-      // this.getEventHourTo();
+      this.getEventHourTo();
     }
+  }
+
+  getEventHourTo() {
+
+    let fromTime = moment(this.assignmentDetails.startDate).format('YYYY-MM-DD') + " " + this.assignmentDetails.startHr.split(' ')[0] + ":" + this.assignmentDetails.startMin + " " + this.assignmentDetails.startHr.split(' ')[1];
+    let toTime = moment(this.assignmentDetails.startDate).format('YYYY-MM-DD') + " " + this.assignmentDetails.endHr.split(' ')[0] + ":" + this.assignmentDetails.endMin + " " + this.assignmentDetails.endHr.split(' ')[1];
+    let fromTimeT = moment(fromTime).format('YYYY-MM-DD hh:mm a');
+    let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
+
+    if (moment(fromTimeT).diff(moment(toTimeT), 'minutes') > 0) {
+      this.msgService.showErrorMessage('error', '', "From time cannot be greater than to time");
+      return false;
+    }
+
+    else if (this.assignmentDetails.startHr == "" || this.assignmentDetails.endHr == "" || this.assignmentDetails.startMin == "" || this.assignmentDetails.startMin == "") {
+      this.msgService.showErrorMessage('error', '', "All fields are required");
+      return false;
+    }
+
+    else if (moment(fromTimeT).diff(moment(), 'minutes') <= 0) {
+      this.msgService.showErrorMessage('error', '', "Time cannot be schedule before current time");
+      return false;
+    }
+
+    else if (fromTimeT == toTimeT) {
+      this.msgService.showErrorMessage('error', '', "From time and to time cannot be same");
+      return false;
+    }
+    else {
+      return true;
+    }
+
   }
 
   // removed url while edit

@@ -13,6 +13,8 @@ import { ManageAssignmentComponent } from './manage-assignment/manage-assignment
 import { ReviewAssignmentComponent } from './review-assignment/review-assignment.component';
 import { OnlineAssignmentComponent } from './online-assignment.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { SharedModule } from "../../shared/shared.module";
+
 
 @NgModule({
   imports: [
@@ -23,6 +25,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     FileUploadModule,
     SplitButtonModule,
     OnlineAssignmentRoutingModule,
+    SharedModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [

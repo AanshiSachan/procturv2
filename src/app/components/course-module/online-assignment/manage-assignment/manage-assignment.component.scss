@@ -38,8 +38,8 @@ input, textarea, select, option, label{
   border-top: 1px solid #e0e0e0;
   padding-top: 10px;
   margin-top: 10px;
-  height: 82vh;
-  max-height: 82vh;
+  height: 86vh;
+  max-height: 86vh;
   overflow-y: auto;
   .assignment-details{
     width: 70%;
@@ -70,7 +70,7 @@ input, textarea, select, option, label{
         margin-top: 10px;
       }
       .marks-container{
-        margin-left: 20px;
+        margin-left: 40px;
         input{
           width: 75%;
           border: 1px solid #e0e0e0;
@@ -148,10 +148,10 @@ input, textarea, select, option, label{
     text-align: center;
     padding: 5px;
     border-radius: 4px;
-    width: 25%;
+    width: 30%;
   }
   .datepicker1{
-    width: 40%;
+    width: 45%;
     margin: 10px 0;
   }
   .time-container{
@@ -301,8 +301,8 @@ input[type=number]::-webkit-outer-spin-button {
   content: '';
   background: url(/./assets/images/calendar.svg) no-repeat;
   position: absolute;
-  right: 63%;
-  top: 40px;
+  right: 58%;
+  top: 38px;
   width: 21px;
   height: 21px;
   z-index: 0;
