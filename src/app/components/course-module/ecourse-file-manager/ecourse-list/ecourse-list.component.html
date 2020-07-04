@@ -14,7 +14,8 @@
   <div class="col-md-3 ecourse-item" *ngFor="let ecourse of searchData;  ">
     <div class="ecourse-card" (click)="getToSubject(ecourse)">
       <div class="head" title="{{ecourse.course_type}}">
-        {{ecourse.course_type}}
+        <span>{{ecourse.course_type}}</span>
+        <span style="float: right;">Size: {{ecourse.size}}</span>
       </div>
       <div class="body">
         <span *ngIf="ecourse.categoryDtoList.length==0" style="display: flex;font-size: 12px;padding-bottom: 5px;">No materials added</span>

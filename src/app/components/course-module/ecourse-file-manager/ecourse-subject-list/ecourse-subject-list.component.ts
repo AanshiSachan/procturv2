@@ -38,6 +38,7 @@ export class EcourseSubjectListComponent implements OnInit {
   deletePopup: boolean = false;
   vdoCipherFile: any = false;
   Confirm_deleteFile: any = false;
+  selectedRowCount: any = 0;
 
   constructor(
     private _http: HttpService,
@@ -374,7 +375,10 @@ export class EcourseSubjectListComponent implements OnInit {
       if(data.selected) {
         temp.push(data.file_id);
       }
-    })
+    });
+    if (temp && temp.length) {
+    this.selectedRowCount = temp.length;
+    }
     let obj:any = {
       "source":2,
       "file_id_list": temp,
@@ -548,7 +552,8 @@ export class EcourseSubjectListComponent implements OnInit {
       (data: any) => {	
         this.auth.hideLoader();	
         this.msgService.showErrorMessage('success', '', "Topic Added Successfully");	
-        $('#addTopic').modal('hide');	
+        $('#addTopic').modal('hide');
+        this.getSubjectList();
       },	
       (error: any) => {	
         this.auth.hideLoader();	
@@ -556,5 +561,17 @@ export class EcourseSubjectListComponent implements OnInit {
         console.log(error);	
       }	
     );	
+  }
+
+  clearObject() {
+    this.addTopic = {
+    name : '',
+    standard_id : '-1',
+    subject_id: '-1',
+    parent_topic_id: '-1',
+    description: '',
+    estimated_time:  0,
+    institute_topic_id: '-1'
+    };
   }
 }
