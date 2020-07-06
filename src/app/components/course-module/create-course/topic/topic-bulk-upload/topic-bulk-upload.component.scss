@@ -14,6 +14,67 @@
 #bulk-head {
     padding-top: 20px;
 }
+.topic_details {
+  padding: .6em;
+
+  .topic_filter_div {
+    padding-bottom: 1rem;
+    .topic_title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+  .filter_div {
+    background: #ddd;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+  .field-wrapper {
+    margin-left: 20px;
+    padding-top: 0;
+    display: inline-block;
+  }
+  .dropdown-div {
+    width: 160px;
+    .dropdown {
+      width: 100%;
+      height: 30px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  }
+}
+
+.modal-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.body-container{
+  display: flex;
+  flex-direction: column;
+  .field-wrapper {
+    margin-left: 0px;
+    padding-top: 0;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .dropdown-div {
+    .dropdown {
+      width: 50%;
+      height: 30px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  }
+}
+
+.link, a {
+    text-decoration: none;
+    color: black;
+}
+
 
 .bulk-enquiry-form {
     padding-top: 30px;
@@ -41,6 +102,11 @@
     }
 }
 
+.download-icon {
+    cursor: pointer;
+    color: #0084f6;
+    margin-left: 5px;
+}
 
 .fadeIn {
     opacity: 1;

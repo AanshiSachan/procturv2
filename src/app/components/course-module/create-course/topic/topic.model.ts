@@ -18,4 +18,5 @@ export class Create_Topic {
   description: string = '';
   estimated_time: number = 0;
   institute_topic_id: string = '-1';
+  priority_order: number = 0;
 }

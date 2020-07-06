@@ -173,7 +173,8 @@ export class TopicTreeComponent implements OnInit {
           "name": $event.data.name,
           "parent_topic_id": $event.data.parentTopicId,
           "institute_topic_id": $event.data.topicId,
-          "description":$event.data.description
+          "description":$event.data.description,
+          "priority_order": $event.data.priority_order
         }
         this.Update_Topic_Details('EditSubtopic', object);
         break;

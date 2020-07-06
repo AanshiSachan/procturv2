@@ -8,6 +8,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { FormsModule } from '../../../../../../node_modules/@angular/forms';
 import { TopicBulkUploadComponent } from './topic-bulk-upload/topic-bulk-upload.component';
 import { FileUploadModule } from 'primeng/fileupload';
+import { TopicComponent } from './topic.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     FileUploadModule
   ],
   declarations: [
+    TopicComponent,
     TopicListComponent,
     TopicTreeComponent,
     TopicBulkUploadComponent
