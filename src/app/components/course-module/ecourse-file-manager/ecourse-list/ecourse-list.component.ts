@@ -64,7 +64,11 @@ export class EcourseListComponent implements OnInit {
 
   getToSubject(ecourse) {
     if (sessionStorage.getItem('routeListForEcourse')) {
-      this.router.navigate(['/view/course/ecourse-file-manager/ecourses/' + ecourse.course_type_id + "/subjects"], { queryParams: { data: window.btoa(ecourse.course_type) } });
+      let course_type = btoa(ecourse.course_type.replace(/[\u00A0-\u2666]/g, function(c) {
+            return '&#' + c.charCodeAt(0) + ';';
+      }));
+
+      this.router.navigate(['/view/course/ecourse-file-manager/ecourses/' + ecourse.course_type_id + "/subjects"], { queryParams: { data:  course_type} });
     }
   }
 
