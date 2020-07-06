@@ -193,10 +193,10 @@
         <div class="table_header_item" style="width: 25%;">
           <span>Email Id</span>
         </div>
-        <div class="table_header_item" style="width: 10%;">
+        <div class="table_header_item" style="width: 25%;">
           <span>Ecourse</span>
         </div>
-        <div class="table_header_item" style="width: 20%;">
+        <div class="table_header_item" style="width: 15%;">
           <span>Registered Date</span>
         </div>
         <div class="table_header_item" style="width: 10%;">
@@ -228,17 +228,15 @@
           <div class="table_value_item" style="width: 25%;">
             {{(data.email_id != '') ? (data.email_id) : '-'}}
           </div>
-          <div class="table_value_item" style="width: 10%;padding-left: 10px;">
-            <div class="questionInfo inline-relative">
-              {{data.ecourse_list?.length}}
-              <div class="tooltip-box-field" *ngIf="data.ecourse_list?.length">
-                <span *ngFor="let ecourse of data.ecourse_list">
-                  {{ecourse}}<br>
-                </span>
-              </div>
-            </div>
+          <div class="table_value_item" style="width: 25%;padding-left: 10px;" title="{{data.ecourse_list}}">
+            <span *ngIf="data.ecourse_list?.length>0">
+              {{(data.ecourse_list?.length > 30) ? (data.ecourse_list | slice:0:30) + '...' : data.ecourse_list}}
+            </span>
+            <span *ngIf="data.ecourse_list?.length==0">
+              -
+            </span>
           </div>
-          <div class="table_value_item" style="width: 20%;">
+          <div class="table_value_item" style="width: 15%;">
             {{(data.registered_date != '') ? (data.registered_date) : '-'}}
           </div>
           <div class="table_value_item" style="width: 10%;">
