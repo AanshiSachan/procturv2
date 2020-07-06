@@ -384,28 +384,3 @@ th{
 .open-class {
   border-left: 5px solid #8d8d8d;
 }
-.questionInfo {
-	position: absolute;
-	height: 20px;
-	width: 20px;
-	z-index: 2;
-	.qInfoIcon {
-			width: 20px;
-			height: 20px;
-			border: 1px solid  rgba(0,0,0,0.7);
-			border-radius: 50%;
-			display: block;
-			text-align: center;
-			box-sizing: border-box;
-			line-height: 20px;
-			font-weight: 600;
-			font-size: 12px;
-			cursor: pointer;
-			box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.7) inset;
-			color: #888;
-			transition: all 0.6s linear;
-  }
-  .tooltip-box-field{
-    left: 20px;
-  }
-}
