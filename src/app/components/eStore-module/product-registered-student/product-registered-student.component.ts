@@ -161,6 +161,7 @@ export class RegisteredStudentComponent implements OnInit {
               if(element.open_user_status == 'No Action') {
                 element.open_user_status = '-';
               }
+              element.ecourse_list = element.ecourse_list.join();
             });
             }
           }
