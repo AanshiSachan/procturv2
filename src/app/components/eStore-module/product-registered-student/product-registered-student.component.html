@@ -190,8 +190,11 @@
         <div class="table_header_item" style="width: 20%;">
           <span>Contact No.</span>
         </div>
-        <div class="table_header_item" style="width: 30%;">
+        <div class="table_header_item" style="width: 25%;">
           <span>Email Id</span>
+        </div>
+        <div class="table_header_item" style="width: 10%;">
+          <span>Ecourse</span>
         </div>
         <div class="table_header_item" style="width: 20%;">
           <span>Registered Date</span>
@@ -222,8 +225,18 @@
           <div class="table_value_item" style="width: 20%">
             {{(data.phone != '') ? (data.phone) : '-'}}
           </div>
-          <div class="table_value_item" style="width: 30%;">
+          <div class="table_value_item" style="width: 25%;">
             {{(data.email_id != '') ? (data.email_id) : '-'}}
+          </div>
+          <div class="table_value_item" style="width: 10%;padding-left: 10px;">
+            <div class="questionInfo inline-relative">
+              {{data.ecourse_list?.length}}
+              <div class="tooltip-box-field" *ngIf="data.ecourse_list?.length">
+                <span *ngFor="let ecourse of data.ecourse_list">
+                  {{ecourse}}<br>
+                </span>
+              </div>
+            </div>
           </div>
           <div class="table_value_item" style="width: 20%;">
             {{(data.registered_date != '') ? (data.registered_date) : '-'}}
