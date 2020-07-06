@@ -48,7 +48,8 @@ export class EcourseSubjectListComponent implements OnInit {
     this.route
       .queryParams
       .subscribe(params => {
-        let name = window.atob(params['data']);
+        let name = window.atob(params['data'])
+        name = this.decodeEntities(name)
         if (sessionStorage.getItem('routeListForEcourse')) {
           this._http.routeList = JSON.parse(sessionStorage.getItem('routeListForEcourse'));
           this._http.routeList.splice(1, this._http.routeList.length);
@@ -58,6 +59,24 @@ export class EcourseSubjectListComponent implements OnInit {
         }
       });
   }
+
+  decodeEntities(encodedString) {
+    var translate_re = /&(nbsp|amp|quot|lt|gt);/g;
+    var translate = {
+        "nbsp":" ",
+        "amp" : "&",
+        "quot": "\"",
+        "lt"  : "<",
+        "gt"  : ">"
+    };
+    return encodedString.replace(translate_re, function(match, entity) {
+        return translate[entity];
+    }).replace(/&#(\d+);/gi, function(match, numStr) {
+        var num = parseInt(numStr, 10);
+        return String.fromCharCode(num);
+    });
+}
+
 
   ngOnInit() {
     this.getSubjectList();
@@ -86,7 +105,7 @@ export class EcourseSubjectListComponent implements OnInit {
     }
   }
 
-  // get otp details to show video 
+  // get otp details to show video
   getVdocipherVideoOtp(video) {
     if (video.category_name == 'VDOCipher') {
       let url = "/api/v1/instFileSystem/videoOTP";
@@ -131,7 +150,7 @@ export class EcourseSubjectListComponent implements OnInit {
    stopVideo() {
     this.showVideo = true;
     if(this.videoObject){
-       this.videoObject.pause(); // removes video 
+       this.videoObject.pause(); // removes video
     }
   }
 
@@ -141,7 +160,7 @@ export class EcourseSubjectListComponent implements OnInit {
     var video = new window.VdoPlayer({
       otp: otpString,
       playbackInfo: playbackInfoString,
-      theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",// please never changes 
+      theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",// please never changes
       container: document.querySelector("#embedBox"),
     });
     this.videoObject = video;
@@ -156,13 +175,13 @@ export class EcourseSubjectListComponent implements OnInit {
     // console.log(topic);
     if (topic.parent_topic_id == 0) {
       this.uploadFile.showModal = true;
-      this.uploadFile.varJson.topic_id = topic.topic_id;// parent 
+      this.uploadFile.varJson.topic_id = topic.topic_id;// parent
       this.uploadFile.getSubtopicList(topic.topic_id);
     } else {
       this.uploadFile.showModal = false;
       this.uploadFile.jsonData.mainTopic = topic.topic_name;
       this.uploadFile.varJson.sub_topic_id = topic.parent_topic_id // topic
-      this.uploadFile.varJson.topic_id = topic.topic_id;// parent  
+      this.uploadFile.varJson.topic_id = topic.topic_id;// parent
       this.uploadFile.jsonData.parentTopic = topic.parent_topic_name;
     }
   }
