@@ -15,21 +15,13 @@
         </div>
       </section>
 
-      <section class="header-container">
-        <div class="header-item">
+      <section class="header-container" *ngIf="session_data">
+        <div class="header-item" style="width: 45%;">
           <div class="header-title">
             <span>Date : </span>
           </div>
           <div class="header-value">
-            <span></span>
-          </div>
-        </div>
-        <div class="header-item">
-          <div class="header-title">
-            <span>Invited : </span>
-          </div>
-          <div class="header-value">
-            <span>{{session_data.totale_user}}</span>
+            <span>{{session_data.start_datetime}} - {{session_data.end_datetime}}</span>
           </div>
         </div>
         <div class="header-item">
@@ -37,7 +29,15 @@
             <span>Topic : </span>
           </div>
           <div class="header-value">
-            <span></span>
+            <span>{{session_data.session_name}}</span>
+          </div>
+        </div>
+        <div class="header-item">
+          <div class="header-title">
+            <span>Invited : </span>
+          </div>
+          <div class="header-value">
+            <span>{{session_data.total_participants}}</span>
           </div>
         </div>
         <div class="header-item">
@@ -45,7 +45,7 @@
             <span>Attended : </span>
           </div>
           <div class="header-value">
-            <span>{{session_data.total_present}}</span>
+            <span>{{session_data.total_partially_present_students}}</span>
           </div>
         </div>
         <div class="header-item">
@@ -53,7 +53,7 @@
             <span>Guest : </span>
           </div>
           <div class="header-value">
-            <span>{{guest_attendance_list.length}}</span>
+            <span>{{session_data.total_guests}}</span>
           </div>
         </div>
       </section>
@@ -110,6 +110,9 @@
             <div class="table-value-item md-item">
               <span>{{record.duration}}</span>
             </div>
+          </div>
+          <div class="" *ngIf="attendance_list.length == 0" >
+            <span><b>No Records Found</b></span>
           </div>
         </div>
       </section>

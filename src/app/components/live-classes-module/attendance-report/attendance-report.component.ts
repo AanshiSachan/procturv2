@@ -19,6 +19,7 @@ export class AttendanceReportComponent implements OnInit {
   invited_attendance_list: any[] = [];
   guest_attendance_list: any[] = [];
   attendance_list: any[] = [];
+  temp_attendance_list: any[] = [];
   session_data: any;
   searchInput: any = '';
 
@@ -42,8 +43,8 @@ export class AttendanceReportComponent implements OnInit {
       }
     )
     this.session_id = this.route.snapshot.paramMap.get('id');
-    this.setDemoData()
-    // this.getLiveClassAttendanceReport();
+    // this.setDemoData()
+    this.getLiveClassAttendanceReport();
   }
 
 
@@ -63,8 +64,14 @@ export class AttendanceReportComponent implements OnInit {
     const url ='/api/v1/meeting_manager/getAttendanceReport';
     this.http_service.postData(url, obj).subscribe(
       (data: any) => {
-        console.log(data)
-
+        console.log(data.result)
+        this.auth.hideLoader();
+        var res: any = data.result;
+        this.invited_attendance_list = res.invited_attendance_list;
+        this.guest_attendance_list = res.guest_attendance_list;
+        this.attendance_list = this.invited_attendance_list.concat(this.guest_attendance_list);
+        this.temp_attendance_list = this.attendance_list;
+        this.session_data = res.statistics;
       },
       (error: any) => {
         this.auth.hideLoader();
@@ -73,117 +80,18 @@ export class AttendanceReportComponent implements OnInit {
     )
   }
 
-
-  setDemoData(){
-    this.invited_attendance_list =  [{
-				"id": 8,
-				"user_id": 28,
-				"name": "Raghvendra rathode",
-				"session_id": 15314,
-				"attendance_status": "PARTIALLY_PRESENT",
-				"duration": "00:03:05",
-				"join_time": "2020-06-30 22:20:53",
-				"leave_join": "2020-06-30 22:23:58"
-			},
-			{
-				"id": 0,
-				"user_id": 17865,
-				"name": "Teacher 3",
-				"session_id": 15314,
-				"attendance_status": "ABSENT",
-				"duration": "05:30:00",
-				"join_time": null,
-				"leave_join": null
-			},
-			{
-				"id": 0,
-				"user_id": 26459,
-				"name": "Abhishek Singh new",
-				"session_id": 15314,
-				"attendance_status": "ABSENT",
-				"duration": "05:30:00",
-				"join_time": null,
-				"leave_join": null
-			},
-			{
-				"id": 0,
-				"user_id": 29068,
-				"name": "agnita",
-				"session_id": 15314,
-				"attendance_status": "ABSENT",
-				"duration": "05:30:00",
-				"join_time": null,
-				"leave_join": null
-			}
-		];
-
-    this.guest_attendance_list = [{
-				"id": 8,
-				"user_id": 28,
-				"name": "Raghvendra rathode",
-				"session_id": 15314,
-				"attendance_status": "PARTIALLY_PRESENT",
-				"duration": "00:03:05",
-				"join_time": "2020-06-30 22:20:53",
-				"leave_join": "2020-06-30 22:23:58"
-			},
-			{
-				"id": 0,
-				"user_id": 17865,
-				"name": "Teacher 3",
-				"session_id": 15314,
-				"attendance_status": "ABSENT",
-				"duration": "05:30:00",
-				"join_time": null,
-				"leave_join": null
-			},
-			{
-				"id": 0,
-				"user_id": 26459,
-				"name": "Abhishek Singh new",
-				"session_id": 15314,
-				"attendance_status": "ABSENT",
-				"duration": "05:30:00",
-				"join_time": null,
-				"leave_join": null
-			},
-			{
-				"id": 0,
-				"user_id": 29068,
-				"name": "agnita",
-				"session_id": 15314,
-				"attendance_status": "PRESENT",
-				"duration": "05:30:00",
-        "join_time": "2020-06-30 22:20:53",
-				"leave_join": "2020-06-30 22:23:58"
-			}
-		];
-
-    this.attendance_list = this.invited_attendance_list.concat(this.guest_attendance_list);
-
-    this.session_data = {
-      "totale_user": 15,
-			"total_present": 10,
-			"total_partially_present": 3,
-			"total_absent": 2
-    }
-
-
-  }
-
-
   searchDatabase(){   // quick search
-    // this.leadsList = this.tempLeadlist;
-    // if (this.leadSearchInput == undefined || this.leadSearchInput == null) {
-    //   this.leadSearchInput = "";
-    // }
-    // else {
-    //   let searchData = this.tempLeadlist.filter(item =>
-    //     Object.keys(item).some(
-    //       k => item[k] != null && item[k].toString().toLowerCase().includes(this.leadSearchInput.toLowerCase()))
-    //   );
-    //   this.leadsList = searchData;
-    // }
+    this.attendance_list = this.temp_attendance_list;
+    if (this.searchInput == undefined || this.searchInput == null) {
+      this.searchInput = "";
+    }
+    else {
+      let searchData = this.temp_attendance_list.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchInput.toLowerCase()))
+      );
+      this.attendance_list = searchData;
+    }
   }
 
 }

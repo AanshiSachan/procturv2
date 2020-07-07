@@ -54,6 +54,12 @@
             <i class="fas fa-random" style="font-family: FontAwesome"></i>
           </span>
         </li>
+        <li id="liLive" class="menu-item" style="cursor: pointer" (click)="changeView('liLive','divLiveClassContent')" *ngIf="libraryRole">
+          <span>
+            <a class="">Live Class</a>
+            <i class="fas fa-random" style="font-family: FontAwesome"></i>
+          </span>
+        </li>
         <li id="liAccess" class="menu-item" style="cursor: pointer" (click)="changeView('liAccess','divAccessControl')" *ngIf="enable_ip_lock_feature=='Y'">
           <span>
             <a class="">Access Control</a>
@@ -3306,6 +3312,178 @@
                             </div>
                           </div>
                         </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="divLiveClassContent" class="sectionDevideContainer">
+        <div class="row m-0" style="width:100%">
+          <div class="sms-setting-wrapper" style="margin-right: 0;">
+            <div class="table-scroll-wrapper">
+              <div class="table table-responsive">
+                <table>
+                  <tbody>
+                    <tr style="height: 45px; background-color: #efefef">
+                      <td colspan="6" class="tableHeader">
+                        LIVE CLASS NOTIFICATION SETTING
+                      </td>
+                    </tr>
+                    <tr class="sec-row">
+                      <td>
+                        FEATURE
+                      </td>
+                      <td>
+                        STUDENT
+                      </td>
+                      <td>
+                        PARENT
+                      </td>
+                      <td>
+                        GUARDIAN
+                      </td>
+                      <td>
+                        FACULTY
+                      </td>
+                      <td>
+                        ADMIN
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        Absent Notification
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.live_class_attendance_absent_notification.student"
+                            id="chk916">
+                          <label for="chk916"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.live_class_attendance_absent_notification.parent"
+                            id="chk917">
+                          <label for="chk917"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.live_class_attendance_absent_notification.gaurdian"
+                            id="chk918">
+                          <label for="chk918"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        Partially Present Notification
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.live_class_attendance_partial_present_notification.student"
+                            id="chk919">
+                          <label for="chk919"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.live_class_attendance_partial_present_notification.parent" id="chk920">
+                          <label for="chk920"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.live_class_attendance_partial_present_notification.gaurdian"
+                            id="chk921">
+                          <label for="chk921"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        Stat Notification
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.live_class_attendance_stat_notification.teacher"
+                            id="chk922">
+                          <label for="chk922"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.live_class_attendance_stat_notification.admin"
+                            id="chk923">
+                          <label for="chk923"></label>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr style="border-bottom: none;">
+                      <div class="row extraMarginTen checkboxes">
+                        <div class="c-sm-6 c-md-6 c-lg-6">
+                          <div class="field-wrapper">
+                            <label for="attendance">Attendance Threshold (%)</label>
+                            <input type="number" id="attendance" class="form-ctrl" max='90' min='0' [(ngModel)]="instituteSettingDet.live_class_attendance_threshold">
+                          </div>
+                        </div>
+                      </div>
+                    </tr>
+
+                    <tr>
+
+                      <div class="row m-0 webkitBox">
+                        <div class="c-lg-5">
+                          <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.live_class_attendance_notification != ''}">
+                            <label for="live_class_attendance_notification">Attendance Notification
+                              <!-- <div class="questionInfo inline-relative">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field lg">
+                                  Enable this to send
+                                  <br> SMS for Enquiry
+                                  <br>Follow Up Reminder
+                                </div>
+                              </div> -->
+                            </label>
+                            <select id="live_class_attendance_notification" class="form-ctrl" name="live_class_attendance_notification" [(ngModel)]="instituteSettingDet.live_class_attendance_notification">
+                              <option value="-1">---select---</option>
+                              <option value="NONE">NONE</option>
+                              <option value="SMS">SMS</option>
+                              <option value="EMAIL">EMAIL</option>
+                              <option value="SMS_AND_EMAIL">SMS & EMAIL</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </tr>
+                    <br>
+                    <br>
+                    <tr>
+                      <td colspan="6">
+                        Note: SMS Notification on all the above events works when SMS Notification Flag is enabled
                       </td>
                     </tr>
                   </tbody>

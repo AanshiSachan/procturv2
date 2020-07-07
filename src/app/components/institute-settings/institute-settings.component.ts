@@ -253,6 +253,22 @@ export class InstituteSettingsComponent implements OnInit {
       admin: '',
       other: false
     },
+    live_class_attendance_absent_notification: {
+      student: '',
+      parent: '',
+      gaurdian: ''
+    },
+    live_class_attendance_partial_present_notification: {
+      student: '',
+      parent: '',
+      gaurdian: ''
+    },
+    live_class_attendance_stat_notification: {
+      teacher: '',
+      admin: ''
+    },
+    live_class_attendance_threshold: '',
+    live_class_attendance_notification: '-1',
     exam_min_marks: '',
     exam_average_marks: '',
     exam_max_marks: '',
@@ -631,6 +647,11 @@ export class InstituteSettingsComponent implements OnInit {
     obj.enable_exam_attendance_not_marked_daily_notification = this.getSumOfTableField(this.instituteSettingDet.enable_exam_attendance_not_marked_daily_notification);
     obj.enable_class_attendance_not_marked_daily_notification = this.getSumOfTableField(this.instituteSettingDet.enable_class_attendance_not_marked_daily_notification);
 
+    obj.live_class_attendance_absent_notification = this.getSumOfTableField(this.instituteSettingDet.live_class_attendance_absent_notification);
+    obj.live_class_attendance_partial_present_notification = this.getSumOfTableField(this.instituteSettingDet.live_class_attendance_partial_present_notification);
+    obj.live_class_attendance_stat_notification = this.getSumOfTableField(this.instituteSettingDet.live_class_attendance_stat_notification);
+
+
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
         this.auth.hideLoader();
@@ -848,6 +869,13 @@ export class InstituteSettingsComponent implements OnInit {
     this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_marks_not_update_notification, data.enable_exam_marks_not_update_notification)
     this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_attendance_not_marked_daily_notification, data.enable_exam_attendance_not_marked_daily_notification);
     this.fillTableCheckboxValue(this.instituteSettingDet.enable_class_attendance_not_marked_daily_notification, data.enable_class_attendance_not_marked_daily_notification);
+
+    this.fillTableCheckboxValue(this.instituteSettingDet.live_class_attendance_absent_notification, data.live_class_attendance_absent_notification);
+    this.fillTableCheckboxValue(this.instituteSettingDet.live_class_attendance_partial_present_notification, data.live_class_attendance_partial_present_notification);
+    this.fillTableCheckboxValue(this.instituteSettingDet.live_class_attendance_stat_notification, data.live_class_attendance_stat_notification);
+
+    this.instituteSettingDet.live_class_attendance_notification = data.live_class_attendance_notification;
+    this.instituteSettingDet.live_class_attendance_threshold = data.live_class_attendance_threshold;
 
     this.instituteSettingDet.lib_issue_for_days = data.lib_issue_for_days;
     this.instituteSettingDet.lib_due_date_fine_per_day = data.lib_due_date_fine_per_day;
