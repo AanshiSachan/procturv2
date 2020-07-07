@@ -83,7 +83,9 @@ export class CourseSubjectComponent implements OnInit {
     data.is_active = row.is_active;
     data.subject_name = row.subject_name;
     data.institution_id = row.institution_id;
+    if (!this.isLangInstitue) {
     data.subject_code = row.subject_code.toUpperCase();
+    }
     if (data.subject_name == "" && data.data.subject_name == null) {
       let msg = {
         type: "error",
@@ -152,7 +154,9 @@ export class CourseSubjectComponent implements OnInit {
       } else {
         this.newSubjectDetails.is_active = "N";
       }
+      if (!this.isLangInstitue) {
       this.newSubjectDetails.subject_code = this.newSubjectDetails.subject_code.toUpperCase();
+      }
       this.apiService.createNewSubject(this.newSubjectDetails).subscribe(
         res => {
           let msg = "";
