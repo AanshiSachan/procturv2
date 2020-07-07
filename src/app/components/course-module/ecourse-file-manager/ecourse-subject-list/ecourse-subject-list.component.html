@@ -37,8 +37,8 @@
               <div class="col-md-4">
               <span style="margin-right: 10px;">
               <button class="btn-ga-collapse">
-                <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="toggleObject(topic)"></i>
-                <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="toggleObject(topic)"></i>
+                <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="collapseAll(topic, false)"></i>
+                <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="collapseAll(topic, true)"></i>
               </button> {{topic.subjectName}}</span>
               </div>
               <div class="col-md-7">
@@ -51,7 +51,7 @@
               </div>
             </div>
             <div class="col-md-1">
-              <div>
+              <div style="cursor: pointer;">
                 <button class="btn btn-xs btn-ga-white" (click)="uploadPopupOpen(topic)"><i class="fa fa-upload" title="Upload"></i></button>
                 <!-- <button class="btn btn-xs btn-ga-white" (click)="getToSubjectMaterials(topic)">view topic</button> -->
                 <!-- <button class="btn btn-xs btn-ga-white">Add Topic</button> -->
