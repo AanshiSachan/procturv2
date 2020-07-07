@@ -794,6 +794,18 @@
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+        <label for="share_app_url">Share App URL
+        </label>
+      </div>
+    <div class="c-sm-6 c-md-6 c-lg-6">
+      <div class="field-wrapper" [ngClass]="{'has-value' : instDetails.share_app_url != ''}">
+        <input type="textbox" style="width: 75%;" [(ngModel)]="instDetails.share_app_url" class="form-ctrl" id="share_app_url">
+      </div>
+    </div>
+  </div>
     </div>
 
     <h2 class="heading-setting-main">Miscellaneous setting </h2>
