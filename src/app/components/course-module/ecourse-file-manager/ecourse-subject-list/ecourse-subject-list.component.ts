@@ -622,4 +622,14 @@ export class EcourseSubjectListComponent implements OnInit {
     institute_topic_id: '-1'
     };
   }
+
+  collapseAll(obj, cond) {
+    obj.isExpand = cond;
+    if(obj.subtopicList) {
+      obj.subtopicList.forEach(element => {
+        element.isExpand = cond;
+        this.collapseAll(element, cond);
+      });
+    }
+  }
 }

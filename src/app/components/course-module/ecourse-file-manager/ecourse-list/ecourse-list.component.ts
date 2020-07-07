@@ -159,6 +159,7 @@ export class EcourseListComponent implements OnInit {
         element.categoryDtoList.forEach(category => {
           element.size = element.size + category.size;
         });
+        element.size = (element.size / 1024);
       });
       this.searchData = res;
       if (this.categiesList.length == 0) {

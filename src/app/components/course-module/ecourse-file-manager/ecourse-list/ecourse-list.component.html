@@ -15,7 +15,9 @@
     <div class="ecourse-card" (click)="getToSubject(ecourse)">
       <div class="head" title="{{ecourse.course_type}}">
         <span>{{ecourse.course_type}}</span>
-        <span style="float: right;">Size: {{ecourse.size}}</span>
+        <span style="float: right;"> Total Size: {{(ecourse.size == 0.00) ? '-' : (ecourse.size | number:'.2-2')}}
+         <span *ngIf="ecourse.size!='0.00'"> GB</span>
+        </span>
       </div>
       <div class="body">
         <span *ngIf="ecourse.categoryDtoList.length==0" style="display: flex;font-size: 12px;padding-bottom: 5px;">No materials added</span>
