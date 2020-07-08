@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { LiveClassesComponent } from './live-classes/live-classes.component';
 import { EditClassComponent } from './edit-class/edit-class.component';
 import { AddClassComponent } from './add-class/add-class.component';
+import { AttendanceReportComponent } from './attendance-report/attendance-report.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -15,8 +17,12 @@ const routes: Routes = [
 {
   path: 'edit/:id',
   component: EditClassComponent
+},
+{
+  path: 'report/:id',
+  component: AttendanceReportComponent
 }
-  
+
 ];
 
 @NgModule({

@@ -1009,6 +1009,10 @@ export class LiveClassesComponent implements OnInit {
 
     }
 
+  viewAttandance(session_id){
+    this.router.navigate(['/view/live-classes/report/' + session_id]);
+  }
+
 
   @HostListener('document:keydown', ['$event'])
   onPopState(event) {
