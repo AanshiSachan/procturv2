@@ -90,22 +90,8 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             this.defaultAcadYear = "-1";
         }
         this.getAssignedCount();
-        this.checkActiveBatches();
     }
 
-    checkActiveBatches() {
-        if(this.batchList && this.batchList.length) {
-            let todaysDate = new Date();
-            this.batchList.forEach(batch => {
-                if(todaysDate <= new Date(batch.data.end_date)){
-                    batch.data.disabled = false;
-                } else {
-                    batch.data.disabled = true;
-                }
-            })
-        }
-        console.log(this.batchList);
-    }
 
     getSettingsTemplateCountry() {
         this.country_id = this.countryId;
@@ -253,6 +239,21 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         let len = this.dataList.length;
         if (value) {
             this.dataList[index].isSelected = value;
+            let todaysDate = new Date();
+                if(!(todaysDate <= new Date(this.dataList[index].data.end_date))){
+                    let msg = 'This course is already expired';
+                    if(this.isProfessional) {
+                        msg = 'This batch is already expired';
+                    }
+                    let obj = {
+                        type: 'error',
+                        title: msg,
+                        body: ""
+                      }
+                      this.appC.popToast(obj);
+                      this.dataList[index].isSelected = false;
+                    (document.getElementById('checkbox-' + index) as HTMLInputElement).checked = false;
+                }
         }
         /* unchecked batch/course */
         else {
