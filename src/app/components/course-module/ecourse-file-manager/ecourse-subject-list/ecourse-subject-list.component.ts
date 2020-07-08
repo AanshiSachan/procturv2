@@ -575,6 +575,7 @@ export class EcourseSubjectListComponent implements OnInit {
         this.msgService.showErrorMessage('success', '', "Topic Added Successfully");
         $('#addTopic').modal('hide');
         this.getSubjectList();
+        this.clearObject();
       },
       (error: any) => {
         this.auth.hideLoader();
@@ -619,8 +620,7 @@ export class EcourseSubjectListComponent implements OnInit {
     parent_topic_id: '-1',
     description: '',
     estimated_time:  0,
-    institute_topic_id: '-1',
-    priority_order: 0
+    institute_topic_id: '-1'
     };
   }
 
