@@ -68,101 +68,102 @@
 
     </div>
   </section>
-</div>
 
 
-<!-- Download Template Modal -->
-<div class="modal topic-add-model" style="position: fixed; top: 16em;" id="downloadTemplate" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content" style="padding: 1em;">
-      <div class="modal-header">
-        <h4 class="modal-title" style="width: 99%;font-weight: 600;">Download Template</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body body-container">
-        <div class="field-wrapper">
-          <label *ngIf="!isProfessional">Standard<span class="text-danger">*</span></label>
-          <label *ngIf="isProfessional">Master Course<span class="text-danger">*</span></label>
-          <div class="dropdown-div">
-            <select class="dropdown" [(ngModel)]="downloadTempData.standard_id" (change)="getAllSubjectListForDownloadTemp($event.target.value)">
-              <option value="-1">Select Standard</option>
-                <option *ngFor="let standard of standardData;let i=index; " [value]="standard.standard_id">{{standard.standard_name}}</option>
-            </select>
+
+  <!-- Download Template Modal -->
+  <div class="modal fade" id="downloadTemplate" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" style="padding: 1em;">
+        <div class="modal-header">
+          <h4 class="modal-title" style="width: 99%;font-weight: 600;">Download Template</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body body-container">
+          <div class="field-wrapper">
+            <label *ngIf="!isProfessional">Standard<span class="text-danger">*</span></label>
+            <label *ngIf="isProfessional">Master Course<span class="text-danger">*</span></label>
+            <div class="dropdown-div">
+              <select class="dropdown" [(ngModel)]="downloadTempData.standard_id" (change)="getAllSubjectListForDownloadTemp($event.target.value)">
+                <option value="-1">Select Standard</option>
+                  <option *ngFor="let standard of standardData;let i=index; " [value]="standard.standard_id">{{standard.standard_name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-wrapper">
+            <label *ngIf="!isProfessional">Subject<span class="text-danger">*</span></label>
+            <label *ngIf="isProfessional">Course<span class="text-danger">*</span></label>
+            <div class="dropdown-div">
+              <select class="dropdown" [(ngModel)]="downloadTempData.subject_id">
+                  <option value="-1">Select Subject</option>
+                <option *ngFor="let subject of templateSubjectData;let i=index; " [value]="subject.subject_id">{{subject.subject_name}}</option>
+              </select>
+            </div>
           </div>
         </div>
-        <div class="field-wrapper">
-          <label *ngIf="!isProfessional">Subject<span class="text-danger">*</span></label>
-          <label *ngIf="isProfessional">Course<span class="text-danger">*</span></label>
-          <div class="dropdown-div">
-            <select class="dropdown" [(ngModel)]="downloadTempData.subject_id">
-                <option value="-1">Select Subject</option>
-              <option *ngFor="let subject of templateSubjectData;let i=index; " [value]="subject.subject_id">{{subject.subject_name}}</option>
-            </select>
-          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn" (click)="downloadBulkTemplate()">Download </button>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn" (click)="downloadBulkTemplate()">Download </button>
       </div>
     </div>
   </div>
-</div>
 
 
 
-<!-- Bulk Topic Update Status -->
-<div class="modal topic-add-model" style="position: fixed; top: 16em;" id="uploadReport" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content" style="padding: 1em;">
-      <div class="modal-header">
-        <h4 class="modal-title" style="width: 99%;font-weight: 600;">Bulk Topic Update Status</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body body-container">
-
-        <div class="row">
-          <div class="">
-            <table>
-              <thead>
-                <tr>
-                  <th>Created Date</th>
-                  <th>Status</th>
-                  <!-- <th>Comments</th> -->
-                  <th>Total Count</th>
-                  <th>Success Count</th>
-                  <th>Failure Count</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let record of bulkUploadRecords">
-                  <td>{{record.created_date}}</td>
-                  <td>{{record.statusValue}}</td>
-                  <td>{{record.total_count}}</td>
-                  <td>
-                    <a *ngIf="record.success_count != 0" id="success{{record.list_id}}" >
-                      {{record.success_count}}
-                    </a>
-                    <span *ngIf="record.success_count == 0">
-                      {{record.success_count}}
-                    </span>
-                    <i *ngIf="record.success_count != 0" class="fa fa-download download-icon" aria-hidden="true" (click)="downloadSuccess(record)"></i>
-                  </td>
-                  <td>
-                    <a *ngIf="record.failure_count != 0" id="failure{{record.list_id}}" >
-                      {{record.failure_count}}
-                    </a>
-                    <span *ngIf="record.failure_count == 0">
-                      {{record.failure_count}}
-                    </span>
-                    <i *ngIf="record.failure_count != 0" class="fa fa-download download-icon" aria-hidden="true" (click)="downloadFailure(record)"></i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+  <!-- Bulk Topic Update Status -->
+  <div class="modal fade" id="uploadReport" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class="modal-content" style="padding: 1em;">
+        <div class="modal-header">
+          <h4 class="modal-title" style="width: 99%;font-weight: 600;">Bulk Topic Update Status</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
+        <div class="modal-body body-container">
 
+          <div class="row">
+            <div class="" style="height: 50vh;overflow-y: auto;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Created Date</th>
+                    <th>Status</th>
+                    <!-- <th>Comments</th> -->
+                    <th>Total Count</th>
+                    <th>Success Count</th>
+                    <th>Failure Count</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let record of bulkUploadRecords">
+                    <td>{{record.created_date}}</td>
+                    <td>{{record.statusValue}}</td>
+                    <td>{{record.total_count}}</td>
+                    <td>
+                      <a *ngIf="record.success_count != 0" id="success{{record.list_id}}" >
+                        {{record.success_count}}
+                      </a>
+                      <span *ngIf="record.success_count == 0">
+                        {{record.success_count}}
+                      </span>
+                      <i *ngIf="record.success_count != 0" class="fa fa-download download-icon" aria-hidden="true" (click)="downloadSuccess(record)"></i>
+                    </td>
+                    <td>
+                      <a *ngIf="record.failure_count != 0" id="failure{{record.list_id}}" >
+                        {{record.failure_count}}
+                      </a>
+                      <span *ngIf="record.failure_count == 0">
+                        {{record.failure_count}}
+                      </span>
+                      <i *ngIf="record.failure_count != 0" class="fa fa-download download-icon" aria-hidden="true" (click)="downloadFailure(record)"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
