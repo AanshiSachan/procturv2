@@ -1,0 +1,272 @@
+@import "./src/assets/css/common/variables.scss";
+
+.middle-section{
+  padding: 1%;
+}
+
+.bulk-update-report {
+    max-height: 400px !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    max-width: 98% !important;
+}
+
+#bulk-head {
+    padding-top: 20px;
+}
+.topic_details {
+  padding: .6em;
+
+  .topic_filter_div {
+    padding-bottom: 1rem;
+    .topic_title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+  .filter_div {
+    background: #ddd;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+  .field-wrapper {
+    margin-left: 20px;
+    padding-top: 0;
+    display: inline-block;
+  }
+  .dropdown-div {
+    width: 160px;
+    .dropdown {
+      width: 100%;
+      height: 30px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  }
+}
+
+.modal-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.body-container{
+  display: flex;
+  flex-direction: column;
+  .field-wrapper {
+    margin-left: 0px;
+    padding-top: 0;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .dropdown-div {
+    .dropdown {
+      width: 50%;
+      height: 30px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  }
+}
+
+.link, a {
+    text-decoration: none;
+    color: black;
+}
+
+
+.bulk-enquiry-form {
+    padding-top: 30px;
+    table {
+        thead {
+            tr {
+                line-height: 25px;
+            }
+        }
+        tbody {
+            tr {
+                line-height: 20px;
+                td {
+                    text-overflow: ellipsis;
+                    .download-icon {
+                        cursor: pointer;
+                        &::after {
+                            content: "\f0ed";
+                            font-family: FontAwesome;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.download-icon {
+    cursor: pointer;
+    color: #0084f6;
+    margin-left: 5px;
+}
+
+.fadeIn {
+    opacity: 1;
+    visibility: visible;
+}
+
+.bulk-header {
+    .row {
+        margin: 0px 15px;
+    }
+}
+
+.file-upload-box {
+    padding: 35px 20px;
+    max-width: 100%;
+    h5 {
+        font-weight: 600;
+        margin-bottom: 30px;
+        font-size: 15px;
+    }
+    .select-file-upload {
+        ul {
+            li {
+                label {
+                    display: block;
+                    font-size: 15px;
+                    margin-bottom: 10px;
+                }
+                .choose-file {
+                    position: relative;
+                    margin-bottom: 15px;
+                    input[type="file"] {
+                        opacity: 0;
+                        z-index: 1;
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        left: 0;
+                        top: 0;
+                        cursor: pointer;
+                    }
+                    input[type="text"] {
+                        height: 34px;
+                        border: 1px solid #ccc;
+                        width: 77%;
+                        box-sizing: border-box;
+                        padding: 5px 10px;
+                        font-size: 14px;
+                    }
+                    .btn {
+                        width: 21%;
+                        float: right;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+    .drag-drop-box {
+        margin-top: 50px;
+        .dropable-area {
+            width: 100%;
+            border: 1px solid #ccc;
+            height: 150px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 150px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    }
+    .file-uploaded {
+        margin: 25px 0 30px;
+        font-weight: 600;
+        font-size: 16px;
+        span {
+            display: inline-block;
+            vertical-align: middle;
+            cursor: pointer;
+            svg {
+                margin-right: 10px;
+                width: 15px;
+                .cls-1 {
+                    stroke: #888;
+                    stroke-width: 2;
+                }
+                &:hover {
+                    .cls-1 {
+                        stroke: $common-blue;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.progress-bar-wrapper {
+    float: left;
+    width: 80%;
+}
+
+.upload-bar {
+    position: relative;
+    height: 8px;
+    width: 100%;
+    background: #ccc;
+    border-radius: 0;
+    overflow: hidden;
+    margin: 10px 0 5px;
+    &>div {
+        position: absolute;
+        height: 100%;
+        width: 0%;
+        left: 0;
+        background: blue;
+        top: 0;
+        border-radius: 0;
+        transition: all 0.5s ease;
+    }
+}
+
+.cancel-upload {
+    float: right;
+    cursor: pointer;
+    margin: 4px 0 0 0px;
+}
+
+.upload-another {
+    margin: 15px 0px;
+}
+
+.file-wrapper {
+    padding-left: 0px;
+}
+
+::ng-deep .ui-fileupload {
+    width: 100%;
+    cursor: pointer;
+}
+
+::ng-deep .ui-fileupload-buttonbar {
+    background: $header-bg;
+    width: 100%;
+}
+
+::ng-deep .ui-fileupload-content {
+    min-height: 300px;
+    width: 100%;
+    padding: 5px;
+    border-top: none;
+    border-right: 3px dashed $border-common;
+    border-bottom: 3px dashed $border-common;
+    border-left: 3px dashed $border-common;
+    cursor: pointer;
+    &::after {
+        content: "Drag & Drop Files Here";
+        color: rgba(0, 0, 0, 0.09);
+        position: absolute;
+        top: 35%;
+        left: 25%;
+        font-size: 36px;
+    }
+}
