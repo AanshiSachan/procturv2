@@ -30,8 +30,8 @@ export class EcourseSubjectListComponent implements OnInit {
   videoplayer: boolean = false;
   currentProjectUrl: any;
   subjectId: any = '';
-  addTopic: Create_Topic = new Create_Topic();	
-  subjectTempData: any[] = [];	
+  addTopic: Create_Topic = new Create_Topic();
+  subjectTempData: any[] = [];
   standardData: any[] = [];
   showEditModal:boolean = false;
   editObj: any = '';
@@ -210,14 +210,14 @@ export class EcourseSubjectListComponent implements OnInit {
     // console.log(topic);
     if (!topic.parent_topic_id || topic.parent_topic_id == 0) {
       this.uploadFile.showModal = true;
-      this.uploadFile.varJson.topic_id = topic.topicId;// parent 
+      this.uploadFile.varJson.topic_id = topic.topicId;// parent
       this.uploadFile.getSubtopicList(topic.topicId);
     } else {
       this.uploadFile.showModal = false;
       this.uploadFile.jsonData.mainTopic = topic.topic_name;
       this.uploadFile.jsonData.mainTopicId = topic.sub_topic_id;
       this.uploadFile.varJson.sub_topic_id = topic.sub_topic_id // topic
-      this.uploadFile.varJson.topic_id = topic.parent_topic_id;// parent  
+      this.uploadFile.varJson.topic_id = topic.parent_topic_id;// parent
       this.uploadFile.jsonData.parentTopic = topic.parent_topic_name;
       this.uploadFile.jsonData.parentTopicId = topic.parent_topic_id;
     }
@@ -460,7 +460,7 @@ export class EcourseSubjectListComponent implements OnInit {
 
   addMaterialExtension(object) {
     let keys = ["Notes", "Assignment", "EBook", "Images", "PreviousYearQuestionsPaper", "AudioNotes", "Slides"];
-    keys.forEach(key => {      
+    keys.forEach(key => {
       if (object.studyMaterialMap[key]) {
         object.studyMaterialMap[key].forEach(element => {
           let str = element.file_path;
@@ -530,57 +530,57 @@ export class EcourseSubjectListComponent implements OnInit {
     this.getAllStandards();
   }
 
-  getAllStandards() {	
-    let userType: any = sessionStorage.getItem('userType');	
-    let teacher_id: any = -1;	
-    if (userType == 3) {	
-     teacher_id = sessionStorage.getItem('login_teacher_id');	
-    }	
-    let url = "/api/v1/standards/all/" + this.institute_id + "?active=Y" + '&teacher_id=' + teacher_id;	
-    this.auth.showLoader();	
-    this._http.getData(url).subscribe(	
-      (data: any) => {	
-        this.auth.hideLoader();	
-        this.standardData = data;	
-        // console.log(data);	
-      },	
-      (error: any) => {	
-        this.auth.hideLoader();	
-        console.log(error);	
-      }	
-    )	
-  }	
-  getAllSubjectList(standards_id) {	
-    this.subjectTempData = [];	
-    this.auth.showLoader();	
-    let url = "/api/v1/subjects/standards/" + standards_id + '?active=Y';	
-    this._http.getData(url).subscribe(	
-      (data: any) => {	
-        this.auth.hideLoader();	
-        this.subjectTempData = data;	
-        console.log(data);	
-      },	
-      error => {	
-        this.auth.hideLoader();	
-        console.log(error);	
-      }	
-    );	
-  }	
-  Add_New_Topic_Details() {	
-    this.auth.showLoader();	
-    let url = "/api/v1/topic_manager/add/" + this.institute_id;	
-    this._http.postData(url, this.addTopic).subscribe(	
-      (data: any) => {	
-        this.auth.hideLoader();	
-        this.msgService.showErrorMessage('success', '', "Topic Added Successfully");	
+  getAllStandards() {
+    let userType: any = sessionStorage.getItem('userType');
+    let teacher_id: any = -1;
+    if (userType == 3) {
+     teacher_id = sessionStorage.getItem('login_teacher_id');
+    }
+    let url = "/api/v1/standards/all/" + this.institute_id + "?active=Y" + '&teacher_id=' + teacher_id;
+    this.auth.showLoader();
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.standardData = data;
+        // console.log(data);
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
+  getAllSubjectList(standards_id) {
+    this.subjectTempData = [];
+    this.auth.showLoader();
+    let url = "/api/v1/subjects/standards/" + standards_id + '?active=Y';
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.subjectTempData = data;
+        console.log(data);
+      },
+      error => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    );
+  }
+  Add_New_Topic_Details() {
+    this.auth.showLoader();
+    let url = "/api/v1/topic_manager/add/" + this.institute_id;
+    this._http.postData(url, this.addTopic).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('success', '', "Topic Added Successfully");
         $('#addTopic').modal('hide');
         this.getSubjectList();
-      },	
-      (error: any) => {	
-        this.auth.hideLoader();	
-        this.msgService.showErrorMessage('error', '', "Something went wrong try again ");	
-        console.log(error);	
-      }	
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('error', '', "Something went wrong try again ");
+        console.log(error);
+      }
     );
   }
 
@@ -619,7 +619,8 @@ export class EcourseSubjectListComponent implements OnInit {
     parent_topic_id: '-1',
     description: '',
     estimated_time:  0,
-    institute_topic_id: '-1'
+    institute_topic_id: '-1',
+    priority_order: 0
     };
   }
 
