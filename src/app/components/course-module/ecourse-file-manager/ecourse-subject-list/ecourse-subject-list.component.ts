@@ -397,9 +397,9 @@ export class EcourseSubjectListComponent implements OnInit {
         temp.push(data.file_id);
       }
     });
+    }
     if (temp && temp.length) {
     this.selectedRowCount = temp.length;
-    }
     let obj:any = {
       "source":2,
       "file_id_list": temp,
