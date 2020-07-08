@@ -554,6 +554,7 @@ export class EcourseSubjectListComponent implements OnInit {
         this.msgService.showErrorMessage('success', '', "Topic Added Successfully");	
         $('#addTopic').modal('hide');
         this.getSubjectList();
+        this.clearObject();
       },	
       (error: any) => {	
         this.auth.hideLoader();	
