@@ -95,6 +95,7 @@
 
 .newDisabled:disabled {
     background: #efefef !important;
+    cursor: no-drop;
 }
 
 .newDisabled{
@@ -519,4 +520,14 @@ table {
         min-height: 40px;
         padding: 5px 5px;
     }
+}
+.clearFile{
+    padding: 5px;
+    width: 2%;
+    margin-top: 12px;
+    color: white;
+    cursor: pointer;
+    border: 1px solid;
+    font-weight: 600;
+    background: red;
 }
