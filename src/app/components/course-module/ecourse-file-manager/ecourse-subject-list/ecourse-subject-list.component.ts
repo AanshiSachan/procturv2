@@ -577,6 +577,9 @@ export class EcourseSubjectListComponent implements OnInit {
   }
 
   collapseAll(obj, cond) {
+    if(obj.subjectId) {
+    this.subjectId = obj.subjectId;
+    }
     obj.isExpand = cond;
     if(obj.subtopicList) {
       obj.subtopicList.forEach(element => {
