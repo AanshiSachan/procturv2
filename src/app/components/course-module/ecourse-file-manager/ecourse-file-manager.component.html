@@ -10,7 +10,8 @@
         <span>
           <ng-container *ngIf="_http.routeList.length">
             <span class="breadcrums" (click)="gotoPageData(route)" style="cursor: pointer;" *ngFor="let route of _http.routeList ;let i = index">
-              {{route.name}}
+             <span *ngIf="route.name == 'E-Course'" style="color: #0084f6;">{{route.name}}</span>
+             <span *ngIf="route.name != 'E-Course'">{{route.name}}</span>
               <i class="fa fa-angle-right" *ngIf=" i < (_http.routeList.length-1) "></i>
             </span>
           </ng-container>
