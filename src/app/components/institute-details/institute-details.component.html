@@ -521,7 +521,7 @@
           <div class="c-sm-6 c-md-6 c-lg-6">
             <label class="switch switch-n">
               <input type="checkbox" [checked]="!(this.instDetails.is_student_displayId_manual == 0)" (click)="checkInputType($event)"
-                name="sFilter" class="form-radio" value="Automatic" id="idAutomatic" disabled>
+                name="sFilter" class="form-radio" value="Automatic" id="idAutomatic">
               <span class="slider round"></span>
             </label>
           </div>
@@ -547,6 +547,28 @@
               <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.tag_line" id="ch21">
             </div>
           </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="logo_url">Fee Logo URL
+            </label>
+          </div>
+          <div class="c-sm-5 c-md-5 c-lg-5">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.logo_url != ''}">
+              <input type="text" [disabled]="instDetails.institute_logo!='' && instDetails.institute_logo!=null" style="width: 91%;" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.logo_url" id="logo_url">
+            </div>
+          </div>
+          <div class="c-md-1" *ngIf="instDetails.logo_url!=''" style="padding: 0;width: 4%;margin-top: 1%;margin-right: 5px;">
+            <img src="{{instDetails.logo_url}}">
+          </div>
+          <div class="c-md-1" style="padding: 0;width: 2%;margin-top: 1%;">OR</div>
+          <div class="c-sm-2 c-md-2 c-lg-2">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_logo != ''}">
+              <input type="file" style="width: 100%;" [disabled]="instDetails.logo_url!='' && instDetails.logo_url!=null" accept="image/gif,image/jpeg,image/jpg,image/png" class="form-ctrl newDisabled" (change)="file($event)" name="slotNew" [(ngModel)]="instDetails.institute_logo" id="institute_logo">
+            </div>
+            <span style="font-size: 12px;">(Size 300X200)</span>
+          </div>
+          <div class="c-md-1 clearFile" (click)="clearFile()">X</div>
         </div>
         <div class="row">
           <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
@@ -688,6 +710,18 @@
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="notification_email_sender_id">Notification Email sender id
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.notification_email_sender_id != ''}">
+            <input type="text" class="form-ctrl newDisabled" id="notification_email_sender_id" name="slotNew" [(ngModel)]="instDetails.notification_email_sender_id">
+          </div>
+        </div>
+      </div>
     </div>
 
     <h2 class="heading-setting-main">FEE</h2>
@@ -794,6 +828,84 @@
         </div>
       </div>
     </div>
+    </div>
+
+    <h2 class="heading-setting-main" *ngIf="instDetails.is_proctur_live_recording_allow == 1">Live class</h2>  
+    
+    <div class="general-setting show-left" *ngIf="instDetails.is_proctur_live_recording_allow == 1">
+      <div class="row" style="margin: 0;margin-top: 10px;margin-bottom: 10px;">
+        <div class="c-sm-3 c-md-3 c-lg-3">Proctur Live Recorded Session Download Visibility
+          <label for="proctur_live_recorded_session_download_visibilty" style="font-size: 14px;padding-left: 5px;">
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+        <div class="field-wrapper c-md-2" [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.student != ''}">
+          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_download_visibilty.student" 
+              name="proctur_live_student" id="proctur_live_student">
+              <label for="proctur_live_student">Student</label>
+        </div>
+        <div class="field-wrapper c-md-2" [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.teacher != ''}">
+          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_download_visibilty.teacher" 
+              name="proctur_live_teacher" id="proctur_live_teacher">
+              <label for="proctur_live_teacher">Faculty</label>
+        </div>
+        <div class="field-wrapper c-md-2" [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.admin != ''}">
+          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_download_visibilty.admin" 
+              name="proctur_live_admin" id="proctur_live_admin">
+              <label for="proctur_live_admin">Admin</label>
+        </div>
+        <div class="field-wrapper c-md-3" [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.openApp != ''}">
+          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_download_visibilty.openApp" 
+              name="proctur_live_open_app" id="proctur_live_open_app">
+              <label for="proctur_live_open_app">Open App</label>
+        </div>
+      </div>
+      </div>
+
+      <div class="row" style="margin: 0;">
+        <div class="c-sm-3 c-md-3 c-lg-3">Proctur Live Recorded Session View Visibility
+          <label for="proctur_live_recorded_session_view_visibility" style="font-size: 14px;padding-left: 5px;">
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">          
+        <div class="field-wrapper c-md-2" [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.student != ''}">
+          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_view_visibility.student" 
+              name="proctur_view_student" id="proctur_view_student">
+              <label for="proctur_view_student">Student</label>
+        </div>
+        <div class="field-wrapper c-md-2" [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.teacher != ''}">
+          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_view_visibility.teacher" 
+              name="proctur_view_teacher" id="proctur_view_teacher">
+              <label for="proctur_view_teacher">Faculty</label>
+        </div>
+        <div class="field-wrapper c-md-2" [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.admin != ''}">
+          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_view_visibility.admin" 
+              name="proctur_view_admin" id="proctur_view_admin">
+              <label for="proctur_view_admin">Admin</label>
+        </div>
+        <div class="field-wrapper c-md-3" [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.openApp != ''}">
+          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_view_visibility.openApp" 
+              name="proctur_view_open_app" id="proctur_view_open_app">
+              <label for="proctur_view_open_app">Open App</label>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main" *ngIf="instDetails.enable_jd_integration == 1">Integration</h2>
+
+    <div class="general-setting show-left" *ngIf="instDetails.enable_jd_integration == 1">
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="jd_contract_id">JustDial Contract ID
+          </label>
+        </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.jd_contract_id != ''}">
+            <input type="textbox" id="jd_contract_id" class="form-ctrl newDisabled" name="jd_contract_id" [(ngModel)]="instDetails.jd_contract_id">
+          </div>
+        </div>
+      </div>
     </div>
 
     <h2 class="heading-setting-main">Miscellaneous setting </h2>
