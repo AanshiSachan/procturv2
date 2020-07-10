@@ -405,7 +405,6 @@ export class EcourseSubjectListComponent implements OnInit {
       },
       err=>{
         this.auth.hideLoader();
-        this.msgService.showErrorMessage('error','',err.error.message);
         this.fileSharedArray = err.error.error;
         if (!this.Confirm_deleteFile) {
         this.deletePopup = true;
