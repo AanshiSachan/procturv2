@@ -308,7 +308,7 @@
      </div>
     <div class="c-md-12" *ngIf="addSMS" style="margin-left: 15px;background: #efefef;">
       <div>
-      <textarea placeholder="Write your message here..." [(ngModel)]="message" name="message">
+      <textarea placeholder="Write your message here..." [(ngModel)]="message" (ngModelChange)="countNumberOfMessage()" name="message">
       </textarea>
       <div style="font-size: 12px;display: -webkit-box;-webkit-box-align: center;margin-top: 5px;margin-bottom: 10px;"
         class="row c-md-12">
@@ -316,7 +316,7 @@
         <div class="c-md-4" style="padding-right: 0;">
           <div class="msgCount">{{message?.length}}</div>
         </div>
-        <div class="c-md-7" style="text-align: right;">Message Count: 1</div>
+        <div class="c-md-7" style="text-align: right;">Message Count: {{messageCount}}</div>
       </div>
     </div>
     </div>
