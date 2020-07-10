@@ -1,6 +1,6 @@
 <div class="row">
-  <div class="head" id="addDiv" routerLink="/view/course/create/topic" style="text-align: right">
-    <button class="btn_addecourse">
+  <div class="head" id="addDiv" style="text-align: right">
+    <button class="btn_addecourse" (click)="gotoAddTopic()">
       <i class="fa fa-plus" aria-hidden="true" style="font-size: 14px;"></i> Topic &nbsp;
     </button>
   </div>
@@ -8,15 +8,18 @@
 
 <div>
     <div class="row">
-        <div class="col-md-12 subject-wrapper">
+        <div class="col-md-12 subject-wrapper" style="padding: 0;">
           <div class="subject-title">
             Subject List 
           </div>
+          <div class="deleteFile" (click)="setRemoveDataFile()">
+            Delete File
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12 subject-wrapper">
-          <div *ngIf="subjectList.length==0">
+      <div class="row" *ngIf="subjectList.length==0">
+        <div class="col-md-12 subject-wrapper" style="margin: 2%;margin-left: 0;text-align: center;">
+          <div>
             {{outputMessage}}
           </div>
         </div>
@@ -30,17 +33,26 @@
               <label for="topic{{topic.topic_id}}"></label>
             </div> -->
       
-            <div class="col-md-4 topic-name">
+            <div class="col-md-12 topic-name">
+              <div class="col-md-4">
+              <span style="margin-right: 10px;">
               <button class="btn-ga-collapse">
-                <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="toggleObject(topic)"></i>
-                <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="toggleObject(topic)"></i>
-              </button> {{topic.subject_name}}
+                <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="collapseAll(topic, false)"></i>
+                <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="collapseAll(topic, true)"></i>
+              </button> {{topic.subjectName}}</span>
+              </div>
+              <div class="col-md-7">
+              <span *ngFor="let count of topic.category_count" title="{{count.category_name}}" class="category_name">
+                <span *ngIf="count.category_name != 'VDOCipher' && count.category_name != 'Youtube URL'">{{(count.category_name.length > 13) ? (count.category_name | slice:0:13) + '...' : count.category_name}}</span>
+                <span *ngIf="count.category_name == 'VDOCipher'">Video</span>
+                <span *ngIf="count.category_name == 'Youtube URL'">Youtube Video</span>
+                 - {{count.count}}
+              </span>
+              </div>
             </div>
-            <div class="col-md-4">
-            </div>
-            <div class="col-md-4">
-              <div>
-                <button class="btn btn-xs btn-ga-white" (click)="uploadPopupOpen(topic)">Upload</button>
+            <div class="col-md-1">
+              <div style="cursor: pointer;">
+                <button class="btn btn-xs btn-ga-white" (click)="uploadPopupOpen(topic)"><i class="fa fa-upload" title="Upload"></i></button>
                 <!-- <button class="btn btn-xs btn-ga-white" (click)="getToSubjectMaterials(topic)">view topic</button> -->
                 <!-- <button class="btn btn-xs btn-ga-white">Add Topic</button> -->
               </div>
@@ -48,25 +60,26 @@
           </div>
           <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
             <div class="col-md-12 topic-material-data">
-              <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: 1}"></ng-container>
-              <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: 1}">
+              <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.studyMaterialMap.YoutubeURL, level: 1}"></ng-container>
+              <ng-container *ngTemplateOutlet="VDOCipher ; context:{$implicit: topic.studyMaterialMap.VDOCipher , level: 1}"></ng-container>
+              <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.studyMaterialMap.Assignment, level: 1}">
               </ng-container>
-              <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: 1}"></ng-container>
-              <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.audioNotesList, level: 1}">
+              <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.studyMaterialMap.Images, level: 1}"></ng-container>
+              <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.studyMaterialMap.AudioNotes, level: 1}">
               </ng-container>
-              <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.notesList, level: level+1}">
-              </ng-container>
-              <ng-container
-                *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.previousYearQuesList, level: level+1}">
-              </ng-container>
-              <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: topic.slidesList, level: level+1}">
+              <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.studyMaterialMap.Notes, level: level+1}">
               </ng-container>
               <ng-container
-                *ngTemplateOutlet="studyMaterialList; context:{$implicit: topic.studyMaterialList, level: level+1}">
+                *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.studyMaterialMap.PreviousYearQuestionsPaper, level: level+1}">
+              </ng-container>
+              <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: topic.studyMaterialMap.Slides, level: level+1}">
+              </ng-container>
+              <ng-container
+                *ngTemplateOutlet="studyMaterialList; context:{$implicit: topic.studyMaterialMap.EBook, level: level+1}">
               </ng-container>
             </div>
             <div class="row col-md-12 subTopics-data" *ngIf="topic.isExpand">
-              <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: 1 } ">
+              <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic, subLevel: 1 } ">
               </ng-container>
             </div>
           </div>
@@ -76,51 +89,53 @@
 
 
 <ng-template #recursiveNodes let-subTopics let-level="subLevel">
-  <div class="row topic-row" *ngFor="let topic of subTopics">
-    <div class="row singleton-row col-md-12 topic-data">
-      <div class="col-md-4 topic-name" [ngStyle]="{'padding-left': level+'em'}">
+  <div class="row topic-row" *ngFor="let topic of subTopics.subtopicList">
+    <div class="row singleton-row col-md-12 topic-data" style="background: #ebf6ff;">
+      <div class="col-md-7 topic-name" [ngStyle]="{'padding-left': level+'em'}">
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="toggleObject(topic)"></i>
-          <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="toggleObject(topic)"></i>
+          <i class="fa fa-plus" *ngIf="!topic.isExpand && (calculateStudyMaterialMapLength(topic)>0 || topic.subtopicList?.length>0)" (click)="toggleObject(topic)"></i>
         </button>
         <span class="txt-title"
-          title="{{topic.topic_name}}">{{(topic.topic_name?.length>30)?(topic.topic_name | slice:0:30) + '...':(topic.topic_name)}}</span>
-
+          title="{{topic.topicName}}" style="font-weight: 600;">{{(topic.topicName?.length>60)?(topic.topicName | slice:0:60) + '...':(topic.topicName)}}</span>
+        <!-- **{{topic.studyMaterialMapLength}}** {{topic.subtopicList.length}} -->
       </div>
       <div class="col-md-4">
 
       </div>
-      <div class="col-md-4">
-        <div>
-          <button class="btn btn-xs btn-ga-white" (click)="uploadPopupOpen(topic)">Upload</button>
+      <div class="col-md-1" style="padding-right: 0;">
+        <div style="float: right;">
+          <button class="btn btn-xs btn-ga-white" (click)="uploadTopicLevelPopupOpen(subTopics,topic)"><i class="fa fa-upload" title="Upload"></i></button>
           <!-- <button class="btn btn-xs btn-ga-white">Add Topic</button> -->
         </div>
       </div>
     </div>
     <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
       <div class="row col-md-12 topic-material-data">
-        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: level+1}">
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.studyMaterialMap.YoutubeURL, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: level+1}">
+        <ng-container *ngTemplateOutlet="VDOCipher; context:{$implicit: topic.studyMaterialMap.VDOCipher, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: level+1}">
+        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.studyMaterialMap.Assignment, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.audioNotesList, level: level+1}">
+        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.studyMaterialMap.Images, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.notesList, level: level+1}">
+        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.studyMaterialMap.AudioNotes, level: level+1}">
         </ng-container>
-        <ng-container
-          *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.previousYearQuesList, level: level+1}">
-        </ng-container>
-        <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: topic.slidesList, level: level+1}">
+        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.studyMaterialMap.Notes, level: level+1}">
         </ng-container>
         <ng-container
-          *ngTemplateOutlet="studyMaterialList; context:{$implicit: topic.studyMaterialList, level: level+1}">
+          *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.studyMaterialMap.PreviousYearQuestionsPaper, level: level+1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: topic.studyMaterialMap.Slides, level: level+1}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="studyMaterialList; context:{$implicit: topic.studyMaterialMap.EBook, level: level+1}">
         </ng-container>
 
       </div>
       <div class="row col-md-12 subTopics-data">
-        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: level+1 } ">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic, subLevel: level+1 } ">
         </ng-container>
       </div>
     </div>
@@ -130,47 +145,69 @@
 
 <ng-template #youtubeData let-youtube let-level="level">
   <div class="row singleton-row material-row" *ngFor="let video of youtube">
-    <div class="col-md-4 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(video, $event.target.checked)" [(ngModel)]="video.selected" style="-webkit-appearance: checkbox;">
+    </div>
+    <div class="col-md-6 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{video.title}}">
-        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="video.category_id!=235 && (video.posterList!=null && video.posterList[0].posterUrl!=null) && video.category_id==230">
-        <i class="fa fa-youtube-play text-red" aria-hidden="true" *ngIf="video.category_id!=235 && (video.posterList==null || video.posterList[0].posterUrl==null) && video.category_id==230"></i>
-        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="video.category_name=='VDOCipher'"></i>
-
+        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList[0].posterUrl!=null) && video.category_id==230">
+        <i class="fa fa-youtube-play text-red" aria-hidden="true" *ngIf="(video.posterList==null || video.posterList[0].posterUrl==null) && video.category_id==230"></i>        
         <!-- <div> -->
           <span
-            title="{{video.title}}" *ngIf="video.category_name!='VDOCipher'" target="_blank" class="txt-color txt-title" (click)="playYoutubeVideo(video)" style="cursor: pointer;">{{(video.title?.length>30)?(video.title | slice:0:30) + '...':(video.title)}}</span>
+            title="{{video.title}}" class="txt-color txt-title" (click)="playYoutubeVideo(video)" style="cursor: pointer;">{{(video.title?.length>60)?(video.title | slice:0:60) + '...':(video.title)}}</span>
         <!-- </div> -->
-        <a *ngIf="video.category_name=='VDOCipher'"  class="txt-color">
+      </h4>
+    </div>
+    <div class="col-md-1 txt-font">
+      Youtube Video
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-1"></div>
+    <div class="col-md-1"></div>
+    <div class="col-md-1" style="padding:0">
+      <div class="action-buttons" style="float: right;">
+        <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #VDOCipher let-youtube let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let video of youtube">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkVDOCipherSelectedFile(video, $event.target.checked)" [(ngModel)]="video.selected" style="-webkit-appearance: checkbox;">
+    </div>
+    <div class="col-md-6 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
+      <h4 class="file__title" title="{{video.title}}">
+        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList[0].posterUrl!=null)">
+        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="(video.posterList==null || video.posterList[0].posterUrl==null)"></i>
+
+        <a class="txt-color">
           <span class="txt-title"  style="cursor: pointer"
-            title="{{video.title}}">{{(video.title?.length>30)?(video.title | slice:0:30) + '...':(video.title)}}</span>
+            title="{{video.title}}">{{(video.title?.length>60)?(video.title | slice:0:60) + '...':(video.title)}}</span>
         </a>
       </h4>
     </div>
-    <div class="col-md-4 txt-font" *ngIf="video.category_name!='VDOCipher'">
-      {{video.category_name}}
+    <div class="col-md-1 txt-font">
+      <span *ngIf="video.video_status=='ready'">{{video.size | number:'.2-2'}}&nbsp;MB</span>
     </div>
-    <div class="col-md-1 txt-font" *ngIf="video.category_name=='VDOCipher'">
-      {{video.size | number:'.2-2'}}&nbsp;MB
+    <div class="col-md-1 txt-font" style="padding-right: 0;">
+      <span *ngIf="video.video_status=='ready'">{{video.watch_count}} &nbsp;viewed </span>
     </div>
-    <div class="col-md-1 txt-font" *ngIf="video.category_name=='VDOCipher'">
-      <span [ngClass]="{'hide': video.video_time==null}">  {{video.video_time }}&nbsp;Hr</span>
+    <div class="col-md-1 txt-font">
+      <span [ngClass]="{'hide': video.video_time==null}" *ngIf="video.video_status=='ready'">  {{video.video_time }}&nbsp;Hr</span>
     </div>
-    <div class="col-md-1 txt-font" *ngIf="video.category_name=='VDOCipher'">
-      {{video.watch_count}} &nbsp;<i  class="fas fa fa-eye" style="color:#2680eb;font-family: FontAwesome ;font-size: 14px;display: inline-block;vertical-align: middle; margin-right:5px" title="Watched"></i> 
-    </div>
-    <div class="col-md-1 txt-font" style="color:blue;" *ngIf="video.category_name=='VDOCipher'">
+    <div class="col-md-1 txt-font" style="color:blue;" *ngIf="video.video_status=='ready'">
         {{video.video_status |titlecase}} &nbsp;
       </div>
-    <div class="col-md-4">
-      <div class="action-buttons" *ngIf="video.category_name=='VDOCipher'">
-        <button class="btn btn-xs btn-ga-white" (click)="editFile(video)">Edit</button>
-        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked!='N'" (click)="setRemoveDataFile(video,'unlink')">Unlink</button>
-        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'delete')">Delete</button>
-        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="setRemoveDataFile(video,'unlink all')">Unlink All</button>
+      <div class="col-md-1 txt-font" style="color:blue;" *ngIf="video.video_status!='ready'">
+        Processing &nbsp;
       </div>
-      <div class="action-buttons" *ngIf="video.category_name!='VDOCipher'">
+    <div class="col-md-2" style="padding: 0;">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(video)">Edit</button>
-        <button class="btn btn-xs btn-ga-white"  (click)="setRemoveDataFile(video,'delete')">Delete</button>
+        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked!='N'" (click)="deleteVideoCipherFile(video,'unlink')">Unlink</button>
+        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="deleteVideoCipherFile(video,'unlink all')">Unlink All</button>
       </div>
     </div>
   </div>
@@ -178,11 +215,14 @@
 
 <ng-template #imagelistData let-image let-level="level">
   <div class="row singleton-row material-row" *ngFor="let file of image">
-    <div class="col-md-4 material-title txt-color " [ngStyle]="{'padding-left': level+'em'}">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(file, $event.target.checked)" [(ngModel)]="file.selected" style="-webkit-appearance: checkbox;">
+    </div>
+    <div class="col-md-6 material-title txt-color " [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
         <span class="txt-title"
-          title="{{file.title}}">{{(file.title?.length>30)?(file.title | slice:0:30) + '...':(file.title)}}</span>
+          title="{{file.title}}">{{(file.title?.length>60)?(file.title | slice:0:60) + '...':(file.title)}}</span>
       </h4>
     </div>
     <div class="col-md-1 txt-font">
@@ -191,13 +231,13 @@
     <div class="col-md-2 txt-font">
         {{file.downloads}} &nbsp;Downloads 
       </div>
-    <div class="col-md-5">
-      <div class="action-buttons">
+      <div class="col-md-1"></div>
+    <div class="col-md-2" style="padding: 0;">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
-          <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
+          <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file,'delete')">Delete</button>
       </div>
     </div>
   </div>
@@ -205,11 +245,14 @@
 
 <ng-template #assignmentData let-assignment let-level="level">
   <div class="row singleton-row material-row" *ngFor="let file of assignment">
-    <div class="col-md-4 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(file, $event.target.checked)" [(ngModel)]="file.selected" style="-webkit-appearance: checkbox;">
+    </div>
+    <div class="col-md-6 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
         <span class="txt-title"
-          title="{{file.title}}">{{(file.title?.length>30)?(file.title | slice:0:30) + '...':(file.title)}}</span>
+          title="{{file.title}}">{{(file.title?.length>60)?(file.title | slice:0:60) + '...':(file.title)}}</span>
       </h4>
     </div>
     <div class="col-md-1 txt-font">
@@ -218,13 +261,14 @@
     <div class="col-md-2 txt-font">
         {{file.downloads}} &nbsp;Downloads 
       </div>
-    <div class="col-md-5">
-      <div class="action-buttons">
+      <div class="col-md-1"></div>
+    <div class="col-md-2" style="padding: 0;">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
-          <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
+          <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file,'delete')">Delete</button>
+        <!-- <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile()"><i class="fa fa-trash" title="Delete"></i></button> -->
       </div>
     </div>
   </div>
@@ -232,11 +276,14 @@
 
 <ng-template #notesData let-notes let-level="level">
   <div class="row singleton-row material-row" *ngFor="let file of notes">
-    <div class="col-md-4 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(file, $event.target.checked)" [(ngModel)]="file.selected" style="-webkit-appearance: checkbox;">
+    </div>
+    <div class="col-md-6 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
         <span class="txt-title"
-          title="{{file.title}}">{{(file.title?.length>30)?(file.title | slice:0:30) + '...':(file.title)}}</span>
+          title="{{file.title}}">{{(file.title?.length>60)?(file.title | slice:0:60) + '...':(file.title)}}</span>
       </h4>
     </div>
     <div class="col-md-1 txt-font">
@@ -245,13 +292,13 @@
     <div class="col-md-2 txt-font">
         {{file.downloads}} &nbsp;Downloads 
       </div>
-    <div class="col-md-5">
-      <div class="action-buttons">
+      <div class="col-md-1"></div>
+    <div class="col-md-2" style="padding: 0;">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
-          <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
+          <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file,'delete')">Delete</button>
       </div>
     </div>
   </div>
@@ -259,11 +306,14 @@
 
 <ng-template #audioNotesData let-audios let-level="level">
   <div class="row singleton-row material-row" *ngFor="let audio of audios">
-    <div class="col-md-4 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(audio, $event.target.checked)" [(ngModel)]="audio.selected" style="-webkit-appearance: checkbox;">
+    </div>
+    <div class="col-md-6 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{audio.title}}">
         <i [class]="audio?.extension" aria-hidden="true"></i>
         <span class="txt-title"
-          title="{{audio.title}}">{{(audio.title?.length>30)?(audio.title | slice:0:30) + '...':(audio.title)}}</span>
+          title="{{audio.title}}">{{(audio.title?.length>60)?(audio.title | slice:0:60) + '...':(audio.title)}}</span>
       </h4>
     </div>
     <div class="col-md-1 txt-font">
@@ -272,13 +322,13 @@
     <div class="col-md-2 txt-font">
         {{audio.downloads}} &nbsp;Downloads 
       </div>
-    <div class="col-md-5">
-      <div class="action-buttons">
+      <div class="col-md-1"></div>
+    <div class="col-md-2" style="padding: 0;">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(audio)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(audio)">
-          <a [href]="audio.file_name" class="btn-ga-white" [download]="audio.title">Download</a>
+          <a [href]="audio.file_name" class="btn-ga-white" [download]="audio.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(audio,'delete')">Delete</button>
       </div>
     </div>
   </div>
@@ -286,11 +336,14 @@
 
 <ng-template #previousYearQuesListData let-previousYearQuesList let-level="level">
   <div class="row singleton-row material-row" *ngFor="let file of previousYearQuesList">
-    <div class="col-md-4 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(file, $event.target.checked)" [(ngModel)]="file.selected" style="-webkit-appearance: checkbox;">
+    </div>
+    <div class="col-md-6 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
         <span class="txt-title"
-          title="{{file.title}}">{{(file.title?.length>30)?(file.title | slice:0:30) + '...':(file.title)}}</span>
+          title="{{file.title}}">{{(file.title?.length>60)?(file.title | slice:0:60) + '...':(file.title)}}</span>
       </h4>
     </div>
     <div class="col-md-1 txt-font">
@@ -299,14 +352,13 @@
     <div class="col-md-2 txt-font">
         {{file.downloads}} &nbsp;Downloads 
       </div>
-    <div class="col-md-5">
-      <div class="action-buttons">
-        {{file.downloads}}&nbsp;Downloads &nbsp; &nbsp;
+      <div class="col-md-1"></div>
+    <div class="col-md-2" style="padding: 0;">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
-          <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
+          <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file,'delete')">Delete</button>
       </div>
     </div>
   </div>
@@ -315,11 +367,14 @@
 
 <ng-template #slidesListData let-slidesList let-level="level">
   <div class="row singleton-row material-row" *ngFor="let file of slidesList">
-    <div class="col-md-4 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(file, $event.target.checked)" [(ngModel)]="file.selected" style="-webkit-appearance: checkbox;">
+    </div>
+    <div class="col-md-6 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
         <span class="txt-title"
-          title="{{file.title}}">{{(file.title?.length>30)?(file.title | slice:0:30) + '...':(file.title)}}</span>
+          title="{{file.title}}">{{(file.title?.length>60)?(file.title | slice:0:60) + '...':(file.title)}}</span>
       </h4>
     </div>
     <div class="col-md-1 txt-font">
@@ -328,13 +383,13 @@
     <div class="col-md-2 txt-font">
         {{file.downloads}} &nbsp;Downloads 
       </div>
-    <div class="col-md-5">
-      <div class="action-buttons">
+      <div class="col-md-1"></div>
+    <div class="col-md-2" style="padding: 0;">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
-          <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
+          <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file,'delete')">Delete</button>
       </div>
     </div>
   </div>
@@ -342,11 +397,14 @@
 
 <ng-template #studyMaterialList let-studyList let-level="level">
   <div class="row singleton-row material-row" *ngFor="let file of studyList">
-    <div class="col-md-4 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkSelectedFile(file, $event.target.checked)" [(ngModel)]="file.selected" style="-webkit-appearance: checkbox;">
+    </div>
+    <div class="col-md-6 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{file.title}}">
         <i [class]="file?.extension" aria-hidden="true"></i>
         <span class="txt-title"
-          title="{{file.title}}">{{(file.title?.length>30)?(file.title | slice:0:30) + '...':(file.title)}}</span>
+          title="{{file.title}}">{{(file.title?.length>60)?(file.title | slice:0:60) + '...':(file.title)}}</span>
       </h4>
     </div>
     <div class="col-md-1 txt-font">
@@ -355,13 +413,13 @@
     <div class="col-md-2 txt-font">
         {{file.downloads}} &nbsp;Downloads 
       </div>
-    <div class="col-md-5">
-      <div class="action-buttons">
+      <div class="col-md-1"></div>
+    <div class="col-md-2" style="padding: 0;">
+      <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
         <button class="btn btn-xs btn-ga-white" (click)="addDownloadCount(file)">
-          <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
+          <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title"><i class="fa fa-download" title="Download"></i></a>
         </button>
-        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file,'delete')">Delete</button>
       </div>
     </div>
   </div>
@@ -426,9 +484,9 @@
         <span>{{tempData.title}}</span>
 
 
-        <div class="btn_cross" > 
-            <button  class="btn btn-xs btn-ga-white" style="position: absolute;right: 0;" (click)="stopVideo()">X</button>
-          </div>
+        <!-- <div class="btn_cross" >  -->
+            <button  class="btn btn-xs btn-ga-white" style="float: right;font-size: 14px;" (click)="stopVideo()">X</button>
+          <!-- </div> -->
       </div>
       <div class="ga-modal-body">
         <div class="row upload-box">
@@ -437,6 +495,62 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="modal topic-add-model" id="addTopic" tabindex="-1" role="dialog" aria-hidden="true">	
+  <div class="modal-dialog" role="document">	
+    <div class="modal-content">	
+      <div class="modal-header">	
+        <h2 class="modal-title" id="addTopic">Add Topic</h2>	
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cancel" (click)="clearObject()">	
+          <span aria-hidden="true">&times;</span>	
+        </button>	
+      </div>	
+      <div class="modal-body">	
+        <div class="model_body_div">	
+          <div class="field-wrapper">	
+            <label *ngIf="!isProfessional">Standard Name<span class="text-danger">*</span></label>	
+            <label *ngIf="isProfessional">Master Course<span class="text-danger">*</span></label>	
+            <div class="dropdown-div">	
+              <select class="dropdown" [(ngModel)]="addTopic.standard_id" (change)="getAllSubjectList($event.target.value)">	
+                <option value="-1">   Select Standard </option>	
+                <option *ngFor="let standard of standardData;let i=index; " [value]="standard.standard_id" title="{{standard.standard_name}}">	
+                  {{standard.standard_name.length>30 ?  (standard.standard_name | slice:0:30) + '...' : standard.standard_name}}</option>	
+              </select>	
+            </div>	
+          </div>	
+          <div class="field-wrapper">	
+            <label *ngIf="!isProfessional">Subject Name<span class="text-danger">*</span></label>	
+            <label *ngIf="isProfessional">Course<span class="text-danger">*</span></label>	
+            <div class="dropdown-div">	
+              <select class="dropdown"  [(ngModel)]="addTopic.subject_id">	
+                <option value="-1"> Select Subject </option>	
+                <option *ngFor="let subject of subjectTempData;let i=index; " [value]="subject.subject_id" title="{{subject.subject_name}}">	
+                  {{subject.subject_name.length>30 ?  (subject.subject_name | slice:0:30) + '...' : subject.subject_name}}	
+                </option>	
+              </select>	
+            </div>	
+          </div>	
+          <div class="field-wrapper">	
+            <label>Topic Name <span class="text-danger">*</span></label>	
+            <div class="dropdown-div">	
+                <input class="dropdown" [(ngModel)]="addTopic.name" type="text" placeholder="  Enter Topic Name" />	
+            </div>	
+          </div>	
+          <div class="field-wrapper">	
+            <label>Duration (only minutes)</label>	
+            <div class="dropdown-div">	
+              <input class="dropdown" maxlength="3" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="addTopic.estimated_time" type="text" placeholder="  Enter Estimated Time" />	
+            </div>	
+          </div>	
+        </div>	
+      </div>	
+      <div class="modal-footer">	
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearObject()">Cancel</button>	
+        <button type="button" class="btn btn-primary fullBlue" [disabled]="(addTopic.name=='') ||(addTopic.standard_id==-1) || (addTopic.subject_id==-1)" (click)="Add_New_Topic_Details()">Save </button>	
+      </div>	
+    </div>	
+  </div>	
 </div>
 
 <div class="videoplayer" *ngIf="videoplayer">
@@ -450,3 +564,30 @@
 <div class="black-bg" id="black-bg" *ngIf="videoplayer" (click)="closePlayer()"></div>
 
 <app-upload-file></app-upload-file>
+
+<proctur-popup [sizeWidth]="'small'" *ngIf="deletePopup">
+
+  <span class="closePopup pos-abs fbold show" close-button (click)="closeDeletePopup()">
+    <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+      <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+    </svg>
+  </span>
+  <div popup-header class="popup-header-content">
+    <h2>Delete Files ({{selectedRowCount}} Files Selected)</h2>
+  </div>
+  <div popup-content class="popup-header-content">
+    <!-- <div class="row"> -->
+      <div style="margin-bottom: 10px;">
+      <span style="font-size: 14px;font-weight: 600;">Are you sure, you want to delete files?
+        <span style="font-size: 14px;" *ngIf="fileSharedArray?.length>0"> As file is shared with following : </span></span>
+      </div>
+      <span *ngFor="let msg of fileSharedArray">
+        <span> {{msg.errorMessage}}</span><br>
+      </span>
+    <!-- </div> -->
+    <div style="text-align: right;margin-top: 10px;">
+    <input type="button" value="Cancel" style="color: #0084f6;background: white;" class="btn fullBlue" (click)="closeDeletePopup()">
+    <input type="button" value="Delete" class="btn fullBlue" (click)="confirmDelete()">
+  </div>
+  </div>
+</proctur-popup>

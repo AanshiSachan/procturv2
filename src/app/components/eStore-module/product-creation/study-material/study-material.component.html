@@ -93,7 +93,7 @@
       <div class="row col-md-12 subTopics-data">
         <ng-container *ngTemplateOutlet="subjectsNodes; context: { $implicit: ecourse.subjectsList, level: 1 } ">
         </ng-container>
-        <div *ngIf="ecourse.subjectsList?.length==0">
+        <div *ngIf="ecourse.subjectsList?.length==0" style="text-align: center;">
           No data found
         </div>
       </div>
@@ -109,43 +109,53 @@
 <ng-template #subjectsNodes let-subjectList let-level="level">
   <div class="row topic-row" *ngFor="let subject of subjectList">
     <div class="row singleton-row col-md-12 topic-data topic-name">
-      <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
+      <div class="col-md-12 topic-name" [ngStyle]="{'padding-left': level+'em'}">
         <!-- <div class="field-checkbox-wrapper">
             <input type="checkbox" class="form-checkbox" [(ngModel)]="subject.selected"
               (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test">
             <label for="ch2"></label>
           </div> -->
+        <div class="col-md-1">
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="subject.isExpand" (click)="toggleObject(subject)"></i>
           <i class="fa fa-plus" *ngIf="!subject.isExpand" (click)="toggleObject(subject)"></i>
-        </button> {{subject.subject_name}}
+        </button>
+        </div>
+        <div class="col-md-4">
+          {{subject.subjectName}}
+        </div>
+        <div class="col-md-7" style="text-align: right;">
+        <span *ngFor="let count of subject.category_count" title="{{count.category_name}}" class="category_name" style="font-size: 12px;font-weight: normal;">
+          <span *ngIf="count.category_name != 'VDOCipher'">{{(count.category_name.length > 13) ? (count.category_name | slice:0:13) + '...' : count.category_name}}</span>
+          <span *ngIf="count.category_name == 'VDOCipher'">Video</span>
+           - {{count.count}}
+        </span>
       </div>
-      <div class="col-md-4">
       </div>
     </div>
     <div class="row col-md-12 p-0" *ngIf="subject.isExpand">
       <div class="row col-md-12 topic-material-data" [ngStyle]="{'padding-left': level+'em'}">
-        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.videosList, level: level+1}">
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.studyMaterialMap.videosList, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: subject.assignmentList, level: level+1}">
+        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: subject.studyMaterialMap.Assignment, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: subject.imageList, level: level+1}">
+        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: subject.studyMaterialMap.Images, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: subject.audioNotesList, level: level+1}">
+        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: subject.studyMaterialMap.AudioNotes, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: subject.notesList, level: level+1}">
-        </ng-container>
-        <ng-container
-          *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: subject.previousYearQuesList, level: level+1}">
-        </ng-container>
-        <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: subject.slidesList, level: level+1}">
+        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: subject.studyMaterialMap.notesList, level: level+1}">
         </ng-container>
         <ng-container
-          *ngTemplateOutlet="studyMaterialList; context:{$implicit: subject.studyMaterialList, level: level+1}">
+          *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: subject.studyMaterialMap.PreviousYearQuestionsPaper, level: level+1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: subject.studyMaterialMap.Slides, level: level+1}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="studyMaterialList; context:{$implicit: subject.studyMaterialMap.EBook, level: level+1}">
         </ng-container>
       </div>
       <div class="row col-md-12 subTopics-data">
-        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: subject.subTopics, level: level+1 } ">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: subject.subtopicList, level: level+1 } ">
         </ng-container>
       </div>
     </div>
@@ -162,37 +172,37 @@
           <label for="ch2"></label>
         </div> -->
         <button class="btn-ga-collapse">
-          <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="subjectListToggle(topic)"></i>
-          <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="subjectListToggle(topic)"></i>
-        </button> {{topic.topic_name}}
+          <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="getTopicData(topic)"></i>
+          <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="getTopicData(topic)"></i>
+        </button> {{topic.topicName}}
       </div>
       <div class="col-md-4">
       </div>
     </div>
     <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
       <div class="row col-md-12 topic-material-data">
-        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: level+1}">
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.studyMaterialMap.videosList, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: level+1}">
+        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.studyMaterialMap.Assignment, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: level+1}">
+        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.studyMaterialMap.Images, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.audioNotesList, level: level+1}">
+        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.studyMaterialMap.AudioNotes, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.notesList, level: level+1}">
-        </ng-container>
-        <ng-container
-          *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.previousYearQuesList, level: level+1}">
-        </ng-container>
-        <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: topic.slidesList, level: level+1}">
+        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.studyMaterialMap.Notes, level: level+1}">
         </ng-container>
         <ng-container
-          *ngTemplateOutlet="studyMaterialList; context:{$implicit: topic.studyMaterialList, level: level+1}">
+          *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.studyMaterialMap.PreviousYearQuestionsPaper, level: level+1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: topic.studyMaterialMap.Slides, level: level+1}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="studyMaterialList; context:{$implicit: topic.studyMaterialMap.EBook, level: level+1}">
         </ng-container>
 
       </div>
       <div class="row col-md-12 subTopics-data">
-        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, level: level+1 } ">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subtopicList, level: level+1 } ">
         </ng-container>
       </div>
     </div>

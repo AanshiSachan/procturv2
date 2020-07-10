@@ -12,26 +12,11 @@ import { MessageShowService } from '../../../../services/message-show.service';
 export class EcourseListComponent implements OnInit {
 
   categiesList: any = [];
+  searchData: any = [];
   institute_id: any;
-  showSettings: boolean = true;
   is_video_public: boolean = true;
   outputMessage: any = '';
-  settingDetails: any = {
-    "institute_id": 100058,
-    "video_watermark": "Megha",
-    "is_video_public": true,
-    "watermark_opacity": 1,
-    "watermark_color": "#2680eb",
-    "watermark_font_size": 10,
-    "video_watch_limit_per_video": 1,
-    "storage_capacity_threshold_alerts": 1,
-    "bandwidth_threshold_alerts": 1,
-    "watermark_text_moving_interval": 1,
-    watermark_name: true,
-    watermark_phone: true,
-    watermark_email: ''
-  }
-
+  searchValue: any = '';
 
   constructor(
     private _http: HttpService,
@@ -72,87 +57,23 @@ export class EcourseListComponent implements OnInit {
     }
   }
 
-  getSettingDetails() {
-    // <base_url>/instFileSystem/getStudyMaterialSetting/{institute_id}
-    let url = "/api/v1/instFileSystem/getStudyMaterialSetting/" + this.institute_id;
-    this.auth.showLoader();
-    this.showSettings = true;
-    this._http.getData(url).subscribe((res: any) => {
-      console.log("getSettingDetails", res);
-      this.auth.hideLoader();
-      this.settingDetails = res;
-      this.is_video_public = this.settingDetails.is_video_public == 'Y' ? true : false;
-      if(this.settingDetails.dynamic_watermark_text!=null &&  this.settingDetails.dynamic_watermark_text!='NA') {
-        let temp_details = this.settingDetails.dynamic_watermark_text.split(',');
-        for(let i=0;i<3;i++) {
-          if (temp_details[i] == 'name') {
-            this.settingDetails.watermark_name = true;
-          } else if(temp_details[i] == 'phone') {
-            this.settingDetails.watermark_phone = true;
-          } else if(temp_details[i] == 'email') {
-            this.settingDetails.watermark_email = true;
-          }
-        }
-      }
-      this.showSettings = false;
-
-    }, err => {
-      this.auth.hideLoader();
-    });
-  }
-
-
-  clearObject() {
-    this.showSettings = !this.showSettings;
-  }
-
-  Save_Setting_Details() {
-    this.auth.showLoader();
-    //<base_url>/instFileSystem/updateStudyMaterialSetting
-    let url = "/api/v1/instFileSystem/updateStudyMaterialSetting";
-    this.settingDetails.institute_id = this.institute_id;
-    this.settingDetails.is_video_public = this.is_video_public == true ? 'Y' : 'N';
-    let temp :any = [];
-    (this.settingDetails.watermark_name) ? (temp.push('name')) : '';
-    (this.settingDetails.watermark_phone) ? (temp.push('phone')) : '';
-    (this.settingDetails.watermark_email) ? (temp.push('email')) : '';
-    temp = temp.join(',');
-    if(temp == '' || temp == null) {
-      temp = 'NA';
-    }
-    let object = {
-      "institute_id": this.settingDetails.institute_id,
-      "video_watermark": this.settingDetails.video_watermark,
-      "is_video_public": this.settingDetails.is_video_public,
-      "watermark_opacity": this.settingDetails.watermark_opacity,
-      "watermark_color": this.settingDetails.watermark_color,
-      "watermark_font_size": this.settingDetails.watermark_font_size,
-      "watermark_text_moving_interval": this.settingDetails.watermark_text_moving_interval,
-      "vdocipher_bandwidth_threshold": this.settingDetails.vdocipher_bandwidth_threshold,
-      "vdocipher_storage_capacity_threshold": this.settingDetails.vdocipher_storage_capacity_threshold,
-      dynamic_watermark_text: temp
-    }
-    this._http.putData(url, object).subscribe((res: any) => {
-      console.log(res);
-      this.auth.hideLoader();
-      this.showSettings = true;
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
-
-    }, err => {
-      console.log(err);
-      this.auth.hideLoader();
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.message);
-    });
-  }
 
   getcategoriesList() {
     this.categiesList = [];
     this.auth.showLoader();
-    let url = "/api/v1/instFileSystem/institute/" + this.institute_id + "/ecoursesList";
+    let url = "/api/v1/instFileSystem/institute/" + this.institute_id + "/ecourses-list";
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
       this.auth.hideLoader();
       this.categiesList = res;
+      this.categiesList.forEach(element => {
+        element.size = 0
+        element.categoryDtoList.forEach(category => {
+          element.size = element.size + category.size;
+        });
+        element.size = (element.size / 1024);
+      });
+      this.searchData = res;
       if (this.categiesList.length == 0) {
         this.outputMessage = 'No data found';
       }
@@ -160,6 +81,18 @@ export class EcourseListComponent implements OnInit {
     }, err => {
       this.auth.hideLoader();
     });
+  }
+
+  searchTeacher() {
+    if (this.searchValue != "" && this.searchValue != null) {
+      let searchData = this.categiesList.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchValue.toLowerCase()))
+      );
+      this.searchData = searchData;
+    } else {
+      this.searchData = this.categiesList;
+    }
   }
 
 }

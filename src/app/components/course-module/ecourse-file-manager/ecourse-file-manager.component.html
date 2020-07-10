@@ -6,57 +6,296 @@
       </a>
       &gt;
       <span> Study Materials</span>
+      &gt;
+        <span>
+          <ng-container *ngIf="_http.routeList.length">
+            <span class="breadcrums" (click)="gotoPageData(route)" style="cursor: pointer;" *ngFor="let route of _http.routeList ;let i = index">
+             <span *ngIf="route.name == 'E-Course'" style="color: #0084f6;">{{route.name}}</span>
+             <span *ngIf="route.name != 'E-Course'">{{route.name}}</span>
+              <i class="fa fa-angle-right" *ngIf=" i < (_http.routeList.length-1) "></i>
+            </span>
+          </ng-container>
+        </span>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-2 file-mgr-sidebar" style="margin-top: .6em;">
-      <div>
-        <button class="btn btn-wide-blue" (click)="toggleFileUploadModal()">Upload File</button>
-      </div>
+<div class="row">
+  <div class="col-md-2 file-mgr-sidebar" style="margin-top: 1.6em;float: right;width: 20%;">
+    <div>
+      <button class="btn btn-wide-blue" (click)="toggleFileUploadModal()">Upload File</button>
+    </div>
+    <div *ngIf="enable_vdoCipher_feature" style="margin-top: 15px;">
+      <button class="btn btn-wide-blue" (click)="getSettingDetails()">Video Setting</button>
+    </div>
 
-      <!-- <div class="sidecard">
-      <ul>
-        <li class="btn-wide-blue">E-Course</li>
-      </ul>
+    <!-- <div class="sidecard">
+    <ul>
+      <li class="btn-wide-blue">E-Course</li>
+    </ul>
+  </div> -->
+
+    <!-- <div class="sidecard">
+      <div class="wrap">
+        <h4>Download Usage<div class="questionInfo inline-relative">
+          <span class="qInfoIcon i-class">i</span>
+          <div class="tooltip-box-field lg" style="width: 80px;">
+            This doesn't <br>include video<br> storage!
+          </div>
+        </div></h4>
+        <p class="small usage">{{_fservice.storageData.uploaded_size | number :'.2-2'}} GB used of
+          {{_fservice.storageData.storage_allocated | number:'.2-2'}}
+          GB</p>
+        <div class="progress-bar">
+          <div class="progress-stat" [ngStyle]="{'width': _fservice.storageData.width+'%'}"></div>
+        </div>
+      </div>
     </div> -->
 
-      <div class="sidecard">
-        <div class="wrap">
-          <h4>Download Usage<div class="questionInfo inline-relative">
-            <span class="qInfoIcon i-class">i</span>
-            <div class="tooltip-box-field lg">
-              This doesn't include video storage!
+    <div class="sidecard" *ngIf="enable_vdoCipher_feature">
+      <div class="wrap">
+        <h4>Bandwidth Capacity
+        </h4>
+        <p class="small usage">
+          {{(vDOCipher_allocated_bandwidth?vDOCipher_allocated_bandwidth:0)| number:'.2-2'}} GB
+        </p>
+      </div>
+    </div>
+
+    <div class="sidecard" *ngIf="enable_vdoCipher_feature">
+      <div class="wrap">
+        <h4>Used Bandwidth Capacity
+        </h4>
+        <p class="small usage">
+          {{(vDOCipher_used_bandwidth?vDOCipher_used_bandwidth:0)| number:'.2-2'}} GB
+        </p>
+      </div>
+    </div>
+
+    <div class="sidecard" *ngIf="enable_vdoCipher_feature">
+      <div class="wrap">
+        <h4>Storage Capacity
+        </h4>
+        <p class="small usage">
+          {{(vDOCipher_allocated_storage?vDOCipher_allocated_storage:0)| number:'.2-2'}} GB
+        </p>
+      </div>
+    </div>
+
+    <div class="sidecard" *ngIf="enable_vdoCipher_feature">
+      <div class="wrap">
+        <h4>Used Storage Capacity
+        </h4>
+        <p class="small usage">
+          {{(vDOCipher_used_storage?vDOCipher_used_storage:0)| number:'.2-2'}} GB
+        </p>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-md-10 file-mgr-wrapper" style="width: 80%;">
+    <div class="row">
+      <div class="col-md-12 file-mgr-breadcrumb">
+        <!-- <h2>
+          <ng-container *ngIf="_http.routeList.length">
+            <a class="breadcrums" (click)="gotoPageData(route)" *ngFor="let route of _http.routeList ;let i = index">
+              {{route.name}}
+              <i class="fas fa-angle-right" *ngIf=" i < (_http.routeList.length-1) "></i>
+            </a>
+          </ng-container>
+        </h2> -->
+      </div>
+
+      <div class="col-md-12 file-mgr-body">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+<app-upload-file></app-upload-file>
+</div>
+</div>
+
+<div class="ga-modal-wrapper" [hidden]="showSettings">
+  <div class="ga-modal-container">
+    <div class="ga-modal">
+      <div class="ga-modal-head" style="text-align: left">
+        <span>Video Settings </span>
+        <div class="btn_cross"> <button class="btn btn-xs btn-ga-white" (click)="showSettings = true" style="padding: 0;border: none;">X</button></div>
+      </div>
+      <div class="ga-modal-body">
+        <div class="row upload-box">
+          <div style="height: 430px;overflow-x: hidden;padding-bottom: 10px;" class="model_body_div">
+            <div class="field-wrapper">
+              <label>Dynamic Watermark</label>
+              <div class="row" style="padding: 15px 30px;">
+                <div class="col-md-4">
+                  <input type="checkbox" id="name" style="-webkit-appearance: checkbox;" [(ngModel)]="settingDetails.watermark_name" />
+                  <label for="name">Name</label>
+                </div>
+                <div class="col-md-4">
+                  <input id="phone" type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="settingDetails.watermark_phone" />
+                  <label for="phone">Phone</label>
+                </div>
+                <div class="col-md-4">
+                  <input id="email" type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="settingDetails.watermark_email" />
+                  <label for="email">Email</label>
+                </div>
+              </div>
             </div>
-          </div></h4>
-          <p class="small usage">{{_fservice.storageData.uploaded_size | number :'.2-2'}} GB used of
-            {{_fservice.storageData.storage_allocated | number:'.2-2'}}
-            GB</p>
-          <div class="progress-bar">
-            <div class="progress-stat" [ngStyle]="{'width': _fservice.storageData.width+'%'}"></div>
+            <div class="field-wrapper">
+              <label>Privacy Settings<div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Set the video visibility <br>mode to private or public.<br>
+                    In private mode, video will<br> be visible to the enrolled <br>students.
+                    In public mode,<br> video will be visible to<br> guest users & enrolled<br> students
+                  </div>
+                </div></label>
+              <div class="row" style="padding: 15px 30px;">
+                <label class="toggle">
+                  <span class="toggle-label" id="unassigned"
+                    [ngClass]="(is_video_public)?'inactive_toggle_button':'active_toggle_button'">Private</span>
+                  <input class="toggle-checkbox" type="checkbox" [(ngModel)]="is_video_public">
+                  <div class="toggle-switch"></div>
+                  <span class="toggle-label" id="assigned"
+                    [ngClass]="(is_video_public)?'active_toggle_button':'inactive_toggle_button'">Public
+                  </span>
+                </label>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-7" style="padding-left: 0;">
+                <div class="field-wrapper">
+                  <label>Watermark 
+                    <div class="questionInfo inline-relative">
+                      <span class="qInfoIcon i-class">i</span>
+                      <div class="tooltip-box-field">
+                        Set the text to be shown <br> as
+                        watermark in the video
+                      </div>
+                    </div>
+                  </label>
+                  <div class="dropdown-div">
+                    <input class="dropdown" [(ngModel)]="settingDetails.video_watermark" type="text"
+                      placeholder="  enter watermark" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="field-wrapper" style="margin-left: -50px;">
+                  <div class="dropdown-div">
+                    <label>Colour <div class="questionInfo inline-relative">
+                        <span class="qInfoIcon i-class">i</span>
+                        <div class="tooltip-box-field">
+                          Pick the choice of<br> colour
+                          for the watermark<br> text.
+                        </div>
+                      </div>&nbsp;&nbsp;
+                      <div class="row" style="padding: 15px 30px;">
+                        <input [(ngModel)]="settingDetails.watermark_color" type="color" />
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-wrapper">
+              <label>Opacity
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    It is the opacity of the <br>watermark text.
+                    It defines<br> how much watermark text<br>
+                    will obscure the <br>background image
+                  </div>
+                </div>
+              </label>
+              <div class="row" style="padding: 15px 30px;">
+                <div class="col-md-9">
+                  <input type="range" min="0.00" max="1.00" step="0.05"
+                    [(ngModel)]="settingDetails.watermark_opacity" />
+                </div>
+                <div class="col-md-3">{{settingDetails.watermark_opacity}}</div>
+              </div>
+            </div>
+            <div class="field-wrapper">
+              <label>Font Size <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    It is the overall<br> size (height) of the<br>
+                    watermark text font<br>
+                    shown on the screen
+                  </div>
+                </div></label>
+              <div class="row" style="padding: 15px 30px;">
+                <div class="col-md-9">
+                  <input type="range" min="1" max="100" [(ngModel)]="settingDetails.watermark_font_size" />
+                </div>
+                <div class="col-md-3">{{settingDetails.watermark_font_size}} px</div>
+              </div>
+            </div>
+            <div class="field-wrapper">
+              <label>Interval <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Specify the interval over<br> which
+                    watermark changes<br> position.
+                    The value is the <br> interval in
+                    seconds when <br>the text changes position.
+                  </div>
+                </div></label>
+              <div class="row" style="padding: 15px 30px;">
+                <div class="col-md-9">
+                  <input type="range" min="1" max="100" [(ngModel)]="settingDetails.watermark_text_moving_interval" />
+                </div>
+                <div class="col-md-3">{{settingDetails.watermark_text_moving_interval}} Sec</div>
+              </div>
+            </div>
+            <div class="field-wrapper">
+              <label>Bandwidth Threshold Alerts <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Set limits (in percentage)<br> for
+                    bandwidth utilization<br> to receive
+                    the alerts in <br>SMS & email.
+                  </div>
+                </div></label>
+              <div class="row" style="padding: 15px 30px;">
+                <div class="col-md-9">
+                  <input type="range" min="1" max="100" [(ngModel)]="settingDetails.vdocipher_bandwidth_threshold" />
+                </div>
+                <div class="col-md-3">{{settingDetails.vdocipher_bandwidth_threshold}}%</div>
+              </div>
+            </div>
+            <div class="field-wrapper">
+              <label>Storage Capacity Threshold Alerts <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Set limits (in percentage)<br> for
+                    storage utilization <br>to receive
+                    the alerts in SMS<br> & email
+                  </div>
+                </div></label>
+              <div class="row" style="padding: 15px 30px;">
+                <div class="col-md-9">
+                  <input type="range" min="1" max="100"
+                    [(ngModel)]="settingDetails.vdocipher_storage_capacity_threshold" />
+                </div>
+                <div class="col-md-3">{{settingDetails.vdocipher_storage_capacity_threshold}} %</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-10 file-mgr-wrapper">
-      <div class="row">
-        <div class="col-md-12 file-mgr-breadcrumb">
-          <h2>
-            <ng-container *ngIf="_http.routeList.length">
-              <a class="breadcrums" (click)="gotoPageData(route)" *ngFor="let route of _http.routeList ;let i = index">
-                {{route.name}}
-                <i class="fas fa-angle-right" *ngIf=" i < (_http.routeList.length-1) "></i>
-              </a>
-            </ng-container>
-          </h2>
-        </div>
-
-        <div class="col-md-12 file-mgr-body">
-          <router-outlet></router-outlet>
+      <div class="ga-modal-head" style="text-align: right;">
+        <div class="modal-footer" style="padding: 0;border: none;">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearObject()" style="height: 30px;">Cancel</button>
+          <button type="button" class="btn btn-primary fullBlue" (click)="Save_Setting_Details()">Save </button>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<app-upload-file></app-upload-file>

@@ -42,22 +42,34 @@
 <ng-template #subjectsNodes let-subjectList let-level="level">
   <div class="row topic-row" *ngFor="let subject of subjectList">
     <div class="row singleton-row col-md-12 topic-data topic-name">
-      <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
+      <div class="col-md-12 topic-name" [ngStyle]="{'padding-left': level+'em'}">
+        <div class="col-md-1">
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="subject.isExpand" (click)="toggleObject(subject)"></i>
           <i class="fa fa-plus" *ngIf="!subject.isExpand" (click)="toggleObject(subject)"></i>
-        </button> {{subject.subject_name}}
+        </button>
+        </div>
+        <div class="col-md-4">
+          {{subject.subjectName}}
+        </div>
+        <div class="cd-md-7" style="text-align: right;">
+        <span *ngFor="let count of subject.category_count" title="{{count.category_name}}" class="category_name" style="font-size: 12px;font-weight: normal;">
+          <span *ngIf="count.category_name != 'VDOCipher'">{{(count.category_name.length > 13) ? (count.category_name | slice:0:13) + '...' : count.category_name}}</span>
+          <span *ngIf="count.category_name == 'VDOCipher'">Video</span>
+           - {{count.count}}
+        </span>
       </div>
-      <div class="col-md-4">
       </div>
     </div>
     <div class="row col-md-12 p-0" *ngIf="subject.isExpand">
       <div class="row col-md-12 topic-material-data" [ngStyle]="{'padding-left': level+'em'}">
-        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.videosList, level: level+1}">
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.studyMaterialMap.YoutubeURL, level: level+1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.studyMaterialMap.VDOCipher, level: level+1}">
         </ng-container>
       </div>
       <div class="row col-md-12 subTopics-data">
-        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: subject.subTopics, level: level+1 } ">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: subject.subtopicList, level: level+1 } ">
         </ng-container>
       </div>
     </div>
@@ -70,19 +82,21 @@
       <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="subjectListToggle(topic)"></i>
-          <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="subjectListToggle(topic)"></i>
-        </button> {{topic.topic_name}}
+          <i class="fa fa-plus" *ngIf="!topic.isExpand && (calculateStudyMaterialMapLength(topic)>0 || topic.subtopicList?.length>0)" (click)="subjectListToggle(topic)"></i>
+        </button> {{topic.topicName}}
       </div>
       <div class="col-md-4">
       </div>
     </div>
     <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
       <div class="row col-md-12 topic-material-data">
-        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: level+1}">
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.studyMaterialMap.YoutubeURL, level: level+1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.studyMaterialMap.VDOCipher, level: level+1}">
         </ng-container>
       </div>
       <div class="row col-md-12 subTopics-data">
-        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, level: level+1 } ">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subtopicList, level: level+1 } ">
         </ng-container>
       </div>
     </div>

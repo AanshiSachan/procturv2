@@ -103,61 +103,93 @@ export class VideoLectureComponent implements OnInit {
   subjectListToggle(subject) {
     subject.isExpand = !subject.isExpand;
     subject.parent_topic_id= subject.topic_id;
-    if (subject.isExpand && subject.subTopics&&subject.subTopics.length == 0) {
-      this.getSubjectTopics(subject);
+    this.getStudyMaterial(subject);
+  }
+
+  getStudyMaterial(object) {
+    console.log(object);
+    let obj = {
+      institute_id : this.institute_id,
+      ecourse_id: object.ecourse_id,
+      product_id: this.entity_id,
+      study_material_category: 'video_study_material'
     }
-    else {
-      // topic.subTopics.forEach(subtopic => {
-      //   subtopic.isExpand = false;
-      // });
-    }
+    this.auth.showLoader();
+    this._http.postData('/api/v1/instFileSystem/get-study-material', obj).subscribe((res: any) => {
+      console.log(object);
+      object.subjectsList = res.result;
+      if(object.subjectsList) {
+        // object.isExpand = false;
+        object.subject_id = object.subjectId;
+        object.course_type_id = object.ecourse_id;
+        object.parent_topic_id = '-1';
+        object.subjectsList.forEach((element) => {
+          if (element && element.subjectId) {
+            element.course_type_id = object.ecourse_id;
+            this.addMaterialExtension(element);
+            if(element.subtopicList && element.subtopicList.length){
+            element.subtopicList.forEach(sub => {
+              sub.course_type_id = object.ecourse_id;
+              this.addMaterialExtension(sub);
+            });
+            }
+          }
+
+        });
+      }
+      this.auth.hideLoader();
+    }, err => {
+      console.log(err);
+      this.auth.hideLoader();
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.message);
+    });
   }
 
   toggleObject(topic) {
     topic.isExpand = !topic.isExpand;
-    if (topic.isExpand && topic.subTopics.length == 0) {
-      this.getSubjectTopics(topic);
-    }
-    else {
-      // topic.subTopics.forEach(subtopic => {
-      //   subtopic.isExpand = false;
-      // });
-    }
+  }
+
+  calculateStudyMaterialMapLength(object) {
+    return Object.keys(object.studyMaterialMap).length;
   }
 
 
   getSlugname(key) {
     let slug = 'Slides';
     switch (key) {
-      case "notesList": {
+      case "Notes": {
         slug = 'Notes';
         break;
       }
-      case "assignmentList": {
+      case "Assignment": {
         slug = 'Assignment';
         break;
       }
-      case "studyMaterialList": {
+      case "EBook": {
         slug = 'eBook';
         break;
       }
-      case "videosList": {
+      case "VDOCipher": {
         slug = 'Videos';
         break;
       }
-      case "imageList": {
+      case "YoutubeURL": {
+        slug = 'Videos';
+        break;
+      }
+      case "Images": {
         slug = 'Images';
         break;
       }
-      case "previousYearQuesList": {
+      case "PreviousYearQuestionsPaper": {
         slug = 'Previous_Year_Questions_Paper';
         break;
       }
-      case "audioNotesList": {
+      case "AudioNotes": {
         slug = 'Audio_Notes';
         break;
       }
-      case "slidesList": {
+      case "Slides": {
         slug = 'Slides';
         break;
       }
@@ -178,14 +210,14 @@ export class VideoLectureComponent implements OnInit {
 
 
   addMaterialExtension(object) {
-    let keys = ["videosList"];
+    let keys = ["YoutubeURL", "VDOCipher"];
     keys.forEach(key => {
-      if (object[key]) {
+      if (object.studyMaterialMap[key]) {
         let slug = this.getSlugname(key);
-        object[key].forEach(element => {
+        object.studyMaterialMap[key].forEach(element => {
           // element.isSelected = false;
           element.slug = slug;
-          element.subject_id =object.subject_id;
+          element.subject_id =object.subjectId;
           element.course_type_id = object.course_type_id;
           element.parent_topic_id = object.parent_topic_id;
           element.is_existed_selected= (element.selected && this.isAdvanceProductEdit)? true : false;
@@ -253,20 +285,7 @@ export class VideoLectureComponent implements OnInit {
               console.log(this.materialData);
               this.materialData && this.materialData.forEach(element => {
                 element.isExpand = false;
-                if (element.subjectsList) {
-                  element.subjectsList.forEach((subject) => {
-                    subject.isExpand = false;
-                    // subject.isSelected = false;
-                    subject.subject_id = subject.subject_id;
-                    subject.course_type_id = element.ecourse_id;
-                    subject.parent_topic_id = '-1';
-                    subject.subTopics = [];
-                    this.addMaterialExtension(subject);
-                  });
-                }
-                else {
-                  element.subjectsList = [];
-                }
+                element.subjectsList = [];
               });
             }
           },
@@ -274,38 +293,6 @@ export class VideoLectureComponent implements OnInit {
             this.auth.hideLoader();
             this.msgService.showErrorMessage('error','There is some problem in processing your request.Please try after some time.Or contact us at support@proctur.com for further assistance. ', '');
           });
-    }
-  }
-
-  getSubjectTopics(object) {
-    let params = {
-      "source_subject_id": object.subject_id,
-      "product_id": this.entity_id,
-      "parent_topic_id": object.parent_topic_id
-    }
-
-    if (!this.isRippleLoad) {
-      this.auth.showLoader();
-      this.http.postMethod('ext/get-topic-of-subject/Videos', params, null).then((res: any) => {
-        this.auth.hideLoader();
-        if (res && res.body && res.body.result) {
-          let responce = JSON.parse(res.body.result);
-          console.log(responce);
-          object.subTopics = responce;
-          object.subTopics.forEach(element => {
-            element.isExpand = false;
-            // element.isSelected = false
-            element.subTopics = [];
-            element.subject_id =object.subject_id;
-            element.course_type_id = object.course_type_id;
-            element.parent_topic_id = object.parent_topic_id;
-            this.addMaterialExtension(element);
-          });
-        }
-      }).catch((err) => {
-        this.auth.hideLoader();
-        this.msgService.showErrorMessage('error', err.message, '');
-      });
     }
   }
 

@@ -29,7 +29,9 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   jsonData = {
     parentTopic: '',
     mainTopic: '',
-    selectedVideo: ''
+    selectedVideo: '',
+    mainTopicId: '',
+    parentTopicId: ''
   }
   file: any;
   payload = {
@@ -300,6 +302,10 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         is_readonly: this.varJson.is_readonly ? 'Y' : 'N',
         size: 0
       }
+      if(!this.showModal) {
+        fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
+        fileJson.topic_id = Number(this.jsonData.parentTopicId)
+      }
       if ($event.files && $event.files.length) {
         $event.files.forEach(file => {
           formData.append('files', file);
@@ -541,7 +547,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
 
   getcategoriesList() {
     this.categiesList = [];
-    let url = "/api/v1/instFileSystem/institute/" + this.institute_id + "/ecoursesList";
+    let url = "/api/v1/instFileSystem/institute/" + this.institute_id + "/ecourses-list";
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
       this.categiesList = res;
@@ -558,7 +564,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
       this.subjectList = res;
-      if (this.material_dataFlag != 'material' && this.material_dataFlag != 'subject-list') {
+      if (this.material_dataShow && this.material_dataFlag != 'subject-list') {
         this.varJson.subject_id = 0;
       }
       this.varJson.sub_topic_id = 0;
