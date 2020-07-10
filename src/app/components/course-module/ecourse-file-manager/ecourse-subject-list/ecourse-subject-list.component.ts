@@ -620,7 +620,8 @@ export class EcourseSubjectListComponent implements OnInit {
     parent_topic_id: '-1',
     description: '',
     estimated_time:  0,
-    institute_topic_id: '-1'
+    institute_topic_id: '-1',
+    priority_order: 0
     };
   }
 
