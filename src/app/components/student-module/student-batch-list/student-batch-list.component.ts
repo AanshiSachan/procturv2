@@ -210,13 +210,13 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             if (!this.isProfessional) {
                 if (this.dataList[i].data.course_id == batch.data.course_id) {
                     //finding index on dataList
-                    this.createUpdate(value, i);
+                    this.createUpdate(value, i, batch);
                     this.assginTemplate(batch);
                 }
             } else {
                 if (this.dataList[i].data.batch_id == batch.data.batch_id) {
                     //finding index on dataList
-                    this.createUpdate(value, i);
+                    this.createUpdate(value, i, batch);
                     this.assginTemplate(batch);
                 }
             }
@@ -233,8 +233,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         })
     }
 
-    createUpdate(value, index) {
-
+    createUpdate(value, index, batch) {
         let ind = null;
         let len = this.dataList.length;
         if (value) {
@@ -252,7 +251,19 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                       }
                       this.appC.popToast(obj);
                       this.dataList[index].isSelected = false;
-                    (document.getElementById('checkbox-' + index) as HTMLInputElement).checked = false;
+                      let ind: any = 0;
+                      for (let i = 0; i < this.batchList.length; i++) {
+                        if (!this.isProfessional) {
+                            if (this.batchList[i].data.course_id == batch.data.course_id) {
+                                ind = i;
+                            }
+                        } else {
+                            if (this.batchList[i].data.batch_id == batch.data.batch_id) {
+                                ind = i;
+                            }
+                        }
+                    }
+                    (document.getElementById('checkbox-' + ind) as HTMLInputElement).checked = false;
                 }
         }
         /* unchecked batch/course */
