@@ -301,6 +301,7 @@ export class InstituteDetailsComponent implements OnInit {
     obj.institute_logo = this.institute_logo;
     obj.proctur_live_recorded_session_download_visibilty = this.getSumOfTableField(this.proctur_live_recorded_session_download_visibilty);
     obj.proctur_live_recorded_session_view_visibility = this.getSumOfTableField(this.proctur_live_recorded_session_view_visibility);
+    obj.share_app_url = this.instDetails.share_app_url;
     if (!(this.validatePhoneNumber(this.instDetails.admin_primary_phone))) {
       this.commonService.showErrorMessage('error', '', 'Please check contact number');
       return
