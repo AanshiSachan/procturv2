@@ -584,6 +584,7 @@ export class EcourseSubjectListComponent implements OnInit {
     if(obj.subtopicList) {
       obj.subtopicList.forEach(element => {
         element.isExpand = cond;
+        this.addMaterialExtension(element);
         this.collapseAll(element, cond);
       });
     }
