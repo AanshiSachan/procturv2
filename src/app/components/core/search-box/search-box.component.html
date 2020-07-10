@@ -84,6 +84,9 @@
                     <span>
                       +{{student.country_calling_code}} {{student.phone}} | Enrolment ID : {{student.displayId}}
                     </span>
+                    <span *ngIf="institute_id == '101920' || institute_id == '100058' || institute_id == '100127' || institute_id == '100144'">
+                      | Password : {{student.password}}
+                    </span>
                   </span>
                 </a>
               </li>

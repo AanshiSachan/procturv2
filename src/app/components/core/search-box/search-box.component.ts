@@ -28,6 +28,7 @@ export class SearchBoxComponent implements OnInit, OnChanges {
     private recentlySearched = new Set;
     hasStudent: boolean = false;
     hasEnquiry: boolean = false;
+    institute_id: any = '';
 
     constructor(
         private router: Router,
@@ -46,6 +47,7 @@ export class SearchBoxComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
+        this.institute_id = sessionStorage.getItem('institute_id');
         if (sessionStorage.getItem('recentSearch') != null && sessionStorage.getItem('recentSearch') != undefined && sessionStorage.getItem('recentSearch') != '' && this.recentlySearched.size == 0 && sessionStorage.getItem('recentSearch') != '{}') {
             this.recentlySearched = JSON.parse(sessionStorage.getItem('recentSearch'));
         }
