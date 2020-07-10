@@ -366,12 +366,15 @@
   span{
     font-size: 14px;
     cursor: pointer;
-    border: 1px solid #ff5252;
+    border: 1px solid #b31aff;
     padding: 1px 10px;
     color: white;
     border-radius: 4px;
-    background: #ff5252;
+    background: #b31aff;
   }
+}
+sup{
+  text-transform: capitalize;
 }
 
 #releaseNote{
@@ -409,7 +412,7 @@
     margin-bottom: 10px;
     span{
       background: #00b55a;
-      padding: 1px 20px;
+      padding: 5px 20px;
       color: white;
       border-radius: 4px;
       font-size: 12px;
