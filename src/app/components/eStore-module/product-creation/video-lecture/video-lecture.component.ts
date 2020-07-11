@@ -149,6 +149,15 @@ export class VideoLectureComponent implements OnInit {
     topic.isExpand = !topic.isExpand;
   }
 
+  getTopicData(obj) {
+    obj.isExpand = !obj.isExpand;
+    if(obj.subtopicList && obj.subtopicList.length){
+    obj.subtopicList.forEach(element => {
+      this.addMaterialExtension(element);
+    });
+    }
+  }
+
   calculateStudyMaterialMapLength(object) {
     return Object.keys(object.studyMaterialMap).length;
   }

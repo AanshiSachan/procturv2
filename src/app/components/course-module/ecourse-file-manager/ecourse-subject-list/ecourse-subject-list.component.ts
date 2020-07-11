@@ -125,14 +125,14 @@ export class EcourseSubjectListComponent implements OnInit {
     this.uploadFile.material_dataFlag = 'subject-list';
     this.uploadFile.varJson.course_types = this.ecourse_id;
     this.uploadFile.getSubjectsList(this.ecourse_id);
-    this.uploadFile.varJson.subject_id = this.subjectId;
-    this.uploadFile.getTopicsList(this.subjectId);
+    this.uploadFile.varJson.subject_id = topic.subject_id;
+    this.uploadFile.getTopicsList(topic.subject_id);
     if(topic.topicId && topic.topicId != '-1') {
       if(subtopic.topicId && subtopic.topicId!='-1'){
-        topic.parent_topic_id = topic.topicId;
-        topic.parent_topic_name = topic.topicName;
-        topic.sub_topic_id = subtopic.topicId;
-        topic.topic_name = subtopic.topicName;
+        topic.parent_topic_id = subtopic.topicId;
+        topic.parent_topic_name = subtopic.topicName;
+        topic.sub_topic_id = topic.topicId;
+        topic.topic_name = topic.topicName;
       }
       this.uploadTopicPopupOpen(topic);
     } else if(subtopic.topicId && subtopic.topicId != ''){
@@ -631,6 +631,7 @@ export class EcourseSubjectListComponent implements OnInit {
     if(obj.subtopicList) {
       obj.subtopicList.forEach(element => {
         element.isExpand = cond;
+        element.subject_id = this.subjectId;
         this.addMaterialExtension(element);
         this.collapseAll(element, cond);
       });
