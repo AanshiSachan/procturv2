@@ -81,8 +81,8 @@
     <div class="row singleton-row col-md-12 topic-data">
       <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
         <button class="btn-ga-collapse">
-          <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="subjectListToggle(topic)"></i>
-          <i class="fa fa-plus" *ngIf="!topic.isExpand && (calculateStudyMaterialMapLength(topic)>0 || topic.subtopicList?.length>0)" (click)="subjectListToggle(topic)"></i>
+          <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="getTopicData(topic)"></i>
+          <i class="fa fa-plus" *ngIf="!topic.isExpand && (calculateStudyMaterialMapLength(topic)>0 || topic.subtopicList?.length>0)" (click)="getTopicData(topic)"></i>
         </button> {{topic.topicName}}
       </div>
       <div class="col-md-4">
