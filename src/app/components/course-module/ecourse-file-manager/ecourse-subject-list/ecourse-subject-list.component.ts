@@ -29,17 +29,12 @@ export class EcourseSubjectListComponent implements OnInit {
   tempData: any = {};
   videoplayer: boolean = false;
   currentProjectUrl: any;
-<<<<<<< HEAD
-=======
   showEditModal:boolean = false;
   editObj: any = '';
->>>>>>> issueFixes
   subjectId: any = '';
   addTopic: Create_Topic = new Create_Topic();
   subjectTempData: any[] = [];
   standardData: any[] = [];
-  showEditModal:boolean = false;
-  editObj: any = '';
   fileSharedArray: any = [];
   selectedFilesArray: any = [];
   deletePopup: boolean = false;
