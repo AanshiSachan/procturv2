@@ -29,6 +29,11 @@ export class EcourseSubjectListComponent implements OnInit {
   tempData: any = {};
   videoplayer: boolean = false;
   currentProjectUrl: any;
+<<<<<<< HEAD
+=======
+  showEditModal:boolean = false;
+  editObj: any = '';
+>>>>>>> issueFixes
   subjectId: any = '';
   addTopic: Create_Topic = new Create_Topic();
   subjectTempData: any[] = [];
@@ -210,14 +215,14 @@ export class EcourseSubjectListComponent implements OnInit {
     // console.log(topic);
     if (!topic.parent_topic_id || topic.parent_topic_id == 0) {
       this.uploadFile.showModal = true;
-      this.uploadFile.varJson.topic_id = topic.topicId;// parent
+      this.uploadFile.varJson.topic_id = topic.topicId;// parent 
       this.uploadFile.getSubtopicList(topic.topicId);
     } else {
       this.uploadFile.showModal = false;
       this.uploadFile.jsonData.mainTopic = topic.topic_name;
       this.uploadFile.jsonData.mainTopicId = topic.sub_topic_id;
       this.uploadFile.varJson.sub_topic_id = topic.sub_topic_id // topic
-      this.uploadFile.varJson.topic_id = topic.parent_topic_id;// parent
+      this.uploadFile.varJson.topic_id = topic.parent_topic_id;// parent  
       this.uploadFile.jsonData.parentTopic = topic.parent_topic_name;
       this.uploadFile.jsonData.parentTopicId = topic.parent_topic_id;
     }
@@ -426,7 +431,6 @@ export class EcourseSubjectListComponent implements OnInit {
       },
       err=>{
         this.auth.hideLoader();
-        this.msgService.showErrorMessage('error','',err.error.message);
         this.fileSharedArray = err.error.error;
         if (!this.Confirm_deleteFile) {
         this.deletePopup = true;
