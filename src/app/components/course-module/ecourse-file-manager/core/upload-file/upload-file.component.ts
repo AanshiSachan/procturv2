@@ -620,21 +620,21 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       if (!this.auth.isRippleLoad.getValue()) {
         this.auth.showLoader();
 
-        // this.isUploadingXls = true;
-        // newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
-        //   if (e.lengthComputable) {
-        //     this.progress = Math.round((e.loaded * 100) / e.total);
-        //     document.getElementById('progress-width').style.width = this.progress + '%';
-        //   }
-        // }, false);
+        this.isUploadingXls = true;
+        newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
+          if (e.lengthComputable) {
+            this.progress = Math.round((e.loaded * 100) / e.total);
+            document.getElementById('progress-width').style.width = this.progress + '%';
+          }
+        }, false);
 
         newxhr.onreadystatechange = () => {
           this.auth.hideLoader();
           if (newxhr.readyState == 4) {
-            // this.progress = 0;
+            this.progress = 0;
             if (newxhr.status >= 200 && newxhr.status < 300) {
               this.auth.hideLoader();
-              // this.isUploadingXls = false;
+              this.isUploadingXls = false;
               var files = $event.files;
               this.file = files[0];
               // console.log(this.file);
@@ -642,7 +642,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
               this.payload = payloadObject;
               this.upload();
             } else {
-              // this.isUploadingXls = false;
+              this.isUploadingXls = false;
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }
           }

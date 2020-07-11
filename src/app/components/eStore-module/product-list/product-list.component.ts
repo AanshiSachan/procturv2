@@ -240,6 +240,7 @@ export class ProductListComponent implements OnInit {
     this.course_id = '';
     this.batch_id = '';
     this.product_details_for_student = data;
+    this.courseDetails = [];
     this.getStudentDetails();
     this.getMasterCourseData();
     $("#assignStudent").modal({
@@ -436,7 +437,6 @@ export class ProductListComponent implements OnInit {
 
   studentDataOnMasterCourse() {
     // this.activeStudents = false;
-    this.courseDetails = [];
     this.getStudentDetails();
   }
 
