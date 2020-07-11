@@ -129,10 +129,10 @@ export class EcourseSubjectListComponent implements OnInit {
     this.uploadFile.getTopicsList(topic.subject_id);
     if(topic.topicId && topic.topicId != '-1') {
       if(subtopic.topicId && subtopic.topicId!='-1'){
-        topic.parent_topic_id = topic.topicId;
-        topic.parent_topic_name = topic.topicName;
-        topic.sub_topic_id = subtopic.topicId;
-        topic.topic_name = subtopic.topicName;
+        topic.parent_topic_id = subtopic.topicId;
+        topic.parent_topic_name = subtopic.topicName;
+        topic.sub_topic_id = topic.topicId;
+        topic.topic_name = topic.topicName;
       }
       this.uploadTopicPopupOpen(topic);
     } else if(subtopic.topicId && subtopic.topicId != ''){
