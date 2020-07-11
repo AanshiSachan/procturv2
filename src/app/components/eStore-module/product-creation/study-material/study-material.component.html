@@ -143,7 +143,7 @@
         </ng-container>
         <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: subject.studyMaterialMap.AudioNotes, level: level+1}">
         </ng-container>
-        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: subject.studyMaterialMap.notesList, level: level+1}">
+        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: subject.studyMaterialMap.Notes, level: level+1}">
         </ng-container>
         <ng-container
           *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: subject.studyMaterialMap.PreviousYearQuestionsPaper, level: level+1}">
