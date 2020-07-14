@@ -306,13 +306,13 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
         fileJson.topic_id = Number(this.jsonData.parentTopicId)
       }
+      formData.append('fileJson', JSON.stringify(fileJson));
       if ($event.files && $event.files.length) {
         $event.files.forEach(file => {
           formData.append('files', file);
         });
         // formData.append('files', $event.files);
       }
-
 
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";
@@ -324,7 +324,6 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         institution_id: sessionStorage.getItem('institute_id'),
       }
       let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
-      formData.append('fileJson', JSON.stringify(fileJson));
       newxhr.open("POST", urlPostXlsDocument, true);
       newxhr.setRequestHeader("Authorization", Authorization);
       newxhr.setRequestHeader("enctype", "multipart/form-data;");
