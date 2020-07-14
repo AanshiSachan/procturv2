@@ -111,7 +111,6 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   }
 
   linkAlreadyUploadedVideo($event) {
-    // console.log($event);
     let url = "/api/v1/instFileSystem/linkVideos";
     let object = {
       "institute_id": this.institute_id,
@@ -122,6 +121,10 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       "sub_topic_id": this.varJson.sub_topic_id,
       "title": this.varJson.title,
       "category_id": 235,
+    }
+    if(!this.showModal) {
+      object.sub_topic_id = Number(this.jsonData.mainTopicId),
+      object.topic_id = Number(this.jsonData.parentTopicId)
     }
     let flag = this.uploadDatavalidation();
     if (!this.auth.isRippleLoad.getValue() && (flag)) {
