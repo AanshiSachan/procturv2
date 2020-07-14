@@ -120,16 +120,19 @@ export class VideoLectureComponent implements OnInit {
       object.subjectsList = res.result;
       if(object.subjectsList) {
         // object.isExpand = false;
-        object.subject_id = object.subjectId;
-        object.course_type_id = object.ecourse_id;
+        // object.subject_id = object.subjectId;
+        // object.course_type_id = object.ecourse_id;
         object.parent_topic_id = '-1';
         object.subjectsList.forEach((element) => {
           if (element && element.subjectId) {
             element.course_type_id = object.ecourse_id;
+            element.parent_topic_id = object.parent_topic_id;
             this.addMaterialExtension(element);
             if(element.subtopicList && element.subtopicList.length){
             element.subtopicList.forEach(sub => {
               sub.course_type_id = object.ecourse_id;
+              sub.subjectId = element.subjectId;
+              sub.parent_topic_id = element.parent_topic_id;
               this.addMaterialExtension(sub);
             });
             }
@@ -153,6 +156,9 @@ export class VideoLectureComponent implements OnInit {
     obj.isExpand = !obj.isExpand;
     if(obj.subtopicList && obj.subtopicList.length){
     obj.subtopicList.forEach(element => {
+      element.course_type_id = obj.course_type_id;
+      element.parent_topic_id = element.topicId;
+      element.subjectId = obj.subjectId;
       this.addMaterialExtension(element);
     });
     }
@@ -226,7 +232,7 @@ export class VideoLectureComponent implements OnInit {
         object.studyMaterialMap[key].forEach(element => {
           // element.isSelected = false;
           element.slug = slug;
-          element.subject_id =object.subjectId;
+          element.subjectId =object.subjectId;
           element.course_type_id = object.course_type_id;
           element.parent_topic_id = object.parent_topic_id;
           element.is_existed_selected= (element.selected && this.isAdvanceProductEdit)? true : false;
@@ -310,7 +316,7 @@ export class VideoLectureComponent implements OnInit {
     if (object.selected) {
       let obj = {
         "source_item_id": object.file_id,
-        "source_subject_id": object.subject_id,
+        "source_subject_id": object.subjectId,
         "course_type_id": object.course_type_id,
         "parent_topic_id": object.parent_topic_id,
         "slug": object.slug
