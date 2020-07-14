@@ -24,6 +24,7 @@ import { ProcturPopUpComponent } from './proctur-popup/proctur-popup.component';
 import { CustomNamePipe } from './quick-filter/custom-name.pipe';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
+import { BasicTableComponent } from './basic-table/basic-table.component';
 
 
 
@@ -56,7 +57,8 @@ import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
         RobTooltipComponent,
         DataDisplayTableComponent,
         PreferencePopupComponent,
-        EnquiryUpdatePopupComponent
+        EnquiryUpdatePopupComponent,
+        BasicTableComponent
 
     ],
     exports: [
@@ -79,7 +81,8 @@ import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
         RobTooltipComponent,
         DataDisplayTableComponent,
         PreferencePopupComponent,
-        EnquiryUpdatePopupComponent
+        EnquiryUpdatePopupComponent,
+        BasicTableComponent
     ],
     entryComponents: [
         DropMenuComponent,
