@@ -128,7 +128,6 @@ export class StudyMaterialComponent implements OnInit {
 
   subjectListToggle(subject) {
     subject.isExpand = !subject.isExpand;
-    subject.parent_topic_id = subject.topic_id;
     this.getStudyMaterial(subject);
   }
 
@@ -136,6 +135,9 @@ export class StudyMaterialComponent implements OnInit {
     obj.isExpand = !obj.isExpand;
     if(obj.subtopicList && obj.subtopicList.length){
     obj.subtopicList.forEach(element => {
+      element.course_type_id = obj.course_type_id;
+      element.parent_topic_id = obj.topicId;
+      element.subjectId = obj.subjectId;
       this.addMaterialExtension(element);
     });
     }
@@ -191,14 +193,13 @@ export class StudyMaterialComponent implements OnInit {
 
 
   addMaterialExtension(object) {
-    console.log(object);
     let keys = ["Notes", "Assignment", "EBook", "Images", "PreviousYearQuestionsPaper", "AudioNotes", "Slides"];
     keys.forEach(key => {
       if (object.studyMaterialMap[key]) {
         let slug = this.getSlugname(key);
         object.studyMaterialMap[key].forEach(element => {
           element.slug = slug;
-          element.subject_id = object.subjectId;
+          element.subjectId = object.subjectId;
           element.course_type_id = object.course_type_id;
           element.parent_topic_id = object.parent_topic_id;
           element.is_existed_selected= element.selected && this.isAdvanceProductEdit ? true : false;
@@ -280,7 +281,7 @@ export class StudyMaterialComponent implements OnInit {
   }
 
   getStudyMaterial(object) {
-    console.log(object);
+    // console.log(object);
     let obj = {
       institute_id : this.institute_id,
       ecourse_id: object.ecourse_id,
@@ -293,16 +294,19 @@ export class StudyMaterialComponent implements OnInit {
       object.subjectsList = res.result;
       if(object.subjectsList) {
         // object.isExpand = false;
-        object.subject_id = object.subjectId;
-        object.course_type_id = object.ecourse_id;
+        // object.subject_id = object.subjectId;
+        // object.course_type_id = object.ecourse_id;
         object.parent_topic_id = '-1';
         object.subjectsList.forEach((element) => {
           if (element && element.subjectId) {
             element.course_type_id = object.ecourse_id;
+            element.parent_topic_id = object.parent_topic_id;
             this.addMaterialExtension(element);
             if(element.subtopicList && element.subtopicList.length){
             element.subtopicList.forEach(sub => {
               sub.course_type_id = object.ecourse_id;
+              sub.subjectId = element.subjectId;
+              sub.parent_topic_id = element.parent_topic_id;
               this.addMaterialExtension(sub);
             });
             }
@@ -319,11 +323,11 @@ export class StudyMaterialComponent implements OnInit {
   }
 
   selectAllDetails($event, object) {
-    console.log($event, object);
+    // console.log($event, object);
     if (object.selected) {
       let obj = {
         "source_item_id": object.file_id,
-        "source_subject_id": object.subject_id,
+        "source_subject_id": object.subjectId,
         "course_type_id": object.course_type_id,
         "parent_topic_id": object.parent_topic_id,
         "slug": object.slug
