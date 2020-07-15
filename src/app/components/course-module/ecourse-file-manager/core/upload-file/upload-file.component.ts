@@ -183,6 +183,11 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         "size": 0
       }
 
+      if(!this.showModal) {
+        fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
+        fileJson.topic_id = Number(this.jsonData.parentTopicId)
+      }
+
       let base = this.auth.getBaseUrl();
       let urlPostUpload = base + "/api/v1/instFileSystem/uploadFile";
       let newxhr = new XMLHttpRequest();
