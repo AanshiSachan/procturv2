@@ -607,6 +607,10 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         "enable_watermark": enable_watermark,
         "size": (size / (1024*1024)).toFixed(3)
       }
+      if(!this.showModal) {
+        fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
+        fileJson.topic_id = Number(this.jsonData.parentTopicId)
+      }
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";
       let newxhr = new XMLHttpRequest();
