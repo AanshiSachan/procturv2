@@ -183,6 +183,11 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         "size": 0
       }
 
+      if(!this.showModal) {
+        fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
+        fileJson.topic_id = Number(this.jsonData.parentTopicId)
+      }
+
       let base = this.auth.getBaseUrl();
       let urlPostUpload = base + "/api/v1/instFileSystem/uploadFile";
       let newxhr = new XMLHttpRequest();
@@ -606,6 +611,10 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         "title": this.varJson.title,
         "enable_watermark": enable_watermark,
         "size": (size / (1024*1024)).toFixed(3)
+      }
+      if(!this.showModal) {
+        fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
+        fileJson.topic_id = Number(this.jsonData.parentTopicId)
       }
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";
