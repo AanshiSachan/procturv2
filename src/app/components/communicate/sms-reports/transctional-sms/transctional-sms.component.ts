@@ -353,10 +353,11 @@ export class TransctionalSmsComponent implements OnInit {
 
   // pagination functions
 
+
   fetchTableDataByPage(index) {
     this.PageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
-    this.getDataFromDataSource(startindex);
+    this.smsSource = this.getDataFromDataSource(startindex);
   }
 
   fetchNext() {
@@ -370,6 +371,7 @@ export class TransctionalSmsComponent implements OnInit {
       this.fetchTableDataByPage(this.PageIndex);
     }
   }
+
   getDataFromDataSource(startindex) {
     let t = this.smsDataSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
