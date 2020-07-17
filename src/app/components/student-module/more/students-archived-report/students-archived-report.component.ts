@@ -18,7 +18,7 @@ export class StudentsArchivedReportComponent implements OnInit {
   getStudents: any[] = []
   PageIndex: number = 1;
   PageIndexPopup: number = 1;
-  pagedisplaysize: number = 14;
+  pagedisplaysize: number = 10;
   pagedisplaysizePopup: number = 10;
   totalRow: number = 0;
   newPaginated: any[] = [];
@@ -130,7 +130,7 @@ export class StudentsArchivedReportComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "60vh"
+      height: "50vh"
     }
 
     this.rowColumns = [

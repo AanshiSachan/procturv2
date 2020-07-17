@@ -23,7 +23,8 @@
             <div class="c-lg-5">
               <div class="field-wrapper datePickerBox has-value">
                 <label for="fromDate">Sent From</label>
-                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate"
+                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker"
+                  style="border: 1px solid #ccc; border-radius: 4px;" readonly="true" name="fromDate"
                   [(ngModel)]="smsFetchForm.from_date" (ngModelChange)="dateValidationForFuture($event) "
                   bsDatepicker />
 
@@ -31,8 +32,8 @@
               <div class="field-wrapper datePickerBox has-value">
                 <label for="toDate">Sent To</label>
                 <input type="text" value="" id="updateDate" readonly="true" [(ngModel)]="smsFetchForm.to_date"
-                  class="form-ctrl bsDatepicker" name="toDate" (ngModelChange)="dateValidationForFuture($event)"
-                  bsDatepicker />
+                  class="form-ctrl bsDatepicker" style="border: 1px solid #ccc; border-radius: 4px;" name="toDate"
+                  (ngModelChange)="dateValidationForFuture($event)" bsDatepicker />
 
               </div>
             </div>
@@ -99,7 +100,7 @@
         </app-basic-table>
 
 
-        <div class="row filter-res pagination" style="width: 100%;">
+        <div class="row filter-res pagination" style="width: 100%; margin: 0;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
               [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRecords">

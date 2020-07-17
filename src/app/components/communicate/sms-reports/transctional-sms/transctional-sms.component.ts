@@ -221,7 +221,7 @@ export class TransctionalSmsComponent implements OnInit {
               elem.sentDateTime = x[0] + ":" + x[1] + " " + y[2];
             });
             // this.smsSource = temp;
-            this.smsSource = this.getDataFromDataSource(this.PageIndex);
+            this.smsSource = this.getDataFromDataSource(0);
             this.totalRecords = this.smsSource[0].totalCount;
           }
         }

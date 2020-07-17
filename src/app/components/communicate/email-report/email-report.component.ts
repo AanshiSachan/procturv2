@@ -160,7 +160,7 @@ export class EmailReportComponent {
         if (res.length == 0) {
           this.dataStatus = false;
         }
-        this.emailSource = this.getDataFromDataSource(this.pageIndex);
+        this.emailSource = this.getDataFromDataSource(0);
         //this.fetchTableDataByPage(this.pageIndex);
       },
       err => {

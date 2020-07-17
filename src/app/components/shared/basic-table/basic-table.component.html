@@ -15,14 +15,20 @@
         <div class="table-value-item" *ngFor="let col of rowColumnSetting; let j = index"
           [ngStyle]="{'width': rowColumnSetting[j].width, 'text-align': rowColumnSetting[j].textAlign}">
           <p *ngIf="headers[j].primary_key != 'action'">
-            <span *ngIf="row[headers[j].primary_key].length == 0">-</span>
-            <span *ngIf="row[headers[j].primary_key].length != 0"
-              title="{{row[headers[j].primary_key]}}">{{ (row[headers[j].primary_key].length > headers[j].charactLimit) ? (row[headers[j].primary_key] | slice:0:headers[j].charactLimit) + '...' : row[headers[j].primary_key] }}</span>
+            <span *ngIf="!row[headers[j].primary_key]; else elseBlock">-</span>
+            <ng-template #elseBlock>
+              <span *ngIf="row[headers[j].primary_key].length == 0">-</span>
+              <span *ngIf="row[headers[j].primary_key].length != 0"
+                title="{{row[headers[j].primary_key]}}">{{ (row[headers[j].primary_key].length > headers[j].charactLimit) ? (row[headers[j].primary_key] | slice:0:headers[j].charactLimit) + '...' : row[headers[j].primary_key] }}</span>
+            </ng-template>
+            <!-- <span *ngIf="row[headers[j].primary_key].length == 0">-</span> -->
+            <!-- <span *ngIf="row[headers[j].primary_key].length != 0"
+              title="{{row[headers[j].primary_key]}}">{{ (row[headers[j].primary_key].length > headers[j].charactLimit) ? (row[headers[j].primary_key] | slice:0:headers[j].charactLimit) + '...' : row[headers[j].primary_key] }}</span> -->
           </p>
           <p *ngIf="headers[j].primary_key == 'action'" class="actions">
-            <i class="fa fa-pencil edit-lead" title="Edit Lead" *ngIf="headers[j].edit" data-toggle="modal"
-              data-target="#editLead" aria-hidden="true" (click)="ediRow(row)"></i>
-            <i class="fa fa-trash delete-lead" title="Delete Lead" *ngIf="headers[j].delete" aria-hidden="true"
+            <i class="fa fa-pencil edit-lead" title="Edit" *ngIf="headers[j].edit" data-toggle="modal"
+              [attr.data-target]="datatarget" aria-hidden="true" (click)="editRow(row)"></i>
+            <i class="fa fa-trash delete-lead" title="Delete" *ngIf="headers[j].delete" aria-hidden="true"
               (click)="deleteRow(row)"></i>
           </p>
 

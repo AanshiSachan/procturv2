@@ -11,6 +11,7 @@ export class BasicTableComponent implements OnInit, OnChanges {
   @Input() headers: any[];
   @Input() displayData: any[];
   @Input() tableSetting: any[];
+  @Input() datatarget: any;
   @Input() rowColumnSetting: any[];
   @Output() editView = new EventEmitter();
   @Output() deleteView = new EventEmitter();

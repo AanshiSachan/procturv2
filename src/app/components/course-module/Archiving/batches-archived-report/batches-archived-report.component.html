@@ -24,12 +24,14 @@
     <section>
       <div class="filter-box clearFix" style="margin: 6px 0px 6px 6px;float: right;">
         <div id="basic-search" class="search-filter-wrapper">
-          <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()"
-            style="padding: 10px;">
+          <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText"
+            name="searchData" (keyup)="searchDatabase()" style="padding: 10px;">
         </div>
       </div>
       <div class="table table-responsive" style="margin-top:5vh;">
-        <table>
+        <app-basic-table [headers]="headerSetting" [displayData]="newPaginated" [tableSetting]="tableSetting"
+          [rowColumnSetting]="rowColumns"></app-basic-table>
+        <!-- <table>
           <thead>
             <tr>
               <th *ngIf="!isProfessional" style="text-align: left;" (click)="sortedData('course_name') ">
@@ -147,12 +149,12 @@
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
       <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-            [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+            [pagesToShow]="10" [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
           </pagination>
         </div>
       </div>
