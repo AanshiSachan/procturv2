@@ -1,4 +1,4 @@
-<div class="report-wrapper clearFix">
+<div class="report-wrapper clearFix" style="height: 100vh;">
   <aside class="middle-full">
     <section class="middle-main clearFix">
 
@@ -24,12 +24,14 @@
     <section>
       <div class="filter-box clearFix" style="margin: 6px 0px 6px 6px;float: right;">
         <div id="basic-search" class="search-filter-wrapper">
-          <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()"
-            style="padding: 10px;">
+          <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText"
+            name="searchData" (keyup)="searchDatabase()" style="padding: 10px;">
         </div>
       </div>
       <div class="table table-responsive" style="margin-top:5vh;">
-        <table>
+        <app-basic-table [headers]="headerSetting" [displayData]="newPaginated" [tableSetting]="tableSetting"
+          [rowColumnSetting]="rowColumns"></app-basic-table>
+        <!-- <table>
           <thead>
             <tr>
               <th *ngIf="!isProfessional" style="text-align: left;" (click)="sortedData('course_name') ">
@@ -53,7 +55,7 @@
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('master_course') && direction != 1"></i>
               </th>
               <th *ngIf="!isProfessional" style="text-align: left;" (click)="sortedData('standard_name') ">
-                Standard  &nbsp;
+                Standard &nbsp;
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('standard_name') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('standard_name') && direction != 1"></i>
               </th>
@@ -67,7 +69,7 @@
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('subjects') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('subjects') && direction != 1"></i>
               </th>
-              <th *ngIf="!isProfessional" style="text-align: right;"  (click)="sortedData('start_date') ">
+              <th *ngIf="!isProfessional" style="text-align: right;" (click)="sortedData('start_date') ">
                 Start Date &nbsp;
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('start_date') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('start_date') && direction != 1"></i>
@@ -150,12 +152,12 @@
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
       <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-            [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+            [pagesToShow]="10" [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
           </pagination>
         </div>
       </div>

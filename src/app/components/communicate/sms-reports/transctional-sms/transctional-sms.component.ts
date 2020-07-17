@@ -31,10 +31,12 @@ export class TransctionalSmsComponent implements OnInit {
   ];
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   smsSource: any[] = [];
-  searchData = [];
+  searchData: any = [];
   currentDirection = 'desc';
   searchText = "";
+  // startindex: number = 0;
   PageIndex: number = 1;
+  displayBatchSize: number = 25;
   maxPageSize: number = 0;
   totalRecords: number = 0;
   perPage: number = 10;
@@ -50,30 +52,31 @@ export class TransctionalSmsComponent implements OnInit {
     sorted_by: "",
     order_by: "",
   }
+  smsDataSource: any = [];
 
   constructor(
     private _msgService: MessageShowService,
     private getSms: getSMSService,
     private auth: AuthenticatorService,
     private _excelService: ExcelService,
-    private _pdfService: ExportToPdfService, ) {
+    private _pdfService: ExportToPdfService,) {
     this.switchActiveView('sms');
   }
 
-  tableSetting: any = {//inventory.item
-    tableDetails: { title: 'Lead SMS Report', key: 'reports.fee.LeadSMSReport', showTitle: false },
-    search: { title: 'Search', showSearch: false },
-    defaultSort: { primaryKey: 'sentDateTime', sortingType: 'desc', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
-    keys: this.projectSettings,
-    selectAll: { showSelectAll: false, option: 'single', title: 'Send Due SMS', checked: true, key: 'name' },
-    actionSetting:
-    {
-      showActionButton: false,
-      editOption: '',//or button
-      // options: this.menuOptions
-    },
-    displayMessage: "Enter Detail to Search"
-  };
+  // tableSetting: any = {//inventory.item
+  //   tableDetails: { title: 'Lead SMS Report', key: 'reports.fee.LeadSMSReport', showTitle: false },
+  //   search: { title: 'Search', showSearch: false },
+  //   defaultSort: { primaryKey: 'sentDateTime', sortingType: 'desc', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
+  //   keys: this.projectSettings,
+  //   selectAll: { showSelectAll: false, option: 'single', title: 'Send Due SMS', checked: true, key: 'name' },
+  //   actionSetting:
+  //   {
+  //     showActionButton: false,
+  //     editOption: '',//or button
+  //     // options: this.menuOptions
+  //   },
+  //   displayMessage: "Enter Detail to Search"
+  // };
 
   ngOnInit() {
     this.auth.institute_type.subscribe(
@@ -85,7 +88,94 @@ export class TransctionalSmsComponent implements OnInit {
         }
       }
     )
+    this.setTableData();
     this.getSmsReport(this.smsFetchForm);
+  }
+
+
+
+  headerSetting: any;
+  tableSetting: any;
+  rowColumns: any;
+
+  setTableData() {
+    this.headerSetting = [
+      {
+        primary_key: 'sentDateTime',
+        value: "Sent Date-Time",
+        charactLimit: 20,
+        sorting: true,
+        visibility: true
+      },
+      {
+        primary_key: 'name',
+        value: "Name",
+        charactLimit: 15,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'phone',
+        value: "Contact Number",
+        charactLimit: 15,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'message',
+        value: "Message",
+        charactLimit: 70,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'role',
+        value: "Role",
+        charactLimit: 15,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'func_type',
+        value: "Event",
+        charactLimit: 30,
+        sorting: false,
+        visibility: true
+      },
+    ]
+
+    this.tableSetting = {
+      width: "100%",
+      height: "50vh"
+    }
+
+    this.rowColumns = [
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "30%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "20%",
+        textAlign: "left"
+      },
+
+    ]
   }
 
   getSmsReport(obj) {
@@ -95,21 +185,23 @@ export class TransctionalSmsComponent implements OnInit {
       return this.getSms.fetchSmsReport(obj).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          if (res.length != 0) {
-            let temp = res;
-            temp.forEach(elem => {
-              let x = elem.sentDateTime.split(":");
-              let y = elem.sentDateTime.split(" ");
-              elem.sentDateTime = x[0]+":"+x[1]+" "+y[2];
-            });
-            this.smsSource = temp;
-            this.totalRecords = res[0].totalCount;
-          }
-          else {
-            this.smsSource = [];
-            this.dataStatus = false;
-            this.totalRecords = 0;
-          }
+          // if (res.length != 0) {
+          this.smsDataSource = res;
+          let temp = res;
+          temp.forEach(elem => {
+            let x = elem.sentDateTime.split(":");
+            let y = elem.sentDateTime.split(" ");
+            elem.sentDateTime = x[0] + ":" + x[1] + " " + y[2];
+          });
+          this.smsSource = temp;
+          this.totalRecords = this.smsSource[0].totalCount;
+          console.log(this.totalRecords);
+          // }
+          // else {
+          //   this.smsSource = [];
+          //   this.dataStatus = false;
+          //   this.totalRecords = 0;
+          // }
         },
         err => {
           this.auth.hideLoader();
@@ -120,14 +212,17 @@ export class TransctionalSmsComponent implements OnInit {
       return this.getSms.fetchSmsReport(obj).subscribe(
         (res: any) => {
           this.auth.hideLoader();
+          this.smsDataSource = res;
           let temp = res;
-          if(temp.length) {
+          if (temp.length) {
             temp.forEach(elem => {
               let x = elem.sentDateTime.split(":");
               let y = elem.sentDateTime.split(" ");
-              elem.sentDateTime = x[0]+":"+x[1]+" "+y[2];
+              elem.sentDateTime = x[0] + ":" + x[1] + " " + y[2];
             });
-            this.smsSource = temp;
+            // this.smsSource = temp;
+            this.smsSource = this.getDataFromDataSource(0);
+            this.totalRecords = this.smsSource[0].totalCount;
           }
         }
       )
@@ -168,7 +263,6 @@ export class TransctionalSmsComponent implements OnInit {
       );
       this.smsSource = searchData;
       this.searchflag = true;
-
     }
     else {
       this.getSms.fetchSmsReport(this.smsFetchForm).subscribe(
@@ -254,4 +348,35 @@ export class TransctionalSmsComponent implements OnInit {
       this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "Future date is not allowed");
     }
   }
+
+
+
+  // pagination functions
+
+
+  fetchTableDataByPage(index) {
+    this.PageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.smsSource = this.getDataFromDataSource(startindex);
+  }
+
+  fetchNext() {
+    this.PageIndex++;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.PageIndex != 1) {
+      this.PageIndex--;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    let t = this.smsDataSource.slice(startindex, startindex + this.displayBatchSize);
+    return t;
+  }
+
+
+
 }

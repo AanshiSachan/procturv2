@@ -14,7 +14,7 @@ import { AuthenticatorService } from './../../../services/authenticator.service'
 export class EmailReportComponent {
   pageIndex: number = 1;
   totalRecords: number = 0;
-  displayBatchSize: number = 10;
+  displayBatchSize: number = 25;
   emailSource: any[] = [];
   emailDataSource: any = [];
   searchText = "";
@@ -41,13 +41,109 @@ export class EmailReportComponent {
   constructor(
     private apiService: getEmailService,
     private appC: AppComponent,
-    private auth:AuthenticatorService
+    private auth: AuthenticatorService
   ) {
     this.switchActiveView('email');
   }
 
+  headerSetting: any;
+  tableSetting: any;
+  rowColumns: any;
+
+  setTableData() {
+    this.headerSetting = [
+      {
+        primary_key: 'sentDateTime',
+        value: "Sent Date",
+        charactLimit: 25,
+        sorting: true,
+        visibility: true
+      },
+      {
+        primary_key: 'emailId',
+        value: "Email",
+        charactLimit: 25,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'message',
+        value: "Subject",
+        charactLimit: 60,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'name',
+        value: "Name",
+        charactLimit: 20,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'role',
+        value: "Role",
+        charactLimit: 15,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'func_type',
+        value: "Type",
+        charactLimit: 30,
+        sorting: false,
+        visibility: true
+      },
+
+      // {
+      //   primary_key: 'action',
+      //   value: "Action",
+      //   charactLimit: 10,
+      //   sorting: false,
+      //   visibility: true,
+      //   edit: true,
+      //   delete: true,
+      //   // editCondition: 'converted == 0',
+      //   // deleteCondition: 'converted == 0'
+      // },
+    ]
+
+    this.tableSetting = {
+      width: "100%",
+      height: "50vh"
+    }
+
+    this.rowColumns = [
+      {
+        width: "12%",
+        textAlign: "left"
+      },
+      {
+        width: "17%",
+        textAlign: "left"
+      },
+      {
+        width: "30%",
+        textAlign: "left"
+      },
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "20%",
+        textAlign: "left"
+      },
+
+    ]
+  }
   ngOnInit() {
     this.pageIndex = 1;
+    this.setTableData();
     this.getAllEmailMessages();
   }
 
@@ -55,7 +151,7 @@ export class EmailReportComponent {
     this.dataStatus = true;
     this.emailSource = [];
     this.auth.showLoader();
-    
+
     this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
       res => {
         this.auth.hideLoader();
@@ -64,7 +160,7 @@ export class EmailReportComponent {
         if (res.length == 0) {
           this.dataStatus = false;
         }
-        this.emailSource = res;
+        this.emailSource = this.getDataFromDataSource(0);
         //this.fetchTableDataByPage(this.pageIndex);
       },
       err => {
@@ -154,7 +250,7 @@ export class EmailReportComponent {
   switchActiveView(id) {
     document.getElementById('email') && document.getElementById('email').classList.remove('active');
   }
- 
+
 
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
@@ -182,5 +278,5 @@ export class EmailReportComponent {
     }
   }
 }
-  
+
 

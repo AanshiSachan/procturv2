@@ -1,4 +1,4 @@
-<div class="report-wrapper clearFix">
+<div class="report-wrapper clearFix" style="height: 100vh;">
   <aside class="middle-full">
     <section class="middle-main clearFix">
 
@@ -7,7 +7,7 @@
           <h2 style="padding: 5px;" class="pull-left">
             <a routerLink="/view/students">
               Student
-             </a>
+            </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
             <span *ngIf="!isProfessional">Archived Status Student List</span>
           </h2>
@@ -17,32 +17,33 @@
     </section>
     <section class="login-tube pull-right" style="margin-top: 14px; position: absolute;right: 8px;">
       <nav>
-          <ul class="login-nav">
-              <li class="pos-rel">
-                <i class="icons" style="font-size: 20px;" *ngIf="downloadStudentReportAccess">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  </i>
-                  <div class="dropdown">
-                      <ul class="user-detail text-left">
-                            <li (click)="showDownloadDetails()" class="asHover">
-                              <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;" ></i>
-                              <strong style="display: inline-block;">Export as Excel</strong>
-                          </li>
-                      </ul>
+        <ul class="login-nav">
+          <li class="pos-rel">
+            <i class="icons" style="font-size: 20px;" *ngIf="downloadStudentReportAccess">
+              <i class="fa fa-download" aria-hidden="true"></i>
+            </i>
+            <div class="dropdown">
+              <ul class="user-detail text-left">
+                <li (click)="showDownloadDetails()" class="asHover">
+                  <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;"></i>
+                  <strong style="display: inline-block;">Export as Excel</strong>
+                </li>
+              </ul>
 
-                  </div>
-              </li>
-          </ul>
+            </div>
+          </li>
+        </ul>
       </nav>
-  </section>
+    </section>
     <section>
       <div class="filter-box clearFix" style="margin: 6px 40px 6px 6px;float: right;">
         <div id="basic-search" class="search-filter-wrapper">
-          <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()"  style="padding: 10px;">
+          <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText"
+            name="searchData" (keyup)="searchDatabase()" style="padding: 10px;">
         </div>
       </div>
       <div class="table table-responsive">
-        <table>
+        <!-- <table>
           <thead>
             <tr>
               <th style="text-align: right" (click)="sortedData('student_disp_id') ">
@@ -134,12 +135,15 @@
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
+        <app-basic-table [headers]="headerSetting" [displayData]="newPaginated" [tableSetting]="tableSetting"
+          [rowColumnSetting]="rowColumns">
+        </app-basic-table>
       </div>
       <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-            [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+            [pagesToShow]="10" [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
           </pagination>
         </div>
       </div>
@@ -158,26 +162,27 @@
             <div class="c-lg-6 align-left">
               <div class="field-wrapper datePickerBox has-value">
                 <label for="fromDate">Sent From</label>
-                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate" [(ngModel)]="stdetchForm.from_date"
-                bsDatepicker/>    
+                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate"
+                  [(ngModel)]="stdetchForm.from_date" bsDatepicker />
               </div>
             </div>
             <div class="c-lg-6 align-left">
               <div class="field-wrapper datePickerBox has-value">
                 <label for="toDate">Sent To</label>
-                <input type="text" value="" id="updateDate" readonly="true" [(ngModel)]="stdetchForm.to_date" class="form-ctrl bsDatepicker"
-                  name="toDate"    bsDatepicker/>    
+                <input type="text" value="" id="updateDate" readonly="true" [(ngModel)]="stdetchForm.to_date"
+                  class="form-ctrl bsDatepicker" name="toDate" bsDatepicker />
               </div>
             </div>
           </div>
           <hr style="border: none;margin-bottom:0">
           <div class="row">
-             <span style="color:red;">( Archived students functionality is Enable from Jan-2019 )</span> 
+            <span style="color:red;">( Archived students functionality is Enable from Jan-2019 )</span>
           </div>
         </div>
         <div class=" m-0">
-            <input type="button"  class="normal-btn btn btn_cancel" data-toggle="modal" (click)="close_popup()" value="Cancel"   />
-          <input type="button"  class="normal-btn fullBlue btn" value="Download" (click)="fetchArchivedListDetails()" />
+          <input type="button" class="normal-btn btn btn_cancel" data-toggle="modal" (click)="close_popup()"
+            value="Cancel" />
+          <input type="button" class="normal-btn fullBlue btn" value="Download" (click)="fetchArchivedListDetails()" />
         </div>
       </div>
     </div>

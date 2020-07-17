@@ -19,7 +19,7 @@ export class TemplateHomeComponent implements OnInit {
   selectedTemplate: any;
   isHeaderEdit: boolean = false;
   isEditFee: boolean = false;
-  selectedCountry:any;
+  selectedCountry: any;
   feeStructure: any;
   installmentList: any = [];
   otherInstList: any = [];
@@ -67,7 +67,7 @@ export class TemplateHomeComponent implements OnInit {
   searchText: string = '';
   addTemplatePopUp: boolean = false;
   searchDataFlag: boolean = false;
-  tax_type_without_percentage : String;
+  tax_type_without_percentage: String;
   is_tax_enabled: boolean = false;
 
   constructor(
@@ -80,11 +80,99 @@ export class TemplateHomeComponent implements OnInit {
       this.router.navigate(['/authPage']);
     }
   }
+  headerSetting: any;
+  tableSetting: any;
+  rowColumns: any;
+  datatarget: any;
+  setTableData() {
 
+    this.headerSetting = [
+      {
+        primary_key: 'template_name',
+        value: "Fee Structure",
+        charactLimit: 20,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'master_course_standard_name',
+        value: "Master Course",
+        charactLimit: 30,
+        sorting: true,
+        visibility: true
+      },
+      {
+        primary_key: 'course_subject_name',
+        value: "Course",
+        charactLimit: 30,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'country_name',
+        value: "Country",
+        charactLimit: 15,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'totalAssignedStudent',
+        value: "Student Assigned",
+        charactLimit: 15,
+        sorting: false,
+        visibility: true
+      },
+
+      {
+        primary_key: 'action',
+        value: "Action",
+        charactLimit: 10,
+        sorting: false,
+        visibility: true,
+        edit: true,
+        delete: true,
+        // editCondition: 'converted == 0',
+        // deleteCondition: 'converted == 0'
+      },
+    ]
+
+    this.tableSetting = {
+      width: "100%",
+      height: "50vh"
+    }
+
+    this.rowColumns = [
+      {
+        width: "20%",
+        textAlign: "left"
+      },
+      {
+        width: "20%",
+        textAlign: "left"
+      },
+      {
+        width: "20%",
+        textAlign: "left"
+      },
+      {
+        width: "20%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+
+    ]
+  }
   ngOnInit() {
     this.enableTax = sessionStorage.getItem('enable_tax_applicable_fee_installments');
-    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
-    this.is_tax_enabled=this.enableTax=="1"?true:false;
+    this.tax_type_without_percentage = sessionStorage.getItem("tax_type_without_percentage");
+    this.is_tax_enabled = this.enableTax == "1" ? true : false;
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -96,6 +184,7 @@ export class TemplateHomeComponent implements OnInit {
         }
       }
     )
+    this.setTableData();
     this.fetchPrefill();
   }
 
@@ -150,15 +239,16 @@ export class TemplateHomeComponent implements OnInit {
     )
   }
 
-  changesValuesAsPerType(row){
-    if(row.day_type==1){
-      row.days=0;
+  changesValuesAsPerType(row) {
+    if (row.day_type == 1) {
+      row.days = 0;
     }
   }
 
   editFee(fee) {
+
     this.templateName = fee.template_name;
-    this.selectedTemplate = fee;    
+    this.selectedTemplate = fee;
     this.feeStructure = [];
     this.isEditFee = true;
     this.auth.showLoader();
@@ -176,19 +266,19 @@ export class TemplateHomeComponent implements OnInit {
         let data = JSON.parse(encryptedData);
         if (data.length > 0) {
           data.forEach((country) => {
-            if(this.selectedTemplate.country_id==country.id){
-              this.selectedCountry=country;
+            if (this.selectedTemplate.country_id == country.id) {
+              this.selectedCountry = country;
             }
           })
         }
         this.fillDataInYTable(res.customFeeSchedules);
         // if (res.studentwise_fees_tax_applicable == "Y") {
-          if (this.enableTax == "1" &&
-            document.getElementById('checkBoxtaxes')) {
-            document.getElementById('checkBoxtaxes').checked = true;
-            this.showTaxFields();
-          }
-        
+        if (this.enableTax == "1" &&
+          document.getElementById('checkBoxtaxes')) {
+          document.getElementById('checkBoxtaxes').checked = true;
+          this.showTaxFields();
+        }
+
         this.totalAmountCal = res.studentwise_total_fees_amount;
       },
       err => {

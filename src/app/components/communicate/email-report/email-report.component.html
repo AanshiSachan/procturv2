@@ -25,21 +25,24 @@
           <div class="row">
             <div class="c-lg-5">
               <div class="field-wrapper datePickerBox has-value">
-                  <label for="fromDate">Sent From</label>
-                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.from_date" (ngModelChange)="dateValidationForFuture($event)" readonly="false"
-                  name="fromDate" bsDatepicker/>
-               
+                <label for="fromDate">Sent From</label>
+                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker"
+                  style="border: 1px solid #ccc; border-radius: 4px;" [(ngModel)]=" emailFetchForm.from_date"
+                  (ngModelChange)="dateValidationForFuture($event)" readonly="false" name="fromDate" bsDatepicker />
+
               </div>
               <div class="field-wrapper datePickerBox has-value">
-                  <label for="toDate">Sent To</label>
-                <input type="text" value="" id="updateDate" readonly="false" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.to_date" (ngModelChange)="dateValidationForFuture($event)"
-                  name="toDate" bsDatepicker/>
-              
+                <label for="toDate">Sent To</label>
+                <input type="text" value="" id="updateDate" readonly="false" class="form-ctrl bsDatepicker"
+                  style="border: 1px solid #ccc; border-radius: 4px;" [(ngModel)]=" emailFetchForm.to_date"
+                  (ngModelChange)="dateValidationForFuture($event)" name="toDate" bsDatepicker />
+
               </div>
             </div>
             <div class="c-lg-2">
               <div class="btn-sms-search">
-                <input type="button"  style="margin-top:7%;" class="normal-btn fullBlue btn" value="Go" (click)="fetchemailByDate()" />
+                <input type="button" style="margin-top:7%;" class="normal-btn fullBlue btn" value="Go"
+                  (click)="fetchemailByDate()" />
               </div>
             </div>
             <div class="c-lg-5"></div>
@@ -57,25 +60,25 @@
         </div>
         <div class="c-lg-4">
           <div class="field-wrapper">
-            <input style="border: 1px solid #efefef;padding: 5px;width: 70%;float: right;"  type="text" placeholder="Search" class="form-ctrl" (keyup)="searchDatabase()" [(ngModel)]="searchText">
+            <input style="border: 1px solid #efefef;padding: 5px;width: 70%;float: right;" type="text"
+              placeholder="Search" class="form-ctrl" (keyup)="searchDatabase()" [(ngModel)]="searchText">
           </div>
         </div>
       </section>
 
       <section class="sms-table-wrapper">
 
-        <div class="table table-responsive student-table">
-          <proctur-table [dataStatus]="dataStatus" [loaderState]="isRippleLoad" [records]="emailSource" [tableName]="'Email'" [settings]="projectSettings">
-          </proctur-table>
-        </div>
+        <!-- <div class="table table-responsive student-table"> -->
+        <!-- <proctur-table [dataStatus]="dataStatus" [loaderState]="isRippleLoad" [records]="emailSource"
+            [tableName]="'Email'" [settings]="projectSettings">
+          </proctur-table> -->
 
-        <!-- <div class="row filter-res pagination" style="width: 100%;">
-            <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-              <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
-              </pagination>
-            </div>
-          </div> -->
+        <app-basic-table [headers]="headerSetting" [displayData]="emailSource" [tableSetting]="tableSetting"
+          [rowColumnSetting]="rowColumns" (editView)='editLeadRow(row)' (deleteView)='deleteLead(row)'>
+        </app-basic-table>
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+        </pagination>
 
       </section>
 
