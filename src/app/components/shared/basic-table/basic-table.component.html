@@ -1,7 +1,8 @@
-<section class="table-holder">
+<section class="table-holder" style="padding: 0px;">
   <div class="table-container">
-    <div class="table-header-container">
-      <div class="table-heading-item" *ngFor="let header of headers; let i = index"
+    <div class="table-header-container" style="background: royalblue; border-radius: 6px; height: 39px;">
+      <div class="table-heading-item" style="color: whitesmoke; font-size: 14px;"
+        *ngFor="let header of headers; let i = index"
         [ngStyle]="{'width': rowColumnSetting[i].width, 'text-align': rowColumnSetting[i].textAlign }">
         <span>{{header.value}}</span>
         <span *ngIf="header.sorting">
@@ -11,7 +12,8 @@
     </div>
     <div class="table-value-outer-container" [ngStyle]="{'width': tableSetting.width, 'height': tableSetting.height }"
       *ngIf="tableRows?.length > 0">
-      <div class="table-valaue-container" *ngFor="let row of tableRows; let i = index">
+      <div class="table-valaue-container" style="border-left: 4px solid royalblue;"
+        *ngFor="let row of tableRows; let i = index">
         <div class="table-value-item" *ngFor="let col of rowColumnSetting; let j = index"
           [ngStyle]="{'width': rowColumnSetting[j].width, 'text-align': rowColumnSetting[j].textAlign}">
           <p *ngIf="headers[j].primary_key != 'action'">

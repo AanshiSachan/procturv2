@@ -1,4 +1,71 @@
-<div class="clearFix sms-view-wrapper">
+<div class="middle-section clear-fix" style="padding-left: 15px; padding-right: 15px; padding-top: 20px;">
+  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;">
+    <h1 class="pull-left">
+      <a routerLink="/view/communicate" style="padding:0px;">
+        Communicate
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      <a routerLink="/view/communicate/sms" style="padding:0px;">
+        SMS
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      <span>Transactional SMS Report</span>
+    </h1>
+  </section>
+  <section class="sms-filter-wrapper" style="border-top: 1px solid #d4d4d4; border-bottom: 1px solid #d4d4d4">
+    <div class="row">
+      <div class="c-lg-5" style="padding-left: 0px;">
+        <div class="field-wrapper datePickerBox has-value">
+          <label for="fromDate" style="font-size: 13px; padding: 1px;">Sent From</label><span class="danger">*</span>
+          <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" style="border: solid 1px #e2ebee;
+          border-radius: 4px;" readonly="true" name="fromDate" [(ngModel)]="smsFetchForm.from_date"
+            (ngModelChange)="dateValidationForFuture($event) " bsDatepicker />
+        </div>
+        <div class="field-wrapper datePickerBox has-value">
+          <label for="toDate" style="font-size: 13px; padding: 1px;">Sent To</label><span class="danger">*</span>
+          <input type="text" value="" id="updateDate" readonly="true" [(ngModel)]="smsFetchForm.to_date"
+            class="form-ctrl bsDatepicker" style="border: solid 1px #e2ebee;
+            border-radius: 4px;" name="toDate" (ngModelChange)="dateValidationForFuture($event)" bsDatepicker />
+        </div>
+      </div>
+      <div class="c-lg-2">
+        <div class="btn-sms-search">
+          <input type="button" style="margin-top:5%;" class="normal-btn fullBlue btn" value="Go"
+            (click)="fetchSmsByDate()" />
+        </div>
+      </div>
+      <div class="c-lg-5"></div>
+    </div>
+  </section>
+
+
+  <section class="table-control">
+    <div class="c-md-6">
+      <div *ngIf="smsSource.length == 0" class="c-md-4"></div>
+      <div class="c-md-4"></div>
+    </div>
+    <div class="c-md-5">
+      <div class="field-wrapper">
+        <input class="search-box form-ctrl" type="text" style="border: solid 1px darkgrey;
+        border-radius: 4px;font-size: 15px; width: 48%;" placeholder="Search" (keyup)="searchDatabase()"
+          [(ngModel)]="searchText" #search>
+      </div>
+      <div>
+        <section class="login-tube pull-right" style="margin-top:5px; position: absolute;right:-32px;">
+          <i class="fa fa-file-pdf-o" style="font-size: 37px;margin-top: -7px;color: darkred;" aria-hidden="true"
+            (click)="exportToPdf()"></i>
+        </section>
+        <section class="login-tube pull-right" style="margin-top:5px; position: absolute;right:-93px;">
+          <i class="fa fa-file-excel-o" style="font-size: 37px;margin-top: -7px;color: green;" aria-hidden="true"
+            (click)="exportToExcel()"></i>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!--===================================================================================================================-->
+
+  <!-- <div class="clearFix sms-view-wrapper">
 
   <aside class="middle-full">
 
@@ -88,28 +155,27 @@
             </section>
           </div>
         </div>
-      </section>
-
-      <section class="sms-table-wrapper">
-        <!-- <div class="table table-responsive student-table">
+      </section> -->
+  <!--===================================================================================================================-->
+  <section class="sms-table-wrapper">
+    <!-- <div class="table table-responsive student-table">
           <data-display-table  #child [displayKeys]="tableSetting" [displayData]="smsSource" >
           </data-display-table>
         </div> -->
-        <app-basic-table [headers]="headerSetting" [displayData]="smsSource" [tableSetting]="tableSetting"
-          [rowColumnSetting]="rowColumns" (editView)='editLeadRow(row)' (deleteView)='deleteLead(row)'>
-        </app-basic-table>
+    <app-basic-table [headers]="headerSetting" [displayData]="smsSource" [tableSetting]="tableSetting"
+      [rowColumnSetting]="rowColumns" (editView)='editLeadRow(row)' (deleteView)='deleteLead(row)'>
+    </app-basic-table>
 
 
-        <div class="row filter-res pagination" style="width: 100%; margin: 0;">
-          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-              [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
-            </pagination>
-
-
-          </div>
-        </div>
-      </section>
-    </section>
-  </aside>
+    <div class="row filter-res pagination" style="width: 100%; margin: 0;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+        </pagination>
+      </div>
+    </div>
+  </section>
+  <!--===================================================================================================================-->
+  <!-- </section>
+  </aside> -->
 </div>
