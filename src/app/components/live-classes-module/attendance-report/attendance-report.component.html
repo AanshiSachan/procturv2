@@ -21,10 +21,30 @@
             <span>Date : </span>
           </div>
           <div class="header-value">
-            <span>{{session_data.start_datetime}} - {{session_data.end_datetime}}</span>
+            <span>{{session_data.start_datetime | date: 'dd MMM yyyy'}}</span>
           </div>
         </div>
-        <div class="header-item">
+
+        <div class="header-item" style="width: 45%;">
+          <div class="header-title">
+            <span>Attendance Threshold : </span>
+          </div>
+          <div class="header-value">
+            <span>{{session_data.attendance_threshold}}</span>
+          </div>
+        </div>
+
+        <div class="header-item" style="width: 45%;">
+          <div class="header-title">
+            <span>Time : </span>
+          </div>
+          <div class="header-value">
+            <span>
+              {{session_data.start_datetime | date: 'shortTime'}} - {{session_data.end_datetime | date: 'shortTime'}}
+            </span>
+          </div>
+        </div>
+        <div class="header-item" style="width: 45%;">
           <div class="header-title">
             <span>Topic : </span>
           </div>
@@ -32,28 +52,20 @@
             <span>{{session_data.session_name}}</span>
           </div>
         </div>
-        <div class="header-item">
-          <div class="header-title">
-            <span>Invited : </span>
-          </div>
-          <div class="header-value">
-            <span>{{session_data.total_participants}}</span>
-          </div>
-        </div>
-        <div class="header-item">
+        <div class="header-item" style="width: 45%;">
           <div class="header-title">
             <span>Attended : </span>
           </div>
           <div class="header-value">
-            <span>{{session_data.total_partially_present_students}}</span>
+            <span>{{session_data.total_present + session_data.total_partially_present}} / {{session_data.total_participants}}</span>
           </div>
         </div>
-        <div class="header-item">
+        <div class="header-item" style="width: 45%;">
           <div class="header-title">
             <span>Guest : </span>
           </div>
           <div class="header-value">
-            <span>{{session_data.total_guests}}</span>
+            <span>{{session_data.total_guest}}</span>
           </div>
         </div>
       </section>
@@ -87,12 +99,18 @@
           </div>
         </div>
         <div class="table-outer-value-container">
-          <div class="table-value-container" *ngFor="let record of attendance_list">
+          <div class="table-value-container" *ngFor="let record of attendance_list" 
+          [ngClass]="{'absent-border': record.attendance_status == 'ABSENT',
+                        'present-border': record.attendance_status == 'PRESENT',
+                        'partially-border': record.attendance_status == 'PARTIALLY_PRESENT'}">
             <div class="table-value-item sm-item">
-              <span>{{record.id}}</span>
+              <span>{{record.display_id!=null ? record.display_id : '-'}}</span>
             </div>
             <div class="table-value-item md-item">
-              <span title="{{record.name}}}">{{ (record.name.length > 20) ? (record.name | slice:0:20) + '...' : record.name }}</span>
+              <span title="{{record.name}}">{{ (record.name.length > 20) ? (record.name | slice:0:20) + '...' : record.name }}
+                <span *ngIf="record.user_type == 3">(Teacher)</span>
+                <span *ngIf="record.user_type == 99">(Register user)</span>
+              </span>
             </div>
             <div class="table-value-item md-item">
               <span *ngIf="record.attendance_status == 'ABSENT'" class="absent">{{record.attendance_status}}</span>
@@ -108,7 +126,9 @@
               <span *ngIf="record.attendance_status == 'ABSENT'">-</span>
             </div>
             <div class="table-value-item md-item">
-              <span>{{record.duration}}</span>
+              <span>{{record.duration}} 
+                <span *ngIf="record.attendance_status != 'ABSENT'">({{record.attendance_percentage}} %)</span>
+              </span>
             </div>
           </div>
           <div class="" *ngIf="attendance_list.length == 0" >
