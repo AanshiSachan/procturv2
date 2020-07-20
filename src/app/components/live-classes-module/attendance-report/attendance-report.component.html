@@ -60,7 +60,7 @@
             <span>{{session_data.total_present + session_data.total_partially_present}} / {{session_data.total_participants}}</span>
           </div>
         </div>
-        <div class="header-item" style="width: 45%;">
+        <div class="header-item" style="width: 30%;">
           <div class="header-title">
             <span>Guest : </span>
           </div>
@@ -68,16 +68,17 @@
             <span>{{session_data.total_guest}}</span>
           </div>
         </div>
-      </section>
-
-      <section class="search-bar-container">
-        <div class="field-wrapper">
-          <input type="text" value="" id="search_bar" [(ngModel)]="searchInput" name="searchInput" (keyup)="searchDatabase(search)"
-             placeholder="Search here..." class="search-box" #search>
+        <div class="header-item" style="padding: 0;">
+          <section class="search-bar-container">
+            <div class="field-wrapper">
+              <input type="text" value="" id="search_bar" [(ngModel)]="searchInput" name="searchInput" (keyup)="searchDatabase(search)"
+                 placeholder="Search here..." class="search-box" #search>
+            </div>
+          </section>
         </div>
       </section>
 
-      <section class="table-container">
+      <section class="table-container" style="margin-top: 0;">
         <div class="table-heading-container">
           <div class="table-heading-item sm-item">
             <span>Id</span>
