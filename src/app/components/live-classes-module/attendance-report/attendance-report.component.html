@@ -111,6 +111,7 @@
               <span title="{{record.name}}">{{ (record.name.length > 20) ? (record.name | slice:0:20) + '...' : record.name }}
                 <span *ngIf="record.user_type == 3">(Teacher)</span>
                 <span *ngIf="record.user_type == 99">(Register user)</span>
+                <span *ngIf="record.isInvited">(Guest)</span>
               </span>
             </div>
             <div class="table-value-item md-item">

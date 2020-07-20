@@ -69,9 +69,11 @@ export class AttendanceReportComponent implements OnInit {
         var res: any = data.result;
         this.invited_attendance_list = res.invited_attendance_list;
         this.guest_attendance_list = res.guest_attendance_list;
+        this.guest_attendance_list.forEach(elem=>{
+          elem.isInvited = true;
+        })
         let arr = this.guest_attendance_list.concat(this.invited_attendance_list);
         this.attendance_list = arr.sort((a, b) => a.name.toLocaleUpperCase() < b.name.toLocaleUpperCase() ? -1 : 1);
-
         this.temp_attendance_list = this.attendance_list;
         this.session_data = res.statistics;
       },
