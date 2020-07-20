@@ -15,12 +15,16 @@ html {
 
 
 .header-container{
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
   width: 100%;
-  margin: 1em 0;
+  margin: 10px 0;
+  margin-bottom: 0;
   .header-item{
     display: flex;
     flex-direction: row;
@@ -81,6 +85,8 @@ html {
   width: 100%;
   margin-top: 10px;
   .table-heading-container{
+    background: #e0eaec;
+    padding-top: 10px;
     display: flex;
     flex-direction: row;
     margin-bottom: 10px;
