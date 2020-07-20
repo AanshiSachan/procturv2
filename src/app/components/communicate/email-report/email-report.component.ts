@@ -12,6 +12,7 @@ import { AuthenticatorService } from './../../../services/authenticator.service'
 })
 
 export class EmailReportComponent {
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
   displayBatchSize: number = 25;
@@ -110,7 +111,7 @@ export class EmailReportComponent {
 
     this.tableSetting = {
       width: "100%",
-      height: "50vh"
+      height: "65vh"
     }
 
     this.rowColumns = [
@@ -123,7 +124,7 @@ export class EmailReportComponent {
         textAlign: "left"
       },
       {
-        width: "30%",
+        width: "40%",
         textAlign: "left"
       },
       {
@@ -131,11 +132,11 @@ export class EmailReportComponent {
         textAlign: "left"
       },
       {
-        width: "15%",
+        width: "10%",
         textAlign: "left"
       },
       {
-        width: "20%",
+        width: "15%",
         textAlign: "left"
       },
 
@@ -244,6 +245,10 @@ export class EmailReportComponent {
   getDataFromDataSource(startindex) {
     let t = this.emailDataSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
+  }
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.pageIndex);
   }
 
 
