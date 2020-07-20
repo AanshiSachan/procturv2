@@ -1,45 +1,59 @@
-<div class="middle-section clear-fix" style="padding-left: 15px; padding-right: 15px; padding-top: 20px;">
+<div class="middle-section clear-fix" style="padding-left: 15px; padding-right: 30px; padding-top: 20px;">
   <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;">
     <h1 class="pull-left">
       <a routerLink="/view/communicate" style="padding:0px;">
         Communicate
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-      <a routerLink="/view/communicate/sms" style="padding:0px;">
-        SMS
-      </a>
-      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-      <span>Transactional SMS Report</span>
+      <!-- <a routerLink="/view/communicate/sms" style="padding:0px;"> -->
+      SMS
+      <!-- </a> -->
+      <!-- <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      <span>Transactional SMS Report</span> -->
     </h1>
   </section>
   <section class="sms-filter-wrapper" style="border-top: 1px solid #d4d4d4; border-bottom: 1px solid #d4d4d4">
     <div class="row">
-      <div class="c-lg-5" style="padding-left: 0px;">
-        <div class="field-wrapper datePickerBox has-value">
+      <div class="c-lg-4" style="padding-left: 0px;">
+        <div class="field-wrapper datePickerBox has-value" style="padding-top: 8px;">
           <label for="fromDate" style="font-size: 13px; padding: 1px;">Sent From</label><span class="danger">*</span>
           <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" style="border: solid 1px #e2ebee;
           border-radius: 4px;" readonly="true" name="fromDate" [(ngModel)]="smsFetchForm.from_date"
             (ngModelChange)="dateValidationForFuture($event) " bsDatepicker />
         </div>
-        <div class="field-wrapper datePickerBox has-value">
+        <div class="field-wrapper datePickerBox has-value" style="padding-top: 8px;">
           <label for="toDate" style="font-size: 13px; padding: 1px;">Sent To</label><span class="danger">*</span>
           <input type="text" value="" id="updateDate" readonly="true" [(ngModel)]="smsFetchForm.to_date"
             class="form-ctrl bsDatepicker" style="border: solid 1px #e2ebee;
             border-radius: 4px;" name="toDate" (ngModelChange)="dateValidationForFuture($event)" bsDatepicker />
         </div>
       </div>
-      <div class="c-lg-2">
+      <div class="c-lg-1">
         <div class="btn-sms-search">
-          <input type="button" style="margin-top:5%;" class="normal-btn fullBlue btn" value="Go"
+          <input type="button" style="margin-top: 9%;margin-left: -50%;" class="normal-btn fullBlue btn" value="Go"
             (click)="fetchSmsByDate()" />
         </div>
       </div>
-      <div class="c-lg-5"></div>
+      <div class="c-lg-13">
+        <div class="row" style="float: right;">
+          <div class="c-lg-7">
+            <input type="text" placeholder="Search"
+              style="border: 1px solid darkgrey;width: 289px;border-radius: 4px;padding-left: 7px;"
+              (keyup)="searchDatabase()" [(ngModel)]="searchText" #search>
+          </div>
+          <div class="c-lg-5" style="margin-right: 66px; margin-top: 20px;">
+            <i class="fa fa-file-excel-o" style="font-size: 28px;color: darkred;cursor: pointer;margin-right: 26px;"
+              aria-hidden="true" (click)="exportToPdf()"></i>
+            <i class="fa fa-file-pdf-o" style="font-size: 28px;color: green;cursor: pointer;" aria-hidden="true"
+              (click)="exportToExcel()"></i>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
 
-  <section class="table-control">
+  <!-- <section class="table-control">
     <div class="c-md-6">
       <div *ngIf="smsSource.length == 0" class="c-md-4"></div>
       <div class="c-md-4"></div>
@@ -61,7 +75,7 @@
         </section>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!--===================================================================================================================-->
 
@@ -167,10 +181,11 @@
     </app-basic-table>
 
 
-    <div class="row filter-res pagination" style="width: 100%; margin: 0;">
+    <div class="row filter-res pagination" style="width: 100%; margin: 0; padding-top: 9px;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
         <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-          [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+          [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRecords"
+          (sizeChange)="updateTableBatchSize($event)">
         </pagination>
       </div>
     </div>

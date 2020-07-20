@@ -36,7 +36,7 @@ export class TransctionalSmsComponent implements OnInit {
   searchText = "";
   // startindex: number = 0;
   PageIndex: number = 1;
-  displayBatchSize: number = 25;
+  displayBatchSize: any = 25;
   maxPageSize: number = 0;
   totalRecords: number = 0;
   perPage: number = 10;
@@ -93,7 +93,6 @@ export class TransctionalSmsComponent implements OnInit {
   }
 
 
-
   headerSetting: any;
   tableSetting: any;
   rowColumns: any;
@@ -116,7 +115,7 @@ export class TransctionalSmsComponent implements OnInit {
       },
       {
         primary_key: 'phone',
-        value: "Contact Number",
+        value: "Contact",
         charactLimit: 15,
         sorting: false,
         visibility: true
@@ -124,7 +123,7 @@ export class TransctionalSmsComponent implements OnInit {
       {
         primary_key: 'message',
         value: "Message",
-        charactLimit: 70,
+        charactLimit: 50,
         sorting: false,
         visibility: true
       },
@@ -159,11 +158,11 @@ export class TransctionalSmsComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "15%",
+        width: "10%",
         textAlign: "left"
       },
       {
-        width: "30%",
+        width: "35%",
         textAlign: "left"
       },
       {
@@ -377,6 +376,10 @@ export class TransctionalSmsComponent implements OnInit {
     return t;
   }
 
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
 
 
 }

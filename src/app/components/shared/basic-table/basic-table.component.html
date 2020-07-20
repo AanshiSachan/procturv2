@@ -1,7 +1,7 @@
 <section class="table-holder" style="padding: 0px;">
   <div class="table-container">
-    <div class="table-header-container" style="background: royalblue; border-radius: 6px; height: 39px;">
-      <div class="table-heading-item" style="color: whitesmoke; font-size: 14px;"
+    <div class="table-header-container" style="background: #e0eaec; border-radius: 6px; height: 39px;">
+      <div class="table-heading-item" style="color: black; font-size: 12px;"
         *ngFor="let header of headers; let i = index"
         [ngStyle]="{'width': rowColumnSetting[i].width, 'text-align': rowColumnSetting[i].textAlign }">
         <span>{{header.value}}</span>
@@ -12,7 +12,7 @@
     </div>
     <div class="table-value-outer-container" [ngStyle]="{'width': tableSetting.width, 'height': tableSetting.height }"
       *ngIf="tableRows?.length > 0">
-      <div class="table-valaue-container" style="border-left: 4px solid royalblue;"
+      <div class="table-valaue-container" style="border-left: 4px solid #e0eaec;"
         *ngFor="let row of tableRows; let i = index">
         <div class="table-value-item" *ngFor="let col of rowColumnSetting; let j = index"
           [ngStyle]="{'width': rowColumnSetting[j].width, 'text-align': rowColumnSetting[j].textAlign}">
@@ -20,8 +20,10 @@
             <span *ngIf="!row[headers[j].primary_key]; else elseBlock">-</span>
             <ng-template #elseBlock>
               <span *ngIf="row[headers[j].primary_key].length == 0">-</span>
+              <!-- <span *ngIf="row[headers[j].primary_key].length != 0"
+                title="{{row[headers[j].primary_key]}}">{{ (row[headers[j].primary_key].length > headers[j].charactLimit) ? (row[headers[j].primary_key] | slice:0:headers[j].charactLimit) + '...' : row[headers[j].primary_key] }}</span> -->
               <span *ngIf="row[headers[j].primary_key].length != 0"
-                title="{{row[headers[j].primary_key]}}">{{ (row[headers[j].primary_key].length > headers[j].charactLimit) ? (row[headers[j].primary_key] | slice:0:headers[j].charactLimit) + '...' : row[headers[j].primary_key] }}</span>
+                title="{{row[headers[j].primary_key]}}">{{ (row[headers[j].primary_key] )}}</span>
             </ng-template>
             <!-- <span *ngIf="row[headers[j].primary_key].length == 0">-</span> -->
             <!-- <span *ngIf="row[headers[j].primary_key].length != 0"
