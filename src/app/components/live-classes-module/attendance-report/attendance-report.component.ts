@@ -5,6 +5,7 @@ import { MessageShowService } from '../../..';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { HttpService } from '../../../services/http.service';
+import { ExcelService } from '../../../services/excel.service';
 
 @Component({
   selector: 'app-attendance-report',
@@ -22,6 +23,15 @@ export class AttendanceReportComponent implements OnInit {
   temp_attendance_list: any[] = [];
   session_data: any;
   searchInput: any = '';
+  tableSetting: any = {
+    keys: [
+    { primaryKey: 'display_id', header: 'Id'},
+    { primaryKey: 'name', header: 'Name'},
+    { primaryKey: 'attendance_status', header: 'Status'},
+    { primaryKey: 'join_time', header: 'Start Time'},
+    { primaryKey: 'leave_join', header: 'End Time'},
+    { primaryKey: 'duration', header: 'Duration'},
+  ]};
 
   constructor(
     private auth: AuthenticatorService,
@@ -29,7 +39,8 @@ export class AttendanceReportComponent implements OnInit {
     private appC: AppComponent,
     private route: ActivatedRoute,
     private http_service: HttpService,
-    private msgService: MessageShowService
+    private msgService: MessageShowService,
+    private excelService: ExcelService
   ) { }
 
   ngOnInit() {
@@ -96,6 +107,23 @@ export class AttendanceReportComponent implements OnInit {
       );
       this.attendance_list = searchData;
     }
+  }
+
+  ExportAsExcel() {
+    let arr = []
+    this.attendance_list.map(
+      (ele: any) => {
+        let json = {}
+        this.tableSetting.keys.map((keys) => {
+          json[keys.header] = ele[keys.primaryKey]
+        })
+        arr.push(json);
+      }
+    )
+    this.excelService.exportAsExcelFile(
+      arr,
+      'attendance_report'
+    )
   }
 
 }

@@ -68,13 +68,16 @@
             <span>{{session_data.total_guest}}</span>
           </div>
         </div>
-        <div class="header-item" style="padding: 0;">
+        <div class="header-item" style="padding: 0;width: 15%;">
           <section class="search-bar-container">
             <div class="field-wrapper">
               <input type="text" value="" id="search_bar" [(ngModel)]="searchInput" name="searchInput" (keyup)="searchDatabase(search)"
                  placeholder="Search here..." class="search-box" #search>
             </div>
           </section>
+        </div>
+        <div class="header-item" style="width: 3%;padding: 0;padding-top: 2px;">
+          <span (click)="ExportAsExcel()" title="Export as Excel"><i _ngcontent-c28="" aria-hidden="true" class="fa fa-file-excel-o" style="font-size: 28px;color: darkred;cursor: pointer;"></i></span>
         </div>
       </section>
 
