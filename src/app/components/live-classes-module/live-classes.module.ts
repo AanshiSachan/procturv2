@@ -11,6 +11,7 @@ import { LiveClassesComponent } from './live-classes/live-classes.component';
 import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap-custome';
 import { ProductService } from '../../services/products.service';
 import { AttendanceReportComponent } from './attendance-report/attendance-report.component';
+import { ExcelService } from '../../services/excel.service';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { AttendanceReportComponent } from './attendance-report/attendance-report
     AttendanceReportComponent
   ],
   providers: [
-    ProductService
+    ProductService,
+    ExcelService
   ]
 })
 export class LiveClassesModule { }
