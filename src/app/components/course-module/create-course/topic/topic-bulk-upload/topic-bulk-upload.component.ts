@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
@@ -35,6 +35,7 @@ export class TopicBulkUploadComponent implements OnInit {
   templateSubjectData: any[] = [];
 
   bulkUploadRecords: any[] = [];
+  @ViewChild('fileUpload') fileUpload: any;
 
 
   constructor(
@@ -118,8 +119,9 @@ export class TopicBulkUploadComponent implements OnInit {
 
   /* base64 data to be converted to xls file */
   downloadBulkTemplate() {
+    if((this.filterData.standard_id!=-1) && (this.filterData.subject_id!=-1)){
     this.auth.showLoader();
-    let url = "/api/v1/topic_manager/"+this.downloadTempData.subject_id;
+    let url = "/api/v1/topic_manager/"+this.filterData.subject_id;
     this._http.getData(url).subscribe(
       (res: any) => {
         this.auth.hideLoader();
@@ -142,6 +144,13 @@ export class TopicBulkUploadComponent implements OnInit {
         console.log(error);
       }
     );
+    }  else {
+      if(!this.isProfessional){
+        this.msgService.showErrorMessage('error', 'Please Select standard and subject', '');
+      } else {
+        this.msgService.showErrorMessage('error', 'Please Select Master course and course', '');
+      }
+    }
   }
 
 
@@ -197,9 +206,10 @@ export class TopicBulkUploadComponent implements OnInit {
 
   downloadFailure(el) {
     this.auth.showLoader();
-    let url = "/api/v1/bulkUpload/"+this.institute_id+"/success/download/"+el.list_id;
+    let url = "/api/v1/bulkUpload/"+this.institute_id+"/download/"+el.list_id;
     this._http.getData(url).subscribe(
       res => {
+        this.auth.hideLoader();
         var result:any = res;
         let byteArr = this.commonService.convertBase64ToArray(result.document);
         let format = result.format;
@@ -215,7 +225,6 @@ export class TopicBulkUploadComponent implements OnInit {
           dwldLink.setAttribute("href", null);
           dwldLink.setAttribute("download", '');
         }
-        this.auth.hideLoader();
       },
       err => {
         this.auth.hideLoader();
@@ -225,7 +234,8 @@ export class TopicBulkUploadComponent implements OnInit {
 
 
   /* function to upload the xls file as formdata */
-  uploadHandler(event) {
+  uploadHandler(event, fileUpload) {
+    if((this.filterData.standard_id!=-1) && (this.filterData.subject_id!=-1)){
     let formData = new FormData();
 
     let arr: any = Array.from(event.files)
@@ -269,6 +279,7 @@ export class TopicBulkUploadComponent implements OnInit {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'File uploaded Successfully', newxhr.response.fileName);
           this.filterData.standard_id = -1;
           this.filterData.subject_id = -1;
+          fileUpload.clear(); // this will clear your selected file
         } else {
           this.isUploadingXls = false;
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'File uploaded failed', newxhr.response.fileName);
@@ -276,6 +287,13 @@ export class TopicBulkUploadComponent implements OnInit {
       }
     }
     newxhr.send(formData);
+  } else {
+    if(!this.isProfessional){
+      this.msgService.showErrorMessage('error', 'Please Select standard and subject', '');
+    } else {
+      this.msgService.showErrorMessage('error', 'Please Select Master course and course', '');
+    }
+  }
 
   }
 
