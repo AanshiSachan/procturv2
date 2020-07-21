@@ -31,7 +31,7 @@ export class CampaignHomeComponent implements OnInit {
   enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = [];
   enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; commentFormData: any = {};
   today: any = Date.now(); searchBarData: any = null; searchBarDate: any = moment().format('YYYY-MM-DD');
-  displayBatchSize: number = 100; incrementFlag: boolean = true; updateFormComments: any = [];
+  displayBatchSize: number = 25; incrementFlag: boolean = true; updateFormComments: any = [];
   updateFormCommentsBy: any = []; updateFormCommentsOn: any = []; PageIndex: number = 1;
   maxPageSize: number = 0; totalVisibleEnquiry: number = 0; totalCampaign: number = 0; isProfessional: boolean = false;
   isActionDisabled: boolean = false; isMessageAddOpen: boolean = false; isMultiSms: boolean = false;
@@ -509,7 +509,7 @@ export class CampaignHomeComponent implements OnInit {
         },
         errorResponce => {
           //console.log(error);
-          this.showErrorMessage(this.msgService.toastTypes.error,'', errorResponce.error.message);
+          this.showErrorMessage(this.msgService.toastTypes.error, '', errorResponce.error.message);
         }
       );
     }
@@ -698,14 +698,22 @@ export class CampaignHomeComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    let data = [];
-    if (this.searchDataFlag) {
-      data = this.searchData.slice(startindex, startindex + this.studentdisplaysize);
-    } else {
-      data = this.sourceCampaignDataSource.slice(startindex, startindex + this.studentdisplaysize);
-    }
-    return data;
+    let t = this.sourceCampaignDataSource.slice(startindex, startindex + this.displayBatchSize);
+    return t;
+    // let data = [];
+    // if (this.searchDataFlag) {
+    //   data = this.searchData.slice(startindex, startindex + this.studentdisplaysize);
+    // } else {
+    //   data = this.sourceCampaignDataSource.slice(startindex, startindex + this.studentdisplaysize);
+    // }
+    // return data;
   }
+
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
 
   rowClickEvent(row) {
     this.selectedRow = row;
@@ -787,26 +795,26 @@ export class CampaignHomeComponent implements OnInit {
     this.createNew = false;
   }
 
-  hasUnicode (str) {
+  hasUnicode(str) {
     for (var i = 0; i < str.length; i++) {
-        if (str.charCodeAt(i) > 127) return true;
+      if (str.charCodeAt(i) > 127) return true;
     }
     return false;
   }
 
-  countNumberOfMessage(){
+  countNumberOfMessage() {
     let uniCodeFlag = this.hasUnicode(this.messageText);
     let charLimit = 160;
-    if(uniCodeFlag){
+    if (uniCodeFlag) {
       charLimit = 70
     }
-    if(this.messageText.length == 0){
+    if (this.messageText.length == 0) {
       this.messageCount = 0;
     }
-    else if(this.messageText.length > 0 && this.messageText.length <= charLimit){
+    else if (this.messageText.length > 0 && this.messageText.length <= charLimit) {
       this.messageCount = 1;
     }
-    else{
+    else {
       let count = Math.ceil(this.messageText.length / charLimit);
       console.log(count);
       this.messageCount = count;

@@ -111,7 +111,7 @@ export class EmailReportComponent {
 
     this.tableSetting = {
       width: "100%",
-      height: "65vh"
+      height: "67vh"
     }
 
     this.rowColumns = [

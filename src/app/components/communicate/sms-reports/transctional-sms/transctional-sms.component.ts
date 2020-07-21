@@ -145,7 +145,7 @@ export class TransctionalSmsComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "65vh"
+      height: "69vh"
     }
 
     this.rowColumns = [

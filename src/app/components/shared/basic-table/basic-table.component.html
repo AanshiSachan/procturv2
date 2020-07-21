@@ -34,6 +34,8 @@
               [attr.data-target]="datatarget" aria-hidden="true" (click)="editRow(row)"></i>
             <i class="fa fa-trash delete-lead" title="Delete" *ngIf="headers[j].delete" aria-hidden="true"
               (click)="deleteRow(row)"></i>
+            <i class="fa fa-eye" style="color: blue" title="View" *ngIf="headers[j].view" aria-hidden="true"
+              (click)="viewRow(row)"></i>
           </p>
 
         </div>

@@ -35,7 +35,7 @@
         <div class="row" style="float: right;">
           <div class="c-lg-7">
             <input type="text" placeholder="Search"
-              style="border: 1px solid darkgrey;width: 289px;border-radius: 4px;padding-left: 7px;"
+              style="border: 1px solid darkgrey;width: 240px;border-radius: 4px;padding-left: 7px;"
               (keyup)="searchDatabase()" [(ngModel)]="searchText" #search>
           </div>
         </div>
@@ -119,10 +119,13 @@
     <app-basic-table [headers]="headerSetting" [displayData]="emailSource" [tableSetting]="tableSetting"
       [rowColumnSetting]="rowColumns" (editView)='editLeadRow(row)' (deleteView)='deleteLead(row)'>
     </app-basic-table>
-    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-      [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRecords"
-      (sizeChange)="updateTableBatchSize($event)">
-    </pagination>
+    <div style="padding-top: 9px;">
+      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRecords"
+        (sizeChange)="updateTableBatchSize($event)">
+      </pagination>
+    </div>
+
 
   </section>
 
