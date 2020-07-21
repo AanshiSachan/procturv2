@@ -1,9 +1,19 @@
 <div class="middle-section clearFix">
 
   <div class="topic_details">
-    <div class="topic_filter_div">
-      <div class="topic_title">Upload Topic</div>
-    </div>
+    <section class="header-section">
+      <div>
+        <div class="header-title">
+          <h2>
+              <a routerLink="/view/course/create/topic/home" style="color: #0084f6;">
+                Topic
+              </a>
+              <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i> Bulk Upload
+          </h2>
+        </div>
+      </div>
+    </section>
+    <br>
     <div class="filter_div">
       <div class="field-wrapper">
         <label *ngIf="!isProfessional">Standard<span class="text-danger">*</span></label>
@@ -28,7 +38,7 @@
       <!-- <button class="btn fullBlue" style="margin-bottom: 5px;" [disabled]="(filterData.standard_id==-1) || (filterData.subject_id==-1)" (click)="getTopicDetails('view')" >Upload</button> -->
       <div class="pull-right">
         <a >
-          <input type="button" value="Download Template" class="btn fullBlue"  data-backdrop="static" data-toggle="modal" data-target="#downloadTemplate" style="margin-top: 18px; font-size: 12px;"/>
+          <input type="button" value="Download Template" class="btn fullBlue"  data-backdrop="static" (click)="downloadBulkTemplate()" style="margin-top: 18px; font-size: 12px;"/>
         </a>
         <a id="template_link" href="#"></a>
         <button class="btn fullBlue" style="margin-top: 18px; font-size: 12px;" (click)="fetchBulkUploadStatusData()">
@@ -39,7 +49,7 @@
   </div>
 
   <!--====================================middle <Main> section==========================-->
-  <section class="middle-main clearFix" id="bulkEnquiryMain" *ngIf="(filterData.standard_id!=-1) && (filterData.subject_id!=-1)">
+  <section class="middle-main clearFix" id="bulkEnquiryMain">
     <div class="file-upload-box">
       <div class="select-file-upload">
         <h5>Select a file to upload</h5>
@@ -47,7 +57,7 @@
           <ul>
             <li>
               <!-- accept="application/vnd.ms-excel" -->
-              <p-fileUpload customUpload="true" (uploadHandler)="uploadHandler($event)" [showCancelButton]="false">
+              <p-fileUpload #fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler($event, fileUpload)" [showCancelButton]="false">
               </p-fileUpload>
 
               <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
@@ -113,7 +123,7 @@
 
   <!-- Bulk Topic Update Status -->
   <div class="modal fade" id="uploadReport" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog ">
+    <div class="modal-dialog " style="width: 700px;margin-left: 30%;">
       <div class="modal-content" style="padding: 1em;">
         <div class="modal-header">
           <h4 class="modal-title" style="width: 99%;font-weight: 600;">Bulk Topic Update Status</h4>
@@ -122,7 +132,7 @@
         <div class="modal-body body-container">
 
           <div class="row">
-            <div class="" style="height: 50vh;overflow-y: auto;">
+            <div class="" style="height: 60vh;overflow-y: auto;">
               <table>
                 <thead>
                   <tr>
