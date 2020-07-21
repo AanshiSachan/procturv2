@@ -105,7 +105,6 @@ export class ProductListComponent implements OnInit {
       (data: any) => {
         this.auth.hideLoader();
         this.productDetails = data.result;
-        console.log(this.productDetails);
       },
       (error: any) => {
         this.auth.hideLoader();
@@ -128,7 +127,6 @@ export class ProductListComponent implements OnInit {
         this.auth.hideLoader();
         if (response.validate) {
           this.productList = response.result.results;
-          console.log(this.productList);
           this.varJson.total_items = response.result.total_records;
           // -- added by laxmi
           // this code is used to laod image url dynamically not save in locally so dont remove it
@@ -257,11 +255,26 @@ export class ProductListComponent implements OnInit {
     if(!this.isProfessional) {
      object = {
       "ecourse_ids": ecourse,
-      "master_course_name": this.master_course_name,
-      "course_id": this.course_id
+      "master_course_name": "",
+      "course_id": ""
     };
+    if(this.course_id != '') {
+      object = {
+        "course_id": this.course_id
+      };
+    } else if(this.master_course_name!=''){
+      object = {
+        "master_course_name": this.master_course_name,
+      };
+    }
   } else{
-    if(this.master_course_name != "" && this.course_id != "" && this.batch_id != ""){
+    object = {
+      "ecourse_ids": ecourse,
+      'standard_id': "",
+      'subject_id' : "",
+      'batch_id' : ""
+    }
+    if(this.batch_id != ""){
       object = {
         "ecourse_ids": [],
         'standard_id': "",
@@ -277,10 +290,10 @@ export class ProductListComponent implements OnInit {
         'batch_id' : ""
       }
     }
-    else if(this.master_course_name == "" && this.course_id == "" && this.batch_id == ""){
+    else if(this.master_course_name != ""){
       object = {
-        "ecourse_ids": ecourse,
-        'standard_id': "",
+        "ecourse_ids": [],
+        'standard_id': this.master_course_name,
         'subject_id' : "",
         'batch_id' : ""
       }
