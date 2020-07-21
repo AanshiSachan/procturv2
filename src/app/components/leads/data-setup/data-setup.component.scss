@@ -2,6 +2,22 @@
   padding: 1%;
 }
 
+.filter-item-2{
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
+    .add-class-btn{
+      border: 1px solid #3a66fa;
+      border-radius: 4px;
+      box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+      padding: 4px 10px;
+      background: white;
+      color: #1283f4;
+      font-weight: 600;
+      height: 30px;
+      margin-top: 15px;
+    }
+  }
 .horizontal-menu{
   display: flex;
   flex-direction: row;
@@ -25,11 +41,13 @@
 
 .create-standard-field{
     margin-bottom: 10px;
-    background-color: #efefef;
+    background-color: white;
     height: auto;
     margin-left: 10px;
     width: 99%;
+    border-radius: 34px;
     padding-bottom: 15px;
+    border: 1px solid #e0eaec;
 }
 
 .attendance-container{
@@ -103,7 +121,6 @@ table {
 
         }
         .displayComp {
-            .view-comp {}
             .edit-comp {
                 display: none
             }
@@ -112,7 +129,6 @@ table {
             .view-comp {
                 display: none
             }
-            .edit-comp {}
         }
     }
 }

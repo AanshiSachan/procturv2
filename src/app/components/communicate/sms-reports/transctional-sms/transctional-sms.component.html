@@ -38,11 +38,12 @@
         <div class="row" style="float: right;">
           <div class="c-lg-7">
             <input type="text" placeholder="Search"
-              style="border: 1px solid darkgrey;width: 289px;border-radius: 4px;padding-left: 7px;"
+              style="border: 1px solid darkgrey;width: 240px;border-radius: 4px;padding-left: 7px;"
               (keyup)="searchDatabase()" [(ngModel)]="searchText" #search>
           </div>
-          <div class="c-lg-5" style="margin-right: 66px; margin-top: 20px;">
-            <i class="fa fa-file-excel-o" style="font-size: 28px;color: darkred;cursor: pointer;margin-right: 26px;"
+          <div class="c-lg-5" style="margin-right: 23px; margin-top: 20px;">
+            <i class="fa fa-file-excel-o"
+              style="font-size: 28px;color: darkred;cursor: pointer;margin-right: 5px;margin-left: -36px;"
               aria-hidden="true" (click)="exportToPdf()"></i>
             <i class="fa fa-file-pdf-o" style="font-size: 28px;color: green;cursor: pointer;" aria-hidden="true"
               (click)="exportToExcel()"></i>
@@ -177,7 +178,7 @@
           </data-display-table>
         </div> -->
     <app-basic-table [headers]="headerSetting" [displayData]="smsSource" [tableSetting]="tableSetting"
-      [rowColumnSetting]="rowColumns" (editView)='editLeadRow(row)' (deleteView)='deleteLead(row)'>
+      [rowColumnSetting]="rowColumns">
     </app-basic-table>
 
 

@@ -31,6 +31,17 @@
     }
   }
 
+  .add-class-btn{
+    border: 1px solid #3a66fa;
+    border-radius: 4px;
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+    padding: 4px 10px;
+    background: white;
+    color: #1283f4;
+    font-weight: 600;
+    height: 30px;
+    margin-left: 15px;
+}
   .optMenu {
     .enq-dropdown-content {
       position: absolute;

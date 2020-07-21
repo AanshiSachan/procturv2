@@ -1,3 +1,181 @@
+<div class="middle-section clear-fix" style="padding-left: 15px; padding-right: 30px; padding-top: 20px;">
+  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;">
+    <h1 class="pull-left">
+      <a routerLink="/view/leads" style="padding:0px;">
+        Lead
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      <a routerLink="/view/leads/enquiryReport">
+        Enquiry Report
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Counsellor Report
+    </h1>
+  </section>
+  <!--   
+  <section class="sms-filter-wrapper" style="border-top: 1px solid #d4d4d4; border-bottom: 1px solid #d4d4d4">
+    <div class="row">
+      <div class="c-lg-4" style="padding-left: 0px;">
+        <div class="field-wrapper datePickerBox has-value" style="padding-top: 8px;">
+          <label for="fromDate" style="font-size: 13px; padding: 1px;">Sent From</label><span class="danger">*</span>
+          <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" style="border: solid 1px #e2ebee;
+          border-radius: 4px;" readonly="true" name="fromDate" [(ngModel)]="smsFetchForm.from_date"
+            (ngModelChange)="dateValidationForFuture($event) " bsDatepicker />
+        </div>
+        <div class="field-wrapper datePickerBox has-value" style="padding-top: 8px;">
+          <label for="toDate" style="font-size: 13px; padding: 1px;">Sent To</label><span class="danger">*</span>
+          <input type="text" value="" id="updateDate" readonly="true" [(ngModel)]="smsFetchForm.to_date"
+            class="form-ctrl bsDatepicker" style="border: solid 1px #e2ebee;
+            border-radius: 4px;" name="toDate" (ngModelChange)="dateValidationForFuture($event)" bsDatepicker />
+        </div>
+      </div>
+      <div class="c-lg-1">
+        <div class="btn-sms-search">
+          <input type="button" style="margin-top: 9%;margin-left: -50%;" class="normal-btn fullBlue btn" value="Go"
+            (click)="fetchSmsByDate()" />
+        </div>
+      </div>
+      <div class="c-lg-13">
+        <div class="row" style="float: right;">
+          <div class="c-lg-7">
+            <input type="text" placeholder="Search"
+              style="border: 1px solid darkgrey;width: 289px;border-radius: 4px;padding-left: 7px;"
+              (keyup)="searchDatabase()" [(ngModel)]="searchText" #search>
+          </div>
+          <div class="c-lg-5" style="margin-right: 66px; margin-top: 20px;">
+            <i class="fa fa-file-excel-o" style="font-size: 28px;color: darkred;cursor: pointer;margin-right: 26px;"
+              aria-hidden="true" (click)="exportToPdf()"></i>
+            <i class="fa fa-file-pdf-o" style="font-size: 28px;color: green;cursor: pointer;" aria-hidden="true"
+              (click)="exportToExcel()"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+  <section class="middle-main clearFix">
+
+    <section>
+
+      <div class="row"
+        style="margin-left: 0%; margin-bottom: 2%; border-top: 1px solid lightgrey;border-bottom: 1px solid lightgrey;padding-bottom: 16px;">
+        <div class="c-lg-3 field-wrapper" style="margin-right: -9%;">
+          <label>Counsellor</label>
+          <select class="form-ctrl" [(ngModel)]="counsellorInfoDetails.assigned_to"
+            style="border-radius: 4px;width: 60%;">
+            <option value="-1">
+            </option>
+            <option *ngFor="let i of getCounsellorData" [value]="i.userid">
+              {{i.name}}
+            </option>
+          </select>
+        </div>
+
+        <div class="c-lg-3 field-wrapper datePickerBox" style="margin-right: -11%;">
+          <label>Enquiry From Date</label>
+          <input type="text" readonly="true" class="form-ctrl" bsDatepicker
+            [(ngModel)]="counsellorInfoDetails.updateDateFrom" style="border-radius: 4px;width: 50%;">
+        </div>
+
+        <div class="c-lg-3 field-wrapper datePickerBox" style="margin-right: -11%;">
+          <label>Enquiry To Date</label>
+          <input type="text" readonly="true" class="form-ctrl" bsDatepicker
+            [(ngModel)]="counsellorInfoDetails.updateDateTo" style="border-radius: 4px;width: 50%;">
+        </div>
+
+        <div class="c-lg-3 " style="margin-top:2%;">
+          <button class="btn fullBlue" (click)="fetchAllCounsellorDataDetails()" style="margin-top: -1%;">Go</button>
+          <div id="basic-search" style=" margin-top: -2% ; float:right;">
+            <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText"
+              name="searchData" (keyup)="searchDatabase()"
+              style="padding:7px 10px; width:200px; height:35px; margin-left: 200%; border-radius: 4px;">
+          </div>
+        </div>
+        <!-- <div class="cl-lg-3 field-wrapper">
+          
+        </div> -->
+
+      </div>
+
+      <!-- <div id="basic-search" style="margin:5px; float:right;">
+        <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText"
+          name="searchData" (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
+      </div> -->
+      <div style="max-height: 68vh;min-height: 68vh;">
+        <rob-table [isMulti]="false" [records]="getCounsellorDetails" [dataStatus]="dataStatus"
+          (userRowSelect)="reportHandler($event)" [tableName]="'feereport'" [settings]="feeSettings1">
+        </rob-table>
+
+      </div>
+
+      <proctur-popup [sizeWidth]="'small'" *ngIf="showPopup">
+        <span class="closePopup pos-abs fbold show" (click)="popupToggler()" close-button>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                  transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                  transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16"
+                height="16" transform="translate(1012 297)" />
+            </g>
+          </svg>
+        </span>
+
+        <h2 popup-header>Enquiries</h2>
+
+        <div popup-content class="main-student-table">
+          <div class="table table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    Enquiry No
+                  </th>
+                  <th>
+                    Enquiry Date
+                  </th>
+                  <th>
+                    Name
+                  </th>
+                  <th>
+                    Mobile No.
+                  </th>
+                  <th>
+                    Last Updated
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let i of popupDataEnquiries">
+                  <td>
+                    {{i.enquiry_no}}
+                  </td>
+                  <td>
+                    {{i.enquiry_date}}
+                  </td>
+                  <td>
+                    {{i.name}}
+                  </td>
+                  <td>
+                    {{i.phone}}
+                  </td>
+                  <td>
+                    {{i.updateDate}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </proctur-popup>
+
+    </section>
+  </section>
+</div>
+
+<!-- 
+
 <div class="clear-fix background">
   <aside class="middle-full">
     <section class="middle-main clearFix attendance-container">
@@ -35,12 +213,14 @@
 
           <div class="c-lg-3 field-wrapper datePickerBox">
             <label>Enquiry From Date</label>
-            <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="counsellorInfoDetails.updateDateFrom" >
+            <input type="text" readonly="true" class="form-ctrl" bsDatepicker
+              [(ngModel)]="counsellorInfoDetails.updateDateFrom">
           </div>
 
           <div class="c-lg-3 field-wrapper datePickerBox">
             <label>Enquiry To Date</label>
-            <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="counsellorInfoDetails.updateDateTo" >
+            <input type="text" readonly="true" class="form-ctrl" bsDatepicker
+              [(ngModel)]="counsellorInfoDetails.updateDateTo">
           </div>
 
           <div class="c-lg-3 " style="margin-top:2%;">
@@ -49,12 +229,12 @@
         </div>
 
         <div id="basic-search" style="margin:5px; float:right;">
-          <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-            (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
+          <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText"
+            name="searchData" (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
         </div>
 
-        <rob-table [isMulti]="false" [records]="getCounsellorDetails" [dataStatus]="dataStatus" (userRowSelect)="reportHandler($event)"
-          [tableName]="'feereport'" [settings]="feeSettings1">
+        <rob-table [isMulti]="false" [records]="getCounsellorDetails" [dataStatus]="dataStatus"
+          (userRowSelect)="reportHandler($event)" [tableName]="'feereport'" [settings]="feeSettings1">
         </rob-table>
 
         <proctur-popup [sizeWidth]="'small'" *ngIf="showPopup">
@@ -62,11 +242,13 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
               <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                 <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                  <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                  <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                  <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                    transform="translate(992.81 305.77) rotate(45)" />
+                  <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                    transform="translate(978.81 305.77) rotate(45)" />
                 </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                />
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16"
+                  height="16" transform="translate(1012 297)" />
               </g>
             </svg>
           </span>
@@ -98,7 +280,7 @@
                 <tbody>
                   <tr *ngFor="let i of popupDataEnquiries">
                     <td>
-                        {{i.enquiry_no}}
+                      {{i.enquiry_no}}
                     </td>
                     <td>
                       {{i.enquiry_date}}
@@ -122,4 +304,4 @@
       </section>
     </section>
   </aside>
-</div>
+</div> -->

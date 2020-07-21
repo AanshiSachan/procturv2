@@ -15,7 +15,7 @@ export class BasicTableComponent implements OnInit, OnChanges {
   @Input() rowColumnSetting: any[];
   @Output() editView = new EventEmitter();
   @Output() deleteView = new EventEmitter();
-
+  @Output() viewView = new EventEmitter();
   tableRows: any[] = [];
 
   currentKey: string = '';
@@ -38,6 +38,9 @@ export class BasicTableComponent implements OnInit, OnChanges {
 
   deleteRow(row) {
     this.deleteView.emit({ 'data': row })
+  }
+  viewRow(row) {
+    this.viewView.emit({ 'data': row })
   }
 
   sortByCol(key) {

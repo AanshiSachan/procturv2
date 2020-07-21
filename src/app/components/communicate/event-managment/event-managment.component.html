@@ -5,9 +5,9 @@
     <div class="row">
       <h1 class="pull-left marginhead">
         <a routerLink="/view/communicate">
-       &nbsp;&nbsp; Communicate
+          &nbsp;&nbsp; Communicate
         </a>
-        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>   Manage Event
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Manage Event
       </h1>
       <div class="pull-right">
         <input type="button" class="fullBlue btn" value="Add Event" (click)="addPopup()" />
@@ -17,11 +17,13 @@
 
     <section class="middle-main clearFix">
 
-      <div class="row filter-section-wrapper">
+      <div class="row filter-section-wrapper"
+        style="background: white;border-top: 1px solid lightgrey;border-bottom: 1px solid lightgrey;margin-bottom: 27px;">
         <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2">
           <div class="form-wrapper">
             <label>Month</label>
-            <select class="side-form-ctrl" id="two" name="month" [(ngModel)]="list_obj.month">
+            <select class="side-form-ctrl" id="two" name="month" [(ngModel)]="list_obj.month"
+              style="border-radius: 4px;">
               <option value="-1" name="month">Month</option>
               <option value="1">January</option>
               <option value="2">february</option>
@@ -42,7 +44,7 @@
         <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2">
           <div class="form-wrapper">
             <label>Year</label>
-            <select class="side-form-ctrl" name="year" id="two" [(ngModel)]="list_obj.year">
+            <select class="side-form-ctrl" name="year" id="two" [(ngModel)]="list_obj.year" style="border-radius: 4px;">
               <option value="-1" name="year">Year</option>
               <option value="2015">2015</option>
               <option value="2016">2016</option>
@@ -63,7 +65,8 @@
 
         <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2" style="margin-top: 25px;margin-left:-93px">
           <div class="field-radio-wrapper">
-            <input class="form-radio" type="radio" name="discount" value="2" id='r2' [(ngModel)]="list_obj.event_type" checked="checked">
+            <input class="form-radio" type="radio" name="discount" value="2" id='r2' [(ngModel)]="list_obj.event_type"
+              checked="checked">
             <label for="r2" class="l1">General</label>
           </div>
         </div>
@@ -74,7 +77,8 @@
 
         <div class="c-sm-3 c-md-3 c-lg-3">
           <div class="search-filter-wrapper" style="margin-left:-20px;">
-            <input #search type="textbox" class="normal-field" [(ngModel)]="searchDataFilter" placeholder="Search" (keyup)="searchInList()">
+            <input #search type="textbox" class="normal-field" style="border-radius: 5px;"
+              [(ngModel)]="searchDataFilter" placeholder="Search" (keyup)="searchInList()">
           </div>
         </div>
 
@@ -131,12 +135,14 @@
                   </td>
                   <td class="view-comp" (click)="updatePopup(row.holidayId)">
                     <span class="pull-right" style="cursor: pointer;padding-right: 9% !important;text-align: left;">
-                      <i class="fa fa-pencil " aria-hidden="true" style="color:#0084f6;margin-right: 5px;font-family: FontAwesome" title="Edit"></i>
+                      <i class="fa fa-pencil " aria-hidden="true"
+                        style="color:#0084f6;margin-right: 5px;font-family: FontAwesome" title="Edit"></i>
                     </span>
                   </td>
                   <td class="view-comp" (click)="deleteEntryData(row.holidayId)">
                     <span class="pull-right" style="cursor: pointer;padding-right: 9% !important;text-align: left;">
-                      <i class="fa fa-trash-o " aria-hidden="true" style="color:red;margin-right: 5px;font-family: FontAwesome" title="Delete"></i>
+                      <i class="fa fa-trash-o " aria-hidden="true"
+                        style="color:red;margin-right: 5px;font-family: FontAwesome" title="Delete"></i>
                     </span>
 
                   </td>
@@ -158,8 +164,8 @@
       <!-- Paginator Here -->
       <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-            [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+            [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRow">
           </pagination>
         </div>
       </div>
@@ -172,8 +178,11 @@
 <proctur-popup [sizeWidth]="'small'" *ngIf="addEventPopUp">
 
   <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
-    <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-      <path class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+    <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
+      width="24px" x="0" y="0">
+      <path class="large-icon"
+        d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+        style="fill: currentColor"></path>
     </svg>
   </span>
   <h2 popup-header>Create Event</h2>
@@ -215,8 +224,8 @@
             <label for="csd">Event Date
               <span class="text-danger">*</span>
             </label>
-            <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker" [(ngModel)]="saveDataObj.holiday_date" readonly="true"
-              name="csd" bsDatepicker>
+            <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker"
+              [(ngModel)]="saveDataObj.holiday_date" readonly="true" name="csd" bsDatepicker>
           </div>
         </div>
       </div>
@@ -226,8 +235,8 @@
             <label for="csd">Event End Date
               <span class="text-danger">*</span>
             </label>
-            <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker" [(ngModel)]="saveDataObj.event_end_date" readonly="true"
-              name="csd" bsDatepicker>
+            <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker"
+              [(ngModel)]="saveDataObj.event_end_date" readonly="true" name="csd" bsDatepicker>
 
           </div>
         </div>
@@ -236,7 +245,8 @@
       <div class="row" *ngIf="saveDataObj.event_type == 2">
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12" style="margin-left: 20px;">
           <div class="field-checkbox-wrapper">
-            <input class="form-checkbox" name="enddatecheckbox" type="checkbox" (change)="checkChange($event.target.checked)" />
+            <input class="form-checkbox" name="enddatecheckbox" type="checkbox"
+              (change)="checkChange($event.target.checked)" />
             <label for="enddatecheckbox">Add End Date</label>
           </div>
         </div>
@@ -253,7 +263,8 @@
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
           <div class="form-wrapper" [ngClass]="{'has-value':saveDataObj.holiday_long_desc!= ''}">
             <label for="longDesc">Long Description</label>
-            <textarea style="height:95px; font-weight: 100" maxlength="500" class="side-form-ctrl" name="longDesc" [(ngModel)]="saveDataObj.holiday_long_desc"></textarea>
+            <textarea style="height:95px; font-weight: 100" maxlength="500" class="side-form-ctrl" name="longDesc"
+              [(ngModel)]="saveDataObj.holiday_long_desc"></textarea>
           </div>
         </div>
       </div>
@@ -280,7 +291,8 @@
 
           <div class="c-lg-8 form-wrapper">
             <label for="fileupload">Upload File</label>
-            <input type="file" id="fileAdd" class="side-form-ctrl" (change)="fileUpload('imgAdd')" name="fileupload" accept="image/*">
+            <input type="file" id="fileAdd" class="side-form-ctrl" (change)="fileUpload('imgAdd')" name="fileupload"
+              accept="image/*">
             <p style="margin-left: 20px">Max Allowed Size : 1 MB
               <br> File Format : jpg/jpeg/bmp/gif/png</p>
           </div>
@@ -292,7 +304,8 @@
         </div>
       </div>
 
-      <input type="button" class="fullBlue btn pull-right" style="margin-right: 20px;" value="save" (click)="saveEventData()" />
+      <input type="button" class="fullBlue btn pull-right" style="margin-right: 20px;" value="save"
+        (click)="saveEventData()" />
 
     </div>
 
@@ -305,11 +318,13 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
       <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
         <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+            transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+            transform="translate(978.81 305.77) rotate(45)" />
         </g>
-        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-        />
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+          transform="translate(1012 297)" />
       </g>
     </svg>
   </span>
@@ -350,11 +365,11 @@
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12 datenameEvent">
           <div class="form-wrapper datePickerBox" [ngClass]="{'has-value': (newUpdateObj.holiday_date != '' )}">
             <label for="csd" style="display:inline-block; ">Event Date
-              <span style="display:inline-block;" class="text-danger">*</span> 
+              <span style="display:inline-block;" class="text-danger">*</span>
             </label>
 
-            <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker" [(ngModel)]="newUpdateObj.holiday_date" readonly="true"
-              name="csd" bsDatepicker>
+            <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker"
+              [(ngModel)]="newUpdateObj.holiday_date" readonly="true" name="csd" bsDatepicker>
           </div>
         </div>
       </div>
@@ -366,8 +381,8 @@
             <label for="eventenddate">Event End Date
               <span class="text-danger">*</span>
             </label>
-            <input type="text" class="side-form-ctrl  bsDatepicker" name="eventenddate" bsDatepicker [(ngModel)]="newUpdateObj.event_end_date"
-            />
+            <input type="text" class="side-form-ctrl  bsDatepicker" name="eventenddate" bsDatepicker
+              [(ngModel)]="newUpdateObj.event_end_date" />
           </div>
         </div>
       </div>
@@ -393,8 +408,8 @@
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
           <div class="form-wrapper" [ngClass]="{'has-value':newUpdateObj.holiday_long_desc!= ''}">
             <label style="padding-top: 10px;">Long Description<span class="text-danger">*</span></label>
-            <textarea rows="5" style="height:95px; font-weight: 100" maxlength="500" name="l_desc" class="side-form-ctrl" name="eventName"
-              [(ngModel)]="newUpdateObj.holiday_long_desc"></textarea>
+            <textarea rows="5" style="height:95px; font-weight: 100" maxlength="500" name="l_desc"
+              class="side-form-ctrl" name="eventName" [(ngModel)]="newUpdateObj.holiday_long_desc"></textarea>
           </div>
         </div>
       </div>
@@ -428,7 +443,8 @@
           </div>
           <div class="c-lg-10 form-wrapper">
             <label for="filename" style="width: auto">Upload File</label>
-            <input type="file" id="fileAdd" (change)="fileUpload('imgUpdate')" name="filename" class="side-form-ctrl" accept="image/*">
+            <input type="file" id="fileAdd" (change)="fileUpload('imgUpdate')" name="filename" class="side-form-ctrl"
+              accept="image/*">
             <p style="margin-left: 20px">Max Allowed Size : 1 MB
               <br> File Format : jpg/jpeg/bmp/gif/png</p>
           </div>
@@ -436,8 +452,8 @@
       </div>
 
 
-      <input type="button" class="fullBlue btn pull-right" style="margin-right: 5px;" value="Update" (click)="updatePopupData()"
-      />
+      <input type="button" class="fullBlue btn pull-right" style="margin-right: 5px;" value="Update"
+        (click)="updatePopupData()" />
 
     </div>
   </div>

@@ -26,6 +26,9 @@
   margin-right: 30px;
 
 }
+::ng-deep bs-datepicker-container {
+    margin-left: 5% !important;
+  }
 .sms-view-wrapper{
     padding: 5px;
     .row{
