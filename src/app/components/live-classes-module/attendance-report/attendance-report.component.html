@@ -90,6 +90,9 @@
             <span>Name</span>
           </div>
           <div class="table-heading-item md-item">
+            <span>Contact No.</span>
+          </div>
+          <div class="table-heading-item md-item">
             <span>Status</span>
           </div>
           <div class="table-heading-item md-item">
@@ -116,6 +119,9 @@
                 <span *ngIf="record.user_type == 99">(Register user)</span>
                 <span *ngIf="record.isInvited">(Guest)</span>
               </span>
+            </div>
+            <div class="table-value-item md-item">
+              {{record.phone!=null ? record.phone : '-'}}
             </div>
             <div class="table-value-item md-item">
               <span *ngIf="record.attendance_status == 'ABSENT'" class="absent">{{record.attendance_status}}</span>

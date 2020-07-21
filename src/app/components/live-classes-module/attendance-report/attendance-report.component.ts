@@ -27,6 +27,7 @@ export class AttendanceReportComponent implements OnInit {
     keys: [
     { primaryKey: 'display_id', header: 'Id'},
     { primaryKey: 'name', header: 'Name'},
+    { primaryKey: 'phone', header: 'Contact No.'},
     { primaryKey: 'attendance_status', header: 'Status'},
     { primaryKey: 'join_time', header: 'Start Time'},
     { primaryKey: 'leave_join', header: 'End Time'},
