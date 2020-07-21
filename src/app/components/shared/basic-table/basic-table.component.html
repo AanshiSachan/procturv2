@@ -16,7 +16,7 @@
         *ngFor="let row of tableRows; let i = index">
         <div class="table-value-item" *ngFor="let col of rowColumnSetting; let j = index"
           [ngStyle]="{'width': rowColumnSetting[j].width, 'text-align': rowColumnSetting[j].textAlign}">
-          <p *ngIf="headers[j].primary_key != 'action'">
+          <p *ngIf="headers[j].primary_key != 'action'" style="padding-right: 25px ;">
             <span *ngIf="!row[headers[j].primary_key]; else elseBlock">-</span>
             <ng-template #elseBlock>
               <span *ngIf="row[headers[j].primary_key].length == 0">-</span>
