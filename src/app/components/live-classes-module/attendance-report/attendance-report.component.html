@@ -27,10 +27,23 @@
 
         <div class="header-item" style="width: 45%;">
           <div class="header-title">
-            <span>Attendance Threshold : </span>
+            <span>Attendance Threshold : 
+            </span>
           </div>
           <div class="header-value">
-            <span>{{session_data.attendance_threshold}}</span>
+            <span>{{session_data.attendance_threshold}}
+              <div class="questionInfo inline-relative">
+                <span class="qInfoIcon i-class">?</span>
+                <div class="tooltip-box-field md">
+                  Students are marked <br>Present
+                  for the class in  <br>case they 
+                  attend class  <br>for the duration 
+                  more than  <br>the defined threshold <br>
+                  percentage. This setting <br>
+                  can be changed from the <br> Settings section.
+                </div>
+              </div>
+            </span>
           </div>
         </div>
 
@@ -65,7 +78,7 @@
             <span>Guest : </span>
           </div>
           <div class="header-value">
-            <span>{{session_data.total_guest}}</span>
+            <span>{{session_data.total_guest==0 ? '-' : session_data.total_guest}}</span>
           </div>
         </div>
         <div class="header-item" style="padding: 0;width: 15%;">
@@ -96,13 +109,13 @@
             <span>Status</span>
           </div>
           <div class="table-heading-item md-item">
-            <span>Start Time</span>
+            <span>Join Time</span>
           </div>
           <div class="table-heading-item md-item">
-            <span>End Time</span>
+            <span>Left Time</span>
           </div>
           <div class="table-heading-item md-item">
-            <span>Duration</span>
+            <span>Duration (mins)</span>
           </div>
         </div>
         <div class="table-outer-value-container">

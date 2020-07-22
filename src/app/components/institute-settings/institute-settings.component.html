@@ -3443,10 +3443,21 @@
                     </tr>
 
                     <tr style="border-bottom: none;">
-                      <div class="row extraMarginTen checkboxes">
-                        <div class="c-sm-6 c-md-6 c-lg-6">
+                      <div class="row">
+                        <div class="c-sm-6 c-md-6 c-lg-6" style="width: 75%;">
                           <div class="field-wrapper">
-                            <label for="attendance">Attendance Threshold (%)</label>
+                            <label for="attendance">Attendance Threshold (%age)</label>
+                            <div class="questionInfo inline-relative">
+                              <span class="qInfoIcon i-class">i</span>
+                              <div class="tooltip-box-field md">
+                                Students will be marked <br>
+                                present for the live<br>
+                                class in case they attend <br>
+                                class for the duration <br>
+                                more then the defined 
+                                <br>threshold percentage.
+                              </div>
+                            </div>
                             <input type="number" id="attendance" class="form-ctrl" max='90' min='0' [(ngModel)]="instituteSettingDet.live_class_attendance_threshold">
                           </div>
                         </div>
@@ -3456,7 +3467,7 @@
                     <tr>
 
                       <div class="row m-0 webkitBox">
-                        <div class="c-lg-5">
+                        <div class="c-lg-5" style="width: 75%;">
                           <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.live_class_attendance_notification != ''}">
                             <label for="live_class_attendance_notification">Attendance Notification
                               <!-- <div class="questionInfo inline-relative">

@@ -141,7 +141,7 @@
                   </div>
                 </div>
               </div>
-              <div class="notification_container" *ngIf="liveClassFor && is_proctur_live_recording_allow == '1'">
+              <div class="notification_container" *ngIf="liveClassFor && is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'">
                 <span class="i-class" style="margin-right: 10px;">
                   <button type="button" name="button" class="action_upload" data-toggle="modal" data-target="#uploadRec" (click)="viewAttandance(class.session_id)">
                      View Attendance
