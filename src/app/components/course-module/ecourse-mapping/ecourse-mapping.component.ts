@@ -19,6 +19,7 @@ export class EcourseMappingComponent implements OnInit {
   @ViewChild('child') private child: DataDisplayTableComponent;
   institute_id: any;
   totalRecords: number = 0;
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   ecourseDataSource: any = [];
   pageIndex: number = 1;
   displayBatchSize: number = 25;
@@ -93,7 +94,7 @@ export class EcourseMappingComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "50vh"
+      height: "59vh"
     }
 
     this.rowColumns = []
@@ -618,6 +619,12 @@ export class EcourseMappingComponent implements OnInit {
     let t = this.ecourseDataSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
 
+  }
+
+
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.pageIndex);
   }
 
 }
