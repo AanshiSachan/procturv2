@@ -21,7 +21,7 @@
   </section>
 </div>
 
-<table class="tableBodyScroll" id="printDiv">
+<table class="tableBodyScroll" id="printDiv" style="margin-top: 2px;">
   <thead>
     <tr>
       <th *ngIf="displayKeys.selectAll.showSelectAll" class="checkBoxCss">
@@ -165,13 +165,16 @@
     </tr>
 
     <ng-template [ngIf]="recordsTrimmed.length==0">
-      <div class="schedule-scroller">
+      <div class="illustration-container">
+        <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
+      </div>
+      <!-- <div class="schedule-scroller">
         <ul class="ulCss ul-body ct-ongoing">
           <li style="width: 100%;">
             <label style="font-size: 16px;font-weight: 600;">{{displayKeys.displayMessage}}</label>
           </li>
         </ul>
-      </div>
+      </div> -->
     </ng-template>
   </tbody>
 </table>

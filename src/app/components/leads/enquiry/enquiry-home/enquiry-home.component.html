@@ -68,7 +68,7 @@
         <div class="filter-search">
           <div class="filter-box clearFix">
             <!-- Search Bar -->
-            <div class="c-lg-6 c-md-6 c-sm-6 pull-left">
+            <div class="c-lg-6 c-md-6 c-sm-6 pull-left" style="margin-left: -17px;">
               <div class="search-filter-wrapper" id="adFilterExitVisible">
                 <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No."
                   style="font-size:12px; margin: 0px 5px 0px -5px;" [(ngModel)]="varJson.searchBarData"
@@ -79,7 +79,7 @@
             </div>
 
             <!-- Quick Filter -->
-            <div class="c-lg-3 c-md-3 c-sm-3 pull-left">
+            <div class="c-lg-3 c-md-3 c-sm-3 pull-left" style="margin-left: -8rem;">
               <div id="qfilt">
                 <quick-filter [inputList]="statFilter" (selectedValue)="statusFilter($event)" [modelName]="'enqList'">
                 </quick-filter>
@@ -87,7 +87,7 @@
             </div>
 
             <!-- Advance Filter Trigger -->
-            <div class="c-lg-3 c-md-3 c-sm-3">
+            <div class="c-lg-3 c-md-3 c-sm-3" style="margin-left: 9rem;">
               <span class="filter-right" style="float: right;margin-right: 20px;margin-top: 10px;">
                 <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advance
                   Filter
