@@ -171,6 +171,7 @@ export class LiveClassesComponent implements OnInit {
   donloadBar: boolean = false;
 
   daysLeftForSubscriptionExpiry: number;
+  ShowActionBtn: any = {};
 
   constructor(
     private auth: AuthenticatorService,
@@ -1020,6 +1021,11 @@ export class LiveClassesComponent implements OnInit {
   onMouseOver($event) {
     $event.preventDefault();
     return false;
+  }
+
+  toggleActionMenu(event) {
+    console.log(event);
+    // event.target.nextElementSibling.classList.toggle('d-flex');
   }
 
 }

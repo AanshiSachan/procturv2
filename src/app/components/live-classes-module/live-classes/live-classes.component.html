@@ -141,14 +141,6 @@
                   </div>
                 </div>
               </div>
-              <div class="notification_container" *ngIf="liveClassFor && is_proctur_live_recording_allow == '1'">
-                <span class="i-class">
-                  <button type="button" name="button" class="action_upload" data-toggle="modal" data-target="#uploadRec" (click)="upload(class.session_id, class.live_meeting_with)">
-                    Upload Recording
-                    <i class="fa fa-upload" aria-hidden="true"></i>
-                  </button>
-                </span>
-              </div>
             </div>
             <div class="sub-item-2">
               <div class="item_type_1">
@@ -182,31 +174,71 @@
                 <span style="color: #9898a3;">Attendees : </span>
                 <span  style="color: #585574;font-weight: 600;">{{class.attendeesCount}} of {{class.totalAttendeesLimit}}</span>
               </div> &nbsp;&nbsp;
-              <div class="item_type_1" *ngIf="!isProfessional" style="width: 19%;">
+              <div class="item_type_1" *ngIf="!isProfessional" style="width: 28%;">
                 <span style="color: #585574;">
                   <span style="color: #9898a3;">Master Course : </span>
                   <span title="{{class.course_list[0].master_course_name}}" *ngIf="class.course_list!=null && class.course_list?.length!=0"  style="font-weight: 600;">
-                    {{ (class.course_list[0]?.master_course_name?.length>15) ? (class.course_list[0].master_course_name | slice:0:15 ) + '...' : (class.course_list[0].master_course_name) }}
+                    {{ (class.course_list[0]?.master_course_name?.length>30) ? (class.course_list[0].master_course_name | slice:0:30 ) + '...' : (class.course_list[0].master_course_name) }}
                   </span>
                 </span>
                 <span style="color: #585574;">
                   <span style="color: #9898a3;">Course : </span>
                   <span title="{{class.course}}"  style="font-weight: 600;color: #0084f6">
-                    {{ (class.course?.length>15) ? (class.course | slice:0:15 ) + '...' : (class.course) }}
+                    {{ (class.course?.length>30) ? (class.course | slice:0:30 ) + '...' : (class.course) }}
                   </span>
                 </span>
               </div>
 
-              <div class="item_type_1" *ngIf="isProfessional" style="width: 19%;">
+              <div class="item_type_1" *ngIf="isProfessional" style="width: 28%;">
                   <span style="color: #9898a3;">Batch : </span>
                   <span title="{{class.course}}">
-                    {{ (class.course?.length>15) ? (class.course | slice:0:15 ) + '...' : (class.course) }}
+                    {{ (class.course?.length>30) ? (class.course | slice:0:30 ) + '...' : (class.course) }}
                   </span>
               </div>
-              <div class="item_type_2">
+              <div class="item_type_2" *ngIf="liveClassFor">
+
+                <div class="dropdown dropleft">
+                  <button class="btn btn-light btn-xs dropdown-toggle" type="button" (click)="toggleActionMenu($event)"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
+                  </button>
+                  <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
+                    <span class="dropdown-item" *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'" (click)="viewAttandance(class.session_id)">View Attendance</span>
+                    <span class="dropdown-item" *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'" data-toggle="modal" data-target="#uploadRec" (click)="upload(class.session_id, class.live_meeting_with)">Upload Recording&nbsp;
+                      <i class="fa fa-upload" aria-hidden="true"></i></span>
+                    <span class="dropdown-item">
+                        <div class="questionInfo inline-relative">
+                        <button type="button" style="background: none;" name="button" [disabled]="proctur_live_expiry_date_check" (click)="repeatSession(class.session_id, class.live_meeting_with)"  [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                        <i class="fa fa-repeat" aria-hidden="true"></i>
+                        &nbsp;
+                        Repeat Class
+                      </button>
+                      <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                        Your Proctur Live<br>
+                        subscription is over.<br>
+                        Please pay quickly<br>
+                        to continue using it.
+                    </div>
+                    </div>
+                    </span>
+                  </div>
+                </div>
+                <!-- <span class="i-class" style="margin-right: 10px;">
+                  <button type="button" name="button" class="action_upload" data-toggle="modal" data-target="#uploadRec" (click)="viewAttandance(class.session_id)">
+                     View Attendance
+                  </button>
+                </span>
+                <span class="i-class">
+                  <button type="button" name="button" class="action_upload" data-toggle="modal" data-target="#uploadRec" (click)="upload(class.session_id, class.live_meeting_with)">
+                    Upload Recording
+                    <i class="fa fa-upload" aria-hidden="true"></i>
+                  </button>
+                </span> -->
+              </div>
+              <!-- <div class="item_type_2" *ngIf="!liveClassFor">
                   <div class="questionInfo inline-relative">
                       <span class=" i-class">
-                          <button type="button" name="button"  *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                          <button type="button" name="button"  *ngIf="forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                               <i class="fa fa-play" aria-hidden="true"></i>
                               &nbsp;
                               Start Class
@@ -237,15 +269,13 @@
                     </div>
 
               </div>
-              <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0">
+              <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0">
                 &nbsp;&nbsp;
                 <button class="viewAction" title="download/view" (click)="viewdownload_links(class)"
-                *ngIf="class.download_links?.length > 0"
                   [ngClass]="{'disabledButton': class.download_links?.length==0}">
-                  <!-- <i class="fa fa-repeat" aria-hidden="true" ></i> &nbsp; -->
                   View Recording
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
