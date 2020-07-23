@@ -1,6 +1,45 @@
-<div class="report-wrapper clearFix" style="height: 100vh;">
-  <aside class="middle-full">
-    <section class="middle-main clearFix">
+<div class="middle-section clear-fix" style="padding-left: 15px; padding-right: 30px; padding-top: 20px;">
+  <section class="middle-top clearFix bulk-header"
+    style="padding-left: 5px; padding-bottom: 10px; border-bottom: 1px solid lightgrey;">
+
+    <h1 class="pull-left">
+      <a routerLink="/view/course">
+        Course
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      <a routerLink="/view/course/archiving">
+        Archiving
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="!isProfessional"></i>
+      <span *ngIf="!isProfessional">Courses Archived Report</span>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="isProfessional"></i>
+      <span *ngIf="isProfessional">Batches Archived Report</span>
+    </h1>
+    <div style="float: right;">
+      <input type="text" placeholder="Search"
+        style="border: 1px solid darkgrey;width: 240px;border-radius: 4px;padding-left: 7px;line-height: 28px;"
+        (keyup)="searchDatabase()" [(ngModel)]="searchText" #search>
+    </div>
+  </section>
+  <section>
+    <div class="table table-responsive" style="margin-top:1vh;">
+      <app-basic-table [headers]="headerSetting" [displayData]="newPaginated" [tableSetting]="tableSetting"
+        [rowColumnSetting]="rowColumns"></app-basic-table>
+    </div>
+    <div class="row filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="PageIndex" [perPage]="pagedisplaysize" [sizeArr]="sizeArr"
+          (sizeChange)="updateTableBatchSize($event)" [count]="totalRow">
+        </pagination>
+      </div>
+    </div>
+  </section>
+</div>
+<!-- ================================================================================ -->
+<!-- <div class="report-wrapper clearFix" style="height: 100vh;">
+  <aside class="middle-full"> -->
+<!-- <section class="middle-main clearFix">
 
       <div class="middle-top mb0 clearFix header">
         <div class="report-header" style="padding-bottom:1% ; height:7vh;">
@@ -19,19 +58,19 @@
           </h2>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section>
-      <div class="filter-box clearFix" style="margin: 6px 0px 6px 6px;float: right;">
+<!-- <section> -->
+<!-- <div class="filter-box clearFix" style="margin: 6px 0px 6px 6px;float: right;">
         <div id="basic-search" class="search-filter-wrapper">
           <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText"
             name="searchData" (keyup)="searchDatabase()" style="padding: 10px;">
         </div>
-      </div>
-      <div class="table table-responsive" style="margin-top:5vh;">
+      </div> -->
+<!-- <div class="table table-responsive" style="margin-top:5vh;">
         <app-basic-table [headers]="headerSetting" [displayData]="newPaginated" [tableSetting]="tableSetting"
-          [rowColumnSetting]="rowColumns"></app-basic-table>
-        <!-- <table>
+          [rowColumnSetting]="rowColumns"></app-basic-table> -->
+<!-- <table>
           <thead>
             <tr>
               <th *ngIf="!isProfessional" style="text-align: left;" (click)="sortedData('course_name') ">
@@ -153,7 +192,7 @@
             </tr>
           </tbody>
         </table> -->
-      </div>
+<!-- </div>
       <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
           <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
@@ -163,4 +202,4 @@
       </div>
     </section>
   </aside>
-</div>
+</div> -->

@@ -15,10 +15,11 @@ declare var $;
 })
 export class StudentsArchivedReportComponent implements OnInit {
 
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   getStudents: any[] = []
   PageIndex: number = 1;
   PageIndexPopup: number = 1;
-  pagedisplaysize: number = 10;
+  pagedisplaysize: number = 25;
   pagedisplaysizePopup: number = 10;
   totalRow: number = 0;
   newPaginated: any[] = [];
@@ -130,7 +131,7 @@ export class StudentsArchivedReportComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "50vh"
+      height: "69vh"
     }
 
     this.rowColumns = [
@@ -345,6 +346,10 @@ export class StudentsArchivedReportComponent implements OnInit {
       let t = this.arr.slice(startindex, startindex + this.pagedisplaysize);
       return t;
     }
+  }
+  updateTableBatchSize(event) {
+    this.pagedisplaysize = event;
+    this.fetchTableDataByPage(this.PageIndex);
   }
 
 

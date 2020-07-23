@@ -42,10 +42,10 @@
               (keyup)="searchDatabase()" [(ngModel)]="searchText" #search>
           </div>
           <div *ngIf="totalRecords != 0" class="c-lg-5" style="margin-right: 23px; margin-top: 20px;">
-            <i class="fa fa-file-excel-o"
+            <i class="fa fa-file-pdf-o"
               style="font-size: 28px;color: darkred;cursor: pointer;margin-right: 5px;margin-left: -36px;"
               aria-hidden="true" (click)="exportToPdf()"></i>
-            <i class="fa fa-file-pdf-o" style="font-size: 28px;color: green;cursor: pointer;" aria-hidden="true"
+            <i class="fa fa-file-excel-o" style="font-size: 28px;color: green;cursor: pointer;" aria-hidden="true"
               (click)="exportToExcel()"></i>
           </div>
 

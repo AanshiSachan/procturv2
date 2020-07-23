@@ -1,7 +1,77 @@
-<div class="report-wrapper clearFix" style="height: 100vh;">
+<div class="middle-section clear-fix" style="padding-left: 15px; padding-right: 30px; padding-top: 20px;">
+  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;">
+
+    <h1 class="pull-left">
+      <a routerLink="/view/course">
+        {{jsonflag.isProfessional ? 'Batch' : 'Course'}}
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> E-course Mapping
+    </h1>
+  </section>
+  <section class="sms-filter-wrapper"
+    style="border-top: 1px solid #d4d4d4; border-bottom: 1px solid #d4d4d4;padding-top: 10px;padding-bottom: 10px;">
+    <div class="row" style="margin-left: 0;margin-right: 0">
+      <div class="c-lg-12 field-made">
+        <div class="c-lg-3 field-wrapper" style="margin-left: -2rem;margin-top: 0.5rem;">
+          <label for="from">E-course Name<span class="text-danger">*</span></label>
+          <input type="text" class="form-ctrl" [(ngModel)]="ecourseObject.course_type">
+        </div>
+
+        <div class="c-lg-3 c-md-3 c-ms-3" style="height: auto;" *ngIf="jsonflag.allowMapping=='1'"
+          (click)="openAssignBatch()">
+          <div style="height: 80px; padding: 5px; background: #efefef; overflow-y: auto;">
+            <div *ngFor="let course of assignCourses" [ngClass]="!jsonflag.isUpadted?'chipped intable':''">
+
+              <span *ngIf="!jsonflag.isUpadted">{{course}}</span>
+            </div>
+
+            <span
+              *ngIf="(!jsonflag.isProfessional &&(assignCourses.length==0))||(!jsonflag.isProfessional && jsonflag.isUpadted)"
+              style="    color: gray;">Assign Courses</span>
+            <span
+              *ngIf="jsonflag.isProfessional &&(assignCourses.length==0) ||(jsonflag.isProfessional && jsonflag.isUpadted)"
+              style="    color: gray;">Assign Standard</span>
+          </div>
+          <a style="cursor:pointer" *ngIf="!jsonflag.isProfessional" (click)="openAssignBatch()">Assign Courses</a>
+          <a style="cursor:pointer" *ngIf="jsonflag.isProfessional" (click)="openAssignBatch()">Assign Standard</a>
+        </div>
+
+        <div class="c-lg-3 field-wrapper" *ngIf="jsonflag.allowMapping=='1'" style="width: 20%; margin-top: 1.4rem;">
+          <div class="c-lg-2" style="width: 50%;">
+            <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="Y" id="is_offline_or_online"
+              [(ngModel)]="ecourseObject.is_online"><label class="online_offline_label">Online</label>
+          </div>
+          <div class="c-lg-2" style="width: 50%;padding-left: 0;">
+            <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="N" id="is_offline_or_online"
+              style="-webkit-appearance: radio;" [(ngModel)]="ecourseObject.is_online"><label>Offline</label>
+          </div>
+        </div>
+
+        <div class="c-lg-2" style="margin-top:2%;margin-left: -2rem;">
+          <input type="button" class="btn fullBlue" value="Add" (click)="addEcourseMapping()">
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="table table-responsive" style="margin-top: 30px; overflow-x: initial;">
+
+      <app-basic-table [headers]="headerSetting" [displayData]="ecourseData" [tableSetting]="tableSetting"
+        [rowColumnSetting]="rowColumns" (editView)='editRecord($event)'>
+      </app-basic-table>
+      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRecords"
+        (sizeChange)="updateTableBatchSize($event)">
+      </pagination>
+    </div>
+  </section>
+</div>
+
+<!-- =================================================================================================== -->
+<!-- <div class="report-wrapper clearFix" style="height: 100vh;">
   <aside class="middle-full">
-    <section class="middle-main clearFix">
-      <div class="middle-top mb0 clearFix header" style="width: 100%;
+    <section class="middle-main clearFix"> -->
+<!-- <div class="middle-top mb0 clearFix header" style="width: 100%;
             padding-bottom: 20px;    background: #fff;">
         <div class="row" style="margin-left: 0;margin-right: 0">
           <h2 style="padding: 16px 0px 3px 10px;" class="pull-left">
@@ -9,10 +79,10 @@
               {{jsonflag.isProfessional ? 'Batch' : 'Course'}}
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> E-course Mapping
-          </h2>
-          <!-- <a (click)="clearObjects()" *ngIf="jsonflag.isUpadted" class="form btnAdd">Add E-Course
+          </h2> -->
+<!-- <a (click)="clearObjects()" *ngIf="jsonflag.isUpadted" class="form btnAdd">Add E-Course
           </a> -->
-
+<!-- 
         </div>
 
         <div class="row" style="margin-left: 0;margin-right: 0">
@@ -41,10 +111,10 @@
               <a style="cursor:pointer" *ngIf="jsonflag.isProfessional" (click)="openAssignBatch()">Assign Standard</a>
             </div>
 
-            <div class="c-lg-3 field-wrapper" *ngIf="jsonflag.allowMapping=='1'" style="width: 20%;">
-              <!-- <div class="field-wrapper"> -->
-              <!-- <br> -->
-              <div class="c-lg-2" style="width: 50%;">
+            <div class="c-lg-3 field-wrapper" *ngIf="jsonflag.allowMapping=='1'" style="width: 20%;"> -->
+<!-- <div class="field-wrapper"> -->
+<!-- <br> -->
+<!-- <div class="c-lg-2" style="width: 50%;">
                 <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="Y"
                   id="is_offline_or_online" [(ngModel)]="ecourseObject.is_online"><label
                   class="online_offline_label">Online</label>
@@ -53,35 +123,35 @@
                 <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="N"
                   id="is_offline_or_online" style="-webkit-appearance: radio;"
                   [(ngModel)]="ecourseObject.is_online"><label>Offline</label>
-              </div>
-              <!-- </div> -->
-            </div>
+              </div> -->
+<!-- </div> -->
+<!-- </div>
 
             <div class="c-lg-2" style="margin-top:2%;">
-              <input type="button" class="btn fullBlue" value="Add" (click)="addEcourseMapping()">
-              <!-- <input type="button" class="btn fullBlue" *ngIf="jsonflag.isUpadted" value="Update" (click)="updateCourseMapping()"> -->
-            </div>
+              <input type="button" class="btn fullBlue" value="Add" (click)="addEcourseMapping()"> -->
+<!-- <input type="button" class="btn fullBlue" *ngIf="jsonflag.isUpadted" value="Update" (click)="updateCourseMapping()"> -->
+<!-- </div>
           </div>
         </div>
 
-      </div>
+      </div> -->
 
-      <div class="table table-responsive" style="margin-top: 30px; overflow-x: initial;">
-        <!-- <data-display-table *ngIf="displayKeys.length" #child [displayKeys]="tableSetting" [displayData]="ecourseData"
+<!-- <div class="table table-responsive" style="margin-top: 30px; overflow-x: initial;"> -->
+<!-- <data-display-table *ngIf="displayKeys.length" #child [displayKeys]="tableSetting" [displayData]="ecourseData"
           (editView)='optionSelected($event)'>
         </data-display-table> -->
-        <app-basic-table [headers]="headerSetting" [displayData]="ecourseData" [tableSetting]="tableSetting"
+<!-- <app-basic-table [headers]="headerSetting" [displayData]="ecourseData" [tableSetting]="tableSetting"
           [rowColumnSetting]="rowColumns" (editView)='editRecord($event)'>
         </app-basic-table>
         <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
           [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
         </pagination>
-      </div>
-    </section>
+      </div> -->
+<!-- </section>
   </aside>
-</div>
+</div> -->
 
-
+<!-- =================================================================================================================== -->
 <proctur-popup [sizeWidth]="'large'" *ngIf="jsonflag.isAssignBatch">
 
   <span class="closePopup pos-abs fbold show" (click)="jsonflag.isAssignBatch = false" close-button>
