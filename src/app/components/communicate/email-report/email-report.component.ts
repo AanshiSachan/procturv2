@@ -116,7 +116,7 @@ export class EmailReportComponent {
 
     this.rowColumns = [
       {
-        width: "12%",
+        width: "15%",
         textAlign: "left"
       },
       {
@@ -124,11 +124,11 @@ export class EmailReportComponent {
         textAlign: "left"
       },
       {
-        width: "40%",
+        width: "33%",
         textAlign: "left"
       },
       {
-        width: "15%",
+        width: "10%",
         textAlign: "left"
       },
       {

@@ -1,7 +1,7 @@
 <div class="middle-section clearFix" id="enquiryList" #enquiryManager>
   <!-- Main View -->
   <aside class="middle-full">
-    <section class="middle-top clearFix">
+    <section class="middle-top clearFix" style="border-bottom: 1px solid lightgrey;padding-bottom: 0.5rem;">
       <h1 class="pull-left">
         <a routerLink="/view/fee">
           Fees
@@ -17,10 +17,11 @@
       <aside class="pull-right">
         <div class="btn-container">
           <div class="search-filter-wrapper">
-            <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData"
-              [(ngModel)]="searchText" (keyup)="searchInList()">
+            <input type="text" class="normal-field pull-right" style="border-radius: 4px;" placeholder="Search"
+              name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
           </div>
-          <button class="btn" routerLink='/view/fee/data-setup/fee-template/add'>
+          <button class="btn" style="box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);border:1px solid #1283f4"
+            routerLink='/view/fee/data-setup/fee-template/add'>
             New Structure
           </button>
         </div>
@@ -90,7 +91,7 @@
         </div>
       </div>
 
-      <div class="row filter-res pagination" style="width: 100%;">
+      <div class="row filter-res pagination" style="width: 100%;margin-top: 2px;padding-left: 14px;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
           <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
             [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">

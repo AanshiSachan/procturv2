@@ -138,32 +138,32 @@ export class TemplateHomeComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "50vh"
+      height: "71vh"
     }
 
     this.rowColumns = [
       {
-        width: "20%",
+        width: "16.66%",
         textAlign: "left"
       },
       {
-        width: "20%",
+        width: "16.66%",
         textAlign: "left"
       },
       {
-        width: "20%",
+        width: "16.66%",
         textAlign: "left"
       },
       {
-        width: "20%",
+        width: "16.66%",
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "16.66%",
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "16.66%",
         textAlign: "left"
       },
 

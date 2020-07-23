@@ -17,6 +17,21 @@
     display: block;
   }
 }
+.headerSection{
+  // margin-left: -17px;
+  //   margin-top: -17px;
+  //   padding-bottom: 7px;
+    border-bottom: 1px solid lightgrey;
+}
+.searchSetting{
+  padding: 7px 10px;
+    width: 200px;
+    height: 35px;
+    float: right;
+    margin-bottom: 10px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+}
 
 .dropdown1::before {
   position: absolute;
