@@ -115,14 +115,14 @@
             <span>Left Time</span>
           </div>
           <div class="table-heading-item md-item">
-            <span>Duration (mins)</span>
+            <span>Attended duration (mins)</span>
           </div>
         </div>
         <div class="table-outer-value-container">
           <div class="table-value-container" *ngFor="let record of attendance_list" 
-          [ngClass]="{'absent-border': record.attendance_status == 'ABSENT',
-                        'present-border': record.attendance_status == 'PRESENT',
-                        'partially-border': record.attendance_status == 'PARTIALLY_PRESENT'}">
+          [ngClass]="{'absent-border': record.attendance_status == 'Absent',
+                        'present-border': record.attendance_status == 'Present',
+                        'partially-border': record.attendance_status == 'Partially Present'}">
             <div class="table-value-item sm-item">
               <span>{{record.display_id!=null ? record.display_id : '-'}}</span>
             </div>
@@ -137,9 +137,9 @@
               {{record.phone!=null ? record.phone : '-'}}
             </div>
             <div class="table-value-item md-item">
-              <span *ngIf="record.attendance_status == 'ABSENT'" class="absent">{{record.attendance_status}}</span>
-              <span *ngIf="record.attendance_status == 'PRESENT'" class="present">{{record.attendance_status}}</span>
-              <span *ngIf="record.attendance_status == 'PARTIALLY_PRESENT'" class="partially">{{record.attendance_status}}</span>
+              <span *ngIf="record.attendance_status == 'Absent'" class="absent">{{record.attendance_status}}</span>
+              <span *ngIf="record.attendance_status == 'Present'" class="present">{{record.attendance_status}}</span>
+              <span *ngIf="record.attendance_status == 'Partially Present'" class="partially">{{record.attendance_status}}</span>
             </div>
             <div class="table-value-item md-item">
               <span >{{record.join_time}}</span>
