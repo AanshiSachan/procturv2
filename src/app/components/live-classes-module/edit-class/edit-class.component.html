@@ -413,10 +413,90 @@
         </div>
       </section>
 
+      <div class="class_details_container zoomMsgSection" style="color: white;background: #1283f4;width: 8%;border-radius: 4px;padding: 7px;margin-top: -3%;" *ngIf="live_class_for=='2'">
+        <span data-toggle="modal" style="cursor: pointer;" data-target="#zoomFAQ">Zoom FAQs</span>
+      </div>
       <div class="class_details_container zoomMsgSection" *ngIf="live_class_for=='2'">
         <span style="font-weight: 600;">Note : </span> While scheduling class with zoom, please do not schedule class more than two hours in advance to avoid getting an error message. We are working on this with zoom and will get a solution soon.
        </div>
 
     </section>
   </aside>
+</div>
+
+
+<div id="zoomFAQ" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h2 class="modal-title">Zoom FAQs</h2>
+      </div>
+      <div class="modal-body">
+        <div class="new-modules-list">
+          <ol>
+            <li>If you see error "Error in scheduling Meeting"?
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>In Proctur "My Account" - 
+                  <ul style="font-weight: 400; margin-top: 5px;list-style: lower-roman;">
+                    <li>Check JWT token should be mentioned correctly, verify from ZOOM Account as well. 
+                    </li>
+                    <li>Check there should not be any blank space before email id field
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+
+            <li>Asking for a password when a student joins the class?
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>This usually happens when the password setting is on in ZOOM Account. Go to Zoom Account Settings in your zoom account and turn off the password for joiners. Please note this is available only in PAID Zoom accounts.
+                </li>
+              </ul>
+            </li>
+
+            <li>Facing issue in scheduling multiple classes at the same time?
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>Make sure you have a multiple host plan with zoom and check in Proctur My Accounts whether no of hosts is mentioned correctly.
+                </li>
+              </ul>
+            </li>
+
+            <li>Seeing message when you start class “You cannot start a meeting because it is hosted by another user”?
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>It could be because of one of the below reasons 
+                  <ul style="font-weight: 400; margin-top: 5px;list-style: lower-roman;">
+                    <li>Another faculty meeting is still going on from different systems.
+                    </li>
+                    <li>Check the number of hosts purchased. There should be a host available to start the meeting.
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+
+            <li>Zoom meeting issue on Apple device (Chrome & Safari Browser)?
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>Go to browser setting > Content setting > Block Pop Up. 
+                </li>
+              </ul>
+            </li>
+
+            <li>When students click on join class and ask for a download zoom app in a customized app? 
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>Ask student to update the app, in case this doesn't resolve, your app may need updation. Connect with Proctur support team.
+                </li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
 </div>

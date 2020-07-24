@@ -244,7 +244,7 @@
                   </button>
                 </span> -->
               </div>
-              <!-- <div class="item_type_2" *ngIf="!liveClassFor">
+               <div class="item_type_2" *ngIf="!liveClassFor">
                   <div class="questionInfo inline-relative">
                       <span class=" i-class">
                           <button type="button" name="button"  *ngIf="forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
@@ -261,7 +261,7 @@
                       </div>
                     </div>
 
-                    <div class="questionInfo inline-relative">
+                    <!-- <div class="questionInfo inline-relative">
                         <span class=" i-class">
                             <button type="button" name="button" class="repeat_session" *ngIf="liveClassFor" [disabled]="proctur_live_expiry_date_check" (click)="repeatSession(class.session_id, class.live_meeting_with)"  [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                                 <i class="fa fa-repeat" aria-hidden="true"></i>
@@ -275,10 +275,10 @@
                             Please pay quickly<br>
                             to continue using it.
                         </div>
-                    </div>
+                    </div> -->
 
               </div>
-              <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0">
+              <!-- <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0">
                 &nbsp;&nbsp;
                 <button class="viewAction" title="download/view" (click)="viewdownload_links(class)"
                   [ngClass]="{'disabledButton': class.download_links?.length==0}">
