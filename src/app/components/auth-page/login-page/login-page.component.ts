@@ -248,9 +248,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           this.auth.hideLoader();
           sessionStorage.setItem('login-response',JSON.stringify(res));
           this.single_login_login_check = res.single_device_login;
-          if(res.data != null){
-            this.zoom_enable = JSON.stringify(res.data.is_zoom_integration_enable)
-          }
           this.checkForAuthOptions(res);
         },
         err => {
@@ -468,6 +465,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         }
       }
       // this.auth.changeInstituteId(institute_data.institution_id);
+      this.zoom_enable = JSON.stringify(institute_data.is_zoom_integration_enable)
       this.auth.course_flag.next(institute_data.course_structure_flag);
       this.auth.institute_type.next(institute_data.institute_type);
       this.auth.instituteType_name.next(institute_data.institute_type);
