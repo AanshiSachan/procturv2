@@ -484,6 +484,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       (username == "admin" && this.instituteId == 100952) ||
       (username == "admin" && this.instituteId == 100135) ||
       (username == "admin" && this.instituteId == 101923) ||
+      (username == "admin" && this.instituteId == 102026) ||
       (permission && permission.indexOf('721') != -1)) {
       this.jsonFlags.isShowLibrabry = true;
     }
