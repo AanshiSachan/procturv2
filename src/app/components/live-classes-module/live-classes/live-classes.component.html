@@ -7,6 +7,11 @@
             <span>Live Class</span>
           </h1>
         </div>
+        <div style="float: right;margin-right: 30px;">
+          <span class="new-keyword">New</span>
+          <span style="font-weight: 600;">- Proctur Live class Attendance Report</span>
+          <a title="Feedback" href="https://bit.ly/live_class_Feedback" target="_blank"><img style="height: 20px;" src="../../../../assets/images/review.svg"> </a>
+        </div>
 
       </section>
       <section>
@@ -198,19 +203,17 @@
               <div class="item_type_2" *ngIf="liveClassFor">
 
                 <div class="dropdown dropleft">
-                  <button class="btn btn-light btn-xs dropdown-toggle" type="button" (click)="toggleActionMenu($event)"
+                  <button style="background: #0084f6;color: white;" class="btn btn-light btn-xs dropdown-toggle" type="button" (click)="toggleActionMenu($event)"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
                   </button>
                   <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
                     <span class="dropdown-item" *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'" (click)="viewAttandance(class.session_id)">View Attendance</span>
                     <span class="dropdown-item" *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'" data-toggle="modal" data-target="#uploadRec" (click)="upload(class.session_id, class.live_meeting_with)">Upload Recording&nbsp;
-                      <i class="fa fa-upload" aria-hidden="true"></i></span>
+                    </span>
                     <span class="dropdown-item">
                         <div class="questionInfo inline-relative">
                         <button type="button" style="background: none;" name="button" [disabled]="proctur_live_expiry_date_check" (click)="repeatSession(class.session_id, class.live_meeting_with)"  [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                        <i class="fa fa-repeat" aria-hidden="true"></i>
-                        &nbsp;
                         Repeat Class
                       </button>
                       <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
@@ -220,6 +223,12 @@
                         to continue using it.
                     </div>
                     </div>
+                    </span>
+                    <span class="dropdown-item" *ngIf="proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0">
+                      <button style="background: none;" title="download/view" (click)="viewdownload_links(class)"
+                      [ngClass]="{'disabledButton': class.download_links?.length==0}">
+                      View Recording
+                    </button>
                     </span>
                   </div>
                 </div>
