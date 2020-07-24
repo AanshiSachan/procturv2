@@ -350,4 +350,12 @@ export class TopicBulkUploadComponent implements OnInit {
     xhr.send(JSON.stringify(obj));
   }
 
+  genrateReport(obj) {
+    if(obj.failure_count != 0) {
+      this.downloadFailure(obj);
+    } else if (obj.success_count != 0) {
+      this.downloadSuccess(obj);
+    }
+  }
+
 }

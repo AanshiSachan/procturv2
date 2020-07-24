@@ -142,6 +142,7 @@
                     <th>Total Count</th>
                     <th style="text-align: left;">Success Count</th>
                     <th style="text-align: left;">Failure Count</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -155,8 +156,7 @@
                       </a>
                       <span *ngIf="record.success_count == 0">
                         {{record.success_count}}
-                      </span>
-                      <i *ngIf="record.success_count != 0" class="fa fa-download download-icon" aria-hidden="true" (click)="downloadSuccess(record)"></i>
+                      </span>                      
                     </td>
                     <td style="text-align: left;padding-left: 30px;">
                       <a *ngIf="record.failure_count != 0" id="failure{{record.list_id}}" >
@@ -165,7 +165,9 @@
                       <span *ngIf="record.failure_count == 0">
                         {{record.failure_count}}
                       </span>
-                      <i *ngIf="record.failure_count != 0" class="fa fa-download download-icon" aria-hidden="true" (click)="downloadFailure(record)"></i>
+                    </td>
+                    <td>
+                      <span style="color: #0084f6;" *ngIf="record.failure_count != 0 || record.success_count != 0" (click)="genrateReport(record)">Generate Report <i class="fa fa-download download-icon" aria-hidden="true"></i></span>
                     </td>
                   </tr>
                 </tbody>
