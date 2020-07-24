@@ -140,8 +140,8 @@
                     <th>Status</th>
                     <!-- <th>Comments</th> -->
                     <th>Total Count</th>
-                    <th style="text-align: left;">Success</th>
-                    <th style="text-align: left;">Failed</th>
+                    <th>Success</th>
+                    <th>Failed</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -150,7 +150,7 @@
                     <td>{{record.created_date}}</td>
                     <td>{{record.statusValue}}</td>
                     <td>{{record.total_count}}</td>
-                    <td style="text-align: left;padding-left: 30px;">
+                    <td>
                       <a *ngIf="record.success_count != 0" id="success{{record.list_id}}" >
                         Success
                       </a>
@@ -158,7 +158,7 @@
                         -
                       </span>                      
                     </td>
-                    <td style="text-align: left;padding-left: 30px;">
+                    <td>
                       <a *ngIf="record.failure_count != 0" id="failure{{record.list_id}}" >
                         Fail
                       </a>
