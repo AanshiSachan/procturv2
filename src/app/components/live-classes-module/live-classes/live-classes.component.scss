@@ -844,3 +844,35 @@ html {
         transition: all 0.5s ease;
     }
 }
+
+.dropdown-menu {
+  position: absolute;
+  top: -.5rem;
+  left: -10rem;
+  min-width: 170px;
+
+  .dropdown-item {
+    padding: .4em 1em;
+    border-right: 1pt solid #eee;
+    color: black;
+    display: flex;
+    cursor: pointer;
+
+    &:hover {
+      color: white;
+      background: #0084f6;
+    }
+  }
+}
+
+.new-keyword{
+  background-color: #27c24c;
+  color: #fff;
+  border-radius: 10px;
+  letter-spacing: 0.7px;
+  padding: 5px;
+  margin: 0 5px;
+  font-size: 12px;
+  width: 50px;
+  text-align: center;
+}
