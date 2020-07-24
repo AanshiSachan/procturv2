@@ -1,21 +1,22 @@
 <section class="middle-section">
-    <!-- course module -->
-    <section class="header-section">
-      <div>
-          <div class="header-title">
-              <span> Communicate</span>
-            </div>
+  <!-- course module -->
+  <section class="header-section">
+    <div>
+      <div class="header-title">
+        <span> Communicate</span>
       </div>
-      <div class="pull-right act-right-sec">
-        <button class="btn hide add_send_noti" [ngClass]="{hide : checkIfUserHadAccess('105')}" (click)="addSendNotification()">
+    </div>
+    <div class="pull-right act-right-sec">
+      <button class="btn hide add_send_noti" [ngClass]="{hide : checkIfUserHadAccess('105')}"
+        (click)="addSendNotification()">
 
-          <i class="fa fa-plus" aria-hidden="true"></i>
-          &nbsp;
-          Add/Send Notification
-        </button>
-      </div>
-    </section>
-  <div class="course-menu-section-container" >
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        &nbsp;
+        Add/Send Notification
+      </button>
+    </div>
+  </section>
+  <div class="course-menu-section-container">
     <!-- <div class="course-menu-item hide" routerLink="/view/communicate/manage-sms">
       <div class="menu-title">
         <img src="./assets/images/communicate/manage_sms.svg" alt="Manage sms">
@@ -40,7 +41,8 @@
         <span>SMS Report </span>
       </div>
       <div class="menu-description">
-        <span>This Report depicts the daily SMS sent to prospects, students and parents</span>
+        <!-- <span>This Report depicts the daily SMS sent to prospects, students and parents</span> -->
+        <span>This Report depicts the records of all the past and present transactional SMS information.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="../email" *ngIf="showEmailReport">
@@ -52,7 +54,7 @@
         <span>Detail of emails sent to prospect, student and parent on selected date range.</span>
       </div>
     </div>
-    <div class="course-menu-item"  routerLink="../ptm">
+    <div class="course-menu-item" routerLink="../ptm">
       <div class="menu-title">
         <img src="./assets/images/communicate/ptm.svg" alt="ptm management">
         <span>PTM Management</span>
@@ -68,7 +70,8 @@
         <span>Event management</span>
       </div>
       <div class="menu-description">
-        <span>Create and manage events, assign them their type and communicate it with students/parents via SMS or notifications.</span>
+        <span>Create and manage events, assign them their type and communicate it with students/parents via SMS or
+          notifications.</span>
       </div>
     </div>
   </div>
@@ -77,8 +80,11 @@
 
 <app-proctur-widget-pop-up *ngIf="notificationPopUp">
   <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeNotificationPopUp()" close-button>
-    <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-      <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+    <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
+      width="24px" x="0" y="0">
+      <path class="large-icon"
+        d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+        style="fill: currentColor"></path>
     </svg>
   </span>
 
@@ -102,7 +108,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" style="padding-top:0px;">
-              <textarea class="form-ctrl textBox" value="" [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()" placeholder="Message/SMS"></textarea>
+              <textarea class="form-ctrl textBox" value="" [(ngModel)]="newMessageText"
+                (ngModelChange)="countNumberOfMessage()" placeholder="Message/SMS"></textarea>
               <div style="width:100%; display:flex; justify-content:space-between;">
                 <span>Character Count : {{newMessageText.length}}</span>
                 <span>Message Count : <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></span>
@@ -154,8 +161,8 @@
               <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
                 <label for="masterCourse">Master Course</label>
                 <div class="" style="padding: 0px;">
-                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotification.standard_id" (ngModelChange)="onMasterCourseSelection($event)"
-                    name="masterCourse">
+                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotification.standard_id"
+                    (ngModelChange)="onMasterCourseSelection($event)" name="masterCourse">
                     <option value="-1"></option>
                     <option *ngFor="let opt of masterCourseList" [value]="opt.standard_id">
                       {{opt.standard_name}}
@@ -167,8 +174,8 @@
               <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
                 <label for="course">Course</label>
                 <div class="" style="padding: 0px;">
-                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotification.subject_id" (ngModelChange)="onCourseSelection($event)"
-                    name="course">
+                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotification.subject_id"
+                    (ngModelChange)="onCourseSelection($event)" name="course">
                     <option value="-1"></option>
                     <option *ngFor="let opt of courseList" [value]="opt.subject_id">
                       {{opt.subject_name}}
@@ -180,8 +187,8 @@
               <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
                 <label for="batch">Batch</label>
                 <div class="" style="padding: 0px;">
-                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotification.batch_id" (ngModelChange)="fetchDataOnBatchBasis(event)"
-                    name="batch">
+                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotification.batch_id"
+                    (ngModelChange)="fetchDataOnBatchBasis(event)" name="batch">
                     <option value="-1"></option>
                     <option *ngFor="let opt of batchList" [value]="opt.batch_id">
                       {{opt.batch_name}}
@@ -196,7 +203,8 @@
 
               <div *ngIf="studentList.length > 0" class="pull-right" style="margin-top: 15px">
                 <div class="search-filter">
-                  <input type="text" [(ngModel)]="searchData" class="normal-field" placeholder="Search" name="searchData" #searchVal>
+                  <input type="text" [(ngModel)]="searchData" class="normal-field" placeholder="Search"
+                    name="searchData" #searchVal>
                 </div>
               </div>
 
@@ -207,8 +215,8 @@
               <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
                 <label for="masterCourse">Master Course</label>
                 <div class="" style="padding: 0px;">
-                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotificationCourse.master_course" (ngModelChange)="onMasterCourseChange($event)"
-                    name="masterCourse">
+                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotificationCourse.master_course"
+                    (ngModelChange)="onMasterCourseChange($event)" name="masterCourse">
                     <option value="-1"></option>
                     <option *ngFor="let opt of masterCourseList" [value]="opt.master_course">
                       {{opt.master_course}}
@@ -220,8 +228,8 @@
               <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
                 <label for="course">Course</label>
                 <div class="" style="padding: 0px;">
-                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotificationCourse.course_id" (ngModelChange)="($event)"
-                    name="course">
+                  <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotificationCourse.course_id"
+                    (ngModelChange)="($event)" name="course">
                     <option value="-1"></option>
                     <option *ngFor="let opt of courseList" [value]="opt.course_id">
                       {{opt.course_name}}
@@ -236,7 +244,8 @@
 
               <div *ngIf="studentList.length > 0" class="pull-right" style="margin-top: 15px">
                 <div class="search-filter">
-                  <input type="text" [(ngModel)]="searchData" class="normal-field" placeholder="Search" name="searchData" #searchVal>
+                  <input type="text" [(ngModel)]="searchData" class="normal-field" placeholder="Search"
+                    name="searchData" #searchVal>
                 </div>
               </div>
 
@@ -250,28 +259,33 @@
 
             <div class="row checkbox-Group">
               <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">
-                <input type="checkbox" value="" (click)="chkBoxAllActiveStudent($event)" name="activeStudent" class="form-checkbox" id="chkBoxActiveSelection">
+                <input type="checkbox" value="" (click)="chkBoxAllActiveStudent($event)" name="activeStudent"
+                  class="form-checkbox" id="chkBoxActiveSelection">
                 <label for="activeStudent" style=" margin-left: 10px;">All Active Students</label>
               </div>
 
               <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">
-                <input type="checkbox" value="" name="tutorName" (click)="chkBoxAllTeacher($event)" class="form-checkbox" id="chkBoxTutorSelection">
+                <input type="checkbox" value="" name="tutorName" (click)="chkBoxAllTeacher($event)"
+                  class="form-checkbox" id="chkBoxTutorSelection">
                 <label for="tutorName" style=" margin-left: 10px;">All Faculty</label>
               </div>
 
               <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">
-                <input type="checkbox" value="" name="inactiveStudent" (click)="chkBoxAllInActiveStudent($event)" class="form-checkbox" id="chkBoxInActiveSelection">
+                <input type="checkbox" value="" name="inactiveStudent" (click)="chkBoxAllInActiveStudent($event)"
+                  class="form-checkbox" id="chkBoxInActiveSelection">
                 <label for="inactiveStudent" style=" margin-left: 10px;">All Inactive Students</label>
               </div>
 
               <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">
-                <input type="checkbox" value="" name="aluminiStudent" (click)="chkBoxAllAluminiStudent($event)" class="form-checkbox" id="chkBoxAluminiSelection">
+                <input type="checkbox" value="" name="aluminiStudent" (click)="chkBoxAllAluminiStudent($event)"
+                  class="form-checkbox" id="chkBoxAluminiSelection">
                 <label for="aluminiStudent" style=" margin-left: 10px;">All Alumni Students</label>
               </div>
 
-              <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">	
-                <input type="checkbox" value="" name="openAppUser" (click)="chkBoxAllOpenAppUsers($event)" class="form-checkbox" id="chkBoxOpenAppSelection">	
-                <label for="openAppUser" style=" margin-left: 10px;">All Open App Users</label>	
+              <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">
+                <input type="checkbox" value="" name="openAppUser" (click)="chkBoxAllOpenAppUsers($event)"
+                  class="form-checkbox" id="chkBoxOpenAppSelection">
+                <label for="openAppUser" style=" margin-left: 10px;">All Open App Users</label>
               </div>
             </div>
 
@@ -281,7 +295,8 @@
                   <tr>
                     <th>
                       <div class="field-checkbox-wrapper">
-                        <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus()" (click)="checkAllChechboxes($event , studentList)">
+                        <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus()"
+                          (click)="checkAllChechboxes($event , studentList)">
                         <label></label>
                       </div>
                     </th>
@@ -309,7 +324,8 @@
                   <tr *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i; ">
                     <td>
                       <div class="field-checkbox-wrapper">
-                        <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)" [(ngModel)]="row.assigned">
+                        <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)"
+                          [(ngModel)]="row.assigned">
                         <label></label>
                       </div>
                     </td>
@@ -338,38 +354,39 @@
                     </td>
                   </tr>
                 </tbody>
-                <tbody *ngIf="openAppUserSelected">	
-                  <tr *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i; ">	
-                    <td>	
-                      <div class="field-checkbox-wrapper">	
-                        <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)" [(ngModel)]="row.assigned">	
-                        <label></label>	
-                      </div>	
-                    </td>	
-                    <td>	
-                      {{row.user_id}}	
-                    </td>	
-                    <td>	
-                      {{row.name}}	
-                    </td>	
-                    <td>	
-                      {{row.phone}}	
-                    </td>	
-                    <td>	
-                      {{row.student_class}}	
-                    </td>	
-                    <td>	
-                      {{row.doj}}	
-                    </td>	
-                    <td>	
-                      {{row.email_id}}	
-                    </td>	
-                  </tr>	
-                  <tr *ngIf="studentList.length == 0">	
-                    <td colspan="7">	
-                      No Student Found	
-                    </td>	
-                  </tr>	
+                <tbody *ngIf="openAppUserSelected">
+                  <tr *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i; ">
+                    <td>
+                      <div class="field-checkbox-wrapper">
+                        <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)"
+                          [(ngModel)]="row.assigned">
+                        <label></label>
+                      </div>
+                    </td>
+                    <td>
+                      {{row.user_id}}
+                    </td>
+                    <td>
+                      {{row.name}}
+                    </td>
+                    <td>
+                      {{row.phone}}
+                    </td>
+                    <td>
+                      {{row.student_class}}
+                    </td>
+                    <td>
+                      {{row.doj}}
+                    </td>
+                    <td>
+                      {{row.email_id}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="studentList.length == 0">
+                    <td colspan="7">
+                      No Student Found
+                    </td>
+                  </tr>
                 </tbody>
               </table>
 
@@ -379,7 +396,8 @@
                   <tr>
                     <th>
                       <div class="field-checkbox-wrapper">
-                        <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus()" (click)="checkAllChechboxes($event , studentList)">
+                        <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus()"
+                          (click)="checkAllChechboxes($event , studentList)">
                         <label></label>
                       </div>
                     </th>
@@ -401,7 +419,8 @@
                   <tr *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
                     <td>
                       <div class="field-checkbox-wrapper">
-                        <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)" [(ngModel)]="row.assigned">
+                        <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)"
+                          [(ngModel)]="row.assigned">
                         <label></label>
                       </div>
                     </td>
@@ -428,15 +447,16 @@
             </div>
 
             <div *ngIf="showTableFlag">
-              <input type="button" value="Next" class="btn fullBlue pull-right" (click)="selectTabMenu('idSendMessage','divSendMessage')"
-                id="next_tab">
+              <input type="button" value="Next" class="btn fullBlue pull-right"
+                (click)="selectTabMenu('idSendMessage','divSendMessage')" id="next_tab">
             </div>
           </div>
 
           <div id="divSendMessage" class="hide">
             <div class="row" *ngIf="!openAppUserSelected">
               <div class="field-checkbox-wrapper">
-                <input type="checkbox" (click)="changeCurrentView($event)" value="" name="loginMessage" class="form-checkbox" id="sendLoginChkbx">
+                <input type="checkbox" (click)="changeCurrentView($event)" value="" name="loginMessage"
+                  class="form-checkbox" id="sendLoginChkbx">
                 <label for="sendLoginChkbx" style=" margin-left: 10px;">Send Login Message</label>
               </div>
             </div>
@@ -458,13 +478,15 @@
                     <label for="chkbxSmsSend" style=" margin-left: 10px;">SMS</label>
                   </div>
                   <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
-                    <input type="checkbox" value="" (click)="emailCheckBoxClick($event)" name="mail" class="form-checkbox" id="chkbxEmailSend">
+                    <input type="checkbox" value="" (click)="emailCheckBoxClick($event)" name="mail"
+                      class="form-checkbox" id="chkbxEmailSend">
                     <label for="chkbxEmailSend" style=" margin-left: 10px;">Mail</label>
                   </div>
                 </div>
                 <div id="divParentOrGaurdian" class="c-sm-6 c-md-6 c-lg-6" *ngIf="!openAppUserSelected">
                   <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                    <input type="checkbox" checked="true" value="" name="student" class="form-checkbox" id="chkBoxStudent">
+                    <input type="checkbox" checked="true" value="" name="student" class="form-checkbox"
+                      id="chkBoxStudent">
                     <label for="chkBoxStudent" style=" margin-left: 10px;">Student</label>
                   </div>
                   <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
@@ -481,14 +503,18 @@
               <div class="row" *ngIf="showEmailSubject">
 
                 <div class="form-wrapper datepicker c-sm-6 c-xs-6">
-                  <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
-                  <input type="text" [(ngModel)]="messageSubject" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                  <label for="subject"
+                    style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
+                  <input type="text" [(ngModel)]="messageSubject" name="subject" class="side-form-ctrl" value=""
+                    placeholder=""
+                    style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
                     id="divSubjectMessage" />
                 </div>
 
               </div>
 
-              <div class="row" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor' || openAppUserSelected)">
+              <div class="row"
+                *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor' || openAppUserSelected)">
 
                 <div class="schedSwitcher row" [ngClass]="{'hide' : checkRoleMAnagement() }">
                   <ul>
@@ -501,7 +527,8 @@
                   <span>
                     <b style="font-weight: 600;">Configured Notification Messages</b>
                     <b *ngIf="!jsonFlag.showAllMessage">&nbsp;&nbsp;(showing last 30 days added messages)</b>:</span>
-                  <a class="pull-right" style="cursor: pointer; margin-right: 10px;" (click)="getAllSavedMessages()">See All Messages</a>
+                  <a class="pull-right" style="cursor: pointer; margin-right: 10px;" (click)="getAllSavedMessages()">See
+                    All Messages</a>
                 </div>
 
                 <div class="row message-table-wrapper" *ngIf="!jsonFlag.openMessageFlag">
@@ -529,7 +556,8 @@
                       <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
                         <td>
                           <div class="field-checkbox-wrapper">
-                            <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned" (ngModelChange)="onCheckBoxSelection(index , row)">
+                            <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned"
+                              (ngModelChange)="onCheckBoxSelection(index , row)">
                             <label></label>
                           </div>
                         </td>
@@ -540,7 +568,7 @@
                           {{row.message}}
                         </td>
                         <td>
-                          <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )" ></i> &nbsp;
+                          <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )"></i> &nbsp;
                         </td>
                       </tr>
                       <tr *ngIf="messageList.length == 0">
@@ -582,11 +610,13 @@
                               <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )"></i>
                             </span> &nbsp;
                             <span style="padding: 5px">
-                              <i class="fas fa-check" *ngIf="showApproveButtons(row)" (click)="approveRejectSms(row , '1')"
+                              <i class="fas fa-check" *ngIf="showApproveButtons(row)"
+                                (click)="approveRejectSms(row , '1')"
                                 style="font-family: FontAwesome;font-size: 16px;color: green;"></i>
                             </span>&nbsp;
                             <span style="padding: 5px">
-                              <i class="fa fa-times" (click)="approveRejectSms(row,'400')" style="font-family: FontAwesome;font-size: 16px;margin-left: 5px;"></i>
+                              <i class="fa fa-times" (click)="approveRejectSms(row,'400')"
+                                style="font-family: FontAwesome;font-size: 16px;margin-left: 5px;"></i>
                             </span>
                           </div>
                         </td>
@@ -604,17 +634,22 @@
 
               <div class="row" *ngIf="studentSelected && selectedOption == 'showTextBox'">
                 <div class="form-wrapper datepicker c-sm-6 c-xs-6">
-                  <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Message
+                  <label for="subject"
+                    style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Message
                     <span class="text-danger">*</span>
                   </label>
-                  <input type="text" [(ngModel)]="messageArea" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                  <input type="text" [(ngModel)]="messageArea" name="subject" class="side-form-ctrl" value=""
+                    placeholder=""
+                    style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
                     id="divMessageTextbox" />
                 </div>
               </div>
 
               <div class="pull-right" *ngIf="studentSelected">
                 <button class="btn" (click)="sendNotificationMessage()">Send</button>
-                <button class="btn" *ngIf="selectedOption == 'showTable' || selectedOption == 'filter' || openAppUserSelected" (click)="sendPushNotification()">Send Push Notification</button>
+                <button class="btn"
+                  *ngIf="selectedOption == 'showTable' || selectedOption == 'filter' || openAppUserSelected"
+                  (click)="sendPushNotification()">Send Push Notification</button>
               </div>
 
             </div>
@@ -624,7 +659,8 @@
               <div class="row">
                 <div class="radio-options">
                   <div class="field-radio-wrapper">
-                    <input type="radio" [checked]="(loginField.checkBox == '0')" [(ngModel)]="loginField.checkBox" value="0" name="student" class="form-radio">
+                    <input type="radio" [checked]="(loginField.checkBox == '0')" [(ngModel)]="loginField.checkBox"
+                      value="0" name="student" class="form-radio">
                     <label for="student">Student Only</label>
                   </div>
                   <div class="field-radio-wrapper">
@@ -638,7 +674,8 @@
                 </div>
               </div>
 
-              <div class="row btn-loginGroup" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter')">
+              <div class="row btn-loginGroup"
+                *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter')">
                 <button class="btn" (click)="sendSmsForApp('1',0)">SMS For App Download</button>
                 <button class="btn" (click)="sendSmsForApp('2',0)">SMS For App Upgradation</button>
                 <button class="btn" (click)="sendSmsForApp('4',0)">Send Credentials via SMS</button>

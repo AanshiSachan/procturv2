@@ -13,7 +13,22 @@
     //border: 1px solid #efefef;
     //box-shadow: 0px 0px 1px 0px;
 }
+@media (min-width: 1200px)
+{
+.c-lg-5,.c-lg-7 {
+     width: unset; 
+}
+}
+.c-lg-7{
+  
+  margin-top: 20px;
+  line-height: 29px;
+  margin-right: -42px;
 
+}
+::ng-deep bs-datepicker-container {
+    margin-left: 5% !important;
+  }
 .sms-view-wrapper{
     padding: 5px;
     .row{

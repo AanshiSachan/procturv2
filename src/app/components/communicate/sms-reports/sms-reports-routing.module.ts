@@ -10,11 +10,11 @@ const routes: Routes = [{
   pathMatch: 'prefix',
   children: [
     {
-      path: '',
+      path: 'transaction',
       component: SmsHomeComponent
     },
     {
-      path: 'transaction',
+      path: '',
       component: TransctionalSmsComponent
     },
 
