@@ -121,7 +121,7 @@ export class TopicBulkUploadComponent implements OnInit {
   downloadBulkTemplate() {
     if((this.filterData.standard_id!=-1) && (this.filterData.subject_id!=-1)){
     this.auth.showLoader();
-    let url = "/api/v1/topic_manager/"+this.filterData.subject_id;
+    let url = "/api/v1/topic_manager/"+this.filterData.subject_id+'/download-template';
     this._http.getData(url).subscribe(
       (res: any) => {
         this.auth.hideLoader();
