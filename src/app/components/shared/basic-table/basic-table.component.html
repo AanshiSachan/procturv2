@@ -1,0 +1,50 @@
+<section class="table-holder" style="padding: 0px;">
+  <div class="table-container">
+    <div class="table-header-container" style="background: #e0eaec; border-radius: 6px; height: 39px;">
+      <div class="table-heading-item" style="color: black; font-size: 12px;"
+        *ngFor="let header of headers; let i = index"
+        [ngStyle]="{'width': rowColumnSetting[i].width, 'text-align': rowColumnSetting[i].textAlign }">
+        <span>{{header.value}}</span>
+        <span *ngIf="header.sorting">
+          <i class="fa fa-sort sort" aria-hidden="true" (click)="sortByCol(header.primary_key)"></i>
+        </span>
+      </div>
+    </div>
+    <div class="table-value-outer-container" [ngStyle]="{'width': tableSetting.width, 'height': tableSetting.height }"
+      *ngIf="tableRows?.length > 0">
+      <div class="table-valaue-container" style="border-left: 4px solid #e0eaec;"
+        *ngFor="let row of tableRows; let i = index">
+        <div class="table-value-item" *ngFor="let col of rowColumnSetting; let j = index"
+          [ngStyle]="{'width': rowColumnSetting[j].width, 'text-align': rowColumnSetting[j].textAlign}">
+          <p *ngIf="headers[j].primary_key != 'action'" style="padding-right: 25px ;">
+            <span *ngIf="!row[headers[j].primary_key]; else elseBlock">-</span>
+            <ng-template #elseBlock>
+              <span *ngIf="row[headers[j].primary_key].length == 0">-</span>
+              <!-- <span *ngIf="row[headers[j].primary_key].length != 0"
+                title="{{row[headers[j].primary_key]}}">{{ (row[headers[j].primary_key].length > headers[j].charactLimit) ? (row[headers[j].primary_key] | slice:0:headers[j].charactLimit) + '...' : row[headers[j].primary_key] }}</span> -->
+              <span *ngIf="row[headers[j].primary_key].length != 0"
+                title="{{row[headers[j].primary_key]}}">{{ (row[headers[j].primary_key] )}}</span>
+            </ng-template>
+            <!-- <span *ngIf="row[headers[j].primary_key].length == 0">-</span> -->
+            <!-- <span *ngIf="row[headers[j].primary_key].length != 0"
+              title="{{row[headers[j].primary_key]}}">{{ (row[headers[j].primary_key].length > headers[j].charactLimit) ? (row[headers[j].primary_key] | slice:0:headers[j].charactLimit) + '...' : row[headers[j].primary_key] }}</span> -->
+          </p>
+          <p *ngIf="headers[j].primary_key == 'action'" class="actions">
+            <i class="fa fa-pencil edit-lead" title="Edit" *ngIf="headers[j].edit" data-toggle="modal"
+              [attr.data-target]="datatarget" aria-hidden="true" (click)="editRow(row)"></i>
+            <i class="fa fa-trash delete-lead" title="Delete" *ngIf="headers[j].delete" aria-hidden="true"
+              (click)="deleteRow(row)"></i>
+            <i class="fa fa-eye" style="color: blue" title="View" *ngIf="headers[j].view" aria-hidden="true"
+              (click)="viewRow(row)"></i>
+          </p>
+
+        </div>
+      </div>
+    </div>
+    <section class="no-data" *ngIf="tableRows?.length == 0">
+      <div class="illustration-container">
+        <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
+      </div>
+    </section>
+  </div>
+</section>

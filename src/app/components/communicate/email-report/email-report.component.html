@@ -1,52 +1,89 @@
-<div class="clearFix sms-view-wrapper">
-  <aside class="middle-full">
+<div class="clearFix sms-view-wrapper" style="padding-left: 15px; padding-right: 15px; padding-top: 20px;">
 
+  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;">
+    <h1 class="pull-left">
+      <a routerLink="/view/communicate" style="padding:0px;">
+        Communicate
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      Email Report
+    </h1>
+  </section>
+  <section class="sms-filter-wrapper" style="border-top: 1px solid #d4d4d4; border-bottom: 1px solid #d4d4d4">
+    <div class="row">
+      <div class="c-lg-4" style="padding-left: 0px;">
+        <div class="field-wrapper datePickerBox has-value" style="padding-top: 8px;margin-left:-12px">
+          <label for="fromDate" style="font-size: 13px; padding: 1px;">Sent From</label><span class="danger">*</span>
+          <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" style="border: solid 1px #e2ebee;
+          border-radius: 4px;" readonly="true" name="fromDate" [(ngModel)]="emailFetchForm.from_date"
+            (ngModelChange)="dateValidationForFuture($event) " bsDatepicker />
+        </div>
+        <div class="field-wrapper datePickerBox has-value" style="padding-top: 8px;">
+          <label for="toDate" style="font-size: 13px; padding: 1px;">Sent To</label><span class="danger">*</span>
+          <input type="text" value="" id="updateDate" readonly="true" [(ngModel)]="emailFetchForm.to_date"
+            class="form-ctrl bsDatepicker" style="border: solid 1px #e2ebee;
+            border-radius: 4px;" name="toDate" (ngModelChange)="dateValidationForFuture($event)" bsDatepicker />
+        </div>
+      </div>
+      <div class="c-lg-1">
+        <div class="btn-sms-search">
+          <input type="button" style="margin-top: 9%;margin-left: -63%;" class="normal-btn fullBlue btn" value="Go"
+            (click)="fetchemailByDate()" />
+        </div>
+      </div>
+      <div class="c-lg-13">
+        <div class="row" style="float: right;">
+          <div class="c-lg-7">
+            <input type="text" placeholder="Search"
+              style="border: 1px solid darkgrey;width: 240px;border-radius: 4px;padding-left: 7px;"
+              (keyup)="searchDatabase()" [(ngModel)]="searchText" #search>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- <aside class="middle-full">
     <section class="middle-main clearFix">
       <div class="filter-box">
-
         <section class="middle-top mb0 clearFix sms-header">
-
           <h1 class="pull-left">
             <a routerLink="/view/communicate">
-              Communicate
-              <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
-            </a>
+              Communicate -->
+  <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
+  <!-- </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Email Report
           </h1>
-
-          <aside class="pull-right">
-            <!-- <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/add' />
+          <aside class="pull-right"> -->
+  <!-- <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/add' />
               <input type="button" value="Upload Enquiry" routerLink='/enquiry/upload' class="btn"> -->
-          </aside>
-
+  <!-- </aside>
         </section>
-
         <section class="sms-filter-wrapper">
           <div class="row">
             <div class="c-lg-5">
               <div class="field-wrapper datePickerBox has-value">
-                  <label for="fromDate">Sent From</label>
-                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.from_date" (ngModelChange)="dateValidationForFuture($event)" readonly="false"
-                  name="fromDate" bsDatepicker/>
-               
+                <label for="fromDate">Sent From</label>
+                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker"
+                  style="border: 1px solid #ccc; border-radius: 4px;" [(ngModel)]=" emailFetchForm.from_date"
+                  (ngModelChange)="dateValidationForFuture($event)" readonly="false" name="fromDate" bsDatepicker />
               </div>
               <div class="field-wrapper datePickerBox has-value">
-                  <label for="toDate">Sent To</label>
-                <input type="text" value="" id="updateDate" readonly="false" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.to_date" (ngModelChange)="dateValidationForFuture($event)"
-                  name="toDate" bsDatepicker/>
-              
+                <label for="toDate">Sent To</label>
+                <input type="text" value="" id="updateDate" readonly="false" class="form-ctrl bsDatepicker"
+                  style="border: 1px solid #ccc; border-radius: 4px;" [(ngModel)]=" emailFetchForm.to_date"
+                  (ngModelChange)="dateValidationForFuture($event)" name="toDate" bsDatepicker />
               </div>
             </div>
             <div class="c-lg-2">
               <div class="btn-sms-search">
-                <input type="button"  style="margin-top:7%;" class="normal-btn fullBlue btn" value="Go" (click)="fetchemailByDate()" />
+                <input type="button" style="margin-top:7%;" class="normal-btn fullBlue btn" value="Go"
+                  (click)="fetchemailByDate()" />
               </div>
             </div>
             <div class="c-lg-5"></div>
           </div>
         </section>
       </div>
-
       <section class="table-control">
         <div class="c-lg-8">
           <div *ngIf="emailSource.length" class="c-lg-6" style="padding: 15px;font-size: 16px;font-weight: 500;">
@@ -57,30 +94,33 @@
         </div>
         <div class="c-lg-4">
           <div class="field-wrapper">
-            <input style="border: 1px solid #efefef;padding: 5px;width: 70%;float: right;"  type="text" placeholder="Search" class="form-ctrl" (keyup)="searchDatabase()" [(ngModel)]="searchText">
+            <input style="border: 1px solid #efefef;padding: 5px;width: 70%;float: right;" type="text"
+              placeholder="Search" class="form-ctrl" (keyup)="searchDatabase()" [(ngModel)]="searchText">
           </div>
         </div>
-      </section>
+      </section> -->
 
-      <section class="sms-table-wrapper">
+  <section class="sms-table-wrapper">
 
-        <div class="table table-responsive student-table">
-          <proctur-table [dataStatus]="dataStatus" [loaderState]="isRippleLoad" [records]="emailSource" [tableName]="'Email'" [settings]="projectSettings">
-          </proctur-table>
-        </div>
+    <!-- <div class="table table-responsive student-table"> -->
+    <!-- <proctur-table [dataStatus]="dataStatus" [loaderState]="isRippleLoad" [records]="emailSource"
+            [tableName]="'Email'" [settings]="projectSettings">
+          </proctur-table> -->
 
-        <!-- <div class="row filter-res pagination" style="width: 100%;">
-            <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-              <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
-              </pagination>
-            </div>
-          </div> -->
+    <app-basic-table [headers]="headerSetting" [displayData]="emailSource" [tableSetting]="tableSetting"
+      [rowColumnSetting]="rowColumns" (editView)='editLeadRow(row)' (deleteView)='deleteLead(row)'>
+    </app-basic-table>
+    <div style="padding-top: 9px;">
+      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRecords"
+        (sizeChange)="updateTableBatchSize($event)">
+      </pagination>
+    </div>
 
-      </section>
 
-    </section>
+  </section>
 
-  </aside>
+  <!-- </section>
+  </aside> -->
 
 </div>
