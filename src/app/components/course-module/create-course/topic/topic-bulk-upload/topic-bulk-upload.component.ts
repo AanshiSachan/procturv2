@@ -282,7 +282,7 @@ export class TopicBulkUploadComponent implements OnInit {
           fileUpload.clear(); // this will clear your selected file
         } else {
           this.isUploadingXls = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'File uploaded failed', newxhr.response.fileName);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Unable to upload file', newxhr.response.fileName);
         }
       }
     }
@@ -343,7 +343,7 @@ export class TopicBulkUploadComponent implements OnInit {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'File uploaded Successfully', xhr.response.fileName);
         } else {
           this.isUploadingXls = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'File uploaded failed', xhr.response.fileName);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Unable to upload file', xhr.response.fileName);
         }
       }
     }

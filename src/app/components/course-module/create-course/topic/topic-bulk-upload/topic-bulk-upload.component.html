@@ -140,8 +140,8 @@
                     <th>Status</th>
                     <!-- <th>Comments</th> -->
                     <th>Total Count</th>
-                    <th style="text-align: left;">Success Count</th>
-                    <th style="text-align: left;">Failure Count</th>
+                    <th style="text-align: left;">Success</th>
+                    <th style="text-align: left;">Failed</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -152,22 +152,23 @@
                     <td>{{record.total_count}}</td>
                     <td style="text-align: left;padding-left: 30px;">
                       <a *ngIf="record.success_count != 0" id="success{{record.list_id}}" >
-                        {{record.success_count}}
+                        Success
                       </a>
                       <span *ngIf="record.success_count == 0">
-                        {{record.success_count}}
+                        -
                       </span>                      
                     </td>
                     <td style="text-align: left;padding-left: 30px;">
                       <a *ngIf="record.failure_count != 0" id="failure{{record.list_id}}" >
-                        {{record.failure_count}}
+                        Fail
                       </a>
                       <span *ngIf="record.failure_count == 0">
-                        {{record.failure_count}}
+                        -
                       </span>
                     </td>
                     <td>
                       <span style="color: #0084f6;" *ngIf="record.failure_count != 0 || record.success_count != 0" (click)="genrateReport(record)">Generate Report <i class="fa fa-download download-icon" aria-hidden="true"></i></span>
+                      <span *ngIf="record.failure_count == 0 && record.success_count == 0">-</span>
                     </td>
                   </tr>
                 </tbody>
