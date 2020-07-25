@@ -208,7 +208,7 @@
                     <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
                   </button>
                   <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
-                    <span class="dropdown-item" *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'" (click)="viewAttandance(class.session_id)">View Attendance</span>
+                    <span class="dropdown-item" *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom' && class.showViewAttendance" (click)="viewAttandance(class.session_id)">View Attendance</span>
                     <span class="dropdown-item" *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'" data-toggle="modal" data-target="#uploadRec" (click)="upload(class.session_id, class.live_meeting_with)">Upload Recording&nbsp;
                     </span>
                     <span class="dropdown-item">
