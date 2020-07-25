@@ -82,13 +82,10 @@
   <!--===================================================================================================================-->
 
   <!-- <div class="clearFix sms-view-wrapper">
-
   <aside class="middle-full">
-
     <section class="middle-main clearFix">
       <div class="filter-box">
         <section class="middle-top mb0 clearFix sms-header">
-
           <h4 class="pull-left txt_links">
             <a routerLink="/view/communicate">
               Communicate
@@ -100,7 +97,6 @@
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Transactional SMS Report
           </h4>
         </section>
-
         <section class="sms-filter-wrapper">
           <div class="row">
             <div class="c-lg-5">
@@ -110,14 +106,12 @@
                   style="border: 1px solid #ccc; border-radius: 4px;" readonly="true" name="fromDate"
                   [(ngModel)]="smsFetchForm.from_date" (ngModelChange)="dateValidationForFuture($event) "
                   bsDatepicker />
-
               </div>
               <div class="field-wrapper datePickerBox has-value">
                 <label for="toDate">Sent To</label>
                 <input type="text" value="" id="updateDate" readonly="true" [(ngModel)]="smsFetchForm.to_date"
                   class="form-ctrl bsDatepicker" style="border: 1px solid #ccc; border-radius: 4px;" name="toDate"
                   (ngModelChange)="dateValidationForFuture($event)" bsDatepicker />
-
               </div>
             </div>
             <div class="c-lg-2">
@@ -130,7 +124,6 @@
           </div>
         </section>
       </div>
-
       <section class="table-control">
         <div class="c-lg-8">
           <div *ngIf="smsSource.length == 0" class="c-lg-6"></div>
@@ -163,7 +156,6 @@
                           <strong style="display: inline-block;">Export as Pdf</strong>
                         </li>
                       </ul>
-
                     </div>
                   </li>
                 </ul>
