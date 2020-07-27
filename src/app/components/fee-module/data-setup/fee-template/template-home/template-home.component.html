@@ -20,7 +20,7 @@
             <input type="text" class="normal-field pull-right" style="border-radius: 4px;" placeholder="Search"
               name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
           </div>
-          <button class="btn" style="box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);border:1px solid #1283f4"
+          <button class="btn" style="box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);background:#0084f6;color: white;"
             routerLink='/view/fee/data-setup/fee-template/add'>
             New Structure
           </button>
@@ -69,11 +69,13 @@
                 <td class="feeactions">
                   <ul>
                     <li (click)="editFee(fee)">
-                      <i class="fa fa-pencil" style="color:#1283f4;cursor: pointer;" title="Edit" aria-hidden="true" ></i>
+                      <i class="fa fa-pencil" style="color:#1283f4;cursor: pointer;" title="Edit"
+                        aria-hidden="true"></i>
                       &nbsp;
                     </li>
                     <li (click)="deleteFeeStructure(fee)" style="margin-right: 7px;">
-                      <i class="fa fa-trash" style="color:#fa3145;cursor: pointer;" title="Delete" aria-hidden="true" ></i>
+                      <i class="fa fa-trash" style="color:#fa3145;cursor: pointer;" title="Delete"
+                        aria-hidden="true"></i>
                     </li>
                   </ul>
                 </td>
@@ -86,7 +88,8 @@
             </tbody>
           </table> -->
           <app-basic-table [headers]="headerSetting" [displayData]="tabkeList" [tableSetting]="tableSetting"
-            [rowColumnSetting]="rowColumns" (editView)='editFee($event)' (deleteView)='deleteFeeStructure($event)'>
+            [rowColumnSetting]="rowColumns" (editView)='editFee($event)' (deleteView)='deleteFeeStructure($event)'
+            (viewView)='studentsAssigned($event)'>
           </app-basic-table>
         </div>
       </div>

@@ -131,6 +131,7 @@ export class TemplateHomeComponent implements OnInit {
         visibility: true,
         edit: true,
         delete: true,
+        view: true
         // editCondition: 'converted == 0',
         // deleteCondition: 'converted == 0'
       },
@@ -143,28 +144,28 @@ export class TemplateHomeComponent implements OnInit {
 
     this.rowColumns = [
       {
-        width: "16.66%",
-        textAlign: "left"
+        width: "20%",
+        textAlign: "center"
       },
       {
-        width: "16.66%",
-        textAlign: "left"
+        width: "20%",
+        textAlign: "center"
       },
       {
-        width: "16.66%",
-        textAlign: "left"
+        width: "20%",
+        textAlign: "center"
       },
       {
-        width: "16.66%",
-        textAlign: "left"
+        width: "20%",
+        textAlign: "center"
       },
       {
-        width: "16.66%",
-        textAlign: "left"
+        width: "10%",
+        textAlign: "center"
       },
       {
-        width: "16.66%",
-        textAlign: "left"
+        width: "10%",
+        textAlign: "center"
       },
 
     ]
@@ -246,13 +247,14 @@ export class TemplateHomeComponent implements OnInit {
   }
 
   editFee(fee) {
-
-    this.templateName = fee.template_name;
-    this.selectedTemplate = fee;
+    console.log("In Edit function");
+    console.log(fee.data.template_name);
+    this.templateName = fee.data.template_name;
+    this.selectedTemplate = fee.data;
     this.feeStructure = [];
     this.isEditFee = true;
     this.auth.showLoader();
-    this.fetchService.fetchFeeDetail(fee.template_id).subscribe(
+    this.fetchService.fetchFeeDetail(fee.data.template_id).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.feeStructure = res;
@@ -742,14 +744,18 @@ export class TemplateHomeComponent implements OnInit {
 
   ////Delete Fee Structure
 
-  deleteFeeStructure(fee) {
+  deleteFeeStructure(row) {
     let is_archived = "N";
     if (confirm('Are you sure, you want to delete Fee Structure?')) {
+      console.log("1");
+      console.log(row);
+      console.log(row.data.template_id);
       this.auth.showLoader();
-      this.fetchService.deleteFeeStructure(fee.template_id, is_archived).subscribe(
+      this.fetchService.deleteFeeStructure(row.data.template_id, is_archived).subscribe(
         res => {
           this.auth.hideLoader();
           this.commonService.showErrorMessage('success', 'Deleted', 'Fee Structure Deleted Successfully');
+          console.log("2");
           this.getFeeStructures();
           this.searchText = "";
           this.searchDataFlag = false;
@@ -758,13 +764,16 @@ export class TemplateHomeComponent implements OnInit {
           this.auth.hideLoader();
 
           if (err.error.message.includes("Fee template(s) are assigned to student(s).")) {
+            console.log("3");
             if (confirm('Fee template(s) are assigned to student(s). Do you wish to delete it ?')) {
+              console.log("4");
               is_archived = "Y";
               this.auth.showLoader();
-              this.fetchService.deleteFeeStructure(fee.template_id, is_archived).subscribe(
+              this.fetchService.deleteFeeStructure(row.data.template_id, is_archived).subscribe(
                 res => {
                   this.auth.hideLoader();
                   this.commonService.showErrorMessage('success', 'Deleted', 'Fee Structure Deleted Successfully');
+                  console.log("5");
                   this.getFeeStructures();
                 },
                 err => {
@@ -785,9 +794,13 @@ export class TemplateHomeComponent implements OnInit {
   // for showing students assigned to the particular fee template
 
   studentsAssigned(fee) {
-    if (fee.studentList != null) {
+    console.log("Helo");
+    console.log(fee);
+    console.log(fee.data.studentList);
+    if (fee.data.studentList != null) {
       this.addTemplatePopUp = true;
-      this.studentList = fee.studentList;
+      console.log("In IF Part");
+      this.studentList = fee.data.studentList;
     }
     else {
       this.commonService.showErrorMessage("info", "", "No data found");

@@ -14,7 +14,7 @@
 table {
     // border-collapse: collapse;
     width: 100%;
-    min-height: 250px;
+    min-height: 58vh;
 }
 
 th,
@@ -109,10 +109,6 @@ tr {
     margin-top: 5px;
 }
 
-table {
-//   border: 1px solid rgba(10,10,10,0.3);
-}
-
 .tableBodyScroll tbody {
     display: block;
     max-height: 55vh;
@@ -135,7 +131,7 @@ tbody tr {
 }
 
 .schedule-scroller {
-    min-height: 300px;
+    min-height: 58vh;
     max-height: 58vh;
     overflow-x: auto;
     overflow-y: auto;
