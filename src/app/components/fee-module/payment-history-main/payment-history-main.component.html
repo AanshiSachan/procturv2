@@ -9,11 +9,11 @@
           </a>
           <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Payment History
         </h2>
-        <div class="pull-right"
+        <!-- <div class="pull-right"
           style="margin-top: 10px;margin-left: 0px;margin-right: 25px;cursor: pointer; font-size: 13px;">
           <a (click)="searchByValue('name')" class="showFilter" *ngIf="varJson.searchBy=='date'">Show Name Filter</a>
           <a (click)="searchByValue('date')" class="showFilter" *ngIf="varJson.searchBy=='name'">Hide Name Filter</a>
-        </div>
+        </div> -->
       </div>
       <div class="row" *ngIf="varJson.searchBy=='date'" style="margin: 0; border-top: 1px solidlightgrey;">
         <div class="c-lg-12 field-made" style="margin-left: -3em;">
@@ -40,7 +40,7 @@
           <div class="c-lg-2" style="margin-top:2%;">
             <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
           </div>
-          <div style="padding-top: 20px" class="c-lg-12 lower">
+          <div class="c-lg-12 lower">
             <div class="c-lg-10 field-correspond">
               <div class="c-lg-4 field-radio-wrapper makeAdjust hide" style="text-align: left;">
                 <input type="radio" class="form-radio" name="active"
@@ -53,13 +53,17 @@
         </div>
       </div>
       <div class="row" *ngIf="varJson.searchBy=='name'">
-        <div class="c-lg-3 field-wrapper" style="padding-bottom: 23px; margin-left: -14px;">
+        <div class="c-lg-3 field-wrapper" style=" margin-left: -14px;">
           <label for=from>Student Name/Contact No/Reciept No</label>
           <input type="text" class="form-ctrl" id="from" [(ngModel)]="varJson.searchName" style=" border-radius: 4px;">
         </div>
         <div class="c-lg-3 field-wrapper" style="margin-top:1%;">
           <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
         </div>
+      </div>
+      <div class="pull-left" style="margin-left: -0.8rem;">
+        <a (click)="searchByValue('name')" class="showFilter" *ngIf="varJson.searchBy=='date'">Name Wise Filter</a>
+        <a (click)="searchByValue('date')" class="showFilter" *ngIf="varJson.searchBy=='name'">Date Wise Filter</a>
       </div>
     </div>
   </section>
@@ -72,41 +76,47 @@
           <div class="c-lg-12" *ngIf="allPaymentRecords.length > 0">
             <div class="c-lg-4  text-change"
               *ngIf="newData[0].hasOwnProperty('Cheque/PDC/DD No.') && allPaymentRecords.length > 0">
-              <span class="made-out"> Cheque/PDC/DD No</span>
+              <span class="made-out"><i class="fa fa-square" style="font-family: FontAwesome; color: #F75D59;"
+                  aria-hidden="true"></i> Cheque/PDC/DD No</span>
               <div class="font-element">
                 {{ _commService.currency_default_symbol}}{{newData[0]['Cheque/PDC/DD No.'].toLocaleString('en-IN')}}
               </div>
             </div>
             <div class="c-lg-4  text-change" style="margin-left: -10px;"
               *ngIf="newData[0].hasOwnProperty('Caution Deposit(Refundable)') && allPaymentRecords.length > 0">
-              <span class="made-out"> Caution Deposit(Refundable)</span>
+              <span class="made-out"><i class="fa fa-square" style="font-family: FontAwesome; color: #00FF00;"
+                  aria-hidden="true"></i> Caution Deposit(Refundable)</span>
               <div class="font-element">
                 {{ _commService.currency_default_symbol}}{{newData[0]['Caution Deposit(Refundable)'].toLocaleString('en-IN')}}
               </div>
             </div>
             <div class="c-lg-4 text-change" *ngIf="newData[0].hasOwnProperty('Cash')  && allPaymentRecords.length > 0"
               style="margin-left: -10px;">
-              <span class="made-out">Cash</span>
+              <span class="made-out"><i class="fa fa-square" style="font-family: FontAwesome; color: #FFE87C;"
+                  aria-hidden="true"></i>Cash</span>
               <div class="font-element">
                 {{ _commService.currency_default_symbol}}{{newData[0].Cash.toLocaleString('en-IN')}}</div>
             </div>
             <div class="c-lg-12" style="margin-top: 5px; margin-left: -15px;">
               <div class="c-lg-4  text-change"
                 *ngIf="newData[0].hasOwnProperty('Online Payment')  && allPaymentRecords.length > 0">
-                <span class="made-out">Online Payments</span>
+                <span class="made-out"><i class="fa fa-square" style="font-family: FontAwesome; color: #FFE87C;"
+                    aria-hidden="true"></i>Online Payments</span>
                 <div class="font-element">
                   {{ _commService.currency_default_symbol}}{{newData[0]['Online Payment'].toLocaleString('en-IN')}}
                 </div>
               </div>
               <div class="c-lg-4  text-change"
                 *ngIf="newData[0].hasOwnProperty('Credit/Debit Card')  && allPaymentRecords.length > 0">
-                <span class="made-out"> Credit/Debit Card</span>
+                <span class="made-out"><i class="fa fa-square" style="font-family: FontAwesome; color: #C47451;"
+                    aria-hidden="true"></i>Credit/Debit Card</span>
                 <div class="font-element">
                   {{ _commService.currency_default_symbol}}{{newData[0]['Credit/Debit Card'].toLocaleString('en-IN') }}
                 </div>
               </div>
               <div class="c-lg-4  text-change">
-                <span class="made-out">Total Fees Collection</span>
+                <span class="made-out"><i class="fa fa-square" style="font-family: FontAwesome; color: #98AFC7;"
+                    aria-hidden="true"></i>Total Fees Collection</span>
                 <div class="font-element">
                   {{ _commService.currency_default_symbol}}{{allPaymentRecords[0].fees_amount.toLocaleString('en-IN')}}
                 </div>
@@ -116,11 +126,26 @@
           </div>
         </div>
         <div class="c-lg-3">
-          <div id="basic-search" style="float:right;" class="c-lg-11" style="padding-bottom: 8px;margin-left: 3rem;">
+          <div id="basic-search" style="float:right;" class="c-lg-11" style="padding-bottom: 8px;"
+            [ngStyle]="{'margin-left':totalRecords != 0 ? '-2rem' : '2rem' }">
             <input #search type="text" class="searchName" placeholder="Search" [(ngModel)]="varJson.searchText"
               name="searchData" (keyup)="searchDatabase()">
           </div>
-          <div>
+          <div style="float: right;">
+            <div *ngIf="totalRecords != 0" style="margin-top: 0.8rem;margin-left: -4rem;">
+              <i class="fa fa-file-pdf-o"
+                style="font-size: 28px;color: darkred;cursor: pointer;font-family: 'FontAwesome';" aria-hidden="true"
+                (click)="exportToPdf()"></i>
+              <i class="fa fa-file-excel-o"
+                style="font-size: 28px;font-family: 'FontAwesome';color: green;cursor: pointer;" aria-hidden="true"
+                (click)="exportToExcel()"></i>
+            </div>
+            <div [ngStyle]="{'margin-top':totalRecords != 0 ? '-2rem' : '-2.5rem' }">
+              <i class="fa fa-eye-slash" (click)="openPreferences()"
+                style="font-family: 'FontAwesome' ; display: inline-block;font-size: 28px;cursor: pointer;color: blue;"></i>
+            </div>
+          </div>
+          <!-- <div>
             <section class="login-tube pull-right" style="margin-top: 14px; position: absolute;right: 8px;">
               <nav>
                 <ul class="login-nav">
@@ -153,13 +178,13 @@
                 </ul>
               </nav>
             </section>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
   </section>
   <section>
-    <div class="table table-responsive" style="margin-top: 10px">
+    <div class="table table-responsive">
       <data-display-table #child [displayKeys]="tableSetting" [displayData]="allPaymentRecords"
         (editView)='optionSelected($event)'>
       </data-display-table>

@@ -135,7 +135,7 @@ export class EcourseMappingComponent implements OnInit {
       );
       this.rowColumns.push(
         {
-          width: "20%",
+          width: "28%",
           textAlign: "left"
         },
         {
@@ -147,7 +147,7 @@ export class EcourseMappingComponent implements OnInit {
           textAlign: "left"
         },
         {
-          width: "15%",
+          width: "7%",
           textAlign: "left"
         },
       );
@@ -188,7 +188,7 @@ export class EcourseMappingComponent implements OnInit {
       );
       this.rowColumns.push(
         {
-          width: "20%",
+          width: "28%",
           textAlign: "left"
         },
         {
@@ -200,7 +200,7 @@ export class EcourseMappingComponent implements OnInit {
           textAlign: "left"
         },
         {
-          width: "15%",
+          width: "7%",
           textAlign: "left"
         },
       );

@@ -14,6 +14,8 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   @Input() displayKeys: any;
   @Output() editView = new EventEmitter();
   @Output() selectAllView = new EventEmitter();
+  @Output() checkbox = new EventEmitter();
+
   isEditRow: string;
   editObject: any;
   keysArray: any;
@@ -22,11 +24,12 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   recordsTrimmed: any[] = [];
   selectedRecord: any[] = [];
   tempData: any[] = [];
-  countryDetails:any[]=[];
+  countryDetails: any[] = [];
   isCourse: boolean = true;
   constructor(
     private _tablePreferencesService: TablePreferencesService,
     private _paginationService: PaginationService,
+    private cd: ChangeDetectorRef,
     private _commService: CommonServiceFactory
   ) { }
 
@@ -55,7 +58,12 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     this._paginationService.setPageIndex(1);
     this._paginationService.setDisplayBatchSize(50);
     let encryptedData = sessionStorage.getItem('country_data');
-   this.countryDetails = JSON.parse(encryptedData);
+    this.countryDetails = JSON.parse(encryptedData);
+  }
+
+
+  checkboxVal(row) {
+    this.checkbox.emit({ 'data': row });
   }
 
   ngOnChanges() {
@@ -315,12 +323,12 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     if ((!isNaN(value)) && (value != '') && (value != null) || (key.amountValue)) {
       // return value ;
       if (key.amountValue) {
-        let object = this.countryDetails.filter((country)=>country.id==data.country_id)
-        if(!object.length){
+        let object = this.countryDetails.filter((country) => country.id == data.country_id)
+        if (!object.length) {
           return this._commService.currency_default_symbol + value.toLocaleString('en-IN');
         }
-        else{
-         return object && object[0] ? object[0].symbol + value.toLocaleString('en-IN') :this._commService.currency_default_symbol + value.toLocaleString('en-IN');
+        else {
+          return object && object[0] ? object[0].symbol + value.toLocaleString('en-IN') : this._commService.currency_default_symbol + value.toLocaleString('en-IN');
         }
       }
       else {
@@ -474,5 +482,6 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
     this.recordsTrimmed = sortedArray;
   }
+
 
 }

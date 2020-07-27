@@ -19,9 +19,10 @@ import { ColumnData2 } from '../../shared/data-display-table/data-display-table.
 export class PaymentHistoryMainComponent implements OnInit {
 
   @ViewChild('child') private child: DataDisplayTableComponent;
-  downloadFeeReportAccess:boolean = false;
+  downloadFeeReportAccess: boolean = false;
   allPaymentRecords: any[] = [];
   tempRecords: any[] = [];
+  totalRecords: any = 0;
   newData: any[] = [];
   displayKeys: any = [];
   perPersonData: any[] = [];
@@ -76,7 +77,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     tableDetails: { title: 'Payment History', key: 'reports.fee.paymentHistory', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
-    selectAll: { showSelectAll: false,option:'single', title: 'Purchase Item', checked: true, key: 'student_disp_id' },
+    selectAll: { showSelectAll: false, option: 'single', title: 'Purchase Item', checked: true, key: 'student_disp_id' },
     actionSetting: {},
     displayMessage: "Enter Detail to Search"
   };
@@ -126,50 +127,50 @@ export class PaymentHistoryMainComponent implements OnInit {
     private msgService: MessageShowService,
     private pdf: ExportToPdfService,
     private ref: ChangeDetectorRef,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private _tablePreferencesService: TablePreferencesService,
-    private _commService:CommonServiceFactory
+    private _commService: CommonServiceFactory
   ) { }
 
   ngOnInit() {
-    window.scroll(0,0);
+    window.scroll(0, 0);
     this.getAllPaymentHistory();
 
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
       if (permissions.includes('708')) {//	Fee Transaction Change if enambled then edit button will show
         this.tableSetting.actionSetting =
-          {
-            showActionButton: true,
-            editOption: 'button',//or popup
-            condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
-            { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined }],
-            // { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
-            options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
-          }
+        {
+          showActionButton: true,
+          editOption: 'button',//or popup
+          condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
+          { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined }],
+          // { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
+          options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
+        }
       }
       else {
         this.tableSetting.actionSetting =
-          {
-            showActionButton: false,
-            editOption: '',
-            condition: [],
-            options: []
-          }
+        {
+          showActionButton: false,
+          editOption: '',
+          condition: [],
+          options: []
+        }
       }
 
     }
     if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == ''
       || sessionStorage.getItem('username') == 'admin') {
       this.tableSetting.actionSetting =
-        {
-          showActionButton: true,
-          editOption: 'button',//or popup
-          condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
-          { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined }],
-          //{ key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }
-          options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
-        }
+      {
+        showActionButton: true,
+        editOption: 'button',//or popup
+        condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
+        { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined }],
+        //{ key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }
+        options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
+      }
       this.flagJson.showAdmin = true;
       this.getUserList();
     }
@@ -198,10 +199,10 @@ export class PaymentHistoryMainComponent implements OnInit {
   }
 
   checkDownloadRoleAccess() {
-    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
-        this.downloadFeeReportAccess = true;
+    if (sessionStorage.getItem('downloadFeeReportAccess') == 'true') {
+      this.downloadFeeReportAccess = true;
     }
-}
+  }
 
   // set default preferences to payment history table
   setDefaultValues() {
@@ -276,6 +277,8 @@ export class PaymentHistoryMainComponent implements OnInit {
           }
           this.allPaymentRecords = data;
           this.tempRecords = data;
+          this.totalRecords = this.allPaymentRecords.length;
+          // console.log(this.totalRecords);
           this.newData = data.map((ele: any) => ele.paymentModeAmountMap
           );
 
@@ -289,14 +292,14 @@ export class PaymentHistoryMainComponent implements OnInit {
 
           if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
             this.tableSetting.actionSetting =
-              {
-                showActionButton: true,
-                editOption: 'button',//or popup
-                condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
-                { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined}],
-                // { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }
-                options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
-              }
+            {
+              showActionButton: true,
+              editOption: 'button',//or popup
+              condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
+              { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined }],
+              // { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }
+              options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
+            }
             this.flagJson.showAdmin = true;
           }
         },
