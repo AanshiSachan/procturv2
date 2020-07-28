@@ -67,6 +67,8 @@
         </ng-container>
         <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.studyMaterialMap.VDOCipher, level: level+1}">
         </ng-container>
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: subject.studyMaterialMap.Vimeo, level: level+1}">
+        </ng-container>
       </div>
       <div class="row col-md-12 subTopics-data">
         <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: subject.subtopicList, level: level+1 } ">
@@ -94,6 +96,8 @@
         </ng-container>
         <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.studyMaterialMap.VDOCipher, level: level+1}">
         </ng-container>
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.studyMaterialMap.Vimeo, level: level+1}">
+        </ng-container>
       </div>
       <div class="row col-md-12 subTopics-data">
         <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subtopicList, level: level+1 } ">
@@ -113,8 +117,8 @@
         <label for="ch2"></label>
       </div>
       <h4 class="file__title" title="{{video.title}}">
-        <i class="fa fa-youtube-play text-red" *ngIf="video.category_name!='VDOCipher'"></i>
-        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="video.category_name=='VDOCipher'"></i>
+        <i class="fa fa-youtube-play text-red" *ngIf="video.category_name!='VDOCipher' || video.category_name!='Vimeo'"></i>
+        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="video.category_name=='VDOCipher' || video.category_name == 'Vimeo'"></i>
         <a target="_blank" class="txt-color">
           <span class="txt-title">{{video.title}}</span>
         </a>

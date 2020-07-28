@@ -69,6 +69,8 @@
               </ng-container>
               <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.studyMaterialMap.Notes, level: level+1}">
               </ng-container>
+              <ng-container *ngTemplateOutlet="Vimeo; context:{$implicit: topic.studyMaterialMap.Vimeo, level: level+1}">
+              </ng-container>
               <ng-container
                 *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.studyMaterialMap.PreviousYearQuestionsPaper, level: level+1}">
               </ng-container>
@@ -123,6 +125,8 @@
         <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.studyMaterialMap.AudioNotes, level: level+1}">
         </ng-container>
         <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.studyMaterialMap.Notes, level: level+1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="Vimeo; context:{$implicit: topic.studyMaterialMap.Vimeo, level: level+1}">
         </ng-container>
         <ng-container
           *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.studyMaterialMap.PreviousYearQuestionsPaper, level: level+1}">
@@ -179,8 +183,49 @@
     </div>
     <div class="col-md-6 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{video.title}}">
-        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList[0].posterUrl!=null)">
-        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="(video.posterList==null || video.posterList[0].posterUrl==null)"></i>
+        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList?.length && video.posterList[0].posterUrl!=null)">
+        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="(video.posterList==null  || !video.posterList?.length || video.posterList[0].posterUrl==null)"></i>
+
+        <a class="txt-color">
+          <span class="txt-title"  style="cursor: pointer"
+            title="{{video.title}}">{{(video.title?.length>60)?(video.title | slice:0:60) + '...':(video.title)}}</span>
+        </a>
+      </h4>
+    </div>
+    <div class="col-md-1 txt-font">
+      <span *ngIf="video.video_status=='ready'">{{video.size | number:'.2-2'}}&nbsp;MB</span>
+    </div>
+    <div class="col-md-1 txt-font" style="padding-right: 0;">
+      <span *ngIf="video.video_status=='ready'">{{video.watch_count}} &nbsp;viewed </span>
+    </div>
+    <div class="col-md-1 txt-font">
+      <span [ngClass]="{'hide': video.video_time==null}" *ngIf="video.video_status=='ready'">  {{video.video_time }}&nbsp;Hr</span>
+    </div>
+    <div class="col-md-1 txt-font" style="color:blue;" *ngIf="video.video_status=='ready'">
+        {{video.video_status |titlecase}} &nbsp;
+      </div>
+      <div class="col-md-1 txt-font" style="color:blue;" *ngIf="video.video_status!='ready'">
+        Processing &nbsp;
+      </div>
+    <div class="col-md-2" style="padding: 0;">
+      <div class="action-buttons" style="float: right;">
+        <button class="btn btn-xs btn-ga-white" (click)="editFile(video)">Edit</button>
+        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked!='N'" (click)="deleteVideoCipherFile(video,'unlink')">Unlink</button>
+        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="deleteVideoCipherFile(video,'unlink all')">Unlink All</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #Vimeo let-youtube let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let video of youtube">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkVDOCipherSelectedFile(video, $event.target.checked)" [(ngModel)]="video.selected" style="-webkit-appearance: checkbox;">
+    </div>
+    <div class="col-md-6 material-title txt-color" (click)="playVimeoVideo(video)" [ngStyle]="{'padding-left': level+'em'}">
+      <h4 class="file__title" title="{{video.title}}">
+        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList?.length && video.posterList[0].posterUrl!=null)">
+        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="(video.posterList==null  || !video.posterList?.length || video.posterList[0].posterUrl==null)"></i>
 
         <a class="txt-color">
           <span class="txt-title"  style="cursor: pointer"

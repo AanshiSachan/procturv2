@@ -520,6 +520,12 @@ export class EcourseSubjectListComponent implements OnInit {
     const video_id = atob(obj.proc_id);
     this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video_id);
   }
+
+  playVimeoVideo(obj) {
+    this.videoplayer = true;
+    this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl(obj.video_url);
+  }
+
   closePlayer(){
     this.videoplayer = false;
   }
