@@ -172,6 +172,7 @@ export class LiveClassesComponent implements OnInit {
 
   daysLeftForSubscriptionExpiry: number;
   ShowActionBtn: any = {};
+  attendance_buffer: any = 0;
 
   constructor(
     private auth: AuthenticatorService,
@@ -251,6 +252,7 @@ export class LiveClassesComponent implements OnInit {
         this.previosLiveClasses = data.pastLiveClasses;
         this.futureLiveClasses = data.upcomingLiveClasses;
         this.is_proctur_live_recording_allow = data.is_proctur_live_recording_allow;
+        this.attendance_buffer = data.attendance_buffer;
         if(this.is_proctur_live_recording_allow == 1 && this.videoLimitExceed == 1){
           $('#videoLimit').modal('show');
           this.videoLimitExceed = 0;
@@ -445,6 +447,25 @@ export class LiveClassesComponent implements OnInit {
     }
     this.totalRow = this.getClasses.length;
     this.fetchTableDataByPage(this.PageIndex);
+    let buffer = this.attendance_buffer;
+    let jobTime = moment(new Date().setHours(20,0,0,0)).format('YYYY-MM-DD hh:mm a');
+    let JobBufferTime = moment(new Date().setHours(0,0,0,(72000000 - buffer))).format('YYYY-MM-DD hh:mm a');
+    let currentDate = moment(new Date()).format('YYYY-MM-DD hh:mm a');
+    let temp = moment(new Date().setHours(20,0,0,0));
+    let ReportAllowDate = moment(new Date(2020, 6, 23, 0, 0, 0)).format('YYYY-MM-DD hh:mm a');
+    temp = moment(temp).subtract(1, 'days');
+    let yesterDayJobTime = moment(temp).format('YYYY-MM-DD hh:mm a');
+    this.getClasses.forEach(ele => {
+      ele.end_datetime = moment(ele.end_datetime).format('YYYY-MM-DD hh:mm a');
+      ele.showViewAttendance = false;
+      if(ele.end_datetime >= ReportAllowDate){
+      if(ele.end_datetime <= JobBufferTime) {
+        if(currentDate >= jobTime || ele.end_datetime <= yesterDayJobTime){
+          ele.showViewAttendance = true;
+        }
+      }
+    }
+    });
   }
 
   diffDate(date1, date2) {

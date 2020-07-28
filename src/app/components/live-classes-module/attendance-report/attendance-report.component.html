@@ -143,15 +143,15 @@
             </div>
             <div class="table-value-item md-item">
               <span >{{record.join_time}}</span>
-              <span *ngIf="record.attendance_status == 'ABSENT'">-</span>
+              <span *ngIf="record.attendance_status == 'Absent'">-</span>
             </div>
             <div class="table-value-item md-item">
               <span>{{record.leave_join}}</span>
-              <span *ngIf="record.attendance_status == 'ABSENT'">-</span>
+              <span *ngIf="record.attendance_status == 'Absent'">-</span>
             </div>
             <div class="table-value-item md-item">
               <span>{{record.duration}} mins
-                <span *ngIf="record.attendance_status != 'ABSENT'">({{record.attendance_percentage}} %)</span>
+                <span *ngIf="record.attendance_status != 'Absent'">({{record.attendance_percentage}} %)</span>
               </span>
             </div>
           </div>
