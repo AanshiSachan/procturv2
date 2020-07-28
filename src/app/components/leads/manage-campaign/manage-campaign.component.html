@@ -15,14 +15,15 @@
             <label for="mobile_no">Mobile
               <span class="text-danger">*</span>
             </label>
-            <input type="text" value="" id="mobile_no"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-            class="form-ctrl" [(ngModel)]="editLead.phone" name="name" maxlength="10" required placeholder="Contact Number"/>
+            <input type="text" value="" id="mobile_no"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
+              [(ngModel)]="editLead.phone" name="name" maxlength="10" required placeholder="Contact Number" />
           </div>
 
           <div class="form-item field-wrapper">
             <label for="name">Name</label>
-            <input type="text" value="" id="name"  class="form-ctrl" [(ngModel)]="editLead.name"
-            name="name" maxlength="50" required placeholder="Name"/>
+            <input type="text" value="" id="name" class="form-ctrl" [(ngModel)]="editLead.name" name="name"
+              maxlength="50" required placeholder="Name" />
           </div>
 
           <div class="form-item field-wrapper">
@@ -36,21 +37,20 @@
 
           <div class="form-item field-wrapper">
             <label for="email2">Email ID</label>
-            <input type="text" value="" id="email2" class="form-ctrl"
-              [(ngModel)]="editLead.emailId" name="email2" placeholder="Email ID"
-              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" />
+            <input type="text" value="" id="email2" class="form-ctrl" [(ngModel)]="editLead.emailId" name="email2"
+              placeholder="Email ID" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" />
           </div>
 
           <div class="form-item field-wrapper">
             <label for="address">Address</label>
-            <input type="text" value="" id="address"  class="form-ctrl" [(ngModel)]="editLead.address"
-            name="address" maxlength="50" required placeholder="Address"/>
+            <input type="text" value="" id="address" class="form-ctrl" [(ngModel)]="editLead.address" name="address"
+              maxlength="50" required placeholder="Address" />
           </div>
 
           <div class="form-item field-wrapper">
             <label for="city">City</label>
-            <input type="text" value="" id="city"  class="form-ctrl" [(ngModel)]="editLead.city"
-            name="city" maxlength="50" required placeholder="City"/>
+            <input type="text" value="" id="city" class="form-ctrl" [(ngModel)]="editLead.city" name="city"
+              maxlength="50" required placeholder="City" />
           </div>
 
           <div class="form-item field-wrapper">
@@ -97,14 +97,15 @@
             <label for="mobile_no">Mobile
               <span class="text-danger">*</span>
             </label>
-            <input type="text" value="" id="mobile_no"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-            class="form-ctrl" [(ngModel)]="addLead.phone" name="name" maxlength="10" required placeholder="Contact Number"/>
+            <input type="text" value="" id="mobile_no"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
+              [(ngModel)]="addLead.phone" name="name" maxlength="10" required placeholder="Contact Number" />
           </div>
 
           <div class="form-item field-wrapper">
             <label for="name">Name</label>
-            <input type="text" value="" id="name"  class="form-ctrl" [(ngModel)]="addLead.name"
-            name="name" maxlength="50" required placeholder="Name"/>
+            <input type="text" value="" id="name" class="form-ctrl" [(ngModel)]="addLead.name" name="name"
+              maxlength="50" required placeholder="Name" />
           </div>
 
           <div class="form-item field-wrapper">
@@ -118,21 +119,20 @@
 
           <div class="form-item field-wrapper">
             <label for="email2">Email ID</label>
-            <input type="text" value="" id="email2" class="form-ctrl"
-              [(ngModel)]="addLead.emailId" name="email2" placeholder="Email ID"
-              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" />
+            <input type="text" value="" id="email2" class="form-ctrl" [(ngModel)]="addLead.emailId" name="email2"
+              placeholder="Email ID" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" />
           </div>
 
           <div class="form-item field-wrapper">
             <label for="address">Address</label>
-            <input type="text" value="" id="address"  class="form-ctrl" [(ngModel)]="addLead.address"
-            name="address" maxlength="50" required placeholder="Address"/>
+            <input type="text" value="" id="address" class="form-ctrl" [(ngModel)]="addLead.address" name="address"
+              maxlength="50" required placeholder="Address" />
           </div>
 
           <div class="form-item field-wrapper">
             <label for="city">City</label>
-            <input type="text" value="" id="city"  class="form-ctrl" [(ngModel)]="addLead.city"
-            name="city" maxlength="50" required placeholder="City"/>
+            <input type="text" value="" id="city" class="form-ctrl" [(ngModel)]="addLead.city" name="city"
+              maxlength="50" required placeholder="City" />
           </div>
 
           <div class="form-item field-wrapper">
@@ -181,9 +181,8 @@
         <div class="msg-list-container">
           <div class="msg-item" *ngFor="let msg of promoSMSList; let i = index;">
             <div class="msg-checkbox field-checkbox-wrapper">
-              <input type="checkbox" (click)="selectMsg(msg)" id="check{{i}}"
-                value="" name="" class="form-checkbox">
-                <label for="check{{i}}"></label>
+              <input type="checkbox" (click)="selectMsg(msg)" id="check{{i}}" value="" name="" class="form-checkbox">
+              <label for="check{{i}}"></label>
             </div>
             <div class="msg-span">
               <span>{{msg.message}}</span>
@@ -220,32 +219,39 @@
           <input type="text" class="form-ctrl" name="" value="" placeholder="Name" [(ngModel)]="filters.stundetName">
         </div>
         <div class="filter-item field-wrapper">
-          <input type="text" class="form-ctrl" name="" value="" placeholder="Contact Number" [(ngModel)]="filters.contactNumber">
+          <input type="text" class="form-ctrl" name="" value="" placeholder="Contact Number"
+            [(ngModel)]="filters.contactNumber">
         </div>
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filters.campaignName">
             <option value="-1">Select Campaign</option>
-            <option title="{{campaign.list_name}}" [value]="campaign.list_id" *ngFor="let campaign of campaignList">{{ (campaign.list_name.length > 30) ? (campaign.list_name | slice:0:30) + '...' : campaign.list_name }}</option>
+            <option title="{{campaign.list_name}}" [value]="campaign.list_id" *ngFor="let campaign of campaignList">
+              {{ (campaign.list_name.length > 30) ? (campaign.list_name | slice:0:30) + '...' : campaign.list_name }}
+            </option>
           </select>
         </div>
         <div class="filter-item" style="width: 8%;" id="searchBtn1">
           <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign(0)">Search</button>
         </div>
         <div class="filter-item" id="advBtn1">
-          <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Show Advance Filter</button>
+          <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Show Advance
+            Filter</button>
         </div>
       </div>
-      <div class="filter-second-row-container" id="advance_filter" [ngClass]="(jsonFlag.toggle)? 'show-filter' : 'hide-filter'">
+      <div class="filter-second-row-container" id="advance_filter"
+        [ngClass]="(jsonFlag.toggle)? 'show-filter' : 'hide-filter'">
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filters.referredBy">
             <option value="-1">Select Referred By</option>
-            <option title="{{referred.name}}" [value]="referred.id" *ngFor="let referred of referredByList">{{ (referred.name.length > 30) ? (referred.name | slice:0:30) + '...' : referred.name }}</option>
+            <option title="{{referred.name}}" [value]="referred.id" *ngFor="let referred of referredByList">
+              {{ (referred.name.length > 30) ? (referred.name | slice:0:30) + '...' : referred.name }}</option>
           </select>
         </div>
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filters.source">
             <option value="-1">Select Source</option>
-            <option title="{{source.name}}" [value]="source.id" *ngFor="let source of sourceList">{{ (source.name.length > 30) ? (source.name | slice:0:30) + '...' : source.name }}</option>
+            <option title="{{source.name}}" [value]="source.id" *ngFor="let source of sourceList">
+              {{ (source.name.length > 30) ? (source.name | slice:0:30) + '...' : source.name }}</option>
           </select>
         </div>
         <div class="filter-item field-wrapper">
@@ -258,7 +264,8 @@
           <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign(0)">Search</button>
         </div>
         <div class="filter-item" id="advBtn2">
-          <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Hide Advance Filter</button>
+          <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Hide Advance
+            Filter</button>
         </div>
       </div>
     </div>
@@ -267,17 +274,21 @@
   <section>
     <div class="campaign-activity-container">
       <div class="activity-item field-wrapper">
-        <input type="text" value="" id="search_bar" [(ngModel)]="leadSearchInput" name="leadSearchInput" (keyup)="searchDatabase(search)"
-           placeholder="Search here..." class="search-box" #search>
+        <input type="text" value="" id="search_bar" [(ngModel)]="leadSearchInput" name="leadSearchInput"
+          (keyup)="searchDatabase(search)" placeholder="Search here..." class="search-box" #search>
       </div>
       <div class="activity-item">
-        <button type="button" name="button" class="add-student-btn" data-toggle="modal" data-target="#addLead">Add Lead</button>
+        <button type="button" name="button" class="add-student-btn" data-toggle="modal" data-target="#addLead">Add
+          Lead</button>
       </div>
       <div class="activity-item" *ngIf="downloadEnquiryReportAccess">
-        <button type="button" title="Download PDF" name="button" class="download-btn" (click)="downloadPdf()">
-          <i class="fa fa-download" aria-hidden="true"></i>
-          PDF
-        </button>
+        <i class="fa fa-file-pdf-o"
+          style="font-size: 28px;color: darkred;cursor: pointer;margin-right: 5px;margin-left: -13px;"
+          aria-hidden="true" (click)="downloadPdf()"></i>
+        <!-- <button type="button" title="Download PDF" name="button" class="download-btn" (click)="downloadPdf()">
+          <i class="fa fa-download" aria-hidden="true"></i> -->
+        <!-- PDF
+        </button> -->
       </div>
     </div>
   </section>
@@ -286,7 +297,8 @@
     <div class="student-list-table-container">
       <div class="list-heading-container">
         <div class="heading-item sm-item field-checkbox-wrapper" style="margin-top: 8px;">
-          <input type="checkbox" value="" id="check_all" name="check_all" class="form-checkbox" (click)="checkAllLead($event)" [(ngModel)]="checkAll">
+          <input type="checkbox" value="" id="check_all" name="check_all" class="form-checkbox"
+            (click)="checkAllLead($event)" [(ngModel)]="checkAll">
           <label for="check_all"></label>
         </div>
         <div class="heading-item md-item">
@@ -318,22 +330,25 @@
         </div>
       </div>
       <div class="list-value-outer-container" id="lead-value-container">
-        <div class="list-value-container" *ngFor="let lead of leadsList; let i = index; trackBy: i;" [ngClass]="{'converted-lead': lead.converted != '0'}">
-          <div class="value-item sm-item field-checkbox-wrapper" style="margin-top: 8px;" >
-            <input type="checkbox" (click)="rowCheckBoxClick(lead)" id="check{{i}}"
-              value="" name="" class="form-checkbox" *ngIf="lead.converted == 0" [(ngModel)]="lead.select">
-              <label for="check{{i}}" *ngIf="lead.converted == 0"></label>
+        <div class="list-value-container" *ngFor="let lead of leadsList; let i = index; trackBy: i;"
+          [ngClass]="{'converted-lead': lead.converted != '0'}">
+          <div class="value-item sm-item field-checkbox-wrapper" style="margin-top: 8px;">
+            <input type="checkbox" (click)="rowCheckBoxClick(lead)" id="check{{i}}" value="" name=""
+              class="form-checkbox" *ngIf="lead.converted == 0" [(ngModel)]="lead.select">
+            <label for="check{{i}}" *ngIf="lead.converted == 0"></label>
           </div>
           <div class="value-item md-item">
             <span>{{lead.mobile}}</span>
           </div>
           <div class="value-item lg-item">
             <span *ngIf="lead.name.length == 0">-</span>
-            <span *ngIf="lead.name.length != 0" title="{{lead.name}}">{{ (lead.name.length > 15) ? (lead.name | slice:0:15) + '...' : lead.name }}</span>
+            <span *ngIf="lead.name.length != 0"
+              title="{{lead.name}}">{{ (lead.name.length > 15) ? (lead.name | slice:0:15) + '...' : lead.name }}</span>
           </div>
           <div class="value-item lg-item">
             <span *ngIf="lead.email.length == 0">-</span>
-            <span *ngIf="lead.email.length != 0" title="{{lead.email}}">{{ (lead.email.length > 15) ? (lead.email | slice:0:15) + '...' : lead.email }}</span>
+            <span *ngIf="lead.email.length != 0"
+              title="{{lead.email}}">{{ (lead.email.length > 15) ? (lead.email | slice:0:15) + '...' : lead.email }}</span>
           </div>
           <div class="value-item lg-item">
             <span *ngIf="lead.city.length == 0">-</span>
@@ -341,7 +356,8 @@
           </div>
           <div class="value-item lg-item">
             <span *ngIf="lead.address.length == 0">-</span>
-            <span *ngIf="lead.address.length != 0" title="{{lead.address}}">{{ (lead.address.length > 15) ? (lead.address | slice:0:15) + '...' : lead.address }}</span>
+            <span *ngIf="lead.address.length != 0"
+              title="{{lead.address}}">{{ (lead.address.length > 15) ? (lead.address | slice:0:15) + '...' : lead.address }}</span>
           </div>
           <div class="value-item sm-item align-center">
             <span *ngIf="lead.gender.length == 0">-</span>
@@ -357,11 +373,13 @@
           </div>
           <div class="value-item lg-item align-center">
             <div *ngIf="lead.converted == 0">
-              <i class="fa fa-pencil edit-lead" title="Edit Lead" *ngIf="lead.converted == 0" data-toggle="modal" data-target="#editLead" aria-hidden="true" (click)="editLeadRow(lead)"></i>
-              <i class="fa fa-trash delete-lead" title="Delete Lead" *ngIf="lead.converted == 0" aria-hidden="true" (click)="deleteLead(lead)"></i>
+              <i class="fa fa-pencil edit-lead" title="Edit Lead" *ngIf="lead.converted == 0" data-toggle="modal"
+                data-target="#editLead" aria-hidden="true" (click)="editLeadRow(lead)"></i>
+              <i class="fa fa-trash delete-lead" title="Delete Lead" *ngIf="lead.converted == 0" aria-hidden="true"
+                (click)="deleteLead(lead)"></i>
             </div>
             <div *ngIf="lead.converted != 0">
-              <span >-</span>
+              <span>-</span>
             </div>
           </div>
         </div>
@@ -377,9 +395,9 @@
       <div class="pagination-container">
         <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="5"
-              [page]="pageIndex" [perPage]="displayBatchSize" (sizeChange)="updateTableBatchSize($event)"
-              [count]="totalCount">
+            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+              [pagesToShow]="5" [page]="pageIndex" [perPage]="displayBatchSize"
+              (sizeChange)="updateTableBatchSize($event)" [count]="totalCount">
             </pagination>
           </div>
         </div>
