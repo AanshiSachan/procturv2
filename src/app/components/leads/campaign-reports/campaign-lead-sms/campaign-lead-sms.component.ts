@@ -59,7 +59,7 @@ export class CampaignLeadSmsComponent implements OnInit {
     this.headerSetting = [
       {
         primary_key: 'mobile',
-        value: "Mobile",
+        value: "Contact No.",
         charactLimit: 20,
         sorting: true,
         visibility: true
@@ -87,7 +87,7 @@ export class CampaignLeadSmsComponent implements OnInit {
       },
       {
         primary_key: 'message',
-        value: "SMS Sent",
+        value: "Message",
         charactLimit: 15,
         sorting: false,
         visibility: true

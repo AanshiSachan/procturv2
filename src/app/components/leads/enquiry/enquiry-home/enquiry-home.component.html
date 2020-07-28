@@ -88,9 +88,10 @@
 
             <!-- Advance Filter Trigger -->
             <div class="c-lg-3 c-md-3 c-sm-3" style="margin-left: 9rem;">
-              <span class="filter-right" style="float: right;margin-right: 20px;margin-top: 10px;">
+              <span class="filter-right" style="float: right;margin-right: 33px;margin-top: 4px;">
+
                 <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advance
-                  Filter
+                  Filter&nbsp;
                 </a>
                 <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide" (click)="closeAdFilter()">
                   <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
@@ -134,7 +135,11 @@
                 </a>
               </span>
               <section id="customizableTableSection" class="login-tube" style="position: absolute;right: 7px;">
-                <nav style="margin-top: 10px;">
+                <!-- <div> -->
+                <i class="fa fa-eye-slash" (click)="openPreferences()"
+                  style="font-family: 'FontAwesome' ; display: inline-block;font-size: 28px;cursor: pointer;color: blue;"></i>
+                <!-- </div> -->
+                <!-- <nav style="margin-top: 10px;">
                   <ul class="login-nav">
                     <li class="pos-rel">
                       <i class="icons">
@@ -154,7 +159,7 @@
                       </div>
                     </li>
                   </ul>
-                </nav>
+                </nav> -->
               </section>
             </div>
           </div>

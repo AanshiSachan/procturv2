@@ -74,13 +74,13 @@ export class EnquiryHomeComponent implements OnInit {
     sizeArr: any[] = [25, 50, 100, 150, 200, 500];
     commentFormData: any = {};
     emailGridData: any = [];
-    filterCustomComponent=[];
-    EmailThumbnailUrl : any = '';
+    filterCustomComponent = [];
+    EmailThumbnailUrl: any = '';
     EmailGridSelectedObject: any = null;
-    selectedTableRow:any;
+    selectedTableRow: any;
     viewPopUp = false;
-    isSendGridEnable : boolean = false;
-    downloadEnquiryReportAccess : boolean = false;
+    isSendGridEnable: boolean = false;
+    downloadEnquiryReportAccess: boolean = false;
     /* Variable to handle popups */
     varJson: any = {
         message: '',
@@ -108,7 +108,7 @@ export class EnquiryHomeComponent implements OnInit {
     timeJson = { hour: '', minute: '', meridian: '' };
     isMainBranch: any = 'N';
     // smsSearchData: string = "";
-    emailSubject:string="";
+    emailSubject: string = "";
     emptyCustomComponent: any;
     smsSelectedRowsLength: number = 0;
     flagJSON: any = {
@@ -299,7 +299,7 @@ export class EnquiryHomeComponent implements OnInit {
     };
     enquiryFullDetail: any;
     enquirySettings: ColumnSetting[] = [
-        { primaryKey: 'enquiry_no', header: 'Enquiry No', priority: 1, format: this.varJson.currentDirection },
+        { primaryKey: 'enquiry_no', header: 'ENQ No.', priority: 1, format: this.varJson.currentDirection },
         { primaryKey: 'name', header: 'Name', priority: 2 },
         { primaryKey: 'phone', header: 'Contact No', priority: 3 },
         { primaryKey: 'statusValue', header: 'Status', priority: 4 },
@@ -309,7 +309,7 @@ export class EnquiryHomeComponent implements OnInit {
         { primaryKey: 'updateDate', header: 'Last Updated', priority: 8 },
         { primaryKey: 'assigned_name', header: 'Assignee Name', priority: 9 },
         { primaryKey: 'follow_type', header: 'Follow Up Type', priority: 10 },
-        { primaryKey: 'standard', header: 'Standard', priority: 11 },
+        { primaryKey: 'standard', header: 'STD', priority: 11 },
         { primaryKey: 'referred_by_name', header: 'Referred By', priority: 12 },
         { primaryKey: 'noOfCoursesAssigned', header: 'No. of Courses Assigned', priority: 12 }
     ];
@@ -335,9 +335,9 @@ export class EnquiryHomeComponent implements OnInit {
     cityDetails: any[] = [];
 
     downloadReportFor = {
-      enquiry: false,
-      admissions: false,
-      fees: false
+        enquiry: false,
+        admissions: false,
+        fees: false
     }
 
     /*Declaration Fin*/
@@ -483,19 +483,19 @@ export class EnquiryHomeComponent implements OnInit {
             || sessionStorage.getItem('username') == 'admin') {
             this.varJson.showDownloadSummary = true;
         }
-       this.checkRoleAccess();
+        this.checkRoleAccess();
     }
 
     checkRoleAccess() {
-        if(sessionStorage.getItem('downloadEnquiryReportAccess')=='true'){
+        if (sessionStorage.getItem('downloadEnquiryReportAccess') == 'true') {
             this.downloadEnquiryReportAccess = true;
         }
     }
 
     // get custome filter component details if is_searchable is applicable --laxmi
-    getSearchableCustomeComponents(array){
+    getSearchableCustomeComponents(array) {
 
-        this.filterCustomComponent = array.filter((object)=>object.is_searchable=='Y');
+        this.filterCustomComponent = array.filter((object) => object.is_searchable == 'Y');
         console.log(this.filterCustomComponent);
     }
 
@@ -758,8 +758,8 @@ export class EnquiryHomeComponent implements OnInit {
         /* Searchbar filled */
         else if (!this._commService.valueCheck(this.varJson.searchBarData)) {
             if (isNaN(this.varJson.searchBarData)) {
-                    this.instituteData = { name: this.varJson.searchBarData, phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
-                    this.loadTableDatatoSource(this.instituteData);
+                this.instituteData = { name: this.varJson.searchBarData, phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+                this.loadTableDatatoSource(this.instituteData);
             }
             /* In Case of Number */
             else {
@@ -822,11 +822,11 @@ export class EnquiryHomeComponent implements OnInit {
 
     showSendGridData(type) {
         this.flagJSON.notificationType = type;
-        const url= `/api/v1/alerts/config/sendGrid/emailTemplate/${sessionStorage.getItem('institute_id')}`;
+        const url = `/api/v1/alerts/config/sendGrid/emailTemplate/${sessionStorage.getItem('institute_id')}`;
         this.auth.showLoader();
         this.emailGridData = [];
         this.httpService.getData(url).subscribe(
-            (res:any)=> {
+            (res: any) => {
                 this.auth.hideLoader();
                 this.emailGridData = res.result;
                 this.cd.markForCheck();
@@ -837,46 +837,46 @@ export class EnquiryHomeComponent implements OnInit {
             }
         )
         this.emailGridData.forEach(element => {
-            if(element.template_updated_date!=null || element.template_updated_date!=''){
+            if (element.template_updated_date != null || element.template_updated_date != '') {
                 element.template_updated_date = moment(element.template_updated_date).format('DD-MMM-YYYY');
             }
         });
     }
 
-    opEmailGridSelected(object,i){
+    opEmailGridSelected(object, i) {
         this.selectedTableRow = i;
         this.EmailGridSelectedObject = object;
     }
 
-    viewThumbnailUrl(url){
+    viewThumbnailUrl(url) {
         this.viewPopUp = true;
         this.EmailThumbnailUrl = url;
     }
 
     closeViewPopUp() {
         this.viewPopUp = false;
-      }
+    }
 
-    sendEmailGrid(){
-        if(this.EmailGridSelectedObject!=null || this.EmailGridSelectedObject!=undefined){
-        const url = `/api/v1/enquiry_manager/sendEmail/${sessionStorage.getItem('institute_id')}`;
-        const obj = {
-            baseIds: this.selectedRowGroup,
-            sendGridTemplateId:this.EmailGridSelectedObject.template_id
-        }
-        this.auth.showLoader();
-        this.httpService.postData(url,obj).subscribe(
-            (res:any) =>{
-                this.auth.hideLoader();
-                this.showErrorMessage(this.messageService.toastTypes.success,'', res.message);
-                this.cd.markForCheck();
-            },
-            err =>{
-                this.auth.hideLoader();
-                console.log(err);
+    sendEmailGrid() {
+        if (this.EmailGridSelectedObject != null || this.EmailGridSelectedObject != undefined) {
+            const url = `/api/v1/enquiry_manager/sendEmail/${sessionStorage.getItem('institute_id')}`;
+            const obj = {
+                baseIds: this.selectedRowGroup,
+                sendGridTemplateId: this.EmailGridSelectedObject.template_id
             }
-        )
-        } else{
+            this.auth.showLoader();
+            this.httpService.postData(url, obj).subscribe(
+                (res: any) => {
+                    this.auth.hideLoader();
+                    this.showErrorMessage(this.messageService.toastTypes.success, '', res.message);
+                    this.cd.markForCheck();
+                },
+                err => {
+                    this.auth.hideLoader();
+                    console.log(err);
+                }
+            )
+        } else {
             this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please select email template');
         }
         // this.httpService.postData(url,)
@@ -1136,12 +1136,12 @@ export class EnquiryHomeComponent implements OnInit {
                 this.flagJSON.smsBtnToggle = false;
                 this.flagJSON.isAllSelected = false;
                 this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
-                if(document.getElementById(id).classList){
-                if (!document.getElementById(id).classList.contains('active')) {
-                    document.getElementById(id).classList.add('active');
-                    document.getElementById('openSms').classList.remove('active');
+                if (document.getElementById(id).classList) {
+                    if (!document.getElementById(id).classList.contains('active')) {
+                        document.getElementById(id).classList.add('active');
+                        document.getElementById('openSms').classList.remove('active');
+                    }
                 }
-            }
             }
                 break;
             case 'openSms': {
@@ -1150,12 +1150,12 @@ export class EnquiryHomeComponent implements OnInit {
                 this.flagJSON.smsBtnToggle = false;
                 this.flagJSON.isAllSelected = true;
                 this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
-                if(document.getElementById(id).classList){
-                if (!document.getElementById(id).classList.contains('active')) {
-                    document.getElementById(id).classList.add('active');
-                    document.getElementById('approvedSms').classList.remove('active');
+                if (document.getElementById(id).classList) {
+                    if (!document.getElementById(id).classList.contains('active')) {
+                        document.getElementById(id).classList.add('active');
+                        document.getElementById('approvedSms').classList.remove('active');
+                    }
                 }
-            }
             }
                 break;
             default:
@@ -1249,7 +1249,7 @@ export class EnquiryHomeComponent implements OnInit {
             let messageId = [];
             messageId.push((this.selectedSMS.message_id).toString());
             let email = {
-                "baseIds":this.selectedRowGroup,
+                "baseIds": this.selectedRowGroup,
                 "messageArray": messageId,
                 "subject": this.emailSubject
             }
@@ -1260,7 +1260,7 @@ export class EnquiryHomeComponent implements OnInit {
                     this.auth.hideLoader();
                     this.cd.markForCheck();
                     if (res.statusCode == 200) {
-                        this.showErrorMessage(this.messageService.toastTypes.success,res.message, '');
+                        this.showErrorMessage(this.messageService.toastTypes.success, res.message, '');
                         this.cd.markForCheck();
                         this.emailSubject = '';
                         this.cd.markForCheck();
@@ -1407,12 +1407,12 @@ export class EnquiryHomeComponent implements OnInit {
                         this.postdata.sendSmsToEnquirer(this.varJson.sendSmsFormData).subscribe(
                             res => {
                                 this.auth.hideLoader();
-                                this.showErrorMessage(this.messageService.toastTypes.success,'', "SMS send successfully");
+                                this.showErrorMessage(this.messageService.toastTypes.success, '', "SMS send successfully");
                                 this.cd.markForCheck();
                             },
                             err => {
                                 this.auth.hideLoader();
-                                this.showErrorMessage(this.messageService.toastTypes.error,'', "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
+                                this.showErrorMessage(this.messageService.toastTypes.error, '', "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
                                 this.cd.markForCheck();
                             }
                         )
@@ -1460,7 +1460,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Close Bulk Enquiry Popup and clear the field records and state */
     closeBulkSms() {
-        this.emailSubject='';
+        this.emailSubject = '';
         this.flagJSON.isMultiSms = false;
         this.flagJSON.isMessageAddOpen = false;
         this.flagJSON.smsBtnToggle = false;
@@ -1662,14 +1662,14 @@ export class EnquiryHomeComponent implements OnInit {
         let tempCustomArr: any[] = [];
         this.filterCustomComponent.forEach(el => {
             if (el.value != "") {
-                let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: ''};
+                let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: '' };
                 if (el.type == '5') {
                     obj.enq_custom_value = this.getDateFormated(el.value, "YYYY-MM-DD");
                 }
-                else if(el.type == '2'){
-                    obj.enq_custom_value = el.value?'Y':'N';
+                else if (el.type == '2') {
+                    obj.enq_custom_value = el.value ? 'Y' : 'N';
                 }
-                else{
+                else {
                     obj.enq_custom_value = el.value;
                 }
                 tempCustomArr.push(obj);
@@ -1696,11 +1696,11 @@ export class EnquiryHomeComponent implements OnInit {
                 this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes From and To Dates');
                 return;
             }
-        // } else if (this.advancedFilterForm.updateDateFrom != "" && this.advancedFilterForm.updateDateFrom != null) {
-        //     if (this.advancedFilterForm.updateDateTo == "" || this.advancedFilterForm.updateDateTo == null) {
-        //         this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes To Dates');
-        //         return;
-        //     }
+            // } else if (this.advancedFilterForm.updateDateFrom != "" && this.advancedFilterForm.updateDateFrom != null) {
+            //     if (this.advancedFilterForm.updateDateTo == "" || this.advancedFilterForm.updateDateTo == null) {
+            //         this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes To Dates');
+            //         return;
+            //     }
         } else if (this.advancedFilterForm.updateDateTo != "" && this.advancedFilterForm.updateDateTo != null) {
             if (this.advancedFilterForm.updateDateFrom == "" || this.advancedFilterForm.updateDateFrom == null) {
                 this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter valid Enquiry Changes From Dates');
@@ -1944,7 +1944,7 @@ export class EnquiryHomeComponent implements OnInit {
             source_id: this.advancedFilterForm.source_id,
             school_id: this.advancedFilterForm.school_id,
             list_id: this.advancedFilterForm.list_id,
-            country_id:this.advancedFilterForm.country_id,
+            country_id: this.advancedFilterForm.country_id,
             city_id: this.advancedFilterForm.city_id,
             state_id: this.advancedFilterForm.state_id
         };
@@ -1971,13 +1971,13 @@ export class EnquiryHomeComponent implements OnInit {
         )
     }
 
-    checkCustomeComponentElement(index){
-        if(!(index%3)){
-                return true;
-            }
-            else{
-                return false;
-            }
+    checkCustomeComponentElement(index) {
+        if (!(index % 3)) {
+            return true;
+        }
+        else {
+            return false;
+        }
 
     }
 
@@ -1999,22 +1999,22 @@ export class EnquiryHomeComponent implements OnInit {
         }, 100);
     }
 
-    reportFor(){
-      let reportFor = [];
-      if(this.downloadReportFor.enquiry){
-        reportFor.push("Enquiry");
-      }
-      if(this.downloadReportFor.admissions){
-        reportFor.push("Admissions");
-      }
-      if(this.downloadReportFor.fees){
-        reportFor.push("Fees");
-      }
-      return reportFor.toString();
+    reportFor() {
+        let reportFor = [];
+        if (this.downloadReportFor.enquiry) {
+            reportFor.push("Enquiry");
+        }
+        if (this.downloadReportFor.admissions) {
+            reportFor.push("Admissions");
+        }
+        if (this.downloadReportFor.fees) {
+            reportFor.push("Fees");
+        }
+        return reportFor.toString();
     }
     downloadSummaryReportXl() {
 
-      let report = this.reportFor()
+        let report = this.reportFor()
 
         switch (Number(this.varJson.downloadReportOption)) {
             case 1:
@@ -2804,7 +2804,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     setDefaultValues() {
         this.tableSetting.keys = [
-            { primaryKey: 'enquiry_no', header: 'Enquiry No', priority: 1, allowSortingFlag: true },
+            { primaryKey: 'enquiry_no', header: 'ENQ No', priority: 1, allowSortingFlag: true },
             { primaryKey: 'name', header: 'Name', priority: 2, allowSortingFlag: true },
             { primaryKey: 'phone', header: "Contact No", priority: 3, allowSortingFlag: true },
             { primaryKey: 'statusValue', header: 'Status', priority: 4, allowSortingFlag: true },
@@ -2838,53 +2838,53 @@ export class EnquiryHomeComponent implements OnInit {
         let encryptedData = sessionStorage.getItem('country_data');
         let data = JSON.parse(encryptedData);
         if (data && data.length > 0) {
-          this.countryList = data;
+            this.countryList = data;
         }
-      }
+    }
 
-      getStateList(){
-          this.stateList = [];
-          this.cityDetails = [];
-          this.advancedFilterForm.state_id = "-1";
-          this.advancedFilterForm.city_id = "-1";
-        if(this.advancedFilterForm.country_id!=-1) {
-        const url = `/api/v1/country/state?country_ids=${this.advancedFilterForm.country_id}`
-        this.auth.showLoader();
-        this.httpService.getData(url).subscribe(
-          (res: any) => {
-            this.auth.hideLoader();
-            if(res.result && res.result.length > 0){
-              this.stateList = res.result[0].stateList;
-            }
-          },
-          err => {
-            this.auth.hideLoader();
-            this.showErrorMessage(this.messageService.toastTypes.error, '', err.error.message);
-          }
-        )
+    getStateList() {
+        this.stateList = [];
+        this.cityDetails = [];
+        this.advancedFilterForm.state_id = "-1";
+        this.advancedFilterForm.city_id = "-1";
+        if (this.advancedFilterForm.country_id != -1) {
+            const url = `/api/v1/country/state?country_ids=${this.advancedFilterForm.country_id}`
+            this.auth.showLoader();
+            this.httpService.getData(url).subscribe(
+                (res: any) => {
+                    this.auth.hideLoader();
+                    if (res.result && res.result.length > 0) {
+                        this.stateList = res.result[0].stateList;
+                    }
+                },
+                err => {
+                    this.auth.hideLoader();
+                    this.showErrorMessage(this.messageService.toastTypes.error, '', err.error.message);
+                }
+            )
         }
-      }
+    }
 
-      // get city list as per state selection
-      getCityList(){
-          this.cityList = [];
-          this.advancedFilterForm.city_id = "-1";
-        if(this.advancedFilterForm.state_id!=-1) {
-        const url = `/api/v1/country/city?state_ids=${this.advancedFilterForm.state_id}`
-        this.auth.showLoader();
-        this.httpService.getData(url).subscribe(
-          (res: any) => {
-            this.auth.hideLoader();
-            if(res.result.length > 0){
-              this.cityDetails = res.result[0].cityList;
-            }
-          },
-          err => {
-            this.auth.hideLoader();
-            this.showErrorMessage(this.messageService.toastTypes.error, '', err.error.message);
-          }
-        )
-      }
-      }
+    // get city list as per state selection
+    getCityList() {
+        this.cityList = [];
+        this.advancedFilterForm.city_id = "-1";
+        if (this.advancedFilterForm.state_id != -1) {
+            const url = `/api/v1/country/city?state_ids=${this.advancedFilterForm.state_id}`
+            this.auth.showLoader();
+            this.httpService.getData(url).subscribe(
+                (res: any) => {
+                    this.auth.hideLoader();
+                    if (res.result.length > 0) {
+                        this.cityDetails = res.result[0].cityList;
+                    }
+                },
+                err => {
+                    this.auth.hideLoader();
+                    this.showErrorMessage(this.messageService.toastTypes.error, '', err.error.message);
+                }
+            )
+        }
+    }
 
 }
