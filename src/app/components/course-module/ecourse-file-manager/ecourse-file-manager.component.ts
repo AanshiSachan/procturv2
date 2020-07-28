@@ -39,6 +39,8 @@ export class EcourseFileManagerComponent implements OnInit {
     watermark_phone: '',
     watermark_email: ''
   }
+  vimeo_allocated_storage: any;
+  vimeo_consumed_storage: any;
 
   constructor(private _http: HttpService,
     private auth: AuthenticatorService,
@@ -89,6 +91,9 @@ export class EcourseFileManagerComponent implements OnInit {
       this.vDOCipher_used_bandwidth = (Number(res.vDOCipher_used_bandwidth) / 1024).toFixed(3);
       this.vDOCipher_allocated_storage = (Number(res.vDOCipher_allocated_storage) / 1024).toFixed(3);
       this.vDOCipher_used_storage = (Number(res.vDOCipher_used_storage) / 1024).toFixed(3);
+      this.vimeo_allocated_storage = (Number(res.vimeo_allocated_storage) / 1024).toFixed(3);
+      sessionStorage.setItem('vimeo_allocated_storage', this.vimeo_allocated_storage);
+      this.vimeo_consumed_storage = (Number(res.vimeo_consumed_storage) / 1024).toFixed(3);
       let width =1;
       if (this._fservice.storageData.uploaded_size!=0 &&
         this._fservice.storageData.uploaded_size<=this._fservice.storageData.storage_allocated) { width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated; }

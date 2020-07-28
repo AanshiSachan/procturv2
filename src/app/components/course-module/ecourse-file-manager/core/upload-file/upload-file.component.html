@@ -327,8 +327,12 @@
                   </div>
                 </div>
               <input type="text" style="margin-bottom: 0.8em;"
-                *ngIf="varJson.category_id==235" class="form-ctrl video-input"
+                *ngIf="varJson.category_id==235 || varJson.category_id==272" class="form-ctrl video-input"
                 placeholder="Video Title" [(ngModel)]="varJson.title">
+
+                <input type="text" style="margin-bottom: 0.8em;"
+                 class="form-ctrl video-input" *ngIf="varJson.category_id==272"
+                placeholder="Video Description" [(ngModel)]="varJson.description">
 
               <input type="text" style="margin-bottom: 0.8em;" class="form-ctrl video-input"
                 *ngIf="varJson.category_id==230" placeholder="Video URL" [(ngModel)]="varJson.video_url">
@@ -392,12 +396,17 @@
               </div>
               <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler2($event,values)"
                 [showCancelButton]="false"
-                *ngIf="varJson.category_id==235 && varJson.category_id!=0 && varJson.category_id!=330">
+                *ngIf="varJson.category_id==235 && varJson.category_id!=0 && varJson.category_id!=330 && varJson.category_id!=272">
+              </p-fileUpload>
+
+              <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadVimeoHandler($event,values)"
+                [showCancelButton]="false"
+                *ngIf="varJson.category_id==272 && varJson.category_id!=235 && varJson.category_id!=0 && varJson.category_id!=330">
               </p-fileUpload>
 
               <p-fileUpload customUpload="true" multiple="multiple" type="submit"
                 (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false"
-                *ngIf="varJson.category_id!=230 && varJson.category_id!=235 && varJson.category_id!=330">
+                *ngIf="varJson.category_id!=230 && varJson.category_id!=235 && varJson.category_id!=330 && varJson.category_id!=272">
               </p-fileUpload>
 
               <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">

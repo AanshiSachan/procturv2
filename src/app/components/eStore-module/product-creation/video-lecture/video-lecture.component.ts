@@ -208,6 +208,10 @@ export class VideoLectureComponent implements OnInit {
         slug = 'Slides';
         break;
       }
+      case "Vimeo": {
+        slug = 'Videos';
+        break;
+      }
     }
     return slug;
   }
@@ -225,7 +229,7 @@ export class VideoLectureComponent implements OnInit {
 
 
   addMaterialExtension(object) {
-    let keys = ["YoutubeURL", "VDOCipher"];
+    let keys = ["YoutubeURL", "VDOCipher", "Vimeo"];
     keys.forEach(key => {
       if (object.studyMaterialMap[key]) {
         let slug = this.getSlugname(key);

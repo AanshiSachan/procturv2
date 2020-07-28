@@ -91,6 +91,26 @@
       </div>
     </div>
 
+    <div class="sidecard" *ngIf="enable_vdoCipher_feature">
+      <div class="wrap">
+        <h4>Vimeo allocated Storage
+        </h4>
+        <p class="small usage">
+          {{(vimeo_allocated_storage?vimeo_allocated_storage:0)| number:'.2-2'}} GB
+        </p>
+      </div>
+    </div>
+
+    <div class="sidecard" *ngIf="enable_vdoCipher_feature">
+      <div class="wrap">
+        <h4>Vimeo Used Storage
+        </h4>
+        <p class="small usage">
+          {{(vimeo_consumed_storage?vimeo_consumed_storage:0)| number:'.2-2'}} GB
+        </p>
+      </div>
+    </div>
+
   </div>
   <div class="col-md-10 file-mgr-wrapper" style="width: 80%;">
     <div class="row">
