@@ -63,6 +63,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   }
   progress: number = 0;
   isUploadingXls: boolean = false;
+  Existing_video_category_id: any = 0;
 
   constructor(
     private _http: HttpService,
@@ -121,7 +122,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       "topic_id": this.varJson.topic_id,
       "sub_topic_id": this.varJson.sub_topic_id,
       "title": this.varJson.title,
-      "category_id": 235,
+      "category_id": this.Existing_video_category_id,
     }
     if(!this.showModal) {
       object.sub_topic_id = Number(this.jsonData.mainTopicId),
@@ -671,8 +672,9 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   }
 
   onRadioButtonChange($event, video) {
-    // console.log($event, video);
+    // console.log(video);
     this.varJson.title = video.video_title;
+    this.Existing_video_category_id = video.category_id;
   }
 
 
