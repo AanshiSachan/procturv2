@@ -74,7 +74,7 @@ export class ManageCampaignComponent implements OnInit {
 
   // FOR PAGINATION
   pageIndex: number = 1;
-  displayBatchSize: number = 100;
+  displayBatchSize: number = 50;
   totalCount: number = 0;
   sizeArr: any[] = [20, 50, 100, 150, 200, 500];
   startindex: number = 0;
@@ -82,9 +82,11 @@ export class ManageCampaignComponent implements OnInit {
   constructor(
     private campaignService: CampaignService,
     private msgService: MessageShowService,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private _pdfService: ExportToPdfService
   ) { }
+
+
 
   ngOnInit() {
     this.fetchPreFillData();
@@ -92,12 +94,12 @@ export class ManageCampaignComponent implements OnInit {
   }
 
   checkRoleAccess() {
-    if(sessionStorage.getItem('downloadEnquiryReportAccess') == 'true'){
-        this.downloadEnquiryReportAccess = true;
+    if (sessionStorage.getItem('downloadEnquiryReportAccess') == 'true') {
+      this.downloadEnquiryReportAccess = true;
     }
   }
 
-  fetchPreFillData(){
+  fetchPreFillData() {
     this.auth.showLoader();
     // get all source list
     this.campaignService.getAllSources().subscribe(
@@ -142,19 +144,19 @@ export class ManageCampaignComponent implements OnInit {
     this.searchCampaign(this.startindex);
   }
 
-  searchCampaign(index){
-    if(index == 0){
+  searchCampaign(index) {
+    if (index == 0) {
       this.pageIndex = 1;
     }
     this.checkedIds = [];
     this.auth.showLoader();
     let obj = {
       "assigned_to": this.filters.assignedTo,
-    	"name": this.filters.stundetName,
-    	"mobile": this.filters.contactNumber,
-    	"list_id":  this.filters.campaignName,
-    	"source_id": this.filters.source,
-    	"referred_by": this.filters.referredBy,
+      "name": this.filters.stundetName,
+      "mobile": this.filters.contactNumber,
+      "list_id": this.filters.campaignName,
+      "source_id": this.filters.source,
+      "referred_by": this.filters.referredBy,
       "start_index": index,
       "batch_size": 100
     }
@@ -166,9 +168,9 @@ export class ManageCampaignComponent implements OnInit {
         this.leadsList = res;
         this.tempLeadlist = res;
         this.totalCount = 0;
-        if(result.length > 0){
-          for(let i = 0; i < this.leadsList.length; i++){
-            if(this.leadsList[i].converted == 0){
+        if (result.length > 0) {
+          for (let i = 0; i < this.leadsList.length; i++) {
+            if (this.leadsList[i].converted == 0) {
               this.leadsList[i].select = false;
             }
           }
@@ -182,7 +184,7 @@ export class ManageCampaignComponent implements OnInit {
     );
   }
 
-  searchDatabase(){   // quick search
+  searchDatabase() {   // quick search
     this.leadsList = this.tempLeadlist;
     if (this.leadSearchInput == undefined || this.leadSearchInput == null) {
       this.leadSearchInput = "";
@@ -196,29 +198,29 @@ export class ManageCampaignComponent implements OnInit {
     }
   }
 
-  downloadPdf(){
+  downloadPdf() {
     let arr = [];
-    for(let i = 0; i < this.tempLeadlist.length; i++){
+    for (let i = 0; i < this.tempLeadlist.length; i++) {
       this.tempLeadlist[i].converted_status = "-";
-      if(this.tempLeadlist[i].converted == 1){
+      if (this.tempLeadlist[i].converted == 1) {
         this.tempLeadlist[i].converted_status = "Converted";
       }
-      if(this.tempLeadlist[i].name.length == 0){
+      if (this.tempLeadlist[i].name.length == 0) {
         this.tempLeadlist[i].name = "-";
       }
-      if(this.tempLeadlist[i].email.length == 0){
+      if (this.tempLeadlist[i].email.length == 0) {
         this.tempLeadlist[i].email = "-";
       }
-      if(this.tempLeadlist[i].address.length == 0){
+      if (this.tempLeadlist[i].address.length == 0) {
         this.tempLeadlist[i].address = "-";
       }
-      if(this.tempLeadlist[i].city.length == 0){
+      if (this.tempLeadlist[i].city.length == 0) {
         this.tempLeadlist[i].city = "-";
       }
-      if(this.tempLeadlist[i].referred_name.length == 0){
+      if (this.tempLeadlist[i].referred_name.length == 0) {
         this.tempLeadlist[i].referred_name = "-";
       }
-      if(this.tempLeadlist[i].source_name.length == 0){
+      if (this.tempLeadlist[i].source_name.length == 0) {
         this.tempLeadlist[i].source_name = "-";
       }
     }
@@ -245,28 +247,28 @@ export class ManageCampaignComponent implements OnInit {
   }
 
   // checkbox checked/unchecked activiity
-  rowCheckBoxClick(row){
+  rowCheckBoxClick(row) {
     let validate_check = false;
-    for(let i = 0; i < this.checkedIds.length; i++){
-      if(this.checkedIds[i] == row.base_id){
-        this.checkedIds.splice(i,1);
+    for (let i = 0; i < this.checkedIds.length; i++) {
+      if (this.checkedIds[i] == row.base_id) {
+        this.checkedIds.splice(i, 1);
         this.checkAll = false;
         return validate_check = true;
       }
     }
-    if(!validate_check){
+    if (!validate_check) {
       this.checkedIds.push(row.base_id)
     }
   }
 
   // check all checkbox
-  checkAllLead(event){
+  checkAllLead(event) {
     this.checkedIds = [];
     let event_flag = event.target.checked;
-    for(let i = 0; i < this.leadsList.length; i++){
+    for (let i = 0; i < this.leadsList.length; i++) {
       this.leadsList[i].select = event_flag;
-      if(this.leadsList[i].converted == 0){
-        if(event_flag){
+      if (this.leadsList[i].converted == 0) {
+        if (event_flag) {
           this.checkedIds.push(this.leadsList[i].base_id)
         }
       }
@@ -274,15 +276,15 @@ export class ManageCampaignComponent implements OnInit {
   }
 
   // fetch promotional msg and show pop up
-  showPromoSMS(){
-    if(this.checkedIds.length == 0){
+  showPromoSMS() {
+    if (this.checkedIds.length == 0) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No lead is selected. Kindly select at least one!');
       $('#SMS').modal('hide');
     }
-    else{
+    else {
       let obj = {
         "status": 1,
-  	     "sms_type": "Promotional"
+        "sms_type": "Promotional"
       }
       this.auth.showLoader();
       $('#SMS').modal('show');
@@ -299,25 +301,25 @@ export class ManageCampaignComponent implements OnInit {
     }
   }
 
-  selectMsg(msg){
+  selectMsg(msg) {
     let validate_check = false;
-    for(let i = 0; i < this.selectedSMSList.length; i++){
-      if(this.selectedSMSList[i] == msg.message_id){
-        this.selectedSMSList.splice(i,1);
+    for (let i = 0; i < this.selectedSMSList.length; i++) {
+      if (this.selectedSMSList[i] == msg.message_id) {
+        this.selectedSMSList.splice(i, 1);
         return validate_check = true;
       }
     }
-    if(!validate_check){
+    if (!validate_check) {
       this.selectedSMSList.push(msg.message_id)
     }
   }
 
-// Send checked msg
-  sendSMS(){
-    if(this.selectedSMSList.length == 0){
+  // Send checked msg
+  sendSMS() {
+    if (this.selectedSMSList.length == 0) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No SMS is selected. Kindly select at least one!')
     }
-    else{
+    else {
       let obj = {
         "baseIds": this.checkedIds,
         "messageArray": this.selectedSMSList
@@ -343,11 +345,11 @@ export class ManageCampaignComponent implements OnInit {
   }
 
   // Convert lead to enq
-  convertToEnq(){
-    if(this.checkedIds.length == 0){
+  convertToEnq() {
+    if (this.checkedIds.length == 0) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No lead is selected. Kindly select at least one!')
     }
-    else{
+    else {
       let obj = {
         "baseIds": this.checkedIds
       }
@@ -367,11 +369,11 @@ export class ManageCampaignComponent implements OnInit {
   }
 
   //  Delete multiple leads
-  deleteMultipleLeads(){
-    if(this.checkedIds.length == 0){
+  deleteMultipleLeads() {
+    if (this.checkedIds.length == 0) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No lead is selected. Kindly select at least one!')
     }
-    else{
+    else {
       let obj = {
         "baseIds": this.checkedIds.toString()
       }
@@ -392,26 +394,26 @@ export class ManageCampaignComponent implements OnInit {
   }
 
   // CRUD operation on leads
-  saveNewLead(){   // validation
+  saveNewLead() {   // validation
     if (this.addLead.phone != null && this.addLead.phone != "") {
-      if(this.addLead.phone.length == 10){
-        if(this.addLead.source != "-1"){
+      if (this.addLead.phone.length == 10) {
+        if (this.addLead.source != "-1") {
           this.addNewLead()
         }
-        else{
+        else {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select source details');
         }
       }
-      else{
+      else {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter valid phone number');
       }
     }
-    else{
+    else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter contact details');
     }
   }
 
-  addNewLead(){
+  addNewLead() {
     let obj = {
       "name": this.addLead.name,
       "mobile": this.addLead.phone,
@@ -438,7 +440,7 @@ export class ManageCampaignComponent implements OnInit {
     );
   }
 
-  editLeadRow(row){
+  editLeadRow(row) {
     this.editLead.name = row.name;
     this.editLead.phone = row.mobile;
     this.editLead.address = row.address;
@@ -451,26 +453,26 @@ export class ManageCampaignComponent implements OnInit {
     this.editLead.base_id = row.base_id;
   }
 
-  updateLead(){
+  updateLead() {
     if (this.editLead.phone != null && this.editLead.phone != "") {
-      if(this.editLead.phone.length == 10){
-        if(this.editLead.source != "-1"){
+      if (this.editLead.phone.length == 10) {
+        if (this.editLead.source != "-1") {
           this.modifyLead();
         }
-        else{
+        else {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select source details');
         }
       }
-      else{
+      else {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter valid phone number');
       }
     }
-    else{
+    else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter contact details');
     }
   }
 
-  modifyLead(){
+  modifyLead() {
     let obj = {
       "name": this.editLead.name,
       "mobile": this.editLead.phone,
@@ -498,8 +500,9 @@ export class ManageCampaignComponent implements OnInit {
     );
   }
 
-  deleteLead(row){
-    if (confirm('Are you sure you want to delete lead?')){
+  deleteLead(row) {
+    console.log(row.list_id);
+    if (confirm('Are you sure you want to delete lead?')) {
       this.auth.showLoader();
       this.campaignService.deleteLead(row.list_id, row.base_id).subscribe(
         res => {
@@ -515,7 +518,7 @@ export class ManageCampaignComponent implements OnInit {
     }
   }
 
-  clearEditLeadForm(){
+  clearEditLeadForm() {
     this.editLead.name = "";
     this.editLead.phone = "";
     this.editLead.address = "";
@@ -528,7 +531,7 @@ export class ManageCampaignComponent implements OnInit {
     this.editLead.base_id = "";
   }
 
-  clearLeadForm(){
+  clearLeadForm() {
     this.addLead.name = "";
     this.addLead.phone = "";
     this.addLead.address = "";
@@ -566,7 +569,7 @@ export class ManageCampaignComponent implements OnInit {
     this.searchCampaign(this.startindex);
   }
 
-  toggleFilter(){
+  toggleFilter() {
     var x = document.getElementById("advance_filter");
     if (x.style.display == "none" || x.style.display == "") {
       x.style.display = "flex";

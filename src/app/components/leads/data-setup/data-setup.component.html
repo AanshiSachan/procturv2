@@ -1,5 +1,6 @@
 <div class="clearFix sms-view-wrapper" style="padding-left: 15px; padding-right: 15px; padding-top: 20px;">
-  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;">
+  <section class="middle-top clearFix bulk-header"
+    style="padding-left: 5px; padding-bottom: 10px; border-bottom: 1px solid lightgrey;">
     <h1 class="pull-left">
       <a routerLink="/view/leads" style="padding:0px;">
         Lead
@@ -7,8 +8,17 @@
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       Enquiry Closing Reasons
     </h1>
+    <div class="filter-item-2" style="margin-left: 66rem;">
+      <button type="button" name="button" class="btn" (click)="toggleCreateNewReason()" style="margin-top: 0rem;">
+        <i id="showAddBtn" class="addBtnClass">+</i>
+        <i id="showCloseBtn" class="closeBtnClass" style="display:none;">-</i>
+        <!-- <span class="pointer-way"></span> -->
+        &nbsp;
+        Add Reason
+      </button>
+    </div>
   </section>
-  <section class="sms-filter-wrapper" style="border-top: 1px solid #d4d4d4; border-bottom: 1px solid #d4d4d4">
+  <!-- <section class="sms-filter-wrapper" style="border-top: 1px solid #d4d4d4; border-bottom: 1px solid #d4d4d4">
     <div class="row">
       <div class="col-lg-6"></div>
       <div class="col-lg-6" style="float: right; margin-bottom: 14px;">
@@ -16,16 +26,16 @@
           <button type="button" name="button" class="add-class-btn" style="margin-right: -387%;"
             (click)="toggleCreateNewReason()">
             <i id="showAddBtn" class="addBtnClass">+</i>
-            <i id="showCloseBtn" class="closeBtnClass" style="display:none;">-</i>
-            <!-- <span class="pointer-way"></span> -->
-            &nbsp;
+            <i id="showCloseBtn" class="closeBtnClass" style="display:none;">-</i> -->
+  <!-- <span class="pointer-way"></span> -->
+  <!-- &nbsp;
             Add Reason
           </button>
         </div>
       </div>
       <div class="col-lg-4"></div>
     </div>
-  </section>
+  </section> -->
 </div>
 
 
@@ -59,29 +69,29 @@
 
           <div class="row create-standard-field" *ngIf="showToggle">
             <div class="c-lg-3 c-md-3 c-sm-3">
-              <div class="field-wrapper">
-                <label for="Create Grade">Add Closing Reason*
+              <div class="field-wrapper" style="margin-top: -1rem;margin-left: -1.5rem;">
+                <label for="Create Grade">Add Closing Reason<span class="text-danger">*</span>
 
                 </label>
-                <textarea class="form-ctrl" name="grade" id="grade" [(ngModel)]="createNewReasonObj.closing_desc"
-                  style="height: 80px;">
-                </textarea>
+                <input type="text" class="form-ctrl" name="grade" id="grade"
+                  [(ngModel)]="createNewReasonObj.closing_desc" style="border-radius: 4px;">
+                <!-- </textarea> -->
               </div>
             </div>
-            <div class="c-lg-2" style="margin-top: 2%;">
+            <div class="c-lg-2" style="margin-top: 0.5rem;">
               <input type="button" value="Add" class="btn fullBlue" (click)="createNewReason()">
             </div>
           </div>
 
           <div class="table table-responsive table-scroll">
             <div class="dummy-scroll">
-              <table>
+              <table class="tableBodyScroll">
                 <thead>
                   <tr>
-                    <th>
+                    <th style="width: 74.5rem;">
                       Closing Reason
                     </th>
-                    <th>
+                    <th style="width: 7.5rem;">
                       Action
                     </th>
                   </tr>
@@ -91,24 +101,30 @@
                   <tr *ngFor="let i of getAllClosingReasons  ; let j = index; trackBy: j;" class="displayComp"
                     id="i{{j}}">
 
-                    <td class="view-comp">
+                    <td class="view-comp" style="width: 75rem;">
                       {{i.closing_desc}}
                     </td>
 
-                    <td class="edit-comp">
+                    <td class="edit-comp" style="width: 75rem;">
                       <div class="field-wrapper">
                         <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="i.closing_desc"
-                          [value]="i.closing_desc" style="text-align: left;">
+                          [value]="i.closing_desc" style="text-align: left;border: none;">
                       </div>
                     </td>
 
-                    <td class="view-comp">
-                      <a class="anchorTagCursor" (click)="editRowTable(i, j)">Edit</a>
+                    <td class="view-comp" style="width: 7rem;">
+                      <i class="fa fa-pencil" title="Edit" style="color: #0084f6;" aria-hidden="true"
+                        (click)="editRowTable(i, j)"></i>
+                      <!-- <a class="anchorTagCursor" (click)="editRowTable(i, j)">Edit</a> -->
                     </td>
 
-                    <td class="edit-comp">
-                      <a class="anchorTagCursor" (click)="saveInformation(i , j)"> Save </a>
-                      <a class="anchorTagCursor anchorTag" (click)="cancelEditRow(j)"> Cancel </a>
+                    <td class="edit-comp" style="width: 7rem;">
+                      <i class="fa fa-floppy-o" title="Save" style="color: blue;margin-right: 4px;" aria-hidden="true"
+                        (click)="saveInformation(i , j)"></i>
+                      <i class="fa fa-times" title="Cancel" style="color: red;font-size: 17px;" aria-hidden="true"
+                        (click)="cancelEditRow(j)"></i>
+                      <!-- <a class="anchorTagCursor" (click)="saveInformation(i , j)"> Save </a>
+                      <a class="anchorTagCursor anchorTag" (click)="cancelEditRow(j)"> Cancel </a> -->
                     </td>
 
                   </tr>

@@ -23,7 +23,7 @@ export class ProductListComponent implements OnInit {
       isPaid: null,
       ecourseId: '-1',
       status: null,
-      productType:-1
+      productType: -1
     },
     // sort: {
     //   publishDate: false
@@ -37,13 +37,15 @@ export class ProductListComponent implements OnInit {
     displayBatchSize: 25,
     total_items: 0
   };
+
+  helpMsg: string = "Product on which the bar colour is green,is an advanced product"
   productList: any = [];
-  productDetails:any=[];
+  productDetails: any = [];
   ecourseList: any = [];
   subjectsList: any = [];
   studentDetails: any = [];
   masterCourseDetails: any = [];
-  courseDetails: any =[];
+  courseDetails: any = [];
   product_details_for_student: any = '';
   master_course_name: '';
   course_id: '';
@@ -99,9 +101,9 @@ export class ProductListComponent implements OnInit {
     this.fectchTableDataByPage(this.varJson.PageIndex);
   }
 
-  getAllProductDetails(){
+  getAllProductDetails() {
     this.auth.showLoader();
-    this.http.getMethod('product/get-product-list',null).subscribe(
+    this.http.getMethod('product/get-product-list', null).subscribe(
       (data: any) => {
         this.auth.hideLoader();
         this.productDetails = data.result;
@@ -133,8 +135,8 @@ export class ProductListComponent implements OnInit {
           // -- added by laxmi
           // this code is used to laod image url dynamically not save in locally so dont remove it
           this.productList.forEach(obj => {
-            if(obj.logo_url){
-              obj.logo_url =obj.logo_url+"?t="+new Date().getTime();//
+            if (obj.logo_url) {
+              obj.logo_url = obj.logo_url + "?t=" + new Date().getTime();//
             }
           });
 
@@ -152,7 +154,7 @@ export class ProductListComponent implements OnInit {
   }
 
   convertUTCDateToLocalDate(date_s) {
-    var date =new Date(date_s)
+    var date = new Date(date_s)
     // var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
     //
     // var offset = date.getTimezoneOffset() / 60;
@@ -160,7 +162,7 @@ export class ProductListComponent implements OnInit {
     //
     // newDate.setHours(hours - offset);
     return moment(date).format('DD MMM YYYY');
-}
+  }
 
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
@@ -235,7 +237,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  showAssignStudentPopup(data){
+  showAssignStudentPopup(data) {
     this.master_course_name = '';
     this.course_id = '';
     this.batch_id = '';
@@ -249,54 +251,54 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  getStudentDetails(){
+  getStudentDetails() {
     this.jsonKeys.selectAll = true;
     this.studentDetails = [];
     let ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
     let object = {};
-    if(!this.isProfessional) {
-     object = {
-      "ecourse_ids": ecourse,
-      "master_course_name": this.master_course_name,
-      "course_id": this.course_id
-    };
-  } else{
-    if(this.master_course_name != "" && this.course_id != "" && this.batch_id != ""){
-      object = {
-        "ecourse_ids": [],
-        'standard_id': "",
-        'subject_id' : "",
-        'batch_id' : this.batch_id
-      }
-    }
-    else if(this.master_course_name != "" && this.course_id != ""){
-      object = {
-        "ecourse_ids": [],
-        'standard_id': this.master_course_name,
-        'subject_id' : this.course_id,
-        'batch_id' : ""
-      }
-    }
-    else if(this.master_course_name == "" && this.course_id == "" && this.batch_id == ""){
+    if (!this.isProfessional) {
       object = {
         "ecourse_ids": ecourse,
-        'standard_id': "",
-        'subject_id' : "",
-        'batch_id' : ""
+        "master_course_name": this.master_course_name,
+        "course_id": this.course_id
+      };
+    } else {
+      if (this.master_course_name != "" && this.course_id != "" && this.batch_id != "") {
+        object = {
+          "ecourse_ids": [],
+          'standard_id': "",
+          'subject_id': "",
+          'batch_id': this.batch_id
+        }
+      }
+      else if (this.master_course_name != "" && this.course_id != "") {
+        object = {
+          "ecourse_ids": [],
+          'standard_id': this.master_course_name,
+          'subject_id': this.course_id,
+          'batch_id': ""
+        }
+      }
+      else if (this.master_course_name == "" && this.course_id == "" && this.batch_id == "") {
+        object = {
+          "ecourse_ids": ecourse,
+          'standard_id': "",
+          'subject_id': "",
+          'batch_id': ""
+        }
       }
     }
-  }
     console.log(object);
     this.auth.showLoader();
     const url = `user-product/student-details/${this.product_details_for_student.entity_id}`;
     this.http.postMethod(url, object).then(
-      (resp:any) => {
+      (resp: any) => {
         this.auth.hideLoader();
         if (resp) {
           let data = resp['body'];
           if (resp && data.validate) {
             this.studentDetails = data.result;
-           this.toggleAllCheckBox('');
+            this.toggleAllCheckBox('');
           } else {
             this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
           }
@@ -343,8 +345,8 @@ export class ProductListComponent implements OnInit {
   getCourseDetails(event) {
     this.auth.showLoader();
     let ecourse = [];
-    if(event == ''){
-       ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
+    if (event == '') {
+      ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
     }
     let object = {
       'ecourse_ids': ecourse,
@@ -364,9 +366,9 @@ export class ProductListComponent implements OnInit {
       });
   }
 
-  getSubjectDetails(event){
+  getSubjectDetails(event) {
     this.auth.showLoader();
-    this._http.getData('/api/v1/batches/fetchCombinedBatchData/' + this.jsonKeys.institute_id + '?standard_id=' + event+'&subject_id =-1'+'&assigned = N').subscribe(
+    this._http.getData('/api/v1/batches/fetchCombinedBatchData/' + this.jsonKeys.institute_id + '?standard_id=' + event + '&subject_id =-1' + '&assigned = N').subscribe(
       (resp: any) => {
         this.auth.hideLoader();
         if (resp) {
@@ -398,7 +400,7 @@ export class ProductListComponent implements OnInit {
     console.log(object);
     this.auth.showLoader();
     this.http.postMethod('order/assign-product', object).then(
-      (resp:any) => {
+      (resp: any) => {
         this.auth.hideLoader();
         if (resp) {
           let data = resp['body'];
@@ -441,32 +443,32 @@ export class ProductListComponent implements OnInit {
     }
     switch (operation) {
       case 'delete': {
-          this.auth.showLoader();
-          this.http.getMethod('product/delete/' + id, null).subscribe(
-            (resp: any) => {
-              this.auth.hideLoader();
+        this.auth.showLoader();
+        this.http.getMethod('product/delete/' + id, null).subscribe(
+          (resp: any) => {
+            this.auth.hideLoader();
 
-              console.log(resp);
-              if (resp && resp.validate) {
-                let response = resp.result;
-                this.msgService.showErrorMessage('success', 'Product deleted successfully!', '');
-                $("#actionProductModal").modal('hide');
-                this.productList.forEach((element, index) => {
-                  if (element.entity_id == response.entity_id) {
-                    this.productList.splice(index, 1);
-                    console.log(this.productList);
-                  }
-                });
-                this.varJson.total_items--;
-              }
-              else {
-                this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
-              }
-            },
-            (err) => {
-              this.auth.hideLoader();
+            console.log(resp);
+            if (resp && resp.validate) {
+              let response = resp.result;
+              this.msgService.showErrorMessage('success', 'Product deleted successfully!', '');
+              $("#actionProductModal").modal('hide');
+              this.productList.forEach((element, index) => {
+                if (element.entity_id == response.entity_id) {
+                  this.productList.splice(index, 1);
+                  console.log(this.productList);
+                }
+              });
+              this.varJson.total_items--;
+            }
+            else {
               this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
-            });
+            }
+          },
+          (err) => {
+            this.auth.hideLoader();
+            this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
+          });
         break;
       }
 
@@ -496,27 +498,27 @@ export class ProductListComponent implements OnInit {
 
 
   tempFucntion(id, item, body, operation) {
-      this.auth.showLoader();
-      this.http.postMethod('product/change-status', body).then(
-        (resp:any) => {
-          this.auth.hideLoader();
-          if (resp) {
-            let data = resp['body'];
-            item.status = body.status;
-            if (resp && data.validate) {
-              item.publish_date = data.result.publish_date;
-              this.msgService.showErrorMessage("success", 'product updated successfully', '');
-              $('#actionProductModal').modal('hide');
-            } else {
-              this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
-            }
+    this.auth.showLoader();
+    this.http.postMethod('product/change-status', body).then(
+      (resp: any) => {
+        this.auth.hideLoader();
+        if (resp) {
+          let data = resp['body'];
+          item.status = body.status;
+          if (resp && data.validate) {
+            item.publish_date = data.result.publish_date;
+            this.msgService.showErrorMessage("success", 'product updated successfully', '');
+            $('#actionProductModal').modal('hide');
+          } else {
+            this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
           }
-        },
-        (err) => {
-          this.auth.hideLoader();
-          this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
         }
-      );
+      },
+      (err) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
+      }
+    );
 
   }
   getPublishedDate(entity_id) {
@@ -543,7 +545,7 @@ export class ProductListComponent implements OnInit {
         minPrice: null,
         maxPrice: null,
         status: null,
-        productType:-1
+        productType: -1
       },
       // sort: {
       //   publishDate: false
@@ -635,7 +637,7 @@ export class ProductListComponent implements OnInit {
     console.log('toggleAllCheckBox');
     this.studentDetails.forEach(element => {
       element.isSelected = this.jsonKeys.selectAll;
-      if(element.is_product_already_purchased){
+      if (element.is_product_already_purchased) {
         element.isSelected = true;
       }
     });
@@ -647,7 +649,7 @@ export class ProductListComponent implements OnInit {
 
   isAllChecked(): boolean {
     return this.studentDetails.every(_ => _.isSelected);
-}
+  }
 
   toggleActionMenu(event) {
     console.log(event);

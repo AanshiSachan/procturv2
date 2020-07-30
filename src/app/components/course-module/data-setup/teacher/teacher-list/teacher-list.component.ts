@@ -15,12 +15,13 @@ export class TeacherListComponent implements OnInit {
   teacherListDataSource: any = [];
   teacherList: any = [];
   PageIndex: number = 1;
-  studentdisplaysize: number = 10;
+  studentdisplaysize: number = 25;
   totalRow: number;
   searchData: any = [];
   searchDataFlag: boolean = false;
   dataStatus: number = 1;
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
   selectedRow: number;
   searchValue: string = "";
@@ -56,8 +57,8 @@ export class TeacherListComponent implements OnInit {
         this.totalRow = data.length;
         this.teacherListDataSource = data;
         this.teacherListDataSource.forEach(element => {
-          if(element.date_of_joining !=""){
-          element.date_of_joining =  moment(element.date_of_joining).format('DD-MMM-YYYY');
+          if (element.date_of_joining != "") {
+            element.date_of_joining = moment(element.date_of_joining).format('DD-MMM-YYYY');
           }
         });
         this.fetchTableDataByPage(this.PageIndex);
@@ -151,6 +152,10 @@ export class TeacherListComponent implements OnInit {
       data = this.teacherListDataSource.slice(startindex, startindex + this.studentdisplaysize);
     }
     return data;
+  }
+  updateTableBatchSize(event) {
+    this.studentdisplaysize = event;
+    this.fetchTableDataByPage(this.PageIndex);
   }
 
 

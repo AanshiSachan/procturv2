@@ -24,6 +24,8 @@ export class SalesReportsComponent implements OnInit {
   private slotIdArr: any[] = [];
   salesDataSource: any[] = [];
   productLists: any[] = [];
+  totalRecords: any = 0;
+  filterShow: boolean = false;
   private selectedSlots: any[] = [];
   private selectedSlotsString: string = '';
   private selectedSlotsID: string = '';
@@ -54,7 +56,7 @@ export class SalesReportsComponent implements OnInit {
     tableDetails: { title: 'Sales Report', key: 'products.salesReports', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
-    selectAll: { showSelectAll: false, option:'single', title: 'Sales report', checked: true, key: 'title' },
+    selectAll: { showSelectAll: false, option: 'single', title: 'Sales report', checked: true, key: 'title' },
     defaultSort: { primaryKey: 'publish_date', sortingType: 'asc', header: 'Purchase Date', priority: 4, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
     actionSetting:
     {
@@ -74,7 +76,7 @@ export class SalesReportsComponent implements OnInit {
     private _msgService: MessageShowService,
     private _http: HttpService,
     private _excelService: ExcelService,
-    private http: ProductService, ) { }
+    private http: ProductService,) { }
 
   ngOnInit() {
 
@@ -155,13 +157,14 @@ export class SalesReportsComponent implements OnInit {
               "title": object.product.title,
               "name": object.name,
               "phone": object.phone,
-              "price":object.price,
+              "price": object.price,
               "publish_date": object.purchase_date,
               "status": object.product.status,
             }
             this.salesDataSource.push(saleData);
           });
           this.tempSalesData = this.salesDataSource;
+          this.totalRecords = this.salesDataSource.length;
         }
         else {
           this._msgService.showErrorMessage('error', "something went wrong, try again", '');
@@ -185,7 +188,14 @@ export class SalesReportsComponent implements OnInit {
       }
     }
   }
-
+  toggleFilter() {  // show hide filter
+    if (this.filterShow) {
+      this.filterShow = false;
+    }
+    else {
+      this.filterShow = true;
+    }
+  }
   /* =================================================================================================== */
   /* =================================================================================================== */
   updateSlotSelected(data) {
@@ -275,6 +285,7 @@ export class SalesReportsComponent implements OnInit {
   }
 
   fetchSalesReportDetails() {
+    this.filterShow = false;
     console.log('sales Details');
     this.getProductDetails();
   }

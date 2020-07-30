@@ -8,6 +8,7 @@ import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { getSMSService } from '../../../../services/report-services/get-sms.service';
 import { DataDisplayTableComponent } from '../../../shared/data-display-table/data-display-table.component';
+import moment = require('moment');
 
 /**
   * written by laxmi
@@ -166,6 +167,10 @@ export class CampaignSmsComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.smsDataSource = res;
+        for (let i = 0; i < res.length; i++) {
+          res[i].running_date = moment(this.smsDataSource[i].running_date).format("DD-MMM-YYYY hh:mm");
+          // console.log(moment(this.smsDataSource[i].running_date).format("DD-MMM-YYYY hh:mm"));
+        }
         let temp = res;
         this.smsSource = temp;
         this.totalRecords = this.smsSource.length;

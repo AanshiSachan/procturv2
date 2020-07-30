@@ -12,14 +12,37 @@
     <section class="sms-filter-wrapper" style="border-top: 1px solid #d4d4d4; border-bottom: 1px solid #d4d4d4">
         <div class="row fee-filter long" style="margin-left: -14px;margin-bottom: 1em;margin-top: 1em;">
             <div>
-                <div class="c-lg-3 c-md-3 c-sm-3 " style="top: -12px; width: 18%;">
+                <div class="c-lg-3 c-md-3 c-sm-3 " style="top: -12px; width: 21%;">
                     <div id="slotwrapper" class="field-wrapper dropdown1"
                         (click)="multiselectVisible($event.target.id)">
                         <label for="assignCourses">Products</label>
-                        <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl"
-                            readonly="true" style="line-height: 20px;border-radius: 4px;" />
+                        <!-- <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl"
+                            readonly="true" style="line-height: 20px;border-radius: 4px;" /> -->
+
+                        <div class="input-container" style="">
+                            <i class="fa fa-filter" style="font-family: FontAwesome;" aria-hidden="true"></i>
+                            <input type="text" name="" value="" class="filer-input" style="width: 77%;"
+                                placeholder="Choose filter from dropdown" disabled>
+                            <i class="fa fa-caret-down" style="font-family: FontAwesome;" aria-hidden="true"
+                                (click)="toggleFilter()" *ngIf="!filterShow"></i>
+                            <i class="fa fa-caret-up" style="font-family: FontAwesome;" aria-hidden="true"
+                                (click)="toggleFilter()" *ngIf="filterShow"></i>
+                        </div>
+                        <div class="filter-container" *ngIf="filterShow" style="height: 45vh;overflow: auto;">
+                            <div class="date-container" *ngFor="let product of productLists">
+                                <div class="date-values-container">
+                                    <div class="field-checkbox-wrapper date-value-item">
+                                        <input type="checkbox" [id]="product.title" [value]="product.title"
+                                            name="{{product.title}}" [(ngModel)]="product.isChecked"
+                                            (ngModelChange)="updateSlotSelected(product)" class="form-checkbox">
+                                        <label for="{{product.title}}"> {{product.title}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                    <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
+                    <!-- <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
                         <div class="multiselect-wrapper-inner">
                             <ul class="">
                                 <li *ngFor="let product of productLists">
@@ -32,7 +55,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="c-lg-3  c-md-3 c-sm-3" style="width: 14%;">
                     <div class="c-lg-12 field-wrapper datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
@@ -52,7 +75,8 @@
                     <button class="btn fullBlue" (click)="fetchSalesReportDetails()">Go</button>
                 </div>
                 <div class="c-lg-3  c-md-3 c-sm-3" style="float: right;margin-right: -1.5rem;margin-top: 0.8em;">
-                    <div id="basic-search" class="c-lg-11">
+                    <div id="basic-search" class="c-lg-11"
+                        [ngStyle]="{'margin-left':totalRecords != 0 ? '-5rem' : '-1rem' }">
                         <form autocomplete="off" #form="ngForm">
                             <input type="text" name="searchValue" [(ngModel)]="searchText" placeholder="Search"
                                 class="form-ctrl" id="searchBar" (keyup)="searchDatabase()"
@@ -63,7 +87,23 @@
                     <div>
                         <section class="login-tube pull-right" style="position: absolute;right: 22px;
                     margin-top: 6px;">
-                            <nav>
+                            <div style="float: right;">
+                                <div *ngIf="totalRecords != 0" style="margin-right: 40px;margin-top: -7px;">
+                                    <i class="fa fa-file-pdf-o"
+                                        style="font-size: 28px;color: darkred;cursor: pointer;font-family: 'FontAwesome';margin-right: 5px;margin-left: -36px;"
+                                        aria-hidden="true" (click)="exportToPdf()"></i>
+                                    <i class="fa fa-file-excel-o"
+                                        style="font-size: 28px;font-family: 'FontAwesome';color: green;cursor: pointer;"
+                                        aria-hidden="true" (click)="exportToExcel()"></i>
+                                </div>
+                                <div
+                                    [ngStyle]="{'margin-top':totalRecords != 0 ? '-32px' : '-6px', 'margin-left': totalRecords !=0 ? '30px': '-30px' }">
+                                    <i class="fa fa-eye-slash" (click)="openPreferences()"
+                                        style="font-family: 'FontAwesome' ; display: inline-block;font-size: 28px;cursor: pointer;color: blue;"></i>
+                                </div>
+
+                            </div>
+                            <!-- <nav>
                                 <ul class="login-nav">
                                     <li class="pos-rel">
                                         <i class="icons">
@@ -99,7 +139,7 @@
                                         </div>
                                     </li>
                                 </ul>
-                            </nav>
+                            </nav> -->
                         </section>
                     </div>
                 </div>

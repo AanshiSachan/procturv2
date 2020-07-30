@@ -29,10 +29,41 @@
         }
     }
 }
-
-
+.field-wrapper.datePickerBox:after {
+    content: '';
+    background: url(/./assets/images/calendar.svg) no-repeat;
+    position: absolute;
+    right: 19px;
+    top: 30px;
+    width: 21px;
+    height: 21px;
+    z-index: 0;
+}
+.mainBorder{
+    background: white;
+    padding-top: 7px;
+    padding-left: 11px;
+    padding-right: 11px;
+}
 .showFilter:hover{
 
+    cursor: pointer;
+}
+::ng-deep bs-datepicker-container {
+    margin-left: 7% !important;
+  }
+.excelClass{
+    color: green;
+    font-size: 28px;
+    padding-right: 2px;
+    padding-left: 8px;
+    margin-top: 3px;
+}
+.showName{
+    float: left;
+    font-size: 15px;
+    font-weight: 100;
+    margin-top: 0rem;
     cursor: pointer;
 }
 @media screen and (max-width:480px) {

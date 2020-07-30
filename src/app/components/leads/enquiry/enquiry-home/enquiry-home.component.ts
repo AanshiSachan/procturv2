@@ -535,13 +535,18 @@ export class EnquiryHomeComponent implements OnInit {
         this.sourceEnquiry = [];
         this.closeEnquiryFullDetails();
         this.flagJSON.isSideBar = false;
+        let enquiryDataSource: any;
         /* start index of object passed is zero then create pagination */
         if (obj.start_index == 0) {
             return this.enquire.getAllEnquiry(obj).subscribe(
                 data => {
                     if (data.length != 0) {
+                        enquiryDataSource = data;
                         this.varJson.totalEnquiry = data[0].totalcount;
                         this._commService.contactNoPatternChange(data);
+                        for (let i = 0; i < data.length; i++) {
+                            data[i].updateDate = moment(enquiryDataSource[i].updateDate).format("DD-MMM-YYYY hh:mm");
+                        }
                         this.sourceEnquiry = data;
                         this.cd.markForCheck();
                         return this.sourceEnquiry;
