@@ -377,8 +377,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         sub_topic_id: this.varJson.sub_topic_id,
         subject_id: this.varJson.subject_id,
         description: this.varJson.description,
-        title: this.varJson.title,
-        video_duration: $event.files[0].size
+        title: this.varJson.title
       }
       if(!this.showModal) {
         fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
