@@ -154,8 +154,8 @@
     </div>
     <div class="col-md-6 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{video.title}}">
-        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList[0].posterUrl!=null) && video.category_id==230">
-        <i class="fa fa-youtube-play text-red" aria-hidden="true" *ngIf="(video.posterList==null || video.posterList[0].posterUrl==null) && video.category_id==230"></i>        
+        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList?.length>0 && video.posterList[0].posterUrl!=null) && video.category_id==230">
+        <i class="fa fa-youtube-play text-red" aria-hidden="true" *ngIf="(video.posterList==null || video.posterList?.length == 0 || video.posterList[0].posterUrl==null) && video.category_id==230"></i>        
         <!-- <div> -->
           <span
             title="{{video.title}}" class="txt-color txt-title" (click)="playYoutubeVideo(video)" style="cursor: pointer;">{{(video.title?.length>60)?(video.title | slice:0:60) + '...':(video.title)}}</span>
