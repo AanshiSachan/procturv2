@@ -172,7 +172,9 @@
     overflow: auto;
   }
 }
-
+::ng-deep bs-datepicker-container {
+  margin-left: 5% !important;
+}
 .header {
   background: #fff;
   -webkit-box-shadow: 0 0 2px 2px #dadada;

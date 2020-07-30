@@ -256,7 +256,7 @@
                     <div class="c-lg-2">
                         <li style="display: inline-block; margin-left: -41%;">
                             <span class="made-out"><i class="fa fa-square"
-                                    style="font-family: FontAwesome; color: #F75D59;" aria-hidden="true"></i>Total
+                                    style="font-family: FontAwesome; color: #F75D59;" aria-hidden="true"></i>&nbsp;Total
                                 Fees</span>
                             <div class="made-in">
                                 {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_fees.toLocaleString('en-IN')}}
@@ -266,7 +266,7 @@
                     <div class="c-lg-2">
                         <li style=" margin-left: -60%; display: inline-block;">
                             <span class="made-out"><i class="fa fa-square"
-                                    style="font-family: FontAwesome; color: #00FF00;" aria-hidden="true"></i>
+                                    style="font-family: FontAwesome; color: #00FF00;" aria-hidden="true"></i>&nbsp;
                                 Collected</span>
                             <div class="made-in">
                                 {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}
@@ -276,7 +276,7 @@
                     <div class="c-lg-2">
                         <li style="display: inline-block; margin-left: -78%;">
                             <span class="made-out"><i class="fa fa-square"
-                                    style="font-family: FontAwesome; color: #FFE87C;" aria-hidden="true"></i>Past
+                                    style="font-family: FontAwesome; color: #FFE87C;" aria-hidden="true"></i>&nbsp;Past
                                 dues</span>
                             <div class="made-in">
                                 {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}
@@ -286,7 +286,8 @@
                     <div class="c-lg-2">
                         <li style=" margin-left: -91%; display: inline-block;">
                             <span class="made-out"><i class="fa fa-square"
-                                    style="font-family: FontAwesome; color: #FFE87C;" aria-hidden="true"></i>Future
+                                    style="font-family: FontAwesome; color: #3BB9FF;"
+                                    aria-hidden="true"></i>&nbsp;Future
                                 Dues</span>
                             <div class="made-in">
                                 {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}
@@ -296,7 +297,7 @@
                     <div class="c-lg-2">
                         <li style=" margin-left: -96%; display: inline-block;">
                             <span class="made-out"><i class="fa fa-square"
-                                    style="font-family: FontAwesome; color: #C47451;" aria-hidden="true"></i> Total
+                                    style="font-family: FontAwesome; color: #C47451;" aria-hidden="true"></i>&nbsp;Total
                                 Dues</span>
                             <div class="made-in">
                                 {{ _commService.currency_default_symbol}}{{ (feeDataSource1[0].total_dues_pending+feeDataSource1[0].total_future_dues).toLocaleString('en-IN')}}
@@ -306,14 +307,17 @@
 
                 </ul>
             </div>
-            <div class="c-lg-3" [ngStyle]="{'margin-left':totalRecords != 0 ? '-5%' : '0px' }">
-                <div id="basic-search" class="c-lg-11" style="border-radius: 4px; border: 1px solid #ccc;">
+            <div class="c-lg-3"></div>
+            <div class="c-lg-3"
+                [ngStyle]="{'margin-left':totalRecords != 0 ? '-5%' : '64rem' ,'padding-left': totalRecords != 0 ? '5rem' : '0rem'}">
+                <div id="basic-search" class="c-lg-11" style="border-radius: 4px; border: 1px solid #ccc;width: 13rem;"
+                    [ngStyle]="{'margin-left':totalRecords != 0 ? '0rem' : '6rem'}">
                     <form autocomplete="off" #form="ngForm">
                         <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search"
                             class="form-ctrl" id="searchBar" style="line-height: 2;">
                     </form>
                 </div>
-                <div *ngIf="totalRecords != 0" style="margin-right: -5rem;padding-left: 19rem;">
+                <div *ngIf="totalRecords != 0" style="margin-right: -5rem;padding-left: 14rem;">
                     <i class="fa fa-file-pdf-o"
                         style="font-size: 28px;color: darkred;cursor: pointer; font-family: FontAwesome;"
                         aria-hidden="true" (click)="exportToPdf()"></i>

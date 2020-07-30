@@ -275,7 +275,14 @@ export class PaymentHistoryMainComponent implements OnInit {
           if (data.length == 0) {
             this.tableSetting.displayMessage = "Data not found";
           }
+          for (let i = 0; i < data.length; i++) {
+            let paymentTemp: any;
+            paymentTemp = data;
+            data[i].paid_date = moment(paymentTemp[i].paid_date).format("DD-MMM-YYYY");
+            console.log(data[i].paid_date);
+          }
           this.allPaymentRecords = data;
+          console.log(data);
           this.tempRecords = data;
           this.totalRecords = this.allPaymentRecords.length;
           // console.log(this.totalRecords);

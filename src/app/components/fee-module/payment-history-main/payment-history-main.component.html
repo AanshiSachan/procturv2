@@ -77,7 +77,7 @@
             <div class="c-lg-4  text-change"
               *ngIf="newData[0].hasOwnProperty('Cheque/PDC/DD No.') && allPaymentRecords.length > 0">
               <span class="made-out"><i class="fa fa-square" style="font-family: FontAwesome; color: #F75D59;"
-                  aria-hidden="true"></i> Cheque/PDC/DD No</span>
+                  aria-hidden="true"></i>&nbsp;Cheque/PDC/DD No</span>
               <div class="font-element">
                 {{ _commService.currency_default_symbol}}{{newData[0]['Cheque/PDC/DD No.'].toLocaleString('en-IN')}}
               </div>
@@ -85,7 +85,7 @@
             <div class="c-lg-4  text-change" style="margin-left: -10px;"
               *ngIf="newData[0].hasOwnProperty('Caution Deposit(Refundable)') && allPaymentRecords.length > 0">
               <span class="made-out"><i class="fa fa-square" style="font-family: FontAwesome; color: #00FF00;"
-                  aria-hidden="true"></i> Caution Deposit(Refundable)</span>
+                  aria-hidden="true"></i>&nbsp;Caution Deposit(Refundable)</span>
               <div class="font-element">
                 {{ _commService.currency_default_symbol}}{{newData[0]['Caution Deposit(Refundable)'].toLocaleString('en-IN')}}
               </div>
@@ -93,7 +93,7 @@
             <div class="c-lg-4 text-change" *ngIf="newData[0].hasOwnProperty('Cash')  && allPaymentRecords.length > 0"
               style="margin-left: -10px;">
               <span class="made-out"><i class="fa fa-square" style="font-family: FontAwesome; color: #FFE87C;"
-                  aria-hidden="true"></i>Cash</span>
+                  aria-hidden="true"></i>&nbsp;Cash</span>
               <div class="font-element">
                 {{ _commService.currency_default_symbol}}{{newData[0].Cash.toLocaleString('en-IN')}}</div>
             </div>
@@ -101,7 +101,7 @@
               <div class="c-lg-4  text-change"
                 *ngIf="newData[0].hasOwnProperty('Online Payment')  && allPaymentRecords.length > 0">
                 <span class="made-out"><i class="fa fa-square" style="font-family: FontAwesome; color: #FFE87C;"
-                    aria-hidden="true"></i>Online Payments</span>
+                    aria-hidden="true"></i>&nbsp;Online Payments</span>
                 <div class="font-element">
                   {{ _commService.currency_default_symbol}}{{newData[0]['Online Payment'].toLocaleString('en-IN')}}
                 </div>
@@ -109,14 +109,14 @@
               <div class="c-lg-4  text-change"
                 *ngIf="newData[0].hasOwnProperty('Credit/Debit Card')  && allPaymentRecords.length > 0">
                 <span class="made-out"><i class="fa fa-square" style="font-family: FontAwesome; color: #C47451;"
-                    aria-hidden="true"></i>Credit/Debit Card</span>
+                    aria-hidden="true"></i>&nbsp;Credit/Debit Card</span>
                 <div class="font-element">
                   {{ _commService.currency_default_symbol}}{{newData[0]['Credit/Debit Card'].toLocaleString('en-IN') }}
                 </div>
               </div>
               <div class="c-lg-4  text-change">
                 <span class="made-out"><i class="fa fa-square" style="font-family: FontAwesome; color: #98AFC7;"
-                    aria-hidden="true"></i>Total Fees Collection</span>
+                    aria-hidden="true"></i>&nbsp;Total Fees Collection</span>
                 <div class="font-element">
                   {{ _commService.currency_default_symbol}}{{allPaymentRecords[0].fees_amount.toLocaleString('en-IN')}}
                 </div>

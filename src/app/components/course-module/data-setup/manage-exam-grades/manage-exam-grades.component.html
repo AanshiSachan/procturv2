@@ -1,36 +1,44 @@
-<div class="clear-fix">
+<div class="clear-fix pageMargin">
   <aside class="middle-full ">
     <section class="middle-main clearFix ">
-      <section class="middle-top mb0 clearFix sms-header">
-          <div class="header-title">        
-              <h2>
-                  <a routerLink="/view/{{type}}" style="color: #0084f6;">
-                    {{ type | titlecase }}
-                  </a>
-                  <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i> 
-                  <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
-                    Data Setup
-                  </a>
-                  <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i>Manage Grades
-              </h2>
-            </div> 
-      </section>
-      <section class="filter-form attendance-container">
-        <div class="clearFix add-edit">
-          <a (click)="toggleCreateNewgrade()">
+      <section class="middle-top mb0 clearFix sms-header" style="margin-top: 9px;border-bottom: 1px solid lightgrey;">
+        <div class="header-title">
+          <h2>
+            <a routerLink="/view/{{type}}" style="color: #0084f6;">
+              {{ type | titlecase }}
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
+              Data Setup
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Manage Grades
+          </h2>
+        </div>
+        <div class="clearFix add-edit" style="float: right;">
+          <button class="btn" (click)="toggleCreateNewgrade()">
             <i id="showAddBtn" class="addBtnClass">+</i>
             <i id="showCloseBtn" class="closeBtnClass" style="display:none;">-</i>
             <span>Create Grade</span>
-          </a>
+          </button>
         </div>
-        <div class="row create-standard-field" *ngIf=showToggle>
+      </section>
+      <section class="filter-form attendance-container">
+        <!-- <div class="clearFix add-edit" style="float: right;">
+          <button class="btn" (click)="toggleCreateNewgrade()">
+            <i id="showAddBtn" class="addBtnClass">+</i>
+            <i id="showCloseBtn" class="closeBtnClass" style="display:none;">-</i>
+            <span>Create Grade</span>
+          </button>
+        </div> -->
+        <div class="row" *ngIf=showToggle>
 
           <div class="c-lg-3 c-md-3 c-sm-3">
             <div class="field-wrapper">
               <label for="Create Grade">Create Grade
                 <span class="text-danger">*</span>
               </label>
-              <input type="text" class="form-ctrl" name="grade" id="grade" [(ngModel)]="addData.grade">
+              <input type="text" class="form-ctrl" name="grade" id="grade" [(ngModel)]="addData.grade"
+                style="border-radius: 4px;">
 
             </div>
           </div>
@@ -39,7 +47,8 @@
               <label for="Description">Description
                 <span class="text-danger">*</span>
               </label>
-              <input type="text" class="form-ctrl" name="Description" id="Description" [(ngModel)]="addData.description">
+              <input type="text" class="form-ctrl" name="Description" id="Description" [(ngModel)]="addData.description"
+                style="border-radius: 4px;">
 
             </div>
           </div>
@@ -53,7 +62,7 @@
         </div>
 
         <div class="table table-responsive" style="margin-top:10px;">
-          <table>
+          <table class="tableBodyScroll">
             <thead>
               <tr>
                 <th>
@@ -69,11 +78,11 @@
                   Create Date
                 </th>
                 <th>
-                  Edit
+                  Action
                 </th>
-                <th>
+                <!-- <th>
                   Delete
-                </th>
+                </th> -->
               </tr>
             </thead>
             <tbody>
@@ -87,7 +96,8 @@
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper">
-                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.grade" [value]="row.grade_id">
+                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.grade"
+                      [value]="row.grade_id">
                   </div>
                 </td>
                 <td class="view-comp">
@@ -99,19 +109,30 @@
                   </div>
                 </td>
                 <td disabled>
-                  {{row.created_date}}
+                  {{row.created_date | date:'dd-MMM-yyyy'}}
                 </td>
-                
+
                 <td class="view-comp">
-                  <a class="anchorTagCursor" (click)="editRowTable(row, i)">Edit</a>
+                  <i class="fa fa-pencil" title="Edit" style="color: #0084f6;margin-right: 3px;" aria-hidden="true"
+                    (click)="editRowTable(row, i)"></i>
+                  <i class="fa fa-trash" title="Delete" style="color: red;" aria-hidden="true"
+                    (click)="deletingGrade(row , index)"></i>
+
+                  <!-- <a class="anchorTagCursor" (click)="editRowTable(row, i)">Edit</a> -->
                 </td>
                 <td class="edit-comp">
-                  <a class="anchorTagCursor" (click)="saveInformation(row, i)"> Save </a>
-                  <a class="anchorTagCursor anchorTag" (click)="cancelEditRow(i)"> Cancel </a>
+                  <i class="fa fa-floppy-o" title="Save" style="color: blue;margin-right: 3px;" aria-hidden="true"
+                    (click)="saveInformation(row, i)"></i>
+                  <i class="fa fa-times" title="Cancel" style="color: red;" aria-hidden="true"
+                    (click)="cancelEditRow(i)"></i>
+                  <!-- <a class="anchorTagCursor" (click)="saveInformation(row, i)"> Save </a>
+                  <a class="anchorTagCursor anchorTag" (click)="cancelEditRow(i)"> Cancel </a> -->
                 </td>
-                <td>
-                    <a class="anchorTagCursor" (click)="deletingGrade(row , index)"> Delete </a>
-                </td>
+                <!-- <td> -->
+                <!-- <i class="fa fa-trash" title="Delete" style="color: red;" aria-hidden="true"
+                    (click)="deletingGrade(row , index)"></i> -->
+                <!-- <a class="anchorTagCursor" (click)="deletingGrade(row , index)"> Delete </a> -->
+                <!-- </td> -->
               </tr>
             </tbody>
           </table>

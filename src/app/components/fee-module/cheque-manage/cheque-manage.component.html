@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="text-right c-lg-5 btn-wrap" style="margin-top: -12px;margin-left: 4rem;">
-                        <div id="basic-search" [ngStyle]="{'margin-left':totalRecords != 0 ? '-3rem' : '1rem' }"
+                        <!-- <div id="basic-search" [ngStyle]="{'margin-left':totalRecords != 0 ? '-3rem' : '1rem' }"
                             class="c-lg-11">
                             <input #search type="text" class="search-field searchName" placeholder="Search"
                                 [(ngModel)]="flagJson.searchText" name="searchData" (keyup)="searchDatabase()"
@@ -68,9 +68,9 @@
                             <div [ngStyle]="{'margin-top':totalRecords != 0 ? '-2rem' : '0.5rem' }">
                                 <i class="fa fa-eye-slash" (click)="openPreferences()"
                                     style="font-family: 'FontAwesome' ; display: inline-block;font-size: 28px;cursor: pointer;color: blue;"></i>
-                            </div>
+                            </div> -->
 
-                            <!-- <section class="login-tube pull-right"
+                        <!-- <section class="login-tube pull-right"
                                 style="margin-top: 14px; position: absolute;right: 8px;">
                                 <nav>
                                     <ul class="login-nav">
@@ -110,6 +110,48 @@
                                     </ul>
                                 </nav>
                             </section> -->
+                        <!-- </div> -->
+                    </div>
+
+                </section>
+                <section class="row filter-section  margin-head" style="border-bottom: 1px solid lightgrey;">
+
+                    <div class="c-lg-2" style="margin-left: -1rem;width: 13%;">
+
+                    </div>
+
+                    <div class="c-lg-2">
+
+                    </div>
+
+                    <div class="c-lg-2">
+
+                    </div>
+
+                    <div class="c-lg-1 btn-wrap">
+                    </div>
+
+                    <div class="text-right c-lg-5 btn-wrap" style="margin-top: -20px;margin-left: 4rem;">
+                        <div id="basic-search" [ngStyle]="{'margin-left':totalRecords != 0 ? '-3rem' : '1rem' }"
+                            class="c-lg-11">
+                            <input #search type="text" class="search-field searchName" placeholder="Search"
+                                [(ngModel)]="flagJson.searchText" name="searchData" (keyup)="searchDatabase()"
+                                style="padding:6px 10px; width:200px; margin-top: 10px; margin-bottom: 10px; border-radius: 4px;border: 1px solid rgba(10,10,10,0.5);">
+                            &nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div>
+                            <div *ngIf="totalRecords != 0" style="margin-right: 41px;margin-top: 6px;">
+                                <i class="fa fa-file-pdf-o"
+                                    style="font-size: 28px;color: darkred;cursor: pointer;font-family: 'FontAwesome';"
+                                    aria-hidden="true" (click)="exportToPdf()"></i>
+                                <i class="fa fa-file-excel-o"
+                                    style="font-size: 28px;font-family: 'FontAwesome';color: green;cursor: pointer;"
+                                    aria-hidden="true" (click)="exportToExcel()"></i>
+                            </div>
+                            <div [ngStyle]="{'margin-top':totalRecords != 0 ? '-2rem' : '0.5rem' }">
+                                <i class="fa fa-eye-slash" (click)="openPreferences()"
+                                    style="font-family: 'FontAwesome' ; display: inline-block;font-size: 28px;cursor: pointer;color: blue;"></i>
+                            </div>
                         </div>
                     </div>
 

@@ -21,27 +21,27 @@ export class ClassRoomComponent {
   classRoomData: any = [];
   searchData: any = [];
   tempObj: any;
-
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   enterclassdataDesc: string = "";
   enterclassdata: string = "";
   searchText: string = "";
   tempIndex: string = "";
   pageIndex: number = 1;
-  displayBatchSize: number = 10;
+  displayBatchSize: number = 25;
   totalRow: number = 0;
   updateFlag: boolean = false;
   CreateNewList: boolean = false;
   searchflag: boolean = false;
   editFlag: boolean = false;
   isProfessional: boolean;
-  type:string='';
+  type: string = '';
 
   constructor
     (
-    private ClassList: ClassRoomService,
-    private login: LoginService,
-    private auth: AuthenticatorService,
-    private msgService: MessageShowService
+      private ClassList: ClassRoomService,
+      private login: LoginService,
+      private auth: AuthenticatorService,
+      private msgService: MessageShowService
     ) {
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
@@ -54,11 +54,11 @@ export class ClassRoomComponent {
       res => {
         if (res == "LANG") {
           this.isProfessional = true;
-          this.type ='batch';
+          this.type = 'batch';
         }
         else {
           this.isProfessional = false;
-          this.type ='course';
+          this.type = 'course';
         }
       })
     this.getClassList();
@@ -155,7 +155,7 @@ export class ClassRoomComponent {
     }
   }
 
-  cancelRow(row, index){
+  cancelRow(row, index) {
     this.pagedclassRoomData[this.tempIndex] = this.tempObj;
     console.log(this.pagedclassRoomData[this.tempIndex]);
     document.getElementById(("row" + this.tempIndex).toString()).classList.remove('editComp');
@@ -262,6 +262,10 @@ export class ClassRoomComponent {
       let t = this.classRoomData.slice(startindex, startindex + this.displayBatchSize);
       return t;
     }
+  }
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.pageIndex);
   }
   /*==================================================================================
   ====================================================================================== */
