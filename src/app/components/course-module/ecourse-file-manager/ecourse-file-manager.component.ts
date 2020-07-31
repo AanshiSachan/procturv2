@@ -22,6 +22,7 @@ export class EcourseFileManagerComponent implements OnInit {
   vDOCipher_allocated_storage: any ='0';
   vDOCipher_used_storage: any = '0';
   enable_vdoCipher_feature: any = false;
+  enable_vimeo_feature: any = false;
   showSettings: boolean = true;
   is_video_public: boolean = true;
   settingDetails: any = {
@@ -68,6 +69,7 @@ export class EcourseFileManagerComponent implements OnInit {
       }
     );
     this.enable_vdoCipher_feature = sessionStorage.getItem('enable_vdoCipher_feature') == '1' ? true : false;
+    this.enable_vimeo_feature = sessionStorage.getItem('enable_vimeo_feature') == '1' ? true : false;
   }
 
   toggleFileUploadModal() {
