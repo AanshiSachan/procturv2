@@ -597,7 +597,25 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       this.categiesTypeList = temp;
       if (sessionStorage.getItem('enable_vdoCipher_feature') != '1') {
         temp.forEach((object, index) => {
-          if (object.category_id == 235 || object.category_id == 330) {
+          if (object.category_id == 235) {
+            temp.splice(index, 1);
+          }
+
+        });
+      }
+
+      if (sessionStorage.getItem('enable_vimeo_feature') != '1') {
+        temp.forEach((object, index) => {
+          if (object.category_name == 'Vimeo') {
+            temp.splice(index, 1);
+          }
+
+        });
+      }
+
+      if (sessionStorage.getItem('enable_vdoCipher_feature') != '1' && sessionStorage.getItem('enable_vimeo_feature') != '1') {
+        temp.forEach((object, index) => {
+          if (object.category_id == 330) {
             temp.splice(index, 1);
           }
 
