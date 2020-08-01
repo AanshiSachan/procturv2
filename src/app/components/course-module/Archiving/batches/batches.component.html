@@ -199,7 +199,7 @@
       </table>
     </div>
     <div class="row filter-res pagination" style="width: 100%;">
-      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right" style="margin-top: -18px;">
         <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
           [pagesToShow]="10" [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow" [sizeArr]="sizeArr"
           (sizeChange)="updateTableBatchSize($event)">

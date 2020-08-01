@@ -14,6 +14,7 @@ import { FeeStrucService } from '../../../../../services/feeStruc.service';
 export class TemplateHomeComponent implements OnInit {
 
   isProfessional: boolean = false;
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   countryAdditioalFeeTypes: any = {};
   source: any[] = [];
   selectedTemplate: any;
@@ -61,7 +62,7 @@ export class TemplateHomeComponent implements OnInit {
   totalAmountCal: number = 0;
   templateName: any = "";
   PageIndex: number = 0;
-  displayBatchSize: number = 20;
+  displayBatchSize: number = 25;
   moduleState: any;
   totalRow: number = 0;
   searchText: string = '';
@@ -722,6 +723,10 @@ export class TemplateHomeComponent implements OnInit {
       data = this.source.slice(startindex, startindex + this.displayBatchSize);
     }
     return data;
+  }
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.PageIndex);
   }
 
   searchInList() {
