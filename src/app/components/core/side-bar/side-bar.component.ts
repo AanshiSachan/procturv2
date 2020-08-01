@@ -67,6 +67,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   manageExamGrades: string = "";
   private userInput: string;
   videoplayer: boolean = false;
+  privacy: any = false;
 
   globalSearchForm: any = {
     name: '',
@@ -160,6 +161,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.checkUserHadAccess();
     this.checkInstituteType();
     this.checkManinBranch();
+    this.privacy = JSON.parse(sessionStorage.getItem('privacy_alert'));
   }
 
   ngAfterViewInit() {
@@ -524,7 +526,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.jsonFlags.isShoweStore = false;
     if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
       this.jsonFlags.isShoweStore = true;
-      if((this.instituteId == 101884 || this.instituteId == 100057) && this.userType == 3){
+      if((this.instituteId == 101884 || this.instituteId == 100057 || this.instituteId == 101962) && this.userType == 3){
         this.jsonFlags.isShoweStore = false;
       }
     }
