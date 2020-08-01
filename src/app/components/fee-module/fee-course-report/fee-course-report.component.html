@@ -84,7 +84,7 @@
                                     (click)="toggleFilter()" *ngIf="filterShow"></i>
                             </div>
 
-                            <div class="filter-container" *ngIf="filterShow">
+                            <div class="filter-container" *ngIf="filterShow" style="height: 45vh; overflow: auto;">
                                 <div class="date-container" *ngFor="let i of getAllAcademic">
                                     <div class="date-values-container">
                                         <div class="field-checkbox-wrapper date-value-item">

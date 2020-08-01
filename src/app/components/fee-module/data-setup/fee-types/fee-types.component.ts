@@ -11,6 +11,10 @@ import { FeeStrucService } from '../../../../services/feeStruc.service';
 })
 export class FeeTypesComponent implements OnInit {
 
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  pageIndex: number = 1;
+  totalRecords: number = 0;
+  displayBatchSize: number = 25;
   createNewFeeType: boolean = false;
   isTaxEnableFeeInstallments: boolean = false;
   addNewFee = {
@@ -19,18 +23,19 @@ export class FeeTypesComponent implements OnInit {
     fee_amount: '',
     fee_type_tax: 0,
     fee_type_id: 0,
-    country_id: '' 
+    country_id: ''
   }
   feeTypeList: any = [];
+  feeTypeListSource: any = [];
   countryDetails: any = [];
- tax_type_with_percentage : String;
- is_tax_enabled :boolean;
+  tax_type_with_percentage: String;
+  is_tax_enabled: boolean;
 
 
   constructor(
-    
+
     private apiService: FeeStrucService,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private commonService: CommonServiceFactory
   ) { }
 
@@ -38,13 +43,13 @@ export class FeeTypesComponent implements OnInit {
     this.getListOfFeeType();
     this.fetchDataForCountryDetails();
     this.isTaxEnableFeeInstallments = sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0' ? true : false;
-    this.tax_type_with_percentage =sessionStorage.getItem("tax_type_with_percentage");
-    this.is_tax_enabled=sessionStorage.getItem("enable_tax_applicable_fee_installments")=='1'?true:false;
+    this.tax_type_with_percentage = sessionStorage.getItem("tax_type_with_percentage");
+    this.is_tax_enabled = sessionStorage.getItem("enable_tax_applicable_fee_installments") == '1' ? true : false;
   }
 
   getCurrencyDetails(value, currency, lang) {
-  if (value && currency && lang) {
-      let formatted  = value.toLocaleString(lang, {
+    if (value && currency && lang) {
+      let formatted = value.toLocaleString(lang, {
         maximumFractionDigits: 4,
         style: 'currency',
         currency: currency
@@ -60,9 +65,9 @@ export class FeeTypesComponent implements OnInit {
 
   onRowDataChange(country_id, row) {
     this.countryDetails.forEach(countryId => {
-        if(countryId.id==country_id){
-          row.country_id = countryId.id;
-        }
+      if (countryId.id == country_id) {
+        row.country_id = countryId.id;
+      }
     });
 
 
@@ -71,27 +76,27 @@ export class FeeTypesComponent implements OnInit {
     // } 
   }
 
-  getCountryDetails(amount,country_id){
+  getCountryDetails(amount, country_id) {
     let symbol;
-    for(let i=0;i<this.countryDetails.length;i++){
-      if(this.countryDetails[i].id==country_id){
+    for (let i = 0; i < this.countryDetails.length; i++) {
+      if (this.countryDetails[i].id == country_id) {
         symbol = this.countryDetails[i].symbol;
-      } 
+      }
     }
 
     return symbol;
   }
-  
+
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
       this.countryDetails = data;
       this.countryDetails.forEach(country => {
-        if(country){
-          country.symbol = this.getCurrencyDetails(1000,country.currency_code,country.country_code);
-          console.log ('symbol',country.symbol);
-        }        
+        if (country) {
+          country.symbol = this.getCurrencyDetails(1000, country.currency_code, country.country_code);
+          console.log('symbol', country.symbol);
+        }
       });
     }
     console.log(data);
@@ -102,12 +107,15 @@ export class FeeTypesComponent implements OnInit {
     this.apiService.getAllFeeType().subscribe(
       res => {
         this.auth.hideLoader();
-        this.feeTypeList = res;
-        this.feeTypeList.forEach(element => {
+        this.feeTypeListSource = res;
+        this.totalRecords = this.feeTypeListSource.length;
+        // console.log('totalRecords', this.totalRecords);
+        this.feeTypeListSource.forEach(element => {
           if (element.countryId) {
             element.country_id = element.countryId.country_id;
           }
         });
+        this.feeTypeList = this.getDataFromDataSource(0);
       },
       err => {
         this.auth.hideLoader();
@@ -168,7 +176,7 @@ export class FeeTypesComponent implements OnInit {
             fee_amount: '',
             fee_type_tax: 0,
             fee_type_id: 0,
-            country_id: ''            
+            country_id: ''
           }
         }
         else {
@@ -197,6 +205,32 @@ export class FeeTypesComponent implements OnInit {
       document.getElementById('showCloseBtn').style.display = 'none';
       document.getElementById('showAddBtn').style.display = '';
     }
+  }
+  fetchTableDataByPage(index) {
+    this.pageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.feeTypeList = this.getDataFromDataSource(startindex);
+  }
+
+  fetchNext() {
+    this.pageIndex++;
+    this.fetchTableDataByPage(this.pageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.pageIndex != 1) {
+      this.pageIndex--;
+      this.fetchTableDataByPage(this.pageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    let t = this.feeTypeListSource.slice(startindex, startindex + this.displayBatchSize);
+    return t;
+  }
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.pageIndex);
   }
 
 }

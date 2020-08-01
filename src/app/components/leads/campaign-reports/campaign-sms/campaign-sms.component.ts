@@ -8,7 +8,7 @@ import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { getSMSService } from '../../../../services/report-services/get-sms.service';
 import { DataDisplayTableComponent } from '../../../shared/data-display-table/data-display-table.component';
-import moment = require('moment');
+import * as moment from 'moment';
 
 /**
   * written by laxmi

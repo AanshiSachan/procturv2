@@ -153,10 +153,10 @@
                   <span *ngIf="(row.data.statusValue).length == 0">-</span>
                   <span *ngIf="(row.data.statusValue).length > 0">
                     <span *ngIf="row.data.statusValue == 'Completed'">
-                      <span style="color: lightgreen;"> {{row.data.statusValue}}</span>
+                      <span style="color: #6CC417;"> {{row.data.statusValue}}</span>
                     </span>
                     <span *ngIf="row.data.statusValue == 'Pending'">
-                      <span style="color: grey;"> {{row.data.statusValue}}</span>
+                      <span style="color: #726E6D;"> {{row.data.statusValue}}</span>
                     </span>
                   </span>
                 </td>
@@ -530,9 +530,9 @@
                 </div>
               </div>
             </div>
-            <table>
+            <table class="tableBodyScoll">
               <thead>
-                <th style="width: 30%;background: #e0eaec;">Message/SMS</th>
+                <th style="background: #e0eaec;">Message/SMS</th>
                 <th style="background: #e0eaec;">Status</th>
                 <th style="background: #e0eaec;">Updated Date</th>
                 <!-- <th style="background: #e0eaec;">SMS Type</th> -->
@@ -572,8 +572,8 @@
                       <a class="fa fa-trash" title="Delete" style="color:red" (click)="deleteRow(row , i)"></a>
                     </div>
                   </td>
-                  <td class="edit-comp actionButtons">
-                    <a class="fa fa-floppy-o" title="Save" style="color: green;" (click)="saveInformation(row , i)"></a>
+                  <td class="edit-comp actionButtons" style="margin-left:5.7rem">
+                    <a class="fa fa-floppy-o" title="Save" style="color: blue;" (click)="saveInformation(row , i)"></a>
                     <a class="fa fa-ban" title="Cancel" style="color:red" (click)="cancelEditRow(i)"></a>
                   </td>
                 </tr>
