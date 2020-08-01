@@ -67,6 +67,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   manageExamGrades: string = "";
   private userInput: string;
   videoplayer: boolean = false;
+  privacy: any = false;
 
   globalSearchForm: any = {
     name: '',
@@ -161,6 +162,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.checkUserHadAccess();
     this.checkInstituteType();
     this.checkManinBranch();
+    this.privacy = JSON.parse(sessionStorage.getItem('privacy_alert'));
   }
 
   ngAfterViewInit() {
