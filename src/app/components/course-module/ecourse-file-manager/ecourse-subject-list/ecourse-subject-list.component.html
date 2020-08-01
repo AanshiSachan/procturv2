@@ -237,7 +237,7 @@
       <span *ngIf="video.video_status=='ready'">{{video.size | number:'.2-2'}}&nbsp;MB</span>
     </div>
     <div class="col-md-1 txt-font" style="padding-right: 0;">
-      <span *ngIf="video.video_status=='ready'">{{video.watch_count}} &nbsp;viewed </span>
+      <!-- <span *ngIf="video.video_status=='ready'">{{video.watch_count}} &nbsp;viewed </span> -->
     </div>
     <div class="col-md-1 txt-font">
       <span [ngClass]="{'hide': video.video_time==null}" *ngIf="video.video_status=='ready'">  {{video.video_time }}&nbsp;Hr</span>
