@@ -782,8 +782,26 @@
         </div>
         <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="field-wrapper" [ngClass]="{'has-value':instDetails.announcement != ''}">
-            <input type="textbox" id="ch32" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.announcement">
+            <!-- <input type="textbox" id="ch32" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.announcement"> -->
+            <editor style="width: 75%;"
+            [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="instDetails.announcement"></editor>
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="logo_url">App Home Page URL
+          </label>
+        </div>
+        <div class="c-sm-5 c-md-5 c-lg-5">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.announcement_image_url != ''}">
+            <input type="file" style="width: 91%;" accept="image/gif,image/jpeg,image/jpg,image/png" class="form-ctrl newDisabled" (change)="uploadFile($event)" name="slotNew" [(ngModel)]="announcement_image_url" id="announcementImageURL">
+          </div>
+          <span style="font-size: 12px;">(Size 300X200)</span>
+        </div>
+        <div class="c-md-1 clearFile" (click)="clearAnnouncementFile()">X</div>
+        <div class="c-md-1" *ngIf="instDetails.announcement_image_url!=''" style="padding: 0;width: 4%;margin-top: 1%;margin-right: 5px;">
+          <img src="{{instDetails.announcement_image_url}}">
         </div>
       </div>
       <div class="row">

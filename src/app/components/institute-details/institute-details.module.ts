@@ -4,6 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { InstituteDetailsComponent } from './institute-details.component';
 import { InstituteDetailService } from '../../services/institute-details/institute-details.service';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import { InstituteDetailService } from '../../services/institute-details/institu
             }
         ]),
         SharedModule,
-        FormsModule
+        FormsModule,
+        EditorModule
     ],
     exports: [
         RouterModule

@@ -531,3 +531,10 @@ table {
     font-weight: 600;
     background: red;
 }
+:host ::ng-deep .ck-editor__editable_inline {
+    border: 1px solid #ccc;
+    min-height: 100px;
+  }
+  .ck-editor__editable{
+    border: 1px solid #ccc;
+  }
