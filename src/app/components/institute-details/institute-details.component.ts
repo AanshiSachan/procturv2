@@ -50,6 +50,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
   singleDevice: any;
   institute_logo: any;
+  announcement_image_url: any;
 
   proctur_live_recorded_session_download_visibilty: any = {
     student: '',
@@ -62,6 +63,19 @@ export class InstituteDetailsComponent implements OnInit {
     openApp: '',
     teacher: '',
     admin: '',
+  };
+
+  editorConf = {
+    height: 150,
+    menubar: false,
+    branding: false,
+    plugins: [
+      'preview anchor',
+      'visualblocks code ',
+      'insertdatetime  table paste code  wordcount'
+    ],
+    toolbar: 'undo redo  | bold italic backcolor | \
+             | \ bullist numlist outdent indent'
   };
 
   constructor(
@@ -299,6 +313,7 @@ export class InstituteDetailsComponent implements OnInit {
     }
     obj.logo_url = this.instDetails.logo_url;
     obj.institute_logo = this.institute_logo;
+    obj.announcement_image_url = this.announcement_image_url;
     obj.proctur_live_recorded_session_download_visibilty = this.getSumOfTableField(this.proctur_live_recorded_session_download_visibilty);
     obj.proctur_live_recorded_session_view_visibility = this.getSumOfTableField(this.proctur_live_recorded_session_view_visibility);
     obj.share_app_url = this.instDetails.share_app_url;
@@ -679,9 +694,21 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   file(event){
-    console.log(event);
     const file = event.target.files[0];
     const fileData = this.readFile(file);
+  }
+
+  uploadFile(event) {
+    const file = event.target.files[0];
+    // this.instDetails.announcement_image_url = this.readFile(file);
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        this.announcement_image_url  = reader.result.split(',')[1];
+        return reader.result.split(',')[1];
+      };
+    }
   }
 
   readFile(file: any): any {
@@ -699,6 +726,11 @@ export class InstituteDetailsComponent implements OnInit {
   clearFile() {
     this.institute_logo = '';
     this.instDetails.institute_logo = '';
+  }
+
+  clearAnnouncementFile() {
+    this.announcement_image_url = '';
+    this.instDetails.announcement_image_url = '';
   }
 
 
