@@ -103,7 +103,10 @@
   <div class="release-note-container">
     <span data-toggle="modal" data-target="#releaseNote">New Release</span>
   </div>
-  <div style="bottom: 16%;position: absolute;margin-left: 50%;">
+  <div *ngIf="privacy" class="release-note-container" style="bottom: 16%;">
+    <span data-toggle="modal" style="background: #0084f6;border: 1px solid #0084f6;" data-target="#privacy">DLT</span>
+  </div>
+  <div style="bottom: 15%;position: absolute;margin-left: 53%;height: 26px;">
     <span class="badge">v3.0</span>
   </div>
   <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" >
@@ -448,5 +451,38 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<div class="modal fade" id="privacy" role="dialog"  tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="left:10% !important;top: 90px;">
+      <div class="modal-body privacy">
+        <h2>FOR SMS SENDER ID DLT Registration | Entity <u>[As per TRAI norms all organizations need to do DLT registration for delivering SMS through their Sender ID.]</u></h2>
+        <hr>
+        <p><b>Follow the steps below:</b></p>
+        <br>
+        <p>We have all the Operators, but for DLT Registration, we recommend <b>Videocon and Jio</b>, as they are Fast and Free for our clients. Kindly apply on both simultaneously, <b>so that you can get the Header Approved on at least one of them and then your SMS will not be impacted.</b></p>
+        <br>
+        <h3>Entity Registration Process for Jio : </h3>
+        <br>
+        <p><b>1. Signup Link : </b><a href="https://trueconnect.jio.com" target="_blank">https://trueconnect.jio.com</a></p>
+        <br>
+        <p><b>2. Form Filling : </b>Fill the form and upload the required documents.</p>
+        <br>
+        <p><b>3. Form Submission : </b>Submit the application and you will get the approval in a day or two.</p>
+        <br>
+        <p><b>4. Headers Registration : </b>You will get mail and once registration is approved, kindly login (Received on mail) and add your Headers (Sender ID) and it will be approved in a day or two.</p>
+        <br>
+        <p><b>5. Test SMS : </b>Once Header is approved on DLT platform, it will be synced on Global Platform in around 24 hrs and you will then be able to use your Header for sending SMS.</p>
+        <br>
+        <p><b>Note : </b> This is one service provider and for more service provider the same process you have to follow. You will receive an update accordingly and our team will guide you for any query.</p>
+        <br>
+        <p>Still need help email us at <b>support@proctur.com</b></p>
+      </div>
+      <div class="modal-footer" style="padding: 8px !important;">
+        <button type="button" class="btn btn-primary create-btn" data-dismiss="modal">Okay</button>
+      </div>
+    </div>
   </div>
 </div>
