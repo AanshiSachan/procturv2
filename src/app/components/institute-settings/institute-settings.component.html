@@ -2636,7 +2636,21 @@
                               <label for="notification_for_studymaterial_upload">Study material upload notification</label>
                             </div>
                           </div>
-                        </div>                      
+                        </div>   
+                        <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px;padding-top: 10px;" *ngIf="enable_vdoCipher_feature == '1'">
+                          <div class="field-checkbox-wrapper" style="width: 100%">
+                            <input type="checkbox" value="" name="usRegSendSms" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_student_app_offline_video_download"
+                              id="enable_student_app_offline_video_download">
+                            <label for=" enable_student_app_offline_video_download">Enable download Videos of Study Material
+                              <div class="questionInfo inline-relative allowRegistration">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field md">
+                                  When Enabled, Student can download the offline videos form the Study Material .
+                                </div>
+                              </div>
+                            </label>
+                          </div>
+                        </div>                     
                       </td>
                     </tr>
 
