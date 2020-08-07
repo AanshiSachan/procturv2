@@ -966,6 +966,34 @@
           
         </div>
       </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch21">Daily reporting SMS
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.eod_report_multiple_mobile != ''}">
+            <small style="font-size: 12px;">(Enter contact(s) number with comma
+              separated.)</small>
+            <input type="text" class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="instDetails.eod_report_multiple_mobile" id="ch21">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch21">Daily reporting Email
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.eod_report_multiple_emails != ''}">
+            <small style="font-size: 12px;">(Enter email
+              id(s) with comma separated)</small>
+            <input type="text" class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="instDetails.eod_report_multiple_emails" id="ch21">
+          </div>
+        </div>
+      </div>
     </div>
     <div *ngIf="instituteDetailsAll?.zoom_enabled && instituteDetailsAll?.zoom_account_type == 'CLIENT'">
     <h2 class="heading-setting-main">Zoom details &nbsp;<span *ngIf="instituteDetailsAll?.no_of_zoom_hosts" style="font-weight: normal;">(You can add upto {{instituteDetailsAll?.no_of_zoom_hosts}} hosts.)</span></h2>
