@@ -17,7 +17,7 @@
       <div class="row" *ngIf="roleId == '-1'">
         <div class="c-sm-3 c-md-3 c-lg-3">
           <div class="field-wrapper">
-            <label for="role_name">Role Name</label>
+            <label for="role_name">Role Name <span class="text-danger">*</span></label>
             <input type="text" class="form-ctrl" [(ngModel)]="roleName" id="role_name" name="role_name">
           </div>
         </div>
@@ -31,7 +31,7 @@
 
       <div class="row" *ngIf="roleId != '-1'">
         <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 30px;">
-          <span><b>Role Name :</b> {{userData.role_name}}</span>
+          <span><b>Role Name : <span class="text-danger">*</span></b> {{userData.role_name}}</span>
         </div>
         <div class="c-sm-3 c-md-3 c-lg-3">
           <div class="field-wrapper">
