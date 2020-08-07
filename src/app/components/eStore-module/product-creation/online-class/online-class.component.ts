@@ -101,8 +101,8 @@ export class OnlineClassComponent implements OnInit {
       return
     }
 
-    if (this.description.length > 1500) {
-      this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
+    if (this.description.length > 5000) {
+      this.msgService.showErrorMessage('error', 'allowed description limit is 5000 characters', '');
       return;
     }
 
