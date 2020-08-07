@@ -115,7 +115,7 @@ export class LoginService {
   }
 
   logoutUser() {
-    let url = this.baseUrl + "/api/v1/alternateLogin/logout";
+    let url = this.baseUrl + "/api/v1/alternateLogin/logout?deviceId=" + sessionStorage.getItem('deviceId');
     let header =  new HttpHeaders({"Authorization": this.Authorization});
     return  this.http.get(url, { headers: header }).map(
       res => {

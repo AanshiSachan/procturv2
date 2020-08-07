@@ -68,6 +68,7 @@ export class UsersComponent implements OnInit {
   historyBatchSize = 10;
   historyTotalRow : any = 0;
   historyUserId : any = 0;
+  helpMsg: string = "1.Clear registered device (If Single Device Login setting is enabled) - When user login we capture registered devices to avoid login on multiple devices. After clicking on this option the user registered device gets cleared and the user can access through another device. 2. Allow/Block access - After clicking on block access user won’t be able to access on app/web.";
 
   constructor(
     private apiService: UserService,
@@ -173,6 +174,13 @@ export class UsersComponent implements OnInit {
           this.totalRow = this.usersList[0].total_element_count;
           this.usersList.forEach(element => {
             element.isEncript= true;
+            if(element.access_allow == '1') {
+              element.access_allow_title = 'Block Access';
+            } else if(element.access_allow == '2') {
+              element.access_allow_title = 'Allow Access';
+            } else {
+              element.access_allow_title = '';
+            }
           });
         }
         // this.fetchTableDataByPage(this.PageIndex, 'user');
@@ -323,7 +331,7 @@ export class UsersComponent implements OnInit {
 
   allocateItem() {
     if (this.allocateInventory.item_id == -1) {
-      this.messageNotifier('error', '', 'Please prvide item details');
+      this.messageNotifier('error', '', 'Please provide item details');
       return;
     }
     let unit: number = Number(this.allocateInventory.alloted_units);
@@ -344,7 +352,7 @@ export class UsersComponent implements OnInit {
     this.apiService.allocateItem(obj).subscribe(
       res => {
         this.auth.hideLoader();
-        this.messageNotifier('success', 'Allocated', 'Inventory Allocate Successfully');
+        this.messageNotifier('success', '', 'Inventory Allocate Successfully');
         this.getAllocatedItemHistrory(this.tempdata);
         this.allocateInventory = {
           item_id: -1,
@@ -763,7 +771,9 @@ export class UsersComponent implements OnInit {
 
   changeUserAccess(obj) {
     this.auth.showLoader();
-    this.httpService.getData('/api/v1/authenticate/blockUserAccess/' + obj.user_id + '?access=' + !obj.access_allow).subscribe(
+    let allow_access = false;
+    allow_access = (obj.access_allow == 1 ) ? false : true;
+    this.httpService.getData('/api/v1/authenticate/blockUserAccess/' + obj.user_id + '?access=' + allow_access).subscribe(
       (res: any) => {
         this.getAllUserList(this.PageIndex);
         this.auth.hideLoader();

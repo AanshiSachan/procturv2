@@ -8,57 +8,44 @@
       <a routerLink="/view/manage/role">Role</a>
     </li>
   </ul>
+  <div class="btnWrapper">
+    <aside class="pull-left" style="border: none;padding: 0;padding-right: 35px;" class="btn pull-right">
+      <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'right'" [customClass]="'right'">
+      </rob-tooltip>
+    </aside>
+    <button type="button" style="padding: 4px 10px;" class="btn pull-right" name="button" routerLink='./addedit'>
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      &nbsp; Add User
+    </button>
+  </div>
+  <div class="btnWrapper c-md-3" style="float: right;width: 40%;">
+    <div class="btn-container" style="float: right;">
+      <div class="btn-item">
+        <button type="button" style="padding: 4px 10px;" *ngIf="selectedRowCount != 0" class="btn pull-right" name="button" (click)="isOptions = !isOptions">
+            {{selectedRowCount}} Users Selected &nbsp;
+            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+        </button>
+        <div class="more-info-container" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
+  
+            <div class="more-info-item hand_icon">
+                <span style="cursor: pointer;" (click)="getAllMessageFromServer()"><i class="fa fa-bell"></i> Send Notification</span>
+            </div>
+            <div class="more-info-item hand_icon" *ngIf="dataFilter.role=='1'">
+              <span style="cursor: pointer;" (click)="sendLoginCredentials(4)"><i class="fa fa-bell"></i> Send Login Credentials</span>
+            </div>
+            <div class="more-info-item hand_icon" *ngIf="dataFilter.role=='1'">
+              <span style="cursor: pointer;" (click)="sendLoginCredentials(1)"><i class="fa fa-bell"></i> Send App Link</span>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
 </div>
 
 <section class="middle-section clearFix">
   <div class="content-container">
-
-    <div class="head" style="height: 40px;">
-      <div class="row">
-        <div class="pull-left">
-          <div class="header-wrapper">
-            <h3 style="display: inline-flex">User List
-              <div style="margin-top: -8px">
-                <rob-tooltip [textMessage]="'?'" [message]="toottip" [placement]="'left'" [customClass]="'left'">
-                </rob-tooltip>
-              </div>
-            </h3>
-          </div>
-        </div>
-        <div class="btnWrapper">
-          <button type="button" style="padding: 4px 10px;" class="btn pull-right" name="button" routerLink='./addedit'>
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            &nbsp; Add User
-          </button>
-        </div>
-        <div class="btnWrapper c-md-3" style="float: right;width: 40%;">
-          <div class="btn-container" style="float: right;">
-            <div class="btn-item">
-              <button type="button" style="padding: 4px 10px;" *ngIf="selectedRowCount != 0" class="btn pull-right" name="button" (click)="isOptions = !isOptions">
-                  {{selectedRowCount}} Users Selected &nbsp;
-                  <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-              </button>
-              <div class="more-info-container" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
-        
-                  <div class="more-info-item hand_icon">
-                      <span style="cursor: pointer;" (click)="getAllMessageFromServer()"><i class="fa fa-bell"></i> Send Notification</span>
-                  </div>
-                  <div class="more-info-item hand_icon" *ngIf="dataFilter.role=='1'">
-                    <span style="cursor: pointer;" (click)="sendLoginCredentials(4)"><i class="fa fa-bell"></i> Send Login Credentials</span>
-                  </div>
-                  <div class="more-info-item hand_icon" *ngIf="dataFilter.role=='1'">
-                    <span style="cursor: pointer;" (click)="sendLoginCredentials(1)"><i class="fa fa-bell"></i> Send App Link</span>
-                  </div>
-              </div>
-          </div>
-          </div>
-          </div>
-      </div>
-    </div>
-
-
     <div class="filter-section">
-      <div class="row" style="border-top: 1px solid #ccc;padding-top: 10px;">
+      <div class="row">
         <div class="c-sm-3 c-md-3 c-lg-3">
           <div class="field-wrapper" style="padding-top: 0px;">
             <label for="userType" style="font-weight: bold;">User Type</label>
@@ -169,10 +156,10 @@
               </div>
             </span>
           </div>
-          <div class="table_header_item large" style="text-align: left;width: 20%;">
+          <div class="table_header_item large" style="text-align: left;width: 15%;">
             <span>Name</span>
           </div>
-          <div class="table_header_item" style="width: 10%;">
+          <div class="table_header_item" style="width: 15%;">
             <span>Contact No.</span>
           </div>
           <div class="table_header_item" style="width: 20%;">
@@ -199,11 +186,11 @@
                 <label [for]="'checkbox-'+i"></label>
               </div>
             </div>
-            <div class="table_value_item large" style="text-align: left;width: 20%;">
+            <div class="table_value_item large" style="text-align: left;width: 15%;">
               <span
                 title="{{data.name}}">{{(data.name.length > 50) ? (data.name | slice:0:50) + '...' : data.name}}</span>
             </div>
-            <div class="table_value_item" style="width: 10%">
+            <div class="table_value_item" style="width: 15%">
               {{(data.username != '') ? (data.username) : '-'}}
             </div>
             <div class="table_value_item" style="width: 20%;">
@@ -227,17 +214,21 @@
             <div class="table_value_item" style="width: 13%;display: flex;flex-direction: column;">
               <div class="credentials-view">
               <span>
-                {{data.last_login_date_time | date: 'dd MMM yyyy HH:MM a'}}
+                <!-- {{data.last_login_date_time | date: 'dd MMM yyyy HH:MM a'}} -->
+                {{data.last_login_date_time | date: 'dd MMM yyyy'}}
+                {{data.last_login_date_time | date: 'shortTime'}}
               </span>
               </div>
               <div class="credentials-view" style="padding-left: 30px;" (click)="getLastLoginDetails(data.user_id, historyPageIndex)">
-                <span class="viewHistoryBtn">View</span> 
+                <span class="viewHistoryBtn">View</span>
               </div>
             </div>
             <div class="table_value_item" style="width: 10%;">
               <a [routerLink]='["./addedit" , data.user_id]' title="Edit"><i class="fa fa-edit actionBtnIcons"></i></a>
               <a style="cursor: pointer;margin-left: 5px;" title="Allocate Inventory" (click)="allocateItemToUser(data)"><i class="fa fa-tasks actionBtnIcons" aria-hidden="true"></i></a>
-              <span (click)="changeUserAccess(data)" title="{{data.access_allow ? 'Block Access' : 'Allow Access'}}"><i class="fa fa-universal-access actionBtnIcons" aria-hidden="true"></i></span>
+              <span title="{{data.access_allow_title}}">
+                <button style="background: none;" [disabled]="data.access_allow == 3" [ngStyle]="{'color': (data.access_allow == 2) ? 'red' : '#0084f6' }" (click)="changeUserAccess(data)"> <i class="fa fa-universal-access allowAccessIcons" [ngStyle]="{'cursor': (data.access_allow == 3) ? 'no-drop' : 'pointer' }" aria-hidden="true"></i></button>
+              </span>
               <span (click)="clearRegisteredDevices(data.user_id)" class="actionBtnIcons" title="Clear Registered Device">X</span>
             </div>
           </div>
@@ -471,8 +462,9 @@
   </div>
 </div>
 <div *ngIf="notificationPopup || loginHistoryPopup" class="black-bg" (click)="closePopUp()"></div>
+<div *ngIf="isOptions" style="background: none;" class="black-bg" (click)="isOptions = false"></div>
 
-<div *ngIf="loginHistoryPopup" class="notification_popup">
+<div *ngIf="loginHistoryPopup" class="notification_popup" style="height: 77vh;">
   <div class="row c-md-12" style="padding:0;">
     <span style="font-weight: 600;">Last Login History</span>
     <span style="padding-bottom: 10px;text-align: right;float: right;">
@@ -481,31 +473,40 @@
   </div>
   <div class="table-container">
     <div class="heading-container" style="background: #fafafa;font-size: 12px;font-weight: 600;">
-      <div class="heading-item" style="width: 15%;text-align: left;">
+      <div class="heading-item" style="width: 10%;text-align: left;">
         Id
       </div>
-      <div class="heading-item" style="text-align: left;width: 30%;">
+      <div class="heading-item" style="text-align: left;width: 25%;">
         <span>Login Date Time</span>
       </div>
-      <div class="heading-item" style="text-align: left;width: 30%;">
+      <div class="heading-item" style="text-align: left;width: 25%;">
         <span>Logout Date Time</span>
       </div>
-      <div class="heading-item" style="width: 25%;text-align: left;">
+      <div class="heading-item" style="width: 10%;text-align: left;">
+        Device Type
+      </div>
+      <div class="heading-item" style="width: 30%;text-align: left;">
         Device Id
       </div>
     </div>
-    <div class="value-outer-container" *ngIf="loginHistory?.length>0" style="min-height: 65vh;max-height: 65vh;">
+    <div class="value-outer-container" *ngIf="loginHistory?.length>0" style="min-height: 57vh;max-height: 57vh;">
       <div class="value-container" *ngFor="let data of loginHistory; let i = index;" style="padding:10px">
-        <div class="value-item" style="text-align: left;width: 15%;">
+        <div class="value-item" style="text-align: left;width: 10%;">
           {{data.login_history_id}}
         </div>
-        <div class="value-item" style="text-align: left;width: 30%;">
-          {{data.login_datetime | date: 'dd MMM yyyy HH:MM a'}}
-        </div>
-        <div class="value-item" style="text-align: left;width: 30%;">
-          {{data.logout_datetime | date: 'dd MMM yyyy HH:MM a'}}
+        <div class="value-item" style="text-align: left;width: 25%;">
+          <!-- {{data.login_datetime | date: 'dd MMM yyyy HH:MM a'}} -->
+          {{data.login_datetime | date: 'dd MMM yyyy'}}
+          {{data.login_datetime | date: 'shortTime'}}
         </div>
         <div class="value-item" style="text-align: left;width: 25%;">
+          {{data.logout_datetime | date: 'dd MMM yyyy'}}
+          {{data.logout_datetime | date: 'shortTime'}}
+        </div>
+        <div class="value-item" style="text-align: left;width: 10%;">
+          {{data.source}}
+        </div>
+        <div class="value-item" style="text-align: left;width: 30%;">
           {{data.device_id}}
         </div>
       </div>

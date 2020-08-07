@@ -357,6 +357,7 @@ export class InstituteDetailsComponent implements OnInit {
     obj.kyc_document_name = this.instDetails.kyc_document_name;
     obj.kyc_document = this.instDetails.kyc_document;
     obj.kyc_document_type = this.instDetails.kyc_document_type;
+    obj.distinct_device_login = this.instDetails.distinct_device_login;
     (this.instDetails.enable_student_app_url) ? (obj.enable_student_app_url = 1 ) : (obj.enable_student_app_url = 0 );
 
     return obj;

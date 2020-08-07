@@ -1,6 +1,9 @@
 @import "./src/assets/css/common/variables.scss";
 .middle-section {
-    padding: 1%;
+    // padding: 1%;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    margin-top: 40px;
     width: 100%;
     box-sizing: border-box;
 }
@@ -318,11 +321,13 @@
     padding-top: 5px;
     ul {
         font-size: 0;
+        width: 40%;
+        float: left;
         // border-bottom: 1px solid #f1f1f1;
         li {
             margin-right: 1%;
             display: inline-block;
-            width: 9%;
+            width: 20%;
             max-width: 158px;
             cursor: pointer;
             a {
@@ -509,6 +514,11 @@
       color: #0084f6;
       cursor: pointer;
   }
+  .allowAccessIcons {
+    font-size: 14px;
+    padding-left: 10px;
+    cursor: pointer;
+  }
   .viewHistoryBtn {
     // border: 1px solid #0084f6;
     // background: #0084f6;
@@ -516,4 +526,7 @@
     padding: 1px 4px;
     border-radius: 4px;
     cursor: pointer;
+  }
+  button[disabled] {
+      cursor: no-drop;
   }
