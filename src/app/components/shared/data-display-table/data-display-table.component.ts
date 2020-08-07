@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { PaginationService } from '../../../services/pagination-service/pagination.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
+import { ChangeDetectorRef } from '@angular/core';
 declare var $;
 @Component({
   selector: 'data-display-table',
