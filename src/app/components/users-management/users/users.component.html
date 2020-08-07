@@ -60,6 +60,31 @@
             </select>
           </div>
         </div>
+        <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 15px;">
+          <div class="search-filter-wrapper">
+            <input type="text" class="normal-field pull-right" placeholder="Search by name" name="searchData" [(ngModel)]="dataFilter.name">
+          </div>
+        </div>
+        <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 15px;">
+          <div class="search-filter-wrapper">
+            <input type="text" class="normal-field pull-right" placeholder="Search by phone" name="searchData" [(ngModel)]="dataFilter.phone">
+          </div>
+        </div>
+        <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 15px;">
+          <div class="search-filter-wrapper">
+            <input type="text" class="normal-field pull-right" placeholder="Search by Email" name="searchData" [(ngModel)]="dataFilter.email">
+          </div>
+        </div>
+        <!-- <div class="">
+          <div class="pull-right" style="margin-top: 20px;margin-right: 15px;">
+            <div class="search-filter-wrapper">
+              <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
+            </div>
+          </div>
+        </div> -->
+      </div>
+
+      <div class="row" style="margin-top: 5px;padding-bottom: 10px;border-bottom: 1px solid #ccc;">
         <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="dataFilter.role=='1' && !isProfessional">
           <div class="field-wrapper" style="padding-top: 0px;">
             <label for="userType" style="font-weight: bold;">Master Course</label>
@@ -107,38 +132,13 @@
             </select>
           </div>
         </div>
-        <!-- <div class="">
-          <div class="pull-right" style="margin-top: 20px;margin-right: 15px;">
-            <div class="search-filter-wrapper">
-              <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
-            </div>
-          </div>
-        </div> -->
-      </div>
-
-      <div class="row" style="margin-top: 5px;padding-bottom: 10px;border-bottom: 1px solid #ccc;">
-        <div class="c-sm-3 c-md-3 c-lg-3">
-          <div class="search-filter-wrapper">
-            <input type="text" class="normal-field pull-right" placeholder="Search by name" name="searchData" [(ngModel)]="dataFilter.name">
-          </div>
-        </div>
-        <div class="c-sm-3 c-md-3 c-lg-3">
-          <div class="search-filter-wrapper">
-            <input type="text" class="normal-field pull-right" placeholder="Search by phone" name="searchData" [(ngModel)]="dataFilter.phone">
-          </div>
-        </div>
-        <div class="c-sm-3 c-md-3 c-lg-3">
-          <div class="search-filter-wrapper">
-            <input type="text" class="normal-field pull-right" placeholder="Search by Email" name="searchData" [(ngModel)]="dataFilter.email">
-          </div>
-        </div>
-        <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 8px;">
+        <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 20px;">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="dataFilter.is_active" id="isAct">
             <label for="isAct">Is Active</label>
           </div>
         </div>
-        <div class="c-sm-2 c-md-2 c-lg-2" style="margin-left: -8em;">
+        <div class="c-sm-2 c-md-2 c-lg-2" style="margin-left: -8em;margin-top: 15px;">
           <button class="btn fullBlue" style="    height: 32px !important ;padding: 5px 12px;" (click)="getAllUserList(PageIndex)">Go</button>
         </div>
       </div>

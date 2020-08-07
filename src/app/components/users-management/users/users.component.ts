@@ -198,6 +198,7 @@ export class UsersComponent implements OnInit {
     this.usersList=[];
     this.totalRow=0;
     this.PageIndex=1;
+    this.selectedRowCount = 0;
     this.userListDataSource =[];
     if(this.dataFilter.role == '1') {
       this.getMasterCourseData();
@@ -774,12 +775,14 @@ export class UsersComponent implements OnInit {
     let allow_access = false;
     allow_access = (obj.access_allow == 1 ) ? false : true;
     let msgType = '';
-    msgType = (obj.access_allow == 1 ) ? 'Allow access' : 'Block Access';
-    if (confirm('Are you sure you want to' + msgType)) {
+    msgType = (obj.access_allow == 1 ) ? 'Block access' : 'Allow Access';
+    if (confirm('Are you sure you want to ' + msgType + ' ?')) {
     this.httpService.getData('/api/v1/authenticate/blockUserAccess/' + obj.user_id + '?access=' + allow_access).subscribe(
       (res: any) => {
-        this.getAllUserList(this.PageIndex);
+        msgType = (obj.access_allow == 1 ) ? 'blocked' : 'allowed';
+        this.messageNotifier('success', '', 'Access has been ' + msgType + ' for the user.');
         this.auth.hideLoader();
+        this.getAllUserList(this.PageIndex);
       },
       err => {
         this.auth.hideLoader();
@@ -793,6 +796,8 @@ export class UsersComponent implements OnInit {
     this.httpService.getData('/api/v1/authenticate/clearRegisteredDevices/' + id).subscribe(
       (res: any) => {
         this.auth.hideLoader();
+        this.messageNotifier('success', '', 'Registered device has been cleared!');
+        this.getAllUserList(this.PageIndex);
       },
       err => {
         this.auth.hideLoader();
