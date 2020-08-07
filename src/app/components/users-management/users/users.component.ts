@@ -773,6 +773,9 @@ export class UsersComponent implements OnInit {
     this.auth.showLoader();
     let allow_access = false;
     allow_access = (obj.access_allow == 1 ) ? false : true;
+    let msgType = '';
+    msgType = (obj.access_allow == 1 ) ? 'Allow access' : 'Block Access';
+    if (confirm('Are you sure you want to' + msgType)) {
     this.httpService.getData('/api/v1/authenticate/blockUserAccess/' + obj.user_id + '?access=' + allow_access).subscribe(
       (res: any) => {
         this.getAllUserList(this.PageIndex);
@@ -782,6 +785,7 @@ export class UsersComponent implements OnInit {
         this.auth.hideLoader();
       }
     );
+    }
   }
 
   clearRegisteredDevices(id) {
@@ -797,10 +801,6 @@ export class UsersComponent implements OnInit {
   }
 
   sendLoginCredentials(type) {
-    // let user_role = 0;
-    // if(this.dataFilter.user_Type == '1') {
-    //   user_role = 0
-    // }
     let studentID = this.getListOfIds('user_id');
     let obj = {
       delivery_mode: 0,
@@ -812,9 +812,9 @@ export class UsersComponent implements OnInit {
       app_sms_type: type,
       user_role: 0
     };
-    // if (this.transational_type ==2) {
-    //   obj.configuredMessage = false;
-    // }
+    let msgType = '';
+    msgType = (type == '4') ? 'Send Login Credentials' : 'Send App Link';
+    if (confirm('Are you sure you want to ' + msgType + ' to selected users?')) {
     this.auth.showLoader();
     this.httpService.postData('/api/v1/alerts/config', obj).subscribe(
       (res: any) => {
@@ -826,6 +826,7 @@ export class UsersComponent implements OnInit {
       }
     )
    this.closeNotificationPopup();
+    }
   }
 
 
