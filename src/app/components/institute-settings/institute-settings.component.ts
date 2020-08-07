@@ -1033,7 +1033,7 @@ export class InstituteSettingsComponent implements OnInit {
       this.reportFor.enquiry = true;
       this.reportFor.fees = true;
     }
-    else if (key == 16) { //both
+    else if (key == 14) { //both
       this.reportFor.enquiry = true;
       this.reportFor.fees = true;
       this.reportFor.admissions = true;
