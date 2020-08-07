@@ -89,8 +89,8 @@ export class StudyMaterialComponent implements OnInit {
       return
     }
 
-    if (this.prodForm.about.length > 1500) {
-      this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
+    if (this.prodForm.about.length > 5000) {
+      this.msgService.showErrorMessage('error', 'allowed description limit is 5000 characters', '');
       return;
     }
 

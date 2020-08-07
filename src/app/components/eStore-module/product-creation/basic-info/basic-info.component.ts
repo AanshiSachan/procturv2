@@ -239,8 +239,8 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'Please add description', '');
       return;
     }
-    if (this.prodForm.about.length>1500 ) {
-      this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
+    if (this.prodForm.about.length>10000 ) {
+      this.msgService.showErrorMessage('error', 'allowed description limit is 10000 characters', '');
       return;
     }
     if (this.prodForm.purchase_limit == 0) {
