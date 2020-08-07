@@ -324,7 +324,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       case 10:
         this.multiDeviceLogin(res);
         break;
+      case 11:
+        this.registeredDeviceNotFount(res);
+        break;
     }
+  }
+
+  registeredDeviceNotFount(obj) {
+    this.msgService.showErrorMessage('error','','This is not your registered device for login kindly use a registered device. For any query please contact your administrator.');
   }
 
   multiDeviceLogin(res){
@@ -559,6 +566,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('help_url', institute_data.help_url);
       sessionStorage.setItem('terms_and_condition_url', institute_data.terms_and_condition_url);
       sessionStorage.setItem('privacy_policy_url', institute_data.privacy_policy_url);
+      sessionStorage.setItem('deviceId', this.serverUserData.device_id);
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
