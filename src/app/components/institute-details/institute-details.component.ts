@@ -293,6 +293,12 @@ export class InstituteDetailsComponent implements OnInit {
     obj.jd_contract_id = this.instDetails.jd_contract_id;
     obj.notification_email_sender_id = this.instDetails.notification_email_sender_id;
     obj.email_sender_id = this.instDetails.email_sender_id;
+    obj.eod_report_multiple_mobile=this.instDetails.eod_report_multiple_mobile;
+    if (!(this.checkContactNoPattern(this.instDetails.eod_report_multiple_mobile))) {
+      this.commonService.showErrorMessage('error', '', 'Please check contact number');
+      return
+    }
+    obj.eod_report_multiple_emails=this.instDetails.eod_report_multiple_emails;
     obj.is_student_displayId_manual = 1;
     if (this.showPrefix) {
       obj.is_student_displayId_manual = 0;
