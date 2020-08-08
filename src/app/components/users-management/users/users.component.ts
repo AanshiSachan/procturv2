@@ -771,12 +771,12 @@ export class UsersComponent implements OnInit {
   }
 
   changeUserAccess(obj) {
-    this.auth.showLoader();
     let allow_access = false;
     allow_access = (obj.access_allow == 1 ) ? false : true;
     let msgType = '';
     msgType = (obj.access_allow == 1 ) ? 'Block access' : 'Allow Access';
     if (confirm('Are you sure you want to ' + msgType + ' ?')) {
+      this.auth.showLoader();
     this.httpService.getData('/api/v1/authenticate/blockUserAccess/' + obj.user_id + '?access=' + allow_access).subscribe(
       (res: any) => {
         msgType = (obj.access_allow == 1 ) ? 'blocked' : 'allowed';
