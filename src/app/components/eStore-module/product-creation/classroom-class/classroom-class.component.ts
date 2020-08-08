@@ -96,8 +96,8 @@ export class ClassroomClassComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'Pleaas add description', '');
       return
     }
-    if (this.description.length>1500 ) {
-      this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
+    if (this.description.length>5000 ) {
+      this.msgService.showErrorMessage('error', 'allowed description limit is 5000 characters', '');
       return;
     }
     if ((!this.auth.isRippleLoad.getValue())) {
