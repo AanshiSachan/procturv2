@@ -68,7 +68,6 @@ export class UsersComponent implements OnInit {
   historyBatchSize = 10;
   historyTotalRow : any = 0;
   historyUserId : any = 0;
-  helpMsg: string = "1.Clear registered device (If Single Device Login setting is enabled) - When user login we capture registered devices to avoid login on multiple devices. After clicking on this option the user registered device gets cleared and the user can access through another device. 2. Allow/Block access - After clicking on block access user won’t be able to access on app/web.";
 
   constructor(
     private apiService: UserService,
@@ -136,11 +135,11 @@ export class UsersComponent implements OnInit {
       user_Type: this.dataFilter.role,
       page_offset: this.displayBatchSize
     }
-    if(!this.isProfessional) {
+    if(!this.isProfessional && this.dataFilter.role == '1') {
       obj.master_course_name = this.dataFilter.master_course ,
       obj.course_id = this.dataFilter.course_id;
     }
-    if(this.isProfessional) {
+    if(this.isProfessional  && this.dataFilter.role == '1') {
       obj.standard_id = this.dataFilter.master_course,
       obj.subject_id = this.dataFilter.course_id;
     }
@@ -200,6 +199,13 @@ export class UsersComponent implements OnInit {
     this.PageIndex=1;
     this.selectedRowCount = 0;
     this.userListDataSource =[];
+    this.dataFilter.is_active = true;
+    this.dataFilter.master_course = '';
+    this.dataFilter.course_id = 0;
+    this.dataFilter.name = '';
+    this.dataFilter.email = '';
+    this.dataFilter.phone = '';
+    this.dataFilter.app_downloaded = '-1';
     if(this.dataFilter.role == '1') {
       this.getMasterCourseData();
     }
