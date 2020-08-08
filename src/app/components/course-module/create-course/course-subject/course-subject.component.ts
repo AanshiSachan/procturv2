@@ -33,12 +33,17 @@ export class CourseSubjectComponent implements OnInit {
   selectedRow: number;
   isLangInstitue: boolean = false;
   sortingDir: string = "asc";
+  subjectCodeCharLimit : number =4;
 
   constructor(
     private apiService: SubjectApiService,
     private toastCtrl: AppComponent,
     private auth: AuthenticatorService
-  ) { }
+  ) {
+    //Abhishek kumar ​102047 Kohima college
+    if(sessionStorage.getItem('institute_id')==102047+"")
+    this.subjectCodeCharLimit=8;
+   }
 
   ngOnInit() {
     this.checkInstituteType();
