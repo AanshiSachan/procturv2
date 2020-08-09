@@ -757,7 +757,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   logout() {
     this.clearSearch();
-    if (this.log.logoutUser()) {
+    this.log.logoutUser().subscribe(
+      (res:any)=> {
       this.multiBranchService.subBranchSelected.next(false);
       this.auth.clearStoredData();
       this.auth.changeAuthenticationKey(null);
@@ -766,7 +767,10 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       sessionStorage.clear();
 
       this.router.navigateByUrl('/authPage');
-    }
+      },
+      err => {
+      }
+    )
   }
 
   clearSearch() {
