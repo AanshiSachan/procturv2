@@ -106,6 +106,18 @@ export class VideoLectureComponent implements OnInit {
     this.getStudyMaterial(subject);
   }
 
+  collapseAll(obj, cond) {
+    obj.isExpand = cond;
+    if(obj.subtopicList) {
+      obj.subtopicList.forEach(element => {
+        element.isExpand = cond;
+        // element.subject_id = this.subjectId;
+        this.addMaterialExtension(element);
+        this.collapseAll(element, cond);
+      });
+    }
+  }
+
   getStudyMaterial(object) {
     console.log(object);
     let obj = {
