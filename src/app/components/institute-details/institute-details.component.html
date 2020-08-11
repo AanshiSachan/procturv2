@@ -707,12 +707,21 @@
     <div class="general-setting show-left">
       <div class="row">
         <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
-          <label for="ch28">Email sender id
+          <label for="ch28">Accounts Email sender id 
+            <div class="questionInfo inline-relative">
+              <span class="qInfoIcon i-class">i</span>
+              <div class="tooltip-box-field">
+                For sending emails take approval <br>
+                from AWS server for which you <br>
+                have to contact with support team <br>
+                or drop a mail.
+              </div>
+            </div>
           </label>
         </div>
         <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="field-wrapper" [ngClass]="{'has-value':instDetails.email_sender_id != ''}">
-            <input type="text" disabled class="form-ctrl newDisabled" id="ch28" name="slotNew" [(ngModel)]="instDetails.email_sender_id">
+            <input type="text" class="form-ctrl newDisabled" id="ch28" name="slotNew" [(ngModel)]="instDetails.email_sender_id">
           </div>
         </div>
       </div>
