@@ -2636,7 +2636,26 @@
                               <label for="notification_for_studymaterial_upload">Study material upload notification</label>
                             </div>
                           </div>
-                        </div>                      
+                        </div>
+                        
+                        <div class="row m-0 webkitBox" style="padding-top: 10px;" *ngIf="show_vdocipher_video_ready_sms_to_admin">
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="usRegSendSms" class="form-checkbox" [(ngModel)]="instituteSettingDet.vdocipher_video_ready_sms_to_admin"
+                                id="vdocipher_video_ready_sms_to_admin">
+                              <label for="vdocipher_video_ready_sms_to_admin">
+                                Video Ready Notification (Admin)
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field lg">
+                                    Admin will get Notification once <br>
+                                    video will get ready for Students
+                                  </div>
+                                </div>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
                       </td>
                     </tr>
 
