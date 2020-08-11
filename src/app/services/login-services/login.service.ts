@@ -117,7 +117,7 @@ export class LoginService {
   logoutUser() {
     let url = this.baseUrl + "/api/v1/alternateLogin/logout?deviceId=" + sessionStorage.getItem('deviceId');
     let header =  new HttpHeaders({"Authorization": this.Authorization});
-    return  this.http.get(url, { headers: header }).map(
+    return this.http.get(url, { headers: header }).map(
       res => {
         // this.auth.clearStoredData();
         // this.auth.changeAuthenticationKey(null);
@@ -125,10 +125,10 @@ export class LoginService {
         // this.changeSidenavStatus('unauthorized');
         // sessionStorage.clear();
         // localStorage.clear();
-        return true;
+        return res;
        },
       err => {
-      return false;
+      return err;
      }
     )
     // remove user from local storage to log user out

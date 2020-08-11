@@ -63,7 +63,7 @@
             Subject Code
             <span class="text-danger">*</span>
           </label>
-          <input type="text" [maxlength]="subjectCodeLimit" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_code" id="sub_code" name="sub_code">
+          <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_code" id="sub_code" name="sub_code">
         </div>
 
         <div class="c-lg-2 c-sm-2 c-md-2" style="padding-top: 10px">
@@ -139,7 +139,7 @@
             </td>
             <td class="edit-comp" *ngIf="!isLangInstitue">
               <div class="field-wrapper">
-                <input type="text" [maxlength]="subjectCodeLimit" class="form-ctrl" [(ngModel)]="row.subject_code" name="label" style="margin:auto">
+                <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl" [(ngModel)]="row.subject_code" name="label" style="margin:auto">
               </div>
             </td>
 
