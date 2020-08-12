@@ -568,6 +568,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('privacy_policy_url', institute_data.privacy_policy_url);
       sessionStorage.setItem('deviceId', this.serverUserData.device_id);
       sessionStorage.setItem('enable_library_feature', institute_data.enable_library_feature);
+      sessionStorage.setItem('distinct_device_login', institute_data.distinct_device_login);
+      sessionStorage.setItem('single_device', institute_data.single_device_login);
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
