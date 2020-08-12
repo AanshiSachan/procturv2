@@ -131,6 +131,17 @@ export class StudyMaterialComponent implements OnInit {
     this.getStudyMaterial(subject);
   }
 
+  collapseAll(obj, cond) {
+    obj.isExpand = cond;
+    if(obj.subtopicList) {
+      obj.subtopicList.forEach(element => {
+        element.isExpand = cond;
+        this.addMaterialExtension(element);
+        this.collapseAll(element, cond);
+      });
+    }
+  }
+
   getTopicData(obj) {
     obj.isExpand = !obj.isExpand;
     if(obj.subtopicList && obj.subtopicList.length){
