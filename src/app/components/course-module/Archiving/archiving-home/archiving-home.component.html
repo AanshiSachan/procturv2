@@ -6,7 +6,7 @@
           <a routerLink="/view/{{type}}" style="color: #0084f6;">
             {{ type | titlecase }}
           </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Archiving
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Data Archiving
         </h2>
       </div>
     </div>
@@ -16,39 +16,39 @@
       <div class="course-menu-item" *ngIf="isProfessional"  routerLink="./batches">
         <div class="menu-title">
           <img src="./assets/images/course/create-course.svg" alt="create course">
-          <span>  Batches</span>
+          <span>  Archive Batches</span>
         </div>
         <div class="menu-description">
-          <span>  Select and archive the batches.</span>
+          <span>  Select and archive the old batches</span>
         </div>
       </div>
       <div class="course-menu-item" *ngIf="isProfessional" routerLink="./batchesArchivedReport">
         <div class="menu-title">
           <img src="./assets/images/course/create-course.svg" alt="create course">
-          <span>  Batches Archived Status Report</span>
+          <span>  Archived Batch Report</span>
         </div>
         <div class="menu-description">
-          <span>  Get the report of archived batches.</span>
+          <span>  Report of old archived batches</span>
         </div>
       </div>
 
     <div class="course-menu-item" *ngIf="!isProfessional" routerLink="./courses">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create course">
-        <span>  Courses</span>
+        <span>  Archive Courses</span>
       </div>
       <div class="menu-description">
-        <span>  Select and archive the courses.</span>
+        <span>  Select and archive the old courses</span>
       </div>
     </div>
 
     <div class="course-menu-item" *ngIf="!isProfessional" routerLink="./coursesArchivedReport">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create course">
-        <span>Courses Archived Status Report</span>
+        <span>Archived Course Report</span>
       </div>
       <div class="menu-description">
-        <span> Get the report of archived courses.</span>
+        <span> Report of old archived courses</span>
       </div>
     </div>
 
