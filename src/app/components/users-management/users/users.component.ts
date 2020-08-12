@@ -68,6 +68,7 @@ export class UsersComponent implements OnInit {
   historyBatchSize = 10;
   historyTotalRow : any = 0;
   historyUserId : any = 0;
+  sso_check: boolean = false;
 
   constructor(
     private apiService: UserService,
@@ -98,6 +99,9 @@ export class UsersComponent implements OnInit {
     )
     if(this.dataFilter.role == '1') {
       this.getMasterCourseData();
+    }
+    if (sessionStorage.getItem('single_device') && sessionStorage.getItem('distinct_device_login')) {
+      this.sso_check = true;
     }
   }
 
@@ -306,6 +310,7 @@ export class UsersComponent implements OnInit {
     };
     this.notificationPopup = false;
     this.loginHistoryPopup = false;
+    this.historyPageIndex = 1;
   }
 
   getInventoryItemList(data) {
