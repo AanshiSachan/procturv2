@@ -67,6 +67,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   manageExamGrades: string = "";
   private userInput: string;
   videoplayer: boolean = false;
+  privacy: any = false;
 
   globalSearchForm: any = {
     name: '',
@@ -161,6 +162,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.checkUserHadAccess();
     this.checkInstituteType();
     this.checkManinBranch();
+    this.privacy = JSON.parse(sessionStorage.getItem('privacy_alert'));
   }
 
   ngAfterViewInit() {
@@ -436,7 +438,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.hasLead(this.permissionData);
         this.hasStudent(this.permissionData);
         this.hasCourse(this.permissionData);
-        this.hasProducts(this.permissionData);
+        // this.hasProducts(this.permissionData);
       }
 
     }
@@ -450,7 +452,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     // check these new feature is enable for institute or not
     this.isOnlineExamAllow(type); // check online test is enable or not
     this.isLiveClassesAllow(type);
-    this.isElearnAllow();
+    this.isElearnAllow(this.permissionData);
     this.isLibraryFeatureAllow(permission); // check librabry feature
     this.isExpenseFeatureAllow();
   }
@@ -484,6 +486,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       (username == "admin" && this.instituteId == 100952) ||
       (username == "admin" && this.instituteId == 100135) ||
       (username == "admin" && this.instituteId == 101923) ||
+      (username == "admin" && this.instituteId == 102026) ||
       (permission && permission.indexOf('721') != -1)) {
       this.jsonFlags.isShowLibrabry = true;
     }
@@ -515,14 +518,17 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   }
 
-  isElearnAllow() {
+  isElearnAllow(permissions) {
     // this senction is used for enable elearn feature
     this.jsonFlags.isShoweStore = false;
     if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
-      this.jsonFlags.isShoweStore = true;
-      if((this.instituteId == 101884 || this.instituteId == 100057) && this.userType == 3){
-        this.jsonFlags.isShoweStore = false;
-      }
+      if(sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin'){
+        if(sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null){
+            this.jsonFlags.isShoweStore = permissions.includes('727') ? true : false;
+        }
+        } else {
+          this.jsonFlags.isShoweStore = true;
+        }
     }
   }
 
@@ -751,7 +757,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   logout() {
     this.clearSearch();
-    if (this.log.logoutUser()) {
+    this.log.logoutUser().subscribe(
+      (res:any)=> {
       this.multiBranchService.subBranchSelected.next(false);
       this.auth.clearStoredData();
       this.auth.changeAuthenticationKey(null);
@@ -760,7 +767,10 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       sessionStorage.clear();
 
       this.router.navigateByUrl('/authPage');
-    }
+      },
+      err => {
+      }
+    )
   }
 
   clearSearch() {

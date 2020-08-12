@@ -103,7 +103,10 @@
   <div class="release-note-container">
     <span data-toggle="modal" data-target="#releaseNote">New Release</span>
   </div>
-  <div style="bottom: 16%;position: absolute;margin-left: 50%;">
+  <div *ngIf="privacy" class="release-note-container" style="bottom: 16%;">
+    <span data-toggle="modal" style="background: #0084f6;border: 1px solid #0084f6;" data-target="#privacy">DLT</span>
+  </div>
+  <div style="bottom: 15%;position: absolute;margin-left: 53%;height: 26px;">
     <span class="badge">v3.0</span>
   </div>
   <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" >
@@ -210,118 +213,276 @@
       <div class="modal-body">
         <div class="new-modules-list">
           <div class="module-title">
-            <span>28th Feb 2020</span>
+            <span>10<sup>th</sup> July 2020</span>
           </div>
           <ol>
-            <li>Exception report setting - (Rename Attendance/Exam reminder)
+            <li>Study material new UI with improvements on admin web.
+            </li>
+            <li> Study material with updates on student web.
+            </li>
+            <li>New settings introduced on My account page.
               <ul style="font-weight: 400; margin-top: 5px;">
-                <li>Admin can get updates of Attendance and Exam related notification on multiple numbers by selecting Other option.
-                  <br>
-                  <span style="font-weight: 600;">Steps:</span> Settings -> Attendance/Exam Notification Settings
+                <li>Institute Fee receipt Logo Upload / URL
+                </li>
+                <li> Accounts Email Sender ID
+                </li>
+                <li>Notification Email Sender ID
+                </li>
+                <li>  Student ID (Manual/Automatic)
+                </li>
+                <li> Live Class Recorded Session Download Visibility (Setting based)
+                </li>
+                <li>  Live Class Recorded Session View Visibility (Setting based)
+                </li>
+                <li>Share app URL for student app and web
+                </li>
+                <li>Feedback URL for student app and web.
+                  <ul style="font-weight: 400; margin-top: 5px;">
+                    <li>Privacy Policy Link
+                    </li>
+                    <li>Terms & Conditions Link
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </li>
-            <li>Remarks option while taking Attendance
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>Remarks field added while marking Attendance and it helps to notify remarks to Students/Parents.
-                    <span style="font-weight: 600;">Steps:</span> Home-> Mark Attendance-> (Add Remarks) Mark Attendance </li>
-              </ul>
+            <li>File Manager UI improvements.
             </li>
-            <li>Assign STD/Master Course at a time
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>Assign Standard/Assign Master Course option added in Course and Batch Module to assign these in bulk to selected students.
-                <br>
-                <span style="font-weight: 600;">Steps:</span> Home->Students->Select Students->Click on option selected students ->Assign Standard (Course Module) or Assign Master Course (Batch Module).
-                </li>
-              </ul>
-            </li>
-            <li>Edit Option Class/Exam Planner
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>
-                  Edit option added in Course Planner- To edit details of Description & Homework.
-                  <br>
-                  <span style="font-weight: 600;">Steps:</span> Course-> Class Planner->Click on Go (by Selecting Filters)-Edit
-                </li>
-              </ul>
-            </li>
-            <li>Proctur Live Class updates
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>Multiple Layout- Fully control the layout of your virtual classroom, live stream, webinar or webcast, work together on shared notes.</li>
-                <li>Safari support- Users can now also connect via Safari.</li>
-                <li>Improved breakout room statistics
-                    Live Class has also improved breakout room usage statistics and worked on general usability of some features so everyone can make the most out of Proctur Live Class.
-                </li>
-                <li>No extension required in chrome for screen share
-                    Chrome no longer requires an extension for screen share and the join experience has been made more intuitive. It is available to anyone having chrome version 72 or higher.
-                </li>
-              </ul>
-            </li>
-            <li>Country/State/City/Area Mapping
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>Country/State/City/Area Mapping has been added in Lead and Student section, which can be used while adding an Enquiry and Students.
-                    <br>
-                    <span style="font-weight: 600;">Steps:</span> Home Page-> Setup-> City Area Map
-                </li>
-              </ul>
-            </li>
-            <li>Performance Improvement (Student Section)
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>Response time has improved while student data loading. </li>
-              </ul>
-            </li>
-            <li>PTM Enhancement
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>Scheduled PTM details added in PTM home page which can be used to find today's and future PTM schedule as well notify to them.</li>
-                <li>Update and Notify button added on PTM page.</li>
-              </ul>
-            </li>
-            <li>Student's Birthday Details
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>Student Birthday details added on home page, user can check today's Birthday details at the bottom of home page.</li>
-              </ul>
-            </li>
-            <li>Whatsapp Link Integration
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>Whatsapp icon added in global search while searching Enquiry/Student from home page.</li>
-              </ul>
+            <li>Minor bug fixes
             </li>
           </ol>
         </div>
         <hr style="border-top: 1px solid #ccc;">
-        <div class="old-module-list">
+        <div class="old-modules-list">
           <div class="module-title old">
-            <span>31st Jan 2020</span>
+            <span>3<sup>rd</sup> July 2020</span>
           </div>
           <ol>
-            <li>Exam Dashboard: Course/Batch -> Reports -> Exam Dashboard
+            <li>Registered user changes in estore:
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">In this release we made changes on the registered user page. This is a sub menu of estore. On this page, admin gets all the information regarding open users and their products purchased.</span>
               <ul style="font-weight: 400; margin-top: 5px;">
-                <li>Allows you to analyse exam data at various levels: Course/Batch level, Subject level, Date wise, Faculty wise, and Single Exam.
-                    <br>
-                    <span style="font-weight: 600;">Steps:</span> Course/Batch -> Reports -> Exam Dashboard
+                <li>Admin will get the users according to e-course or product filter. Or they will get all users by clicking on the search button.
+                </li>
+                <li> They will download these details in the excel file as well.
+                </li>
+                <li>Admin can convert the users into enquiry or students.
+                </li>
+                <li> Converted users status will be shown as enquiry or student according to their conversion.
+                </li>
+                <li> Once the user converted into enquiry or student then the action button will be disabled.
+                </li>
+                <li> Search box is also available to search for particular users.
                 </li>
               </ul>
             </li>
-            <li>Standard and Subject data is being displayed on Inventory page.</li>
-            <!-- <li>Advance setting is given for product management.</li> -->
-            <li>With File Manager now you can share audio file(mp3 and wav) as well.</li>
-            <li>In Settings low SMS balance reminder added where you can set threshold value on SMS count to get SMS balance notification.</li>
+            <li> Send notification to open users:
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">From now, Admin can send messages and emails to open app users by using the Add/Send notification feature. We have added this option next to All Alumni students on add/send notification pop up.  If the user selects the “All open app users” option then all open app users list will be displayed.  The functionality is the same as for others. </span>
+            </li>
+            <li> File manager - faculty account changes
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">We have provided the option to download and delete files from the faculty account. The faculty gets the access to delete and download the files which are uploaded by him. But not able to delete the files uploaded by other users (admin/another faculty). </span>
+            </li>
+            <li>Added the feature
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>Delete file from file manager: Users will be able to delete multiple files at a time. Once a user selects a file, the delete file button will be visible on the file manager page.
+                </li>
+                <li>Edit file name option is available only for Youtube videos, rest of the files will not be able to edit. Delete folder option is removed.
+                </li>
+              </ul>
+            </li>
+            <li>SMS sender id field is added on My Account page
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">Sms sender id field is added on My Accounts page. Institute can give sender id according to themself after getting approval from DLT registration. Either message will be delivered by our default sender id. </span>
+            </li>
           </ol>
         </div>
-        <!-- <div class="fixes-module">
-          <div class="module-title">
-            <span>Fixes</span>
+        <hr style="border-top: 1px solid #ccc;">
+        <div class="old-modules-list">
+          <div class="module-title old">
+            <span>June 2020</span>
           </div>
-          <ul>
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-          </ul>
-        </div> -->
+          <ol>
+            <li>Single device login
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">If the setting is enabled then students or open app users are not able to login in multiple tabs at a time. They can log in from the device at a time. If they try to login in multiple tabs or apps, then the warning pop up will be displayed and ask permission to continue a session from this tab. If a student hits yes button then he will log in as a student account in the current session and logout from the previous session (tab). If a student hits the No button then he is active on the previous session (tab). Not login in to the current session. The same thing happens in mobile app)</span>
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>Admin will get the users according to e-course or product filter. Or they will get all users by clicking on the search button.
+                </li>
+                <li>They will download these details in the excel file as well.
+                </li>
+                <li>Admin can convert the users into enquiry or students.
+                </li>
+                <li>Converted users status will be shown as enquiry or student according to their conversion.
+                </li>
+                <li>Once the user converted into enquiry or student then the action button will be disabled.
+                </li>
+                <li>Search box is also available to search for particular users.
+                </li>
+              </ul>
+            </li>
+            <li>Login page performance improvement
+            </li>
+            <li>Zoom integration
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">Admin  can add zoom account details in the institute account at his side. This is a setting based feature. It is displayed in my accounts page. Users can add multiple zoom accounts according to host number.</span>
+            </li>
+            <li>File Manager changes in Faculty Login
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>In a faculty account, share and download option will not be visible to faculty
+                </li>
+                <li>This is setting based option
+                </li>
+                <li>This setting is available in My account - File Manager(Faculty)
+                </li>
+                <li>If this setting is enabled then in the faculty account, faculty can see all the uploaded files by him and other users in a file manager.
+                </li>
+                <li>If this setting is disabled then in the faculty account, faculty can see only those files which are uploaded by him.
+                </li>
+              </ul>
+            </li>
+            <li>Course list ui changes
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">Course menu > Total students column and Course expiry date columns are added</span>
+            </li>
+            <li>Study Material changes in admin account:
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">We have added new changes in study material in the admin account. Users can update the file name in study material. Previously we have given this option in file manager, now it is available in this section in admin account. We added the Read Only option in study material while uploading files. This option is only for following categories - Assignment, EBook, notes and previous year question paper. For each file we have given edit, delete and download option except Youtube videos (It has two options-edit and delete)</span>
+            </li>
+            <li>Dynamic watermark setting added in video setting of study material
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">We have added dynamic watermark in videos. In the video setting, there is a setting for dynamic watermark. 3 options added in it - name, email id and contact number. If the user selects all these options then these options will be displayed in video till end. If setting is disabled then these options will not be displayed in video. Setting impact will be displayed in existing videos as well. </span>
+            </li>
+            <li>Global search Improvement
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">Users can search the students by using student id, email id and parent contact number. </span>
+            </li>
+          </ol>
+        </div>
+        <hr style="border-top: 1px solid #ccc;">
+        <div class="old-modules-list">
+          <div class="module-title old">
+            <span>May 2020</span>
+          </div>
+          <ol>
+            <li>Live class- setting for disabling notification
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">Previously, each and every student joining and leaving notification were displayed on the live class screen. It was very annoying to students to concentrate on their class (studies).  Faculty will be able to see these notifications from there side)</span>
+            </li>
+            <li>Restriction of Youtube URLsharing on student portal
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">(From now students won’t be able to share Youtube videos. It is restricted in our application to share Youtube videos from student portal)</span>
+            </li>
+            <li>Manage product page UI is improved
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>Proper page alignment set on each page. </li>
+                <li>Used the whole page to show more products on it. </li>
+                <li>Removed horizontal scroll bar </li>
+                <li>Proper alignment is given to filters </li>
+                <li>Save and cancel button UI changed </li>
+                <li>Thumbnail alignment is given on review page </li>
+                <li>Image size info is showing on review page which tells user to upload the image in given format. </li>
+              </ul>
+            </li>
+            <li>E-store changes
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">We have updated the process of product creation. In this change, admin can create the products according to users i.e. he can create products for students, open app users, both and none.</span>
+            </li>
+            <li>New Student app has been launched
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">Having features of File manager, Study material, Live class, Online exams, Zoom integration</span>
+            </li>
+          </ol>
+        </div>
+        <hr style="border-top: 1px solid #ccc;">
+        <div class="old-modules-list">
+          <div class="module-title old">
+            <span>April 2020</span>
+          </div>
+          <ol>
+            <li>Setting based option to send website link to students for login
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">(Now it has been made a setting based option to send the website link (Proctur web URL- web.abc.com and in case, virtual hosting is done- then client’s web URL) to students along with login credentials</span>
+            </li>
+            <li>Download report card more than 9 subjects till 15 subjects
+            </li>
+            <li>Download summary report
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">Setting based: In this feature, we have provided 3 options to download the summary report, i.e. Enquiry, Admission, and fees. Users can download the summary report by using a filter</span>
+            </li>
+            <li>URL option
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">On My Account page, We have added URL fields. Users can enter their Facebook URL, website URL, Youtube URL, WhatsApp URL, Instagram URL, LinkedIn URL, and question and answer URL. Users can get all URL details on this page. ) which will be viewed in the student app/web side menu.</span>
+            </li>
+            <li>Student profile download
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">Users can download student profile from the student page.</span>
+            </li>
+            <li>Share Youtube URLfrom file manager.
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">New field added while uploading documents from the file manager. Users can share Youtube URL from File manager.</span>
+            </li>
+            <li>Online and offline options on e-course mapping page.
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">New options in the e-course mapping page. These options will be displayed to users if the course mapping setting is enabled.</span>
+            </li>
+            <li>Youtube videos will play on the same page of the student portal.
+            </li>
+            <li>Student Study Material
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">Admin can upload the following types of study material with students i.e. existing video, assignment, eBook’s, notes, audio notes (it supports mp3 and Wav files), images, previous year question paper, slides(PowerPoint files), Youtube URL and videos with students. It will be very helpful for the institute as well as students, to do study from home and also users to share all types of documents or notes with students. Students also get notification whatever the file is uploaded in their ecourse. Users also can manage folders for each subject and topic. It will be a good organized way to share study material with students. This is a setting based option, it is available on general setting page i.e. Student study material visibility under the Miscellaneous section. If the setting is enabled then students can see the study material feature in students’ account.  There is one setting that is study material upload notification, if the setting is enabled then students will get the notification of the document which is uploaded by users(admin). </span>
+            </li>
+            <li>Recorded live class upload and delete in Live class
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">We have introduced a new feature which is to upload live class and delete the live class. Users can upload the existing live classes or they can download the existing one live class and upload it. Once they upload it, the “View Recording” button will be enabled and the uploaded file will be displayed. This recording is also available for students who are a part of that live class.  Users will delete the live class from the list.</span>
+            </li>
+            <li>Assign To field added in student module
+              <br>
+              <span style="font-weight: 400; margin-top: 5px;">Assign To feature is added for students also. This is similar to enquiry’s assign to feature. If you select any counselor name from the field then that student will belong to that counselor. If you do not select any value from drop down then it is automatically assigned to admin. </span>
+            </li>
+            <li>New Student Web portal with UI enhancement and more features.
+            </li>
+          </ol>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
 
+  </div>
+</div>
+
+<div class="modal fade" id="privacy" role="dialog"  tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="left:10% !important;top: 90px;">
+      <div class="modal-body privacy">
+        <h2>FOR SMS SENDER ID DLT Registration | Entity <u>[As per TRAI norms all organizations need to do DLT registration for delivering SMS through their Sender ID.]</u></h2>
+        <hr>
+        <p><b>Follow the steps below:</b></p>
+        <br>
+        <p>We have all the Operators, but for DLT Registration, we recommend <b>Videocon and Jio</b>, as they are Fast and Free for our clients. Kindly apply on both simultaneously, <b>so that you can get the Header Approved on at least one of them and then your SMS will not be impacted.</b></p>
+        <br>
+        <h3>Entity Registration Process for Jio : </h3>
+        <br>
+        <p><b>1. Signup Link : </b><a href="https://trueconnect.jio.com" target="_blank">https://trueconnect.jio.com</a></p>
+        <br>
+        <p><b>2. Form Filling : </b>Fill the form and upload the required documents.</p>
+        <br>
+        <p><b>3. Form Submission : </b>Submit the application and you will get the approval in a day or two.</p>
+        <br>
+        <p><b>4. Headers Registration : </b>You will get mail and once registration is approved, kindly login (Received on mail) and add your Headers (Sender ID) and it will be approved in a day or two.</p>
+        <br>
+        <p><b>5. Test SMS : </b>Once Header is approved on DLT platform, it will be synced on Global Platform in around 24 hrs and you will then be able to use your Header for sending SMS.</p>
+        <br>
+        <p><b>Note : </b> This is one service provider and for more service provider the same process you have to follow. You will receive an update accordingly and our team will guide you for any query.</p>
+        <br>
+        <p>Still need help email us at <b>support@proctur.com</b></p>
+      </div>
+      <div class="modal-footer" style="padding: 8px !important;">
+        <button type="button" class="btn btn-primary create-btn" data-dismiss="modal">Okay</button>
+      </div>
+    </div>
   </div>
 </div>

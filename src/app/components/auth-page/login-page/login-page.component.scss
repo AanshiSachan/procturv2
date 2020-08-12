@@ -83,7 +83,7 @@
 .login-box {
     position: absolute;
     margin: auto;
-    top: 75px;
+    top: 20%;
     right: 14%;
     width: 320px; //height: 85%;
     border-radius: 4px;
@@ -639,10 +639,10 @@ table tr:nth-child(odd):hover{
    .procturSiliconImg{
     min-height: 30%;
     max-height: 30%;
-    min-width: 30%;
-    max-width: 30%;
+    min-width: 100%;
+    max-width: 100%;
     vertical-align: middle;
-}
+  }
 }
 
 .loader2{

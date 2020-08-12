@@ -29,7 +29,9 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   jsonData = {
     parentTopic: '',
     mainTopic: '',
-    selectedVideo: ''
+    selectedVideo: '',
+    mainTopicId: '',
+    parentTopicId: ''
   }
   file: any;
   payload = {
@@ -109,7 +111,6 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   }
 
   linkAlreadyUploadedVideo($event) {
-    // console.log($event);
     let url = "/api/v1/instFileSystem/linkVideos";
     let object = {
       "institute_id": this.institute_id,
@@ -120,6 +121,10 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       "sub_topic_id": this.varJson.sub_topic_id,
       "title": this.varJson.title,
       "category_id": 235,
+    }
+    if(!this.showModal) {
+      object.sub_topic_id = Number(this.jsonData.mainTopicId),
+      object.topic_id = Number(this.jsonData.parentTopicId)
     }
     let flag = this.uploadDatavalidation();
     if (!this.auth.isRippleLoad.getValue() && (flag)) {
@@ -176,6 +181,11 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         file_id: -1,
         is_readonly: this.varJson.is_readonly ? 'Y' : 'N',
         "size": 0
+      }
+
+      if(!this.showModal) {
+        fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
+        fileJson.topic_id = Number(this.jsonData.parentTopicId)
       }
 
       let base = this.auth.getBaseUrl();
@@ -300,13 +310,17 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         is_readonly: this.varJson.is_readonly ? 'Y' : 'N',
         size: 0
       }
+      if(!this.showModal) {
+        fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
+        fileJson.topic_id = Number(this.jsonData.parentTopicId)
+      }
+      formData.append('fileJson', JSON.stringify(fileJson));
       if ($event.files && $event.files.length) {
         $event.files.forEach(file => {
           formData.append('files', file);
         });
         // formData.append('files', $event.files);
       }
-
 
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";
@@ -318,7 +332,6 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         institution_id: sessionStorage.getItem('institute_id'),
       }
       let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
-      formData.append('fileJson', JSON.stringify(fileJson));
       newxhr.open("POST", urlPostXlsDocument, true);
       newxhr.setRequestHeader("Authorization", Authorization);
       newxhr.setRequestHeader("enctype", "multipart/form-data;");
@@ -541,7 +554,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
 
   getcategoriesList() {
     this.categiesList = [];
-    let url = "/api/v1/instFileSystem/institute/" + this.institute_id + "/ecoursesList";
+    let url = "/api/v1/instFileSystem/institute/" + this.institute_id + "/ecourses-list";
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
       this.categiesList = res;
@@ -558,7 +571,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
       this.subjectList = res;
-      if (this.material_dataFlag != 'material' && this.material_dataFlag != 'subject-list') {
+      if (this.material_dataShow && this.material_dataFlag != 'subject-list') {
         this.varJson.subject_id = 0;
       }
       this.varJson.sub_topic_id = 0;
@@ -598,6 +611,10 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         "title": this.varJson.title,
         "enable_watermark": enable_watermark,
         "size": (size / (1024*1024)).toFixed(3)
+      }
+      if(!this.showModal) {
+        fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
+        fileJson.topic_id = Number(this.jsonData.parentTopicId)
       }
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";

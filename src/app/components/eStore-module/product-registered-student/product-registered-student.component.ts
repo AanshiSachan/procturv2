@@ -57,6 +57,7 @@ export class RegisteredStudentComponent implements OnInit {
   selectedMsg: any = '';
   smsNotification: any = true;
   pushNotification: any = true;
+  messageCount: any = 0;
 
   menuOptions: DropData[] = [
     {
@@ -161,6 +162,7 @@ export class RegisteredStudentComponent implements OnInit {
               if(element.open_user_status == 'No Action') {
                 element.open_user_status = '-';
               }
+              element.ecourse_list = element.ecourse_list.join();
             });
             }
           }
@@ -549,6 +551,31 @@ export class RegisteredStudentComponent implements OnInit {
       this.searchDataFlag = false;
       this.filterData(this.varJson.PageIndex);
     }
+  }
+
+  countNumberOfMessage(){
+    let uniCodeFlag = this.hasUnicode(this.message);
+    let charLimit = 160;
+    if(uniCodeFlag){
+      charLimit = 70
+    }
+    if(this.message.length == 0){
+      this.messageCount = 0;
+    }
+    else if(this.message.length > 0 && this.message.length <= charLimit){
+      this.messageCount = 1;
+    }
+    else{
+      let count = Math.ceil(this.message.length / charLimit);
+      this.messageCount = count;
+    }
+  }
+
+  hasUnicode (str) {
+    for (var i = 0; i < str.length; i++) {
+        if (str.charCodeAt(i) > 127) return true;
+    }
+    return false;
   }
 }
 

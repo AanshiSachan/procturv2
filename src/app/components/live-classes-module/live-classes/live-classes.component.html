@@ -7,6 +7,11 @@
             <span>Live Class</span>
           </h1>
         </div>
+        <div style="float: right;margin-right: 30px;">
+          <span class="new-keyword" data-toggle="modal" style="cursor: pointer;" data-target="#zoomFAQ">New Release</span>
+          <!-- <span style="font-weight: 600;">- Proctur Live class Attendance Report</span> -->
+         <button type="button" class="new-keyword feedBackBtn" name="button"><a href="https://bit.ly/live_class_Feedback" target="_blank">Feedback</a> </button>
+        </div>
 
       </section>
       <section>
@@ -141,14 +146,6 @@
                   </div>
                 </div>
               </div>
-              <div class="notification_container" *ngIf="liveClassFor && is_proctur_live_recording_allow == '1'">
-                <span class="i-class">
-                  <button type="button" name="button" class="action_upload" data-toggle="modal" data-target="#uploadRec" (click)="upload(class.session_id, class.live_meeting_with)">
-                    Upload Recording
-                    <i class="fa fa-upload" aria-hidden="true"></i>
-                  </button>
-                </span>
-              </div>
             </div>
             <div class="sub-item-2">
               <div class="item_type_1">
@@ -182,31 +179,75 @@
                 <span style="color: #9898a3;">Attendees : </span>
                 <span  style="color: #585574;font-weight: 600;">{{class.attendeesCount}} of {{class.totalAttendeesLimit}}</span>
               </div> &nbsp;&nbsp;
-              <div class="item_type_1" *ngIf="!isProfessional" style="width: 19%;">
+              <div class="item_type_1" *ngIf="!isProfessional" style="width: 28%;">
                 <span style="color: #585574;">
                   <span style="color: #9898a3;">Master Course : </span>
                   <span title="{{class.course_list[0].master_course_name}}" *ngIf="class.course_list!=null && class.course_list?.length!=0"  style="font-weight: 600;">
-                    {{ (class.course_list[0]?.master_course_name?.length>15) ? (class.course_list[0].master_course_name | slice:0:15 ) + '...' : (class.course_list[0].master_course_name) }}
+                    {{ (class.course_list[0]?.master_course_name?.length>30) ? (class.course_list[0].master_course_name | slice:0:30 ) + '...' : (class.course_list[0].master_course_name) }}
                   </span>
                 </span>
                 <span style="color: #585574;">
                   <span style="color: #9898a3;">Course : </span>
                   <span title="{{class.course}}"  style="font-weight: 600;color: #0084f6">
-                    {{ (class.course?.length>15) ? (class.course | slice:0:15 ) + '...' : (class.course) }}
+                    {{ (class.course?.length>30) ? (class.course | slice:0:30 ) + '...' : (class.course) }}
                   </span>
                 </span>
               </div>
 
-              <div class="item_type_1" *ngIf="isProfessional" style="width: 19%;">
+              <div class="item_type_1" *ngIf="isProfessional" style="width: 28%;">
                   <span style="color: #9898a3;">Batch : </span>
                   <span title="{{class.course}}">
-                    {{ (class.course?.length>15) ? (class.course | slice:0:15 ) + '...' : (class.course) }}
+                    {{ (class.course?.length>30) ? (class.course | slice:0:30 ) + '...' : (class.course) }}
                   </span>
               </div>
-              <div class="item_type_2">
+              <div class="item_type_2" *ngIf="liveClassFor">
+
+                <div class="dropdown dropleft">
+                  <button style="background: #0084f6;color: white;" class="btn btn-light btn-xs dropdown-toggle" type="button" (click)="toggleActionMenu($event)"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
+                  </button>
+                  <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
+                    <span class="dropdown-item" *ngIf="class.live_meeting_with != 'Zoom' && class.showViewAttendance" (click)="viewAttandance(class.session_id)">View Attendance</span>
+                    <span class="dropdown-item" *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'" data-toggle="modal" data-target="#uploadRec" (click)="upload(class.session_id, class.live_meeting_with)">Upload Recording&nbsp;
+                    </span>
+                    <span class="dropdown-item">
+                        <div class="questionInfo inline-relative">
+                        <button type="button" style="background: none;" name="button" [disabled]="proctur_live_expiry_date_check" (click)="repeatSession(class.session_id, class.live_meeting_with)"  [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                        Repeat Class
+                      </button>
+                      <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                        Your Proctur Live<br>
+                        subscription is over.<br>
+                        Please pay quickly<br>
+                        to continue using it.
+                    </div>
+                    </div>
+                    </span>
+                    <span class="dropdown-item" *ngIf="proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0">
+                      <button style="background: none;" title="download/view" (click)="viewdownload_links(class)"
+                      [ngClass]="{'disabledButton': class.download_links?.length==0}">
+                      View Recording
+                    </button>
+                    </span>
+                  </div>
+                </div>
+                <!-- <span class="i-class" style="margin-right: 10px;">
+                  <button type="button" name="button" class="action_upload" data-toggle="modal" data-target="#uploadRec" (click)="viewAttandance(class.session_id)">
+                     View Attendance
+                  </button>
+                </span>
+                <span class="i-class">
+                  <button type="button" name="button" class="action_upload" data-toggle="modal" data-target="#uploadRec" (click)="upload(class.session_id, class.live_meeting_with)">
+                    Upload Recording
+                    <i class="fa fa-upload" aria-hidden="true"></i>
+                  </button>
+                </span> -->
+              </div>
+               <div class="item_type_2" *ngIf="!liveClassFor">
                   <div class="questionInfo inline-relative">
                       <span class=" i-class">
-                          <button type="button" name="button"  *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                          <button type="button" name="button"  *ngIf="forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                               <i class="fa fa-play" aria-hidden="true"></i>
                               &nbsp;
                               Start Class
@@ -220,7 +261,7 @@
                       </div>
                     </div>
 
-                    <div class="questionInfo inline-relative">
+                    <!-- <div class="questionInfo inline-relative">
                         <span class=" i-class">
                             <button type="button" name="button" class="repeat_session" *ngIf="liveClassFor" [disabled]="proctur_live_expiry_date_check" (click)="repeatSession(class.session_id, class.live_meeting_with)"  [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                                 <i class="fa fa-repeat" aria-hidden="true"></i>
@@ -234,18 +275,16 @@
                             Please pay quickly<br>
                             to continue using it.
                         </div>
-                    </div>
+                    </div> -->
 
               </div>
-              <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0">
+              <!-- <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0">
                 &nbsp;&nbsp;
                 <button class="viewAction" title="download/view" (click)="viewdownload_links(class)"
-                *ngIf="class.download_links?.length > 0"
                   [ngClass]="{'disabledButton': class.download_links?.length==0}">
-                  <!-- <i class="fa fa-repeat" aria-hidden="true" ></i> &nbsp; -->
                   View Recording
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -470,6 +509,46 @@
       </div>
       <div class="modal-footer" style="padding: 8px !important;">
         <button type="button" class="btn btn-primary create-btn" data-dismiss="modal">Okay</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="zoomFAQ" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h2 class="modal-title">Note</h2>
+      </div>
+      <div class="modal-body">
+        <div class="new-modules-list">
+          <ol>
+            <li>Live class attendance available only for Proctur Live not for Zoom.
+            </li>
+
+            <li>Attendance for each class would be available after 8:00 PM if the class ends on or before 7:30 PM.
+            </li>
+
+            <li>If classes end after 7:30 PM, the attendance would be available at 8:00 PM on the next day.
+            </li>
+
+            <li>Students will be marked present for the live class in case they attend class for the duration more than the defined threshold percentage either marked as partially present. This threshold value can be changed from setting section. 
+            </li>
+
+            <li>If students haven't joined the class then will be marked as absent.
+            </li>
+
+            <li>Notification setting can be changed from the setting section.
+            </li>
+          </ol>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
 

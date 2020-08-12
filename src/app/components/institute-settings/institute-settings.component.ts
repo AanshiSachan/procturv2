@@ -12,7 +12,7 @@ import { HttpService } from '../../services/http.service';
 })
 export class InstituteSettingsComponent implements OnInit {
 
-
+  enable_vdoCipher_feature: any = '0';
   isLangInst: boolean = false;
   student_expiry_notifctn: boolean;
   others_expiry_notifctn: boolean;
@@ -253,6 +253,22 @@ export class InstituteSettingsComponent implements OnInit {
       admin: '',
       other: false
     },
+    live_class_attendance_absent_notification: {
+      student: '',
+      parent: '',
+      gaurdian: ''
+    },
+    live_class_attendance_partial_present_notification: {
+      student: '',
+      parent: '',
+      gaurdian: ''
+    },
+    live_class_attendance_stat_notification: {
+      teacher: '',
+      admin: ''
+    },
+    live_class_attendance_threshold: '',
+    live_class_attendance_notification: '-1',
     exam_min_marks: '',
     exam_average_marks: '',
     exam_max_marks: '',
@@ -336,13 +352,14 @@ export class InstituteSettingsComponent implements OnInit {
     exam_attendance_not_marked_notification_contact_number: '',
     exam_attendance_not_marked_daily_notification_contact_number: '',
     exam_marks_not_update_notification_contact_number: '',
-    vat_percentage:'',
+    vat_percentage: '',
     enable_send__website_url_in_student_credentail: '',
     summaryReportDownloadOptions: '',
     student_study_material_visibility: '',
     notification_for_studymaterial_upload: '',
+    enable_student_app_offline_video_download: '',
     enable_assign_to_feature: '',
-    feedback_email_ids : ''
+    feedback_email_ids: ''
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
@@ -357,14 +374,14 @@ export class InstituteSettingsComponent implements OnInit {
     'floor_details': null,
     'description': null
   };
-  enable_ip_lock_feature: any= '';
+  enable_ip_lock_feature: any = '';
   IPDetails: any[] = [];
   ipAddress: any = '';
 
   // Library Role
   libraryRole: boolean = false;
   instituteId: any;
-  instituteTaxType : String;
+  instituteTaxType: String;
   reportFor = {
     enquiry: false,
     admissions: false,
@@ -385,8 +402,9 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteId = sessionStorage.getItem('institute_id');
     this.onlinePayment = sessionStorage.getItem('enable_online_payment_feature');
     this.biometricSetting = Number(sessionStorage.getItem('biometric_attendance_feature'));
-    this.instituteTaxType=sessionStorage.getItem("tax_type_without_percentage")=='Vat'?'Vat':'GST';
+    this.instituteTaxType = sessionStorage.getItem("tax_type_without_percentage") == 'Vat' ? 'Vat' : 'GST';
     this.enable_ip_lock_feature = sessionStorage.getItem('enable_ip_lock_feature');
+    this.enable_vdoCipher_feature = sessionStorage.getItem('enable_vdoCipher_feature');
     console.log(this.enable_ip_lock_feature);
 
     this.checkInstitutionType();
@@ -444,7 +462,7 @@ export class InstituteSettingsComponent implements OnInit {
     let dataToSend: any = {};
     if (this.instituteSettingDet.gst_enabled) {
       if (this.instituteSettingDet.gst_no == "" || this.instituteSettingDet.gst_no == null) {
-        this.commonService.showErrorMessage('error', '', "Please specify "+this.instituteTaxType+" NO.");
+        this.commonService.showErrorMessage('error', '', "Please specify " + this.instituteTaxType + " NO.");
         return;
       }
     }
@@ -613,7 +631,7 @@ export class InstituteSettingsComponent implements OnInit {
     //   return;
     // }
     obj.daily_account_summary = this.convertBoolenToNumber(this.instituteSettingDet.daily_account_summary);
-    if(this.instituteSettingDet.daily_account_summary || this.instituteSettingDet.daily_account_summary == '1'){
+    if (this.instituteSettingDet.daily_account_summary || this.instituteSettingDet.daily_account_summary == '1') {
       obj.summaryReportDownloadOptions = this.getSumOfTableFieldForReport(this.reportFor);
     }
     obj.teacher_monthly_report = this.convertBoolenToNumber(this.instituteSettingDet.teacher_monthly_report);
@@ -630,6 +648,11 @@ export class InstituteSettingsComponent implements OnInit {
     obj.enable_exam_marks_not_update_notification = this.getSumOfTableField(this.instituteSettingDet.enable_exam_marks_not_update_notification);
     obj.enable_exam_attendance_not_marked_daily_notification = this.getSumOfTableField(this.instituteSettingDet.enable_exam_attendance_not_marked_daily_notification);
     obj.enable_class_attendance_not_marked_daily_notification = this.getSumOfTableField(this.instituteSettingDet.enable_class_attendance_not_marked_daily_notification);
+
+    obj.live_class_attendance_absent_notification = this.getSumOfTableField(this.instituteSettingDet.live_class_attendance_absent_notification);
+    obj.live_class_attendance_partial_present_notification = this.getSumOfTableField(this.instituteSettingDet.live_class_attendance_partial_present_notification);
+    obj.live_class_attendance_stat_notification = this.getSumOfTableField(this.instituteSettingDet.live_class_attendance_stat_notification);
+
 
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
@@ -672,6 +695,7 @@ export class InstituteSettingsComponent implements OnInit {
     obj.enable_send__website_url_in_student_credentail = this.convertBoolenToNumber(this.instituteSettingDet.enable_send__website_url_in_student_credentail);
     obj.student_study_material_visibility = this.convertBoolenToNumber(this.instituteSettingDet.student_study_material_visibility);
     obj.notification_for_studymaterial_upload = this.convertBoolenToNumber(this.instituteSettingDet.notification_for_studymaterial_upload);
+    obj.enable_student_app_offline_video_download = this.convertBoolenToNumber(this.instituteSettingDet.enable_student_app_offline_video_download);
     if (this.checkPhoneValidation(this.instituteSettingDet.new_student_addmission_sms_notification) == false) {
       this.commonService.showErrorMessage('error', '', 'Please enter valid contact number.');
     } else {
@@ -782,7 +806,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.gst_no = data.gst_no;
     this.instituteSettingDet.cgst = data.cgst;
     this.instituteSettingDet.sgst = data.sgst;
-    this.instituteSettingDet.vat_percentage=data.vat_percentage;
+    this.instituteSettingDet.vat_percentage = data.vat_percentage;
     this.instituteSettingDet.inst_fee_activity_email_recipients = data.inst_fee_activity_email_recipients;
     this.instituteSettingDet.pdc_reminder_setting = data.pdc_reminder_setting;
     this.instituteSettingDet.pdc_reminder_sent_on = data.pdc_reminder_sent_on;
@@ -804,7 +828,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.allow_simple_registration = data.allow_simple_registration;
     this.instituteSettingDet.virtual_host_url = data.virtual_host_url;
     this.instituteSettingDet.daily_account_summary = data.daily_account_summary;
-    if(data.daily_account_summary || data.daily_account_summary == '1'){
+    if (data.daily_account_summary || data.daily_account_summary == '1') {
       // this.instituteSettingDet.summaryReportDownloadOptions =  data.summaryReportDownloadOptions;
       this.fillSummaryReport(data.summaryReportDownloadOptions)
     }
@@ -848,6 +872,13 @@ export class InstituteSettingsComponent implements OnInit {
     this.fillTableCheckboxValue(this.instituteSettingDet.enable_exam_attendance_not_marked_daily_notification, data.enable_exam_attendance_not_marked_daily_notification);
     this.fillTableCheckboxValue(this.instituteSettingDet.enable_class_attendance_not_marked_daily_notification, data.enable_class_attendance_not_marked_daily_notification);
 
+    this.fillTableCheckboxValue(this.instituteSettingDet.live_class_attendance_absent_notification, data.live_class_attendance_absent_notification);
+    this.fillTableCheckboxValue(this.instituteSettingDet.live_class_attendance_partial_present_notification, data.live_class_attendance_partial_present_notification);
+    this.fillTableCheckboxValue(this.instituteSettingDet.live_class_attendance_stat_notification, data.live_class_attendance_stat_notification);
+
+    this.instituteSettingDet.live_class_attendance_notification = data.live_class_attendance_notification;
+    this.instituteSettingDet.live_class_attendance_threshold = data.live_class_attendance_threshold;
+
     this.instituteSettingDet.lib_issue_for_days = data.lib_issue_for_days;
     this.instituteSettingDet.lib_due_date_fine_per_day = data.lib_due_date_fine_per_day;
 
@@ -872,25 +903,26 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number = data.exam_attendance_not_marked_daily_notification_contact_number;
     this.instituteSettingDet.exam_marks_not_update_notification_contact_number = data.exam_marks_not_update_notification_contact_number;
 
-    if(this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number != '' && this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number != null){
+    if (this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number != '' && this.instituteSettingDet.class_attendance_not_marked_daily_notification_contact_number != null) {
       this.instituteSettingDet.enable_class_attendance_not_marked_daily_notification.other = true;
     }
-    if(this.instituteSettingDet.class_attendance_not_marked_notification_contact_number != '' && this.instituteSettingDet.class_attendance_not_marked_notification_contact_number != null){
+    if (this.instituteSettingDet.class_attendance_not_marked_notification_contact_number != '' && this.instituteSettingDet.class_attendance_not_marked_notification_contact_number != null) {
       this.instituteSettingDet.enable_class_attendance_not_marked_notification.other = true;
     }
-    if(this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number != '' && this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number != null){
+    if (this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number != '' && this.instituteSettingDet.exam_attendance_not_marked_notification_contact_number != null) {
       this.instituteSettingDet.enable_exam_attendance_not_marked_notification.other = true;
     }
-    if(this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number != '' && this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number != null){
+    if (this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number != '' && this.instituteSettingDet.exam_attendance_not_marked_daily_notification_contact_number != null) {
       this.instituteSettingDet.enable_exam_attendance_not_marked_daily_notification.other = true;
     }
-    if(this.instituteSettingDet.exam_marks_not_update_notification_contact_number != '' && this.instituteSettingDet.exam_marks_not_update_notification_contact_number != null){
+    if (this.instituteSettingDet.exam_marks_not_update_notification_contact_number != '' && this.instituteSettingDet.exam_marks_not_update_notification_contact_number != null) {
       this.instituteSettingDet.enable_exam_marks_not_update_notification.other = true;
     }
-    this.instituteSettingDet.vat_percentage=data.cgst+data.sgst;
+    this.instituteSettingDet.vat_percentage = data.cgst + data.sgst;
     this.instituteSettingDet.enable_send__website_url_in_student_credentail = data.enable_send__website_url_in_student_credentail;
     this.instituteSettingDet.student_study_material_visibility = data.student_study_material_visibility;
     this.instituteSettingDet.notification_for_studymaterial_upload = data.notification_for_studymaterial_upload;
+    this.instituteSettingDet.enable_student_app_offline_video_download = data.enable_student_app_offline_video_download;
     if (this.instituteSettingDet.virtual_host_url == '' && this.instituteSettingDet.enable_send__website_url_in_student_credentail == 1) {
       this.instituteSettingDet.virtual_host_url = 'web.proctur.com';
     }
@@ -963,22 +995,22 @@ export class InstituteSettingsComponent implements OnInit {
     return total;
   }
 
-  getSumOfTableFieldForReport(data){
+  getSumOfTableFieldForReport(data) {
     let total: number = 0;
     for (let i = 0; i < Object.keys(data).length; i++) {
       if (Object.keys(data)[i] == 'enquiry' && data.enquiry == true) {
         total = total + 8;
       }
-       else if (Object.keys(data)[i] == 'admissions' && data.admissions == true) {
+      else if (Object.keys(data)[i] == 'admissions' && data.admissions == true) {
         total = total + 2;
       }
-       else if (Object.keys(data)[i] == 'fees' && data.fees == true) {
+      else if (Object.keys(data)[i] == 'fees' && data.fees == true) {
         total = total + 4;
       }
     }
     return total;
   }
-  fillSummaryReport(key){
+  fillSummaryReport(key) {
     // this.instituteSettingDet.summaryReportDownloadOptions
     if (key == 8) { //student
       this.reportFor.enquiry = true;
@@ -1001,7 +1033,7 @@ export class InstituteSettingsComponent implements OnInit {
       this.reportFor.enquiry = true;
       this.reportFor.fees = true;
     }
-    else if (key == 16) { //both
+    else if (key == 14) { //both
       this.reportFor.enquiry = true;
       this.reportFor.fees = true;
       this.reportFor.admissions = true;
@@ -1116,15 +1148,15 @@ export class InstituteSettingsComponent implements OnInit {
       }
     )
   }
-  calculateCGSTAndSGSTFromVat(data){
-    if(this.instituteTaxType=='Vat'){
-     data.cgst=Math.floor(this.instituteSettingDet.vat_percentage/2);
-     data.sgst=this.instituteSettingDet.vat_percentage-data.cgst;
+  calculateCGSTAndSGSTFromVat(data) {
+    if (this.instituteTaxType == 'Vat') {
+      data.cgst = Math.floor(this.instituteSettingDet.vat_percentage / 2);
+      data.sgst = this.instituteSettingDet.vat_percentage - data.cgst;
     }
   }
 
-    saveIPDetails() {
-      if (this.validateIp()) {
+  saveIPDetails() {
+    if (this.validateIp()) {
       this.auth.showLoader();
       this.httpService.postData('/api/v2/ipAddress/create', this.IPJson).subscribe(
         (res: any) => {
@@ -1132,7 +1164,7 @@ export class InstituteSettingsComponent implements OnInit {
           this.msgSrvc.showErrorMessage('success', '', res.message);
           this.getIPAllDetails();
           this.IPJson = {
-            ip_address : '',
+            ip_address: '',
             floor_details: '',
             description: '',
             'institute_id': sessionStorage.getItem('institute_id'),
@@ -1143,52 +1175,52 @@ export class InstituteSettingsComponent implements OnInit {
           this.msgSrvc.showErrorMessage('error', '', err.error.message);
         }
       );
-      } else {
-        this.msgSrvc.showErrorMessage('info', '', 'Please enter valid IP Address');
+    } else {
+      this.msgSrvc.showErrorMessage('info', '', 'Please enter valid IP Address');
+    }
+  }
+
+  validateIp() {
+    const regExPattern = /^[0-9]+(.[0-9]+)*$/;
+    if ((this.IPJson.ip_address.trim() == '') || !(regExPattern.test(this.IPJson.ip_address.trim()))) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  getIPAllDetails() {
+    this.auth.showLoader();
+    this.httpService.getData('/api/v2/ipAddress/getAll/' + sessionStorage.getItem('institute_id')).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.IPDetails = res.result;
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgSrvc.showErrorMessage('error', '', err.error.message);
       }
-    }
+    );
+  }
 
-    validateIp() {
-      const regExPattern = /^[0-9]+(.[0-9]+)*$/;
-      if ((this.IPJson.ip_address.trim() == '') || !(regExPattern.test(this.IPJson.ip_address.trim()))) {
-        return false;
-      } else {
-        return true;
+  updateIp(obj) {
+    console.log(obj);
+    this.auth.showLoader();
+    this.httpService.putData('/api/v2/ipAddress/update', obj).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.msgSrvc.showErrorMessage('success', '', res.message);
+        this.getIPAllDetails();
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgSrvc.showErrorMessage('error', '', err.error.message);
       }
-    }
+    );
+  }
 
-    getIPAllDetails() {
-      this.auth.showLoader();
-      this.httpService.getData('/api/v2/ipAddress/getAll/' + sessionStorage.getItem('institute_id')).subscribe(
-        (res: any) => {
-          this.auth.hideLoader();
-          this.IPDetails = res.result;
-        },
-        err => {
-          this.auth.hideLoader();
-          this.msgSrvc.showErrorMessage('error', '', err.error.message);
-        }
-      );
-    }
-
-    updateIp(obj) {
-      console.log(obj);
-      this.auth.showLoader();
-      this.httpService.putData('/api/v2/ipAddress/update', obj).subscribe(
-        (res: any) => {
-          this.auth.hideLoader();
-          this.msgSrvc.showErrorMessage('success', '', res.message);
-          this.getIPAllDetails();
-        },
-        err => {
-          this.auth.hideLoader();
-          this.msgSrvc.showErrorMessage('error', '', err.error.message);
-        }
-      );
-    }
-
-    deleteIp(id) {
-      if(confirm('Do you really want to delete?')) {
+  deleteIp(id) {
+    if (confirm('Do you really want to delete?')) {
       this.auth.showLoader();
       this.httpService.deleteData('/api/v2/ipAddress/delete/' + sessionStorage.getItem('institute_id') + '/' + id, '').subscribe(
         (res: any) => {
@@ -1201,29 +1233,29 @@ export class InstituteSettingsComponent implements OnInit {
           this.msgSrvc.showErrorMessage('error', '', err.error.message);
         }
       );
-      }
     }
+  }
 
-    editIP(id) {
-      if (document.getElementById(("data" + id).toString()).classList) {
+  editIP(id) {
+    if (document.getElementById(("data" + id).toString()).classList) {
       document.getElementById(("data" + id).toString()).classList.remove('displayComp');
       document.getElementById(("data" + id).toString()).classList.add('editComp');
-      }
     }
+  }
 
-    cancelRow(id) {
-      if (document.getElementById(("data" + id).toString()).classList) {
+  cancelRow(id) {
+    if (document.getElementById(("data" + id).toString()).classList) {
       document.getElementById(("data" + id).toString()).classList.remove('editComp');
       document.getElementById(("data" + id).toString()).classList.add('displayComp');
-      }
-      this.getIPAllDetails();
     }
+    this.getIPAllDetails();
+  }
 
-    getIP() {
+  getIP() {
     this.apiService.getIPAddress().subscribe(
       (res: any) => {
-      this.ipAddress = res.ip;
-    });
+        this.ipAddress = res.ip;
+      });
   }
 
 }

@@ -10,6 +10,9 @@
         <div class="col-md-4">
           <span style="font-weight: 600;">Est. Time :</span> &nbsp; {{topic.estimated_time}}
         </div>
+        <div class="col-md-2">
+          <span style="font-weight: 600;">Priority :</span> &nbsp; {{topic.priority_order}}
+        </div>
         <div class="pull-right">
           <i class="fa fa-plus-circle btn_action pad_icon" (click)="addSubtopic(topic)" title="Add subTopic " aria-hidden="true"></i>
           <i class="fa fa-pencil btn_action pad_icon" (click)="eventAction('Edit',topic)" title="Edit"></i>
@@ -31,10 +34,14 @@
       <div [class]="'subject-label row'" style="border: 1px solid #0080f6; padding: 0.3em 0em;">
         <div class="col-md-4">
           <div class="dropdown-div">
-            <input class="dropdown" [(ngModel)]="topic.name" placeholder="enter subtopic name" type="text">
+            <input class="dropdown" [(ngModel)]="topic.name" placeholder="Enter Subtopic Name" type="text">
           </div>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-2">
+          <input class="dropdown" [(ngModel)]="topic.priority_order" placeholder="Enter Priority of Topic" type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
+        </div>
         <div class="pull-right" style=" padding-right: 1em;">
           <button class="btn" [disabled]="disableAddBtn" (click)="addEditSubtopicDetails(topic,'Subtopic')" style="padding: 0px 7px; font-size: 12px; height: 25px;">
             <i class="fa fa-plus" style="padding: 0px 5px" aria-hidden="true"></i>Add</button>
@@ -54,7 +61,11 @@
           <i class="fa fa-chevron-up " (click)="toggleObject(topic)" *ngIf="topic.subTopic.length && (!topic.isExpand)"></i>
           &nbsp; {{topic.topicName}}
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-2">
+          <span style="font-weight: 600;">Priority :</span> &nbsp; {{topic.priority_order}}
+        </div>
         <div class="pull-right">
           <i class="fa fa-plus-circle btn_action pad_icon" (click)="addSubtopic(topic)" title="Add subTopic " aria-hidden="true"></i>
           <i class="fa fa-pencil btn_action pad_icon" (click)="EditSubtopic(topic)" title="Update Topic"></i>
@@ -71,10 +82,14 @@
         <div [class]="'subject-label row'" style="border: 1px solid #0080f6;    padding: 0.3em 0em;">
           <div class="col-md-4">
             <div class="dropdown-div">
-              <input class="dropdown" [(ngModel)]="topic.name" placeholder="  Enter Subbtopic Name" type="text">
+              <input class="dropdown" [(ngModel)]="topic.name" placeholder="Enter Subtopic Name" type="text">
             </div>
           </div>
-          <div class="col-md-4"></div>
+          <div class="col-md-4">
+          </div>
+          <div class="col-md-2">
+              <input class="dropdown" [(ngModel)]="topic.priority_order" placeholder="Enter Priority of Subtopic" type="text">
+          </div>
           <div class="pull-right" style=" padding-right: 1em;">
             <button class="btn" (click)="addEditSubtopicDetails(topic,'EditSubtopic')" style="padding: 0px 7px; font-size: 12px; height: 25px;">
               Update</button>

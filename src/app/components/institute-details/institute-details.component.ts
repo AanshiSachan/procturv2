@@ -49,6 +49,20 @@ export class InstituteDetailsComponent implements OnInit {
     5: true
   }
   singleDevice: any;
+  institute_logo: any;
+
+  proctur_live_recorded_session_download_visibilty: any = {
+    student: '',
+    openApp: '',
+    teacher: '',
+    admin: '',
+  };
+  proctur_live_recorded_session_view_visibility: any = {
+    student: '',
+    openApp: '',
+    teacher: '',
+    admin: '',
+  };
 
   constructor(
     private apiService: InstituteDetailService,
@@ -86,6 +100,8 @@ export class InstituteDetailsComponent implements OnInit {
         if(this.instDetails.enable_student_app_url == 1) {
           this.instDetails.enable_student_app_url = true;
         }
+        this.fillTableCheckboxValue(this.proctur_live_recorded_session_download_visibilty, this.instDetails.proctur_live_recorded_session_download_visibilty);
+          this.fillTableCheckboxValue(this.proctur_live_recorded_session_view_visibility, this.instDetails.proctur_live_recorded_session_view_visibility);
       },
       err => {
         this.auth.hideLoader();
@@ -144,6 +160,7 @@ export class InstituteDetailsComponent implements OnInit {
       this.apiService.updateDetailsToServer(dataToSend).subscribe(
         res => {
           this.auth.hideLoader();
+          this.getInstituteDetails();
           this.commonService.showErrorMessage('success', '', 'Details updated successfully');
         },
         err => {
@@ -244,7 +261,6 @@ export class InstituteDetailsComponent implements OnInit {
 
   formatDataJsonToSend() {
     let obj: any = {};
-    obj.institute_logo = this.instDetails.institute_logo;
     obj.institute_header1 = this.instDetails.institute_header1;
     obj.institute_header2 = this.instDetails.institute_header2;
     obj.institute_header3 = this.instDetails.institute_header3;
@@ -274,6 +290,24 @@ export class InstituteDetailsComponent implements OnInit {
     obj.help_url = this.instDetails.help_url;
     obj.privacy_policy_url = this.instDetails.privacy_policy_url;
     obj.terms_and_condition_url = this.instDetails.terms_and_condition_url;
+    obj.jd_contract_id = this.instDetails.jd_contract_id;
+    obj.notification_email_sender_id = this.instDetails.notification_email_sender_id;
+    obj.email_sender_id = this.instDetails.email_sender_id;
+    obj.eod_report_multiple_mobile=this.instDetails.eod_report_multiple_mobile;
+    if (!(this.checkContactNoPattern(this.instDetails.eod_report_multiple_mobile))) {
+      this.commonService.showErrorMessage('error', '', 'Please check contact number');
+      return
+    }
+    obj.eod_report_multiple_emails=this.instDetails.eod_report_multiple_emails;
+    obj.is_student_displayId_manual = 1;
+    if (this.showPrefix) {
+      obj.is_student_displayId_manual = 0;
+    }
+    obj.logo_url = this.instDetails.logo_url;
+    obj.institute_logo = this.institute_logo;
+    obj.proctur_live_recorded_session_download_visibilty = this.getSumOfTableField(this.proctur_live_recorded_session_download_visibilty);
+    obj.proctur_live_recorded_session_view_visibility = this.getSumOfTableField(this.proctur_live_recorded_session_view_visibility);
+    obj.share_app_url = this.instDetails.share_app_url;
     if (!(this.validatePhoneNumber(this.instDetails.admin_primary_phone))) {
       this.commonService.showErrorMessage('error', '', 'Please check contact number');
       return
@@ -314,17 +348,18 @@ export class InstituteDetailsComponent implements OnInit {
     obj.kyc_document_name = this.instDetails.kyc_document_name;
     obj.kyc_document = this.instDetails.kyc_document;
     obj.kyc_document_type = this.instDetails.kyc_document_type;
+    obj.distinct_device_login = this.instDetails.distinct_device_login;
     (this.instDetails.enable_student_app_url) ? (obj.enable_student_app_url = 1 ) : (obj.enable_student_app_url = 0 );
 
     return obj;
   }
 
   checkInputType(event) {
-    if (event.target.id == "idManual") {
-      this.showPrefix = false;
+    if (!event.target.checked) {
+      this.showPrefix = true;
       this.instDetails.student_id_type = "Manual";
     } else {
-      this.showPrefix = true;
+      this.showPrefix = false;
       this.instDetails.student_id_type = "Automatic"
     }
   }
@@ -573,5 +608,105 @@ export class InstituteDetailsComponent implements OnInit {
     );
     }
   }
+
+  getSumOfTableField(data) {
+    let total = 0;
+    const keys = Object.keys(data);
+    for (let i = 0; i < keys.length; i++) {
+      switch (keys[i]) {
+        case 'student': {
+          total = data.student == true ? (total + 2) : total;
+          break;
+        }
+        case 'parent': {
+          total = data.parent == true ? (total + 4) : total;
+          break;
+        }
+        case 'teacher': {
+          total = data.teacher == true ? (total + 8) : total;
+          break;
+        }
+        case 'admin': {
+          total = data.admin == true ? (total + 16) : total;
+          break;
+        }
+        case 'gaurdian': {
+          total = data.gaurdian == true ? (total + 32) : total;
+          break;
+        }
+        case 'openApp': {
+          total = data.openApp == true ? (total + 64) : total;
+          break;
+        }
+      }
+    }
+    return total;
+  }
+
+  fillTableCheckboxValue(dataJSON, res) {
+    if (res) {
+      res = parseInt(res);
+      if (res > 0) {
+        let count = 1;
+        let i = 2;
+        while (i != res) {
+          i = i + 2;
+          count++;
+        }
+        const binaryConversion = count.toString(2);
+        const binaryArray: number[] = [0, 0, 0, 0, 0, 0];
+        let k = 0;
+        for (let p = binaryConversion.length - 1; p >= 0; p--) {
+          binaryArray[k] = parseInt(binaryConversion[p]);
+          k++;
+        }
+
+        if (dataJSON.hasOwnProperty('student')) {
+          dataJSON.student = binaryArray[0] == 1 ? true : false;
+        }
+
+        if (dataJSON.hasOwnProperty('parent')) {
+          dataJSON.parent = binaryArray[1] == 1 ? true : false;
+        }
+
+        if (dataJSON.hasOwnProperty('teacher')) {
+          dataJSON.teacher = binaryArray[2] == 1 ? true : false;
+        }
+
+        if (dataJSON.hasOwnProperty('admin')) {
+          dataJSON.admin = binaryArray[3] == 1 ? true : false;
+        }
+
+        if (dataJSON.hasOwnProperty('openApp')) {
+          dataJSON.openApp = binaryArray[5] == 1 ? true : false;
+        }
+
+      }
+    }
+  }
+
+  file(event){
+    console.log(event);
+    const file = event.target.files[0];
+    const fileData = this.readFile(file);
+  }
+
+  readFile(file: any): any {
+    console.log(file);
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        this.institute_logo  = reader.result.split(',')[1];
+        return reader.result.split(',')[1];
+      };
+    }
+  }
+
+  clearFile() {
+    this.institute_logo = '';
+    this.instDetails.institute_logo = '';
+  }
+
 
 }

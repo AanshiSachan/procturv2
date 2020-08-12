@@ -288,8 +288,8 @@ export class ReviewProductComponent implements OnInit {
       return;
     }
 
-    if (this.prodForm.about.length > 1500) {
-      this.msgService.showErrorMessage('error', 'allowed description limit is 1500 characters', '');
+    if (this.prodForm.about.length > 10000) {
+      this.msgService.showErrorMessage('error', 'allowed description limit is 10000 characters', '');
       return;
     }
 

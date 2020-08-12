@@ -333,6 +333,7 @@ export class EnquiryHomeComponent implements OnInit {
     countryList: any[] = [];
     stateList: any[] = [];
     cityDetails: any[] = [];
+    showBulkUpload:any = false;
 
     downloadReportFor = {
       enquiry: false,
@@ -410,6 +411,7 @@ export class EnquiryHomeComponent implements OnInit {
 
         /* Dropdown items for Bulk Actions */
         this.roleManagementForBulkAdd();
+        this.checkBulkUploadRole();
         /* Load paginated enquiry data from server */
         let params = sessionStorage.getItem('dashBoardParam');
         if (params != "" && params != null && params != undefined) {
@@ -489,6 +491,17 @@ export class EnquiryHomeComponent implements OnInit {
     checkRoleAccess() {
         if(sessionStorage.getItem('downloadEnquiryReportAccess')=='true'){
             this.downloadEnquiryReportAccess = true;
+        }
+    }
+
+    checkBulkUploadRole() {        
+        if(sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin'){
+            if(sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null){
+                let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+                this.showBulkUpload = permissions.includes('728') ? true: false;//sms visiblity
+            }
+        } else {
+            this.showBulkUpload = true;
         }
     }
 

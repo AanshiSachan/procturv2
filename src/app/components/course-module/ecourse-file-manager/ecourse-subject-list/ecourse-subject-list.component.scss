@@ -5,8 +5,8 @@
 
 .subject-title{
     cursor: pointer;
-    font-weight: 900;
-    font-size: 1.4em;
+    font-weight: 600;
+    font-size: 14px;
     margin-bottom: 0.4em;
 }
 
@@ -43,7 +43,7 @@
   
     .btn_addecourse {
       padding: 8px;
-      border-radius: 13px;
+      border-radius: 4px;
       color: #fff;
       background: #2680eb;
       font-weight: 600;
@@ -51,6 +51,10 @@
     }
   }
 
+  i.fa {
+    margin-right: .4em;
+    font-size: 12px;
+  }
 
   .row {
     margin: 0;
@@ -65,14 +69,17 @@
   }
   .img-color {
     color: blueviolet;
+    font-size: 14px !important;
   }
   
   .doc-color {
     color: #3d89f0;
+    font-size: 14px !important;
   }
   
   .assign-color {
     color: #c59441;
+    font-size: 14px !important;
   }
   
   .btn-ga-white-download {
@@ -80,24 +87,24 @@
   }
   .txt-notes{
     color: #3d89f0;
+    font-size: 14px !important;
   }
   
   .audio-color{
     color: #9968be;
+    font-size: 14px !important;
   }
   
   .pdf-color {
     color: #d55252;
+    font-size: 14px !important;
   }
   
   .epub-color{
     color:#2bc38a;
+    font-size: 14px !important;
   }
   
-  i.fa {
-    margin-right: .4em;
-    font-size: 12px;
-  }
   
   .txt-color {
     color: #3f2e2e !important;
@@ -129,7 +136,7 @@
   .btn-ga-white {
     padding: .2em .8em;
     height: auto;
-    box-shadow: 1pt 1pt 0 #f1f1f1;
+    // box-shadow: 1pt 1pt 0 #f1f1f1;
     color: #555;
   
     &:hover {
@@ -150,6 +157,8 @@
   
   .btn-xs {
     font-size: .8em;
+    border: none;
+    background: none;
   }
   
   .field-checkbox-wrapper,
@@ -215,8 +224,8 @@
       display: flex;
   
       .material-title {
-        margin: auto;
-        width: 32%;
+        margin: 0;
+        // width: 32%;
         display: inline-block;
         line-height: 15px;
         padding: 0 7px;
@@ -281,3 +290,63 @@
     z-index: 6;
     width: 100%;
   }
+  .category_name {
+    width: 15%;
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: normal;
+}
+.fa-trash {
+  color: red;
+}
+.topic-add-model {	
+  .modal-dialog {	
+    width: 30%;	
+    margin-top: 10%;	
+  
+    .modal-header {	
+      padding: 15px 15px 1px;	
+      font-size: 14px;	
+      .close{	
+        margin-bottom: -20px;	
+        position: relative;	
+        top: -1.0em;	
+        font-size: 30px;	
+      }	
+    }	
+  
+    .modal-body {	
+      padding-top: 0px;	
+      .model_body_div {	
+        .field-wrapper{	
+          label{	
+            color: #3e3d4a;	
+            font-weight: 600;	
+            margin-bottom: 5px;	
+          }	
+          .dropdown-div {	
+            .dropdown {	
+              width: 100%;	
+              height: 30px;	
+              border: 1px solid #ddd;	
+              border-radius: 4px;	
+              padding: 3px;	
+            }	
+          }	
+        }        	
+      }	
+    }	
+  }	
+}
+.deleteFile {
+  float: right;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  color: #2680eb;
+  background: #fff;
+  font-weight: 600;
+  font-size: 12px;
+  border: 1px solid #2680eb;
+  box-shadow: 0 1pt 3pt 0 rgba(0, 0, 0, 0.16);
+}

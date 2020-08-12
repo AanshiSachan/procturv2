@@ -248,9 +248,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           this.auth.hideLoader();
           sessionStorage.setItem('login-response',JSON.stringify(res));
           this.single_login_login_check = res.single_device_login;
-          if(res.data != null){
-            this.zoom_enable = JSON.stringify(res.data.is_zoom_integration_enable)
-          }
           this.checkForAuthOptions(res);
         },
         err => {
@@ -327,7 +324,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       case 10:
         this.multiDeviceLogin(res);
         break;
+      case 11:
+        this.registeredDeviceNotFount(res);
+        break;
     }
+  }
+
+  registeredDeviceNotFount(obj) {
+    this.msgService.showErrorMessage('error','','This is not your registered device for login kindly use a registered device. For any query please contact your administrator.');
   }
 
   multiDeviceLogin(res){
@@ -468,6 +472,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         }
       }
       // this.auth.changeInstituteId(institute_data.institution_id);
+      this.zoom_enable = JSON.stringify(institute_data.is_zoom_integration_enable)
       this.auth.course_flag.next(institute_data.course_structure_flag);
       this.auth.institute_type.next(institute_data.institute_type);
       this.auth.instituteType_name.next(institute_data.institute_type);
@@ -559,6 +564,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('help_url', institute_data.help_url);
       sessionStorage.setItem('terms_and_condition_url', institute_data.terms_and_condition_url);
       sessionStorage.setItem('privacy_policy_url', institute_data.privacy_policy_url);
+      sessionStorage.setItem('deviceId', this.serverUserData.device_id);
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');

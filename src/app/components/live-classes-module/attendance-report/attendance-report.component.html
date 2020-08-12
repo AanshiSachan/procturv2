@@ -1,0 +1,166 @@
+
+<div class="middle-section">
+  <aside class="middle-full">
+    <section class="middle-main clearFix activity-wrapper">
+      <section class="row header" style="margin-right: 0px; margin-left: 0px;margin-bottom: 5px;">
+        <div class="row" style="margin-left: 0px;margin-right: 0px;">
+          <h2 class="pull-left">
+           <a routerLink="/view/live-classes">
+            Live class
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <span>View Attendance</span>
+
+          </h2>
+        </div>
+      </section>
+
+      <section class="header-container" *ngIf="session_data">
+        <div class="header-item" style="width: 45%;">
+          <div class="header-title">
+            <span>Date : </span>
+          </div>
+          <div class="header-value">
+            <span>{{session_data.start_datetime | date: 'dd MMM yyyy'}}</span>
+          </div>
+        </div>
+
+        <div class="header-item" style="width: 45%;">
+          <div class="header-title">
+            <span>Attendance Threshold : 
+            </span>
+          </div>
+          <div class="header-value">
+            <span>{{session_data.attendance_threshold}} %
+              <div class="questionInfo inline-relative">
+                <span class="qInfoIcon i-class">?</span>
+                <div class="tooltip-box-field md">
+                  Students are marked <br>Present
+                  for the class in  <br>case they 
+                  attend class  <br>for the duration 
+                  more than  <br>the defined threshold <br>
+                  percentage. This setting <br>
+                  can be changed from the <br> Settings section.
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="header-item" style="width: 45%;">
+          <div class="header-title">
+            <span>Time : </span>
+          </div>
+          <div class="header-value">
+            <span>
+              {{session_data.start_datetime | date: 'shortTime'}} - {{session_data.end_datetime | date: 'shortTime'}}
+            </span>
+          </div>
+        </div>
+        <div class="header-item" style="width: 45%;">
+          <div class="header-title">
+            <span>Topic : </span>
+          </div>
+          <div class="header-value">
+            <span>{{session_data.session_name}}</span>
+          </div>
+        </div>
+        <div class="header-item" style="width: 45%;">
+          <div class="header-title">
+            <span>Attended : </span>
+          </div>
+          <div class="header-value">
+            <span>{{session_data.total_present + session_data.total_partially_present}} / {{session_data.total_participants}}</span>
+          </div>
+        </div>
+        <div class="header-item" style="width: 30%;">
+          <div class="header-title">
+            <span>Guest : </span>
+          </div>
+          <div class="header-value">
+            <span>{{session_data.total_guest==0 ? '-' : session_data.total_guest}}</span>
+          </div>
+        </div>
+        <div class="header-item" style="padding: 0;width: 15%;">
+          <section class="search-bar-container">
+            <div class="field-wrapper">
+              <input type="text" value="" id="search_bar" [(ngModel)]="searchInput" name="searchInput" (keyup)="searchDatabase(search)"
+                 placeholder="Search here..." class="search-box" #search>
+            </div>
+          </section>
+        </div>
+        <div class="header-item" style="width: 3%;padding: 0;padding-top: 2px;">
+          <span (click)="ExportAsExcel()" title="Export as Excel"><i _ngcontent-c28="" aria-hidden="true" class="fa fa-file-excel-o" style="font-size: 28px;color: darkred;cursor: pointer;"></i></span>
+        </div>
+      </section>
+
+      <section class="table-container" style="margin-top: 0;">
+        <div class="table-heading-container">
+          <div class="table-heading-item sm-item">
+            <span>Id</span>
+          </div>
+          <div class="table-heading-item md-item">
+            <span>Name</span>
+          </div>
+          <div class="table-heading-item md-item">
+            <span>Contact No.</span>
+          </div>
+          <div class="table-heading-item md-item">
+            <span>Status</span>
+          </div>
+          <div class="table-heading-item md-item">
+            <span>Join Time</span>
+          </div>
+          <div class="table-heading-item md-item">
+            <span>Left Time</span>
+          </div>
+          <div class="table-heading-item md-item">
+            <span>Attended duration (mins)</span>
+          </div>
+        </div>
+        <div class="table-outer-value-container">
+          <div class="table-value-container" *ngFor="let record of attendance_list" 
+          [ngClass]="{'absent-border': record.attendance_status == 'Absent',
+                        'present-border': record.attendance_status == 'Present',
+                        'partially-border': record.attendance_status == 'Partially Present'}">
+            <div class="table-value-item sm-item">
+              <span>{{record.display_id!=null ? record.display_id : '-'}}</span>
+            </div>
+            <div class="table-value-item md-item">
+              <span title="{{record.name}}">{{ (record.name.length > 20) ? (record.name | slice:0:20) + '...' : record.name }}
+                <span *ngIf="record.user_type == 3">(Faculty)</span>
+                <span *ngIf="record.user_type == 99">(Register user)</span>
+                <span *ngIf="record.isInvited">(Guest)</span>
+              </span>
+            </div>
+            <div class="table-value-item md-item">
+              {{record.phone!=null ? record.phone : '-'}}
+            </div>
+            <div class="table-value-item md-item">
+              <span *ngIf="record.attendance_status == 'Absent'" class="absent">{{record.attendance_status}}</span>
+              <span *ngIf="record.attendance_status == 'Present'" class="present">{{record.attendance_status}}</span>
+              <span *ngIf="record.attendance_status == 'Partially Present'" class="partially">{{record.attendance_status}}</span>
+            </div>
+            <div class="table-value-item md-item">
+              <span >{{record.join_time}}</span>
+              <span *ngIf="record.attendance_status == 'Absent'">-</span>
+            </div>
+            <div class="table-value-item md-item">
+              <span>{{record.leave_join}}</span>
+              <span *ngIf="record.attendance_status == 'Absent'">-</span>
+            </div>
+            <div class="table-value-item md-item">
+              <span>{{record.duration}} mins
+                <span *ngIf="record.attendance_status != 'Absent'">({{record.attendance_percentage}} %)</span>
+              </span>
+            </div>
+          </div>
+          <div class="" *ngIf="attendance_list.length == 0" >
+            <span><b>No Records Found</b></span>
+          </div>
+        </div>
+      </section>
+
+    </section>
+  </aside>
+  </div>

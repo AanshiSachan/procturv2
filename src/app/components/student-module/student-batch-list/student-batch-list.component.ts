@@ -90,22 +90,8 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             this.defaultAcadYear = "-1";
         }
         this.getAssignedCount();
-        this.checkActiveBatches();
     }
 
-    checkActiveBatches() {
-        if(this.batchList && this.batchList.length) {
-            let todaysDate = new Date();
-            this.batchList.forEach(batch => {
-                if(todaysDate <= new Date(batch.data.end_date)){
-                    batch.data.disabled = false;
-                } else {
-                    batch.data.disabled = true;
-                }
-            })
-        }
-        console.log(this.batchList);
-    }
 
     getSettingsTemplateCountry() {
         this.country_id = this.countryId;
@@ -224,13 +210,13 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             if (!this.isProfessional) {
                 if (this.dataList[i].data.course_id == batch.data.course_id) {
                     //finding index on dataList
-                    this.createUpdate(value, i);
+                    this.createUpdate(value, i, batch);
                     this.assginTemplate(batch);
                 }
             } else {
                 if (this.dataList[i].data.batch_id == batch.data.batch_id) {
                     //finding index on dataList
-                    this.createUpdate(value, i);
+                    this.createUpdate(value, i, batch);
                     this.assginTemplate(batch);
                 }
             }
@@ -247,12 +233,38 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         })
     }
 
-    createUpdate(value, index) {
-
+    createUpdate(value, index, batch) {
         let ind = null;
         let len = this.dataList.length;
         if (value) {
             this.dataList[index].isSelected = value;
+            let todaysDate = new Date();
+                if(!(todaysDate <= new Date(this.dataList[index].data.end_date))){
+                    let msg = 'This course is already expired';
+                    if(this.isProfessional) {
+                        msg = 'This batch is already expired';
+                    }
+                    let obj = {
+                        type: 'error',
+                        title: msg,
+                        body: ""
+                      }
+                      this.appC.popToast(obj);
+                      this.dataList[index].isSelected = false;
+                      let ind: any = 0;
+                      for (let i = 0; i < this.batchList.length; i++) {
+                        if (!this.isProfessional) {
+                            if (this.batchList[i].data.course_id == batch.data.course_id) {
+                                ind = i;
+                            }
+                        } else {
+                            if (this.batchList[i].data.batch_id == batch.data.batch_id) {
+                                ind = i;
+                            }
+                        }
+                    }
+                    (document.getElementById('checkbox-' + ind) as HTMLInputElement).checked = false;
+                }
         }
         /* unchecked batch/course */
         else {
