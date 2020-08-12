@@ -565,6 +565,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('terms_and_condition_url', institute_data.terms_and_condition_url);
       sessionStorage.setItem('privacy_policy_url', institute_data.privacy_policy_url);
       sessionStorage.setItem('deviceId', this.serverUserData.device_id);
+      sessionStorage.setItem('enable_library_feature', institute_data.enable_library_feature);
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
