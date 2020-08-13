@@ -30,6 +30,7 @@ export class AdminHomeComponent implements OnInit {
   public order: string[] = ['1', '2', '3', '4', '5'];
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   minArr: any[] = ['', '00', '15', '30', '45'];
+  blockClientPopUpFlag: boolean = false;
   public enquiryDate: any[] = [];
   public studentAttList: any = [];
   public schedDate: any[] = [];
@@ -52,12 +53,12 @@ export class AdminHomeComponent implements OnInit {
   public home_work_notifn: number = 0;
   public topics_covered_notifn: number = 0;
   openAppUserSelected = false;
-  storageData:any={
-    vDOCipher_allocated_bandwidth:0,
-    vDOCipher_allocated_storage:0,
-    vDOCipher_used_storage:0,
-    vDOCipher_used_bandwidth:0,
-    storage_allocated:0,
+  storageData: any = {
+    vDOCipher_allocated_bandwidth: 0,
+    vDOCipher_allocated_storage: 0,
+    vDOCipher_used_storage: 0,
+    vDOCipher_used_bandwidth: 0,
+    storage_allocated: 0,
     consumed_storage: 0
   };
 
@@ -84,8 +85,8 @@ export class AdminHomeComponent implements OnInit {
   biometricEnable: string = "0";
   newMessageText: string = "";
   messageCount: number = 0;
-  userType : any = '';
-  isRippleLoad:boolean= false;
+  userType: any = '';
+  isRippleLoad: boolean = false;
   courseCommonExamCancelPopUP = false;
 
   isCourseAttendance: boolean = false;
@@ -122,6 +123,8 @@ export class AdminHomeComponent implements OnInit {
   absentCount: number = 0;
   presentCount: number = 0;
   leaveCount: number = 0;
+  amount: any;
+  due_date: any;
   public selectedRow: number = null;
   daysLeftForSubscriptionExpiry: number;
   jsonFlag: any = {
@@ -195,7 +198,15 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
-
+    //For restricting the client if payment is due.
+    // Added By : Ashwini Kumar Gupta
+    if (sessionStorage.getItem('login_option') == '12') {
+      this.blockClientPopUpFlag = true;
+      this.amount = sessionStorage.getItem('payment_amount');
+      let date = sessionStorage.getItem('payment_due_date');
+      this.due_date = moment(date).format('DD/MMM/YYYY');
+    }
+    // End
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -210,30 +221,30 @@ export class AdminHomeComponent implements OnInit {
     var loginResp = JSON.parse(sessionStorage.getItem('login-response'));
     var subscriptionLimitAlert: number = sessionStorage.getItem('subscription-limit') == undefined ? 0 : JSON.parse(sessionStorage.getItem('subscription-limit'));
     // hide for teachers,in case of multi branching
-    if(loginResp != null){
-      if(loginResp.is_subscription_getting_over && subscriptionLimitAlert  == 0 && institute_info.userType != 3){
+    if (loginResp != null) {
+      if (loginResp.is_subscription_getting_over && subscriptionLimitAlert == 0 && institute_info.userType != 3) {
         $('#loginSubscription').modal('show');
         subscriptionLimitAlert = subscriptionLimitAlert + 1;
-        sessionStorage.setItem('subscription-limit',JSON.stringify(subscriptionLimitAlert));
+        sessionStorage.setItem('subscription-limit', JSON.stringify(subscriptionLimitAlert));
         this.daysLeftForSubscriptionExpiry = loginResp.no_of_days_left;
       }
-  }
+    }
     this.onChanged('subject');
     this.checkForSubjectWiseView();
 
     this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
-    this.userType =  Number(sessionStorage.getItem('userType'));
+    this.userType = Number(sessionStorage.getItem('userType'));
     let username = sessionStorage.getItem('username');
     let permissionArraypermissions: any = [];
-    if(this.userType == 0 && username == "admin"){
+    if (this.userType == 0 && username == "admin") {
       this.userTypeForExpenses = false;
     }
-    else if( this.permissionArray && (this.permissionArray.includes("715") || this.permissionArray.includes("716"))){
+    else if (this.permissionArray && (this.permissionArray.includes("715") || this.permissionArray.includes("716"))) {
       this.userTypeForExpenses = false;
     }
-    else{
+    else {
       this.userTypeForExpenses = true;
     }
 
@@ -261,24 +272,24 @@ export class AdminHomeComponent implements OnInit {
 
   }
 
-  closeSubscriptionAlert(){
+  closeSubscriptionAlert() {
     $('#loginSubscription').modal('hide');
   }
 
-  checkForSubjectWiseView(){
+  checkForSubjectWiseView() {
     let subjectView = sessionStorage.getItem('isSubjectView');
     let scheduleDate = sessionStorage.getItem('scheduleDate');   // For schedule date from session storage
-    if(subjectView == 'true'){
+    if (subjectView == 'true') {
       this.onChanged('subject');
       this.schedDate[0] = new Date(scheduleDate);
       this.schedDate[1] = new Date(scheduleDate);
     }
-    else if(subjectView == 'false'){
-      if(this.isProfessional){
+    else if (subjectView == 'false') {
+      if (this.isProfessional) {
         this.schedDate[0] = new Date(scheduleDate);
         this.schedDate[1] = new Date(scheduleDate);
       }
-      else{
+      else {
         this.courseLevelSchedDate = new Date(scheduleDate);
       }
     }
@@ -315,57 +326,57 @@ export class AdminHomeComponent implements OnInit {
 
   getStorageData() {
     this.widgetService.getAllocatedStorageDetails().subscribe(
-        res => {
-          if(res){
-            this.storageData = res;
-            this.storageData.storage_allocated = (Number(this.storageData.storage_allocated) / 1024).toFixed(3);
-            this.storageData.consumed_storage = ((Number(this.storageData.uploaded_size)  + Number(this.storageData.downloaded_size))/ 1024).toFixed(3);
-            this.storageData.vDOCipher_allocated_bandwidth = (Number(this.storageData.vDOCipher_allocated_bandwidth) / 1024).toFixed(3);
-            this.storageData.vDOCipher_used_bandwidth = (Number(this.storageData.vDOCipher_used_bandwidth) / 1024).toFixed(3);
-            this.storageData.vDOCipher_allocated_storage = (Number(this.storageData.vDOCipher_allocated_storage) / 1024).toFixed(3);
-            this.storageData.vDOCipher_used_storage = (Number(this.storageData.vDOCipher_used_storage) / 1024).toFixed(3);
-            let storageExceed = false;
-            if((Number(this.storageData.vDOCipher_allocated_storage)) != 0 && Number(this.storageData.vDOCipher_used_storage) != 0){
-              let perUsed = ((Number(this.storageData.vDOCipher_allocated_storage) * 80)/100).toFixed(3);
-              let usedSpace = Number(this.storageData.vDOCipher_used_storage).toFixed(3);
-              if(parseFloat(perUsed) <= parseFloat(usedSpace)){
-                sessionStorage.setItem('videoLimitExceeded', "1");
-                storageExceed = true;
-              }
-              else{
-                sessionStorage.setItem('videoLimitExceeded', "0");
-              }
+      res => {
+        if (res) {
+          this.storageData = res;
+          this.storageData.storage_allocated = (Number(this.storageData.storage_allocated) / 1024).toFixed(3);
+          this.storageData.consumed_storage = ((Number(this.storageData.uploaded_size) + Number(this.storageData.downloaded_size)) / 1024).toFixed(3);
+          this.storageData.vDOCipher_allocated_bandwidth = (Number(this.storageData.vDOCipher_allocated_bandwidth) / 1024).toFixed(3);
+          this.storageData.vDOCipher_used_bandwidth = (Number(this.storageData.vDOCipher_used_bandwidth) / 1024).toFixed(3);
+          this.storageData.vDOCipher_allocated_storage = (Number(this.storageData.vDOCipher_allocated_storage) / 1024).toFixed(3);
+          this.storageData.vDOCipher_used_storage = (Number(this.storageData.vDOCipher_used_storage) / 1024).toFixed(3);
+          let storageExceed = false;
+          if ((Number(this.storageData.vDOCipher_allocated_storage)) != 0 && Number(this.storageData.vDOCipher_used_storage) != 0) {
+            let perUsed = ((Number(this.storageData.vDOCipher_allocated_storage) * 80) / 100).toFixed(3);
+            let usedSpace = Number(this.storageData.vDOCipher_used_storage).toFixed(3);
+            if (parseFloat(perUsed) <= parseFloat(usedSpace)) {
+              sessionStorage.setItem('videoLimitExceeded', "1");
+              storageExceed = true;
             }
-            else{
+            else {
               sessionStorage.setItem('videoLimitExceeded', "0");
             }
+          }
+          else {
+            sessionStorage.setItem('videoLimitExceeded', "0");
+          }
 
-            if((Number(this.storageData.storage_allocated)) != 0 && Number(this.storageData.consumed_storage) != 0){
-              let perUsed = ((Number(this.storageData.storage_allocated) * 80)/100).toFixed(3);
-              let usedSpace = Number(this.storageData.consumed_storage).toFixed(3);
-              if(parseFloat(perUsed) <= parseFloat(usedSpace)){
-                sessionStorage.setItem('videoLimitExceeded', "1");
-              }
-              else{
-                if(!storageExceed){
-                  sessionStorage.setItem('videoLimitExceeded', "0");
-                }
-              }
+          if ((Number(this.storageData.storage_allocated)) != 0 && Number(this.storageData.consumed_storage) != 0) {
+            let perUsed = ((Number(this.storageData.storage_allocated) * 80) / 100).toFixed(3);
+            let usedSpace = Number(this.storageData.consumed_storage).toFixed(3);
+            if (parseFloat(perUsed) <= parseFloat(usedSpace)) {
+              sessionStorage.setItem('videoLimitExceeded', "1");
             }
-            else{
-              if(!storageExceed){
+            else {
+              if (!storageExceed) {
                 sessionStorage.setItem('videoLimitExceeded', "0");
               }
             }
-
-
           }
-            },
-        err => {
-            //console.log(err);
+          else {
+            if (!storageExceed) {
+              sessionStorage.setItem('videoLimitExceeded', "0");
+            }
+          }
+
+
         }
+      },
+      err => {
+        //console.log(err);
+      }
     )
-}
+  }
   recieveData(event) {
     if (event.length == 1) {
       this.ref.nativeElement.className = "dataFirst";
@@ -508,25 +519,25 @@ export class AdminHomeComponent implements OnInit {
 
   initiateMarkAttendance(i, selected, subject_id, topics_covered) {
     let obj = {
-        batch_id: selected.batch_id,
-        schd_id: selected.schd_id,
-        batch_name: selected.batch_name,
-        subject_id: subject_id,
-        topics_covered: topics_covered,
-        course_name: selected.course_name,
-        master_course_name: selected.master_course_name,
-        forCourseWise: false,
-        forSubjectWise: true,
-        isExam: false,
-        is_attendance_marked: selected.is_attendance_marked
-      }
+      batch_id: selected.batch_id,
+      schd_id: selected.schd_id,
+      batch_name: selected.batch_name,
+      subject_id: subject_id,
+      topics_covered: topics_covered,
+      course_name: selected.course_name,
+      master_course_name: selected.master_course_name,
+      forCourseWise: false,
+      forSubjectWise: true,
+      isExam: false,
+      is_attendance_marked: selected.is_attendance_marked
+    }
     let batch_info = JSON.stringify(obj)
     sessionStorage.setItem('batch_info', btoa(batch_info));
     sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
-    if(this.isSubjectView || this.isProfessional){
+    if (this.isSubjectView || this.isProfessional) {
       sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
     }
-    else{
+    else {
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
     this.router.navigate(['/view/home/mark-attendance']);
@@ -683,7 +694,7 @@ export class AdminHomeComponent implements OnInit {
     });
     this.widgetService.updateAttendance(arr).subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         let msg = {
           type: 'success',
           title: 'Attendance Updated',
@@ -694,7 +705,7 @@ export class AdminHomeComponent implements OnInit {
         this.fetchScheduleWidgetData();
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Failed To Update Attendance',
@@ -777,7 +788,7 @@ export class AdminHomeComponent implements OnInit {
     this.auth.showLoader();
     this.widgetService.cancelClassSchedule(obj).subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         let msg = {
           type: 'success',
           title: 'Schedule Cancelled',
@@ -788,7 +799,7 @@ export class AdminHomeComponent implements OnInit {
         this.fetchScheduleWidgetData();
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Failed To Cancel Schedule',
@@ -827,17 +838,17 @@ export class AdminHomeComponent implements OnInit {
       this.auth.showLoader();
       this.widgetService.notifyStudentSchedule(obj).subscribe(
         res => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           let msg = {
             type: 'success',
-           /*  title: 'Reminder Sent', */
+            /*  title: 'Reminder Sent', */
             body: 'Notification sent successfully!'
           }
           this.appC.popToast(msg);
           this.closeRemiderClass();
         },
         err => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           let msg = {
             type: 'error',
             title: 'Failed To Notify',
@@ -940,7 +951,7 @@ export class AdminHomeComponent implements OnInit {
       this.auth.showLoader();
       this.widgetService.reScheduleClass(obj).subscribe(
         res => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           let msg = {
             type: 'success',
             /* title: 'Class Rescheduled', */
@@ -951,7 +962,7 @@ export class AdminHomeComponent implements OnInit {
           this.fetchScheduleWidgetData();
         },
         err => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           let msg = {
             type: 'error',
             title: 'Failed To Reschedule',
@@ -1075,12 +1086,12 @@ export class AdminHomeComponent implements OnInit {
 
   onChanged(e) {
     this.selectedRow = null;
-     if (e == 'course') {
+    if (e == 'course') {
       // this.isSubjectView = false;
       sessionStorage.setItem('isSubjectView', String('false'));
       // this.generateCourseLevelWidget();
     }
-    if(sessionStorage.getItem('isSubjectView') == 'false') {
+    if (sessionStorage.getItem('isSubjectView') == 'false') {
       this.isSubjectView = false;
     } else {
       this.isSubjectView = true;
@@ -1097,7 +1108,7 @@ export class AdminHomeComponent implements OnInit {
     this.auth.showLoader();
     this.widgetService.fetchCourseLevelWidgetData(obj).subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         if (this.grid) {
           this.grid.refreshItems().layout();
         }
@@ -1145,7 +1156,7 @@ export class AdminHomeComponent implements OnInit {
         this.generateCourseLevelExam();
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         console.log(err);
         if (this.grid) {
           this.grid.refreshItems().layout();
@@ -1161,23 +1172,23 @@ export class AdminHomeComponent implements OnInit {
   initiateCourseMarkAttendance(i, selected) {
 
     let obj = {
-        course_id: selected.course_ids,
-        startdate: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
-        batch_name: selected.coursee_names,
-        forCourseWise: true,
-        forSubjectWise: false,
-        course_name: selected.coursee_names,
-        master_course_name: selected.master_course,
-        isExam: false,
-        is_attendance_marked: selected.is_attendance_marked
-      }
+      course_id: selected.course_ids,
+      startdate: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
+      batch_name: selected.coursee_names,
+      forCourseWise: true,
+      forSubjectWise: false,
+      course_name: selected.coursee_names,
+      master_course_name: selected.master_course,
+      isExam: false,
+      is_attendance_marked: selected.is_attendance_marked
+    }
     let batch_info = JSON.stringify(obj);
     sessionStorage.setItem('batch_info', btoa(batch_info));
     sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
-    if(this.isSubjectView || this.isProfessional){
+    if (this.isSubjectView || this.isProfessional) {
       sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
     }
-    else{
+    else {
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
     this.router.navigate(['/view/home/mark-attendance']);
@@ -1225,7 +1236,7 @@ export class AdminHomeComponent implements OnInit {
     this.auth.showLoader();
     this.widgetService.cancelCourseSchedule(obj).subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         let msg = {
           type: 'success',
           title: 'Course Schedule Cancelled',
@@ -1236,7 +1247,7 @@ export class AdminHomeComponent implements OnInit {
         this.generateCourseLevelWidget();
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Failed To Cancel Schedule',
@@ -1264,7 +1275,7 @@ export class AdminHomeComponent implements OnInit {
     this.auth.showLoader();
     this.widgetService.cancelBatchSchedule(obj).subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         let msg = {
           type: 'success',
           /* title: 'Batch Schedule Cancelled', */
@@ -1275,7 +1286,7 @@ export class AdminHomeComponent implements OnInit {
         this.fetchScheduleWidgetData();
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Failed To Cancel Schedule',
@@ -1308,7 +1319,7 @@ export class AdminHomeComponent implements OnInit {
     this.auth.showLoader();
     this.widgetService.remindCourseLevel(obj).subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         let msg = {
           type: 'success',
           title: 'Reminder Sent',
@@ -1319,7 +1330,7 @@ export class AdminHomeComponent implements OnInit {
         this.closeRemiderClass();
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Unable to Send Reminder',
@@ -1372,7 +1383,7 @@ export class AdminHomeComponent implements OnInit {
     this.auth.showLoader();
     this.widgetService.updateCourseAttendance(arr).subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         let msg = {
           type: 'success',
           title: 'Attendance Updated',
@@ -1383,7 +1394,7 @@ export class AdminHomeComponent implements OnInit {
         this.generateCourseLevelWidget();
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Failed To Update Attendance',
@@ -1408,15 +1419,15 @@ export class AdminHomeComponent implements OnInit {
             body: "No toppics list found"
           }
           this.appC.popToast(msg);
-         this.auth.hideLoader();
+          this.auth.hideLoader();
         } else {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           this.topicsList = res;
           this.showTopicList = true;
         }
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         let msg = {
           type: 'error',
           title: 'Failed To Update Attendance',
@@ -1433,7 +1444,7 @@ export class AdminHomeComponent implements OnInit {
   /* ======================================================================================================= */
 
   markAttendaceHide(row, time) {
-    if(!time) {
+    if (!time) {
       time = '';
     }
     row = moment(row).format('YYYY-MM-DD');
@@ -1570,25 +1581,25 @@ export class AdminHomeComponent implements OnInit {
     this.auth.showLoader();
     this.widgetService.getAllMasterCourse().subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         //console.log(res);
         this.masterCourseList = res;
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         //console.log(err);
       }
     )
   }
 
   onMasterCourseChange(event) {
-    if(this.userType!=3){
-    document.getElementById('chkBoxActiveSelection').checked = false;
-    document.getElementById('chkBoxTutorSelection').checked = false;
-    document.getElementById('chkBoxInActiveSelection').checked = false;
-    document.getElementById('chkBoxAluminiSelection').checked = false;
-    document.getElementById('chkBoxOpenAppSelection').checked = false;
-    this.openAppUserSelected = false;
+    if (this.userType != 3) {
+      document.getElementById('chkBoxActiveSelection').checked = false;
+      document.getElementById('chkBoxTutorSelection').checked = false;
+      document.getElementById('chkBoxInActiveSelection').checked = false;
+      document.getElementById('chkBoxAluminiSelection').checked = false;
+      document.getElementById('chkBoxOpenAppSelection').checked = false;
+      this.openAppUserSelected = false;
     }
     this.flushData();
     if (this.sendNotificationCourse.master_course != "-1") {
@@ -1596,11 +1607,11 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.getAllCourse(this.sendNotificationCourse.master_course).subscribe(
         (res: any) => {
           this.showTableFlag = false;
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           this.courseList = res.coursesList;
         },
         err => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -1617,13 +1628,13 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.getStudentListOfCourse(obj).subscribe(
         res => {
           this.allChecked = true;
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           this.showTableFlag = true;
           this.selectedOption = "filter";
           this.studentList = this.addKeys(res, true);
         },
         err => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -1634,7 +1645,7 @@ export class AdminHomeComponent implements OnInit {
     this.auth.showLoader();
     this.widgetService.fetchCombinedData(data.standard_id, data.subject_id).subscribe(
       (res: any) => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         this.combinedDataRes = res;
         if (res.standardLi != null) {
           this.masterCourseList = res.standardLi;
@@ -1648,7 +1659,7 @@ export class AdminHomeComponent implements OnInit {
 
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -1658,25 +1669,25 @@ export class AdminHomeComponent implements OnInit {
     this.addNotification = true;
   }
 
-  hasUnicode (str) {
+  hasUnicode(str) {
     for (var i = 0; i < str.length; i++) {
-        if (str.charCodeAt(i) > 127) return true;
+      if (str.charCodeAt(i) > 127) return true;
     }
     return false;
   }
-  countNumberOfMessage(){
+  countNumberOfMessage() {
     let uniCodeFlag = this.hasUnicode(this.newMessageText);
     let charLimit = 160;
-    if(uniCodeFlag){
+    if (uniCodeFlag) {
       charLimit = 70
     }
-    if(this.newMessageText.length == 0){
+    if (this.newMessageText.length == 0) {
       this.messageCount = 0;
     }
-    else if(this.newMessageText.length > 0 && this.newMessageText.length <= charLimit){
+    else if (this.newMessageText.length > 0 && this.newMessageText.length <= charLimit) {
       this.messageCount = 1;
     }
-    else{
+    else {
       let count = Math.ceil(this.newMessageText.length / charLimit);
       console.log(count);
       this.messageCount = count;
@@ -1721,23 +1732,23 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('divSendMessage').classList.add('hide');
     document.getElementById('idAudience').classList.remove('active');
     document.getElementById('idSendMessage').classList.remove('active');
-    if(document.getElementById(id)){
-    document.getElementById(id).classList.add('active');
+    if (document.getElementById(id)) {
+      document.getElementById(id).classList.add('active');
     }
-    if(document.getElementById(div)){
-    document.getElementById(div).classList.remove('hide');
+    if (document.getElementById(div)) {
+      document.getElementById(div).classList.remove('hide');
     }
-    if(document.getElementById('divParentOrGaurdian')){
-    document.getElementById('divParentOrGaurdian').classList.remove('hide');
+    if (document.getElementById('divParentOrGaurdian')) {
+      document.getElementById('divParentOrGaurdian').classList.remove('hide');
     }
-    if(document.getElementById('sendToHead')){
-    document.getElementById('sendToHead').classList.remove('hide');
+    if (document.getElementById('sendToHead')) {
+      document.getElementById('sendToHead').classList.remove('hide');
     }
-    if(document.getElementById('chkbxEmailSend')){
-    document.getElementById('chkbxEmailSend').checked = false;
+    if (document.getElementById('chkbxEmailSend')) {
+      document.getElementById('chkbxEmailSend').checked = false;
     }
-    if(document.getElementById('sendLoginChkbx')){
-    document.getElementById('sendLoginChkbx').checked = false;
+    if (document.getElementById('sendLoginChkbx')) {
+      document.getElementById('sendLoginChkbx').checked = false;
     }
     this.showEmailSubject = false;
     if (div == "divSendMessage") {
@@ -1800,12 +1811,12 @@ export class AdminHomeComponent implements OnInit {
   }
 
   onMasterCourseSelection(event) {
-    if(this.userType!=3){
-    document.getElementById('chkBoxActiveSelection').checked = false;
-    document.getElementById('chkBoxTutorSelection').checked = false;
-    document.getElementById('chkBoxInActiveSelection').checked = false;
-    document.getElementById('chkBoxAluminiSelection').checked = false;
-    document.getElementById('chkBoxOpenAppSelection').checked = false;
+    if (this.userType != 3) {
+      document.getElementById('chkBoxActiveSelection').checked = false;
+      document.getElementById('chkBoxTutorSelection').checked = false;
+      document.getElementById('chkBoxInActiveSelection').checked = false;
+      document.getElementById('chkBoxAluminiSelection').checked = false;
+      document.getElementById('chkBoxOpenAppSelection').checked = false;
     }
     this.batchList = [];
     this.courseList = [];
@@ -1817,12 +1828,12 @@ export class AdminHomeComponent implements OnInit {
   }
 
   onCourseSelection(event) {
-    if(this.userType!=3){
-    document.getElementById('chkBoxActiveSelection').checked = false;
-    document.getElementById('chkBoxTutorSelection').checked = false;
-    document.getElementById('chkBoxInActiveSelection').checked = false;
-    document.getElementById('chkBoxAluminiSelection').checked = false;
-    document.getElementById('chkBoxOpenAppSelection').checked = false;
+    if (this.userType != 3) {
+      document.getElementById('chkBoxActiveSelection').checked = false;
+      document.getElementById('chkBoxTutorSelection').checked = false;
+      document.getElementById('chkBoxInActiveSelection').checked = false;
+      document.getElementById('chkBoxAluminiSelection').checked = false;
+      document.getElementById('chkBoxOpenAppSelection').checked = false;
     }
     this.showTableFlag = false;
     this.batchList = [];
@@ -1831,12 +1842,12 @@ export class AdminHomeComponent implements OnInit {
   }
 
   fetchDataOnBatchBasis(event) {
-    if(this.userType!=3){
-    document.getElementById('chkBoxActiveSelection').checked = false;
-    document.getElementById('chkBoxTutorSelection').checked = false;
-    document.getElementById('chkBoxInActiveSelection').checked = false;
-    document.getElementById('chkBoxAluminiSelection').checked = false;
-    document.getElementById('chkBoxOpenAppSelection').checked = false;
+    if (this.userType != 3) {
+      document.getElementById('chkBoxActiveSelection').checked = false;
+      document.getElementById('chkBoxTutorSelection').checked = false;
+      document.getElementById('chkBoxInActiveSelection').checked = false;
+      document.getElementById('chkBoxAluminiSelection').checked = false;
+      document.getElementById('chkBoxOpenAppSelection').checked = false;
     }
     if (this.sendNotification.batch_id == "-1") {
       this.showTableFlag = false;
@@ -1908,14 +1919,14 @@ export class AdminHomeComponent implements OnInit {
       this.studentList = [];
       this.widgetService.getAllActiveStudentList().subscribe(
         res => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           if (document.getElementById('chkBoxActiveSelection').checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
         },
         err => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -1935,14 +1946,14 @@ export class AdminHomeComponent implements OnInit {
       this.studentList = [];
       this.widgetService.getAllTeacherList().subscribe(
         res => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           if (document.getElementById('chkBoxTutorSelection').checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
         },
         err => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -1963,14 +1974,14 @@ export class AdminHomeComponent implements OnInit {
       this.studentList = [];
       this.widgetService.getAllInActiveList().subscribe(
         res => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           if (document.getElementById('chkBoxInActiveSelection').checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
         },
         err => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -1990,30 +2001,30 @@ export class AdminHomeComponent implements OnInit {
       this.studentList = [];
       let obj = {
         "by": [
-            {
-                "column": "productId",
-                "value": ""
-            },
-            {
-                "column": "eCourseId",
-                "value": 0
-            }
+          {
+            "column": "productId",
+            "value": ""
+          },
+          {
+            "column": "eCourseId",
+            "value": 0
+          }
         ],
-        "start_index":0,
-        "no_of_records":0   
-    }
-      this.productService.postMethod('user-product/get-user-details',obj).then(
+        "start_index": 0,
+        "no_of_records": 0
+      }
+      this.productService.postMethod('user-product/get-user-details', obj).then(
         res => {
           this.openAppUserSelected = true;
-         this.auth.hideLoader();
-         let response = res['body'];
+          this.auth.hideLoader();
+          let response = res['body'];
           if (document.getElementById('chkBoxOpenAppSelection').checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(response.result, true);
           }
         },
         err => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -2034,14 +2045,14 @@ export class AdminHomeComponent implements OnInit {
       this.studentList = [];
       this.widgetService.getAllAluminiList().subscribe(
         res => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           if (document.getElementById('chkBoxAluminiSelection').checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
         },
         err => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -2085,11 +2096,11 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.getMessageList(obj).subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         this.messageList = this.addKeys(res, false);
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
       }
     )
   }
@@ -2108,7 +2119,7 @@ export class AdminHomeComponent implements OnInit {
     )
   }
 
-  getListOfUserIds(key){
+  getListOfUserIds(key) {
     let id: any = [];
     for (let t = 0; t < this.studentList.length; t++) {
       if (this.studentList[t].assigned == true) {
@@ -2264,12 +2275,12 @@ export class AdminHomeComponent implements OnInit {
     if (delivery_mode === false) {
       return;
     }
-    let destination:any;
-    if(!this.openAppUserSelected) {
-    destination = this.getDestinationValue();
-    if (destination === false) {
-      return;
-    }
+    let destination: any;
+    if (!this.openAppUserSelected) {
+      destination = this.getDestinationValue();
+      if (destination === false) {
+        return;
+      }
     }
 
     let batch_id;
@@ -2279,14 +2290,14 @@ export class AdminHomeComponent implements OnInit {
       batch_id = this.sendNotificationCourse.course_id;
     }
     let studentID: any;
-    let userId:any;
+    let userId: any;
     let isTeacherSMS: number = 0;
     if (this.selectedOption == "showTutor") {
       studentID = this.getListOfIds('teacher_id');
       isTeacherSMS = 1;
       destination = 0;
     } else {
-      if(this.openAppUserSelected){
+      if (this.openAppUserSelected) {
         userId = this.getListOfUserIds('user_id')
       } else {
         studentID = this.getListOfIds('student_id');
@@ -2312,7 +2323,7 @@ export class AdminHomeComponent implements OnInit {
       message_id: messageSelected.messageId,
       is_user_notify: 0
     }
-    if(this.openAppUserSelected) {
+    if (this.openAppUserSelected) {
       obj.is_user_notify = 1
     }
 
@@ -2348,8 +2359,8 @@ export class AdminHomeComponent implements OnInit {
     if (messageSelected === false) {
       return
     }
-    let student_id:any='';
-    if(this.openAppUserSelected){
+    let student_id: any = '';
+    if (this.openAppUserSelected) {
       student_id = this.getListOfIds('user_id')
     } else {
       student_id = this.getListOfIds('student_id')
@@ -2396,8 +2407,8 @@ export class AdminHomeComponent implements OnInit {
   }
 
   sendSmsForApp(value, delivery_mode) {
-    let type = delivery_mode==0?'SMS':'Email';
-    let msg = "Are you sure you want to send "+type+' to selected users';
+    let type = delivery_mode == 0 ? 'SMS' : 'Email';
+    let msg = "Are you sure you want to send " + type + ' to selected users';
     if (confirm(msg)) {
       let obj = {
         app_sms_type: Number(value),
@@ -2411,8 +2422,8 @@ export class AdminHomeComponent implements OnInit {
       this.auth.showLoader();
       this.widgetService.smsForAddDownload(obj).subscribe(
         res => {
-         this.auth.hideLoader();
-          let tempMsg=type+' Sent successfully';
+          this.auth.hideLoader();
+          let tempMsg = type + ' Sent successfully';
           let msg = {
             type: 'success',
             title: '',
@@ -2421,7 +2432,7 @@ export class AdminHomeComponent implements OnInit {
           this.appC.popToast(msg);
         },
         err => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           //console.log(err);
           let msg = {
             type: 'error',
@@ -2461,12 +2472,12 @@ export class AdminHomeComponent implements OnInit {
     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-       this.auth.hideLoader();
-          // let arr = this.constructExamJSONForTable(res.result);
-          this.viewExamDetTable = res.result;
+        this.auth.hideLoader();
+        // let arr = this.constructExamJSONForTable(res.result);
+        this.viewExamDetTable = res.result;
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -2640,7 +2651,7 @@ export class AdminHomeComponent implements OnInit {
     this.schedStat = [];
     this.auth.showLoader();
     this.widgetService.fetchSchedWidgetData(obj).subscribe(data => {
-     this.auth.hideLoader();
+      this.auth.hideLoader();
       this.schedStat = data;
       if (this.isProfessional) {
         this.getExamSchedule(obj);
@@ -2648,7 +2659,7 @@ export class AdminHomeComponent implements OnInit {
       }
       this.classScheduleCount = this.schedStat.otherSchd.length;
     }, err => {
-     this.auth.hideLoader();
+      this.auth.hideLoader();
       this.classScheduleCount = 0;
       console.log(err);
       if (this.isProfessional) {
@@ -2755,10 +2766,10 @@ export class AdminHomeComponent implements OnInit {
     let batch_info = JSON.stringify(obj);
     sessionStorage.setItem('batch_info', btoa(batch_info));
     sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
-    if(this.isSubjectView || this.isProfessional){
+    if (this.isSubjectView || this.isProfessional) {
       sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
     }
-    else{
+    else {
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
     this.router.navigate(['/view/home/mark-attendance']);
@@ -2955,13 +2966,13 @@ export class AdminHomeComponent implements OnInit {
     this.auth.showLoader();
     this.widgetService.cancelExamSchedule(obj).subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         this.messageNotifier('success', 'Successfully Cancelled', 'Exam Schedule Cancelled Successfully');
         this.fetchScheduleWidgetData();
         this.closeExamPopup();
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         //console.log(err);
         this.messageNotifier('error', '', err.error.message);
       }
@@ -2975,11 +2986,11 @@ export class AdminHomeComponent implements OnInit {
       this.auth.showLoader();
       this.widgetService.notifyStudentExam(data.schd_id).subscribe(
         res => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           this.messageNotifier('success', '', 'Notification Sent Successfully');
         },
         err => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           //console.log(err);
         }
       )
@@ -2999,11 +3010,11 @@ export class AdminHomeComponent implements OnInit {
       this.auth.showLoader();
       this.widgetService.sendReminder(obj).subscribe(
         res => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           this.messageNotifier('success', '', 'Reminder Sent Successfull');
         },
         err => {
-         this.auth.hideLoader();
+          this.auth.hideLoader();
           console.log(err);
           this.messageNotifier('error', '', err.error.message);
         }
@@ -3015,15 +3026,15 @@ export class AdminHomeComponent implements OnInit {
 
   examMarksUpdate(data) {
     let obj = {
-        data: data
-      }
+      data: data
+    }
     let exam_info = JSON.stringify(obj)
     sessionStorage.setItem('exam_info', btoa(exam_info));
     sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
-    if(this.isSubjectView || this.isProfessional){
+    if (this.isSubjectView || this.isProfessional) {
       sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
     }
-    else{
+    else {
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
     this.router.navigate(['/view/home/exam-marks-batch']);
@@ -3198,23 +3209,23 @@ export class AdminHomeComponent implements OnInit {
 
   markAttendanceExamCourse(exam) {
     let obj = {
-        course_exam_schedule_id: exam.course_exam_schedule_id,
-        course_name: exam.course_name,
-        master_course_name: exam.master_course,
-        batch_name: exam.course_name,
-        forCourseWise: true,
-        forSubjectWise: false,
-        isExam: true,
-        schedDate: moment(this.courseLevelSchedDate).format('YYYY-MM-DD'),
-        is_attendance_marked: exam.is_attendance_marked
-      }
+      course_exam_schedule_id: exam.course_exam_schedule_id,
+      course_name: exam.course_name,
+      master_course_name: exam.master_course,
+      batch_name: exam.course_name,
+      forCourseWise: true,
+      forSubjectWise: false,
+      isExam: true,
+      schedDate: moment(this.courseLevelSchedDate).format('YYYY-MM-DD'),
+      is_attendance_marked: exam.is_attendance_marked
+    }
     let batch_info = JSON.stringify(obj);
     sessionStorage.setItem('batch_info', btoa(batch_info));
     sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
-    if(this.isSubjectView || this.isProfessional){
+    if (this.isSubjectView || this.isProfessional) {
       sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
     }
-    else{
+    else {
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
     this.router.navigate(['/view/home/mark-attendance']);
@@ -3225,14 +3236,14 @@ export class AdminHomeComponent implements OnInit {
     this.auth.showLoader();
     this.widgetService.getExamStudentsList(id).subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         this.studentList = this.addKeys(res, false);
         if (this.courseExamMarkPopup) {
           this.makeTableHeader();
         }
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         console.log(err);
         this.messageNotifier('error', '', err.error.message);
       }
@@ -3293,13 +3304,13 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.markStudentAttendance(data).subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         this.messageNotifier('success', 'Marked', 'Attendance Marked Successfully');
         this.closePopUpCommon();
         this.generateCourseLevelWidget();
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         this.messageNotifier('error', '', err.error.message);
       }
     )
@@ -3360,15 +3371,15 @@ export class AdminHomeComponent implements OnInit {
 
   examMarksUpdateCourse(data) {
     let obj = {
-        data: data
-      }
+      data: data
+    }
     let exam_info = JSON.stringify(obj);
     sessionStorage.setItem('exam_info', btoa(exam_info));
     sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
-    if(this.isSubjectView || this.isProfessional){
+    if (this.isSubjectView || this.isProfessional) {
       sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
     }
-    else{
+    else {
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
     this.router.navigate(['/view/home/exam-marks']);
@@ -3390,7 +3401,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateMarksOnServerCourse(type) {
-    if (this.examMarksLevel == 0 ) {
+    if (this.examMarksLevel == 0) {
       this.messageNotifier('error', '', 'Please enter marks updation level');
       return;
     }
@@ -3586,26 +3597,26 @@ export class AdminHomeComponent implements OnInit {
       return false;
     }
     // if (this.showReasonSection == "Course") {
-      let obj = {
-        cancel_reason: this.cancelPopUpData.reason,
-        course_exam_schedule_id: this.tempData.course_exam_schedule_id,
-        course_id: this.tempData.course_id,
-        is_cancel_notify: notify,
-        requested_date: moment(this.tempData.course_exam_date).format('YYYY-MM-DD')
+    let obj = {
+      cancel_reason: this.cancelPopUpData.reason,
+      course_exam_schedule_id: this.tempData.course_exam_schedule_id,
+      course_id: this.tempData.course_id,
+      is_cancel_notify: notify,
+      requested_date: moment(this.tempData.course_exam_date).format('YYYY-MM-DD')
+    }
+    this.auth.showLoader();
+    this.widgetService.cancelExamScheduleCourse(obj).subscribe(
+      res => {
+        this.auth.hideLoader();
+        this.messageNotifier('success', 'Cancelled', 'Exam Cancelled Successfully');
+        this.generateCourseLevelWidget();
+        this.closePopUpCommon();
+      },
+      err => {
+        this.auth.hideLoader();
+        this.messageNotifier('error', '', err.error.message);
       }
-      this.auth.showLoader();
-      this.widgetService.cancelExamScheduleCourse(obj).subscribe(
-        res => {
-         this.auth.hideLoader();
-          this.messageNotifier('success', 'Cancelled', 'Exam Cancelled Successfully');
-          this.generateCourseLevelWidget();
-          this.closePopUpCommon();
-        },
-        err => {
-         this.auth.hideLoader();
-          this.messageNotifier('error', '', err.error.message);
-        }
-      )
+    )
     // } else {
     //   let obj: any = {
     //     batch_id: this.tempData.batch_id,
@@ -3655,11 +3666,11 @@ export class AdminHomeComponent implements OnInit {
     this.openMessageList = [];
     this.widgetService.getMessageList({}).subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         this.openMessageList = res;
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         //console.log(err);
       }
     )
@@ -3691,7 +3702,7 @@ export class AdminHomeComponent implements OnInit {
   updateMessage() {
     let obj = { message: this.newMessageText };
     this.auth.showLoader();
-        this.widgetService.changesSMSStatus(obj,this.jsonFlag.messageObject.message_id ).subscribe(
+    this.widgetService.changesSMSStatus(obj, this.jsonFlag.messageObject.message_id).subscribe(
       res => {
         this.auth.hideLoader();
         let msg = {
@@ -3790,7 +3801,7 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  showExpensesList(){
+  showExpensesList() {
     if (this.showExpenses) {
       this.showExpenses = false;
     }
@@ -3799,11 +3810,11 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  countRemarksLimit(){
+  countRemarksLimit() {
     this.remarksLimit = 50 - this.reminderRemarks.length;
   }
 
-  closeShowList(){
+  closeShowList() {
     this.showList();
   }
 

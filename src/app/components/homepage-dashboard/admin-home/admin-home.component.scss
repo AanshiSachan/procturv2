@@ -723,7 +723,13 @@ fieldset {
         }
     }
 }
-
+.firstDiv{
+    height: 48%;width: 47%;
+    margin-left: 32%;
+    margin-top: 19%;
+    border: 1px solid black;
+     border-radius: 4px;
+}
 @media only screen and (max-width:640px) {
     .HomePopupWrapper {
         position: absolute;
