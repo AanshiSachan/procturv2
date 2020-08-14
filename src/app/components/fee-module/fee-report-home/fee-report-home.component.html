@@ -57,7 +57,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item"  routerLink="/view/fee/gst" *ngIf="enable_tax_applicable_fee_installments=='1'">
+        <div class="course-menu-item"  routerLink="/view/fee/gst" *ngIf="is_tax_enabled=='1'">
           <div class="menu-title">
             <img src="./assets/images/fee/gst_report.svg" alt="gst report">
             <span>{{tax_type_without_percentage}} Report</span>
