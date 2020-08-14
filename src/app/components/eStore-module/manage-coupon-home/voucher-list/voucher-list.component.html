@@ -31,12 +31,20 @@
     </div>
 
     <div class="filter-item-2">
-      <button type="button" name="button" class="add-class-btn" routerLink="../voucher/add">
+      <button type="button" name="button" class="add-class-btn" routerLink="../voucher/add" style="margin-right: 15px;">
         <i class="fa fa-plus" aria-hidden="true"></i>
         &nbsp;
         Add Voucher
       </button>
     </div>
+    <!-- Added for export to excel
+    Added by Ashwini Kumar Gupta -->
+    <div style="margin-top: 1%;" *ngIf="this.varJson.total_items != 0">
+
+      <i class="fa fa-file-excel-o" style="font-size: 28px;color: green;cursor: pointer;" aria-hidden="true"
+        (click)="exportToExcel()"></i>
+    </div>
+    <!-- End -->
   </div>
 
   <div class="table_container">
@@ -78,7 +86,7 @@
             </span>&nbsp;
             <span class="product_List_Container">
               {{ (data.product_name[1].length>15) ? (data.product_name[1] | slice:0:15) + '...' : data.product_name[1] }}
-             </span>
+            </span>
             ...
           </span>
         </div>
@@ -102,13 +110,13 @@
         <div class="table_value_item action">
           <i class="fa fa-edit" style="font-size: 15px;  color:#0084f6;cursor: pointer;" title="Edit"
             routerLink="../voucher/edit/{{data.offer_id}}"></i>&nbsp;&nbsp;
-          <i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-trash"
-          (click)="setdelete(data)" style="font-size: 14px;  color:red;cursor: pointer;" title="Delete"></i>
+          <i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-trash" (click)="setdelete(data)"
+            style="font-size: 14px;  color:red;cursor: pointer;" title="Delete"></i>
         </div>
       </div>
     </div>
 
-    <section *ngIf="couponData?.length == 0 || couponData == null" >
+    <section *ngIf="couponData?.length == 0 || couponData == null">
       <div class="illustration-container">
         <img src="./assets/images/course_planner/blank-illustration.svg" alt="illustration" class="illustration-img">
       </div>
@@ -117,9 +125,9 @@
 
     <div class="row filter-res pagination" #pager id="pager" style="width: 100%;margin: 0;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-          [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="varJson.sizeArr" (sizeChange)="updateTableBatchSize($event)"
-          [count]="varJson.total_items">
+        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="varJson.sizeArr"
+          (sizeChange)="updateTableBatchSize($event)" [count]="varJson.total_items">
         </pagination>
       </div>
     </div>
@@ -129,8 +137,8 @@
 </div>
 
 
-<div class="modal fade" id="myModal" role="dialog" >
-  <div class="modal-dialog modal-sm"style="margin-top: 15%;">
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-sm" style="margin-top: 15%;">
 
     <div class="modal-content">
 
@@ -139,8 +147,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size: 12px;">Close</button>
-        <button type="button" class="btn btn-default delete" data-dismiss="modal"
-          (click)='deleteVoucher(tempData)' style="font-size: 12px;">Delete</button>
+        <button type="button" class="btn btn-default delete" data-dismiss="modal" (click)='deleteVoucher(tempData)'
+          style="font-size: 12px;">Delete</button>
       </div>
     </div>
 

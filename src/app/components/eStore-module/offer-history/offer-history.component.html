@@ -25,7 +25,17 @@
             <div class="go-btn-container">
                 <button type="button" name="button" class="fullBlue gobtn" (click)="getOfferHistory(1)">GO</button>
             </div>
+
         </div>
+        <!-- Excel Export Added by ashwini gupta -->
+        <div style="margin-top: 1%;margin-left: 18%;" *ngIf="totalCount != 0">
+            <i class="fa fa-file-pdf-o"
+                style="font-size: 28px;color: darkred;cursor: pointer;margin-right: 5px;margin-left: -36px;"
+                aria-hidden="true" (click)="exportToPdf()"></i>
+            <i class="fa fa-file-excel-o" style="font-size: 28px;color: green;cursor: pointer;" aria-hidden="true"
+                (click)="exportToExcel()"></i>
+        </div>
+        <!-- End -->
     </div>
 
     <div class="table table-responsive">
