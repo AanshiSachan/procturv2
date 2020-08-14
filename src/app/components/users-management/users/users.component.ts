@@ -77,6 +77,7 @@ export class UsersComponent implements OnInit {
     { primaryKey: 'password', header: 'Password'},
     { primaryKey: 'last_login_date_time', header: 'Last Login'},
   ]};
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
 
   constructor(
     private apiService: UserService,
@@ -109,7 +110,7 @@ export class UsersComponent implements OnInit {
     if(this.dataFilter.role == '1') {
       this.getMasterCourseData();
     }
-    if (sessionStorage.getItem('single_device') && sessionStorage.getItem('distinct_device_login')) {
+    if (sessionStorage.getItem('single_device') == 'true' && sessionStorage.getItem('distinct_device_login') == 'true') {
       this.sso_check = true;
     }
   }
@@ -863,6 +864,12 @@ export class UsersComponent implements OnInit {
             'User'
           );
   }
+
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.PageIndex , 'user');
+  }
+
 
 
 }
