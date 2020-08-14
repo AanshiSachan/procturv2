@@ -7,6 +7,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { UserRouting } from './users.routing';
 import { UserService } from '../../../services/user-management/user.service';
 import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
+import { ExcelService } from '../../../services/excel.service';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
         UserRouting
     ],
     providers: [
-        UserService
+        UserService,
+        ExcelService
     ]
 })
 

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../../services/user-management/user.service';
 import { HttpService } from '../../../services/http.service';
 import * as moment from 'moment';
+import { ExcelService } from '../../../services/excel.service';
 
 @Component({
   selector: 'app-users',
@@ -67,13 +68,23 @@ export class UsersComponent implements OnInit {
   historyTotalRow : any = 0;
   historyUserId : any = 0;
   sso_check: boolean = false;
+  tableSetting: any = {
+    keys: [
+    { primaryKey: 'name', header: 'Name'},
+    { primaryKey: 'username', header: 'Contact No'},
+    { primaryKey: 'alternate_email_id', header: 'Email ID'},
+    { primaryKey: 'username', header: 'Username'},
+    { primaryKey: 'password', header: 'Password'},
+    { primaryKey: 'last_login_date_time', header: 'Last Login'},
+  ]};
 
   constructor(
     private apiService: UserService,
     private toastCtrl: AppComponent,
     private auth: AuthenticatorService,
     private router: Router,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private excelService: ExcelService
   ) { }
 
   ngOnInit() {
@@ -833,6 +844,24 @@ export class UsersComponent implements OnInit {
     )
    this.closeNotificationPopup();
     }
+  }
+
+  exportToExcel() {
+    let arr = this.usersList;
+    let Excelarr = [];
+            arr.map(
+              (ele: any) => {
+                let json = {}
+                this.tableSetting.keys.map((keys) => {
+                json[keys.header] = ele[keys.primaryKey]
+              })
+              Excelarr.push(json);
+          }
+          )
+          this.excelService.exportAsExcelFile(
+            Excelarr,
+            'User'
+          );
   }
 
 
