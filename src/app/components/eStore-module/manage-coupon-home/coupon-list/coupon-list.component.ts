@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
+import { ExcelService } from '../../../../services/excel.service';
 
 @Component({
   selector: 'app-coupon-list',
@@ -26,7 +27,8 @@ export class CouponListComponent implements OnInit {
   constructor(
     private _productService: ProductService,
     private _msgService: MessageShowService,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
+    private _excelService: ExcelService,
   ) { }
 
   ngOnInit() {
@@ -138,6 +140,27 @@ export class CouponListComponent implements OnInit {
       status: '-1'
     };
   }
+  /** this function is used to download execel
+     * written by Ashwini
+    */
+  exportToExcel() {
+    let exportedArray: any[] = [];
+    this.couponData.map((data: any) => {
+      let obj = {};
+      obj["Offer Code"] = data.offer_code;
+      obj["Product Name"] = data.product_name[0];
+      obj["Start Date"] = data.strat_date;
+      obj["End Date"] = data.end_date;
+      obj["Status"] = data.status;
+      console.log(data.product_name);
+      exportedArray.push(obj);
+    })
 
+    this._excelService.exportAsExcelFile(
+      exportedArray,
+      'eStore Manage Offer'
+    )
+  }
+  // End
 
 }
