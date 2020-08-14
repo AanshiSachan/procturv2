@@ -140,10 +140,12 @@ export class OfferHistoryComponent implements OnInit {
     let arr = [];
     this.offerHistoryData.map(
       (ele: any) => {
+        console.log(ele.status);
         let json = [
           ele.order_id,
           ele.product_name,
           ele.user_name,
+          ele.phone,
           ele.purchase_date,
           ele.actual_amount,
           ele.paid_amount,
@@ -168,6 +170,6 @@ export class OfferHistoryComponent implements OnInit {
       },
       //  columnWidth: 'wrap'
     };
-    this._pdfService.exportToPdf(rows, columns, 'SMS', columnStyles);
+    this._pdfService.exportToPdf(rows, columns, 'eStore', columnStyles);
   }
 }
