@@ -22,9 +22,7 @@ export class UsersComponent implements OnInit {
     is_show_credentials: false,
     master_course: '',
     course_id: 0,
-    name: '',
-    email: '',
-    phone: '',
+    searchCriteria: '',
     app_downloaded: '-1'
   };
   allocateItemPopUp: boolean = false;
@@ -147,14 +145,8 @@ export class UsersComponent implements OnInit {
       obj.standard_id = this.dataFilter.master_course,
       obj.subject_id = this.dataFilter.course_id;
     }
-    if(this.dataFilter.name != '') {
-      obj.name = this.dataFilter.name;
-    }
-    if(this.dataFilter.phone != '') {
-      obj.mobile = this.dataFilter.phone;
-    }
-    if(this.dataFilter.email != '') {
-      obj.email_id = this.dataFilter.email;
+    if(this.dataFilter.searchCriteria != '') {
+      obj.searchCriteria = this.dataFilter.searchCriteria;
     }
     if(this.dataFilter.app_downloaded !='-1') {
       if(this.dataFilter.app_downloaded == '3') {
@@ -206,9 +198,7 @@ export class UsersComponent implements OnInit {
     this.dataFilter.is_active = true;
     this.dataFilter.master_course = '';
     this.dataFilter.course_id = 0;
-    this.dataFilter.name = '';
-    this.dataFilter.email = '';
-    this.dataFilter.phone = '';
+    this.dataFilter.searchCriteria = '';   
     this.dataFilter.app_downloaded = '-1';
     if(this.dataFilter.role == '1') {
       this.getMasterCourseData();
