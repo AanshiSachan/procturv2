@@ -41,24 +41,32 @@
         </div> -->
         <div class="row">
           <div class="c-lg-8 detailslog">
+
             <div style="margin-top: 25px;" class="second-left-div-wrapper row">
-              <h2>Accept Fees Using Online Payments </h2>
+              <h2>Proctur - Learning Management System </h2>
               <div class="left-p-div">
-                <p>Instant transfer. Ease of access. Secured and hassle free mode of payment!</p>
+                <p>A one stop solution for your institution to manage & grow your offline and online teaching practice!</p>
+              </div>
+            </div>
+
+            <div style="margin-top: 25px;" class="second-left-div-wrapper row">
+              <h2>Proctur Live </h2>
+              <div class="left-p-div">
+                <p>Start conducting live classes with two way communication, chat, QnA, attendance, recording facility!</p>
               </div>
             </div>
 
             <div class="second-left-div-wrapper row">
-              <h2>Introducing Smart Enquiry Management </h2>
+              <h2>Secure Video Management </h2>
               <div class="left-p-div">
-                <p>Add enquiries instantly with our easy to understand interface.</p>
+                <p>Upload, share and sell recorded video lectures with students in a secure manner!</p>
               </div>
             </div>
 
             <div class="second-left-div-wrapper row">
-              <h2>Easy Student Admission And Course Management </h2>
+              <h2>Online Tests </h2>
               <div class="left-p-div">
-                <p>Manage student admmission, fee and courses on the go.</p>
+                <p>Conduct online tests on your own app / website with detailed reporting and analysis!</p>
               </div>
             </div>
 
@@ -75,13 +83,10 @@
             <div class="c-xs-1">
               <i class="fa fa-phone call-icon"></i>
             </div>
-            <div style="margin-left: 10px;" class="c-xs-4 cursor-point">
+            <div style="margin-left: 12px;" class="c-xs-4 cursor-point">
               <p>
-                CALL FOR SUPPORT
+                CALL FOR SUPPORT <br> 9971839153
                 <br>
-                <span>9971839153</span>
-                <br>
-                <span>9953366316</span>
               </p>
             </div>
             <!-- <div class="c-xs-2">
@@ -147,10 +152,10 @@
         <div class="row" *ngIf="isLoginView &&(!isGuestUserCourse)">
           <div class="field-wrapper has-value">
             <input class="form-ctrl" type="text" [(ngModel)]="loginDataForm.alternate_email_id" name="alternate_email_id" id="emailid"
-              placeholder="Enter your Mobile or Email" #emailid="ngModel" required (keyup.enter)="loginViaServer()">
+              placeholder="Mobile or Email-id" #emailid="ngModel" required (keyup.enter)="loginViaServer()">
             <div *ngIf="emailid.invalid && (emailid.dirty || emailid.touched || no_email_found)" class="alert invalid-alert">
               <div *ngIf="emailid.errors.required">
-                Please enter valid Email ID/Mobile number
+                 Enter valid Mobile or Email-id
               </div>
             </div>
             <label for="emailid"></label>
@@ -161,7 +166,7 @@
                 placeholder="Password" required (keyup.enter)="loginViaServer()">
               <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert invalid-alert">
                 <div *ngIf="password.errors.required">
-                  Please enter Password
+                  Please enter password
                 </div>
               </div>
               <label for="password"></label>
@@ -176,8 +181,8 @@
             <div class="login-field-btn">
 
               <p class="user-ex">
-                If you don't have account ?
-                <a routerLink="/guest/register" style="font-weight: 600;"> &nbsp;&nbsp; Register here</a>
+                If you don't have account?
+                <a routerLink="/guest/register" style="font-weight: 600;"> &nbsp;&nbsp; Register Here</a>
               </p>
             </div>
           </div>
@@ -185,23 +190,23 @@
             <div class="login-field-btn">
               <input type="button" value="Secure Login" id="btnSecureLogin" (click)="loginViaServer()" class="fullBlue btn login-btn">
               <p class="user-ex">
-                For best user experience use Google Chrome Browser
+                "For best experience use Google Chrome Browser"
               </p>
             </div>
           </div>
 
           <div class="row agreement-row" *ngIf="isProcturVisible">
             <p>
-              By signing in you agree to our
-              <a style="cursor:pointer" href="https://proctur.com/policy/index.html" target="_blank">Privacy Policy</a> and
-              <a style="cursor:pointer" href="https://proctur.com/terms/index.html" target="_blank">terms of use</a>.
+              By signing in, you agree to
+              <a style="cursor:pointer" href="https://proctur.com/privacy-policy" target="_blank">Privacy Policy</a> and
+              <a style="cursor:pointer" href="https://proctur.com/terms" target="_blank">Terms of Use</a>.
             </p>
           </div>
         </div>
         <!-- Show Insititue List -->
         <div class="row" *ngIf="!isLoginView && isInstituteListPop">
           <div class="field-wrapper" style="margin:0;">
-            <p>You are registered with multiple Institutes, Kindly select one to Continue</p>
+            <p>You are registered with multiple institutes, kindly select one to continue</p>
           </div>
           <div class="insititue-field-wrapper">
             <div class="row" *ngFor="let institute of instituteListArr">
@@ -215,7 +220,7 @@
         <!-- Show User List -->
         <div class="row" *ngIf="!isLoginView && isUserListPop">
           <div class="field-wrapper" style="margin:0;">
-            <p>You are registered with multiple Roles, Kindly select one to Continue</p>
+            <p>You are registered with multiple roles, kindly select one to continue</p>
           </div>
           <div class="field-wrapper insititute-field-wrapper">
             <h2 class="insititue-list-header">Login as</h2>
@@ -232,10 +237,10 @@
         <!-- OTP verification Start -->
         <div class="row" *ngIf="!isLoginView && OTPVerificationPopUp">
           <div class="field-wrapper insititute-field-wrapper">
-            <h2 class="insititue-list-header" style="padding-right:20px;">Enter One Time Password</h2>
+            <h2 class="insititue-list-header" style="padding-right:20px;">Enter OTP</h2>
           </div>
           <div class="field-wrapper" style="margin:0;">
-            <p>One Time Password (OTP) has been sent to your mobile and/or email, please enter the same here to login.</p>
+            <p>One Time Password (OTP) has been sent to your mobile / email, please enter OTP to login.</p>
           </div>
           <div class="form-type1">
             <div class="field-wrapper has-value">
@@ -244,7 +249,7 @@
                 #otpData="ngModel" enquiryInput required style="margin-top: 18px;">
               <div *ngIf="otpData.invalid && (otpData.dirty || otpData.touched)" class="alert invalid-alert">
                 <div *ngIf="otpData.errors.required">
-                  Please enter OTP.
+                  Please enter OTP
                 </div>
               </div>
             </div>

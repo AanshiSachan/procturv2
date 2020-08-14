@@ -56,7 +56,7 @@
           <span>{{enquiryStatus['Student Admitted']}}</span>
         </div>
         <div class="dashboard-item-name">
-          <span>Student Admitted</span>
+          <span> Admitted</span>
         </div>
       </div>
       <div class="status-wise-dashboard-item not-converted">
@@ -77,7 +77,7 @@
         <span>Data Setup</span>
       </div>
       <div class="menu-description">
-        <span>Click here to set up sources of leads generated from and closing reasons of enquiry</span>
+        <span>Set up sources of leads and enquiry closing reasons.</span>
       </div>
     </div>
     <div class="leads-menu-item" routerLink="/view/leads/campaign" *ngIf="jsonRolesFlags.isShowCampaign">
@@ -86,7 +86,7 @@
         <span>Add Campaign</span>
       </div>
       <div class="menu-description">
-        <span>Send SMS in bulk to students/parents for marketing or other purposes.</span>
+        <span>Upload Leads in bulk to run SMS Marketing Campaigns.</span>
       </div>
     </div>
     <div class="leads-menu-item" routerLink="/view/leads/manage-campaign" *ngIf="jsonRolesFlags.isShowCampaign">
@@ -95,7 +95,7 @@
         <span>Manage Campaign</span>
       </div>
       <div class="menu-description">
-        <span>Add, modify and search individual leads and convert these into enquiries.</span>
+        <span>Manage, download and convert leads to enquiries.</span>
       </div>
     </div>
     <div class="leads-menu-item" routerLink="/view/leads/add" *ngIf="jsonRolesFlags.isShowAddEnquiry">
@@ -104,8 +104,7 @@
         <span>Add Enquiry</span>
       </div>
       <div class="menu-description">
-        <span>Quickly add single enquiry and details like basic details, academic details and contact details in the
-          portal</span>
+        <span>Add enquiries one by one or Upload in bulk with XLS.</span>
       </div>
     </div>
     <div class="leads-menu-item" routerLink="/view/leads/enquiry" *ngIf="jsonRolesFlags.isShowManageEnquiry">
@@ -114,8 +113,7 @@
         <span>Manage Enquiry</span>
       </div>
       <div class="menu-description">
-        <span>Add enquiries in bulk and manage them where you can assign status, set priority and setup reminder for
-          follow up.</span>
+        <span>Manage all enquiries, maintain status, conversation history and covert to admissions.</span>
       </div>
     </div>
     <div class="leads-menu-item" routerLink="/view/leads/enquiryReport" *ngIf="jsonRolesFlags.isShowReport">
@@ -124,8 +122,7 @@
         <span>Enquiry Report</span>
       </div>
       <div class="menu-description">
-        <span>Detailed report of the source of enquiry, referrals made and status of the report maintained by
-          counsellor.</span>
+        <span>Enquiry reports counsellor wise, source wise and referral wise.</span>
       </div>
     </div>
 
@@ -135,7 +132,7 @@
         <span>Campaign Report</span>
       </div>
       <div class="menu-description">
-        <span>This Report depicts the records of all the past and present campaign SMS information.</span>
+        <span>Campaign reports for the SMS sent to Leads.</span>
       </div>
     </div>
     <!-- <div class="leads-menu-item" routerLink="/view/activity/timeTable">

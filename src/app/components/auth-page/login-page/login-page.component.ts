@@ -851,7 +851,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   openGetAdvice() {
-    let url = "https://proctur.com/contact_us/index.html";
+    let url = "https://proctur.com/contact-us";
     window.open(url);
   }
 
