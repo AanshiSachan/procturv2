@@ -205,6 +205,7 @@ export class UsersComponent implements OnInit {
     this.usersList=[];
     this.totalRow=0;
     this.PageIndex=1;
+    this.displayBatchSize = 10;
     this.selectedRowCount = 0;
     this.userListDataSource =[];
     this.dataFilter.is_active = true;
