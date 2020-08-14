@@ -9,6 +9,12 @@
     </li>
   </ul>
   <div class="btnWrapper">
+    <div class="c-sm-1 c-md-1 c-lg-1 pull-right" style="width: 4%;" *ngIf="usersList?.length>0" (click)="exportToExcel()">
+      <i _ngcontent-c27="" aria-hidden="true" class="fa fa-file-excel-o" style="font-size: 28px;color: green;cursor: pointer;"></i>
+    </div>
+     <button type="button" style="padding: 4px 10px;border: 1px solid #0084f6;" class="btn pull-right" name="button">
+      <a href="https://forms.gle/PTaJdvBZhaaXk8Sp8" target="_blank">Feedback</a>
+    </button>
     <aside class="pull-left" style="border: none;padding: 0;margin-top: 5px;" class="btn pull-right">
       <span class="new-keyword" title="Help" data-toggle="modal" style="cursor: pointer;" data-target="#helpSection">?</span>
     </aside>
@@ -17,7 +23,7 @@
       &nbsp; Add User
     </button>
   </div>
-  <div class="btnWrapper c-md-3" style="float: right;width: 40%;">
+  <div class="btnWrapper c-md-3" style="float: right;width: 18%;">
     <div class="btn-container" style="float: right;">
       <div class="btn-item">
         <button type="button" style="padding: 4px 10px;" *ngIf="selectedRowCount != 0" class="btn pull-right" name="button" (click)="isOptions = !isOptions">
@@ -61,18 +67,28 @@
         </div>
         <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 15px;">
           <div class="search-filter-wrapper">
-            <input type="text" class="normal-field pull-right" placeholder="Search by name" name="searchData" [(ngModel)]="dataFilter.name">
+            <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" [(ngModel)]="dataFilter.searchCriteria">
           </div>
         </div>
-        <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 15px;">
-          <div class="search-filter-wrapper">
-            <input type="number" class="normal-field pull-right" placeholder="Search by phone" name="searchData" [(ngModel)]="dataFilter.phone">
+        <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="dataFilter.role == '1' || dataFilter.role == '99'">
+          <div class="field-wrapper" style="padding-top: 0px;">
+            <label for="userType" style="font-weight: bold;"></label>
+            <select id="userType" class="form-ctrl" [(ngModel)]="dataFilter.app_downloaded">
+              <option value="-1">Select</option>
+              <option value="1">App Not Downloaded</option>
+              <option value="2">App Downloaded</option>
+              <option value="3">Logged in From Multiple Devices</option>
+            </select>
           </div>
         </div>
-        <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 15px;">
-          <div class="search-filter-wrapper">
-            <input type="text" class="normal-field pull-right" placeholder="Search by Email" name="searchData" [(ngModel)]="dataFilter.email">
+        <div class="c-sm-1 c-md-1 c-lg-1" style="margin-top: 20px;padding-right: 0;margin-left: 5px;">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="dataFilter.is_active" id="isAct">
+            <label for="isAct">Is Active</label>
           </div>
+        </div>
+        <div class="c-sm-1 c-md-1 c-lg-1" style="margin-top: 15px;" *ngIf="dataFilter.role != '1'">
+          <button class="btn fullBlue" style="    height: 32px !important ;padding: 5px 12px;" (click)="getAllUserList(PageIndex)">Go</button>
         </div>
         <!-- <div class="">
           <div class="pull-right" style="margin-top: 20px;margin-right: 15px;">
@@ -120,24 +136,7 @@
             </select>
           </div>
         </div>
-        <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="dataFilter.role == '1' || dataFilter.role == '99'">
-          <div class="field-wrapper" style="padding-top: 0px;">
-            <label for="userType" style="font-weight: bold;"></label>
-            <select id="userType" class="form-ctrl" [(ngModel)]="dataFilter.app_downloaded">
-              <option value="-1">Select</option>
-              <option value="1">App Not Downloaded</option>
-              <option value="2">App Downloaded</option>
-              <option value="3">Logged in From Multiple Devices</option>
-            </select>
-          </div>
-        </div>
-        <div class="c-sm-1 c-md-1 c-lg-1" style="margin-top: 20px;padding-right: 0;margin-left: 5px;">
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="dataFilter.is_active" id="isAct">
-            <label for="isAct">Is Active</label>
-          </div>
-        </div>
-        <div class="c-sm-1 c-md-1 c-lg-1" style="margin-top: 15px;">
+        <div class="c-sm-1 c-md-1 c-lg-1" style="margin-top: 15px;" *ngIf="dataFilter.role == '1'">
           <button class="btn fullBlue" style="    height: 32px !important ;padding: 5px 12px;" (click)="getAllUserList(PageIndex)">Go</button>
         </div>
       </div>
@@ -223,10 +222,10 @@
             <div class="table_value_item" style="width: 10%;">
               <a [routerLink]='["./addedit" , data.user_id]' title="Edit"><i class="fa fa-edit actionBtnIcons"></i></a>
               <a style="cursor: pointer;margin-left: 5px;" title="Allocate Inventory" (click)="allocateItemToUser(data)"><i class="fa fa-tasks actionBtnIcons" aria-hidden="true"></i></a>
-              <span title="{{data.access_allow_title}}">
+              <span title="{{data.access_allow_title}}" *ngIf="sso_check">
                 <button style="background: none;" [disabled]="data.access_allow == 3" [ngStyle]="{'color': (data.access_allow == 2) ? 'red' : '#0084f6' }" (click)="changeUserAccess(data)"> <i class="fa fa-universal-access allowAccessIcons" [ngStyle]="{'cursor': (data.access_allow == 3) ? 'no-drop' : 'pointer' }" aria-hidden="true"></i></button>
               </span>
-              <span (click)="clearRegisteredDevices(data.user_id)" class="actionBtnIcons" title="Clear Registered Device">X</span>
+              <span *ngIf="sso_check" (click)="clearRegisteredDevices(data.user_id)" class="actionBtnIcons" title="Clear Registered Device">X</span>
             </div>
           </div>
         </div>
@@ -243,7 +242,7 @@
     <div class="row filter-res pagination" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
         <pagination (goPage)="fetchTableDataByPage($event, 'user')" (goNext)="fetchNext('user')" (goPrev)="fetchPrevious('user')" [pagesToShow]="10"
-          [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+          [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"  [count]="totalRow" (sizeChange)="updateTableBatchSize($event)">
         </pagination>
       </div>
     </div>
@@ -471,16 +470,13 @@
   </div>
   <div class="table-container">
     <div class="heading-container" style="background: #fafafa;font-size: 12px;font-weight: 600;">
-      <div class="heading-item" style="width: 10%;text-align: left;">
-        Id
-      </div>
       <div class="heading-item" style="text-align: left;width: 25%;">
         <span>Login Date Time</span>
       </div>
       <div class="heading-item" style="text-align: left;width: 25%;">
         <span>Logout Date Time</span>
       </div>
-      <div class="heading-item" style="width: 10%;text-align: left;">
+      <div class="heading-item" style="width: 20%;text-align: left;">
         Device Type
       </div>
       <div class="heading-item" style="width: 30%;text-align: left;">
@@ -489,9 +485,6 @@
     </div>
     <div class="value-outer-container" *ngIf="loginHistory?.length>0" style="min-height: 57vh;max-height: 57vh;">
       <div class="value-container" *ngFor="let data of loginHistory; let i = index;" style="padding:10px">
-        <div class="value-item" style="text-align: left;width: 10%;">
-          {{data.login_history_id}}
-        </div>
         <div class="value-item" style="text-align: left;width: 25%;">
           <!-- {{data.login_datetime | date: 'dd MMM yyyy HH:MM a'}} -->
           {{data.login_datetime | date: 'dd MMM yyyy'}}
@@ -501,7 +494,7 @@
           {{data.logout_datetime | date: 'dd MMM yyyy'}}
           {{data.logout_datetime | date: 'shortTime'}}
         </div>
-        <div class="value-item" style="text-align: left;width: 10%;">
+        <div class="value-item" style="text-align: left;width: 20%;">
           {{data.source}}
         </div>
         <div class="value-item" style="text-align: left;width: 30%;">
@@ -535,11 +528,11 @@
       <div class="modal-body">
         <div class="new-modules-list">
           <ol>
-            <div style="margin-bottom: 10px;"><span style="font-weight: 600;">1. Clear registered device (If Single Device Login setting is enabled) - </span>
+            <div style="margin-bottom: 10px;"><span style="font-weight: 600;">1. Clear registered device (If Single Device Login setting is enabled) <span style="color: #0084f6;">X</span> - </span>
               <span>When user login we capture registered devices to avoid login on multiple devices. After clicking on this option the user registered device gets cleared and the user can access through another device.</span>
             </div>
 
-            <div><span style="font-weight: 600;">2. Allow/Block access - </span>
+            <div><span style="font-weight: 600;">2. Allow/Block access<i class="fa fa-universal-access allowAccessIcons" style="color: #0084f6;" aria-hidden="true"></i> - </span>
               <span>After clicking on block access user won’t be able to access on app/web.</span>
             </div>
           </ol>

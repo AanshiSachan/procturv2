@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../../services/user-management/user.service';
 import { HttpService } from '../../../services/http.service';
 import * as moment from 'moment';
+import { ExcelService } from '../../../services/excel.service';
 
 @Component({
   selector: 'app-users',
@@ -22,9 +23,7 @@ export class UsersComponent implements OnInit {
     is_show_credentials: false,
     master_course: '',
     course_id: 0,
-    name: '',
-    email: '',
-    phone: '',
+    searchCriteria: '',
     app_downloaded: '-1'
   };
   allocateItemPopUp: boolean = false;
@@ -68,13 +67,25 @@ export class UsersComponent implements OnInit {
   historyBatchSize = 10;
   historyTotalRow : any = 0;
   historyUserId : any = 0;
+  sso_check: boolean = false;
+  tableSetting: any = {
+    keys: [
+    { primaryKey: 'name', header: 'Name'},
+    { primaryKey: 'username', header: 'Contact No'},
+    { primaryKey: 'alternate_email_id', header: 'Email ID'},
+    { primaryKey: 'username', header: 'Username'},
+    { primaryKey: 'password', header: 'Password'},
+    { primaryKey: 'last_login_date_time', header: 'Last Login'},
+  ]};
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
 
   constructor(
     private apiService: UserService,
     private toastCtrl: AppComponent,
     private auth: AuthenticatorService,
     private router: Router,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private excelService: ExcelService
   ) { }
 
   ngOnInit() {
@@ -98,6 +109,9 @@ export class UsersComponent implements OnInit {
     )
     if(this.dataFilter.role == '1') {
       this.getMasterCourseData();
+    }
+    if (sessionStorage.getItem('single_device') == 'true' && sessionStorage.getItem('distinct_device_login') == 'true') {
+      this.sso_check = true;
     }
   }
 
@@ -143,14 +157,8 @@ export class UsersComponent implements OnInit {
       obj.standard_id = this.dataFilter.master_course,
       obj.subject_id = this.dataFilter.course_id;
     }
-    if(this.dataFilter.name != '') {
-      obj.name = this.dataFilter.name;
-    }
-    if(this.dataFilter.phone != '') {
-      obj.mobile = this.dataFilter.phone;
-    }
-    if(this.dataFilter.email != '') {
-      obj.email_id = this.dataFilter.email;
+    if(this.dataFilter.searchCriteria != '') {
+      obj.searchCriteria = this.dataFilter.searchCriteria;
     }
     if(this.dataFilter.app_downloaded !='-1') {
       if(this.dataFilter.app_downloaded == '3') {
@@ -197,14 +205,13 @@ export class UsersComponent implements OnInit {
     this.usersList=[];
     this.totalRow=0;
     this.PageIndex=1;
+    this.displayBatchSize = 10;
     this.selectedRowCount = 0;
     this.userListDataSource =[];
     this.dataFilter.is_active = true;
     this.dataFilter.master_course = '';
     this.dataFilter.course_id = 0;
-    this.dataFilter.name = '';
-    this.dataFilter.email = '';
-    this.dataFilter.phone = '';
+    this.dataFilter.searchCriteria = '';   
     this.dataFilter.app_downloaded = '-1';
     if(this.dataFilter.role == '1') {
       this.getMasterCourseData();
@@ -306,6 +313,7 @@ export class UsersComponent implements OnInit {
     };
     this.notificationPopup = false;
     this.loginHistoryPopup = false;
+    this.historyPageIndex = 1;
   }
 
   getInventoryItemList(data) {
@@ -839,6 +847,30 @@ export class UsersComponent implements OnInit {
    this.closeNotificationPopup();
     }
   }
+
+  exportToExcel() {
+    let arr = this.usersList;
+    let Excelarr = [];
+            arr.map(
+              (ele: any) => {
+                let json = {}
+                this.tableSetting.keys.map((keys) => {
+                json[keys.header] = ele[keys.primaryKey]
+              })
+              Excelarr.push(json);
+          }
+          )
+          this.excelService.exportAsExcelFile(
+            Excelarr,
+            'User'
+          );
+  }
+
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.PageIndex , 'user');
+  }
+
 
 
 }
