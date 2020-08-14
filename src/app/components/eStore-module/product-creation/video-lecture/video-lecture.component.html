@@ -45,8 +45,8 @@
       <div class="col-md-12 topic-name" [ngStyle]="{'padding-left': level+'em'}">
         <div class="col-md-1">
         <button class="btn-ga-collapse">
-          <i class="fa fa-minus" *ngIf="subject.isExpand" (click)="toggleObject(subject)"></i>
-          <i class="fa fa-plus" *ngIf="!subject.isExpand" (click)="toggleObject(subject)"></i>
+          <i class="fa fa-minus" *ngIf="subject.isExpand" (click)="collapseAll(subject, false)"></i>
+          <i class="fa fa-plus" *ngIf="!subject.isExpand" (click)="collapseAll(subject, true)"></i>
         </button>
         </div>
         <div class="col-md-4">

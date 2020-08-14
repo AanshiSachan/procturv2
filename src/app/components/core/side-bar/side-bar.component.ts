@@ -478,16 +478,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   isLibraryFeatureAllow(permission) {
     this.jsonFlags.isShowLibrabry = false;
-    let username = sessionStorage.getItem('username');
-    if ((username == "admin" && this.instituteId == 100127) ||
-      (username == "admin" && this.instituteId == 101077) ||
-      (username == "admin" && this.instituteId == 101223) ||
-      (username == "admin" && this.instituteId == 100058) ||
-      (username == "admin" && this.instituteId == 100952) ||
-      (username == "admin" && this.instituteId == 100135) ||
-      (username == "admin" && this.instituteId == 101923) ||
-      (username == "admin" && this.instituteId == 102026) ||
-      (permission && permission.indexOf('721') != -1)) {
+    if ((sessionStorage.getItem('enable_library_feature')) == '1') {
       this.jsonFlags.isShowLibrabry = true;
     }
   }

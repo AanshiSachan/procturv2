@@ -94,8 +94,8 @@ export class AddClassComponent implements OnInit {
     mute_upon_entry: true,
     auto_recording: "none",
     is_zoom_live_class: false,
-    hide_recording_notifications: false,
-    prevent_user_count: false
+    hide_recording_notifications: true,
+    prevent_user_count: true
   };
   // Zoom
   auto_recording: boolean = false;
@@ -530,8 +530,8 @@ export class AddClassComponent implements OnInit {
       mute_upon_entry: false,
       auto_recording: "none",
       is_zoom_live_class: false,
-      hide_recording_notifications: false,
-      prevent_user_count: false
+      hide_recording_notifications: true,
+      prevent_user_count: true
     };
 
     this.topicName = "";
