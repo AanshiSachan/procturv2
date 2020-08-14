@@ -792,19 +792,6 @@
     <div class="general-setting show-left">
       <div class="row">
         <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
-          <label for="ch32">Announcement
-          </label>
-        </div>
-        <div class="c-sm-6 c-md-6 c-lg-6">
-          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.announcement != ''}">
-            <!-- <input type="textbox" id="ch32" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.announcement"> -->
-            <editor style="width: 75%;"
-            [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="instDetails.announcement"></editor>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
           <label for="logo_url">App Home Page URL
           </label>
         </div>
@@ -817,6 +804,20 @@
         <div class="c-md-1 clearFile" (click)="clearAnnouncementFile()">X</div>
         <div class="c-md-1" *ngIf="instDetails.announcement_image_url!=''" style="padding: 0;width: 4%;margin-top: 1%;margin-right: 5px;">
           <img src="{{instDetails.announcement_image_url}}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch32">Announcement
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6" style="margin-top: 10px;width: 39%;">
+          <span> <span style="font-weight: 600;"> Note - </span> Don’t use ‘#' anywhere in the announcement. If on the link '#’ comes please change to short URL through bitly.</span>
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.announcement != ''}">
+            <!-- <input type="textbox" id="ch32" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.announcement"> -->
+            <editor
+            [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="instDetails.announcement"></editor>
+          </div>
         </div>
       </div>
       <div class="row">
