@@ -54,7 +54,7 @@ export class SalesReportsComponent implements OnInit {
     tableDetails: { title: 'Sales Report', key: 'products.salesReports', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
-    selectAll: { showSelectAll: false, option:'single', title: 'Sales report', checked: true, key: 'title' },
+    selectAll: { showSelectAll: false, option: 'single', title: 'Sales report', checked: true, key: 'title' },
     defaultSort: { primaryKey: 'publish_date', sortingType: 'asc', header: 'Purchase Date', priority: 4, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
     actionSetting:
     {
@@ -74,7 +74,8 @@ export class SalesReportsComponent implements OnInit {
     private _msgService: MessageShowService,
     private _http: HttpService,
     private _excelService: ExcelService,
-    private http: ProductService, ) { }
+    private excelService: ExcelService,
+    private http: ProductService,) { }
 
   ngOnInit() {
 
@@ -155,7 +156,7 @@ export class SalesReportsComponent implements OnInit {
               "title": object.product.title,
               "name": object.name,
               "phone": object.phone,
-              "price":object.price,
+              "price": object.price,
               "publish_date": object.purchase_date,
               "status": object.product.status,
             }
@@ -300,22 +301,63 @@ export class SalesReportsComponent implements OnInit {
     console.log(this.displayKeys);
   }
 
+  // exportToExcel() {
+  //   let exportedArray: any[] = [];
+  //   this.salesDataSource.map((data: any) => {
+  //     let obj = {};
+  //     obj["Order ID"] = data.order_id;
+  //     obj["Product Name"] = data.title;
+  //     obj["Student Name"] = data.name;
+  //     obj["Phone No"] = data.phone;
+  //     obj["Purchase Date"] = moment(data.publish_date).format("DD MMM YYYY");
+  //     exportedArray.push(obj);
+  //   })
+  //   this._excelService.exportAsExcelFile(
+  //     exportedArray,
+  //     'Sales Report'
+  //   )
+  // }
+
+
+  /**
+  * export as excel 
+  * Added By Ashwini Gupta
+  */
   exportToExcel() {
-    let exportedArray: any[] = [];
-    this.salesDataSource.map((data: any) => {
-      let obj = {};
-      obj["Order ID"] = data.order_id;
-      obj["Product Name"] = data.title;
-      obj["Student Name"] = data.name;
-      obj["Phone No"] = data.phone;
-      obj["Purchase Date"] = moment(data.publish_date).format("DD MMM YYYY");
-      exportedArray.push(obj);
-    })
-    this._excelService.exportAsExcelFile(
-      exportedArray,
+    let arr = []
+    this.salesDataSource.map(
+      (ele: any) => {
+        let json = {}
+        this.tableSetting.keys.map((keys) => {
+          json[keys.header] = ele[keys.primaryKey]
+        })
+        arr.push(json);
+
+      }
+
+    )
+    //Adding below line below in response value of status comes as 10,20,30,40,50 and which is not user friendly. User should able to see exact means of that code.
+    for (let i = 0; i < arr.length; i++) {
+      switch (arr[i].Status) {
+        case 10: arr[i].Status = "Ready";
+          break;
+        case 20: arr[i].Status = "Ready To Publish";
+          break;
+        case 30: arr[i].Status = "Published";
+          break;
+        case 40: arr[i].Status = "Unpublished";
+          break;
+        case 50: arr[i].Status = "Closed";
+          break;
+      }
+    }
+    this.excelService.exportAsExcelFile(
+      arr,
       'Sales Report'
     )
   }
+
+  // End
 
   searchDatabase() {
     this.salesDataSource = this.tempSalesData;
