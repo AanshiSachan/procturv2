@@ -66,8 +66,9 @@ export class OfferHistoryComponent implements OnInit {
       { primaryKey: 'purchase_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true },
       { primaryKey: 'actual_amount', header: 'Product Price', priority: 6, allowSortingFlag: true },
       { primaryKey: 'paid_amount', header: 'Paid', priority: 7, allowSortingFlag: true },
-      { primaryKey: 'status', header: 'Offer Status', priority: 8, allowSortingFlag: true },
-      { primaryKey: 'offer_type', header: 'Coupon/Voucher', priority: 9, allowSortingFlag: true },
+      { primaryKey: 'offer_code', header: 'Offer Code', priority: 8, allowSortingFlag: true },
+      { primaryKey: 'status', header: 'Offer Status', priority: 9, allowSortingFlag: true },
+      { primaryKey: 'offer_type', header: 'Coupon/Voucher', priority: 10, allowSortingFlag: true },
       // End
     ];
     this.displayKeys = this.tableSetting.keys;
@@ -123,6 +124,7 @@ export class OfferHistoryComponent implements OnInit {
       obj["Purchase Date"] = data.purchase_date;
       obj["Product Price"] = data.actual_amount;
       obj["Paid"] = data.paid_amount;
+      obj["Offer Code"]= data.offer_code;
       obj["Offer Status"] = data.status;
       obj["Coupon/Voucher"] = data.offer_type;
       exportedArray.push(obj);
@@ -149,6 +151,7 @@ export class OfferHistoryComponent implements OnInit {
           ele.purchase_date,
           ele.actual_amount,
           ele.paid_amount,
+          ele.offer_code,
           ele.status,
           ele.offer_type,
         ]
@@ -156,7 +159,7 @@ export class OfferHistoryComponent implements OnInit {
       })
 
     let rows = [];
-    rows = [['Order ID', "Product Name", "Student Name", 'Phone No', 'Purchase Date', 'Product Price', 'Paid', 'Offer Status', 'Coupon/Voucher']]
+    rows = [['Order ID', "Product Name", "Student Name", 'Phone No', 'Purchase Date', 'Product Price', 'Paid', 'Offer Code','Offer Status', 'Coupon/Voucher']]
     let columns = arr;
     let columnStyles = {
       1: {
