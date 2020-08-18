@@ -27,20 +27,32 @@
             </div>
 
         </div>
-        <!-- Excel Export Added by ashwini gupta -->
-        <div style="margin-top: 1%;margin-left: 18%;" *ngIf="totalCount != 0">
+        <!-- Excel Export Added by ashwini gupta  and used the app-basic-table shared component and implemented pagination separately-->
+        <div style="margin-top: 1%;margin-left: 18%;" *ngIf="this.varJson.total_items != 0">
             <i class="fa fa-file-pdf-o"
                 style="font-size: 28px;color: darkred;cursor: pointer;margin-right: 5px;margin-left: -36px;"
                 aria-hidden="true" (click)="exportToPdf()"></i>
             <i class="fa fa-file-excel-o" style="font-size: 28px;color: green;cursor: pointer;" aria-hidden="true"
                 (click)="exportToExcel()"></i>
         </div>
-        <!-- End -->
+
     </div>
 
     <div class="table table-responsive">
-        <data-display-table #child [displayKeys]="tableSetting" [displayData]="offerHistoryData"
+        <app-basic-table [headers]="headerSetting" [displayData]="offerHistoryData" [tableSetting]="tableSetting"
+            [rowColumnSetting]="rowColumns">
+        </app-basic-table>
+
+        <!-- <data-display-table #child [displayKeys]="tableSetting" [displayData]="offerHistoryData"
             (editView)='optionSelected($event)'>
-        </data-display-table>
+        </data-display-table> -->
     </div>
+    <div>
+        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+            [pagesToShow]="10" [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize"
+            [sizeArr]="varJson.sizeArr" (sizeChange)="updateTableBatchSize($event)" [count]="varJson.total_items">
+        </pagination>
+
+    </div>
+    <!-- End -->
 </div>
