@@ -111,6 +111,9 @@ export class VideoLectureComponent implements OnInit {
     if(obj.subtopicList) {
       obj.subtopicList.forEach(element => {
         element.isExpand = cond;
+        // changes done by = Nalini
+        // Course type id is added because course type id was getting as 0 while selecting video
+        element.course_type_id = obj.course_type_id;
         // element.subject_id = this.subjectId;
         this.addMaterialExtension(element);
         this.collapseAll(element, cond);

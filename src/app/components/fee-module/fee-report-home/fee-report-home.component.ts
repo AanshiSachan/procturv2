@@ -17,7 +17,8 @@ export class FeeReportHomeComponent implements OnInit {
     isAdmin: false,
     isProfitnloss: false,
   }
-tax_type_without_percentage :String;
+  tax_type_without_percentage :String;
+  is_tax_enabled: any;
   constructor(private auth: AuthenticatorService) { }
 
   ngOnInit() {
@@ -25,6 +26,7 @@ tax_type_without_percentage :String;
     const userType = sessionStorage.getItem('userType');
     this.enable_online_payment = sessionStorage.getItem('enable_online_payment_feature');
     this.tax_type_without_percentage=sessionStorage.getItem('tax_type_without_percentage');
+    this.is_tax_enabled=sessionStorage.getItem('enable_tax_applicable_fee_installments');
     if (userType == '3') {
       this.jsonFlags.isAdmin = false;
       this.jsonFlags.isProfitnloss = false;

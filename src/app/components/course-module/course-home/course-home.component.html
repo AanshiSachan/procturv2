@@ -16,36 +16,34 @@
         <span>Data Setup</span>
       </div>
       <div class="menu-description">
-        <span> Data setup your academic year, faculties, classrooms and exam grades</span>
+        <span> One time setup of Academic Year, Faculty Details, Classrooms & Exam Grades.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/course/create" *ngIf="jsonFlags.isShowModel">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create course">
-        <span>Create course</span>
+        <span>Manage Course</span>
       </div>
       <div class="menu-description">
-        <span>Create and manage courses with ease. Define standards, subjects, and topics as well as schedule classes and exams for the course.</span>
+        <span> Manage Standards / Subjects / Topics / Courses, along with Class & Exam Scheduling.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="../ecourse-file-manager" *ngIf="jsonFlags.isEcourseFileManager">
       <div class="menu-title">
         <img src="./assets/images/activity/study_material.svg" alt="">
-        <span>Study Materials</span>
+        <span>Study Material</span>
       </div>
       <div class="menu-description">
-        <span>Manage storage of uploaded and downloaded files by E-Course. Upload or download the files and manage
-          files in folders and
-          by category.</span>
+        <span>Study Material Repository - To be used for Sharing with Students in Offline / Online Courses and for Selling purpose.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/course/file-manager">
       <div class="menu-title">
         <img src="./assets/images/activity/file_manager.svg" alt="file manager">
-        <span>File Manager</span>
+        <span>File / Documents Manager</span>
       </div>
       <div class="menu-description">
-        <span>Manage Storage Of Uploaded And Downloaded Files By Category.</span>
+        <span>Upload and Share Youtube Links / Assignments / Notes / Homework etc with Students.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/course/online-assignment">
@@ -64,7 +62,7 @@
         <span>Class Planner</span>
       </div>
       <div class="menu-description">
-        <span>Plan and manage class for all courses on the go.</span>
+        <span>Plan and Manage classes for all courses at one place.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/course/coursePlanner/exam" *ngIf="jsonFlags.isShowClassPlanner">
@@ -73,7 +71,7 @@
         <span>Exam Planner</span>
       </div>
       <div class="menu-description">
-        <span>Plan and manage exams for all courses on the go.</span>
+        <span>Plan and Manage exams for all courses at one place.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/course/timeTable">
@@ -82,7 +80,7 @@
         <span>Timetable</span>
       </div>
       <div class="menu-description">
-        <span>Time table as per the subject on weekly basis.</span>
+        <span>Check and Print Timetable for the week.</span>
       </div>
     </div>
 
@@ -92,7 +90,7 @@
         <span>Reports</span>
       </div>
       <div class="menu-description">
-        <span>Track performance on each and every aspect with detailed reports.</span>
+        <span>Student Attendance & Exam Reports for Analysis and Printing.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="../master-tag">
@@ -101,29 +99,27 @@
         <span>Manage Tag</span>
       </div>
       <div class="menu-description">
-        <span>Create tags for future reference while creating products.</span>
+        <span>Tags are used in Online Exams for better analysis of student performance.</span>
       </div>
     </div>
     <div class="course-menu-item" *ngIf="jsonFlags.isShowEcourseMapping" routerLink="../ecoursemapping">
       <div class="menu-title">
         <img src="./assets/images/activity/ecourse.svg" alt="">
-        <span>E-course Mapping</span>
+        <span>eCourse Mapping</span>
       </div>
       <div class="menu-description">
-        <span *ngIf="!isLangInstitue">Create E-courses and assign multiple standards to the E-courses.</span>
-        <span *ngIf="isLangInstitue">Create E-courses and assign multiple batches to the E-courses</span>
+        <span *ngIf="!isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore Products.</span>
+        <span *ngIf="isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore Products.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/course/archiving" *ngIf="jsonFlags.isShowArchiving">
       <div class="menu-title">
         <img src="./assets/images/activity/archive.svg" alt="archiving">
-        <span>Archiving</span>
+        <span>Data Archiving</span>
       </div>
       <div class="menu-description">
-        <span *ngIf="(isLangInstitue)">Archive the batches, students and get the report of archived batches and
-          students.</span>
-        <span *ngIf="(!isLangInstitue)">Archive the courses, students and get the report of archived courses and
-          students.</span>
+        <span *ngIf="(isLangInstitue)">Archive old batches and get the report.</span>
+        <span *ngIf="(!isLangInstitue)">Archive old courses and get the report.</span>
       </div>
     </div>
 
@@ -137,35 +133,34 @@
           <span>Data Setup</span>
         </div>
         <div class="menu-description">
-          <span> Data setup your academic year, faculties, classrooms etc</span>
+          <span> One time setup of Academic Year, Faculty Details, Classrooms & Exam Grades.</span>
         </div>
       </div>
     <div class="course-menu-item" routerLink="/view/batch/create" *ngIf="jsonFlags.isShowModel">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create batch">
-        <span>Create Batch</span>
+        <span>Manage Batch</span>
       </div>
       <div class="menu-description">
-        <span>Create and manage batches with ease</span>
+        <span>Manage Standards / Subjects / Topics / Batches, along with Class / Exam Scheduling.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="../ecourse-file-manager" *ngIf="jsonFlags.isEcourseFileManager">
       <div class="menu-title">
         <img src="./assets/images/activity/study_material.svg" alt="">
-        <span>Study Materials</span>
+        <span>Study Material</span>
       </div>
       <div class="menu-description">
-        <span>Manage storage of uploaded and downloaded files by E-Course. Upload or download the files and manage
-            files in folders and by category.</span>
+        <span>Study Material Repository - To be used for Sharing with Students in Offline / Online Courses and for Selling purpose.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/batch/file-manager" *ngIf="jsonFlags.isShowFileManager">
       <div class="menu-title">
         <img src="./assets/images/activity/file_manager.svg" alt="file manager">
-        <span>File Manager</span>
+        <span>File / Documents Manager</span>
       </div>
       <div class="menu-description">
-        <span>Manage Storage Of Uploaded And Downloaded Files By Category.</span>
+        <span>Upload and Share Youtube Links / Assignments / Notes / Homework etc with Students.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/course/online-assignment">
@@ -184,7 +179,7 @@
         <span>Class Planner</span>
       </div>
       <div class="menu-description">
-        <span>Plan and manage class for all courses on the go.</span>
+        <span>Plan and manage classes for all courses at one place.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/batch/coursePlanner/exam"  *ngIf="jsonFlags.isShowClassPlanner">
@@ -193,7 +188,7 @@
         <span>Exam Planner</span>
       </div>
       <div class="menu-description">
-        <span>Plan and manage exams for all courses on the go.</span>
+        <span>Plan and manage exams for all courses at one place.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/batch/timeTable">
@@ -202,7 +197,7 @@
         <span>Timetable</span>
       </div>
       <div class="menu-description">
-        <span>Time table as per the subject on weekly basis.</span>
+        <span>Check and Print Timetable for the week.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/batch/reports">
@@ -211,7 +206,7 @@
         <span>Reports</span>
       </div>
       <div class="menu-description">
-        <span>Track performance on each and every aspect with detailed reports.</span>
+        <span>Student Attendance & Exam Reports for Analysis and Printing.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="../master-tag">
@@ -220,7 +215,7 @@
         <span>Manage Tag</span>
       </div>
       <div class="menu-description">
-        <span>Create tags for future reference while creating products.</span>
+        <span>Tags are used in Online Exams for better analysis of student performance.</span>
       </div>
     </div>
 
@@ -229,23 +224,21 @@
     <div class="course-menu-item" *ngIf="jsonFlags.isShowEcourseMapping" routerLink="../ecoursemapping">
       <div class="menu-title">
         <img src="./assets/images/activity/ecourse.svg" alt="">
-        <span>E-course Mapping</span>
+        <span>eCourse Mapping</span>
       </div>
       <div class="menu-description">
-        <span *ngIf="!isLangInstitue">Create E-courses and assign multiple standards to the E-courses.</span>
-        <span *ngIf="isLangInstitue">Create E-courses and assign multiple batches to the E-courses</span>
+        <span *ngIf="!isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore Products.</span>
+        <span *ngIf="isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore Products.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/batch/archiving" *ngIf="jsonFlags.isShowArchiving">
       <div class="menu-title">
         <img src="./assets/images/activity/archive.svg" alt="archiving">
-        <span>Archiving</span>
+        <span>Data Archiving</span>
       </div>
       <div class="menu-description">
-        <span *ngIf="(isLangInstitue)">Archive the batches, students and get the report of archived batches and
-          students.</span>
-        <span *ngIf="(!isLangInstitue)">Archive the courses, students and get the report of archived courses and
-          students.</span>
+        <span *ngIf="(isLangInstitue)">Archive old batches and get the report.</span>
+        <span *ngIf="(!isLangInstitue)">Archive old courses and get the report.</span>
       </div>
     </div>
 

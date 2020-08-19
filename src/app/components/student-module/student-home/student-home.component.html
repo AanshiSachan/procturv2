@@ -32,33 +32,30 @@
 
                             <div class="more-info-item hand_icon" routerLink='/view/students/bulk'>
                                 <a>
-                                    <img src="../../../../assets/images/students/Student_upload.svg" alt=""> Upload
-                                    Student
+                                    <img src="../../../../assets/images/students/Student_upload.svg" alt=""> Upload Students
                                 </a>
                             </div>
                             <div class="more-info-item hand_icon" (click)="downloadAllStudent()"
                                 *ngIf="downloadStudentReportAccess">
                                 <a>
-                                    <img src="../../../../assets/images/students/Export.svg" alt=""> Export
+                                    <img src="../../../../assets/images/students/Export.svg" alt=""> Export Students
                                 </a>
                             </div>
                             <!-- <div class="more-info-item hand_icon" routerLink='/view/students/openUser'> -->
                             <div class="more-info-item hand_icon" routerLink='/view/e-store/registered-user'>
                                 <a>
-                                    <img src="../../../../assets/images/students/Open_user.svg" alt=""> Open User
+                                    <img src="../../../../assets/images/students/Open_user.svg" alt=""> Registered Users
                                 </a>
                             </div>
                             <div class="more-info-item hand_icon" routerLink='/view/students/archived_student'>
                                 <a>
-                                    <img src="../../../../assets/images/students/Student_archived.svg" alt=""> Archive
-                                    Student
+                                    <img src="../../../../assets/images/students/Student_archived.svg" alt=""> Archive Students
                                 </a>
                             </div>
                             <div class="more-info-item hand_icon" routerLink='/view/students/archived_status'
                                 style="border-bottom: none;">
                                 <a>
-                                    <img src="../../../../assets/images/students/Archived_reports.svg" alt=""> Archived
-                                    Student Report
+                                    <img src="../../../../assets/images/students/Archived_reports.svg" alt=""> Archived Report
                                 </a>
                             </div>
                         </div>
@@ -535,7 +532,7 @@
                 </div>
 
                 <a id="hiddenAnchorTag" class="hide">Element Made For Admission Form Download</a>
-                <a id="hiddenAnchorTag2" class="hide">Element Made For fee Installment Download</a>
+                <a id="hiddenAnchorTag2" class="hide">Element Made For Fee Installment Download</a>
 
             </section>
             <!-- =============================================================================== -->
@@ -596,7 +593,7 @@
                     <h2>Delete Student - Student Name: {{selectedRow.student_name}}</h2>
                     <div class="update-enquiry-form overflowHidden">
                         <div class="enquiry-update-history">
-                            <h4>Are you Sure you wish to delete this data, it cannot be recovered later.</h4>
+                            <h4>Are you sure you want to delete this data? Ones deleted cannot be recovered later.</h4>
                         </div>
                         <div class="">
                             <div class="clearfix">
@@ -794,9 +791,9 @@
 
                         <div class="marginTenPixel">
                             <div class="field-checkbox-wrapper">
-                                <input type="checkbox" value="" [(ngModel)]="sendNotification.loginMessageChkbx"
-                                    name="loginMessage" class="form-checkbox" id="loginMessage">
-                                <label for="loginMessage">Send Login Message</label>
+                                <input type="checkbox" value="" [(ngModel)]="sendNotification.loginMessageChkbx" name="loginMessage" class="form-checkbox"
+                                    id="loginMessage">
+                                <label for="loginMessage">Send Login Details</label>
                             </div>
                         </div>
 
@@ -852,7 +849,7 @@
                             </div>
 
                             <div class="row marginTenPixel">
-                                <a (click)="getAllSavedMessages()">See All Message</a>
+                                <a (click)="getAllSavedMessages()">See All Messages</a>
 
                                 <div class="message-table-wrapper">
                                     <table class="message-table">
@@ -922,8 +919,8 @@
 
                             <div class="marginTenPixel">
                                 <button class="btn" (click)="sendSmsForApp('1')">SMS For App Download</button>
-                                <button class="btn" (click)="sendSmsForApp('2')">SMS For App Upgradation</button>
-                                <button class="btn" (click)="sendSmsForApp('3')">SMS For Alternate Login Registration
+                                <button class="btn" (click)="sendSmsForApp('2')">SMS For App Upgrade</button>
+                                <button class="btn" (click)="sendSmsForApp('3')">SMS For Alternate Login Details
                                 </button>
                                 <button class="btn" (click)="sendSmsForApp('4')">SMS Credentials</button>
                             </div>

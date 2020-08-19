@@ -98,6 +98,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   zoom_enable: any = false;
   single_login_login_check = false;
   multiWindowLogin: boolean = false;
+  isKominaInstitute: boolean = false;
   constructor(
     private login: LoginService,
     private route: Router,
@@ -187,6 +188,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     else {
       this.checkForVirtualHost(test);
       this.isProcturVisible = false;
+      if(test == 'kohimacollege.in') {
+        this.isKominaInstitute = true;
+      }
       this.backgroundChange.nativeElement.className = "bg-img-virtual"
       this.virtualStyle.nativeElement.className = "login-virtual"
       this.titleService.setTitle("Login");
@@ -866,7 +870,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   openGetAdvice() {
-    let url = "https://proctur.com/contact_us/index.html";
+    let url = "https://proctur.com/contact-us";
     window.open(url);
   }
 

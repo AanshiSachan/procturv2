@@ -1,3 +1,11 @@
+<!--
+  Purpose: This is used for Homepage after user login to Proctur. This will be used by Institute Owners, Faculty and custom users.
+
+  Version History
+  13.8.2020 (Nishant Agarwal)- Label Changes done at multiple places. No logic change.
+
+-->  
+
 <section class="mainHomePage">
 
   <section class="activity-page">
@@ -6,7 +14,7 @@
       <div class="activity-left pull-left">
         <div class="act-top clearfix">
 
-          <h1 class="pull-left">Activity Dashboard</h1>
+          <h1 class="pull-left"> Dashboard</h1>
 
           <div class="pull-right act-right-sec">
             <button class="btn hide add_send_noti" [ngClass]="{hide : checkIfUserHadAccess('105')}" (click)="addSendNotification()">
@@ -21,7 +29,6 @@
         <div class="act-bottom clearfix">
           <div class="grid-container">
             <ul class="actb-wrapper grid">
-
 
               <li class="enquiry-state item" [ngClass]="{'hide' : checkRoleMAnagement()}" data-id="2">
                 <div class="item-content">
@@ -46,7 +53,7 @@
                   <div>
                     <div class="actb-top-header clearfix">
                       <span class="heading">
-                        SCHEDULE
+                        Schedule
                       </span>
                       <div class="schedSwitcher" *ngIf="!isProfessional">
                         <ul>
@@ -67,7 +74,7 @@
                         </li>
                         <li class="schedule-det" *ngIf="!isProfessional && !isSubjectView">
                           <div>
-                            <label>Total Course :</label>
+                            <label>Total Courses :</label>
                             <span> {{courseLevelSchedule.length}}</span>
                             <input style="margin-left:10%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
                               [(ngModel)]="courseLevelSchedDate" (ngModelChange)="updateCourseLevelSched($event)" readonly="true"
@@ -130,7 +137,7 @@
                       </ul>
                       <ul class="sche-head" *ngIf="isProfessional">
                         <li class="timings">Timings</li>
-                        <li class="cls-type">Class type</li>
+                        <li class="cls-type">Class Type</li>
                         <li class="batch">Batch</li>
                         <li class="class_room">Linked Topic</li>
                         <li class="faculty">Faculty</li>
@@ -419,7 +426,7 @@
                 <li style="width: 20%; font-weight: 400">Student ID</li>
                 <li style="width: 20%; font-weight: 400">Student Name</li>
                 <li style="width: 35%; font-weight: 400">Mark Attendance</li>
-                <li style="width: 25%; font-weight: 400">Home Work Status</li>
+                <li style="width: 25%; font-weight: 400">Homework Status</li>
               </ul>
               <ul class="sche-head" *ngIf="settingInfo.home_work_feature_enable !=1">
                 <li style="width: 30%; font-weight: 400">Student ID</li>
@@ -464,7 +471,7 @@
                 </div>
                 <div class="ct-disable-wrapper pos-rel" *ngIf="studentAttList.length == 0">
                   <ul class="ct-ongoing subject">
-                    <li style="width: 100%; font-weight: 800">No Students Record</li>
+                    <li style="width: 100%; font-weight: 800">No Student Records</li>
                   </ul>
                 </div>
               </div>
@@ -491,7 +498,7 @@
             <div class="field-checkbox-wrapper hide">
               <input type="checkbox" value="" class="form-checkbox" id="EnableSmsTopic" [checked]="topics_covered_notifn==1 ? true: false"
                 (change)="updateTopicCovered($event)">
-              <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
+              <label for="EnableSmsTopic">Enable SMS For Covered Topic</label>
             </div>
             <!-- <div class="field-checkbox-wrapper" [ngClass]="{'hide':settingInfo.sms_absent_notification == 0}">
               <input type="checkbox" value="" class="form-checkbox" id="EnableSmsAbsentees">
@@ -511,7 +518,7 @@
             <div class="questionInfo" style="position:relative; left:37%;margin-left: 25px;">
               <span class="qInfoIcon">?</span>
               <span class="tooltip-box-field">
-                Special characters not allowed
+                Special characters are not allowed
               </span>
             </div>
             <div class="field-wrapper">
@@ -525,7 +532,7 @@
             <div class="questionInfo" style="position:relative; left:25%;margin-left: 25px;">
               <span class="qInfoIcon">?</span>
               <span class="tooltip-box-field">
-                Details of homework given to student and special characters are not allowed.
+                Details of homework given to student (special characters are not allowed)
               </span>
             </div>
             <div class="field-wrapper" [ngClass]="{ 'has-value': homework !='' }">
@@ -621,7 +628,7 @@
 
     <div class="reminderWrapper" widget-content>
       <div class="row" style="margin: 20px 0px;">
-        The reminder for the selected schedule will be sent!! click continue to proceed.
+        The reminder for the selected schedule will be sent! Click continue to proceed.
       </div>
     </div>
 
@@ -837,7 +844,7 @@
                 </tr>
                 <tr *ngIf="courseLevelStudentAtt.length == 0">
                   <td colspan="3">
-                    No Students Record
+                    No Student Records
                   </td>
                 </tr>
               </tbody>
@@ -909,10 +916,10 @@
       <div class="questionInfo lefts send-notificaton-tooltip">
         <span class="qInfoIcon">?</span>
         <div class="tooltip-box-field" style="left: 35px !important;top: -30px !important;">
-          Select audience first
-          <br>then click on Send
-          <br>Message Tab to select
-          <br>the message to send.
+          1. Select Audience
+          <br>then click on Next
+          <br>2. Select Message and
+          <br> send.
         </div>
       </div>
     </h2>
@@ -939,7 +946,7 @@
               <br>
               <span>3. Do not use any improper or derogatory statements.</span>
               <br>
-              <span>4. Message approval may generally take 15 to 30 minutes.</span>
+              <span>4. Approve message before sending to the audience.</span>
               <br>
             </div>
             <div class="c-sm-3 c-md-3 c-lg-3 btn-Group">
@@ -1093,7 +1100,7 @@
 
                 <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">
                   <input type="checkbox" value="" name="openAppUser" (click)="chkBoxAllOpenAppUsers($event)" class="form-checkbox" id="chkBoxOpenAppSelection">
-                  <label for="openAppUser" style=" margin-left: 10px;">All Open App Users</label>
+                  <label for="openAppUser" style=" margin-left: 10px;">All Registered Users</label>
                 </div>
               </div>
 
@@ -1242,7 +1249,7 @@
                     </tr>
                     <tr *ngIf="studentList.length == 0">
                       <td colspan="5">
-                        No Faculty Data Found
+                        No Faculty Found
                       </td>
                     </tr>
                   </tbody>
@@ -1321,7 +1328,7 @@
 
                   <div class="row" *ngIf="!jsonFlag.openMessageFlag">
                     <span>
-                      <b style="font-weight: 600;">Configured Notification Messages</b>
+                      <b style="font-weight: 600;">Added Notification Messages</b>
                       <b *ngIf="!jsonFlag.showAllMessage">&nbsp;&nbsp;(showing last 30 days added messages)</b>:</span>
                     <a class="pull-right" style="cursor: pointer; margin-right: 10px;" (click)="getAllSavedMessages()">See All Messages</a>
                   </div>
@@ -1462,7 +1469,7 @@
 
                 <div class="row btn-loginGroup" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter')">
                   <button class="btn" (click)="sendSmsForApp('1',0)">SMS For App Download</button>
-                  <button class="btn" (click)="sendSmsForApp('2',0)">SMS For App Upgradation</button>
+                  <button class="btn" (click)="sendSmsForApp('2',0)">SMS For App Upgrade</button>
                   <button class="btn" (click)="sendSmsForApp('4',0)">Send Credentials via SMS</button>
                   <button class="btn" (click)="sendSmsForApp('4',1)">Send Credentials via Email</button>
                 </div>
