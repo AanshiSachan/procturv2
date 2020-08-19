@@ -302,8 +302,6 @@ export class LiveClassesComponent implements OnInit {
 
   forTeacher(teachersUserIds) {
     let userId = sessionStorage.getItem('userid');
-    console.log("UserId", userId);
-    console.log("teachersUserIds", teachersUserIds);
     if (teachersUserIds.includes(userId)) {
       return true;
     }
@@ -313,8 +311,6 @@ export class LiveClassesComponent implements OnInit {
   }
   forModeratorId(moderatorIds) {
     let userId = sessionStorage.getItem('userid');
-    console.log("Moderator UserId", userId);
-    console.log("Moderator ModeUserIds", moderatorIds);
     if (moderatorIds.includes(userId)) {
       return true;
     }
