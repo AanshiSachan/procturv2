@@ -143,6 +143,7 @@ export class LiveClassesComponent implements OnInit {
   sendSMSNotification: boolean = true;
   sendPushNotification: boolean = false;
   forUser: boolean = false;
+  forModerator: boolean = false;
   proctur_live_expiry_date_check: boolean = false;
   viewDownloadPopup: boolean = false;
   tempVideoData: any = {};
@@ -197,14 +198,18 @@ export class LiveClassesComponent implements OnInit {
 
     let zoom = sessionStorage.getItem('is_zoom_enable');
     this.is_zoom_integration_enable = JSON.parse(zoom);
-    if(this.is_zoom_integration_enable){
+    if (this.is_zoom_integration_enable) {
       // this.zoom_enable = true
     }
 
     const userType = sessionStorage.getItem('userType');
+    console.log("userType", userType);
     const userName = sessionStorage.getItem('userName');
     if (userType == '3') {
       this.forUser = true;
+    }
+    if (userType == '0') {
+      this.forModerator = true;
     }
     let limit = sessionStorage.getItem('videoLimitExceeded');
     this.videoLimitExceed = JSON.parse(limit);
@@ -213,9 +218,9 @@ export class LiveClassesComponent implements OnInit {
     this.institution_id = sessionStorage.getItem('institution_id')
   }
 
-  getAuthKey(){
+  getAuthKey() {
     this.auth.currentAuthKey.subscribe(key => {
-        this.Authorization = key;
+      this.Authorization = key;
     })
   }
 
@@ -253,7 +258,7 @@ export class LiveClassesComponent implements OnInit {
         this.futureLiveClasses = data.upcomingLiveClasses;
         this.is_proctur_live_recording_allow = data.is_proctur_live_recording_allow;
         this.attendance_buffer = data.attendance_buffer;
-        if(this.is_proctur_live_recording_allow == 1 && this.videoLimitExceed == 1){
+        if (this.is_proctur_live_recording_allow == 1 && this.videoLimitExceed == 1) {
           $('#videoLimit').modal('show');
           this.videoLimitExceed = 0;
           sessionStorage.setItem('videoLimitExceeded', '0');
@@ -265,7 +270,7 @@ export class LiveClassesComponent implements OnInit {
           this.checkLiveClassExpiry(proctur_live_expiry_date);
           let expiry = sessionStorage.getItem('liveClassExpiryPop');
 
-          if(this.daysLeftForSubscriptionExpiry <= 5 && JSON.parse(expiry)){
+          if (this.daysLeftForSubscriptionExpiry <= 5 && JSON.parse(expiry)) {
             $('#liveClassExpiry').modal('show');
             sessionStorage.setItem('liveClassExpiryPop', "false")
           }
@@ -304,11 +309,20 @@ export class LiveClassesComponent implements OnInit {
       return false;
     }
   }
+  forModeratorId(moderatorIds) {
+    let userId = sessionStorage.getItem('userid');
+    if (moderatorIds.includes(userId)) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 
   allowStartLiveCLass(link, session_id, meeting_with) {
     let zoom = sessionStorage.getItem('is_zoom_enable');
     let zoom_enable = 0;
-    if(meeting_with == "Zoom"){
+    if (meeting_with == "Zoom") {
       zoom_enable = 1;
     }
     const url = `/api/v1/meeting_manager/session/start/${this.institution_id}/${session_id}?isZoomLiveClass=${zoom_enable}`;
@@ -413,18 +427,18 @@ export class LiveClassesComponent implements OnInit {
 
   editStudent(session_id, meeting_with) {
     let zoom_enable = 0;
-    if(meeting_with == "Zoom"){
+    if (meeting_with == "Zoom") {
       zoom_enable = 1;
     }
-    this.router.navigate(['/view/live-classes/edit/' + session_id], { queryParams: { repeat: 0, isZoomLiveClass : zoom_enable} });
+    this.router.navigate(['/view/live-classes/edit/' + session_id], { queryParams: { repeat: 0, isZoomLiveClass: zoom_enable } });
   }
 
   repeatSession(session_id, meeting_with) {
     let zoom_enable = 0;
-    if(meeting_with == "Zoom"){
+    if (meeting_with == "Zoom") {
       zoom_enable = 1;
     }
-    this.router.navigate(['/view/live-classes/edit/' + session_id], { queryParams: { repeat: 1, isZoomLiveClass : zoom_enable } });
+    this.router.navigate(['/view/live-classes/edit/' + session_id], { queryParams: { repeat: 1, isZoomLiveClass: zoom_enable } });
   }
 
   getClassesFor() {
@@ -445,6 +459,7 @@ export class LiveClassesComponent implements OnInit {
         element.course = Array.prototype.map.call(element.batch_list, s => s.batch_name).toString();
       })
     }
+    console.log("Get Classes", this.getClasses);
     this.totalRow = this.getClasses.length;
     this.fetchTableDataByPage(this.PageIndex);
   }
@@ -557,10 +572,10 @@ export class LiveClassesComponent implements OnInit {
   getDataFromDataSource(startindex) {
     let data = [];
     let buffer = this.attendance_buffer;
-    let jobTime = moment(new Date().setHours(20,0,0,0)).format('YYYY-MM-DD hh:mm a');
-    let JobBufferTime = moment(new Date().setHours(0,0,0,(72000000 - buffer))).format('YYYY-MM-DD hh:mm a');
+    let jobTime = moment(new Date().setHours(20, 0, 0, 0)).format('YYYY-MM-DD hh:mm a');
+    let JobBufferTime = moment(new Date().setHours(0, 0, 0, (72000000 - buffer))).format('YYYY-MM-DD hh:mm a');
     let currentDate = moment(new Date()).format('YYYY-MM-DD hh:mm a');
-    let temp = moment(new Date().setHours(20,0,0,0));
+    let temp = moment(new Date().setHours(20, 0, 0, 0));
     let ReportAllowDate = moment(new Date(2020, 6, 25, 0, 0, 0)).format('YYYY-MM-DD hh:mm a');
     temp = moment(temp).subtract(1, 'days');
     let yesterDayJobTime = moment(temp).format('YYYY-MM-DD hh:mm a');
@@ -569,17 +584,17 @@ export class LiveClassesComponent implements OnInit {
     } else {
       data = this.classListDataSource.slice(startindex, startindex + this.displayClassSize);
     }
-    if(data && data.length) {
+    if (data && data.length) {
       data.forEach(ele => {
         ele.end_datetime = moment(ele.end_datetime).format('YYYY-MM-DD hh:mm a');
         ele.showViewAttendance = false;
-        if(ele.end_datetime >= ReportAllowDate){
-        if(ele.end_datetime <= JobBufferTime) {
-          if(currentDate >= jobTime || ele.end_datetime <= yesterDayJobTime){
-            ele.showViewAttendance = true;
+        if (ele.end_datetime >= ReportAllowDate) {
+          if (ele.end_datetime <= JobBufferTime) {
+            if (currentDate >= jobTime || ele.end_datetime <= yesterDayJobTime) {
+              ele.showViewAttendance = true;
+            }
           }
         }
-      }
       });
     }
     return data;
@@ -636,10 +651,10 @@ export class LiveClassesComponent implements OnInit {
     let obj = {}
     if (confirm("Are you sure you want to send SMS notification ? ")) {
       let zoom_enable = 0;
-      if(meeting_wih == "Zoom"){
+      if (meeting_wih == "Zoom") {
         zoom_enable = 1;
       }
-      const url = "/api/v1/meeting_manager/sendSMSNotification/" + id+"?isZoomLiveClass="+zoom_enable;
+      const url = "/api/v1/meeting_manager/sendSMSNotification/" + id + "?isZoomLiveClass=" + zoom_enable;
       this._http.postData(url, obj).subscribe(
         (data: any) => {
           this.appC.popToast({ type: "success", body: "SMS notification sent successfully" })
@@ -677,10 +692,10 @@ export class LiveClassesComponent implements OnInit {
 
   cancelSession() {
     let zoom_enable = 0;
-    if(this.cancelMeetingWith == "Zoom"){
+    if (this.cancelMeetingWith == "Zoom") {
       zoom_enable = 1;
     }
-    let url = "/api/v1/meeting_manager/delete/" + sessionStorage.getItem('institution_id') + "/" + this.cancelSessionId+"?isZoomLiveClass="+zoom_enable+"&isSendNotification="+this.sendSMSNotification;
+    let url = "/api/v1/meeting_manager/delete/" + sessionStorage.getItem('institution_id') + "/" + this.cancelSessionId + "?isZoomLiveClass=" + zoom_enable + "&isSendNotification=" + this.sendSMSNotification;
     this._http.deleteData(url, this.cancelSessionId).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: data.message })
@@ -793,7 +808,7 @@ export class LiveClassesComponent implements OnInit {
         if (err.status == 400) {
           this.msgService.showErrorMessage('error', '', 'You are out of storage! Please contact our support');
         }
-        else if(err.status == 422){
+        else if (err.status == 422) {
           this.msgService.showErrorMessage('error', '', 'Dear Admin, You have insufficient storage limit to store your current recording hence we could not save your video. To purchase new storage limit please contact our support team 9971839153.');
         }
         else {
@@ -899,21 +914,21 @@ export class LiveClassesComponent implements OnInit {
 
   // upload recording // By Swapnil
 
-  identify(index,item){
+  identify(index, item) {
     return item.session_id
   }
-  deleteRecording(session_id){
+  deleteRecording(session_id) {
     const url = `/api/v1/meeting_manager/deleteRecording?session_id=${session_id}`;
     this.auth.showLoader();
     this._http.deleteDataById(url).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        if(res.statusCode == 200){
+        if (res.statusCode == 200) {
           this.msgService.showErrorMessage('success', '', res.result);
-            this.viewDownloadPopup = false;
+          this.viewDownloadPopup = false;
           this.getClassesList();
         }
-        else{
+        else {
           this.msgService.showErrorMessage('error', '', res.message);
         }
       },
@@ -924,7 +939,7 @@ export class LiveClassesComponent implements OnInit {
     )
   }
 
-  upload(seesion_id, classType){
+  upload(seesion_id, classType) {
     this.uploadSessionId = seesion_id;
     this.uploadClassType = classType;
     this.fileUploadInput = '';
@@ -940,100 +955,100 @@ export class LiveClassesComponent implements OnInit {
   }
 
 
-    generateFilePreview(fileList: any[]): fileObj[] {
-      let size = fileList.length;
-      let tempArr: fileObj[] = [];
-      this.tempArr = tempArr
-      let file;
-      if (size > 0) {
-        for (let i = 0; i < size; i++) {
-          file = fileList[i];
-          tempArr.push(new fileObj(this.getName(file.name), this.getType(file.name), file.size));
-        }
+  generateFilePreview(fileList: any[]): fileObj[] {
+    let size = fileList.length;
+    let tempArr: fileObj[] = [];
+    this.tempArr = tempArr
+    let file;
+    if (size > 0) {
+      for (let i = 0; i < size; i++) {
+        file = fileList[i];
+        tempArr.push(new fileObj(this.getName(file.name), this.getType(file.name), file.size));
       }
-      return tempArr;
+    }
+    return tempArr;
+  }
+
+  getName(file: string): string {
+    return file.split(".")[0];
+  }
+
+  getType(file: string): string {
+    let str = file.substring(file.lastIndexOf(".") + 1, file.length);
+    return str;
+  }
+
+  uploadHandler() {
+
+    if (this.selectedFiles.length == 0) {
+      this.appC.popToast({ type: "error", body: "No file selected" })
+      return
     }
 
-    getName(file: string): string {
-      return file.split(".")[0];
+    let institute_id = sessionStorage.getItem("institute_id");
+    let formData = new FormData();
+
+    for (let i = 0; i < this.selectedFiles.length; i++) {
+      formData.append("files", this.selectedFiles[i]);
     }
 
-    getType(file: string): string {
-      let str = file.substring(file.lastIndexOf(".") + 1, file.length);
-      return str;
+    this.auth.showLoader();
+    let isZoom = true;
+    if (this.uploadClassType != 'Zoom') {
+      isZoom = false;
     }
+    let base = this.auth.getBaseUrl();
+    let urlPostXlsDocument = base + "/api/v1/meeting_manager/uploadRecording?isZoomLiveClass=" + isZoom;
+    let newxhr = new XMLHttpRequest();
 
-    uploadHandler() {
+    newxhr.open("POST", urlPostXlsDocument, true);
+    newxhr.setRequestHeader("institute_id", institute_id);
+    newxhr.setRequestHeader("session_id", this.uploadSessionId);
+    newxhr.setRequestHeader("Authorization", this.Authorization);
+    newxhr.setRequestHeader("enctype", "multipart/form-data;");
+    newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    newxhr.setRequestHeader("Accept", "application/json, text/javascript");
 
-      if (this.selectedFiles.length == 0) {
-        this.appC.popToast({ type: "error", body: "No file selected" })
-        return
+    this.progressBar = true;
+    newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
+      if (e.lengthComputable) {
+        this.progress = Math.round((e.loaded * 100) / e.total);
+        document.getElementById('progress-width').style.width = this.progress + '%';
       }
+    }, false);
 
-      let institute_id = sessionStorage.getItem("institute_id");
-      let formData = new FormData();
+    newxhr.onreadystatechange = () => {
+      if (newxhr.readyState == 4) {
 
-      for(let i = 0; i <  this.selectedFiles.length; i++){
-        formData.append("files", this.selectedFiles[i]);
-      }
-
-      this.auth.showLoader();
-      let isZoom = true;
-      if(this.uploadClassType != 'Zoom'){
-        isZoom = false;
-      }
-      let base = this.auth.getBaseUrl();
-      let urlPostXlsDocument = base + "/api/v1/meeting_manager/uploadRecording?isZoomLiveClass="+isZoom;
-      let newxhr = new XMLHttpRequest();
-
-      newxhr.open("POST", urlPostXlsDocument, true);
-      newxhr.setRequestHeader("institute_id", institute_id);
-      newxhr.setRequestHeader("session_id", this.uploadSessionId);
-      newxhr.setRequestHeader("Authorization", this.Authorization);
-      newxhr.setRequestHeader("enctype", "multipart/form-data;");
-      newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-      newxhr.setRequestHeader("Accept", "application/json, text/javascript");
-
-      this.progressBar = true;
-      newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
-        if (e.lengthComputable) {
-          this.progress = Math.round((e.loaded * 100) / e.total);
-          document.getElementById('progress-width').style.width = this.progress + '%';
-        }
-      }, false);
-
-      newxhr.onreadystatechange = () => {
-        if (newxhr.readyState == 4) {
-
-          if (newxhr.status >= 200 && newxhr.status < 300) {
-            this.auth.hideLoader();
-            let data = JSON.parse((newxhr.response))
-            if(data.statusCode >= 200 && data.statusCode < 300){
-              this.msgService.showErrorMessage('success', '', 'File uploaded successfully');
-              this.fileUploadInput = '';
-              this.progress = 0;
-              this.progressBar = false;
-              $('#uploadRec').modal('hide');
-              this.getClassesList();
-            }
-            else{
-              this.msgService.showErrorMessage('error', '', data.message);
-            }
+        if (newxhr.status >= 200 && newxhr.status < 300) {
+          this.auth.hideLoader();
+          let data = JSON.parse((newxhr.response))
+          if (data.statusCode >= 200 && data.statusCode < 300) {
+            this.msgService.showErrorMessage('success', '', 'File(s) uploaded successfully');
+            this.fileUploadInput = '';
+            this.progress = 0;
+            this.progressBar = false;
+            $('#uploadRec').modal('hide');
+            this.getClassesList();
           }
-           else {
-             this.progress = 0;
-             this.progressBar = false;
-             this.auth.hideLoader();
-             let data = JSON.parse((newxhr.response))
+          else {
             this.msgService.showErrorMessage('error', '', data.message);
           }
         }
+        else {
+          this.progress = 0;
+          this.progressBar = false;
+          this.auth.hideLoader();
+          let data = JSON.parse((newxhr.response))
+          this.msgService.showErrorMessage('error', '', data.message);
+        }
       }
-      newxhr.send(formData);
-
     }
+    newxhr.send(formData);
 
-  viewAttandance(session_id){
+  }
+
+  viewAttandance(session_id) {
     this.router.navigate(['/view/live-classes/report/' + session_id]);
   }
 
