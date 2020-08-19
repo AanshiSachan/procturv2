@@ -846,7 +846,7 @@
 
     <div class="row">
       <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
-        <label for="share_app_url">Share App URL
+        <label for="share_app_url">Share App URL(Android)
         </label>
       </div>
     <div class="c-sm-6 c-md-6 c-lg-6">
@@ -855,6 +855,19 @@
       </div>
     </div>
   </div>
+  <!-- Added By Ashwini Gupta   ticket 1254 -->
+  <div class="row">
+    <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+      <label for="share_app_url">Share App URL(iOS)
+      </label>
+    </div>
+  <div class="c-sm-6 c-md-6 c-lg-6">
+    <div class="field-wrapper" [ngClass]="{'has-value' : instDetails.share_ios_app_url != ''}">
+      <input type="textbox" style="width: 75%;" [(ngModel)]="instDetails.share_ios_app_url" class="form-ctrl" id="share_ios_app_url">
+    </div>
+  </div>
+</div>
+<!-- End -->
     </div>
 
     <h2 class="heading-setting-main" *ngIf="instDetails.is_proctur_live_recording_allow == 1">Live class</h2>  
