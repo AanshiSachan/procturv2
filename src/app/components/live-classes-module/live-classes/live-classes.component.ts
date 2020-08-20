@@ -310,13 +310,16 @@ export class LiveClassesComponent implements OnInit {
     }
   }
   forModeratorId(moderatorIds) {
-    let userId = sessionStorage.getItem('userid');
-    if (moderatorIds.includes(userId)) {
-      return true;
+    if (moderatorIds != null) {
+      let userId = sessionStorage.getItem('userid');
+      if (moderatorIds.includes(userId)) {
+        return true;
+      }
+      else {
+        return false;
+      }
     }
-    else {
-      return false;
-    }
+
   }
 
   allowStartLiveCLass(link, session_id, meeting_with) {
