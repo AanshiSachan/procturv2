@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Bitter:400,700);
 @import "./src/assets/css/common/variables.scss";
 @import "./src/app/components/student-module/student-add/student-add.component.scss";
 .notify-wrapper {
@@ -17,7 +18,28 @@
 .middle-top{
   margin: 0px;
 }
-
+.gradeLegend{
+    background: black;
+    color: white;
+    text-align: center;
+    width: 15%;
+    margin-left: 44%;
+    border-radius: 18px;
+}
+.gradeType{
+    margin-top: 2%;
+    background: black;
+    width: 44%;
+    margin-left: 30%;
+    color: white;
+    border-radius: 15px;
+}
+.footerCert{
+    margin-top: 16%;
+    background: #FA8072;
+    color: white;
+    font-size: 18px;
+}
 .headEnq {
     .headerBtn {
         display: inline-flex;
@@ -1410,10 +1432,44 @@ ul.customDropdown li:hover {
     height: 845px;
     width: 100%;
   }
-  .partner-logo-container{
+  .cert-outer-container{
+    background-color: #FFFFFF;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100vh;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 845px;
+    width: 100%;
+  }
+  .growth{
+ 
+        text-shadow: 0 1px 0 #ccc,
+                     0 2px 0 #c9c9c9,
+                     0 3px 0 #bbb,
+                     0 4px 0 #b9b9b9,
+                     0 5px 0 #aaa,
+                     0 6px 1px rgba(0,0,0,.1),
+                     0 0 5px rgba(0,0,0,.1),
+                     0 1px 3px rgba(0,0,0,.3),
+                     0 3px 5px rgba(0,0,0,.2),
+                     0 5px 10px rgba(0,0,0,.25),
+                     0 10px 10px rgba(0,0,0,.2),
+                     0 20px 20px rgba(0,0,0,.15);
+      }
+
+      .partner-logo-container{
     padding: 20px 0px;
     display: flex;
     margin-left: 75%;
+  }
+  .cert-partner-logo-container{
+    padding: 20px 0px;
+    display: flex;
+   
   }
   .partner-logo-container img {
     width: 120px;
@@ -1431,6 +1487,15 @@ ul.customDropdown li:hover {
     text-align: center;
     margin-top: 10px;
   }
+  .cert-title{
+    font-family: 'Times New Roman', Times, serif;
+    color: #D5922A;
+    font-size: 40px;
+    text-align: center;
+    margin-top: 10px;
+    
+
+  }
   .certificate-issuer-name{
     text-align: left;
     font-size: 16px;
@@ -1440,6 +1505,14 @@ ul.customDropdown li:hover {
     font-style: italic;
     margin-left: 30%;
   }
+  .cert-issuer-name{
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+    font-style: italic;
+    margin-left: 30%;
+  }
+  
   .course-info-container{
     margin: 10px;
     font-size: 22px;
@@ -1479,7 +1552,7 @@ ul.customDropdown li:hover {
   }
   .data_content{
       width:50%;
-      border-bottom: 1px solid black;
+      border-bottom: 1px dashed black;
       font-size:16px;
       margin-top: 3px;
       min-height: 20px;
@@ -1497,6 +1570,17 @@ ul.customDropdown li:hover {
 
   }
 
+  .fromDate{
+    padding-left: 89px;
+    margin-left: -17rem;
+    padding-right: 85px;
+    border-bottom: 1px dashed black;
+  }
+  .todate{
+    padding-left: 99px;
+    border-bottom: 1px dashed black;
+    padding-right: 107px;
+  }
 // Bora Class Certificate style
 .certificate-outer-container{
   display: flex;
