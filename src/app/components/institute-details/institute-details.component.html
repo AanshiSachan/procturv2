@@ -787,7 +787,7 @@
           <span style="font-size: 12px;">(Size 300X200)</span>
         </div>
         <div class="c-md-1 clearFile" (click)="clearAnnouncementFile()">X</div>
-        <div class="c-md-1" *ngIf="instDetails.announcement_image_url!=''" style="padding: 0;width: 4%;margin-top: 1%;margin-right: 5px;">
+        <div class="c-md-1" *ngIf="instDetails.announcement_image_url!='' && instDetails.announcement_image_status!=3" style="padding: 0;width: 4%;margin-top: 1%;margin-right: 5px;">
           <img src="{{instDetails.announcement_image_url}}">
         </div>
       </div>

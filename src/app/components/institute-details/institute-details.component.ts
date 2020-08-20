@@ -114,6 +114,8 @@ export class InstituteDetailsComponent implements OnInit {
         if(this.instDetails.enable_student_app_url == 1) {
           this.instDetails.enable_student_app_url = true;
         }
+        this.instDetails.announcement_image_status = 2;
+        this.announcement_image_url = this.instDetails.announcement_image_url;
         this.fillTableCheckboxValue(this.proctur_live_recorded_session_download_visibilty, this.instDetails.proctur_live_recorded_session_download_visibilty);
           this.fillTableCheckboxValue(this.proctur_live_recorded_session_view_visibility, this.instDetails.proctur_live_recorded_session_view_visibility);
       },
@@ -313,6 +315,7 @@ export class InstituteDetailsComponent implements OnInit {
     }
     obj.logo_url = this.instDetails.logo_url;
     obj.institute_logo = this.institute_logo;
+    obj.announcement_image_status = this.instDetails.announcement_image_status;
     obj.announcement_image_url = this.announcement_image_url;
     obj.proctur_live_recorded_session_download_visibilty = this.getSumOfTableField(this.proctur_live_recorded_session_download_visibilty);
     obj.proctur_live_recorded_session_view_visibility = this.getSumOfTableField(this.proctur_live_recorded_session_view_visibility);
@@ -706,6 +709,9 @@ export class InstituteDetailsComponent implements OnInit {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
         this.announcement_image_url  = reader.result.split(',')[1];
+        if((this.instDetails.announcement_image_url == null ||this.instDetails.announcement_image_url == '') && this.announcement_image_url!='') {
+          this.instDetails.announcement_image_status = 1;
+        }
         return reader.result.split(',')[1];
       };
     }
@@ -729,7 +735,8 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   clearAnnouncementFile() {
-    this.announcement_image_url = '';
+    this.instDetails.announcement_image_status = 3;
+    // this.announcement_image_url = '';
     this.instDetails.announcement_image_url = '';
   }
 
