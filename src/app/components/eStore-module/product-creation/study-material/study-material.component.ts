@@ -136,6 +136,9 @@ export class StudyMaterialComponent implements OnInit {
     if(obj.subtopicList) {
       obj.subtopicList.forEach(element => {
         element.isExpand = cond;
+        // changes done by = Nalini
+        // Course type id is added because course type id was getting as 0 while selecting material
+        element.course_type_id = obj.course_type_id;
         this.addMaterialExtension(element);
         this.collapseAll(element, cond);
       });
