@@ -188,7 +188,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     else {
       this.checkForVirtualHost(test);
       this.isProcturVisible = false;
-      if(test == 'kohimacollege.in') {
+      if (test == 'kohimacollege.in') {
         this.isKominaInstitute = true;
       }
       this.backgroundChange.nativeElement.className = "bg-img-virtual"
@@ -578,6 +578,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('enable_library_feature', institute_data.enable_library_feature);
       sessionStorage.setItem('distinct_device_login', institute_data.distinct_device_login);
       sessionStorage.setItem('single_device', institute_data.single_device_login);
+      sessionStorage.setItem('enable_library_feature', institute_data.enable_library_feature);
+      sessionStorage.setItem('teacherIDs', res.data.teacherId);
 
       //Storing the session value 
       // Added by Ashwini Kumar Gupta
