@@ -105,17 +105,20 @@
 
       <div class="add-notificaton-wrapper" *ngIf="addNotification">
         <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="c-sm-9 c-md-9 c-lg-9">
             <div class="field-wrapper" style="padding-top:0px;">
-              <textarea class="form-ctrl textBox" value="" [(ngModel)]="newMessageText"
+              <textarea class="form-ctrl textBox" value="" [(ngModel)]="newMessageText" *ngIf="!showEmailSubject"
                 (ngModelChange)="countNumberOfMessage()" placeholder="Message/SMS"></textarea>
+                <editor
+                [init]="editorConf"  *ngIf="showEmailSubject" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()"
+              ></editor>
               <div style="width:100%; display:flex; justify-content:space-between;">
                 <span>Character Count : {{newMessageText.length}}</span>
                 <span>Message Count : <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></span>
               </div>
             </div>
           </div>
-          <div class="c-sm-5 c-md-5 c-lg-5 note-section">
+          <!-- <div class="c-sm-5 c-md-5 c-lg-5 note-section">
             <h3>Note</h3>
             <span>1. Always start with "Dear Student, Dear Parent, Dear Faculty etc".</span>
             <br>
@@ -125,7 +128,7 @@
             <br>
             <span>4. Message approval may generally take 15 to 30 minutes.</span>
             <br>
-          </div>
+          </div> -->
           <div class="c-sm-3 c-md-3 c-lg-3 btn-Group">
             <button class="btn" (click)="closeNewMessageDiv()">Cancel</button>
             <button class="btn fullBlue" *ngIf="!jsonFlag.editMessage" (click)="saveNewMessage()">Save</button>
@@ -142,7 +145,7 @@
             <li id="idAudience" (click)="selectTabMenu('idAudience','divAudience')" class="active" style="width:150px">
               <a>Select Audience</a>
             </li>
-            <li id="idSendMessage" (click)="selectTabMenu('idSendMessage','divSendMessage')" style="width:150px">
+            <li id="idSendMessage" (click)="selectTabMenu('idSendMessage','divSendMessage')" style="width:150px; margin-left: 2%;">
               <a>Send Message</a>
             </li>
             <li id="liAdd" class="pull-right hide" (click)="addNewNotification()">
@@ -473,7 +476,7 @@
               <div class="row deliverModeSection">
                 <div id="divSendOption" class="c-sm-4 c-md-4 c-lg-4">
                   <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
-                    <input type="checkbox" checked="true" value="" name="sms" class="form-checkbox" id="chkbxSmsSend">
+                    <input type="checkbox" checked="true" value="" name="sms" (click)="smsCheckBoxClick($event)" class="form-checkbox" id="chkbxSmsSend">
                     <label for="chkbxSmsSend" style=" margin-left: 10px;">SMS</label>
                   </div>
                   <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
@@ -493,8 +496,8 @@
                     <label for="chkBoxParent" style=" margin-left: 10px;">Parent</label>
                   </div>
                   <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                    <input type="checkbox" value="" name="guardian" class="form-checkbox" id="chkBoxGaurdian">
-                    <label for="chkBoxGaurdian" style=" margin-left: 10px;">Guardian</label>
+                    <!-- <input type="checkbox" value="" name="guardian" class="form-checkbox" id="chkBoxGaurdian">
+                    <label for="chkBoxGaurdian" style=" margin-left: 10px;">Guardian</label> -->
                   </div>
                 </div>
               </div>
@@ -512,8 +515,7 @@
 
               </div>
 
-              <div class="row"
-                *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor' || openAppUserSelected)">
+              <div class="row" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor' || openAppUserSelected)">
 
                 <div class="schedSwitcher row" [ngClass]="{'hide' : checkRoleMAnagement() }">
                   <ul>
@@ -526,8 +528,7 @@
                   <span>
                     <b style="font-weight: 600;">Configured Notification Messages</b>
                     <b *ngIf="!jsonFlag.showAllMessage">&nbsp;&nbsp;(showing last 30 days added messages)</b>:</span>
-                  <a class="pull-right" style="cursor: pointer; margin-right: 10px;" (click)="getAllSavedMessages()">See
-                    All Messages</a>
+                  <a class="pull-right" style="cursor: pointer; margin-right: 10px;" (click)="getAllSavedMessages()">See All Messages</a>
                 </div>
 
                 <div class="row message-table-wrapper" *ngIf="!jsonFlag.openMessageFlag">
@@ -551,12 +552,11 @@
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody *ngIf="!showEmailSubject">
                       <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
                         <td>
                           <div class="field-checkbox-wrapper">
-                            <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned"
-                              (ngModelChange)="onCheckBoxSelection(index , row)">
+                            <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned" (ngModelChange)="onCheckBoxSelection(index , row)">
                             <label></label>
                           </div>
                         </td>
@@ -567,7 +567,7 @@
                           {{row.message}}
                         </td>
                         <td>
-                          <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )"></i> &nbsp;
+                          <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )" ></i> &nbsp;
                         </td>
                       </tr>
                       <tr *ngIf="messageList.length == 0">
@@ -576,6 +576,32 @@
                         </td>
                       </tr>
                     </tbody>
+                    <!-- Added by Ashwini Kumar Gupta for differeciate between sms and email msg -->
+                    <tbody *ngIf="showEmailSubject">
+                      <tr *ngFor="let row of emailMessageList; let i = index; trackBy: i;">
+                        <td>
+                          <div class="field-checkbox-wrapper">
+                            <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned" (ngModelChange)="onCheckBoxSelection(index , row)">
+                            <label></label>
+                          </div>
+                        </td>
+                        <td class="dateSection">
+                          {{row.date}}
+                        </td>
+                        <td style="text-align: left;    word-wrap: break-word;">
+                          {{row.message}}
+                        </td>
+                        <td>
+                          <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )" ></i> &nbsp;
+                        </td>
+                      </tr>
+                      <tr *ngIf="messageList.length == 0">
+                        <td colspan="4">
+                          No Notification Available
+                        </td>
+                      </tr>
+                    </tbody>
+                    <!-- End -->
                   </table>
                 </div>
 
@@ -595,7 +621,7 @@
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody *ngIf="!showEmailSubject">
                       <tr *ngFor="let row of openMessageList; let i = index; trackBy: i;">
                         <td class="dateSection">
                           {{row.date}}
@@ -609,13 +635,11 @@
                               <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )"></i>
                             </span> &nbsp;
                             <span style="padding: 5px">
-                              <i class="fas fa-check" *ngIf="showApproveButtons(row)"
-                                (click)="approveRejectSms(row , '1')"
+                              <i class="fas fa-check" *ngIf="showApproveButtons(row)" (click)="approveRejectSms(row , '1')"
                                 style="font-family: FontAwesome;font-size: 16px;color: green;"></i>
                             </span>&nbsp;
                             <span style="padding: 5px">
-                              <i class="fa fa-times" (click)="approveRejectSms(row,'400')"
-                                style="font-family: FontAwesome;font-size: 16px;margin-left: 5px;"></i>
+                              <i class="fa fa-times" (click)="approveRejectSms(row,'400')" style="font-family: FontAwesome;font-size: 16px;margin-left: 5px;"></i>
                             </span>
                           </div>
                         </td>
@@ -626,6 +650,37 @@
                         </td>
                       </tr>
                     </tbody>
+                    <!-- Added by Ashwini Gupta to differenciate between sms and email message -->
+                    <tbody *ngIf="showEmailSubject">
+                      <tr *ngFor="let row of openEmailMessageList; let i = index; trackBy: i;">
+                        <td class="dateSection">
+                          {{row.date}}
+                        </td>
+                        <td style="text-align: left; width: 46rem; word-wrap: break-word;">
+                          {{row.message}}
+                        </td>
+                        <td>
+                          <div>
+                            <span style="padding: 5px">
+                              <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )"></i>
+                            </span> &nbsp;
+                            <span style="padding: 5px">
+                              <i class="fas fa-check" *ngIf="showApproveButtons(row)" (click)="approveRejectSms(row , '1')"
+                                style="font-family: FontAwesome;font-size: 16px;color: green;"></i>
+                            </span>&nbsp;
+                            <span style="padding: 5px">
+                              <i class="fa fa-times" (click)="approveRejectSms(row,'400')" style="font-family: FontAwesome;font-size: 16px;margin-left: 5px;"></i>
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr *ngIf=" emailMessageList.length ==0">
+                        <td colspan="3">
+                          No Notification Available
+                        </td>
+                      </tr>
+                    </tbody>
+                    <!-- End -->
                   </table>
                 </div>
 
@@ -644,13 +699,32 @@
                 </div>
               </div>
 
-              <div class="pull-right" *ngIf="studentSelected">
+              <!-- <div class="pull-right" *ngIf="studentSelected">
                 <button class="btn" (click)="sendNotificationMessage()">Send</button>
                 <button class="btn"
                   *ngIf="selectedOption == 'showTable' || selectedOption == 'filter' || openAppUserSelected"
                   (click)="sendPushNotification()">Send Push Notification</button>
+              </div> -->
+              <div class="pull-right" *ngIf="studentSelected">
+                <button class="btn" *ngIf="!showEmailSubject" (click)="sendNotificationMessage()">Send</button>
+                <button class="btn" *ngIf="showEmailSubject" (click)="previewMessage()">Preview</button>
+                <app-proctur-widget-pop-up *ngIf="previowBox" [size]="'50%'">
+                  <h2 widget-header>Email Preview
+                  </h2>
+                  <div class="" widget-content>
+                    <textarea  [(ngModel)]="subject" style="width: 100%;" disabled></textarea>
+                 
+                      <editor
+                      apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"  [disabled]="true" [(ngModel)]="previewedMessage"></editor>
+                  </div>
+              <div widget-content style="margin-top: 2%;">
+                <button class="btn"  (click)="sendNotificationMessage()">Send</button>
+                <button class="btn" *ngIf="selectedOption == 'showTable' || selectedOption == 'filter' || openAppUserSelected" (click)="sendPushNotification()">Send Push Notification</button>
+                <button class="btn"  (click)="close()">Close</button>
               </div>
-
+                </app-proctur-widget-pop-up>
+                <button class="btn" *ngIf="(selectedOption == 'showTable' || selectedOption == 'filter' || openAppUserSelected) && !showEmailSubject" (click)="sendPushNotification()">Send Push Notification</button>
+              </div>
             </div>
 
             <div id="divLoginMode" class="hide">
