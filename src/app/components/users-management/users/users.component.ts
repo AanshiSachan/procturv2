@@ -28,6 +28,7 @@ export class UsersComponent implements OnInit {
   };
   allocateItemPopUp: boolean = false;
   tempdata: any = "";
+  totalElementsInTableOne: any;
   inventoryList: any = [];
   inventoryAllocated: any = [];
   allocateInventory: any = {
@@ -65,18 +66,19 @@ export class UsersComponent implements OnInit {
   loginHistory: any[] = [];
   historyPageIndex = 1;
   historyBatchSize = 10;
-  historyTotalRow : any = 0;
-  historyUserId : any = 0;
+  historyTotalRow: any = 0;
+  historyUserId: any = 0;
   sso_check: boolean = false;
   tableSetting: any = {
     keys: [
-    { primaryKey: 'name', header: 'Name'},
-    { primaryKey: 'username', header: 'Contact No'},
-    { primaryKey: 'alternate_email_id', header: 'Email ID'},
-    { primaryKey: 'username', header: 'Username'},
-    { primaryKey: 'password', header: 'Password'},
-    { primaryKey: 'last_login_date_time', header: 'Last Login'},
-  ]};
+      { primaryKey: 'name', header: 'Name' },
+      { primaryKey: 'username', header: 'Contact No' },
+      { primaryKey: 'alternate_email_id', header: 'Email ID' },
+      { primaryKey: 'username', header: 'Username' },
+      { primaryKey: 'password', header: 'Password' },
+      { primaryKey: 'last_login_date_time', header: 'Last Login' },
+    ]
+  };
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
 
   constructor(
@@ -107,7 +109,7 @@ export class UsersComponent implements OnInit {
         }
       }
     )
-    if(this.dataFilter.role == '1') {
+    if (this.dataFilter.role == '1') {
       this.getMasterCourseData();
     }
     if (sessionStorage.getItem('single_device') == 'true' && sessionStorage.getItem('distinct_device_login') == 'true') {
@@ -149,19 +151,19 @@ export class UsersComponent implements OnInit {
       user_Type: this.dataFilter.role,
       page_offset: this.displayBatchSize
     }
-    if(!this.isProfessional && this.dataFilter.role == '1') {
-      obj.master_course_name = this.dataFilter.master_course ,
-      obj.course_id = this.dataFilter.course_id;
+    if (!this.isProfessional && this.dataFilter.role == '1') {
+      obj.master_course_name = this.dataFilter.master_course,
+        obj.course_id = this.dataFilter.course_id;
     }
-    if(this.isProfessional  && this.dataFilter.role == '1') {
+    if (this.isProfessional && this.dataFilter.role == '1') {
       obj.standard_id = this.dataFilter.master_course,
-      obj.subject_id = this.dataFilter.course_id;
+        obj.subject_id = this.dataFilter.course_id;
     }
-    if(this.dataFilter.searchCriteria != '') {
+    if (this.dataFilter.searchCriteria != '') {
       obj.searchCriteria = this.dataFilter.searchCriteria;
     }
-    if(this.dataFilter.app_downloaded !='-1') {
-      if(this.dataFilter.app_downloaded == '3') {
+    if (this.dataFilter.app_downloaded != '-1') {
+      if (this.dataFilter.app_downloaded == '3') {
         obj.is_logged_multiple_devices = 1;
       } else {
         obj.app_downloaded = this.dataFilter.app_downloaded;
@@ -177,13 +179,13 @@ export class UsersComponent implements OnInit {
         this.showUserTable = true;
         this.selectedRowCount = 0;
         this.usersList = this.addKeys(res, false);
-        if(this.usersList && this.usersList.length) {
+        if (this.usersList && this.usersList.length) {
           this.totalRow = this.usersList[0].total_element_count;
           this.usersList.forEach(element => {
-            element.isEncript= true;
-            if(element.access_allow == '1') {
+            element.isEncript = true;
+            if (element.access_allow == '1') {
               element.access_allow_title = 'Block Access';
-            } else if(element.access_allow == '2') {
+            } else if (element.access_allow == '2') {
               element.access_allow_title = 'Allow Access';
             } else {
               element.access_allow_title = '';
@@ -201,36 +203,36 @@ export class UsersComponent implements OnInit {
     )
   }
 
-  clearData(){
-    this.usersList=[];
-    this.totalRow=0;
-    this.PageIndex=1;
+  clearData() {
+    this.usersList = [];
+    this.totalRow = 0;
+    this.PageIndex = 1;
     this.displayBatchSize = 10;
     this.selectedRowCount = 0;
-    this.userListDataSource =[];
+    this.userListDataSource = [];
     this.dataFilter.is_active = true;
     this.dataFilter.master_course = '';
     this.dataFilter.course_id = 0;
-    this.dataFilter.searchCriteria = '';   
+    this.dataFilter.searchCriteria = '';
     this.dataFilter.app_downloaded = '-1';
-    if(this.dataFilter.role == '1') {
+    if (this.dataFilter.role == '1') {
       this.getMasterCourseData();
     }
   }
 
   getMasterCourseData() {
-    if(!this.isProfessional) {
-    this.auth.showLoader();
-    this.httpService.getData('/api/v1/courseMaster/fetch/'+ sessionStorage.getItem('institute_id') + '/all').subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this.masterCourseData = res;
-      },
-      err => {
-        this.auth.hideLoader();
-        this.messageNotifier('error', '', err.error.message);
-      }
-    )
+    if (!this.isProfessional) {
+      this.auth.showLoader();
+      this.httpService.getData('/api/v1/courseMaster/fetch/' + sessionStorage.getItem('institute_id') + '/all').subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.masterCourseData = res;
+        },
+        err => {
+          this.auth.hideLoader();
+          this.messageNotifier('error', '', err.error.message);
+        }
+      )
     } else {
       this.auth.showLoader();
       this.httpService.getData('/api/v1/standards/all/' + sessionStorage.getItem('institute_id')).subscribe(
@@ -247,7 +249,7 @@ export class UsersComponent implements OnInit {
   }
 
   getCourseData(obj) {
-    if(!this.isProfessional) {
+    if (!this.isProfessional) {
       this.auth.showLoader();
       const url = '/api/v1/courseMaster/fetch/' + sessionStorage.getItem('institute_id') + '/' + this.dataFilter.master_course;
       this.httpService.getData(url).subscribe(
@@ -414,13 +416,13 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  descriptPassword(object){
-    object.isEncript= (!object.isEncript);    
+  descriptPassword(object) {
+    object.isEncript = (!object.isEncript);
   }
 
   // pagination functions 
   fetchTableDataByPage(index, obj) {
-    if(obj == 'user') {
+    if (obj == 'user') {
       this.PageIndex = index;
       this.getAllUserList(this.PageIndex);
     } else {
@@ -430,9 +432,9 @@ export class UsersComponent implements OnInit {
   }
 
   fetchNext(obj) {
-    if(obj == 'user') {
-    this.PageIndex++;
-    this.fetchTableDataByPage(this.PageIndex, obj);
+    if (obj == 'user') {
+      this.PageIndex++;
+      this.fetchTableDataByPage(this.PageIndex, obj);
     } else {
       this.historyPageIndex++;
       this.fetchTableDataByPage(this.historyPageIndex, obj)
@@ -440,11 +442,11 @@ export class UsersComponent implements OnInit {
   }
 
   fetchPrevious(obj) {
-    if(obj == 'user') {
-    if (this.PageIndex != 1) {
-      this.PageIndex--;
-      this.fetchTableDataByPage(this.PageIndex, obj);
-    }
+    if (obj == 'user') {
+      if (this.PageIndex != 1) {
+        this.PageIndex--;
+        this.fetchTableDataByPage(this.PageIndex, obj);
+      }
     } else {
       if (this.historyPageIndex != 1) {
         this.historyPageIndex--;
@@ -545,7 +547,7 @@ export class UsersComponent implements OnInit {
 
   isAllChecked(): boolean {
     return this.usersList.every(_ => _.assigned);
-}
+  }
 
   rowCheckboxChange(record) {
     (record.assigned) ? (this.selectedRowCount++) : (this.selectedRowCount--);
@@ -561,7 +563,7 @@ export class UsersComponent implements OnInit {
     }
     this.httpService.postData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/all', obj).subscribe(
       res => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
         this.messageList = res;
         if (this.messageList && this.messageList.length > 0) {
           this.messageList.forEach(msg => {
@@ -570,7 +572,7 @@ export class UsersComponent implements OnInit {
         }
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
       }
     )
   }
@@ -588,19 +590,19 @@ export class UsersComponent implements OnInit {
 
   saveSMS() {
     let obj = { message: this.message };
-    if(this.message !='' && this.message.trim()!=''){
-    this.auth.showLoader();
-    this.httpService.postData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id'), obj).subscribe(
-      (res: any) => {
-        this.messageNotifier('success', '', 'Message created Successfully');
-        this.auth.hideLoader();
-        this.getAllMessageFromServer();
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    )
-    this.addSMS = false;
+    if (this.message != '' && this.message.trim() != '') {
+      this.auth.showLoader();
+      this.httpService.postData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id'), obj).subscribe(
+        (res: any) => {
+          this.messageNotifier('success', '', 'Message created Successfully');
+          this.auth.hideLoader();
+          this.getAllMessageFromServer();
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      )
+      this.addSMS = false;
     } else {
       this.messageNotifier('error', '', 'Please enter message');
     }
@@ -608,19 +610,19 @@ export class UsersComponent implements OnInit {
 
   updateSMS() {
     let obj = { message: this.message };
-    if(this.message !='' && this.message.trim()!=''){
-    this.auth.showLoader();
-    this.httpService.putData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id')  + '/' + this.editObj.message_id, obj).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this.messageNotifier('success', '', 'Message updated Successfully');
-        this.getAllMessageFromServer();
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    )
-    this.addSMS = false;
+    if (this.message != '' && this.message.trim() != '') {
+      this.auth.showLoader();
+      this.httpService.putData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/' + this.editObj.message_id, obj).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.messageNotifier('success', '', 'Message updated Successfully');
+          this.getAllMessageFromServer();
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      )
+      this.addSMS = false;
     } else {
       this.messageNotifier('error', '', 'Please enter message');
     }
@@ -628,21 +630,21 @@ export class UsersComponent implements OnInit {
 
   ApproveMsg(message_id) {
     if (confirm('Are you sure, You want to approve the message?')) {
-    const obj = {
-      status: 1
-    };
-    this.auth.showLoader();
-    this.httpService.putData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/' + message_id, obj).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this.messageNotifier('success', '', 'Message approved successfully');
-        this.getAllMessageFromServer();
-      },
-      err => {
-        this.auth.hideLoader();
-        this.messageNotifier('error', '', err.error.message);
-      }
-    );
+      const obj = {
+        status: 1
+      };
+      this.auth.showLoader();
+      this.httpService.putData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/' + message_id, obj).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.messageNotifier('success', '', 'Message approved successfully');
+          this.getAllMessageFromServer();
+        },
+        err => {
+          this.auth.hideLoader();
+          this.messageNotifier('error', '', err.error.message);
+        }
+      );
     }
   }
 
@@ -680,7 +682,7 @@ export class UsersComponent implements OnInit {
   }
 
   sendSMSNotification() {
-    if(!this.getNotificationMessage()){
+    if (!this.getNotificationMessage()) {
       return;
     }
     let studentID = this.getListOfIds('user_id');
@@ -706,13 +708,13 @@ export class UsersComponent implements OnInit {
     this.httpService.postData('/api/v1/alerts/config', obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.messageNotifier('success','','Message sent successfully');
+        this.messageNotifier('success', '', 'Message sent successfully');
       },
       err => {
         this.auth.hideLoader();
       }
     )
-   this.closeNotificationPopup();
+    this.closeNotificationPopup();
   }
 
   closeNotificationPopup() {
@@ -735,7 +737,7 @@ export class UsersComponent implements OnInit {
       institution_id: sessionStorage.getItem('institute_id')
     }
     this.auth.showLoader();
-    this.httpService.postData('/api/v1/pushNotification/send',obj).subscribe(
+    this.httpService.postData('/api/v1/pushNotification/send', obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.messageNotifier('success', '', 'Message sent successfully');
@@ -765,18 +767,27 @@ export class UsersComponent implements OnInit {
     }
     return id;
   }
-
+  //Changing the url it the pageOffset in not equal to 1. If not equal to 1 then add query param totalElementsInTableOne and assign value which get from previous response in total_element_table_one;
+  //Added by Ashwini Kumar Gupta 
   getLastLoginDetails(id, index) {
     this.historyUserId = id;
+    let url: any;
+    if (index == 1) {
+      url = '/api/v1/login/history/' + id + '?pageOffset=' + index;
+    }
+    else {
+      url = '/api/v1/login/history/' + id + '?pageOffset=' + index + '&totalElementsInTableOne=' + this.totalElementsInTableOne;
+    }
     this.auth.showLoader();
-    this.httpService.getData('/api/v1/login/history/' + id + '?pageOffset=' + index).subscribe(
+    this.httpService.getData(url).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.loginHistory = res.result.response;
-        if(index == 1) {
+        if (index == 1) {
           this.historyTotalRow = res.result.totalElements;
         }
         this.loginHistoryPopup = true;
+        this.totalElementsInTableOne = res.result.total_element_table_one;
       },
       err => {
         this.auth.hideLoader();
@@ -786,22 +797,22 @@ export class UsersComponent implements OnInit {
 
   changeUserAccess(obj) {
     let allow_access = false;
-    allow_access = (obj.access_allow == 1 ) ? false : true;
+    allow_access = (obj.access_allow == 1) ? false : true;
     let msgType = '';
-    msgType = (obj.access_allow == 1 ) ? 'Block access' : 'Allow Access';
+    msgType = (obj.access_allow == 1) ? 'Block access' : 'Allow Access';
     if (confirm('Are you sure you want to ' + msgType + ' ?')) {
       this.auth.showLoader();
-    this.httpService.getData('/api/v1/authenticate/blockUserAccess/' + obj.user_id + '?access=' + allow_access).subscribe(
-      (res: any) => {
-        msgType = (obj.access_allow == 1 ) ? 'blocked' : 'allowed';
-        this.messageNotifier('success', '', 'Access has been ' + msgType + ' for the user.');
-        this.auth.hideLoader();
-        this.getAllUserList(this.PageIndex);
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    );
+      this.httpService.getData('/api/v1/authenticate/blockUserAccess/' + obj.user_id + '?access=' + allow_access).subscribe(
+        (res: any) => {
+          msgType = (obj.access_allow == 1) ? 'blocked' : 'allowed';
+          this.messageNotifier('success', '', 'Access has been ' + msgType + ' for the user.');
+          this.auth.hideLoader();
+          this.getAllUserList(this.PageIndex);
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      );
     }
   }
 
@@ -834,41 +845,41 @@ export class UsersComponent implements OnInit {
     let msgType = '';
     msgType = (type == '4') ? 'Send Login Credentials' : 'Send App Link';
     if (confirm('Are you sure you want to ' + msgType + ' to selected users?')) {
-    this.auth.showLoader();
-    this.httpService.postData('/api/v1/alerts/config', obj).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this.messageNotifier('success','','Message sent successfully');
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    )
-   this.closeNotificationPopup();
+      this.auth.showLoader();
+      this.httpService.postData('/api/v1/alerts/config', obj).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.messageNotifier('success', '', 'Message sent successfully');
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      )
+      this.closeNotificationPopup();
     }
   }
 
   exportToExcel() {
     let arr = this.usersList;
     let Excelarr = [];
-            arr.map(
-              (ele: any) => {
-                let json = {}
-                this.tableSetting.keys.map((keys) => {
-                json[keys.header] = ele[keys.primaryKey]
-              })
-              Excelarr.push(json);
-          }
-          )
-          this.excelService.exportAsExcelFile(
-            Excelarr,
-            'User'
-          );
+    arr.map(
+      (ele: any) => {
+        let json = {}
+        this.tableSetting.keys.map((keys) => {
+          json[keys.header] = ele[keys.primaryKey]
+        })
+        Excelarr.push(json);
+      }
+    )
+    this.excelService.exportAsExcelFile(
+      Excelarr,
+      'User'
+    );
   }
 
   updateTableBatchSize(event) {
     this.displayBatchSize = event;
-    this.fetchTableDataByPage(this.PageIndex , 'user');
+    this.fetchTableDataByPage(this.PageIndex, 'user');
   }
 
 
