@@ -28,8 +28,9 @@ import { BatchModelComponent } from './exam-mark-update/batch-model/batch-model.
 import { FileUploadModule } from 'primeng/fileupload';
 import { HttpService } from '../../services/http.service';
 import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
-import {VdocipherComponent} from  './vdocipher/vdocipher.component';
+import { VdocipherComponent } from './vdocipher/vdocipher.component';
 import { StudentBirthdayComponent } from './student-birthday/student-birthday.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 @NgModule({
     imports: [
@@ -41,7 +42,8 @@ import { StudentBirthdayComponent } from './student-birthday/student-birthday.co
         BsDatepickerModule,
         SharedModule,
         ChartModule,
-        FileUploadModule
+        FileUploadModule,
+        EditorModule
         // MdFormFieldModule,
         // MdInputModule
     ],

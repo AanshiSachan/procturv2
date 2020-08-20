@@ -37,6 +37,8 @@ export class EnquiryHomeComponent implements OnInit {
     sourceEnquiry: any[] = [];
     smsSourceApproved: any[] = [];
     smsSourceOpen: any[] = [];
+    emailSourceApproved: any[] = [];
+    emailSourceOpen: any[] = [];
     checkedStatus = [];
     filtered = [];
     enqstatus: any[] = [];
@@ -333,7 +335,7 @@ export class EnquiryHomeComponent implements OnInit {
     countryList: any[] = [];
     stateList: any[] = [];
     cityDetails: any[] = [];
-    showBulkUpload:any = false;
+    showBulkUpload: any = false;
 
     downloadReportFor = {
         enquiry: false,
@@ -497,11 +499,11 @@ export class EnquiryHomeComponent implements OnInit {
         }
     }
 
-    checkBulkUploadRole() {        
-        if(sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin'){
-            if(sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null){
+    checkBulkUploadRole() {
+        if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
+            if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
                 let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-                this.showBulkUpload = permissions.includes('728') ? true: false;//sms visiblity
+                this.showBulkUpload = permissions.includes('728') ? true : false;//sms visiblity
             }
         } else {
             this.showBulkUpload = true;
@@ -509,8 +511,9 @@ export class EnquiryHomeComponent implements OnInit {
     }
 
     // get custome filter component details if is_searchable is applicable --laxmi
-    getSearchableCustomeComponents(array){
-        this.filterCustomComponent = array.filter((object)=>object.is_searchable=='Y');
+    getSearchableCustomeComponents(array) {
+
+        this.filterCustomComponent = array.filter((object) => object.is_searchable == 'Y');
     }
 
     timeChanges(ev) {
@@ -1175,7 +1178,7 @@ export class EnquiryHomeComponent implements OnInit {
         );
     }
 
-    /* Service to fetch sms records from server and update table*/
+    /* Service to fetch sms records from server and update table Added condtion for sms and email type ashwini gupta*/
     smsServicesInvoked() {
         this.auth.showLoader();
         /* store the data from server and update table */
@@ -1187,18 +1190,33 @@ export class EnquiryHomeComponent implements OnInit {
                 this.cd.markForCheck();
                 this.smsSourceApproved = [];
                 this.smsSourceOpen = [];
+                this.emailSourceApproved = [];
+                this.emailSourceOpen = [];
                 this.varJson.smsDataLength = data.length;
                 this.varJson.availableSMS = data[0].institute_sms_quota_available
                 this.cd.markForCheck();
                 data.forEach(el => {
-                    if (el.status == 1) {
-                        this.cd.markForCheck();
-                        this.smsSourceApproved.push(el);
+                    if (el.source === "SMS") {
+                        if (el.status == 1) {
+                            this.cd.markForCheck();
+                            this.smsSourceApproved.push(el);
+                        }
+                        else {
+                            this.cd.markForCheck();
+                            this.smsSourceOpen.push(el);
+                        }
                     }
-                    else {
-                        this.cd.markForCheck();
-                        this.smsSourceOpen.push(el);
+                    else if (el.source === "Email") {
+                        if (el.status == 1) {
+                            this.cd.markForCheck();
+                            this.emailSourceApproved.push(el);
+                        }
+                        else {
+                            this.cd.markForCheck();
+                            this.emailSourceOpen.push(el);
+                        }
                     }
+
                 })
                 this.switchSmsTab(this.varJson.smsShowType);
             },
@@ -1270,53 +1288,114 @@ export class EnquiryHomeComponent implements OnInit {
         }
     }
     /* push new sms template to server and update the table */
+    // changes done by Ashwini Kumar Gupta for SMS and email type of message
     addNewSmsTemplate() {
-        if (this.newSmsString.data.trim() == '') {
-            this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter a valid text message');
-        }
-        else {
-            let sms = { feature_type: 2, message: this.newSmsString.data, sms_type: "Transactional" };
-            this.auth.showLoader();
-            this.postdata.addNewSmsTemplate(sms).subscribe(
-                (res: any) => {
-                    this.auth.hideLoader();
-                    if (res.statusCode == 200) {
-                        this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.addNewSMS, '');
-                        this.cd.markForCheck();
-                        this.newSmsString.data = '';
-                        this.cd.markForCheck();
-                        this.enquire.fetchAllSms().subscribe(
-                            (data: any) => {
-                                this.cd.markForCheck();
-                                this.smsSourceApproved = [];
-                                this.smsSourceOpen = [];
-                                this.varJson.smsDataLength = data.length;
-                                this.varJson.availableSMS = data[0].institute_sms_quota_available
-                                this.cd.markForCheck();
-                                data.forEach(el => {
-                                    if (el.status == 1) {
-                                        this.cd.markForCheck();
-                                        this.smsSourceApproved.push(el);
-                                    }
-                                    else {
-                                        this.cd.markForCheck();
-                                        this.smsSourceOpen.push(el);
-                                    }
-                                })
-                            },
-                            err => {
-                                this.showErrorMessage('error', '', err.error.message);
-                            }
-                        );
-                        this.cd.markForCheck();
+        if (this.flagJSON.notificationType == 'SMS') {
+            if (this.newSmsString.data.trim() == '') {
+                this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter a valid text message');
+            }
+            else {
+                let sms = { feature_type: 2, message: this.newSmsString.data, sms_type: "Transactional", source: "SMS" };
+                this.auth.showLoader();
+                this.postdata.addNewSmsTemplate(sms).subscribe(
+                    (res: any) => {
+                        this.auth.hideLoader();
+                        if (res.statusCode == 200) {
+                            this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.addNewSMS, '');
+                            this.cd.markForCheck();
+                            this.newSmsString.data = '';
+                            this.cd.markForCheck();
+                            this.enquire.fetchAllSms().subscribe(
+                                (data: any) => {
+                                    this.cd.markForCheck();
+                                    this.smsSourceApproved = [];
+                                    this.smsSourceOpen = [];
+                                    this.varJson.smsDataLength = data.length;
+                                    this.varJson.availableSMS = data[0].institute_sms_quota_available
+                                    this.cd.markForCheck();
+                                    data.forEach(el => {
+                                        if (el.source === "SMS") {
+                                            if (el.status == 1) {
+                                                this.cd.markForCheck();
+                                                this.smsSourceApproved.push(el);
+                                            }
+                                            else {
+                                                this.cd.markForCheck();
+                                                this.smsSourceOpen.push(el);
+                                            }
+                                        }
+
+                                    })
+                                },
+                                err => {
+                                    this.showErrorMessage('error', '', err.error.message);
+                                }
+                            );
+                            this.cd.markForCheck();
+                        }
+                    },
+                    err => {
+                        this.auth.hideLoader();
+                        this.showErrorMessage('error', '', err.error.message);
                     }
-                },
-                err => {
-                    this.auth.hideLoader();
-                    this.showErrorMessage('error', '', err.error.message);
-                }
-            )
+                )
+            }
         }
+        else if (this.flagJSON.notificationType == 'Email') {
+            if (this.newSmsString.data.trim() == '') {
+                this.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter a valid text message');
+            }
+            else {
+                let email = { feature_type: 2, message: this.newSmsString.data, sms_type: "Transactional", source: "Email" };
+                this.auth.showLoader();
+                this.postdata.addNewSmsTemplate(email).subscribe(
+                    (res: any) => {
+                        this.auth.hideLoader();
+                        if (res.statusCode == 200) {
+                            this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.addNewSMS, '');
+                            this.cd.markForCheck();
+                            this.newSmsString.data = '';
+                            this.cd.markForCheck();
+                            this.enquire.fetchAllSms().subscribe(
+                                (data: any) => {
+                                    this.cd.markForCheck();
+                                    this.emailSourceApproved = [];
+                                    this.emailSourceOpen = [];
+                                    this.varJson.smsDataLength = data.length;
+                                    this.varJson.availableSMS = data[0].institute_sms_quota_available
+                                    this.cd.markForCheck();
+                                    data.forEach(el => {
+                                        if (el.source === "Email") {
+                                            if (el.status == 1) {
+                                                this.cd.markForCheck();
+                                                this.emailSourceApproved.push(el);
+                                            }
+                                            else {
+                                                this.cd.markForCheck();
+                                                this.emailSourceOpen.push(el);
+                                            }
+                                        }
+                                    })
+                                },
+                                err => {
+                                    this.showErrorMessage('error', '', err.error.message);
+                                }
+                            );
+                            this.cd.markForCheck();
+                        }
+                    },
+                    err => {
+                        this.auth.hideLoader();
+                        this.showErrorMessage('error', '', err.error.message);
+                    }
+                )
+            }
+        }
+
+        document.getElementById('sms-toggler-icon').innerHTML = "+";
+        this.newSmsString.data = "";
+        this.flagJSON.isMessageAddOpen = false;
+
     }
 
     /* push new sms template to server and update the table */
@@ -1459,6 +1538,8 @@ export class EnquiryHomeComponent implements OnInit {
                 this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.failSMS, 'Please check your internet connection or try again later')
             }
         )
+        document.getElementByID("sms-content").value = "";
+        document.getElementByID("email-content").value = "";
     }
 
     /* Approved SMS template send */
@@ -2828,6 +2909,7 @@ export class EnquiryHomeComponent implements OnInit {
     }
 
     approveRejectSms(data, statusCode) {
+        console.log("Approve", data);
         let msg: any = "";
         if (statusCode == 1) {
             msg = "approve";

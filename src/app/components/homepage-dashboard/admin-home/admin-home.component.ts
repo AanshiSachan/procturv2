@@ -14,6 +14,8 @@ import { HttpService } from '../../../services/http.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { WidgetService } from '../../../services/widget.service';
 import { ProductService } from '../../../services/products.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 declare var $;
 // import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
@@ -47,8 +49,10 @@ export class AdminHomeComponent implements OnInit {
   settingInfo: any = [];
   gradesList: any = [];
   openMessageList: any = [];
+  openEmailMessageList: any = [];
   tempData: any = [];
   messageList: any = [];
+  emailMessageList: any = [];
   public teacher_id: number = -1;
   public home_work_notifn: number = 0;
   public topics_covered_notifn: number = 0;
@@ -125,6 +129,10 @@ export class AdminHomeComponent implements OnInit {
   leaveCount: number = 0;
   amount: any;
   due_date: any;
+  smsBtnToggle: boolean = false;
+  previowBox: boolean = false;
+  subject: any;
+  previewedMessage: any;
   public selectedRow: number = null;
   daysLeftForSubscriptionExpiry: number;
   jsonFlag: any = {
@@ -216,6 +224,7 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
+
     // added for account expiry popup notification
     var institute_info = JSON.parse(sessionStorage.getItem('institute_info'))
     var loginResp = JSON.parse(sessionStorage.getItem('login-response'));
@@ -275,7 +284,35 @@ export class AdminHomeComponent implements OnInit {
   closeSubscriptionAlert() {
     $('#loginSubscription').modal('hide');
   }
-
+  // Function for preview email message Added by ashwini gupta
+  previewMessage() {
+    let messageSelected: any;
+    let configuredMessage: boolean = false;
+    let check = this.validateAllFields();
+    if (check === false) {
+      return;
+    }
+    if (this.selectedOption == "showTextBox") {
+      messageSelected = { message: this.getMessageText(), messageId: -1 };
+      configuredMessage = false;
+      check = this.getSubject();
+    } else {
+      messageSelected = this.getNotificationMessage();
+      configuredMessage = true;
+      this.previewedMessage = messageSelected.message;
+    }
+    if (messageSelected === false) {
+      return;
+    }
+    else {
+      this.previowBox = true;
+      this.subject = check;
+    }
+  }
+  close() {
+    this.previowBox = false;
+  }
+  // ENd
   checkForSubjectWiseView() {
     let subjectView = sessionStorage.getItem('isSubjectView');
     let scheduleDate = sessionStorage.getItem('scheduleDate');   // For schedule date from session storage
@@ -1568,6 +1605,7 @@ export class AdminHomeComponent implements OnInit {
     this.showEmailSubject = false;
     this.messageSubject = "";
     this.messageArea = "";
+    this.previowBox = false;
   }
 
   flushData() {
@@ -1666,7 +1704,20 @@ export class AdminHomeComponent implements OnInit {
   }
 
   addNewNotification() {
-    this.addNotification = true;
+    let sms = document.getElementById('chkbxSmsSend').checked;
+    let email = document.getElementById('chkbxEmailSend').checked;
+
+    if (sms == true && email == true) {
+      let msg = {
+        type: 'error',
+        title: 'Failed To Save Message',
+        body: " You can add only one type of message either email or sms type"
+      };
+      this.appC.popToast(msg);
+    } else {
+      this.addNotification = true;
+    }
+
   }
 
   hasUnicode(str) {
@@ -1695,7 +1746,17 @@ export class AdminHomeComponent implements OnInit {
   }
 
   saveNewMessage() {
-    let obj = { message: this.newMessageText };
+    let sms = document.getElementById('chkbxSmsSend').checked;
+    let email = document.getElementById('chkbxEmailSend').checked;
+    let src: any;
+    if (sms == true) {
+      src = "SMS";
+    }
+    else {
+      src = "EMAIL";
+    }
+
+    let obj = { message: this.newMessageText, source: src };
     this.widgetService.saveMessageTOServer(obj).subscribe(
       res => {
         let msg = {
@@ -2081,13 +2142,29 @@ export class AdminHomeComponent implements OnInit {
   emailCheckBoxClick(event) {
     if (event.target.checked) {
       this.showEmailSubject = true;
+      document.getElementById('chkbxSmsSend').checked = false; //Added By AKG to check only one checkbox at a time
+
     } else {
       this.showEmailSubject = false;
+      document.getElementById('chkbxSmsSend').checked = true; //Added By AKG to check only one checkbox at a time
+    }
+  }
+  smsCheckBoxClick(event) {
+    if (event.target.checked) {
+      this.showEmailSubject = false;
+      document.getElementById('chkbxEmailSend').checked = false; //Added By AKG to check only one checkbox at a time
+
+    } else {
+      this.showEmailSubject = true;
+      document.getElementById('chkbxEmailSend').checked = true; //Added By AKG to check only one checkbox at a time
     }
   }
 
   getAllMessageFromServer() {
+    console.log("1");
     this.messageList = [];
+    this.emailMessageList = [];
+    let tempMessageList: any = [];
     this.auth.showLoader();
     let obj = {
       from_date: moment().subtract(1, 'months').format("YYYY-MM-DD"),
@@ -2096,25 +2173,44 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.getMessageList(obj).subscribe(
       res => {
+        console.log("Response", res);
+        tempMessageList = res;
+        for (let i = 0; i < tempMessageList.length; i++) {
+          if (tempMessageList[i].source === "EMAIL") {
+            this.emailMessageList.push(tempMessageList[i]);
+          }
+          else if (tempMessageList[i].source === "SMS") {
+            this.messageList.push(tempMessageList[i]);
+          }
+        }
         this.auth.hideLoader();
-        this.messageList = this.addKeys(res, false);
       },
       err => {
         this.auth.hideLoader();
       }
     )
+
   }
 
   getAllSavedMessages() {
+    console.log("2");
     this.messageList = [];
+    this.emailMessageList = [];
+    let tempMessageList: any = [];
     this.jsonFlag.showAllMessage = true;
     this.widgetService.getMessageList({ status: 1 }).subscribe(
       res => {
-        //console.log(res);
-        this.messageList = this.addKeys(res, false);
+        tempMessageList = res;
+        for (let i = 0; i < tempMessageList.length; i++) {
+          if (tempMessageList[i].source === "EMAIL") {
+            this.emailMessageList.push(tempMessageList[i]);
+          }
+          else if (tempMessageList[i].source === "SMS") {
+            this.messageList.push(tempMessageList[i]);
+          }
+        }
       },
       err => {
-        //console.log(err);
       }
     )
   }
@@ -2140,6 +2236,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getSubject() {
+    console.log("getSubject");
     let text = this.messageSubject;
     if (text.trim() == "" && text.trim() == null) {
       let msg = {
@@ -2155,6 +2252,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getMessageText() {
+    console.log("getMessageText");
     let text = this.messageArea;
     if (text.trim() == "" && text.trim() == null) {
       let msg = {
@@ -2170,6 +2268,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   validateAllFields() {
+    console.log("validateAllFields");
     if (this.showEmailSubject) {
       return this.getSubject();
     }
@@ -2179,30 +2278,57 @@ export class AdminHomeComponent implements OnInit {
     }
     return "";
   }
-
+  //Done changes in getNotificationMessage function for differeniating sms and email message type
   getNotificationMessage() {
+    console.log("getNotificationMessage");
     let count = 0;
-    for (let t = 0; t < this.messageList.length; t++) {
-      if (this.messageList[t].assigned == true) {
-        return {
-          message: this.messageList[t].message, messageId: this.messageList[t].message_id
+    let sms = document.getElementById('chkbxSmsSend').checked;
+    let email = document.getElementById('chkbxEmailSend').checked;
+    if (sms === true) {
+      for (let t = 0; t < this.messageList.length; t++) {
+        if (this.messageList[t].assigned == true) {
+          return {
+            message: this.messageList[t].message, messageId: this.messageList[t].message_id
+          };
+        } else {
+          count++;
+        }
+      }
+      if (this.messageList.length == count) {
+        let msg = {
+          type: 'error',
+          title: '',
+          body: "Please select message"
         };
-      } else {
-        count++;
+        this.appC.popToast(msg);
+        return false;
       }
     }
-    if (this.messageList.length == count) {
-      let msg = {
-        type: 'error',
-        title: '',
-        body: "Please select message"
-      };
-      this.appC.popToast(msg);
-      return false;
+    else if (email === true) {
+      for (let t = 0; t < this.emailMessageList.length; t++) {
+        if (this.emailMessageList[t].assigned == true) {
+          return {
+            message: this.emailMessageList[t].message, messageId: this.emailMessageList[t].message_id
+          };
+        } else {
+          count++;
+        }
+      }
+      if (this.emailMessageList.length == count) {
+        let msg = {
+          type: 'error',
+          title: '',
+          body: "Please select message"
+        };
+        this.appC.popToast(msg);
+        return false;
+      }
     }
-  }
 
+  }
+  // End
   getDeliveryModeValue() {
+    console.log("getDeliveryModeValue");
     let sms = document.getElementById('chkbxSmsSend').checked;
     let email = document.getElementById('chkbxEmailSend').checked;
     if (sms == true && email == true) {
@@ -2224,23 +2350,31 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getDestinationValue() {
+    console.log("getDestinationValue");
     let student = document.getElementById('chkBoxStudent').checked;
     let parent = document.getElementById('chkBoxParent').checked;
-    let gaurdian = document.getElementById('chkBoxGaurdian').checked;
-    if (student == true && parent == false && gaurdian == false) {
+    // let gaurdian = document.getElementById('chkBoxGaurdian').checked;
+    // if (student == true && parent == false && gaurdian == false) {
+    if (student == true && parent == false) {
       return 0;
-    } else if (student == false && parent == true && gaurdian == false) {
+      // } else if (student == false && parent == true && gaurdian == false) {
+    } else if (student == false && parent == true) {
       return 1;
-    } else if (student == false && parent == false && gaurdian == true) {
+      // } else if (student == false && parent == false && gaurdian == true) {
+    } else if (student == false && parent == false) {
       return 3;
-    } else if (student && parent && gaurdian == false) {
+      // } else if (student && parent && gaurdian == false) {
+    } else if (student && parent == false) {
       return 2;
-    } else if (student && gaurdian && parent == false) {
+      // } else if (student && gaurdian && parent == false) {
+    } else if (student && parent == false) {
       return 5;
-    } else if (parent && gaurdian && student == false) {
+      // } else if (parent && gaurdian && student == false) {
+    } else if (parent && student == false) {
       return 6;
     }
-    else if (student && parent && gaurdian) {
+    // else if (student && parent && gaurdian) {
+    else if (student && parent) {
       return 4;
     } else {
       let msg = {
@@ -2262,14 +2396,16 @@ export class AdminHomeComponent implements OnInit {
     }
     if (this.selectedOption == "showTextBox") {
       messageSelected = { message: this.getMessageText(), messageId: -1 };
+      console.log("1", messageSelected);
       configuredMessage = false;
       check = this.getSubject();
     } else {
       messageSelected = this.getNotificationMessage();
       configuredMessage = true;
+      console.log("2", messageSelected);
     }
     if (messageSelected === false) {
-      return
+      return;
     }
     let delivery_mode = this.getDeliveryModeValue();
     if (delivery_mode === false) {
@@ -3663,11 +3799,21 @@ export class AdminHomeComponent implements OnInit {
   getOpenStatusSMS() {
     this.auth.showLoader();
     this.jsonFlag.openMessageFlag = true;
+    let tempMessageList: any = [];
     this.openMessageList = [];
+    this.openEmailMessageList = [];
     this.widgetService.getMessageList({}).subscribe(
       res => {
         this.auth.hideLoader();
-        this.openMessageList = res;
+        tempMessageList = res;
+        for (let i = 0; i < tempMessageList.length; i++) {
+          if (tempMessageList[i].source === "EMAIL") {
+            this.openEmailMessageList.push(tempMessageList[i]);
+          }
+          else if (tempMessageList[i].source === "SMS") {
+            this.openMessageList.push(tempMessageList[i]);
+          }
+        }
       },
       err => {
         this.auth.hideLoader();
@@ -3817,6 +3963,20 @@ export class AdminHomeComponent implements OnInit {
   closeShowList() {
     this.showList();
   }
-
+  //Added By Ashwini Gupta For Editior Email
+  editorConf = {
+    height: 150,
+    menubar: false,
+    branding: false,
+    plugins: [
+      'preview anchor',
+      'visualblocks code ',
+      'insertdatetime  table paste code  wordcount'
+    ],
+    toolbar: 'undo redo | formatselect | bold italic backcolor | \
+            alignleft aligncenter alignright alignjustify | \
+            bullist numlist outdent indent'
+  };
+  //End
 
 }

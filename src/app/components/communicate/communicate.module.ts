@@ -13,11 +13,12 @@ import { CoummunicateHomeComponent } from './coummunicate-home/coummunicate-home
 import { WidgetService } from '../../services/widget.service';
 import { ProcturWidgetPopUpComponent } from './proctur-widget-pop-up/proctur-widget-pop-up.component';
 // import { EventManagmentService } from '../../services/event-managment.service';
-
+import { EditorModule } from '@tinymce/tinymce-angular';
 @NgModule({
   imports: [
     SharedModule,
-    CommunicateRoutingModule
+    CommunicateRoutingModule,
+    EditorModule
   ],
   declarations: [
     CommunicateComponent,
@@ -30,7 +31,8 @@ import { ProcturWidgetPopUpComponent } from './proctur-widget-pop-up/proctur-wid
     ProcturWidgetPopUpComponent,
   ],
   exports: [
-    FilterPipe
+    FilterPipe,
+    EditorModule
   ],
   providers:[
     getSMSService,
