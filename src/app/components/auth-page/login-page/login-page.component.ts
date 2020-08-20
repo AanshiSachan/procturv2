@@ -188,7 +188,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     else {
       this.checkForVirtualHost(test);
       this.isProcturVisible = false;
-      if(test == 'kohimacollege.in') {
+      if (test == 'kohimacollege.in') {
         this.isKominaInstitute = true;
       }
       this.backgroundChange.nativeElement.className = "bg-img-virtual"
@@ -250,7 +250,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         res => {
           console.log(res);
           this.auth.hideLoader();
-          sessionStorage.setItem('login-response',JSON.stringify(res));
+          sessionStorage.setItem('login-response', JSON.stringify(res));
           this.single_login_login_check = res.single_device_login;
           this.checkForAuthOptions(res);
         },
@@ -335,20 +335,20 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   registeredDeviceNotFount(obj) {
-    this.msgService.showErrorMessage('error','','This is not your registered device for login kindly use a registered device. For any query please contact your administrator.');
+    this.msgService.showErrorMessage('error', '', 'This is not your registered device for login kindly use a registered device. For any query please contact your administrator.');
   }
 
-  multiDeviceLogin(res){
+  multiDeviceLogin(res) {
     this.auth.hideLoader();
     this.multiWindowLogin = true;
     $('#multiLogin').modal('show');
   }
 
-  logOutFromOtherDeveices(){
+  logOutFromOtherDeveices() {
 
     this.auth.showLoader();
     let obj = {}
-    if(this.multiInstituteLoginInfo.userid != "" && this.multiInstituteLoginInfo.institution_id != ""){
+    if (this.multiInstituteLoginInfo.userid != "" && this.multiInstituteLoginInfo.institution_id != "") {
       obj = {
         alternate_email_id: this.multiInstituteLoginInfo.alternate_email_id,
         password: this.multiInstituteLoginInfo.password,
@@ -358,7 +358,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         logout_from_all_devices: true
       }
     }
-    else{
+    else {
       this.loginDataForm.logout_from_all_devices = true;
       obj = this.loginDataForm;
     }
@@ -366,7 +366,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       res => {
         console.log(res);
         this.auth.hideLoader();
-        sessionStorage.setItem('login-response',JSON.stringify(res));
+        sessionStorage.setItem('login-response', JSON.stringify(res));
         sessionStorage.setItem('institute_info', JSON.stringify(res.data));
 
         let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
@@ -377,10 +377,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('deviceId', res.device_id);
         sessionStorage.setItem('source', 'WEB');
         this.single_login_login_check = res.single_device_login;
-        if(this.single_login_login_check){
+        if (this.single_login_login_check) {
           this.auth.getAuthToken(true);
         }
-        else{
+        else {
           this.auth.getAuthToken(false);
         }
         this.alternateLoginSuccess(res);
@@ -398,17 +398,17 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('userType', institute_data.userType);
     sessionStorage.setItem('password', institute_data.password);
     sessionStorage.setItem('institute_id', institute_data.institution_id);
-    if(institute_data.userType == '1' || institute_data.userType == '99'){
+    if (institute_data.userType == '1' || institute_data.userType == '99') {
       sessionStorage.setItem('deviceId', device_id);
       sessionStorage.setItem('source', 'WEB');
-      if(this.single_login_login_check){
+      if (this.single_login_login_check) {
         this.auth.getAuthToken(true);
       }
-      else{
+      else {
         this.auth.getAuthToken(false);
       }
     }
-    else{
+    else {
       this.auth.getAuthToken(false);
     }
 
@@ -449,7 +449,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
     else {
       if (res.institution_id != null) {
-        if(sessionStorage.getItem('userType') != '1' && sessionStorage.getItem('userType') != '99'){
+        if (sessionStorage.getItem('userType') != '1' && sessionStorage.getItem('userType') != '99') {
           this.getCountryDetails(res.institution_id);
         }
       }
@@ -457,19 +457,19 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
       let type = sessionStorage.getItem('source');
-      if(institute_data.userType != '1' && institute_data.userType != '99'){
+      if (institute_data.userType != '1' && institute_data.userType != '99') {
         let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
         this.auth.changeAuthenticationKey(Authorization);
       }
-      else{
-        if(this.single_login_login_check){
+      else {
+        if (this.single_login_login_check) {
           sessionStorage.setItem('single_device_login', 'true');
           let deviceId = sessionStorage.getItem('deviceId');
           let source = sessionStorage.getItem('source');
           let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id + ":" + res.device_id + ":WEB");
           this.auth.changeAuthenticationKey(Authorization);
         }
-        else{
+        else {
           sessionStorage.setItem('single_device_login', 'false');
           let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
           this.auth.changeAuthenticationKey(Authorization);
@@ -572,6 +572,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('distinct_device_login', institute_data.distinct_device_login);
       sessionStorage.setItem('single_device', institute_data.single_device_login);
       sessionStorage.setItem('enable_library_feature', institute_data.enable_library_feature);
+      sessionStorage.setItem('teacherIDs', res.data.teacherId);
 
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');

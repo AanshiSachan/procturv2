@@ -28,7 +28,7 @@ export class AddClassComponent implements OnInit {
   selectedModeratorList: any[] = [];
   selectedCourseList: any[] = [];
   selectedBatchList: any[] = [];
-
+  userTy: any;
   dropdownList = [];
   teachersAssigned: any[] = [];
   userAssigned: any[] = [];
@@ -127,7 +127,7 @@ export class AddClassComponent implements OnInit {
     )
     let zoom = sessionStorage.getItem('is_zoom_enable');
     this.is_zoom_integration_enable = JSON.parse(zoom);
-    if(this.is_zoom_integration_enable && this.live_class_for == "2"){
+    if (this.is_zoom_integration_enable && this.live_class_for == "2") {
       this.singleSelectionOfFaculty = true;
       this.zoom_enable = true
     }
@@ -138,8 +138,8 @@ export class AddClassComponent implements OnInit {
     this.checkIsEnableElearnFeature();
   }
 
-  changeLiveClassFor(){
-    if(this.live_class_for == "2"){
+  changeLiveClassFor() {
+    if (this.live_class_for == "2") {
       this.singleSelectionOfFaculty = true;
       this.zoom_enable = true;
       this.selectedFacultyList = [];
@@ -152,7 +152,7 @@ export class AddClassComponent implements OnInit {
         enableCheckAll: false
       };
     }
-    else if(this.live_class_for == "1"){
+    else if (this.live_class_for == "1") {
       this.singleSelectionOfFaculty = false;
       this.zoom_enable = false;
       this.selectedModeratorList = [];
@@ -166,7 +166,7 @@ export class AddClassComponent implements OnInit {
     }
   }
 
-  setMultiSelectSetting(){
+  setMultiSelectSetting() {
     this.facultySettings = {
       singleSelection: this.singleSelectionOfFaculty,
       idField: 'teacher_id',
@@ -329,23 +329,39 @@ export class AddClassComponent implements OnInit {
     }
 
   }
-
+  //Added by ashwini gupta ticket 1104
   checkMandatoryFields() {
-    // this.navigateTo("assignStudent")
-    if (this.topicName != "" && this.topicName != null && this.selectedFacultyList.length != 0) {
-      if (this.dateTimeStatus) {
-        this.navigateTo("assignStudent")
+    if (this.userType === "3") {
+      if (this.topicName != "" && this.topicName != null) {
+        if (this.dateTimeStatus) {
+          this.navigateTo("assignStudent")
+        }
+        else {
+          this.getEventHourTo();
+        }
       }
       else {
-        this.getEventHourTo();
+        this.appC.popToast({ type: "error", body: "All fields are required" })
       }
-    }
-    else {
-      this.appC.popToast({ type: "error", body: "All fields are required" })
+    } else {
+
+
+      if (this.topicName != "" && this.topicName != null && this.selectedFacultyList.length != 0) {
+        if (this.dateTimeStatus) {
+          this.navigateTo("assignStudent")
+        }
+        else {
+          this.getEventHourTo();
+        }
+      }
+      else {
+        this.appC.popToast({ type: "error", body: "All fields are required" })
+      }
     }
   }
 
   scheduleClass() {
+    const userType: any = sessionStorage.getItem('userType');
     let validationFlag = false;
     if (!this.isProfessional) {
       if (this.courseIds != null && this.courseValue != null && this.courseValue != '') {
@@ -381,12 +397,20 @@ export class AddClassComponent implements OnInit {
       this.custUserIds = [];
       this.studentsId = [];
 
-      this.selectedFacultyList.map(
-        (ele: any) => {
-          let x = ele.teacher_id.toString();
-          this.facultyId.push(x);
-        }
-      )
+      //Adding for faculty module so that faculty is not able to assign live classes to another faculty- Ashwini Kumar Gupta  1104
+      if (userType == "3") {
+        let tempFaculty: any = sessionStorage.getItem('teacherIDs');
+        this.facultyId.push(tempFaculty);
+      } else {
+        this.selectedFacultyList.map(
+          (ele: any) => {
+            let x = ele.teacher_id.toString();
+            this.facultyId.push(x);
+          }
+        )
+      }
+      // End
+
 
       this.selectedModeratorList.map(
         (ele: any) => {
@@ -459,10 +483,10 @@ export class AddClassComponent implements OnInit {
         this.addOnlineClass.access_before_start = 0;
       }
 
-      if(this.live_class_for == "1"){
+      if (this.live_class_for == "1") {
         this.addOnlineClass.is_zoom_live_class = false;
       }
-      else{
+      else {
         this.addOnlineClass.is_zoom_live_class = true;
       }
 
@@ -480,12 +504,12 @@ export class AddClassComponent implements OnInit {
       this.http_service.putData(url, this.addOnlineClass).subscribe(
         (data: any) => {
           this.auth.hideLoader();
-          if(data.statusCode >= 200 && data.statusCode <= 300){
+          if (data.statusCode >= 200 && data.statusCode <= 300) {
             this.appC.popToast({ type: "success", body: "Live class session " + this.topicName + " " + "created successfully" });
             this.navigateTo("studentForm");
             this.clearOnlineSchedulesObject();
           }
-          else{
+          else {
             this.appC.popToast({ type: "error", body: data.message })
           }
 
@@ -624,11 +648,14 @@ export class AddClassComponent implements OnInit {
       let url = '';
       if (this.userType === '3') {
         url = '/api/v1/batches/all/' + this.institution_id + '?active=Y' + '&isAllCourses=Y&isActiveNotExpire=Y';
+
       } else {
         url = '/api/v1/batches/all/' + this.institution_id + '?active=Y&isActiveNotExpire=Y';
+
       }
       this.http_service.getData(url).subscribe(
         (data: any) => {
+
           this.batches = data;
           console.log(this.batches)
           this.auth.hideLoader();
@@ -642,12 +669,13 @@ export class AddClassComponent implements OnInit {
     else {
       let url = '';
       if (this.userType === '3') {
-        url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y&isActiveNotExpire=Y';
+        url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=N&isActiveNotExpire=Y'; //Changed isAllCourses flay Y to N as per ticket 1103
       } else {
         url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all?isActiveNotExpire=Y';
       }
       this.http_service.getData(url).subscribe(
         (data: any) => {
+
           this.masters = data;
           this.auth.hideLoader();
         },
