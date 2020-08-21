@@ -315,6 +315,9 @@ export class InstituteDetailsComponent implements OnInit {
     }
     obj.logo_url = this.instDetails.logo_url;
     obj.institute_logo = this.institute_logo;
+    if((this.instDetails.announcement_image_url == this.announcement_image_url) && this.instDetails.announcement_image_status == 2) {
+      this.announcement_image_url = '';
+    }
     obj.announcement_image_status = this.instDetails.announcement_image_status;
     obj.announcement_image_url = this.announcement_image_url;
     obj.proctur_live_recorded_session_download_visibilty = this.getSumOfTableField(this.proctur_live_recorded_session_download_visibilty);
