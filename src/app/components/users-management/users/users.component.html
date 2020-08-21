@@ -81,7 +81,7 @@
             </select>
           </div>
         </div>
-        <div class="c-sm-1 c-md-1 c-lg-1" style="margin-top: 20px;padding-right: 0;margin-left: 5px;">
+        <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 20px;padding-right: 0;margin-left: 5px;width: 10%;">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="dataFilter.is_active" id="isAct">
             <label for="isAct">Is Active</label>
@@ -222,10 +222,14 @@
             <div class="table_value_item" style="width: 10%;">
               <a [routerLink]='["./addedit" , data.user_id]' title="Edit"><i class="fa fa-edit actionBtnIcons"></i></a>
               <a style="cursor: pointer;margin-left: 5px;" title="Allocate Inventory" (click)="allocateItemToUser(data)"><i class="fa fa-tasks actionBtnIcons" aria-hidden="true"></i></a>
-              <span title="{{data.access_allow_title}}" *ngIf="sso_check">
+              <!-- changes done by - Nalini
+              cleared device and allow/block access options should be displayed to students and open app users -->
+              <span title="{{data.access_allow_title}}" *ngIf="(dataFilter.role == '1' || dataFilter.role == '99') && sso_check">
                 <button style="background: none;" [disabled]="data.access_allow == 3" [ngStyle]="{'color': (data.access_allow == 2) ? 'red' : '#0084f6' }" (click)="changeUserAccess(data)"> <i class="fa fa-universal-access allowAccessIcons" [ngStyle]="{'cursor': (data.access_allow == 3) ? 'no-drop' : 'pointer' }" aria-hidden="true"></i></button>
               </span>
-              <span *ngIf="sso_check" (click)="clearRegisteredDevices(data.user_id)" class="actionBtnIcons" title="Clear Registered Device">X</span>
+              <!-- changes done by - Nalini
+              cleared device and allow/block access options should be displayed to students and open app users -->
+              <span *ngIf="(dataFilter.role == '1' || dataFilter.role == '99') && sso_check" (click)="clearRegisteredDevices(data.user_id)" class="actionBtnIcons" title="Clear Registered Device">X</span>
             </div>
           </div>
         </div>
