@@ -1,8 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { HttpService } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
+declare var $;
 
 @Component({
   selector: 'app-ecourse-list',
@@ -23,7 +24,8 @@ export class EcourseListComponent implements OnInit {
     private auth: AuthenticatorService,
     private msgService: MessageShowService,
     private router: Router,
-    private cd :ChangeDetectorRef
+    private cd :ChangeDetectorRef,
+    private activatedRoute: ActivatedRoute
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -45,7 +47,37 @@ export class EcourseListComponent implements OnInit {
         this._http.updatedDataSelection(null);
       }
     });
+    this.getParams();
   }
+
+//Developed by - Nalini 
+// When vimeo file uploaded successfully then video status api is called based on video id and pop up msg is displayed
+  getParams() {
+    let url = window.location.href;
+    if (url.indexOf("?") > -1) {
+      let arr = url.split('?'); 
+      if (url.length > 1 && arr[1] !== '') {
+        this.activatedRoute.queryParams.subscribe(params => {
+          let videoId = params['videoId'];
+          if(videoId!='' && videoId!=null) {
+          $('#thankYou').modal('show');
+          let obj = {
+            "videoID": videoId,
+            "institute_id": sessionStorage.getItem('institute_id'),
+            "video_status": "Queued",
+            "category_id": 272
+          }
+          let url = "/api/v1/instFileSystem/updateVideoStatus";
+      
+          this._http.postData(url, obj).subscribe((res: any) => {
+            console.log(res);
+          }, (err) => {
+          });
+        }
+        });      
+      }
+      }
+    }
 
   getToSubject(ecourse) {
     if (sessionStorage.getItem('routeListForEcourse')) {

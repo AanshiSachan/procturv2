@@ -399,17 +399,31 @@
                 *ngIf="varJson.category_id==235 && varJson.category_id!=0 && varJson.category_id!=330 && varJson.name!='Vimeo'">
               </p-fileUpload>
 
-              <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadVimeoHandler($event,values)"
+              <!-- <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler2($event,fileUpload)"
                 [showCancelButton]="false"
                 *ngIf="varJson.name=='Vimeo' && varJson.category_id!=235 && varJson.category_id!=0 && varJson.category_id!=330">
-              </p-fileUpload>
+              </p-fileUpload> -->
 
               <p-fileUpload customUpload="true" multiple="multiple" type="submit"
                 (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false"
                 *ngIf="varJson.category_id!=230 && varJson.category_id!=235 && varJson.category_id!=330 && varJson.name!='Vimeo'">
               </p-fileUpload>
 
-              <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
+              <!-- Developed by - Nalini
+                Form to upload vimeo file
+               -->
+              <form style="height: 100px;" *ngIf="varJson.name=='Vimeo' && varJson.category_id!=235 && varJson.category_id!=0 && varJson.category_id!=330" #form method="post" id="form" enctype="multipart/form-data">
+                <div>
+                  <input style="float: left;" type="file" id="file" (change)="onFileChange($event)" name="file_data">
+                  <div>
+                    <button class="uploadVimeo" (click)="uploadHandler2(Vimeofile, '')"> Upload </button>
+                  </div>
+                </div>
+                <div>
+                </div>
+               </form>
+
+              <!-- <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
                 <div class="progress-bar-wrapper">
                   <div class="upload-bar">
                     <div id="progress-width"></div>

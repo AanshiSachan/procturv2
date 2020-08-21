@@ -1,10 +1,9 @@
-import { AfterViewChecked, Component, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { HttpService } from '../../../../../services/http.service';
 import { MessageShowService } from '../../../../../services/message-show.service';
 import { FileService } from '../../file.service';
-;
 
 @Component({
   selector: 'app-upload-file',
@@ -64,6 +63,11 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   progress: number = 0;
   isUploadingXls: boolean = false;
   Existing_video_category_id: any = 0;
+  Vimeopayload: any = {};
+  @ViewChild('form') form: ElementRef;
+  Vimeofile: any = {
+    files : []
+  };
 
   constructor(
     private _http: HttpService,
@@ -360,78 +364,6 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
     }
   }
 
-  uploadVimeoHandler($event) {
-    console.log($event);
-    let vimeo_allocated_storage = sessionStorage.getItem('vimeo_allocated_storage');
-    let fileSize = (Number($event.files[0].size) / 1024 / 1024 / 1024).toFixed(3);
-    console.log(fileSize, vimeo_allocated_storage);
-    if(!(fileSize > vimeo_allocated_storage)) {
-    let flag = this.uploadDatavalidation();
-    if (flag && this.checkCategoriesType($event.files)) {
-      const formData = new FormData();
-      let fileJson = {
-        institute_id: this.institute_id,
-        category_id: this.varJson.category_id,
-        topic_id: this.varJson.topic_id,
-        course_types: this.varJson.course_types,
-        sub_topic_id: this.varJson.sub_topic_id,
-        subject_id: this.varJson.subject_id,
-        description: this.varJson.description,
-        title: this.varJson.title
-      }
-      if(!this.showModal) {
-        fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
-        fileJson.topic_id = Number(this.jsonData.parentTopicId)
-      }
-      if ($event.files && $event.files.length) {
-        $event.files.forEach(file => {
-          formData.append('file', file);
-        });
-        // formData.append('files', $event.files);
-      }
-      formData.append('fileInfoJson', JSON.stringify(fileJson));
-
-      let base = this.auth.getBaseUrl();
-      let urlPostXlsDocument = base + "/prod/vimeo/upload-video";
-      let newxhr = new XMLHttpRequest();
-      let obj: any = {
-        userid: sessionStorage.getItem('userid'),
-        userType: sessionStorage.getItem('userType'),
-        password: sessionStorage.getItem('password'),
-        institution_id: sessionStorage.getItem('institute_id'),
-      }
-      let Authorization = btoa(obj.userid + "|" + obj.userType + ":" + obj.password + ":" + obj.institution_id);
-      newxhr.open("POST", urlPostXlsDocument, true);
-      newxhr.setRequestHeader("x-prod-user-id", sessionStorage.getItem('userid'));
-      newxhr.setRequestHeader("x-prod-inst-id", sessionStorage.getItem('institute_id'));
-      newxhr.setRequestHeader("x-proc-authorization", Authorization);
-      newxhr.setRequestHeader("enctype", "multipart/form-data;");
-      newxhr.setRequestHeader("Accept", "application/json, text/javascript");
-      newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-
-      if (!this.auth.isRippleLoad.getValue()) {
-        this.auth.showLoader();
-        newxhr.onreadystatechange = () => {
-          this.auth.hideLoader();
-          if (newxhr.readyState == 4) {
-            if (newxhr.status >= 200 && newxhr.status < 300) {
-              this.clearuploadObject();
-              this.refreshList();
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
-              this.getDataUsedInCourseList();
-
-            } else {
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
-            }
-          }
-        }
-        newxhr.send(formData);
-      }
-    }
-    } else {
-      this.msgService.showErrorMessage('error','File Size is more than allocated storage', '');
-    }
-  }
   setCategoryType(value) {
     // console.log(value);
     this.categiesTypeList.forEach(element => {
@@ -545,6 +477,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please add video title");
           flag = false;
         }
+        if(files.length) {
         for (let i = 0; i < files.length; i++) {
           let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV|.FIV|.flv|.mp4|.mov|.webm|.WEBM|.mkv|.MKV|.ogv|.OGV|.vob|.VOB|.gifv|.GIFV|.mng|.MNG|.avi|.gif|.GIF|.drc|.DRC|.ogg|.OGG|.MTS|.mts|.M2TS|.m2ts|.TS|.ts|.qt|.QT|.wmv|.yuv|.YUV|.rm|.RM|.rmvb|.RMVB)/i;
           if (!pattern.test(files[i].name)) {
@@ -552,6 +485,11 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
             flag = false;
             break;
           }
+        }
+        } else {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select file");
+            flag = false;
+            break;
         }
         break;
       }
@@ -695,7 +633,8 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   }
 
 
-  uploadHandler2($event) {
+  uploadHandler2($event, value) {
+
     // console.log(this.material_dataFlag);
     let flag = this.uploadDatavalidation();
 
@@ -758,13 +697,25 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
             this.progress = 0;
             if (newxhr.status >= 200 && newxhr.status < 300) {
               this.auth.hideLoader();
-              this.isUploadingXls = false;
-              var files = $event.files;
-              this.file = files[0];
-              // console.log(this.file);
-              let payloadObject: any = JSON.parse(newxhr.response);
-              this.payload = payloadObject;
-              this.upload();
+              // this.isUploadingXls = false;
+              if(this.varJson.category_id == 235) {
+                var files = $event.files;
+                this.file = files[0];
+                let payloadObject: any = JSON.parse(newxhr.response);
+                this.payload = payloadObject;
+                this.upload();
+              } else {
+                let payloadObject: any = JSON.parse(newxhr.response);
+                this.Vimeopayload = payloadObject;
+                var res = this.Vimeopayload.upload_link.substring(0 , this.Vimeopayload.upload_link.lastIndexOf("="));
+                let url = window.location.href;
+                url = url.substring(0 , url.lastIndexOf("#"));
+                res = res.concat('=' + url + '#/view/course/ecourse-file-manager/ecourses?videoId=' + this.Vimeopayload.videoId);
+                if(this.Vimeopayload.upload_link!='' && this.Vimeopayload.upload_link!=null) {
+                  (document.getElementById('form') as HTMLFormElement).action = res;
+                  this.form.nativeElement.submit();
+                }
+              }
             } else {
               this.isUploadingXls = false;
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
@@ -779,6 +730,10 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
     // this.file = files[0];
     // console.log(this.file);
     // this.upload();
+  }
+
+  onFileChange($event) {
+    this.Vimeofile = $event.target;
   }
 
   upload() {
@@ -817,7 +772,8 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
     let obj = {
       "videoID": videoID,
       "institute_id": sessionStorage.getItem('institute_id'),
-      "video_status": "Queued"
+      "video_status": "Queued",
+      "category_id": Number(this.varJson.category_id)
     }
     let url = "/api/v1/instFileSystem/updateVideoStatus";
 
