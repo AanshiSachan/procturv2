@@ -365,8 +365,8 @@ export class InstituteSettingsComponent implements OnInit {
   test_series_feature: any = '0';
   instituteName: any = '';
   biometricSetting: number = 0;
-  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport', 'liAccess'];
-  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent', 'divAccessControl'];
+  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport', 'liAccess', 'lieStore', 'liLive'];
+  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent', 'divAccessControl', 'divLiveClassContent', 'diveStoreContent'];
 
   IPJson: any = {
     'institute_id': sessionStorage.getItem('institute_id'),
@@ -547,6 +547,12 @@ export class InstituteSettingsComponent implements OnInit {
         }
       }
     }
+    if (this.instituteSettingDet.product_purchase_multiple_mobile && this.instituteSettingDet.product_purchase_multiple_mobile != '' && !(this.checkContactNoPattern(this.instituteSettingDet.product_purchase_multiple_mobile))) {
+      this.commonService.showErrorMessage('error', '', 'Please check contact number');
+      return
+    }
+    obj.product_purchase_multiple_mobile = this.instituteSettingDet.product_purchase_multiple_mobile;
+    obj.product_purchase_multiple_email = this.instituteSettingDet.product_purchase_multiple_email;
 
     obj.enable_assign_to_feature = this.convertBoolenToNumber(this.instituteSettingDet.enable_assign_to_feature);
     obj.feedback_email_ids = this.instituteSettingDet.feedback_email_ids;
