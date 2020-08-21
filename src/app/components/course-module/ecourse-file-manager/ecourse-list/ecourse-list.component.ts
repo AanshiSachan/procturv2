@@ -50,6 +50,8 @@ export class EcourseListComponent implements OnInit {
     this.getParams();
   }
 
+//Developed by - Nalini 
+// When vimeo file uploaded successfully then video status api is called based on video id and pop up msg is displayed
   getParams() {
     let url = window.location.href;
     if (url.indexOf("?") > -1) {

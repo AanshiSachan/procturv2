@@ -409,6 +409,9 @@
                 *ngIf="varJson.category_id!=230 && varJson.category_id!=235 && varJson.category_id!=330 && varJson.name!='Vimeo'">
               </p-fileUpload>
 
+              <!-- Developed by - Nalini
+                Form to upload vimeo file
+               -->
               <form style="height: 100px;" *ngIf="varJson.name=='Vimeo' && varJson.category_id!=235 && varJson.category_id!=0 && varJson.category_id!=330" #form method="post" id="form" enctype="multipart/form-data">
                 <div>
                   <input style="float: left;" type="file" id="file" (change)="onFileChange($event)" name="file_data">
