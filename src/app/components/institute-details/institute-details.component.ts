@@ -50,6 +50,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
   singleDevice: any;
   institute_logo: any;
+  announcement_image_url: any;
 
   proctur_live_recorded_session_download_visibilty: any = {
     student: '',
@@ -62,6 +63,19 @@ export class InstituteDetailsComponent implements OnInit {
     openApp: '',
     teacher: '',
     admin: '',
+  };
+
+  editorConf = {
+    height: 150,
+    menubar: false,
+    branding: false,
+    plugins: [
+      'preview anchor',
+      'visualblocks code ',
+      'insertdatetime  table paste code  wordcount'
+    ],
+    toolbar: 'undo redo  | bold italic backcolor | \
+             | \ bullist numlist outdent indent'
   };
 
   constructor(
@@ -100,6 +114,8 @@ export class InstituteDetailsComponent implements OnInit {
         if(this.instDetails.enable_student_app_url == 1) {
           this.instDetails.enable_student_app_url = true;
         }
+        this.instDetails.announcement_image_status = 2;
+        this.announcement_image_url = this.instDetails.announcement_image_url;
         this.fillTableCheckboxValue(this.proctur_live_recorded_session_download_visibilty, this.instDetails.proctur_live_recorded_session_download_visibilty);
           this.fillTableCheckboxValue(this.proctur_live_recorded_session_view_visibility, this.instDetails.proctur_live_recorded_session_view_visibility);
       },
@@ -305,6 +321,11 @@ export class InstituteDetailsComponent implements OnInit {
     }
     obj.logo_url = this.instDetails.logo_url;
     obj.institute_logo = this.institute_logo;
+    if((this.instDetails.announcement_image_url == this.announcement_image_url) && this.instDetails.announcement_image_status == 2) {
+      this.announcement_image_url = '';
+    }
+    obj.announcement_image_status = this.instDetails.announcement_image_status;
+    obj.announcement_image_url = this.announcement_image_url;
     obj.proctur_live_recorded_session_download_visibilty = this.getSumOfTableField(this.proctur_live_recorded_session_download_visibilty);
     obj.proctur_live_recorded_session_view_visibility = this.getSumOfTableField(this.proctur_live_recorded_session_view_visibility);
     obj.share_app_url = this.instDetails.share_app_url;
@@ -686,9 +707,24 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   file(event){
-    console.log(event);
     const file = event.target.files[0];
     const fileData = this.readFile(file);
+  }
+
+  uploadFile(event) {
+    const file = event.target.files[0];
+    // this.instDetails.announcement_image_url = this.readFile(file);
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        this.announcement_image_url  = reader.result.split(',')[1];
+        if((this.instDetails.announcement_image_url == null ||this.instDetails.announcement_image_url == '') && this.announcement_image_url!='') {
+          this.instDetails.announcement_image_status = 1;
+        }
+        return reader.result.split(',')[1];
+      };
+    }
   }
 
   readFile(file: any): any {
@@ -706,6 +742,12 @@ export class InstituteDetailsComponent implements OnInit {
   clearFile() {
     this.institute_logo = '';
     this.instDetails.institute_logo = '';
+  }
+
+  clearAnnouncementFile() {
+    this.instDetails.announcement_image_status = 3;
+    // this.announcement_image_url = '';
+    this.instDetails.announcement_image_url = '';
   }
 
 
