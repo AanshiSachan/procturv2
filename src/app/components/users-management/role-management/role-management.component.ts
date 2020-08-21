@@ -20,6 +20,7 @@ export class RoleManagementComponent implements OnInit {
   totalRow: number = 0;
   searchedData: any = [];
   toottip: string = "We can customize roles by defining multiple activities to a user";
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
 
   constructor(
     private apiService: RoleService,
@@ -117,6 +118,12 @@ export class RoleManagementComponent implements OnInit {
       this.fetchTableDataByPage(this.PageIndex);
     }
   }
+
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
 
   getDataFromDataSource(startindex) {
     let data = [];
