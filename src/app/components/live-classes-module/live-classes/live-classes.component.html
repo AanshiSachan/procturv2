@@ -247,7 +247,7 @@
                <div class="item_type_2" *ngIf="!liveClassFor">
                   <div class="questionInfo inline-relative">
                       <span class=" i-class">
-                          <button type="button" name="button"  *ngIf="forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                          <button type="button" name="button"  *ngIf="forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) " [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                               <i class="fa fa-play" aria-hidden="true"></i>
                               &nbsp;
                               Start Class
