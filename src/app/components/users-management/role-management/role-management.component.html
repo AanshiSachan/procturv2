@@ -81,7 +81,7 @@
     <div class="row filter-res pagination" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
         <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-          [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+          [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRow" (sizeChange)="updateTableBatchSize($event)">
         </pagination>
       </div>
     </div>
