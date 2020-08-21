@@ -62,6 +62,14 @@
             <i class="fas fa-random" style="font-family: FontAwesome"></i>
           </span>
         </li>
+        <!-- Added By Ashwini Gupta Ticket 826 -->
+        <li id="lieStore" class="menu-item" style="cursor: pointer" (click)="changeView('lieStore','diveStoreContent')">
+          <span>
+            <a class="">eStore</a>
+            <i class="fas fa-line-chart" style="font-family: FontAwesome"></i>
+          </span>
+        </li>
+        <!--  End -->
         <li id="liMisc" class="menu-item" style="cursor: pointer" (click)="changeView('liMisc','divMiscContent')">
           <span>
             <a class="">Miscellaneous</a>
@@ -3089,6 +3097,61 @@
           </div>
         </div>
       </section>
+
+            <!-- Added by ashwini kumar gupta Ticket 826 -->
+<section id="diveStoreContent" class="fee-content-wrapper sectionDevideContainer">
+  <div class="row m-0">
+    <div class="fee-table-wrapper">
+      <div class="table-scroll-wrapper">
+        <div class="table table-responsive">
+          <table>
+            <tbody>
+              <tr style="height: 45px; background-color: #efefef">
+                <td class="tableHeader" colspan="6">
+                  ESTORE SETTING
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="row" style="margin: 0;">
+                    <h3>Specify Mobile Nos / Email-ids to receive Student Product Purchase Notifications
+                      <div class="questionInfo inline-relative">
+                        <span class="qInfoIcon i-class">i</span>
+                        <div class="tooltip-box-field lg">
+                          When students purchase any 
+                          <br> product then invoice with 
+                          <br> info would receive on the 
+                          <br>given number and email.
+                        </div>
+                      </div>
+                    </h3>
+                    <div class="c-lg-12" style="margin-left: 15px;">
+                      <div class="field-wrapper" >
+                        <label for="mobileNumber">Mobile Nos (Multiple contacts with a comma separated) 
+                        </label>
+                        <input type="text" [(ngModel)]="instituteSettingDet.product_purchase_multiple_mobile" class="form-ctrl" name="daily_account_summary" id="dailyConatctID" style="width: 50%;">
+                      </div>
+                    </div>
+                    <div class="c-lg-12" style="margin-left: 15px;">
+                      <div class="field-wrapper">
+                        <label for="multipleEmailIds">Email ids (Multiple ids with a comma separated)
+                        </label>
+                        <input type="text" [(ngModel)]="instituteSettingDet.product_purchase_multiple_email" class="form-ctrl" name="daily_account_summary" id="dailyConatctID" style="width: 50%;">
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+<!-- End -->
 
       <!-- MISCELLANEOUS SETTING -->
  
