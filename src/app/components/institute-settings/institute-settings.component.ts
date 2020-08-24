@@ -346,8 +346,10 @@ export class InstituteSettingsComponent implements OnInit {
     lib_issue_for_days: '',
     lib_due_date_fine_per_day: '',
     jwt_secret_key: '',
+
     product_purchase_multiple_email: '',
     product_purchase_multiple_mobile: '',
+
     class_attendance_not_marked_notification_contact_number: '',
     class_attendance_not_marked_daily_notification_contact_number: '',
     exam_attendance_not_marked_notification_contact_number: '',
@@ -552,12 +554,14 @@ export class InstituteSettingsComponent implements OnInit {
         }
       }
     }
+
     if (this.instituteSettingDet.product_purchase_multiple_mobile && this.instituteSettingDet.product_purchase_multiple_mobile != '' && !(this.checkContactNoPattern(this.instituteSettingDet.product_purchase_multiple_mobile))) {
       this.commonService.showErrorMessage('error', '', 'Please check contact number');
       return
     }
     obj.product_purchase_multiple_mobile = this.instituteSettingDet.product_purchase_multiple_mobile;
     obj.product_purchase_multiple_email = this.instituteSettingDet.product_purchase_multiple_email;
+
 
     obj.enable_assign_to_feature = this.convertBoolenToNumber(this.instituteSettingDet.enable_assign_to_feature);
     obj.feedback_email_ids = this.instituteSettingDet.feedback_email_ids;
@@ -846,13 +850,13 @@ export class InstituteSettingsComponent implements OnInit {
     }
     this.instituteSettingDet.teacher_monthly_report = data.teacher_monthly_report;
     this.instituteSettingDet.emailids_for_report = data.emailids_for_report;
+    this.instituteSettingDet.product_purchase_multiple_email = data.product_purchase_multiple_email;
+    this.instituteSettingDet.product_purchase_multiple_mobile = data.product_purchase_multiple_mobile;
     this.instituteSettingDet.emailid_for_teacher_report = data.emailid_for_teacher_report;
     this.instituteSettingDet.enable_online_payment_email_notification = data.enable_online_payment_email_notification;
     this.instituteSettingDet.enable_online_payment_sms_notification = data.enable_online_payment_sms_notification;
-    this.instituteSettingDet.product_purchase_multiple_email = data.product_purchase_multiple_email;
-    this.instituteSettingDet.online_payment_notify_mobiles = data.online_payment_notify_mobiles;
     this.instituteSettingDet.online_payment_notify_emailIds = data.online_payment_notify_emailIds;
-    this.instituteSettingDet.product_purchase_multiple_mobile = data.product_purchase_multiple_mobile;
+    this.instituteSettingDet.online_payment_notify_mobiles = data.online_payment_notify_mobiles;
     this.instituteSettingDet.new_student_addmission_email_notification = data.new_student_addmission_email_notification;
     this.instituteSettingDet.new_student_addmission_sms_notification = data.new_student_addmission_sms_notification;
     this.instituteSettingDet.fee_dues_interval = data.fee_dues_interval;

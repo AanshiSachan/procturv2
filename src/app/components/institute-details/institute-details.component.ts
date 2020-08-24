@@ -51,6 +51,7 @@ export class InstituteDetailsComponent implements OnInit {
   singleDevice: any;
   institute_logo: any;
   announcement_image_url: any;
+  new_announcement_image_url: any;
 
   proctur_live_recorded_session_download_visibilty: any = {
     student: '',
@@ -116,6 +117,7 @@ export class InstituteDetailsComponent implements OnInit {
         }
         this.instDetails.announcement_image_status = 2;
         this.announcement_image_url = this.instDetails.announcement_image_url;
+        this.new_announcement_image_url = this.instDetails.announcement_image_url + '?' + Math.random().toFixed(2);
         this.fillTableCheckboxValue(this.proctur_live_recorded_session_download_visibilty, this.instDetails.proctur_live_recorded_session_download_visibilty);
         this.fillTableCheckboxValue(this.proctur_live_recorded_session_view_visibility, this.instDetails.proctur_live_recorded_session_view_visibility);
       },
