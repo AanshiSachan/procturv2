@@ -681,10 +681,24 @@ export class UsersComponent implements OnInit {
     }
   }
 
+
+  // Developed by Nalini
+  // Send role to notification api to identify which user type is selected
+  checkRole() {
+    switch(this.dataFilter.role) {
+      case '0' : return 'Custom';
+      case '1' : return 'Student';
+      case '3' : return 'Teacher';
+      case '5' : return 'Parent';
+      case '99' : return 'Open User';
+    }
+  }
+
   sendSMSNotification() {
     if (!this.getNotificationMessage()) {
       return;
     }
+    let role = this.checkRole();
     let studentID = this.getListOfIds('user_id');
     let obj = {
       delivery_mode: 0,
@@ -699,7 +713,8 @@ export class UsersComponent implements OnInit {
       configuredMessage: true,
       message_id: this.selectedMsg.message_id,
       is_user_notify: 1,
-      institution_id: sessionStorage.getItem('institute_id')
+      institution_id: sessionStorage.getItem('institute_id'),
+      role: role
     };
     // if (this.transational_type ==2) {
     //   obj.configuredMessage = false;
