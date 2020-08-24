@@ -318,6 +318,9 @@ export class InstituteSettingsComponent implements OnInit {
     discount_amount_in_fee_receipt: '',
     balance_amount_in_fee_receipt: '',
     show_counseller_name_in_fee_receipt: '',
+    show_course_in_fee_receipt: '',
+    show_master_course_in_fee_receipt: '',
+    show_total_dues_in_fee_receipt: '',
     biometric_late_sms_buffer: 0,
     biometric_class_in_time_buffer_in_min: 0,
     biometric_class_out_time_buffer_in_min: 0,
@@ -683,6 +686,11 @@ export class InstituteSettingsComponent implements OnInit {
     obj.discount_amount_in_fee_receipt = this.convertBoolenToNumber(this.instituteSettingDet.discount_amount_in_fee_receipt);
     obj.balance_amount_in_fee_receipt = this.convertBoolenToNumber(this.instituteSettingDet.balance_amount_in_fee_receipt);
     obj.show_counseller_name_in_fee_receipt = this.convertBoolenToNumber(this.instituteSettingDet.show_counseller_name_in_fee_receipt);
+    // Added By Ashwini gupta - 1123
+    obj.show_course_in_fee_receipt = this.convertBoolenToNumber(this.instituteSettingDet.show_course_in_fee_receipt);
+    obj.show_master_course_in_fee_receipt = this.convertBoolenToNumber(this.instituteSettingDet.show_master_course_in_fee_receipt);
+    obj.show_total_dues_in_fee_receipt = this.convertBoolenToNumber(this.instituteSettingDet.show_total_dues_in_fee_receipt);
+    // End
     obj.alumni_birthday_daily_schedule = this.convertTimeToSend(this.instituteSettingDet.alumni_birthday_daily_schedule);
 
     obj.biometric_first_in_time_sms = this.getSumOfTableField(this.instituteSettingDet.biometric_first_in_time_sms);
@@ -865,6 +873,11 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.due_date_in_fee_receipt = data.due_date_in_fee_receipt;
     this.instituteSettingDet.balance_amount_in_fee_receipt = data.balance_amount_in_fee_receipt;
     this.instituteSettingDet.show_counseller_name_in_fee_receipt = data.show_counseller_name_in_fee_receipt;
+    // Added by ashwini gupta
+    this.instituteSettingDet.show_course_in_fee_receipt = data.show_course_in_fee_receipt;
+    this.instituteSettingDet.show_master_course_in_fee_receipt = data.show_master_course_in_fee_receipt;
+    this.instituteSettingDet.show_total_dues_in_fee_receipt = data.show_total_dues_in_fee_receipt;
+    //End
     this.instituteSettingDet.discount_amount_in_fee_receipt = data.discount_amount_in_fee_receipt;
     this.instituteSettingDet.user_registration_otp_via_sms = data.user_registration_otp_via_sms;
     this.instituteSettingDet.user_registration_otp_via_email = data.user_registration_otp_via_email;

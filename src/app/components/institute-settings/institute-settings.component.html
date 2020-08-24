@@ -2197,9 +2197,40 @@
                             </div>
                           </div>
 
-                        </div>
-                      </td>
-                    </tr>
+                  <!-- Added By Ashwini Gupta -->
+                  <div class="c-sm-5 c-md-5 c-lg-5">
+                    <div class="field-checkbox-wrapper" style="width: 100%">
+                      <input type="checkbox" value="" name="enableTotaldue" class="form-checkbox" [(ngModel)]="instituteSettingDet.show_total_dues_in_fee_receipt "
+                        id="enableTotaldue">
+                      <label for="enableTotaldue">Show Total Due Amount in fee Receipt</label>
+                    </div>
+                  </div>
+                  <!-- End -->
+                </div>
+              </td>
+            </tr>
+            <!-- Added By Ashwini Gupta -->
+            <tr>
+              <td>
+                <div class="row m-0 webkitBox">
+                  <div class="c-sm-5 c-md-5 c-lg-5">
+                    <div class="field-checkbox-wrapper" style="width: 100%">
+                      <input type="checkbox" value="" name="enableMasterCourse" class="form-checkbox" [(ngModel)]="instituteSettingDet.show_master_course_in_fee_receipt"
+                        id="enableMasterCourse">
+                      <label for="enableMasterCourse">Show Master Course in fee receipt</label>
+                    </div>
+                  </div>
+                  <div class="c-sm-5 c-md-5 c-lg-5">
+                    <div class="field-checkbox-wrapper" style="width: 100%">
+                      <input type="checkbox" value="" name="enableCourse" class="form-checkbox" [(ngModel)]="instituteSettingDet.show_course_in_fee_receipt"
+                        id="enableCourse">
+                      <label for="enableCourse">Show Course in fee receipt</label>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <!-- End -->
                     
                     <tr *ngIf="onlinePayment == '1'">
                       <td>
