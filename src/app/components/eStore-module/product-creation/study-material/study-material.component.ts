@@ -85,7 +85,7 @@ export class StudyMaterialComponent implements OnInit {
 
   gotoNext() {
     if (this.description == undefined || this.description == '') {
-      this.msgService.showErrorMessage('error', 'Pleaas add description', '');
+      this.msgService.showErrorMessage('error', 'Please add description', '');
       return
     }
 
