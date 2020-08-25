@@ -700,13 +700,7 @@ export class CampaignHomeComponent implements OnInit {
   getDataFromDataSource(startindex) {
     let t = this.sourceCampaignDataSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
-    // let data = [];
-    // if (this.searchDataFlag) {
-    //   data = this.searchData.slice(startindex, startindex + this.studentdisplaysize);
-    // } else {
-    //   data = this.sourceCampaignDataSource.slice(startindex, startindex + this.studentdisplaysize);
-    // }
-    // return data;
+  
   }
 
   updateTableBatchSize(event) {
@@ -829,7 +823,7 @@ export class CampaignHomeComponent implements OnInit {
       }
       this.postData.addNewMessage(test).subscribe(
         res => {
-          this.showErrorMessage(this.msgService.toastTypes.success, "Added", "Added Successfully");
+          this.showErrorMessage(this.msgService.toastTypes.success, "Added", "Message Added Successfully");
           this.getSMSList('');
           this.messageText = "";
           this.messageCount = 0;
@@ -849,7 +843,7 @@ export class CampaignHomeComponent implements OnInit {
     if (confirm('Do you want to continue?')) {
       this.postData.approveMessage(data.message_id).subscribe(
         res => {
-          this.showErrorMessage(this.msgService.toastTypes.success, "Added", "Added Successfully");
+          this.showErrorMessage(this.msgService.toastTypes.success, "Added", "Message Approved Successfully");
           this.getSMSList('');
           this.messageText = "";
           this.closeAddDiv();

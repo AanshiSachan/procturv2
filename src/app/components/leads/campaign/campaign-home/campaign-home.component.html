@@ -179,7 +179,6 @@
                   (click)="downloadFailureListFile(row)" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
                   <a id="template_link_{{row.data.list_id}}">{{row.data.failure_count}}</a>
                 </td>
-
                 <td>
                   <a style="cursor: pointer;" (click)="openSmsPopup(row)" *ngIf="row.data.success_count > 0"
                     [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
@@ -252,7 +251,7 @@
           <div class="sms-update">
             <div class="sms-top-section">
               <h4>
-                Campaign List*
+                Campaign List <span style="color: red;">*</span>
               </h4>
 
               <div class="row">
@@ -307,12 +306,19 @@
                     </select>
 
                   </div>
-                  <p style="padding-top: 5px;"><strong style="color: red;">Note*:</strong> Please specify the time
+                  <div class="questionInfo inline-relative">
+                    <span class="qInfoIcon i-class" style="border: 1px solid #0084f6;  color:#0084f6">i</span>
+                    <div class="tooltip-box-field md">
+                      Promotional SMS are sent between 9 AM to 9 PM
+                      <br>only and cannot be sent on DND numbers
+                    </div>
+                  </div>
+                  <!-- <p style="padding-top: 5px;"><strong style="color: red;">Note*:</strong> Please specify the time
                     window between 9 AM to 9 PM for
-                    scheduling campaign.</p>
+                    scheduling campaign.</p> -->
                 </div>
               </div>
-              <h4 style="padding-bottom: 8px;">
+              <h4 style="padding-bottom: 8px;padding-top: 8px;">
                 Campaign Message
               </h4>
 
@@ -325,7 +331,7 @@
                         <th></th>
                       </tr> -->
                       <tr id="message{{i}}" *ngFor="let message of messageList; let i = index; trackBy: i;">
-                        <td class="c-lg-12 c-md-12 c-sm-12">
+                        <td class="c-lg-12 c-md-12 c-sm-12" style="width: 12%;">
                           <div class="field-checkbox-wrapper">
                             <input type="radio"
                               (click)="rowCheckBoxClick($event, i, message.message_id ,message.message)" id="check{{i}}"
@@ -333,7 +339,7 @@
                             <label for="check{{i}}">{{message.message}}</label>
                           </div>
                         </td>
-                        <td style="text-align: left">
+                        <td style="text-align: left;width: 92%;">
                           {{message.message}}
                         </td>
                       </tr>
@@ -524,7 +530,7 @@
               </div>
               <div class="row">
                 <div style="padding-top: 7px;">
-                  <strong style="color: red;">*Note:</strong><span>Message having apostrophe or any other special
+                  <strong style="color: red;">*Note: </strong><span>Message having apostrophe or any other special
                     character will be treated as unicode message.A unicode message has a character limit of 70 per
                     SMS.</span>
                 </div>
@@ -547,7 +553,8 @@
                   </td>
                   <td class="edit-comp">
                     <div class="field-wrapper">
-                      <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.message" name="label">
+                      <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.message" name="label"
+                        style="width: 140%;">
                     </div>
                   </td>
                   <td>

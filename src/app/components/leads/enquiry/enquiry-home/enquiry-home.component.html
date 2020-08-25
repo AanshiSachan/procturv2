@@ -69,7 +69,7 @@
           <div class="filter-box clearFix">
             <!-- Search Bar -->
             <div class="c-lg-6 c-md-6 c-sm-6 pull-left" style="margin-left: -17px;">
-              <div class="search-filter-wrapper" id="adFilterExitVisible">
+              <div class="search-filter-wrapper" id="adFilterExitVisible" style="width: 77%;">
                 <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No."
                   style="font-size:12px; margin: 0px 5px 0px -5px;" [(ngModel)]="varJson.searchBarData"
                   name="searchData" (keyup.enter)="searchDatabase()" id="searchBarData">
@@ -79,7 +79,7 @@
             </div>
 
             <!-- Quick Filter -->
-            <div class="c-lg-3 c-md-3 c-sm-3 pull-left" style="margin-left: -8rem;">
+            <div class="c-lg-3 c-md-3 c-sm-3 pull-left" style="margin-left: -15rem;">
               <div id="qfilt">
                 <quick-filter [inputList]="statFilter" (selectedValue)="statusFilter($event)" [modelName]="'enqList'">
                 </quick-filter>
@@ -87,7 +87,7 @@
             </div>
 
             <!-- Advance Filter Trigger -->
-            <div class="c-lg-3 c-md-3 c-sm-3" style="margin-left: 9rem;">
+            <div class="c-lg-3 c-md-3 c-sm-3" style="margin-left: 16rem;">
               <span class="filter-right" style="float: right;margin-right: 33px;margin-top: 4px;">
 
                 <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advance
@@ -1047,9 +1047,9 @@
                     <section class="clearFix new-sms-form">
                       <div class="row">
                         <div class="c-lg-8 pull-left new-sms-wrapper">
-                          <textarea cols="1" rows="5"  class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="Enter your SMS here"
-                            [(ngModel)]="newSmsString.data" aria-haspopup="true" value="" id="listTxt"></textarea>
-                       
+                          <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox"
+                            aria-autocomplete="list" placeholder="Enter your SMS here" [(ngModel)]="newSmsString.data"
+                            aria-haspopup="true" value="" id="listTxt"></textarea>
                           <p>Message characters : {{newSmsString.data.length}}</p>
                         </div>
 
@@ -1265,13 +1265,10 @@
                     <section class="clearFix new-sms-form">
                       <div class="row">
                         <div class="c-lg-8 pull-left new-sms-wrapper">
-                          <textarea cols="1" rows="5"  *ngIf="flagJSON.notificationType=='SMS'" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="Enter your SMS here"
-                            [(ngModel)]="newSmsString.data" aria-haspopup="true" value="" id="listTxt" (ngModelChange)="countNumberOfMessage()"></textarea>
-                               <!-- Added editor for email formatting ashwini kumar gupta -->
-                               <editor
-                               [init]="editorConf"  *ngIf="flagJSON.notificationType=='Email'" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"  (ngModelChange)="countNumberOfMessage()" [(ngModel)]="newSmsString.data" placeholder="Enter your SMS here">
-                             </editor>
-                             <!-- End -->
+                          <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox"
+                            aria-autocomplete="list" placeholder="Enter your SMS here" [(ngModel)]="newSmsString.data"
+                            aria-haspopup="true" value="" id="listTxt"
+                            (ngModelChange)="countNumberOfMessage()"></textarea>
                           <div style="width:100%; display:flex; justify-content:space-between;">
                             <span>Character Count : {{newSmsString.data.length}}</span>
                             <span>Message Count :
@@ -1319,7 +1316,7 @@
 
                 <div class="sms-middle-section">
                   <div class="table table-responsive table-container table-data-overflow">
-                    <table>
+                    <table class="tableBodyScroll">
                       <thead>
                         <tr>
                           <!-- <th></th> -->
@@ -1333,7 +1330,7 @@
                               <a class="cursor-icon" id="cursorAnch12">{{smsHeader.date.title}}</a>
                             </label>
                           </th>
-                          <th>
+                          <th style="text-align: center;">
                             <label>
                               <a class="cursor-icon" id="cursorAnch13">{{smsHeader.action.title}}</a>
                             </label>
@@ -1357,7 +1354,7 @@
                             {{row.date}}
                           </td>
                           <td>
-                            <enquiry-sms-action>
+                            <enquiry-sms-action style="text-align: center;">
                             </enquiry-sms-action>
                           </td>
                         </tr>
@@ -1376,47 +1373,15 @@
                           <td style="width: 18%;">
                             {{row.date}}
                           </td>
-                          <td class="sms-Action-td" style="display:block">
+                          <td class="sms-Action-td" style="display:block;text-align: center;">
                             <span class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}"
                               style="display: inline-block">
-                              <i class="fas fa-check" (click)="approveRejectSms(row , '1')"
+                              <i class="fas fa-check" (click)="approveRejectSms(row , '1')" title="Approve"
                                 style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
-                              <i class="fa fa-times" (click)="approveRejectSms(row,'2')"
+                              <i class="fa fa-times" (click)="approveRejectSms(row,'2')" title="Reject"
                                 style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
                             </span>
-                            <enquiry-sms-action style="display: inline-block"></enquiry-sms-action>
-                          </td>
-                        </tr>
-                      </tbody>
-                      <!-- Email -->
-                      <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='Email'">
-                        <tr *ngFor="let row of emailSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
-                          <td>
-                            {{row.message}}
-                          </td>
-                          <td style="width: 18%;">
-                            {{row.date}}
-                          </td>
-                          <td>
-                            <enquiry-sms-action>
-                            </enquiry-sms-action>
-                          </td>
-                        </tr>
-                      </tbody>
-                      <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='Email'">
-                        <tr *ngFor="let row of emailSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
-                          <td>
-                            {{row.message}}
-                          </td>
-                          <td style="width: 18%;">
-                            {{row.date}}
-                          </td>
-                          <td class="sms-Action-td" style="display:block">
-                            <span class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}" style="display: inline-block">
-                              <i class="fas fa-check" (click)="approveRejectSms(row , '1')" style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
-                              <i class="fa fa-times" (click)="approveRejectSms(row,'2')" style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
-                            </span>
-                            <enquiry-sms-action style="display: inline-block"></enquiry-sms-action>
+                            <enquiry-sms-action style="display: inline-block;"></enquiry-sms-action>
                           </td>
                         </tr>
                       </tbody>
@@ -1455,13 +1420,10 @@
                 </div>
                 <div class="sms-preview-content">
                   <div class="field-sms-wrapper">
-                    <!-- Added Editor for email formatting  By Ashwini kumar gupta-->
-                    <textarea placeholder="Edit Message Here" rows="20" cols="1" *ngIf="flagJSON.notificationType=='SMS'" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
-                      id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!flagJSON.smsBtnToggle" (ngModelChange)="countNumberOfMessageForEdit()"></textarea>
-                      <editor
-                      [init]="editorConf" id="email-content"  *ngIf="flagJSON.notificationType=='Email'" [disabled]="!flagJSON.smsBtnToggle" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="selectedSMS.message" (ngModelChange)="countNumberOfMessageForEdit()"
-                    ></editor>
-                    <!-- End -->
+                    <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox"
+                      aria-autocomplete="list" aria-haspopup="true" id="sms-content" value=""
+                      [(ngModel)]="selectedSMS.message" [disabled]="!flagJSON.smsBtnToggle"
+                      (ngModelChange)="countNumberOfMessageForEdit()"></textarea>
                     <div style="width:100%; display:flex; justify-content:space-between;font-size:12px">
                       <span>Character Count : {{selectedSMS.message.length}}</span>
                       <span>Message Count :

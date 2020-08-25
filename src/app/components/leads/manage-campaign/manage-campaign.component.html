@@ -172,14 +172,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Send Promotional SMS</h4>
+        <h4 class="modal-title" style="font-weight: bold;">Send Promotional SMS</h4>
       </div>
       <div class="modal-body">
         <p>Message
           <span class="text-danger">*</span>
         </p>
-        <div class="msg-list-container">
-          <div class="msg-item" *ngFor="let msg of promoSMSList; let i = index;">
+        <div class="msg-list-container" style="border-radius: 4px;">
+          <div class="msg-item" *ngFor="let msg of promoSMSList; let i = index;"
+            style="border-bottom: 1px solid lightgrey;padding-bottom: 0px;">
             <div class="msg-checkbox field-checkbox-wrapper">
               <input type="checkbox" (click)="selectMsg(msg)" id="check{{i}}" value="" name="" class="form-checkbox">
               <label for="check{{i}}"></label>
@@ -191,8 +192,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-default" (click)="sendSMS()">Send</button>
+        <button type="button" class="add-class-btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="add-class-btn btn-default" (click)="sendSMS()">Send</button>
       </div>
     </div>
 

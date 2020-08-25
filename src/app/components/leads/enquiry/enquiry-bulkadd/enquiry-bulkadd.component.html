@@ -1,6 +1,6 @@
 <div class="middle-section clearFix" id="enquiryList">
 
-  <section class="middle-top clearFix bulk-header">
+  <section class="middle-top clearFix bulk-header" style="padding: 1%;border-bottom: 1px solid lightgrey;">
 
     <div class="row">
       <h1 class="pull-left">
@@ -15,11 +15,15 @@
         Upload Enquiry
       </h1>
       <aside class="pull-right">
-        <input type="button" value="Upload Status Report" (click)="bulkStatusReporter()" class="btn" />
+        <input type="button" value="Upload Status Report" (click)="bulkStatusReporter()" class="btn"
+          style="border-radius: 4px;border: 1px solid #3a66fa;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);font-weight: 600;" />
         <a id="template_link">
-          <input type="button" value="Download Template" class="btn" (click)="downloadTemplate()" id="btnDownloadTemplate" />
+          <input type="button" value="Download Template" class="btn" (click)="downloadTemplate()"
+            id="btnDownloadTemplate"
+            style="border-radius: 4px;border: 1px solid #3a66fa;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);font-weight: 600;" />
         </a>
-        <input type="button" value="Add Enquiry" routerLink='/view/leads/add' class="btn" id="btnAddEnquiry" />
+        <input type="button" value="Add Enquiry" routerLink='/view/leads/add' class="btn" id="btnAddEnquiry"
+          style="border-radius: 4px;border: 1px solid #3a66fa;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);font-weight: 600;" />
       </aside>
     </div>
 
@@ -31,13 +35,12 @@
   <section class="middle-main clearFix" id="bulkEnquiryMain">
     <div class="file-upload-box">
       <div class="select-file-upload">
-        <h5>Select a file to upload</h5>
-        <div class="file-wrapper">
+        <h5 style="margin-left: 1%;">Select a file to upload</h5>
+        <div class="">
           <ul>
             <li>
               <!-- accept="application/vnd.ms-excel" -->
-              <p-fileUpload
-                customUpload="true" (uploadHandler)="uploadHandler($event)" [showCancelButton]="false">
+              <p-fileUpload customUpload="true" (uploadHandler)="uploadHandler($event)" [showCancelButton]="false">
               </p-fileUpload>
 
               <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
@@ -68,8 +71,11 @@
   <enquiry-pop-up [hidden]="!isBulkUploadStatus">
 
     <span class="closePopup pos-abs fbold " id="popupCloseBtn" (click)="closeBulkStatus()" close-button>
-      <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-        <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+      <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
+        width="24px" x="0" y="0">
+        <path class="large-icon"
+          d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+          style="fill: currentColor"></path>
       </svg>
     </span>
 
@@ -79,10 +85,10 @@
 
       <div class="row">
         <div class="table-responsive bulk-update-report">
-          <table>
+          <table class="tableBodyScroll">
             <thead>
               <tr>
-                <th>File Name</th>
+                <th style="width: 43%;">File Name</th>
                 <th>Upload Date</th>
                 <th>Total Count</th>
                 <th>Success Count</th>
@@ -91,15 +97,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor = "let record of bulkUploadRecords">
-                <td>{{record.list_name}}</td>
+              <tr *ngFor="let record of bulkUploadRecords">
+                <td style="width: 43%;">{{record.list_name}}</td>
                 <td>{{record.created_date}}</td>
                 <td>{{record.total_count}}</td>
                 <td>{{record.success_count}}</td>
                 <td>{{record.failure_count}}</td>
                 <td *ngIf="downloadEnquiryReportAccess">
-                  <a *ngIf="record.failure_count != 0" [id]="record.list_id" class="download-icon" (click)="downloadBulkStatusReport(record)" id="generateAnch5">
-                    Generate Report
+                  <a *ngIf="record.failure_count != 0" [id]="record.list_id" class="download-icon"
+                    (click)="downloadBulkStatusReport(record)" id="generateAnch5">
+                    <!-- Generate Report -->
                   </a>
                 </td>
               </tr>

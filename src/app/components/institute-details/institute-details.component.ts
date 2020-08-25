@@ -103,6 +103,7 @@ export class InstituteDetailsComponent implements OnInit {
 
 
   getInstituteDetails() {
+
     this.apiService.getInstituDetailsAll().subscribe(
       res => {
         this.auth.hideLoader();
@@ -130,6 +131,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   getInstituteKYCDetails() {
+
     this.apiService.getKycTypeDetails().subscribe(
       res => {
         this.auth.hideLoader();
@@ -143,6 +145,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   getOptionDetailsFromServer() {
+
     this.apiService.getOptionDetails().subscribe(
       res => {
         this.auth.hideLoader();
@@ -156,6 +159,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   getPlanDetailsFromServer() {
+
     this.apiService.getPlanDetails().subscribe(
       res => {
         this.auth.hideLoader();
@@ -244,6 +248,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   getStorageInformation() {
+
     this.apiService.getStorageLimitFromServer().subscribe(
       res => {
         this.storageInfo = res;
@@ -484,6 +489,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   getZoomDetails() {
+
     this.auth.showLoader();
     this.httpService.getData('/api/v1/meeting_manager/getAllZoomAccount/' + sessionStorage.getItem('institute_id')).subscribe(
       (res: any) => {

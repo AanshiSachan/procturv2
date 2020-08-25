@@ -562,7 +562,7 @@ export class EnquiryHomeComponent implements OnInit {
                         this.varJson.totalEnquiry = data[0].totalcount;
                         this._commService.contactNoPatternChange(data);
                         for (let i = 0; i < data.length; i++) {
-                            data[i].updateDate = moment(enquiryDataSource[i].updateDate).format("DD-MMM-YYYY hh:mm");
+                            data[i].updateDate = moment(enquiryDataSource[i].updateDate).format("DD-MMM-YY hh:mm A");
                         }
                         this.sourceEnquiry = data;
                         this.cd.markForCheck();

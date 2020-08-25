@@ -2,7 +2,7 @@
 
   <form #values="ngForm" (ngSubmit)="uploadHandler($event,values)">
 
-    <section class="middle-top clearFix bulk-header">
+    <section class="middle-top clearFix bulk-header" style="border-bottom: 1px solid lightgrey;padding-bottom: 10px;">
 
       <div class="row">
         <h1 class="pull-left">
@@ -15,7 +15,7 @@
         <aside class="pull-right">
           <!-- <input type="button" value="Campaign Upload Status" (click)="bulkStatusReporter()" class="btn" /> -->
           <a id="template_link">
-            <input type="button" value="Download Template" class="btn" (click)="downloadTemplate()" />
+            <input type="button" value="Download Template" class="add-class-btn" (click)="downloadTemplate()" />
           </a>
           <!-- <input type="button" value="Add Campaign" routerLink='/view/campaign/add' class="btn" /> -->
         </aside>
@@ -25,15 +25,15 @@
 
     <!-- ++++++++++++++++++user -->
 
-    <section class="middle-main clearFix" id="middleMainForEnquiryList">
+    <section class="middle-main clearFix" id="middleMainForEnquiryList" style="margin-left: -1%;">
       <div class="row" style="padding-left:15px">
-        <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="c-lg-5 c-md-5 c-sm-5" style="width: 33%;margin-right: -8%;">
           <div class="field-wrapper" [ngClass]="{'has-value': campaignAddFormData.name != ''}">
             <label for="Name">Name
               <span class="text-danger">*</span>
             </label>
-            <input type="text" value="" class="form-ctrl" id="Name" [(ngModel)]="campaignAddFormData.name" name="Name" maxlength="50"
-              #name="ngModel" required style="width: 75%">
+            <input type="text" value="" class="form-ctrl" id="Name" [(ngModel)]="campaignAddFormData.name" name="Name"
+              maxlength="50" #name="ngModel" required style="width: 65%;border-radius: 4px;">
 
             <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
               <div *ngIf="name.errors.required" style="color: red">
@@ -42,12 +42,40 @@
             </div>
           </div>
         </div>
+        <div class="c-lg-5 c-md-5 c-sm-5" style="width: 33%;margin-right: -12%;">
+          <div class="field-wrapper" [ngClass]="{'has-value': campaignAddFormData.referred != ''}">
+            <label for="referred">Referred by</label>
+            <select id="referred" class="form-ctrl" [(ngModel)]="campaignAddFormData.referred" name="referred"
+              style="width: 50%;border-radius: 4px;">
+              <option value=""></option>
+              <option [value]="refer.id" *ngFor="let refer of referralList">
+                {{refer.name}}
+              </option>
+            </select>
+
+          </div>
+        </div>
+        <div class="c-lg-5 c-md-5 c-sm-5" style="width: 33%;">
+          <div class="field-wrapper" [ngClass]="{'has-value': campaignAddFormData.source != ''}">
+            <label for="source">Source
+              <span class="text-danger">*</span>
+            </label>
+            <select id="source" class="form-ctrl" [(ngModel)]="campaignAddFormData.source" name="source"
+              style="width: 50%;border-radius: 4px;">
+              <option value=""></option>
+              <option [value]="source.id" *ngFor="let source of sourceList">
+                {{source.name}}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
-      <div class="row" style="padding-left:15px">
+      <!-- <div class="row" style="padding-left:15px">
         <div class="c-lg-6 c-md-6 c-sm-6">
           <div class="field-wrapper" [ngClass]="{'has-value': campaignAddFormData.referred != ''}">
             <label for="referred">Referred by</label>
-            <select id="referred" class="form-ctrl" [(ngModel)]="campaignAddFormData.referred" name="referred" style="width: 75%">
+            <select id="referred" class="form-ctrl" [(ngModel)]="campaignAddFormData.referred" name="referred"
+              style="width: 75%">
               <option value=""></option>
               <option [value]="refer.id" *ngFor="let refer of referralList">
                 {{refer.name}}
@@ -64,7 +92,8 @@
             <label for="source">Source
               <span class="text-danger">*</span>
             </label>
-            <select id="source" class="form-ctrl" [(ngModel)]="campaignAddFormData.source" name="source" style="width: 75%">
+            <select id="source" class="form-ctrl" [(ngModel)]="campaignAddFormData.source" name="source"
+              style="width: 75%">
               <option value=""></option>
               <option [value]="source.id" *ngFor="let source of sourceList">
                 {{source.name}}
@@ -72,22 +101,23 @@
             </select>
           </div>
         </div>
-      </div>
+      </div> -->
 
     </section>
 
 
 
     <!--====================================middle <Main> section==========================-->
-    <section class="middle-main clearFix" id="bulkCampaignMain">
+    <section class="middle-main clearFix" id="bulkCampaignMain" style="margin-left: -1%;">
       <div class="file-upload-box">
         <div class="select-file-upload">
           <h5>Select a file to upload</h5>
-          <div class="file-wrapper">
+          <div class="file-wrapper" style="margin-left: -4%;">
             <ul>
               <li>
                 <!-- accept="application/vnd.ms-excel" -->
-                <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false">
+                <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler($event,values)"
+                  [showCancelButton]="false">
                 </p-fileUpload>
 
                 <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
@@ -121,11 +151,13 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+              transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+              transform="translate(978.81 305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-          />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+            transform="translate(1012 297)" />
         </g>
       </svg>
     </span>
