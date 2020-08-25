@@ -741,7 +741,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       if (el.userType == 0) { // Custom User Type
         this.multiUserListObj.userType = "Custom";
       } else if (el.userType == 3) { // Teacher User Type
-        this.multiUserListObj.userType = "Teacher";
+        this.multiUserListObj.userType = "Faculty";
       } else if (el.userType == 5) { // Parent User Type
         this.multiUserListObj.userType = "Parent";
       }
