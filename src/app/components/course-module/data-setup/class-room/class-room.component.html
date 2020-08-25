@@ -1,144 +1,204 @@
 <div class="middle-section clearFix">
-
-  <section class="middle-top mb0 clearFix" style="padding-bottom:0px;">
-    <h1 class="pull-left marginhead">
-        <div class="header-title">
-            <h2>
-                <a routerLink="/view/{{type}}" style="color: #0084f6;">
-                  {{ type | titlecase }}
-                </a>
-                <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i>
-                <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
-                  Data Setup
-                </a>
-                <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i>Classroom
-            </h2>
-          </div>
-    </h1>
-
+  <section class="middle-top mb0 clearFix" style="border-bottom: 1px solid lightgrey;padding-bottom: 11px;">
+    <div class="pull-left">
+      <div class="header-title">
+        <h2>
+          <a routerLink="/view/{{type}}" style="color: #0084f6;">
+            {{ type | titlecase }}
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+          <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
+            Data Setup
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Classroom
+        </h2>
+      </div>
+    </div>
+    <div>
+      <div class="field-wrapper">
+        <div class="btnWrapper">
+          <button type="button" class="btn pull-right" style="margin-top: -1rem;" name="button"
+            (click)="toggleCreateNewList()">
+            <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
+            <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
+            <span>Add Classroom</span>
+          </button>
+        </div>
+      </div>
+      <div class="search-filter-wrapper">
+        <input type="text" style="width:48%; border-radius: 4px;" #search class="normal-field pull-right"
+          placeholder="Search" [(ngModel)]="searchText" (keyup)="searchTeacher()">
+      </div>
+    </div>
   </section>
+  <!-- <section class="middle-top mb0 clearFix" style="padding-bottom:0px;">
+    <h1 class="pull-left marginhead">
+      <div class="header-title">
+        <h2>
+          <a routerLink="/view/{{type}}" style="color: #0084f6;">
+            {{ type | titlecase }}
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+          <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
+            Data Setup
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Classroom
+        </h2>
+      </div>
+    </h1>
+    <div class="clearFix">
+
+      <div class="pull-right">
+        <div class="search-filter-wrapper">
+          <input #search type="textbox" class="normal-field" placeholder="Search" [(ngModel)]="searchText"
+            name="searchData" (keyup)="searchDatabase()">
+        </div>
+        <button class="btn" (click)="toggleCreateNewList()">
+          <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
+          <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
+          <span>Add Classroom</span>
+        </button>
+      </div>
+
+
+
+    </div>
+  </section> -->
 
   <section class="middle-main clearFix">
 
-    <div class="clearFix add-edit">
-      <a (click)="toggleCreateNewList()">
+    <!-- <div class="clearFix add-edit">
+      <button class="btn" (click)="toggleCreateNewList()">
         <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
         <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
         <span>Add Classroom</span>
-      </a>
+      </button>
       <div class="pull-right">
-          <div class="search-filter-wrapper">
-            <input #search type="textbox" class="normal-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
-          </div>
+        <div class="search-filter-wrapper">
+          <input #search type="textbox" class="normal-field" placeholder="Search" [(ngModel)]="searchText"
+            name="searchData" (keyup)="searchDatabase()">
         </div>
+      </div>
 
-    </div>
+    </div> -->
 
 
-    <section class="clearFix create-standard-form" *ngIf="CreateNewList">
-      <form action="">
+    <section class="clearFix" *ngIf="CreateNewList">
+      <form style="margin:0 ;">
         <div class="row ">
           <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3 ">
 
             <div class="field-wrapper" [ngClass]="{'has-value': enterclassdata!= ''}">
               <label for="Classroom_Name">Classroom Name<span class="text-danger">*</span></label>
-              <input type="text" #idAddRoom class="form-ctrl" [(ngModel)]="enterclassdata" name="Classroom_Name" id="Classroom_Name">
+              <input type="text" #idAddRoom class="form-ctrl" [(ngModel)]="enterclassdata" name="Classroom_Name"
+                id="Classroom_Name" style="border-radius: 4px;">
 
             </div>
           </div>
           <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3">
             <div class="field-wrapper" [ngClass]="{'has-value': enterclassdataDesc!= ''}">
               <label for="ClassroomDesc">Classroom Description<span class="text-danger">*</span></label>
-              <input type="text" #idAddDesc class="form-ctrl" [(ngModel)]="enterclassdataDesc" name="ClassroomDesc" id="ClassroomDesc">
+              <input type="text" #idAddDesc class="form-ctrl" [(ngModel)]="enterclassdataDesc" name="ClassroomDesc"
+                id="ClassroomDesc" style="border-radius: 4px;">
 
             </div>
           </div>
-          <div class="c-lg-6 c-md-6 c-sm-6 c-sx-6" style="margin-top:1%;">
-              <button class="btn fullBlue btnclass pull-right" (click)="addNewclassRoom(idAddRoom.value,idAddDesc.value)">Save</button>
+          <div class="c-lg-6 c-md-6 c-sm-6 c-sx-6" style="margin-top:3rem;">
+            <button class="btn" (click)="addNewclassRoom(idAddRoom.value,idAddDesc.value)">Save</button>
           </div>
         </div>
 
-  </form>
-      </section>
+      </form>
+    </section>
 
-      <div id="divSlotTable">
-          <div class="table-scroll-wrapper">
-            <div class="table table-responsive">
-              <table>
-                <thead>
-                  <tr>
-                    <th>
-                      S No.
-                    </th>
-                    <th>
-                      Room Name
-                    </th>
-                    <th>
-                      Description
-                    </th>
-                    <th>
-                      Edit
-                    </th>
-                  </tr>
-                </thead>
+    <div id="divSlotTable">
+      <div class="table-scroll-wrapper">
+        <div class="table table-responsive">
+          <table class="tableBodyScroll">
+            <thead>
+              <tr>
+                <th style="text-align: left;">
+                  S No.
+                </th>
+                <th>
+                  Room Name
+                </th>
+                <th>
+                  Description
+                </th>
+                <th>
+                  Edit
+                </th>
+              </tr>
+            </thead>
 
-                <tbody *ngIf="classRoomData.length !=0">
+            <tbody *ngIf="classRoomData.length !=0"
+              [ngStyle]="{'max-height':this.CreateNewList == true ? '63vh' : '72vh','min-height':this.CreateNewList == true ? '63vh' : '72vh' }">
 
-                  <tr id="row{{i}}" class="displayComp" *ngFor="let row of pagedclassRoomData; let i = index; trackBy: i;">
+              <tr id="row{{i}}" class="displayComp" *ngFor="let row of pagedclassRoomData; let i = index; trackBy: i;">
 
-                    <td>
-                      {{i + 1}}
-                    </td>
+                <td style="text-align: left;">
+                  {{i + 1}}
+                </td>
 
-                    <td class="view-comp">
-                      {{row.class_room_name}}
-                    </td>
+                <td class=" view-comp">
+                  {{row.class_room_name}}
+                </td>
 
-                    <td class="edit-comp">
-                      <div class="field-wrapper">
-                        <textarea id="" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" style="overflow: hidden;" name="label" cols="1" rows="1"></textarea>
-                        <!-- <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" name="label"> -->
-                      </div>
-                    </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <textarea id="" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name"
+                      style="overflow: hidden;" name="label" cols="1" rows="1"></textarea>
+                    <!-- <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" name="label"> -->
+                  </div>
+                </td>
 
-                    <td class="view-comp">
-                      {{row.class_room_desc}}
-                    </td>
+                <td class="view-comp">
+                  {{row.class_room_desc}}
+                </td>
 
-                    <td class="edit-comp">
-                      <div class="field-wrapper">
-                        <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_desc" style="overflow: hidden;"  name="label">
-                      </div>
-                    </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_desc"
+                      style="overflow: hidden;" name="label">
+                  </div>
+                </td>
 
-                    <td class="view-comp">
-                      <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
-                    </td>
+                <td class="view-comp">&nbsp;&nbsp;
+                  <i class="fa fa-pencil" title="Edit" style="color: #0084f6;" aria-hidden="true"
+                    (click)="editRowTable(row , i)"></i>
+                  <!-- <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a> -->
+                </td>
 
-                    <td class="edit-comp">
-                      <a class="anchorTagCursor" (click)="cancelRow(row , j)" style="margin-right: 5x;color:red;">Cancel</a>
-                      <a class="anchorTagCursor" (click)="saveclassRoomInfo(row , i)">Update</a>
-                    </td>
+                <td class="edit-comp">&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-floppy-o" title="Save" style="color: blue; margin-right: 4px;" aria-hidden="true"
+                    (click)="saveclassRoomInfo(row , i)"></i>
+                  <i class="fa fa-times" title="Cancel" style="color: red;font-size: 17px;" aria-hidden="true"
+                    (click)="cancelRow(row , j)"></i>
+                  <!-- <a class="anchorTagCursor" (click)="cancelRow(row , j)" style="margin-right: 5x;color:red;">Cancel</a>
+                  <a class="anchorTagCursor" (click)="saveclassRoomInfo(row , i)">Update</a> -->
+                </td>
 
-                  </tr>
-                </tbody>
-                <tbody *ngIf="classRoomData.length ==0">
-                  <td colspan="4" style="text-align: center">
-                     No data found
-                  </td>
-                </tbody>
-              </table>
-            </div>
-          </div>
+              </tr>
+            </tbody>
+            <tbody *ngIf="classRoomData.length ==0">
+              <td colspan="4" style="text-align: center">
+                No data found
+              </td>
+            </tbody>
+          </table>
         </div>
-
-        <!-- Paginator Here -->
-        <div class="row filter-res pagination" style="width: 100%;">
-          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-              [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRow">
-            </pagination>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
+
+    <!-- Paginator Here -->
+    <div class="row filter-res pagination" style="width: 100%;margin-top: 0.2rem;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRow" [sizeArr]="sizeArr"
+          (sizeChange)="updateTableBatchSize($event)">
+        </pagination>
+      </div>
+    </div>
+  </section>
+</div>

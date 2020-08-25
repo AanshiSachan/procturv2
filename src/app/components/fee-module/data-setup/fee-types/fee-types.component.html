@@ -1,5 +1,5 @@
 <div class="middle-section clearFix">
-  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+  <section class="middle-top mb0 clearFix" style="padding-bottom: 7px;border-bottom: 1px solid lightgrey;">
     <h1 class="pull-left">
       <a routerLink="/view/fee">
         Fees
@@ -10,6 +10,13 @@
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Additional fees
     </h1>
+    <div class="clearFix" style="float: right;">
+      <button class="btn" (click)="toggleCreate()">
+        <i id="showAddBtn" class="addBtnClass">+</i>
+        <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+        <span>Add Fee Types</span>
+      </button>
+    </div>
   </section>
 
   <section class="middle-main clearFix">
@@ -29,20 +36,21 @@
       </ul>
     </div> -->
 
-    <div class="clearFix add-edit">
+    <!-- <div class="clearFix add-edit">
       <a (click)="toggleCreate()">
         <i id="showAddBtn" class="addBtnClass">+</i>
         <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
         <span>Add Fee Types</span>
       </a>
-    </div>
-    <section class="clearFix create-standard-form" *ngIf="createNewFeeType">
+    </div> -->
+    <section class="clearFix " *ngIf="createNewFeeType" style="padding-bottom: 11px;">
       <div class="row create-standard-field">
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type != '' }">
             <label for="slotNew">Fee Type <span class="text-danger">*</span>
             </label>
-            <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type" name="slotNew">
+            <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type" name="slotNew"
+              style="border-radius: 4px;">
 
             <p>(Eg Registration Fee, Library)</p>
           </div>
@@ -51,13 +59,15 @@
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_desc != '' }">
             <label for="slotNew">Description
             </label>
-            <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type_desc" name="slotNew">
+            <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type_desc" name="slotNew"
+              style="border-radius: 4px;">
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.country_id != '' }">
             <label for="slotNew">Country <span class="text-danger">*</span></label>
-            <select id="country_id" class="form-ctrl" [(ngModel)]="addNewFee.country_id" name="country_id" style="height: 29px;padding: 0">
+            <select id="country_id" class="form-ctrl" [(ngModel)]="addNewFee.country_id" name="country_id"
+              style="height: 29px;padding: 0" style="border-radius: 4px;">
               <option value=""></option>
               <option [value]="data.id" selected *ngFor='let data of countryDetails'>
                 {{data.country_name}}
@@ -69,18 +79,18 @@
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_amount != '' }">
             <label for="slotNew">Fee Amount <span class="text-danger">*</span>
             </label>
-            <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_amount"
-              name="slotNew">
+            <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #idSlot
+              class="form-ctrl" [(ngModel)]="addNewFee.fee_amount" name="slotNew " style="border-radius: 4px;">
 
           </div>
         </div>
-       <!-- <div class="c-lg-2 c-md-2 c-sm-2" *ngIf="addNewFee.country_id==1"> -->
-        <div class="c-lg-2 c-md-2 c-sm-2" *ngIf="is_tax_enabled" >
+        <!-- <div class="c-lg-2 c-md-2 c-sm-2" *ngIf="addNewFee.country_id==1"> -->
+        <div class="c-lg-2 c-md-2 c-sm-2" *ngIf="is_tax_enabled">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_tax >= 0 }">
             <label for="slotNew">{{tax_type_with_percentage}}
             </label>
-            <input type="number" max="99" #idSlot class="form-ctrl" [readonly]="isTaxEnableFeeInstallments" [(ngModel)]="addNewFee.fee_type_tax"
-              name="slotNew">
+            <input type="number" max="99" #idSlot class="form-ctrl" [readonly]="isTaxEnableFeeInstallments"
+              [(ngModel)]="addNewFee.fee_type_tax" name="slotNew" style="border-radius: 4px;">
 
           </div>
         </div>
@@ -91,21 +101,21 @@
     </section>
 
     <div class="table-responsive">
-      <table>
-        <thead>
-          <th>
+      <table class="tableBodyScroll">
+        <thead style="width: 100%;">
+          <th style="width: 26%;">
             Fee Type (Eg Registration Fee, Library)
           </th>
-          <th>
+          <th style="width: 16%;">
             Fee Type Description
           </th>
-          <th>
+          <th style="width: 24%;">
             Country
           </th>
-          <th>
+          <th style="width: 4%;">
             Fee Amount
           </th>
-          <th *ngIf="is_tax_enabled">
+          <th *ngIf="is_tax_enabled" style="width: 23%;">
             {{tax_type_with_percentage}}
             <div class="questionInfo inline-relative">
               <span class="qInfoIcon i-class">i</span>
@@ -114,58 +124,67 @@
               </div>
             </div>
           </th>
-          <th>
+          <th style="width: 8%;">
             Action
           </th>
         </thead>
-        <tbody>
+        <tbody
+          [ngStyle]="{'max-height':createNewFeeType == true ? '65vh' : '76vh','min-height':createNewFeeType == true ? '65vh' : '76vh' }">
           <tr *ngFor="let row of feeTypeList; let i = index">
-            <td>
+            <td style="width:26%">
               <div class="field-wrapper">
                 <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.fee_type" name="label">
               </div>
             </td>
-            <td>
-              <div class="field-wrapper">
+            <td style="width: 20%;">
+              <div class="field-wrapper" style="margin-left: -45px;">
                 <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.fee_type_desc" name="label">
               </div>
             </td>
-            <td>
-              <select id="country_id" class="form-ctrl input_txt" [(ngModel)]="row.country_id" 
-              name="country_id"  (ngModelChange)="onRowDataChange($event,row)">
+            <td style="width: 14.8%;">
+              <select id="country_id" class="form-ctrl input_txt" [(ngModel)]="row.country_id" name="country_id"
+                (ngModelChange)="onRowDataChange($event,row)" style="margin-left: 39px;">
                 <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                  {{data.country_name}}   
+                  {{data.country_name}}
                 </option>
               </select>
-    </td>
-    <td>
-        <span>{{getCountryDetails(row.fee_amount,row.country_id)}}</span>
-      <span class="field-wrapper">
-       <input type="number" class="form-ctrl editCellInput" style="width:25%;display: inherit;" [(ngModel)]="row.fee_amount" name="label">
-      </span>
-    </td>
-    <td *ngIf="is_tax_enabled">
-      <div class="field-wrapper">
-        <!-- disabled =row.country_id!='1' && isTaxEnableFeeInstallments -->
-    <input type="number"  class="form-ctrl editCellInput" style="width:25%" [(ngModel)]="row.fee_type_tax"
-          name="tax">
-      </div>
-    </td>
-    <td>
-      <span *ngIf="row.fee_type_id == 0" class="delete-btn" style="font-family: FontAwesome; font-size: 19px" (click)="deleteRow(row , i)">
-        <i class="fa fa-trash-o " aria-hidden="true "></i>
-      </span>
-    </td>
-    </tr>
-    </tbody>
-    </table>
-</div>
+            </td>
+            <td>
+              <span>{{getCountryDetails(row.fee_amount,row.country_id)}}</span>
+              <span class="field-wrapper">
+                <input type="number" class="form-ctrl editCellInput" style="width:25%;display: inherit;"
+                  [(ngModel)]="row.fee_amount" name="label">
+              </span>
+            </td>
+            <td *ngIf="is_tax_enabled">
+              <div class="field-wrapper">
+                <!-- disabled =row.country_id!='1' && isTaxEnableFeeInstallments -->
+                <input type="number" class="form-ctrl editCellInput" style="width:25%" [(ngModel)]="row.fee_type_tax"
+                  name="tax">
+              </div>
+            </td>
+            <td style="width: 11%;">
+              <span *ngIf="row.fee_type_id == 0" class="delete-btn" style="font-family: FontAwesome; font-size: 19px"
+                (click)="deleteRow(row , i)">
+                <i class="fa fa-trash-o " style="color: red;" aria-hidden="true "></i>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-<div class="pull-right" style="margin-top: 1.5%;">
-  <button class="btn" routerLink="/view/fee/home">Back</button>
-  <button class="btn fullBlue" (click)="updateDetails()">Update</button>
-</div>
+    <div class="pull-right" style="margin-top: 1.5%;">
+      <button class="btn" routerLink="/view/fee/home">Back</button>
+      <button class="btn fullBlue" (click)="updateDetails()">Update</button>
+    </div>
 
-</section>
+  </section>
+  <section>
+    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+      [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRecords"
+      (sizeChange)="updateTableBatchSize($event)">
+    </pagination>
+  </section>
 
 </div>

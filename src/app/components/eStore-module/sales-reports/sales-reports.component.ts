@@ -24,6 +24,8 @@ export class SalesReportsComponent implements OnInit {
   private slotIdArr: any[] = [];
   salesDataSource: any[] = [];
   productLists: any[] = [];
+  totalRecords: any = 0;
+  filterShow: boolean = false;
   private selectedSlots: any[] = [];
   private selectedSlotsString: string = '';
   private selectedSlotsID: string = '';
@@ -163,6 +165,7 @@ export class SalesReportsComponent implements OnInit {
             this.salesDataSource.push(saleData);
           });
           this.tempSalesData = this.salesDataSource;
+          this.totalRecords = this.salesDataSource.length;
         }
         else {
           this._msgService.showErrorMessage('error', "something went wrong, try again", '');
@@ -186,7 +189,14 @@ export class SalesReportsComponent implements OnInit {
       }
     }
   }
-
+  toggleFilter() {  // show hide filter
+    if (this.filterShow) {
+      this.filterShow = false;
+    }
+    else {
+      this.filterShow = true;
+    }
+  }
   /* =================================================================================================== */
   /* =================================================================================================== */
   updateSlotSelected(data) {
@@ -276,6 +286,7 @@ export class SalesReportsComponent implements OnInit {
   }
 
   fetchSalesReportDetails() {
+    this.filterShow = false;
     console.log('sales Details');
     this.getProductDetails();
   }

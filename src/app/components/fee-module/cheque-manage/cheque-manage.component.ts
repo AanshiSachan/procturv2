@@ -21,7 +21,7 @@ export class ChequeManageComponent implements OnInit {
   @ViewChild('child') private child: DataDisplayTableComponent;
   dataStatus: number = 1;
   searchValue: any = '';
-  dishonouredReason:any='';
+  dishonouredReason: any = '';
   isPendingUpdate: boolean;
   chequeUpdateStatus: any;
   selectedRecord: any;
@@ -30,8 +30,9 @@ export class ChequeManageComponent implements OnInit {
   chequeDataSource: any[] = [];
   tempRecords: any[] = [];
   displayKeys: any = [];
-  downloadFeeReportAccess:boolean = false;
-  
+  totalRecords: any = 0;
+  downloadFeeReportAccess: boolean = false;
+
   chequeFetchForm: any = {
     from_date: moment().date(1).format("YYYY-MM-DD"),
     to_date: moment().format("YYYY-MM-DD"),
@@ -80,7 +81,7 @@ export class ChequeManageComponent implements OnInit {
     tableDetails: { title: 'Manage Cheques', key: 'activity.manageCheques', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.activitySettings,
-    selectAll: { showSelectAll: false, option:'single',title: '', checked: true, key: '' },
+    selectAll: { showSelectAll: false, option: 'single', title: '', checked: true, key: '' },
     actionSetting: {
       showActionButton: true,
       editOption: 'link',//or popup
@@ -89,17 +90,17 @@ export class ChequeManageComponent implements OnInit {
     },
     displayMessage: "Enter Detail to Search"
   };
-isTaxEnabled : boolean ;
-tax_type_without_percentage : String;
+  isTaxEnabled: boolean;
+  tax_type_without_percentage: String;
   constructor(
     private getter: getCheque,
     private excelService: ExcelService,
     private ref: ChangeDetectorRef,
     private pdf: ExportToPdfService,
     private _tablePreferencesService: TablePreferencesService,
-    private _msgService: MessageShowService ,
-    private auth:AuthenticatorService,
-    private _commService:CommonServiceFactory) {
+    private _msgService: MessageShowService,
+    private auth: AuthenticatorService,
+    private _commService: CommonServiceFactory) {
     this.dateRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
     this.dateRange[1] = new Date();
   }
@@ -118,15 +119,15 @@ tax_type_without_percentage : String;
       this.setDefaultValues();
     }
     this.checkDownloadRoleAccess();
-    this.isTaxEnabled=sessionStorage.getItem('enable_tax_applicable_fee_installments')=="1"?true:false;
-    this.tax_type_without_percentage=sessionStorage.getItem('tax_type_without_percentage');
+    this.isTaxEnabled = sessionStorage.getItem('enable_tax_applicable_fee_installments') == "1" ? true : false;
+    this.tax_type_without_percentage = sessionStorage.getItem('tax_type_without_percentage');
   }
 
   checkDownloadRoleAccess() {
-    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
-        this.downloadFeeReportAccess = true;
+    if (sessionStorage.getItem('downloadFeeReportAccess') == 'true') {
+      this.downloadFeeReportAccess = true;
     }
-}
+  }
 
   searchDatabase() {
     console.log(this.flagJson.searchText);
@@ -191,7 +192,7 @@ tax_type_without_percentage : String;
       { primaryKey: 'cheque_amount', header: 'Amount', priority: 9, amountValue: true, allowSortingFlag: true },
       { primaryKey: 'cheque_status', header: 'Status', priority: 10, allowSortingFlag: true },
       { primaryKey: 'dishonoured_reason', header: 'Reason', priority: 11, allowSortingFlag: true }
-      
+
     ];
     this.displayKeys = this.tableSetting.keys;
     this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
@@ -230,7 +231,8 @@ tax_type_without_percentage : String;
         this.auth.hideLoader();
         this.chequeDataSource = res;
         this.tempRecords = res;
-
+        this.totalRecords = this.chequeDataSource.length;
+        console.log(this.totalRecords);
         this.tableSetting.displayMessage = flag ? "Data not found" : 'Enter Detail to Search';
         if (res == null || res.length == 0) {
           this.dataStatus = 2;
@@ -289,7 +291,7 @@ tax_type_without_percentage : String;
 
   optionSelected(e) {
     this.selectedRecord = e.data;
-    this.selectedRecord.symbol =this.fetchDataForCountryDetails(this.selectedRecord.country_code);
+    this.selectedRecord.symbol = this.fetchDataForCountryDetails(this.selectedRecord.country_code);
     this.decidePopup(e.data);
     console.log(e.data);
   }
@@ -298,11 +300,11 @@ tax_type_without_percentage : String;
     let encryptedData = sessionStorage.getItem('country_data');
     let countryDetails = JSON.parse(encryptedData);
     if (countryDetails.length > 0) {
-       let defacult_Country = countryDetails.filter((country) => {
+      let defacult_Country = countryDetails.filter((country) => {
         return country.country_code == country_code;
       });
-     return defacult_Country[0].symbol;
-    }else{
+      return defacult_Country[0].symbol;
+    } else {
       return 'Rs';
     }
   }
@@ -332,7 +334,7 @@ tax_type_without_percentage : String;
   decidePopup(d) {
     if (d.cheque_status_id == 3) {
       this.chequeUpdateStatus = "3";
-      this.dishonouredReason='';
+      this.dishonouredReason = '';
       this.flagJson.isUpdatePopup = true;
     }
     else if (d.cheque_status_id == 1) {
@@ -361,11 +363,11 @@ tax_type_without_percentage : String;
             this.isPendingUpdate = true;
           }
           else {
-            this._msgService.showErrorMessage('error', '',"No Installment Toward Which Payment Can Be Made");
+            this._msgService.showErrorMessage('error', '', "No Installment Toward Which Payment Can Be Made");
           }
         }
         else {
-          this._msgService.showErrorMessage('info', '',"No Installment To Make Payment Towards");
+          this._msgService.showErrorMessage('info', '', "No Installment To Make Payment Towards");
         }
       },
       err => { }
@@ -403,20 +405,20 @@ tax_type_without_percentage : String;
       cheque_status_id: this.chequeUpdateStatus,
       cheque_id: this.selectedRecord.cheque_id,
       financial_year: this.selectedRecord.financial_year,
-      dishonoured_reason:this.dishonouredReason
+      dishonoured_reason: this.dishonouredReason
     }
 
     this.auth.showLoader();
     this.getter.updateChequeStatus(obj).subscribe(
       res => {
         this.updateRecordOnClient();
-        this._msgService.showErrorMessage('success', '',"Cheque Status Updated");
+        this._msgService.showErrorMessage('success', '', "Cheque Status Updated");
         this.flagJson.isUpdatePopup = false;
         this.auth.hideLoader();
         this.filterCheques();
       },
       err => {
-        this._msgService.showErrorMessage('error', '',"Please contact support@proctur.com");
+        this._msgService.showErrorMessage('error', '', "Please contact support@proctur.com");
         this.auth.hideLoader();
       }
     )
@@ -424,7 +426,7 @@ tax_type_without_percentage : String;
   }
 
   updateRecordOnClient() {
-    let temp: any[] = this.chequeDataSource.map((e,index) => {
+    let temp: any[] = this.chequeDataSource.map((e, index) => {
       if (e.cheque_id == this.selectedRecord.cheque_id) {
         e.cheque_status_id = this.chequeUpdateStatus;
         this.chequeDataSource.splice(index, 1);
@@ -452,8 +454,8 @@ tax_type_without_percentage : String;
 
     let toPay: number = 0;
     let temp: any[] = [];
-    if(this.chequePaymentModel.remarks.length>20){
-      this._msgService.showErrorMessage('error', '',"remarks should not be greater than 20 characters");
+    if (this.chequePaymentModel.remarks.length > 20) {
+      this._msgService.showErrorMessage('error', '', "remarks should not be greater than 20 characters");
       return;
     }
     for (let k in this.studentUnpaid) {
@@ -463,7 +465,7 @@ tax_type_without_percentage : String;
           toPay += parseInt(this.studentUnpaid[k].toPay);
         }
         else {
-          this._msgService.showErrorMessage('error', '',"Please enter a valid amount for payment");
+          this._msgService.showErrorMessage('error', '', "Please enter a valid amount for payment");
         }
       }
     }
@@ -541,7 +543,7 @@ tax_type_without_percentage : String;
               )
             }
           }
-          this.cancelUpdate();       
+          this.cancelUpdate();
           this.filterCheques();
         },
         err => {
@@ -579,7 +581,7 @@ tax_type_without_percentage : String;
     let temp: any[] = [];
     el.forEach(e => {
       let obj = {
-        due_date:  moment(e.due_date).format("YYYY-MM-DD"),
+        due_date: moment(e.due_date).format("YYYY-MM-DD"),
         fee_schedule_id: e.fee_schedule_id,
         paid_full: this.getPaidStatus(e.total_balance_amt, e.toPay),
         previous_balance_amt: e.total_balance_amt,
@@ -642,6 +644,6 @@ tax_type_without_percentage : String;
     }
   }
 
-  
+
 
 }

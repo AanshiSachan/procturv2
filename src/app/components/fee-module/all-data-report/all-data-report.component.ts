@@ -24,9 +24,11 @@ export class AllDataReportComponent implements OnInit {
 
   @ViewChild('child') private child: DataDisplayTableComponent;
   @ViewChild('form') form: any;
-
+  selectedRowCount: any = 0;
   selectedRecordsList: any[] = [];
+  totalRecords: any = 0;
   reportSource: any[] = [];
+  filterShow: boolean = false;
   feeDataSource1: any[] = [];
   feeDataSource2: any[] = [];
   standardList: any[] = [];
@@ -34,6 +36,7 @@ export class AllDataReportComponent implements OnInit {
   subjectList: any[] = [];
   batchList: any[] = [];
   feeDataSource: any[] = []
+  chked: number = 0;
   displayKeys: any = [];//need for selected keys
   private slotIdArr: any[] = [];
   private selectedSlots: any[] = [];
@@ -54,7 +57,7 @@ export class AllDataReportComponent implements OnInit {
     isCustomDate: false,
     isFilterReversed: true,
     isProfessional: false,
-    downloadFeeReportAccess:false
+    downloadFeeReportAccess: false
   };
 
   searchBy: string = 'check';
@@ -62,13 +65,14 @@ export class AllDataReportComponent implements OnInit {
   feeSettings1: ColumnData2[] = [
     { primaryKey: 'student_disp_id', header: 'ID', priority: 1, allowSortingFlag: true },
     { primaryKey: 'student_name', header: 'Name', priority: 2, allowSortingFlag: true },
-    { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3, allowSortingFlag: true },
-    { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, amountValue: true, allowSortingFlag: true },
-    { primaryKey: 'total_balance_amt', header: 'Past Dues', priority: 5, amountValue: true, allowSortingFlag: true },
-    { primaryKey: 'student_latest_fee_due_date', header: 'Next Due Date', priority: 6, allowSortingFlag: true },
-    { primaryKey: 'student_latest_fee_due_amount', header: 'Next Due Amount', priority: 7, allowSortingFlag: true, amountValue: true },
-    { primaryKey: 'student_latest_pdc', header: 'PDC Date', priority: 8, allowSortingFlag: true },
-    { primaryKey: 'amount_still_payable', header: 'Balance Amount', priority: 9, amountValue: true, allowSortingFlag: true }
+    { primaryKey: 'student_phone', header: 'Contact No.', priority: 3, allowSortingFlag: true },
+    { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 4, allowSortingFlag: true },
+    { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 5, amountValue: true, allowSortingFlag: true },
+    { primaryKey: 'total_balance_amt', header: 'Past Dues', priority: 6, amountValue: true, allowSortingFlag: true },
+    { primaryKey: 'student_latest_fee_due_date', header: 'Next Due Date', priority: 7, allowSortingFlag: true },
+    { primaryKey: 'student_latest_fee_due_amount', header: 'Next Due Amount', priority: 8, allowSortingFlag: true, amountValue: true },
+    { primaryKey: 'student_latest_pdc', header: 'PDC Date', priority: 9, allowSortingFlag: true },
+    { primaryKey: 'amount_still_payable', header: 'Balance Amount', priority: 10, amountValue: true, allowSortingFlag: true }
   ];
 
   menuOptions: DropData[] = [
@@ -107,8 +111,9 @@ export class AllDataReportComponent implements OnInit {
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
     selectAll: {
-      showSelectAll: true, option: 'multiple', option_details: [{ title: 'Send Due SMS', type: 'SMS' },
-      { title: 'Send Due E-Mail', type: 'Mail' }], checked: true, key: 'student_disp_id'
+      showSelectAll: true, option: 'multiple', //option_details: [{ title: 'Send Due SMS', type: 'SMS' },
+      //{ title: 'Send Due E-Mail', type: 'Mail' }], 
+      checked: true, key: 'student_disp_id'
     },
     actionSetting:
     {
@@ -133,14 +138,14 @@ export class AllDataReportComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private pdf: ExportToPdfService,
     private _msgService: MessageShowService,
-    private _commService:CommonServiceFactory
+    private _commService: CommonServiceFactory
   ) {
     this.excelService = excelService;
     // this.switchActiveView('fee');
   }
 
   ngOnInit() {
-    window.scroll(0,0);
+    window.scroll(0, 0);
     this.due_type = "seven_days_dues";
     this.dateRangeChanges(event);
     this.getAcademicYear();
@@ -177,10 +182,10 @@ export class AllDataReportComponent implements OnInit {
   }
 
   checkDownloadRoleAccess() {
-    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
-        this.showPopupKeys.downloadFeeReportAccess = true;
+    if (sessionStorage.getItem('downloadFeeReportAccess') == 'true') {
+      this.showPopupKeys.downloadFeeReportAccess = true;
     }
-}
+  }
 
   setDefaultValues() {
     this.tableSetting.keys = [
@@ -197,8 +202,13 @@ export class AllDataReportComponent implements OnInit {
     this.ref.detectChanges();
     // console.log(this.displayKeys);
   }
-
+  rowCheckboxChange(record) {
+    console.log(record);
+    (record.data.checked) ? (this.selectedRowCount++) : (this.selectedRowCount--);
+    this.chked = this.selectedRowCount;
+  }
   searchByValue(value) {
+    console.log(value);
     this.searchBy = value;
     this.slotIdArr = [];
     // this.selectedSlotsString ='';
@@ -250,6 +260,14 @@ export class AllDataReportComponent implements OnInit {
       }
     )
     return arr;
+  }
+  toggleFilter() {  // show hide filter
+    if (this.filterShow) {
+      this.filterShow = false;
+    }
+    else {
+      this.filterShow = true;
+    }
   }
 
   multiselectVisible(elid) {
@@ -323,7 +341,7 @@ export class AllDataReportComponent implements OnInit {
   }
 
   fetchFeeDetails() {
-
+    this.filterShow = false;
     let arr = [];
     if (this.searchBy == 'check') {
       arr = this.slotIdArr;
@@ -437,6 +455,8 @@ export class AllDataReportComponent implements OnInit {
         this.auth.hideLoader();
         if (this.showPopupKeys.isFilterReversed) {
           this.feeDataSource1 = res;
+          this.totalRecords = this.feeDataSource1.length;
+          console.log(this.totalRecords);
         }
         else {
           this.feeDataSource2 = res;
@@ -462,7 +482,7 @@ export class AllDataReportComponent implements OnInit {
     classArray.forEach((classname) => {
       if (document.getElementById(classname)) { document.getElementById(classname).classList.remove('active'); }
     });
-    if(document.getElementById(id)){
+    if (document.getElementById(id)) {
       document.getElementById(id).classList.add('active');
     }
   }
@@ -642,44 +662,38 @@ export class AllDataReportComponent implements OnInit {
   /** send sms to student about dues
    * created by laxmi
   */
-
   checkOption(event) {
     console.log(event);
-    switch (event.option_detail.type) {
+    const data: any = {};
+    switch (event) {
       case 'Mail': {
-        event.type = 'email';
-        event.delivery_mode = 1;
+        data.type = 'email';
+        data.delivery_mode = 1;
         break;
       }
       case 'SMS': {
-        event.type = 'sms';
-        event.delivery_mode = 0;
+        data.type = 'sms';
+        data.delivery_mode = 0;
         break;
       }
     }
 
-    this.sendBulkDetails(event)
+    this.sendBulkDetails(data);
   }
 
   sendBulkDetails(event) {
-    if (event.data.length == 0) {
+    if (event.length == 0) {
       this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', "Select record to send due " + event.type);
       return;
     }
     if (confirm("Due " + event.type + " shall be sent to those students/parents whose amount is due. Do you want to continue ? ")) {
-      let filtered = [];
-      let arr: any[] = event.data.filter(e => {
+      let student_ids = [];
+      let arr: any[] = this.selectedRecordsList.filter(e => {
         if (e.total_balance_amt != 0) {
-          filtered.push(e.student_id);
+          student_ids.push(e.student_id);
           return e.student_id;
         }
       });
-
-      let student_ids = [];
-      for (let i = 0; i < filtered.length; i++) {
-        student_ids.push(filtered[i])
-      }
-
       let obj = {
         delivery_mode: event.delivery_mode,
         institution_id: '',

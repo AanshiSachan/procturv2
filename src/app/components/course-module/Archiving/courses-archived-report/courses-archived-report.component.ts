@@ -9,12 +9,12 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
   styleUrls: ['./courses-archived-report.component.scss']
 })
 export class CoursesArchivedReportComponent implements OnInit {
-
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   isProfessional: boolean;
-  archivedData:any[]=[];
+  archivedData: any[] = [];
   PageIndex: number = 1;
   PageIndexPopup: number = 1;
-  pagedisplaysize: number = 10;
+  pagedisplaysize: number = 25;
   pagedisplaysizePopup: number = 10;
   totalRow: number = 0;
   newPaginated: any[] = [];
@@ -23,7 +23,7 @@ export class CoursesArchivedReportComponent implements OnInit {
   searchflag: boolean = false;
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
-  columnMaps2: any[] = [0, 1, 2, 3, 4, 5 ,6, 7];
+  columnMaps2: any[] = [0, 1, 2, 3, 4, 5, 6, 7];
   dataStatus: boolean;
 
   sortedenabled: boolean = true;
@@ -32,7 +32,7 @@ export class CoursesArchivedReportComponent implements OnInit {
 
   constructor(private course: CoursesServiceService,
     private auth: AuthenticatorService,
-    private appc: AppComponent ) { }
+    private appc: AppComponent) { }
 
   ngOnInit() {
     this.auth.institute_type.subscribe(
@@ -44,9 +44,156 @@ export class CoursesArchivedReportComponent implements OnInit {
         }
       }
     )
+
     this.getCoursesArchived();
+    this.setTableData();
   }
 
+  headerSetting: any;
+  tableSetting: any;
+  rowColumns: any;
+  setTableData() {
+
+    this.headerSetting = [
+      {
+        primary_key: 'course_name',
+        value: "Course",
+        charactLimit: 15,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'master_course',
+        value: "Master Course",
+        charactLimit: 25,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'standard_name',
+        value: "Standard",
+        charactLimit: 15,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'subjects',
+        value: "Subjects",
+        charactLimit: 25,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'start_date',
+        value: "Start Date",
+        charactLimit: 20,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'end_date',
+        value: "End Date",
+        charactLimit: 20,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'status',
+        value: "Status",
+        charactLimit: 10,
+        sorting: true,
+        visibility: true
+      },
+      {
+        primary_key: 'archived_date',
+        value: "Archived Date Time",
+        charactLimit: 20,
+        sorting: false,
+        visibility: true
+      },
+
+    ]
+    this.tableSetting = {
+      width: "100%",
+      height: "69vh"
+    }
+
+    this.rowColumns = [
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+    ]
+
+    // if (this.isProfessional) {
+
+    //   console.log("true block");
+    //   this.headerSetting.push(
+    //     {
+    //       primary_key: 'batch_name',
+    //       value: "Batch",
+    //       charactLimit: 10,
+    //       sorting: false,
+    //       visibility: true
+    //     },
+    //     {
+    //       primary_key: 'standard_name',
+    //       value: "Master Course",
+    //       charactLimit: 10,
+    //       sorting: false,
+    //       visibility: true
+    //     },
+    //     {
+    //       primary_key: 'subject_name',
+    //       value: "Course",
+    //       charactLimit: 10,
+    //       sorting: false,
+    //       visibility: true
+    //     });
+    //   this.rowColumns.push(
+    //     {
+    //       width: "10%",
+    //       textAlign: "left"
+    //     },
+    //     {
+    //       width: "10%",
+    //       textAlign: "left"
+    //     },
+    //     {
+    //       width: "10%",
+    //       textAlign: "left"
+    //     },
+    //   );
+    // }
+  }
   getCoursesArchived() {
     this.dataStatus = true;
     this.auth.showLoader();
@@ -80,6 +227,7 @@ export class CoursesArchivedReportComponent implements OnInit {
           this.archivedData = data;
           this.totalRow = data.length;
           this.PageIndex = 1;
+
           this.fetchTableDataByPage(this.PageIndex);
         },
         (error: any) => {
@@ -156,6 +304,7 @@ export class CoursesArchivedReportComponent implements OnInit {
     let startindex = this.pagedisplaysize * (index - 1);
     this.newPaginated = this.getDataFromDataSource(startindex);
 
+
   }
 
   fetchNext() {
@@ -179,6 +328,10 @@ export class CoursesArchivedReportComponent implements OnInit {
       let t = this.archivedData.slice(startindex, startindex + this.pagedisplaysize);
       return t;
     }
+  }
+  updateTableBatchSize(event) {
+    this.pagedisplaysize = event;
+    this.fetchTableDataByPage(this.PageIndex);
   }
 
 }

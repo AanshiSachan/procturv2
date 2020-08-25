@@ -1,7 +1,7 @@
 <div class="container-fluid product-wrapper p-0">
-  <div class="row m-0 pt-3 pb-3" style="border-bottom: 1pt solid #ddd;padding-bottom:10px">
+  <div class="row m-0 pt-3 pb-3" style="border-bottom: 1px solid lightgrey;padding-bottom:10px">
     <div class="col-md-8">
-      <section class="middle-top clearFix bulk-header">
+      <section class="middle-top clearFix bulk-header" style="padding-top: 6px;">
         <div>
           <h1 class="pull-left">
             <a routerLink="/view/e-store/home" style="padding:0px; ">
@@ -14,8 +14,8 @@
       </section>
     </div>
     <div class="col-md-4 col-sm-4 text-right m-auto">
-      <button class="btn btn-product pr-btn" routerLink="/view/e-store/create">
-        <i class="fa fa-plus" style="color: white;" aria-hidden="true"></i>
+      <button class="add-class-btn" routerLink="/view/e-store/create">
+        <i class="fa fa-plus" style="color: #1283f4; font-family: FontAwesome;" aria-hidden="true"></i>
         New Product</button>
     </div>
   </div>
@@ -29,9 +29,9 @@
         </select>
       </div> -->
 
-      <div class="form-group field-wrapper form-el-width">
+      <div class="form-group field-wrapper form-el-width" style="margin-left: -1px;">
         <label class="text-bold">Status</label>
-        <select [(ngModel)]="filter.by.status" class="form-ctrl">
+        <select [(ngModel)]="filter.by.status" class="form-ctrl" style="border-radius: 4px; width: 69%;">
           <option value=10>Draft</option>
           <option value=20>Ready </option>
           <option value=30>Published</option>
@@ -40,42 +40,54 @@
         </select>
       </div>
 
-      <div class="form-group field-wrapper form-el-width">
+      <div class="form-group field-wrapper form-el-width" style="margin-left: -18px; margin-left: -18px;">
         <label class="text-bold">Is Paid</label>
-        <select [(ngModel)]="filter.by.isPaid" class="form-ctrl">
+        <select [(ngModel)]="filter.by.isPaid" class="form-ctrl" style="border-radius: 4px; width: 69%;">
           <option value="true">Yes</option>
           <option value="false">No</option>
         </select>
       </div>
 
-      <div class="form-group field-wrapper form-el-width datePickerBox">
+      <div class="form-group field-wrapper form-el-width datePickerBox" style="margin-left: -18px;">
         <label class="text-bold">Sales From Date</label>
         <input type="text" value="" id="FromDate" class="form-ctrl bsDatepicker dateFormat"
-          [(ngModel)]="filter.between.from" name="FD" bsDatepicker readonly="true" />
+          [(ngModel)]="filter.between.from" name="FD" bsDatepicker readonly="true" style="border-radius: 4px;" />
       </div>
 
-      <div class="form-group field-wrapper form-el-width datePickerBox">
+      <div class="form-group field-wrapper form-el-width datePickerBox" style="margin-left: -18px;">
         <label class="text-bold">Sales To Date</label>
         <input type="text" value="" id="ToDate" class="form-ctrl bsDatepicker dateFormat"
-          [(ngModel)]="filter.between.to" name="FD" bsDatepicker readonly="true" />
+          [(ngModel)]="filter.between.to" name="FD" bsDatepicker readonly="true" style="border-radius: 4px;" />
       </div>
-      <div class="form-group field-wrapper form-el-width datePickerBox">
+      <div class="form-group field-wrapper form-el-width datePickerBox" style="margin-left: -18px;">
         <label class="text-bold">Publish Date</label>
         <input type="text" value="" id="publishDate" class="form-ctrl bsDatepicker dateFormat"
-          [(ngModel)]="filter.by.publishDate" name="FD" bsDatepicker readonly="true"/>
+          [(ngModel)]="filter.by.publishDate" name="FD" bsDatepicker readonly="true" style="border-radius: 4px;" />
       </div>
 
-      <button class="btn pr-btn btn-product btn_go" [disabled]="isRippleLoad" (click)="filterData()" style="height: 35px;margin-top: 25px;">GO</button>
+      <button class="btn pr-btn btn-product btn_go" [disabled]="isRippleLoad" (click)="filterData()"
+        style="height: 35px;margin-top: 25px;margin-left: -18px;">GO</button>
       <!-- <button class="btn pr-btn btn-product btn_go" >Clear Filter</button> -->
       <!-- <button type="button" name="button" (click)="Clearfilter()" style="color: red; cursor: pointer;">Clear Filter</button> -->
-      <span (click)="Clearfilter()" style="color: red;cursor: pointer;margin-top: 35px;margin-left: 1em;">Clear Filter</span>
+      <span (click)="Clearfilter()" style="color: red;cursor: pointer;margin-top: 35px;margin-left: 1em;">Clear
+        Filter</span>
+
+    </div>
+    <div class="col-lg-3" style="margin-left: -24rem;margin-top: 2rem;"><i class="fa fa-square"
+        style="font-family: FontAwesome; color: #27c24c;" aria-hidden="true"></i>
+      <div style="margin-left: 1rem;margin-top: -1.5rem;">
+        <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
+        </rob-tooltip>
+      </div>
+
+      <!-- </span> -->
     </div>
   </div>
 
 
   <div class="row m-0 pt-0 product-list-wrapper">
     <section style="margin-top: 10px;padding: 10px;">
-      <div class="table-container">
+      <div class="table-container" style="max-height: 68vh;min-height: 68vh;">
         <div class="heading-container" style="margin-bottom: 10px;">
           <!-- <div class="heading-item" style="width: 10%;">
             <div class="field-checkbox-wrapper">
@@ -157,11 +169,16 @@
               </span>
             </div>
             <div class="value-item td" style="width: 7%;">
-              <span *ngIf="item.status == 10" class="text-primary">Draft</span>
-              <span *ngIf="item.status == 20" class="text-warning">Ready</span>
-              <span *ngIf="item.status == 30" style="color: green;font-weight: 600;">Published</span>
-              <span *ngIf="item.status == 40" class="text-secondary">Unpublished</span>
-              <span *ngIf="item.status == 50" style="color: orangered;">Closed</span>
+              <span *ngIf="item.status == 10" class="text-primary;"
+                style="color: white;background:#4863A0;border-radius: 4px;">&nbsp;Draft&nbsp;</span>
+              <span *ngIf="item.status == 20" class="text-warning;;"
+                style="color: white;background: orange;border-radius: 4px;">&nbsp;Ready&nbsp;</span>
+              <span *ngIf="item.status == 30"
+                style="color: white;font-weight: 600;background: green;border-radius: 4px;">&nbsp;Published&nbsp;</span>
+              <span *ngIf="item.status == 40" class="text-secondary"
+                style="color: white;background: #FF2400;border-radius: 4px;">&nbsp;Unpublished&nbsp;</span>
+              <span *ngIf="item.status == 50"
+                style="color: white;background: grey;border-radius: 4px;">&nbsp;Closed&nbsp;</span>
             </div>
             <div class="value-item td" style="width: 8%;">
               <p class="m-0 text-bold">{{convertUTCDateToLocalDate(item.sales_from_date)}}</p>
@@ -211,18 +228,22 @@
             </div>
           </div>
         </div>
-        <div class="value-outer-container" style="text-align: center;padding-top: 5%;font-weight: 600;"
-          *ngIf="productList?.length < 1 && !productListLoading">
-          <div *ngIf="!isRippleLoad"> No data found </div>
+        <!-- <div class="value-outer-container" style="text-align: center;padding-top: 5%;font-weight: 600; border: none;"
+        *ngIf="productList?.length < 1 && !productListLoading"> -->
+        <div *ngIf="productList?.length < 1 && !productListLoading">
+          <div *ngIf="!isRippleLoad" class="illustration-container">
+            <img alt="illustration" class="illustration-img"
+              src="./assets/images/course_planner/blank-illustration.svg">
+          </div>
         </div>
       </div>
     </section>
 
     <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-          [pagesToShow]="10" [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="varJson.sizeArr"
-          (sizeChange)="updateTableBatchSize($event)" [count]="varJson.total_items">
+        <pagination style="margin-top: 13px;" (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()"
+          (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize"
+          [sizeArr]="varJson.sizeArr" (sizeChange)="updateTableBatchSize($event)" [count]="varJson.total_items">
         </pagination>
       </div>
     </div>
@@ -242,7 +263,7 @@
         <div class="form-group m-0">
           <button type="submit" class="btn btn-primary btn-sm" [disabled]="isRippleLoad"
             (click)="confirmAction(deleteItem.operation, deleteItem.entity_id)">Yes</button>
-              &nbsp;
+          &nbsp;
           <button type="button" class="btn btn-sm" data-dismiss="modal">No</button>
         </div>
       </div>
@@ -386,9 +407,14 @@
                 </div>
               </div>
             </div>
-            <div class="value-outer-container" style="text-align: center;padding-top: 5%;font-weight: 600;"
-              *ngIf="studentDetails?.length==0">
-              <div *ngIf="!isRippleLoad"> No data found </div>
+            <!-- <div class="value-outer-container" style="text-align: center;padding-top: 5%;font-weight: 600;"
+              *ngIf="studentDetails?.length==0"> -->
+            <div *ngIf="studentDetails?.length==0">
+              <div *ngIf="!isRippleLoad" class="illustration-container">
+                <img alt="illustration" class="illustration-img"
+                  src="./assets/images/course_planner/blank-illustration.svg">
+              </div>
+
             </div>
           </div>
           <div class="row" style="margin: 0;display: -webkit-box;-webkit-box-align: center;">

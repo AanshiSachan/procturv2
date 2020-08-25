@@ -20,6 +20,8 @@ export class FeeCourseReportComponent implements OnInit {
 
   @ViewChild('form') form: any;
   feeDataSource1: any[] = [];
+  filterShow: boolean = false;
+  totalRecords: any = 0;
   feeDataSource2: any[] = [];
   standardList: any[] = [];
   subjectList: any[] = [];
@@ -34,6 +36,8 @@ export class FeeCourseReportComponent implements OnInit {
   isCustomDate: boolean;
   isFeeReceipt: boolean;
   isNextDueDetail: boolean;
+  selectedRowCount: number = 0;
+  chked: number = 0;
   isFeepaymentHistory: boolean;
   isViewDetailReport: boolean;
   selectedFeeRecord: any;
@@ -41,7 +45,7 @@ export class FeeCourseReportComponent implements OnInit {
   isFilterReversed: boolean = true;
   isProfessional: boolean = false;
   isCourseSelected: boolean = false;
-  downloadFeeReportAccess:boolean = false;
+  downloadFeeReportAccess: boolean = false;
   private slotIdArr: any[] = [];
   private selectedSlots: any[] = [];
   private selectedSlotsString: string = '';
@@ -110,7 +114,7 @@ export class FeeCourseReportComponent implements OnInit {
     private putter: PostFeeService,
     private auth: AuthenticatorService,
     private pdf: ExportToPdfService,
-    private _commService:CommonServiceFactory
+    private _commService: CommonServiceFactory
   ) {
     // this.switchActiveView('fee');
   }
@@ -118,7 +122,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   ngOnInit() {
-    window.scroll(0,0);
+    window.scroll(0, 0);
     this.getAcademicYear();
     this.auth.institute_type.subscribe(
       res => {
@@ -137,14 +141,14 @@ export class FeeCourseReportComponent implements OnInit {
       .subscribe(data => {
         this.searchDB();
       });
-      this.checkDownloadRoleAccess();
+    this.checkDownloadRoleAccess();
   }
 
   checkDownloadRoleAccess() {
-    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
-        this.downloadFeeReportAccess = true;
+    if (sessionStorage.getItem('downloadFeeReportAccess') == 'true') {
+      this.downloadFeeReportAccess = true;
     }
-}
+  }
 
   getAcademicYear() {
     this.getter.getAcademicYear().subscribe(
@@ -163,7 +167,12 @@ export class FeeCourseReportComponent implements OnInit {
     this.getBatchCourseDetails();
     this.fetchInstallmentData();
   }
-
+  rowCheckboxChange(record) {
+    // console.log(record);
+    // (record.data.checked) ? (this.selectedRowCount++) : (this.selectedRowCount--);
+    this.chked = record;
+    console.log(this.chked);
+  }
   multiselectVisible(elid) {
     let targetid = elid + "multi";
     if (elid != null && elid != '') {
@@ -314,7 +323,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   fetchFeeDetails() {
-
+    this.filterShow = false;
     if (this.isProfessional && (
       this.courseFetchForm.batch_id == '-1' &&
       this.courseFetchForm.standard_id == '-1')) {
@@ -427,9 +436,13 @@ export class FeeCourseReportComponent implements OnInit {
         this.auth.hideLoader();
         if (this.isFilterReversed) {
           this.feeDataSource1 = res;
+          this.totalRecords = this.feeDataSource1.length;
+          console.log(this.totalRecords);
         }
         else {
           this.feeDataSource2 = res;
+          this.totalRecords = this.feeDataSource2.length;
+          console.log(this.totalRecords);
         }
       },
       err => {
@@ -921,7 +934,14 @@ export class FeeCourseReportComponent implements OnInit {
 
     this.sendBulkDetails(data);
   }
-
+  toggleFilter() {  // show hide filter
+    if (this.filterShow) {
+      this.filterShow = false;
+    }
+    else {
+      this.filterShow = true;
+    }
+  }
   sendBulkDetails(event) {
     if (this.selectedRecordsList.length == 0) {
       this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', "Select record to send due " + event.type);

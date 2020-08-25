@@ -1,33 +1,41 @@
 <div class="middle-section clearFix">
-  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
-    <h1 class="pull-left">
+  <section class="middle-top mb0 clearFix" style="border-bottom: 1px solid lightgrey;">
+    <h1 class="pull-left" style="margin-top: 6px;">
       <a routerLink="/view/fee">
         Fees
-    </a>
-    <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-    <a routerLink="/view/fee/data-setup">
-       Data-setup
-  </a>
-  <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>   Discount Reason
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      <a routerLink="/view/fee/data-setup">
+        Data-setup
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Discount Reason
     </h1>
+    <div class="clearFix add-edit" style="float: right;">
+      <button class="btn" (click)="toggleCreateNew()">
+        <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
+        <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
+        <span>Add Discount Reason</span>
+      </button>
+    </div>
   </section>
 
   <section class="middle-main clearFix">
 
-    <div class="clearFix add-edit">
+    <!-- <div class="clearFix add-edit">
       <a (click)="toggleCreateNew()">
         <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
         <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
         <span>Add Discount Reason</span>
       </a>
-    </div>
-    <section class="clearFix create-standard-form" *ngIf="createNewDiscount">
+    </div> -->
+    <section class="clearFix " *ngIf="createNewDiscount" style="border-bottom: 1px solid lightgrey;">
       <div class="row create-standard-field">
 
         <div class="c-lg-3 c-md-3 c-sm-3">
-          <div class="field-wrapper">
+          <div class="field-wrapper" style="padding-bottom: 10px; padding-top: 8px;">
             <label for="newDiscount">Reason</label>
-            <input type="text" [(ngModel)]="discountReason" class="form-ctrl" name="newDiscount">
+            <input type="text" [(ngModel)]="discountReason" class="form-ctrl" name="newDiscount"
+              style="border-radius: 4px;">
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
@@ -40,8 +48,8 @@
     </section>
     <div id="divSlotTable">
       <div class="table-scroll-wrapper">
-        <div class="table table-responsive" style="max-height: 400px;">
-          <table>
+        <div class="table table-responsive">
+          <table class="tableBodyScroll">
             <thead>
               <tr>
                 <th>
@@ -71,11 +79,17 @@
                 </td>
 
                 <td class="view-comp">
-                  <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
+                  <i class="fa fa-pencil" title="Edit" style="color: #0084f6;" aria-hidden="true"
+                    (click)="editRowTable(row , i)"></i>
+                  <!-- <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a> -->
                 </td>
                 <td class="edit-comp">
-                  <a class="anchorTagCursor" (click)="saveInformation(row , i)"> Save </a>
-                  <a class="anchorTagCursor" (click)="cancelEditRow(i)"> Cancel </a>
+                  <i class="fa fa-floppy-o" title="Save" style="color: blue;margin-right: 4px;" aria-hidden="true"
+                    (click)="saveInformation(row , i)"></i>
+                  <i class="fa fa-times" title="Cancel" style="color: red;" aria-hidden="true"
+                    (click)="cancelEditRow(i)"></i>
+                  <!-- <a class="anchorTagCursor" (click)="saveInformation(row , i)"> Save </a>
+                  <a class="anchorTagCursor" (click)="cancelEditRow(i)"> Cancel </a> -->
                 </td>
               </tr>
               <tr *ngIf="discountReasonArray.length ==0">

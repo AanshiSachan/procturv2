@@ -1,25 +1,27 @@
 <div class="middle-section clearFix" id="enquiryList" #enquiryManager>
   <!-- Main View -->
   <aside class="middle-full">
-    <section class="middle-top clearFix">
+    <section class="middle-top clearFix" style="border-bottom: 1px solid lightgrey;padding-bottom: 0.5rem;">
       <h1 class="pull-left">
-          <a routerLink="/view/fee">
-            Fees 
+        <a routerLink="/view/fee">
+          Fees
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
         <a routerLink="/view/fee/data-setup">
-           Data-setup
-      </a>
-      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-      {{moduleState}} wise fees
+          Data-setup
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        {{moduleState}} wise fees
       </h1>
 
       <aside class="pull-right">
         <div class="btn-container">
           <div class="search-filter-wrapper">
-            <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
+            <input type="text" class="normal-field pull-right" style="border-radius: 4px;" placeholder="Search"
+              name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
           </div>
-          <button class="btn" routerLink='/view/fee/data-setup/fee-template/add'>
+          <button class="btn" style="box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);background:#0084f6;color: white;"
+            routerLink='/view/fee/data-setup/fee-template/add'>
             New Structure
           </button>
         </div>
@@ -32,7 +34,7 @@
       <!-- Data Table and Pagination -->
       <div class="table-scroll-wrapper">
         <div class="table table-responsive">
-          <table class="structure-table">
+          <!-- <table class="structure-table">
             <thead>
               <tr>
                 <th>Fee Structure</th>
@@ -67,11 +69,13 @@
                 <td class="feeactions">
                   <ul>
                     <li (click)="editFee(fee)">
-                      <i class="fa fa-pencil" style="color:#1283f4;cursor: pointer;" title="Edit" aria-hidden="true" ></i>
+                      <i class="fa fa-pencil" style="color:#1283f4;cursor: pointer;" title="Edit"
+                        aria-hidden="true"></i>
                       &nbsp;
                     </li>
                     <li (click)="deleteFeeStructure(fee)" style="margin-right: 7px;">
-                      <i class="fa fa-trash" style="color:#fa3145;cursor: pointer;" title="Delete" aria-hidden="true" ></i>
+                      <i class="fa fa-trash" style="color:#fa3145;cursor: pointer;" title="Delete"
+                        aria-hidden="true"></i>
                     </li>
                   </ul>
                 </td>
@@ -82,14 +86,19 @@
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table> -->
+          <app-basic-table [headers]="headerSetting" [displayData]="tabkeList" [tableSetting]="tableSetting"
+            [rowColumnSetting]="rowColumns" (editView)='editFee($event)' (deleteView)='deleteFeeStructure($event)'
+            (viewView)='studentsAssigned($event)'>
+          </app-basic-table>
         </div>
       </div>
 
-      <div class="row filter-res pagination" style="width: 100%;">
+      <div class="row filter-res pagination" style="width: 100%;margin-top: -17px;padding-left: 14px;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-            [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+            [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow" [sizeArr]="sizeArr"
+            (sizeChange)="updateTableBatchSize($event)">
           </pagination>
         </div>
       </div>
@@ -102,11 +111,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77) rotate(45)" />
             </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
           </g>
         </svg>
       </span>
@@ -123,13 +134,16 @@
           <input type="text" class="form-ctrl" autofocus [(ngModel)]="selectedTemplate.template_name">
         </div>
         <a *ngIf="isHeaderEdit">
-          <i class="fas fa-check" (click)="updateTemplateName()" style="font-family: FontAwesome ;font-size: 19px;" title="feeName"></i>
-          <i class="fas fa fa-times" (click)="cancelTemplateName()" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
+          <i class="fas fa-check" (click)="updateTemplateName()" style="font-family: FontAwesome ;font-size: 19px;"
+            title="feeName"></i>
+          <i class="fas fa fa-times" (click)="cancelTemplateName()" style="font-family: FontAwesome ;font-size: 19px;"
+            title="Cancel"></i>
         </a>
 
 
         <div class="field-checkbox-wrapper pull-right checkBoxAllignMent">
-          <input type="checkbox" id="defChkBX" name="defChkBX" [(ngModel)]="feeStructure.is_default" class="form-checkbox">
+          <input type="checkbox" id="defChkBX" name="defChkBX" [(ngModel)]="feeStructure.is_default"
+            class="form-checkbox">
           <label for="defChkBX">Is Default Template</label>
         </div>
       </div>
@@ -148,9 +162,11 @@
             <div class="row" style="margin-top: 10px;margin-bottom: 10px">
               <div class="c-sm-3 c-md-3 c-lg-3">
                 <div class="field-wrapper has-value">
-                  <label for="slotNew">Total Amount (<img src="{{selectedCountry?.currency_symbol}}" style="max-height: 10px" />) <span class="text-danger">*</span>
+                  <label for="slotNew">Total Amount (<img src="{{selectedCountry?.currency_symbol}}"
+                      style="max-height: 10px" />) <span class="text-danger">*</span>
                   </label>
-                  <input type="number" min="0" readonly="true" class="form-ctrl" [(ngModel)]="totalAmountCal" name="slotNew">
+                  <input type="number" min="0" readonly="true" class="form-ctrl" [(ngModel)]="totalAmountCal"
+                    name="slotNew">
 
                 </div>
               </div>
@@ -158,7 +174,8 @@
                 <div class="field-wrapper has-value">
                   <label for="slotNew">Total No of Installments <span class="text-danger">*</span>
                   </label>
-                  <input type="number" min="0" readonly="true" #idSlot [value]="installmentList.length" class="form-ctrl" name="slotNew">
+                  <input type="number" min="0" readonly="true" #idSlot [value]="installmentList.length"
+                    class="form-ctrl" name="slotNew">
 
                 </div>
               </div>
@@ -167,10 +184,11 @@
                   <label for="CourseDdn">Country
                     <span class="text-danger">*</span>
                   </label>
-                  <select id="" [disabled]="true" class="form-ctrl disable_input " style="background: transparent" name="country_id" [(ngModel)]="selectedTemplate.country_id">
+                  <select id="" [disabled]="true" class="form-ctrl disable_input " style="background: transparent"
+                    name="country_id" [(ngModel)]="selectedTemplate.country_id">
                     <option value="-1"></option>
                     <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                       {{data.country_name}}
+                      {{data.country_name}}
                     </option>
                   </select>
 
@@ -178,8 +196,10 @@
               </div>
               <div class="c-sm-3 c-md-3 c-lg-3 hide">
                 <div class="field-checkbox-wrapper">
-                  <input type="checkbox" id="checkBoxtaxes" name="checkbx" class="form-checkbox" (click)="onApplyTaxChechbox($event)">
-                  <label for="checkbx">Apply {{tax_type_without_percentage}}({{feeStructure.registeredServiceTax}}%)</label>
+                  <input type="checkbox" id="checkBoxtaxes" name="checkbx" class="form-checkbox"
+                    (click)="onApplyTaxChechbox($event)">
+                  <label for="checkbx">Apply
+                    {{tax_type_without_percentage}}({{feeStructure.registeredServiceTax}}%)</label>
                 </div>
               </div>
             </div>
@@ -190,7 +210,8 @@
               <div class="c-sm-3 c-md-3 c-lg-3">
                 <div class="field-wrapper has-value">
                   <label for="row.category_id">Trigger Date</label>
-                  <select id="" class="form-ctrl" style="background: transparent" name="AddInstallment.day_type" (ngModelChange)="changesValuesAsPerType(AddInstallment)" [(ngModel)]="AddInstallment.day_type">
+                  <select id="" class="form-ctrl" style="background: transparent" name="AddInstallment.day_type"
+                    (ngModelChange)="changesValuesAsPerType(AddInstallment)" [(ngModel)]="AddInstallment.day_type">
                     <option value="1">Course Assign Date (CAD)</option>
                     <option value="2">No of days after CAD</option>
                     <option value="3">No of Month after CAD</option>
@@ -203,8 +224,9 @@
                 <div class="field-wrapper has-value">
                   <label for="slotNew"> No.
                   </label>
-                  <input type="number" min="0" class="form-ctrl" [disabled]="AddInstallment.day_type=='1'" [ngClass]="{'disable_input': AddInstallment.day_type=='1'}"
-                   [(ngModel)]="AddInstallment.days" name="slotNew">
+                  <input type="number" min="0" class="form-ctrl" [disabled]="AddInstallment.day_type=='1'"
+                    [ngClass]="{'disable_input': AddInstallment.day_type=='1'}" [(ngModel)]="AddInstallment.days"
+                    name="slotNew">
 
                   <p>(Days/Months)</p>
                 </div>
@@ -214,13 +236,15 @@
                 <div class="field-wrapper has-value">
                   <label for="slotNew">Fee Amount
                   </label>
-                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="AddInstallment.initial_fee_amount" name="slotNew">
+                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="AddInstallment.initial_fee_amount"
+                    name="slotNew">
 
                 </div>
               </div>
 
               <div class="c-sm-2 c-md-2 c-lg-2" style="margin: auto;cursor: pointer">
-                <img src="assets/images/plus.png" (click)="addInstallmentInTable()" alt="Add" style="vertical-align: -webkit-baseline-middle;">
+                <img src="assets/images/plus.png" (click)="addInstallmentInTable()" alt="Add"
+                  style="vertical-align: -webkit-baseline-middle;">
               </div>
             </div>
 
@@ -246,7 +270,8 @@
                     <tbody>
                       <tr *ngFor="let row of installmentList; let i= index ; trackBy : index">
                         <td>
-                          <select [(ngModel)]="row.day_type" (ngModelChange)="changesValuesAsPerType(row)" style="background: transparent">
+                          <select [(ngModel)]="row.day_type" (ngModelChange)="changesValuesAsPerType(row)"
+                            style="background: transparent">
                             <option value="1">Course Assign Date (CAD)</option>
                             <option value="2">No of days after CAD</option>
                             <option value="3">No of Month after CAD</option>
@@ -254,30 +279,35 @@
                         </td>
                         <td>
                           <div class="field-wrapper">
-                            <input type="number" min="0" class="editCellInput" [disabled]="row.day_type=='1'" [ngClass]="{'disable_input': row.day_type=='1'}" [(ngModel)]="row.days" name="label">
+                            <input type="number" min="0" class="editCellInput" [disabled]="row.day_type=='1'"
+                              [ngClass]="{'disable_input': row.day_type=='1'}" [(ngModel)]="row.days" name="label">
                           </div>
                         </td>
                         <!-- <td *ngIf="selectedTemplate.country_id=='1'"> -->
-                            <td *ngIf="is_tax_enabled">
+                        <td *ngIf="is_tax_enabled">
 
                           <div class="field-wrapper">
-                            <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
+                            <input type="number" min="0" readonly="true" class="editCellInput"
+                              [(ngModel)]="row.initial_fee_amount" name="label">
                           </div>
                         </td>
                         <!-- <td *ngIf="selectedTemplate.country_id=='1'"> -->
-                            <td *ngIf="is_tax_enabled">
+                        <td *ngIf="is_tax_enabled">
 
                           <div class="field-wrapper">
-                            <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.tax' name="label">
+                            <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.tax'
+                              name="label">
                           </div>
                         </td>
                         <td>
                           <div class="field-wrapper">
-                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount" (keyup)="feeInstallmentChnge(row)" name="label">
+                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount"
+                              (keyup)="feeInstallmentChnge(row)" name="label">
                           </div>
                         </td>
                         <td>
-                          <i class="fa fa-trash" (click)="deleteRow(row , i)" style="color:#fa3145;cursor: pointer;" title="Delete" aria-hidden="true" ></i>
+                          <i class="fa fa-trash" (click)="deleteRow(row , i)" style="color:#fa3145;cursor: pointer;"
+                            title="Delete" aria-hidden="true"></i>
                         </td>
                       </tr>
                     </tbody>
@@ -294,7 +324,8 @@
               <div class="c-sm-2 c-md-2 c-lg-2">
                 <div class="field-wrapper has-value">
                   <label for="row.category_id">Select Fee Type</label>
-                  <select id="" class="form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.fee_type" (ngModelChange)="onAdditionalFeeSelection($event)"
+                  <select id="" class="form-ctrl" style="background: transparent"
+                    [(ngModel)]="additionalInstallment.fee_type" (ngModelChange)="onAdditionalFeeSelection($event)"
                     name="row.category_id">
                     <option value=""></option>
                     <option *ngFor="let opt of otherFeetype; let i= index ; trackBy : index" [value]="opt.id">
@@ -308,7 +339,9 @@
               <div class="c-sm-2 c-md-2 c-lg-2">
                 <div class="field-wrapper has-value">
                   <label for="row.category_id">Trigger Date</label>
-                  <select id="" class="form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.day_type" (ngModelChange)="changesValuesAsPerType(additionalInstallment)" name="row.category_id">
+                  <select id="" class="form-ctrl" style="background: transparent"
+                    [(ngModel)]="additionalInstallment.day_type"
+                    (ngModelChange)="changesValuesAsPerType(additionalInstallment)" name="row.category_id">
                     <option value="1">Course Assign Date (CAD)</option>
                     <option value="2">No of days after CAD</option>
                     <option value="3">No of Month after CAD</option>
@@ -321,7 +354,9 @@
                 <div class="field-wrapper has-value">
                   <label for="slotNew"> No.
                   </label>
-                  <input type="number" min="0" class="form-ctrl" [disabled]="additionalInstallment.day_type=='1'" [ngClass]="{'disable_input': additionalInstallment.day_type=='1'}" [(ngModel)]="additionalInstallment.days" name="slotNew">
+                  <input type="number" min="0" class="form-ctrl" [disabled]="additionalInstallment.day_type=='1'"
+                    [ngClass]="{'disable_input': additionalInstallment.day_type=='1'}"
+                    [(ngModel)]="additionalInstallment.days" name="slotNew">
 
                   <p>(Days/Months)</p>
                 </div>
@@ -331,7 +366,8 @@
                 <div class="field-wrapper has-value">
                   <label for="slotNew">Fee Amount
                   </label>
-                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.initial_fee_amount" name="slotNew">
+                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.initial_fee_amount"
+                    name="slotNew">
 
                 </div>
               </div>
@@ -342,13 +378,15 @@
                 <div class="field-wrapper has-value">
                   <label for="slotNew">{{tax_type_without_percentage}} Applicable (%)
                   </label>
-                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.service_tax" disabled name="slotNew">
+                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.service_tax"
+                    disabled name="slotNew">
 
                 </div>
               </div>
 
               <div class="c-sm-2 c-md-2 c-lg-2" style="margin: auto;cursor: pointer">
-                <img src="assets/images/plus.png" (click)="addAdditionalInst()" alt="Add" style="vertical-align: -webkit-baseline-middle;">
+                <img src="assets/images/plus.png" (click)="addAdditionalInst()" alt="Add"
+                  style="vertical-align: -webkit-baseline-middle;">
               </div>
             </div>
 
@@ -365,7 +403,7 @@
                         <th *ngIf="selectedTemplate.country_id=='1'">Tax</th>
                         <th *ngIf="selectedTemplate.country_id!='1'">Fee Amount</th>
                         <th *ngIf="selectedTemplate.country_id=='1'">Fee Amount Incl Tax</th> -->
-                        <th >Fee Amount</th>
+                        <th>Fee Amount</th>
                         <th *ngIf="is_tax_enabled">{{tax_type_without_percentage}}</th>
                         <!-- <th>Fee Amount</th> -->
                         <th *ngIf="is_tax_enabled">Fee Amount Incl {{tax_type_without_percentage}}</th>
@@ -378,7 +416,8 @@
                           {{row.fee_type_name}}
                         </td>
                         <td>
-                          <select [(ngModel)]="row.day_type" (ngModelChange)="changesValuesAsPerType(row)" style="background: transparent">
+                          <select [(ngModel)]="row.day_type" (ngModelChange)="changesValuesAsPerType(row)"
+                            style="background: transparent">
                             <option value="1">Course Assign Date (CAD)</option>
                             <option value="2">No of days after CAD</option>
                             <option value="3">No of Month after CAD</option>
@@ -386,28 +425,33 @@
                         </td>
                         <td>
                           <div class="field-wrapper">
-                            <input type="number" min="0" class="editCellInput" [disabled]="row.day_type=='1'" [ngClass]="{'disable_input': row.day_type=='1'}" [(ngModel)]="row.days" name="label">
+                            <input type="number" min="0" class="editCellInput" [disabled]="row.day_type=='1'"
+                              [ngClass]="{'disable_input': row.day_type=='1'}" [(ngModel)]="row.days" name="label">
                           </div>
                         </td>
                         <!-- <td *ngIf="selectedTemplate.country_id=='1'"> -->
-                            <td *ngIf="is_tax_enabled">
+                        <td *ngIf="is_tax_enabled">
                           <div class="field-wrapper">
-                            <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
+                            <input type="number" min="0" readonly="true" class="editCellInput"
+                              [(ngModel)]="row.initial_fee_amount" name="label">
                           </div>
                         </td>
                         <!-- <td *ngIf="selectedTemplate.country_id=='1'"> -->
-                            <td *ngIf="is_tax_enabled">
+                        <td *ngIf="is_tax_enabled">
                           <div class="field-wrapper">
-                            <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.fees_amount - row.initial_fee_amount' name="label">
+                            <input type="number" min="0" readonly="true" class="editCellInput"
+                              [ngModel]='row.fees_amount - row.initial_fee_amount' name="label">
                           </div>
                         </td>
                         <td>
                           <div class="field-wrapper">
-                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount" (keyup)="feeTypesAmountChnge(row)" name="label">
+                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount"
+                              (keyup)="feeTypesAmountChnge(row)" name="label">
                           </div>
                         </td>
                         <td>
-                          <i class="fa fa-trash" (click)="deleteAdditionalRow(row , i)" style="color:#fa3145;cursor: pointer;" title="Delete" aria-hidden="true"></i>
+                          <i class="fa fa-trash" (click)="deleteAdditionalRow(row , i)"
+                            style="color:#fa3145;cursor: pointer;" title="Delete" aria-hidden="true"></i>
                         </td>
                       </tr>
                       <tr *ngIf="otherInstList.length == 0">
@@ -441,11 +485,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77) rotate(45)" />
             </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
           </g>
         </svg>
       </span>

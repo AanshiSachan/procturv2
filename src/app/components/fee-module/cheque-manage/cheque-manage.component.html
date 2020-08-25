@@ -3,7 +3,7 @@
         <section class="middle-main clearFix activity-wrapper">
 
             <section class="row header">
-                <div class="row">
+                <div class="row" style="border-bottom: 1px solid lightgrey;padding-bottom: 7px;">
                     <h2 class="pull-left">
                         <a routerLink="/view/fee">
                             Fees
@@ -12,12 +12,13 @@
                         Manage Cheques
                     </h2>
                 </div>
-                <section class="row filter-section  margin-head">
+                <section class="row filter-section  margin-head" style="border-bottom: 1px solid lightgrey;">
 
-                    <div class="c-lg-2">
+                    <div class="c-lg-2" style="margin-left: -1rem;width: 13%;">
                         <div class="field-wrapper">
                             <label for="ctype">Cheque Status</label>
-                            <select [(ngModel)]="chequeFetchForm.cheque_status_id" name="ctype" class="form-ctrl" id="ctype" [(ngModel)]="chequeFetchForm.cheque_status_id">
+                            <select [(ngModel)]="chequeFetchForm.cheque_status_id" name="ctype" class="form-ctrl"
+                                id="ctype" [(ngModel)]="chequeFetchForm.cheque_status_id" style="border-radius: 4px;">
                                 <option value="-1"></option>
                                 <option value="1">Pending</option>
                                 <option value="2">Dishonoured</option>
@@ -29,7 +30,8 @@
                     <div class="c-lg-2">
                         <div class="field-wrapper datePickerBox">
                             <label for="range">Cheque From and To</label>
-                            <input [(ngModel)]="dateRange" type="text" name="range" class="form-ctrl bsDatepicker" id="range" readonly="true" bsDaterangepicker>
+                            <input [(ngModel)]="dateRange" type="text" name="range" class="form-ctrl bsDatepicker"
+                                id="range" readonly="true" bsDaterangepicker style="border-radius: 4px;">
                             <span class="pull-right cleat-txt" (click)="clearDateRange()">clear</span>
                         </div>
                     </div>
@@ -37,7 +39,8 @@
                     <div class="c-lg-2">
                         <div class="field-wrapper">
                             <label for="searchB">Student Name/ Contact No.</label>
-                            <input [(ngModel)]="searchValue" type="text" name="searchB" class="form-ctrl" id="searchB">
+                            <input [(ngModel)]="searchValue" type="text" name="searchB" class="form-ctrl" id="searchB"
+                                style="border-radius: 4px;">
                         </div>
                     </div>
 
@@ -45,37 +48,60 @@
                         <button class="btn fullBlue" (click)="filterCheques()">Go</button>
                     </div>
 
-                    <div class="text-right c-lg-5 btn-wrap">
-                        <div id="basic-search" style="float:right;" class="c-lg-11">
-                            <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="flagJson.searchText" name="searchData"
-                                (keyup)="searchDatabase()" style="padding:6px 10px; width:200px; margin-top: 10px; margin-bottom: 10px; border-radius: 4px;border: 1px solid rgba(10,10,10,0.5);">
-                                &nbsp;&nbsp;&nbsp;
+                    <div class="text-right c-lg-5 btn-wrap" style="margin-top: -12px;margin-left: 4rem;">
+                        <!-- <div id="basic-search" [ngStyle]="{'margin-left':totalRecords != 0 ? '-3rem' : '1rem' }"
+                            class="c-lg-11">
+                            <input #search type="text" class="search-field searchName" placeholder="Search"
+                                [(ngModel)]="flagJson.searchText" name="searchData" (keyup)="searchDatabase()"
+                                style="padding:6px 10px; width:200px; margin-top: 10px; margin-bottom: 10px; border-radius: 4px;border: 1px solid rgba(10,10,10,0.5);">
+                            &nbsp;&nbsp;&nbsp;
                         </div>
                         <div>
-                            <section class="login-tube pull-right" style="margin-top: 14px; position: absolute;right: 8px;">
+                            <div *ngIf="totalRecords != 0" style="margin-right: 41px;margin-top: 6px;">
+                                <i class="fa fa-file-pdf-o"
+                                    style="font-size: 28px;color: darkred;cursor: pointer;font-family: 'FontAwesome';"
+                                    aria-hidden="true" (click)="exportToPdf()"></i>
+                                <i class="fa fa-file-excel-o"
+                                    style="font-size: 28px;font-family: 'FontAwesome';color: green;cursor: pointer;"
+                                    aria-hidden="true" (click)="exportToExcel()"></i>
+                            </div>
+                            <div [ngStyle]="{'margin-top':totalRecords != 0 ? '-2rem' : '0.5rem' }">
+                                <i class="fa fa-eye-slash" (click)="openPreferences()"
+                                    style="font-family: 'FontAwesome' ; display: inline-block;font-size: 28px;cursor: pointer;color: blue;"></i>
+                            </div> -->
+
+                        <!-- <section class="login-tube pull-right"
+                                style="margin-top: 14px; position: absolute;right: 8px;">
                                 <nav>
                                     <ul class="login-nav">
                                         <li class="pos-rel">
                                             <i class="icons">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                                                    <path id="gearIcon" d="M24 14.187v-4.374c-2.148-.766-2.726-.802-3.027-1.529-.303-.729.083-1.169 1.059-3.223l-3.093-3.093c-2.026.963-2.488 1.364-3.224 1.059-.727-.302-.768-.889-1.527-3.027h-4.375c-.764 2.144-.8 2.725-1.529 3.027-.752.313-1.203-.1-3.223-1.059l-3.093 3.093c.977 2.055 1.362 2.493 1.059 3.224-.302.727-.881.764-3.027 1.528v4.375c2.139.76 2.725.8 3.027 1.528.304.734-.081 1.167-1.059 3.223l3.093 3.093c1.999-.95 2.47-1.373 3.223-1.059.728.302.764.88 1.529 3.027h4.374c.758-2.131.799-2.723 1.537-3.031.745-.308 1.186.099 3.215 1.062l3.093-3.093c-.975-2.05-1.362-2.492-1.059-3.223.3-.726.88-.763 3.027-1.528zm-4.875.764c-.577 1.394-.068 2.458.488 3.578l-1.084 1.084c-1.093-.543-2.161-1.076-3.573-.49-1.396.581-1.79 1.693-2.188 2.877h-1.534c-.398-1.185-.791-2.297-2.183-2.875-1.419-.588-2.507-.045-3.579.488l-1.083-1.084c.557-1.118 1.066-2.18.487-3.58-.579-1.391-1.691-1.784-2.876-2.182v-1.533c1.185-.398 2.297-.791 2.875-2.184.578-1.394.068-2.459-.488-3.579l1.084-1.084c1.082.538 2.162 1.077 3.58.488 1.392-.577 1.785-1.69 2.183-2.875h1.534c.398 1.185.792 2.297 2.184 2.875 1.419.588 2.506.045 3.579-.488l1.084 1.084c-.556 1.121-1.065 2.187-.488 3.58.577 1.391 1.689 1.784 2.875 2.183v1.534c-1.188.398-2.302.791-2.877 2.183zm-7.125-5.951c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3zm0-2c-2.762 0-5 2.238-5 5s2.238 5 5 5 5-2.238 5-5-2.238-5-5-5z"
-                                                    />
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                    viewBox="0 0 24 24">
+                                                    <path id="gearIcon"
+                                                        d="M24 14.187v-4.374c-2.148-.766-2.726-.802-3.027-1.529-.303-.729.083-1.169 1.059-3.223l-3.093-3.093c-2.026.963-2.488 1.364-3.224 1.059-.727-.302-.768-.889-1.527-3.027h-4.375c-.764 2.144-.8 2.725-1.529 3.027-.752.313-1.203-.1-3.223-1.059l-3.093 3.093c.977 2.055 1.362 2.493 1.059 3.224-.302.727-.881.764-3.027 1.528v4.375c2.139.76 2.725.8 3.027 1.528.304.734-.081 1.167-1.059 3.223l3.093 3.093c1.999-.95 2.47-1.373 3.223-1.059.728.302.764.88 1.529 3.027h4.374c.758-2.131.799-2.723 1.537-3.031.745-.308 1.186.099 3.215 1.062l3.093-3.093c-.975-2.05-1.362-2.492-1.059-3.223.3-.726.88-.763 3.027-1.528zm-4.875.764c-.577 1.394-.068 2.458.488 3.578l-1.084 1.084c-1.093-.543-2.161-1.076-3.573-.49-1.396.581-1.79 1.693-2.188 2.877h-1.534c-.398-1.185-.791-2.297-2.183-2.875-1.419-.588-2.507-.045-3.579.488l-1.083-1.084c.557-1.118 1.066-2.18.487-3.58-.579-1.391-1.691-1.784-2.876-2.182v-1.533c1.185-.398 2.297-.791 2.875-2.184.578-1.394.068-2.459-.488-3.579l1.084-1.084c1.082.538 2.162 1.077 3.58.488 1.392-.577 1.785-1.69 2.183-2.875h1.534c.398 1.185.792 2.297 2.184 2.875 1.419.588 2.506.045 3.579-.488l1.084 1.084c-.556 1.121-1.065 2.187-.488 3.58.577 1.391 1.689 1.784 2.875 2.183v1.534c-1.188.398-2.302.791-2.877 2.183zm-7.125-5.951c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3zm0-2c-2.762 0-5 2.238-5 5s2.238 5 5 5 5-2.238 5-5-2.238-5-5-5z" />
                                                 </svg>
                                             </i>
                                             <div class="dropdown">
                                                 <ul class="user-detail text-left">
-                                                    <li (click)="exportToExcel()" class="asHover"  *ngIf="downloadFeeReportAccess">
-                                                        <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;"></i>
+                                                    <li (click)="exportToExcel()" class="asHover"
+                                                        *ngIf="downloadFeeReportAccess">
+                                                        <i class="fa fa-file-excel-o"
+                                                            style="font-family: 'FontAwesome'; display: inline-block;"></i>
                                                         <strong style="display: inline-block;">Export as Excel</strong>
                                                     </li>
                                                     <hr>
-                                                    <li (click)="exportToPdf()" class="asHover"  *ngIf="downloadFeeReportAccess">
-                                                        <i class="fa fa-file-pdf-o" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+                                                    <li (click)="exportToPdf()" class="asHover"
+                                                        *ngIf="downloadFeeReportAccess">
+                                                        <i class="fa fa-file-pdf-o"
+                                                            style="font-family: 'FontAwesome' ; display: inline-block;"></i>
                                                         <strong style="display: inline-block;">Export as Pdf</strong>
                                                     </li>
                                                     <li (click)="openPreferences()" class="asHover">
-                                                        <i class="fa fa-low-vision" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
-                                                        <strong style="display: inline-block;">Show/Hide Columns</strong>
+                                                        <i class="fa fa-low-vision"
+                                                            style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+                                                        <strong style="display: inline-block;">Show/Hide
+                                                            Columns</strong>
                                                     </li>
                                                 </ul>
 
@@ -83,7 +109,49 @@
                                         </li>
                                     </ul>
                                 </nav>
-                            </section>
+                            </section> -->
+                        <!-- </div> -->
+                    </div>
+
+                </section>
+                <section class="row filter-section  margin-head" style="border-bottom: 1px solid lightgrey;">
+
+                    <div class="c-lg-2" style="margin-left: -1rem;width: 13%;">
+
+                    </div>
+
+                    <div class="c-lg-2">
+
+                    </div>
+
+                    <div class="c-lg-2">
+
+                    </div>
+
+                    <div class="c-lg-1 btn-wrap">
+                    </div>
+
+                    <div class="text-right c-lg-5 btn-wrap" style="margin-top: -20px;margin-left: 4rem;">
+                        <div id="basic-search" [ngStyle]="{'margin-left':totalRecords != 0 ? '-3rem' : '1rem' }"
+                            class="c-lg-11">
+                            <input #search type="text" class="search-field searchName" placeholder="Search"
+                                [(ngModel)]="flagJson.searchText" name="searchData" (keyup)="searchDatabase()"
+                                style="padding:6px 10px; width:200px; margin-top: 10px; margin-bottom: 10px; border-radius: 4px;border: 1px solid rgba(10,10,10,0.5);">
+                            &nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div>
+                            <div *ngIf="totalRecords != 0" style="margin-right: 41px;margin-top: 6px;">
+                                <i class="fa fa-file-pdf-o"
+                                    style="font-size: 28px;color: darkred;cursor: pointer;font-family: 'FontAwesome';"
+                                    aria-hidden="true" (click)="exportToPdf()"></i>
+                                <i class="fa fa-file-excel-o"
+                                    style="font-size: 28px;font-family: 'FontAwesome';color: green;cursor: pointer;"
+                                    aria-hidden="true" (click)="exportToExcel()"></i>
+                            </div>
+                            <div [ngStyle]="{'margin-top':totalRecords != 0 ? '-2rem' : '0.5rem' }">
+                                <i class="fa fa-eye-slash" (click)="openPreferences()"
+                                    style="font-family: 'FontAwesome' ; display: inline-block;font-size: 28px;cursor: pointer;color: blue;"></i>
+                            </div>
                         </div>
                     </div>
 
@@ -134,11 +202,13 @@
                     </div> -->
                 </div>
             </div>
-            <preference-popup [settings]="tableSetting" [keys]="activitySettings" (closeButton)="closePopup($event)" *ngIf="flagJson.showPreference"></preference-popup>
+            <preference-popup [settings]="tableSetting" [keys]="activitySettings" (closeButton)="closePopup($event)"
+                *ngIf="flagJson.showPreference"></preference-popup>
             <section class="body-content">
                 <a #invoiceDownloader id="invoiceDownloader" class="hide"></a>
-                <div class="table table-responsive">
-                    <data-display-table #child [displayKeys]="tableSetting" [displayData]="chequeDataSource" (editView)='optionSelected($event)'>
+                <div class="table table-responsive" style="padding-top: 15px;">
+                    <data-display-table #child [displayKeys]="tableSetting" [displayData]="chequeDataSource"
+                        (editView)='optionSelected($event)'>
                     </data-display-table>
                 </div>
             </section>
@@ -150,11 +220,13 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
                         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                                    transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                                    transform="translate(978.81 305.77) rotate(45)" />
                             </g>
-                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                            />
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2"
+                                width="16" height="16" transform="translate(1012 297)" />
                         </g>
                     </svg>
                 </span>
@@ -171,7 +243,7 @@
                     </div>
                     <div class="field-wrapper">
                         <label for="PMode">Reason For Update<span class="text-danger">*</span></label>
-                        <input [(ngModel)]="dishonouredReason" id="PMode"  type="text" class="form-ctrl">
+                        <input [(ngModel)]="dishonouredReason" id="PMode" type="text" class="form-ctrl">
                     </div>
                 </div>
 
@@ -179,7 +251,8 @@
                     <div class="clearfix">
                         <aside class="pull-right popup-btn">
                             <input type="button" value="Cancel" class="btn" (click)="cancelUpdate()">
-                            <input type="button" value="Update" [disabled]="dishonouredReason==''" class="fullBlue btn" (click)="updateRecord()">
+                            <input type="button" value="Update" [disabled]="dishonouredReason==''" class="fullBlue btn"
+                                (click)="updateRecord()">
                         </aside>
                     </div>
                 </div>
@@ -192,16 +265,19 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
                         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                                    transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                                    transform="translate(978.81 305.77) rotate(45)" />
                             </g>
-                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                            />
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2"
+                                width="16" height="16" transform="translate(1012 297)" />
                         </g>
                     </svg>
                 </span>
 
-                <h2 popup-header>Update Payment For Student: {{selectedRecord.student_name}} ({{studentFeeDues.student_disp_id}})</h2>
+                <h2 popup-header>Update Payment For Student: {{selectedRecord.student_name}}
+                    ({{studentFeeDues.student_disp_id}})</h2>
 
                 <div class="row update-cheque-wrapper" popup-content>
 
@@ -216,7 +292,8 @@
                                     <th class="Date">Due Date</th>
                                     <th class="No" *ngIf="isTaxEnabled">Intitial Fee Amount</th>
                                     <th class="No" *ngIf="isTaxEnabled">{{tax_type_without_percentage}}</th>
-                                    <th class="No">Fee Amount <span *ngIf="isTaxEnabled"> (Incl {{tax_type_without_percentage}})</span></th>
+                                    <th class="No">Fee Amount <span *ngIf="isTaxEnabled"> (Incl
+                                            {{tax_type_without_percentage}})</span></th>
                                     <th class="No">Amount Paid</th>
                                     <th class="No">Balance Amount</th>
                                     <th class="No">Pay Amount</th>
@@ -227,8 +304,8 @@
                                 <tr *ngFor="let c of studentUnpaid; let i = index;">
                                     <td class="Inst">
                                         <div class=" check field-checkbox-wrapper">
-                                            <input class="form-checkbox" id="{{c.installment_no}}" type="checkbox" [(ngModel)]="c.selected" name="{{c.installment_no}}"
-                                                value="">
+                                            <input class="form-checkbox" id="{{c.installment_no}}" type="checkbox"
+                                                [(ngModel)]="c.selected" name="{{c.installment_no}}" value="">
                                             <label for="{{c.installment_no}}">
                                                 {{c.installment_no}}
                                             </label>
@@ -238,14 +315,19 @@
                                     <td>{{c.academic_year}}</td>
                                     <td>{{c.fee_type_name}}</td>
                                     <td class="No">{{c.due_date}}</td>
-                                    <td class="No" *ngIf="isTaxEnabled">{{ selectedRecord.symbol}}&nbsp;{{c.total_initial_amount}}</td>
-                                    <td class="No" *ngIf="isTaxEnabled">{{ selectedRecord.symbol}}&nbsp;{{c.total_tax_applied}}</td>
-                                    <td class="No">{{ selectedRecord.symbol}}&nbsp;{{c.total_amount_after_discount_after_tax}}</td>
+                                    <td class="No" *ngIf="isTaxEnabled">
+                                        {{ selectedRecord.symbol}}&nbsp;{{c.total_initial_amount}}</td>
+                                    <td class="No" *ngIf="isTaxEnabled">
+                                        {{ selectedRecord.symbol}}&nbsp;{{c.total_tax_applied}}</td>
+                                    <td class="No">
+                                        {{ selectedRecord.symbol}}&nbsp;{{c.total_amount_after_discount_after_tax}}</td>
                                     <td class="No">{{ selectedRecord.symbol}}&nbsp;{{c.total_amt_paid}}</td>
                                     <td class="No">{{ selectedRecord.symbol}}&nbsp;{{c.total_balance_amt}}</td>
                                     <td>
                                         <div class="field-wrapper">
-                                            <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="c.toPay" (blur)="validatePaymentAmount(i)"
+                                            <input type="text"
+                                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                                [(ngModel)]="c.toPay" (blur)="validatePaymentAmount(i)"
                                                 class="form-ctrl">
                                         </div>
                                     </td>
@@ -254,7 +336,8 @@
                                             {{c.balanceDueOn| date: 'dd-MMM-yyyy'}}
                                         </div>
                                         <div *ngIf="c.total_balance_amt != c.toPay" class="field-wrapper">
-                                            <input type="text" readonly="true" [(ngModel)]="c.balanceDueOn" class="form-ctrl" bsDatepicker>
+                                            <input type="text" readonly="true" [(ngModel)]="c.balanceDueOn"
+                                                class="form-ctrl" bsDatepicker>
                                         </div>
                                     </td>
                                 </tr>
@@ -266,7 +349,8 @@
                         <!-- payment date -->
                         <div class="field-wrapper datePickerBox">
                             <label for="paymentdate">Payment Date</label>
-                            <input id="paymentdate" [(ngModel)]="chequePaymentModel.paymentDate" type="text" class="form-ctrl bsDatepicker" bsDatepicker>
+                            <input id="paymentdate" [(ngModel)]="chequePaymentModel.paymentDate" type="text"
+                                class="form-ctrl bsDatepicker" bsDatepicker>
                         </div>
                     </div>
 
@@ -274,7 +358,8 @@
                         <!-- Payment Mode -->
                         <div class="field-wrapper">
                             <label for="PMode">Payment Mode</label>
-                            <input [(ngModel)]="chequePaymentModel.paymentMode" id="PMode" readonly="true" type="text" class="form-ctrl">
+                            <input [(ngModel)]="chequePaymentModel.paymentMode" id="PMode" readonly="true" type="text"
+                                class="form-ctrl">
                         </div>
                     </div>
 
@@ -282,7 +367,8 @@
                         <!-- Remarks -->
                         <div class="field-wrapper">
                             <label for="remarks">Remarks (less than 20 character)</label>
-                            <textarea [(ngModel)]="chequePaymentModel.remarks" id="remarks" class="form-ctrl"></textarea>
+                            <textarea [(ngModel)]="chequePaymentModel.remarks" id="remarks"
+                                class="form-ctrl"></textarea>
                         </div>
                     </div>
 
@@ -298,7 +384,8 @@
                         <!-- Bank Name -->
                         <div class="field-wrapper">
                             <label for="BankName">Bank Name <span class="text-danger">*</span></label>
-                            <input [(ngModel)]="chequePaymentModel.bankName" id="BankName" readonly="true" type="text" class="form-ctrl">
+                            <input [(ngModel)]="chequePaymentModel.bankName" id="BankName" readonly="true" type="text"
+                                class="form-ctrl">
                         </div>
                     </div>
 
@@ -306,7 +393,8 @@
                         <!-- Cheque Number -->
                         <div class="field-wrapper">
                             <label for="ChequeNumber">Cheque Number<span class="text-danger">*</span></label>
-                            <input [(ngModel)]="chequePaymentModel.chequeNum" id="ChequeNumber" readonly="true" type="text" class="form-ctrl">
+                            <input [(ngModel)]="chequePaymentModel.chequeNum" id="ChequeNumber" readonly="true"
+                                type="text" class="form-ctrl">
                         </div>
                     </div>
 
@@ -314,7 +402,8 @@
                         <!-- Cheque Date -->
                         <div class="field-wrapper datePickerBox">
                             <label for="ChequeDate">Cheque Date</label>
-                            <input [(ngModel)]="chequePaymentModel.chequeDate" id="ChequeDate" readonly="true" type="text" class="form-ctrl bsDatepicker">
+                            <input [(ngModel)]="chequePaymentModel.chequeDate" id="ChequeDate" readonly="true"
+                                type="text" class="form-ctrl bsDatepicker">
                         </div>
                     </div>
 
@@ -322,14 +411,16 @@
                         <!-- Cheque Amount -->
                         <div class="field-wrapper">
                             <label for="ChequeAmount">Cheque Amount</label>
-                            <input [(ngModel)]="chequePaymentModel.chequeAmount" id="ChequeAmount" readonly="true" type="text" class="form-ctrl">
+                            <input [(ngModel)]="chequePaymentModel.chequeAmount" id="ChequeAmount" readonly="true"
+                                type="text" class="form-ctrl">
                         </div>
                     </div>
 
                     <div style="padding-top: 20px;" class="c-lg-6">
                         <!-- Generate Fee Receipt -->
                         <div class="field-checkbox-wrapper">
-                            <input [(ngModel)]="chequePaymentModel.isGenAck" class="form-checkbox" type="checkbox" id="genAck">
+                            <input [(ngModel)]="chequePaymentModel.isGenAck" class="form-checkbox" type="checkbox"
+                                id="genAck">
                             <label for="genAck">
                                 Generate Fee Receipt
                             </label>
@@ -339,7 +430,8 @@
                     <div style="padding-top: 20px;" class="c-lg-6">
                         <!-- Send Email(Student/Parent) -->
                         <div class="field-checkbox-wrapper">
-                            <input [(ngModel)]="chequePaymentModel.isSendEmail" class="form-checkbox" type="checkbox" id="sendEmail">
+                            <input [(ngModel)]="chequePaymentModel.isSendEmail" class="form-checkbox" type="checkbox"
+                                id="sendEmail">
                             <label for="sendEmail">
                                 Send Email (Student/Parent)
                             </label>

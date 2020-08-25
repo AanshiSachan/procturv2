@@ -28,16 +28,16 @@ export class InstituteDetailsComponent implements OnInit {
   storageInfo: any = {};
   showPrefix: boolean = false;
   createNewSlot: boolean = false;
-  zoomDetails:any = [];
+  zoomDetails: any = [];
   zoomOBJ: any = {
     institute_id: sessionStorage.getItem('institute_id'),
-    account_name : '',
-    email_id : '',
-    sdk_api_key : '',
-    sdk_api_secret : '',
-    jwt_access_token : '',
-    jwt_api_key : '',
-    jwt_api_secret : '',
+    account_name: '',
+    email_id: '',
+    sdk_api_key: '',
+    sdk_api_secret: '',
+    jwt_access_token: '',
+    jwt_api_key: '',
+    jwt_api_secret: '',
     user_limit: ''
   }
   dividersObj = {
@@ -81,7 +81,7 @@ export class InstituteDetailsComponent implements OnInit {
   constructor(
     private apiService: InstituteDetailService,
     private commonService: CommonServiceFactory,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private httpService: HttpService
   ) { }
 
@@ -102,6 +102,7 @@ export class InstituteDetailsComponent implements OnInit {
 
 
   getInstituteDetails() {
+
     this.apiService.getInstituDetailsAll().subscribe(
       res => {
         this.auth.hideLoader();
@@ -111,13 +112,13 @@ export class InstituteDetailsComponent implements OnInit {
         if (this.instDetails.is_student_displayId_manual == 0) {
           this.showPrefix = true;
         }
-        if(this.instDetails.enable_student_app_url == 1) {
+        if (this.instDetails.enable_student_app_url == 1) {
           this.instDetails.enable_student_app_url = true;
         }
         this.instDetails.announcement_image_status = 2;
         this.announcement_image_url = this.instDetails.announcement_image_url;
         this.fillTableCheckboxValue(this.proctur_live_recorded_session_download_visibilty, this.instDetails.proctur_live_recorded_session_download_visibilty);
-          this.fillTableCheckboxValue(this.proctur_live_recorded_session_view_visibility, this.instDetails.proctur_live_recorded_session_view_visibility);
+        this.fillTableCheckboxValue(this.proctur_live_recorded_session_view_visibility, this.instDetails.proctur_live_recorded_session_view_visibility);
       },
       err => {
         this.auth.hideLoader();
@@ -128,6 +129,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   getInstituteKYCDetails() {
+
     this.apiService.getKycTypeDetails().subscribe(
       res => {
         this.auth.hideLoader();
@@ -141,6 +143,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   getOptionDetailsFromServer() {
+
     this.apiService.getOptionDetails().subscribe(
       res => {
         this.auth.hideLoader();
@@ -154,6 +157,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   getPlanDetailsFromServer() {
+
     this.apiService.getPlanDetails().subscribe(
       res => {
         this.auth.hideLoader();
@@ -171,7 +175,7 @@ export class InstituteDetailsComponent implements OnInit {
 
   updateAllDetails() {
     let dataToSend = this.formatDataJsonToSend();
-    if(dataToSend){
+    if (dataToSend) {
       this.auth.showLoader();
       this.apiService.updateDetailsToServer(dataToSend).subscribe(
         res => {
@@ -242,6 +246,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   getStorageInformation() {
+
     this.apiService.getStorageLimitFromServer().subscribe(
       res => {
         this.storageInfo = res;
@@ -362,7 +367,7 @@ export class InstituteDetailsComponent implements OnInit {
       obj.gst_in = this.instDetails.gst_in;
     }
     obj.enable_faculty_all_file_access = 0;
-    if(this.instDetails.enable_faculty_all_file_access) {
+    if (this.instDetails.enable_faculty_all_file_access) {
       obj.enable_faculty_all_file_access = 1;
     }
 
@@ -385,14 +390,14 @@ export class InstituteDetailsComponent implements OnInit {
     }
   }
 
-  checkSingleDevice(event){
+  checkSingleDevice(event) {
     console.log(event)
     console.log(this.singleDevice)
-    if(this.singleDevice){
+    if (this.singleDevice) {
       this.instDetails.single_device_login = false;
     }
-    else{
-    this.instDetails.single_device_login = true;
+    else {
+      this.instDetails.single_device_login = true;
     }
   }
 
@@ -481,6 +486,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   getZoomDetails() {
+
     this.auth.showLoader();
     this.httpService.getData('/api/v1/meeting_manager/getAllZoomAccount/' + sessionStorage.getItem('institute_id')).subscribe(
       (res: any) => {
@@ -494,96 +500,96 @@ export class InstituteDetailsComponent implements OnInit {
     );
   }
 
-  
+
   validateZoomDetails(obj) {
     var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;
-    if(obj.account_name.trim() != ''){
-      if(obj.email_id.trim() != '' && reg.test(obj.email_id)){
-        if(obj.sdk_api_key.trim() != ''){
-          if(obj.sdk_api_secret.trim() != ''){
-            if(obj.jwt_access_token.trim() != ''){
-              if(obj.jwt_api_key.trim() != ''){
-                if(obj.jwt_api_secret.trim() != ''){
-                  if(obj.user_limit != '' && obj.user_limit > 0) {
+    if (obj.account_name.trim() != '') {
+      if (obj.email_id.trim() != '' && reg.test(obj.email_id)) {
+        if (obj.sdk_api_key.trim() != '') {
+          if (obj.sdk_api_secret.trim() != '') {
+            if (obj.jwt_access_token.trim() != '') {
+              if (obj.jwt_api_key.trim() != '') {
+                if (obj.jwt_api_secret.trim() != '') {
+                  if (obj.user_limit != '' && obj.user_limit > 0) {
                     return true;
                   } else {
-                    this.commonService.showErrorMessage('error', '','User limit should be greater than 0');
+                    this.commonService.showErrorMessage('error', '', 'User limit should be greater than 0');
                   }
                 } else {
-                  this.commonService.showErrorMessage('error','','Please enter JWT API Secret Key');
+                  this.commonService.showErrorMessage('error', '', 'Please enter JWT API Secret Key');
                   return false;
                 }
               } else {
-                this.commonService.showErrorMessage('error','','Please enter JWT API key');
+                this.commonService.showErrorMessage('error', '', 'Please enter JWT API key');
                 return false;
               }
             } else {
-              this.commonService.showErrorMessage('error','','Please enter JWT Access Token');
+              this.commonService.showErrorMessage('error', '', 'Please enter JWT Access Token');
               return false;
             }
           } else {
-            this.commonService.showErrorMessage('error','','Please enter SDK secret key');
+            this.commonService.showErrorMessage('error', '', 'Please enter SDK secret key');
             return false;
           }
-        } else{
-          this.commonService.showErrorMessage('error','','Please enter SDK API key');
+        } else {
+          this.commonService.showErrorMessage('error', '', 'Please enter SDK API key');
           return false;
         }
       } else {
-        this.commonService.showErrorMessage('error','','Please enter valid Email ID');
+        this.commonService.showErrorMessage('error', '', 'Please enter valid Email ID');
         return false;
       }
-    }else {
-      this.commonService.showErrorMessage('error','','Please enter Account Name');
+    } else {
+      this.commonService.showErrorMessage('error', '', 'Please enter Account Name');
       return false;
     }
   }
 
   updateZoom(obj) {
-    if(this.validateZoomDetails(obj)){
-    this.auth.showLoader();
-    this.httpService.putData('/api/v1/meeting_manager/updateZoomAccount', obj).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this.commonService.showErrorMessage('success', '', 'Updated successfully');
-        this.getZoomDetails();
-      },
-      err => {
-        this.auth.hideLoader();
-        this.commonService.showErrorMessage('error', '', err.error.message);
-      }
-    );
+    if (this.validateZoomDetails(obj)) {
+      this.auth.showLoader();
+      this.httpService.putData('/api/v1/meeting_manager/updateZoomAccount', obj).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('success', '', 'Updated successfully');
+          this.getZoomDetails();
+        },
+        err => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('error', '', err.error.message);
+        }
+      );
     }
   }
 
   deleteZoom(id) {
-    if(confirm('Do you really want to delete?')) {
-    this.auth.showLoader();
-    this.httpService.deleteData('/api/v1/meeting_manager/deleteZoomAccount/' +  id, '').subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this.commonService.showErrorMessage('success', '', 'Deleted successfully');
-        this.getZoomDetails();
-      },
-      err => {
-        this.auth.hideLoader();
-        this.commonService.showErrorMessage('error', '', err.error.message);
-      }
-    );
+    if (confirm('Do you really want to delete?')) {
+      this.auth.showLoader();
+      this.httpService.deleteData('/api/v1/meeting_manager/deleteZoomAccount/' + id, '').subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('success', '', 'Deleted successfully');
+          this.getZoomDetails();
+        },
+        err => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('error', '', err.error.message);
+        }
+      );
     }
   }
 
   editZoom(id) {
     if (document.getElementById(("data" + id).toString()).classList) {
-    document.getElementById(("data" + id).toString()).classList.remove('displayComp');
-    document.getElementById(("data" + id).toString()).classList.add('editComp');
+      document.getElementById(("data" + id).toString()).classList.remove('displayComp');
+      document.getElementById(("data" + id).toString()).classList.add('editComp');
     }
   }
 
   cancelRow(id) {
     if (document.getElementById(("data" + id).toString()).classList) {
-    document.getElementById(("data" + id).toString()).classList.remove('editComp');
-    document.getElementById(("data" + id).toString()).classList.add('displayComp');
+      document.getElementById(("data" + id).toString()).classList.remove('editComp');
+      document.getElementById(("data" + id).toString()).classList.add('displayComp');
     }
     this.getZoomDetails();
   }
@@ -603,30 +609,30 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   saveZoomDetails() {
-    if(this.validateZoomDetails(this.zoomOBJ)){
-    this.auth.showLoader();
-    this.httpService.postData('/api/v1/meeting_manager/createZoomAccount', this.zoomOBJ).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this.commonService.showErrorMessage('success', '', 'Created successfully');
-        this.getZoomDetails();
-        this.zoomOBJ = {
-          institute_id: sessionStorage.getItem('institute_id'),
-          email_id: '',
-          account_name: '',
-          sdk_api_key: '',
-          sdk_api_secret: '',
-          jwt_access_token: '',
-          jwt_api_key: '',
-          jwt_api_secret: '',
-          user_limit: ''
-        };
-      },
-      err => {
-        this.auth.hideLoader();
-        this.commonService.showErrorMessage('error', '', err.error.message);
-      }
-    );
+    if (this.validateZoomDetails(this.zoomOBJ)) {
+      this.auth.showLoader();
+      this.httpService.postData('/api/v1/meeting_manager/createZoomAccount', this.zoomOBJ).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('success', '', 'Created successfully');
+          this.getZoomDetails();
+          this.zoomOBJ = {
+            institute_id: sessionStorage.getItem('institute_id'),
+            email_id: '',
+            account_name: '',
+            sdk_api_key: '',
+            sdk_api_secret: '',
+            jwt_access_token: '',
+            jwt_api_key: '',
+            jwt_api_secret: '',
+            user_limit: ''
+          };
+        },
+        err => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('error', '', err.error.message);
+        }
+      );
     }
   }
 
@@ -733,7 +739,7 @@ export class InstituteDetailsComponent implements OnInit {
     if (file) {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        this.institute_logo  = reader.result.split(',')[1];
+        this.institute_logo = reader.result.split(',')[1];
         return reader.result.split(',')[1];
       };
     }

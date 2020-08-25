@@ -10,8 +10,10 @@
         </div>
         <div class="c-lg-2 c-sm-2 c-md-2">
           <a (click)="toggleUpAndDownButton('0')">
-            <i *ngIf='!dividersObj[0]' id="showAddBtn" class="fa fa-angle-up" style="border:none;margin-top: 15px;font-weight: bold;"></i>
-            <i *ngIf='dividersObj[0]' id="showCloseBtn" style="border:none;margin-top: 15px;font-weight: bold;" class="fa fa-angle-down"></i>
+            <i *ngIf='!dividersObj[0]' id="showAddBtn" class="fa fa-angle-up"
+              style="border:none;margin-top: 15px;font-weight: bold;"></i>
+            <i *ngIf='dividersObj[0]' id="showCloseBtn" style="border:none;margin-top: 15px;font-weight: bold;"
+              class="fa fa-angle-down"></i>
           </a>
         </div>
       </div>
@@ -24,7 +26,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_name != ''}">
-              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" id="ch3" [(ngModel)]="instDetails.institute_name">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" id="ch3"
+                [(ngModel)]="instDetails.institute_name">
             </div>
           </div>
         </div>
@@ -36,8 +39,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_phone != ''}">
-              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.institute_primary_phone"
-                id="ch4">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.institute_primary_phone" id="ch4">
             </div>
           </div>
         </div>
@@ -47,9 +50,10 @@
             </label>
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.alternate_institute_primary_contact_numbers != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.alternate_institute_primary_contact_numbers"
-                id="ch4">
+            <div class="field-wrapper"
+              [ngClass]="{'has-value':instDetails.alternate_institute_primary_contact_numbers != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.alternate_institute_primary_contact_numbers" id="ch4">
             </div>
           </div>
         </div>
@@ -61,8 +65,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_addr != ''}">
-              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.institute_primary_addr"
-                id="ch5">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.institute_primary_addr" id="ch5">
             </div>
           </div>
         </div>
@@ -74,7 +78,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_email != ''}">
-              <input type="text" id="ch6" class="form-ctrl newDisabled" name="slotNew" disabled [(ngModel)]="instDetails.institute_primary_email">
+              <input type="text" id="ch6" class="form-ctrl newDisabled" name="slotNew" disabled
+                [(ngModel)]="instDetails.institute_primary_email">
             </div>
           </div>
         </div>
@@ -85,8 +90,10 @@
         </div>
         <div class="c-lg-2 c-sm-2 c-md-2">
           <a (click)="toggleUpAndDownButton('1')">
-            <i *ngIf='!dividersObj[1]' id="showAddBtn" class="fa fa-angle-up" style="border:none;margin-top: 15px;font-weight: bold;"></i>
-            <i *ngIf='dividersObj[1]' id="showCloseBtn" style="border:none;margin-top: 15px;font-weight: bold;" class="fa fa-angle-down"></i>
+            <i *ngIf='!dividersObj[1]' id="showAddBtn" class="fa fa-angle-up"
+              style="border:none;margin-top: 15px;font-weight: bold;"></i>
+            <i *ngIf='dividersObj[1]' id="showCloseBtn" style="border:none;margin-top: 15px;font-weight: bold;"
+              class="fa fa-angle-down"></i>
           </a>
         </div>
       </div>
@@ -98,7 +105,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_name != ''}">
-              <input type="text" id="ch7" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.owner_name">
+              <input type="text" id="ch7" disabled class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.owner_name">
             </div>
           </div>
         </div>
@@ -110,7 +118,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_phone != ''}">
-              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.owner_primary_phone" id="ch8">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.owner_primary_phone" id="ch8">
             </div>
           </div>
         </div>
@@ -121,7 +130,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_email != ''}">
-              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.owner_primary_email" id="ch9">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.owner_primary_email" id="ch9">
             </div>
           </div>
         </div>
@@ -132,8 +142,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_secondary_email != ''}">
-              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.owner_secondary_email"
-                id="ch10">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.owner_secondary_email" id="ch10">
             </div>
           </div>
         </div>
@@ -145,8 +155,10 @@
         </div>
         <div class="c-lg-2 c-sm-2 c-md-2">
           <a (click)="toggleUpAndDownButton('2')">
-            <i id="showAddBtn" *ngIf='!dividersObj[2]' class="fa fa-angle-up" style="border:none;margin-top: 15px;font-weight: bold;"></i>
-            <i id="showCloseBtn" *ngIf='dividersObj[2]' style="border:none;margin-top: 15px;font-weight: bold;" class="fa fa-angle-down"></i>
+            <i id="showAddBtn" *ngIf='!dividersObj[2]' class="fa fa-angle-up"
+              style="border:none;margin-top: 15px;font-weight: bold;"></i>
+            <i id="showCloseBtn" *ngIf='dividersObj[2]' style="border:none;margin-top: 15px;font-weight: bold;"
+              class="fa fa-angle-down"></i>
           </a>
         </div>
       </div>
@@ -158,7 +170,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_name != ''}">
-              <input type="text" class="form-ctrl newDisabled" id="ch11" name="slotNew" [(ngModel)]="instDetails.admin_name">
+              <input type="text" class="form-ctrl newDisabled" id="ch11" name="slotNew"
+                [(ngModel)]="instDetails.admin_name">
             </div>
           </div>
         </div>
@@ -169,7 +182,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_phone != ''}">
-              <input type="text" maxlength="10" id="ch12" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.admin_primary_phone">
+              <input type="text" maxlength="10" id="ch12" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.admin_primary_phone">
             </div>
           </div>
         </div>
@@ -179,7 +193,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_email != ''}">
-              <input type="text" id="ch11" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.admin_primary_email">
+              <input type="text" id="ch11" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.admin_primary_email">
             </div>
           </div>
         </div>
@@ -190,8 +205,10 @@
         </div>
         <div class="c-lg-2 c-sm-2 c-md-2">
           <a (click)="toggleUpAndDownButton('3')">
-            <i *ngIf='!dividersObj[3]' id="showAddBtn" class="fa fa-angle-up" style="border:none;margin-top: 15px;font-weight: bold;"></i>
-            <i *ngIf='dividersObj[3]' id="showCloseBtn" style="border:none;margin-top: 15px;font-weight: bold;" class="fa fa-angle-down"></i>
+            <i *ngIf='!dividersObj[3]' id="showAddBtn" class="fa fa-angle-up"
+              style="border:none;margin-top: 15px;font-weight: bold;"></i>
+            <i *ngIf='dividersObj[3]' id="showCloseBtn" style="border:none;margin-top: 15px;font-weight: bold;"
+              class="fa fa-angle-down"></i>
           </a>
         </div>
       </div>
@@ -202,8 +219,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.kyc_document_type != ''}">
-              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty newDisabled" name="hour" [(ngModel)]="instDetails.kyc_document_type"
-                (ngModelChange)="changeKYCInformation($event)">
+              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty newDisabled" name="hour"
+                [(ngModel)]="instDetails.kyc_document_type" (ngModelChange)="changeKYCInformation($event)">
                 <option value="-1">Select KYC Document Type</option>
                 <option *ngFor="let opt of kycType" [value]="opt.data_key">
                   {{opt.data_value}}
@@ -226,7 +243,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.fb_page_url != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.fb_page_url" id="ch14">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.fb_page_url"
+                id="ch14">
             </div>
           </div>
         </div>
@@ -237,7 +255,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.website_url != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.website_url" id="ch15">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.website_url"
+                id="ch15">
             </div>
           </div>
         </div>
@@ -248,7 +267,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.youtube_url != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.youtube_url" id="ch15">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.youtube_url"
+                id="ch15">
             </div>
           </div>
         </div>
@@ -259,7 +279,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.whatsapp_url != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.whatsapp_url" id="ch15">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.whatsapp_url"
+                id="ch15">
             </div>
           </div>
         </div>
@@ -270,7 +291,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.instagram_url != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.instagram_url" id="ch15">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.instagram_url"
+                id="ch15">
             </div>
           </div>
         </div>
@@ -281,7 +303,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.linkedin_url != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.linkedin_url" id="ch15">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.linkedin_url"
+                id="ch15">
             </div>
           </div>
         </div>
@@ -292,7 +315,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.qna_doubt_url != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.qna_doubt_url" id="ch15">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.qna_doubt_url"
+                id="ch15">
             </div>
           </div>
         </div>
@@ -303,7 +327,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.feedback_url != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.feedback_url" id="ch15">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.feedback_url"
+                id="ch15">
             </div>
           </div>
         </div>
@@ -314,7 +339,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.help_url != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.help_url" id="ch15">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.help_url"
+                id="ch15">
             </div>
           </div>
         </div>
@@ -325,7 +351,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.privacy_policy_url != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.privacy_policy_url" id="ch15">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.privacy_policy_url" id="ch15">
             </div>
           </div>
         </div>
@@ -336,7 +363,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.terms_and_condition_url != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.terms_and_condition_url" id="ch15">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.terms_and_condition_url" id="ch15">
             </div>
           </div>
         </div>
@@ -354,7 +382,8 @@
 
         </div>
         <div class="c-lg-2" style="padding-right: 5%;">
-          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="getPaymentDeatils()">View History</a>
+          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="getPaymentDeatils()">View
+            History</a>
         </div>
       </div>
 
@@ -484,9 +513,10 @@
           </label>
         </div>
         <div class="c-sm-6 c-md-6 c-lg-6">
-          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.total_price_based_on_chosen_plan_and_option >= '0'}">
-            <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.total_price_based_on_chosen_plan_and_option"
-              id="ch16" disabled>
+          <div class="field-wrapper"
+            [ngClass]="{'has-value':instDetails.total_price_based_on_chosen_plan_and_option >= '0'}">
+            <input type="text" class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="instDetails.total_price_based_on_chosen_plan_and_option" id="ch16" disabled>
           </div>
         </div>
       </div>
@@ -509,7 +539,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_name != ''}">
-              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" id="ch17" [(ngModel)]="instDetails.institute_name">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" id="ch17"
+                [(ngModel)]="instDetails.institute_name">
             </div>
           </div>
         </div>
@@ -520,8 +551,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <label class="switch switch-n">
-              <input type="checkbox" [checked]="!(this.instDetails.is_student_displayId_manual == 0)" (click)="checkInputType($event)"
-                name="sFilter" class="form-radio" value="Automatic" id="idAutomatic">
+              <input type="checkbox" [checked]="!(this.instDetails.is_student_displayId_manual == 0)"
+                (click)="checkInputType($event)" name="sFilter" class="form-radio" value="Automatic" id="idAutomatic">
               <span class="slider round"></span>
             </label>
           </div>
@@ -533,7 +564,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_id_prefix != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.student_id_prefix" id="ch20">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.student_id_prefix" id="ch20">
             </div>
           </div>
         </div>
@@ -544,7 +576,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.tag_line != ''}">
-              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.tag_line" id="ch21">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.tag_line"
+                id="ch21">
             </div>
           </div>
         </div>
@@ -555,16 +588,22 @@
           </div>
           <div class="c-sm-5 c-md-5 c-lg-5">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.logo_url != ''}">
-              <input type="text" [disabled]="instDetails.institute_logo!='' && instDetails.institute_logo!=null" style="width: 91%;" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.logo_url" id="logo_url">
+              <input type="text" [disabled]="instDetails.institute_logo!='' && instDetails.institute_logo!=null"
+                style="width: 91%;" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.logo_url"
+                id="logo_url">
             </div>
           </div>
-          <div class="c-md-1" *ngIf="instDetails.logo_url!=''" style="padding: 0;width: 4%;margin-top: 1%;margin-right: 5px;">
+          <div class="c-md-1" *ngIf="instDetails.logo_url!=''"
+            style="padding: 0;width: 4%;margin-top: 1%;margin-right: 5px;">
             <img src="{{instDetails.logo_url}}">
           </div>
           <div class="c-md-1" style="padding: 0;width: 2%;margin-top: 1%;">OR</div>
           <div class="c-sm-2 c-md-2 c-lg-2">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_logo != ''}">
-              <input type="file" style="width: 100%;" [disabled]="instDetails.logo_url!='' && instDetails.logo_url!=null" accept="image/gif,image/jpeg,image/jpg,image/png" class="form-ctrl newDisabled" (change)="file($event)" name="slotNew" [(ngModel)]="instDetails.institute_logo" id="institute_logo">
+              <input type="file" style="width: 100%;"
+                [disabled]="instDetails.logo_url!='' && instDetails.logo_url!=null"
+                accept="image/gif,image/jpeg,image/jpg,image/png" class="form-ctrl newDisabled" (change)="file($event)"
+                name="slotNew" [(ngModel)]="instDetails.institute_logo" id="institute_logo">
             </div>
             <span style="font-size: 12px;">(Size 300X200)</span>
           </div>
@@ -588,9 +627,9 @@
           </div>
           <div class="c-sm-1 c-md-1 c-lg-1">
             <label class="switch switch-n">
-              <input type="checkbox" [checked]="(instDetails.single_device_login)"
-                (click)="checkSingleDevice($event)" [(ngModel)]="singleDevice"
-                name="sFilter" class="form-radio" value="singleDeviceLogin" id="singleDeviceLogin">
+              <input type="checkbox" [checked]="(instDetails.single_device_login)" (click)="checkSingleDevice($event)"
+                [(ngModel)]="singleDevice" name="sFilter" class="form-radio" value="singleDeviceLogin"
+                id="singleDeviceLogin">
               <span class="slider round"></span>
             </label>
           </div>
@@ -627,7 +666,8 @@
             <h3 class="heading-setting">Transactional SMS</h3>
           </div>
           <div class="c-lg-4 c-sm-4 c-md-4" style="padding-right: 5%;">
-            <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="smsAllocationHistoryDeatils()">SMS Allocation History
+            <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="smsAllocationHistoryDeatils()">SMS
+              Allocation History
             </a>
           </div>
         </div>
@@ -712,6 +752,7 @@
         </div>
         <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="field-wrapper" [ngClass]="{'has-value':instDetails.email_sender_id != ''}">
+<<<<<<< HEAD
             <input type="text" class="form-ctrl newDisabled" id="ch28" name="slotNew" [(ngModel)]="instDetails.email_sender_id" style="float: left;">
             <div class="questionInfo inline-relative" style="margin-top: 5px;">
               <span class="qInfoIcon i-class" style="border-color: #0084f6;color: #0084f6;">?</span>
@@ -722,6 +763,10 @@
                 or drop a mail.
               </div>
             </div>
+=======
+            <input type="text" disabled class="form-ctrl newDisabled" id="ch28" name="slotNew"
+              [(ngModel)]="instDetails.email_sender_id">
+>>>>>>> ashwini_table_changes
           </div>
         </div>
       </div>
@@ -733,7 +778,8 @@
         </div>
         <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="field-wrapper" [ngClass]="{'has-value':instDetails.notification_email_sender_id != ''}">
-            <input type="text" class="form-ctrl newDisabled" id="notification_email_sender_id" name="slotNew" [(ngModel)]="instDetails.notification_email_sender_id">
+            <input type="text" class="form-ctrl newDisabled" id="notification_email_sender_id" name="slotNew"
+              [(ngModel)]="instDetails.notification_email_sender_id">
           </div>
         </div>
       </div>
@@ -766,11 +812,13 @@
         </div>
         <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="field-wrapper" [ngClass]="{'has-value': (storageInfo.limit_allocated != '') }">
-            <input type="text" disabled id="ch30" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="storageInfo.storage_allocated">
+            <input type="text" disabled id="ch30" class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="storageInfo.storage_allocated">
           </div>
         </div>
         <div class="c-lg-3 c-md-3 c-sm-3" style="padding: 2%;">
-          <a style="cursor: pointer;padding-top: 15px;" (click)="downLoadLimitAllocationHistory()">Download Limit Allocation History</a>
+          <a style="cursor: pointer;padding-top: 15px;" (click)="downLoadLimitAllocationHistory()">Download Limit
+            Allocation History</a>
         </div>
       </div>
       <div class="row">
@@ -780,7 +828,8 @@
         </div>
         <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="field-wrapper" [ngClass]="{'has-value':instDetails.sms_shortcode != ''}">
-            <input type="text" id="ch31" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="storageInfo.limit_allocated">
+            <input type="text" id="ch31" disabled class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="storageInfo.limit_allocated">
           </div>
         </div>
 
@@ -814,9 +863,14 @@
         <div class="c-sm-6 c-md-6 c-lg-6" style="margin-top: 10px;width: 39%;">
           <span> <span style="font-weight: 600;"> Note - </span> Don’t use ‘#' anywhere in the announcement. If on the link '#’ comes please change to short URL through bitly.</span>
           <div class="field-wrapper" [ngClass]="{'has-value':instDetails.announcement != ''}">
+<<<<<<< HEAD
             <!-- <input type="textbox" id="ch32" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.announcement"> -->
             <editor
             [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="instDetails.announcement"></editor>
+=======
+            <input type="textbox" id="ch32" class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="instDetails.announcement">
+>>>>>>> ashwini_table_changes
           </div>
         </div>
       </div>
@@ -825,17 +879,18 @@
           <label for="ch33">About Us
           </label>
         </div>
-          <div class="c-sm-6 c-md-6 c-lg-6">
+        <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="field-wrapper" [ngClass]="{'has-value':instDetails.about_us_text != ''}">
-            <input type="textbox" id="ch33" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.about_us_text">
+            <input type="textbox" id="ch33" class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="instDetails.about_us_text">
           </div>
         </div>
       </div>
       <div class="row">
         <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
           <div class="field-checkbox-wrapper" style="width: 100%">
-            <input type="checkbox" value="" name="enable_student_app_url" class="form-checkbox" [(ngModel)]="instDetails.enable_student_app_url"
-              id="enable_student_app_url">
+            <input type="checkbox" value="" name="enable_student_app_url" class="form-checkbox"
+              [(ngModel)]="instDetails.enable_student_app_url" id="enable_student_app_url">
             <label for="enable_student_app_url">Enable student app URL
             </label>
           </div>
@@ -846,7 +901,9 @@
         </div>
         <div class="c-sm-5 c-md-5 c-lg-5" style="padding: 0;">
           <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_app_url != ''}">
-            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"  [disabled]="!instDetails.enable_student_app_url" style="width: 69%;" [(ngModel)]="instDetails.student_app_url">
+            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+              [disabled]="!instDetails.enable_student_app_url" style="width: 69%;"
+              [(ngModel)]="instDetails.student_app_url">
           </div>
         </div>
       </div>
@@ -856,28 +913,30 @@
           <label for="student_app_ios_url">Student IOS App URL
           </label>
         </div>
-      <div class="c-sm-6 c-md-6 c-lg-6">
-        <div class="field-wrapper" [ngClass]="{'has-value' : instDetails.student_ios_app_url != ''}">
-          <input type="textbox" style="width: 75%;" [(ngModel)]="instDetails.student_ios_app_url" class="form-ctrl" id="student_app_ios_url">
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value' : instDetails.student_ios_app_url != ''}">
+            <input type="textbox" style="width: 75%;" [(ngModel)]="instDetails.student_ios_app_url" class="form-ctrl"
+              id="student_app_ios_url">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="share_app_url">Share App URL
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value' : instDetails.share_app_url != ''}">
+            <input type="textbox" style="width: 75%;" [(ngModel)]="instDetails.share_app_url" class="form-ctrl"
+              id="share_app_url">
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
-        <label for="share_app_url">Share App URL
-        </label>
-      </div>
-    <div class="c-sm-6 c-md-6 c-lg-6">
-      <div class="field-wrapper" [ngClass]="{'has-value' : instDetails.share_app_url != ''}">
-        <input type="textbox" style="width: 75%;" [(ngModel)]="instDetails.share_app_url" class="form-ctrl" id="share_app_url">
-      </div>
-    </div>
-  </div>
-    </div>
+    <h2 class="heading-setting-main" *ngIf="instDetails.is_proctur_live_recording_allow == 1">Live class</h2>
 
-    <h2 class="heading-setting-main" *ngIf="instDetails.is_proctur_live_recording_allow == 1">Live class</h2>  
-    
     <div class="general-setting show-left" *ngIf="instDetails.is_proctur_live_recording_allow == 1">
       <div class="row" style="margin: 0;margin-top: 10px;margin-bottom: 10px;">
         <div class="c-sm-3 c-md-3 c-lg-3">Proctur Live Recorded Session Download Visibility
@@ -885,27 +944,35 @@
           </label>
         </div>
         <div class="c-sm-6 c-md-6 c-lg-6">
-        <div class="field-wrapper c-md-2" [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.student != ''}">
-          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_download_visibilty.student" 
-              name="proctur_live_student" id="proctur_live_student">
-              <label for="proctur_live_student">Student</label>
+          <div class="field-wrapper c-md-2"
+            [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.student != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_download_visibilty.student" name="proctur_live_student"
+              id="proctur_live_student">
+            <label for="proctur_live_student">Student</label>
+          </div>
+          <div class="field-wrapper c-md-2"
+            [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.teacher != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_download_visibilty.teacher" name="proctur_live_teacher"
+              id="proctur_live_teacher">
+            <label for="proctur_live_teacher">Faculty</label>
+          </div>
+          <div class="field-wrapper c-md-2"
+            [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.admin != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_download_visibilty.admin" name="proctur_live_admin"
+              id="proctur_live_admin">
+            <label for="proctur_live_admin">Admin</label>
+          </div>
+          <div class="field-wrapper c-md-3"
+            [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.openApp != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_download_visibilty.openApp" name="proctur_live_open_app"
+              id="proctur_live_open_app">
+            <label for="proctur_live_open_app">Open App</label>
+          </div>
         </div>
-        <div class="field-wrapper c-md-2" [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.teacher != ''}">
-          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_download_visibilty.teacher" 
-              name="proctur_live_teacher" id="proctur_live_teacher">
-              <label for="proctur_live_teacher">Faculty</label>
-        </div>
-        <div class="field-wrapper c-md-2" [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.admin != ''}">
-          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_download_visibilty.admin" 
-              name="proctur_live_admin" id="proctur_live_admin">
-              <label for="proctur_live_admin">Admin</label>
-        </div>
-        <div class="field-wrapper c-md-3" [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.openApp != ''}">
-          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_download_visibilty.openApp" 
-              name="proctur_live_open_app" id="proctur_live_open_app">
-              <label for="proctur_live_open_app">Open App</label>
-        </div>
-      </div>
       </div>
 
       <div class="row" style="margin: 0;">
@@ -913,28 +980,36 @@
           <label for="proctur_live_recorded_session_view_visibility" style="font-size: 14px;padding-left: 5px;">
           </label>
         </div>
-        <div class="c-sm-6 c-md-6 c-lg-6">          
-        <div class="field-wrapper c-md-2" [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.student != ''}">
-          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_view_visibility.student" 
-              name="proctur_view_student" id="proctur_view_student">
-              <label for="proctur_view_student">Student</label>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper c-md-2"
+            [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.student != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_view_visibility.student" name="proctur_view_student"
+              id="proctur_view_student">
+            <label for="proctur_view_student">Student</label>
+          </div>
+          <div class="field-wrapper c-md-2"
+            [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.teacher != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_view_visibility.teacher" name="proctur_view_teacher"
+              id="proctur_view_teacher">
+            <label for="proctur_view_teacher">Faculty</label>
+          </div>
+          <div class="field-wrapper c-md-2"
+            [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.admin != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_view_visibility.admin" name="proctur_view_admin"
+              id="proctur_view_admin">
+            <label for="proctur_view_admin">Admin</label>
+          </div>
+          <div class="field-wrapper c-md-3"
+            [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.openApp != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_view_visibility.openApp" name="proctur_view_open_app"
+              id="proctur_view_open_app">
+            <label for="proctur_view_open_app">Open App</label>
+          </div>
         </div>
-        <div class="field-wrapper c-md-2" [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.teacher != ''}">
-          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_view_visibility.teacher" 
-              name="proctur_view_teacher" id="proctur_view_teacher">
-              <label for="proctur_view_teacher">Faculty</label>
-        </div>
-        <div class="field-wrapper c-md-2" [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.admin != ''}">
-          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_view_visibility.admin" 
-              name="proctur_view_admin" id="proctur_view_admin">
-              <label for="proctur_view_admin">Admin</label>
-        </div>
-        <div class="field-wrapper c-md-3" [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.openApp != ''}">
-          <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="proctur_live_recorded_session_view_visibility.openApp" 
-              name="proctur_view_open_app" id="proctur_view_open_app">
-              <label for="proctur_view_open_app">Open App</label>
-        </div>
-      </div>
       </div>
     </div>
 
@@ -946,9 +1021,10 @@
           <label for="jd_contract_id">JustDial Contract ID
           </label>
         </div>
-          <div class="c-sm-6 c-md-6 c-lg-6">
+        <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="field-wrapper" [ngClass]="{'has-value':instDetails.jd_contract_id != ''}">
-            <input type="textbox" id="jd_contract_id" class="form-ctrl newDisabled" name="jd_contract_id" [(ngModel)]="instDetails.jd_contract_id">
+            <input type="textbox" id="jd_contract_id" class="form-ctrl newDisabled" name="jd_contract_id"
+              [(ngModel)]="instDetails.jd_contract_id">
           </div>
         </div>
       </div>
@@ -960,22 +1036,25 @@
       <div class="row">
         <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="field-wrapper" [ngClass]="{'has-value':instDetails.enable_faculty_all_file_access != ''}">
-            <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="instDetails.enable_faculty_all_file_access" 
-                name="enable_faculty_all_file_access" id="enable_faculty_all_file_access">
-              <label for="enable_faculty_all_file_access" style="font-size: 14px;padding-left: 5px;">File Manager (Faculty)
-              </label>
-              <div class="questionInfo inline-relative">
-                <span class="qInfoIcon i-class">i</span>
-                <div class="tooltip-box-field">
-                  After enabling faculty can view all<br> files in file manager but they can’t<br> delete and download the files.
-                </div>
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="instDetails.enable_faculty_all_file_access" name="enable_faculty_all_file_access"
+              id="enable_faculty_all_file_access">
+            <label for="enable_faculty_all_file_access" style="font-size: 14px;padding-left: 5px;">File Manager
+              (Faculty)
+            </label>
+            <div class="questionInfo inline-relative">
+              <span class="qInfoIcon i-class">i</span>
+              <div class="tooltip-box-field">
+                After enabling faculty can view all<br> files in file manager but they can’t<br> delete and download the
+                files.
               </div>
+            </div>
           </div>
         </div>
         <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
-          
         </div>
       </div>
+<<<<<<< HEAD
       <div class="row">
         <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
           <label for="ch21">Daily reporting SMS
@@ -1009,142 +1088,187 @@
     <h2 class="heading-setting-main">Zoom details &nbsp;<span *ngIf="instituteDetailsAll?.no_of_zoom_hosts" style="font-weight: normal;">(You can add upto {{instituteDetailsAll?.no_of_zoom_hosts}} hosts.)</span></h2>
 
     <div class="general-setting show-left">
+=======
+>>>>>>> ashwini_table_changes
       <div class="row">
         <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
-          <label for="ch32">Zoom Account Name
+          <label for="ch21">Daily reporting SMS
           </label>
         </div>
         <div class="c-sm-6 c-md-6 c-lg-6">
-          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.account_name != ''}">
-            <input type="textbox" id="ch32" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.account_name">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.eod_report_multiple_mobile != ''}">
+            <small style="font-size: 12px;">(Enter contact(s) number with comma
+              separated.)</small>
+            <input type="text" class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="instDetails.eod_report_multiple_mobile" id="ch21">
           </div>
         </div>
       </div>
       <div class="row">
         <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
-          <label for="ch33">Zoom Email ID
+          <label for="ch21">Daily reporting Email
           </label>
         </div>
         <div class="c-sm-6 c-md-6 c-lg-6">
-          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.email_id != ''}">
-            <input type="textbox" id="ch33" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.email_id">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.eod_report_multiple_emails != ''}">
+            <small style="font-size: 12px;">(Enter email
+              id(s) with comma separated)</small>
+            <input type="text" class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="instDetails.eod_report_multiple_emails" id="ch21">
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
-          <label for="ch34">API Key
-          </label>
-        </div>
-        <div class="c-sm-6 c-md-6 c-lg-6">
-          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.jwt_api_key != ''}">
-            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.jwt_api_key">
+    </div>
+    <div *ngIf="instituteDetailsAll?.zoom_enabled && instituteDetailsAll?.zoom_account_type == 'CLIENT'">
+      <h2 class="heading-setting-main">Zoom details &nbsp;<span *ngIf="instituteDetailsAll?.no_of_zoom_hosts"
+          style="font-weight: normal;">(You can add upto {{instituteDetailsAll?.no_of_zoom_hosts}} hosts.)</span></h2>
+
+      <div class="general-setting show-left">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch32">Zoom Account Name
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.account_name != ''}">
+              <input type="textbox" id="ch32" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.account_name">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
-          <label for="ch34">API Secret
-          </label>
-        </div>
-        <div class="c-sm-6 c-md-6 c-lg-6">
-          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.jwt_api_secret != ''}">
-            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.jwt_api_secret">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch33">Zoom Email ID
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.email_id != ''}">
+              <input type="textbox" id="ch33" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.email_id">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
-          <label for="ch34">JWT Token
-          </label>
-        </div>
-        <div class="c-sm-6 c-md-6 c-lg-6">
-          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.jwt_access_token != ''}">
-            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.jwt_access_token">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">API Key
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.jwt_api_key != ''}">
+              <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.jwt_api_key">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
-          <label for="ch34">SDK Key
-          </label>
-        </div>
-        <div class="c-sm-6 c-md-6 c-lg-6">
-          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.sdk_api_key != ''}">
-            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.sdk_api_key">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">API Secret
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.jwt_api_secret != ''}">
+              <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.jwt_api_secret">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
-          <label for="ch34">SDK Secret
-          </label>
-        </div>
-        <div class="c-sm-6 c-md-6 c-lg-6">
-          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.sdk_api_secret != ''}">
-            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.sdk_api_secret">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">JWT Token
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.jwt_access_token != ''}">
+              <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.jwt_access_token">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
-          <label for="ch34">User Limit
-          </label>
-        </div>
-        <div class="c-sm-6 c-md-6 c-lg-6">
-          <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.user_limit != ''}">
-            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="zoomOBJ.user_limit">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">SDK Key
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.sdk_api_key != ''}">
+              <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.sdk_api_key">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="c-sm-3 c-md-3 c-lg-3" style="float: right;">
-        <button class="btn" (click)="ClearZoomJSON()">Cancel</button>
-        <button class="btn fullBlue" (click)="saveZoomDetails()" [disabled]="!(instituteDetailsAll?.no_of_zoom_hosts > zoomDetails?.length)">Add</button>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">SDK Secret
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.sdk_api_secret != ''}">
+              <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.sdk_api_secret">
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <!-- <div class="row">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">User Limit
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.user_limit != ''}">
+              <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.user_limit">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3" style="float: right;">
+            <button class="btn" (click)="ClearZoomJSON()">Cancel</button>
+            <button class="btn fullBlue" (click)="saveZoomDetails()"
+              [disabled]="!(instituteDetailsAll?.no_of_zoom_hosts > zoomDetails?.length)">Add</button>
+          </div>
+        </div>
+        <div class="row">
+          <!-- <div class="row">
           <div class="c-lg-10">
             <h3 class="heading-setting">Promotional SMS</h3>
           </div>
         </div> -->
-        <div class="table table-responsive show-left" style="margin-top: 15px;">
-          <table class="assign-width zoomTable">
-            <thead>
-              <tr>
-                <th>
-                  Zoom Account Name
-                </th>
-                <th>
-                  Zoom Email ID
-                </th>
-                <th>
-                  API Key
-                </th>
-                <th>
-                  API Secret
-                </th>
-                <th style="width: 20%;">
-                  JWT Token
-                </th>
-                <th>
-                  SDK Key
-                </th>
-                <th>
-                  SDK Secret
-                </th>
-                <th>
-                  User Limit
-                </th>
-                <th>
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody *ngIf="zoomDetails.length>0">
-              <tr class="displayComp" id="data{{i}}" *ngFor="let data of zoomDetails;let i = index">
-                <td>
+          <div class="table table-responsive show-left" style="margin-top: 15px;">
+            <table class="assign-width zoomTable">
+              <thead>
+                <tr>
+                  <th>
+                    Zoom Account Name
+                  </th>
+                  <th>
+                    Zoom Email ID
+                  </th>
+                  <th>
+                    API Key
+                  </th>
+                  <th>
+                    API Secret
+                  </th>
+                  <th style="width: 20%;">
+                    JWT Token
+                  </th>
+                  <th>
+                    SDK Key
+                  </th>
+                  <th>
+                    SDK Secret
+                  </th>
+                  <th>
+                    User Limit
+                  </th>
+                  <th>
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="zoomDetails.length>0">
+                <tr class="displayComp" id="data{{i}}" *ngFor="let data of zoomDetails;let i = index">
+                  <td>
                     <span class="view-comp" title="{{data.account_name}}">
                       {{data.account_name}}
                     </span>
@@ -1153,103 +1277,106 @@
                         <input type="text" [(ngModel)]="data.account_name" class="form-ctrl" id="data.account_name">
                       </div>
                     </span>
-                </td>
-                <td>
-                  <span class="view-comp" title="{{data.email_id}}">
-                    {{data.email_id}}
-                  </span>
-                  <span class="edit-comp">
-                    <div class="field-wrapper" style="margin:0;padding: 0;">
-                      <input type="text" [(ngModel)]="data.email_id" class="form-ctrl" id="data.email_id">
-                    </div>
-                  </span>
-                </td>
-                <td>
-                  <span class="view-comp" title="{{data.jwt_api_key}}">
-                    {{data.jwt_api_key}}
-                    <!-- {{(data.jwt_api_key?.length > 10) ? (data.jwt_api_key | slice:0:10) + '...' : data.jwt_api_key}} -->
-                  </span>
-                  <span class="edit-comp">
-                    <div class="field-wrapper" style="margin:0;padding: 0;">
-                      <input type="text" [(ngModel)]="data.jwt_api_key" class="form-ctrl" id="data.jwt_api_key">
-                    </div>
-                  </span>
-                </td>
-                <td>
-                  <span class="view-comp" title="{{data.jwt_api_secret}}">
-                    {{data.jwt_api_secret}}
-                  </span>
-                  <span class="edit-comp">
-                    <div class="field-wrapper" style="margin:0;padding: 0;">
-                      <input type="text" [(ngModel)]="data.jwt_api_secret" class="form-ctrl" id="data.jwt_api_secret">
-                    </div>
-                  </span>
-                </td>
-                <td style="width: 20%;">
-                  <span class="view-comp" title="{{data.jwt_access_token}}">
-                    {{data.jwt_access_token}}
-                  </span>
-                  <span class="edit-comp">
-                  <div class="field-wrapper" style="margin:0;padding: 0;">
-                    <input type="text" [(ngModel)]="data.jwt_access_token" class="form-ctrl" id="data.jwt_access_token">
-                  </div>
-                  </span>
-                </td>
-                <td>
-                  <span class="view-comp" title="{{data.sdk_api_key}}">
-                    {{data.sdk_api_key}}
-                  </span>
-                  <span class="edit-comp">
-                    <div class="field-wrapper" style="margin:0;padding: 0;">
-                      <input type="text" [(ngModel)]="data.sdk_api_key" class="form-ctrl" id="data.sdk_api_key">
-                    </div>
-                  </span>
-                </td>
-                <td>
-                  <span class="view-comp" title="{{data.sdk_api_secret}}">
-                    {{data.sdk_api_secret}}
-                  </span>
-                  <span class="edit-comp">
-                    <div class="field-wrapper" style="margin:0;padding: 0;">
-                      <input type="text" [(ngModel)]="data.sdk_api_secret" class="form-ctrl" id="data.sdk_api_secret">
-                    </div>
-                  </span>
-                </td>
-                <td>
-                  <span class="view-comp" title="{{data.user_limit}}">
-                    {{data.user_limit}}
-                  </span>
-                  <span class="edit-comp">
-                    <div class="field-wrapper" style="margin:0;padding: 0;">
-                      <input type="text" [(ngModel)]="data.user_limit" class="form-ctrl" id="data.user_limit">
-                    </div>
-                  </span>
-                </td>
-                <td>
-                  <span class="view-comp">
-                    <span title="Edit" class="fa fa-edit" (click)="editZoom(i)" style="color: #0084f6;"></span>
-                  </span>&nbsp;
-                  <span class="edit-comp">
-                    <span (click)="updateZoom(data)"><i _ngcontent-c26="" class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;color: #0084f6;" title="Update"></i></span>
-                  </span>&nbsp;
-                  <span class="view-comp">
-                    <span title="Delete" class="fa fa-trash" (click)="deleteZoom(data.id)" style="color: red;"></span>
-                  </span>
-                  <span class="edit-comp">
-                    <span (click)="cancelRow(i)"><i _ngcontent-c26="" class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;color: red;" title="Cancel"></i></span>
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-            <tbody *ngIf="zoomDetails.length == 0">
-              <tr>
-               <td colspan="9"> No Data Found</td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                  <td>
+                    <span class="view-comp" title="{{data.email_id}}">
+                      {{data.email_id}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.email_id" class="form-ctrl" id="data.email_id">
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="view-comp" title="{{data.jwt_api_key}}">
+                      {{data.jwt_api_key}}
+                      <!-- {{(data.jwt_api_key?.length > 10) ? (data.jwt_api_key | slice:0:10) + '...' : data.jwt_api_key}} -->
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.jwt_api_key" class="form-ctrl" id="data.jwt_api_key">
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="view-comp" title="{{data.jwt_api_secret}}">
+                      {{data.jwt_api_secret}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.jwt_api_secret" class="form-ctrl" id="data.jwt_api_secret">
+                      </div>
+                    </span>
+                  </td>
+                  <td style="width: 20%;">
+                    <span class="view-comp" title="{{data.jwt_access_token}}">
+                      {{data.jwt_access_token}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.jwt_access_token" class="form-ctrl"
+                          id="data.jwt_access_token">
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="view-comp" title="{{data.sdk_api_key}}">
+                      {{data.sdk_api_key}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.sdk_api_key" class="form-ctrl" id="data.sdk_api_key">
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="view-comp" title="{{data.sdk_api_secret}}">
+                      {{data.sdk_api_secret}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.sdk_api_secret" class="form-ctrl" id="data.sdk_api_secret">
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="view-comp" title="{{data.user_limit}}">
+                      {{data.user_limit}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.user_limit" class="form-ctrl" id="data.user_limit">
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="view-comp">
+                      <span title="Edit" class="fa fa-edit" (click)="editZoom(i)" style="color: #0084f6;"></span>
+                    </span>&nbsp;
+                    <span class="edit-comp">
+                      <span (click)="updateZoom(data)"><i _ngcontent-c26="" class="fas fa-check"
+                          style="font-family: FontAwesome ;font-size: 19px;color: #0084f6;" title="Update"></i></span>
+                    </span>&nbsp;
+                    <span class="view-comp">
+                      <span title="Delete" class="fa fa-trash" (click)="deleteZoom(data.id)" style="color: red;"></span>
+                    </span>
+                    <span class="edit-comp">
+                      <span (click)="cancelRow(i)"><i _ngcontent-c26="" class="fas fa fa-times"
+                          style="font-family: FontAwesome ;font-size: 19px;color: red;" title="Cancel"></i></span>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="zoomDetails.length == 0">
+                <tr>
+                  <td colspan="9"> No Data Found</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-      </div> 
     </div>
     <div style="padding-bottom: 10%;"></div>
     <section class="row setting-footer">
@@ -1340,11 +1467,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77) rotate(45)" />
             </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
           </g>
         </svg>
       </span>
@@ -1390,7 +1519,8 @@
         </div>
       </div>
 
-      <div class="popup-content" style="padding: 0px 15px;margin-bottom: 20px;" *ngIf="openPopUpName == 'PaymentHistory'">
+      <div class="popup-content" style="padding: 0px 15px;margin-bottom: 20px;"
+        *ngIf="openPopUpName == 'PaymentHistory'">
 
         <div class="">
           <h2>Payment Details</h2>
@@ -1454,7 +1584,8 @@
 
       </div>
 
-      <div class="popup-content" style="padding: 0px 15px;margin-bottom: 20px;" *ngIf="openPopUpName == 'DownloadLimit'">
+      <div class="popup-content" style="padding: 0px 15px;margin-bottom: 20px;"
+        *ngIf="openPopUpName == 'DownloadLimit'">
 
         <div class="">
           <h2>Download Limit Allocation History Details</h2>

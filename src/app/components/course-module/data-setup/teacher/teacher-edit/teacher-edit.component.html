@@ -1,19 +1,173 @@
 <div class="middle-section clearFix">
-    <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+    <section style="border-bottom: 1px solid lightgrey;padding-bottom: 4px;">
+        <h1 *ngIf="selectedTeacherId==undefined">
+            Add Faculty
+        </h1>
+        <h1 *ngIf="selectedTeacherId != undefined">
+            Edit Faculty
+        </h1>
+    </section>
+    <section class="middle-main clearFix">
+        <form [formGroup]="editTeacherForm" novalidate (ngSubmit)="addOrEditFun()">
+            <div class="row field-wrapper field-format">
+                <label for="name">Faculty Name
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-ctrl inputDesign" formControlName="teacher_name" name="name">
+
+                <div *ngIf="editTeacherForm.controls['teacher_name'].invalid && (editTeacherForm.controls['teacher_name'].dirty || editTeacherForm.controls['teacher_name'].touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="editTeacherForm.controls['teacher_name'].hasError('required')">
+                        Faculty Name is required.
+                    </div>
+                </div>
+            </div>
+            <div class="row field-wrapper field-format">
+                <label for="contNumber">Contact Number
+                    <span class="text-danger">*</span>
+                </label><br>
+                <span class="countryCallingCode" style="width: 30%">
+                    <select id="country_id" class="form-ctrl inputDesign" formControlName="country_id" name="country"
+                        [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
+                        style="height: 29px;padding: 0">
+                        <option value=""></option>
+                        <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                            {{data.country_code}} +{{data.country_calling_code}}
+                        </option>
+                    </select>
+                </span>
+
+                <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" style="width: 70%"
+                    class="form-ctrl inputDesign" formControlName="teacher_phone" name="contNumber" required>
+
+                <div *ngIf="editTeacherForm.controls['teacher_phone'].invalid && (editTeacherForm.controls['teacher_phone'].dirty || editTeacherForm.controls['teacher_phone'].touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="editTeacherForm.controls['teacher_phone'].hasError('required')">
+                        Contact Number is required.
+                    </div>
+                    <div *ngIf="editTeacherForm.controls['teacher_phone'].hasError('minlength')">
+                        Contact Number is not valid.
+                    </div>
+                    <div *ngIf="editTeacherForm.controls['teacher_phone'].hasError('maxlength')">
+                        Contact Number is not valid.
+                    </div>
+                </div>
+            </div>
+            <div class="row field-wrapper field-format">
+                <label for="emailID">Email Id
+                </label>
+                <input type="email" class="form-ctrl inputDesign" name="emailID" formControlName="teacher_email">
+            </div>
+            <div class="row field-wrapper datePickerBox field-format">
+                <label for="CurrentAddress">Date of Birth
+                </label>
+                <input type="text" class="form-ctrl inputDesign" readonly="true" formControlName="dob" name="dob"
+                    bsDatepicker />
+            </div>
+
+            <div class="row field-wrapper datePickerBox field-format">
+                <label for="CurrentAddress">Date of Joining
+                </label>
+                <input type="text" class="form-ctrl inputDesign" readonly="true" formControlName="date_of_joining"
+                    name="date_of_joining" bsDatepicker />
+            </div>
+            <div class="row field-wrapper field-format">
+                <label for="alternateNo">Alternate Contact Number
+                </label><br>
+                <span class="countryCallingCode" style="width: 30%">
+                    <select id="country_id" class="form-ctrl inputDesign" formControlName="country_id" name="country"
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                        [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
+                        style="height: 29px;padding: 0">
+                        <option value=""></option>
+                        <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                            {{data.country_code}} +{{data.country_calling_code}}
+                        </option>
+                    </select>
+                </span>
+                <input type="text" style="width: 70%" class="form-ctrl inputDesign" name="alternateNo"
+                    formControlName="teacher_alt_phone">
+
+            </div>
+            <div class="row field-wrapper field-format">
+                <label for="standard">Standard
+                </label>
+                <input type="text" class="form-ctrl inputDesign" name="standard" formControlName="teacher_standards">
+
+            </div>
+            <div class="row field-wrapper field-format">
+                <label for="subject">Subjects
+                </label>
+                <input type="text" class="form-ctrl inputDesign" name="subject" formControlName="teacher_subjects">
+
+            </div>
+            <div class="row field-wrapper field-format">
+                <label for="salary">Salary (Per Hour)
+                </label>
+                <input type="text" class="form-ctrl inputDesign" name="salary" formControlName="hour_rate">
+
+            </div>
+            <div class="row field-wrapper field-format" *ngIf="enableBiometric == '1'"
+                [ngClass]="{'has-value' : attendance_device_id !=''}">
+                <label for="biometric">Attendance Card ID
+                </label>
+                <input type="text" class="form-ctrl inputDesign" name="biometric"
+                    formControlName="attendance_device_id">
+
+            </div>
+            <div class="row field-wrapper" style="margin-left: 0px;width: 43%;">
+                <label for="CurrentAddress">Current Address
+                </label>
+                <textarea type="text" class="form-ctrl inputDesign" formControlName="teacher_curr_addr"
+                    name="CurrentAddress" style="height: 6rem;"></textarea>
+            </div>
+            <div class="extra-margin" style="margin-top: 15px;">
+
+                <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+                    <div class="field-checkbox-wrapper " style="margin-left: 38rem;margin-top: -5rem;">
+                        <input type="checkbox" value="" name="isActive" formControlName="is_active"
+                            style="border-radius: 4px;cursor: pointer;" class="form-checkbox">
+                        <label for="isActive">Is Active</label>
+                    </div>
+                </div>
+
+
+                <div class="row field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'" style="padding-left: 0;">
+                    <div class="field-checkbox-wrapper">
+                        <input type="checkbox" value="" name="is_office_only_access" id="is_office_only_access"
+                            style="border-radius: 4px;" formControlName="is_office_only_access" class="form-checkbox">
+                        <label for="is_office_only_access">Enable IP Lock Functionality</label>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row" style="margin-right: 25rem;margin-top: -3rem;">
+                <div class="pull-right" style="margin-top: 10px;">
+                    <button routerLink="/view/course/setup/teacher" class="btn" style="cursor: pointer;">Cancel</button>
+                    <button class="btn fullBlue" style="font-size: 16px;cursor: pointer;" type="submit">Save</button>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
+<!-- ======================================================================================================================================== -->
+<div class="middle-section clearFix">
+    <!-- <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
         <h1 class="pull-left" *ngIf="selectedTeacherId==undefined">
             Add Faculty
         </h1>
         <h1 class="pull-left" *ngIf="selectedTeacherId != undefined">
             Edit Faculty
         </h1>
-    </section>
+    </section> -->
 
     <section class="middle-main clearFix">
 
         <aside class="c-lg-6 c-md-6 c-sm-6">
             <div class="pull-left">
                 <form [formGroup]="editTeacherForm" novalidate (ngSubmit)="addOrEditFun()">
-                    <div class="row field-wrapper">
+                    <!-- <div class="row field-wrapper">
                         <label for="name">Faculty Name
                             <span class="text-danger">*</span>
                         </label>
@@ -25,24 +179,26 @@
                                 Faculty Name is required.
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="row field-wrapper">
+                    <!-- <div class="row field-wrapper">
                         <label for="contNumber">Contact Number
                             <span class="text-danger">*</span>
                         </label><br>
-                        <span class="countryCallingCode"style="width: 30%">
-                                <select id="country_id" class="form-ctrl" formControlName="country_id" name="country"
-                                [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
+                        <span class="countryCallingCode" style="width: 30%">
+                            <select id="country_id" class="form-ctrl" formControlName="country_id" name="country"
+                                [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
+                                style="height: 29px;padding: 0">
                                 <option value=""></option>
                                 <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                                  {{data.country_code}} +{{data.country_calling_code}}
+                                    {{data.country_code}} +{{data.country_calling_code}}
                                 </option>
-                              </select>
+                            </select>
                         </span>
 
                         <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                         style="width: 70%"  class="form-ctrl" formControlName="teacher_phone" name="contNumber" required>
+                            style="width: 70%" class="form-ctrl" formControlName="teacher_phone" name="contNumber"
+                            required>
 
                         <div *ngIf="editTeacherForm.controls['teacher_phone'].invalid && (editTeacherForm.controls['teacher_phone'].dirty || editTeacherForm.controls['teacher_phone'].touched)"
                             class="alert alert-danger">
@@ -56,44 +212,49 @@
                                 Contact Number is not valid.
                             </div>
                         </div>
-                    </div>
-                    <div class="row field-wrapper">
+                    </div> -->
+                    <!-- <div class="row field-wrapper">
                         <label for="emailID">Email Id
                         </label>
                         <input type="email" class="form-ctrl" name="emailID" formControlName="teacher_email">
-                    </div>
-                    <div class="row field-wrapper">
+                    </div> -->
+                    <!-- <div class="row field-wrapper">
                         <label for="CurrentAddress">Current Address
                         </label>
                         <input type="text" class="form-ctrl" formControlName="teacher_curr_addr" name="CurrentAddress">
 
-                    </div>
+                    </div> -->
 
-                    <div class="row field-wrapper datePickerBox">
+                    <!-- <div class="row field-wrapper datePickerBox">
                         <label for="CurrentAddress">Date of Birth
                         </label>
-                        <input type="text" class="form-ctrl" readonly="true" formControlName="dob" name="dob" bsDatepicker/>
+                        <input type="text" class="form-ctrl" readonly="true" formControlName="dob" name="dob"
+                            bsDatepicker />
                     </div>
 
                     <div class="row field-wrapper datePickerBox">
-                            <label for="CurrentAddress">Date of Joining
-                            </label>
-                            <input type="text" class="form-ctrl" readonly="true" formControlName="date_of_joining" name="date_of_joining" bsDatepicker/>
-                    </div>
+                        <label for="CurrentAddress">Date of Joining
+                        </label>
+                        <input type="text" class="form-ctrl" readonly="true" formControlName="date_of_joining"
+                            name="date_of_joining" bsDatepicker />
+                    </div> -->
 
-                    <div class="row field-wrapper">
+                    <!-- <div class="row field-wrapper">
                         <label for="alternateNo">Alternate Contact Number
                         </label><br>
-                        <span class="countryCallingCode"style="width: 30%">
-                            <select id="country_id" class="form-ctrl" formControlName="country_id" name="country" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                            [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
-                            <option value=""></option>
-                            <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                              {{data.country_code}} +{{data.country_calling_code}}
-                            </option>
-                          </select>
-                    </span>
-                        <input type="text" style="width: 70%" class="form-ctrl" name="alternateNo" formControlName="teacher_alt_phone">
+                        <span class="countryCallingCode" style="width: 30%">
+                            <select id="country_id" class="form-ctrl" formControlName="country_id" name="country"
+                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
+                                style="height: 29px;padding: 0">
+                                <option value=""></option>
+                                <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                                    {{data.country_code}} +{{data.country_calling_code}}
+                                </option>
+                            </select>
+                        </span>
+                        <input type="text" style="width: 70%" class="form-ctrl" name="alternateNo"
+                            formControlName="teacher_alt_phone">
 
                     </div>
                     <div class="row field-wrapper">
@@ -114,73 +275,83 @@
                         <input type="text" class="form-ctrl" name="salary" formControlName="hour_rate">
 
                     </div>
-                    <div class="row field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value' : attendance_device_id !=''}">
+                    <div class="row field-wrapper" *ngIf="enableBiometric == '1'"
+                        [ngClass]="{'has-value' : attendance_device_id !=''}">
                         <label for="biometric">Attendance Card ID
                         </label>
                         <input type="text" class="form-ctrl" name="biometric" formControlName="attendance_device_id">
 
-                    </div>
-                    <div class="extra-margin" style="margin-top: 15px;">
+                    </div> -->
+                    <!-- <div class="extra-margin" style="margin-top: 15px;">
 
                         <div class="field-checkbox-wrapper" style="margin-left: -40px;">
                             <div class="field-checkbox-wrapper">
-                                <input type="checkbox" value="" name="isActive" formControlName="is_active" class="form-checkbox">
+                                <input type="checkbox" value="" name="isActive" formControlName="is_active"
+                                    class="form-checkbox">
                                 <label for="isActive">Is Active</label>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+                    <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
                             <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" name="allow" formControlName="is_allow_teacher_to_only_mark_attendance" class="form-checkbox">
                                 <label for="allow">Allow faculty to only mark attendance</label>
                             </div>
                         </div> -->
 
-                        <div class="row field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'" style="padding-left: 0;">
+                    <!-- <div class="row field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'"
+                            style="padding-left: 0;">
                             <div class="field-checkbox-wrapper">
-                                <input type="checkbox" value="" name="is_office_only_access" id="is_office_only_access" formControlName="is_office_only_access" class="form-checkbox">
+                                <input type="checkbox" value="" name="is_office_only_access" id="is_office_only_access"
+                                    formControlName="is_office_only_access" class="form-checkbox">
                                 <label for="is_office_only_access">Enable IP Lock Functionality</label>
                             </div>
-                        </div>
+                        </div> -->
 
 
-                        <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+                    <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
                             <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" name="markAttendance" formControlName="is_student_mgmt_flag" class="form-checkbox">
                                 <label for="markAttendance">Allow Faculty to view Contact details of student</label>
                             </div>
                         </div> -->
-                    </div>
+                    <!-- </div>
                     <div class="row">
                         <div class="pull-right" style="margin-top: 10px;">
                             <button routerLink="/view/course/setup/teacher" class="btn">Cancel</button>
-                            <button  class="btn fullBlue" style="font-size: 16px;" type="submit">Save</button>
+                            <button class="btn fullBlue" style="font-size: 16px;" type="submit">Save</button>
                         </div>
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </aside>
-        <aside class="c-lg-6 c-md-6 c-sm-6">
+        <aside class="c-lg-6 c-md-6 c-sm-6" style="margin-top: -38rem;margin-left: 49rem;width: 40%;">
             <div class="profileWrapper">
-                <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth" (setImage)="setImage($event)">
+                <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth"
+                    (setImage)="setImage($event)">
 
                 </proctur-image>
             </div>
             <div class="row" style="margin-top:15%">
-                <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top: 10px;padding-left: 40px" *ngIf="(hasIdCard == 'Y')">
+                <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top: 10px;padding-left: 40px"
+                    *ngIf="(hasIdCard == 'Y')">
                     <fieldset>
                         <legend style="color: #0084f6;">Download Id-Card</legend>
                         <a>
-                            <img #uploadedImage src="assets/images/download_doc.jpg" style="width: 30px;" (click)="downloadIdCard()" title="Download Attachment">
+                            <img #uploadedImage src="assets/images/download_doc.jpg" style="width: 30px;"
+                                (click)="downloadIdCard()" title="Download Attachment">
                         </a>
                         <a #uploadImageAnchor class="hide"></a>
                     </fieldset>
                 </div>
                 <div class="c-sm-4 c-md-4 c-lg-4">
-                    <div class="field-wrapper">
-                        <input class="hide" type="file" #idCardUpload accept="image/gif,image/jpeg,image/jpg,image/png" (change)="onChangeIdCardUpload()">
-                        <input *ngIf="(hasIdCard == 'Y')" type="button" class="btn" value="Update Id-Card" (click)="updateIdCard($event)">
-                        <input *ngIf="(hasIdCard == 'N')" type="button" class="btn" value="Upload Id-Card" (click)="updateIdCard($event)">
+                    <div class="field-wrapper" style="margin-left: 1rem;">
+                        <input class="hide" type="file" #idCardUpload accept="image/gif,image/jpeg,image/jpg,image/png"
+                            (change)="onChangeIdCardUpload()">
+                        <input *ngIf="(hasIdCard == 'Y')" type="button" class="btn" value="Update Id-Card"
+                            (click)="updateIdCard($event)">
+                        <input *ngIf="(hasIdCard == 'N')" type="button" class="btn" value="Upload Id-Card"
+                            (click)="updateIdCard($event)">
                     </div>
                 </div>
             </div>

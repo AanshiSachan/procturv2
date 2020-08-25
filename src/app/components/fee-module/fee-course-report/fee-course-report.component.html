@@ -1,28 +1,384 @@
+<div class="middle-section clear-fix" style="padding-left: 15px; padding-right: 30px; padding-top: 20px;">
+    <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;">
+        <h1 class="pull-left">
+            <a routerLink="/view/fee" style="padding:0px;">
+                Fees
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            {{isProfessional? 'Batch':'Course'}} wise Report
+        </h1>
+
+        <div style="position: absolute;margin-left: 11rem;margin-top: -9.5px;">
+            <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
+            </rob-tooltip>
+        </div>
+    </section>
+    <div id="secondary" *ngIf="isFilterReversed">
+        <section class="clearFix add-batch-section"
+            style="border-top: 1px solid lightgrey; border-bottom: 1px solid lightgrey; padding-bottom: 1%;">
+            <div class="row" style="margin: 0;">
+                <section>
+                    <div class="c-lg-4 c-sm-4 c-md-4" style="margin-right: -20%; margin-left: -14px;">
+                        <div class="field-wrapper" [ngClass]="{'has-value': true }">
+                            <label for="mc">Master Course </label>
+                            <select [(ngModel)]="courseFetchForm.standard_id" style="width: 40%;border-radius: 4px;"
+                                (ngModelChange)="fetchSubjectList()" class="form-ctrl" name="mc" id="mc">
+                                <option value="-1"></option>
+                                <ng-container *ngIf="isProfessional; else masterCourse">
+                                    <option *ngFor="let master of standardList" [value]="master.standard_id">
+                                        {{master.standard_name}}</option>
+                                </ng-container>
+                                <ng-template #masterCourse>
+                                    <option *ngFor="let master of standardList" [value]="master.master_course">
+                                        {{master.master_course}}</option>
+                                </ng-template>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="c-lg-4 c-sm-4 c-md-4" style="margin-right: -20%;">
+                    <div class="field-wrapper">
+                        <label for="cc">Course </label>
+                        <select *ngIf="isProfessional" style="width: 40%;border-radius: 4px;"
+                            [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList($event)"
+                            class="form-ctrl" name="cc" id="cc">
+                            <option value="-1"></option>
+                            <option *ngFor="let course of subjectList" [value]="course.subject_id">
+                                {{course.subject_name}}</option>
+                        </select>
+                        <select *ngIf="!isProfessional" style="width: 40%;border-radius: 4px;"
+                            (ngModelChange)="applyAcademicYear($event)" [(ngModel)]="courseFetchForm.subject_id"
+                            class="form-ctrl" name="cc" id="cc">
+                            <option value="-1"></option>
+                            <option *ngFor="let course of subjectList" [value]="course.course_id">
+                                {{course.course_name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="c-lg-4 c-sm-4 c-md-4" *ngIf="isProfessional" style="margin-right: -18%;">
+                    <div class="field-wrapper">
+                        <label for="ba">Batch</label>
+                        <select [(ngModel)]="courseFetchForm.batch_id" style="width: 45%;border-radius: 4px;"
+                            class="form-ctrl" (ngModelChange)="batchSelected($event)" name="" id="ba">
+                            <option value="-1"></option>
+                            <option *ngFor="let batch of batchList" [value]="batch.batch_id">
+                                {{batch.batch_name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div *ngIf="!isProfessional">
+                    <div Class="c-lg-3 c-sm-3 c-md-3" style="margin-right: -14%;">
+                        <div id="slotwrapper" class="field-wrapper dropdown" style="width: 84%;margin-top: -7px;">
+                            <label for="assignCourses">Academic Year</label>
+
+                            <div class="input-container">
+                                <i class="fa fa-filter" style="font-family: FontAwesome;" aria-hidden="true"></i>
+                                <input type="text" name="" value="" class="filer-input"
+                                    placeholder="Choose filter from dropdown" disabled>
+                                <i class="fa fa-caret-down" style="font-family: FontAwesome;" aria-hidden="true"
+                                    (click)="toggleFilter()" *ngIf="!filterShow"></i>
+                                <i class="fa fa-caret-up" style="font-family: FontAwesome;" aria-hidden="true"
+                                    (click)="toggleFilter()" *ngIf="filterShow"></i>
+                            </div>
+
+                            <div class="filter-container" *ngIf="filterShow" style="height: 45vh; overflow: auto;">
+                                <div class="date-container" *ngFor="let i of getAllAcademic">
+                                    <div class="date-values-container">
+                                        <div class="field-checkbox-wrapper date-value-item">
+                                            <input type="checkbox" [id]="i.inst_acad_year_id"
+                                                [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
+                                                [(ngModel)]="i.status" (ngModelChange)="updateSlotSelected(i)"
+                                                class="form-checkbox">
+                                            <label for="{{i.inst_acad_year_id}}"> {{i.inst_acad_year}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- 
+                            <input id="slot" type="text" [disabled]="isCourseSelected"
+                                (click)="multiselectVisible($event.target.id)" [ngModel]="selectedSlotsString"
+                                name="slots" class="form-ctrl" readonly="true" /> -->
+                        </div>
+                        <!-- <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
+                            <div class="multiselect-wrapper-inner">
+                                <ul class="">
+                                    <li *ngFor="let i of getAllAcademic">
+                                        <div class="field-checkbox-wrapper">
+                                            <input type="checkbox" id="{{i.inst_acad_year_id}}"
+                                                [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
+                                                [(ngModel)]="i.status" (ngModelChange)="updateSlotSelected(i)"
+                                                class="form-checkbox">
+                                            <label for="{{i.inst_acad_year_id}}">
+                                                {{i.inst_acad_year}}</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="c-lg-4 c-sm-4 c-md-4" style="width: 7%;padding-left: 0; margin-left: 10%;">
+                        <div class="field-wrapper">
+                            <div class="c-lg-1 filter-btn" style="margin-top: 15px;">
+                                <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row" style="margin: 0;" *ngIf="isProfessional">
+                    <div Class="c-lg-4 c-sm-4 c-md-4" style="margin-right: -25%;margin-top: -7px;">
+                        <div id="slotwrapper" class="field-wrapper dropdown" style="width: 16rem;">
+                            <label for="assignCourses">Academic Year</label>
+
+                            <div class="input-container">
+                                <i class="fa fa-filter" style="font-family: FontAwesome;" aria-hidden="true"></i>
+                                <input type="text" name="" value="" class="filer-input"
+                                    placeholder="Choose filter from dropdown" disabled>
+                                <i class="fa fa-caret-down" style="font-family: FontAwesome;" aria-hidden="true"
+                                    (click)="toggleFilter()" *ngIf="!filterShow"></i>
+                                <i class="fa fa-caret-up" style="font-family: FontAwesome;" aria-hidden="true"
+                                    (click)="toggleFilter()" *ngIf="filterShow"></i>
+                            </div>
+
+                            <div class="filter-container" *ngIf="filterShow">
+                                <div class="date-container" *ngFor="let i of getAllAcademic">
+                                    <div class="date-values-container">
+                                        <div class="field-checkbox-wrapper date-value-item">
+                                            <input type="checkbox" [id]="i.inst_acad_year_id"
+                                                [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
+                                                [(ngModel)]="i.status" (ngModelChange)="updateSlotSelected(i)"
+                                                class="form-checkbox">
+                                            <label for="{{i.inst_acad_year_id}}"> {{i.inst_acad_year}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- <input id="slot" type="text" [disabled]="isCourseSelected"
+                                (click)="multiselectVisible($event.target.id)" [ngModel]="selectedSlotsString"
+                                name="slots" class="form-ctrl" readonly="true" /> -->
+                        </div>
+                        <!-- <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
+                            <div class="multiselect-wrapper-inner">
+                                <ul class="">
+                                    <li *ngFor="let i of getAllAcademic">
+                                        <div class="field-checkbox-wrapper">
+                                            <input type="checkbox" id="{{i.inst_acad_year_id}}"
+                                                [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
+                                                [(ngModel)]="i.status" (ngModelChange)="updateSlotSelected(i)"
+                                                class="form-checkbox">
+                                            <label for="{{i.inst_acad_year_id}}"> {{i.inst_acad_year}}</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="c-lg-4 c-sm-4 c-md-4" style="width: 7%;margin-left: 14%;">
+                        <div class="field-wrapper">
+                            <div class="c-lg-1 filter-btn" style="margin-top: 15px;">
+                                <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Batch  -->
+                <div *ngIf="isProfessional">
+                    <section *ngIf="chked != 0" style="float: right; margin-right: 7rem; margin-top: -2rem;">
+                        <div class="c-lg-1 filter-btn" style="width: auto;padding-right: 0;">
+                            <button class="btn fullBlue" (click)="checkSendDueOption('Mail')">Send Due E-mail</button>
+                        </div>
+                        <div class="c-lg-1 filter-btn" style="width: 0;padding-left: 0;">
+                            <button class="btn fullBlue" (click)="checkSendDueOption('SMS')">Send Due SMS</button>
+                        </div>
+                    </section>
+                </div>
+                <div *ngIf="!isProfessional">
+                    <section *ngIf="chked != 0" style="float: right; margin-right: 7rem; margin-top: 1.4rem;">
+                        <div class="c-lg-1 filter-btn" style="width: auto;padding-right: 0;">
+                            <button class="btn fullBlue" (click)="checkSendDueOption('Mail')">Send Due E-mail</button>
+                        </div>
+                        <div class="c-lg-1 filter-btn" style="width: 0;padding-left: 0;">
+                            <button class="btn fullBlue" (click)="checkSendDueOption('SMS')">Send Due SMS</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="c-lg-3">
+                <div class="field-wrapper hide">
+                    <label for="ic">Installment</label>
+                    <select class="form-ctrl" name="" id="ic">
+                        <option value="-1"></option>
+                        <option [value]="i" *ngFor="let i of installmentList">{{i}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="c-lg-3" *ngIf="isCustomDate">
+                <div class="field-wrapper datePickerBox">
+                    <label for="ic">From Date</label>
+                    <input [(ngModel)]="courseFetchForm.from_date" (ngModelChange)="validateFutureDate('from')"
+                        type="text" value="" readonly="true" class="form-ctrl bsDatepicker" bsDatepicker />
+                </div>
+                <span style="cursor: pointer; color: #ff0000;" (click)="courseFetchForm.from_date = ''">clear</span>
+            </div>
+
+            <div class="c-lg-3" *ngIf="isCustomDate">
+                <div class="field-wrapper datePickerBox">
+                    <label for="ic">To Date</label>
+                    <input [(ngModel)]="courseFetchForm.to_date" (ngModelChange)="validateFutureDate('to')" type="text"
+                        value="" readonly="true" class="form-ctrl bsDatepicker" bsDatepicker />
+                </div>
+                <span style="cursor: pointer;color: #ff0000;" (click)="courseFetchForm.to_date = ''">clear</span>
+            </div>
+            <div class="c-lg-1 filter-btn hide">
+                <div class="filter-right pull-right">
+                    <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Switch
+                        Filter</a>
+                </div>
+            </div>
+        </section>
+    </div>
+    <section>
+        <div class="row" style="margin: 0;margin-top: 10px;border-bottom: 1px solid lightgrey ; padding-bottom: 9px;">
+            <div class="c-lg-9">
+                <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined"
+                    style="display: inline-block;  text-align: left; width:64vw;">
+                    <div class="c-lg-2"></div>
+                    <div class="c-lg-2">
+                        <li style="display: inline-block; margin-left: -41%;">
+                            <span class="made-out"><i class="fa fa-square"
+                                    style="font-family: FontAwesome; color: #F75D59;" aria-hidden="true"></i>&nbsp;Total
+                                Fees</span>
+                            <div class="made-in">
+                                {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_fees.toLocaleString('en-IN')}}
+                            </div>
+                        </li>
+                    </div>
+                    <div class="c-lg-2">
+                        <li style=" margin-left: -60%; display: inline-block;">
+                            <span class="made-out"><i class="fa fa-square"
+                                    style="font-family: FontAwesome; color: #00FF00;" aria-hidden="true"></i>&nbsp;
+                                Collected</span>
+                            <div class="made-in">
+                                {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}
+                            </div>
+                        </li>
+                    </div>
+                    <div class="c-lg-2">
+                        <li style="display: inline-block; margin-left: -78%;">
+                            <span class="made-out"><i class="fa fa-square"
+                                    style="font-family: FontAwesome; color: #FFE87C;" aria-hidden="true"></i>&nbsp;Past
+                                dues</span>
+                            <div class="made-in">
+                                {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}
+                            </div>
+                        </li>
+                    </div>
+                    <div class="c-lg-2">
+                        <li style=" margin-left: -91%; display: inline-block;">
+                            <span class="made-out"><i class="fa fa-square"
+                                    style="font-family: FontAwesome; color: #3BB9FF;"
+                                    aria-hidden="true"></i>&nbsp;Future
+                                Dues</span>
+                            <div class="made-in">
+                                {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}
+                            </div>
+                        </li>
+                    </div>
+                    <div class="c-lg-2">
+                        <li style=" margin-left: -96%; display: inline-block;">
+                            <span class="made-out"><i class="fa fa-square"
+                                    style="font-family: FontAwesome; color: #C47451;" aria-hidden="true"></i>&nbsp;Total
+                                Dues</span>
+                            <div class="made-in">
+                                {{ _commService.currency_default_symbol}}{{ (feeDataSource1[0].total_dues_pending+feeDataSource1[0].total_future_dues).toLocaleString('en-IN')}}
+                            </div>
+                        </li>
+                    </div>
+
+                </ul>
+            </div>
+            <div class="c-lg-3"></div>
+            <div class="c-lg-3"
+                [ngStyle]="{'margin-left':totalRecords != 0 ? '-5%' : '64rem' ,'padding-left': totalRecords != 0 ? '5rem' : '0rem'}">
+                <div id="basic-search" class="c-lg-11" style="border-radius: 4px; border: 1px solid #ccc;width: 13rem;"
+                    [ngStyle]="{'margin-left':totalRecords != 0 ? '0rem' : '6rem'}">
+                    <form autocomplete="off" #form="ngForm">
+                        <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search"
+                            class="form-ctrl" id="searchBar" style="line-height: 2;">
+                    </form>
+                </div>
+                <div *ngIf="totalRecords != 0" style="margin-right: -5rem;padding-left: 14rem;">
+                    <i class="fa fa-file-pdf-o"
+                        style="font-size: 28px;color: darkred;cursor: pointer; font-family: FontAwesome;"
+                        aria-hidden="true" (click)="exportToPdf()"></i>
+                    <i class="fa fa-file-excel-o"
+                        style="font-size: 28px;color: green;cursor: pointer; font-family: FontAwesome; margin-left: 1rem;"
+                        aria-hidden="true" (click)="exportToExcel()"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div>
+        <div class="table-content" *ngIf="isFilterReversed">
+            <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions"
+                (multiOptionSelected)="optionSelected($event)" [isMulti]='true' [hasMenu]="true"
+                [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'" [settings]="feeSettings1"
+                (rowsSelected)="rowCheckboxChange($event)">
+            </rob-table>
+        </div>
+        <fee-receipt [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeeReceipt">
+        </fee-receipt>
+
+        <next-due-detail [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isNextDueDetail">
+        </next-due-detail>
+
+        <payment-history [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeepaymentHistory">
+        </payment-history>
+
+        <view-detail-report [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isViewDetailReport">
+        </view-detail-report>
+    </div>
+</div>
+
+
+
+<!-- 
 <div class="report-wrapper clearFix">
     <aside class="middle-full">
-        <section class="middle-main clearFix" style="margin-top: 10px;">
-            <div class="middle-top mb0 clearFix header" style="width:100%; padding-bottom: 20px;">
-                <div class="row" style="margin: 0;">
-                    <h2 style="padding: 16px 0px 3px 16px;" class="pull-left">
+        <section class="middle-main clearFix" style="margin-top: 10px;"> -->
+<!-- <div class="middle-top mb0 clearFix header" style="width:100%; padding-bottom: 20px;"> -->
+<!-- <div class="row" style="margin: 0;">
+                   <h2 style="padding: 16px 0px 3px 16px;" class="pull-left">
                         <a routerLink="/view/fee">
-                            Fees 
+                            Fees
                         </a>
                         <div style="display:inline-block;">
                             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
                             {{isProfessional? 'Batch':'Course'}} wise Report
                         </div>
-                        <!-- <div *ngIf=isProfessional style="display:inline-block;">
+                        <div *ngIf=isProfessional style="display:inline-block;">
                             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Course wise Report
-                        </div> -->
-                    </h2>
-                    <aside class="pull-left" style="position: relative;top:10px;">
-                        <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
+                        </div> 
+                    </h2> 
+                     <aside class="pull-left" style="position: relative;top:10px;">
+                        <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'"
+                            [customClass]="'left'">
                         </rob-tooltip>
-                    </aside>
-                </div>
+                    </aside> 
+                </div> -->
 
 
-                <!-- <div id="primary" *ngIf="!isFilterReversed">
+<!-- <div id="primary" *ngIf="!isFilterReversed">
                         <div class="c-lg-4">
                             <div class="form-wrapper">
                                 <input [(ngModel)]='search_value' type="text" class="form-ctrl" placeholder="Search Name/Phone No.">
@@ -48,121 +404,137 @@
                         <div class="c-lg-3"></div>
                     </div> -->
 
-                <div id="secondary" *ngIf="isFilterReversed">
+<!--    <div id="secondary" *ngIf="isFilterReversed">
                     <section class="clearFix add-batch-section">
                         <div class="row" style="margin: 0;">
                             <div class="c-lg-4 c-sm-4 c-md-4">
                                 <div class="field-wrapper" [ngClass]="{'has-value': true }">
                                     <label for="mc">Master Course </label>
-                                    <select [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl" name="mc" id="mc">
+                                    <select [(ngModel)]="courseFetchForm.standard_id"
+                                        (ngModelChange)="fetchSubjectList()" class="form-ctrl" name="mc" id="mc">
                                         <option value="-1"></option>
                                         <ng-container *ngIf="isProfessional; else masterCourse">
-                                            <option *ngFor="let master of standardList" [value]="master.standard_id">{{master.standard_name}}</option>
+                                            <option *ngFor="let master of standardList" [value]="master.standard_id">
+                                                {{master.standard_name}}</option>
                                         </ng-container>
                                         <ng-template #masterCourse>
-                                            <option *ngFor="let master of standardList" [value]="master.master_course">{{master.master_course}}</option>
+                                            <option *ngFor="let master of standardList" [value]="master.master_course">
+                                                {{master.master_course}}</option>
                                         </ng-template>
                                     </select>
                                 </div>
                             </div>
-      
+
                             <div class="c-lg-4 c-sm-4 c-md-4">
                                 <div class="field-wrapper">
                                     <label for="cc">Course </label>
-                                    <select *ngIf="isProfessional"  [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList($event)" class="form-ctrl"
-                                        name="cc" id="cc">
+                                    <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.subject_id"
+                                        (ngModelChange)="fetchBatchList($event)" class="form-ctrl" name="cc" id="cc">
                                         <option value="-1"></option>
-                                        <option *ngFor="let course of subjectList" [value]="course.subject_id">{{course.subject_name}}</option>
+                                        <option *ngFor="let course of subjectList" [value]="course.subject_id">
+                                            {{course.subject_name}}</option>
                                     </select>
-                                    <select *ngIf="!isProfessional" (ngModelChange)="applyAcademicYear($event)"  [(ngModel)]="courseFetchForm.subject_id" class="form-ctrl" 
-                                    name="cc" id="cc" >
+                                    <select *ngIf="!isProfessional" (ngModelChange)="applyAcademicYear($event)"
+                                        [(ngModel)]="courseFetchForm.subject_id" class="form-ctrl" name="cc" id="cc">
                                         <option value="-1"></option>
-                                        <option *ngFor="let course of subjectList"  [value]="course.course_id">{{course.course_name}}</option>
-                                    </select>
-                                </div>
-                              </div>
-      
-                              <div class="c-lg-4 c-sm-4 c-md-4" *ngIf="isProfessional">
-                                <div class="field-wrapper">
-                                    <label for="ba">Batch</label>
-                                    <select [(ngModel)]="courseFetchForm.batch_id" class="form-ctrl" (ngModelChange)="batchSelected($event)" name="" id="ba">
-                                        <option value="-1"></option>
-                                        <option *ngFor="let batch of batchList" [value]="batch.batch_id">{{batch.batch_name}}</option>
+                                        <option *ngFor="let course of subjectList" [value]="course.course_id">
+                                            {{course.course_name}}</option>
                                     </select>
                                 </div>
-                                </div>
-
-                                <div *ngIf="!isProfessional">
-                                    <div Class="c-lg-3 c-sm-3 c-md-3">
-                                          <div id="slotwrapper" class="field-wrapper dropdown">
-                                              <label for="assignCourses">Academic Year</label>
-                                              <input id="slot" type="text" [disabled]="isCourseSelected" (click)="multiselectVisible($event.target.id)" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
-                                          </div>
-                                          <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')" >
-                                              <div class="multiselect-wrapper-inner">
-                                                  <ul class="">
-                                                      <li *ngFor="let i of getAllAcademic">
-                                                          <div class="field-checkbox-wrapper">
-                                                              <input type="checkbox" id="{{i.inst_acad_year_id}}"  [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
-                                                               [(ngModel)]="i.status" 
-                                                               (ngModelChange)="updateSlotSelected(i)"
-                                                                  class="form-checkbox">
-                                                              <label for="{{i.inst_acad_year_id}}"> {{i.inst_acad_year}}</label>
-                                                          </div>
-                                                      </li>
-                                                  </ul>
-                                              </div>
-                                          </div>
-                                      </div>
-              
-                                      <div class="c-lg-4 c-sm-4 c-md-4" style="width: 7%;padding-left: 0;">
-                                          <div class="field-wrapper">
-                                              <div class="c-lg-1 filter-btn" style="margin-top: 15px;">
-                                                  <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
-                                              </div>
-                                          </div>
-                                        </div>
-                                      </div>
                             </div>
 
-                          
-      
-                          <div class="row" style="margin: 0;" *ngIf="isProfessional">
-                              <div Class="c-lg-4 c-sm-4 c-md-4" >
-                                    <div id="slotwrapper" class="field-wrapper dropdown" >
+                            <div class="c-lg-4 c-sm-4 c-md-4" *ngIf="isProfessional">
+                                <div class="field-wrapper">
+                                    <label for="ba">Batch</label>
+                                    <select [(ngModel)]="courseFetchForm.batch_id" class="form-ctrl"
+                                        (ngModelChange)="batchSelected($event)" name="" id="ba">
+                                        <option value="-1"></option>
+                                        <option *ngFor="let batch of batchList" [value]="batch.batch_id">
+                                            {{batch.batch_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div *ngIf="!isProfessional">
+                                <div Class="c-lg-3 c-sm-3 c-md-3">
+                                    <div id="slotwrapper" class="field-wrapper dropdown">
                                         <label for="assignCourses">Academic Year</label>
-                                        <input id="slot" type="text" [disabled]="isCourseSelected" (click)="multiselectVisible($event.target.id)" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
+                                        <input id="slot" type="text" [disabled]="isCourseSelected"
+                                            (click)="multiselectVisible($event.target.id)"
+                                            [ngModel]="selectedSlotsString" name="slots" class="form-ctrl"
+                                            readonly="true" />
                                     </div>
-                                    <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')" >
+                                    <div id="slotmulti" class="hide multiselect-wrapper"
+                                        (mouseleave)="multiselectVisible('slot')">
                                         <div class="multiselect-wrapper-inner">
                                             <ul class="">
                                                 <li *ngFor="let i of getAllAcademic">
                                                     <div class="field-checkbox-wrapper">
-                                                        <input type="checkbox" id="{{i.inst_acad_year_id}}"  [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
-                                                         [(ngModel)]="i.status" 
-                                                         (ngModelChange)="updateSlotSelected(i)"
+                                                        <input type="checkbox" id="{{i.inst_acad_year_id}}"
+                                                            [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
+                                                            [(ngModel)]="i.status"
+                                                            (ngModelChange)="updateSlotSelected(i)"
                                                             class="form-checkbox">
-                                                        <label for="{{i.inst_acad_year_id}}"> {{i.inst_acad_year}}</label>
+                                                        <label for="{{i.inst_acad_year_id}}">
+                                                            {{i.inst_acad_year}}</label>
                                                     </div>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-        
+
                                 <div class="c-lg-4 c-sm-4 c-md-4" style="width: 7%;padding-left: 0;">
                                     <div class="field-wrapper">
                                         <div class="c-lg-1 filter-btn" style="margin-top: 15px;">
                                             <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
                                         </div>
                                     </div>
-                                  </div>
                                 </div>
-                          </section>
-                </div>
+                            </div>
+                        </div>
 
 
-                <div class="c-lg-3">
+
+                        <div class="row" style="margin: 0;" *ngIf="isProfessional">
+                            <div Class="c-lg-4 c-sm-4 c-md-4">
+                                <div id="slotwrapper" class="field-wrapper dropdown">
+                                    <label for="assignCourses">Academic Year</label>
+                                    <input id="slot" type="text" [disabled]="isCourseSelected"
+                                        (click)="multiselectVisible($event.target.id)" [ngModel]="selectedSlotsString"
+                                        name="slots" class="form-ctrl" readonly="true" />
+                                </div>
+                                <div id="slotmulti" class="hide multiselect-wrapper"
+                                    (mouseleave)="multiselectVisible('slot')">
+                                    <div class="multiselect-wrapper-inner">
+                                        <ul class="">
+                                            <li *ngFor="let i of getAllAcademic">
+                                                <div class="field-checkbox-wrapper">
+                                                    <input type="checkbox" id="{{i.inst_acad_year_id}}"
+                                                        [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
+                                                        [(ngModel)]="i.status" (ngModelChange)="updateSlotSelected(i)"
+                                                        class="form-checkbox">
+                                                    <label for="{{i.inst_acad_year_id}}"> {{i.inst_acad_year}}</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-sm-4 c-md-4" style="width: 7%;padding-left: 0;">
+                                <div class="field-wrapper">
+                                    <div class="c-lg-1 filter-btn" style="margin-top: 15px;">
+                                        <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section> 
+                </div>-->
+
+
+<!-- <div class="c-lg-3">
                     <div class="field-wrapper hide">
                         <label for="ic">Installment</label>
                         <select class="form-ctrl" name="" id="ic">
@@ -170,9 +542,9 @@
                             <option [value]="i" *ngFor="let i of installmentList">{{i}}</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
 
-                <!-- <div class="c-lg-3">
+<!-- <div class="c-lg-3">
                             <div class="form-wrapper">
                                 <label for="sd">Select Dues</label>
                                 <select [(ngModel)]="due_type" (ngModelChange)="dateRangeChanges($event)" name="sd" id="sd" class="form-ctrl">
@@ -188,11 +560,11 @@
 
 
 
-                <div class="c-lg-3" *ngIf="isCustomDate">
+<!-- <div class="c-lg-3" *ngIf="isCustomDate">
                     <div class="field-wrapper datePickerBox">
                         <label for="ic">From Date</label>
-                        <input [(ngModel)]="courseFetchForm.from_date" (ngModelChange)="validateFutureDate('from')" type="text" value="" readonly="true"
-                            class="form-ctrl bsDatepicker" bsDatepicker/>
+                        <input [(ngModel)]="courseFetchForm.from_date" (ngModelChange)="validateFutureDate('from')"
+                            type="text" value="" readonly="true" class="form-ctrl bsDatepicker" bsDatepicker />
                     </div>
                     <span style="cursor: pointer; color: #ff0000;" (click)="courseFetchForm.from_date = ''">clear</span>
                 </div>
@@ -200,8 +572,8 @@
                 <div class="c-lg-3" *ngIf="isCustomDate">
                     <div class="field-wrapper datePickerBox">
                         <label for="ic">To Date</label>
-                        <input [(ngModel)]="courseFetchForm.to_date" (ngModelChange)="validateFutureDate('to')" type="text" value="" readonly="true"
-                            class="form-ctrl bsDatepicker" bsDatepicker/>
+                        <input [(ngModel)]="courseFetchForm.to_date" (ngModelChange)="validateFutureDate('to')"
+                            type="text" value="" readonly="true" class="form-ctrl bsDatepicker" bsDatepicker />
                     </div>
                     <span style="cursor: pointer;color: #ff0000;" (click)="courseFetchForm.to_date = ''">clear</span>
                 </div>
@@ -209,55 +581,69 @@
 
                 <div class="c-lg-1 filter-btn hide">
                     <div class="filter-right pull-right">
-                        <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Switch Filter</a>
+                        <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()"
+                            class="openAdFilter">Switch Filter</a>
                     </div>
                 </div>
 
-            </div>
+            </div> -->
 
 
-            <section>
-                <div class="row" style="margin: 0;margin-top: 10px;">                    
+<!-- <section>
+                <div class="row" style="margin: 0;margin-top: 10px;">
                     <div class="c-lg-9">
-                        <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block;  text-align: left; width:64vw;">
+                        <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined"
+                            style="display: inline-block;  text-align: left; width:64vw;">
                             <div class="c-lg-2"></div>
                             <div class="c-lg-2">
                                 <li style="display: inline-block; margin-left: 10%;">
                                     <span class="made-out">Total Fees</span>
-                                    <div class="made-in">{{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_fees.toLocaleString('en-IN')}}</div>
+                                    <div class="made-in">
+                                        {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_fees.toLocaleString('en-IN')}}
+                                    </div>
                                 </li>
                             </div>
                             <div class="c-lg-2">
                                 <li style=" margin-left: 11px; display: inline-block;">
                                     <span class="made-out"> Collected</span>
-                                    <div class="made-in">{{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</div>
+                                    <div class="made-in">
+                                        {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}
+                                    </div>
                                 </li>
                             </div>
                             <div class="c-lg-2">
                                 <li style="display: inline-block; margin-left: 10%;">
                                     <span class="made-out">Past dues</span>
-                                    <div class="made-in">{{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</div>
+                                    <div class="made-in">
+                                        {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}
+                                    </div>
                                 </li>
                             </div>
                             <div class="c-lg-2">
                                 <li style=" margin-left: 11px; display: inline-block;">
                                     <span class="made-out"> Future Dues</span>
-                                    <div class="made-in"> {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}</div>
+                                    <div class="made-in">
+                                        {{ _commService.currency_default_symbol}}{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}
+                                    </div>
                                 </li>
                             </div>
                             <div class="c-lg-2">
                                 <li style=" margin-left: 11px; display: inline-block;">
                                     <span class="made-out"> Total Dues</span>
-                                    <div class="made-in"> {{ _commService.currency_default_symbol}}{{ (feeDataSource1[0].total_dues_pending+feeDataSource1[0].total_future_dues).toLocaleString('en-IN')}}</div>
+                                    <div class="made-in">
+                                        {{ _commService.currency_default_symbol}}{{ (feeDataSource1[0].total_dues_pending+feeDataSource1[0].total_future_dues).toLocaleString('en-IN')}}
+                                    </div>
                                 </li>
                             </div>
-                        
+
                         </ul>
                     </div>
                     <div class="c-lg-3">
                         <div id="basic-search" class="c-lg-11">
                             <form autocomplete="off" #form="ngForm">
-                                <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar" style="padding:7px 10px 5px; width:200px; height:35px; float: right; margin-bottom:10px;">
+                                <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search"
+                                    class="form-ctrl" id="searchBar"
+                                    style="padding:7px 10px 5px; width:200px; height:35px; float: right; margin-bottom:10px;">
                             </form>
                         </div>
                         <div>
@@ -267,26 +653,29 @@
                                     <ul class="login-nav">
                                         <li class="pos-rel" *ngIf="downloadFeeReportAccess">
                                             <i class="icons">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                                                    <path id="gearIcon" d="M24 14.187v-4.374c-2.148-.766-2.726-.802-3.027-1.529-.303-.729.083-1.169 1.059-3.223l-3.093-3.093c-2.026.963-2.488 1.364-3.224 1.059-.727-.302-.768-.889-1.527-3.027h-4.375c-.764 2.144-.8 2.725-1.529 3.027-.752.313-1.203-.1-3.223-1.059l-3.093 3.093c.977 2.055 1.362 2.493 1.059 3.224-.302.727-.881.764-3.027 1.528v4.375c2.139.76 2.725.8 3.027 1.528.304.734-.081 1.167-1.059 3.223l3.093 3.093c1.999-.95 2.47-1.373 3.223-1.059.728.302.764.88 1.529 3.027h4.374c.758-2.131.799-2.723 1.537-3.031.745-.308 1.186.099 3.215 1.062l3.093-3.093c-.975-2.05-1.362-2.492-1.059-3.223.3-.726.88-.763 3.027-1.528zm-4.875.764c-.577 1.394-.068 2.458.488 3.578l-1.084 1.084c-1.093-.543-2.161-1.076-3.573-.49-1.396.581-1.79 1.693-2.188 2.877h-1.534c-.398-1.185-.791-2.297-2.183-2.875-1.419-.588-2.507-.045-3.579.488l-1.083-1.084c.557-1.118 1.066-2.18.487-3.58-.579-1.391-1.691-1.784-2.876-2.182v-1.533c1.185-.398 2.297-.791 2.875-2.184.578-1.394.068-2.459-.488-3.579l1.084-1.084c1.082.538 2.162 1.077 3.58.488 1.392-.577 1.785-1.69 2.183-2.875h1.534c.398 1.185.792 2.297 2.184 2.875 1.419.588 2.506.045 3.579-.488l1.084 1.084c-.556 1.121-1.065 2.187-.488 3.58.577 1.391 1.689 1.784 2.875 2.183v1.534c-1.188.398-2.302.791-2.877 2.183zm-7.125-5.951c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3zm0-2c-2.762 0-5 2.238-5 5s2.238 5 5 5 5-2.238 5-5-2.238-5-5-5z"
-                                                    />
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                    viewBox="0 0 24 24">
+                                                    <path id="gearIcon"
+                                                        d="M24 14.187v-4.374c-2.148-.766-2.726-.802-3.027-1.529-.303-.729.083-1.169 1.059-3.223l-3.093-3.093c-2.026.963-2.488 1.364-3.224 1.059-.727-.302-.768-.889-1.527-3.027h-4.375c-.764 2.144-.8 2.725-1.529 3.027-.752.313-1.203-.1-3.223-1.059l-3.093 3.093c.977 2.055 1.362 2.493 1.059 3.224-.302.727-.881.764-3.027 1.528v4.375c2.139.76 2.725.8 3.027 1.528.304.734-.081 1.167-1.059 3.223l3.093 3.093c1.999-.95 2.47-1.373 3.223-1.059.728.302.764.88 1.529 3.027h4.374c.758-2.131.799-2.723 1.537-3.031.745-.308 1.186.099 3.215 1.062l3.093-3.093c-.975-2.05-1.362-2.492-1.059-3.223.3-.726.88-.763 3.027-1.528zm-4.875.764c-.577 1.394-.068 2.458.488 3.578l-1.084 1.084c-1.093-.543-2.161-1.076-3.573-.49-1.396.581-1.79 1.693-2.188 2.877h-1.534c-.398-1.185-.791-2.297-2.183-2.875-1.419-.588-2.507-.045-3.579.488l-1.083-1.084c.557-1.118 1.066-2.18.487-3.58-.579-1.391-1.691-1.784-2.876-2.182v-1.533c1.185-.398 2.297-.791 2.875-2.184.578-1.394.068-2.459-.488-3.579l1.084-1.084c1.082.538 2.162 1.077 3.58.488 1.392-.577 1.785-1.69 2.183-2.875h1.534c.398 1.185.792 2.297 2.184 2.875 1.419.588 2.506.045 3.579-.488l1.084 1.084c-.556 1.121-1.065 2.187-.488 3.58.577 1.391 1.689 1.784 2.875 2.183v1.534c-1.188.398-2.302.791-2.877 2.183zm-7.125-5.951c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3zm0-2c-2.762 0-5 2.238-5 5s2.238 5 5 5 5-2.238 5-5-2.238-5-5-5z" />
                                                 </svg>
                                             </i>
-                                            <div class="dropdown"  style="z-index: 100;">
+                                            <div class="dropdown" style="z-index: 100;">
                                                 <ul class="user-detail">
                                                     <li (click)="exportToExcel()" class="asHover">
-                                                        <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;"></i>
+                                                        <i class="fa fa-file-excel-o"
+                                                            style="font-family: 'FontAwesome'; display: inline-block;"></i>
                                                         <strong style="display: inline-block;">Export as Excel</strong>
                                                     </li>
                                                     <hr>
                                                     <li (click)="exportToPdf()" class="asHover">
-                                                        <i class="fa fa-file-pdf-o" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+                                                        <i class="fa fa-file-pdf-o"
+                                                            style="font-family: 'FontAwesome' ; display: inline-block;"></i>
                                                         <strong style="display: inline-block;">Export as Pdf</strong>
-                                                    </li>
-                                                    <!-- <li (click)="openPreferences()" class="asHover">
+                                                    </li> -->
+<!-- <li (click)="openPreferences()" class="asHover">
                                                         <strong>Show/Hide Columns</strong>
                                                     </li> -->
-                                                </ul>
+<!-- </ul>
                                             </div>
                                         </li>
                                     </ul>
@@ -296,44 +685,48 @@
                     </div>
                 </div>
 
-            </section>
+            </section> -->
 
-            <section style="float: right;width: 25%;padding-bottom: 5px">
+<!-- <section style="float: right;width: 25%;padding-bottom: 5px">
                 <div class="c-lg-1 filter-btn" style="width: auto;padding-right: 0;">
                     <button class="btn fullBlue" (click)="checkSendDueOption('Mail')">Send Due E-mail</button>
                 </div>
                 <div class="c-lg-1 filter-btn" style="width: 0;padding-left: 0;">
                     <button class="btn fullBlue" (click)="checkSendDueOption('SMS')">Send Due SMS</button>
                 </div>
-            </section>
+            </section> -->
 
-            <div class="table-content" *ngIf="isFilterReversed">
-                <!-- 
+<!-- <div class="table-content" *ngIf="isFilterReversed"> -->
+<!-- 
                     
                     <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block;  text-align: left;width:37%;">
                        
                         
                     </ul> -->
-
-                <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
-                    [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
+<!-- 
+                <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions"
+                    (multiOptionSelected)="optionSelected($event)" [isMulti]='true' [hasMenu]="true"
+                    [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
                     [settings]="feeSettings1">
                 </rob-table>
-            </div>
-            <!-- <div class="table-content" *ngIf="!isFilterReversed">
+            </div> -->
+<!-- <div class="table-content" *ngIf="!isFilterReversed">
                     <rob-table [menuOptions]="menuOptions" [isMulti]='true' [hasMenu]="false" [records]="feeDataSource2" [tableName]="'feereport'"
                         [dataStatus]="dataStatus" [settings]="feeSettings2">
                     </rob-table>
                 </div> -->
-        </section>
-    </aside>
+<!-- </section>
+    </aside> -->
 
-    <fee-receipt [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeeReceipt"></fee-receipt>
+<!-- <fee-receipt [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeeReceipt"></fee-receipt>
 
-    <next-due-detail [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isNextDueDetail"></next-due-detail>
+    <next-due-detail [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isNextDueDetail">
+    </next-due-detail>
 
-    <payment-history [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeepaymentHistory"></payment-history>
+    <payment-history [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeepaymentHistory">
+    </payment-history>
 
-    <view-detail-report [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isViewDetailReport"></view-detail-report>
+    <view-detail-report [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isViewDetailReport">
+    </view-detail-report> -->
 
-</div>
+<!-- </div> -->

@@ -31,6 +31,17 @@
     }
   }
 
+  .add-class-btn{
+    border: 1px solid #3a66fa;
+    border-radius: 4px;
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+    padding: 4px 10px;
+    background: white;
+    color: #1283f4;
+    font-weight: 600;
+    height: 30px;
+    margin-left: 15px;
+}
   .optMenu {
     .enq-dropdown-content {
       position: absolute;
@@ -2396,4 +2407,39 @@ input[type=radio]{
   left: 0;
   z-index: 500;
   width: 100%;
+}
+ 
+th{
+  background-color: #e0eaec;
+  color: black;
+}
+tr {
+  border-radius: 12px;
+  border-left: 5px solid #e0eaec;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+.tableBodyScroll tbody {
+  display: block;
+  max-height: 73vh;
+  min-height: 73vh;
+  overflow-y: auto;
+  background: #ffffff;
+  // border-radius: 4px;
+  // border-radius: 1px solid rgba(211, 212, 213, 0.5);
+}
+.tableBodyScroll thead,
+tbody tr {
+  display: table;
+ width : 100%;
+  table-layout: fixed;
+}
+
+.headerSection{
+  background: white;
+}
+.btn {
+  background: #0084f6;
+  color: white;
 }
