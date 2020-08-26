@@ -21,7 +21,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
   isRegisterStudent: boolean = false;
   /* Variable Declarations */
-  countryDetails: any=[];
+  countryDetails: any = [];
   enqstatus: any = [];
   enqPriority: any = [];
   enqFollowType: any = [];
@@ -160,6 +160,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   selectedCourseIds: any = null;
   selectedSubjectIds: any = null;
   isEnquirySubmit: boolean = true;
+  permissionList: any;
+  permission: boolean = false;
   instituteCountryDetObj: any = {};
   maxlength: any = 10;
   country_id: any = null;
@@ -215,6 +217,9 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isCityMandatory = sessionStorage.getItem('enable_routing');
     this.isStateMandatory = sessionStorage.getItem('enable_routing');
+    if (JSON.parse(sessionStorage.getItem('permissions')).includes('110')) {
+      this.permission = true;
+    }
     this.isEnquiryAdministrator();
     this.fetchEnquiryPrefilledData();
 
@@ -272,7 +277,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
     if (sessionStorage.getItem('enquiryPrefill') != null && sessionStorage.getItem('enquiryPrefill') != undefined) {
       this.convertToEnquiryDetected();
-    } 
+    }
 
     // Multi Branch Check
     this.auth.isMainBranch.subscribe(
@@ -325,7 +330,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       country_id: data.country_id,
       walkin_followUpDate: '',
       walkin_followUpTime: '',
-      closing_reason_id:'',
+      closing_reason_id: '',
       user_id: data.user_id,
       city_id: data.city_id,
       state_id: data.state_id,
@@ -343,34 +348,34 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     let encryptedData = sessionStorage.getItem('country_data');
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
-    this.countryDetails = data;
-    this.newEnqData.country_id = this.countryDetails[0].id;
-    this.instituteCountryDetObj=this.countryDetails[0];
-    this.maxlength = this.countryDetails[0].country_phone_number_length;
-    this.country_id = this.countryDetails[0].id;
+      this.countryDetails = data;
+      this.newEnqData.country_id = this.countryDetails[0].id;
+      this.instituteCountryDetObj = this.countryDetails[0];
+      this.maxlength = this.countryDetails[0].country_phone_number_length;
+      this.country_id = this.countryDetails[0].id;
     }
   }
 
 
-  getStateList(){
+  getStateList() {
     const url = `/api/v1/country/state?country_ids=${this.newEnqData.country_id}`
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-         this.auth.hideLoader();
-        if(res.result.length > 0){
+        this.auth.hideLoader();
+        if (res.result.length > 0) {
           this.stateList = res.result[0].stateList;
         }
       },
       err => {
-         this.auth.hideLoader();
+        this.auth.hideLoader();
         this.showErrorMessage('error', '', err);
       }
     )
   }
 
-  
-  resetStateCityArea(){
+
+  resetStateCityArea() {
     this.stateList = [];
     this.cityList = [];
     this.areaList = [];
@@ -379,7 +384,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     this.newEnqData.area_id = "";
     this.getStateList();
   }
-  getNewCityList(){
+  getNewCityList() {
     this.cityList = [];
     this.areaList = [];
     this.newEnqData.city_id = "";
@@ -387,51 +392,51 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     this.getCityList()
   }
 
-  getNewAreaList(){
+  getNewAreaList() {
     this.areaList = [];
     this.getAreaList();
   }
 
   // get city list as per state selection
-  getCityList(){
+  getCityList() {
     const url = `/api/v1/country/city?state_ids=${this.newEnqData.state_id}`
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-         this.auth.hideLoader();
-        if(res.result.length > 0){
+        this.auth.hideLoader();
+        if (res.result.length > 0) {
           this.cityList = res.result[0].cityList;
         }
       },
       err => {
-         this.auth.hideLoader();
+        this.auth.hideLoader();
         this.showErrorMessage('error', '', err);
       }
     )
   }
 
-  getAreaList(){
+  getAreaList() {
     const url = `/api/v1/cityArea/area/${this.createSource.inst_id}?city_ids=${this.newEnqData.city_id}`
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
-         this.auth.hideLoader();
-        if(res.result&&res.result.length > 0){
+        this.auth.hideLoader();
+        if (res.result && res.result.length > 0) {
           this.areaList = res.result[0].areaList;
         }
       },
       err => {
-         this.auth.hideLoader();
+        this.auth.hideLoader();
         this.showErrorMessage('error', '', err);
       }
     )
   }
 
-  toggleAddArea(){
-    if(this.addArea){
+  toggleAddArea() {
+    if (this.addArea) {
       this.addArea = false;
     }
-    else{
+    else {
       this.addArea = true;
     }
   }
@@ -1030,13 +1035,13 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
             return;
           }
         }
-        if(this.selectedSubjectIds == '-1'){
+        if (this.selectedSubjectIds == '-1') {
           this.selectedSubjectIds = null;
         }
-        if(this.selectedCourseIds == '-1') {
+        if (this.selectedCourseIds == '-1') {
           this.selectedCourseIds = null;
         }
-        if(this.newEnqData.subjectIdArray == '-1') {
+        if (this.newEnqData.subjectIdArray == '-1') {
           this.selectedCourseIds = null;
         }
         if (this.newEnqData.is_follow_up_time_notification == true) {
@@ -1048,7 +1053,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
         if (!this.isProfessional && (this.isEnquirySubmit)) {
           this.isEnquirySubmit = false;
-          let obj:any = {
+          let obj: any = {
             area: this.newEnqData.area,
             assigned_to: this.newEnqData.assigned_to,
             city: this.newEnqData.city,
@@ -1258,10 +1263,10 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
   validateAreaAndCityFields() {
     if (this.isCityMandatory == 1 && this.isStateMandatory == 1) {
-      if(this.newEnqData.state_id == ""){
-         return this.showErrorMessage('error', '', 'Please enter State details');
+      if (this.newEnqData.state_id == "") {
+        return this.showErrorMessage('error', '', 'Please enter State details');
       }
-      else{
+      else {
         if (this.newEnqData.city_id == '') {
           return this.showErrorMessage('error', '', 'Please enter City details');
         }
@@ -1309,7 +1314,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
           return true;
         }
         else {
-          return this.showErrorMessage('error','', 'Please add required field(s) in academics details section');
+          return this.showErrorMessage('error', '', 'Please add required field(s) in academics details section');
         }
       }
       else {
@@ -1317,7 +1322,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       }
     }
     else if (element.is_required == "Y" && element.value == "") {
-      return this.showErrorMessage('error', '','Please add required field(s) in academics details section');
+      return this.showErrorMessage('error', '', 'Please add required field(s) in academics details section');
     }
     else if (element.is_required == "N") {
       return true;
@@ -1326,14 +1331,14 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
-    let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
-    let phoneFlag = this.commonServiceFactory.phonenumberCheck(this.newEnqData.phone, this.maxlength,this.country_id)
+    let msg = 'Enter '.concat(this.maxlength).concat(' Digit Contact Number');
+    let phoneFlag = this.commonServiceFactory.phonenumberCheck(this.newEnqData.phone, this.maxlength, this.country_id)
     if (phoneFlag == false || phoneFlag == 'noNumber') {
       if (phoneFlag == 'noNumber') {
         return this.showErrorMessage('error', 'Please enter valid contact no.', '');
       }
       else {
-        return this.showErrorMessage('error', msg , '');
+        return this.showErrorMessage('error', msg, '');
       }
     }
     else if (this.commonServiceFactory.checkValueType(this.newEnqData.enquiry_date)) {
@@ -1342,23 +1347,23 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     else if (this.commonServiceFactory.sourceValueCheck(this.newEnqData.source_id)) {
       return this.showErrorMessage('error', '', 'Please select enquiry source');
     }
-    else if(this.newEnqData.name == '' || this.newEnqData.name ==null){
-      return this.showErrorMessage('error',  '','Please enter name');
+    else if (this.newEnqData.name == '' || this.newEnqData.name == null) {
+      return this.showErrorMessage('error', '', 'Please enter name');
     }
-    else if(this.newEnqData.follow_type == '' || this.newEnqData.follow_type == null) {
-      return this.showErrorMessage('error',  '','Please select follow up type');
+    else if (this.newEnqData.follow_type == '' || this.newEnqData.follow_type == null) {
+      return this.showErrorMessage('error', '', 'Please select follow up type');
     }
     else {
       if (this.validateEnquiryDate()) {//newEnqData.parent_phone
-        if(this.newEnqData.parent_phone != '' && this.newEnqData.parent_phone !=null){
-        if (this.commonServiceFactory.phonenumberCheck(this.newEnqData.parent_phone, this.maxlength, this.country_id)==false && this.newEnqData.parent_phone != "") {
-          return this.showErrorMessage('error', '', msg);
+        if (this.newEnqData.parent_phone != '' && this.newEnqData.parent_phone != null) {
+          if (this.commonServiceFactory.phonenumberCheck(this.newEnqData.parent_phone, this.maxlength, this.country_id) == false && this.newEnqData.parent_phone != "") {
+            return this.showErrorMessage('error', '', msg);
+          }
         }
-        }
-        if(this.newEnqData.phone2 != ''&& this.newEnqData.phone2!=null){
-        if (this.commonServiceFactory.phonenumberCheck(this.newEnqData.phone2, this.maxlength,this.country_id)==false && this.newEnqData.phone2 != "") {
-          return this.showErrorMessage('error',  '',msg);
-        }
+        if (this.newEnqData.phone2 != '' && this.newEnqData.phone2 != null) {
+          if (this.commonServiceFactory.phonenumberCheck(this.newEnqData.phone2, this.maxlength, this.country_id) == false && this.newEnqData.phone2 != "") {
+            return this.showErrorMessage('error', '', msg);
+          }
         }
         if (this.hour == '' && Number(this.minute) > 0) {
           return this.showErrorMessage('error', '', 'Please select time');
@@ -1638,20 +1643,20 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
   /* function to add Reference data to server */
   addReferData() {
-    if(this.createReferer.name.trim() != ''){
-    if((this.referList.filter(x=>x.name == this.createReferer.name.trim())).length == 0){
-    this.prefill.createReferer(this.createReferer).subscribe(
-      el => {
-        this.closeAddRefer();
-       this.fetchReferInfo();
-      },
-      err => {
-        this.showErrorMessage('error', '', err.error.message);
+    if (this.createReferer.name.trim() != '') {
+      if ((this.referList.filter(x => x.name == this.createReferer.name.trim())).length == 0) {
+        this.prefill.createReferer(this.createReferer).subscribe(
+          el => {
+            this.closeAddRefer();
+            this.fetchReferInfo();
+          },
+          err => {
+            this.showErrorMessage('error', '', err.error.message);
+          }
+        );
+      } else {
+        this.showErrorMessage('error', '', 'Referrer name already exist!');
       }
-    );
-    } else {
-      this.showErrorMessage('error', '', 'Referrer name already exist!');
-    }
     } else {
       this.showErrorMessage('info', '', 'Please enter Referrer name');
     }
@@ -1707,8 +1712,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
 
   cancelEditRefer(id) {
-    let temp = this.referList.filter(el=> el.id == id);
-    if(temp) {
+    let temp = this.referList.filter(el => el.id == id);
+    if (temp) {
       temp[0].edit = false;
       temp[0].new_referrer_name = temp[0].name;
     }
@@ -1723,15 +1728,15 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
           name: el.new_referrer_name,
           inst_id: sessionStorage.getItem('institute_id')
         };
-         this.auth.showLoader();
+        this.auth.showLoader();
         this.poster.updateReferDetails(data).subscribe(
           res => {
-             this.auth.hideLoader();
+            this.auth.hideLoader();
             this.showErrorMessage('success', '', 'Reference updated Successfully');
             this.fetchReferInfo();
           },
           err => {
-             this.auth.hideLoader();
+            this.auth.hideLoader();
             this.showErrorMessage('error', '', err.error.message);
           }
         )
@@ -1741,30 +1746,30 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
 
   deleteRefer(id, name) {
-        let data = {
-          id: id,
-          name: name,
-          inst_id: sessionStorage.getItem('institute_id')
-        };
-         this.auth.showLoader();
-        this.poster.deleteRefer(data).subscribe(
-          res => {
-             this.auth.hideLoader();
-            this.showErrorMessage('success', '', 'Reference deleted Successfully');
-            this.referList.filter(x=>(x.id == id)).splice(0,1);
-            this.fetchReferInfo();
-          },
-          err => {
-             this.auth.hideLoader();
-            let msg;
-            if(err.status == 500){
-              msg = JSON.parse(err._body);
-              this.showErrorMessage('error', '', msg.message);
-            } else {
-              this.showErrorMessage('error', '', err.error.message);
-            }
-          }
-        );
+    let data = {
+      id: id,
+      name: name,
+      inst_id: sessionStorage.getItem('institute_id')
+    };
+    this.auth.showLoader();
+    this.poster.deleteRefer(data).subscribe(
+      res => {
+        this.auth.hideLoader();
+        this.showErrorMessage('success', '', 'Reference deleted Successfully');
+        this.referList.filter(x => (x.id == id)).splice(0, 1);
+        this.fetchReferInfo();
+      },
+      err => {
+        this.auth.hideLoader();
+        let msg;
+        if (err.status == 500) {
+          msg = JSON.parse(err._body);
+          this.showErrorMessage('error', '', msg.message);
+        } else {
+          this.showErrorMessage('error', '', err.error.message);
+        }
+      }
+    );
   }
   /* --------------------------------------------------------------------------------------------------------- */
   /* ---------------------------------------------- Source Editor Logic ------------------------------------------------- */
@@ -1785,24 +1790,24 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
 
   /* function to add Source data to server */
-  addSourceData() {    
-    if(this.createSource.name.trim() != '') {
-    if((this.sourceList.filter(x=>x.name == this.createSource.name.trim())).length == 0){
-       this.auth.showLoader();
-    this.prefill.createSource(this.createSource).subscribe(
-      el => {
-         this.auth.hideLoader();
-        this.fetchSourceInfo();
-        this.closeAddSource();
-      },
-      err => {
-         this.auth.hideLoader();
-        this.showErrorMessage('error', '', err.error.message);
+  addSourceData() {
+    if (this.createSource.name.trim() != '') {
+      if ((this.sourceList.filter(x => x.name == this.createSource.name.trim())).length == 0) {
+        this.auth.showLoader();
+        this.prefill.createSource(this.createSource).subscribe(
+          el => {
+            this.auth.hideLoader();
+            this.fetchSourceInfo();
+            this.closeAddSource();
+          },
+          err => {
+            this.auth.hideLoader();
+            this.showErrorMessage('error', '', err.error.message);
+          }
+        );
+      } else {
+        this.showErrorMessage('error', '', 'Source name already exist!');
       }
-    );
-    } else {
-      this.showErrorMessage('error', '', 'Source name already exist!');
-    }
     } else {
       this.showErrorMessage('info', '', 'Please enter source name');
     }
@@ -1864,8 +1869,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   /* Source edit cancel*/
   cancelEditSource(id) {
     // this.fetchSourceInfo();
-    let temp = this.sourceList.filter(el=> el.id == id);
-    if(temp) {
+    let temp = this.sourceList.filter(el => el.id == id);
+    if (temp) {
       temp[0].edit = false;
       temp[0].new_source_name = temp[0].name;
     }
@@ -1881,15 +1886,15 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
           name: el.new_source_name,
           inst_id: sessionStorage.getItem('institute_id')
         }
-         this.auth.showLoader();
+        this.auth.showLoader();
         this.poster.updateSourceDetails(data).subscribe(
           res => {
-             this.auth.hideLoader();
+            this.auth.hideLoader();
             this.showErrorMessage('success', '', 'Source updated successfully');
             this.fetchSourceInfo();
           },
           err => {
-             this.auth.hideLoader();
+            this.auth.hideLoader();
             this.showErrorMessage('error', '', err.error.message);
 
           }
@@ -1903,7 +1908,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     if (ev.split(' ')[0] != '') {
       this.hour = ev.split(' ')[0];
       this.meridian = ev.split(' ')[1];
-      if(this.minute == ""){
+      if (this.minute == "") {
         this.minute = this.minArr[1];
       }
     }
@@ -1925,15 +1930,15 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
           name: el.name,
           inst_id: sessionStorage.getItem('institute_id')
         }
-         this.auth.showLoader();
+        this.auth.showLoader();
         this.poster.deleteSource(data).subscribe(
           res => {
-             this.auth.hideLoader();
+            this.auth.hideLoader();
             this.showErrorMessage('success', '', 'Source deleted successfully');
             this.fetchSourceInfo();
           },
           err => {
-             this.auth.hideLoader();
+            this.auth.hideLoader();
             this.showErrorMessage('error', '', err.error.message);
           }
         )

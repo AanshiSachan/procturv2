@@ -22,7 +22,7 @@
 
         <div class="row">
 
-          <div class="c-lg-3 field-wrapper">
+          <div class="c-lg-3 field-wrapper" *ngIf="permission">
             <label>Counsellor</label>
             <select class="form-ctrl" [(ngModel)]="counsellorInfoDetails.assigned_to">
               <option value="-1">
@@ -35,12 +35,14 @@
 
           <div class="c-lg-3 field-wrapper datePickerBox">
             <label>Enquiry From Date</label>
-            <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="counsellorInfoDetails.updateDateFrom" >
+            <input type="text" readonly="true" class="form-ctrl" bsDatepicker
+              [(ngModel)]="counsellorInfoDetails.updateDateFrom">
           </div>
 
           <div class="c-lg-3 field-wrapper datePickerBox">
             <label>Enquiry To Date</label>
-            <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="counsellorInfoDetails.updateDateTo" >
+            <input type="text" readonly="true" class="form-ctrl" bsDatepicker
+              [(ngModel)]="counsellorInfoDetails.updateDateTo">
           </div>
 
           <div class="c-lg-3 " style="margin-top:2%;">
@@ -49,12 +51,12 @@
         </div>
 
         <div id="basic-search" style="margin:5px; float:right;">
-          <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-            (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
+          <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText"
+            name="searchData" (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
         </div>
 
-        <rob-table [isMulti]="false" [records]="getCounsellorDetails" [dataStatus]="dataStatus" (userRowSelect)="reportHandler($event)"
-          [tableName]="'feereport'" [settings]="feeSettings1">
+        <rob-table [isMulti]="false" [records]="getCounsellorDetails" [dataStatus]="dataStatus"
+          (userRowSelect)="reportHandler($event)" [tableName]="'feereport'" [settings]="feeSettings1">
         </rob-table>
 
         <proctur-popup [sizeWidth]="'small'" *ngIf="showPopup">
@@ -62,11 +64,13 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
               <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                 <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                  <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                  <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                  <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                    transform="translate(992.81 305.77) rotate(45)" />
+                  <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                    transform="translate(978.81 305.77) rotate(45)" />
                 </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                />
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16"
+                  height="16" transform="translate(1012 297)" />
               </g>
             </svg>
           </span>
@@ -98,7 +102,7 @@
                 <tbody>
                   <tr *ngFor="let i of popupDataEnquiries">
                     <td>
-                        {{i.enquiry_no}}
+                      {{i.enquiry_no}}
                     </td>
                     <td>
                       {{i.enquiry_date}}
