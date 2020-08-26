@@ -1170,10 +1170,10 @@
             <span>
                 <div style="width: 32%;float: left;margin-left: -37%;">studying in our college in the</div>
                 <div class="data_content" style="width: 70%;margin-left: -5%;" *ngIf="isProfessional">
-                    <span style="padding-right: 30%;padding-left: 30%;">{{studentData.batchName}}</span>
+                    <span style="padding-right: 0%;padding-left: 20%;">{{studentCustomField.batchName}}</span>
                 </div>
                 <div class="data_content" style="width: 70%;margin-left: -5%;" *ngIf="!isProfessional">
-                    <span style="padding-right: 30%;padding-left: 30%;">{{studentData.courseName}}</span>
+                    <span style="padding-right: 0%;padding-left: 20%;">{{studentCustomField.courseName}}</span>
                 </div>
             </span>
             <div style="margin-top: -3%;float: right;margin-right: 11%;">
@@ -1183,10 +1183,9 @@
         <!-- Third Line -->
         <div class="cert-issuer-name" style="margin-top: 20px;">
             <span>
-                <div>
-                    <span class="fromDate">{{studentData.dateFrom}}</span> to <span
-                        class="todate">{{studentData.dateTo}}.</span>
-
+                <div class="data_content" style="width: 78%;margin-left: -37%;">
+                    <span id="student_name"
+                        style="padding-right: 40%;padding-left: 30%;">{{studentCustomField.academicYear}}</span>
                 </div>
             </span>
             <div style="margin-top: -3%;float: right;margin-right: 11%;">
@@ -1279,7 +1278,10 @@
                     <span style="padding-right: 30%;padding-left: 30%;">{{studentData.roll_no}}</span>
                 </div>
                 <div style="margin-left: 13%;margin-top: -2%;">having passed the</div>
-                <div class="data_content" style="width: 57%;margin-left: 33%;margin-top: -3%;">
+                <div class="data_content" style="width: 57%;margin-left: 33%;margin-top: -3%;" *ngIf="isProfessional">
+                    <span style="padding-right: 0%;padding-left: 16%;">{{studentCustomField.batchName}}</span>
+                </div>
+                <div class="data_content" style="width: 57%;margin-left: 33%;margin-top: -3%;" *ngIf="!isProfessional">
                     <span style="padding-right: 0%;padding-left: 16%;">{{studentCustomField.courseName}}</span>
                 </div>
             </div>
@@ -1287,8 +1289,7 @@
             <div class="cert-issuer-name" style="margin-top: 1.5%;">
                 <div style="float: left;margin-left: -37%;">During</div>
                 <div class="data_content" style="width: 64%;margin-left: -28%;">
-                    <span style="padding-right: 30%;padding-left: 30%;">{{studentData.dateFrom}} to
-                        {{studentData.dateTo}}</span>
+                    <span style="padding-right: 30%;padding-left: 30%;">{{studentCustomField.academicYear}}</span>
                 </div>
                 <div style="margin-left: 41%;margin-top: -2%;">He has been awarded</div>
                 <div class="data_content" style="width: 16%;margin-left: 66%;margin-top: -3%;">

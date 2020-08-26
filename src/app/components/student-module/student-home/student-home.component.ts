@@ -255,8 +255,8 @@ export class StudentHomeComponent implements OnInit {
 
     this.today = moment().format('DD MMM YYYY');
     let institute_id = sessionStorage.getItem('institute_id');
-    if (institute_id == "100292" || institute_id == "100058" || institute_id == "100127") {
-      // if (institute_id == "100292" || institute_id == "100127") {
+    // if (institute_id == "100292" || institute_id == "100058" || institute_id == "100127") {
+    if (institute_id == "100292" || institute_id == "100127") {
       this.attendanceCertificate = true;
     }
     this.actRoute.queryParams.subscribe(e => {
@@ -2391,6 +2391,7 @@ export class StudentHomeComponent implements OnInit {
     let url1 = `/api/v1/enquiry/fetchCustomEnquiryComponents/${institute_id}?id=${event}&isSearhable=undefined&student_enq_id=undefined&page=2`
     this.http.getCertificateData(url).subscribe(
       (res: any) => {
+        console.log("Url", url);
         console.log("Response", res);
         this.studentData = res;
         if (this.studentData.dateFrom != null) {
@@ -2419,6 +2420,9 @@ export class StudentHomeComponent implements OnInit {
               if (res[i].label === "Course Name") {
                 this.studentCustomField.courseName = res[i].enq_custom_value;
                 console.log(res[i].enq_custom_value);
+              }
+              if (res[i].label === "Academic Year") {
+                this.studentCustomField.academicYear = res[i].enq_custom_value;
               }
             }
           }
@@ -2451,8 +2455,7 @@ export class StudentHomeComponent implements OnInit {
       document.getElementById('dvContainer_one').className = 'hide';
     }
     else {
-      if (institute_id == "102026" || institute_id == "100057") {
-        // if (institute_id == "100058") {
+      if (institute_id == "102026" || institute_id == "100135") {
         document.getElementById('dvContainer_two').className = 'cert-outer-container';
         const doc = new jsPDF('l', 'in', 'a4');
         console.log(doc);
@@ -2461,9 +2464,8 @@ export class StudentHomeComponent implements OnInit {
           doc.save("certificate.pdf");
         });
         document.getElementById('dvContainer_two').className = 'hide';
-      } else if (institute_id == "101238" || institute_id == "100136") {
-        // } else if (institute_id == "100058") {
-
+      } else if (institute_id == "101238" || institute_id == "100058") {
+        console.log("Growth");
         document.getElementById('dvContainer_three').className = 'cert-outer-container';
         const doc = new jsPDF('l', 'in', 'a4');
         console.log(doc);
