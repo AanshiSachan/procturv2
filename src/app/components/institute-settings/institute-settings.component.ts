@@ -384,10 +384,6 @@ export class InstituteSettingsComponent implements OnInit {
   // Library Role
   libraryRole: boolean = false;
   instituteId: any;
-<<<<<<< HEAD
-=======
-  enable_vdoCipher_feature: any = '0';
->>>>>>> ashwini_table_changes
   instituteTaxType: String;
   reportFor = {
     enquiry: false,
