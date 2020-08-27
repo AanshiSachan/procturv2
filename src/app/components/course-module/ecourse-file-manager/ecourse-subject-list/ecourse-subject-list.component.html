@@ -236,8 +236,8 @@
     <div class="col-md-1 txt-font">
       <span *ngIf="video.video_status=='ready'">{{video.size | number:'.2-2'}}&nbsp;MB</span>
     </div>
-    <div class="col-md-1 txt-font" style="padding-right: 0;">
-      <!-- <span *ngIf="video.video_status=='ready'">{{video.watch_count}} &nbsp;viewed </span> -->
+    <div class="col-md-1 txt-font" style="padding-right: 0;" (click)="viewUserListFun(video.video_watch_history_det)">
+      <span style="cursor: pointer;" *ngIf="video.video_status=='ready'">{{video.watch_count}} &nbsp;viewed </span>
     </div>
     <div class="col-md-1 txt-font">
       <span [ngClass]="{'hide': video.video_time==null}" *ngIf="video.video_status=='ready'">  {{video.video_time }}&nbsp;Hr</span>
@@ -636,3 +636,48 @@
   </div>
   </div>
 </proctur-popup>
+
+<!-- 
+  Developed by - Nalini
+  To show watch user list
+ -->
+<section *ngIf="viewUserList">
+  <div class="confirmation_popup download_popup">
+    <div class="confirm_title" style="font-size: 14px;margin-bottom: 10px;">
+      <!-- <span>{{download_links.session_name}}</span> -->
+      <span style="cursor: pointer;float:right" (click)="viewUserList=false">X</span>
+    </div>
+    <section>
+      <div class="table-container">
+        <div class="heading-container">
+          <div class="heading-item" style="width: 15%;">
+            <span>Sr. No. </span>
+          </div>
+          <div class="heading-item" style="width: 75%;text-align: left;">
+            <span>User Name</span>
+          </div>
+          <div class="heading-item" style="width: 10%;">
+            <span>Count</span>
+          </div>
+        </div>
+        <div class="value-outer-container">
+          <div class="value-container" *ngFor="let data of video_watch_history_det;let i = index;">
+            <div class="value-item" style="width: 15%;">
+              {{i+1}}
+            </div>
+            <div class="value-item" style="width: 75%;text-align: left;">
+              <span title="{{data?.user_name}}" *ngIf="data?.user_name!=null">{{data.user_name}}</span>
+              <span *ngIf="data?.user_name==null">-</span>
+            </div>
+            <div class="value-item" style="width: 10%;">
+              <span title="{{data.watch_count}}" *ngIf="data.watch_count!=null">{{data.watch_count}}</span>
+              <span *ngIf="data.watch_count==null">-</span>
+            </div>
+        </div>
+      </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<div class="black-bg" id="black-bg" *ngIf="viewUserList" (click)="viewUserList=false"></div>
