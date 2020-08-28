@@ -41,6 +41,8 @@ export class EcourseSubjectListComponent implements OnInit {
   vdoCipherFile: any = false;
   Confirm_deleteFile: any = false;
   selectedRowCount: any = 0;
+  viewUserList: boolean = false;
+  video_watch_history_det = []
 
   constructor(
     private _http: HttpService,
@@ -643,5 +645,12 @@ export class EcourseSubjectListComponent implements OnInit {
         this.collapseAll(element, cond);
       });
     }
+  }
+
+  // developed by = Nalini
+  // To show watch user list
+  viewUserListFun(obj) {
+    this.video_watch_history_det = obj;
+    this.viewUserList = true;
   }
 }

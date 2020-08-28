@@ -219,7 +219,7 @@
                     *ngIf="item.status == 20">Publish</a>
                   <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)"
                     style="border: none;" *ngIf="item.status == 30">Unpublished</a>
-                  <a class="dropdown-item" (click)="showAssignStudentPopup(item)" *ngIf="item.status == 30">Assign
+                  <a class="dropdown-item" (click)="showAssignStudentPopup(item)" *ngIf="item.status == 30">Assign/Unassign
                     Student</a>
                   <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;"
                     *ngIf="item.status == 40">Closed</a>
@@ -388,8 +388,13 @@
               <div class="value-container" *ngFor="let data of studentDetails;let i= index">
                 <div class="value-item" style="width: 10%;">
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" class="form-checkbox" [disabled]="data.is_product_already_purchased"
+                    
+                    <!-- <input type="checkbox" class="form-checkbox" [disabled]="data.is_product_already_purchased"
+                    [checked]="data.isSelected" [(ngModel)]="data.isSelected" [id]="'checkbox-'+i"> -->
+                    <!-- Removed disable for de-selecting the  assigned student - Ashwini Kumar Gupta -->
+                    <input type="checkbox" class="form-checkbox"
                       [checked]="data.isSelected" [(ngModel)]="data.isSelected" [id]="'checkbox-'+i">
+                      <!-- End -->
                     <label [for]="'checkbox-'+i"></label>
                   </div>
                 </div>
@@ -423,7 +428,7 @@
             </div>
             <div class="c-lg-2 c-md-2 c-sm-2" style="padding-right: 0;">
               <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;float: right;"
-                [disabled]="isRippleLoad" (click)="assignStudentToProduct()">Assign</button>
+                [disabled]="isRippleLoad" (click)="assignStudentToProduct()">Assign/Unassign</button>
             </div>
           </div>
         </section>

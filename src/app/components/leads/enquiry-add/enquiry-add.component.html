@@ -9,8 +9,9 @@
           <h1 class="pull-left">
             Add New Enquiry
           </h1>
-          <aside class="pull-right">
-            <input type="button" value="Upload Enquiry" routerLink="/view/leads/enquiry/upload" class="btn" id="btnUpload">
+          <aside class="pull-right" *ngIf="permission != true">
+            <input type="button" value="Upload Enquiry" routerLink="/view/leads/enquiry/upload" class="btn"
+              id="btnUpload">
           </aside>
         </div>
 
@@ -55,17 +56,17 @@
                   <div class="field-wrapper">
                     <label for="phone">Phone No<span class="text-danger">*</span></label><br>
                     <span class="countryCallingCode" style="width: 22%">
-                        <select id="country_id" class="form-ctrl" [(ngModel)]="newEnqData.country_id" name="country_id"
-                          [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
-                          <option value=""></option>
-                          <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                            {{data.country_code}} +{{data.country_calling_code}}
-                          </option>
-                        </select>
+                      <select id="country_id" class="form-ctrl" [(ngModel)]="newEnqData.country_id" name="country_id"
+                        [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
+                        style="height: 29px;padding: 0">
+                        <option value=""></option>
+                        <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                          {{data.country_code}} +{{data.country_calling_code}}
+                        </option>
+                      </select>
                     </span>
                     <input type="text" value="" id="phone" class="form-ctrl" [(ngModel)]="newEnqData.phone" name="phone"
-                      onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                      style="width: 78%" />
+                      onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" style="width: 78%" />
                   </div>
 
                   <!-- fetch more details -->
@@ -114,9 +115,12 @@
                       State
                       <span *ngIf="isStateMandatory == 1"><span class="text-danger">*</span></span>
                     </label>
-                      <select id="state" class="form-ctrl" [(ngModel)]="newEnqData.state_id" name="state" (ngModelChange)="getNewCityList()">
+                    <select id="state" class="form-ctrl" [(ngModel)]="newEnqData.state_id" name="state"
+                      (ngModelChange)="getNewCityList()">
                       <option value="">Select State</option>
-                      <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+                      <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">
+                        {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}
+                      </option>
                     </select>
                   </div>
 
@@ -126,9 +130,12 @@
                       City
                       <span *ngIf="isCityMandatory == 1"><span class="text-danger">*</span></span>
                     </label>
-                    <select id="city" class="form-ctrl" [(ngModel)]="newEnqData.city_id" name="city" (ngModelChange)="getNewAreaList()">
+                    <select id="city" class="form-ctrl" [(ngModel)]="newEnqData.city_id" name="city"
+                      (ngModelChange)="getNewAreaList()">
                       <option value="">Select City</option>
-                      <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
+                      <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">
+                        {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}
+                      </option>
                     </select>
                   </div>
 
@@ -137,7 +144,8 @@
                     <label for="addArea">Area</label>
                     <select id="area_id" class="form-ctrl" [(ngModel)]="newEnqData.area_id" name="area_id">
                       <option value="">Select Area</option>
-                      <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">{{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}</option>
+                      <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">
+                        {{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}</option>
                     </select>
                     <span (click)="toggleAddArea()" class="sourceI iconPlus" style="right: -35px;">+</span>
                   </div>
@@ -180,17 +188,17 @@
                     <label for="altContact">Alternate Contact</label><br>
                     <!-- <span class="countryCallingCode">+{{instituteCountryDetObj.country_calling_code}}</span> -->
                     <span class="countryCallingCode" style="width: 22%">
-                        <select id="country_id" class="form-ctrl" [(ngModel)]="newEnqData.country_id" name="country_id"
-                          [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
-                          <option value=""></option>
-                          <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                            {{data.country_code}} +{{data.country_calling_code}}
-                          </option>
-                        </select>
+                      <select id="country_id" class="form-ctrl" [(ngModel)]="newEnqData.country_id" name="country_id"
+                        [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
+                        style="height: 29px;padding: 0">
+                        <option value=""></option>
+                        <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                          {{data.country_code}} +{{data.country_calling_code}}
+                        </option>
+                      </select>
                     </span>
                     <input type="text" value="" id="altContact" #phone2="ngModel" class="form-ctrl"
-                      [(ngModel)]="newEnqData.phone2" name="phone2"
-                      style="width: 78%"
+                      [(ngModel)]="newEnqData.phone2" name="phone2" style="width: 78%"
                       onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
 
                   </div>
@@ -227,19 +235,19 @@
                   <div class="field-wrapper">
                     <label for="guardianContact">Parent Contact</label><br>
                     <!-- <span class="countryCallingCode">+{{instituteCountryDetObj.country_calling_code}}</span> -->
-                    <span class="countryCallingCode"style="width: 22%">
-                        <select id="country_id" class="form-ctrl" [(ngModel)]="newEnqData.country_id" name="country_id"
-                          [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)" style="height: 29px;padding: 0">
-                          <option value=""></option>
-                          <option [value]="data.id" selected *ngFor='let data of countryDetails'>
-                            {{data.country_code}} +{{data.country_calling_code}}
-                          </option>
-                        </select>
+                    <span class="countryCallingCode" style="width: 22%">
+                      <select id="country_id" class="form-ctrl" [(ngModel)]="newEnqData.country_id" name="country_id"
+                        [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
+                        style="height: 29px;padding: 0">
+                        <option value=""></option>
+                        <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                          {{data.country_code}} +{{data.country_calling_code}}
+                        </option>
+                      </select>
                     </span>
                     <input type="text" value="" id="guardianContact" class="form-ctrl"
                       [(ngModel)]="newEnqData.parent_phone" name="guardianContact"
-                      onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                      style="width: 78%" />
+                      onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" style="width: 78%" />
                   </div>
 
                   <!-- Email -->
@@ -365,8 +373,8 @@
                     </select>
                   </div>
 
-                   <!-- master Professional -->
-                   <div *ngIf="isProfessional" class="field-wrapper">
+                  <!-- master Professional -->
+                  <div *ngIf="isProfessional" class="field-wrapper">
                     <label for="editStandard">Master Course</label>
                     <select id="editStandard" class="form-ctrl" [(ngModel)]="newEnqData.standard_id"
                       (ngModelChange)="fetchSubject($event)" name="editStandard">
@@ -393,7 +401,7 @@
                   </div>
 
                   <!-- custom -->
-                   <custom-enquiry *ngFor="let component of customComponents;let i= index;">
+                  <custom-enquiry *ngFor="let component of customComponents;let i= index;">
 
                     <div class="" *ngIf="component.type == 1" input-def>
                       <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
@@ -493,14 +501,12 @@
               name="addNextEnquiry">
             <label for="addNextEnquiry">Add Next Enquiry</label>
           </div>
-          <input style="display: inline-block;" type="button" value="Cancel" class="btn cancle"
-           (click)="cancelForm()" id="btnCancel2">
+          <input style="display: inline-block;" type="button" value="Cancel" class="btn cancle" (click)="cancelForm()"
+            id="btnCancel2">
           <input *ngIf="newEnqData.status != 12 && newEnqData.status != 1" style="display: inline-block;" type="button"
-            value="Add & Admit Enquiry" class="btn fullBlue"
-            (click)="submitRegisterForm()" id="btnAddUpdate">
-          <input style="display: inline-block;" type="button" value="Add Enquiry"
-             class="btn fullBlue" (click)="submitForm(myForm)"
-            id="btnSubmitForm">
+            value="Add & Admit Enquiry" class="btn fullBlue" (click)="submitRegisterForm()" id="btnAddUpdate">
+          <input style="display: inline-block;" type="button" value="Add Enquiry" class="btn fullBlue"
+            (click)="submitForm(myForm)" id="btnSubmitForm">
         </aside>
       </section>
     </aside>
@@ -733,7 +739,8 @@
           <div>
             <div class="pull-right add-form-btns">
               <a style="cursor:pointer" (click)="reloadEnquiryForm()" id="reloadEnquiryAnch12">Add new enquiry</a>
-              <a style="cursor:pointer" routerLink="/view/leads/enquiry/upload" id="uploadAnch13">Add Bulk enquiry</a>
+              <a style="cursor:pointer" *ngIf="permission != true" routerLink="/view/leads/enquiry/upload"
+                id="uploadAnch13">Add Bulk enquiry</a>
             </div>
           </div>
         </div>
@@ -876,11 +883,13 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
       <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
         <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+            transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+            transform="translate(978.81 305.77) rotate(45)" />
         </g>
-        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-        />
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+          transform="translate(1012 297)" />
       </g>
     </svg>
   </span>
@@ -928,7 +937,8 @@
 
               <td *ngIf="sch.edit" style="width: 70%;">
                 <div class="field-wrapper ">
-                  <input type="text" [(ngModel)]="sch.new_source_name" class="form-ctrl" name="sourceName" id="schName" />
+                  <input type="text" [(ngModel)]="sch.new_source_name" class="form-ctrl" name="sourceName"
+                    id="schName" />
                 </div>
               </td>
 
@@ -978,11 +988,13 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
       <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
         <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+            transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+            transform="translate(978.81 305.77) rotate(45)" />
         </g>
-        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-        />
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+          transform="translate(1012 297)" />
       </g>
     </svg>
   </span>
@@ -1032,7 +1044,8 @@
 
               <td *ngIf="sch.edit" style="width: 70%;">
                 <div class="field-wrapper ">
-                  <input type="text" [(ngModel)]="sch.new_referrer_name" class="form-ctrl" name="sourceName" id="sourceName" />
+                  <input type="text" [(ngModel)]="sch.new_referrer_name" class="form-ctrl" name="sourceName"
+                    id="sourceName" />
                 </div>
               </td>
 
@@ -1063,6 +1076,97 @@
               </td>
 
             </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</proctur-popup>
+
+<!-- Add New City Area -->
+<proctur-popup *ngIf="addCityAreaPopUp.showPopUp">
+
+  <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCityAreaPopup()" close-button>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+            transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+            transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+          transform="translate(1012 297)" />
+      </g>
+    </svg>
+  </span>
+
+  <h2 popup-header>Add Area And City </h2>
+
+  <div class="institute-editor" popup-content>
+
+    <div class="row clearFix add-edit">
+      <a class="expend-box" (click)="toggleCityAreaAdd()" id="toggleAnch">
+        <i id="add-areaCity-icon">+</i>
+        <span>Create New Area And City</span>
+      </a>
+    </div>
+
+    <section class="row clearFix input-section" *ngIf="addCityAreaPopUp.addNew">
+      <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
+        <div class="field-wrapper">
+          <label for="CityName">City<span class="text-danger">*</span></label>
+          <input type="text" value="" id="CityName" class="form-ctrl" [(ngModel)]="addCityAreaPopUp.newCity.city"
+            name="CityName" />
+        </div>
+      </div>
+
+      <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
+        <div class="field-wrapper">
+          <label for="AreaName">Area</label>
+          <input type="text" value="" id="AreaName" class="form-ctrl" [(ngModel)]="addCityAreaPopUp.newCity.area"
+            name="AreaName" />
+        </div>
+      </div>
+
+      <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3 hide">
+        <div class="field-wrapper">
+          <label for="selectBranchPop">Branch</label>
+          <select id="selectBranchPop" class="form-ctrl" [(ngModel)]="addCityAreaPopUp.newCity.branch"
+            name="selectBranchPop">
+            <option *ngFor="let data of branchesList" [value]="data.institute_id">{{data.institute_name}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3 btn-grp">
+        <input type="button" value="Add" class="fullBlue btn" (click)="addNewCityArea()" id="btnAdd5">
+      </div>
+    </section>
+
+    <div class="row">
+      <div class="table-responsive institute-table">
+        <table>
+          <thead>
+            <tr>
+              <th>City</th>
+              <th>Area</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sch of cityListDataSource">
+              <td>{{sch.city}}</td>
+              <td>{{sch.area}}</td>
+            </tr>
+
+            <tr *ngIf="cityListDataSource.length ==0">
+              <td colspan="2" style="text-align: center">
+                No City Area List Available
+              </td>
+            </tr>
+
           </tbody>
         </table>
       </div>

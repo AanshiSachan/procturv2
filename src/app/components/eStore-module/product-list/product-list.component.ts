@@ -255,36 +255,36 @@ export class ProductListComponent implements OnInit {
     this.studentDetails = [];
     let ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
     let object = {};
-    if(!this.isProfessional) {
-     object = {
-      "ecourse_ids": ecourse,
-      "master_course_name": "",
-      "course_id": ""
-    };
-    if(this.course_id != '') {
-      object = {
-        "course_id": this.course_id
-      };
-    } else if(this.master_course_name!=''){
-      object = {
-        "master_course_name": this.master_course_name,
-      };
-    }
-  } else{
-    object = {
-      "ecourse_ids": ecourse,
-      'standard_id': "",
-      'subject_id' : "",
-      'batch_id' : ""
-    }
-    if(this.batch_id != ""){
+    if (!this.isProfessional) {
       object = {
         "ecourse_ids": ecourse,
-        "master_course_name": this.master_course_name,
-        "course_id": this.course_id
+        "master_course_name": "",
+        "course_id": ""
       };
-    } else if (this.master_course_name != "" && this.course_id != "" && this.batch_id != "") {
+      if (this.course_id != '') {
         object = {
+          "course_id": this.course_id
+        };
+      } else if (this.master_course_name != '') {
+        object = {
+          "master_course_name": this.master_course_name,
+        };
+      }
+    } else {
+      object = {
+        "ecourse_ids": ecourse,
+        'standard_id': "",
+        'subject_id': "",
+        'batch_id': ""
+      }
+      if (this.batch_id != "") {
+        object = {
+          "ecourse_ids": ecourse,
+          "master_course_name": this.master_course_name,
+          "course_id": this.course_id
+        };
+      } else if (this.master_course_name != "" && this.course_id != "" && this.batch_id != "") {
+          object = {
           "ecourse_ids": [],
           'standard_id': "",
           'subject_id': "",
@@ -299,15 +299,15 @@ export class ProductListComponent implements OnInit {
           'batch_id': ""
         }
       }
-      else if(this.master_course_name != ""){
-      object = {
-        "ecourse_ids": [],
-        'standard_id': this.master_course_name,
-        'subject_id' : "",
-        'batch_id' : ""
+      else if (this.master_course_name != "") {
+        object = {
+          "ecourse_ids": [],
+          'standard_id': this.master_course_name,
+          'subject_id': "",
+          'batch_id': ""
+        }
       }
     }
-  }
     console.log(object);
     this.auth.showLoader();
     const url = `user-product/student-details/${this.product_details_for_student.entity_id}`;
@@ -403,9 +403,13 @@ export class ProductListComponent implements OnInit {
 
   assignStudentToProduct() {
     const user_id_list = [];
+    const user_id_list_deAssigned = [];
     this.studentDetails.forEach(stu => {
       if (stu.isSelected && !stu.is_product_already_purchased) {
         user_id_list.push(stu.user_id);
+      }
+      if (!stu.isSelected && stu.is_product_already_purchased) {
+        user_id_list_deAssigned.push(stu.user_id);
       }
     });
     let is_send_sms = 'N';
@@ -415,6 +419,7 @@ export class ProductListComponent implements OnInit {
     let object = {
       "product_id": this.product_details_for_student.entity_id,
       "user_id_list": user_id_list,
+      "product_unassigned_user_ids": user_id_list_deAssigned,
       'is_send_sms': is_send_sms
     };
     console.log(object);
@@ -425,7 +430,7 @@ export class ProductListComponent implements OnInit {
         if (resp) {
           let data = resp['body'];
           if (resp && data.validate) {
-            this.msgService.showErrorMessage('success', data.result, '');
+            this.msgService.showErrorMessage('success', 'Students Assigned/Unassigned Successfully!', '');
             this.closePopup();
           } else {
             this.msgService.showErrorMessage('error', data.error[0].error_message, '');
@@ -463,35 +468,33 @@ export class ProductListComponent implements OnInit {
     }
     switch (operation) {
       case 'delete': {
-        if (!this.auth.isRippleLoad.getValue()) {
-          this.auth.showLoader();
-          this.http.getMethod('product/delete/' + id, null).subscribe(
-            (resp: any) => {
-              this.auth.hideLoader();
+        this.auth.showLoader();
+        this.http.getMethod('product/delete/' + id, null).subscribe(
+          (resp: any) => {
+            this.auth.hideLoader();
 
-              console.log(resp);
-              if (resp && resp.validate) {
-                let response = resp.result;
-                this.msgService.showErrorMessage('success', 'Product deleted successfully!', '');
-                $("#actionProductModal").modal('hide');
-                this.productList.forEach((element, index) => {
-                  if (element.entity_id == response.entity_id) {
-                    this.productList.splice(index, 1);
-                    console.log(this.productList);
-                  }
-                });
-                this.varJson.total_items--;
-              }
-              else {
-                this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
-              }
-            },
-            (err) => {
-              this.auth.hideLoader();
+            console.log(resp);
+            if (resp && resp.validate) {
+              let response = resp.result;
+              this.msgService.showErrorMessage('success', 'Product deleted successfully!', '');
+              $("#actionProductModal").modal('hide');
+              this.productList.forEach((element, index) => {
+                if (element.entity_id == response.entity_id) {
+                  this.productList.splice(index, 1);
+                  console.log(this.productList);
+                }
+              });
+              this.varJson.total_items--;
+            }
+            else {
               this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
-            });
-          break;
-        }
+            }
+          },
+          (err) => {
+            this.auth.hideLoader();
+            this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
+          });
+        break;
       }
       case 'ready': {
         object.status = 20;
@@ -519,29 +522,28 @@ export class ProductListComponent implements OnInit {
 
 
   tempFucntion(id, item, body, operation) {
-    if (!this.auth.isRippleLoad.getValue()) {
-      this.auth.showLoader();
-      this.http.postMethod('product/change-status', body).then(
-        (resp:any) => {
-          this.auth.hideLoader();
-          if (resp) {
-            let data = resp['body'];
-            item.status = body.status;
-            if (resp && data.validate) {
-              item.publish_date = data.result.publish_date;
-              this.msgService.showErrorMessage("success", 'product updated successfully', '');
-              $('#actionProductModal').modal('hide');
-            } else {
-              this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
-            }
+    this.auth.showLoader();
+    this.http.postMethod('product/change-status', body).then(
+      (resp: any) => {
+        this.auth.hideLoader();
+        if (resp) {
+          let data = resp['body'];
+          item.status = body.status;
+          if (resp && data.validate) {
+            item.publish_date = data.result.publish_date;
+            this.msgService.showErrorMessage("success", 'product updated successfully', '');
+            $('#actionProductModal').modal('hide');
+          } else {
+            this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
           }
-        },
-        (err) => {
-          this.auth.hideLoader();
-          this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
         }
-      );
-    }
+      },
+      (err) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
+      }
+    );
+
   }
   getPublishedDate(entity_id) {
     this.filter.by.title = entity_id;
@@ -654,7 +656,7 @@ export class ProductListComponent implements OnInit {
     // this.varJson.PageIndex=1;
     //   this.fectchTableDataByPage(this.varJson.PageIndex);
   }
-
+  // Removed IF Conditon for de-selecting the  assigned student -Ashwini Kumar Gupta
   toggleAllCheckBox($event) {
     console.log('toggleAllCheckBox');
     this.studentDetails.forEach(element => {
@@ -664,7 +666,7 @@ export class ProductListComponent implements OnInit {
       }
     });
   }
-
+  // End
   isAllSelected($event, item) {
     console.log($event, item);
   }

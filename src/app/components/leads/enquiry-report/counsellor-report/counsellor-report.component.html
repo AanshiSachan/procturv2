@@ -57,7 +57,7 @@
 
       <div class="row"
         style="margin-left: 0%; margin-bottom: 2%; border-top: 1px solid lightgrey;border-bottom: 1px solid lightgrey;padding-bottom: 16px;">
-        <div class="c-lg-3 field-wrapper" style="margin-right: -9%;">
+        <div class="c-lg-3 field-wrapper" style="margin-right: -9%;" *ngIf="permission">
           <label>Counsellor</label>
           <select class="form-ctrl" [(ngModel)]="counsellorInfoDetails.assigned_to"
             style="border-radius: 4px;width: 60%;">
@@ -200,7 +200,7 @@
 
         <div class="row">
 
-          <div class="c-lg-3 field-wrapper">
+          <div class="c-lg-3 field-wrapper" *ngIf="permission">
             <label>Counsellor</label>
             <select class="form-ctrl" [(ngModel)]="counsellorInfoDetails.assigned_to">
               <option value="-1">
@@ -304,4 +304,5 @@
       </section>
     </section>
   </aside>
-</div> -->
+</div>
+-->
