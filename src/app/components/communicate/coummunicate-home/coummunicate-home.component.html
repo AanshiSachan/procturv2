@@ -564,7 +564,7 @@
                           {{row.date}}
                         </td>
                         <td style="text-align: left;    word-wrap: break-word;">
-                          {{row.message}}
+                          <span [innerHTML]="row.message"></span>
                         </td>
                         <td>
                           <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )" ></i> &nbsp;
@@ -589,7 +589,7 @@
                           {{row.date}}
                         </td>
                         <td style="text-align: left;    word-wrap: break-word;">
-                          {{row.message}}
+                          <span [innerHTML]="row.message"></span>
                         </td>
                         <td>
                           <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )" ></i> &nbsp;
@@ -627,7 +627,7 @@
                           {{row.date}}
                         </td>
                         <td style="text-align: left; width: 46rem; word-wrap: break-word;">
-                          {{row.message}}
+                          <span [innerHTML]="row.message"></span>
                         </td>
                         <td>
                           <div>
@@ -657,7 +657,7 @@
                           {{row.date}}
                         </td>
                         <td style="text-align: left; width: 46rem; word-wrap: break-word;">
-                          {{row.message}}
+                          <span [innerHTML]="row.message"></span>
                         </td>
                         <td>
                           <div>

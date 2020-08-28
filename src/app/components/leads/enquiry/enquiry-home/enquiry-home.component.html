@@ -1115,7 +1115,7 @@
                       <tbody *ngIf="flagJSON.isApprovedTab">
                         <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
                           <td style="text-overflow: ellipsis">
-                            {{row.message}}
+                            <span [innerHTML]="row.message"></span>
                           </td>
                           <td style="width: 18%;">
                             {{row.date}}
@@ -1134,7 +1134,7 @@
                       <tbody *ngIf="flagJSON.isAllSelected">
                         <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
                           <td style="text-align: left; text-overflow: ellipsis">
-                            {{row.message}}
+                            <span [innerHTML]="row.message"></span>
                           </td>
                           <td style="width: 18%;">
                             {{row.date}}
@@ -1350,8 +1350,8 @@
                               <input type="radio" name="smsTable" class="form-radio" id="appradiosms{{i}}">
                             </div>
                           </td> -->
-                          <td style="width: 72%;">
-                            {{row.message}}
+                          <td>
+                            <span [innerHTML]="row.message"></span>
                           </td>
                           <td style="width: 18%;">
                             {{row.date}}
@@ -1370,8 +1370,8 @@
                               <input type="radio" name="smsTable" class="form-radio" id="opradiosms{{i}}">
                             </div>
                           </td> -->
-                          <td style="width: 64%;">
-                            {{row.message}}
+                          <td>
+                            <span [innerHTML]="row.message"></span>
                           </td>
                           <td>
                             {{row.date}}
@@ -1387,9 +1387,9 @@
                       </tbody>
                       <!-- Email -->
                       <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='Email'">
-                        <tr *ngFor="let row of emailSourceApproved; let i = index;" (click)="appSmsSelected(row, i)" style="width: 139%;">
-                          <td style="width: 72%;">
-                            {{row.message}}
+                        <tr *ngFor="let row of emailSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
+                          <td>
+                            <span [innerHTML]="row.message"></span>
                           </td>
                           <td style="width: 18%;">
                             {{row.date}}
@@ -1401,9 +1401,9 @@
                         </tr>
                       </tbody>
                       <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='Email'">
-                        <tr *ngFor="let row of emailSourceOpen; let i = index;" (click)="opSmsSelected(row, i)" style="width: 139%;">
-                          <td style="width: 64%;">
-                            {{row.message}}
+                        <tr *ngFor="let row of emailSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
+                          <td>
+                            <span [innerHTML]="row.message"></span>
                           </td>
                           <td>
                             {{row.date}}
