@@ -375,6 +375,9 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         }
       }
     });
+    this.Vimeofile = {
+      files : []
+    };
     if (value == '330') {
       this.jsonData.selectedVideo = '';
       this.getVDOCipherLinkedDate();
