@@ -415,6 +415,7 @@
               <form style="height: 100px;" *ngIf="varJson.name=='Vimeo' && varJson.category_id!=235 && varJson.category_id!=0 && varJson.category_id!=330" #form method="post" id="form" enctype="multipart/form-data">
                 <div>
                   <input style="float: left;" type="file" id="file" (change)="onFileChange($event)" name="file_data">
+                  <div *ngIf="Vimeofile.files?.length" style="margin-left: 15px;float: left;margin-top: 4px;">{{(Vimeofile.files[0].size / 1024) / 1024 | number:'.3-3'}} MB</div>
                   <div>
                     <button class="uploadVimeo" (click)="uploadHandler2(Vimeofile, '')"> Upload </button>
                   </div>
