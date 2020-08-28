@@ -485,7 +485,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   isExpenseFeatureAllow(){
     this.jsonFlags.isShowExpense = false;
-    if (this.instituteId == 101238 ||
+    // developed by - Nalini 
+    // Expenses option are showing in all user login so need to remove-Growth Academy - 101238
+    if ((this.instituteId == 101238 && (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') == 'admin') ) ||
         this.instituteId == 101242 ||
         this.instituteId == 101008 ||
         this.instituteId == 101243 ||
