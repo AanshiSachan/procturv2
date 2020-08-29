@@ -113,9 +113,6 @@ export class UsersComponent implements OnInit {
     if (this.dataFilter.role == '1') {
       this.getMasterCourseData();
     }
-    if (sessionStorage.getItem('single_device') == 'true' && sessionStorage.getItem('distinct_device_login') == 'true') {
-      this.sso_check = true;
-    }
   }
 
   checkWhichTabIsOpen() {
@@ -182,6 +179,9 @@ export class UsersComponent implements OnInit {
         this.usersList = this.addKeys(res, false);
         if (this.usersList && this.usersList.length) {
           this.totalRow = this.usersList[0].total_element_count;
+          if (this.usersList[0].single_device_login && this.usersList[0].distinct_device_login) {
+            this.sso_check = true;
+          }
           this.usersList.forEach(element => {
             element.isEncript = true;
             if (element.access_allow == '1') {
