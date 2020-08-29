@@ -236,7 +236,7 @@
     <div class="col-md-1 txt-font">
       <span *ngIf="video.video_status=='ready'">{{video.size | number:'.2-2'}}&nbsp;MB</span>
     </div>
-    <div class="col-md-1 txt-font" style="padding-right: 0;" (click)="viewUserListFun(video.video_watch_history_det)">
+    <div class="col-md-1 txt-font" style="padding-right: 0;" (click)="viewUserListFun(video)">
       <span style="cursor: pointer;" *ngIf="video.video_status=='ready'">{{video.watch_count}} &nbsp;viewed </span>
     </div>
     <div class="col-md-1 txt-font">
