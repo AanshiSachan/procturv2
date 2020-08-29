@@ -649,7 +649,16 @@ export class EcourseSubjectListComponent implements OnInit {
   // developed by = Nalini
   // To show watch user list
   viewUserListFun(obj) {
-    this.video_watch_history_det = obj;
-    this.viewUserList = true;
+    this.auth.showLoader();
+    this._http.getData('/api/v1/instFileSystem/get-video-watch-history/' + this.institute_id + '/' + obj.videoID).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.video_watch_history_det = data.result;
+        this.viewUserList = true;
+      },
+      (error: any) => {	
+        this.auth.hideLoader();
+      }
+    );
   }
 }
