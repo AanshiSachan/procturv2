@@ -255,8 +255,8 @@ export class StudentHomeComponent implements OnInit {
 
     this.today = moment().format('DD MMM YYYY');
     let institute_id = sessionStorage.getItem('institute_id');
-    // if (institute_id == "100292" || institute_id == "100058" || institute_id == "100127") {
-    if (institute_id == "100292" || institute_id == "100127") {
+    if (institute_id == "100292" || institute_id == "100058" || institute_id == "100127") {
+    // if (institute_id == "100292" || institute_id == "100127") {
       this.attendanceCertificate = true;
     }
     this.actRoute.queryParams.subscribe(e => {
@@ -2464,7 +2464,7 @@ export class StudentHomeComponent implements OnInit {
           doc.save("certificate.pdf");
         });
         document.getElementById('dvContainer_two').className = 'hide';
-      } else if (institute_id == "101238" || institute_id == "100058") {
+      } else if (institute_id == "101238") {
         console.log("Growth");
         document.getElementById('dvContainer_three').className = 'cert-outer-container';
         const doc = new jsPDF('l', 'in', 'a4');
