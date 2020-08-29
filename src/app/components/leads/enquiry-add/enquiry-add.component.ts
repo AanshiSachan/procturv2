@@ -217,8 +217,14 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isCityMandatory = sessionStorage.getItem('enable_routing');
     this.isStateMandatory = sessionStorage.getItem('enable_routing');
-    if (JSON.parse(sessionStorage.getItem('permissions')).includes('110')) {
-      this.permission = true;
+    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('permissions') == null || JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
+      this.permission = false;
+    }
+    else {
+      if (JSON.parse(sessionStorage.getItem('permissions')).length == 1) {
+        if (JSON.parse(sessionStorage.getItem('permissions')).includes('110'))
+          this.permission = true;
+      }
     }
     this.isEnquiryAdministrator();
     this.fetchEnquiryPrefilledData();
