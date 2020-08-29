@@ -18,7 +18,7 @@ export class UsersComponent implements OnInit {
   userListDataSource: any = [];
   isLangInstitute: boolean = false;
   dataFilter: any = {
-    role: 1,
+    role: '1',
     is_active: true,
     is_show_credentials: false,
     master_course: '',
@@ -80,6 +80,7 @@ export class UsersComponent implements OnInit {
     ]
   };
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  user_role: any = '';
 
   constructor(
     private apiService: UserService,
@@ -555,6 +556,7 @@ export class UsersComponent implements OnInit {
 
   getAllMessageFromServer() {
     this.notificationPopup = true;
+    this.checkRole();
     this.messageList = [];
     this.auth.showLoader();
     let obj = {
@@ -681,6 +683,31 @@ export class UsersComponent implements OnInit {
     }
   }
 
+
+  // Developed by Nalini
+  // Send role to notification api to identify which user type is selected
+  checkRole() {
+    switch(this.dataFilter.role) {
+      case '0' : {
+         this.user_role = 'Custom';
+          break;
+      }
+      case '1' : {
+         this.user_role = 'Student';
+         break;
+      }
+      case '3' : { this.user_role = 'Teacher';
+                break;
+    }
+      case '5' : { this.user_role = 'Parent';
+                break;
+    }
+      case '99' : { this.user_role = 'Open User';
+                break;
+    }
+    }
+  }
+
   sendSMSNotification() {
     if (!this.getNotificationMessage()) {
       return;
@@ -699,7 +726,8 @@ export class UsersComponent implements OnInit {
       configuredMessage: true,
       message_id: this.selectedMsg.message_id,
       is_user_notify: 1,
-      institution_id: sessionStorage.getItem('institute_id')
+      institution_id: sessionStorage.getItem('institute_id'),
+      role: this.user_role
     };
     // if (this.transational_type ==2) {
     //   obj.configuredMessage = false;
