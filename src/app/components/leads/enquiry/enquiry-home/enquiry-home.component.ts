@@ -320,7 +320,7 @@ export class EnquiryHomeComponent implements OnInit {
         assigned_to: "",
         source_instituteId: ''
     };
-
+    permission: boolean = true;
     // Customizable Table VAriable
 
     displayKeys: any[] = [];
@@ -408,7 +408,15 @@ export class EnquiryHomeComponent implements OnInit {
         if (this.flagJSON.isProfessional) {
             this.enquirySettings[10].header = "Master Course";
         }
-
+        if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('permissions') == null || JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
+            this.permission = true;
+        }
+        else {
+            if (JSON.parse(sessionStorage.getItem('permissions')).length == 1) {
+                if (JSON.parse(sessionStorage.getItem('permissions')).includes('110'))
+                    this.permission = false;
+            }
+        }
         this.isEnquiryAdministrator();
         // this.FetchEnquiryPrefilledData();
         //this.prefill.getLeadSource().subscribe( (data)=>{ console.log(data)})
