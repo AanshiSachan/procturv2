@@ -244,6 +244,10 @@ export class LiveClassesComponent implements OnInit {
     this.auth.showLoader();
     this.obj = {
       institution_id: this.institution_id,
+      live_future_past: 1
+    }
+    if (this.liveClassFor) {
+      this.obj.live_future_past = 2;
     }
     const userType: any = sessionStorage.getItem('userType');
     if (userType != 0) {
@@ -462,7 +466,6 @@ export class LiveClassesComponent implements OnInit {
         element.course = Array.prototype.map.call(element.batch_list, s => s.batch_name).toString();
       })
     }
-    console.log("Get Classes", this.getClasses);
     this.totalRow = this.getClasses.length;
     this.fetchTableDataByPage(this.PageIndex);
   }

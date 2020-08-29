@@ -18,12 +18,12 @@
         <div class="live-class-list">
           <div class="live-class-container" style="width:50%;">
             <div class="field-radio-wrapper" style="width: 25%;">
-              <input type="radio" [value]="false" class="form-radio" [(ngModel)]="liveClassFor" (ngModelChange)="getClassesFor()" name="liveClasses"
+              <input type="radio" [value]="false" class="form-radio" [(ngModel)]="liveClassFor" (ngModelChange)="getClassesList()" name="liveClasses"
                 id="liveClasses1">
               <label for="liveClasses1">Upcoming Classes</label>
             </div>
             <div class="field-radio-wrapper" style="width: 25%;">
-              <input type="radio" [value]="true" class="form-radio" [(ngModel)]="liveClassFor" (ngModelChange)="getClassesFor()" name="liveClasses"
+              <input type="radio" [value]="true" class="form-radio" [(ngModel)]="liveClassFor" (ngModelChange)="getClassesList()" name="liveClasses"
                 id="liveClasses2">
               <label for="liveClasses2">Previous Classes</label>
             </div>
