@@ -45,6 +45,7 @@ export class StudentHomeComponent implements OnInit {
   private subCourseList: any = [];
   private customComponent: any = [];
   private studentDataSource: any[] = [];
+
   private selectedRowGroup: any[] = [];
   private optionsModel: any = null;
   private customComponents: any[] = [];
@@ -170,8 +171,13 @@ export class StudentHomeComponent implements OnInit {
     projectName: '',
     dateFrom: '',
     dateTo: '',
-    trainingLocation: ''
+    trainingLocation: '',
+    dob: '',
+    roll_no: '',
+    branch: '',
+    parent_name: ''
   };
+  studentCustomField: any = {};
 
   @ViewChild('content') content: ElementRef;
 
@@ -249,7 +255,8 @@ export class StudentHomeComponent implements OnInit {
 
     this.today = moment().format('DD MMM YYYY');
     let institute_id = sessionStorage.getItem('institute_id');
-    if(institute_id == "100292" || institute_id == "100058" || institute_id == "100127"){
+    // if (institute_id == "100292" || institute_id == "100058" || institute_id == "100127") {
+    if (institute_id == "100292" || institute_id == "100127") {
       this.attendanceCertificate = true;
     }
     this.actRoute.queryParams.subscribe(e => {
@@ -370,7 +377,7 @@ export class StudentHomeComponent implements OnInit {
           "studentArray": studentArray
         }
         let url = `/api/v1/students/${this.assignedStandard}/assignStandard`;
-         this.auth.showLoader();
+        this.auth.showLoader();
         this.http_service.postData(url, obj).subscribe(
           (data: any) => {
             let alert = {
@@ -756,12 +763,12 @@ export class StudentHomeComponent implements OnInit {
           enq_custom_value: ''
         }
         if (el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
-            obj.enq_custom_value = moment(el.value).format("YYYY-MM-DD");
-        }else if(el.type == '2'){
-          obj.enq_custom_value = el.value?'Y':'N';
+          obj.enq_custom_value = moment(el.value).format("YYYY-MM-DD");
+        } else if (el.type == '2') {
+          obj.enq_custom_value = el.value ? 'Y' : 'N';
         }
         else {
-            obj.enq_custom_value = el.value;
+          obj.enq_custom_value = el.value;
         }
         tempCustomArr.push(obj);
       }
@@ -852,7 +859,7 @@ export class StudentHomeComponent implements OnInit {
       mobile: "",
       master_course_name: this.instituteData.master_course_name,
       course_id: this.instituteData.course_id,
-      country_id:this.advancedFilterForm.country_id,
+      country_id: this.advancedFilterForm.country_id,
       city_id: this.advancedFilterForm.city_id,
       state_id: this.advancedFilterForm.state_id
     }
@@ -904,7 +911,7 @@ export class StudentHomeComponent implements OnInit {
     });
 
     if (!this.standardList.length) {
-       this.auth.showLoader();
+      this.auth.showLoader();
       this.prefill.getEnqStardards().subscribe(data => {
         this.standardList = data;
       });
@@ -934,7 +941,7 @@ export class StudentHomeComponent implements OnInit {
   }
 
   getAcademmicYear() {
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
         this.auth.hideLoader();
@@ -959,7 +966,7 @@ export class StudentHomeComponent implements OnInit {
   }
 
   fetchCustomComponent() {
-    this.studentPrefill.fetchCustomComponentById(0,'',2).subscribe(data => {
+    this.studentPrefill.fetchCustomComponentById(0, '', 2).subscribe(data => {
       if (data != null) {
         this.auth.hideLoader();
         data.forEach(el => {
@@ -1041,7 +1048,7 @@ export class StudentHomeComponent implements OnInit {
 
   //get default lang student status
   fetchLangStudentStatus() {
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.studentPrefill.fetchLangStudentStatus().subscribe(data => {
       this.studentStatusList = data;
       this.auth.hideLoader();
@@ -1297,7 +1304,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   getSlots() {
     this.auth.showLoader();
-    if(!this.slots.length){
+    if (!this.slots.length) {
       return this.studentPrefill.fetchSlots().subscribe(
         res => {
           this.auth.hideLoader();
@@ -1313,7 +1320,7 @@ export class StudentHomeComponent implements OnInit {
         },
         err => {
           this.auth.hideLoader();
-         }
+        }
       )
     }
 
@@ -1432,7 +1439,7 @@ export class StudentHomeComponent implements OnInit {
         this.studentDetailsById = res;
         this.studentAddFormData = res;
         this.studentAddFormData.student_class = res.student_class_key;
-        this.subscriptionCustomComp = this.studentPrefill.fetchCustomComponentById(id,undefined,2).subscribe(
+        this.subscriptionCustomComp = this.studentPrefill.fetchCustomComponentById(id, undefined, 2).subscribe(
           cus => {
             if (cus != null) {
               this.studentCustomComponent = cus;
@@ -2156,9 +2163,9 @@ export class StudentHomeComponent implements OnInit {
   }
 
   showToggleLoader($event) {
-     if( $event){
+    if ($event) {
       this.auth.showLoader();
-    }else{
+    } else {
       this.auth.hideLoader();
     }
   }
@@ -2377,11 +2384,15 @@ export class StudentHomeComponent implements OnInit {
   }
 
   getCertificateData(event) {
-    // this.certificate = true;
+
     this.auth.showLoader();
     let url = `/api/v1/students/studentCertificateDetails/?studentId=${event}`;
+    let institute_id = sessionStorage.getItem('institute_id');
+    let url1 = `/api/v1/enquiry/fetchCustomEnquiryComponents/${institute_id}?id=${event}&isSearhable=undefined&student_enq_id=undefined&page=2`
     this.http.getCertificateData(url).subscribe(
       (res: any) => {
+        console.log("Url", url);
+        console.log("Response", res);
         this.studentData = res;
         if (this.studentData.dateFrom != null) {
           this.studentData.dateFrom = moment(this.studentData.dateFrom).format('DD-MM-YYYY');
@@ -2389,8 +2400,36 @@ export class StudentHomeComponent implements OnInit {
         if (this.studentData.dateTo != null) {
           this.studentData.dateTo = moment(this.studentData.dateTo).format('DD-MM-YYYY');
         }
+        this.http.getCertificateData(url1).subscribe(
+          (res: any) => {
+            console.log("Response 2", res);
+            for (let i = 0; i < res.length; i++) {
+              if (res[i].label === "Certificate Number") {
+                this.studentCustomField.certificateNo = res[i].enq_custom_value;
+                console.log(res[i].enq_custom_value);
+              }
+              if (res[i].label === "Registered Number") {
+                this.studentCustomField.registeredNo = res[i].enq_custom_value;
+                console.log(res[i].enq_custom_value);
+              }
+              if (res[i].label === "Grade") {
+                this.studentCustomField.grade = res[i].enq_custom_value;
+                console.log(res[i].enq_custom_value);
+
+              }
+              if (res[i].label === "Course Name") {
+                this.studentCustomField.courseName = res[i].enq_custom_value;
+                console.log(res[i].enq_custom_value);
+              }
+              if (res[i].label === "Academic Year") {
+                this.studentCustomField.academicYear = res[i].enq_custom_value;
+              }
+            }
+          }
+        )
         setTimeout(() => {
           this.printDiv();
+
         }, 2000);
         this.auth.hideLoader();
       },
@@ -2398,11 +2437,14 @@ export class StudentHomeComponent implements OnInit {
         console.log(err);
       }
     )
-  }
 
+
+  }
+  // ======================================================================================
   printDiv() {
 
-    if(this.attendanceCertificate){
+    let institute_id = sessionStorage.getItem('institute_id');
+    if (this.attendanceCertificate) {
       document.getElementById('dvContainer_one').className = 'certificate-outer-container';
       const doc = new jsPDF('l', 'in', 'a4');
       console.log(doc);
@@ -2412,16 +2454,42 @@ export class StudentHomeComponent implements OnInit {
       });
       document.getElementById('dvContainer_one').className = 'hide';
     }
-    else{
-      document.getElementById('dvContainer').className = 'outer-container';
-      const doc = new jsPDF('l', 'in', 'a4');
-      console.log(doc);
-      doc.internal.scaleFactor = 1;
+    else {
+      if (institute_id == "102026" || institute_id == "100135") {
+        document.getElementById('dvContainer_two').className = 'cert-outer-container';
+        const doc = new jsPDF('l', 'in', 'a4');
+        console.log(doc);
+        doc.internal.scaleFactor = 1;
+        doc.addHTML($("#dvContainer_two"), function () {
+          doc.save("certificate.pdf");
+        });
+        document.getElementById('dvContainer_two').className = 'hide';
+      } else if (institute_id == "101238" || institute_id == "100058") {
+        console.log("Growth");
+        document.getElementById('dvContainer_three').className = 'cert-outer-container';
+        const doc = new jsPDF('l', 'in', 'a4');
+        console.log(doc);
+        doc.internal.scaleFactor = 1;
 
-      doc.addHTML(this.content.nativeElement, function () {
-        doc.save("certificate.pdf");
-      });
-      document.getElementById('dvContainer').className = 'hide';
+        doc.addHTML($("#dvContainer_three"), function () {
+          doc.save("certificate.pdf");
+        });
+        document.getElementById('dvContainer_three').className = 'hide';
+      }
+      else {
+        document.getElementById('dvContainer').className = 'outer-container';
+        const doc = new jsPDF('l', 'in', 'a4');
+        console.log(doc);
+        doc.internal.scaleFactor = 1;
+
+        doc.addHTML($("#dvContainer"), function () {
+          doc.save("certificate.pdf");
+        });
+        document.getElementById('dvContainer').className = 'hide';
+      }
+
+
+
     }
   }
 
@@ -2434,58 +2502,58 @@ export class StudentHomeComponent implements OnInit {
     console.log(this.countryList)
   }
 
-  getStateList(){
-      this.stateList = [];
-      this.cityList = [];
-      this.advancedFilterForm.state_id = "-1";
-      this.advancedFilterForm.city_id = "-1";
-    if(this.advancedFilterForm.country_id!=-1) {
-    const url = `/api/v1/country/state?country_ids=${this.advancedFilterForm.country_id}`
-    this.auth.showLoader();
-    this.http_service.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if(res.result && res.result.length > 0){
-          this.stateList = res.result[0].stateList;
+  getStateList() {
+    this.stateList = [];
+    this.cityList = [];
+    this.advancedFilterForm.state_id = "-1";
+    this.advancedFilterForm.city_id = "-1";
+    if (this.advancedFilterForm.country_id != -1) {
+      const url = `/api/v1/country/state?country_ids=${this.advancedFilterForm.country_id}`
+      this.auth.showLoader();
+      this.http_service.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if (res.result && res.result.length > 0) {
+            this.stateList = res.result[0].stateList;
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          let obj = {
+            type: 'error',
+            title: "",
+            body: err
+          }
+          this.appC.popToast(obj);
         }
-      },
-      err => {
-        this.auth.hideLoader();
-        let obj = {
-          type: 'error',
-          title: "",
-          body: err
-        }
-        this.appC.popToast(obj);
-      }
-    )
+      )
     }
   }
 
   // get city list as per state selection
-  getCityList(){
-      this.cityList = [];
-      this.advancedFilterForm.city_id = "-1";
-    if(this.advancedFilterForm.state_id!=-1) {
-    const url = `/api/v1/country/city?state_ids=${this.advancedFilterForm.state_id}`
-    this.auth.showLoader();
-    this.http_service.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if(res.result.length > 0){
-          this.cityList = res.result[0].cityList;
+  getCityList() {
+    this.cityList = [];
+    this.advancedFilterForm.city_id = "-1";
+    if (this.advancedFilterForm.state_id != -1) {
+      const url = `/api/v1/country/city?state_ids=${this.advancedFilterForm.state_id}`
+      this.auth.showLoader();
+      this.http_service.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if (res.result.length > 0) {
+            this.cityList = res.result[0].cityList;
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          let obj = {
+            type: 'error',
+            title: "",
+            body: err
+          }
+          this.appC.popToast(obj);
         }
-      },
-      err => {
-        this.auth.hideLoader();
-        let obj = {
-          type: 'error',
-          title: "",
-          body: err
-        }
-        this.appC.popToast(obj);
-      }
-    )
-  }
+      )
+    }
   }
 }
