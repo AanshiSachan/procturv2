@@ -24,7 +24,7 @@
     <div>
       <button class="btn btn-wide-blue" (click)="toggleFileUploadModal()">Upload File</button>
     </div>
-    <div *ngIf="enable_vdoCipher_feature" style="margin-top: 15px;">
+    <div *ngIf="enable_vdoCipher_feature || enable_vimeo_feature" style="margin-top: 15px;">
       <button class="btn btn-wide-blue" (click)="getSettingDetails()">Video Setting</button>
     </div>
 
@@ -87,6 +87,26 @@
         </h4>
         <p class="small usage">
           {{(vDOCipher_used_storage?vDOCipher_used_storage:0)| number:'.2-2'}} GB
+        </p>
+      </div>
+    </div>
+
+    <div class="sidecard" *ngIf="enable_vimeo_feature">
+      <div class="wrap">
+        <h4>Vimeo allocated Storage
+        </h4>
+        <p class="small usage">
+          {{(vimeo_allocated_storage?vimeo_allocated_storage:0)| number:'.2-2'}} GB
+        </p>
+      </div>
+    </div>
+
+    <div class="sidecard" *ngIf="enable_vimeo_feature">
+      <div class="wrap">
+        <h4>Vimeo Used Storage
+        </h4>
+        <p class="small usage">
+          {{(vimeo_consumed_storage?vimeo_consumed_storage:0)| number:'.2-2'}} GB
         </p>
       </div>
     </div>

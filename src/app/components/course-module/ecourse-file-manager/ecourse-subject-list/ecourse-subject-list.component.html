@@ -69,6 +69,8 @@
               </ng-container>
               <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.studyMaterialMap.Notes, level: level+1}">
               </ng-container>
+              <ng-container *ngTemplateOutlet="Vimeo; context:{$implicit: topic.studyMaterialMap.Vimeo, level: level+1}">
+              </ng-container>
               <ng-container
                 *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.studyMaterialMap.PreviousYearQuestionsPaper, level: level+1}">
               </ng-container>
@@ -124,6 +126,8 @@
         </ng-container>
         <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.studyMaterialMap.Notes, level: level+1}">
         </ng-container>
+        <ng-container *ngTemplateOutlet="Vimeo; context:{$implicit: topic.studyMaterialMap.Vimeo, level: level+1}">
+        </ng-container>
         <ng-container
           *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.studyMaterialMap.PreviousYearQuestionsPaper, level: level+1}">
         </ng-container>
@@ -150,8 +154,8 @@
     </div>
     <div class="col-md-6 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{video.title}}">
-        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList[0].posterUrl!=null) && video.category_id==230">
-        <i class="fa fa-youtube-play text-red" aria-hidden="true" *ngIf="(video.posterList==null || video.posterList[0].posterUrl==null) && video.category_id==230"></i>        
+        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList?.length>0 && video.posterList[0].posterUrl!=null) && video.category_id==230">
+        <i class="fa fa-youtube-play text-red" aria-hidden="true" *ngIf="(video.posterList==null || video.posterList?.length == 0 || video.posterList[0].posterUrl==null) && video.category_id==230"></i>        
         <!-- <div> -->
           <span
             title="{{video.title}}" class="txt-color txt-title" (click)="playYoutubeVideo(video)" style="cursor: pointer;">{{(video.title?.length>60)?(video.title | slice:0:60) + '...':(video.title)}}</span>
@@ -179,8 +183,8 @@
     </div>
     <div class="col-md-6 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{video.title}}">
-        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList[0].posterUrl!=null)">
-        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="(video.posterList==null || video.posterList[0].posterUrl==null)"></i>
+        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList?.length && video.posterList[0].posterUrl!=null)">
+        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="(video.posterList==null  || !video.posterList?.length || video.posterList[0].posterUrl==null)"></i>
 
         <a class="txt-color">
           <span class="txt-title"  style="cursor: pointer"
@@ -193,6 +197,47 @@
     </div>
     <div class="col-md-1 txt-font" style="padding-right: 0;">
       <span *ngIf="video.video_status=='ready'">{{video.watch_count}} &nbsp;viewed </span>
+    </div>
+    <div class="col-md-1 txt-font">
+      <span [ngClass]="{'hide': video.video_time==null}" *ngIf="video.video_status=='ready'">  {{video.video_time }}&nbsp;Hr</span>
+    </div>
+    <div class="col-md-1 txt-font" style="color:blue;" *ngIf="video.video_status=='ready'">
+        {{video.video_status |titlecase}} &nbsp;
+      </div>
+      <div class="col-md-1 txt-font" style="color:blue;" *ngIf="video.video_status!='ready'">
+        Processing &nbsp;
+      </div>
+    <div class="col-md-2" style="padding: 0;">
+      <div class="action-buttons" style="float: right;">
+        <button class="btn btn-xs btn-ga-white" (click)="editFile(video)">Edit</button>
+        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked!='N'" (click)="deleteVideoCipherFile(video,'unlink')">Unlink</button>
+        <button class="btn btn-xs btn-ga-white" *ngIf="video.is_video_linked=='N'" (click)="deleteVideoCipherFile(video,'unlink all')">Unlink All</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #Vimeo let-youtube let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let video of youtube">
+    <div class="col-md-1" style="width: 1%;">
+      <input type="checkbox" (change)="checkVDOCipherSelectedFile(video, $event.target.checked)" [(ngModel)]="video.selected" style="-webkit-appearance: checkbox;">
+    </div>
+    <div class="col-md-6 material-title txt-color" (click)="playVimeoVideo(video)" [ngStyle]="{'padding-left': level+'em'}">
+      <h4 class="file__title" title="{{video.title}}">
+        <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList?.length && video.posterList[0].posterUrl!=null)">
+        <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="(video.posterList==null  || !video.posterList?.length || video.posterList[0].posterUrl==null)"></i>
+
+        <a class="txt-color">
+          <span class="txt-title"  style="cursor: pointer"
+            title="{{video.title}}">{{(video.title?.length>60)?(video.title | slice:0:60) + '...':(video.title)}}</span>
+        </a>
+      </h4>
+    </div>
+    <div class="col-md-1 txt-font">
+      <span *ngIf="video.video_status=='ready'">{{video.size | number:'.2-2'}}&nbsp;MB</span>
+    </div>
+    <div class="col-md-1 txt-font" style="padding-right: 0;" (click)="viewUserListFun(video)">
+      <span style="cursor: pointer;" *ngIf="video.video_status=='ready'">{{video.watch_count}} &nbsp;viewed </span>
     </div>
     <div class="col-md-1 txt-font">
       <span [ngClass]="{'hide': video.video_time==null}" *ngIf="video.video_status=='ready'">  {{video.video_time }}&nbsp;Hr</span>
@@ -591,3 +636,48 @@
   </div>
   </div>
 </proctur-popup>
+
+<!-- 
+  Developed by - Nalini
+  To show watch user list
+ -->
+<section *ngIf="viewUserList">
+  <div class="confirmation_popup download_popup">
+    <div class="confirm_title" style="font-size: 14px;margin-bottom: 10px;">
+      <!-- <span>{{download_links.session_name}}</span> -->
+      <span style="cursor: pointer;float:right" (click)="viewUserList=false">X</span>
+    </div>
+    <section>
+      <div class="table-container">
+        <div class="heading-container">
+          <div class="heading-item" style="width: 15%;">
+            <span>Sr. No. </span>
+          </div>
+          <div class="heading-item" style="width: 75%;text-align: left;">
+            <span>User Name</span>
+          </div>
+          <div class="heading-item" style="width: 10%;">
+            <span>Count</span>
+          </div>
+        </div>
+        <div class="value-outer-container">
+          <div class="value-container" *ngFor="let data of video_watch_history_det;let i = index;">
+            <div class="value-item" style="width: 15%;">
+              {{i+1}}
+            </div>
+            <div class="value-item" style="width: 75%;text-align: left;">
+              <span title="{{data?.user_name}}" *ngIf="data?.user_name!=null">{{data.user_name}}</span>
+              <span *ngIf="data?.user_name==null">-</span>
+            </div>
+            <div class="value-item" style="width: 10%;">
+              <span title="{{data.watch_count}}" *ngIf="data.watch_count!=null">{{data.watch_count}}</span>
+              <span *ngIf="data.watch_count==null">-</span>
+            </div>
+        </div>
+      </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<div class="black-bg" id="black-bg" *ngIf="viewUserList" (click)="viewUserList=false"></div>

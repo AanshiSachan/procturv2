@@ -41,6 +41,8 @@ export class EcourseSubjectListComponent implements OnInit {
   vdoCipherFile: any = false;
   Confirm_deleteFile: any = false;
   selectedRowCount: any = 0;
+  viewUserList: boolean = false;
+  video_watch_history_det = []
 
   constructor(
     private _http: HttpService,
@@ -520,6 +522,12 @@ export class EcourseSubjectListComponent implements OnInit {
     const video_id = atob(obj.proc_id);
     this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video_id);
   }
+
+  playVimeoVideo(obj) {
+    this.videoplayer = true;
+    this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl(obj.video_url);
+  }
+
   closePlayer(){
     this.videoplayer = false;
   }
@@ -636,5 +644,21 @@ export class EcourseSubjectListComponent implements OnInit {
         this.collapseAll(element, cond);
       });
     }
+  }
+
+  // developed by = Nalini
+  // To show watch user list
+  viewUserListFun(obj) {
+    this.auth.showLoader();
+    this._http.getData('/api/v1/instFileSystem/get-video-watch-history/' + this.institute_id + '/' + obj.videoID).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.video_watch_history_det = data.result;
+        this.viewUserList = true;
+      },
+      (error: any) => {	
+        this.auth.hideLoader();
+      }
+    );
   }
 }

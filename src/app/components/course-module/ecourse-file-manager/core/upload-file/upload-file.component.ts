@@ -1,10 +1,9 @@
-import { AfterViewChecked, Component, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { HttpService } from '../../../../../services/http.service';
 import { MessageShowService } from '../../../../../services/message-show.service';
 import { FileService } from '../../file.service';
-;
 
 @Component({
   selector: 'app-upload-file',
@@ -58,10 +57,17 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
     is_readonly: '',
     title: '',
     is_private: false,
-    enable_watermark: true
+    enable_watermark: true,
+    description: ''
   }
   progress: number = 0;
   isUploadingXls: boolean = false;
+  Existing_video_category_id: any = 0;
+  Vimeopayload: any = {};
+  @ViewChild('form') form: ElementRef;
+  Vimeofile: any = {
+    files : []
+  };
 
   constructor(
     private _http: HttpService,
@@ -120,7 +126,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       "topic_id": this.varJson.topic_id,
       "sub_topic_id": this.varJson.sub_topic_id,
       "title": this.varJson.title,
-      "category_id": 235,
+      "category_id": this.Existing_video_category_id,
     }
     if(!this.showModal) {
       object.sub_topic_id = Number(this.jsonData.mainTopicId),
@@ -266,7 +272,8 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       is_readonly: 'N',
       title: '',
       is_private: false,
-      enable_watermark: true
+      enable_watermark: true,
+      description: ''
     }
     this.varJson.name = '';
   }
@@ -307,8 +314,6 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         sub_topic_id: this.varJson.sub_topic_id,
         subject_id: this.varJson.subject_id,
         file_id: -1,
-        is_readonly: this.varJson.is_readonly ? 'Y' : 'N',
-        size: 0
       }
       if(!this.showModal) {
         fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
@@ -370,6 +375,9 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         }
       }
     });
+    this.Vimeofile = {
+      files : []
+    };
     if (value == '330') {
       this.jsonData.selectedVideo = '';
       this.getVDOCipherLinkedDate();
@@ -467,6 +475,27 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         }
         break;
       }
+      case "Vimeo": {
+        if (this.varJson.title == '') {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please add video title");
+          flag = false;
+        }
+        if(files.length) {
+        for (let i = 0; i < files.length; i++) {
+          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV|.FIV|.flv|.mp4|.mov|.webm|.WEBM|.mkv|.MKV|.ogv|.OGV|.vob|.VOB|.gifv|.GIFV|.mng|.MNG|.avi|.gif|.GIF|.drc|.DRC|.ogg|.OGG|.MTS|.mts|.M2TS|.m2ts|.TS|.ts|.qt|.QT|.wmv|.yuv|.YUV|.rm|.RM|.rmvb|.RMVB)/i;
+          if (!pattern.test(files[i].name)) {
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select " + this.varJson.name + " in avi,flv,wmv,mp4 ,webm, mkv ,ogv, vob,gifv, mng, avi,gif, drc, ogg, MTS, M2TS , TS, mov, qt , yuv, rm,rmvb and mov form");
+            flag = false;
+            break;
+          }
+        }
+        } else {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select file");
+            flag = false;
+            break;
+        }
+        break;
+      }
       default:
         {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select type");
@@ -509,7 +538,25 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       this.categiesTypeList = temp;
       if (sessionStorage.getItem('enable_vdoCipher_feature') != '1') {
         temp.forEach((object, index) => {
-          if (object.category_id == 235 || object.category_id == 330) {
+          if (object.category_id == 235) {
+            temp.splice(index, 1);
+          }
+
+        });
+      }
+
+      if (sessionStorage.getItem('enable_vimeo_feature') != '1') {
+        temp.forEach((object, index) => {
+          if (object.category_name == 'Vimeo') {
+            temp.splice(index, 1);
+          }
+
+        });
+      }
+
+      if (sessionStorage.getItem('enable_vdoCipher_feature') != '1' && sessionStorage.getItem('enable_vimeo_feature') != '1') {
+        temp.forEach((object, index) => {
+          if (object.category_id == 330) {
             temp.splice(index, 1);
           }
 
@@ -583,12 +630,14 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   }
 
   onRadioButtonChange($event, video) {
-    // console.log($event, video);
+    // console.log(video);
     this.varJson.title = video.video_title;
+    this.Existing_video_category_id = video.category_id;
   }
 
 
-  uploadHandler2($event) {
+  uploadHandler2($event, value) {
+
     // console.log(this.material_dataFlag);
     let flag = this.uploadDatavalidation();
 
@@ -652,14 +701,26 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               this.auth.hideLoader();
               // this.isUploadingXls = false;
-              var files = $event.files;
-              this.file = files[0];
-              // console.log(this.file);
-              let payloadObject: any = JSON.parse(newxhr.response);
-              this.payload = payloadObject;
-              this.upload();
+              if(this.varJson.category_id == 235) {
+                var files = $event.files;
+                this.file = files[0];
+                let payloadObject: any = JSON.parse(newxhr.response);
+                this.payload = payloadObject;
+                this.upload();
+              } else {
+                let payloadObject: any = JSON.parse(newxhr.response);
+                this.Vimeopayload = payloadObject;
+                var res = this.Vimeopayload.upload_link.substring(0 , this.Vimeopayload.upload_link.lastIndexOf("="));
+                let url = window.location.href;
+                url = url.substring(0 , url.lastIndexOf("#"));
+                res = res.concat('=' + url + '#/view/course/ecourse-file-manager/ecourses?videoId=' + this.Vimeopayload.videoId);
+                if(this.Vimeopayload.upload_link!='' && this.Vimeopayload.upload_link!=null) {
+                  (document.getElementById('form') as HTMLFormElement).action = res;
+                  this.form.nativeElement.submit();
+                }
+              }
             } else {
-              // this.isUploadingXls = false;
+              this.isUploadingXls = false;
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }
           }
@@ -672,6 +733,10 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
     // this.file = files[0];
     // console.log(this.file);
     // this.upload();
+  }
+
+  onFileChange($event) {
+    this.Vimeofile = $event.target;
   }
 
   upload() {
@@ -710,7 +775,8 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
     let obj = {
       "videoID": videoID,
       "institute_id": sessionStorage.getItem('institute_id'),
-      "video_status": "Queued"
+      "video_status": "Queued",
+      "category_id": Number(this.varJson.category_id)
     }
     let url = "/api/v1/instFileSystem/updateVideoStatus";
 
