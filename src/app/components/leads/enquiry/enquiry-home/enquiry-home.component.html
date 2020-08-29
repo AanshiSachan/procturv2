@@ -20,7 +20,7 @@
               &nbsp; Add Enquiry
             </button>
           </div>
-          <div class="btn-item">
+          <div class="btn-item" *ngIf="permission">
             <button type="button" class="btn pull-right" name="button" (click)="flagJSON.isEnquiryOptions = !flagJSON.isEnquiryOptions">
               More &nbsp;
               <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
