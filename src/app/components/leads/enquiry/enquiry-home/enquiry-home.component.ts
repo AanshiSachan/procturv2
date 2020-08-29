@@ -403,7 +403,7 @@ export class EnquiryHomeComponent implements OnInit {
         if (this.flagJSON.isProfessional) {
             this.enquirySettings[10].header = "Master Course";
         }
-        if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('permissions') == null || JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
+        if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('permissions') == null) {
             this.permission = true;
         }
         else {
