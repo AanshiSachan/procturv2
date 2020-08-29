@@ -78,6 +78,7 @@ export class UsersComponent implements OnInit {
     { primaryKey: 'last_login_date_time', header: 'Last Login'},
   ]};
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  user_role: any = '';
 
   constructor(
     private apiService: UserService,
@@ -553,6 +554,7 @@ export class UsersComponent implements OnInit {
 
   getAllMessageFromServer() {
     this.notificationPopup = true;
+    this.checkRole();
     this.messageList = [];
     this.auth.showLoader();
     let obj = {
@@ -684,11 +686,23 @@ export class UsersComponent implements OnInit {
   // Send role to notification api to identify which user type is selected
   checkRole() {
     switch(this.dataFilter.role) {
-      case '0' : return 'Custom';
-      case '1' : return 'Student';
-      case '3' : return 'Teacher';
-      case '5' : return 'Parent';
-      case '99' : return 'Open User';
+      case 0 : {
+         this.user_role = 'Custom';
+          break;
+      }
+      case 1 : {
+         this.user_role = 'Student';
+         break;
+      }
+      case 3 : { this.user_role = 'Teacher';
+                break;
+    }
+      case 5 : { this.user_role = 'Parent';
+                break;
+    }
+      case 99 : { this.user_role = 'Open User';
+                break;
+    }
     }
   }
 
@@ -696,7 +710,6 @@ export class UsersComponent implements OnInit {
     if(!this.getNotificationMessage()){
       return;
     }
-    let role = this.checkRole();
     let studentID = this.getListOfIds('user_id');
     let obj = {
       delivery_mode: 0,
@@ -712,7 +725,7 @@ export class UsersComponent implements OnInit {
       message_id: this.selectedMsg.message_id,
       is_user_notify: 1,
       institution_id: sessionStorage.getItem('institute_id'),
-      role: role
+      role: this.user_role
     };
     // if (this.transational_type ==2) {
     //   obj.configuredMessage = false;
