@@ -20,7 +20,7 @@ import { LeadsComponent } from './leads.component';
 import { ManageCampaignComponent } from './manage-campaign/manage-campaign.component';
 import { CampaignService } from './services/campaign.service';
 import { ClosingReasonService } from './services/closing-reason.service';
-
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 
 @NgModule({
@@ -34,7 +34,8 @@ import { ClosingReasonService } from './services/closing-reason.service';
     MenuModule,
     SharedModule,
     LeadsRoutingModule,
-    ManageExamModule
+    ManageExamModule,
+    EditorModule
   ],
   declarations: [
     LeadsComponent,
@@ -46,18 +47,19 @@ import { ClosingReasonService } from './services/closing-reason.service';
     // EnquiryReportComponent
   ],
   entryComponents: [
-      LeadsComponent,
-      UserEnquiryComponent
+    LeadsComponent,
+    UserEnquiryComponent
   ],
   providers: [
-      CampaignService,
-      PopupHandlerService,
-      ClosingReasonService,
-      ExportToPdfService,
-      HttpService
+    CampaignService,
+    PopupHandlerService,
+    ClosingReasonService,
+    ExportToPdfService,
+    HttpService
   ],
   exports: [
-    UserEnquiryComponent
+    UserEnquiryComponent,
+    EditorModule
   ]
 })
 export class LeadsModule { }
