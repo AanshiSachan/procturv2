@@ -714,7 +714,7 @@
                   <div class="" widget-content>
                     <textarea  [(ngModel)]="subject" style="width: 100%;" disabled></textarea>
                  
-                      <editor
+                      <editor [init]="editorConf" 
                       apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"  [disabled]="true" [(ngModel)]="previewedMessage"></editor>
                   </div>
               <div widget-content style="margin-top: 2%;">

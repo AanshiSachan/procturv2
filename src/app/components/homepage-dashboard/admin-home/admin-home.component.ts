@@ -1762,7 +1762,7 @@ export class AdminHomeComponent implements OnInit {
         let msg = {
           type: 'error',
           title: 'Failed To Save Message',
-          body: err.message
+          // body: err.message
         };
         this.appC.popToast(msg);
       }

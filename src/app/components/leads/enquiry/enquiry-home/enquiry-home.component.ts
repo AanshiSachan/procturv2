@@ -669,7 +669,21 @@ export class EnquiryHomeComponent implements OnInit {
     fetchMasterCourseDetails() {
         this.prefill.getMasterCourseData().subscribe((res: any) => { this.masterCourseData = res; });
     }
-
+    //Added By Ashwini Gupta For Editior Email
+    editorConf = {
+        height: 150,
+        menubar: false,
+        branding: false,
+        plugins: [
+            'preview anchor',
+            'visualblocks code ',
+            'insertdatetime  table paste code  wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | bold italic backcolor | \
+            alignleft aligncenter alignright alignjustify | \
+            bullist numlist outdent indent'
+    };
+    //End
     fetchCustomComponentData() {
         this.customComponents = [];
         this.prefill.fetchCustomComponentEmpty()
