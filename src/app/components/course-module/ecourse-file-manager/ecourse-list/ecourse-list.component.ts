@@ -65,7 +65,7 @@ export class EcourseListComponent implements OnInit {
             "videoID": videoId,
             "institute_id": sessionStorage.getItem('institute_id'),
             "video_status": "Queued",
-            "category_id": 272
+            "category_id": 305
           }
           let url = "/api/v1/instFileSystem/updateVideoStatus";
       
