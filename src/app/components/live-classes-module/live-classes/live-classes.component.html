@@ -88,10 +88,10 @@
                     <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
                   </button>
                   <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
-                    <span class="dropdown-item"  *ngIf="!timeLeft(today, class.start_datetime)">
+                    <span class="dropdown-item" (click)="smsNotification(class.session_id, class.live_meeting_with)"  *ngIf="!timeLeft(today, class.start_datetime)">
                       <div class="questionInfo inline-relative">
                         <span class=" i-class">
-                          <button style="background: none;" type="button" name="button" (click)="smsNotification(class.session_id, class.live_meeting_with)"
+                          <button style="background: none;" type="button" name="button"
                             [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                             <i class="fa fa-commenting" aria-hidden="true"></i> Send SMS Notification
                           </button>
@@ -104,10 +104,10 @@
                         </div>
                       </div>
                     </span>
-                    <span class="dropdown-item"  *ngIf="!timeLeft(today, class.start_datetime)">
+                    <span class="dropdown-item" (click)="pushNotification(class.session_id)"  *ngIf="!timeLeft(today, class.start_datetime)">
                       <div class="questionInfo inline-relative">
                         <span class=" i-class">
-                          <button style="background: none;" type="button" name="button" (click)="pushNotification(class.session_id)"
+                          <button style="background: none;" type="button" name="button"
                             [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                             <i class="fa fa-bell" aria-hidden="true"></i> Send Push Notification
                           </button>
@@ -120,10 +120,10 @@
                         </div>
                       </div>
                     </span>
-                    <span class="dropdown-item" *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)">
+                    <span class="dropdown-item" (click)="editStudent(class.session_id, class.live_meeting_with)" *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)">
                       <div class="questionInfo inline-relative">
                         <span class=" i-class">
-                          <button style="background: none;" type="button" name="button" (click)="editStudent(class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check"
+                          <button style="background: none;" type="button" name="button" [disabled]="proctur_live_expiry_date_check"
                             [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                             <i class="fa fa-pencil" aria-hidden="true"></i> Edit
                           </button>
@@ -136,10 +136,10 @@
                         </div>
                       </div>
                     </span>
-                    <span class="dropdown-item" *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)">
+                    <span class="dropdown-item" (click)="cancel(class.session_id, class.live_meeting_with)" *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)">
                       <div class="questionInfo inline-relative">
                         <span class=" i-class">
-                          <button style="background: none;" type="button" name="button" (click)="cancel(class.session_id, class.live_meeting_with)" [disabled]="proctur_live_expiry_date_check"
+                          <button style="background: none;" type="button" name="button" [disabled]="proctur_live_expiry_date_check"
                             [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                             <i class="fa fa-times" aria-hidden="true"></i> Cancel
                           </button>
