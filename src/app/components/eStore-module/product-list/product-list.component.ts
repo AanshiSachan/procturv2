@@ -60,7 +60,7 @@ export class ProductListComponent implements OnInit {
   };
 
   jsonKeys = {
-    selectAll: true,
+    selectAll: false,
     institute_id: ''
   }
 
@@ -248,7 +248,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getStudentDetails() {
-    this.jsonKeys.selectAll = true;
+    this.jsonKeys.selectAll = false;
     this.studentDetails = [];
     let ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
     let object = {};
