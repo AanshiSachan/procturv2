@@ -107,7 +107,7 @@
                     <span class="dropdown-item"  *ngIf="!timeLeft(today, class.start_datetime)">
                       <div class="questionInfo inline-relative">
                         <span class=" i-class">
-                          <button style="background: none;" type="button" name="button" (click)="pushNotification(class.session_id)"
+                          <button style="background: none;" type="button" name="button" (click)="pushNotification(class.session_id,class.live_meeting_with)"
                             [disabled]="proctur_live_expiry_date_check" [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                             <i class="fa fa-bell" aria-hidden="true"></i> Send Push Notification
                           </button>
