@@ -823,14 +823,28 @@ export class CoummunicateHomeComponent implements OnInit {
         let msg = {
           type: 'error',
           title: 'Failed To Save Message',
-          body: err.message
+          // body: err.message
         };
         this.appC.popToast(msg);
       }
     )
   }
 
-
+  //Added By Ashwini Gupta For Editior Email
+  editorConf = {
+    height: 150,
+    menubar: false,
+    branding: false,
+    plugins: [
+      'preview anchor',
+      'visualblocks code ',
+      'insertdatetime  table paste code  wordcount'
+    ],
+    toolbar: 'undo redo | formatselect | bold italic backcolor | \
+          alignleft aligncenter alignright alignjustify | \
+          bullist numlist outdent indent'
+  };
+  //End
   closeNewMessageDiv() {
     this.addNotification = false;
     this.newMessageText = "";
