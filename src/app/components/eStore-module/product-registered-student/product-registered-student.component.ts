@@ -27,8 +27,8 @@ export class RegisteredStudentComponent implements OnInit {
     course_type_id: '0'
   };
   searchDataFlag = false;
-  AdvanceFilter:boolean = false;
-  selectedRecord:any = {
+  AdvanceFilter: boolean = false;
+  selectedRecord: any = {
     name: '',
     phone: '',
     email: '',
@@ -47,7 +47,7 @@ export class RegisteredStudentComponent implements OnInit {
   selectAll: any = false;
   showDropMenu: any = false;
   selectedRowCount: any = 0;
-  isOptions:any = false;
+  isOptions: any = false;
   notificationPopup: any = false;
   messageList: any = [];
   message: any = '';
@@ -72,12 +72,13 @@ export class RegisteredStudentComponent implements OnInit {
 
   tableSetting: any = {
     keys: [
-    { primaryKey: 'name', header: 'Name'},
-    { primaryKey: 'phone', header: 'Phone'},
-    { primaryKey: 'email_id', header: 'Email ID'},
-    { primaryKey: 'registered_date', header: 'Registered Date'},
-    { primaryKey: 'open_user_status', header: 'Status'},
-  ]};
+      { primaryKey: 'name', header: 'Name' },
+      { primaryKey: 'phone', header: 'Phone' },
+      { primaryKey: 'email_id', header: 'Email ID' },
+      { primaryKey: 'registered_date', header: 'Registered Date' },
+      { primaryKey: 'open_user_status', header: 'Status' },
+    ]
+  };
 
 
   varJson: any = {
@@ -149,30 +150,30 @@ export class RegisteredStudentComponent implements OnInit {
       'start_index': start_index,
       'no_of_records': this.varJson.displayBatchSize,
     };
-      this.auth.showLoader();
-      this.http.postMethod('user-product/get-user-details', data).then(
-        (data: any) => {
-          this.auth.hideLoader();
-          this.selectedRowCount = 0;
-          if (data.body.result != null) {
-            this.usersList = data.body.result;
-            if(this.usersList && this.usersList.length) {
+    this.auth.showLoader();
+    this.http.postMethod('user-product/get-user-details', data).then(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.selectedRowCount = 0;
+        if (data.body.result != null) {
+          this.usersList = data.body.result;
+          if (this.usersList && this.usersList.length) {
             this.varJson.total_items = this.usersList[0].total_record;
             this.usersList.forEach(element => {
-              if(element.open_user_status == 'No Action') {
+              if (element.open_user_status == 'No Action') {
                 element.open_user_status = '-';
               }
               element.ecourse_list = element.ecourse_list.join();
             });
-            }
           }
-          this.searchedData = this.usersList;
-        },
-        err => {
-          this.auth.hideLoader();
-          this._msgService.showErrorMessage('error', '', err.error.message);
         }
-      );
+        this.searchedData = this.usersList;
+      },
+      err => {
+        this.auth.hideLoader();
+        this._msgService.showErrorMessage('error', '', err.error.message);
+      }
+    );
 
   }
 
@@ -181,7 +182,7 @@ export class RegisteredStudentComponent implements OnInit {
     let obj = e.data;
     this.auth.showLoader();
     this.httpService.getData('/api/v2/user/' + obj.user_id).subscribe(
-      (res:any)=>{
+      (res: any) => {
         this.selectedRecord = {
           name: res.result.name,
           phone: res.result.mobile_no,
@@ -215,12 +216,12 @@ export class RegisteredStudentComponent implements OnInit {
   }
 
   performAction(action) {
-    if(action == 'Convert to Admission') {
+    if (action == 'Convert to Admission') {
       sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRecord));
       this.router.navigate(['/view/students/add']);
     }
-    if(action == 'Convert to Enquiry'){
-      sessionStorage.setItem('enquiryPrefill',JSON.stringify(this.selectedRecord));
+    if (action == 'Convert to Enquiry') {
+      sessionStorage.setItem('enquiryPrefill', JSON.stringify(this.selectedRecord));
       this.router.navigate(['view/leads/add']);
     }
   }
@@ -238,13 +239,13 @@ export class RegisteredStudentComponent implements OnInit {
 
   isAllChecked(): boolean {
     return this.usersList.every(_ => _.isSelected);
-}
+  }
 
   rowCheckboxChange(record) {
     (record.isSelected) ? (this.selectedRowCount++) : (this.selectedRowCount--);
   }
 
- /*** pagination functions */
+  /*** pagination functions */
   /* Fetch next set of data from server and update table */
   fetchNext() {
     this.varJson.PageIndex++;
@@ -266,6 +267,7 @@ export class RegisteredStudentComponent implements OnInit {
   getAllMessageFromServer() {
     this.notificationPopup = true;
     this.messageList = [];
+    let tempMessageList: any = [];
     this.auth.showLoader();
     let obj = {
       from_date: '',
@@ -273,8 +275,14 @@ export class RegisteredStudentComponent implements OnInit {
     }
     this.httpService.postData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/all', obj).subscribe(
       res => {
-       this.auth.hideLoader();
-        this.messageList = res;
+        this.auth.hideLoader();
+        tempMessageList = res;
+        for (let i = 0; i < tempMessageList.length; i++) {
+          if (tempMessageList[i].source === "SMS") {
+            this.messageList.push(tempMessageList[i]);
+          }
+        }
+        // this.messageList = res;
         if (this.messageList && this.messageList.length > 0) {
           this.messageList.forEach(msg => {
             msg.selected = false;
@@ -282,7 +290,7 @@ export class RegisteredStudentComponent implements OnInit {
         }
       },
       err => {
-       this.auth.hideLoader();
+        this.auth.hideLoader();
       }
     )
   }
@@ -300,19 +308,19 @@ export class RegisteredStudentComponent implements OnInit {
 
   saveSMS() {
     let obj = { message: this.message };
-    if(this.message !='' && this.message.trim()!=''){
-    this.auth.showLoader();
-    this.httpService.postData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id'), obj).subscribe(
-      (res: any) => {
-        this._msgService.showErrorMessage('success', '', 'Message created Successfully');
-        this.auth.hideLoader();
-        this.getAllMessageFromServer();
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    )
-    this.addSMS = false;
+    if (this.message != '' && this.message.trim() != '') {
+      this.auth.showLoader();
+      this.httpService.postData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id'), obj).subscribe(
+        (res: any) => {
+          this._msgService.showErrorMessage('success', '', 'Message created Successfully');
+          this.auth.hideLoader();
+          this.getAllMessageFromServer();
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      )
+      this.addSMS = false;
     } else {
       this._msgService.showErrorMessage('error', '', 'Please enter message');
     }
@@ -320,19 +328,19 @@ export class RegisteredStudentComponent implements OnInit {
 
   updateSMS() {
     let obj = { message: this.message };
-    if(this.message !='' && this.message.trim()!=''){
-    this.auth.showLoader();
-    this.httpService.putData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id')  + '/' + this.editObj.message_id, obj).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this._msgService.showErrorMessage('success', '', 'Message updated Successfully');
-        this.getAllMessageFromServer();
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    )
-    this.addSMS = false;
+    if (this.message != '' && this.message.trim() != '') {
+      this.auth.showLoader();
+      this.httpService.putData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/' + this.editObj.message_id, obj).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this._msgService.showErrorMessage('success', '', 'Message updated Successfully');
+          this.getAllMessageFromServer();
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      )
+      this.addSMS = false;
     } else {
       this._msgService.showErrorMessage('error', '', 'Please enter message');
     }
@@ -340,21 +348,21 @@ export class RegisteredStudentComponent implements OnInit {
 
   ApproveMsg(message_id) {
     if (confirm('Are you sure, You want to approve the message?')) {
-    const obj = {
-      status: 1
-    };
-    this.auth.showLoader();
-    this.httpService.putData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/' + message_id, obj).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this._msgService.showErrorMessage('success', '', 'Message approved successfully');
-        this.getAllMessageFromServer();
-      },
-      err => {
-        this.auth.hideLoader();
-        this._msgService.showErrorMessage('error', '', err.error.message);
-      }
-    );
+      const obj = {
+        status: 1
+      };
+      this.auth.showLoader();
+      this.httpService.putData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/' + message_id, obj).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this._msgService.showErrorMessage('success', '', 'Message approved successfully');
+          this.getAllMessageFromServer();
+        },
+        err => {
+          this.auth.hideLoader();
+          this._msgService.showErrorMessage('error', '', err.error.message);
+        }
+      );
     }
   }
 
@@ -392,7 +400,7 @@ export class RegisteredStudentComponent implements OnInit {
   }
 
   sendSMSNotification() {
-    if(!this.getNotificationMessage()){
+    if (!this.getNotificationMessage()) {
       return;
     }
     let studentID = this.getListOfIds('user_id');
@@ -418,13 +426,13 @@ export class RegisteredStudentComponent implements OnInit {
     this.httpService.postData('/api/v1/alerts/config', obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this._msgService.showErrorMessage('success','','Message sent successfully');
+        this._msgService.showErrorMessage('success', '', 'Message sent successfully');
       },
       err => {
         this.auth.hideLoader();
       }
     )
-   this.closeNotificationPopup();
+    this.closeNotificationPopup();
   }
 
   closeNotificationPopup() {
@@ -447,7 +455,7 @@ export class RegisteredStudentComponent implements OnInit {
       institution_id: sessionStorage.getItem('institute_id')
     }
     this.auth.showLoader();
-    this.httpService.postData('/api/v1/pushNotification/send',obj).subscribe(
+    this.httpService.postData('/api/v1/pushNotification/send', obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this._msgService.showErrorMessage('success', '', 'Message sent successfully');
@@ -493,40 +501,40 @@ export class RegisteredStudentComponent implements OnInit {
       'start_index': 0,
       'no_of_records': 0,
     };
-      this.auth.showLoader();
-      this.http.postMethod('user-product/get-user-details', data).then(
-        (data: any) => {
-          this.auth.hideLoader();
-          if (data.body.result != null) {
-            let arr = data.body.result;
-            if(arr && arr.length) {
+    this.auth.showLoader();
+    this.http.postMethod('user-product/get-user-details', data).then(
+      (data: any) => {
+        this.auth.hideLoader();
+        if (data.body.result != null) {
+          let arr = data.body.result;
+          if (arr && arr.length) {
             arr.forEach(element => {
-              if(element.open_user_status == 'No Action') {
+              if (element.open_user_status == 'No Action') {
                 element.open_user_status = '-';
               }
             });
-            }
-            let Excelarr = [];
-            arr.map(
-              (ele: any) => {
-                let json = {}
-                this.tableSetting.keys.map((keys) => {
+          }
+          let Excelarr = [];
+          arr.map(
+            (ele: any) => {
+              let json = {}
+              this.tableSetting.keys.map((keys) => {
                 json[keys.header] = ele[keys.primaryKey]
               })
               Excelarr.push(json);
-          }
+            }
           )
           this.excelService.exportAsExcelFile(
             Excelarr,
             'register_user'
           );
-          }
-        },
-        err => {
-          this.auth.hideLoader();
-          this._msgService.showErrorMessage('error', '', err.error.message);
         }
-      );
+      },
+      err => {
+        this.auth.hideLoader();
+        this._msgService.showErrorMessage('error', '', err.error.message);
+      }
+    );
   }
 
   clearFilter() {
@@ -536,7 +544,7 @@ export class RegisteredStudentComponent implements OnInit {
     };
   }
 
-   searchInList() {
+  searchInList() {
     if (this.searchText != "" && this.searchText != null) {
       let searchData = this.usersList.filter(item =>
         Object.keys(item).some(
@@ -553,27 +561,27 @@ export class RegisteredStudentComponent implements OnInit {
     }
   }
 
-  countNumberOfMessage(){
+  countNumberOfMessage() {
     let uniCodeFlag = this.hasUnicode(this.message);
     let charLimit = 160;
-    if(uniCodeFlag){
+    if (uniCodeFlag) {
       charLimit = 70
     }
-    if(this.message.length == 0){
+    if (this.message.length == 0) {
       this.messageCount = 0;
     }
-    else if(this.message.length > 0 && this.message.length <= charLimit){
+    else if (this.message.length > 0 && this.message.length <= charLimit) {
       this.messageCount = 1;
     }
-    else{
+    else {
       let count = Math.ceil(this.message.length / charLimit);
       this.messageCount = count;
     }
   }
 
-  hasUnicode (str) {
+  hasUnicode(str) {
     for (var i = 0; i < str.length; i++) {
-        if (str.charCodeAt(i) > 127) return true;
+      if (str.charCodeAt(i) > 127) return true;
     }
     return false;
   }

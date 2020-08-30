@@ -558,6 +558,7 @@ export class UsersComponent implements OnInit {
     this.notificationPopup = true;
     this.checkRole();
     this.messageList = [];
+    let tempMessageList: any = [];
     this.auth.showLoader();
     let obj = {
       from_date: '',
@@ -566,7 +567,13 @@ export class UsersComponent implements OnInit {
     this.httpService.postData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/all', obj).subscribe(
       res => {
         this.auth.hideLoader();
-        this.messageList = res;
+        tempMessageList = res;
+        for (let i = 0; i < tempMessageList.length; i++) {
+          if (tempMessageList[i].source === "SMS") {
+            this.messageList.push(tempMessageList[i]);
+          }
+        }
+        // this.messageList = res;
         if (this.messageList && this.messageList.length > 0) {
           this.messageList.forEach(msg => {
             msg.selected = false;
@@ -687,24 +694,27 @@ export class UsersComponent implements OnInit {
   // Developed by Nalini
   // Send role to notification api to identify which user type is selected
   checkRole() {
-    switch(this.dataFilter.role) {
-      case '0' : {
-         this.user_role = 'Custom';
-          break;
+    switch (this.dataFilter.role) {
+      case '0': {
+        this.user_role = 'Custom';
+        break;
       }
-      case '1' : {
-         this.user_role = 'Student';
-         break;
+      case '1': {
+        this.user_role = 'Student';
+        break;
       }
-      case '3' : { this.user_role = 'Teacher';
-                break;
-    }
-      case '5' : { this.user_role = 'Parent';
-                break;
-    }
-      case '99' : { this.user_role = 'Open User';
-                break;
-    }
+      case '3': {
+        this.user_role = 'Teacher';
+        break;
+      }
+      case '5': {
+        this.user_role = 'Parent';
+        break;
+      }
+      case '99': {
+        this.user_role = 'Open User';
+        break;
+      }
     }
   }
 
