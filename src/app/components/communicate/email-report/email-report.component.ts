@@ -243,6 +243,12 @@ export class EmailReportComponent {
   }
 
   getDataFromDataSource(startindex) {
+    let tempEmail: any = [];
+    tempEmail = this.emailDataSource;
+    for (let i = 0; i < tempEmail.length; i++) {
+      tempEmail[i].message = tempEmail[i].message.replace(/<\/?[^>]+>/ig, " ");
+    }
+    this.emailDataSource = tempEmail;
     let t = this.emailDataSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
   }
