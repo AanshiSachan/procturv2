@@ -495,7 +495,16 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     // }
     // this senction is used for enable Expense feature
     this.jsonFlags.isShowExpense = false;
-    if (sessionStorage.getItem('enable_expense_management') == '1') {
+    // developed by - Nalini 
+    // Expenses option are showing in all user login so need to remove-Growth Academy - 101238
+    if ((this.instituteId == 101238 && (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') == 'admin') ) ||
+        this.instituteId == 101242 ||
+        this.instituteId == 101008 ||
+        this.instituteId == 101243 ||
+        this.instituteId == 101244 ||
+        this.instituteId == 100058 ||
+        this.instituteId == 100127 ||
+        this.instituteId == 100126) {
       this.jsonFlags.isShowExpense = true;
     }
   }

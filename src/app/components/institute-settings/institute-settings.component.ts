@@ -387,7 +387,7 @@ export class InstituteSettingsComponent implements OnInit {
   // Library Role
   libraryRole: boolean = false;
   instituteId: any;
-  instituteTaxType: String;
+  instituteTaxType : String;
   show_vdocipher_video_ready_sms_to_admin: boolean = false;
   reportFor = {
     enquiry: false,
