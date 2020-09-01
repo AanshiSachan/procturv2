@@ -62,7 +62,7 @@
           <label for="tags" style="font-size: 12px; margin-top:10px; margin-right: 10px;">Description</label>
           <textarea name="name" class="assignment-textarea" rows="5" [(ngModel)]="assignmentDetails.description" placeholder="Description" cols="78"></textarea>
         </div>
-        <div class="assignment-details-item field-wrapper tags">
+        <!-- <div class="assignment-details-item field-wrapper tags">
           <label for="tags" style="font-size: 12px; margin-top:5px; margin-right: 10px;">
             Tags
             <div class="questionInfo inline-relative" style="left:0%;top:5px;">
@@ -83,7 +83,7 @@
           <button type="button" name="button" class="manage-assignment-btn" data-target="#addTag" data-toggle="modal">
             <i class="fa fa-plus" aria-hidden="true" style="color: #0084f6;"></i>&nbsp;
             Add Tags</button>
-        </div>
+        </div> -->
         <div class="assignment-details-item">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="marks" [(ngModel)]="assignmentDetails.marks" (ngModelChange)="toggleMarks($event)">
@@ -100,8 +100,20 @@
               </div>
             </div>
           </div>
-          <div class="marks-container" *ngIf="showMarks">
-            <input type="number" name="" value="" placeholder="Enter marks" [(ngModel)]=assignmentDetails.mark>
+          <div class="field-radio-wrapper" style="margin-left: 5%;padding-left: 5px;width: 115px;" *ngIf="showMarks">
+            <input type="radio" value="false" style="-webkit-appearance: radio;" class="form-checkbox" id="enable_grade" [(ngModel)]="assignmentDetails.enable_grade">
+            <label for="enable_grade">
+              Enable marks
+            </label>
+          </div>
+          <div class="field-radio-wrapper" style="margin-left: 5%;padding-left: 5px;width: 115px;" *ngIf="showMarks">
+            <input type="radio" value="true" style="-webkit-appearance: radio;" class="form-checkbox" id="enable_grade" [(ngModel)]="assignmentDetails.enable_grade">
+            <label for="enable_grade">
+              Enable Grade
+            </label>
+          </div>
+          <div class="marks-container" *ngIf="assignmentDetails.enable_grade=='false'">
+            <input type="number" name="" value="" placeholder="Enter marks" [(ngModel)]=assignmentDetails.evaluation_marks>
           </div>
         </div>
 
@@ -127,7 +139,7 @@
           </div>
 
           <div class="date-time field-wrapper datePickerBox">
-            <label for="end-date" style="font-size: 12px;">End Date & Time<span class="danger"></span></label>
+            <label for="end-date" style="font-size: 12px;">Due Date & Time<span class="danger"></span></label>
             <input type="text" value="" id="end-date" class="form-ctrl widgetDatepicker bsDatepicker datepicker1" [(ngModel)]="assignmentDetails.endDate"
             style="padding: 6px;" readonly="true" name="payment-date" placeholder="Date" bsDatepicker />
             <div>
@@ -146,11 +158,32 @@
             </div>
           </div>
         </div>
+
+        <div class="assignment-details-item field-wrapper EvaluationDate datePickerBox" style="flex-direction: column;">
+          <label for="tags" style="font-size: 12px; margin-top:10px; margin-right: 10px;">Evaluation Date
+            <div class="questionInfo inline-relative" style="left:0%;top:5px;">
+              <span class="qInfoIcon i-class">i</span>
+              <div class="tooltip-box-field md">
+                We can specify the Evaltion
+                 Date for Assignment ,This
+                 date will be visible to Students
+              </div>
+            </div>
+          </label>
+          <input type="text" value="" id="state-date" class="form-ctrl widgetDatepicker bsDatepicker datepicker1" [(ngModel)]="assignmentDetails.evaluation_date"
+            style="padding: 6px;" readonly="true" name="payment-date" placeholder="Date" bsDatepicker />
+        </div>
+
         <div class="assignment-details-item">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="late-submission" [(ngModel)]="assignmentDetails.lateSubmission">
             <label for="late-submission">Allow late submission</label>
           </div>
+        </div>
+        <div *ngIf="assignmentDetails.lateSubmission" class="assignment-details-item field-wrapper EvaluationDate datePickerBox" style="flex-direction: column;">
+          <label for="tags" style="font-size: 12px; margin-top:10px; margin-right: 10px;">Late Submission Date</label>
+          <input type="text" value="" id="state-date" class="form-ctrl widgetDatepicker bsDatepicker datepicker1" [(ngModel)]="assignmentDetails.assignment_late_submission_date"
+            style="padding: 6px;" readonly="true" name="payment-date" placeholder="Date" bsDatepicker />
         </div>
         <div class="assignment-details-item field-wrapper">
           <label for="uploadFileControl" style="font-size: 12px;margin-top: 7px;">Upload Assignment</label>
@@ -158,6 +191,8 @@
           "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
           text/plain, application/pdf, image/*" [(ngModel)]="upFile" />
           <button type="button" name="button" class="upload-docs-btn" (click)="fillFiles()">Upload</button>
+        </div>
+        <div style="margin-left: 118px;font-size: 12px;">Allowed Formats: pdf, doc, docx, xls, xlsx, csv, txt, jpg, jpeg, png, gif,zip (Max Upto 15MB)
         </div>
 
         <div class="assignment-details-item field-wrapper">
@@ -250,7 +285,7 @@
           <label for="" style="font-size: 12px;">Batch<span class="danger">*</span></label>
           <select class="course-input" name="" [(ngModel)]="assignmentDetails.batch" (ngModelChange)="getTopic()">
             <option value="-1">Select Batch</option>
-            <<option [value]="batch.batch_id" *ngFor="let batch of batchList">{{batch.batch_name}}</option>
+            <option [value]="batch.batch_id" *ngFor="let batch of batchList">{{batch.batch_name}}</option>
           </select>
         </div>
 
@@ -293,7 +328,7 @@
   <footer>
     <div class="action-btn-container">
       <div class="action-btn">
-        <button type="button" name="button" class="btn btn-light" (click)="saveAsDraft()">Save Assignment</button>
+        <button type="button" name="button" class="btn btn-light" (click)="saveAsDraft()">Save as Draft</button>
       </div>
       <div class="action-btn">
         <button type="button" name="button" class="btn btn-primary" (click)="saveAssignment()">Save & Publish</button>

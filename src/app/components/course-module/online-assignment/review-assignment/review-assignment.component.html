@@ -100,8 +100,8 @@
                 <select name="" class="course-input marks-input form-ctrl" [(ngModel)]="editStatus.teacher_status" style="width:78%; margin-top: 5px;">
                   <!-- <option value="">Status</option> -->
                   <option value="Open">Open</option>
-                  <option value="Inreview">In-Review</option>
-                  <option value="Reviewed">Reviewed</option>
+                  <option value="Inreview">Under Evaluation</option>
+                  <option value="Reviewed">Evaluated</option>
                 </select>
               </div>
               <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y'">
@@ -188,7 +188,7 @@
           Online Assignment
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-        <span>Student Status</span>
+        <span>Student Submission Status</span>
       </h1>
     </div>
   </section>
@@ -203,7 +203,7 @@
       <span>{{assignmentDetails?.start_date}} {{assignmentDetails.start_time}}</span>
     </div>
     <div class="stat-item">
-      <span class="stat-heading">End Date : </span>
+      <span class="stat-heading">Due Date : </span>
       <span>{{assignmentDetails?.end_date}} {{assignmentDetails.end_time}}</span>
     </div>
     <div class="stat-item" *ngIf="assignmentDetails?.evaluation_required == 'Y'">
@@ -221,7 +221,7 @@
   <section>
     <div class="filter-container" [hidden]="rowSelectedCount == 0">
       <div class="manage-assignment-btn-container">
-        <button type="button" name="button" class="manage-assignment-btn" (click)='bulkUpload()'>Share File / Link</button>
+        <button type="button" name="button" class="manage-assignment-btn" (click)='bulkUpload()'>Upload Solution</button>
       </div>
     </div>
   </section>

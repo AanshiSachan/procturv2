@@ -378,3 +378,8 @@ ng-multiselect-dropdown .multiselect-dropdown{
         }
     }
 }
+.EvaluationDate.datePickerBox{
+  &:after {
+    top: 52px;
+  }
+}

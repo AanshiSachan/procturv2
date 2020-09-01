@@ -168,3 +168,29 @@
   height: 21px;
   z-index: 0;
 }
+.dropdown-menu {
+  position: absolute;
+  top: -.5rem;
+  left: -9.5rem;
+  min-width: 160px;
+
+  .dropdown-item {
+    padding: .4em 1em;
+    border-right: 1pt solid #eee;
+    color: black;
+    display: flex;
+    cursor: pointer;
+    color: #0084f6;
+    .fa-trash {
+      color: red;
+    }
+
+    &:hover {
+      color: white;
+      background: #0084f6;
+      // .fa-trash {
+      //   color: white;
+      // }
+    }
+  }
+}

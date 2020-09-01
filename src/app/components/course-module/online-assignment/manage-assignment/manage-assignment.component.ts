@@ -72,7 +72,7 @@ export class ManageAssignmentComponent implements OnInit {
    description: "",
    tags: [],
    marks: false,
-   mark: 0,
+   evaluation_marks: 0,
    lateSubmission : false,
    masterCourse: '-1',
    course: "-1",
@@ -90,7 +90,10 @@ export class ManageAssignmentComponent implements OnInit {
    endMin: "00",
    urlLists: [],
    attachmentId_array: [],
-   file_id: "-1"
+   file_id: "-1",
+   assignment_late_submission_date:'',
+   enable_grade:false,
+   evaluation_date: ''
  }
 
 
@@ -207,7 +210,7 @@ export class ManageAssignmentComponent implements OnInit {
     else if(this.editAssignmentDetails.evaluation_required == "Y"){
       this.assignmentDetails.marks = true;
       this.showMarks = true;
-      this.assignmentDetails.mark = this.editAssignmentDetails.evaluation_marks;
+      this.assignmentDetails.evaluation_marks = this.editAssignmentDetails.evaluation_marks;
     }
 
     if(this.editAssignmentDetails.allow_assignment_late_submission == 'Y'){
@@ -238,6 +241,9 @@ export class ManageAssignmentComponent implements OnInit {
     this.assignmentDetails.subject = this.editAssignmentDetails.subject_id
     this.assignmentDetails.topic = this.editAssignmentDetails.topic_id;
     this.assignmentDetails.subtopic = this.editAssignmentDetails.sub_topic_id;
+    this.assignmentDetails.enable_grade = this.editAssignmentDetails.enable_grade.toString();
+    this.assignmentDetails.assignment_late_submission_date = this.editAssignmentDetails.assignment_late_submission_date;
+    this.assignmentDetails.evaluation_date = this.editAssignmentDetails.evaluation_date;
 
     this.assignmentDetails.students = [];
     this.assignmentDetails.teacher = this.editAssignmentDetails.teacher_id;
@@ -591,6 +597,11 @@ export class ManageAssignmentComponent implements OnInit {
     this.assignment_status = "Draft";
     this.assignmentDetails.tags = [];
     this.assignmentDetails.students = [];
+    let start_date = moment(this.assignmentDetails.startDate);
+    let todaysDate = moment(new Date());
+    if(start_date > todaysDate) {
+      this.assignment_status = "Scheduled"
+    }
     for(let i = 0; i < this.selectedTagsList.length; i++){
       this.assignmentDetails.tags.push(this.selectedTagsList[i].tagId)
     }
@@ -610,7 +621,7 @@ export class ManageAssignmentComponent implements OnInit {
               let ev = 'N';
               let marks = 0;
               if(this.assignmentDetails.marks){
-                marks = this.assignmentDetails.mark;
+                marks = this.assignmentDetails.evaluation_marks;
                 ev = 'Y'
               }
               else{
@@ -643,6 +654,9 @@ export class ManageAssignmentComponent implements OnInit {
                 tagId_array: this.assignmentDetails.tags,
                 studentId_array: this.assignmentDetails.students,
                 url_lists: this.assignmentDetails.urlLists,
+                enable_grade: this.assignmentDetails.enable_grade,
+                evaluation_date: this.assignmentDetails.evaluation_date,
+                assignment_late_submission_date: this.assignmentDetails.assignment_late_submission_date,
                 attachmentId_array: this.removeOldFile
               }
               this.createOnlineAssignment(obj);
@@ -666,6 +680,12 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   saveAssignment(){
+    let start_date = moment(this.assignmentDetails.startDate);
+    let todaysDate = moment(new Date());
+    this.assignment_status = "Published";
+    if(start_date > todaysDate) {
+      this.assignment_status = "Scheduled"
+    }
     this.assignmentDetails.tags = [];
     this.assignmentDetails.students = [];
     for(let i = 0; i < this.selectedTagsList.length; i++){
@@ -695,7 +715,7 @@ export class ManageAssignmentComponent implements OnInit {
                 let ev = 'N';
                 let marks = 0;
                 if(this.assignmentDetails.marks){
-                  marks = this.assignmentDetails.mark;
+                  marks = this.assignmentDetails.evaluation_marks;
                   ev = 'Y'
                 }
                 else{
@@ -724,11 +744,14 @@ export class ManageAssignmentComponent implements OnInit {
                   evaluation_required: ev,
                   file_id: file_id,
                   teacher_id: this.assignmentDetails.teacher,
-                  assignment_status: 'Published',
+                  assignment_status: this.assignment_status,
                   tagId_array: this.assignmentDetails.tags,
                   studentId_array: this.assignmentDetails.students,
                   url_lists: this.assignmentDetails.urlLists,
-                  attachmentId_array: []
+                  attachmentId_array: [],
+                  enable_grade: this.assignmentDetails.enable_grade,
+                  evaluation_date: this.assignmentDetails.evaluation_date,
+                  assignment_late_submission_date: this.assignmentDetails.assignment_late_submission_date
                 }
 
                 this.createOnlineAssignment(obj);
