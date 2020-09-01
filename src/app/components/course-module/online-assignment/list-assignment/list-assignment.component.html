@@ -50,7 +50,7 @@
           <span>Start Date</span>
         </div>
         <div class="list-header-item small-item" style="width: 12.5%">
-          <span>End Date</span>
+          <span>Due Date</span>
         </div>
         <div class="list-header-item small-item">
           <span>Course</span>
@@ -62,7 +62,7 @@
           <span>Topic</span>
         </div>
         <div class="list-header-item small-item">
-          <span>Publish</span>
+          <span>Status</span>
         </div>
         <div class="list-header-item v-small-item">
           <span>Submissions</span>
@@ -102,13 +102,27 @@
             <span>{{assignment.assignment_status}}</span>
           </div>
           <div class="list-value-item v-small-item action-container">
-            <span *ngIf="assignment.assignment_status == 'Published'">{{assignment.total_assign_submitted_count}}/{{assignment.total_assign_students}}</span>
-            <span *ngIf="assignment.assignment_status != 'Published'">-</span>
+            <span *ngIf="assignment.assignment_status == 'Published' && assignment.total_assign_submitted_count!=0">{{assignment.total_assign_submitted_count}}/{{assignment.total_assign_students}}</span>
+            <span *ngIf="assignment.assignment_status != 'Published' || assignment.total_assign_submitted_count == 0">-</span>
           </div>
           <div class="list-value-item small-item align-center action-container">
-            <i class="fa fa-eye" aria-hidden="true" style="color: #1283f4;" title="View Submissions" (click)="viewSubmission(assignment.file_id)" *ngIf="assignment.assignment_status == 'Published'"></i>
-            <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Manage" (click)="editAssignment(assignment.file_id)" *ngIf="assignment.assignment_status != 'Published'"></i>
-            <i class="fa fa-trash" aria-hidden="true" style="color: red;" title="Delete Assignment" (click)="deleteAssignment(assignment.file_id)" *ngIf="assignment.assignment_status != 'Published'"></i>
+            <div class="dropdown dropleft">
+              <button class="btn btn-light btn-xs dropdown-toggle" type="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
+              </button>
+              <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
+                <span class="dropdown-item" (click)="viewSubmission(assignment.file_id)" *ngIf="assignment.assignment_status == 'Published' || assignment.assignment_status == 'Under Evalution'">
+                  <i class="fa fa-eye" style="margin-top: 3px;" aria-hidden="true"></i> View
+                </span>
+                <span class="dropdown-item" (click)="editAssignment(assignment.file_id)" *ngIf="assignment.assignment_status == 'Draft' || assignment.assignment_status == 'Scheduled'">
+                  <i class="fa fa-pencil" style="margin-top: 3px;" aria-hidden="true"></i> Manage
+                </span>
+                <span class="dropdown-item" (click)="deleteAssignment(assignment.file_id)" *ngIf="assignment.assignment_status == 'Draft' || assignment.assignment_status == 'Scheduled'">
+                  <i class="fa fa-trash" style="margin-top: 3px;" aria-hidden="true"></i> Delete
+                </span>
+              </div>
+            </div>
           </div>
         </div>
         <div class="no-records" *ngIf="assignmentList?.length  == 0">
