@@ -548,7 +548,15 @@ export class EnquiryEditComponent implements OnInit {
     });
     return tempArr;
   }
+  checkCustomeComponentElement(index) {
+    if (!(index % 3)) {
+      return true;
+    }
+    else {
+      return false;
+    }
 
+  }
   fillCustomComponent(v, comp) {
     if (v) {
       this.customComponents.forEach(e => {

@@ -129,7 +129,7 @@ export class CampaignSmsComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "69vh"
+      height: "64vh"
     }
 
     this.rowColumns = [
@@ -142,15 +142,15 @@ export class CampaignSmsComponent implements OnInit {
         textAlign: "left"
       },
       {
+        width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+      {
         width: "10%",
-        textAlign: "left"
-      },
-      {
-        width: "15%",
-        textAlign: "left"
-      },
-      {
-        width: "15%",
         textAlign: "left"
       },
       {
@@ -168,8 +168,8 @@ export class CampaignSmsComponent implements OnInit {
         this.auth.hideLoader();
         this.smsDataSource = res;
         for (let i = 0; i < res.length; i++) {
-          res[i].running_date = moment(this.smsDataSource[i].running_date).format("DD-MMM-YYYY hh:mm");
-          // console.log(moment(this.smsDataSource[i].running_date).format("DD-MMM-YYYY hh:mm"));
+          res[i].date = moment(this.smsDataSource[i].date).format("DD-MMM-YY hh:mm A");
+          res[i].running_date = moment(this.smsDataSource[i].running_date).format("DD-MMM-YY hh:mm A");
         }
         let temp = res;
         this.smsSource = temp;

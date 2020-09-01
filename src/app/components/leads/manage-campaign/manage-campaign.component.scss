@@ -345,3 +345,32 @@
   height: 30px;
   margin-left: 15px;
 }
+th{
+  background-color: #e0eaec;
+  color: black;
+}
+tr {
+  border-radius: 12px;
+  border-left: 5px solid #e0eaec;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+.tableBodyScoll tbody {
+  display: block;
+  overflow-y: auto;
+  background: #ffffff;
+
+}
+.tableBodyScoll thead,
+tbody tr {
+  display: table;
+ width : 100%;
+  table-layout: fixed;
+}
+.tableBodyScroll thead,
+tbody tr {
+  display: table;
+ width: 100%;
+  table-layout: fixed;
+}

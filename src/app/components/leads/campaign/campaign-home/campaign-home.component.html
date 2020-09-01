@@ -83,10 +83,8 @@
                 </th>
 
                 <th>
-                  <label>
-                    <a class="cursor-icon"
-                      (click)="sortTableById(header.created_date.title)">{{header.created_date.title}}</a>
-                  </label>
+                  <label style="cursor:pointer;"
+                    (click)="sortTable('created_date')">{{header.created_date.title}}</label>
                 </th>
 
                 <th>
@@ -226,7 +224,7 @@
 <!-- SMS PopUp Single-->
 <section id="popup" class="popupWrapper fadeIn" style="overflow:auto;" *ngIf="message === 'sms'">
   <!-- tab 1 for sms-->
-  <div class="popup pos-abs popup-body-container" *ngIf="testMessagePopUp === false">
+  <div class="popup pos-abs popup-body-container" *ngIf="testMessagePopUp === false" style="width: 63%;">
     <div class="popup-wrapper pos-rel">
 
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -247,7 +245,7 @@
       <div class="sms-popup-content-wrapper">
         <h2>Send Promotional SMS </h2>
 
-        <div class="sms-form sms-popup-content">
+        <div class="sms-form sms-popup-content" style="border: 1px solid lightgrey;">
           <div class="sms-update">
             <div class="sms-top-section">
               <h4>
@@ -317,15 +315,18 @@
                     window between 9 AM to 9 PM for
                     scheduling campaign.</p> -->
                 </div>
-              </div>
-              <h4 style="padding-bottom: 8px;padding-top: 8px;">
+              </div><br>
+              <!-- <h4 style="padding-bottom: 8px;padding-top: 8px;">
                 Campaign Message
-              </h4>
+              </h4> -->
 
               <div class="row campaign-message-wrapper">
                 <div class="c-lg-12 c-md-12 c-sm-12 campaign-message-table">
                   <div class="table table-responsive enquiry-table">
                     <table style="width:100%" class="camp-table">
+                      <th>
+                        Campaign Message
+                      </th>
                       <!-- <tr>
                         <th></th>
                         <th></th>
@@ -353,7 +354,7 @@
         </div>
 
         <div class="row" popup-footer>
-          <aside class="pull-right popup-btn" style="margin: 10px 20px 0px 0px;">
+          <aside class="pull-right popup-btn" style="margin: 18px 20px 0px 0px;">
             <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="closePopup()">
             <input type="button" value="Save" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="saveEditedSms()">
             <!-- <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closePopup()"> -->
@@ -467,7 +468,7 @@
 <!-- Add Edit PRomotional SMS -->
 <!-- SMS PopUp Single-->
 <section id="popup" class="popupWrapper fadeIn" style="overflow:auto;" *ngIf="addEditPromotional">
-  <div class="popup pos-abs popup-body-container">
+  <div class="popup pos-abs popup-body-container" style="width: 76%;">
     <div class="popup-wrapper pos-rel">
 
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">

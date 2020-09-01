@@ -1,6 +1,6 @@
-<div class="middle-section clear-fix" style="padding-left: 15px; padding-right: 30px; padding-top: 20px;">
-  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;">
-    <h1 class="pull-left">
+<div class="middle-section clear-fix" style="padding-left: 15px; padding-right: 30px;">
+  <!-- <section class=" middle-top clearFix bulk-header" style="padding-left: 5px; ">
+    <h1 class=" pull-left">
       <a routerLink="/view/leads" style="padding:0px;">
         Lead
       </a>
@@ -10,11 +10,11 @@
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Referred By Report
     </h1>
-  </section>
+  </section> -->
   <section class="middle-main clearFix">
     <section>
       <div class="row"
-        style="margin-left: 0%; margin-bottom: 2%; border-top: 1px solid lightgrey;border-bottom: 1px solid lightgrey;padding-bottom: 16px;">
+        style="margin-left: 0%; margin-bottom: 2%; border-top: 1px solid lightgrey;border-bottom: 1px solid lightgrey;padding-bottom: 10px;">
         <div class="c-lg-3 field-wrapper" style="margin-right: -9%;">
           <label>Referred By</label>
           <select class="form-ctrl" [(ngModel)]="referredByInfoDetails.referred_by"
@@ -48,7 +48,7 @@
           </div>
         </div>
       </div>
-      <div style="max-height: 68vh;min-height: 68vh;">
+      <div style="margin-top: -2%;">
 
         <rob-table [isMulti]="false" [records]="getreferredByDetails" [dataStatus]="dataStatus"
           (userRowSelect)="reportHandler($event)" [tableName]="'feereport'" [settings]="feeSettings1">

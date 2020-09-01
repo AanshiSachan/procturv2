@@ -15,7 +15,9 @@
         padding-bottom: 15px;
     }
 }
-
+*{
+    font-weight: 600;
+}
 .multiselect-wrapper {
     padding: 5px;
     border: 1px solid $border-color;
@@ -207,8 +209,8 @@
                 content: '';
                 background: url('../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
-                right: 50px;
-                top: 35px;
+                right: 224px;
+                top: 29px;
                 width: 21px;
                 height: 21px;
                 z-index: 0;
@@ -421,7 +423,18 @@
         }
     }
 }
-
+.datePickerBox2 {
+    &:after {
+        content: '';
+        background: url('../../../../assets/images/calendar.svg') no-repeat;
+        position: absolute;
+        left: 35% !important;
+        top: 30px !important;
+        width: 21px;
+        height: 21px;
+        z-index: 0;
+    }
+}
 .AdFilter-field {
     .field-wrapper {
         margin: 15px 0;
@@ -841,13 +854,35 @@
         }
     }
 }
-
+.add-btn{
+    border: 1px solid #3a66fa;
+    border-radius: 4px;
+    -webkit-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+    padding: 4px 10px;
+    background: white;
+    color: #1283f4;
+    font-weight: 600;
+    height: 30px;
+    margin-left: 15px;
+}
 .update-enquiry-form table th {
     text-align: left;
     padding: 10px;
     font-size: 14px;
 }
 
+.uploadBtn{
+    border: 1px solid #3a66fa;
+    border-radius: 4px;
+    -webkit-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+    padding: 4px 10px;
+    background: white;
+    color: #1283f4;
+    font-weight: 600;
+    height: 30px;
+}
 .update-enquiry-form table td {
     text-align: left;
     padding: 10px;

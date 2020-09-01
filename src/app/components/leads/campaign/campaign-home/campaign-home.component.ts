@@ -45,7 +45,7 @@ export class CampaignHomeComponent implements OnInit {
   componentListObject: any = {}; emptyCustomComponent: any; componentRenderer: any = []; customComponentResponse: any = [];
   fetchingDataMessage: string = "Loading"; smsBtnToggle: boolean = false;
   testMessagePopUp = false;
-
+  sortingDir: string = "desc";
   /* items added on ngOnInit */
   bulkAddItems: MenuItem[];
   indexJSON = [];
@@ -208,6 +208,7 @@ export class CampaignHomeComponent implements OnInit {
             data = data.sort(function (a, b) {
               return moment(a.created_date).unix() - moment(b.created_date).unix();
             })
+            data = data.reverse();
             if (this.indexJSON.length != 0) {
               this.totalCampaign = data[0].totalcount;
               this.indexJSON = [];
@@ -262,6 +263,10 @@ export class CampaignHomeComponent implements OnInit {
     }
     else {
       return this.postData.campaignUploadList(obj).subscribe((data: any) => {
+        data = data.sort(function (a, b) {
+          return moment(a.created_date).unix() - moment(b.created_date).unix();
+        })
+        data = data.reverse();
         if (data.length != 0) {
           if (this.indexJSON.length != 0) {
             data.forEach(el => {
@@ -599,9 +604,7 @@ export class CampaignHomeComponent implements OnInit {
       return result * sortOrder;
     }
   }
-
   sortTableById(sortBy) {
-
     if (sortBy == 'Lead Name') {
       if (this.sortFlag == 'desc') {
         this.sourceCampaign.sort(this.dynamicSort("list"));
@@ -675,7 +678,20 @@ export class CampaignHomeComponent implements OnInit {
     }
   }
 
-
+  sortTable(str) {
+    if (str == "created_date") {
+      this.sourceCampaignDataSource.sort(function (a, b) {
+        return moment(a[str]).unix() - moment(b[str]).unix();
+      })
+    }
+    if (this.sortingDir == "asc") {
+      this.sortingDir = "dec";
+    } else {
+      this.sortingDir = "asc";
+      this.sourceCampaignDataSource = this.sourceCampaignDataSource.reverse();
+    }
+    this.fetchTableDataByPage(this.PageIndex);
+  }
   ///////PAGINATION/////////////////
 
   // pagination functions
@@ -700,7 +716,6 @@ export class CampaignHomeComponent implements OnInit {
   getDataFromDataSource(startindex) {
     let t = this.sourceCampaignDataSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
-  
   }
 
   updateTableBatchSize(event) {
@@ -840,7 +855,7 @@ export class CampaignHomeComponent implements OnInit {
   }
 
   approveMessage(data) {
-    if (confirm('Do you want to continue?')) {
+    if (confirm('Do you want to Approve the Message?')) {
       this.postData.approveMessage(data.message_id).subscribe(
         res => {
           this.showErrorMessage(this.msgService.toastTypes.success, "Added", "Message Approved Successfully");
