@@ -227,7 +227,7 @@ export class EnquiryHomeComponent implements OnInit {
         enquiry_no: "",
         priority: "",
         status: -1,
-        filtered_statuses: "",
+        // filtered_statuses: "",
         follow_type: "",
         followUpDate: this.getDateFormated(null, 'YYYY-MM-DD'),
         enquiry_date: "",
@@ -237,7 +237,7 @@ export class EnquiryHomeComponent implements OnInit {
         master_course_name: '',
         courseIdArray: null,
         subject_id: -1,
-        is_recent: "N",
+        is_recent: "Y",
         slot_id: -1,
         filtered_slots: "",
         isDashbord: "N",
@@ -250,8 +250,8 @@ export class EnquiryHomeComponent implements OnInit {
         batch_size: this.varJson.displayBatchSize,
         closedReason: "",
         enqCustomLi: null,
-        sorted_by: "",
-        order_by: "",
+        // sorted_by: "",
+        // order_by: "",
         commentShow: 'false'
     };
 
@@ -419,6 +419,7 @@ export class EnquiryHomeComponent implements OnInit {
             sessionStorage.setItem('dashBoardParam', '');
         } else {
             this.loadTableDatatoSource(this.instituteData);
+            // this.statusFilter('Pending');
         }
         this.cd.markForCheck();
         /* Fetch the status of message from  popup handler service */
@@ -566,7 +567,7 @@ export class EnquiryHomeComponent implements OnInit {
                     }
                     else {
                         this.varJson.fetchingDataMessage = 2;
-                        this.showErrorMessage('info', 'No Records Found', 'We did not find any enquiry for the specified query');
+                        this.showErrorMessage('info', 'No Records Found', "We did not find any enquiry for the today's date");
                         this.varJson.totalEnquiry = data.length;
                         this.cd.markForCheck();
                     }

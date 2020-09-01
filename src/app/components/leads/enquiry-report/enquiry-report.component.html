@@ -1,1 +1,29 @@
-<router-outlet></router-outlet>
+<div class="middle-section clearFix">
+    <section class="middle-top clearFix bulk-header" style="padding-left: 17px;">
+        <h1 class="pull-left">
+            <a routerLink="/view/leads" style="padding:0px;color: black;">
+                Enquiry Report
+            </a>
+        </h1>
+    </section>
+    <section class="middle-main clearFix">
+        <div class="common-tab" style="margin-left: -53rem;">
+            <ul>
+                <li id="liCounsellor" (click)="switchActiveView('liCounsellor')" class="unactive">
+                    <a routerLink="/view/leads/enquiryReport/counsellor">Counsellor</a>
+                </li>
+                <li id="liSource" (click)="switchActiveView('liSource')" class="unactive">
+                    <a routerLink="/view/leads/enquiryReport/source">Source</a>
+                </li>
+                <li id="liReferredBy" (click)="switchActiveView('liReferredBy')" class="unactive">
+                    <a routerLink="/view/leads/enquiryReport/referredBy">Referred By</a>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="router-container">
+            <router-outlet></router-outlet>
+        </div>
+    </section>
+</div>

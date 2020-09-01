@@ -1,1 +1,57 @@
-<router-outlet></router-outlet>
+<div class="middle-section clearFix">
+    <section class="middle-top clearFix bulk-header" style="padding-left: 17px;">
+        <h1 class="pull-left">
+            <a routerLink="/view/leads" style="padding:0px;color: black;">
+                Communicate
+            </a>
+        </h1>
+    </section>
+    <section class="middle-main clearFix">
+        <div class="common-tab" style="margin-left: -63rem;border-bottom: 1px solid lightgrey;">
+            <ul>
+                <li id="liSMSReport" (click)="switchActiveView('liSMSReport')" class="unactive">
+                    <a routerLink="/view/leads/campaign-reports/sms-report">Bulk SMS Report</a>
+                </li>
+                <li id="liLeadSMSReport" (click)="switchActiveView('liLeadSMSReport')" class="unactive">
+                    <a routerLink="/view/leads/campaign-reports/lead-sms">Lead SMS Report</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="router-container">
+            <router-outlet></router-outlet>
+        </div>
+    </section>
+</div>
+<!-- <section style="padding: 10px;padding-bottom: 0;" class="middle-section clearFix">
+    <section class="menu_section">
+        <div class="library_menu_container">
+            <div class="library_menu_item" routerLink="/view/leads/campaign-reports/sms-report">
+                <div class="lib_menu_img">
+                    <img src="./assets/images/library/gray/report.svg" *ngIf="activeSession !='sms-report'">
+                    <img src="./assets/images/library/color/report.svg" *ngIf="activeSession =='sms-report'">
+                </div>
+                <div class="lib_menu_name" [ngClass]="activeSession =='sms-report' ? 'activeMenu' : 'nonActive'">
+                    <i class="fa fa-circle-o ring" aria-hidden="true"></i>
+                    <span>Bulk SMS Report</span>
+                </div>
+            </div>
+            <div class="library_menu_item" routerLink="/view/leads/campaign-reports/lead-sms">
+                <div class="lib_menu_img">
+                    <img src="./assets/images/library/gray/report.svg" *ngIf="activeSession !='lead-sms'">
+                    <img src="./assets/images/library/color/report.svg" *ngIf="activeSession =='lead-sms'">
+                </div>
+                <div class="lib_menu_name" [ngClass]="activeSession =='lead-sms' ? 'activeMenu' : 'nonActive'">
+                    <i class="fa fa-circle-o ring" aria-hidden="true"></i>
+                    <span>Lead SMS Report</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="middle">
+        <router-outlet></router-outlet>
+    </section>
+
+</section> -->
+<!-- <router-outlet></router-outlet> -->

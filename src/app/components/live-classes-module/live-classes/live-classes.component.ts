@@ -158,6 +158,7 @@ export class LiveClassesComponent implements OnInit {
   // zoom_enable: boolean = false;
 
   // upload file
+  dateValue: any;
   type: string = "";
   customFileArr: fileObj[] = [];
   selectedFiles: any[] = [];
@@ -299,7 +300,50 @@ export class LiveClassesComponent implements OnInit {
       }
     )
   }
+  // Added By Ashwini Gupta For search live class by date
+  searchByDate(dateSearch) {
 
+    let event: any = moment(dateSearch).format("YYYY-MM-DD");
+    this.getClasses = [];
+    if (dateSearch == null) {
+      this.getClassesFor();
+    }
+    if (!this.liveClassFor) {
+      for (let i = 0; i < this.futureLiveClasses.length; i++) {
+        let tempStartDate: any = moment(this.futureLiveClasses[i].start_datetime).format("YYYY-MM-DD");
+        if (event === tempStartDate) {
+          this.getClasses.push(this.futureLiveClasses[i]);
+        }
+      }
+    } else {
+      for (let i = 0; i < this.previosLiveClasses.length; i++) {
+        let tempStartDate: any = moment(this.previosLiveClasses[i].start_datetime).format("YYYY-MM-DD");
+        if (event === tempStartDate) {
+          this.getClasses.push(this.previosLiveClasses[i]);
+        }
+      }
+    }
+    // this.searchData = searchData;
+    // console.log(this.searchData);
+    this.totalRow = this.getClasses.length;
+    // this.searchDataFlag = true;
+    // this.PageIndex = 1;
+    // this.fetchTableDataByPage(this.PageIndex);
+    // if (this.liveClassFor) {
+    //   this.totalRow = this.previosLiveClasses.length;
+    // }
+    // else {
+    //   this.totalRow = this.futureLiveClasses.length;
+    // }
+    // this.fetchTableDataByPage(this.PageIndex);
+    // this.getClasses.map((ele) => {
+    //   ele.start_datetime = moment(ele.start_datetime).format('YYYY-MM-DD hh:mm a')
+    // })
+    // this.getClasses.map((ele) => {
+    //   ele.end_datetime = moment(ele.end_datetime).format('YYYY-MM-DD hh:mm a')
+    // })
+  }
+  // End
   forTeacher(teachersUserIds) {
     let userId = sessionStorage.getItem('userid');
     if (teachersUserIds.includes(userId)) {
@@ -445,6 +489,7 @@ export class LiveClassesComponent implements OnInit {
   }
 
   getClassesFor() {
+    this.dateValue = "";
     if (this.liveClassFor) {
       this.getClasses = this.previosLiveClasses;
       this.classListDataSource = this.previosLiveClasses;

@@ -828,7 +828,7 @@ th{
 }
 
 .sms-popup-content-wrapper {
-    height: 450px;
+    height: 422px;
     ::-webkit-scrollbar {
         display: block;
     }
@@ -849,7 +849,7 @@ table {
     &.camp-table {
         tr {
             td {
-                padding: 15px;
+                // padding: 15px;
                 font-size: 14px;
                 border-bottom: none;
             }

@@ -79,9 +79,10 @@
       </svg>
     </span>
 
-    <h2 id="bulk-head" popup-header>Upload Enquiry Status</h2>
+    <h2 id="bulk-head" popup-header style="border-bottom: 1px solid lightgrey;padding-bottom: 6px;">Upload Enquiry
+      Status</h2>
 
-    <div class="bulk-enquiry-form" popup-content>
+    <div class="bulk-enquiry-form" popup-content style="margin-top: -4%;margin-bottom: 1%;">
 
       <div class="row">
         <div class="table-responsive bulk-update-report">
@@ -99,13 +100,13 @@
             <tbody>
               <tr *ngFor="let record of bulkUploadRecords">
                 <td style="width: 43%;">{{record.list_name}}</td>
-                <td>{{record.created_date}}</td>
+                <td style="width: 13%;">{{record.created_date}}</td>
                 <td>{{record.total_count}}</td>
                 <td>{{record.success_count}}</td>
                 <td>{{record.failure_count}}</td>
                 <td *ngIf="downloadEnquiryReportAccess">
-                  <a *ngIf="record.failure_count != 0" [id]="record.list_id" class="download-icon"
-                    (click)="downloadBulkStatusReport(record)" id="generateAnch5">
+                  <a *ngIf="record.failure_count != 0" [id]="record.list_id" title="Generate Report"
+                    class="download-icon" (click)="downloadBulkStatusReport(record)" id="generateAnch5">
                     <!-- Generate Report -->
                   </a>
                 </td>

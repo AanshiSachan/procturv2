@@ -193,12 +193,57 @@ html {
   .border-container{
     border-top: 1px solid #e3e3e3;
   }
+  // .select-dates {
+    .field-wrapper.datePickerBox:after {
+      content: '';
+      background: url("/./assets/images/calendar.svg") no-repeat;
+      position: absolute;
+      right: 34px;
+      top: 6px;
+      width: 21px;
+      height: 21px;
+      z-index: 20;
+    }
 
+  // .bsDatepicker {
+  //   padding: 5px;
+  //   width: 100%;
+  //   :after {
+  //     content: '';
+  //     background: url('/src/assets/images/calendar.svg') no-repeat;
+  //     position: absolute;
+  //     left: 75% !important;
+  //     top: 5px !important;
+  //     width: 21px;
+  //     height: 21px;
+  //     z-index: 0;
+  //   }
+  // }
+  // .datePickerBox {
+  //   .form-ctrl {
+  //     position: relative;
+  //     z-index: 1;
+  //     background: transparent;
+  //     padding: 7px 10px;
+  //     border: 1px solid #ccc;
+  //     box-sizing: border-box;
+  //     margin: 0;
+  //     float: left;
+  //     border-right: 0;
+  //     height: 35px;
+  //     font: 400 12px 'Open sans',sans-serif;
+  //     width: 85% !important;
+  //   }
+  // }
   .live-class-list{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin: 10px 0px;
+    
+    border-bottom: 1px solid lightgrey;
+    padding-bottom: 12px;
+
     .live-class-container{
       display: flex;
       flex-direction: row;
@@ -281,7 +326,7 @@ html {
 
   .live-class{
     height: 70vh;
-    max-height: 70vh;
+    max-height: 75vh;
     overflow-x: hidden;
     overflow-y: auto;
     ::-webkit-scrollbar {
@@ -295,7 +340,7 @@ html {
         display: flex;
         margin-bottom: 10px;
         border-radius: 4px;
-        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.16);
+        box-shadow: 0 3px 10px 0 #696969	;
         background-color: #ffffff;
         padding: 15px;
         flex-direction: column;

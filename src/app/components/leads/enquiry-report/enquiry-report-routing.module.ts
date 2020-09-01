@@ -17,14 +17,14 @@ import { EnquiryHomeComponent } from "./enquiry-home/enquiry-home.component";
                 component: EnquiryReportComponent,
                 pathMatch: 'prefix',
                 children: [
-                    {
-                        path: '',
-                        component: EnquiryHomeComponent
-                    },
-                    {
-                        path: 'home',
-                        component: EnquiryHomeComponent
-                    },
+                    // {
+                    //     path: '',
+                    //     component: EnquiryHomeComponent
+                    // },
+                    // {
+                    //     path: 'home',
+                    //     component: EnquiryHomeComponent
+                    // },
                     {
                         path: 'counsellor',
                         component: CounsellorReportComponent
@@ -34,19 +34,19 @@ import { EnquiryHomeComponent } from "./enquiry-home/enquiry-home.component";
                         component: SourceComponent
                     },
                     {
-                        path: 'referredBy' ,
-                        component : ReferredByComponent
+                        path: 'referredBy',
+                        component: ReferredByComponent
                     }
 
 
                 ]
-                }
-            ])
-        ],
-        exports: [
-            RouterModule
-        ]
-    })
+            }
+        ])
+    ],
+    exports: [
+        RouterModule
+    ]
+})
 
-    export class EnquiryReportRoutingModule {
-    }
+export class EnquiryReportRoutingModule {
+}

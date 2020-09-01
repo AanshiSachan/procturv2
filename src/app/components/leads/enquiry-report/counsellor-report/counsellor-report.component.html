@@ -1,16 +1,16 @@
-<div class="middle-section clear-fix" style="padding-left: 15px; padding-right: 30px; padding-top: 20px;">
-  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;">
+<div class="middle-section clear-fix" style="padding-left: 15px; padding-right: 30px; ">
+  <!-- <section class="middle-top clearFix bulk-header" style="padding-left: 5px;">
     <h1 class="pull-left">
       <a routerLink="/view/leads" style="padding:0px;">
         Lead
-      </a>
-      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      </a> -->
+  <!-- <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       <a routerLink="/view/leads/enquiryReport">
         Enquiry Report
-      </a>
-      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Counsellor Report
+      </a> -->
+  <!-- <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Counsellor Report
     </h1>
-  </section>
+  </section> -->
   <!--   
   <section class="sms-filter-wrapper" style="border-top: 1px solid #d4d4d4; border-bottom: 1px solid #d4d4d4">
     <div class="row">
@@ -56,7 +56,7 @@
     <section>
 
       <div class="row"
-        style="margin-left: 0%; margin-bottom: 2%; border-top: 1px solid lightgrey;border-bottom: 1px solid lightgrey;padding-bottom: 16px;">
+        style="margin-left: 0%; margin-bottom: 2%; border-top: 1px solid lightgrey;border-bottom: 1px solid lightgrey;padding-bottom: 10px;">
         <div class="c-lg-3 field-wrapper" style="margin-right: -9%;">
           <label>Counsellor</label>
           <select class="form-ctrl" [(ngModel)]="counsellorInfoDetails.assigned_to"
@@ -99,7 +99,7 @@
         <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText"
           name="searchData" (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
       </div> -->
-      <div style="max-height: 68vh;min-height: 68vh;">
+      <div style="margin-top: -2%;">
         <rob-table [isMulti]="false" [records]="getCounsellorDetails" [dataStatus]="dataStatus"
           (userRowSelect)="reportHandler($event)" [tableName]="'feereport'" [settings]="feeSettings1">
         </rob-table>

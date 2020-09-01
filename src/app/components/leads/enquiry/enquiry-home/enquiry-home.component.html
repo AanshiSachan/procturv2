@@ -173,7 +173,7 @@
                 <div class="field-wrapper">
                   <label for="enquiryStatus">Enquiry Status</label>
                   <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses"
-                    name="status">
+                    name="status" style="border-radius: 4px;">
                     <option value=""></option>
                     <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
                   </select>
@@ -185,7 +185,8 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.list_id != '-1' }">
                   <label for="campaignList">Campaigns</label>
-                  <select id="campaignList" class="form-ctrl" [(ngModel)]="advancedFilterForm.list_id" name="campaign">
+                  <select id="campaignList" class="form-ctrl" [(ngModel)]="advancedFilterForm.list_id" name="campaign"
+                    style="border-radius: 4px;">
                     <option value="-1"></option>
                     <option *ngFor="let campaign of campaignList" [value]="campaign.list_id">{{campaign.list_name}}
                     </option>
@@ -197,8 +198,8 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="enquiryPriority">Enquiry Priority</label>
-                  <select id="enquiryPriority" class="form-ctrl" [(ngModel)]="advancedFilterForm.priority"
-                    name="priority">
+                  <select id="enquiryPriority" class="form-ctrl" style="border-radius: 4px;"
+                    [(ngModel)]="advancedFilterForm.priority" name="priority">
                     <option></option>
                     <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
                       {{priority.data_value}}
@@ -214,8 +215,8 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="followupType">Enquiry Follow up Type</label>
-                  <select id="followupType" class="form-ctrl" [(ngModel)]="advancedFilterForm.follow_type"
-                    name="followType">
+                  <select id="followupType" class="form-ctrl" style="border-radius: 4px;"
+                    [(ngModel)]="advancedFilterForm.follow_type" name="followType">
                     <option></option>
                     <option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
                       {{ follow.data_value }}
@@ -228,8 +229,9 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper datePickerBox">
                   <label for="enquiryDateTo">Enquiry Changes From</label>
-                  <input type="text" value="" id="enquiryDateTo" class="form-ctrl bsDatepicker dateFormat"
-                    [(ngModel)]="advancedFilterForm.updateDateFrom" name="enquiryDateTo" readonly="true" bsDatepicker />
+                  <input type="text" value="" id="enquiryDateTo" style="border-radius: 4px;"
+                    class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.updateDateFrom"
+                    name="enquiryDateTo" readonly="true" bsDatepicker />
 
                   <span class="date-clear" name="followupdate"
                     (click)="advancedFilterForm.updateDateFrom = ''">clear</span>
@@ -240,8 +242,9 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper datePickerBox">
                   <label for="enquiryDateFrom">Enquiry Changes To</label>
-                  <input type="text" value="" id="enquiryDateFrom" class="form-ctrl bsDatepicker dateFormat"
-                    [(ngModel)]="advancedFilterForm.updateDateTo" name="enquiryDateFrom" readonly="true" bsDatepicker />
+                  <input type="text" value="" id="enquiryDateFrom" style="border-radius: 4px;"
+                    class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.updateDateTo"
+                    name="enquiryDateFrom" readonly="true" bsDatepicker />
 
                   <span class="date-clear" name="followupdate"
                     (click)="advancedFilterForm.updateDateTo = ''">clear</span>
@@ -254,8 +257,9 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper datePickerBox">
                   <label for="enquiryFromDate">Enquiry From Date</label>
-                  <input type="text" value="" id="enquiryFromDate" class="form-ctrl bsDatepicker dateFormat"
-                    [(ngModel)]="advancedFilterForm.enquireDateFrom" name="EFD" bsDatepicker readonly="true" />
+                  <input type="text" value="" id="enquiryFromDate" style="border-radius: 4px;"
+                    class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.enquireDateFrom"
+                    name="EFD" bsDatepicker readonly="true" />
 
                   <span class="date-clear" name="followupdate" (click)="clearFilterType('enquireDateFrom')">clear</span>
                 </div>
@@ -265,8 +269,9 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper datePickerBox">
                   <label for="enquiryToDate">Enquiry To Date</label>
-                  <input type="text" value="" id="enquiryToDate" class="form-ctrl bsDatepicker dateFormat "
-                    [(ngModel)]="advancedFilterForm.enquireDateTo" name="ETD" bsDatepicker readonly="true" />
+                  <input type="text" value="" id="enquiryToDate" style="border-radius: 4px;"
+                    class="form-ctrl bsDatepicker dateFormat " [(ngModel)]="advancedFilterForm.enquireDateTo" name="ETD"
+                    bsDatepicker readonly="true" />
 
                   <span class="date-clear" name="followupdate" (click)="clearFilterType('enquireDateTo')">clear</span>
                 </div>
@@ -276,8 +281,9 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper datePickerBox">
                   <label for="followDate">Follow-Up Date</label>
-                  <input type="text" value="" id="followDate" class="form-ctrl bsDatepicker dateFormat"
-                    [(ngModel)]="advancedFilterForm.followUpDate" name="FD" readonly="true" bsDatepicker />
+                  <input type="text" value="" id="followDate" style="border-radius: 4px;"
+                    class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.followUpDate" name="FD"
+                    readonly="true" bsDatepicker />
 
                   <span class="date-clear" name="followupdate" (click)="clearFilterType('followUpDate')">clear</span>
                 </div>
@@ -289,8 +295,9 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="editStandard">Master Course</label>
-                  <select id="editStandard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id"
-                    (ngModelChange)="fetchEnquirySubject($event)" name="editStandard">
+                  <select id="editStandard" class="form-ctrl" style="border-radius: 4px;"
+                    [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchEnquirySubject($event)"
+                    name="editStandard">
                     <option value="-1"></option>
                     <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                   </select>
@@ -301,7 +308,7 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="forSubject">Course</label>
-                  <select id="forSubject" class="form-ctrl form-ctrl-multiple"
+                  <select id="forSubject" class="form-ctrl form-ctrl-multiple" style="border-radius: 4px;"
                     [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject" multiple>
                     <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">{{subject.subject_name}}
                     </option>
@@ -312,8 +319,8 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                   <label for="assignCourses">Slots</label>
-                  <input id="slot" type="text" [ngModel]="varJson.selectedSlotsString" name="slots" class="form-ctrl"
-                    readonly="true" />
+                  <input id="slot" type="text" [ngModel]="varJson.selectedSlotsString" name="slots"
+                    style="border-radius: 4px;" class="form-ctrl" readonly="true" />
 
                 </div>
                 <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
@@ -322,8 +329,9 @@
                       <li *ngFor="let slot of slots">
                         <div class="field-checkbox-wrapper">
 
-                          <input type="checkbox" value="" name="slotLabel" [(ngModel)]="slot.status"
-                            (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox" id="slotLabel">
+                          <input type="checkbox" value="" name="slotLabel" style="border-radius: 4px;"
+                            [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox"
+                            id="slotLabel">
                           <label for="slotLabel">{{slot.label}}</label>
                         </div>
                       </li>
@@ -338,7 +346,8 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id != '-1' }">
                   <label for="schoolList">Institute Name</label>
-                  <select id="schoolList" class="form-ctrl" [(ngModel)]="advancedFilterForm.school_id" name="school">
+                  <select id="schoolList" class="form-ctrl" style="border-radius: 4px;"
+                    [(ngModel)]="advancedFilterForm.school_id" name="school">
                     <option value="-1"></option>
                     <option *ngFor="let school of schools" [value]="school.school_id">{{school.school_name}}</option>
                   </select>
@@ -370,7 +379,8 @@
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="flagJSON.isEnquiryAdmin">
                 <div class="field-wrapper">
                   <label for="assignTo">Assign To</label>
-                  <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo">
+                  <select id="assignTo" class="form-ctrl" style="border-radius: 4px;"
+                    [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo">
                     <option></option>
                     <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
                       {{ assigned.name }}
@@ -384,7 +394,8 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.id == '-1' }">
                   <label for="sourceList">Source</label>
-                  <select id="sourceList" class="form-ctrl" [(ngModel)]="advancedFilterForm.source_id" name="source">
+                  <select id="sourceList" class="form-ctrl" style="border-radius: 4px;"
+                    [(ngModel)]="advancedFilterForm.source_id" name="source">
                     <option value="-1"></option>
                     <option *ngFor="let source of sources" [value]="source.id">{{source.name}}</option>
                   </select>
@@ -398,8 +409,8 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="ReferredBy">Referred By</label>
-                  <select id="ReferredBy" class="form-ctrl" [(ngModel)]="advancedFilterForm.referred_by"
-                    name="referred_by">
+                  <select id="ReferredBy" class="form-ctrl" style="border-radius: 4px;"
+                    [(ngModel)]="advancedFilterForm.referred_by" name="referred_by">
                     <option value="-1"></option>
                     <option *ngFor="let source of referredByData" [value]="source.id">{{source.name}}</option>
                   </select>
@@ -409,8 +420,8 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.country_id != ''}">
                   <label for="state">Country</label>
-                  <select id="state" class="form-ctrl" [(ngModel)]="advancedFilterForm.country_id" name="state"
-                    (ngModelChange)="getStateList()">
+                  <select id="state" class="form-ctrl" style="border-radius: 4px;"
+                    [(ngModel)]="advancedFilterForm.country_id" name="state" (ngModelChange)="getStateList()">
                     <option value="-1">Select Country</option>
                     <option title="{{country.country_name}}" [value]="country.id" *ngFor="let country of countryList">
                       {{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}
@@ -422,8 +433,8 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.state_id != ''}">
                   <label for="state">State</label>
-                  <select id="state" class="form-ctrl" [(ngModel)]="advancedFilterForm.state_id" name="state"
-                    (ngModelChange)="getCityList()">
+                  <select id="state" class="form-ctrl" style="border-radius: 4px;"
+                    [(ngModel)]="advancedFilterForm.state_id" name="state" (ngModelChange)="getCityList()">
                     <option value="-1">Select State</option>
                     <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">
                       {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}
@@ -438,7 +449,7 @@
                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.city_id != ''}">
                   <label for="city">City</label>
                   <select id="city" class="form-ctrl" [(ngModel)]="advancedFilterForm.city_id" name="city"
-                    (ngModelChange)="getAreaList()">
+                    style="border-radius: 4px;" (ngModelChange)="getAreaList()">
                     <option value="-1">Select City</option>
                     <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityDetails">
                       {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}
@@ -453,7 +464,7 @@
               <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="editMc">Master Course</label>
-                  <select id="editMc" class="form-ctrl" name="editMc"
+                  <select id="editMc" class="form-ctrl" name="editMc" style="border-radius: 4px;"
                     [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="courseMasterChange($event)">
                     <option value="-1"></option>
                     <option *ngFor="let master of masterCourseData" [value]="master.master_course">
@@ -466,7 +477,7 @@
               <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="editCC">Course</label>
-                  <select id="editCC" class="form-ctrl form-ctrl-multiple"
+                  <select id="editCC" class="form-ctrl form-ctrl-multiple" style="border-radius: 4px;"
                     [(ngModel)]="advancedFilterForm.courseIdArray" name="editCC" multiple>
                     <option *ngFor="let cc of course_course" [value]="cc.course_id">{{cc.course_name}}</option>
                   </select>
@@ -476,7 +487,7 @@
               <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="forSubject">Subject</label>
-                  <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple"
+                  <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple" style="border-radius: 4px;"
                     [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject">
                     <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">{{subject.subject_name}}
                     </option>
@@ -491,7 +502,7 @@
                 <div class="field-wrapper">
                   <label for="editStandard">Standard</label>
                   <select id="editStandard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id"
-                    (ngModelChange)="fetchEnquirySubject($event)" name="editStandard">
+                    style="border-radius: 4px;" (ngModelChange)="fetchEnquirySubject($event)" name="editStandard">
                     <option value="-1"></option>
                     <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                   </select>
@@ -518,7 +529,7 @@
                     <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
                       <label for="{{component.id}}">{{component.label}} </label>
                       <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl"
-                        name="{{component.label}}" />
+                        style="border-radius: 4px;" name="{{component.label}}" />
                     </div>
                   </div>
 
@@ -527,7 +538,7 @@
                     <div class="field-checkbox-wrapper">
 
                       <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"
-                        name="{{component.label}}" value="">
+                        style="border-radius: 4px;" name="{{component.label}}" value="">
                       <label for="{{component.id}}">{{component.label}} </label>
                     </div>
                   </div>
@@ -536,7 +547,7 @@
                     <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
                       <label for="{{component.id}}">{{component.label}} </label>
                       <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value"
-                        name="{{component.label}}">
+                        style="border-radius: 4px;" name="{{component.label}}">
                         <option value=""></option>
                         <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.displayName}}
                         </option>
@@ -550,7 +561,7 @@
                       (click)="multiselectVisible($event.target.id)">
                       <label for="{{component.id}}">{{component.label}} </label>
                       <input id="{{component.id}}" type="text" [ngModel]="component.selectedString"
-                        name="{{component.label}}" class="form-ctrl" readonly="true" />
+                        style="border-radius: 4px;" name="{{component.label}}" class="form-ctrl" readonly="true" />
 
                     </div>
                     <div id="{{component.id}}multi" class="hide multiselect-wrapper"
@@ -561,8 +572,8 @@
                             <div class="field-checkbox-wrapper">
 
                               <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked"
-                                (ngModelChange)="updateMultiSelect(opt, component.id)" class="form-checkbox"
-                                id="{{opt.data}}">
+                                style="border-radius: 4px;" (ngModelChange)="updateMultiSelect(opt, component.id)"
+                                class="form-checkbox" id="{{opt.data}}">
                               <label for="opt.data">{{opt.data}}</label>
                             </div>
                           </li>
@@ -576,7 +587,8 @@
                       [ngClass]="{'has-value': component.value != 'Invalid date'}">
                       <label for="{{component.id}}">{{component.label}} </label>
                       <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value"
-                        class="form-ctrl bsDatepicker" name="{{component.label}}" bsDatepicker />
+                        style="border-radius: 4px;" class="form-ctrl bsDatepicker" name="{{component.label}}"
+                        bsDatepicker />
 
                     </div>
                   </div>
@@ -588,8 +600,8 @@
             <div class="row">
               <div class="c-lg-12 c-md-12 c-sm-12">
                 <div class="field-wrapper pull-left">
-                  <input type="button" class="btn filterSearchBtn" value="Clear Filter" (click)="clearFilterAdvanced()"
-                    id="BtnClearAdvance" />
+                  <input type="button" class="btn filterSearchBtn fullBlue" value="Clear Filter"
+                    (click)="clearFilterAdvanced()" id="BtnClearAdvance" />
                 </div>
                 <div class="field-wrapper pull-left">
                   <input type="button" class="btn filterSearchBtn fullBlue" value="Search Now"

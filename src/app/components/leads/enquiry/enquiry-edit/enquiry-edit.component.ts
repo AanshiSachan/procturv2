@@ -173,9 +173,9 @@ export class EnquiryEditComponent implements OnInit {
     minute: ''
   }
   minuteArr: any[] = ['', '00', '15', '30', '45'];
-  countryDetails: any=[];
+  countryDetails: any = [];
   maxlength: any = 10;
-  country_id:any=null;
+  country_id: any = null;
 
   isRippleLoad: boolean = false;
   // state and city list
@@ -259,23 +259,23 @@ export class EnquiryEditComponent implements OnInit {
     let encryptedData = sessionStorage.getItem('country_data');
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
-    this.countryDetails = data;
-    this.maxlength = this.countryDetails[0].country_phone_number_length;
-    this.country_id = this.countryDetails[0].id;
-    console.log(this.countryDetails);
+      this.countryDetails = data;
+      this.maxlength = this.countryDetails[0].country_phone_number_length;
+      this.country_id = this.countryDetails[0].id;
+      console.log(this.countryDetails);
     }
   }
 
-  getStateList(){
+  getStateList() {
     const url = `/api/v1/country/state?country_ids=${this.editEnqData.country_id}`
     this.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.isRippleLoad = false;
-        if(res.result.length > 0){
+        if (res.result.length > 0) {
           this.stateList = res.result[0].stateList;
         }
-        if(this.editEnqData.state_id != ""){
+        if (this.editEnqData.state_id != "") {
           this.getCityList();
         }
       },
@@ -287,15 +287,15 @@ export class EnquiryEditComponent implements OnInit {
   }
 
   // get city list as per state selection
-  getCityList(){
+  getCityList() {
     const url = `/api/v1/country/city?state_ids=${this.editEnqData.state_id}`
     this.isRippleLoad = true;
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.isRippleLoad = false;
-        if(res.result.length > 0){
+        if (res.result.length > 0) {
           this.cityList = res.result[0].cityList;
-          if(this.editEnqData.city_id != ""){
+          if (this.editEnqData.city_id != "") {
             this.getAreaList();
           }
         }
@@ -307,14 +307,14 @@ export class EnquiryEditComponent implements OnInit {
     )
   }
 
-  getAreaList(){
+  getAreaList() {
     // this.areaList = [];
     this.isRippleLoad = true;
     const url = `/api/v1/cityArea/area/${this.createNewReasonObj.institution_id}?city_ids=${this.editEnqData.city_id}`
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.isRippleLoad = false;
-        if(res.result&&res.result.length > 0){
+        if (res.result && res.result.length > 0) {
           this.areaList = res.result[0].areaList;
         }
       },
@@ -325,16 +325,16 @@ export class EnquiryEditComponent implements OnInit {
     )
   }
 
-  toggleAddArea(){
-    if(this.addArea){
+  toggleAddArea() {
+    if (this.addArea) {
       this.addArea = false;
     }
-    else{
+    else {
       this.addArea = true;
     }
   }
 
-  resetStateCityArea(){
+  resetStateCityArea() {
     this.stateList = [];
     this.cityList = [];
     this.areaList = [];
@@ -343,7 +343,7 @@ export class EnquiryEditComponent implements OnInit {
     this.editEnqData.area_id = "";
     this.getStateList();
   }
-  getNewCityList(){
+  getNewCityList() {
     this.cityList = [];
     this.areaList = [];
     this.editEnqData.city_id = "";
@@ -351,7 +351,7 @@ export class EnquiryEditComponent implements OnInit {
     this.getCityList()
   }
 
-  getNewAreaList(){
+  getNewAreaList() {
     this.areaList = [];
     this.getAreaList();
   }
@@ -374,7 +374,7 @@ export class EnquiryEditComponent implements OnInit {
     this.countryDetails.forEach(element => {
       if (element.id == event) {
         this.instituteCountryDetObj = element;
-        this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
+        this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
         this.country_id = element.id;
       }
     }
@@ -410,8 +410,8 @@ export class EnquiryEditComponent implements OnInit {
         this.countryDetails.forEach(element => {
           if (element.id == this.editEnqData.country_id) {
             this.instituteCountryDetObj = element;
-            this.maxlength=this.instituteCountryDetObj.country_phone_number_length;
-            this.country_id=element.id;
+            this.maxlength = this.instituteCountryDetObj.country_phone_number_length;
+            this.country_id = element.id;
           }
         });
         this.getStateList()
@@ -525,7 +525,15 @@ export class EnquiryEditComponent implements OnInit {
     });
     return tempArr;
   }
+  checkCustomeComponentElement(index) {
+    if (!(index % 3)) {
+      return true;
+    }
+    else {
+      return false;
+    }
 
+  }
   fillCustomComponent(v, comp) {
     if (v) {
       this.customComponents.forEach(e => {
@@ -881,10 +889,10 @@ export class EnquiryEditComponent implements OnInit {
 
   validateAreaAndCityFields() {
     if (this.isCityMandatory == 1 && this.isStateMandatory == 1) {
-      if(this.editEnqData.state_id == ""){
-         return this.showErrorMessage('error', '', 'Please enter State details');
+      if (this.editEnqData.state_id == "") {
+        return this.showErrorMessage('error', '', 'Please enter State details');
       }
-      else{
+      else {
         if (this.editEnqData.city_id == '') {
           return this.showErrorMessage('error', '', 'Please enter City details');
         }
@@ -943,15 +951,15 @@ export class EnquiryEditComponent implements OnInit {
         this.editEnqData.enquiry_date = this.fetchDate(this.editEnqData.enquiry_date);
         this.editEnqData.followUpDate = this.fetchDate(this.editEnqData.followUpDate);
 
-        if(this.editEnqData.courseIdArray=='-1'){
-          this.editEnqData.courseIdArray=null;
+        if (this.editEnqData.courseIdArray == '-1') {
+          this.editEnqData.courseIdArray = null;
         }
 
-        if(this.editEnqData.subjectIdArray=='-1'){
-          this.editEnqData.courseIdArray=null;
+        if (this.editEnqData.subjectIdArray == '-1') {
+          this.editEnqData.courseIdArray = null;
         }
 
-        if(this.editEnqData.standard_id == '-1'){
+        if (this.editEnqData.standard_id == '-1') {
           this.editEnqData.standard_id = null;
         }
 
@@ -1018,7 +1026,7 @@ export class EnquiryEditComponent implements OnInit {
                   enquiry_id: this.institute_enquiry_id,
                   institute_enquiry_id: this.institute_enquiry_id,
                   school_id: this.editEnqData.school_id,
-                  country_id:this.editEnqData.country_id,
+                  country_id: this.editEnqData.country_id,
                   assigned_to: this.editEnqData.assigned_to
                 }
                 if (!this.isProfessional) {
@@ -1129,42 +1137,42 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
-    let phoneFlag = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone, this.maxlength,this.country_id);
+    let phoneFlag = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone, this.maxlength, this.country_id);
     if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
       return this.showErrorMessage('error', 'Please enter name', '');
-    } else if(phoneFlag == 'noNumber') {
-          return this.showErrorMessage('error', 'Please enter contact no.', '');
-    } else if(phoneFlag == false){
-          let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
-          return this.showErrorMessage('error', msg, '');
+    } else if (phoneFlag == 'noNumber') {
+      return this.showErrorMessage('error', 'Please enter contact no.', '');
+    } else if (phoneFlag == false) {
+      let msg = 'Enter '.concat(this.maxlength).concat(' Digit Contact Number');
+      return this.showErrorMessage('error', msg, '');
     } else if (this.commonServiceFactory.checkValueType(this.editEnqData.enquiry_date)) {
-        return this.showErrorMessage('error', 'Please select enquiry date ', '');
+      return this.showErrorMessage('error', 'Please select enquiry date ', '');
     } else if (this.commonServiceFactory.sourceValueCheck(this.editEnqData.source_id)) {
-        return this.showErrorMessage('error', 'Please select enquiry source', '');
+      return this.showErrorMessage('error', 'Please select enquiry source', '');
     } else if (this.editEnqData.parent_phone != "" || this.editEnqData.parent_phone != null) {
-        let parentPhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.parent_phone, this.maxlength,this.country_id);
-        if (parentPhoneCheck == false) {
-          let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
-          return this.showErrorMessage('error', msg, '');
-        } else {
-            return true;
-        }
-    } else if (this.editEnqData.phone2 != "" || this.editEnqData.phone2 != null){
-        let alternatePhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone2, this.maxlength,this.country_id);
-          if (alternatePhoneCheck == 'noNumber') {
-            return this.showErrorMessage('error', 'Please enter valid contact no.', '');
-          } else if(alternatePhoneCheck == false) {
-            let msg = 'Enter '.concat( this.maxlength ).concat(' Digit Contact Number');
-            return this.showErrorMessage('error', msg, '');
-          } else {
-          return true;
+      let parentPhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.parent_phone, this.maxlength, this.country_id);
+      if (parentPhoneCheck == false) {
+        let msg = 'Enter '.concat(this.maxlength).concat(' Digit Contact Number');
+        return this.showErrorMessage('error', msg, '');
+      } else {
+        return true;
+      }
+    } else if (this.editEnqData.phone2 != "" || this.editEnqData.phone2 != null) {
+      let alternatePhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone2, this.maxlength, this.country_id);
+      if (alternatePhoneCheck == 'noNumber') {
+        return this.showErrorMessage('error', 'Please enter valid contact no.', '');
+      } else if (alternatePhoneCheck == false) {
+        let msg = 'Enter '.concat(this.maxlength).concat(' Digit Contact Number');
+        return this.showErrorMessage('error', msg, '');
+      } else {
+        return true;
       }
     } else {
-        if (this.validateEnquiryDate()) {
-          return true;
-        } else {
-            return this.showErrorMessage('error', '', 'Cannot set future enquiry date');
-        }
+      if (this.validateEnquiryDate()) {
+        return true;
+      } else {
+        return this.showErrorMessage('error', '', 'Cannot set future enquiry date');
+      }
     }
   }
 
