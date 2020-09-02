@@ -3273,6 +3273,14 @@ homewrap {
 *{
     font-weight: 600;
 }
+
+.date-clear {
+    position: absolute;
+    right: -35px;
+    top: 35px;
+    cursor: pointer;
+    color: #0084f6;
+}
 .more-detail {
     margin-top: 10px;
     font-size: 12px;
@@ -3282,7 +3290,7 @@ homewrap {
         content: '';
         background: url('../../../../../assets/images/calendar.svg') no-repeat;
         position: absolute;
-        left: 35% !important;
+        left: 71% !important;
         top: 28px !important;
         width: 21px;
         height: 21px;
@@ -3354,7 +3362,7 @@ homewrap {
 
 .newDate {
     .field-wrapper {
-        margin: 15px 0;
+        // margin: 15px 0;
         .date-clear {
             position: absolute;
             right: 5px;
@@ -3376,17 +3384,26 @@ homewrap {
         }
     }
 }
-
+.field-wrapper.datePickerBox1:after {
+    content: '';
+    background: url(/./assets/images/calendar.svg) no-repeat;
+    position: absolute;
+    right: 90px;
+    top: 28px;
+    width: 21px;
+    height: 21px;
+    z-index: 0;
+}
 .AdFilter-field {
     .field-wrapper {
         margin: 15px 0;
-        .date-clear {
-            position: absolute;
-            right: -35px;
-            top: 35px;
-            cursor: pointer;
-            color: #0084f6;
-        }
+        // .date-clear {
+        //     position: absolute;
+        //     right: -35px;
+        //     top: 35px;
+        //     cursor: pointer;
+        //     color: #0084f6;
+        // }
         &.datePickerBox {
             &:after {
                 content: '';
@@ -3503,7 +3520,7 @@ homewrap {
             z-index: 2;
         }
         &:first-child {
-            margin-top: -10px;
+            margin-top: 0px;
         }
     }
 }

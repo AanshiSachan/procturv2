@@ -209,7 +209,7 @@
                 content: '';
                 background: url('../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
-                right: 224px;
+                right: 30px;
                 top: 29px;
                 width: 21px;
                 height: 21px;
@@ -218,7 +218,16 @@
         }
     }
 }
-
+.field-wrapper.datePickerBox1:after {
+    content: '';
+    background: url(/./assets/images/calendar.svg) no-repeat;
+    position: absolute;
+    right: 90px;
+    top: 28px;
+    width: 21px;
+    height: 21px;
+    z-index: 0;
+}
 .middle-section {
     padding: 15px;
 }
@@ -401,7 +410,7 @@
 
 .newDate {
     .field-wrapper {
-        margin: 15px 0;
+        // margin: 15px 0;
         .date-clear {
             position: absolute;
             right: 5px;
@@ -428,23 +437,24 @@
         content: '';
         background: url('../../../../assets/images/calendar.svg') no-repeat;
         position: absolute;
-        left: 35% !important;
+        left: 71% !important;
         top: 30px !important;
         width: 21px;
         height: 21px;
         z-index: 0;
     }
 }
+.date-clear {
+    position: absolute;
+    right: -35px;
+    top: 35px;
+    cursor: pointer;
+    color: #0084f6;
+}
 .AdFilter-field {
     .field-wrapper {
-        margin: 15px 0;
-        .date-clear {
-            position: absolute;
-            right: -35px;
-            top: 35px;
-            cursor: pointer;
-            color: #0084f6;
-        }
+        // margin: 15px 0;
+       
         &.datePickerBox {
             &:after {
                 content: '';
@@ -497,7 +507,7 @@
 
 .create-institution {
     position: absolute;
-    right: 15px;
+    right: 66px;
     bottom: 4px;
     font-size: 25px;
 }
@@ -561,7 +571,7 @@
             z-index: 2;
         }
         &:first-child {
-            margin-top: -10px;
+            margin-top: -2px;
         }
     }
 }
