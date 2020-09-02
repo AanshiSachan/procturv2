@@ -60,7 +60,9 @@ html {
           overflow: auto;
       }
   }
-
+  bs-datepicker-container, bs-daterangepicker-container{
+    left: 854px !important;
+}
   .form-submit {
       .field-radio-wrapper {
           width: 20px;
