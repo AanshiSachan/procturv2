@@ -80,7 +80,8 @@
 
       <section class="live-class">
         <div class="live-class-list-container" *ngIf="getClasses?.length !=0">
-          <div class="live-class-item" *ngFor="let class of getClasses; trackBy:identify">
+          <div class="live-class-item" *ngFor="let class of getClasses; trackBy:identify"
+            [ngStyle]="{'border-left':liveClassFor == true ? '5px solid #FF0000' : '5px solid #32CD32'}">
             <div class="sub-item-1">
               <div class="session_name_and_id_container">
                 <div class="session_name">

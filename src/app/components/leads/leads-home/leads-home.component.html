@@ -78,14 +78,15 @@
           aria-expanded="false">
           +
         </button>
-        <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">&nbsp;&nbsp;
-          <a routerLink="/view/leads/setup" *ngIf="jsonRolesFlags.isShowDataSetup"
-            title="Set up sources of leads and enquiry closing reasons" class="dropdown-item">Add Closing
-            Reason</a><br>&nbsp;&nbsp;
-          <a routerLink="/view/leads/add" *ngIf="jsonRolesFlags.isShowAddEnquiry"
-            title="Add enquiries one by one or Upload in bulk with XLS" class="dropdown-item">Add
-            Enquiry&nbsp;
-          </a>
+        <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">&nbsp;
+          <span><a routerLink="/view/leads/add" *ngIf="jsonRolesFlags.isShowAddEnquiry"
+              title="Add enquiries one by one or Upload in bulk with XLS" class="dropdown-item">Add
+              Enquiry&nbsp;
+            </a></span><br>
+          <span><a routerLink="/view/leads/setup" *ngIf="jsonRolesFlags.isShowDataSetup"
+              title="Set up sources of leads and enquiry closing reasons" class="dropdown-item">&nbsp;&nbsp;Add
+              Closing
+              Reason</a></span>
         </div>
       </div>
     </div>
