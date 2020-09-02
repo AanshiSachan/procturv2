@@ -245,6 +245,10 @@ export class LiveClassesComponent implements OnInit {
     this.auth.showLoader();
     this.obj = {
       institution_id: this.institution_id,
+      live_future_past: 1
+    }
+    if (this.liveClassFor) {
+      this.obj.live_future_past = 2;
     }
     const userType: any = sessionStorage.getItem('userType');
     if (userType != 0) {
@@ -323,25 +327,7 @@ export class LiveClassesComponent implements OnInit {
         }
       }
     }
-    // this.searchData = searchData;
-    // console.log(this.searchData);
     this.totalRow = this.getClasses.length;
-    // this.searchDataFlag = true;
-    // this.PageIndex = 1;
-    // this.fetchTableDataByPage(this.PageIndex);
-    // if (this.liveClassFor) {
-    //   this.totalRow = this.previosLiveClasses.length;
-    // }
-    // else {
-    //   this.totalRow = this.futureLiveClasses.length;
-    // }
-    // this.fetchTableDataByPage(this.PageIndex);
-    // this.getClasses.map((ele) => {
-    //   ele.start_datetime = moment(ele.start_datetime).format('YYYY-MM-DD hh:mm a')
-    // })
-    // this.getClasses.map((ele) => {
-    //   ele.end_datetime = moment(ele.end_datetime).format('YYYY-MM-DD hh:mm a')
-    // })
   }
   // End
   forTeacher(teachersUserIds) {
