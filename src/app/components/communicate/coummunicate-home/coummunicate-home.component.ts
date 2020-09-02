@@ -731,7 +731,7 @@ export class CoummunicateHomeComponent implements OnInit {
       let obj = {
         app_sms_type: Number(value),
         studentArray: this.getListOfIds('student_id'),
-        userArray: this.getListOfUserIds('user_id'),
+        userArray: this.getListOfIds('user_id'),
         user_role: this.loginField.checkBox,
         delivery_mode: delivery_mode
       };
