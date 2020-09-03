@@ -115,8 +115,8 @@
                 <span class="dropdown-item" (click)="viewSubmission(assignment.file_id)" *ngIf="assignment.assignment_status == 'Published' || assignment.assignment_status == 'Under Evalution'">
                   <i class="fa fa-eye" style="margin-top: 3px;" aria-hidden="true"></i> View
                 </span>
-                <span class="dropdown-item" (click)="editAssignment(assignment.file_id)" *ngIf="assignment.assignment_status == 'Draft' || assignment.assignment_status == 'Scheduled'">
-                  <i class="fa fa-pencil" style="margin-top: 3px;" aria-hidden="true"></i> Manage
+                <span class="dropdown-item" (click)="editAssignment(assignment.file_id)" *ngIf="assignment.assignment_status == 'Published' || assignment.assignment_status == 'Draft' || assignment.assignment_status == 'Scheduled'">
+                  <i class="fa fa-pencil" style="margin-top: 3px;" aria-hidden="true"></i> Edit
                 </span>
                 <span class="dropdown-item" (click)="deleteAssignment(assignment.file_id)" *ngIf="assignment.assignment_status == 'Draft' || assignment.assignment_status == 'Scheduled'">
                   <i class="fa fa-trash" style="margin-top: 3px;" aria-hidden="true"></i> Delete

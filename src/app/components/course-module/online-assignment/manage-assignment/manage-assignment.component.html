@@ -121,15 +121,15 @@
           <div class="date-time field-wrapper datePickerBox">
             <label for="state-date" style="font-size: 12px;">Start Date & Time<span class="danger">*</span></label>
             <input type="text" value="" id="state-date" class="form-ctrl widgetDatepicker bsDatepicker datepicker1" [(ngModel)]="assignmentDetails.startDate"
-            style="padding: 6px;" readonly="true" name="payment-date" placeholder="Date" bsDatepicker />
+            style="padding: 6px;" readonly="true" name="payment-date" [disabled]="assignmentDetails.assignment_status == 'Published'" placeholder="Date" bsDatepicker />
             <div>
-              <select class="made-out" id="from1" [(ngModel)]="assignmentDetails.startHr" (ngModelChange)="getEventHourFrom($event)">
+              <select class="made-out" id="from1" [(ngModel)]="assignmentDetails.startHr" [disabled]="assignmentDetails.assignment_status == 'Published'" (ngModelChange)="getEventHourFrom($event)">
                 <option value="" disabled  selected="selected" hidden>HH</option>
                 <option *ngFor="let i of hour" [value]="i">
                     {{i}}
                 </option>
               </select>
-              <select class="made-out" id="from2" style="margin-left:10px;" [(ngModel)]="assignmentDetails.startMin" (ngModelChange)="getEventHourFrom($event)">
+              <select class="made-out" id="from2" style="margin-left:10px;" [(ngModel)]="assignmentDetails.startMin" [disabled]="assignmentDetails.assignment_status == 'Published'" (ngModelChange)="getEventHourFrom($event)">
                 <option value="" disabled  selected="selected" hidden>MM</option>
                 <option [value]="i" *ngFor="let i of minutes" >
                     {{i}}
@@ -160,7 +160,7 @@
         </div>
 
         <div class="assignment-details-item field-wrapper EvaluationDate datePickerBox" style="flex-direction: column;">
-          <label for="tags" style="font-size: 12px; margin-top:10px; margin-right: 10px;">Evaluation Date
+          <label for="tags" style="font-size: 12px; margin-top:10px; margin-right: 10px;">Evaluation Date <span class="text-danger">*</span>
             <div class="questionInfo inline-relative" style="left:0%;top:5px;">
               <span class="qInfoIcon i-class">i</span>
               <div class="tooltip-box-field md">
@@ -244,14 +244,14 @@
         <!-- For Course Model -->
         <div class="course-details-item field-wrapper" *ngIf="!this.jsonFlag.isProfessional">
           <label for="" style="font-size: 12px;">Master Course<span class="danger">*</span></label>
-          <select class="course-input" name="" [(ngModel)]="assignmentDetails.masterCourse" (ngModelChange)="getCourses()">
+          <select class="course-input" name="" [(ngModel)]="assignmentDetails.masterCourse" [disabled]="assignmentDetails.assignment_status == 'Published'" (ngModelChange)="getCourses()">
             <option value="-1">Select Master Course</option>
             <option [value]="master.master_course" *ngFor="let master of masterCourseList">{{ (master.master_course.length > 30) ? (master.master_course | slice:0:30) + '...' : master.master_course }}</option>
           </select>
         </div>
         <div class="course-details-item field-wrapper" *ngIf="!this.jsonFlag.isProfessional">
           <label for="" style="font-size: 12px;">Course<span class="danger">*</span></label>
-          <select class="course-input" name="" [(ngModel)]="assignmentDetails.course" (ngModelChange)="getSubjects()">
+          <select class="course-input" name="" [(ngModel)]="assignmentDetails.course" [disabled]="assignmentDetails.assignment_status == 'Published'" (ngModelChange)="getSubjects()">
             <option value="-1">Select Course</option>
             <option [value]="course.course_id" *ngFor="let course of courseList">{{ (course.course_name.length > 30) ? (course.course_name | slice:0:30) + '...' : course.course_name }}</option>
           </select>
