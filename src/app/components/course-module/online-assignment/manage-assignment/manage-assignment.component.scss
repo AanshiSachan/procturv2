@@ -383,3 +383,6 @@ ng-multiselect-dropdown .multiselect-dropdown{
     top: 52px;
   }
 }
+:disabled {
+  cursor: no-drop !important;
+}

@@ -93,7 +93,8 @@ export class ManageAssignmentComponent implements OnInit {
    file_id: "-1",
    assignment_late_submission_date:'',
    enable_grade:false,
-   evaluation_date: ''
+   evaluation_date: '',
+   assignment_status: ''
  }
 
 
@@ -202,6 +203,7 @@ export class ManageAssignmentComponent implements OnInit {
     this.assignmentDetails.file_id = this.editAssignmentDetails.file_id;
     this.assignmentDetails.title = this.editAssignmentDetails.title;
     this.assignmentDetails.description = this.editAssignmentDetails.description;
+    this.assignmentDetails.assignment_status = this.editAssignmentDetails.assignment_status;
 
     if(this.editAssignmentDetails.evaluation_required == "N"){
       this.assignmentDetails.marks = false;
@@ -612,7 +614,9 @@ export class ManageAssignmentComponent implements OnInit {
     if(this.assignmentDetails.title.trim() != '' && this.assignmentDetails.title.trim() != null){
       if(this.assignmentDetails.startHr.trim() != '' && this.assignmentDetails.startMin.trim() != ''){
         if(this.assignmentDetails.endHr.trim() != '' && this.assignmentDetails.endMin.trim() != ''){
+          if(this.assignmentDetails.evaluation_date != '' && this.assignmentDetails.evaluation_date != null){
           if(this.assignmentDetails.course != '-1'){
+            if(this.checkFileAndURL()){
               let lateSub = 'Y';
               if(!this.assignmentDetails.lateSubmission){
                 lateSub = 'N';
@@ -662,13 +666,17 @@ export class ManageAssignmentComponent implements OnInit {
               this.createOnlineAssignment(obj);
               console.log(obj)
           }
+          }
           else{
             this.msgService.showErrorMessage('error', '', "Please select course");
           }
         }
         else{
-          this.msgService.showErrorMessage('error', '', "Please select assignment end time hrs & mins");
+          this.msgService.showErrorMessage('error', '', "Please Select Evaluation Date");
         }
+      } else {
+          this.msgService.showErrorMessage('error', '', "Please select assignment end time hrs & mins");
+      }
       }
       else{
         this.msgService.showErrorMessage('error', '', "Please select assignment start time hrs & mins");
@@ -705,7 +713,9 @@ export class ManageAssignmentComponent implements OnInit {
         if(this.assignmentDetails.masterCourse != '-1'){
           if(this.assignmentDetails.course != '-1'){
             if(this.selectedStudentList.length > 0){
+              if(this.assignmentDetails.evaluation_date != '' && this.assignmentDetails.evaluation_date != null){
               if(this.assignmentDetails.teacher != '-1'){
+                if(this.checkFileAndURL()){
 
                 let lateSub = 'Y';
                 if(!this.assignmentDetails.lateSubmission){
@@ -758,8 +768,13 @@ export class ManageAssignmentComponent implements OnInit {
                 console.log(obj)
 
               }
+              }
               else{
                 this.msgService.showErrorMessage('error', '', "Please select faculty");
+              }
+            }
+              else{
+                this.msgService.showErrorMessage('error', '', "Please Select Evaluation Date");
               }
             }
             else{
@@ -865,6 +880,15 @@ export class ManageAssignmentComponent implements OnInit {
       this.msgService.showErrorMessage('error', '', "No file selected");
     }
 
+  }
+
+  checkFileAndURL() {
+    if((this.customFileArr && this.customFileArr.length) || (this.assignmentDetails.urlLists && this.assignmentDetails.urlLists.length) || (this.editAttachmentList && this.editAttachmentList.length) || (this.editUrlList && this.editUrlList.length)) {
+      return true;
+    } else {
+      this.msgService.showErrorMessage('error', '', "Please select file or add Link");
+      return false;
+    }
   }
 
   getName(file: string): string {
