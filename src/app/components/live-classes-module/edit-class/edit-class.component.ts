@@ -863,7 +863,7 @@ export class EditClassComponent implements OnInit {
     if (this.isProfessional) {
       let url = '';
       if (this.userType === '3') {
-        url = '/api/v1/batches/all/' + this.institution_id + '?active=Y' + '&isAllCourses=Y&isActiveNotExpire=Y';
+        url = '/api/v1/batches/all/' + this.institution_id + '?active=Y' + '&isTeacher=true&isActiveNotExpire=Y';
       } else {
         url = '/api/v1/batches/all/' + this.institution_id + '?active=Y&isActiveNotExpire=Y';
       }
