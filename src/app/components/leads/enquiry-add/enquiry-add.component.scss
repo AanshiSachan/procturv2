@@ -209,7 +209,7 @@
                 content: '';
                 background: url('../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
-                right: 30px;
+                right: 5px;
                 top: 29px;
                 width: 21px;
                 height: 21px;
@@ -222,7 +222,7 @@
     content: '';
     background: url(/./assets/images/calendar.svg) no-repeat;
     position: absolute;
-    right: 90px;
+    right: 30px;
     top: 28px;
     width: 21px;
     height: 21px;
@@ -437,7 +437,8 @@
         content: '';
         background: url('../../../../assets/images/calendar.svg') no-repeat;
         position: absolute;
-        left: 71% !important;
+        // left: 71% !important;
+        right: 30px;
         top: 30px !important;
         width: 21px;
         height: 21px;
