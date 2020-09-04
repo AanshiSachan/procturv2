@@ -7,7 +7,7 @@ import { LoginService } from '../../../../services/login-services/login.service'
 import { FetchprefilldataService } from '../../../../services/fetchprefilldata.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-enquiry-bulkadd',
