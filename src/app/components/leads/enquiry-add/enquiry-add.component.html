@@ -169,7 +169,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="c-lg-6 c-md-6 c-sm-6" style="width: 47%;">
                     <!-- area -->
                     <div class="field-wrapper">
                       <label for="addArea">Area</label>
@@ -179,7 +179,7 @@
                         <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">
                           {{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}</option>
                       </select>
-                      <span (click)="toggleAddArea()" class="sourceI iconPlus" style="right: 55px;">+</span>
+                      <span (click)="toggleAddArea()" class="sourceI iconPlus">+</span>
                     </div>
 
                   </div>
