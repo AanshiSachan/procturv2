@@ -4,6 +4,7 @@ import { GetFeeService } from '../../../services/report-services/fee-services/ge
 import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
 import { AppComponent } from '../../../app.component';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'fee-receipt',
@@ -20,7 +21,8 @@ export class FeeReceiptComponent implements OnChanges {
     private getter: GetFeeService, 
     private putter: PostFeeService , 
     private appc:AppComponent,
-    private _commService:CommonServiceFactory
+    private _commService:CommonServiceFactory,
+    private auth: AuthenticatorService
     ) { }
 
   ngOnChanges() {
@@ -47,9 +49,13 @@ export class FeeReceiptComponent implements OnChanges {
       fin_yr: r.financial_year
     }
     let link = document.getElementById("customreceipt" +i);
+    link.setAttribute('href', '');
+    this.auth.showLoader();
     this.getter.getReceiptById(obj).subscribe(
       res => {
+        this.auth.hideLoader();
         let body:any = res;
+        if(body!=null) {
         let byteArr = this._commService.convertBase64ToArray(body.document);
         let format = body.format;
         let fileName = body.docTitle;
@@ -59,6 +65,13 @@ export class FeeReceiptComponent implements OnChanges {
           link.setAttribute("href", url);
           link.setAttribute("download", fileName);
           link.click();
+        }
+        } else {
+          let msg={
+            type:"error",
+            body:"Failed to download receipt"
+          }
+          this.appc.popToast(msg);
         }
       },
       err => {
