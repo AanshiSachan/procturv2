@@ -16,11 +16,11 @@ export class TransactionalComponent implements OnInit {
   radioSelected: any = 0;
   institute_id: any;
   transactionSMS: any = [
-    { total_sms: 5000, price: 13, tax: 18, total_price: 767 },//767
-    { total_sms: 10000, price: 13, tax: 18, total_price: 1534 },
-    { total_sms: 25000, price: 13, tax: 18, total_price: 3835 },
-    { total_sms: 50000, price: 13, tax: 18, total_price: 7670 },
-    { total_sms: 100000, price: 13, tax: 18, total_price: 14160 }];
+    { total_sms: 5000, price: 15, tax: 18, total_price: 885 },//767
+    { total_sms: 10000, price: 15, tax: 18, total_price: 1770 },
+    { total_sms: 25000, price: 15, tax: 18, total_price: 4425 },
+    { total_sms: 50000, price: 15, tax: 18, total_price: 8850 },
+    { total_sms: 100000, price: 14, tax: 18, total_price: 16520 }];
 
   constructor(private apiService: HttpService,
     private auth: AuthenticatorService,
