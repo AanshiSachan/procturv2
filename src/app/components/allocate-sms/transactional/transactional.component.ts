@@ -20,7 +20,7 @@ export class TransactionalComponent implements OnInit {
     { total_sms: 10000, price: 13, tax: 18, total_price: 1534 },
     { total_sms: 25000, price: 13, tax: 18, total_price: 3835 },
     { total_sms: 50000, price: 13, tax: 18, total_price: 7670 },
-    { total_sms: 100000, price: 12, tax: 18, total_price: 14160 }];
+    { total_sms: 100000, price: 13, tax: 18, total_price: 14160 }];
 
   constructor(private apiService: HttpService,
     private auth: AuthenticatorService,

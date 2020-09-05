@@ -54,9 +54,9 @@
                                 {{r.remarks}}
                             </td>
 
-                            <td (click)="downloadReceipt(r, i)">
+                            <td>
                                 <a class="hide" id="customreceipt{{i}}"></a>
-                                <i style="font-family: FontAwesome;" class="fa fa-cloud-download" aria-hidden="true"></i> Download
+                                <span (click)="downloadReceipt(r, i)"><i style="font-family: FontAwesome;" class="fa fa-cloud-download" aria-hidden="true"></i> Download</span>
                             </td>
 
                             <td (click)="emailReceipt(r)">
