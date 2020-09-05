@@ -587,6 +587,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('payment_amount', res.payment_amount);
       sessionStorage.setItem('payment_due_date', res.payment_due_date);
       // End
+      sessionStorage.setItem('enable_online_assignment_feature', institute_data.enable_online_assignment_feature);
+
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
         this.login.changePermissions('');
