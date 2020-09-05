@@ -883,7 +883,7 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   checkFileAndURL() {
-    if((this.customFileArr && this.customFileArr.length) || (this.assignmentDetails.urlLists && this.assignmentDetails.urlLists.length) || (this.editAttachmentList && this.editAttachmentList.length) || (this.editUrlList && this.editUrlList.length)) {
+    if((this.selectedFiles && this.selectedFiles.length) || (this.assignmentDetails.urlLists && this.assignmentDetails.urlLists.length) || (this.editAttachmentList && this.editAttachmentList.length) || (this.editUrlList && this.editUrlList.length)) {
       return true;
     } else {
       this.msgService.showErrorMessage('error', '', "Please select file or add Link");
