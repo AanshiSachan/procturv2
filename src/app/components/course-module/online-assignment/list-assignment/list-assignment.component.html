@@ -1,0 +1,147 @@
+<div class="middle-section clear-fix">
+  <!-- breadcrumb -->
+  <section class="middle-top clearFix bulk-header">
+    <div>
+      <h1 class="pull-left">
+        <a routerLink="/view/course"  *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
+          Course
+        </a>
+        <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional" style="padding:0px; ">
+          Batch
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+         <span>Online Assignment</span>
+      </h1>
+    </div>
+  </section>
+
+  <!-- filter container -->
+  <section>
+    <div class="filter-container">
+      <div class="search-filter-wrapper">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <input type="text" class="normal-field" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchDatabase()">
+      </div>
+      <div class="filter-item field-wrapper datePickerBox">
+        <!-- <label for="date-range">Select Date Range</label> -->
+        <input type="text" value="" id="date-range"  [(ngModel)]="dateFilterRange"  (ngModelChange)="dateRangeChange($event)"
+        class="form-ctrl widgetDatepicker bsDatepicker" style="padding: 6px;" readonly="true" name="date-range" placeholder="Date" bsDaterangepicker/>
+      </div>
+
+      <div class="manage-assignment-btn-container">
+        <button type="button" name="button" class="manage-assignment-btn"  routerLink='/view/course/online-assignment/create-assignment'>
+          <i class="fa fa-plus" aria-hidden="true" style="color: #0084f6;"></i>&nbsp;
+          New Assignment</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- list container -->
+  <section>
+    <div class="list-table-container">
+      <div class="list-header-container" >
+        <div class="list-header-item v-small-item">
+          <span>ID</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Title</span>
+        </div>
+        <div class="list-header-item small-item" style="width: 12.5%">
+          <span>Start Date</span>
+        </div>
+        <div class="list-header-item small-item" style="width: 12.5%">
+          <span>Due Date</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Course</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Subject</span>
+        </div>
+        <div class="list-header-item medium-item">
+          <span>Topic</span>
+        </div>
+        <div class="list-header-item small-item">
+          <span>Status</span>
+        </div>
+        <div class="list-header-item v-small-item">
+          <span>Submissions</span>
+        </div>
+        <div class="list-header-item small-item align-right" style="margin-right: 10px;">
+          <span>Action</span>
+        </div>
+      </div>
+      <div class="list-value-outer-container">
+        <div class="list-value-container"
+        [ngClass]="{'border-published-class': assignment.assignment_status == 'Published',
+                    'border-draft-class': assignment.assignment_status == 'Draft'}"
+        *ngFor="let assignment of assignmentList">
+          <div class="list-value-item v-small-item">
+            <span>{{assignment.file_id}}</span>
+          </div>
+          <div class="list-value-item small-item">
+            <span title="{{assignment?.title}}" >{{ (!assignment.title) ? '-' : (assignment.title.length > 12) ? (assignment.title | slice:0:12) + '...' : assignment.title}}</span>
+          </div>
+          <div class="list-value-item small-item" style="width: 12.5%">
+            <span>{{assignment.start_date}} {{assignment.start_time}}</span>
+          </div>
+          <div class="list-value-item small-item" style="width: 12.5%">
+            <span>{{assignment.start_date}} {{assignment.end_time}}</span>
+          </div>
+          <div class="list-value-item small-item">
+            <span title="{{assignment?.course_name}}" >{{ (!assignment.course_name) ? '-' : (assignment.course_name.length > 20) ? (assignment.course_name | slice:0:20) + '...' : assignment.course_name}}</span>
+          </div>
+          <div class="list-value-item small-item">
+            <span title="{{assignment?.subject_name}}" >{{ (!assignment.subject_name) ? '-' : (assignment.subject_name.length > 20) ? (assignment.subject_name | slice:0:20) + '...' : assignment.subject_name}}</span>
+          </div>
+          <div class="list-value-item medium-item">
+            <span>{{assignment.topic_name}}-{{assignment.sub_topic_name}}</span>
+            <!-- <span title="{{assignment?.title}}" >{{ (!assignment.title) ? '-' : (assignment.title.length > 30) ? (assignment.title | slice:0:30) + '...' : assignment.title}}</span> -->
+          </div>
+          <div class="list-value-item small-item">
+            <span>{{assignment.assignment_status}}</span>
+          </div>
+          <div class="list-value-item v-small-item action-container">
+            <span *ngIf="assignment.assignment_status == 'Published' && assignment.total_assign_submitted_count!=0">{{assignment.total_assign_submitted_count}}/{{assignment.total_assign_students}}</span>
+            <span *ngIf="assignment.assignment_status != 'Published' || assignment.total_assign_submitted_count == 0">-</span>
+          </div>
+          <div class="list-value-item small-item align-center action-container">
+            <div class="dropdown dropleft">
+              <button class="btn btn-light btn-xs dropdown-toggle" type="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
+              </button>
+              <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
+                <span class="dropdown-item" (click)="viewSubmission(assignment.file_id)" *ngIf="assignment.assignment_status == 'Published' || assignment.assignment_status == 'Under Evalution'">
+                  <i class="fa fa-eye" style="margin-top: 3px;" aria-hidden="true"></i> View
+                </span>
+                <span class="dropdown-item" (click)="editAssignment(assignment.file_id)" *ngIf="assignment.assignment_status == 'Published' || assignment.assignment_status == 'Draft' || assignment.assignment_status == 'Scheduled'">
+                  <i class="fa fa-pencil" style="margin-top: 3px;" aria-hidden="true"></i> Edit
+                </span>
+                <span class="dropdown-item" (click)="deleteAssignment(assignment.file_id)" *ngIf="assignment.assignment_status == 'Draft' || assignment.assignment_status == 'Scheduled'">
+                  <i class="fa fa-trash" style="margin-top: 3px;" aria-hidden="true"></i> Delete
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="no-records" *ngIf="assignmentList?.length  == 0">
+          <span>No Records Found</span>
+        </div>
+      </div>
+
+
+
+      </div>
+  </section>
+
+  <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+      <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+        (sizeChange)="updateTableBatchSize($event)" [count]="totalCount">
+      </pagination>
+    </div>
+  </div>
+
+</div>

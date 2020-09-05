@@ -46,6 +46,16 @@
         <span>Upload and Share Youtube Links / Assignments / Notes / Homework etc with Students.</span>
       </div>
     </div>
+    <div class="course-menu-item" routerLink="/view/course/online-assignment" *ngIf="jsonFlags.isShowOnlineAssignment">
+      <div class="menu-title">
+        <img src="./assets/images/course/reports.svg" alt="reports">
+        <span>Online Assignment</span>
+        <span class="new-keyword">New</span>
+      </div>
+      <div class="menu-description">
+        <span>Share and evaluate student assignment</span>
+      </div>
+    </div>
     <div class="course-menu-item" routerLink="/view/course/coursePlanner/class" *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/class-planner.svg" alt="class planner">
@@ -151,6 +161,16 @@
       </div>
       <div class="menu-description">
         <span>Upload and Share Youtube Links / Assignments / Notes / Homework etc with Students.</span>
+      </div>
+    </div>
+    <div class="course-menu-item" routerLink="/view/course/online-assignment" *ngIf="jsonFlags.isShowOnlineAssignment">
+      <div class="menu-title">
+        <img src="./assets/images/course/reports.svg" alt="reports">
+        <span>Online Assignment </span>
+        <span class="new-keyword">New</span>
+      </div>
+      <div class="menu-description">
+        <span>Share and evaluate student assignment</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/batch/coursePlanner/class" *ngIf="jsonFlags.isShowClassPlanner">

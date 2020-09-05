@@ -6,7 +6,6 @@ import { TimeTableComponent } from './time-table/time-table.component';
 import { MasterTagComponent } from './master-tag/master-tag.component';
 import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
 
-
 @NgModule({
   imports: [RouterModule.forChild([
       {
@@ -71,6 +70,11 @@ import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.compo
                 loadChildren: 'app/components/course-module/ecourse-file-manager/ecourse-file-manager.module#EcourseFileManagerModule',
                 pathMatch: 'prefix'
             },
+            {
+                path: 'online-assignment',
+                loadChildren: 'app/components/course-module/online-assignment/online-assignment.module#OnlineAssignmentModule',
+                pathMatch: 'prefix',
+            }
           ]
       }
   ]
