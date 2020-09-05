@@ -617,6 +617,7 @@ export class ManageAssignmentComponent implements OnInit {
           if(this.assignmentDetails.evaluation_date != '' && this.assignmentDetails.evaluation_date != null){
           if(this.assignmentDetails.course != '-1'){
             if(this.checkFileAndURL()){
+              if(this.getEventHourTo()) {
               let lateSub = 'Y';
               if(!this.assignmentDetails.lateSubmission){
                 lateSub = 'N';
@@ -665,6 +666,7 @@ export class ManageAssignmentComponent implements OnInit {
               }
               this.createOnlineAssignment(obj);
               console.log(obj)
+          }
           }
           }
           else{
@@ -716,6 +718,7 @@ export class ManageAssignmentComponent implements OnInit {
               if(this.assignmentDetails.evaluation_date != '' && this.assignmentDetails.evaluation_date != null){
               if(this.assignmentDetails.teacher != '-1'){
                 if(this.checkFileAndURL()){
+                  if(this.getEventHourTo()) {
 
                 let lateSub = 'Y';
                 if(!this.assignmentDetails.lateSubmission){
@@ -767,6 +770,7 @@ export class ManageAssignmentComponent implements OnInit {
                 this.createOnlineAssignment(obj);
                 console.log(obj)
 
+              }
               }
               }
               else{
@@ -988,7 +992,7 @@ export class ManageAssignmentComponent implements OnInit {
   getEventHourTo() {
 
     let fromTime = moment(this.assignmentDetails.startDate).format('YYYY-MM-DD') + " " + this.assignmentDetails.startHr.split(' ')[0] + ":" + this.assignmentDetails.startMin + " " + this.assignmentDetails.startHr.split(' ')[1];
-    let toTime = moment(this.assignmentDetails.startDate).format('YYYY-MM-DD') + " " + this.assignmentDetails.endHr.split(' ')[0] + ":" + this.assignmentDetails.endMin + " " + this.assignmentDetails.endHr.split(' ')[1];
+    let toTime = moment(this.assignmentDetails.endDate).format('YYYY-MM-DD') + " " + this.assignmentDetails.endHr.split(' ')[0] + ":" + this.assignmentDetails.endMin + " " + this.assignmentDetails.endHr.split(' ')[1];
     let fromTimeT = moment(fromTime).format('YYYY-MM-DD hh:mm a');
     let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
 
