@@ -55,7 +55,7 @@
         <span>Manage Storage Of Uploaded And Downloaded Files By Category.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/online-assignment">
+    <div class="course-menu-item" routerLink="/view/course/online-assignment" *ngIf="jsonFlags.isShowOnlineAssignment">
       <div class="menu-title">
         <img src="./assets/images/course/reports.svg" alt="reports">
         <span>Online Assignment</span>
@@ -171,7 +171,7 @@
         <span>Manage Storage Of Uploaded And Downloaded Files By Category.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/online-assignment">
+    <div class="course-menu-item" routerLink="/view/course/online-assignment" *ngIf="jsonFlags.isShowOnlineAssignment">
       <div class="menu-title">
         <img src="./assets/images/course/reports.svg" alt="reports">
         <span>Online Assignment </span>

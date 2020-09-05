@@ -16,7 +16,8 @@ export class CourseHomeComponent implements OnInit {
     isShowModel:false,
     isShowClass:false,
     isShowExam:false,
-    isShowClassPlanner:false
+    isShowClassPlanner:false,
+    isShowOnlineAssignment : false
   }
 
   constructor(   private auth: AuthenticatorService) { }
@@ -33,7 +34,10 @@ export class CourseHomeComponent implements OnInit {
     );
 
     this.checkPermissions();
-
+    this.jsonFlags.isShowOnlineAssignment =  false;
+    if(sessionStorage.getItem('enable_online_assignment_feature') == '1') {
+      this.jsonFlags.isShowOnlineAssignment = true;
+    }
   }
 
   checkPermissions(){
