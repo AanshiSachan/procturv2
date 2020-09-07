@@ -11,12 +11,11 @@ import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTabl
 })
 export class SourceComponent implements OnInit {
 
-  userId: any = sessionStorage.getItem("userid");
+
   sourceInfoDetails = {
     institution_id: this.service.institute_id,
     reportType: "source",
     source_id: -1,
-    assigned_to: this.userId,
     updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
     updateDateTo: moment().format('YYYY-MM-DD')
   }

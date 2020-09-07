@@ -493,6 +493,7 @@ export class LiveClassesComponent implements OnInit {
         element.course = Array.prototype.map.call(element.batch_list, s => s.batch_name).toString();
       })
     }
+    console.log("Get Classes", this.getClasses);
     this.totalRow = this.getClasses.length;
     this.fetchTableDataByPage(this.PageIndex);
   }
@@ -699,16 +700,13 @@ export class LiveClassesComponent implements OnInit {
       )
     }
   }
-  // Done modification for Push notification on the basis of session type- Ashwini Kumar Gupta
-  pushNotification(id, sessionType) {
-    let obj = {};
-    let url: any;
-    let zoom = (sessionType === "Zoom" ? true : false);
-    url = "/api/v1/meeting_manager/sendPushNotification/" + id + "?isZoomLiveClass=" + zoom;
-    if (confirm("Are you sure you want to send push notification ?")) {
 
-      this._http.getData(url).subscribe(
-        (res: any) => {
+  pushNotification(id) {
+    let obj = {};
+    if (confirm("Are you sure you want to send push notification ?")) {
+      let url = "/api/v1/meeting_manager/sendPushNotification/" + id;
+      this._http.postData(url, obj).subscribe(
+        (data: any) => {
           this.appC.popToast({ type: "success", body: "Push notification sent successfully" })
           // this.getClassesList();
         },
@@ -718,8 +716,6 @@ export class LiveClassesComponent implements OnInit {
       )
     }
   }
-  // End
-
 
   cancel(id, live_meeting_with) {
     this.alertBox = false;

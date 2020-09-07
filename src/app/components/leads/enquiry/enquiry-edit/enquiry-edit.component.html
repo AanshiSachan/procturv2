@@ -727,7 +727,7 @@
             </select>
           </div>
 
-          <div class="field-wrapper" *ngIf="(isMainBranch == 'Y' || subBranchSelected == true) && permission != true">
+          <div class="field-wrapper" *ngIf="isMainBranch == 'Y' || subBranchSelected == true">
             <label for="selectBranch">Branch</label>
             <select id="selectBranch" class="form-ctrl" [(ngModel)]="editEnqData.source_instituteId" name="selectBranch"
               (ngModelChange)="branchUpdated($event)" style="border-radius: 4px;">

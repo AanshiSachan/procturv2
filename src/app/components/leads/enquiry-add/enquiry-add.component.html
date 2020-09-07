@@ -9,8 +9,8 @@
           <h1 class="pull-left">
             Add New Enquiry
           </h1>
-          <aside class="pull-right" *ngIf="permission != true">
-            <input type="button" value="Upload Enquiry" routerLink="/view/leads/enquiry/upload" class="btn"
+          <aside class="pull-right">
+            <input type="button" value="Upload Enquiry" routerLink="/view/leads/enquiry/upload" class="uploadBtn"
               id="btnUpload">
           </aside>
         </div>
@@ -779,7 +779,7 @@
             <span style="right: 5px;" class="sourceI iconPlus" (click)="showAddReferPops()">+</span>
           </div>
 
-          <div class="field-wrapper" *ngIf="(isMainBranch == 'Y' || subBranchSelected == true) && permission != true "
+          <div class="field-wrapper" *ngIf="isMainBranch == 'Y' || subBranchSelected == true"
             [ngClass]="{'has-value': newEnqData.source_instituteId != '-1'}">
             <label for="selectBranch">Branch</label>
             <select id="selectBranch" class="form-ctrl" [(ngModel)]="newEnqData.source_instituteId" name="selectBranch"
@@ -853,8 +853,7 @@
           <div>
             <div class="pull-right add-form-btns">
               <a style="cursor:pointer" (click)="reloadEnquiryForm()" id="reloadEnquiryAnch12">Add new enquiry</a>
-              <a style="cursor:pointer" *ngIf="permission != true" routerLink="/view/leads/enquiry/upload"
-                id="uploadAnch13">Add Bulk enquiry</a>
+              <a style="cursor:pointer" routerLink="/view/leads/enquiry/upload" id="uploadAnch13">Add Bulk enquiry</a>
             </div>
           </div>
         </div>

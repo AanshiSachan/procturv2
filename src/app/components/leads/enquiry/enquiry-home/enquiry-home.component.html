@@ -30,8 +30,14 @@
               &nbsp; Add Enquiry
             </button>
           </div>
+<<<<<<< HEAD
           <div class="btn-item" *ngIf="permission">
             <button type="button" class="add-class-btn pull-right" name="button" (click)="flagJSON.isEnquiryOptions = !flagJSON.isEnquiryOptions">
+=======
+          <div class="btn-item">
+            <button type="button" class="add-class-btn pull-right" name="button"
+              (click)="flagJSON.isEnquiryOptions = !flagJSON.isEnquiryOptions">
+>>>>>>> leadUiChanges
               More &nbsp;
               <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
             </button>
@@ -1128,7 +1134,7 @@
                       <tbody *ngIf="flagJSON.isApprovedTab">
                         <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
                           <td style="text-overflow: ellipsis">
-                            <span [innerHTML]="row.message"></span>
+                            {{row.message}}
                           </td>
                           <td style="width: 18%;">
                             {{row.date}}
@@ -1147,7 +1153,7 @@
                       <tbody *ngIf="flagJSON.isAllSelected">
                         <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
                           <td style="text-align: left; text-overflow: ellipsis">
-                            <span [innerHTML]="row.message"></span>
+                            {{row.message}}
                           </td>
                           <td style="width: 18%;">
                             {{row.date}}
@@ -1336,7 +1342,7 @@
 
                 <div class="sms-middle-section">
                   <div class="table table-responsive table-container table-data-overflow">
-                    <table>
+                    <table class="tableBodyScroll">
                       <thead>
                         <tr>
                           <!-- <th></th> -->
@@ -1350,7 +1356,7 @@
                               <a class="cursor-icon" id="cursorAnch12">{{smsHeader.date.title}}</a>
                             </label>
                           </th>
-                          <th>
+                          <th style="text-align: center;">
                             <label>
                               <a class="cursor-icon" id="cursorAnch13">{{smsHeader.action.title}}</a>
                             </label>
@@ -1375,7 +1381,7 @@
                             {{row.date}}
                           </td>
                           <td>
-                            <enquiry-sms-action>
+                            <enquiry-sms-action style="text-align: center;">
                             </enquiry-sms-action>
                           </td>
                         </tr>
