@@ -113,6 +113,11 @@
     font-weight: 600;
     text-align: left;
     border-left: 3px solid #e0eaec;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+    margin-bottom: 5px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border-left: 5px solid #e0eaec;
     .heading-item{
       padding: 10px;
     }
@@ -120,11 +125,12 @@
   .list-value-outer-container{
     display: flex;
     flex-direction: column;
-    border: 1px solid #ccc;
+    // border: 1px solid #ccc;
     border-top: none;
-    min-height: 61vh;
-    max-height: 61vh;
+    min-height: 64vh;
+    max-height: 64vh;
     overflow-y: auto;
+    
     .list-value-container{
       display: flex;
       flex-direction: row;
@@ -135,8 +141,18 @@
         padding: 10px;
       }
     }
+    .list-value-container
+    {
+      box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+      margin-bottom: 5px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border-left: 5px solid #e0eaec;
+    }
     .list-value-container:last-child{
       border-bottom: none;
+      
+
     }
     .converted-lead{
       border-left: 3px solid tomato;
@@ -273,6 +289,7 @@
   display: flex;
   flex-direction: row;
   width: 100%;
+  margin-top: 6px;
   .pagination-container{
     width: 50%;
   }
@@ -316,4 +333,44 @@
 .form-ctrl{
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+.add-class-btn{
+  border: 1px solid #3a66fa;
+  border-radius: 4px;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+  padding: 4px 10px;
+  background: #1283f4;
+  color: white;
+  font-weight: 600;
+  height: 30px;
+  margin-left: 15px;
+}
+th{
+  background-color: #e0eaec;
+  color: black;
+}
+tr {
+  border-radius: 12px;
+  border-left: 5px solid #e0eaec;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+.tableBodyScoll tbody {
+  display: block;
+  overflow-y: auto;
+  background: #ffffff;
+
+}
+.tableBodyScoll thead,
+tbody tr {
+  display: table;
+ width : 100%;
+  table-layout: fixed;
+}
+.tableBodyScroll thead,
+tbody tr {
+  display: table;
+ width: 100%;
+  table-layout: fixed;
 }

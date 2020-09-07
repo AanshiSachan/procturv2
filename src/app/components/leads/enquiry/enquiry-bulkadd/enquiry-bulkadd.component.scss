@@ -138,11 +138,13 @@
                         width: 21%;
                         float: right;
                         margin: 0;
+                       
                     }
                 }
             }
         }
     }
+    
     .drag-drop-box {
         margin-top: 50px;
         .dropable-area {
@@ -247,4 +249,35 @@
         left: 25%;
         font-size: 36px;
     }
+}
+th{
+    background-color: #e0eaec;
+    color: black;
+    padding: 3px;
+}
+tr {
+    border-radius: 12px;
+    border-left: 5px solid #e0eaec;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.tableBodyScroll tbody {
+    display: block;
+    // max-height: 73vh;
+    // min-height: 73vh;
+    overflow-y: auto;
+    background: #ffffff;
+    // border-radius: 4px;
+    // border-radius: 1px solid rgba(211, 212, 213, 0.5);
+}
+.tableBodyScroll thead,
+tbody tr {
+    display: table;
+   width : 100%;
+    table-layout: fixed;
+}
+
+.headerSection{
+    background: white;
 }

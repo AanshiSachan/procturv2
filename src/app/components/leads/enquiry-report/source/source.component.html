@@ -1,69 +1,69 @@
-<div class="clear-fix background">
-  <aside class="middle-full">
-    <section class="middle-main clearFix attendance-container">
+<div class="middle-section clear-fix" style="padding-left: 15px; padding-right: 30px; ">
+  <!-- <section class="middle-top clearFix bulk-header" style="padding-left: 5px; ">
+    <h1 class="pull-left">
+      <a routerLink="/view/leads" style="padding:0px;">
+        Lead
+      </a> -->
+  <!-- <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      <a routerLink="/view/leads/enquiryReport">
+        Enquiry Report
+      </a> -->
+  <!-- <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Source Report
+    </h1>
 
-      <section class="middle-top mb0 clearFix ">
-        <h2 style="padding: 5px;" class="pull-left">
-          <a routerLink="/view/leads">
-            Lead
-
-          </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-          <a routerLink="/view/leads/enquiryReport">
-            Enquiry Report
-
-          </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Source Report
-        </h2>
-      </section>
-
-      <section class="filter-form">
-
-        <div class="row">
-
-          <div class="c-lg-3 field-wrapper">
-            <label>Source By</label>
-            <select class="form-ctrl" [(ngModel)]="sourceInfoDetails.source_id">
-              <option value="-1">
-              </option>
-              <option *ngFor="let i of getSourceData" [value]="i.id">
-                {{i.name}}
-              </option>
-            </select>
-          </div>
-
-          <div class="c-lg-3 field-wrapper datePickerBox">
-            <label>From Date</label>
-            <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="sourceInfoDetails.updateDateFrom">
-          </div>
-
-          <div class="c-lg-3 field-wrapper datePickerBox">
-            <label>To Date</label>
-            <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="sourceInfoDetails.updateDateTo">
-          </div>
-          <div class="c-lg-3 " style="margin-top:2%;">
-            <button class="btn fullBlue" (click)="sourceDataDetails()">Go</button>
-          </div>
+  </section> -->
+  <section class="middle-main clearFix">
+    <section>
+      <div class="row"
+        style="margin-left: 0%; margin-bottom: 2%; border-top: 1px solid lightgrey;border-bottom: 1px solid lightgrey;padding-bottom: 10px;">
+        <div class="c-lg-3 field-wrapper" style="margin-right: -9%;">
+          <label>Source By</label>
+          <select class="form-ctrl" [(ngModel)]="sourceInfoDetails.source_id" style="border-radius: 4px;width: 60%;">
+            <option value="-1">
+            </option>
+            <option *ngFor="let i of getSourceData" [value]="i.id">
+              {{i.name}}
+            </option>
+          </select>
         </div>
 
-        <div id="basic-search" style="margin:5px; float:right;">
-          <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-            (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
+        <div class="c-lg-3 field-wrapper datePickerBox" style="margin-right: -11%;">
+          <label>Enquiry From Date</label>
+          <input type="text" readonly="true" class="form-ctrl" bsDatepicker
+            [(ngModel)]="sourceInfoDetails.updateDateFrom" style="border-radius: 4px;width: 50%;">
         </div>
-        <rob-table [isMulti]="false" [records]="getSourceDetails" [dataStatus]="dataStatus" (userRowSelect)="reportHandler($event)"
-          [tableName]="'feereport'" [settings]="feeSettings1">
+
+        <div class="c-lg-3 field-wrapper datePickerBox" style="margin-right: -11%;">
+          <label>Enquiry To Date</label>
+          <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="sourceInfoDetails.updateDateTo"
+            style="border-radius: 4px;width: 50%;">
+        </div>
+
+        <div class="c-lg-3 " style="margin-top:2%;">
+          <button class="btn fullBlue" (click)="sourceDataDetails()" style="margin-top: -1%;">Go</button>
+          <div id="basic-search" style=" margin-top: -2% ; float:right;">
+            <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText"
+              name="searchData" (keyup)="searchDatabase()"
+              style="padding:7px 10px; width:200px; height:35px; margin-left: 200%; border-radius: 4px;">
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: -2%;">
+        <rob-table [isMulti]="false" [records]="getSourceDetails" [dataStatus]="dataStatus"
+          (userRowSelect)="reportHandler($event)" [tableName]="'feereport'" [settings]="feeSettings1">
         </rob-table>
-
         <proctur-popup [sizeWidth]="'small'" *ngIf="showPopup">
           <span class="closePopup pos-abs fbold show" (click)="popupToggler()" close-button>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
               <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                 <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                  <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                  <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                  <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                    transform="translate(992.81 305.77) rotate(45)" />
+                  <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                    transform="translate(978.81 305.77) rotate(45)" />
                 </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                />
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16"
+                  height="16" transform="translate(1012 297)" />
               </g>
             </svg>
           </span>
@@ -116,7 +116,134 @@
           </div>
 
         </proctur-popup>
-      </section>
+
+      </div>
     </section>
-  </aside>
+  </section>
 </div>
+
+
+<!-- <div class="clear-fix background">
+  <aside class="middle-full">
+    <section class="middle-main clearFix attendance-container">
+
+      <section class="middle-top mb0 clearFix ">
+        <h2 style="padding: 5px;" class="pull-left">
+          <a routerLink="/view/leads">
+            Lead
+
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+          <a routerLink="/view/leads/enquiryReport">
+            Enquiry Report
+
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Source Report
+        </h2>
+      </section>-->
+
+<!-- <section class="filter-form">
+
+  <div class="row"> -->
+
+<!-- <div class="c-lg-3 field-wrapper">
+      <label>Source By</label>
+      <select class="form-ctrl" [(ngModel)]="sourceInfoDetails.source_id">
+        <option value="-1">
+        </option>
+        <option *ngFor="let i of getSourceData" [value]="i.id">
+          {{i.name}}
+        </option>
+      </select>
+    </div>
+
+    <div class="c-lg-3 field-wrapper datePickerBox">
+      <label>From Date</label>
+      <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="sourceInfoDetails.updateDateFrom">
+    </div>
+
+    <div class="c-lg-3 field-wrapper datePickerBox">
+      <label>To Date</label>
+      <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="sourceInfoDetails.updateDateTo">
+    </div>
+    <div class="c-lg-3 " style="margin-top:2%;">
+      <button class="btn fullBlue" (click)="sourceDataDetails()">Go</button>
+    </div>
+  </div> -->
+<!-- 
+    <div id="basic-search" style="margin:5px; float:right;">
+      <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText"
+        name="searchData" (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
+    </div> -->
+<!-- <rob-table [isMulti]="false" [records]="getSourceDetails" [dataStatus]="dataStatus"
+  (userRowSelect)="reportHandler($event)" [tableName]="'feereport'" [settings]="feeSettings1">
+</rob-table>
+
+<proctur-popup [sizeWidth]="'small'" *ngIf="showPopup">
+  <span class="closePopup pos-abs fbold show" (click)="popupToggler()" close-button>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+            transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+            transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+          transform="translate(1012 297)" />
+      </g>
+    </svg>
+  </span>
+
+  <h2 popup-header>Enquiries</h2>
+
+  <div popup-content class="main-student-table">
+    <div class="table table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              Enquiry No
+            </th>
+            <th>
+              Enquiry Date
+            </th>
+            <th>
+              Name
+            </th>
+            <th>
+              Mobile No.
+            </th>
+            <th>
+              Last Updated
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of popupDataEnquiries">
+            <td>
+              {{i.enquiry_no}}
+            </td>
+            <td>
+              {{i.enquiry_date}}
+            </td>
+            <td>
+              {{i.name}}
+            </td>
+            <td>
+              {{i.phone}}
+            </td>
+            <td>
+              {{i.updateDate}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</proctur-popup>
+</section> -->
+<!-- </section>
+  </aside>
+</div>  -->
