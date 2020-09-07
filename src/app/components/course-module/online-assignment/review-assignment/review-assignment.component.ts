@@ -172,6 +172,8 @@ export class ReviewAssignmentComponent implements OnInit {
   }
 
   updateStatus(student){
+    this.editStudentAttachments.urlList = [];
+    this.editStudentAttachments.attachmentList = [];
     this.editStatus.evaluation_marks = student.evaluation_marks;
     this.editStatus.evaluation_required = student.evaluation_required;
     this.editStatus.file_id = student.file_id;
