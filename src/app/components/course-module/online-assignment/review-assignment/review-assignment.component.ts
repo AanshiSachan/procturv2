@@ -432,7 +432,9 @@ export class ReviewAssignmentComponent implements OnInit {
       newxhr.onreadystatechange = () => {
         if (newxhr.readyState == 4) {
           if (newxhr.status >= 200 && newxhr.status < 300) {
-            this.msgService.showErrorMessage('success', '', newxhr.response.message);
+            console.log(newxhr.response);
+            console.log(newxhr);
+            this.msgService.showErrorMessage('success', '', 'Solution uploaded successfully');
             $('#bulk').modal('hide');
           }
           else {
