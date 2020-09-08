@@ -123,16 +123,24 @@
             </div>
             <div class="extra-margin" style="margin-top: 15px;">
 
-                <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+                <div class="field-checkbox-wrapper" style="margin-left: 1%;">
                     <div class="field-checkbox-wrapper " style="margin-left: 38rem;margin-top: -5rem;">
                         <input type="checkbox" value="" name="isActive" formControlName="is_active"
                             style="border-radius: 4px;cursor: pointer;" class="form-checkbox">
                         <label for="isActive">Is Active</label>
                     </div>
                 </div>
+                <div class="field-checkbox-wrapper" style="margin-left: 43%;" *ngIf="isShoweOnlineExam">
+                    <div class="field-checkbox-wrapper">
+                        <input type="checkbox" value="" name="allowExamDesk" formControlName="allow_exam_desk_login"
+                            class="form-checkbox">
 
+                        <label for="allowExamDesk">Allow Exam Desk Login</label>
+                    </div>
+                </div>
 
-                <div class="row field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'" style="padding-left: 0;">
+                <div class="row field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'"
+                    style="padding-left: 0;margin-left: 42%;">
                     <div class="field-checkbox-wrapper">
                         <input type="checkbox" value="" name="is_office_only_access" id="is_office_only_access"
                             style="border-radius: 4px;" formControlName="is_office_only_access" class="form-checkbox">
@@ -292,30 +300,30 @@
                             </div>
                         </div> -->
 
-                        <div class="field-checkbox-wrapper" style="margin-left: -40px;" *ngIf="isShoweOnlineExam">
-                            <div class="field-checkbox-wrapper">
-                                <input type="checkbox" value="" name="allowExamDesk"
-                                    formControlName="allow_exam_desk_login" class="form-checkbox">
+                    <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;" *ngIf="isShoweOnlineExam">
+                        <div class="field-checkbox-wrapper">
+                            <input type="checkbox" value="" name="allowExamDesk" formControlName="allow_exam_desk_login"
+                                class="form-checkbox">
 
-                                <label for="allowExamDesk">Allow Exam Desk Login</label>
-                            </div>
+                            <label for="allowExamDesk">Allow Exam Desk Login</label>
                         </div>
+                    </div> -->
 
-                        <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+                    <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
                             <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" name="allow" formControlName="is_allow_teacher_to_only_mark_attendance" class="form-checkbox">
                                 <label for="allow">Allow faculty to only mark attendance</label>
                             </div>
                         </div> -->
 
-                        <div class="row field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'"
-                            style="padding-left: 0;">
-                            <div class="field-checkbox-wrapper">
-                                <input type="checkbox" value="" name="is_office_only_access" id="is_office_only_access"
-                                    formControlName="is_office_only_access" class="form-checkbox">
-                                <label for="is_office_only_access">Enable IP Lock Functionality</label>
-                            </div>
-                        </div> -->
+                    <!-- <div class="row field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'"
+                        style="padding-left: 0;">
+                        <div class="field-checkbox-wrapper">
+                            <input type="checkbox" value="" name="is_office_only_access" id="is_office_only_access"
+                                formControlName="is_office_only_access" class="form-checkbox">
+                            <label for="is_office_only_access">Enable IP Lock Functionality</label>
+                        </div>
+                    </div>  -->
 
 
                     <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
