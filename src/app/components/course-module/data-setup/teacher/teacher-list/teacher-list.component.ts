@@ -20,6 +20,7 @@ export class TeacherListComponent implements OnInit {
   searchData: any = [];
   searchDataFlag: boolean = false;
   dataStatus: number = 1;
+  isShoweOnlineExam: boolean = false;
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
@@ -35,6 +36,8 @@ export class TeacherListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    let type = Number(sessionStorage.getItem('institute_setup_type'));
+    this.isOnlineExamAllow(type);
     this.getDataFromServer();
     this.auth.institute_type.subscribe(
       res => {
@@ -102,7 +105,71 @@ export class TeacherListComponent implements OnInit {
       )
     }
   }
+  isOnlineExamAllow(type) {
+    this.isShoweOnlineExam = this.checkInstSetupType(type, 4);
+  }
+  checkInstSetupType(value, role): boolean {
+    if (value != 0) {
+      var start = 2;
+      var count = 1;
+      while (start != value) {
+        count++;
+        start = start + 2;
+      }
+      var arr = [0, 0, 0, 0, 0, 0, 0, 0];
+      var s = count.toString(2);
+      var k = 0;
+      for (var i = s.length - 1; i >= 0; i--) {
+        arr[k] = parseInt(s.charAt(i));
+        k++;
+      }
 
+      switch (role) {
+        case 2:
+          if (arr[0] == 1)
+            return true;
+          break;
+
+        case 4:
+          if (arr[1] == 1)
+            return true;
+          break;
+
+        case 8:
+          if (arr[2] == 1)
+            return true;
+          break;
+
+        case 16:
+          if (arr[3] == 1)
+            return true;
+          break;
+        case 32:
+          if (arr[4] == 1)
+            return true;
+          break;
+        case 64:
+          if (arr[5] == 1)
+            return true;
+          break;
+
+        case 128:
+          if (arr[6] == 1)
+            return true;
+          break;
+        case 256:
+          if (arr[7] == 1)
+            return true;
+          break;
+        default: return false;
+      }
+      return false;
+
+    }
+    else {
+      return false;
+    }
+  }
   searchTeacher() {
     if (this.searchValue != "" && this.searchValue != null) {
       let searchData = this.teacherListDataSource.filter(item =>

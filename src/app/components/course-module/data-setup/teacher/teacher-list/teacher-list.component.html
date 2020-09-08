@@ -10,7 +10,7 @@
           <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
             Data Setup
           </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Faculty
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Faculty
         </h2>
       </div>
     </div>
@@ -24,8 +24,8 @@
         </div>
       </div>
       <div class="search-filter-wrapper">
-        <input type="text" style="width:18%; border-radius: 4px;" #teacherSearch class="normal-field pull-right"
-          id="searchTeacher" placeholder="Search" [(ngModel)]="searchValue" (keyup)="searchTeacher()">
+        <input type="text" style="width:18%" #teacherSearch class="normal-field pull-right" id="searchTeacher"
+          placeholder="Search" [(ngModel)]="searchValue" (keyup)="searchTeacher()">
       </div>
     </div>
   </section>
@@ -50,6 +50,9 @@
               </th>
               <th>
                 Is Active
+              </th>
+              <th *ngIf="isShoweOnlineExam">
+                Exam Desk Login
               </th>
               <th>
                 Action
