@@ -1,18 +1,18 @@
 <div class="middle-section clearFix">
   <section class="middle-top mb0 clearFix" style="margin-bottom: 15px;">
     <div class="pull-left" style="margin-top:20px;">
-      <div class="header-title">        
-          <h2>
-              <a routerLink="/view/{{type}}" style="color: #0084f6;">
-                {{ type | titlecase }}
-              </a>
-              <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i> 
-              <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
-                Data Setup
-              </a>
-              <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" ></i>Faculty
-          </h2>
-        </div> 
+      <div class="header-title">
+        <h2>
+          <a routerLink="/view/{{type}}" style="color: #0084f6;">
+            {{ type | titlecase }}
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+          <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
+            Data Setup
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Faculty
+        </h2>
+      </div>
     </div>
     <div class="">
       <div class="field-wrapper">
@@ -24,8 +24,8 @@
         </div>
       </div>
       <div class="search-filter-wrapper">
-        <input type="text" style="width:18%" #teacherSearch class="normal-field pull-right" id="searchTeacher" placeholder="Search"
-         [(ngModel)]="searchValue" (keyup)="searchTeacher()">
+        <input type="text" style="width:18%" #teacherSearch class="normal-field pull-right" id="searchTeacher"
+          placeholder="Search" [(ngModel)]="searchValue" (keyup)="searchTeacher()">
       </div>
     </div>
   </section>
@@ -46,10 +46,13 @@
                 Subject
               </th>
               <th>
-                  Date of Joining
+                Date of Joining
               </th>
               <th>
                 Is Active
+              </th>
+              <th *ngIf="isShoweOnlineExam">
+                Exam Desk Login
               </th>
               <th>
                 Action
@@ -60,7 +63,8 @@
             </tr>
           </thead>
           <tbody *ngIf="teacherList.length != 0 ">
-            <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of teacherList; let i = index; trackBy: i;">
+            <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow"
+              *ngFor="let row of teacherList; let i = index; trackBy: i;">
               <td style="text-align: left;">
                 {{row.teacher_name}}
               </td>
@@ -75,14 +79,18 @@
               </td>
               <td>
                 <span *ngIf="row.date_of_joining==''"> - </span>
-                <span *ngIf="row.date_of_joining!=''">{{row.date_of_joining}}</span>  
-                </td>
+                <span *ngIf="row.date_of_joining!=''">{{row.date_of_joining}}</span>
+              </td>
               <td>
                 {{row.is_active}}
               </td>
+              <td *ngIf="isShoweOnlineExam">
+                {{row.allow_exam_desk_login}}
+              </td>
               <td class="anchorTags">
                 <!-- (click)="editTeacherDeatils(row)" -->
-                <a class="anchorTagCursor" [routerLink]="['/view/course/setup/teacher/edit',  row.teacher_id]" style="margin-right:5px">
+                <a class="anchorTagCursor" [routerLink]="['/view/course/setup/teacher/edit',  row.teacher_id]"
+                  style="margin-right:5px">
                   <i class="edit-icon" aria-hidden="true" title="Edit" style="margin-right:5px"></i>Edit
                 </a>
                 <a class="anchorTagCursor" (click)="deleteTeacherDeatils(row)">
@@ -90,9 +98,10 @@
                 </a>
               </td>
               <td class="anchorTags">
-                  <!-- (click)="viewTeacherActivity(row)" -->
-                <a class="anchorTagCursor"   [routerLink]="['/view/course/setup/teacher/view',  row.teacher_id]"  >
-                  <i class="fas fa fa-eye" style="font-family: FontAwesome ;font-size: 19px;display: inline-block;vertical-align: middle; margin-right:5px"
+                <!-- (click)="viewTeacherActivity(row)" -->
+                <a class="anchorTagCursor" [routerLink]="['/view/course/setup/teacher/view',  row.teacher_id]">
+                  <i class="fas fa fa-eye"
+                    style="font-family: FontAwesome ;font-size: 19px;display: inline-block;vertical-align: middle; margin-right:5px"
                     title="View"></i>
                   View
                 </a>
@@ -121,8 +130,8 @@
     <!-- Paginator Here -->
     <div class="filter-res pagination" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
         </pagination>
       </div>
     </div>
