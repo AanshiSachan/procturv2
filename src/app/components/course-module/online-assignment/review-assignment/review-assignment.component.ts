@@ -447,7 +447,7 @@ export class ReviewAssignmentComponent implements OnInit {
 
   }
 
-  fillFiles(files) {
+  fillFiles() {
     const preview = (<HTMLInputElement>document.getElementById('uploadFileControl')).files[0];
     if (preview != null || preview != undefined) {
       setTimeout(() => {
@@ -492,10 +492,10 @@ export class ReviewAssignmentComponent implements OnInit {
     return tempArr;
   }
 
-  removeFile(fileName){
-    for (let index = 0; index < this.selectedFiles.length; index++) {
-      if(this.selectedFiles[index].fileName == fileName){
-        this.selectedFiles.splice(index, 1);
+  removeFile(file){
+    for (let index = 0; index < this.fileArray.length; index++) {
+      if(this.fileArray[index].fileName + '.' + this.fileArray[index].fileType == file.fileName + '.' + file.fileType){
+        this.fileArray.splice(index, 1);
         break;
       }
     }

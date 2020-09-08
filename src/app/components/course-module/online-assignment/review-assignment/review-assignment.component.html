@@ -36,7 +36,7 @@
             <div class="file-attachment-item" *ngFor="let file of fileArray">
               <i class="fa fa-file" aria-hidden="true"></i>
               <span>{{file.fileName}}.{{file.fileType}}</span>
-              <i class="fa fa-times" aria-hidden="true" (click)="removeFile(file.name)" style="color:red;"></i>
+              <i class="fa fa-times" aria-hidden="true" (click)="removeFile(file)" style="color:red;"></i>
             </div>
           </div>
         </div>
@@ -80,8 +80,14 @@
             <div class="url-list-container" *ngIf="editStudentAttachments.urlList?.length > 0">
               <div class="link-attachment-item" *ngFor="let url of editStudentAttachments.urlList">
                 <i class="fa fa-globe" aria-hidden="true"></i>
-                <span style="width: 40%;">{{url.attachment_display_name}}</span>
-                <span style="width: 40%;"> <a href="url.attachment_url">{{url.attachment_url}}</a> </span>
+                <span style="width: 40%;" *ngIf="url.attachment_display_name!=''">
+                  {{ (url.attachment_display_name.length >50) ? (url.attachment_display_name | slice:0:50) + '...' : url.attachment_display_name }}
+                </span>
+                <span style="width: 40%;"> 
+                  <a href="url.attachment_url">
+                  {{ (url.attachment_url.length >50) ? (url.attachment_url | slice:0:50) + '...' : url.attachment_url }}
+                  </a> 
+                </span>
               </div>
             </div>
             <div class="attachment-list" *ngIf="editStudentAttachments.attachmentList?.length > 0">
