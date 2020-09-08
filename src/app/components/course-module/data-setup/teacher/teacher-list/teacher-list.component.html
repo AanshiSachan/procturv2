@@ -1,5 +1,5 @@
 <div class="middle-section clearFix">
-  <section class="middle-top mb0 clearFix" style="border-bottom: 1px solid lightgrey;padding-bottom: 11px;">
+  <section class="middle-top mb0 clearFix" style="margin-bottom: 15px;">
     <div class="pull-left" style="margin-top:20px;">
       <div class="header-title">
         <h2>
@@ -10,7 +10,7 @@
           <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
             Data Setup
           </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Faculty
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Faculty
         </h2>
       </div>
     </div>
@@ -24,8 +24,8 @@
         </div>
       </div>
       <div class="search-filter-wrapper">
-        <input type="text" style="width:18%; border-radius: 4px;" #teacherSearch class="normal-field pull-right"
-          id="searchTeacher" placeholder="Search" [(ngModel)]="searchValue" (keyup)="searchTeacher()">
+        <input type="text" style="width:18%" #teacherSearch class="normal-field pull-right" id="searchTeacher"
+          placeholder="Search" [(ngModel)]="searchValue" (keyup)="searchTeacher()">
       </div>
     </div>
   </section>
@@ -33,14 +33,14 @@
   <section style="margin-top: 10px;">
     <div class="table-scroll-wrapper">
       <div class="table table-responsive enquiry-table">
-        <table class="tableBodyScroll">
+        <table class="teacherTable">
           <thead>
             <tr>
-              <th style="text-align: left;">
+              <th>
                 Faculty Name
               </th>
-              <th style="text-align: left;">
-                &nbsp;&nbsp;&nbsp;&nbsp;Contact No
+              <th>
+                Contact No
               </th>
               <th>
                 Subject
@@ -51,12 +51,15 @@
               <th>
                 Is Active
               </th>
+              <th *ngIf="isShoweOnlineExam">
+                Exam Desk Login
+              </th>
               <th>
                 Action
               </th>
-              <!-- <th>
+              <th>
                 View Activity
-              </th> -->
+              </th>
             </tr>
           </thead>
           <tbody *ngIf="teacherList.length != 0 ">
@@ -65,7 +68,7 @@
               <td style="text-align: left;">
                 {{row.teacher_name}}
               </td>
-              <td style="text-align: left;">
+              <td>
                 {{row.teacher_phone}}
               </td>
               <td *ngIf="row.teacher_subjects!=''">
@@ -76,36 +79,33 @@
               </td>
               <td>
                 <span *ngIf="row.date_of_joining==''"> - </span>
-                <span *ngIf="row.date_of_joining!=''">&nbsp;&nbsp;{{row.date_of_joining}}</span>
+                <span *ngIf="row.date_of_joining!=''">{{row.date_of_joining}}</span>
               </td>
-              <td>&nbsp;&nbsp;
+              <td>
                 {{row.is_active}}
               </td>
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;
+              <td *ngIf="isShoweOnlineExam">
+                {{row.allow_exam_desk_login}}
+              </td>
+              <td class="anchorTags">
                 <!-- (click)="editTeacherDeatils(row)" -->
-                <i class="fa fa-pencil" title="Edit" style="color: #0084f6;margin-right: 3px;" aria-hidden="true"
-                  [routerLink]="['/view/course/setup/teacher/edit',  row.teacher_id]"></i>
-                <i class="fa fa-trash" title="Delete" style="color: red;margin-right: 3px;" aria-hidden="true"
-                  (click)="deleteTeacherDeatils(row)"></i>
-                <i class="fas fa fa-eye" [routerLink]="['/view/course/setup/teacher/view',  row.teacher_id]"
-                  style="color: blue;" title="View"></i>
-
-                <!-- <a class="anchorTagCursor" [routerLink]="['/view/course/setup/teacher/edit',  row.teacher_id]"
+                <a class="anchorTagCursor" [routerLink]="['/view/course/setup/teacher/edit',  row.teacher_id]"
                   style="margin-right:5px">
                   <i class="edit-icon" aria-hidden="true" title="Edit" style="margin-right:5px"></i>Edit
-                </a> -->
-                <!-- <a class="anchorTagCursor" (click)="deleteTeacherDeatils(row)">
+                </a>
+                <a class="anchorTagCursor" (click)="deleteTeacherDeatils(row)">
                   <i class="fa fa-trash" aria-hidden="true" title="Delete" style="margin-right:5px"></i>Delete
-                </a> -->
+                </a>
               </td>
-              <!-- <td class="anchorTags"> -->
-              <!-- (click)="viewTeacherActivity(row)" -->
-              <!-- <a class="anchorTagCursor" [routerLink]="['/view/course/setup/teacher/view',  row.teacher_id]"> -->
-              <!-- <i class="fas fa fa-eye" [routerLink]="['/view/course/setup/teacher/view',  row.teacher_id]"
-                style="color: blue;" title="View"></i> -->
-              <!-- View
-                </a> -->
-              <!-- </td> -->
+              <td class="anchorTags">
+                <!-- (click)="viewTeacherActivity(row)" -->
+                <a class="anchorTagCursor" [routerLink]="['/view/course/setup/teacher/view',  row.teacher_id]">
+                  <i class="fas fa fa-eye"
+                    style="font-family: FontAwesome ;font-size: 19px;display: inline-block;vertical-align: middle; margin-right:5px"
+                    title="View"></i>
+                  View
+                </a>
+              </td>
             </tr>
           </tbody>
           <tbody *ngIf="teacherList.length == 0 && dataStatus === 1">
@@ -129,10 +129,9 @@
 
     <!-- Paginator Here -->
     <div class="filter-res pagination" style="width: 100%;">
-      <div class="c-lg-12 c-md-12 c-sm-12 align-right" style="margin-top: -41px;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
         <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-          [pagesToShow]="10" [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow" [sizeArr]="sizeArr"
-          (sizeChange)="updateTableBatchSize($event)">
+          [pagesToShow]="10" [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
         </pagination>
       </div>
     </div>

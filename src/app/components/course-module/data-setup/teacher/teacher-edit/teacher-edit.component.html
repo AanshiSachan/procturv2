@@ -292,14 +292,23 @@
                             </div>
                         </div> -->
 
-                    <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+                        <div class="field-checkbox-wrapper" style="margin-left: -40px;" *ngIf="isShoweOnlineExam">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" name="allowExamDesk"
+                                    formControlName="allow_exam_desk_login" class="form-checkbox">
+
+                                <label for="allowExamDesk">Allow Exam Desk Login</label>
+                            </div>
+                        </div>
+
+                        <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
                             <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" name="allow" formControlName="is_allow_teacher_to_only_mark_attendance" class="form-checkbox">
                                 <label for="allow">Allow faculty to only mark attendance</label>
                             </div>
                         </div> -->
 
-                    <!-- <div class="row field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'"
+                        <div class="row field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'"
                             style="padding-left: 0;">
                             <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" name="is_office_only_access" id="is_office_only_access"
@@ -345,7 +354,7 @@
                     </fieldset>
                 </div>
                 <div class="c-sm-4 c-md-4 c-lg-4">
-                    <div class="field-wrapper" style="margin-left: 1rem;">
+                    <div class="field-wrapper">
                         <input class="hide" type="file" #idCardUpload accept="image/gif,image/jpeg,image/jpg,image/png"
                             (change)="onChangeIdCardUpload()">
                         <input *ngIf="(hasIdCard == 'Y')" type="button" class="btn" value="Update Id-Card"
