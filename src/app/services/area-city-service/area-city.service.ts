@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
@@ -30,40 +32,40 @@ export class CityAreaService {
 
     getAreaList() {
         let url = this.baseUrl + "/api/v1/cityArea/" + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             data => {
                 return data;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
     saveNewCity(obj) {
         obj.main_branch_instId = this.institute_id;
         let url = this.baseUrl + "/api/v1/cityArea/create";
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             data => {
                 return data;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
 
     getBranchList() {
         let url = this.baseUrl + "/api/v1/institutes/all/Branches/" + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             data => {
                 return data;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
 }

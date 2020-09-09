@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthenticatorService } from '../authenticator.service';
 import { AddCategory } from '../../model/inventory-category';
-import { Http, Response, Request, Headers, XHRBackend } from '@angular/http';
+import {  HttpResponse, HttpRequest, HttpXhrBackend } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()

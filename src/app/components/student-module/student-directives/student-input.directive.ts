@@ -1,4 +1,4 @@
-import { Directive , ElementRef , Renderer, HostListener } from '@angular/core';
+import { Directive , ElementRef , Renderer2, HostListener } from '@angular/core';
 
 @Directive({
     selector:"[studentInput]"
@@ -6,7 +6,7 @@ import { Directive , ElementRef , Renderer, HostListener } from '@angular/core';
 
   export class studentInput { 
 
-    constructor(private el: ElementRef, private renderer: Renderer) {}
+    constructor(private el: ElementRef, private renderer: Renderer2) {}
 
     /* When focus is removed and the value of tag is examined and class added accordingly */
     @HostListener('document:click', ['$event'])

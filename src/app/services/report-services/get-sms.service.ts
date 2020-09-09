@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
@@ -29,39 +31,39 @@ export class getSMSService {
     getCamapignView(campaignID){
         ///StdMgmtWebAPI/api/v1/campaign/fetch/<Institute Id>/<campaign msg id>
         let campignViewURL =this.baseUrl + '/api/v1/campaign/fetch/'+this.institute_id+'/'+campaignID;
-        return this.http.get(campignViewURL, { headers: this.headers }).map(
+        return this.http.get(campignViewURL, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
     // delete campign
     deleteCampaign(campaignID){
         let deleteURL =this.baseUrl + '/api/v1/campaign/delete/campaign/'+this.institute_id+'/'+campaignID;
-        return this.http.delete(deleteURL, { headers: this.headers }).map(
+        return this.http.delete(deleteURL, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
     fetchCampainSMSReport(){
         let urlCampaign =this.baseUrl +'/api/v1/campaign/fetch/'+this.institute_id;
-        return this.http.post(urlCampaign, {}, { headers: this.headers }).map(
+        return this.http.post(urlCampaign, {}, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
     fetchSmsReport(obj) {
@@ -71,14 +73,14 @@ export class getSMSService {
 
         let urlSmsReport = this.baseUrl + "/api/v1/alerts/config/smsReport";
 
-        return this.http.post(urlSmsReport, obj, { headers: this.headers }).map(
+        return this.http.post(urlSmsReport, obj, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
 
     }
 

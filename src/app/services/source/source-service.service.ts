@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
@@ -27,14 +29,14 @@ export class SourceServiceService {
     sourceInformation(){
       let url= this.baseUrl + "/api/v1/enquiry_campaign/master/lead_source/" + this.institute_id + "all";
 
-      return this.http.get(url , {headers : this.headers }).map(
+      return this.http.get(url , {headers : this.headers }).pipe(map(
         (data:any)=>{
           return data;
         },
         (error:any)=>{
           return error;
         }
-      )
+      ))
 
 
     }

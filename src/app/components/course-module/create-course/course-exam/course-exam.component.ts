@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, Pipe, PipeTransform } from '@angu
 import { CheckableSettings, TreeItemLookup } from '@progress/kendo-angular-treeview';
 import * as moment from 'moment';
 import { SelectItem } from 'primeng/components/common/api';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { ExamCourseService } from '../../../../services/course-services/exam-schedule.service';

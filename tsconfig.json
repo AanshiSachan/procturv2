@@ -18,6 +18,8 @@
     ],
     "types": [
       "node"
-    ]
+    ],
+    "module": "es2015",
+    "baseUrl": "./"
   }
 }

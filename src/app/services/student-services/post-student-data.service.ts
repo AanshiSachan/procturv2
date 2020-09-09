@@ -1,7 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AuthenticatorService } from '../authenticator.service';
 
 
@@ -42,14 +44,14 @@ export class PostStudentDataService {
         form.doj = moment(form.doj).format('YYYY-MM-DD');
         /* form.assignedBatches = form.assignedBatches.length == 0 ? null : form.assignedBatches;
         form.batchJoiningDates = form.batchJoiningDates.length == 0 ? null : form.batchJoiningDates; */
-        return this.http.put(urlQuickEdit, form, { headers: this.headers }).map(
+        return this.http.put(urlQuickEdit, form, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
 
@@ -62,10 +64,10 @@ export class PostStudentDataService {
     updateComment(obj, id) {
         let urlUpdateComment = this.baseUrl + '/api/v1/students/comment/' + id;
 
-        return this.http.put(urlUpdateComment, obj, { headers: this.headers }).map(
+        return this.http.put(urlUpdateComment, obj, { headers: this.headers }).pipe(map(
             res => { return res },
             err => { return err }
-        )
+        ))
     }
 
 
@@ -79,9 +81,9 @@ export class PostStudentDataService {
             institution_id: this.institute_id
         }
 
-        return this.http.put(urlInstituteUpdater, data, { headers: this.headers }).map(
+        return this.http.put(urlInstituteUpdater, data, { headers: this.headers }).pipe(map(
             res => { return res }
-        )
+        ))
 
     }
 
@@ -89,9 +91,9 @@ export class PostStudentDataService {
 
     deleteInstitute(id) {
         let urlInstituteDeleter = this.baseUrl + "/api/v1/schools/" + id;
-        return this.http.delete(urlInstituteDeleter, { headers: this.headers }).map(
+        return this.http.delete(urlInstituteDeleter, { headers: this.headers }).pipe(map(
             res => { return res; }
-        )
+        ))
     }
 
     allocateInventory(obj) {
@@ -101,26 +103,26 @@ export class PostStudentDataService {
 
     getAllocatedHistory(id) {
         let urlInventory = this.baseUrl + "/api/v1/inventory/item/student/txHistory/" + id;
-        return this.http.get(urlInventory, { headers: this.headers }).map(
+        return this.http.get(urlInventory, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        );
+        ));
     }
 
     deleteInventory(id) {
         let urlInventory = this.baseUrl + "/api/v1/inventory/item/txHistory/" + id;
-        return this.http.delete(urlInventory, { headers: this.headers }).map(
+        return this.http.delete(urlInventory, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        );
+        ));
     }
 
 
@@ -147,18 +149,18 @@ export class PostStudentDataService {
 
         let urlUpdateFee = this.baseUrl + "/api/v1/student_cheque/update";
 
-        return this.http.put(urlUpdateFee, obj, { headers: this.headers }).map(
+        return this.http.put(urlUpdateFee, obj, { headers: this.headers }).pipe(map(
             res => { return res },
             err => { return err }
-        )
+        ))
     }
 
     deletePdcById(id): Observable<any> {
         let urlDeletePdc = this.baseUrl + "/api/v1/student_cheque/delete/" + this.institute_id + "/" + id;
-        return this.http.delete(urlDeletePdc, { headers: this.headers }).map(
+        return this.http.delete(urlDeletePdc, { headers: this.headers }).pipe(map(
             res => { return res },
             err => { return err }
-        )
+        ))
     }
 
 
@@ -180,14 +182,14 @@ export class PostStudentDataService {
 
     generateFeeReceipt(id, feeid): Observable<any> {
         let url = this.baseUrl + "/api/v1/studentWise/fee/" + id + "/feeReceipt/" + feeid + "/download?emailSent=Y";
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
     payPartialFeeAmount(obj): any {
@@ -216,14 +218,14 @@ export class PostStudentDataService {
             "x-proc-user-id": sessionStorage.getItem('userid')
         });
         let url = this.baseUrl +attchUrl
-        return this.http.post(url, obj, { headers: headers }).map(
+        return this.http.post(url, obj, { headers: headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
     /**
@@ -238,25 +240,25 @@ export class PostStudentDataService {
             "x-proc-user-id": sessionStorage.getItem('userid')
         });
         let url = this.baseUrl +attchUrl
-        return this.http.get(url,  { headers: headers }).map(
+        return this.http.get(url,  { headers: headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
     postData(url, obj) {
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
 }

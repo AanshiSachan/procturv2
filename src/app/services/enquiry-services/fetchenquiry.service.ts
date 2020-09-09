@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
@@ -55,11 +57,11 @@ export class FetchenquiryService {
       obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
       obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
       this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
-      return this.http.post(this.urlCampaign, obj, { headers: this.headers })
-        .map(res => {
+      return this.http.post(this.urlCampaign, obj, { headers: this.headers }).pipe(
+        map(res => {
           this.row = res;
           return this.row;
-        });
+        }));
     }
     else {
       let permissions: any[] = [];
@@ -75,11 +77,11 @@ export class FetchenquiryService {
         obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
         this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
 
-        return this.http.post(this.urlCampaign, obj, { headers: this.headers })
-          .map(res => {
+        return this.http.post(this.urlCampaign, obj, { headers: this.headers }).pipe(
+          map(res => {
             this.row = res;
             return this.row;
-          });
+          }));
       }
       /* User is not authorized as enquiry admin and see only enquiry assigned to him */
       else {
@@ -93,11 +95,11 @@ export class FetchenquiryService {
         obj.assigned_to = sessionStorage.getItem('userid');
         this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
 
-        return this.http.post(this.urlCampaign, obj, { headers: this.headers })
-          .map(res => {
+        return this.http.post(this.urlCampaign, obj, { headers: this.headers }).pipe(
+          map(res => {
             this.row = res;
             return this.row;
-          });
+          }));
       }
     }
   }
@@ -106,20 +108,20 @@ export class FetchenquiryService {
     fetchEnquiryStudentData(instituteID,id) {
       this.urlDownloadTemplate = this.baseUrl + "/api/v1/enquiry/"+instituteID+"/"+id;
 
-      return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).map(
+      return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).pipe(map(
         data => { return data },
         err => { return err; }
-      );
+      ));
     }
 
   /* return the template user has to edit */
   fetchDownloadTemplate() {
     this.urlDownloadTemplate = this.baseUrl + "/api/v2/enquiry_manager/download/bulkUploadEnquiriesTemplate";
 
-    return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).map(
+    return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).pipe(map(
       data => { return data },
       err => { return err; }
-    );
+    ));
   }
 
 
@@ -134,12 +136,12 @@ export class FetchenquiryService {
     obj.followUpDate = obj.followUpDate == 'Invalid date' ? "" : obj.followUpDate;
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/enquiry/all/download/" + this.institute_id;
 
-    return this.http.post(this.urlDownloadAllEnquiry, obj, { headers: this.headers }).map(
+    return this.http.post(this.urlDownloadAllEnquiry, obj, { headers: this.headers }).pipe(map(
       data => { return data },
       err => {
         return err;
       }
-    );
+    ));
   }
 
 
@@ -149,9 +151,9 @@ export class FetchenquiryService {
       feature_type: 2,
       sms_type: "Transactional"
     }
-    return this.http.post(this.urlFetchAllSms, data, { headers: this.headers }).map(
+    return this.http.post(this.urlFetchAllSms, data, { headers: this.headers }).pipe(map(
       res => { return res }
-    );
+    ));
 
   }
 
@@ -160,11 +162,11 @@ export class FetchenquiryService {
   fetchBulkReport(id) {
     let urlEnquiryBulkReport = this.baseUrl + "/api/v1/bulkUpload/" + this.institute_id + "/download/" + id;
 
-    return this.http.get(urlEnquiryBulkReport, { headers: this.headers }).map(
+    return this.http.get(urlEnquiryBulkReport, { headers: this.headers }).pipe(map(
       res => {
         return res;
       }
-    )
+    ))
   }
 
 
@@ -173,11 +175,11 @@ export class FetchenquiryService {
 
     let urlPdf = this.baseUrl + "/api/v2/enquiry_manager/downloadRegistrationFeesReceipt/" + num;
 
-    return this.http.get(urlPdf, { headers: this.headers }).map(
+    return this.http.get(urlPdf, { headers: this.headers }).pipe(map(
       res => {
         return res;
       }
-    )
+    ))
   }
 
 
@@ -186,10 +188,10 @@ export class FetchenquiryService {
     let url = this.baseUrl + "/api/v1/enquiry/dashboard/" + this.institute_id;
     return this.http.post(
       url, obj, { headers: this.headers }
-    ).map(
+    ).pipe(map(
       res => { return res; },
       err => { return err; }
-    )
+    ))
   }
 
 
@@ -199,20 +201,20 @@ export class FetchenquiryService {
     let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/this_month/NA?download_type="+reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
-    ).map(
+    ).pipe(map(
       res => { return res; },
       err => { return err; }
-    )
+    ))
   }
 
   getPreviousMSummary(reportFor) {
     let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/prev_month/NA?download_type="+reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
-    ).map(
+    ).pipe(map(
       res => { return res; },
       err => { return err; }
-    )
+    ))
   }
 
 
@@ -220,20 +222,20 @@ export class FetchenquiryService {
     let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/last_two_months/NA?download_type="+reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
-    ).map(
+    ).pipe(map(
       res => { return res; },
       err => { return err; }
-    )
+    ))
   }
 
   getSummaryReportFromDates(obj, reportFor) {
     let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/" + obj.from_date + "/" + obj.to_date+"?download_type="+reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
-    ).map(
+    ).pipe(map(
       res => { return res; },
       err => { return err; }
-    )
+    ))
   }
 
 }

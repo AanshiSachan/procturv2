@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -26,37 +28,37 @@ export class ClosingReasonService {
 
   getAllReasons() {
     let url = this.baseUrl + "/api/v2/enquiry_manager/fetchEnquiryClosingReason/" + this.institute_id;
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       (data: any) => {
         return data;
       },
       (error: any) => {
         return error;
       }
-    )
+    ))
   }
 
   createReason(obj) {
     let url = this.baseUrl + "/api/v2/enquiry_manager/enquiryClosingReason"
-    return this.http.post(url, obj, { headers: this.headers }).map(
+    return this.http.post(url, obj, { headers: this.headers }).pipe(map(
       (data: any) => {
         return data;
       },
       (error: any) => {
         return error;
       }
-    )
+    ))
   }
 
   updateClosingReason(obj , id){
     let url =this.baseUrl + "/api/v2/enquiry_manager/updateEnquiryClosingReason/" + id;
-    return this.http.put(url , obj , {headers:this.headers}).map(
+    return this.http.put(url , obj , {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 }

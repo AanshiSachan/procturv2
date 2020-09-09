@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
@@ -24,38 +26,38 @@ export class ClassRoomService {
 
     fetchClassList() {
         let url = this.baseUrl + "/api/v1/batchClassRoom/all/" + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
-            })
+            }))
     }
 
     saveClassroomDetail(obj) {
         let url = this.baseUrl + "/api/v1/batchClassRoom/";
         obj.inst_id = this.institute_id;
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
     updateclassListData(obj) {
         let url = this.baseUrl + "/api/v1/batchClassRoom/" + obj.class_room_id;
         obj.inst_id = this.institute_id;
-        return this.http.put(url, obj, { headers: this.headers }).map(
+        return this.http.put(url, obj, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 }

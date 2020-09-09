@@ -1,6 +1,8 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { AuthenticatorService } from './authenticator.service';
 
 
@@ -36,50 +38,50 @@ export class HttpService {
 
   getData(objecturl) {
     let url = this.baseUrl + objecturl;
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
       err => {
         return err;
       }
-    )
+    ))
   }
 
   postData(objecturl, obj) {
     let url = this.baseUrl + objecturl;
-    return this.http.post(url, obj, { headers: this.headers }).map(
+    return this.http.post(url, obj, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
       err => {
         return err;
       }
-    )
+    ))
   }
 
   putData(objecturl, obj) {
     let url = this.baseUrl + objecturl;
-    return this.http.put(url, obj, { headers: this.headers }).map(
+    return this.http.put(url, obj, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
       err => {
         return err;
       }
-    )
+    ))
   }
 
   deleteDataById(deleteurl){
     let url= this.baseUrl + deleteurl ; 
-    return this.http.delete(url , {headers:this.headers}).map(
+    return this.http.delete(url , {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
   deleteData(objecturl, obj) {
@@ -88,40 +90,40 @@ export class HttpService {
       headers: this.headers,
       body: obj
     }
-    return this.http.delete(url, object).map(
+    return this.http.delete(url, object).pipe(map(
       data => {
         return data;
       },
       err => {
         return err;
       }
-    )
+    ))
   }
 
   downloadRecording(objecturl, file_type) {
     let url = this.baseUrl + objecturl;
     let headers = new HttpHeaders({ "Content-Type": file_type, "Authorization": this.Authorization });
-    return this.http.get(url, { headers: headers , "responseType": 'blob'}).map(
+    return this.http.get(url, { headers: headers , "responseType": 'blob'}).pipe(map(
       data => {
         return data;
       },
       err => {
         return err;
       }
-    )
+    ))
   }
 
   downloadItem(objecturl, file_type) {
     let url = this.baseUrl + objecturl;
     let headers = new HttpHeaders({ "Content-Type": file_type, "Authorization": this.Authorization });
-    return this.http.get(url, { headers: headers , "responseType": 'blob'}).map(
+    return this.http.get(url, { headers: headers , "responseType": 'blob'}).pipe(map(
       data => {
         return data;
       },
       err => {
         return err;
       }
-    )
+    ))
   }
 
 }

@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
@@ -28,60 +30,60 @@ export class RoleService {
 
     getRoles() {
         let url = this.baseUrl + "/api/v1/roleApi/allRoles/" + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     getAssignedUserList(id) {
         let url = this.baseUrl + "/api/v1/roleApi/" + id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     deleteRole(id) {
         let url = this.baseUrl + "/api/v1/roleApi/" + id;
-        return this.http.delete(url, { headers: this.headers }).map(
+        return this.http.delete(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     // Add Edit 
 
     getAllFeature() {
         let url = this.baseUrl + "/api/v1/roleApi/allFeatures";
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     getPerticularRoles(id) {
         let url = this.baseUrl + "/api/v1/roleApi/role/" + id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     createRole(obj) {
         let url = this.baseUrl + "/api/v1/roleApi/addRole";
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     updateRole(obj, id) {
         let url = this.baseUrl + "/api/v1/roleApi/editRole/" + id;
-        return this.http.put(url, obj, { headers: this.headers }).map(
+        return this.http.put(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
 }

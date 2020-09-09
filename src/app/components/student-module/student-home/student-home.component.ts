@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { MenuItem } from 'primeng/primeng';
 import 'rxjs/Rx';
-import { ISubscription } from "rxjs/Subscription";
+import { SubscriptionLike as ISubscription } from "rxjs";
 import { AppComponent } from '../../../app.component';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { StudentForm } from '../../../model/student-add-form';

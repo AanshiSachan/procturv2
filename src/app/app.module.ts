@@ -2,7 +2,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpModule } from '@angular/http';
+// import { HttpClientModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToasterModule } from 'angular2-toaster';
@@ -30,7 +30,7 @@ import { ProductService } from './services/products.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    HttpModule,
+    // HttpClientModule,
     BrowserAnimationsModule,
     ToasterModule,
     BsDatepickerModule.forRoot(),

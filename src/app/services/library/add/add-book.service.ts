@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthenticatorService } from "../../authenticator.service";
@@ -43,38 +45,38 @@ export class AddBookService {
 
   getAllMasterData(){
     let url = this.baseUrl + "/library/masters/fetchAll";
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       response => {
         return response;
       },
       errorResponse => {
         return errorResponse;
       }
-    )
+    ))
   }
 
   getSubCategories(category_id){
     let url = this.baseUrl + "/library/category/fetchSubCategories/" +category_id;
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       response => {
         return response;
       },
       errorResponse => {
         return errorResponse;
       }
-    )
+    ))
   }
 
   addNewBook(obj){
     let url = this.baseUrl + "/library/book/create";
-    return this.http.post(url, obj, { headers: this.headers }).map(
+    return this.http.post(url, obj, { headers: this.headers }).pipe(map(
       response => {
         return response;
       },
       errorResponse => {
         return errorResponse;
       }
-    )
+    ))
   }
 
 

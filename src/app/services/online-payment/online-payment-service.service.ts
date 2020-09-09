@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
@@ -26,13 +28,13 @@ export class OnlinePaymentServiceService {
     obj.from_date = moment(obj.from_date).format('YYYY-MM-DD');
     obj.to_date = moment(obj.to_date).format('YYYY-MM-DD');
     let url= this.baseUrl + "/api/v1/studentWise/fee/feesReport/onlinePayment/pastHistory/" + this.institute_id + "/details";
-    return this.http.post(url ,obj, {headers:this.headers}).map(
+    return this.http.post(url ,obj, {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 }

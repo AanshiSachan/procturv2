@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { AddCategory } from '../../../model/inventory-category';
 import { InventoryCategoryService } from '../../../services/inventory-services/inventory-category.service';
-import { retry } from 'rxjs/operator/retry';
+
 import { AppComponent } from '../../../app.component';
 
 @Component({

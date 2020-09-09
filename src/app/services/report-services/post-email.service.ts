@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
 
 
@@ -10,14 +10,14 @@ export class postEmailService {
     baseUrl:string = '';
     institute_id: string;
     Authorization: string;
-    headers: Headers;
+    headers: HttpHeaders;
 
 
     /* set default value for each url, header and autherization on service creation */
-    constructor(private http: Http, private auth: AuthenticatorService,) {
+    constructor(private http: HttpClient, private auth: AuthenticatorService,) {
         this.auth.currentAuthKey.subscribe( key => {
             this.Authorization = key;
-            this.headers = new Headers();
+            this.headers = new HttpHeaders();
             this.headers.append("Content-Type", "application/json");
             this.headers.append("Authorization", this.Authorization);
           }) 

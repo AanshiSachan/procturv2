@@ -1,8 +1,11 @@
+
+import {timer as observableTimer,  Observable } from 'rxjs';
+
+import {map, take} from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { instituteList } from '../../../model/institute-list-auth-popup';
 import { LoginAuth } from '../../../model/login-auth';
 import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
@@ -728,9 +731,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.otpVerificationInfo.userid = res.userid;
     this.isLoginView = false;
     this.showOTPValidationModal();
-    this.countDown = Observable.timer(0, 1000)
-      .take(this.counter)
-      .map(() => --this.counter);
+    this.countDown = observableTimer(0, 1000).pipe(
+      take(this.counter),
+      map(() => --this.counter),);
   }
   //END - 6
 

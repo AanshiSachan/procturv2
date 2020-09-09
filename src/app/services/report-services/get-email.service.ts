@@ -1,6 +1,8 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AuthenticatorService } from "../authenticator.service";
 
 @Injectable()
@@ -26,14 +28,14 @@ export class getEmailService {
 
     getEmailMessages(obj): Observable<any> {
         let url = this.baseUrl + "/api/v1/alerts/config/emailReport";
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
 

@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { AuthenticatorService } from "../authenticator.service";
@@ -31,23 +33,23 @@ export class TeacherAPIService {
 
     getAllTeacherList() {
         let url = this.baseUrl + "/api/v1/teachers/all/" + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             data => {
                 return data;
             },
             error => {
                 return error;
             }
-        )
+        ))
     }
 
 
     deleteTeacher(id){
         let url = this.baseUrl + "/api/v1/teachers/" + id;
-        return this.http.delete(url , {headers:this.headers}).map(
+        return this.http.delete(url , {headers:this.headers}).pipe(map(
             res => {return res;},
             err => {return err}
-        )
+        ))
     }
 
     // Add Section Of Teacher
@@ -55,116 +57,116 @@ export class TeacherAPIService {
     addNewTeacherDetails(data) {
         let url = this.baseUrl + '/api/v1/teachers';
         data.institution_id = this.institute_id;
-        return this.http.post(url, data, { headers: this.headers }).map(
+        return this.http.post(url, data, { headers: this.headers }).pipe(map(
             data => {
                 return data;
             },
             error => {
                 return error;
             }
-        )
+        ))
     }
 
     // Edit Section Of Teacher
 
     getSelectedTeacherInfo(data) {
         let url = this.baseUrl + '/api/v1/teachers/' + data;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             data => {
                 return data;
             },
             error => {
                 return error;
             }
-        )
+        ))
     }
 
     saveEditTeacherInformation(teacher_id, data) {
         let url = this.baseUrl + '/api/v1/teachers/' + teacher_id;
         data.institution_id = this.institute_id;
-        return this.http.put(url, data, { headers: this.headers }).map(
+        return this.http.put(url, data, { headers: this.headers }).pipe(map(
             data => {
                 return data;
             },
             error => {
                 return error;
             }
-        )
+        ))
     }
 
 
     downloadDocument(teacher_id) {
         let url = this.baseUrl + '/api/v1/teachers/getIDCard/' + teacher_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             data => {
                 return data;
             },
             error => {
                 return error;
             }
-        )
+        ))
     }
 
     // View Section Api
 
     getViewInfoOfTeacher(teacher_id) {
         let url = this.baseUrl + '/api/v1/teachers/' + teacher_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             data => {
                 return data;
             },
             error => {
                 return error;
             }
-        )
+        ))
     }
 
     getTeacherViewBatchesInfo() {
         let url = this.baseUrl + '/api/v1/batches/all/' + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             data => {
                 return data;
             },
             error => {
                 return error;
             }
-        )
+        ))
     }
 
     customizedTeacherSearchOnDashBoardView(data, teacher_id) {
         let url1 = this.http.post(this.baseUrl + '/api/v1/teachers/' + teacher_id + '/dashboard', data, { headers: this.headers });
-        return url1.map(
+        return url1.pipe(map(
             data => {
                 return data;
             },
             error => {
                 return error;
             }
-        )
+        ))
     }
 
     customizedTeacherSearchOnGuestBatchView(data, teacher_id) {
         let url1 = this.http.post(this.baseUrl + '/api/v1/teachers/' + teacher_id + '/guestBatches/classes', data, { headers: this.headers });
-        return url1.map(
+        return url1.pipe(map(
             data => {
                 return data;
             },
             error => {
                 return error;
             }
-        )
+        ))
     }
 
     viewBatchDetails(data, teacher_id) {
         let url1 = this.http.post(this.baseUrl + '/api/v1/teachers/' + teacher_id + '/batch/classes', data, { headers: this.headers });
-        return url1.map(
+        return url1.pipe(map(
             data => {
                 return data;
             },
             error => {
                 return error;
             }
-        )
+        ))
     }
 
 

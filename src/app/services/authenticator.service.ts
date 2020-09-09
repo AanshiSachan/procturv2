@@ -1,8 +1,9 @@
+
+import {fromEvent as observableFromEvent, of as observableOf, merge as observableMerge,  BehaviorSubject ,  Observable } from 'rxjs';
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/Rx';
-import { Observable } from 'rxjs/Rx';
 import { environment } from '../../environments/environment';
 /* Method declared for future purpose for setting authorization after successfull login */
 
@@ -161,10 +162,10 @@ export class AuthenticatorService {
     }
 
     checkInternetConnection() {
-        return Observable.merge(
-            Observable.of(navigator.onLine),
-            Observable.fromEvent(window, 'online').map(() => true),
-            Observable.fromEvent(window, 'offline').map(() => false));
+        return observableMerge(
+            observableOf(navigator.onLine),
+            observableFromEvent(window, 'online').pipe(map(() => true)),
+            observableFromEvent(window, 'offline').pipe(map(() => false)));
     }
 
 }

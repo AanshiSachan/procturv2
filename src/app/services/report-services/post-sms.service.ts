@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http,  Headers } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
 
 
@@ -12,7 +12,7 @@ export class postSMSService {
 
 
     /* set default value for each url, header and autherization on service creation */
-    constructor(private http: Http, private auth: AuthenticatorService, ) {
+    constructor(private http: HttpClient, private auth: AuthenticatorService, ) {
         this.auth.currentAuthKey.subscribe(key => {
             this.Authorization = key;
             this.headers = new Headers();

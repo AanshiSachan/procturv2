@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthenticatorService } from "../authenticator.service";
@@ -27,52 +29,52 @@ export class ProfitLossServiceService {
   fetchExpenseDetails(obj){
    
     let url = this.baseUrl + "/api/v1/expense/all/" + this.institute_id;
-    return this.http.post(url , obj , {headers :this.headers}).map(
+    return this.http.post(url , obj , {headers :this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
   fetchProfitLossReport(obj){
     
     let url = this.baseUrl + "/api/v1/inventory/item/getProfit_Lost/" +this.institute_id;
-    return this.http.post(url , obj , {headers:this.headers}).map(
+    return this.http.post(url , obj , {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
   fetchIncomeFeesCollection(obj){
   
     let url = this.baseUrl + "/api/v1/income/feesCollection/" + this.institute_id;
-    return this.http.post(url , obj , {headers:this.headers}).map(
+    return this.http.post(url , obj , {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
   fetchIncomeDetails(obj){
     let url = this.baseUrl + "/api/v1/income/all/" + this.institute_id;
-    return this.http.post(url , obj , {headers :this.headers}).map(
+    return this.http.post(url , obj , {headers :this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
 }

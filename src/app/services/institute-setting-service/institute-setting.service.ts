@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from '../authenticator.service';
@@ -37,19 +39,19 @@ export class InstituteSettingService {
 
     getInstituteSettingFromServer() {
         let url = this.baseURL + "/api/v1/institute/settings/" + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             this.successCallback,
             this.errorCallBack
-        )
+        ))
     }
 
     saveSettingsToServer(data) {
         data.institute_id = this.institute_id;
         let url = this.baseURL + "/api/v1/institute/settings/";
-        return this.http.put(url, data, { headers: this.headers }).map(
+        return this.http.put(url, data, { headers: this.headers }).pipe(map(
             this.successCallback,
             this.errorCallBack
-        )
+        ))
     }
 
     getIPAddress() {

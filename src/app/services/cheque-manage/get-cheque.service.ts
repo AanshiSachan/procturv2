@@ -1,6 +1,8 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AuthenticatorService } from "../authenticator.service";
 
 
@@ -33,14 +35,14 @@ export class getCheque {
     downloadResource(obj): Observable<any> {
         let url = this.baseUrl +"/api/v1/studentWise/fee/" +obj.student_id +"/feeReceipt/" +obj.receipt_id +"/download?fin_yr=" +obj.fin +"&emailSent=" +obj.email;
 
-        return this.http.get(url, {headers: this.headers}).map(
+        return this.http.get(url, {headers: this.headers}).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
 
@@ -48,27 +50,27 @@ export class getCheque {
     updatePDCPayment(obj): Observable<any> {
         let url = this.baseUrl +"/api/v1/studentWise/fee/students/" +this.institute_id +"/save";
 
-        return this.http.post(url, obj, {headers: this.headers}).map(
+        return this.http.post(url, obj, {headers: this.headers}).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
     
     getChequeTypes(obj): Observable<any> {
         let url = this.baseUrl + "/api/v1/chequeDetails/studentWiseFee/" + this.institute_id;
 
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
-            });
+            }));
     }
 
 
@@ -76,14 +78,14 @@ export class getCheque {
 
         let url = this.baseUrl + '/api/v1/chequeDetails/studentWiseFee/updateChequeStatus/' + this.institute_id;
 
-        return this.http.put(url, obj, { headers: this.headers }).map(
+        return this.http.put(url, obj, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        );
+        ));
 
     }
 
@@ -96,14 +98,14 @@ export class getCheque {
 
         let url = this.baseUrl + '/api/v1/studentWise/fee/dueDetails/payment/' + this.institute_id + '/' + id;
 
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        );
+        ));
 
     }
 
@@ -113,14 +115,14 @@ export class getCheque {
 
         let url = this.baseUrl + '/api/v1/student_cheque/getAll/' + this.institute_id + '/' + id;
 
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        );
+        ));
 
     }
 
@@ -128,14 +130,14 @@ export class getCheque {
 
         let url = this.baseUrl + '/api/v1/student_cheque/getDetail/' + this.institute_id + '/' + id;
 
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        );
+        ));
 
     }
 

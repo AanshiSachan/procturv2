@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable, } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
@@ -31,19 +33,19 @@ export class AttendanceReportServiceService {
 
   getMasterCourse() {
     let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all"
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
       error => {
         return error;
       }
-    )
+    ))
   }
 
   getCourses(obj) {
     let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
@@ -51,12 +53,12 @@ export class AttendanceReportServiceService {
         return error;
       }
 
-    )
+    ))
   }
   getSubject(obj) {
 
     let url = this.baseUrl + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/" + obj
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
@@ -64,7 +66,7 @@ export class AttendanceReportServiceService {
         return error;
       }
 
-    )
+    ))
 
   }
 
@@ -79,14 +81,14 @@ export class AttendanceReportServiceService {
       obj.to_date = "";
     }
     let url = this.baseUrl + "/api/v1/reports/attendance";
-    return this.http.post(url, obj, { headers: this.headers }).map(
+    return this.http.post(url, obj, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
       error => {
         return error;
       }
-    )
+    ))
   }
 
   postDataToTablePro(obj) {
@@ -100,18 +102,18 @@ export class AttendanceReportServiceService {
       obj.to_date = "";
     }
     let url = this.baseUrl + "/api/v1/reports/attendance";
-    return this.http.post(url, obj, { headers: this.headers }).map(
+    return this.http.post(url, obj, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
       error => {
         return error;
       }
-    )
+    ))
   }
   postDetailedData(obj) {
     let url = this.baseUrl + "/api/v1/reports/attendance/monthlyAttendanceReport";
-    return this.http.post(url, obj, { headers: this.headers }).map(
+    return this.http.post(url, obj, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
@@ -119,7 +121,7 @@ export class AttendanceReportServiceService {
         return error;
       }
 
-    )
+    ))
   }
   /* =========================================================================== */
   /* =========================================================================== */
@@ -128,14 +130,14 @@ export class AttendanceReportServiceService {
   fetchMasterCourseProfessional(obj) {
 
     let url = this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "?standard_id=" + obj.standard_id + "&subject_id=" + obj.subject_id + "&assigned=N";
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
       error => {
         return error;
       }
-    )
+    ))
 
   }
   // excelTableDownload(body){

@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from '../authenticator.service';
@@ -31,74 +33,74 @@ export class TopicListingService {
 
   getSatndard() {
     let url = this.baseUrl + "/api/v1/standards/all/" + this.institute_id + "?active=Y"
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
       error => {
         return error;
       }
-    )
+    ))
   }
 
   getSubject(obj) {
     let url = this.baseUrl + "/api/v1/subjects/standards/" + obj + "?active=Y"
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
       error => {
         return error;
       }
-    )
+    ))
   }
 
   postTopic(obj) {
     let url = this.baseUrl + "/api/v1/topic_manager/add/" + this.institute_id;
-    return this.http.post(url, obj, { headers: this.headers }).map(
+    return this.http.post(url, obj, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
       error => {
         return error;
       }
-    )
+    ))
   }
 
   getZeroLevelTopics(subject_id){
     let url = this.baseUrl + "/api/v1/topic_manager/add/" + this.institute_id +"/subjects/"+subject_id+"/topics";
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
       error => {
         return error;
       }
-    )
+    ))
   }
 
   getAllTopicsSubTopics(subject_id){
     let url = this.baseUrl + "/api/v1/topic_manager/standards/-1/subjects/"+subject_id+"/topics";
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
       error => {
         return error;
       }
-    )
+    ))
   }
 
   getSubTopics(parent_topic_id){
     let url = this.baseUrl + "/api/v1/topic_manager/subTopicList/" + this.institute_id +"/"+parent_topic_id;
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       data => {
         return data;
       },
       error => {
         return error;
       }
-    )
+    ))
   }
 
 }

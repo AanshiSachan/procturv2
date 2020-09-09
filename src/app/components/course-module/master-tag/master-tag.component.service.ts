@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from '../../../../app/services/authenticator.service'
@@ -24,53 +26,53 @@ export class MasterTagService{
     //fetch all tags present in institute
     fetchAllMasterTags(){
         let url = this.baseUrl +'/api/v2/tag_master/getAll/' + this.instituteId;
-        return this.http.get(url, {headers: this.headers})
-        .map(resp =>{
+        return this.http.get(url, {headers: this.headers}).pipe(
+        map(resp =>{
             return resp;
         },error =>{
             return error;
-        })
+        }))
     }
    //fetch won the basis of  tagId
     fetchTagDetails(id){
         let url = this.baseUrl + '/api/v2/tag_master/getTagDetails/' + this.instituteId + '/' + id;
-        return this.http.get(url, {headers: this.headers})
-        .map(resp =>{
+        return this.http.get(url, {headers: this.headers}).pipe(
+        map(resp =>{
             return resp;
         },error =>{
             return error;
-        })
+        }))
     }
     // add tag in institute
     addMasterTagInInstitute(payload){
         let url = this.baseUrl + '/api/v2/tag_master/create';
-        return this.http.post(url, payload, {headers: this.headers})
-        .map(resp =>{
+        return this.http.post(url, payload, {headers: this.headers}).pipe(
+        map(resp =>{
             return resp;
         },error =>{
             return error;
-        })
+        }))
         
     }
     // update tag
     updateTagDetails(payload){
         let url = this.baseUrl +'/api/v2/tag_master/update';
-        return this.http.put(url, payload, {headers:this.headers})
-        .map(resp =>{
+        return this.http.put(url, payload, {headers:this.headers}).pipe(
+        map(resp =>{
             return resp;
         }, err =>{
             return err;
-        })
+        }))
     }
 
     //delete tag based on tag id
     deleteTagDetails(tagId){
         let url = this.baseUrl +'/api/v2/tag_master/delete/'+ this.instituteId + '/'+ tagId;
-        return this.http.delete(url, { headers: this.headers})
-        .map(resp => {
+        return this.http.delete(url, { headers: this.headers}).pipe(
+        map(resp => {
             return resp;
         }, err=>{
             return err;
-        })
+        }))
     }
 }

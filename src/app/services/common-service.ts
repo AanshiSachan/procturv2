@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Toast, ToasterService } from 'angular2-toaster';
 import * as moment from 'moment';
-import { BehaviorSubject } from '../../../node_modules/rxjs/BehaviorSubject';
-
+// import { BehaviorSubject } from '../../../node_modules/rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 
