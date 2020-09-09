@@ -17,7 +17,7 @@ declare var $;
 })
 export class CoummunicateHomeComponent implements OnInit {
 
-  @ViewChild('ref') private ref: ElementRef;
+  @ViewChild('ref',{static: false}) private ref: ElementRef;
 
   permissions: any;
   showSMSReport: boolean = false;

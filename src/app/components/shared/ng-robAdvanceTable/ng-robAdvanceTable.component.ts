@@ -58,7 +58,7 @@ export class RobAdvanceTableComponent implements OnChanges {
     sizeArr: any[] = [25, 50, 100, 150, 200, 500];
 
 
-    @ViewChild('headerCheckbox') hc: ElementRef;
+    @ViewChild('headerCheckbox',{static: false}) hc: ElementRef;
 
     constructor(private rd: Renderer2, 
         private cd: ChangeDetectorRef, 

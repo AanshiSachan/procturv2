@@ -12,7 +12,7 @@ import { DataDisplayTableComponent } from '../../../shared/data-display-table/da
 })
 export class CampaignBaseReportComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
+  @ViewChild('child',{static: false}) private child: DataDisplayTableComponent;
   projectSettings: any[] = [
     { primaryKey: 'mobile', header: 'Mobile', priority: 1, allowSortingFlag: true },
     { primaryKey: 'name', header: 'Name', priority: 2, allowSortingFlag: true },

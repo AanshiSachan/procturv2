@@ -14,7 +14,7 @@ declare var window, $;
 })
 export class EcourseSubjectListComponent implements OnInit {
 
-  @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
+  @ViewChild(UploadFileComponent,{static: false}) uploadFile: UploadFileComponent;
   subjectList: any = [];
   existVideos: any = [];
   institute_id: any;

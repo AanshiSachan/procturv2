@@ -64,7 +64,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   isUploadingXls: boolean = false;
   Existing_video_category_id: any = 0;
   Vimeopayload: any = {};
-  @ViewChild('form') form: ElementRef;
+  @ViewChild('form',{static: false}) form: ElementRef;
   Vimeofile: any = {
     files : []
   };

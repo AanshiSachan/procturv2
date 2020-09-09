@@ -18,7 +18,7 @@ import { ColumnData2 } from '../../shared/data-display-table/data-display-table.
 })
 export class PaymentHistoryMainComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
+  @ViewChild('child',{static: false}) private child: DataDisplayTableComponent;
   downloadFeeReportAccess:boolean = false;
   allPaymentRecords: any[] = [];
   tempRecords: any[] = [];

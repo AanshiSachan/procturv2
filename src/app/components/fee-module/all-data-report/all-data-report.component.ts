@@ -22,8 +22,8 @@ import { DropData } from '../../shared/ng-robAdvanceTable/dropmenu/dropmenu.mode
 })
 export class AllDataReportComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
-  @ViewChild('form') form: any;
+  @ViewChild('child',{static: false}) private child: DataDisplayTableComponent;
+  @ViewChild('form',{static: false}) form: any;
 
   selectedRecordsList: any[] = [];
   reportSource: any[] = [];

@@ -28,9 +28,9 @@ import { FeeModel, StudentFeeService } from '../student_fee.service';
 })
 export class StudentEditComponent implements OnInit, OnDestroy {
 
-  @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
-  @ViewChild('btnPdcPopUpAdd') btnPdcPopUpAdd: ElementRef;
-  @ViewChild('btnPayment') btnPayment: ElementRef;
+  @ViewChild('saveAndContinue',{static: false}) btnSaveAndContinue: ElementRef;
+  @ViewChild('btnPdcPopUpAdd',{static: false}) btnPdcPopUpAdd: ElementRef;
+  @ViewChild('btnPayment',{static: false}) btnPayment: ElementRef;
 
   JsonFlags = {
     isDisabled: false,

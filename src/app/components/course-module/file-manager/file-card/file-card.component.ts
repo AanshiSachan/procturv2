@@ -41,8 +41,8 @@ export class FileCardComponent implements OnChanges {
 
   @Output() fileid = new EventEmitter<any>();
 
-  @ViewChild("fileHeader") fileHeader: ElementRef;
-  @ViewChild("fileHeader") fileImage: ElementRef;
+  @ViewChild("fileHeader",{static: false}) fileHeader: ElementRef;
+  @ViewChild("fileHeader",{static: false}) fileImage: ElementRef;
 
   @Output() status = new EventEmitter<any>();
   @Output() filePath = new EventEmitter<any>();

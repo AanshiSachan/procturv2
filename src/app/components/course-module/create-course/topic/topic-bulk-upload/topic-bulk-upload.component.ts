@@ -35,7 +35,7 @@ export class TopicBulkUploadComponent implements OnInit {
   templateSubjectData: any[] = [];
 
   bulkUploadRecords: any[] = [];
-  @ViewChild('fileUpload') fileUpload: any;
+  @ViewChild('fileUpload',{static: false}) fileUpload: any;
 
 
   constructor(

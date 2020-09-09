@@ -36,7 +36,7 @@ class fileObj {
 export class UploadPopupComponent implements OnInit, OnChanges {
 
   getCategoryData: any[] = [];
-  @ViewChild('icon') icon: ElementRef;
+  @ViewChild('icon',{static: false}) icon: ElementRef;
   @Output() closePopupValue = new EventEmitter<boolean>(true);
   @Input() selectedFiles: any[] = [];
   @Input() currentFolder: any = null;

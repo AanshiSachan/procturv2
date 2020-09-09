@@ -15,7 +15,7 @@ declare var $;
 })
 export class BatchModelComponent implements OnInit {
 
-  @ViewChild('fileUpload') fileUpload: any;
+  @ViewChild('fileUpload',{static: false}) fileUpload: any;
   permissionArray = sessionStorage.getItem('permissions');
   public isProfessional: boolean = false;
   exam_info: any;

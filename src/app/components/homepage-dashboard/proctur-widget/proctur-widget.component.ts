@@ -10,7 +10,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 export class ProcturWidgetComponent implements OnInit {
 
   @Input() size: string;
-  @ViewChild('popup') popup: ElementRef;
+  @ViewChild('popup',{static: false}) popup: ElementRef;
   isProfessional:boolean = false;
 
   constructor(private router: Router,  private auth: AuthenticatorService) {

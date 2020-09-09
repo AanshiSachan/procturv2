@@ -96,11 +96,11 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
   @Output() getUserList = new EventEmitter<any>();
   @Output() fullEnquiryDetails = new EventEmitter<any>();
 
-  @ViewChild('acc') acc: ElementRef;
-  @ViewChild('one') one: ElementRef;
-  @ViewChild('two') two: ElementRef;
-  @ViewChild('three') three: ElementRef;
-  @ViewChild('four') four: ElementRef;
+  @ViewChild('acc',{static: false}) acc: ElementRef;
+  @ViewChild('one',{static: false}) one: ElementRef;
+  @ViewChild('two',{static: false}) two: ElementRef;
+  @ViewChild('three',{static: false}) three: ElementRef;
+  @ViewChild('four',{static: false}) four: ElementRef;
 
   constructor(private prefill: FetchprefilldataService, private cd: ChangeDetectorRef, private appC: AppComponent, private auth: AuthenticatorService) {
     this.isEnquiryAdministrator();

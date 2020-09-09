@@ -95,7 +95,7 @@ input[type="button"], input[type="submit"], input[type="reset"], input[type="fil
   border-radius: 4px;
 }
 
-:host /deep/ .tooltip-arrow {
+:host ::ng-deep .tooltip-arrow {
   display: none;
 }
 
@@ -103,7 +103,7 @@ input[type="button"], input[type="submit"], input[type="reset"], input[type="fil
   display: none;
 }
 
-:host /deep/ .tooltip-left {
+:host ::ng-deep .tooltip-left {
   top: 0 !important;
   min-width: 300px;
 }
@@ -112,7 +112,7 @@ input[type="button"], input[type="submit"], input[type="reset"], input[type="fil
   top: 0;
 }
 
-:host /deep/ .tooltip-right {
+:host ::ng-deep .tooltip-right {
   top: calc(10% - 2.5px);
   left: calc(10% - 2.5px);
 }
@@ -122,7 +122,7 @@ input[type="button"], input[type="submit"], input[type="reset"], input[type="fil
   left: calc(10% - 2.5px);
 }
 
-:host /deep/ .tooltip-top {
+:host ::ng-deep .tooltip-top {
   top: calc(10% - 2.5px);
   left: calc(10% - 2.5px);
 }
@@ -132,7 +132,7 @@ input[type="button"], input[type="submit"], input[type="reset"], input[type="fil
   left: calc(10% - 2.5px);
 }
 
-:host /deep/ .bs-datepicker {
+:host ::ng-deep .bs-datepicker {
   .bs-datepicker-container {
     padding: 10px; //background: #004b7f;
 
@@ -145,7 +145,7 @@ input[type="button"], input[type="submit"], input[type="reset"], input[type="fil
   display: block !important;
 }
 
-:host /deep/ bs-days-calendar-view {
+:host ::ng-deep bs-days-calendar-view {
   .bs-datepicker-head {
     //background-color: #004c80;
     color: white;
@@ -186,7 +186,7 @@ input[type="button"], input[type="submit"], input[type="reset"], input[type="fil
   border-bottom: 1px solid rgba(211, 212, 213, 0.5);
 }
 
-:host /deep/ .bs-datepicker-body table tbody tr td {
+:host ::ng-deep .bs-datepicker-body table tbody tr td {
   padding: 0;
   border-top: 1px solid rgba(211, 212, 213, 0.5);
   border-bottom: 1px solid rgba(211, 212, 213, 0.5);
@@ -199,7 +199,7 @@ input[type="button"], input[type="submit"], input[type="reset"], input[type="fil
   text-align: center;
 }
 
-:host /deep/ .bs-datepicker-body table thead tr th {
+:host ::ng-deep .bs-datepicker-body table thead tr th {
   font-size: 14px;
   color: black;
   font-weight: 600;

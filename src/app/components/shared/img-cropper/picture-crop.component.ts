@@ -10,18 +10,18 @@ declare var Croppie: any;
 
 export class PictureCropComponent implements OnInit, OnChanges {
 
-  @ViewChild('imgContainer') imgContainer: ElementRef;
-  @ViewChild('uploadImage') uploadImage: ElementRef;
-  @ViewChild('uploadedImage') uploadedImage: ElementRef;
-  @ViewChild('overlay') overlay: ElementRef;
-  @ViewChild('modalButton') modalButton: ElementRef;
-  @ViewChild('cropper') cropper: ElementRef;
-  @ViewChild('list') list: ElementRef;
-  @ViewChild('video') video: ElementRef;
-  @ViewChild('snap') snap: ElementRef;
-  @ViewChild('cropButton') cropButton: ElementRef;
-  @ViewChild('cross') cross: ElementRef;
-  @ViewChild('canvas') canvas: ElementRef;
+  @ViewChild('imgContainer',{static: false}) imgContainer: ElementRef;
+  @ViewChild('uploadImage',{static: false}) uploadImage: ElementRef;
+  @ViewChild('uploadedImage',{static: false}) uploadedImage: ElementRef;
+  @ViewChild('overlay',{static: false}) overlay: ElementRef;
+  @ViewChild('modalButton',{static: false}) modalButton: ElementRef;
+  @ViewChild('cropper',{static: false}) cropper: ElementRef;
+  @ViewChild('list',{static: false}) list: ElementRef;
+  @ViewChild('video',{static: false}) video: ElementRef;
+  @ViewChild('snap',{static: false}) snap: ElementRef;
+  @ViewChild('cropButton',{static: false}) cropButton: ElementRef;
+  @ViewChild('cross',{static: false}) cross: ElementRef;
+  @ViewChild('canvas',{static: false}) canvas: ElementRef;
 
   @Input() removeImg: boolean = false;
   @Input() containerWidth: string = '200px';

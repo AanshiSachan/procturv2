@@ -8,17 +8,17 @@ import { LoginService } from '../../services/login-services/login.service';
 })
 export class OverlayMenuComponent implements OnInit {
 
-  @ViewChild('liEnquiry') liEnquiry: ElementRef;
-  @ViewChild('liStudent') liStudent: ElementRef;
-  @ViewChild('liCourse') liCourse: ElementRef;
-  @ViewChild('liActivity') liActivity: ElementRef;
-  @ViewChild('liEmployee') liEmployee: ElementRef;
-  @ViewChild('liReports') liReports: ElementRef;
-  @ViewChild('liInventory') liInventory: ElementRef;
-  @ViewChild('liExpense') liExpense: ElementRef;
-  @ViewChild('liCampaign') liCampaign: ElementRef;
-  @ViewChild('liExams') liExams: ElementRef;
-  @ViewChild('liHelp') liHelp: ElementRef;
+  @ViewChild('liEnquiry',{static: false}) liEnquiry: ElementRef;
+  @ViewChild('liStudent',{static: false}) liStudent: ElementRef;
+  @ViewChild('liCourse',{static: false}) liCourse: ElementRef;
+  @ViewChild('liActivity',{static: false}) liActivity: ElementRef;
+  @ViewChild('liEmployee',{static: false}) liEmployee: ElementRef;
+  @ViewChild('liReports',{static: false}) liReports: ElementRef;
+  @ViewChild('liInventory',{static: false}) liInventory: ElementRef;
+  @ViewChild('liExpense',{static: false}) liExpense: ElementRef;
+  @ViewChild('liCampaign',{static: false}) liCampaign: ElementRef;
+  @ViewChild('liExams',{static: false}) liExams: ElementRef;
+  @ViewChild('liHelp',{static: false}) liHelp: ElementRef;
 
   userType: any = 0;
 

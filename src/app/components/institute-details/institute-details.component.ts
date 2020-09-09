@@ -18,7 +18,7 @@ export class InstituteDetailsComponent implements OnInit {
   instituteOptionDataSource: any = [];
   planDetail: any = [];
   planDetailDataSource: any = [];
-  @ViewChild('idUploadDoc') uploadDoc;
+  @ViewChild('idUploadDoc',{static: false}) uploadDoc;
   instDetails: any = {};
   showAllocationPopup: boolean = false;
   openPopUpName: any = '';

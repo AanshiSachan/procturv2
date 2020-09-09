@@ -19,7 +19,7 @@ import { DataDisplayTableComponent } from '../../../shared/data-display-table/da
 })
 export class CampaignSmsComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
+  @ViewChild('child',{static: false}) private child: DataDisplayTableComponent;
   projectSettings: any[] = [
     { primaryKey: 'campaign_list_name', header: 'List Name', priority: 1, allowSortingFlag: true },
     { primaryKey: 'message', header: 'Message', priority: 2, allowSortingFlag: true },

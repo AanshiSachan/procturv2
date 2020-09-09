@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ClosingReasonService } from '../services/closing-reason.service';
 import { AppComponent } from '../../../app.component';
-import { ELEMENT_PROBE_PROVIDERS } from '@angular/platform-browser/src/dom/debug/ng_probe';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { MessageShowService } from '../../../services/message-show.service';
 

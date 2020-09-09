@@ -18,7 +18,7 @@ import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.m
 })
 export class FeeCourseReportComponent implements OnInit {
 
-  @ViewChild('form') form: any;
+  @ViewChild('form',{static: false}) form: any;
   feeDataSource1: any[] = [];
   feeDataSource2: any[] = [];
   standardList: any[] = [];

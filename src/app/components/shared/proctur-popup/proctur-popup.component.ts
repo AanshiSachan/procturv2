@@ -9,7 +9,7 @@ export class ProcturPopUpComponent implements OnChanges{
 
   @Input() sizeWidth:string = "";
 
-  @ViewChild('popupContainer') pc: ElementRef;
+  @ViewChild('popupContainer',{static: false}) pc: ElementRef;
 
   constructor() { }
 

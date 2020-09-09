@@ -13,7 +13,7 @@ import { MessageShowService } from '../../../services/message-show.service';
 })
 export class EcourseFileManagerComponent implements OnInit {
 
-  @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
+  @ViewChild(UploadFileComponent,{static: false}) uploadFile: UploadFileComponent;
   showUploadFileModal: boolean = false;
   institute_id: any;
   isLangInstitue: any;

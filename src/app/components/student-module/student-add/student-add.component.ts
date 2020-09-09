@@ -27,8 +27,8 @@ export class StudentAddComponent implements OnInit, OnDestroy {
 
   /* Local Variable and scope declaration */
   /* ========================================================================================================== */
-  @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
-  @ViewChild('btnPayment') btnPayment: ElementRef;
+  @ViewChild('saveAndContinue',{static: false}) btnSaveAndContinue: ElementRef;
+  @ViewChild('btnPayment',{static: false}) btnPayment: ElementRef;
   allocatedItem: any = [];
   newPdcArr: any[] = [];
   pdcStatus: any[] = [{ data_key: '1', data_value: 'Pending' }, { data_key: '2', data_value: 'dishonoured' }];
@@ -1191,6 +1191,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
   /* Navigate or check for submission */
 
   addStudentDataAndFetchFee(values: NgForm) {
+    console.log("Hello",NgForm);
     this.studentAddnMove = true;
     if (this.isManualDisplayId) {
       if (this.studentAddFormData.student_disp_id.trim() != "") {

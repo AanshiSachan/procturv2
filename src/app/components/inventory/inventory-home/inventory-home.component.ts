@@ -16,7 +16,7 @@ declare var $;
 })
 export class HomeComponent implements OnInit {
 
-  @ViewChild('ActionInv') ActionInv: ElementRef;
+  @ViewChild('ActionInv',{static: false}) ActionInv: ElementRef;
   addItemForm: FormGroup;
   allocateItemForm: FormGroup;
   courseList: any = [];

@@ -18,7 +18,7 @@ import { ColumnData2 } from '../../shared/data-display-table/data-display-table.
 })
 export class ChequeManageComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
+  @ViewChild('child',{static: false}) private child: DataDisplayTableComponent;
   dataStatus: number = 1;
   searchValue: any = '';
   dishonouredReason:any='';

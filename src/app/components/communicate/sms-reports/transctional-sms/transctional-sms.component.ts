@@ -17,7 +17,7 @@ import { DataDisplayTableComponent } from '../../../shared/data-display-table/da
 })
 export class TransctionalSmsComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
+  @ViewChild('child',{static: false}) private child: DataDisplayTableComponent;
   busy: Subscription;
   projectSettings: any[] = [
     { primaryKey: 'sentDateTime', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },

@@ -11,8 +11,8 @@ import { ExcelService } from '../../../../services/excel.service';
 })
 export class BiometricComponent implements OnInit {
 
-  @ViewChild('biometricTable') biometricTable: ElementRef;
-  @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
+  @ViewChild('biometricTable',{static: false}) biometricTable: ElementRef;
+  @ViewChild('xlsDownloader',{static: false}) xlsDownloader: ElementRef;
   masterCourse: any[] = [];
   studentsData: any[] = [];
   monthAttendance: any[] = [];

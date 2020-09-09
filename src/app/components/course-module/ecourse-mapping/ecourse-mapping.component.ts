@@ -15,7 +15,7 @@ import { DataDisplayTableComponent } from '../../shared/data-display-table/data-
 })
 export class EcourseMappingComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
+  @ViewChild('child',{static: false}) private child: DataDisplayTableComponent;
   institute_id: any;
   jsonflag = {
     isUpadted: false,

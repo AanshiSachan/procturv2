@@ -14,7 +14,7 @@ declare var $;
 })
 export class ExamMarkUpdateComponent implements OnInit {
 
-  @ViewChild('forms') forms: any;
+  @ViewChild('forms',{static: false}) forms: any;
   permissionArray = sessionStorage.getItem('permissions');
   gradesList: any = [];
   tempData: any = [];

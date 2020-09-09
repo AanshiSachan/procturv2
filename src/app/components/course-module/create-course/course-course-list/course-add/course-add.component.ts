@@ -12,8 +12,8 @@ import { AuthenticatorService } from './../../../../../services/authenticator.se
 })
 export class CourseAddComponent implements OnInit {
 
-  @ViewChild('standardNameDDn') StandardName: ElementRef;
-  @ViewChild('masterCourseInput') MasterCourseDDn: ElementRef;
+  @ViewChild('standardNameDDn',{static: false}) StandardName: ElementRef;
+  @ViewChild('masterCourseInput',{static: false}) MasterCourseDDn: ElementRef;
 
   newCourseAdd: any = {
     master_course_name: '',

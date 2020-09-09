@@ -97,8 +97,8 @@ export class AttendanceReportComponent implements OnInit {
   searchData: any = [];
 
 
-  @ViewChild('attendanceTable') attendanceTable: ElementRef;
-  @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
+  @ViewChild('attendanceTable',{static: false}) attendanceTable: ElementRef;
+  @ViewChild('xlsDownloader',{static: false}) xlsDownloader: ElementRef;
 
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */

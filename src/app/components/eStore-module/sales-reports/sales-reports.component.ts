@@ -17,8 +17,8 @@ import { ExcelService } from '../../../services/excel.service';
 })
 export class SalesReportsComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
-  @ViewChild('form') form: any;
+  @ViewChild('child',{static: false}) private child: DataDisplayTableComponent;
+  @ViewChild('form',{static: false}) form: any;
   feeDataSource: any[] = [];
   displayKeys: any = [];//need for selected keys
   private slotIdArr: any[] = [];

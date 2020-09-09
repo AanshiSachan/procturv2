@@ -39,11 +39,11 @@ export class ViewReportCardComponent implements OnInit {
   liFeeView: boolean = false;
   liTableView: boolean = false;
   liPTMView: boolean = false;
-  @ViewChild('liAttendance') liAttendance: ElementRef;
-  @ViewChild('liExam') liExam: ElementRef;
-  @ViewChild('liFee') liFee: ElementRef;
-  @ViewChild('liTable') liTable: ElementRef;
-  @ViewChild('liPTM') liPTM: ElementRef;
+  @ViewChild('liAttendance',{static: false}) liAttendance: ElementRef;
+  @ViewChild('liExam',{static: false}) liExam: ElementRef;
+  @ViewChild('liFee',{static: false}) liFee: ElementRef;
+  @ViewChild('liTable',{static: false}) liTable: ElementRef;
+  @ViewChild('liPTM',{static: false}) liPTM: ElementRef;
   containerWidth: string = "75px";
   displayImage: any = '';
   attendanceList: any = [];

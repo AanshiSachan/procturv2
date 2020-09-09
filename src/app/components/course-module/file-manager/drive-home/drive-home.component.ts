@@ -19,10 +19,10 @@ export class DriveHomeComponent implements OnInit {
     uploading: false
   };
 
-  @ViewChild('DragContainer') dragBox: ElementRef;
-  @ViewChild('dropZone') dropZone: ElementRef;
-  @ViewChild('uploaders') uploaders: ElementRef;
-  @ViewChild('expandingTree') expandingTree: Tree;
+  @ViewChild('DragContainer',{static: false}) dragBox: ElementRef;
+  @ViewChild('dropZone',{static: false}) dropZone: ElementRef;
+  @ViewChild('uploaders',{static: false}) uploaders: ElementRef;
+  @ViewChild('expandingTree',{static: false}) expandingTree: Tree;
   nodes: TreeNode;
   treeNodeData: TreeNode[] = [
     {

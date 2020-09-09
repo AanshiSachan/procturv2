@@ -14,9 +14,9 @@ export class AddEditEmployeeComponent implements OnInit {
 
   employeeId: any = '';
   containerWidth: any = "200px";
-  @ViewChild('circle1') circle1: ElementRef;
-  @ViewChild('circle2') circle2: ElementRef;
-  @ViewChild('circle3') circle3: ElementRef;
+  @ViewChild('circle1',{static: false}) circle1: ElementRef;
+  @ViewChild('circle2',{static: false}) circle2: ElementRef;
+  @ViewChild('circle3',{static: false}) circle3: ElementRef;
   firstPage: boolean = true;
   secondPage: boolean = false;
   thirdPage: boolean = false;
