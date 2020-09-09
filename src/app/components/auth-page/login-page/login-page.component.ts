@@ -23,9 +23,9 @@ declare var $;
 export class LoginPageComponent implements OnInit, OnDestroy {
 
   /* Variable Declaration */
-  @ViewChild('viewChange',{static: false}) changeView: ElementRef;
-  @ViewChild('backgroundChange',{static: false}) backgroundChange: ElementRef;
-  @ViewChild('virtualStyle',{static: false}) virtualStyle: ElementRef;
+  @ViewChild('viewChange',{static: true}) changeView: ElementRef;
+  @ViewChild('backgroundChange',{static: true}) backgroundChange: ElementRef;
+  @ViewChild('virtualStyle',{static: true}) virtualStyle: ElementRef;
   loginDataForm: LoginAuth;
   selectedCourseNames = [];
   courses: any = [];

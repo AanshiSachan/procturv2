@@ -32,7 +32,7 @@ export class StudentHomeComponent implements OnInit {
   private subscriptionCustomComp: ISubscription;
   @ViewChild('studentPage',{static: false}) studentPage: ElementRef;
   @ViewChild('mySidenav',{static: false}) mySidenav: ElementRef;
-  @ViewChild('optMenu',{static: false}) optMenu: ElementRef;
+  @ViewChild('optMenu',{static: true}) optMenu: ElementRef;
 
   sizeArr: any[] = [50, 100, 250, 500, 1000];
   private enqstatus: any = [];

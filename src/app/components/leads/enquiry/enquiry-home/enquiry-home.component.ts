@@ -27,12 +27,12 @@ import { ColumnSetting } from '../../../shared/custom-table/layout.model';
 })
 export class EnquiryHomeComponent implements OnInit {
     /* Variable Declaration */
-    @ViewChild('skelton',{static: false}) skel: ElementRef;
-    @ViewChild('mySidenav',{static: false}) mySidenav: ElementRef;
-    @ViewChild('enqPage',{static: false}) enqPage: ElementRef;
-    @ViewChild('tablemain',{static: false}) tablemain: ElementRef;
-    @ViewChild('pager',{static: false}) pager: ElementRef;
-    @ViewChild('optMenu',{static: false}) optMenu: ElementRef;
+    @ViewChild('skelton',{static: true}) skel: ElementRef;
+    @ViewChild('mySidenav',{static: true}) mySidenav: ElementRef;
+    @ViewChild('enqPage',{static: true}) enqPage: ElementRef;
+    @ViewChild('tablemain',{static: true}) tablemain: ElementRef;
+    @ViewChild('pager',{static: true}) pager: ElementRef;
+    @ViewChild('optMenu',{static: true}) optMenu: ElementRef;
 
     sourceEnquiry: any[] = [];
     smsSourceApproved: any[] = [];
