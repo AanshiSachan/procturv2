@@ -104,9 +104,16 @@
                   <option value="Reviewed">Evaluated</option>
                 </select>
               </div>
-              <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y'">
+              <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y' && !assignmentDetails.enable_grade">
                 <label for="state-date" style="font-size: 12px;">Faculty Marks</label>
                 <input type="text" name="" value="" class="form-ctrl marks-input"  placeholder="Faculty Marks" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  [(ngModel)]="editStatus.evaluation_marks">
+              </div>
+              <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y' && assignmentDetails.enable_grade">
+                <label for="state-date" style="font-size: 12px;">Faculty Grade</label>
+                <select name="" class="course-input marks-input form-ctrl" [(ngModel)]="editStatus.grade_id" style="width:78%; margin-top: 5px;">
+                  <option value="">Select</option>
+                  <option value="{{data.grade_id}}" *ngFor="let data of gradeDetails">{{data.grade}}</option>
+                </select>
               </div>
             </div>
 
