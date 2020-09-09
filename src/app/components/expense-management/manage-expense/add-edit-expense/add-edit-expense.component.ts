@@ -215,7 +215,7 @@ export class AddEditExpenseComponent implements OnInit {
               // "title": this.category_id,
               "fileName": preview.name,
               "file_desc": this.docDescription,
-              "file": myReader.result.split(',')[1],
+              "file": (<string>myReader.result).split(',')[1],
               "file_extn": extension,
               "file_id": 0
             }

@@ -721,11 +721,11 @@ export class InstituteDetailsComponent implements OnInit {
     if (file) {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        this.announcement_image_url  = reader.result.split(',')[1];
+        this.announcement_image_url  = (<string>reader.result).split(',')[1];
         if((this.instDetails.announcement_image_url == null ||this.instDetails.announcement_image_url == '') && this.announcement_image_url!='') {
           this.instDetails.announcement_image_status = 1;
         }
-        return reader.result.split(',')[1];
+        return (<string>reader.result).split(',')[1];
       };
     }
   }
@@ -736,8 +736,8 @@ export class InstituteDetailsComponent implements OnInit {
     if (file) {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        this.institute_logo = reader.result.split(',')[1];
-        return reader.result.split(',')[1];
+        this.institute_logo = (<string>reader.result).split(',')[1];
+        return (<string>reader.result).split(',')[1];
       };
     }
   }

@@ -353,7 +353,7 @@ export class TeacherEditComponent implements OnInit {
       let reader = new FileReader();
       reader.readAsDataURL(fileBrowser.files[0]);
       reader.onload = () => {
-        sessionStorage.setItem('Id-card', reader.result.split(',')[1]);
+        sessionStorage.setItem('Id-card', (<string>reader.result).split(',')[1]);
       }
     }
   }

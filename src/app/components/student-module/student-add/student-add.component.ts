@@ -2634,7 +2634,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
           temp = {
             "title": this.category_id,
             "fileName": preview.name,
-            "encodedFile": myReader.result.split(',')[1]
+            "encodedFile": (<string>myReader.result).split(',')[1]
           }
           this.selectedFiles.push(temp);
           this.msgToast.showErrorMessage('success', '', "File uploaded successfully");

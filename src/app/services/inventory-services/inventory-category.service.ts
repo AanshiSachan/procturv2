@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AuthenticatorService } from '../authenticator.service';
 import { AddCategory } from '../../model/inventory-category';
@@ -32,41 +34,41 @@ export class InventoryCategoryService {
   getCategoryList() {
     let institution_id = parseInt(this.institute_id);
     let url = this.baseUrl + '/api/v1/inventory/category/all/' + institution_id;
-    return this.http.get(url , { headers: this.headers }).map(
+    return this.http.get(url , { headers: this.headers }).pipe(map(
       success => {
         return success;
       },
       err => {
         return err;
       }
-    )
+    ))
   }
 
   // Add new category to the category list
   setNewCategory(data: AddCategory) {
     data.institution_id = parseInt(this.institute_id);
     let url = this.baseUrl + '/api/v1/inventory/category';
-    return this.http.post(url, data, { headers: this.headers }).map(
+    return this.http.post(url, data, { headers: this.headers }).pipe(map(
       success => {
         return success;
       },
       err => {
         return err;
       }
-    );
+    ));
   }
 
   // to update the existing row
   updateExisting(data: any){
     let url = this.baseUrl + '/api/v1/inventory/category';
-    return this.http.put(url, data, { headers: this.headers }).map(
+    return this.http.put(url, data, { headers: this.headers }).pipe(map(
       success => {
         return success;
       },
       err => {
         return err;
       }
-    );
+    ));
   }
 
 }

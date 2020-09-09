@@ -156,7 +156,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
     let reader = new FileReader();
     reader.readAsDataURL(obj);
     reader.onloadend = () => {
-      this.setImage.emit(reader.result.split(',')[1]);
+      this.setImage.emit((<string>reader.result).split(',')[1]);
       this.cross.nativeElement.click();
     }
   }
@@ -206,7 +206,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
 
-        return reader.result.split(',')[1];
+        return (<string>reader.result).split(',')[1];
       };
     }
   }

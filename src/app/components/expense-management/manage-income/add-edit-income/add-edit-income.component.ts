@@ -209,7 +209,7 @@ export class AddEditIncomeComponent implements OnInit {
               // "title": this.category_id,
               "fileName": preview.name,
               "file_desc": this.docDescription,
-              "encodedFile": myReader.result.split(',')[1],
+              "encodedFile": (<string>myReader.result).split(',')[1],
               "file_extn": extension,
               "file_id": 0
             }

@@ -911,13 +911,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       }
       /* If Id Not set then recall the function as user has successfully logged in */
       else {
-        setTimeout(this.reCheckLogin(), 3000);
-      }
-    });
-  }
-
-  reCheckLogin() {
-    let id = sessionStorage.getItem('institute_id');
+        setTimeout(function(){
+          let id = sessionStorage.getItem('institute_id');
     let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
     if (id != null && id != "null") {
       if (institute_data != null && institute_data != undefined) {
@@ -927,7 +922,23 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.auth.changeInstituteId(sessionStorage.getItem('institute_id'));
       this.createRoleBasedSidenav();
     }
+        }, 3000);
+      }
+    });
   }
+
+  // reCheckLogin() {
+  //   let id = sessionStorage.getItem('institute_id');
+  //   let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
+  //   if (id != null && id != "null") {
+  //     if (institute_data != null && institute_data != undefined) {
+  //       let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+  //       this.auth.changeAuthenticationKey(Authorization);
+  //     }
+  //     this.auth.changeInstituteId(sessionStorage.getItem('institute_id'));
+  //     this.createRoleBasedSidenav();
+  //   }
+  // }
 
   getBaseUrlStudent(): string {
     let test = window.location.href.split("/")[2];
