@@ -1,3 +1,4 @@
 export const environment = {
-  production: false
+  production: 'uat',
+  serverUrl: 'https://uat.proctur.com/StdMgmtWebAPI'
 };
