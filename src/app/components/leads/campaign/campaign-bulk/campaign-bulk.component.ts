@@ -6,6 +6,7 @@ import { CampaignService } from '../../services/campaign.service';
 import { FetchprefilldataService } from '../../../../services/fetchprefilldata.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-campaign-bulk',
@@ -114,7 +115,8 @@ export class CampaignBulkComponent implements OnInit {
                   formdata.append("is_ajax", "Y");
                   formdata.append("referred_by", this.campaignAddFormData.referred);
                   formdata.append("source", this.campaignAddFormData.source);
-                  let urlPostXlsDocument = "https://app.proctur.com/CampaignListUpload";
+                  let baseUrl = environment.production ? "https://app.proctur.com" : "https://test999.proctur.com";
+                  let urlPostXlsDocument = baseUrl + "/CampaignListUpload";
                   let xhr: XMLHttpRequest = new XMLHttpRequest();
                   let auths: any = {
                     userid: sessionStorage.getItem('userid'),
