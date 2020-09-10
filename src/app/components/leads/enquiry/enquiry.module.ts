@@ -20,6 +20,7 @@ import { SmsOptionComponent } from './enquiry-home/sms-option.component';
 import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component';
 import { EnquiryRoutingModule } from "./enquiry-routing.module";
 import { EnquiryComponent } from './enquiry.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 
 
@@ -36,7 +37,8 @@ import { EnquiryComponent } from './enquiry.component';
         MenuModule,
         SharedModule,
         LeadsModule,
-        ManageExamModule
+        ManageExamModule,
+        EditorModule
     ],
     declarations: [
         EnquiryComponent,
