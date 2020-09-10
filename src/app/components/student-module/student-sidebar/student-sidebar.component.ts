@@ -32,11 +32,11 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   @Output() openCourseAssigned = new EventEmitter<boolean>();
 
   //@ViewChild('acc') acc: ElementRef;
-  @ViewChild('one',{static: true}) one: ElementRef;
-  @ViewChild('two',{static: true}) two: ElementRef;
+  @ViewChild('one',{static: false}) one: ElementRef;
+  @ViewChild('two',{static: false}) two: ElementRef;
 
 
-  @ViewChild('imgDisp',{static: true}) im: ElementRef;
+  @ViewChild('imgDisp',{static: false}) im: ElementRef;
   private showMenu: boolean = false;
   certificate:boolean = false;
   containerWidth: string = "50px";

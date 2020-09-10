@@ -440,7 +440,7 @@ $color-highlight: lighten($color-base, 7%);
   z-index: 1;
   width: 100%;
 }
-::ng-deep bs-datepicker-container, bs-daterangepicker-container{
+::ng-deep .bs-datepicker-container, .bs-daterangepicker-container{
 margin-left:3% ;
   }
 

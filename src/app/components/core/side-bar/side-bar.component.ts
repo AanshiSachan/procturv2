@@ -16,24 +16,24 @@ import { MultiBranchDataService } from '../../../services/multiBranchdata.servic
 export class SideBarComponent implements OnInit, AfterViewInit {
 
 
-  @ViewChild('divAdminTag',{static: false}) divAdminTag: ElementRef;
-  @ViewChild('divMyAccountTag',{static: false}) divMyAccountTag: ElementRef;
-  @ViewChild('divMasterTag',{static: false}) divMasterTag: ElementRef;
-  @ViewChild('divProfileTag',{static: false}) divProfileTag: ElementRef;
-  @ViewChild('divTeacherTag',{static: false}) divTeacherTag: ElementRef;
-  @ViewChild('divSlotTag',{static: false}) divSlotTag: ElementRef;
-  @ViewChild('divClassRoomTag',{static: false}) divClassRoomTag: ElementRef;
-  @ViewChild('divManageTag',{static: false}) divManageTag: ElementRef;
-  @ViewChild('divAcademicTag',{static: false}) divAcademicTag: ElementRef;
-  @ViewChild('divGradesTag',{static: false}) divGradesTag: ElementRef;
-  @ViewChild('divManageUsers',{static: false}) divManageUsers: ElementRef;
-  @ViewChild('divSettingTag',{static: false}) divSettingTag: ElementRef;
-  @ViewChild('divGeneralSettingTag',{static: false}) divGeneralSettingTag: ElementRef;
-  @ViewChild('divManageFormTag',{static: false}) divManageFormTag: ElementRef;
-  @ViewChild('divAreaAndMap',{static: false}) divAreaAndMap: ElementRef;
-  @ViewChild('searchInput',{static: false}) searchInput: ElementRef;
-  @ViewChild('seachResult',{static: false}) seachResult: ElementRef;
-  @ViewChild('form',{static: false}) form: any;
+  @ViewChild('divAdminTag',{static: true}) divAdminTag: ElementRef;
+  @ViewChild('divMyAccountTag',{static: true}) divMyAccountTag: ElementRef;
+  @ViewChild('divMasterTag',{static: true}) divMasterTag: ElementRef;
+  @ViewChild('divProfileTag',{static: true}) divProfileTag: ElementRef;
+  @ViewChild('divTeacherTag',{static: true}) divTeacherTag: ElementRef;
+  @ViewChild('divSlotTag',{static: true}) divSlotTag: ElementRef;
+  @ViewChild('divClassRoomTag',{static: true}) divClassRoomTag: ElementRef;
+  @ViewChild('divManageTag',{static: true}) divManageTag: ElementRef;
+  @ViewChild('divAcademicTag',{static: true}) divAcademicTag: ElementRef;
+  @ViewChild('divGradesTag',{static: true}) divGradesTag: ElementRef;
+  @ViewChild('divManageUsers',{static: true}) divManageUsers: ElementRef;
+  @ViewChild('divSettingTag',{static: true}) divSettingTag: ElementRef;
+  @ViewChild('divGeneralSettingTag',{static: true}) divGeneralSettingTag: ElementRef;
+  @ViewChild('divManageFormTag',{static: true}) divManageFormTag: ElementRef;
+  @ViewChild('divAreaAndMap',{static: true}) divAreaAndMap: ElementRef;
+  @ViewChild('searchInput',{static: true}) searchInput: ElementRef;
+  @ViewChild('seachResult',{static: true}) seachResult: ElementRef;
+  @ViewChild('form',{static: true}) form: any;
 
   @Output() searchViewMore = new EventEmitter<any>();
   @Output() enquiryUpdateAction = new EventEmitter<any>();

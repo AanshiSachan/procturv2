@@ -145,7 +145,7 @@ input[type="button"], input[type="submit"], input[type="reset"], input[type="fil
   display: block !important;
 }
 
-:host ::ng-deep bs-days-calendar-view {
+:host ::ng-deep .bs-days-calendar-view {
   .bs-datepicker-head {
     //background-color: #004c80;
     color: white;

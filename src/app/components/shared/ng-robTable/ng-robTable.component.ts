@@ -44,7 +44,7 @@ export class RobTableComponent implements OnChanges, DoCheck {
     caret = true;
     isLangInstitue:boolean = false;
 
-    @ViewChild('headerCheckbox',{static: false}) hc: ElementRef;
+    @ViewChild('headerCheckbox',{static: true}) hc: ElementRef;
 
     constructor(
         private rd: Renderer2,
