@@ -122,6 +122,7 @@ export class ManageAssignmentComponent implements OnInit {
  editAttachmentList = [];
  removedAttachments = [];
  removedLinks = [];
+ userType: any = 0;
 
   constructor(
     private msgService: MessageShowService,
@@ -150,6 +151,7 @@ export class ManageAssignmentComponent implements OnInit {
 
     const promises = [];
     let arr = [];
+    this.userType = sessionStorage.getItem('userType');
 
     if(this.jsonFlag.isProfessional){
       arr.push(this.getBatchList())
@@ -664,6 +666,9 @@ export class ManageAssignmentComponent implements OnInit {
                 assignment_late_submission_date: this.assignmentDetails.assignment_late_submission_date,
                 attachmentId_array: this.removeOldFile
               }
+              if (this.userType == "3") {
+                obj.teacher_id= sessionStorage.getItem('teacherIDs');
+              } 
               this.createOnlineAssignment(obj);
               console.log(obj)
           }

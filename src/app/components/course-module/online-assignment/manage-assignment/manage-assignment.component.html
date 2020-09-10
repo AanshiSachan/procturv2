@@ -112,7 +112,7 @@
               Enable Grade
             </label>
           </div>
-          <div class="marks-container" *ngIf="assignmentDetails.enable_grade=='false'">
+          <div class="marks-container" *ngIf="showMarks && assignmentDetails.enable_grade=='false'">
             <input type="number" name="" value="" placeholder="Enter marks" [(ngModel)]=assignmentDetails.evaluation_marks>
           </div>
         </div>
@@ -313,7 +313,7 @@
             [(ngModel)]="selectedStudentList" >
           </ng-multiselect-dropdown>
         </div>
-        <div class="course-details-item field-wrapper">
+        <div class="course-details-item field-wrapper" *ngIf="userType != 3">
           <label for="" style="font-size: 12px;">Faculty<span class="danger">*</span></label>
           <select class="course-input" name="" [(ngModel)]="assignmentDetails.teacher">
             <option value="-1">Select Faculty</option>

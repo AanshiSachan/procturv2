@@ -28,7 +28,7 @@
           <div class="link-attachment-container" *ngIf="bulkUrlList?.length > 0">
             <div class="link-attachment-item" *ngFor="let url of bulkUrlList">
               <i class="fa fa-globe" aria-hidden="true"></i>
-              <span>{{url.display_name}}</span>
+              <span title="{{url.display_name}}">{{(url.display_name.length > 45) ? (url.display_name | slice:0:45) + '...' : url.display_name}}</span>
               <i class="fa fa-times" aria-hidden="true" (click)="removeLink(url.display_name)" style="color:red;"></i>
             </div>
           </div>
