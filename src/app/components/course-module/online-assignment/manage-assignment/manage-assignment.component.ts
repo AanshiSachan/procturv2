@@ -152,6 +152,9 @@ export class ManageAssignmentComponent implements OnInit {
     const promises = [];
     let arr = [];
     this.userType = sessionStorage.getItem('userType');
+    if(this.userType == 3) {
+    this.assignmentDetails.teacher= sessionStorage.getItem('teacherIDs');
+    }
 
     if(this.jsonFlag.isProfessional){
       arr.push(this.getBatchList())
@@ -618,6 +621,7 @@ export class ManageAssignmentComponent implements OnInit {
         if(this.assignmentDetails.endHr.trim() != '' && this.assignmentDetails.endMin.trim() != ''){
           if(this.assignmentDetails.evaluation_date != '' && this.assignmentDetails.evaluation_date != null){
           if(this.assignmentDetails.course != '-1'){
+            if(this.assignmentDetails.teacher != '-1') {
             if(this.checkFileAndURL()){
               if(this.getEventHourTo()) {
                 if(this.checkEvaluationDate()) {
@@ -667,9 +671,6 @@ export class ManageAssignmentComponent implements OnInit {
                 assignment_late_submission_date: '',
                 attachmentId_array: this.removeOldFile
               }
-              if (this.userType == "3") {
-                obj.teacher_id= sessionStorage.getItem('teacherIDs');
-              }
               if(lateSub == 'Y') {
                 obj.assignment_late_submission_date = this.assignmentDetails.assignment_late_submission_date
               } 
@@ -678,7 +679,10 @@ export class ManageAssignmentComponent implements OnInit {
             }
           }
           }
+         } else {
+            this.msgService.showErrorMessage('error', '', "Please select Faculty");
           }
+        }
           else{
             this.msgService.showErrorMessage('error', '', "Please select course");
           }
@@ -777,9 +781,6 @@ export class ManageAssignmentComponent implements OnInit {
                   evaluation_date: this.assignmentDetails.evaluation_date,
                   assignment_late_submission_date: '',
                 }
-                if (this.userType == "3") {
-                  obj.teacher_id= sessionStorage.getItem('teacherIDs');
-                } 
                 if(lateSub == 'Y') {
                   obj.assignment_late_submission_date = this.assignmentDetails.assignment_late_submission_date
                 }
