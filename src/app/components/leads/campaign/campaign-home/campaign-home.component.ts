@@ -714,7 +714,12 @@ export class CampaignHomeComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    let t = this.sourceCampaignDataSource.slice(startindex, startindex + this.displayBatchSize);
+    let t = [];
+    if (this.searchDataFlag) {
+      t = this.searchData.slice(startindex, startindex + this.displayBatchSize);
+    } else {
+      t = this.sourceCampaignDataSource.slice(startindex, startindex + this.displayBatchSize);
+    }
     return t;
   }
 

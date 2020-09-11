@@ -16,8 +16,8 @@
           <!-- <input #search type="text" class="normal-field " placeholder="Search" [(ngModel)]="searchBarData" id="search"
             name="searchData" (keyup)="searchDatabase(search)"> -->
           <input type="text" placeholder="Search" id="search" name="searchData"
-            style="border: 1px solid darkgrey;width: 289px;border-radius: 4px;padding-left: 7px;"
-            (keyup)="searchDatabase(search)" [(ngModel)]="searchBarData" #search>
+            style="border: 1px solid darkgrey;width: 220px;border-radius: 4px;padding-left: 7px;"
+            (keyup)="searchDatabase()" [(ngModel)]="searchBarData" #search>
           <input type="button" class="add-class-btn" value="Add Promotional SMS" (click)="addEditPromotionalSms()">
           <input type="button" class="add-class-btn" value="Upload Lead" routerLink='/view/leads/campaign/bulk'>
           <!-- <input type="button" class="add-class-btn" value="Upload Lead" (click)="uploadLead()"> -->
@@ -56,7 +56,7 @@
   <section class="middle-main clearFix" id="studentList" style="margin-bottom: -16px;">
     <!-- Enquiry DataTable -->
 
-    <div class="c-lg-12 c-md-12 c-sm-12 table-wrapper" style="max-height: 70vh; min-height: 70vh;">
+    <div class="c-lg-12 c-md-12 c-sm-12 table-wrapper">
       <div class="table-scroll-wrapper">
         <div class="table table-responsive enquiry-table">
           <table class="tableBodyScroll">
@@ -123,7 +123,7 @@
               </tr>
             </thead>
 
-            <tbody class="" *ngIf="sourceCampaign.length != 0">
+            <tbody class="" *ngIf="sourceCampaign.length != 0" style="max-height: 55vh; min-height: 55vh;">
 
               <tr id="row{{i}}" *ngFor="let row of sourceCampaign; let i = index; trackBy: i;"
                 (click)="rowClickEvent(i)" [class.selected]="i == selectedRow">
