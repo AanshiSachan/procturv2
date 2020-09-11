@@ -663,11 +663,14 @@ export class ManageAssignmentComponent implements OnInit {
                 url_lists: this.assignmentDetails.urlLists,
                 enable_grade: this.assignmentDetails.enable_grade,
                 evaluation_date: this.assignmentDetails.evaluation_date,
-                assignment_late_submission_date: this.assignmentDetails.assignment_late_submission_date,
+                assignment_late_submission_date: '',
                 attachmentId_array: this.removeOldFile
               }
               if (this.userType == "3") {
                 obj.teacher_id= sessionStorage.getItem('teacherIDs');
+              }
+              if(lateSub == 'Y') {
+                obj.assignment_late_submission_date = this.assignmentDetails.assignment_late_submission_date
               } 
               this.createOnlineAssignment(obj);
               console.log(obj)
@@ -769,7 +772,13 @@ export class ManageAssignmentComponent implements OnInit {
                   attachmentId_array: [],
                   enable_grade: this.assignmentDetails.enable_grade,
                   evaluation_date: this.assignmentDetails.evaluation_date,
-                  assignment_late_submission_date: this.assignmentDetails.assignment_late_submission_date
+                  assignment_late_submission_date: '',
+                }
+                if (this.userType == "3") {
+                  obj.teacher_id= sessionStorage.getItem('teacherIDs');
+                } 
+                if(lateSub == 'Y') {
+                  obj.assignment_late_submission_date = this.assignmentDetails.assignment_late_submission_date
                 }
 
                 this.createOnlineAssignment(obj);
