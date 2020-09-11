@@ -281,7 +281,9 @@
             <span title="{{student?.student_status}}" >{{ (!student.student_status) ? '-' : (student.student_status.length > 25) ? (student.student_status | slice:0:25) + '...' : student.student_status}}</span>
           </div>
           <div class="list-value-item small-item align-center" style="display: flex;justify-content: center;">
-            <button type="button" name="button" class="status-btn" [disabled]="student.student_status!='Done' || student.teacher_status == 'Reviewed'" (click)="updateStatus(student)">Evaluate</button>
+            <button type="button" name="button" class="status-btn" [disabled]="student.student_status!='Done' || student.teacher_status == 'Reviewed'" (click)="updateStatus(student)">
+              {{student.teacher_status == 'Reviewed' ? 'Evaluated' : 'Evaluate'}}
+            </button>
           </div>
         </div>
         <div class="no-records" *ngIf="tempStudentList?.length  == 0">
