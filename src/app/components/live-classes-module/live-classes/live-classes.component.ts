@@ -700,13 +700,16 @@ export class LiveClassesComponent implements OnInit {
       )
     }
   }
-
-  pushNotification(id) {
+  // Done modification for Push notification on the basis of session type- Ashwini Kumar Gupta
+  pushNotification(id, sessionType) {
     let obj = {};
+    let url: any;
+    let zoom = (sessionType === "Zoom" ? true : false);
+    url = "/api/v1/meeting_manager/sendPushNotification/" + id + "?isZoomLiveClass=" + zoom;
     if (confirm("Are you sure you want to send push notification ?")) {
-      let url = "/api/v1/meeting_manager/sendPushNotification/" + id;
-      this._http.postData(url, obj).subscribe(
-        (data: any) => {
+
+      this._http.getData(url).subscribe(
+        (res: any) => {
           this.appC.popToast({ type: "success", body: "Push notification sent successfully" })
           // this.getClassesList();
         },
@@ -716,6 +719,7 @@ export class LiveClassesComponent implements OnInit {
       )
     }
   }
+  // End
 
   cancel(id, live_meeting_with) {
     this.alertBox = false;

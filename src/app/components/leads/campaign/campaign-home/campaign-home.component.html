@@ -56,7 +56,7 @@
   <section class="middle-main clearFix" id="studentList" style="margin-bottom: -16px;">
     <!-- Enquiry DataTable -->
 
-    <div class="c-lg-12 c-md-12 c-sm-12 table-wrapper" style="max-height: 73vh; min-height: 73vh;">
+    <div class="c-lg-12 c-md-12 c-sm-12 table-wrapper" style="max-height: 70vh; min-height: 70vh;">
       <div class="table-scroll-wrapper">
         <div class="table table-responsive enquiry-table">
           <table class="tableBodyScroll">
@@ -257,7 +257,7 @@
               </h4>
 
               <div class="row">
-                <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="c-lg-3 c-md-3 c-sm-3" style="width:32%">
                   <div class="field-wrapper has-value" style="width: 62%; ">
                     <label for="ddnSelect">Lead Name</label>
                     <select class="form-ctrl" name="ddnSelect" style="border-radius: 4px;">
@@ -266,12 +266,12 @@
 
                   </div>
                 </div>
-                <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="c-lg-3 c-md-3 c-sm-3" style="width:32%">
                   <div class="field-wrapper datePickerBox has-value" style="width: 62%;margin-left: -6rem;">
                     <label for="followupdate">Campaign Date</label>
                     <input type="text" value="" id="followupdate" class="form-ctrl bsDatepicker"
-                      [(ngModel)]="searchBarDate" style="cursor: pointer;" (keyup.enter)="searchDatabase()"
-                      readonly="true" name="followupdate" bsDatepicker />
+                      [(ngModel)]="searchBarDate" style="cursor: pointer;border-radius: 4px;"
+                      (keyup.enter)="searchDatabase()" readonly="true" name="followupdate" bsDatepicker />
 
                     <span class="date-clear" name="followupdate" (click)="clearDate($event)"></span>
                   </div>
