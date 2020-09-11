@@ -311,7 +311,6 @@ export class ShareFileComponent implements OnInit {
         let currentDate = new Date();
         this.dataStatus = false;
        let filterbatches = data;
-       console.log(filterbatches);
        filterbatches.forEach(batch => { /// expire batch removes from data
          let batchDate = new Date(batch.file_access_end_time);
            if(batchDate.getTime() >= currentDate.getTime()){
@@ -320,7 +319,6 @@ export class ShareFileComponent implements OnInit {
        });
 
         this.getBatchesData = batchesData;
-        console.log(this.getBatchesData);
 
         this.getBatchesData.map(
           (data: any) => {
