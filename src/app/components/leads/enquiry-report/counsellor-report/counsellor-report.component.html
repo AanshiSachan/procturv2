@@ -80,13 +80,15 @@
           <input type="text" readonly="true" class="form-ctrl" bsDatepicker
             [(ngModel)]="counsellorInfoDetails.updateDateTo" style="border-radius: 4px;width: 50%;">
         </div>
+        <div class="c-lg-1" style="margin-top:2%;">
+          <button class="btn fullBlue" (click)="fetchAllCounsellorDataDetails()">Go</button>
+        </div>
+        <div class="c-lg-3 " style="margin-top:2%;float:right;">
 
-        <div class="c-lg-3 " style="margin-top:2%;">
-          <button class="btn fullBlue" (click)="fetchAllCounsellorDataDetails()" style="margin-top: -1%;">Go</button>
-          <div id="basic-search" style=" margin-top: -2% ; float:right;">
+          <div id="basic-search" style=" margin-top: -2% ;">
             <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText"
               name="searchData" (keyup)="searchDatabase()"
-              style="padding:7px 10px; width:200px; height:35px; margin-left: 200%; border-radius: 4px;">
+              style="padding:7px 10px; width:200px; height:35px; float:right; border-radius: 4px;">
           </div>
         </div>
         <!-- <div class="cl-lg-3 field-wrapper">
