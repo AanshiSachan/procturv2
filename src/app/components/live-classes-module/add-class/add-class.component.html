@@ -102,8 +102,9 @@
             </div>
 
           </div>
-
-          <div class="field-wrapper faculty_container">
+          <!-- Added the conditon for only for faculty -->
+          <div class="field-wrapper faculty_container" *ngIf="userType != 3">
+          <!-- <div class="field-wrapper faculty_container"> -->
             <label for="faculty">Faculty Name(s)<span class="text-danger">*</span> </label>
             <!-- <input type="text" value="" id="faculty" class="form-ctrl" name="faculty" required /> -->
             <ng-multiselect-dropdown
