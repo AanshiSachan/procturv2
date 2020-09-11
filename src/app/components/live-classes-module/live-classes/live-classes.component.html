@@ -1,7 +1,7 @@
 <div class="middle-section">
   <aside class="middle-full">
     <section class="middle-main clearFix activity-wrapper">
-      <section class="middle-top clearFix bulk-header" style="border-bottom: 1px solid lightgrey;padding-bottom: 5px;">
+      <section class="middle-top clearFix bulk-header">
         <div>
           <h1 class="pull-left">
             <span>Live Class</span>
@@ -32,13 +32,12 @@
           </div>
 
           <div class="search-add-class-container">
-
             <div class="field-wrapper datePickerBox">
               <input type="text" class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="dateValue"
                 (ngModelChange)="searchByDate($event)" id="date" style="margin-left: -2rem;border-radius: 4px;
                 margin-top: -5%;">
               <br>
-              <span class="date-clear" (click)="getClassesFor()" style="color: #0084f6;left: 54px;">clear</span>
+              <span class="date-clear" (click)="getClassesList()" style="color: #0084f6;left: 54px;">clear</span>
             </div>
             <div class="search-filter-wrapper">
               <i class="fa fa-search" aria-hidden="true"></i>
@@ -97,75 +96,86 @@
               </div>
               <div class="notification_container" *ngIf="!liveClassFor">
                 <span class="upcoming_class" *ngIf="timeLeft(today, class.start_datetime)">Ongoing</span>
-                <div class="questionInfo inline-relative">
-                  <span class=" i-class">
-                    <button type="button" name="button" class="notification_btn"
-                      (click)="smsNotification(class.session_id, class.live_meeting_with)"
-                      *ngIf="!timeLeft(today, class.start_datetime)" [disabled]="proctur_live_expiry_date_check"
-                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                      Send SMS Notification
-                      <i class="fa fa-commenting" aria-hidden="true"></i>
-                    </button>
-                  </span>
-                  <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                    Your Proctur Live
-                    <br> subscription is over.
-                    <br> Please pay quickly
-                    <br> to continue using it.
-                  </div>
-                </div>
-
-                <div class="questionInfo inline-relative">
-                  <span class=" i-class">
-                    <button type="button" name="button" class="notification_btn"
-                      (click)="pushNotification(class.session_id)" *ngIf="!timeLeft(today, class.start_datetime)"
-                      [disabled]="proctur_live_expiry_date_check"
-                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                      Send Push Notification
-                      <i class="fa fa-bell" aria-hidden="true"></i>
-                    </button>
-                  </span>
-                  <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                    Your Proctur Live
-                    <br> subscription is over.
-                    <br> Please pay quickly
-                    <br> to continue using it.
-                  </div>
-                </div>
-              </div>
-              <div class="action_container" *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)">
-                <div class="questionInfo inline-relative">
-                  <span class=" i-class">
-                    <button type="button" name="button" class="action_edit"
-                      (click)="editStudent(class.session_id, class.live_meeting_with)"
-                      [disabled]="proctur_live_expiry_date_check"
-                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                      Edit
-                      <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </button>
-                  </span>
-                  <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                    Your Proctur Live
-                    <br> subscription is over.
-                    <br> Please pay quickly
-                    <br> to continue using it.
-                  </div>
-                </div>
-                <div class="questionInfo inline-relative">
-                  <span class=" i-class">
-                    <button type="button" name="button" class="action_delete"
-                      (click)="cancel(class.session_id, class.live_meeting_with)"
-                      [disabled]="proctur_live_expiry_date_check"
-                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                      Cancel
-                      <i class="fa fa-times" aria-hidden="true"></i>
-                    </button>
-                  </span>
-                  <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                    Your Proctur Live
-                    <br> subscription is over.
-                    <br> Please pay quickly
-                    <br> to continue using it.
+                <div class="dropdown dropleft"
+                  *ngIf="(!timeLeft(today, class.start_datetime)) || (!timeLeft(today, class.start_datetime)) || (!liveClassFor && !timeLeft(today, class.start_datetime)) || (!liveClassFor && !timeLeft(today, class.start_datetime))">
+                  <button style="background: #0084f6;color: white;" class="btn btn-light btn-xs dropdown-toggle"
+                    type="button" (click)="toggleActionMenu($event)" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
+                  </button>
+                  <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
+                    <span class="dropdown-item" (click)="smsNotification(class.session_id, class.live_meeting_with)"
+                      *ngIf="!timeLeft(today, class.start_datetime)">
+                      <div class="questionInfo inline-relative">
+                        <span class=" i-class">
+                          <button style="background: none;" type="button" name="button"
+                            [disabled]="proctur_live_expiry_date_check"
+                            [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                            <i class="fa fa-commenting" aria-hidden="true"></i> Send SMS Notification
+                          </button>
+                        </span>
+                        <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                          Your Proctur Live
+                          <br> subscription is over.
+                          <br> Please pay quickly
+                          <br> to continue using it.
+                        </div>
+                      </div>
+                    </span>
+                    <span class="dropdown-item" (click)="pushNotification(class.session_id,class.live_meeting_with)"
+                      *ngIf="!timeLeft(today, class.start_datetime)">
+                      <div class="questionInfo inline-relative">
+                        <span class=" i-class">
+                          <button style="background: none;" type="button" name="button"
+                            [disabled]="proctur_live_expiry_date_check"
+                            [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                            <i class="fa fa-bell" aria-hidden="true"></i> Send Push Notification
+                          </button>
+                        </span>
+                        <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                          Your Proctur Live
+                          <br> subscription is over.
+                          <br> Please pay quickly
+                          <br> to continue using it.
+                        </div>
+                      </div>
+                    </span>
+                    <span class="dropdown-item" (click)="editStudent(class.session_id, class.live_meeting_with)"
+                      *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)">
+                      <div class="questionInfo inline-relative">
+                        <span class=" i-class">
+                          <button style="background: none;" type="button" name="button"
+                            [disabled]="proctur_live_expiry_date_check"
+                            [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                            <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+                          </button>
+                        </span>
+                        <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                          Your Proctur Live
+                          <br> subscription is over.
+                          <br> Please pay quickly
+                          <br> to continue using it.
+                        </div>
+                      </div>
+                    </span>
+                    <span class="dropdown-item" (click)="cancel(class.session_id, class.live_meeting_with)"
+                      *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)">
+                      <div class="questionInfo inline-relative">
+                        <span class=" i-class">
+                          <button style="background: none;" type="button" name="button"
+                            [disabled]="proctur_live_expiry_date_check"
+                            [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                            <i class="fa fa-times" aria-hidden="true"></i> Cancel
+                          </button>
+                        </span>
+                        <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                          Your Proctur Live
+                          <br> subscription is over.
+                          <br> Please pay quickly
+                          <br> to continue using it.
+                        </div>
+                      </div>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -332,13 +342,10 @@
           </div>
         </div>
 
-        <div class="live-class-list-container" *ngIf="getClasses?.length ==0  && (!auth.isRippleLoad.getValue())"
-          style="margin-top: 3%;">
-          <div style="min-height: 60px;text-align: center;font-weight: 600;" *ngIf="!liveClassFor">
+        <div class="live-class-list-container"
+          *ngIf="getClasses?.length ==0 && !liveClassFor && (!auth.isRippleLoad.getValue())" style="margin-top: 3%;">
+          <div style="min-height: 60px;text-align: center;font-weight: 600;">
             No Upcoming Scheduled Found!
-          </div>
-          <div style="min-height: 60px;text-align: center;font-weight: 600;" *ngIf="liveClassFor">
-            No Previous Scheduled Found!
           </div>
         </div>
       </section>

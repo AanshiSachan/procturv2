@@ -129,7 +129,7 @@ export class CampaignSmsComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "64vh"
+      height: "61vh"
     }
 
     this.rowColumns = [
