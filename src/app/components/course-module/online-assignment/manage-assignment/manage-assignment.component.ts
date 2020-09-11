@@ -620,6 +620,7 @@ export class ManageAssignmentComponent implements OnInit {
           if(this.assignmentDetails.course != '-1'){
             if(this.checkFileAndURL()){
               if(this.getEventHourTo()) {
+                if(this.checkEvaluationDate()) {
               let lateSub = 'Y';
               if(!this.assignmentDetails.lateSubmission){
                 lateSub = 'N';
@@ -674,6 +675,7 @@ export class ManageAssignmentComponent implements OnInit {
               } 
               this.createOnlineAssignment(obj);
               console.log(obj)
+            }
           }
           }
           }
@@ -727,6 +729,7 @@ export class ManageAssignmentComponent implements OnInit {
               if(this.assignmentDetails.teacher != '-1'){
                 if(this.checkFileAndURL()){
                   if(this.getEventHourTo()) {
+                    if(this.checkEvaluationDate()) {
 
                 let lateSub = 'Y';
                 if(!this.assignmentDetails.lateSubmission){
@@ -783,6 +786,7 @@ export class ManageAssignmentComponent implements OnInit {
 
                 this.createOnlineAssignment(obj);
                 console.log(obj)
+              }
 
               }
               }
@@ -1033,6 +1037,25 @@ export class ManageAssignmentComponent implements OnInit {
       return true;
     }
 
+  }
+
+  checkEvaluationDate() {
+    let evaluationDate = moment(this.assignmentDetails.evaluation_date).format('YYYY-MM-DD');
+    let toTime = moment(this.assignmentDetails.endDate).format('YYYY-MM-DD') + " " + this.assignmentDetails.endHr.split(' ')[0] + ":" + this.assignmentDetails.endMin + " " + this.assignmentDetails.endHr.split(' ')[1];
+    let lateSubmissionDate = moment(this.assignmentDetails.assignment_late_submission_date).format('YYYY-MM-DD');
+    let evaluationTimeT = moment(evaluationDate).format('YYYY-MM-DD hh:mm a');
+    let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
+    let lateSubT = moment(lateSubmissionDate).format('YYYY-MM-DD hh:mm a');
+
+    if(this.assignmentDetails.lateSubmission && moment(lateSubT).diff(moment(evaluationTimeT), 'minutes') > 0) {
+      this.msgService.showErrorMessage('error', '', "Evaluation date can't be lesser than Late Submission Date");
+      return false;
+    } else if (moment(toTime).diff(moment(evaluationTimeT), 'minutes') > 0) {
+      this.msgService.showErrorMessage('error', '', "Evaluation date can't be lesser than End Date");
+      return false;
+    } else {
+      return true;
+    }
   }
 
   // removed url while edit
