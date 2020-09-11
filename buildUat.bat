@@ -1,2 +1,2 @@
-ng build --env=qa
+ng build --env=uat
 npm run minify

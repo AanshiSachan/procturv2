@@ -36,7 +36,7 @@
       "environments": {
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts",
-        "qa": "environments/environment.qa.ts",
+        "uat": "environments/environment.uat.ts",
         "api": "environments/environment.api.ts"
       }
     }
