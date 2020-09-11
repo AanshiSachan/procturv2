@@ -313,9 +313,9 @@
             [(ngModel)]="selectedStudentList" >
           </ng-multiselect-dropdown>
         </div>
-        <div class="course-details-item field-wrapper" *ngIf="userType != 3">
+        <div class="course-details-item field-wrapper">
           <label for="" style="font-size: 12px;">Faculty<span class="danger">*</span></label>
-          <select class="course-input" name="" [(ngModel)]="assignmentDetails.teacher">
+          <select class="course-input" [disabled]="userType == 3" name="" [(ngModel)]="assignmentDetails.teacher">
             <option value="-1">Select Faculty</option>
             <option [value]="teacher.teacher_id" *ngFor="let teacher of facultyList">{{ (teacher.teacher_name.length > 30) ? (teacher.teacher_name | slice:0:30) + '...' : teacher.teacher_name }}</option>
           </select>
