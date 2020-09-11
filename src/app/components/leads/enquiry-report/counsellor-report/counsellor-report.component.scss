@@ -59,6 +59,17 @@ $color-highlight: lighten($color-base, 7%);
     }
 }
 
+.field-wrapper.datePickerBox:after {
+    content: '';
+    background: url(/./assets/images/calendar.svg) no-repeat;
+    position: absolute;
+    // right: 176px;
+    top: 28px;
+    left: 41%;
+    width: 21px;
+    height: 21px;
+    z-index: 0;
+}
 
 ::ng-deep .schedule-bottom ul.ul-body li {
     text-align: center

@@ -16,7 +16,19 @@
 .filter-box {
   padding: 10px;
 }
+@media (min-width: 1200px)
+{
+.c-lg-5,.c-lg-7 {
+     width: unset; 
+}
+}
+.c-lg-7{
+  
+  margin-top: 20px;
+  line-height: 29px;
+  margin-right: 30px;
 
+}
 .search-box {
   border: 1px solid #b4b6bd;
   padding: 5px;
@@ -28,11 +40,12 @@
 
 .sms-filter-wrapper {
   .field-wrapper {
-    width: 40%;
+    // width: 40%;
     padding: 15px 0;
     margin-left: 20px;
     display: inline-block;
   }
+
   .btn-sms-search {
     padding: 15px 0;
     .btn {

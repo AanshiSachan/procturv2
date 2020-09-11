@@ -158,6 +158,7 @@ export class LiveClassesComponent implements OnInit {
   // zoom_enable: boolean = false;
 
   // upload file
+  dateValue: any;
   type: string = "";
   customFileArr: fileObj[] = [];
   selectedFiles: any[] = [];
@@ -303,7 +304,32 @@ export class LiveClassesComponent implements OnInit {
       }
     )
   }
+  // Added By Ashwini Gupta For search live class by date
+  searchByDate(dateSearch) {
 
+    let event: any = moment(dateSearch).format("YYYY-MM-DD");
+    this.getClasses = [];
+    if (dateSearch == null) {
+      this.getClassesFor();
+    }
+    if (!this.liveClassFor) {
+      for (let i = 0; i < this.futureLiveClasses.length; i++) {
+        let tempStartDate: any = moment(this.futureLiveClasses[i].start_datetime).format("YYYY-MM-DD");
+        if (event === tempStartDate) {
+          this.getClasses.push(this.futureLiveClasses[i]);
+        }
+      }
+    } else {
+      for (let i = 0; i < this.previosLiveClasses.length; i++) {
+        let tempStartDate: any = moment(this.previosLiveClasses[i].start_datetime).format("YYYY-MM-DD");
+        if (event === tempStartDate) {
+          this.getClasses.push(this.previosLiveClasses[i]);
+        }
+      }
+    }
+    this.totalRow = this.getClasses.length;
+  }
+  // End
   forTeacher(teachersUserIds) {
     let userId = sessionStorage.getItem('userid');
     if (teachersUserIds.includes(userId)) {
@@ -449,6 +475,7 @@ export class LiveClassesComponent implements OnInit {
   }
 
   getClassesFor() {
+    this.dateValue = "";
     if (this.liveClassFor) {
       this.getClasses = this.previosLiveClasses;
       this.classListDataSource = this.previosLiveClasses;
@@ -466,6 +493,7 @@ export class LiveClassesComponent implements OnInit {
         element.course = Array.prototype.map.call(element.batch_list, s => s.batch_name).toString();
       })
     }
+    console.log("Get Classes", this.getClasses);
     this.totalRow = this.getClasses.length;
     this.fetchTableDataByPage(this.PageIndex);
   }
@@ -692,7 +720,6 @@ export class LiveClassesComponent implements OnInit {
     }
   }
   // End
-
 
   cancel(id, live_meeting_with) {
     this.alertBox = false;

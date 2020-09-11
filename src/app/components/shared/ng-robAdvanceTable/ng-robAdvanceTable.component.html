@@ -9,12 +9,14 @@
                                 <ul class="sche-head">
                                     <li class="selectCheckbox" *ngIf="isMulti">
                                         <div class="field-checkbox-wrapper" style="background: transparent;">
-                                            <input #headerCheckbox type="checkbox" value="" name="check" [checked]="isAllChecked()" (change)="selectAllRows($event)"
-                                                class="form-checkbox">
+                                            <input #headerCheckbox type="checkbox" value="" name="check"
+                                                style="cursor: pointer;" [checked]="isAllChecked()"
+                                                (change)="selectAllRows($event)" class="form-checkbox">
                                             <label></label>
                                         </div>
                                     </li>
-                                    <li class="{{map.header}}" *ngFor="let map of columnMaps" (click)="requestSort(map.primaryKey)">
+                                    <li class="{{map.header}}" *ngFor="let map of columnMaps"
+                                        (click)="requestSort(map.primaryKey)">
                                         {{ map.header }}
                                         <div *ngIf="isSorted(map)" style="display: inline-block">
                                             <div *ngIf="asc;then ascending else descending">
@@ -32,19 +34,26 @@
 
 
                                 <div class="schedule-scroller" *ngIf="records.length != 0">
-                                    <ul class="ul-body ct-ongoing" *ngFor="let record of recordsTrimmed; let i = index;" [class.selected]="i == selectedRow">
+                                    <ul class="ul-body ct-ongoing" *ngFor="let record of recordsTrimmed; let i = index;"
+                                        [class.selected]="i == selectedRow">
                                         <li class="selectCheckbox" *ngIf="isMulti">
                                             <div class="field-checkbox-wrapper" style="background: transparent;">
-                                                <input type="checkbox" name="recordcb[]" value="" name="check" class="rowCheckbox form-checkbox" [(ngModel)]="record.uiSelected"
+                                                <input type="checkbox" name="recordcb[]" value="" name="check"
+                                                    style="cursor: pointer;" class="rowCheckbox form-checkbox"
+                                                    [(ngModel)]="record.uiSelected"
                                                     (ngModelChange)="rowCheckboxChange(record)">
                                                 <label></label>
                                             </div>
                                         </li>
-                                        <li title="{{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header:_commService.currency_default_symbol:record.country_id }}" class="{{map.header}}" *ngFor="let map of columnMaps" (click)="userRowClicked($event, i, record  , map.primaryKey)" [ngStyle]="getColor(map.primaryKey , record[map.access(record)])">
+                                        <li title="{{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header:_commService.currency_default_symbol:record.country_id }}"
+                                            class="{{map.header}}" *ngFor="let map of columnMaps"
+                                            (click)="userRowClicked($event, i, record  , map.primaryKey)"
+                                            [ngStyle]="getColor(map.primaryKey , record[map.access(record)])">
                                             {{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header:_commService.currency_default_symbol:record.country_id }}
                                         </li>
                                         <li class="option-menu" *ngIf="hasMenu">
-                                            <drop-menu [dropType]="dropType" [info]="record" [menuOptions]="menuOptions" (selectedRecord)="recordSelected($event)"></drop-menu>
+                                            <drop-menu [dropType]="dropType" [info]="record" [menuOptions]="menuOptions"
+                                                (selectedRecord)="recordSelected($event)"></drop-menu>
                                         </li>
                                     </ul>
                                 </div>
@@ -66,20 +75,32 @@
                                     </ul>
                                 </div>
 
-                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus == 2">
+                                <!-- <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus == 2">
                                     <ul class="ul-body ct-ongoing">
                                         <li style="width: 100%;">
                                             <label style="font-size: 16px;font-weight: 600;">No Records Found</label>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> -->
 
-                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus == 3">
-                                    <ul class="ul-body ct-ongoing">
+                                <div *ngIf="records.length == 0 && dataStatus == 2">
+                                    <div class="illustration-container">
+                                        <img alt="illustration" class="illustration-img"
+                                            src="./assets/images/course_planner/blank-illustration.svg">
+                                    </div>
+                                </div>
+                                <!-- <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus == 3"> -->
+                                <div *ngIf="records.length == 0 && dataStatus == 3">
+
+                                    <!-- <ul class="ul-body ct-ongoing">
                                         <li style="width: 100%;">
                                             <label style="font-size: 16px;font-weight: 600;">Enter Detail to Search</label>
                                         </li>
-                                    </ul>
+                                    </ul> -->
+                                    <div class="illustration-container">
+                                        <img alt="illustration" class="illustration-img"
+                                            src="./assets/images/course_planner/blank-illustration.svg">
+                                    </div>
                                 </div>
 
                             </div>
@@ -91,6 +112,7 @@
     </section>
 </section>
 
-<pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-    [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)" [count]="recordCount">
+<pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+    [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+    (sizeChange)="updateTableBatchSize($event)" [count]="recordCount">
 </pagination>

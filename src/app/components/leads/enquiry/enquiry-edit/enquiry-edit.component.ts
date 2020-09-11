@@ -183,7 +183,7 @@ export class EnquiryEditComponent implements OnInit {
   cityList: any[] = [];
   areaList: any[] = [];
   addArea: boolean = false;
-  permission: boolean = false;
+
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(
     private prefill: FetchprefilldataService,
@@ -223,15 +223,6 @@ export class EnquiryEditComponent implements OnInit {
   ngOnInit() {
     this.isCityMandatory = sessionStorage.getItem('enable_routing');
     this.isStateMandatory = sessionStorage.getItem('enable_routing');
-    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('permissions') == null || JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
-      this.permission = false;
-    }
-    else {
-      if (JSON.parse(sessionStorage.getItem('permissions')).length == 1) {
-        if (JSON.parse(sessionStorage.getItem('permissions')).includes('110'))
-          this.permission = true;
-      }
-    }
     this.isEnquiryAdministrator();
     this.FetchEnquiryPrefilledData();
     this.updateEnquiryData()
@@ -534,7 +525,15 @@ export class EnquiryEditComponent implements OnInit {
     });
     return tempArr;
   }
+  checkCustomeComponentElement(index) {
+    if (!(index % 3)) {
+      return true;
+    }
+    else {
+      return false;
+    }
 
+  }
   fillCustomComponent(v, comp) {
     if (v) {
       this.customComponents.forEach(e => {

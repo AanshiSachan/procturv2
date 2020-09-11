@@ -7,6 +7,7 @@ import { LoginService } from '../../../../services/login-services/login.service'
 import { FetchprefilldataService } from '../../../../services/fetchprefilldata.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
+import moment = require('moment');
 
 @Component({
   selector: 'app-enquiry-bulkadd',
@@ -24,15 +25,15 @@ export class EnquiryBulkaddComponent implements OnInit {
   downloadEnquiryReportAccess: boolean = false;
 
   constructor(
-    private fetchData: FetchenquiryService, 
+    private fetchData: FetchenquiryService,
     private postData: PostEnquiryDataService,
-    private appC: AppComponent, 
-    private router: Router, 
-    private prefill: FetchprefilldataService, 
-    private login: LoginService, 
+    private appC: AppComponent,
+    private router: Router,
+    private prefill: FetchprefilldataService,
+    private login: LoginService,
     private auth: AuthenticatorService,
     private _commService: CommonServiceFactory
-    ) {
+  ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -44,10 +45,10 @@ export class EnquiryBulkaddComponent implements OnInit {
   }
 
   checkRoleAccess() {
-    if(sessionStorage.getItem('downloadEnquiryReportAccess')=='true'){
-        this.downloadEnquiryReportAccess = true;
+    if (sessionStorage.getItem('downloadEnquiryReportAccess') == 'true') {
+      this.downloadEnquiryReportAccess = true;
     }
-}
+  }
 
 
   /* base64 data to be converted to xls file */
@@ -146,6 +147,10 @@ export class EnquiryBulkaddComponent implements OnInit {
   fetchBulkUploadStatusData() {
     return this.prefill.fetchBulkUpdateStatusReport().subscribe(
       res => {
+        let tempRecord: any = res;
+        for (let i = 0; i < tempRecord.length; i++) {
+          res[i].created_date = moment(tempRecord[i].created_date).format("DD-MMM-YY");
+        }
         this.bulkUploadRecords = res;
       }
     )
