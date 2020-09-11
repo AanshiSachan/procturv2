@@ -84,7 +84,8 @@ export class ReviewAssignmentComponent implements OnInit {
     student_phone: "",
     student_status: "Open",
     teacher_comment: "",
-    teacher_status: "Open"
+    teacher_status: "Open",
+    grade_id: ''
   };
   editStudentAttachments = {
     urlList: [],
@@ -97,6 +98,7 @@ export class ReviewAssignmentComponent implements OnInit {
   removedAttchedDocsIds: any[] = []
   facultyAttachments: any[] = [];
   facultyUrlList: any[] = [];
+  gradeDetails: any[] = [];
 
   assignmentDetails: any;
 
@@ -136,6 +138,9 @@ export class ReviewAssignmentComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.assignmentDetails = res.result;
+        if(this.assignmentDetails.enable_grade) {
+          this.getGradeDetails();
+        }
       },
       err => {
         this.auth.hideLoader();
@@ -223,6 +228,18 @@ export class ReviewAssignmentComponent implements OnInit {
     )
 
   }
+// developed by - Nalini walunj
+// To get Grade details
+  getGradeDetails() {
+    let url = "/api/v1/grade_manager/getDetail/" + sessionStorage.getItem('institute_id');
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.gradeDetails = res;
+      },
+      err => {
+      }
+    )
+  }
 
   updateUpdateFile(files){
     const preview = (<HTMLInputElement>document.getElementById('updateUploadFile')).files[0];
@@ -303,6 +320,7 @@ export class ReviewAssignmentComponent implements OnInit {
       "teacher_comment": this.editStatus.teacher_comment,
       "teacher_status": this.editStatus.teacher_status,
       "marks": this.editStatus.evaluation_marks,
+      "grade_id": this.editStatus.grade_id
     }
     console.log(obj)
 
@@ -447,7 +465,7 @@ export class ReviewAssignmentComponent implements OnInit {
 
   }
 
-  fillFiles(files) {
+  fillFiles() {
     const preview = (<HTMLInputElement>document.getElementById('uploadFileControl')).files[0];
     if (preview != null || preview != undefined) {
       setTimeout(() => {
@@ -492,10 +510,10 @@ export class ReviewAssignmentComponent implements OnInit {
     return tempArr;
   }
 
-  removeFile(fileName){
-    for (let index = 0; index < this.selectedFiles.length; index++) {
-      if(this.selectedFiles[index].fileName == fileName){
-        this.selectedFiles.splice(index, 1);
+  removeFile(file){
+    for (let index = 0; index < this.fileArray.length; index++) {
+      if(this.fileArray[index].fileName + '.' + this.fileArray[index].fileType == file.fileName + '.' + file.fileType){
+        this.fileArray.splice(index, 1);
         break;
       }
     }
