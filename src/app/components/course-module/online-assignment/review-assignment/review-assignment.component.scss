@@ -401,3 +401,6 @@
     z-index: 1;
   }
 }
+button[disabled] {
+  cursor: no-drop;
+}
