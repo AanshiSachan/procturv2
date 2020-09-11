@@ -200,7 +200,7 @@ html {
       content: '';
       background: url("/./assets/images/calendar.svg") no-repeat;
       position: absolute;
-      right: 34px;
+      right: 34px !important;
       top: 6px;
       width: 21px;
       height: 21px;
