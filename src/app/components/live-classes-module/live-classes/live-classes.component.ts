@@ -607,7 +607,7 @@ export class LiveClassesComponent implements OnInit {
     let data = [];
     let buffer = this.attendance_buffer;
     let jobTime = moment(new Date().setHours(20, 0, 0, 0)).format('YYYY-MM-DD hh:mm a');
-    let JobBufferTime = moment(new Date().setHours(0, 0, 0, (1200 - buffer))).format('YYYY-MM-DD hh:mm a');
+    let JobBufferTime = moment(new Date().setHours(0, ((1200 - buffer)), 0, 0)).format('YYYY-MM-DD hh:mm a');
     let currentDate = moment(new Date()).format('YYYY-MM-DD hh:mm a');
     let temp = moment(new Date().setHours(20, 0, 0, 0));
     let ReportAllowDate = moment(new Date(2020, 6, 25, 0, 0, 0)).format('YYYY-MM-DD hh:mm a');
@@ -622,9 +622,9 @@ export class LiveClassesComponent implements OnInit {
       data.forEach(ele => {
         ele.end_datetime = moment(ele.end_datetime).format('YYYY-MM-DD hh:mm a');
         ele.showViewAttendance = false;
-        if (ele.end_datetime >= ReportAllowDate) {
-          if (ele.end_datetime <= JobBufferTime) {
-            if (currentDate >= jobTime || ele.end_datetime <= yesterDayJobTime) {
+        if (moment(ele.end_datetime).valueOf() >= moment(ReportAllowDate).valueOf()) {
+          if (moment(ele.end_datetime).valueOf() <= moment(JobBufferTime).valueOf()) {
+            if (moment(currentDate).valueOf() >= moment(jobTime).valueOf() || moment(ele.end_datetime).valueOf() <= moment(yesterDayJobTime).valueOf()) {
               ele.showViewAttendance = true;
             }
           }
