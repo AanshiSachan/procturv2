@@ -839,6 +839,7 @@ export class EditClassComponent implements OnInit {
   }
 
   getBatchesCoursesIds(ids) {
+    this.selectedStudentList = [];
     let temp: any = [];
     if (this.isProfessional) {
       this.batchesIds = ids;
