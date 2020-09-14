@@ -29,7 +29,7 @@ export class ProductListComponent implements OnInit {
     //   publishDate: false
     // }
   };
-
+  helpMsg: string = "Product on which the bar colour is green,is an advanced product";
   /* Variable to handle popups */
   varJson: any = {
     PageIndex: 1,
