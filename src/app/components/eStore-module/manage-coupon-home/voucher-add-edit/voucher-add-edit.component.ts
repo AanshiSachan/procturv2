@@ -98,6 +98,7 @@ export class VoucherAddEditComponent implements OnInit {
     this.productIds = [];
     this.productIds = Array.prototype.map.call(this.selected_products, product => product.id);
     this.addVoucherModel.product_id_list = this.productIds;
+    this.addVoucherModel.end_date =  moment(this.addVoucherModel.end_date).format('YYYY-MM-DD');
     if (this.validateForm()) {
       this.auth.showLoader();
       this._productService.postMethod('offer/create', this.addVoucherModel).then(
@@ -147,6 +148,7 @@ export class VoucherAddEditComponent implements OnInit {
     this.productIds = Array.prototype.map.call(this.selected_products, product => product.id);
     this.addVoucherModel.product_id_list = this.productIds;
     this.offerStatus === true ? this.addVoucherModel.offer_status = 2 : this.addVoucherModel.offer_status = 1;
+    this.addVoucherModel.end_date =  moment(this.addVoucherModel.end_date).format('YYYY-MM-DD');
     if (this.validateForm()) {
       this.auth.showLoader();
       this._productService.postMethod('offer/update', this.addVoucherModel).then(
