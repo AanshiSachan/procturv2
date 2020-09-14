@@ -367,7 +367,7 @@
                       </td>
                       <td>
                         <span class="txt-title text-left"
-                          title="{{video.video_title}}">{{video.video_title.length>20?(video.video_title | slice:0:20):video.video_title}}</span>
+                          title="{{video.video_title}}">{{video.video_title?.length>20?(video.video_title | slice:0:20):video.video_title}}</span>
                       </td>
                       <td>{{video.video_size}} MB</td>
                       <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
@@ -377,7 +377,7 @@
                       <td>
                           <span *ngIf="video.link_video_list.length==0">-</span>
                         <div class="questionInfo inline-relative" *ngIf="video.link_video_list.length">
-                          <span class="qInfoIcon i-class"><b>{{video.link_video_list.length}}</b></span>
+                          <span class="qInfoIcon i-class"><b>{{video.link_video_list?.length}}</b></span>
                           <div class="tooltip-box-field text-left">
                             <span *ngFor="let data of video.link_video_list;let i=index" style="padding: 5px;">
                               {{videoGetDetails(data,i+1)}} <br>
