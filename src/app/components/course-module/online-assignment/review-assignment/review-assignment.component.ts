@@ -323,8 +323,11 @@ export class ReviewAssignmentComponent implements OnInit {
       "grade_id": this.editStatus.grade_id
     }
     console.log(obj)
-
-    let formData = new FormData();
+    if(this.editStatus.evaluation_required == 'Y' && !this.assignmentDetails.enable_grade && this.editStatus.evaluation_marks > this.assignmentDetails.evaluation_marks ) {
+      this.msgService.showErrorMessage('error', '', 'Evaluation marks cannot be greater than total marks');
+      return false;
+    }
+    let formData = new FormData();    
 
     formData.append("fileJson", JSON.stringify(obj));
 
