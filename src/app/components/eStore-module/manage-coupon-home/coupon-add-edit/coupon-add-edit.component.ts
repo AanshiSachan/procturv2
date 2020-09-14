@@ -99,6 +99,7 @@ export class CouponAddEditComponent implements OnInit {
     this.productIds = [];
     this.productIds = Array.prototype.map.call(this.selected_products, product => product.id);
     this.addCouponModel.product_id_list = this.productIds;
+    this.addCouponModel.end_date =  moment(this.addCouponModel.end_date).format('YYYY-MM-DD');
     if (this.validateForm()) {
     this.auth.showLoader();
     this._productService.postMethod('offer/create', this.addCouponModel).then(
@@ -148,7 +149,7 @@ export class CouponAddEditComponent implements OnInit {
     this.productIds = Array.prototype.map.call(this.selected_products, product => product.id);
     this.addCouponModel.product_id_list = this.productIds;
     this.offerStatus === true ? this.addCouponModel.offer_status = 2 : this.addCouponModel.offer_status = 1;
-  if (this.validateForm()) {
+    this.addCouponModel.end_date =  moment(this.addCouponModel.end_date).format('YYYY-MM-DD');
     this.auth.showLoader();
     this._productService.postMethod('offer/update', this.addCouponModel).then(
       (result: any) => {
@@ -166,6 +167,4 @@ export class CouponAddEditComponent implements OnInit {
       }
     );
   }
-}
-
 }
