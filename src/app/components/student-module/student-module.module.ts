@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StudentModuleRoutingModule } from './student-module-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BsDatepickerModule } from 'ngx-bootstrap-custome';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { FileUploadModule, MenuModule, SplitButtonModule } from 'primeng/primeng';;
 
 import { AddStudentPrefillService } from '../../services/student-services/add-student-prefill.service';
