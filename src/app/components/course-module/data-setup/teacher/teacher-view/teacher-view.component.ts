@@ -3,9 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule, Form, FormControl, FormGroup } from '@angular/forms';
 import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
 import { isNumber } from 'util';
-import { window } from 'ngx-bootstrap-custome/utils/facade/browser';
+// import { window } from 'ngx-bootstrap/utils/facade/browser';
+// import { window } from 'ngx-bootstrap/windows';
 import * as moment from 'moment';
 import { AppComponent } from '../../../../../app.component';
+// import { windows } from 'fontawesome';
 
 @Component({
   selector: 'app-teacher-view',

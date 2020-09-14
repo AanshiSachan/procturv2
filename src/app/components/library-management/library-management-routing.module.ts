@@ -47,7 +47,8 @@ import { IssueBookComponent } from './issue-book/issue-book.component';
                 },
                 {
                     path: 'report',
-                    loadChildren: "app/components/library-management/report/report.module#ReportModule",
+                    loadChildren: () => import('app/components/library-management/report/report.module').then(m => m.ReportModule),
+                    // loadChildren: "app/components/library-management/report/report.module#ReportModule",
                     pathMatch: 'prefix',
                 }
             ]

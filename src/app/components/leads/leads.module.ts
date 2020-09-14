@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 // import { EnquiryReportComponent } from './enquiry-report/enquiry-report.component';
 /* Modules */
 import { FormsModule } from "@angular/forms";
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
-import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { FileUploadModule, MenuModule, SplitButtonModule } from 'primeng/primeng';
 import { PopupHandlerService } from '../../services/enquiry-services/popup-handler.service';
 import { ExportToPdfService } from '../../services/export-to-pdf.service';

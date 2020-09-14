@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
 import { Router } from '../../../../../../node_modules/@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';

@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, Pipe, ViewChild, OnDestroy } from '@angu
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
 import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';

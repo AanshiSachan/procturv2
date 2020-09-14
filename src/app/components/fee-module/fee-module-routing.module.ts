@@ -51,11 +51,13 @@ import { ProfitLossComponent } from './profit-loss/profit-loss.component';
                     },
                     {
                         path:'data-setup',
-                        loadChildren:'app/components/fee-module/data-setup/data-setup.module#DataSetupModule',
+                        loadChildren: () => import('app/components/fee-module/data-setup/data-setup.module').then(m => m.DataSetupModule)
+                        // loadChildren:'app/components/fee-module/data-setup/data-setup.module#DataSetupModule',
                     },
                     {
                         path: 'monitoring-dashboard',
-                        loadChildren: 'app/components/fee-module/monitoring-dashboard/monitoring-dashboard.module#MonitoringDashboardModule',
+                        loadChildren: () => import('app/components/fee-module/monitoring-dashboard/monitoring-dashboard.module').then(m => m.MonitoringDashboardModule),
+                        // loadChildren: 'app/components/fee-module/monitoring-dashboard/monitoring-dashboard.module#MonitoringDashboardModule',
                         pathMatch: 'prefix'
                     },
                     {

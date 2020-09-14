@@ -9,7 +9,8 @@ import { EnquiryReportRoutingModule } from "./enquiry-report-routing.module";
 import { EnquiryReportComponent } from "./enquiry-report.component";
 import { EnquiryReportService } from "../services/counsellor-service.service";
 import { SharedModule } from "../../shared/shared.module";
-import { BsDatepickerModule } from "ngx-bootstrap-custome";
+// import { BsDatepickerModule } from "ngx-bootstrap-custome";
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({

@@ -40,7 +40,8 @@ const routes: Routes = [];
                 },
                 {
                     path: 'exam-dashboard',
-                    loadChildren: 'app/components/course-module/reports/new-exam-report/exam-report.module#ExamReportModule',
+                    loadChildren: () => import('app/components/course-module/reports/new-exam-report/exam-report.module').then(m => m.ExamReportModule),
+                    // loadChildren: 'app/components/course-module/reports/new-exam-report/exam-report.module#ExamReportModule',
                     pathMatch: 'prefix'
                 },
             ]

@@ -7,8 +7,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToasterModule } from 'angular2-toaster';
 import { Ng2OrderModule } from 'ng2-order-pipe';
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
-import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { AppComponent, AuthenticatorService, CommonServiceFactory, ExpensesService, FetchenquiryService, FetchprefilldataService, HttpService, LoginService, MessageShowService, MultiBranchDataService, PaginationService, PostEnquiryDataService, TablePreferencesService } from '.';
 import { AppMainLoaderComponent } from './app-loader/app-loader.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +22,7 @@ import { IssueBookService } from './services/library/issue/issue-book.service';
 import { MastersService } from './services/library/master/masters.service';
 import { ReturnBookService } from './services/library/return/return-book.service';
 import { ProductService } from './services/products.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { ProductService } from './services/products.service';
     TimepickerModule.forRoot(),
     SharedModule,
     Ng2OrderModule,
+    FontAwesomeModule,
 
   ],
   declarations: [

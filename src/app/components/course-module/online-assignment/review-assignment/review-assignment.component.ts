@@ -4,7 +4,7 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 import { HttpService  } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 declare var $;
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { DomSanitizer } from '@angular/platform-browser';
 
 class fileObj {

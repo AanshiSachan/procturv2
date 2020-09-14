@@ -4,7 +4,7 @@ import { HttpService  } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { MasterTagService } from '../../master-tag/master-tag.component.service';
 import * as moment from 'moment';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 declare var $;

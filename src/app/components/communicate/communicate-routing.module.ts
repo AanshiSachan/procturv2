@@ -23,7 +23,8 @@ const routes: Routes = [
       },
       {
         path: 'sms',
-        loadChildren: 'app/components/communicate/sms-reports/sms-reports.module#SmsReportsModule',
+        loadChildren: () => import('app/components/communicate/sms-reports/sms-reports.module').then(m => m.SmsReportsModule),
+        // loadChildren: 'app/components/communicate/sms-reports/sms-reports.module#SmsReportsModule',
         pathMatch: 'prefix'
       },
       {

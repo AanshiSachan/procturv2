@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnIn
 import { ActivatedRoute, Router } from '@angular/router';
 /* Third party imports */
 import * as moment from 'moment';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { MenuItem } from 'primeng/primeng';
 import 'rxjs/Rx';
 import { instituteInfo } from '../../../../model/instituteinfo';
@@ -1490,8 +1490,12 @@ export class EnquiryHomeComponent implements OnInit {
                 this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.failSMS, 'Please check your internet connection or try again later')
             }
         )
-        document.getElementByID("sms-content").value = "";
-        document.getElementByID("email-content").value = "";
+        // document.getElementByID("sms-content").value = "";
+        let ele=(document.getElementById("sms-content") as HTMLInputElement);
+        ele.value ="";
+        let ele1=(document.getElementById("email-content") as HTMLInputElement);
+        ele1.value ="";
+        // document.getElementByID("email-content").value = "";
     }
 
     /* Approved SMS template send */
@@ -2100,17 +2104,17 @@ export class EnquiryHomeComponent implements OnInit {
     toggleDateSection() {
         if (this.flagJSON.showDateRange == false) {
             this.flagJSON.showDateRange = true;
-            document.getElementById('anchTagToggle').text = "Hide";
+            (document.getElementById('anchTagToggle') as HTMLInputElement).textContent = "Hide";
         } else {
             this.flagJSON.showDateRange = false;
-            document.getElementById('anchTagToggle').text = "Download By Date Range";
+            (document.getElementById('anchTagToggle') as HTMLInputElement).textContent = "Download By Date Range";
         }
     }
 
     downloadSummaryReport() {
         this.flagJSON.summaryOptions = true;
         setTimeout(() => {
-            document.getElementById('anchTagToggle').text = "Download By Date Range";
+            (document.getElementById('anchTagToggle') as HTMLInputElement).textContent = "Download By Date Range";
         }, 100);
     }
 

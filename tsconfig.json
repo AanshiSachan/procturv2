@@ -19,7 +19,7 @@
     "types": [
       "node"
     ],
-    "module": "es2015",
+    "module": "esnext",
     "baseUrl": "./"
   }
 }

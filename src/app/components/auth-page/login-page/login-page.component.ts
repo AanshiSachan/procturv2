@@ -14,7 +14,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
-import { setTimeout } from 'timers';
+// import { setTimeout } from 'timers';
 declare var $;
 @Component({
   selector: 'app-login-page',

@@ -16,11 +16,13 @@ import { UsersManagementComponent } from './users-management.component';
                     },
                     {
                         path: 'user',
-                        loadChildren: 'app/components/users-management/users/users.module#UserModule'
+                        loadChildren: () => import('app/components/users-management/users/users.module').then(m => m.UserModule)
+                        // loadChildren: 'app/components/users-management/users/users.module#UserModule'
                     },
                     {
                         path: 'role',
-                        loadChildren: 'app/components/users-management/role-management/role-management.module#RoleManagementModule'
+                        loadChildren: () => import('app/components/users-management/role-management/role-management.module').then(m => m.RoleManagementModule)
+                        // loadChildren: 'app/components/users-management/role-management/role-management.module#RoleManagementModule'
                     },
                 ]
             }

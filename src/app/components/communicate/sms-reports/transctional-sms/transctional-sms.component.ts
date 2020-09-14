@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../../services/authenticator.service';

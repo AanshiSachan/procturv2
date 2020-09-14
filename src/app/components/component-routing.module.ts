@@ -23,96 +23,116 @@ import { TrainingVideoComponent } from './training-video/training-video.componen
                         },
                         {
                             path: 'home',
-                            loadChildren: 'app/components/homepage-dashboard/homepage-dashboard.module#HomepageDashboardModule'
+                            loadChildren: () => import('app/components/homepage-dashboard/homepage-dashboard.module').then(m => m.HomepageDashboardModule)
+                            // loadChildren: 'app/components/homepage-dashboard/homepage-dashboard.module#HomepageDashboardModule'
                         },
                         {
                             path: 'SMS',
-                            loadChildren: 'app/components/allocate-sms/allocate-sms.module#AllocateSmsModule'
+                            loadChildren: () => import('app/components/allocate-sms/allocate-sms.module').then(m => m.AllocateSmsModule)
+                            // loadChildren: 'app/components/allocate-sms/allocate-sms.module#AllocateSmsModule'
                         },
                         {
                             path: 'formField',
-                            loadChildren: 'app/components/custom-common/custom-common.module#CustomCommonModule',
+                            loadChildren: () => import('app/components/custom-common/custom-common.module').then(m => m.CustomCommonModule),
+                            // loadChildren: 'app/components/custom-common/custom-common.module#CustomCommonModule',
                             canLoad: [AuthGuard]
                         },
                         {
                             path: 'teacher',
-                            loadChildren: 'app/components/teacher/teacher.module#TeacherModule',
+                            loadChildren: () => import('app/components/teacher/teacher.module').then(m => m.TeacherModule),
+                            // loadChildren: 'app/components/teacher/teacher.module#TeacherModule',
                             canLoad: [AuthGuard]
                         },
                         {
                             path: 'leads',
-                            loadChildren: 'app/components/leads/leads.module#LeadsModule',
+                            loadChildren: () => import('app/components/leads/leads.module').then(m => m.LeadsModule),
+                            // loadChildren: 'app/components/leads/leads.module#LeadsModule',
                             canLoad: [AuthGuard]
                         },
                         {
                             path: 'online-exam',
-                            loadChildren: 'app/components/online-exam-module/online-exam.module#OnlineExamModule',
+                            loadChildren: () => import('app/components/online-exam-module/online-exam.module').then(m => m.OnlineExamModule),
+                            // loadChildren: 'app/components/online-exam-module/online-exam.module#OnlineExamModule',
                             canLoad: [AuthGuard]
                         },
                         {
                             path: 'employee',
-                            loadChildren: 'app/components/employee-home/employee-home.module#EmployeeHomeModule',
+                            loadChildren: () => import('app/components/employee-home/employee-home.module').then(m => m.EmployeeHomeModule),
+                            // loadChildren: 'app/components/employee-home/employee-home.module#EmployeeHomeModule',
                             canLoad: [AuthGuard]
                         },
                         {
                             path: 'inventory',
-                            loadChildren: 'app/components/inventory/inventory.module#InventoryModule',
+                            loadChildren: () => import('app/components/inventory/inventory.module').then(m => m.InventoryModule),
+                            // loadChildren: 'app/components/inventory/inventory.module#InventoryModule',
                             canLoad: [AuthGuard]
                         },
                         {
                             path: 'expense',
-                            loadChildren: 'app/components/expense-management/expense-management.module#ExpenseManagementModule',
+                            loadChildren: () => import('app/components/expense-management/expense-management.module').then(m => m.ExpenseManagementModule),
+                            // loadChildren: 'app/components/expense-management/expense-management.module#ExpenseManagementModule',
                             canLoad: [AuthGuard]
                         }, 
                        {
                             path:'fee',
-                            loadChildren:'app/components/fee-module/fee.module#FeeModule',
+                            loadChildren: () => import('app/components/fee-module/fee.module').then(m => m.FeeModule),
+                            // loadChildren:'app/components/fee-module/fee.module#FeeModule',
                             canLoad: [AuthGuard]
                         },
                         {
                             path:'communicate',
-                            loadChildren:'app/components/communicate/communicate.module#CommunicateModule',
+                            loadChildren: () => import('app/components/communicate/communicate.module').then(m => m.CommunicateModule)
+                            // loadChildren:'app/components/communicate/communicate.module#CommunicateModule',
                         },
                         {
                             path:'course',
-                            loadChildren:'app/components/course-module/course-module.module#CourseModule2',
+                            loadChildren: () => import('app/components/course-module/course-module.module').then(m => m.CourseModule2)
+                            // loadChildren:'app/components/course-module/course-module.module#CourseModule2',
                         },
                         {
                             path:'batch',
-                            loadChildren:'app/components/course-module/course-module.module#CourseModule2',
+                            loadChildren: () => import('app/components/course-module/course-module.module').then(m => m.CourseModule2)
+                            // loadChildren:'app/components/course-module/course-module.module#CourseModule2',
                         },
                         {
                             path: 'help',
-                            loadChildren: 'app/components/help-home/help-home.module#HelpHomeModule',
+                            loadChildren: () => import('app/components/help-home/help-home.module').then(m => m.HelpHomeModule),
+                            // loadChildren: 'app/components/help-home/help-home.module#HelpHomeModule',
                             canLoad: [AuthGuard]
                         },
                         {
                             path: 'master',
-                            loadChildren: 'app/components/master/master.module#ManageExamModule',
+                            loadChildren: () => import('app/components/master/master.module').then(m => m.ManageExamModule),
+                            // loadChildren: 'app/components/master/master.module#ManageExamModule',
                             canLoad: [AuthGuard]
                         },
                         {
                             path: 'setting',
-                            loadChildren: 'app/components/institute-settings/institutes-setting.module#InstituteSettingModule',
+                            loadChildren: () => import('app/components/institute-settings/institutes-setting.module').then(m => m.InstituteSettingModule),
+                            // loadChildren: 'app/components/institute-settings/institutes-setting.module#InstituteSettingModule',
                             canLoad: [AuthGuard]
                         },
                         {
                             path: 'account',
-                            loadChildren: 'app/components/institute-details/institute-details.module#InstituteDetailsModule',
+                            loadChildren: () => import('app/components/institute-details/institute-details.module').then(m => m.InstituteDetailsModule),
+                            // loadChildren: 'app/components/institute-details/institute-details.module#InstituteDetailsModule',
                             canLoad: [AuthGuard]
                         },
                         {
                             path: 'manage',
-                            loadChildren: 'app/components/users-management/users-management.module#UserManagementModule',
+                            loadChildren: () => import('app/components/users-management/users-management.module').then(m => m.UserManagementModule),
+                            // loadChildren: 'app/components/users-management/users-management.module#UserManagementModule',
                             canLoad: [AuthGuard]
                         },
                         {
                             path: 'library',
-                            loadChildren: 'app/components/library-management/library-management.module#LibraryManagementModule',
+                            loadChildren: () => import('app/components/library-management/library-management.module').then(m => m.LibraryManagementModule)
+                            // loadChildren: 'app/components/library-management/library-management.module#LibraryManagementModule',
                         },
                         {
                             path: 'e-store',
-                            loadChildren: 'app/components/eStore-module/estore.module#EstoreModule'
+                            loadChildren: () => import('app/components/eStore-module/estore.module').then(m => m.EstoreModule)
+                            // loadChildren: 'app/components/eStore-module/estore.module#EstoreModule'
                         },
                         {
                             path: 'training-video',
@@ -120,11 +140,13 @@ import { TrainingVideoComponent } from './training-video/training-video.componen
                         },
                         {
                             path: 'live-classes',
-                            loadChildren: 'app/components/live-classes-module/live-classes.module#LiveClassesModule'
+                            loadChildren: () => import('app/components/live-classes-module/live-classes.module').then(m => m.LiveClassesModule)
+                            // loadChildren: 'app/components/live-classes-module/live-classes.module#LiveClassesModule'
                         },
                         {
                             path:'students',
-                            loadChildren:'app/components/student-module/student-module.module#StudentModule2',
+                            loadChildren: () => import('app/components/student-module/student-module.module').then(m => m.StudentModule2),
+                            // loadChildren:'app/components/student-module/student-module.module#StudentModule2',
                             canLoad:[AuthGuard]
                         }
                     ]

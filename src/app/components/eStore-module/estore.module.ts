@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { FormsModule } from '../../../../node_modules/@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap-custome';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MessageShowService } from '../../services/message-show.service';
 import { ExportToPdfService } from '../../services/export-to-pdf.service';

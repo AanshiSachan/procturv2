@@ -18,7 +18,8 @@ import { HelpHomeComponent } from './help-home.component';
                     },
                     {
                         path: 'faq',
-                        loadChildren: 'app/components/help-home/faq/faq.module#FaqModule',
+                        loadChildren: () => import('app/components/help-home/faq/faq.module').then(m => m.FaqModule),
+                        // loadChildren: 'app/components/help-home/faq/faq.module#FaqModule',
                         pathMatch: 'prefix'
                     },
                 ]

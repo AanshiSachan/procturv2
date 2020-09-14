@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
 
