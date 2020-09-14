@@ -38,7 +38,6 @@ export class ProductListComponent implements OnInit {
     total_items: 0
   };
 
-  helpMsg: string = "Product on which the bar colour is green,is an advanced product"
   productList: any = [];
   productDetails: any = [];
   ecourseList: any = [];
