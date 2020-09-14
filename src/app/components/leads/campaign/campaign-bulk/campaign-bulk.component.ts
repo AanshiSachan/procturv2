@@ -67,7 +67,7 @@ export class CampaignBulkComponent implements OnInit {
   /* base64 data to be converted to xls file */
   downloadTemplate() {
     //console.log(this.auth.getBaseUrl);
-    window.open("https://app.proctur.com/doc/lead_upload_form.xls", "_blank");
+    window.open("https://test999.proctur.com/doc/lead_upload_form.xls", "_blank");
   }
 
   /* convert base64 string to byte array */
