@@ -271,7 +271,8 @@ export class RegisteredStudentComponent implements OnInit {
     this.auth.showLoader();
     let obj = {
       from_date: '',
-      to_date: moment().format("YYYY-MM-DD")
+      to_date: moment().format("YYYY-MM-DD"),
+      source: "SMS"
     }
     this.httpService.postData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/all', obj).subscribe(
       res => {
@@ -307,7 +308,7 @@ export class RegisteredStudentComponent implements OnInit {
   }
 
   saveSMS() {
-    let obj = { message: this.message };
+    let obj = { message: this.message, source: "SMS" };
     if (this.message != '' && this.message.trim() != '') {
       this.auth.showLoader();
       this.httpService.postData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id'), obj).subscribe(
@@ -327,7 +328,7 @@ export class RegisteredStudentComponent implements OnInit {
   }
 
   updateSMS() {
-    let obj = { message: this.message };
+    let obj = { message: this.message, source: "SMS" };
     if (this.message != '' && this.message.trim() != '') {
       this.auth.showLoader();
       this.httpService.putData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/' + this.editObj.message_id, obj).subscribe(
