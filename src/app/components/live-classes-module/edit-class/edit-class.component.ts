@@ -947,6 +947,25 @@ export class EditClassComponent implements OnInit {
       (data: any) => {
         this.studentList = data.studentsAssigned;
         console.log(data.studentsAssigned)
+        // Added by - Nalini Walunj
+        // if we change course then selected student list should be clear and if we select same course then already selected students should be seleted
+          let studentIDS = this.editData.studentIDS.split(',')
+          let studentName = this.editData.studentName.split(',')
+          let temp: any[] = [];
+          for (var i = 0; i < this.studentList.length; i++) {
+            for(var j = 0; j < studentIDS.length; j++){
+            if(this.studentList[i].student_id == studentIDS[j]){
+            let x = {
+              student_id: '',
+              student_name: ''
+            };
+            x.student_id = studentIDS[j];
+            x.student_name = studentName[j]
+            temp.push(x)
+            }
+            }
+            this.selectedStudentList = temp;
+          }
         // this.getCheckedBox(this.studentsAssigned);
         this.auth.hideLoader();
       },
