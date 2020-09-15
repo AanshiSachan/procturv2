@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { EditorModule } from '@tinymce/tinymce-angular';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
 import { FileUploadModule, MenuModule, SplitButtonModule } from 'primeng/primeng';
@@ -36,7 +37,8 @@ import { EnquiryComponent } from './enquiry.component';
         MenuModule,
         SharedModule,
         LeadsModule,
-        ManageExamModule
+        ManageExamModule,
+        EditorModule
     ],
     declarations: [
         EnquiryComponent,

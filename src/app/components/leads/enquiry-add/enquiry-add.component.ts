@@ -160,6 +160,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   selectedCourseIds: any = null;
   selectedSubjectIds: any = null;
   isEnquirySubmit: boolean = true;
+  permissionList: any;
+  permission: boolean = false;
   instituteCountryDetObj: any = {};
   maxlength: any = 10;
   country_id: any = null;
@@ -215,6 +217,15 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isCityMandatory = sessionStorage.getItem('enable_routing');
     this.isStateMandatory = sessionStorage.getItem('enable_routing');
+    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('permissions') == null || JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
+      this.permission = false;
+    }
+    else {
+      if (JSON.parse(sessionStorage.getItem('permissions')).length == 1) {
+        if (JSON.parse(sessionStorage.getItem('permissions')).includes('110'))
+          this.permission = true;
+      }
+    }
     this.isEnquiryAdministrator();
     this.fetchEnquiryPrefilledData();
 
