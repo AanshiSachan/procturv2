@@ -910,7 +910,12 @@ export class EditClassComponent implements OnInit {
     }
     else {
       this.auth.showLoader();
-      const url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/' + master_course_name
+      let url = '';
+      if (this.userType === '3') {
+        url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y&isActiveNotExpire=Y';
+      } else {
+        url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all?isActiveNotExpire=Y';
+      }
       this.http_service.getData(url).subscribe(
         (data: any) => {
           this.auth.hideLoader();
