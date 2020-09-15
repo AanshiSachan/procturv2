@@ -4,7 +4,6 @@
     <aside class="pull-left middle-left " id="addNewEnquiry">
       <!-- Header -->
       <section class="middle-top clearFix">
-
         <div class="row">
           <h1 class="pull-left">
             Add New Enquiry
@@ -14,7 +13,6 @@
               id="btnUpload">
           </aside>
         </div>
-
       </section>
       <!-- Accordian Menu Element -->
       <section class="middle-main clearFix" id="middleMain">
@@ -49,12 +47,8 @@
                           name is required.
                         </div>
                       </div>
-
-
-
                     </div>
                   </div>
-
                   <!-- Phone No -->
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <div class="field-wrapper">
@@ -121,20 +115,12 @@
                     </div>
                   </div>
                 </div>
-
-
-
-
-
-
-
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <div class="field-wrapper datePickerBox2">
                       <label for="dob">Date of Birth</label>
                       <input type="text" value="" id="dob" class="form-ctrl bsDatepicker" [(ngModel)]="newEnqData.dob"
                         name="dob" readonly='true' bsDatepicker style="border-radius: 4px;width: 20rem;">
-
                       <!-- <span class="date-clear" name="dob" (click)="newEnqData.dob = ''"
                         style="left: 18rem;top: 3.5rem;">clear</span> -->
                     </div>
@@ -161,8 +147,6 @@
                       style="left: 21rem;top: 14.5rem;">clear</span>
                   </div>
                 </div>
-
-
                 <div class="row">
                   <!-- City -->
                   <div class="c-lg-6 c-md-6 c-sm-6">
@@ -192,29 +176,8 @@
                       </select>
                       <span (click)="toggleAddArea()" class="sourceI iconPlus">+</span>
                     </div>
-
-
-
-
-
-
-
-
-
-
                   </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- Source -->
@@ -238,16 +201,6 @@
                     </div>
                   </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- Phone -->
@@ -287,14 +240,6 @@
                     </div>
                   </div>
                 </div>
-
-
-
-
-
-
-
-
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
 
@@ -331,16 +276,6 @@
                     </div>
                   </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- Email -->
@@ -365,18 +300,9 @@
                       <label for="enquirerLink">Link Details</label>
                       <input type="text" value="" id="enquirerLink" class="form-ctrl" [(ngModel)]="newEnqData.link"
                         name="enquirerLink" style="border-radius: 4px;width: 20rem;" />
-
                     </div>
                   </div>
                 </div>
-
-
-
-
-
-
-
-
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- Fee Commited -->
@@ -386,7 +312,6 @@
                         [(ngModel)]="newEnqData.fee_committed" name="feeCommitted"
                         onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #feeCommitted="ngModel"
                         style="border-radius: 4px;width: 20rem;" />
-
                     </div>
                   </div>
                   <!-- Discount -->
@@ -396,10 +321,8 @@
                       <input type="text" value="" id="discount" class="form-ctrl"
                         [(ngModel)]="newEnqData.discount_offered" name="discount" #discount="ngModel"
                         style="border-radius: 4px;width: 20rem;" />
-
                     </div>
                   </div>
-
                 </div>
               </div>
             </li>
@@ -413,8 +336,6 @@
                 </h4>
               </div>
               <div class="accordian-content">
-
-
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- school -->
@@ -432,24 +353,8 @@
                     </div>
                   </div>
                   <div class="c-lg-6 c-md-6 c-sm-6">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                   </div>
                 </div>
-
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- standard Course-->
@@ -460,19 +365,11 @@
                         style="border-radius: 4px;width: 20rem;">
                         <option value="-1"></option>
                         <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
-
                       </select>
-
-
-
-
-
                     </div>
                   </div>
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- masterCourse course -->
-
-
                     <div *ngIf="!isProfessional" class="field-wrapper">
                       <label for="editMc">Master Course</label>
                       <select id="editMc" class="form-ctrl" name="editMc" [(ngModel)]="course_mastercourse_id"
@@ -506,17 +403,10 @@
                         name="editCC" multiple style="border-radius: 4px;width: 20rem;">
                         <option value="-1"></option>
                         <option *ngFor="let cc of course_course" [value]="cc.course_id">{{cc.course_name}}</option>
-
-
-
-
                       </select>
-
                     </div>
                   </div>
                 </div>
-
-
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- master Professional -->
@@ -531,7 +421,6 @@
                     </div>
                   </div>
                   <div class="c-lg-6 c-md-6 c-sm-6">
-
                     <!-- course Professional -->
                     <div *ngIf="isProfessional" class="field-wrapper">
                       <label for="forSubject">Course</label>
@@ -561,13 +450,8 @@
                       </div>
 
                       <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="component.type == 2" input-def>
-
-
-
                         <br>
                         <div class="field-checkbox-wrapper">
-
-
                           <input class="form-checkbox" id="{{component.id}}" type="checkbox"
                             [(ngModel)]="component.value" style="border-radius: 4px;width: 20rem;"
                             name="{{component.label}}" value="">
@@ -577,14 +461,8 @@
                           </label>
                         </div>
                       </div>
-
-
                       <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="component.type == 3" input-def>
-
                         <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-
-
-
                           <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span
                               class="text-danger">*</span></label>
                           <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}}
@@ -596,11 +474,8 @@
                               {{opt.displayName}}
                             </option>
                           </select>
-
                         </div>
                       </div>
-
-
                       <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="component.type == 4 " input-def>
                         <div id="{{component.id}}wrapper" class="field-wrapper"
                           (click)="multiselectVisible($event.target.id)">
@@ -611,10 +486,6 @@
                           <input id="{{component.id}}" type="text" [ngModel]="component.selectedString"
                             style="border-radius: 4px;width: 20rem;" name="{{component.label}}" class="form-ctrl"
                             readonly="true" />
-
-
-
-
                         </div>
                         <div id="{{component.id}}multi" class="hide multiselect-wrapper"
                           (mouseleave)="multiselectVisible(component.id)">
@@ -622,23 +493,6 @@
                             <ul class="">
                               <li *ngFor="let opt of component.prefilled_data">
                                 <div class="field-checkbox-wrapper">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                   <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked"
                                     style="border-radius: 4px;width: 20rem;"
                                     (ngModelChange)="updateMultiSelect(opt, component.id)" class="form-checkbox"
@@ -650,8 +504,6 @@
                           </div>
                         </div>
                       </div>
-
-
                       <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="component.type == 5 " input-def>
                         <div class="field-wrapper datePickerBox1"
                           [ngClass]="{'has-value': component.value != 'Invalid date'}">
@@ -662,21 +514,16 @@
                           <input type="text" value="" readonly="true" id="{{component.id}}"
                             [(ngModel)]="component.value" style="border-radius: 4px;width: 20rem;"
                             class="form-ctrl bsDatepicker" name="{{component.label}}" bsDatepicker />
-
                         </div>
                       </div>
                     </ng-template>
                   </div>
                 </ng-template>
               </div>
-
-
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
-
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
-
                 </div>
               </div>
             </li>
@@ -737,34 +584,6 @@
         <h4>
           <strong>Enquiry Details</strong> (Official Use)</h4>
         <div class="box-shadow-lite">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
           <div class="row">
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper datePickerBox"
@@ -786,27 +605,9 @@
                     [attr.selected]="status.data_value == 'Open' ? '' : null"
                     [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
                 </select>
-
-
-
               </div>
-
-
-
-
             </div>
           </div>
-
-
-
-
-
-
-
-
-
-
-
           <div class="row">
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.priority != '-1'}">
@@ -832,19 +633,9 @@
                     {{followUp.data_value}}
                   </option>
                 </select>
-
               </div>
-
-
-
-
-
-
-
             </div>
-
           </div>
-
           <div class="row">
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper datePickerBox">
@@ -865,7 +656,6 @@
                     {{time}}
                   </option>
                 </select>
-
               </div>
             </div>
             <div class="c-lg-3 c-md-3 c-sm-3" style="margin-left: -6px;">
@@ -880,7 +670,6 @@
               </div>
             </div>
           </div>
-
           <div class="row">
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="change-wrapper">
@@ -893,16 +682,8 @@
               </div>
             </div>
             <div class="c-lg-6 c-md-6 c-sm-6">
-
             </div>
           </div>
-
-
-
-
-
-
-
           <div class="row">
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper datePickerBox" *ngIf="newEnqData.follow_type == 'Walkin'">
@@ -934,11 +715,9 @@
                     {{minute}}
                   </option>
                 </select>
-
               </div>
             </div>
           </div>
-
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.referred_by != '-1'}" style="margin-top: 4%;">
             <label for="refferedBy">Referred By</label>
             <select id="refferedBy" class="form-ctrl" [(ngModel)]="newEnqData.referred_by" name="reffered"
@@ -976,13 +755,9 @@
           </div>
         </div>
       </section>
-
     </aside>
-
   </form>
 </section>
-
-
 
 
 <!-- Confirmation PopUp -->
@@ -1026,7 +801,6 @@
               <a style="cursor:pointer" (click)="reloadEnquiryForm()" id="reloadEnquiryAnch12">Add new enquiry</a>
               <a style="cursor:pointer" *ngIf="permission != true" routerLink="/view/leads/enquiry/upload"
                 id="uploadAnch13">Add Bulk enquiry</a>
-
             </div>
           </div>
         </div>
@@ -1150,13 +924,11 @@
                   </a>
                 </div>
               </td>
-
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-
   </div>
 
 </proctur-popup>
@@ -1253,20 +1025,13 @@
                   </a>
                 </div>
               </td>
-
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-
   </div>
-
 </proctur-popup>
-
-
-
-
 <!-- Add New Reference -->
 <proctur-popup [hidden]="!isReferPop">
 
@@ -1284,7 +1049,6 @@
       </g>
     </svg>
   </span>
-
   <h2 popup-header>Add Referrer </h2>
 
   <div class="institute-editor" popup-content>
