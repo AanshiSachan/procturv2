@@ -293,7 +293,9 @@ export class EditClassComponent implements OnInit {
       (data: any) => {
         console.log(data)
         this.editData = data;
-        this.topicName = this.editData.session_name;
+        this.getBatchesCourses();
+        setTimeout (() => {
+          this.topicName = this.editData.session_name;
 
         if (this.editData.sent_notification_flag == 1) {
           this.editData.sent_notification_flag = true;
@@ -339,9 +341,8 @@ export class EditClassComponent implements OnInit {
         if (this.editData.course_list != null && this.editData.course_list.length > 0) {
           this.courseValue = this.editData.course_list[0].master_course_name;
         }
-        this.getCourses(this.courseValue);
+          this.getCourses(this.courseValue);
         this.courseIds = this.editData.course_list;
-        this.getBatchesCourses();
         if (this.editData.course_list != null && this.editData.course_list.length > 0) {
           this.getCoursepreFillData();
         }
@@ -354,6 +355,7 @@ export class EditClassComponent implements OnInit {
           this.product_id = this.editData.product_id;
           this.getUserpreFillData();
         }
+       }, 3000);
         // this.getStudentpreFillData();
       },
       (error: any) => {
@@ -839,6 +841,7 @@ export class EditClassComponent implements OnInit {
   }
 
   getBatchesCoursesIds(ids) {
+    this.selectedStudentList = [];
     let temp: any = [];
     if (this.isProfessional) {
       this.batchesIds = ids;
@@ -901,8 +904,6 @@ export class EditClassComponent implements OnInit {
     }
   }
 
-// Removed the previous API call as their is not need to call one more api to fetch courselist. It already coming in master course
-  // api. Added By ashwini kumar gupta
   getCourses(master_course_name) {
     this.selectedCourseList = [];
     let tempData: any = this.masters;
@@ -911,9 +912,7 @@ export class EditClassComponent implements OnInit {
         this.courses = tempData[i].coursesList;
       }
     }
-//End
   }
-  // End
 
   getStudents() {
     this.studentList = [];
@@ -946,6 +945,25 @@ export class EditClassComponent implements OnInit {
       (data: any) => {
         this.studentList = data.studentsAssigned;
         console.log(data.studentsAssigned)
+        // Added by - Nalini Walunj
+        // if we change course then selected student list should be clear and if we select same course then already selected students should be seleted
+          let studentIDS = this.editData.studentIDS.split(',')
+          let studentName = this.editData.studentName.split(',')
+          let temp: any[] = [];
+          for (var i = 0; i < this.studentList.length; i++) {
+            for(var j = 0; j < studentIDS.length; j++){
+            if(this.studentList[i].student_id == studentIDS[j]){
+            let x = {
+              student_id: '',
+              student_name: ''
+            };
+            x.student_id = studentIDS[j];
+            x.student_name = studentName[j]
+            temp.push(x)
+            }
+            }
+            this.selectedStudentList = temp;
+          }
         // this.getCheckedBox(this.studentsAssigned);
         this.auth.hideLoader();
       },
