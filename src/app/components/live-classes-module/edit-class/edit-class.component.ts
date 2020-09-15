@@ -293,7 +293,9 @@ export class EditClassComponent implements OnInit {
       (data: any) => {
         console.log(data)
         this.editData = data;
-        this.topicName = this.editData.session_name;
+        this.getBatchesCourses();
+        setTimeout (() => {
+          this.topicName = this.editData.session_name;
 
         if (this.editData.sent_notification_flag == 1) {
           this.editData.sent_notification_flag = true;
@@ -339,9 +341,8 @@ export class EditClassComponent implements OnInit {
         if (this.editData.course_list != null && this.editData.course_list.length > 0) {
           this.courseValue = this.editData.course_list[0].master_course_name;
         }
-        this.getCourses(this.courseValue);
+          this.getCourses(this.courseValue);
         this.courseIds = this.editData.course_list;
-        this.getBatchesCourses();
         if (this.editData.course_list != null && this.editData.course_list.length > 0) {
           this.getCoursepreFillData();
         }
@@ -354,6 +355,7 @@ export class EditClassComponent implements OnInit {
           this.product_id = this.editData.product_id;
           this.getUserpreFillData();
         }
+       }, 3000);
         // this.getStudentpreFillData();
       },
       (error: any) => {
@@ -904,28 +906,11 @@ export class EditClassComponent implements OnInit {
 
   getCourses(master_course_name) {
     this.selectedCourseList = [];
-    this.selectedStudentList = [];
-    if (master_course_name == null || master_course_name == '') {
-      this.courses = [];
-    }
-    else {
-      this.auth.showLoader();
-      let url = '';
-      if (this.userType === '3') {
-        url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y&isActiveNotExpire=Y';
-      } else {
-        url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all?isActiveNotExpire=Y';
+    let tempData: any = this.masters;
+    for (let i = 0; i < tempData.length; i++) {
+      if (tempData[i].master_course === master_course_name) {
+        this.courses = tempData[i].coursesList;
       }
-      this.http_service.getData(url).subscribe(
-        (data: any) => {
-          this.auth.hideLoader();
-          this.courses = data.coursesList;
-        },
-        (error: any) => {
-          this.errorMessage(error);
-          this.auth.hideLoader();
-        }
-      )
     }
   }
 
