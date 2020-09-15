@@ -902,19 +902,27 @@ export class EditClassComponent implements OnInit {
     }
   }
 
-// Removed the previous API call as their is not need to call one more api to fetch courselist. It already coming in master course
-  // api. Added By ashwini kumar gupta
   getCourses(master_course_name) {
     this.selectedCourseList = [];
-    let tempData: any = this.masters;
-    for (let i = 0; i < tempData.length; i++) {
-      if (tempData[i].master_course === master_course_name) {
-        this.courses = tempData[i].coursesList;
-      }
+    this.selectedStudentList = [];
+    if (master_course_name == null || master_course_name == '') {
+      this.courses = [];
     }
-//End
+    else {
+      this.auth.showLoader();
+      const url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/' + master_course_name
+      this.http_service.getData(url).subscribe(
+        (data: any) => {
+          this.auth.hideLoader();
+          this.courses = data.coursesList;
+        },
+        (error: any) => {
+          this.errorMessage(error);
+          this.auth.hideLoader();
+        }
+      )
+    }
   }
-  // End
 
   getStudents() {
     this.studentList = [];
