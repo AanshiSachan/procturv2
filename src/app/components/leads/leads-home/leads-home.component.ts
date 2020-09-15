@@ -71,6 +71,7 @@ export class LeadsHomeComponent implements OnInit {
       if (JSON.parse(sessionStorage.getItem('permissions')).includes('110')) {
         this.jsonRolesFlags.isShowManageEnquiry = true;
         this.jsonRolesFlags.isShowAddEnquiry = true;
+        this.jsonRolesFlags.isShowReport = true;
       }
       // enquiry  admin --115
       if (JSON.parse(sessionStorage.getItem('permissions')).includes('115')) {

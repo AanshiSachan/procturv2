@@ -17,15 +17,17 @@ export class CounsellorReportComponent implements OnInit {
   counsellorInfo = {
     user_Type: 0
   }
-
+  userId: any = sessionStorage.getItem("userid");
+  username: any = sessionStorage.getItem("username");
   counsellorInfoDetails = {
     institution_id: this.counsellor.institute_id,
     reportType: "assigned",
-    assigned_to: -1,
+    assigned_to: (this.username === "admin" || (JSON.parse(sessionStorage.getItem('permissions')).includes('722')) ? -1 : this.userId),
     updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
     updateDateTo: moment().format('YYYY-MM-DD'),
   }
 
+  permission: boolean = true;
   getCounsellorDetails: any = {};
   getCounsellorData: any = [];
   mappedCounsellor: any = [];
@@ -71,10 +73,17 @@ export class CounsellorReportComponent implements OnInit {
     private login: LoginService) { }
 
   ngOnInit() {
-    this.fetchAllCounsellorData();
+    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('permissions') == null || JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
+      this.fetchAllCounsellorData();
+    }
+    else {
+      if (JSON.parse(sessionStorage.getItem('permissions')).length == 1) {
+        if (JSON.parse(sessionStorage.getItem('permissions')).includes('110'))
+          this.permission = false;
+      }
+    }
     this.fetchAllCounsellorDataDetails();
   }
-
 
   fetchAllCounsellorData() {
     this.dataStatus = 1;
