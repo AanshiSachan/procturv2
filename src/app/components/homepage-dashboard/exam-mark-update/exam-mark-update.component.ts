@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { HttpService } from '../../../services/http.service';
@@ -12,7 +12,7 @@ declare var $;
   styleUrls: ['./exam-mark-update.component.scss'],
   // encapsulation: ViewEncapsulation.Emulated
 })
-export class ExamMarkUpdateComponent implements OnInit {
+export class ExamMarkUpdateComponent implements OnInit, OnDestroy {
 
   @ViewChild('forms') forms: any;
   permissionArray = sessionStorage.getItem('permissions');
@@ -51,6 +51,10 @@ export class ExamMarkUpdateComponent implements OnInit {
     this.examGradeFeature = Number(sessionStorage.getItem('is_exam_grad_feature'));
     this.checkForCoursePlannerRoute();
     this.fetchWidgetPrefill();
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem('exam_info');
   }
 
   checkForCoursePlannerRoute(){
