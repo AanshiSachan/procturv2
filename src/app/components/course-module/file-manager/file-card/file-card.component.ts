@@ -60,9 +60,11 @@ export class FileCardComponent implements OnChanges {
   @Output() playYoutubeVideo = new EventEmitter<any>();
   @Output() editYoutubeVideo = new EventEmitter<any>();
   @Output() ShowDeleteFileButton = new EventEmitter<any>();
+  @Output() playVimeoVideo = new EventEmitter<any>();
   dwnldLink = "";
   arr: any[] = [];
   fileURL: any;
+  vimeo_category_id = '272';
 
   @Output() downloadStatus = new EventEmitter<any>();
   constructor(
@@ -96,11 +98,14 @@ export class FileCardComponent implements OnChanges {
     var name = data.label.substring(0, data.label.lastIndexOf("_"));
     var type = data.label.substring(data.label.lastIndexOf(".")+1);
     this.fileObj = new File(name, type, data.data);
-    if(data.data.category_id != "230"){
-    this.setImageAndIcons(type);
-    } else {
+    if(data.data.category_id == "230"){
       this.fileHeader.nativeElement.classList.add("youtube");
       this.fileHeader.nativeElement.classList.add("youtube-url");
+    } else if(data.data.category_id == this.vimeo_category_id && (data.data.thumbnail_list==null || !data.data.thumbnail_list || (!data.data.thumbnail_list.length || data.data.thumbnail_list[0].posterUrl==null))) {
+      this.fileHeader.nativeElement.classList.add("video");
+      this.fileHeader.nativeElement.classList.add("vimeo-url");
+    } else {
+      this.setImageAndIcons(type);
     }
     this.cd.detectChanges();
     this.cd.detach();
@@ -282,5 +287,9 @@ export class FileCardComponent implements OnChanges {
 
   editYoutubeUrl(file) {
     this.editYoutubeVideo.emit(file);
+  }
+
+  getVimeoVideo(file) {
+    this.playVimeoVideo.emit(file);
   }
 }
