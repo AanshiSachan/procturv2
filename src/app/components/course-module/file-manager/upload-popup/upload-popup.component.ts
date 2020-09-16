@@ -358,19 +358,21 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       // formData.append("file", this.selectedFiles[0]);
 
       let size = 0;
+      let fileJson = {
+        "size": '',
+        "title": '',
+      }
       if(this.category_id == this.vimeo_category_id) {
       size = this.Vimeofile.files && this.Vimeofile.files[0] ? this.Vimeofile.files[0].size : 0;
-        let fileJson = {	
-          "size": (size / (1024*1024)).toFixed(3),	
-          "title": this.youtubeUrl,	
-        }
-        formData.append('fileJson', JSON.stringify(fileJson));
+      fileJson.size = (size / (1024*1024)).toFixed(3);
+      fileJson.title = this.youtubeUrl;
       } else {
         let arr = Array.from(this.selectedFiles)
         arr.map((ele, index) => {
           formData.append("file_" + index, ele);
         })
       }
+      formData.append('fileJson', JSON.stringify(fileJson));
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/createFiles";
       let newxhr = new XMLHttpRequest();
