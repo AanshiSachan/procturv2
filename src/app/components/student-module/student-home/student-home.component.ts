@@ -95,6 +95,7 @@ export class StudentHomeComponent implements OnInit {
   currentDirection: string = 'asc';
   sortBy: string = "student_name";
   downloadStudentReportAccess: boolean = false;
+  showQuickFilter = false;
 
 
   private editForm: any = {
@@ -729,10 +730,13 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   openAdFilter() {
+    this.showQuickFilter = false;
     this.closeSideBar();
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
     document.getElementById('adFilterOpen').classList.add('hide');
+    if(document.getElementById('basic-search')) {
     document.getElementById('basic-search').classList.add('hide');
+    }
     document.getElementById('adFilterExit').classList.remove('hide');
     // document.getElementById('black-bg').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.remove('hide');
@@ -1220,6 +1224,7 @@ export class StudentHomeComponent implements OnInit {
   searchDatabase() {
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
+    if(!this.showQuickFilter) {
     /* If User has entered an empty value needs to be informed */
     if (this.searchBarData == '' || this.searchBarData == ' ' || this.searchBarData == null || this.searchBarData == undefined) {
       this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
@@ -1238,6 +1243,20 @@ export class StudentHomeComponent implements OnInit {
         this.loadTableDataSource(this.instituteData);
       }
 
+    }
+    } else {
+      let obj :any = {
+         name: "",
+         is_active_status: this.advancedFilterForm.is_active_status,
+         mobile: "",
+         start_index: 0,
+         batch_size: this.studentdisplaysize,
+         is_quick_filter: 'Y',
+         master_course_name: this.advancedFilterForm.master_course_name,
+         course_id : this.advancedFilterForm.course_id,
+         standard_id: this.advancedFilterForm.standard_id
+      }
+      this.loadTableDataSource(obj);
     }
   }
 
@@ -2556,5 +2575,35 @@ export class StudentHomeComponent implements OnInit {
         }
       )
     }
+  }
+
+  openQuickFilter() {
+    document.getElementById('adFilterExit').classList.add('hide');
+    document.getElementById('adFilterOpen').classList.remove('hide');
+    // document.getElementById('black-bg').classList.add('hide');
+    document.getElementById('advanced-filter-section').classList.add('hide');
+    this.showQuickFilter = true;
+    if (!this.standardList.length) {
+      this.auth.showLoader();
+      this.prefill.getEnqStardards().subscribe(data => {
+        this.auth.hideLoader();
+        this.standardList = data;
+      });
+    }
+    this.auth.showLoader();
+    this.studentPrefill.fetchBatchDetails().subscribe(data => {
+      this.auth.hideLoader();
+      this.batchList = data;
+    });
+  }
+
+  closeQuickFilter() {
+    this.showQuickFilter = false;
+    this.advancedFilterForm.standard_id = '-1';
+    this.advancedFilterForm.subject_id = '-1';
+    this.advancedFilterForm.is_active_status = '';
+    this.advancedFilterForm.master_course_name = '-1';
+    this.advancedFilterForm.course_id = '-1';
+    this.advancedFilterForm.standard_id = '-1';
   }
 }
