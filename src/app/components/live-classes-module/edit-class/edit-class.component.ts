@@ -355,7 +355,7 @@ export class EditClassComponent implements OnInit {
           this.product_id = this.editData.product_id;
           this.getUserpreFillData();
         }
-       }, 3000);
+       }, 5000);
         // this.getStudentpreFillData();
       },
       (error: any) => {
