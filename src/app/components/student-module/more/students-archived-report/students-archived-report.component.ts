@@ -15,10 +15,11 @@ declare var $;
 })
 export class StudentsArchivedReportComponent implements OnInit {
 
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   getStudents: any[] = []
   PageIndex: number = 1;
   PageIndexPopup: number = 1;
-  pagedisplaysize: number = 10;
+  pagedisplaysize: number = 25;
   pagedisplaysizePopup: number = 10;
   totalRow: number = 0;
   newPaginated: any[] = [];
@@ -41,7 +42,7 @@ export class StudentsArchivedReportComponent implements OnInit {
 
   constructor(
     private students: CoursesServiceService,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private appc: AppComponent,
     private router: Router,
     private _http: HttpService,
@@ -50,15 +51,135 @@ export class StudentsArchivedReportComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.setTableData();
     this.studentsArchivedData();
     this.checkDownloadRoleAccess();
   }
 
-  checkDownloadRoleAccess() {
-    if(sessionStorage.getItem('downloadStudentReportAccess')=='true'){
-        this.downloadStudentReportAccess = true;
+  headerSetting: any;
+  tableSetting: any;
+  rowColumns: any;
+
+  setTableData() {
+    this.headerSetting = [
+      {
+        primary_key: 'student_disp_id',
+        value: "Student ID",
+        charactLimit: 25,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'student_name',
+        value: "Student Name",
+        charactLimit: 25,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'is_alumni',
+        value: "Alumni",
+        charactLimit: 60,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'doj',
+        value: "Joining Date",
+        charactLimit: 20,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'dob',
+        value: "DOB",
+        charactLimit: 15,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'student_phone',
+        value: "Contact No.",
+        charactLimit: 30,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'parent_phone',
+        value: "Parent Contact No.",
+        charactLimit: 30,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'status',
+        value: "Status",
+        charactLimit: 30,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'archived_date',
+        value: "Archived Date Time",
+        charactLimit: 30,
+        sorting: false,
+        visibility: true
+      },
+
+
+    ]
+
+    this.tableSetting = {
+      width: "100%",
+      height: "69vh"
     }
-}
+
+    this.rowColumns = [
+      {
+        width: "10%",
+        textAlign: "center"
+      },
+      {
+        width: "10%",
+        textAlign: "center"
+      },
+      {
+        width: "10%",
+        textAlign: "center"
+      },
+      {
+        width: "10%",
+        textAlign: "center"
+      },
+      {
+        width: "10%",
+        textAlign: "center"
+      },
+      {
+        width: "10%",
+        textAlign: "center"
+      },
+      {
+        width: "10%",
+        textAlign: "center"
+      },
+      {
+        width: "10%",
+        textAlign: "center"
+      },
+      {
+        width: "20%",
+        textAlign: "center"
+      },
+
+    ]
+  }
+
+  checkDownloadRoleAccess() {
+    if (sessionStorage.getItem('downloadStudentReportAccess') == 'true') {
+      this.downloadStudentReportAccess = true;
+    }
+  }
 
   studentsArchivedData() {
     this.auth.showLoader();
@@ -85,7 +206,7 @@ export class StudentsArchivedReportComponent implements OnInit {
     )
   }
 
-  showDownloadDetails(){
+  showDownloadDetails() {
     this.stdetchForm = {
       from_date: moment().format("YYYY-MM-01"),
       to_date: moment(new Date()).format('YYYY-MM-DD')
@@ -97,47 +218,47 @@ export class StudentsArchivedReportComponent implements OnInit {
     });
   }
 
-  close_popup(){
+  close_popup() {
     $("#actionProductModal").modal('hide');
   }
 
 
-  fetchArchivedListDetails(){
-        let url = "/api/v1/reports/StdFee/archived_inactive?institute_id=" + sessionStorage.getItem('institute_id');
-        if((this.stdetchForm.to_date !='' &&this.stdetchForm.from_date !='')){
-            url = url+'&&from_date='+moment(this.stdetchForm.from_date).format('YYYY-MM-DD');
-            url = url+'&&to_date='+moment(this.stdetchForm.to_date).format('YYYY-MM-DD');
-        }
-        this.auth.showLoader();
-        this._http.getData(url).subscribe((res: any) => {
-          // console.log("fetchArchivedListDetails", res);
-          this.auth.hideLoader();
-          this.close_popup();
-          if(res.validate){
-            let result = res.result;
-            let byteArr = this._commService.convertBase64ToArray(result.document);
-            let fileName = result.docTitle;
-            let file = new Blob([byteArr], { type: 'application/vnd.ms-excel' });
-            let url = URL.createObjectURL(file);
-            let dwldLink = document.getElementById('archived_download');
-            this.cd.markForCheck();
-            dwldLink.setAttribute("href", url);
-            dwldLink.setAttribute("download", fileName);
-            document.body.appendChild(dwldLink);
-            this.cd.markForCheck();
-            dwldLink.click();
-            this.cd.markForCheck();
-          } 
+  fetchArchivedListDetails() {
+    let url = "/api/v1/reports/StdFee/archived_inactive?institute_id=" + sessionStorage.getItem('institute_id');
+    if ((this.stdetchForm.to_date != '' && this.stdetchForm.from_date != '')) {
+      url = url + '&&from_date=' + moment(this.stdetchForm.from_date).format('YYYY-MM-DD');
+      url = url + '&&to_date=' + moment(this.stdetchForm.to_date).format('YYYY-MM-DD');
+    }
+    this.auth.showLoader();
+    this._http.getData(url).subscribe((res: any) => {
+      // console.log("fetchArchivedListDetails", res);
+      this.auth.hideLoader();
+      this.close_popup();
+      if (res.validate) {
+        let result = res.result;
+        let byteArr = this._commService.convertBase64ToArray(result.document);
+        let fileName = result.docTitle;
+        let file = new Blob([byteArr], { type: 'application/vnd.ms-excel' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('archived_download');
+        this.cd.markForCheck();
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        this.cd.markForCheck();
+        dwldLink.click();
+        this.cd.markForCheck();
+      }
 
-        }, err => {
-          this.auth.hideLoader();
-          let msg = {
-            type: "info",
-            body:err.error.message
-          }
-          this.appc.popToast(msg);
-          this.close_popup();
-        });
+    }, err => {
+      this.auth.hideLoader();
+      let msg = {
+        type: "info",
+        body: err.error.message
+      }
+      this.appc.popToast(msg);
+      this.close_popup();
+    });
 
   }
 
@@ -225,6 +346,10 @@ export class StudentsArchivedReportComponent implements OnInit {
       let t = this.arr.slice(startindex, startindex + this.pagedisplaysize);
       return t;
     }
+  }
+  updateTableBatchSize(event) {
+    this.pagedisplaysize = event;
+    this.fetchTableDataByPage(this.PageIndex);
   }
 
 
