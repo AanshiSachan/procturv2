@@ -17,6 +17,8 @@ import { WidgetService } from '../../../services/widget.service';
 })
 export class VdocipherComponent implements OnInit {
   @Input() storageData: any;
+  enable_vimeo_feature:any = false;
+  enable_vdoCipher_feature:any = false;
 
   constructor(
     private router: Router,
@@ -29,6 +31,12 @@ export class VdocipherComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(sessionStorage.getItem('enable_vimeo_feature') == '1') {
+      this.enable_vimeo_feature = true;
+    }
+    if(sessionStorage.getItem('enable_vdoCipher_feature') == '1') {
+      this.enable_vdoCipher_feature = true;
+    }
   }
 
 }

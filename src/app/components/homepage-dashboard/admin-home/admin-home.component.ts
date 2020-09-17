@@ -62,7 +62,9 @@ export class AdminHomeComponent implements OnInit {
     vDOCipher_used_storage: 0,
     vDOCipher_used_bandwidth: 0,
     storage_allocated: 0,
-    consumed_storage: 0
+    consumed_storage: 0,
+    vimeo_allocated_storage: 0,
+    vimeo_consumed_storage: 0
   };
 
 
@@ -361,6 +363,8 @@ export class AdminHomeComponent implements OnInit {
           this.storageData.vDOCipher_used_bandwidth = (Number(this.storageData.vDOCipher_used_bandwidth) / 1024).toFixed(3);
           this.storageData.vDOCipher_allocated_storage = (Number(this.storageData.vDOCipher_allocated_storage) / 1024).toFixed(3);
           this.storageData.vDOCipher_used_storage = (Number(this.storageData.vDOCipher_used_storage) / 1024).toFixed(3);
+          this.storageData.vimeo_allocated_storage = (Number(this.storageData.vimeo_allocated_storage) / 1024).toFixed(3);
+          this.storageData.vimeo_consumed_storage = (Number(this.storageData.vimeo_consumed_storage) / 1024).toFixed(3);
           let storageExceed = false;
           if ((Number(this.storageData.vDOCipher_allocated_storage)) != 0 && Number(this.storageData.vDOCipher_used_storage) != 0) {
             let perUsed = ((Number(this.storageData.vDOCipher_allocated_storage) * 80) / 100).toFixed(3);
@@ -462,7 +466,7 @@ export class AdminHomeComponent implements OnInit {
 
 
   checkVdoCipherRole() {
-    return sessionStorage.getItem('enable_vdoCipher_feature') == '1' ? false : true;
+    return (sessionStorage.getItem('enable_vdoCipher_feature') == '1' || sessionStorage.getItem('enable_vimeo_feature') == '1') ? false : true;
   }
 
   getCheckedStatus(id: string) {
