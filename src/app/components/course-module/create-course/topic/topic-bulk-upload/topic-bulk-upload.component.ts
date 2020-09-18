@@ -351,9 +351,9 @@ export class TopicBulkUploadComponent implements OnInit {
   }
 
   genrateReport(obj) {
-    if(obj.failure_count != 0) {
+    if(obj.failure_path != '') {
       this.downloadFailure(obj);
-    } else if (obj.success_count != 0) {
+    } else if (obj.success_path != '') {
       this.downloadSuccess(obj);
     }
   }
