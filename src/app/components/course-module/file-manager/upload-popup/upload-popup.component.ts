@@ -348,7 +348,6 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   }
 
   uploadFile() {
-    this.uploadStatus.emit(true);
       let path: string = "";
       let institute_id = sessionStorage.getItem("institute_id");
 
@@ -363,6 +362,10 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         "title": '',
       }
       if(this.category_id == this.vimeo_category_id) {
+        if(this.youtubeUrl == '') {
+          this.appC.popToast({ type: "error", body: "Please Enter title" })
+          return;
+        }
       size = this.Vimeofile.files && this.Vimeofile.files[0] ? this.Vimeofile.files[0].size : 0;
       fileJson.size = (size / (1024*1024)).toFixed(3);
       fileJson.title = this.youtubeUrl;
@@ -373,6 +376,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         })
       }
       formData.append('fileJson', JSON.stringify(fileJson));
+      this.uploadStatus.emit(true);
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/createFiles";
       let newxhr = new XMLHttpRequest();
