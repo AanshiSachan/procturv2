@@ -95,7 +95,7 @@ export class AddClassComponent implements OnInit {
     auto_recording: "none",
     is_zoom_live_class: false,
     hide_recording_notifications: true,
-    prevent_user_count: true
+    prevent_user_count: false
   };
   // Zoom
   auto_recording: boolean = false;
@@ -555,7 +555,7 @@ export class AddClassComponent implements OnInit {
       auto_recording: "none",
       is_zoom_live_class: false,
       hide_recording_notifications: true,
-      prevent_user_count: true
+      prevent_user_count: false
     };
 
     this.topicName = "";
@@ -688,7 +688,7 @@ export class AddClassComponent implements OnInit {
     }
   }
 
- // Removed the previous API call as their is not need to call one more api to fetch courselist. It already coming in master course
+  // Removed the previous API call as their is not need to call one more api to fetch courselist. It already coming in master course
   // api. Added By ashwini kumar gupta
   getCourses(master_course_name) {
     this.selectedCourseList = [];
@@ -698,7 +698,7 @@ export class AddClassComponent implements OnInit {
         this.courses = tempData[i].coursesList;
       }
     }
-//End
+    //End
   }
   // End
 
