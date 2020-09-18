@@ -353,6 +353,7 @@ export class EditClassComponent implements OnInit {
 
         if (this.editData.product_id != null) {
           this.product_id = this.editData.product_id;
+          this.onChangeProduct(this.product_id);
           this.getUserpreFillData();
         }
        }, 5000);
@@ -517,11 +518,11 @@ export class EditClassComponent implements OnInit {
 
 
   getStudentpreFillData() {
-
+    let temp: any[] = [];
+    if(this.editData.studentIDS!=null) {
     let studentIDS = this.editData.studentIDS.split(',')
     let studentName = this.editData.studentName.split(',')
 
-    let temp: any[] = [];
     for (var i = 0; i < studentIDS.length; i++) {
       let x = {
         student_id: '',
@@ -530,6 +531,7 @@ export class EditClassComponent implements OnInit {
       x.student_id = studentIDS[i];
       x.student_name = studentName[i]
       temp.push(x)
+    }
     }
 
     // this.studentList = temp;
@@ -944,12 +946,12 @@ export class EditClassComponent implements OnInit {
     this.http_service.postData(url, this.getPayloadBatch).subscribe(
       (data: any) => {
         this.studentList = data.studentsAssigned;
-        console.log(data.studentsAssigned)
         // Added by - Nalini Walunj
         // if we change course then selected student list should be clear and if we select same course then already selected students should be seleted
+        let temp: any[] = [];
+        if(this.editData.studentIDS!=null) {
           let studentIDS = this.editData.studentIDS.split(',')
           let studentName = this.editData.studentName.split(',')
-          let temp: any[] = [];
           for (var i = 0; i < this.studentList.length; i++) {
             for(var j = 0; j < studentIDS.length; j++){
             if(this.studentList[i].student_id == studentIDS[j]){
@@ -962,8 +964,9 @@ export class EditClassComponent implements OnInit {
             temp.push(x)
             }
             }
-            this.selectedStudentList = temp;
           }
+          }
+            this.selectedStudentList = temp;
         // this.getCheckedBox(this.studentsAssigned);
         this.auth.hideLoader();
       },
