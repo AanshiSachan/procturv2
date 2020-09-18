@@ -109,6 +109,7 @@ export class StudentsComponent implements OnInit {
   }
   notifyMe(e) {
     let str = ""
+    let arr = [];
     if (this.newPaginated[e].status == true) {
       this.arr.push(this.newPaginated[e].student_id)
     }
@@ -121,9 +122,14 @@ export class StudentsComponent implements OnInit {
         }
       })
     }
-    str = this.arr.join(',');
-    this.courseFetchForm.studentIds = str
-
+    this.newPaginated.forEach(element => {
+      if (element.status) {
+        arr.push(element.student_id)
+      }
+    });
+    str = arr.join(',');
+    this.courseFetchForm.studentIds = str;
+    console.log(this.courseFetchForm);
   }
 
 
@@ -263,6 +269,24 @@ export class StudentsComponent implements OnInit {
         )
       }
     }
+  }
+
+  isAllChecked(): boolean {
+    return this.newPaginated.every(_ => _.status);
+  }
+
+  toggleAllCheckBox($event) {
+    let str = "";
+    let arr = [];
+    this.newPaginated.forEach(element => {
+      element.status = this.checkedStatus;
+      if (element.status) {
+        arr.push(element.student_id)
+      }
+    });
+    str = arr.join(',');
+    this.courseFetchForm.studentIds = str;
+    console.log(this.courseFetchForm);
   }
 
   getValueChanged(event) {

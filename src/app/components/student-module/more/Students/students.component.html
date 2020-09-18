@@ -32,11 +32,11 @@
           <thead>
             <tr>
               <th style="text-align: left;padding-left: 16px;">
-                <!-- <div class="field-checkbox-wrapper" style="display: inline-block; height: 16px;">
-                  <input type="checkbox" class="form-checkbox" [(ngModel)]="checkedStatus"
-                    (ngModelChange)="getValueChanged($event)">
+                <div class="field-checkbox-wrapper" style="display: inline-block; height: 16px;">
+                  <input type="checkbox" class="form-checkbox" [checked]="isAllChecked()"
+                    [(ngModel)]="checkedStatus" (change)="toggleAllCheckBox()">
                   <label></label>
-                </div> -->
+                </div>
                 <span (click)="sortedData('student_disp_id') "># &nbsp;&nbsp;&nbsp;Student ID &nbsp;</span>
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_disp_id') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_disp_id') && direction != 1"></i>
@@ -75,7 +75,7 @@
             <tr *ngFor="let i of newPaginated , let j=index;">
               <td style="text-align: left;">
                 <div class="field-checkbox-wrapper" style="height: 16px;">
-                  <input type="checkbox" class="form-checkbox" [(ngModel)]="i.status" (ngModelChange)="notifyMe(j)">
+                  <input type="checkbox" class="form-checkbox" [checked]="i.status" [id]="'checkbox-'+i" [(ngModel)]="i.status" (ngModelChange)="notifyMe(j)">
                   <label></label>
                 </div>
                 {{i.student_disp_id}}
