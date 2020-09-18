@@ -353,6 +353,7 @@ export class EditClassComponent implements OnInit {
 
         if (this.editData.product_id != null) {
           this.product_id = this.editData.product_id;
+          this.onChangeProduct(this.product_id);
           this.getUserpreFillData();
         }
        }, 5000);
