@@ -30,7 +30,7 @@ export class ExamDeskCourseAssignmentService {
     }
 
     getCoursesList(): Observable<any> {
-        let url = `${this.baseUrl}/api/v1/institute/courseMapping/${this.institute_id}?isOnline=all`;
+        let url = `${this.baseUrl}/api/v1/institute/courseMapping/${this.institute_id}?isOnline=N`;
         return this.http.get(url, { headers: this.headers }).map(
             res => { return res },
             err => { return err }
@@ -55,7 +55,7 @@ export class ExamDeskCourseAssignmentService {
     }
 
     batchData(obj): Observable<any> {
-        let url = this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "?standard_id=" + obj.standard_id + "&subject_id=" + obj.subject_id ;
+        let url = this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "?standard_id=" + obj.standard_id + "&subject_id=" + obj.subject_id;
         return this.http.get(url, { headers: this.headers }).map(
             res => {
                 return res;
@@ -84,7 +84,7 @@ export class ExamDeskCourseAssignmentService {
         )
     }
 
-      getAllMasterCourse() {
+    getAllMasterCourse() {
         let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all";
         return this.http.get(url, { headers: this.headers }).map(
             res => {
@@ -108,6 +108,6 @@ export class ExamDeskCourseAssignmentService {
         )
     }
 
-  
+
 
 }
