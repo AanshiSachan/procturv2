@@ -1244,6 +1244,9 @@ export class StudentHomeComponent implements OnInit {
 
     }
     } else {
+      if(this.advancedFilterForm.master_course_name == '-1') {
+        this.advancedFilterForm.master_course_name = '';
+      }
       let obj :any = {
          name: "",
          is_active_status: this.advancedFilterForm.is_active_status,
@@ -1256,6 +1259,9 @@ export class StudentHomeComponent implements OnInit {
          standard_id: this.advancedFilterForm.standard_id
       }
       this.loadTableDataSource(obj);
+    }
+    if(this.advancedFilterForm.master_course_name == '') {
+      this.advancedFilterForm.master_course_name = '-1';
     }
   }
 
