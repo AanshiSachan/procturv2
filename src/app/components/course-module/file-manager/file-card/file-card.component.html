@@ -7,8 +7,9 @@
   <div  #fileImage class="file__img" *ngIf="(fileObj.res.category_id==230 || fileObj.res.category_id == vimeo_category_id) &&(fileObj.res.thumbnail_list==null || (!fileObj.res.thumbnail_list?.length || fileObj.res.thumbnail_list[0].posterUrl==null))"></div>
   <img class="youtube_thumbnail" aria-hidden="true" *ngIf="(fileObj.res.category_id==230 || fileObj.res.category_id == vimeo_category_id) && (fileObj.res.thumbnail_list!=null && fileObj.res.thumbnail_list?.length && fileObj.res.thumbnail_list[0].posterUrl!=null)" src="{{fileObj.res.thumbnail_list[0].posterUrl}}">
   <div class="file__info" *ngIf="fileDisplayArr.length!=0">
-    <h2 class="file__title" title="{{fileObj.name}}">
+    <h2 class="file__title" title="{{getOriginalFileName(fileObj.res.file_name)}} {{fileObj.res.category_id==vimeo_category_id ? '(' + fileObj.res.video_status + ')' : ''}}">
       {{getOriginalFileName(fileObj.res.file_name)}}
+      <span *ngIf="fileObj.res.category_id==vimeo_category_id"> ({{fileObj.res.video_status}})</span>
     </h2>
 
     <div class="file__made" title="{{fileObj.res.category_name}}">
