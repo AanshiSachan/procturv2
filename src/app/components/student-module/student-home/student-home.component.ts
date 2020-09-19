@@ -96,6 +96,7 @@ export class StudentHomeComponent implements OnInit {
   sortBy: string = "student_name";
   downloadStudentReportAccess: boolean = false;
   showQuickFilter = false;
+  isAdvFilter = false;
 
 
   private editForm: any = {
@@ -592,25 +593,34 @@ export class StudentHomeComponent implements OnInit {
     //this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
     //this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
     //this.instituteData.filtered_statuses = this.statusString.join(',');
+    let obj :any = {
+      name: "",
+      is_active_status: this.advancedFilterForm.is_active_status,
+      mobile: "",
+      start_index: startindex,
+      batch_size: this.studentdisplaysize,
+      is_quick_filter: 'Y',
+      master_course_name: this.advancedFilterForm.master_course_name,
+      course_id : this.advancedFilterForm.course_id,
+      standard_id: this.advancedFilterForm.standard_id
+   }
+   if(this.advancedFilterForm.master_course_name == '-1') {
+    obj.master_course_name = '';
+  }
     if(this.showQuickFilter) {
-      if(this.advancedFilterForm.master_course_name == '-1') {
-        this.advancedFilterForm.master_course_name = '';
-      }
-      let obj :any = {
-        name: "",
-        is_active_status: this.advancedFilterForm.is_active_status,
-        mobile: "",
-        start_index: startindex,
-        batch_size: this.studentdisplaysize,
-        is_quick_filter: 'Y',
-        master_course_name: this.advancedFilterForm.master_course_name,
-        course_id : this.advancedFilterForm.course_id,
-        standard_id: this.advancedFilterForm.standard_id
-     }
      this.loadTableDataSource(obj);
-     if(this.advancedFilterForm.master_course_name == '') {
-      this.advancedFilterForm.master_course_name = '-1';
+   }else if (this.searchBarData != '' && this.searchBarData != null && this.searchBarData != undefined) {
+    this.searchBarData = this.searchBarData.trim();
+    /* If input is of type string then validate string validity*/
+    if (isNaN(this.searchBarData)) {
+      obj.name = this.searchBarData;
+    }/* If not string then use the data as a number*/
+    else {
+      obj.mobile = this.searchBarData;
     }
+    this.loadTableDataSource(obj);
+  } else if((this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) && !this.isAdvFilter){
+    this.loadTableDataSource(obj);
    } else {
     this.loadTableDataSource(this.instituteData);
    }
@@ -751,6 +761,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   openAdFilter() {
+    this.isAdvFilter = true;
     this.showQuickFilter = false;
     this.closeSideBar();
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
@@ -770,10 +781,11 @@ export class StudentHomeComponent implements OnInit {
   closeAdFilter() {
     //document.getElementById('middleMainForEnquiryList').classList.remove('hasFilter');
     document.getElementById('adFilterExit').classList.add('hide');
-    document.getElementById('basic-search').classList.remove('hide');
+    // document.getElementById('basic-search').classList.remove('hide');
     document.getElementById('adFilterOpen').classList.remove('hide');
     // document.getElementById('black-bg').classList.add('hide');
     document.getElementById('advanced-filter-section').classList.add('hide');
+    this.isAdvFilter = false;
   }
 
   /* update the advanced filter forn */
@@ -1245,30 +1257,6 @@ export class StudentHomeComponent implements OnInit {
   searchDatabase() {
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
-    if(!this.showQuickFilter) {
-    /* If User has entered an empty value needs to be informed */
-    if (this.searchBarData == '' || this.searchBarData == ' ' || this.searchBarData == null || this.searchBarData == undefined) {
-      this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
-      this.loadTableDataSource(this.instituteData);
-    }
-    /* valid input detected, check for type of input */
-    else {
-      this.searchBarData = this.searchBarData.trim();
-      /* If input is of type string then validate string validity*/
-      if (isNaN(this.searchBarData)) {
-        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: this.searchBarData, is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
-        this.loadTableDataSource(this.instituteData);
-      }/* If not string then use the data as a number*/
-      else {
-        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: this.searchBarData, language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
-        this.loadTableDataSource(this.instituteData);
-      }
-
-    }
-    } else {
-      if(this.advancedFilterForm.master_course_name == '-1') {
-        this.advancedFilterForm.master_course_name = '';
-      }
       let obj :any = {
          name: "",
          is_active_status: this.advancedFilterForm.is_active_status,
@@ -1280,11 +1268,25 @@ export class StudentHomeComponent implements OnInit {
          course_id : this.advancedFilterForm.course_id,
          standard_id: this.advancedFilterForm.standard_id
       }
-      this.loadTableDataSource(obj);
+
+      if(this.advancedFilterForm.master_course_name == '-1') {
+        obj.master_course_name = '';
+      }
+
+      if (this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) {
+        obj.name = '';
+        obj.mobile = '';
+      } else {
+      this.searchBarData = this.searchBarData.trim();
+      /* If input is of type string then validate string validity*/
+      if (isNaN(this.searchBarData)) {
+        obj.name = this.searchBarData;
+      }/* If not string then use the data as a number*/
+      else {
+        obj.mobile = this.searchBarData;
+      }
     }
-    if(this.advancedFilterForm.master_course_name == '') {
-      this.advancedFilterForm.master_course_name = '-1';
-    }
+    this.loadTableDataSource(obj);
   }
 
   /* update the latest comment for the selected student */
@@ -2605,6 +2607,8 @@ export class StudentHomeComponent implements OnInit {
   }
 
   openQuickFilter() {
+    this.isAdvFilter = false;
+    this.searchBarData = '';
     document.getElementById('adFilterExit').classList.add('hide');
     document.getElementById('adFilterOpen').classList.remove('hide');
     // document.getElementById('black-bg').classList.add('hide');
