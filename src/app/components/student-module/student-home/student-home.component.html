@@ -49,14 +49,14 @@
                             </div>
                             <div class="more-info-item hand_icon" routerLink='/view/students/archived_student'>
                                 <a>
-                                    <img src="../../../../assets/images/students/Student_archived.svg" alt="">  Archive
+                                    <img src="../../../../assets/images/students/Student_archived.svg" alt=""> Archive
                                     Students
                                 </a>
                             </div>
                             <div class="more-info-item hand_icon" routerLink='/view/students/archived_status'
                                 style="border-bottom: none;">
                                 <a>
-                                    <img src="../../../../assets/images/students/Archived_reports.svg" alt="">  Archived
+                                    <img src="../../../../assets/images/students/Archived_reports.svg" alt=""> Archived
                                     Status Report
                                 </a>
                             </div>
@@ -78,14 +78,14 @@
                     <div class="filter-box clearFix">
                         <div class="c-lg-8 c-md-8 c-sm-8">
                             <div *ngIf="showQuickFilter == false">
-                            <div id="basic-search" class="search-filter-wrapper">
-                                <input #search type="text" class="normal-field"
-                                    placeholder="Search By Student Name/Contact No."
-                                    style="font-size:12px; margin: 0px 5px 0px -5px;" [(ngModel)]="searchBarData"
-                                    name="searchData" (keyup.enter)="searchDatabase()">
-                                <input type="button" class="btn normal-btn fullBlue" value="Search"
-                                    (click)="searchDatabase()" />
-                            </div>
+                                <div id="basic-search" class="search-filter-wrapper">
+                                    <input #search type="text" class="normal-field"
+                                        placeholder="Search By Student Name/Contact No."
+                                        style="font-size:12px; margin: 0px 5px 0px -5px;" [(ngModel)]="searchBarData"
+                                        name="searchData" (keyup.enter)="searchDatabase()">
+                                    <input type="button" class="btn normal-btn fullBlue" value="Search"
+                                        (click)="searchDatabase()" />
+                                </div>
                             </div>
                         </div>
 
@@ -113,12 +113,14 @@
                                     Close Advance Filter
                                 </a>
 
-                                <a href="javascript:void(0);" style="margin-right: 10px;" *ngIf="!showQuickFilter && !isProfessional" (click)="openQuickFilter()"
+                                <a href="javascript:void(0);" style="margin-right: 10px;"
+                                    *ngIf="!showQuickFilter && !isProfessional" (click)="openQuickFilter()"
                                     class="openAdFilter">Quick Filter
                                 </a>
 
-                                <a href="javascript:void(0);" class="closeAdFilter" *ngIf="showQuickFilter && !isProfessional"
-                                    (click)="closeQuickFilter()" style="margin-right: 10px;">
+                                <a href="javascript:void(0);" class="closeAdFilter"
+                                    *ngIf="showQuickFilter && !isProfessional" (click)="closeQuickFilter()"
+                                    style="margin-right: 10px;">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
                                         <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
                                             <g id="Group_1213" data-name="Group 1213"
@@ -140,8 +142,8 @@
 
                     <div style="margin: 0;" class="row" *ngIf="showQuickFilter">
                         <div style="margin: 0;" class="row">
-                            <input type="button" *ngIf="isProfessional" style="margin-top: 2%" class="btn normal-btn fullBlue" value="Search"
-                                    (click)="searchDatabase()" />
+                            <input type="button" *ngIf="isProfessional" style="margin-top: 2%"
+                                class="btn normal-btn fullBlue" value="Search" (click)="searchDatabase()" />
                         </div>
 
                         <div style="margin: 0;" class="row" *ngIf="!isProfessional">
@@ -149,8 +151,7 @@
                                 <div class="field-wrapper"
                                     [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
                                     <label for="standard">Standard</label>
-                                    <select id="standard" name="standard"
-                                        [(ngModel)]="advancedFilterForm.standard_id"
+                                    <select id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id"
                                         (ngModelChange)="fetchCourseForMaster($event)" class="form-ctrl"
                                         [disabled]="advancedFilterForm.master_course_name!=-1"
                                         [ngStyle]="{'cursor':advancedFilterForm.master_course_name!=-1?'no-drop':'pointer'}">
@@ -201,16 +202,16 @@
                                 <div class="field-wrapper"
                                     [class.has-value]="advancedFilterForm.is_active_status != ''">
                                     <label for="status">Is Active</label>
-                                    <select id="active" [(ngModel)]="advancedFilterForm.is_active_status"
-                                        name="sFilter" class="form-ctrl">
+                                    <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter"
+                                        class="form-ctrl">
                                         <option value=""></option>
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
                                 </div>
                             </div>
-                            <input type="button" *ngIf="!isProfessional" style="margin-top: 2%" class="btn normal-btn fullBlue" value="Search"
-                                    (click)="searchDatabase()" />
+                            <input type="button" *ngIf="!isProfessional" style="margin-top: 2%"
+                                class="btn normal-btn fullBlue" value="Search" (click)="searchDatabase()" />
                         </div>
                     </div>
 
@@ -907,12 +908,14 @@
                                 <div id="" class="c-sm-4 c-md-4 c-lg-4">
                                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
                                         <input type="checkbox" [(ngModel)]="sendNotification.smsChkbx" value=""
-                                            name="sms" class="form-checkbox" id="smsC">
+                                            (click)="smsCheckBoxClick($event)" name="sms" class="form-checkbox"
+                                            id="smsC">
                                         <label for="smsC">SMS</label>
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
                                         <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx"
-                                            name="mail" class="form-checkbox" id="mailC">
+                                            (click)="emailCheckBoxClick($event)" name="mail" class="form-checkbox"
+                                            id="mailC">
                                         <label for="mailC">Mail</label>
                                     </div>
                                 </div>
@@ -967,12 +970,13 @@
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody *ngIf="sendNotification.emailChkbx == false">
                                             <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
                                                 <td>
                                                     <div class="field-checkbox-wrapper">
                                                         <input type="checkbox" class="form-checkbox"
-                                                            [(ngModel)]="row.assigned">
+                                                            [(ngModel)]="row.assigned"
+                                                            (ngModelChange)="onCheckBoxSelection(index , row)">
                                                         <label></label>
                                                     </div>
                                                 </td>
@@ -980,7 +984,25 @@
                                                     {{row.date}}
                                                 </td>
                                                 <td>
-                                                    {{row.message}}
+                                                    <span [innerHTML]="row.message"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="sendNotification.emailChkbx == true">
+                                            <tr *ngFor="let row of emailMessageList; let i = index; trackBy: i;">
+                                                <td>
+                                                    <div class="field-checkbox-wrapper">
+                                                        <input type="checkbox" class="form-checkbox"
+                                                            [(ngModel)]="row.assigned"
+                                                            (ngModelChange)="onCheckBoxSelection(index , row)">
+                                                        <label></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {{row.date}}
+                                                </td>
+                                                <td>
+                                                    <span [innerHTML]="row.message"></span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -989,11 +1011,62 @@
 
                             </div>
 
-                            <div class="marginTenPixel pull-right">
+                            <div class="marginTenPixel pull-right" *ngIf="sendNotification.emailChkbx == false">
                                 <button class="btn" (click)="sendNotificationMessage()">Send</button>
                                 <button class="btn" (click)="sendPushNotification()">Send Push Notification</button>
                             </div>
 
+                            <div class="marginTenPixel pull-right" *ngIf="sendNotification.emailChkbx == true">
+                                <button class="btn" (click)="previewMessage()">Preview</button>
+                            </div>
+                            <section id="popup" class="popupWrapper fadeIn" *ngIf="previewBox">
+                                <div class="popup pos-abs">
+                                    <div class="popup-wrapper pos-rel">
+                                        <span class="closePopup pos-abs fbold show" id="popupCloseBtn"
+                                            (click)="close()">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                                                <g id="Group_1228" data-name="Group 1228"
+                                                    transform="translate(8298 1888)">
+                                                    <g id="Group_1213" data-name="Group 1213"
+                                                        transform="translate(34.189 -7.77)">
+                                                        <line id="Line_274" data-name="Line 274" class="cls-1"
+                                                            y2="19.798"
+                                                            transform="translate(992.81 305.77) rotate(45)" />
+                                                        <line id="Line_275" data-name="Line 275" class="cls-1"
+                                                            x1="19.798"
+                                                            transform="translate(978.81 305.77) rotate(45)" />
+                                                    </g>
+                                                    <rect id="Rectangle_686" data-name="Rectangle 686"
+                                                        style="stroke:none;" class="cls-2" width="16" height="16"
+                                                        transform="translate(1012 297)" />
+                                                </g>
+                                            </svg>
+                                        </span>
+                                        <div class="popup-content">
+                                            <h2>Email Preview</h2>
+
+                                            <div class="notification-content-wrapper">
+                                                <div class="" widget-content>
+                                                    <textarea [(ngModel)]="sendNotification.subjectMessage"
+                                                        style="width: 100%;" disabled></textarea>
+
+                                                    <editor [init]="editorConf"
+                                                        apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+                                                        [disabled]="true" [(ngModel)]="previewedMessage">
+                                                    </editor>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button class="btn" (click)="sendNotificationMessage()">Send</button>
+                                                <button class="btn" (click)="sendPushNotification()">Send Push
+                                                    Notification</button>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
 
                         <div id="divSendLogin" *ngIf="sendNotification.loginMessageChkbx" class="marginTenPixel">
