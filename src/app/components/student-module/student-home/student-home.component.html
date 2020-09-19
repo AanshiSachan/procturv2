@@ -77,8 +77,7 @@
                     <!-- Advance Filter -->
                     <div class="filter-box clearFix">
                         <div class="c-lg-8 c-md-8 c-sm-8">
-                            <div *ngIf="showQuickFilter == false">
-                            <div id="basic-search" class="search-filter-wrapper">
+                            <div *ngIf="showQuickFilter == false && !isAdvFilter">                            <div id="basic-search" class="search-filter-wrapper">
                                 <input #search type="text" class="normal-field"
                                     placeholder="Search By Student Name/Contact No."
                                     style="font-size:12px; margin: 0px 5px 0px -5px;" [(ngModel)]="searchBarData"
