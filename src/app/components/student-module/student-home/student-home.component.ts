@@ -622,6 +622,9 @@ export class StudentHomeComponent implements OnInit {
     else {
       obj.mobile = this.searchBarData;
     }
+      obj.master_course_name = '';
+      obj.course_id= '-1';
+      obj.standard_id = '-1';
     this.loadTableDataSource(obj);
   } else if((this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) && !this.isAdvFilter){
     this.loadTableDataSource(obj);
@@ -767,6 +770,7 @@ export class StudentHomeComponent implements OnInit {
   openAdFilter() {
     this.isAdvFilter = true;
     this.showQuickFilter = false;
+    this.searchBarData = '';
     this.closeSideBar();
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
     document.getElementById('adFilterOpen').classList.add('hide');
@@ -1289,6 +1293,9 @@ export class StudentHomeComponent implements OnInit {
       else {
         obj.mobile = this.searchBarData;
       }
+      obj.master_course_name = '';
+      obj.course_id= '-1';
+      obj.standard_id = '-1';
     }
     this.loadTableDataSource(obj);
   }
@@ -2692,6 +2699,7 @@ export class StudentHomeComponent implements OnInit {
     this.advancedFilterForm.master_course_name = '-1';
     this.advancedFilterForm.course_id = '-1';
     this.advancedFilterForm.standard_id = '-1';
+    this.searchBarData = '';
   }
   emailCheckBoxClick(event) {
     if (event.target.checked) {
