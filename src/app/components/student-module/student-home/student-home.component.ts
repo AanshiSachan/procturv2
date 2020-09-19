@@ -592,7 +592,28 @@ export class StudentHomeComponent implements OnInit {
     //this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
     //this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
     //this.instituteData.filtered_statuses = this.statusString.join(',');
+    if(this.showQuickFilter) {
+      if(this.advancedFilterForm.master_course_name == '-1') {
+        this.advancedFilterForm.master_course_name = '';
+      }
+      let obj :any = {
+        name: "",
+        is_active_status: this.advancedFilterForm.is_active_status,
+        mobile: "",
+        start_index: startindex,
+        batch_size: this.studentdisplaysize,
+        is_quick_filter: 'Y',
+        master_course_name: this.advancedFilterForm.master_course_name,
+        course_id : this.advancedFilterForm.course_id,
+        standard_id: this.advancedFilterForm.standard_id
+     }
+     this.loadTableDataSource(obj);
+     if(this.advancedFilterForm.master_course_name == '') {
+      this.advancedFilterForm.master_course_name = '-1';
+    }
+   } else {
     this.loadTableDataSource(this.instituteData);
+   }
   }
 
   /* Fetch next set of data from server and update table */
