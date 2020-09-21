@@ -495,7 +495,7 @@ export class StudentFeeService {
             for (let t = 0; t < courseWiseArray[i].installmentArray.length; t++) {
                 let installment = courseWiseArray[i].installmentArray[t];
                 if (installment.uiSelected) {
-                    if (moment(installment.due_date).format('YYYY-MM-DD') <= moment('2018-03-31').format('YYYY-MM-DD')) {
+                    if (moment(installment.due_date).format('MM-DD-YYYY') <= moment('2018-03-31').format('MM-DD-YYYY')) {
                         acadYearFoundConfirmation = true;
                         break;
                     }
@@ -535,7 +535,7 @@ export class StudentFeeService {
         };
 
         if (paymentPopUpJson.payment_mode == "Cheque/PDC/DD No." && paymentPopUpJson.pdcSelectedForm != '') {
-            paymentPopUpJson.pdcSelectedForm.cheque_date = moment(paymentPopUpJson.pdcSelectedForm.cheque_date).format('YYYY-MM-DD');
+            paymentPopUpJson.pdcSelectedForm.cheque_date = moment(paymentPopUpJson.pdcSelectedForm.cheque_date).format('MM-DD-YYYY');
             // console.log("pdc id : "+paymentPopUpJson.pdcSelectedForm.pdc_cheque_id);
             paymentPopUpJson.pdcSelectedForm.pdc_cheque_id = paymentPopUpJson.pdcSelectedForm.pdc_cheque_id;
 
@@ -543,7 +543,7 @@ export class StudentFeeService {
         } else {
             obj.chequeDetailsJson = {};
         }
-        obj.paid_date = moment(paymentPopUpJson.paid_date).format('YYYY-MM-DD');
+        obj.paid_date = moment(paymentPopUpJson.paid_date).format('MM-DD-YYYY');
         obj.paymentMode = paymentPopUpJson.payment_mode;
         obj.reference_no = paymentPopUpJson.reference_no;
         obj.remarks = paymentPopUpJson.remarks;
@@ -624,7 +624,7 @@ export class StudentFeeService {
 
 
                 }
-                obj.due_date = moment(element.due_date).format('YYYY-MM-DD');
+                obj.due_date = moment(element.due_date).format('MM-DD-YYYY');
                 obj.fee_schedule_id = element.schedule_id;
                 install.push(obj);
             }
@@ -779,7 +779,7 @@ export class StudentFeeService {
                 obj.fee_schedule_id = Number(element.schedule_id);
                 obj.installment_no = Number(element.installment_no);
                 obj.reason_id = Number(popUpFormObj.reason);
-                obj.discount_date = moment().format('YYYY-MM-DD');
+                obj.discount_date = moment().format('MM-DD-YYYY');
                 if (i == selectedInstallment.length - 1) {
                     perInstallmentDiscount = mutableDiscount;
                 }
@@ -896,7 +896,7 @@ export class StudentFeeService {
                 obj.fee_schedule_id = Number(element.schedule_id);
                 obj.installment_no = Number(element.installment_no);
                 obj.reason_id = Number(popUpFormObj.reason);
-                obj.discount_date = moment().format('YYYY-MM-DD');
+                obj.discount_date = moment().format('MM-DD-YYYY');
 
                 if (i == installment.length - 1) {
                     // last Installment
@@ -956,7 +956,7 @@ export class StudentFeeService {
 
     allocateStudentFees(obj) {
         if (obj.hasOwnProperty('paid_date')) {
-            obj.paid_date = moment(obj.paid_date).format("YYYY-MM-DD");
+            obj.paid_date = moment(obj.paid_date).format("MM-DD-YYYY");
         }
         let urlFeeUpdate = this.baseUrl + "/api/v1/studentWise/fee/schedule/students/save/" + this.institute_id;
         return this.http.post(urlFeeUpdate, obj, { headers: this.headers }).pipe(map(

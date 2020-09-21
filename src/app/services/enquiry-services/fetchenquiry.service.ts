@@ -49,13 +49,13 @@ export class FetchenquiryService {
     /* Admin has requested for enquiry */
 
     if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
-      obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
-      obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
-      obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
-      obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
-      obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
-      obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
-      obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+      obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('MM-DD-YYYY');
+      obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('MM-DD-YYYY');
+      obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('MM-DD-YYYY');
+      obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('MM-DD-YYYY');
+      obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('MM-DD-YYYY');
+      obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('MM-DD-YYYY');
+      obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('MM-DD-YYYY');
       this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
       return this.http.post(this.urlCampaign, obj, { headers: this.headers }).pipe(
         map(res => {
@@ -68,13 +68,13 @@ export class FetchenquiryService {
       permissions = JSON.parse(sessionStorage.getItem('permissions'));
       /* User has permission to view all enquiries */
       if (permissions.includes('115') || (permissions.includes('110') && sessionStorage.getItem('open_enq_Visibility_feature') == '1')) {
-        obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
-        obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
-        obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
-        obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
-        obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
-        obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
-        obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+        obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('MM-DD-YYYY');
+        obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('MM-DD-YYYY');
+        obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('MM-DD-YYYY');
+        obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('MM-DD-YYYY');
+        obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('MM-DD-YYYY');
+        obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('MM-DD-YYYY');
+        obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('MM-DD-YYYY');
         this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
 
         return this.http.post(this.urlCampaign, obj, { headers: this.headers }).pipe(
@@ -85,13 +85,13 @@ export class FetchenquiryService {
       }
       /* User is not authorized as enquiry admin and see only enquiry assigned to him */
       else {
-        obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
-        obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
-        obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
-        obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
-        obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
-        obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
-        obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+        obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('MM-DD-YYYY');
+        obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('MM-DD-YYYY');
+        obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('MM-DD-YYYY');
+        obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('MM-DD-YYYY');
+        obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('MM-DD-YYYY');
+        obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('MM-DD-YYYY');
+        obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('MM-DD-YYYY');
         obj.assigned_to = sessionStorage.getItem('userid');
         this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
 

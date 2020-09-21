@@ -28,8 +28,8 @@ export class SalesReportsComponent implements OnInit {
   private selectedSlotsString: string = '';
   private selectedSlotsID: string = '';
   filterDataKeys = {
-    to_date: moment().format("YYYY-MM-DD"),
-    from_date: moment().format("YYYY-MM-DD")
+    to_date: moment().format("MM-DD-YYYY"),
+    from_date: moment().format("MM-DD-YYYY")
   }
 
   showPopupKeys: any = {
@@ -42,7 +42,7 @@ export class SalesReportsComponent implements OnInit {
     { primaryKey: 'title', header: 'Product Name', priority: 2, allowSortingFlag: true },
     { primaryKey: 'name', header: 'Student Name', priority: 3, allowSortingFlag: true },
     { primaryKey: 'phone', header: 'Phone No', priority: 4, allowSortingFlag: true },
-    { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
+    { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MM-YYYY' },
     { primaryKey: 'price', header: 'Price', priority: 6, amountValue: true, allowSortingFlag: true },
     {
       primaryKey: 'status', header: 'Status', priority: 7, allowSortingFlag: true, dataType: 'array',
@@ -55,7 +55,7 @@ export class SalesReportsComponent implements OnInit {
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
     selectAll: { showSelectAll: false, option: 'single', title: 'Sales report', checked: true, key: 'title' },
-    defaultSort: { primaryKey: 'publish_date', sortingType: 'asc', header: 'Purchase Date', priority: 4, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
+    defaultSort: { primaryKey: 'publish_date', sortingType: 'asc', header: 'Purchase Date', priority: 4, allowSortingFlag: true, dataType: 'Date', format: 'DD-MM-YYYY' },
     actionSetting:
     {
       showActionButton: false
@@ -129,8 +129,8 @@ export class SalesReportsComponent implements OnInit {
   getProductDetails() {
     let object = {
       "between": {
-        "from": this.filterDataKeys.from_date,
-        "to": this.filterDataKeys.to_date
+        "from":moment(this.filterDataKeys.from_date).format("YYYY-MM-DD"), 
+        "to": moment(this.filterDataKeys.to_date).format("YYYY-MM-DD")
       },
 
       "in": [
@@ -235,7 +235,7 @@ export class SalesReportsComponent implements OnInit {
       { primaryKey: 'title', header: 'Product Name', priority: 2, allowSortingFlag: true },
       { primaryKey: 'name', header: 'Student Name', priority: 3, allowSortingFlag: true },
       { primaryKey: 'phone', header: 'Phone No', priority: 4, allowSortingFlag: true },
-      { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' }
+      { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MM-YYYY' }
     ];
     this.displayKeys = this.tableSetting.keys;
     this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);

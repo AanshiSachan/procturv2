@@ -33,8 +33,8 @@ export class ChequeManageComponent implements OnInit {
   downloadFeeReportAccess:boolean = false;
   
   chequeFetchForm: any = {
-    from_date: moment().date(1).format("YYYY-MM-DD"),
-    to_date: moment().format("YYYY-MM-DD"),
+    from_date: moment().date(1).format("MM-DD-YYYY"),
+    to_date: moment().format("MM-DD-YYYY"),
     cheque_status_id: 3,
     student_name: '',
     contact_no: '',
@@ -63,7 +63,7 @@ export class ChequeManageComponent implements OnInit {
     { primaryKey: 'dishonoured_reason', header: 'Reason', priority: 13, allowSortingFlag: true }
   ];
   chequePaymentModel: any = {
-    paymentDate: moment(new Date()).format("DD-MMM-YYYY"),
+    paymentDate: moment(new Date()).format("DD-MM-YYYY"),
     paymentMode: 'Cheque/PDC/DD No.',
     remarks: "",
     refNum: "",
@@ -100,7 +100,7 @@ tax_type_without_percentage : String;
     private _msgService: MessageShowService ,
     private auth:AuthenticatorService,
     private _commService:CommonServiceFactory) {
-    this.dateRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
+    this.dateRange[0] = new Date(moment().date(1).format("MM-DD-YYYY"));
     this.dateRange[1] = new Date();
   }
 
@@ -316,7 +316,7 @@ tax_type_without_percentage : String;
     this.studentFeeDues = {};
     this.studentUnpaid = [];
     this.chequePaymentModel = {
-      paymentDate: moment(new Date()).format("DD-MMM-YYYY"),
+      paymentDate: moment(new Date()).format("DD-MM-YYYY"),
       paymentMode: 'Cheque/PDC/DD No.',
       remarks: "",
       refNum: "",
@@ -481,7 +481,7 @@ tax_type_without_percentage : String;
           cheque_no: this.chequePaymentModel.chequeNum,
           pdc_cheque_id: this.selectedRecord.pdc_cheque_id,
         },
-        paid_date: moment(this.chequePaymentModel.paymentDate).format("YYYY-MM-DD"),
+        paid_date: moment(this.chequePaymentModel.paymentDate).format("MM-DD-YYYY"),
         paymentMode: this.chequePaymentModel.paymentMode,
         reference_no: this.chequePaymentModel.refNum,
         remarks: this.chequePaymentModel.remarks,
@@ -579,7 +579,7 @@ tax_type_without_percentage : String;
     let temp: any[] = [];
     el.forEach(e => {
       let obj = {
-        due_date:  moment(e.due_date).format("YYYY-MM-DD"),
+        due_date:  moment(e.due_date).format("MM-DD-YYYY"),
         fee_schedule_id: e.fee_schedule_id,
         paid_full: this.getPaidStatus(e.total_balance_amt, e.toPay),
         previous_balance_amt: e.total_balance_amt,

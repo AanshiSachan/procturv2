@@ -35,8 +35,8 @@ export class IssuedBookComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.issueBookRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
-    this.issueBookRange[1] = new Date(moment().format("YYYY-MM-DD"));
+    this.issueBookRange[0] = new Date(moment().date(1).format("MM-DD-YYYY"));
+    this.issueBookRange[1] = new Date(moment().format("MM-DD-YYYY"));
 
     // this.getIssueBookReport(this.issueBookRange[0], this.issueBookRange[1]);
   }
@@ -90,7 +90,7 @@ export class IssuedBookComponent implements OnInit {
 
   getStartDate() {
       this.cd.markForCheck();
-      let date = new Date(moment().date(1).format("YYYY-MM-DD"));
+      let date = new Date(moment().date(1).format("MM-DD-YYYY"));
       return this.issueBookRange[0];
   }
 
@@ -102,7 +102,7 @@ export class IssuedBookComponent implements OnInit {
   updateDateRange(e) {
     this.cd.markForCheck();
 
-    this.getIssueBookReport(moment(e[0]).format("YYYY-MM-DD"), moment(e[1]).format("YYYY-MM-DD"));
+    this.getIssueBookReport(moment(e[0]).format("MM-DD-YYYY"), moment(e[1]).format("MM-DD-YYYY"));
 
   }
 
@@ -126,14 +126,14 @@ fetchPrevious() {
 fectchTableDataByPage(index) {
   this.pageIndex = index;
   let startindex = this.displayBatchSize * (index - 1);
-  this.getIssueBookReport(moment(this.issueBookRange[0]).format("YYYY-MM-DD"), moment(this.issueBookRange[1]).format("YYYY-MM-DD"));
+  this.getIssueBookReport(moment(this.issueBookRange[0]).format("MM-DD-YYYY"), moment(this.issueBookRange[1]).format("MM-DD-YYYY"));
 }
 
 /* Fetches Data as per the user selected batch size */
 updateTableBatchSize(num) {
   this.pageIndex = 1;
   this.displayBatchSize = parseInt(num);
-  this.getIssueBookReport(moment(this.issueBookRange[0]).format("YYYY-MM-DD"), moment(this.issueBookRange[1]).format("YYYY-MM-DD"));
+  this.getIssueBookReport(moment(this.issueBookRange[0]).format("MM-DD-YYYY"), moment(this.issueBookRange[1]).format("MM-DD-YYYY"));
 }
 
 }

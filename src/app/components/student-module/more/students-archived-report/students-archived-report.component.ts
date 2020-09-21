@@ -34,7 +34,7 @@ export class StudentsArchivedReportComponent implements OnInit {
   arr: any = [];
   stdetchForm: any = {
     from_date: moment().format("YYYY-MM-") + moment().daysInMonth(),
-    to_date: moment(new Date()).format('YYYY-MM-DD')
+    to_date: moment(new Date()).format('MM-DD-YYYY')
   }
   downloadStudentReportAccess: boolean = false;
 
@@ -87,8 +87,8 @@ export class StudentsArchivedReportComponent implements OnInit {
 
   showDownloadDetails(){
     this.stdetchForm = {
-      from_date: moment().format("YYYY-MM-01"),
-      to_date: moment(new Date()).format('YYYY-MM-DD')
+      from_date: moment().format("MM-DD-YYYY"),
+      to_date: moment(new Date()).format('MM-DD-YYYY')
     }
     $("#actionProductModal").modal({
       backdrop: 'static',
@@ -103,10 +103,12 @@ export class StudentsArchivedReportComponent implements OnInit {
 
 
   fetchArchivedListDetails(){
+      let from_date = this.stdetchForm.from_date;
+      let to_date = this.stdetchForm.to_date;
         let url = "/api/v1/reports/StdFee/archived_inactive?institute_id=" + sessionStorage.getItem('institute_id');
         if((this.stdetchForm.to_date !='' &&this.stdetchForm.from_date !='')){
-            url = url+'&&from_date='+moment(this.stdetchForm.from_date).format('YYYY-MM-DD');
-            url = url+'&&to_date='+moment(this.stdetchForm.to_date).format('YYYY-MM-DD');
+            url = url+'&&from_date='+moment(from_date).format('YYYY-MM-DD');
+            url = url+'&&to_date='+moment(to_date).format('YYYY-MM-DD');
         }
         this.auth.showLoader();
         this._http.getData(url).subscribe((res: any) => {

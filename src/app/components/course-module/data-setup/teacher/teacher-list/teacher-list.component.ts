@@ -57,7 +57,7 @@ export class TeacherListComponent implements OnInit {
         this.teacherListDataSource = data;
         this.teacherListDataSource.forEach(element => {
           if(element.date_of_joining !=""){
-          element.date_of_joining =  moment(element.date_of_joining).format('DD-MMM-YYYY');
+          element.date_of_joining =  moment(element.date_of_joining).format('DD-MM-YYYY');
           }
         });
         this.fetchTableDataByPage(this.PageIndex);

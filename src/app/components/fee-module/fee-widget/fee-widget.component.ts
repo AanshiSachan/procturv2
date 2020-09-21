@@ -148,7 +148,7 @@ export class FeeWidgetComponent implements OnInit {
 
     createCompareChart(fc: any[], fd: any[], up: any[], m: any[]) {
         var self = this;
-        Highcharts.chart('chartWrap', {
+        (Highcharts as any).chart('chartWrap', {
             chart: {
                 type: 'column'
             },

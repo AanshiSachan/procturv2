@@ -24,8 +24,8 @@ export class ExamReportHomeComponent implements OnInit {
       master_course_name: "",
       standard_id:  "",
       subject_id: "",
-      from_date: moment().isoWeekday("Monday").format("YYYY-MM-DD"),
-      to_date: moment().weekday(7).format("YYYY-MM-DD")
+      from_date: moment().isoWeekday("Monday").format("MM-DD-YYYY"),
+      to_date: moment().weekday(7).format("MM-DD-YYYY")
     };
 
     masterCourseList: any;
@@ -123,13 +123,13 @@ export class ExamReportHomeComponent implements OnInit {
 
 
     addNewDate(e){
-      let fromDate = moment(e[0]).format("YYYY-MM-DD");
-      let toDate = moment(e[1]).format("YYYY-MM-DD");
+      let fromDate = moment(e[0]).format("MM-DD-YYYY");
+      let toDate = moment(e[1]).format("MM-DD-YYYY");
       let result = moment(toDate).diff(fromDate, 'days');
       if(result <= 30){
         this.clearJSON();
-        this.reportJSON.from_date = moment(e[0]).format("YYYY-MM-DD");
-        this.reportJSON.to_date = moment(e[1]).format("YYYY-MM-DD");
+        this.reportJSON.from_date = moment(e[0]).format("MM-DD-YYYY");
+        this.reportJSON.to_date = moment(e[1]).format("MM-DD-YYYY");
         this.examReport = [];
         this.weeklyExamReportData = [];
         this.auth.showLoader();

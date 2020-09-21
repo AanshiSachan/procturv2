@@ -36,8 +36,8 @@ export class TimeTableComponent implements OnInit {
   flag: boolean = false;
   showFilters: boolean = true;
   maxEntries = 0;
-  startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
-  enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
+  startdateweek = moment().isoWeekday("Monday").format("DD-MM-YYYY");
+  enddateweek = moment().isoWeekday("Sunday").format("DD-MM-YYYY");
 
   fetchFieldData = {
     batch_id: "-1",
@@ -275,16 +275,16 @@ export class TimeTableComponent implements OnInit {
       return;
     }
     if (flag == '-1') {
-      this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MMM-YYYY');
-      this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('DD-MMM-YYYY');
+      this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MM-YYYY');
+      this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('DD-MM-YYYY');
     }
     else if (flag == '1') {
-      this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MMM-YYYY');
-      this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MMM-YYYY');
+      this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MM-YYYY');
+      this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MM-YYYY');
     }
     this.showFilters = false;
-    this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
-    this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
+    this.fetchFieldData.enddate = moment(this.enddateweek).format('MM-DD-YYYY');
+    this.fetchFieldData.startdate = moment(this.startdateweek).format('MM-DD-YYYY');
     if (this.fetchFieldData.course_id == "-1" && this.fetchFieldData.teacher_id =='-1') {
       this.onlyMasterData = true;
     }else{this.onlyMasterData =false;}
@@ -367,20 +367,20 @@ export class TimeTableComponent implements OnInit {
       }
     }
     if (data == '-1') {
-      this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MMM-YYYY');
-      this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('DD-MMM-YYYY');
+      this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MM-YYYY');
+      this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('DD-MM-YYYY');
     }
     else if (data == '1') {
-      this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MMM-YYYY');
-      this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MMM-YYYY');
+      this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MM-YYYY');
+      this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MM-YYYY');
     }
     // else {
-    //   this.startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
-    //   this.enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
+    //   this.startdateweek = moment().isoWeekday("Monday").format("DD-MM-YYYY");
+    //   this.enddateweek = moment().isoWeekday("Sunday").format("DD-MM-YYYY");
     // }
     this.showFilters = false;
-    this.fetchFieldDataPro.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
-    this.fetchFieldDataPro.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
+    this.fetchFieldDataPro.enddate = moment(this.enddateweek).format('MM-DD-YYYY');
+    this.fetchFieldDataPro.startdate = moment(this.startdateweek).format('MM-DD-YYYY');
     this.forDownloadPDF = this.fetchFieldDataPro;
     this.timeTableServ.getTimeTable(this.fetchFieldDataPro).subscribe
       (

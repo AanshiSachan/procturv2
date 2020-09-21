@@ -67,13 +67,23 @@ export class getSMSService {
     }
 
     fetchSmsReport(obj) {
+        console.log("Object",obj);
+        let tempObj = {
+            batch_size: "-1",
+            from_date: obj.from_date == '' ? moment().format('YYYY-MM-DD') : moment(obj.from_date).format('YYYY-MM-DD'),
+            institution_id: 100058,
+            order_by: "",
+            sorted_by: "",
+            start_index: "-1",
+            to_date: obj.to_date == '' ? '' : moment(obj.to_date).format('YYYY-MM-DD')
 
-        obj.from_date = obj.from_date == '' ? moment().format('YYYY-MM-DD') : moment(obj.from_date).format('YYYY-MM-DD');
-        obj.to_date = obj.to_date == '' ? '' : moment(obj.to_date).format('YYYY-MM-DD');
+        }
+        // obj.from_date = obj.from_date == '' ? moment().format('MM-DD-YYYY') : moment(obj.from_date).format('MM-DD-YYYY');
+        // obj.to_date = obj.to_date == '' ? '' : moment(obj.to_date).format('MM-DD-YYYY');
 
         let urlSmsReport = this.baseUrl + "/api/v1/alerts/config/smsReport";
 
-        return this.http.post(urlSmsReport, obj, { headers: this.headers }).pipe(map(
+        return this.http.post(urlSmsReport, tempObj, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },

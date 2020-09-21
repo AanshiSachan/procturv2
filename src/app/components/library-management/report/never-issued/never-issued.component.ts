@@ -25,8 +25,8 @@ export class NeverIssuedComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.lostbookrange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
-    this.lostbookrange[1] = new Date(moment().format("YYYY-MM-DD"));
+    this.lostbookrange[0] = new Date(moment().date(1).format("MM-DD-YYYY"));
+    this.lostbookrange[1] = new Date(moment().format("MM-DD-YYYY"));
     this.getNeverIssuedBookReport();
   }
 
@@ -36,7 +36,7 @@ export class NeverIssuedComponent implements OnInit {
   
   getStartDate() {
     this.cd.markForCheck();
-    let date = moment().date(1).format("YYYY-MM-DD");
+    let date = moment().date(1).format("MM-DD-YYYY");
     return this.neverIssueCollectionRange[0];
 }
 

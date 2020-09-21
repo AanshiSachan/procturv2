@@ -98,9 +98,9 @@ export class LiveClassesComponent implements OnInit {
   hourToReschedule: string = "";
   minuteToReschedule: string = "";
   classDetails: string = "";
-  dateToday = moment().format('YYYY-MM-DD');
-  dateFrom = moment(new Date()).format('YYYY-MM-DD');
-  rescheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
+  dateToday = moment().format('MM-DD-YYYY');
+  dateFrom = moment(new Date()).format('MM-DD-YYYY');
+  rescheduledateFrom = moment(new Date()).format('MM-DD-YYYY');
   institution_id: any = sessionStorage.getItem('institution_id');
   rescheduleclass = {
     end_datetime: "",
@@ -291,10 +291,10 @@ export class LiveClassesComponent implements OnInit {
         }
         this.fetchTableDataByPage(this.PageIndex);
         this.getClasses.map((ele) => {
-          ele.start_datetime = moment(ele.start_datetime).format('YYYY-MM-DD hh:mm a')
+          ele.start_datetime = moment(ele.start_datetime).format('MM-DD-YYYY hh:mm a')
         })
         this.getClasses.map((ele) => {
-          ele.end_datetime = moment(ele.end_datetime).format('YYYY-MM-DD hh:mm a')
+          ele.end_datetime = moment(ele.end_datetime).format('MM-DD-YYYY hh:mm a')
         })
       },
       (error: any) => {
@@ -389,8 +389,8 @@ export class LiveClassesComponent implements OnInit {
       }
     }
     else if (this.sortDate == "last_week") {
-      let begin = moment().format('YYYY-MM-DD');
-      let end = moment().subtract('week', 1).format('YYYY-MM-DD');
+      let begin = moment().format('MM-DD-YYYY');
+      let end = moment().subtract('week', 1).format('MM-DD-YYYY');
       this.liveClassSearchFilter = {
         from_date: end,
         to_date: begin
@@ -407,15 +407,15 @@ export class LiveClassesComponent implements OnInit {
     }
     else if (this.sortDate == "last_month") {
       let begin = moment().subtract('months', 1).format('YYYY-MM-01');
-      let end = moment().date(0).format("YYYY-MM-DD");
+      let end = moment().date(0).format("MM-DD-YYYY");
       this.liveClassSearchFilter = {
         from_date: begin,
         to_date: end
       }
     }
     else if (this.sortDate == "last_three_month") {
-      let begin = moment().format('YYYY-MM-DD');
-      let end = moment().subtract('months', 3).format('YYYY-MM-DD');
+      let begin = moment().format('MM-DD-YYYY');
+      let end = moment().subtract('months', 3).format('MM-DD-YYYY');
       this.liveClassSearchFilter = {
         from_date: end,
         to_date: begin
@@ -578,13 +578,13 @@ export class LiveClassesComponent implements OnInit {
   getDataFromDataSource(startindex) {
     let data = [];
     let buffer = this.attendance_buffer;
-    let jobTime = moment(new Date().setHours(20, 0, 0, 0)).format('YYYY-MM-DD hh:mm a');
-    let JobBufferTime = moment(new Date().setHours(0, 0, 0, (72000000 - buffer))).format('YYYY-MM-DD hh:mm a');
-    let currentDate = moment(new Date()).format('YYYY-MM-DD hh:mm a');
+    let jobTime = moment(new Date().setHours(20, 0, 0, 0)).format('MM-DD-YYYY hh:mm a');
+    let JobBufferTime = moment(new Date().setHours(0, 0, 0, (72000000 - buffer))).format('MM-DD-YYYY hh:mm a');
+    let currentDate = moment(new Date()).format('MM-DD-YYYY hh:mm a');
     let temp = moment(new Date().setHours(20, 0, 0, 0));
-    let ReportAllowDate = moment(new Date(2020, 6, 25, 0, 0, 0)).format('YYYY-MM-DD hh:mm a');
+    let ReportAllowDate = moment(new Date(2020, 6, 25, 0, 0, 0)).format('MM-DD-YYYY hh:mm a');
     temp = moment(temp).subtract(1, 'days');
-    let yesterDayJobTime = moment(temp).format('YYYY-MM-DD hh:mm a');
+    let yesterDayJobTime = moment(temp).format('MM-DD-YYYY hh:mm a');
     if (this.searchDataFlag) {
       data = this.searchData.slice(startindex, startindex + this.displayClassSize);
     } else {
@@ -592,7 +592,7 @@ export class LiveClassesComponent implements OnInit {
     }
     if (data && data.length) {
       data.forEach(ele => {
-        ele.end_datetime = moment(ele.end_datetime).format('YYYY-MM-DD hh:mm a');
+        ele.end_datetime = moment(ele.end_datetime).format('MM-DD-YYYY hh:mm a');
         ele.showViewAttendance = false;
         if (ele.end_datetime >= ReportAllowDate) {
           if (ele.end_datetime <= JobBufferTime) {
@@ -608,11 +608,11 @@ export class LiveClassesComponent implements OnInit {
 
 
   getTimeInfo() {
-    let fromTime = moment(this.dateFrom).format('YYYY-MM-DD') + " " + this.hourFrom.split(' ')[0] + ":" + this.minuteFrom + " " + this.hourFrom.split(' ')[1];
-    let fromDate = moment().format('YYYY-MM-DD');
-    let toTime = moment(this.dateFrom).format('YYYY-MM-DD') + " " + this.hourTo.split(' ')[0] + ":" + this.minuteTo + " " + this.hourTo.split(' ')[1];
-    let fromTimeT = moment(fromTime).format('YYYY-MM-DD hh:mm a');
-    let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
+    let fromTime = moment(this.dateFrom).format('MM-DD-YYYY') + " " + this.hourFrom.split(' ')[0] + ":" + this.minuteFrom + " " + this.hourFrom.split(' ')[1];
+    let fromDate = moment().format('MM-DD-YYYY');
+    let toTime = moment(this.dateFrom).format('MM-DD-YYYY') + " " + this.hourTo.split(' ')[0] + ":" + this.minuteTo + " " + this.hourTo.split(' ')[1];
+    let fromTimeT = moment(fromTime).format('MM-DD-YYYY hh:mm a');
+    let toTimeT = moment(toTime).format('MM-DD-YYYY hh:mm a');
 
     if (moment(fromTimeT).diff(moment(toTimeT), 'minutes') > 0) {
       this.appC.popToast({ type: "error", body: "From time cannot be greater than to time" })
@@ -736,11 +736,11 @@ export class LiveClassesComponent implements OnInit {
   }
 
   getRescheduleTime() {
-    let fromTime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourFromReschedule.split(' ')[1];
-    let fromDate = moment().format('YYYY-MM-DD');
-    let toTime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
-    let fromTimeT = moment(fromTime).format('YYYY-MM-DD hh:mm a');
-    let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
+    let fromTime = moment(this.rescheduledateFrom).format('MM-DD-YYYY') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourFromReschedule.split(' ')[1];
+    let fromDate = moment().format('MM-DD-YYYY');
+    let toTime = moment(this.rescheduledateFrom).format('MM-DD-YYYY') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
+    let fromTimeT = moment(fromTime).format('MM-DD-YYYY hh:mm a');
+    let toTimeT = moment(toTime).format('MM-DD-YYYY hh:mm a');
 
     if (moment(fromTimeT).diff(moment(toTimeT), 'minutes') > 0) {
       this.appC.popToast({ type: "error", body: "From time cannot be greater than to time" })
@@ -768,8 +768,8 @@ export class LiveClassesComponent implements OnInit {
 
 
   isReschedule() {
-    this.rescheduleclass.end_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
-    this.rescheduleclass.start_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourToReschedule.split(' ')[1]
+    this.rescheduleclass.end_datetime = moment(this.rescheduledateFrom).format('MM-DD-YYYY') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
+    this.rescheduleclass.start_datetime = moment(this.rescheduledateFrom).format('MM-DD-YYYY') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourToReschedule.split(' ')[1]
 
     const url = "/api/v1/meeting_manager/reschedule/" + sessionStorage.getItem('institution_id') + "/" + this.rescheduleclass.session_id;
     this._http.postData(url, this.rescheduleclass).subscribe(
@@ -783,7 +783,7 @@ export class LiveClassesComponent implements OnInit {
           session_id: "",
           start_datetime: ""
         }
-        this.rescheduledateFrom = moment().format('YYYY-MM-DD');
+        this.rescheduledateFrom = moment().format('MM-DD-YYYY');
         this.minuteFromReschedule = "";
         this.minuteToReschedule = "";
         this.hourFromReschedule = "";

@@ -82,7 +82,7 @@ export class EnquiryWidgetComponent implements OnInit {
         private enquiryService: FetchenquiryService,
         private widgetService: WidgetService
     ) {
-        this.enquiryDate[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
+        this.enquiryDate[0] = new Date(moment().date(1).format("MM-DD-YYYY"));
         this.enquiryDate[1] = new Date();
     }
 
@@ -97,8 +97,8 @@ export class EnquiryWidgetComponent implements OnInit {
     fetchEnqWidgetData() {
         this.cd.markForCheck();
         let obj = {
-            updateDateFrom: moment(this.enquiryDate[0]).date(1).format("YYYY-MM-DD"),
-            updateDateTo: moment(this.enquiryDate[1]).format("YYYY-MM-DD")
+            updateDateFrom: moment(this.enquiryDate[0]).date(1).format("MM-DD-YYYY"),
+            updateDateTo: moment(this.enquiryDate[1]).format("MM-DD-YYYY")
         }
         this.enquiryService.fetchEnquiryWidgetView(obj).subscribe(
             (res: any) => {
@@ -127,8 +127,8 @@ export class EnquiryWidgetComponent implements OnInit {
     updateEnqChartByDate(e) {
         this.cd.markForCheck();
         let obj = {
-            updateDateFrom: moment(e[0]).format("YYYY-MM-DD"),
-            updateDateTo: moment(e[1]).format("YYYY-MM-DD")
+            updateDateFrom: moment(e[0]).format("MM-DD-YYYY"),
+            updateDateTo: moment(e[1]).format("MM-DD-YYYY")
         }
         this.enquiryService.fetchEnquiryWidgetView(obj).subscribe(
             (res: any) => {
@@ -173,7 +173,7 @@ export class EnquiryWidgetComponent implements OnInit {
 
     getEnqStartDate() {
         this.cd.markForCheck();
-        let date = moment().date(1).format("YYYY-MM-DD");
+        let date = moment().date(1).format("MM-DD-YYYY");
         return this.enquiryDate[0];
     }
 

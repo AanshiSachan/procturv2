@@ -238,8 +238,8 @@ export class TeacherEditComponent implements OnInit {
     formData.is_office_only_access = formData.is_office_only_access ? 'Y' : 'N';
     formData.is_employee_to_be_create = "N";
     formData.country_id = this.instituteCountryDetObj.id;
-    formData.dob = moment(formData.dob).format('YYYY-MM-DD');
-    formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD');
+    formData.dob = moment(formData.dob).format('MM-DD-YYYY');
+    formData.date_of_joining = moment(formData.date_of_joining).format('MM-DD-YYYY');
     // formData.is_office_only_access = formData.is_office_only_access ? 'Y' : 'N';
     this.auth.showLoader();
     this.ApiService.addNewTeacherDetails(formData).subscribe(
@@ -325,8 +325,8 @@ export class TeacherEditComponent implements OnInit {
       formData.id_file = null;
       formData.id_fileType = "";
     }
-    formData.dob = moment(formData.dob).format('YYYY-MM-DD');
-    formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD')
+    formData.dob = moment(formData.dob).format('MM-DD-YYYY');
+    formData.date_of_joining = moment(formData.date_of_joining).format('MM-DD-YYYY')
     this.auth.showLoader();
     this.ApiService.saveEditTeacherInformation(this.selectedTeacherInfo.teacher_id, formData).subscribe(
       data => {

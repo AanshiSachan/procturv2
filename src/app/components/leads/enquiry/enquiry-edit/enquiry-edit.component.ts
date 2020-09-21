@@ -62,7 +62,7 @@ export class EnquiryEditComponent implements OnInit {
     school_id: "-1",
     qualification: "",
     grade: "",
-    enquiry_date: moment().format('YYYY-MM-DD'),
+    enquiry_date: moment().format('MM-DD-YYYY'),
     standard_id: "-1",
     subject_id: "-1",
     subjectIdArray: null,
@@ -127,7 +127,7 @@ export class EnquiryEditComponent implements OnInit {
     priority: "",
     follow_type: "",
     followUpDate: "",
-    commentDate: moment().format('YYYY-MM-DD'),
+    commentDate: moment().format('MM-DD-YYYY'),
     followUpTime: "",
     isEnquiryV2Update: "N",
     isRegisterFeeUpdate: "N",
@@ -435,7 +435,7 @@ export class EnquiryEditComponent implements OnInit {
         this.actualAssignee = data.assigned_to;
         this.editEnqData.dob = this.editEnqData.dob == null ? null : this.editEnqData.dob;
         if (data.followUpTime != '' && data.followUpTime != null && data.followUpTime != " :") {
-          let followUpDateTime = moment(data.followUpDate).format('YYYY-MM-DD') + " " + data.followUpTime;
+          let followUpDateTime = moment(data.followUpDate).format('MM-DD-YYYY') + " " + data.followUpTime;
           this.hour = moment(followUpDateTime).format('h');
           this.followUpTime = moment(followUpDateTime).format('h') + " " + moment(followUpDateTime).format('a').toString().toUpperCase();
           this.minute = moment(followUpDateTime).format('mm');
@@ -488,12 +488,12 @@ export class EnquiryEditComponent implements OnInit {
     this.customComponents.forEach(e => {
       if (e.type == 5) {
         if (e.hasOwnProperty('value')) {
-          let dd = moment(e.value).format("YYYY-MM-DD");
+          let dd = moment(e.value).format("MM-DD-YYYY");
           if (dd != '' && dd != "Invalid date" && dd != null) {
             let obj: any = {};
             obj.component_id = e.id;
             obj.enq_custom_id = e.data.enq_custom_id;
-            obj.enq_custom_value = moment(e.value).format("YYYY-MM-DD");
+            obj.enq_custom_value = moment(e.value).format("MM-DD-YYYY");
             obj.comp_length = e.comp_length;
             tempArr.push(obj);
           }
@@ -911,7 +911,7 @@ export class EnquiryEditComponent implements OnInit {
   submitRegisterForm() {
     this.isConvertToStudent = true;
     this.editEnqData.follow_type = "Walkin"
-    this.editEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
+    this.editEnqData.walkin_followUpDate = moment(new Date()).format('MM-DD-YYYY');
     this.editEnqData.walkin_followUpTime = this.getFollowupTime();
     this.submitForm();
   }
@@ -977,7 +977,7 @@ export class EnquiryEditComponent implements OnInit {
           if (this.editEnqData.walkin_followUpDate == "" || this.editEnqData.walkin_followUpDate == "Invalid date") {
             this.editEnqData.walkin_followUpDate = "";
           } else {
-            this.editEnqData.walkin_followUpDate = moment(this.editEnqData.walkin_followUpDate).format('YYYY-MM-DD');
+            this.editEnqData.walkin_followUpDate = moment(this.editEnqData.walkin_followUpDate).format('MM-DD-YYYY');
           }
 
           if (this.walkintime.hour == "" || this.walkintime.minute == "") {
@@ -1097,7 +1097,7 @@ export class EnquiryEditComponent implements OnInit {
       return '';
     }
     else {
-      return moment(e).format('YYYY-MM-DD');
+      return moment(e).format('MM-DD-YYYY');
     }
   }
 
@@ -1222,7 +1222,7 @@ export class EnquiryEditComponent implements OnInit {
       master_course_name: "",
       qualification: "",
       grade: "",
-      enquiry_date: moment().format('YYYY-MM-DD'),
+      enquiry_date: moment().format('MM-DD-YYYY'),
       dob: '',
       standard_id: "-1",
       subject_id: "-1",
@@ -1289,7 +1289,7 @@ export class EnquiryEditComponent implements OnInit {
       priority: "",
       follow_type: "",
       followUpDate: "",
-      commentDate: moment().format('YYYY-MM-DD'),
+      commentDate: moment().format('MM-DD-YYYY'),
       followUpTime: "",
       isEnquiryV2Update: "N",
       isRegisterFeeUpdate: "N",
@@ -1307,7 +1307,7 @@ export class EnquiryEditComponent implements OnInit {
       this.updateFormData.statusValue = res.statusValue;
       this.updateFormData.status = res.status;
       this.updateFormData.followUpDate = res.followUpDate;
-      this.updateFormData.commentDate = moment().format('YYYY-MM-DD');
+      this.updateFormData.commentDate = moment().format('MM-DD-YYYY');
       if (res.comments != null) {
         this.updateFormComments = res.comments;
       }

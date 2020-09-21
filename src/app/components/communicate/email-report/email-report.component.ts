@@ -35,8 +35,8 @@ export class EmailReportComponent {
 
   emailFetchForm: any = {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
-    from_date: moment(new Date()).format('YYYY-MM-DD'),
-    to_date: moment(new Date()).format('YYYY-MM-DD'),
+    from_date: moment(new Date()).format('MM-DD-YYYY'),
+    to_date: moment(new Date()).format('MM-DD-YYYY'),
   }
 
   constructor(
@@ -152,8 +152,13 @@ export class EmailReportComponent {
     this.dataStatus = true;
     this.emailSource = [];
     this.auth.showLoader();
+    let tempObj = {
+      institution_id: parseInt(sessionStorage.getItem('institute_id')),
+      from_date: moment(this.emailFetchForm.from_date).format('YYYY-MM-DD'),
+      to_date: moment(this.emailFetchForm.to_date).format('YYYY-MM-DD'),
+    }
 
-    this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
+    this.apiService.getEmailMessages(tempObj).subscribe(
       res => {
         this.auth.hideLoader();
         this.emailDataSource = res;
@@ -210,8 +215,8 @@ export class EmailReportComponent {
 
     }
     else {
-      this.emailFetchForm.to_date = moment(new Date).format('YYYY-MM-DD');
-      this.emailFetchForm.from_date = moment(new Date).format('YYYY-MM-DD');
+      this.emailFetchForm.to_date = moment(new Date).format('MM-DD-YYYY');
+      this.emailFetchForm.from_date = moment(new Date).format('MM-DD-YYYY');
 
       let msg = {
         type: "info",
@@ -270,7 +275,13 @@ export class EmailReportComponent {
     }
     else {
       this.auth.showLoader();
-      this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
+      let tempObj = {
+        institution_id: parseInt(sessionStorage.getItem('institute_id')),
+        from_date: moment(this.emailFetchForm.from_date).format('YYYY-MM-DD'),
+        to_date: moment(this.emailFetchForm.to_date).format('YYYY-MM-DD'),
+      }
+  
+      this.apiService.getEmailMessages(tempObj).subscribe(
         res => {
           this.auth.hideLoader();
           this.emailSource = res;

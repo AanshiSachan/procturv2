@@ -23,8 +23,8 @@ export class ListAssignmentComponent implements OnInit {
   assignmentList: any[] = [];
   tempAssignmnetList: any[] = [];
   allData: any = [];  // used for pagination purpose
-  startDate: any = new Date(moment().date(1).format("YYYY-MM-DD"));
-  endDate: any = moment(new Date).format("YYYY-MM-DD");
+  startDate: any = new Date(moment().date(1).format("MM-DD-YYYY"));
+  endDate: any = moment(new Date).format("MM-DD-YYYY");
 
   // FOR PAGINATION
   pageIndex: number = 1;
@@ -54,8 +54,8 @@ export class ListAssignmentComponent implements OnInit {
     	"course_id": -1,
     	"batch_id": -1,
     	"subject_id": -1,
-    	"from_date": moment(this.startDate).format('YYYY-MM-DD'),
-    	"to_date": moment(this.endDate).format('YYYY-MM-DD'),
+    	"from_date": moment(this.startDate).format('MM-DD-YYYY'),
+    	"to_date": moment(this.endDate).format('MM-DD-YYYY'),
     	"assignment_status": null
     }
     this.getAllAssignment(obj);
@@ -88,8 +88,8 @@ export class ListAssignmentComponent implements OnInit {
   }
 
   dateRangeChange(e) {
-    this.startDate = moment(e[0]).format("YYYY-MM-DD");
-    this.endDate = moment(e[1]).format("YYYY-MM-DD");
+    this.startDate = moment(e[0]).format("MM-DD-YYYY");
+    this.endDate = moment(e[1]).format("MM-DD-YYYY");
     let obj = {
       institute_id: this.jsonFlag.institute_id,
     	category_id: "255",

@@ -61,7 +61,7 @@ export class PtmManagementComponent implements OnInit {
     batchArray: [],
     startTimeArray: [],
     endTimeArray: [],
-    ptm_date: moment().format("YYYY-MM-DD")
+    ptm_date: moment().format("MM-DD-YYYY")
   };
 
   // All Array list
@@ -467,7 +467,7 @@ export class PtmManagementComponent implements OnInit {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'PTM schedule date can not be past date');
     }
     else {
-      document.getElementById("changeDate").innerHTML = moment(this.ptmScheduleDate).format("DD MMM YYYY");
+      document.getElementById("changeDate").innerHTML = moment(this.ptmScheduleDate).format("YYYY-MM-DD");
       this.createPTM.ptm_date = moment(this.ptmScheduleDate).format("YYYY-MM-DD");
     }
   }

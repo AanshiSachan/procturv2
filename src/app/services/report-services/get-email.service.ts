@@ -1,5 +1,5 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -14,7 +14,7 @@ export class getEmailService {
 
 
     /* set default value for each url, header and autherization on service creation */
-    constructor(private http: HttpClient, private auth: AuthenticatorService, ) {
+    constructor(private http: HttpClient, private auth: AuthenticatorService,) {
         this.auth.currentAuthKey.subscribe(key => {
             this.Authorization = key;
             this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
@@ -23,10 +23,12 @@ export class getEmailService {
             this.institute_id = id;
         });
         this.baseUrl = this.auth.getBaseUrl();
- 
+
     }
 
     getEmailMessages(obj): Observable<any> {
+        console.log("Object",obj);
+      
         let url = this.baseUrl + "/api/v1/alerts/config/emailReport";
         return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => {
@@ -41,8 +43,8 @@ export class getEmailService {
 
     /*    fetchSmsReport(obj) {
     
-            obj.from_date = obj.from_date == '' ? moment().format('YYYY-MM-DD') : moment(obj.from_date).format('YYYY-MM-DD');
-            obj.to_date = obj.to_date == '' ? '' : moment(obj.to_date).format('YYYY-MM-DD');
+            obj.from_date = obj.from_date == '' ? moment().format('MM-DD-YYYY') : moment(obj.from_date).format('MM-DD-YYYY');
+            obj.to_date = obj.to_date == '' ? '' : moment(obj.to_date).format('MM-DD-YYYY');
     
             let urlSmsReport = this.baseUrl + "/api/v1/alerts/config/smsReport";
     

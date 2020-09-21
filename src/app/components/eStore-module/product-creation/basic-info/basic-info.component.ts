@@ -51,10 +51,10 @@ export class BasicInfoComponent implements OnInit {
     price: 0,
     cateory: 0,
     itemStates: [],
-    valid_from_date: moment().format('DD-MMM-YYYY'),
+    valid_from_date: moment().format('MM-DD-YYYY'),
     valid_to_date: '',
-    sales_from_date: moment().format('DD-MMM-YYYY'),
-    sales_to_date:  moment().format('DD-MMM-YYYY'),
+    sales_from_date: moment().format('MM-DD-YYYY'),
+    sales_to_date:  moment().format('MM-DD-YYYY'),
     start_timestamp: '',
     end_timestamp: '',
     status: 10,
@@ -144,8 +144,13 @@ export class BasicInfoComponent implements OnInit {
       (resp: any) => {
         this.auth.hideLoader();
         let response = resp.result;
+        console.log("REsult",response);
         if (resp.validate) {
           this.prodForm = response;
+          this.prodForm.sales_from_date = moment(response.sales_from_date).format('MM-DD-YYYY');
+          this.prodForm.sales_to_date = moment(response.sales_to_date).format('MM-DD-YYYY');
+          this.prodForm.valid_from_date = moment(response.valid_from_date).format('MM-DD-YYYY');
+          this.prodForm.valid_to_date = moment(response.valid_to_date).format('MM-DD-YYYY');
           this.prodForm.is_paid = this.prodForm.is_paid == 'Y' ? 0 : 1;
           this.products_ecourse_maps = [];
           this.prodForm.product_ecourse_maps.forEach((object) => {
@@ -398,13 +403,13 @@ export class BasicInfoComponent implements OnInit {
     // var hours = date.getHours();
 
     // newDate.setHours(hours - offset);
-    return moment(date_s).format('YYYY-MM-DD');
+    return moment(date_s).format('MM-DD-YYYY');
 }
 
 
   calc_days() {
-    this.prodForm.valid_from_date = moment(this.prodForm.sales_from_date).format('DD-MMM-YYYY');
-    this.prodForm.valid_to_date = moment(this.prodForm.sales_from_date).add(this.prodForm.duration, 'd').format('DD-MMM-YYYY');
+    this.prodForm.valid_from_date = moment(this.prodForm.sales_from_date).format('MM-DD-YYYY');
+    this.prodForm.valid_to_date = moment(this.prodForm.sales_from_date).add(this.prodForm.duration, 'd').format('MM-DD-YYYY');
     // return (this.prodForm.valid_from_date != '' && this.prodForm.valid_to_date != '') ? Math.ceil(Math.abs((new Date(this.prodForm.valid_to_date).getTime()) - (new Date(this.prodForm.valid_from_date).getTime())) / (1000 * 3600 * 24)) : 'NA';
   }
 

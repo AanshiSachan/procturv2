@@ -109,7 +109,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
   maxlegth: any = 10;
   feeStructureForm: any = {
     studentArray: ["-1"],
-    template_effective_date: moment().format('YYYY-MM-DD')
+    template_effective_date: moment().format('MM-DD-YYYY')
   };
   createInstitute = {
     instituteName: "",
@@ -188,7 +188,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     area_id: "",
     student_curr_addr: "",
     dob: "",
-    doj: moment().format('YYYY-MM-DD'),
+    doj: moment().format('MM-DD-YYYY'),
     school_name: "-1",
     parent_name: "",
     parent_email: "",
@@ -249,7 +249,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
   paymentPopUpJson: any = {
     immutableAmount: 0,
     payingAmount: 0,
-    paid_date: moment().format('YYYY-MM-DD'),
+    paid_date: moment().format('MM-DD-YYYY'),
     payment_mode: 'Cash',
     reference_no: '',
     remarks: "",
@@ -257,7 +257,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     pdcSelectedForm: {
       bank_name: '',
       cheque_amount: 0,
-      cheque_date: moment().format("YYYY-MM-DD"),
+      cheque_date: moment().format("MM-DD-YYYY"),
       cheque_no: '',
       pdc_cheque_id: ''
     },
@@ -527,7 +527,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
         if (el.academic_year_id == '-1') {
           el.academic_year_id = this.defaultAcadYear;
         }
-        let obj = { isSelected: false, data: el, assignDate: moment().format('YYYY-MM-DD') };
+        let obj = { isSelected: false, data: el, assignDate: moment().format('MM-DD-YYYY') };
         this.batchList.push(obj);
       });
     });
@@ -564,7 +564,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
             if (el.academic_year_id == '-1') {
               el.academic_year_id = this.defaultAcadYear;
             }
-            let obj = { isSelected: false, data: el, assignDate: moment().format('YYYY-MM-DD') };
+            let obj = { isSelected: false, data: el, assignDate: moment().format('MM-DD-YYYY') };
             this.batchList.push(obj);
           });
         }
@@ -1233,7 +1233,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
         }
         /* Date Type Custom Component */
         else if (el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
-          let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: moment(el.value).format("YYYY-MM-DD"), comp_length: el.data.comp_length, type: el.type, label: el.label };
+          let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: moment(el.value).format("MM-DD-YYYY"), comp_length: el.data.comp_length, type: el.type, label: el.label };
           customArr.push(obj);
         }
       });
@@ -1291,7 +1291,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
 
-      this.studentAddFormData.expiry_date = moment(this.studentAddFormData.expiry_date).format("YYYY-MM-DD");
+      this.studentAddFormData.expiry_date = moment(this.studentAddFormData.expiry_date).format("MM-DD-YYYY");
       this.studentAddFormData.studentFileUploadJson = this.selectedFiles;
       console.log(this.studentAddFormData);
       this.btnSaveAndContinue.nativeElement.disabled = true;
@@ -1481,7 +1481,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       return '';
     }
     else {
-      return moment(this.studentAddFormData.dob).format("YYYY-MM-DD");
+      return moment(this.studentAddFormData.dob).format("MM-DD-YYYY");
     }
   }
 
@@ -1539,7 +1539,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
           let obj = {
             component_id: el.id,
             enq_custom_id: "0",
-            enq_custom_value: moment(el.value).format("YYYY-MM-DD"),
+            enq_custom_value: moment(el.value).format("MM-DD-YYYY"),
             comp_length: el.data.comp_length,
             type: el.type
           }
@@ -1607,7 +1607,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       student_phone: "",
       student_curr_addr: "",
       dob: "",
-      doj: moment().format('YYYY-MM-DD'),
+      doj: moment().format('MM-DD-YYYY'),
       school_name: "-1",
       parent_name: "",
       parent_email: "",
@@ -1724,7 +1724,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       student_phone: "",
       student_curr_addr: "",
       dob: "",
-      doj: moment().format('YYYY-MM-DD'),
+      doj: moment().format('MM-DD-YYYY'),
       school_name: "-1",
       parent_name: "",
       parent_email: "",
@@ -1970,7 +1970,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     this.paymentPopUpJson = {
       immutableAmount: 0,
       payingAmount: 0,
-      paid_date: moment().format('YYYY-MM-DD'),
+      paid_date: moment().format('MM-DD-YYYY'),
       payment_mode: 'Cash',
       reference_no: '',
       remarks: "",
@@ -1978,7 +1978,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       pdcSelectedForm: {
         bank_name: '',
         cheque_amount: 0,
-        cheque_date: moment().format("YYYY-MM-DD"),
+        cheque_date: moment().format("MM-DD-YYYY"),
         cheque_no: '',
         pdc_cheque_id: ''
       },
@@ -1992,7 +1992,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     let obj: any = {
       bank_name: '',
       cheque_amount: this.paymentPopUpJson.payingAmount,
-      cheque_date: moment().format("YYYY-MM-DD"),
+      cheque_date: moment().format("MM-DD-YYYY"),
       cheque_no: '',
       pdc_cheque_id: ''
     };
@@ -2005,7 +2005,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
         if (id == el.cheque_id) {
           obj.bank_name = el.bank_name;
           obj.cheque_amount = el.cheque_amount;
-          obj.cheque_date = moment(el.cheque_date).format("YYYY-MM-DD");
+          obj.cheque_date = moment(el.cheque_date).format("MM-DD-YYYY");
           obj.cheque_no = el.cheque_no;
           obj.pdc_cheque_id = el.cheque_id;
           this.paymentPopUpJson.pdcSelectedForm = obj;
@@ -2221,7 +2221,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       invoice_no: "",
       uiSelected: false
     };
-    let dd = moment(this.feeStructureForm.template_effective_date).format('YYYY-MM-DD');
+    let dd = moment(this.feeStructureForm.template_effective_date).format('MM-DD-YYYY');
     /* success */
     if ((this.feeTempSelected != "" && this.feeTempSelected != null) && (dd != "" && dd != null && dd != "Invalid date")) {
       this.feeStructureForm.template_effective_date = dd;
@@ -2298,8 +2298,8 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     let obj = {
       cheque_status: this.pdcSearchObj.cheque_status == '' ? -1 : this.pdcSearchObj.cheque_status,
       student_id: this.student_id,
-      cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('YYYY-MM-DD'),
-      cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
+      cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('MM-DD-YYYY'),
+      cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('MM-DD-YYYY')
     }
     this.auth.showLoader();
     this.pdcAddForm.country_id = this.instituteCountryDetObj.id;
@@ -2321,12 +2321,12 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     let obj = {
       bank_name: this.pdcAddForm.bank_name,
       cheque_amount: this.pdcAddForm.cheque_amount,
-      cheque_date: moment(this.pdcAddForm.cheque_date).format("YYYY-MM-DD"),
+      cheque_date: moment(this.pdcAddForm.cheque_date).format("MM-DD-YYYY"),
       cheque_id: this.pdcAddForm.cheque_id,
       cheque_no: this.pdcAddForm.cheque_no,
       cheque_status: this.pdcAddForm.cheque_status,
       cheque_status_key: this.pdcAddForm.cheque_status_key,
-      clearing_date: moment(this.pdcAddForm.clearing_date).format("YYYY-MM-DD"),
+      clearing_date: moment(this.pdcAddForm.clearing_date).format("MM-DD-YYYY"),
       institution_id: sessionStorage.getItem('institute_id'),
       student_id: this.student_id,
       country_id: this.pdcAddForm.country_id
@@ -2387,7 +2387,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
   updatePDC(el) {
     this.auth.showLoader();
     if (this.validPdc(el)) {
-      let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id: el.country_id };
+      let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("MM-DD-YYYY"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("MM-DD-YYYY"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id: el.country_id };
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
           // this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
@@ -2550,10 +2550,10 @@ export class StudentAddComponent implements OnInit, OnDestroy {
           return;
         } else {
           if (this.addInventory.date_of_dispatch != '') {
-            this.addInventory.date_of_dispatch = moment(this.addInventory.date_of_dispatch).format('YYYY-MM-DD')
+            this.addInventory.date_of_dispatch = moment(this.addInventory.date_of_dispatch).format('MM-DD-YYYY')
           }
           if (this.addInventory.date_of_delivery_of_sm != '') {
-            this.addInventory.date_of_delivery_of_sm = moment(this.addInventory.date_of_delivery_of_sm).format('YYYY-MM-DD')
+            this.addInventory.date_of_delivery_of_sm = moment(this.addInventory.date_of_delivery_of_sm).format('MM-DD-YYYY')
           }
           let obj: any = {
             alloted_units: this.addInventory.alloted_units.toString(),

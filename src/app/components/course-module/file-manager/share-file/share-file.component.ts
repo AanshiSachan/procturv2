@@ -57,10 +57,10 @@ export class ShareFileComponent implements OnInit {
     subject_id: "",
     is_readonly: "N"
   }
-  startAccessTimeStudent = moment().format('YYYY-MM-DD');
-  endAccessTimeStudent = moment().format('YYYY-MM-DD');
-  endAccessTimeBatch = moment().format('YYYY-MM-DD');
-  startAccessTimeBatch = moment().format('YYYY-MM-DD')
+  startAccessTimeStudent = moment().format('MM-DD-YYYY');
+  endAccessTimeStudent = moment().format('MM-DD-YYYY');
+  endAccessTimeBatch = moment().format('MM-DD-YYYY');
+  startAccessTimeBatch = moment().format('MM-DD-YYYY')
   isChecked: boolean = false;
   isStudentChecked: boolean = false;
   isReadonlyStu: boolean = false;
@@ -324,11 +324,11 @@ export class ShareFileComponent implements OnInit {
           (data: any) => {
 
             if (data.file_access_start_time == "") {
-              data.file_access_start_time = moment().format('YYYY-MM-DD');
+              data.file_access_start_time = moment().format('MM-DD-YYYY');
             }
 
             if (data.file_access_end_time == "") {
-              data.file_access_end_time = moment().format('YYYY-MM-DD');
+              data.file_access_end_time = moment().format('MM-DD-YYYY');
             }
 
             if (update != 1) {
@@ -448,10 +448,10 @@ export class ShareFileComponent implements OnInit {
           this.getStudentsData.map(
             (data: any) => {
               if (data.file_access_end_time == "") {
-                data.file_access_end_time = moment().format('YYYY-MM-DD')
+                data.file_access_end_time = moment().format('MM-DD-YYYY')
               }
               if (data.file_access_start_time == "") {
-                data.file_access_start_time = moment().format('YYYY-MM-DD')
+                data.file_access_start_time = moment().format('MM-DD-YYYY')
               }
 
               if (update != 1) {

@@ -82,8 +82,8 @@ export class PaymentHistoryMainComponent implements OnInit {
   };
   sendPayload = {
     institute_id: this.payment.institute_id,
-    from_date: moment().format('YYYY-MM-DD'),
-    to_date: moment().format('YYYY-MM-DD'),
+    from_date: moment().format('MM-DD-YYYY'),
+    to_date: moment().format('MM-DD-YYYY'),
     payment_history_student_category_option: 2,
     student_name: "",
     contact_no: "",
@@ -107,7 +107,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     financial_year: "",
     invoice_no: "",
     old_invoice_no: "",
-    paid_date: moment(new Date()).format("DD-MMM-YYYY"),
+    paid_date: moment(new Date()).format("DD-MM-YYYY"),
     paymentMode: "",
     reference_no: "",
     remarks: "",
@@ -268,7 +268,6 @@ export class PaymentHistoryMainComponent implements OnInit {
       } else {
         this.sendPayload.user_id = Number(sessionStorage.getItem('userid'));
       }
-
       this.payment.getPaymentData(this.sendPayload).subscribe(
         (data: any) => {
           if (data.length == 0) {
@@ -369,8 +368,8 @@ export class PaymentHistoryMainComponent implements OnInit {
     if (moment(selectDate).diff(moment()) > 0) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', 'You cannot select future date');
       this.auth.hideLoader();
-      this.sendPayload.from_date = moment().format('YYYY-MM-DD');
-      this.sendPayload.to_date = moment().format('YYYY-MM-DD');
+      this.sendPayload.from_date = moment().format('MM-DD-YYYY');
+      this.sendPayload.to_date = moment().format('MM-DD-YYYY');
     }
   }
 
@@ -470,7 +469,7 @@ export class PaymentHistoryMainComponent implements OnInit {
             if (feeSchedule_TxLst == false) {
               return
             }
-            this.chequeDetailsJson.cheque_date = moment(this.chequeDetailsJson.cheque_date).format('YYYY-MM-DD');
+            this.chequeDetailsJson.cheque_date = moment(this.chequeDetailsJson.cheque_date).format('MM-DD-YYYY');
 
             let obj = {
               chequeDetailsJson: Object.assign({}, this.chequeDetailsJson),
@@ -479,7 +478,7 @@ export class PaymentHistoryMainComponent implements OnInit {
               financial_year: this.personData.financial_year,
               invoice_no: this.personData.invoice_no,
               old_invoice_no: this.personData.invoice_no,
-              paid_date: moment(this.updatedResult.paid_date).format("YYYY-MM-DD"),
+              paid_date: moment(this.updatedResult.paid_date).format("MM-DD-YYYY"),
               paymentMode: this.updatedResult.paymentMode,
               reference_no: this.updatedResult.reference_no,
               remarks: this.updatedResult.remarks,
@@ -516,7 +515,7 @@ export class PaymentHistoryMainComponent implements OnInit {
             financial_year: this.personData.financial_year,
             invoice_no: this.personData.invoice_no,
             old_invoice_no: this.personData.invoice_no,
-            paid_date: moment(this.updatedResult.paid_date).format("YYYY-MM-DD"),
+            paid_date: moment(this.updatedResult.paid_date).format("MM-DD-YYYY"),
             paymentMode: this.updatedResult.paymentMode,
             reference_no: this.updatedResult.reference_no,
             remarks: this.updatedResult.remarks,

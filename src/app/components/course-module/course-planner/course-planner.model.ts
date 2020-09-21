@@ -6,8 +6,8 @@ export class CoursePlanner {
   master_course_name?: String = "-1";
   course_id?: String = "-1";
   batch_id?: String = "-1";
-  from_date?: String = moment().isoWeekday("Monday").format("YYYY-MM-DD");
-  to_date?: String = moment().weekday(7).format("YYYY-MM-DD");
+  from_date?: String = moment().isoWeekday("Monday").format("MM-DD-YYYY");
+  to_date?: String = moment().weekday(7).format("MM-DD-YYYY");
   isCompleted?: String = "Y";
   isPending?: String = "Y";
   isCancelled?: String = "Y";

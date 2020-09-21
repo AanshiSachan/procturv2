@@ -76,8 +76,8 @@ export class AttendanceReportComponent implements OnInit {
     course_id: "-1",
     batch_id: "-1",
     master_course_name: "",
-    from_date: moment(new Date()).format('YYYY-MM-DD'),
-    to_date: moment(new Date()).format('YYYY-MM-DD')
+    from_date: moment(new Date()).format('MM-DD-YYYY'),
+    to_date: moment(new Date()).format('MM-DD-YYYY')
   }
   /*for professional*/
   queryParams = {
@@ -87,8 +87,8 @@ export class AttendanceReportComponent implements OnInit {
     course_id: -1,
     batch_id: "-1",
     master_course_name: "",
-    from_date: moment(new Date()).format('YYYY-MM-DD'),
-    to_date: moment(new Date()).format('YYYY-MM-DD')
+    from_date: moment(new Date()).format('MM-DD-YYYY'),
+    to_date: moment(new Date()).format('MM-DD-YYYY')
   };
 
   searchText: string = "";
@@ -219,10 +219,10 @@ export class AttendanceReportComponent implements OnInit {
       this.reportService.getCourses(i).subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
-          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
-          this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
-          this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('MM-DD-YYYY');
+          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('MM-DD-YYYY');
+          this.queryParams.from_date = moment(this.queryParams.from_date).format('MM-DD-YYYY');
+          this.queryParams.to_date = moment(this.queryParams.to_date).format('MM-DD-YYYY');
           this.auth.hideLoader();
           this.courses = data.coursesList;
         }
@@ -257,10 +257,10 @@ export class AttendanceReportComponent implements OnInit {
       this.reportService.fetchMasterCourseProfessional(this.queryParams).subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
-          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
-          this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
-          this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('MM-DD-YYYY');
+          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('MM-DD-YYYY');
+          this.queryParams.from_date = moment(this.queryParams.from_date).format('MM-DD-YYYY');
+          this.queryParams.to_date = moment(this.queryParams.to_date).format('MM-DD-YYYY');
           this.auth.hideLoader();
           this.batchPro = data.batchLi;
         },
@@ -282,10 +282,10 @@ export class AttendanceReportComponent implements OnInit {
       this.reportService.getSubject(i).subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
-          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
-          this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
-          this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('MM-DD-YYYY');
+          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('MM-DD-YYYY');
+          this.queryParams.from_date = moment(this.queryParams.from_date).format('MM-DD-YYYY');
+          this.queryParams.to_date = moment(this.queryParams.to_date).format('MM-DD-YYYY');
           this.auth.hideLoader();
           this.batchCourses = data.batchesList;
           // this.getPostData();
@@ -308,10 +308,10 @@ export class AttendanceReportComponent implements OnInit {
       this.reportService.postDataToTablePro(this.queryParams).subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
-          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
-          this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
-          this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('MM-DD-YYYY');
+          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('MM-DD-YYYY');
+          this.queryParams.from_date = moment(this.queryParams.from_date).format('MM-DD-YYYY');
+          this.queryParams.to_date = moment(this.queryParams.to_date).format('MM-DD-YYYY');
           this.auth.hideLoader();
           // this.getPostData();
         }
@@ -321,10 +321,10 @@ export class AttendanceReportComponent implements OnInit {
       this.reportService.postDataToTable(this.attendanceFetchForm).subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
-          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
-          this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
-          this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('MM-DD-YYYY');
+          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('MM-DD-YYYY');
+          this.queryParams.from_date = moment(this.queryParams.from_date).format('MM-DD-YYYY');
+          this.queryParams.to_date = moment(this.queryParams.to_date).format('MM-DD-YYYY');
           this.auth.hideLoader();
           // this.getPostData();
         }
@@ -399,10 +399,10 @@ export class AttendanceReportComponent implements OnInit {
     this.auth.showLoader();
     this.dataStatus = true;
 
-    this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
-    this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+    this.queryParams.from_date = moment(this.queryParams.from_date).format('MM-DD-YYYY');
+    this.queryParams.to_date = moment(this.queryParams.to_date).format('MM-DD-YYYY');
     let diff = moment(this.queryParams.from_date).diff(moment(this.queryParams.to_date), 'months');
-    let futureDate = moment(this.queryParams.to_date).add('days', 1).format('YYYY-MM-DD');
+    let futureDate = moment(this.queryParams.to_date).add('days', 1).format('MM-DD-YYYY');
 
     if (this.isProfessional) {
       if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == "-1" || this.queryParams.batch_id == " " || this.queryParams.subject_id == "" || this.queryParams.standard_id == "-1") {
@@ -489,10 +489,10 @@ export class AttendanceReportComponent implements OnInit {
       }
     }
     else {
-      this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
-      this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
+      this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('MM-DD-YYYY');
+      this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('MM-DD-YYYY');
       let diff = moment(this.attendanceFetchForm.from_date).diff(moment(this.attendanceFetchForm.to_date), 'months');
-      let futureDate = moment(this.attendanceFetchForm.to_date).add('days', 1).format('YYYY-MM-DD');
+      let futureDate = moment(this.attendanceFetchForm.to_date).add('days', 1).format('MM-DD-YYYY');
       this.auth.showLoader();
       if (this.attendanceFetchForm.master_course_name == "" || this.attendanceFetchForm.course_id == "" || this.attendanceFetchForm.batch_id == "-1" || this.attendanceFetchForm.from_date == "" || this.attendanceFetchForm.to_date == "") {
 
@@ -736,8 +736,8 @@ export class AttendanceReportComponent implements OnInit {
         }
       }
 
-      file_name = file_name + '(' + moment(this.queryParams.from_date).format('DD-MMM-YYYY') + " to "
-      +  moment(this.queryParams.to_date).format('DD-MMM-YYYY')  + ')';
+      file_name = file_name + '(' + moment(this.queryParams.from_date).format('DD-MM-YYYY') + " to "
+      +  moment(this.queryParams.to_date).format('DD-MM-YYYY')  + ')';
 
     } else {
 
@@ -747,8 +747,8 @@ export class AttendanceReportComponent implements OnInit {
           break;
         }
       }
-      file_name = file_name + '(' + moment(this.attendanceFetchForm.from_date).format('DD-MMM-YYYY') + " to "
-      +  moment(this.attendanceFetchForm.to_date).format('DD-MMM-YYYY')  + ')';
+      file_name = file_name + '(' + moment(this.attendanceFetchForm.from_date).format('DD-MM-YYYY') + " to "
+      +  moment(this.attendanceFetchForm.to_date).format('DD-MM-YYYY')  + ')';
     }
     link.setAttribute('href', data_type + ',' + outer);
     link.setAttribute('download', file_name + '.xls');
@@ -802,10 +802,10 @@ export class AttendanceReportComponent implements OnInit {
       }
       this.appc.popToast(msg);
       this.auth.hideLoader();
-      this.attendanceFetchForm.from_date = moment().format('YYYY-MM-DD');
-      this.attendanceFetchForm.to_date = moment().format('YYYY-MM-DD');
-      this.queryParams.from_date = moment().format('YYYY-MM-DD');
-      this.queryParams.to_date = moment().format('YYYY-MM-DD');
+      this.attendanceFetchForm.from_date = moment().format('MM-DD-YYYY');
+      this.attendanceFetchForm.to_date = moment().format('MM-DD-YYYY');
+      this.queryParams.from_date = moment().format('MM-DD-YYYY');
+      this.queryParams.to_date = moment().format('MM-DD-YYYY');
     }
   }
 
@@ -837,12 +837,12 @@ export class AttendanceReportComponent implements OnInit {
     this.auth.showLoader();
       let obj:any;
       if(this.isProfessional){
-        this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
-        this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+        this.queryParams.from_date = moment(this.queryParams.from_date).format('MM-DD-YYYY');
+        this.queryParams.to_date = moment(this.queryParams.to_date).format('MM-DD-YYYY');
         obj = this.queryParams;
       } else{
-        this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
-        this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
+        this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('MM-DD-YYYY');
+        this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('MM-DD-YYYY');
         obj = this.attendanceFetchForm;
       }
     let url='/api/v1/reports/attendance/downloadAttendanceReport';   

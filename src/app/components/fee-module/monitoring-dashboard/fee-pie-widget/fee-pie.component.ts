@@ -25,8 +25,8 @@ export class FeePieComponent {
     private _commService: CommonServiceFactory,
     private httpService: HttpService
   ) {
-    this.dateRange[0] = moment(new Date()).startOf('month').format('DD-MMM-YYYY');
-    this.dateRange[1] = moment(new Date()).endOf('month').format('DD-MMM-YYYY');
+    this.dateRange[0] = moment(new Date()).startOf('month').format('YYYY-MM-DD');
+    this.dateRange[1] = moment(new Date()).endOf('month').format('YYYY-MM-DD');
   }
 
   ngOnInit() {
@@ -36,28 +36,28 @@ export class FeePieComponent {
   dateRangeUpdated(e) {
     /* last 7 days */
     if (e == 1) {
-      this.dateRange[1] = moment(new Date()).format('DD-MMM-YYYY');
-      this.dateRange[0] = moment(new Date()).subtract(7, 'days').format('DD-MMM-YYYY');
+      this.dateRange[1] = moment(new Date()).format('YYYY-MM-DD');
+      this.dateRange[0] = moment(new Date()).subtract(7, 'days').format('YYYY-MM-DD');
     }
     /* this month */
     else if (e == 2) {
-      this.dateRange[0] = moment(new Date()).startOf('month').format('DD-MMM-YYYY');
-      this.dateRange[1] = moment(new Date()).endOf('month').format('DD-MMM-YYYY');
+      this.dateRange[0] = moment(new Date()).startOf('month').format('YYYY-MM-DD');
+      this.dateRange[1] = moment(new Date()).endOf('month').format('YYYY-MM-DD');
     }
     /* last 30 days */
     else if (e == 3) {
-      this.dateRange[1] = moment(new Date()).format('DD-MMM-YYYY');
-      this.dateRange[0] = moment(new Date()).subtract(30, 'days').format('DD-MMM-YYYY');
+      this.dateRange[1] = moment(new Date()).format('YYYY-MM-DD');
+      this.dateRange[0] = moment(new Date()).subtract(30, 'days').format('YYYY-MM-DD');
     }
     /* last month */
     else if (e == 4) {
-      this.dateRange[0] = moment(new Date()).startOf('month').subtract(1, 'months').format('DD-MMM-YYYY');
-      this.dateRange[1] = moment(new Date()).startOf('month').subtract(1, 'months').endOf('month').format('DD-MMM-YYYY');
+      this.dateRange[0] = moment(new Date()).startOf('month').subtract(1, 'months').format('YYYY-MM-DD');
+      this.dateRange[1] = moment(new Date()).startOf('month').subtract(1, 'months').endOf('month').format('YYYY-MM-DD');
     }
     /* last 3 month */
     else if (e == 5) {
-      this.dateRange[0] = moment(new Date()).startOf('month').subtract(3, 'months').format('DD-MMM-YYYY');
-      this.dateRange[1] = moment(new Date()).format('DD-MMM-YYYY');
+      this.dateRange[0] = moment(new Date()).startOf('month').subtract(3, 'months').format('YYYY-MM-DD');
+      this.dateRange[1] = moment(new Date()).format('YYYY-MM-DD');
     }
 
    this.fetchFeeStackMonitor();

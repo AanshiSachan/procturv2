@@ -16,7 +16,7 @@
           <label for="fromDate" style="font-size: 13px; padding: 1px;">Sent From</label><span class="danger">*</span>
           <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" style="border: solid 1px #e2ebee;
           border-radius: 4px;" readonly="true" name="fromDate" [(ngModel)]="emailFetchForm.from_date"
-            (ngModelChange)="dateValidationForFuture($event) " bsDatepicker />
+            (ngModelChange)="dateValidationForFuture($event) "  [bsConfig]="{ isAnimated: true }" bsDatepicker />
         </div>
         <div class="field-wrapper datePickerBox has-value" style="padding-top: 8px;">
           <label for="toDate" style="font-size: 13px; padding: 1px;">Sent To</label><span class="danger">*</span>

@@ -83,8 +83,8 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     batch_id: -1,
   }
   advanceFilter: any = {
-    startdate: moment().subtract(30, 'days').format('YYYY-MM-DD'),
-    enddate: moment().format('YYYY-MM-DD'),
+    startdate: moment().subtract(30, 'days').format('MM-DD-YYYY'),
+    enddate: moment().format('MM-DD-YYYY'),
     type: '3',
     isExamIncludedInTimeTable: 'Y'
   }
@@ -385,13 +385,13 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   }
 
   getEndDate(): string {
-    let currentDate = moment(this.currentDate).format("YYYY-MM-DD");
-    return moment(currentDate).weekday(7).format("YYYY-MM-DD");
+    let currentDate = moment(this.currentDate).format("MM-DD-YYYY");
+    return moment(currentDate).weekday(7).format("MM-DD-YYYY");
   }
 
   getStartDate(): string {
-    let currentDate = moment(this.currentDate).format("YYYY-MM-DD");
-    return moment(currentDate).weekday(1).format("YYYY-MM-DD");
+    let currentDate = moment(this.currentDate).format("MM-DD-YYYY");
+    return moment(currentDate).weekday(1).format("MM-DD-YYYY");
   }
 
   getValueOfStandardID(data, key, value, ) {
@@ -425,7 +425,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   }
 
   gotoPreviousWeek() {
-    this.currentDate = new Date(moment(this.currentDate).subtract(7, 'd').format("YYYY-MM-DD"));
+    this.currentDate = new Date(moment(this.currentDate).subtract(7, 'd').format("MM-DD-YYYY"));
     this.weekStart = moment(this.currentDate).isoWeekday("Monday").format("DD MMMM YYYY");
     this.weekEnd = moment(this.currentDate).isoWeekday("Sunday").format("DD MMMM YYYY");
     this.submitMasterCourse();
@@ -433,7 +433,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   /* ============================================================================================ */
   /* ============================================================================================ */
   gotoNextWeek() {
-    this.currentDate = new Date(moment(this.currentDate).add(7, 'd').format("YYYY-MM-DD"));
+    this.currentDate = new Date(moment(this.currentDate).add(7, 'd').format("MM-DD-YYYY"));
     this.weekStart = moment(this.currentDate).isoWeekday("Monday").format("DD MMMM YYYY");
     this.weekEnd = moment(this.currentDate).isoWeekday("Sunday").format("DD MMMM YYYY");
     this.submitMasterCourse();
@@ -457,7 +457,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         course_ids: this.fetchMasterCourseModule.course_id,
         inst_id: sessionStorage.getItem('institute_id'),
         master_course: this.fetchMasterCourseModule.master_course,
-        requested_date: moment(notify.id).format("YYYY-MM-DD")
+        requested_date: moment(notify.id).format("MM-DD-YYYY")
       }
       this.classService.remindCourseLevel(obj).subscribe(
         res => {
@@ -586,7 +586,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         is_notified: this.resheduleNotified
       }
       let temp2 = {
-        class_date: moment(this.reschedDate).format("YYYY-MM-DD"),
+        class_date: moment(this.reschedDate).format("MM-DD-YYYY"),
         start_time: this.timepicker.reschedStartTime.hour + ":" + this.timepicker.reschedStartTime.minute + " " + this.timepicker.reschedStartTime.meridian,
         end_time: this.timepicker.reschedEndTime.hour + ":" + this.timepicker.reschedEndTime.minute + " " + this.timepicker.reschedEndTime.meridian,
         duration: this.getDifference()
@@ -893,8 +893,8 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       this.messageToast('error', '', 'Please enter date range of 30 days only');
       return false;
     } else {
-      this.advanceFilter.startdate = moment(this.advanceFilter.startdate).format('YYYY-MM-DD');
-      this.advanceFilter.enddate = moment(this.advanceFilter.enddate).format('YYYY-MM-DD');
+      this.advanceFilter.startdate = moment(this.advanceFilter.startdate).format('MM-DD-YYYY');
+      this.advanceFilter.enddate = moment(this.advanceFilter.enddate).format('MM-DD-YYYY');
     }
     if (this.isLangInstitute) {
       if (this.batchData.standard_id == -1) {
@@ -1131,7 +1131,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   // Hide Past Schedules
   hidePastClassAction(data) {
     let date = data.id.split('(');
-    if (moment(date[0]).format('YYYY-MM-DD') >= moment().format('YYYY-MM-DD')) {
+    if (moment(date[0]).format('MM-DD-YYYY') >= moment().format('MM-DD-YYYY')) {
       return true;
     } else {
       return false;
@@ -1146,7 +1146,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
 export class DateFormat implements PipeTransform {
   public transform(value) {
     if (value != "" && value != null && value != undefined) {
-      return moment(value).format('DD-MMM-YYYY');
+      return moment(value).format('DD-MM-YYYY');
     } else {
       return value
     }

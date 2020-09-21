@@ -17,8 +17,8 @@ export class FeeLineComponent {
 
   constructor(private getService: monitoringService,
   private _commService:CommonServiceFactory) {
-    this.datelineRange[0] = moment(new Date()).startOf('month').format('DD-MMM-YYYY');
-    this.datelineRange[1] = moment(new Date()).endOf('month').format('DD-MMM-YYYY');
+    this.datelineRange[0] = moment(new Date()).startOf('month').format('YYYY-MM-DD');
+    this.datelineRange[1] = moment(new Date()).endOf('month').format('YYYY-MM-DD');
   }
 
   ngOnInit() {
@@ -28,32 +28,32 @@ export class FeeLineComponent {
   datelineRangeUpdated(e) {
     /* last 7 days */
     if (e == 1) {
-      this.datelineRange[1] = moment(new Date()).format('DD-MMM-YYYY');
-      this.datelineRange[0] = moment(new Date()).subtract(7, 'days').format('DD-MMM-YYYY');
+      this.datelineRange[1] = moment(new Date()).format('YYYY-MM-DD');
+      this.datelineRange[0] = moment(new Date()).subtract(7, 'days').format('YYYY-MM-DD');
       this.rangeType = "Last 7 days";
     }
     /* this month */
     else if (e == 2) {
-      this.datelineRange[0] = moment(new Date()).startOf('month').format('DD-MMM-YYYY');
-      this.datelineRange[1] = moment(new Date()).endOf('month').format('DD-MMM-YYYY');
+      this.datelineRange[0] = moment(new Date()).startOf('month').format('YYYY-MM-DD');
+      this.datelineRange[1] = moment(new Date()).endOf('month').format('YYYY-MM-DD');
       this.rangeType = "This Month";
     }
     /* last 30 days */
     else if (e == 3) {
-      this.datelineRange[1] = moment(new Date()).format('DD-MMM-YYYY');
-      this.datelineRange[0] = moment(new Date()).subtract(30, 'days').format('DD-MMM-YYYY');
+      this.datelineRange[1] = moment(new Date()).format('YYYY-MM-DD');
+      this.datelineRange[0] = moment(new Date()).subtract(30, 'days').format('YYYY-MM-DD');
       this.rangeType = "Last 30 Days";
     }
     /* last month */
     else if (e == 4) {
-      this.datelineRange[0] = moment(new Date()).startOf('month').subtract(1, 'months').format('DD-MMM-YYYY');
-      this.datelineRange[1] = moment(new Date()).startOf('month').subtract(1, 'months').endOf('month').format('DD-MMM-YYYY');
+      this.datelineRange[0] = moment(new Date()).startOf('month').subtract(1, 'months').format('YYYY-MM-DD');
+      this.datelineRange[1] = moment(new Date()).startOf('month').subtract(1, 'months').endOf('month').format('YYYY-MM-DD');
       this.rangeType = "Last Month";
     }
     /* last 3 month */
     else if (e == 5) {
-      this.datelineRange[0] = moment(new Date()).startOf('month').subtract(3, 'months').format('DD-MMM-YYYY');
-      this.datelineRange[1] = moment(new Date()).format('DD-MMM-YYYY');
+      this.datelineRange[0] = moment(new Date()).startOf('month').subtract(3, 'months').format('YYYY-MM-DD');
+      this.datelineRange[1] = moment(new Date()).format('YYYY-MM-DD');
       this.rangeType = "Last 3 Months";
     }
 

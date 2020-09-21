@@ -32,7 +32,7 @@ export class OverdueBookComponent implements OnInit {
 
 
   ngOnInit() {
-    this.overdueCollectionRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
+    this.overdueCollectionRange[0] = new Date(moment().date(1).format("MM-DD-YYYY"));
     this.overdueCollectionRange[1] = new Date();
       this.getOverDueBookReport();
   }
@@ -59,7 +59,7 @@ export class OverdueBookComponent implements OnInit {
 
   getStartDate() {
     this.cd.markForCheck();
-    let date = moment().date(1).format("YYYY-MM-DD");
+    let date = moment().date(1).format("MM-DD-YYYY");
     return this.overdueCollectionRange[0];
 }
 

@@ -65,7 +65,7 @@ export class AddClassComponent implements OnInit {
   minuteTo: string = '';
   isShowProductOption: boolean = false;
   userType: any;
-  scheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
+  scheduledateFrom = moment(new Date()).format('MM-DD-YYYY');
   institution_id: any = sessionStorage.getItem('institution_id');
   getPayloadBatch = {
     inst_id: this.institution_id,
@@ -270,16 +270,16 @@ export class AddClassComponent implements OnInit {
         body: "You cannot select past date"
       }
       this.appC.popToast(msg);
-      this.scheduledateFrom = moment().format('YYYY-MM-DD')
+      this.scheduledateFrom = moment().format('MM-DD-YYYY')
     }
     event = (new Date(event));
     proctur_live_expiry_date = (new Date(proctur_live_expiry_date));
     event.setHours(0, 0, 0, 0);
     proctur_live_expiry_date.setHours(0, 0, 0, 0);
     if (proctur_live_expiry_date < event && proctur_live_expiry_date != event) {
-      const tempMsg = 'Your live class subscription will get expired on '.concat(moment(proctur_live_expiry_date).format('DD-MMM-YYYY')).concat(' hence you will not be able create live class. Renew your subscription to conduct live classes again!');
+      const tempMsg = 'Your live class subscription will get expired on '.concat(moment(proctur_live_expiry_date).format('DD-MM-YYYY')).concat(' hence you will not be able create live class. Renew your subscription to conduct live classes again!');
       this.msgService.showErrorMessage('info', '', tempMsg);
-      this.scheduledateFrom = moment().format('YYYY-MM-DD')
+      this.scheduledateFrom = moment().format('MM-DD-YYYY')
     }
   }
 
@@ -300,10 +300,10 @@ export class AddClassComponent implements OnInit {
 
   getEventHourTo() {
 
-    let fromTime = moment(this.scheduledateFrom).format('YYYY-MM-DD') + " " + this.hoursFrom.split(' ')[0] + ":" + this.minuteFrom + " " + this.hoursFrom.split(' ')[1];
-    let toTime = moment(this.scheduledateFrom).format('YYYY-MM-DD') + " " + this.hoursTo.split(' ')[0] + ":" + this.minuteTo + " " + this.hoursTo.split(' ')[1];
-    let fromTimeT = moment(fromTime).format('YYYY-MM-DD hh:mm a');
-    let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
+    let fromTime = moment(this.scheduledateFrom).format('MM-DD-YYYY') + " " + this.hoursFrom.split(' ')[0] + ":" + this.minuteFrom + " " + this.hoursFrom.split(' ')[1];
+    let toTime = moment(this.scheduledateFrom).format('MM-DD-YYYY') + " " + this.hoursTo.split(' ')[0] + ":" + this.minuteTo + " " + this.hoursTo.split(' ')[1];
+    let fromTimeT = moment(fromTime).format('MM-DD-YYYY hh:mm a');
+    let toTimeT = moment(toTime).format('MM-DD-YYYY hh:mm a');
 
     if (moment(fromTimeT).diff(moment(toTimeT), 'minutes') > 0) {
       this.appC.popToast({ type: "error", body: "From time cannot be greater than to time" })
@@ -538,7 +538,7 @@ export class AddClassComponent implements OnInit {
     this.product_id = "";
     this.studentsId = [];
     this.facultyId = [];
-    this.scheduledateFrom = moment().format('YYYY-MM-DD');
+    this.scheduledateFrom = moment().format('MM-DD-YYYY');
     this.hoursFrom = "";
     this.minuteFrom = "";
     this.hoursTo = "";

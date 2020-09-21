@@ -45,8 +45,8 @@ export class TransctionalSmsComponent implements OnInit {
   dataStatus: boolean = true;
   smsFetchForm: any = {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
-    from_date: moment(new Date()).format('YYYY-MM-DD'),
-    to_date: moment(new Date()).format('YYYY-MM-DD'),
+    from_date: moment(new Date()).format('MM-DD-YYYY'),
+    to_date: moment(new Date()).format('MM-DD-YYYY'),
     start_index: '-1',
     batch_size: '-1',
     sorted_by: "",
@@ -342,8 +342,8 @@ export class TransctionalSmsComponent implements OnInit {
 
     }
     else {
-      this.smsFetchForm.to_date = moment(new Date).format('YYYY-MM-DD');
-      this.smsFetchForm.from_date = moment(new Date).format('YYYY-MM-DD');
+      this.smsFetchForm.to_date = moment(new Date).format('MM-DD-YYYY');
+      this.smsFetchForm.from_date = moment(new Date).format('MM-DD-YYYY');
       this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "Future date is not allowed");
     }
   }

@@ -99,6 +99,8 @@ export class CouponAddEditComponent implements OnInit {
     this.productIds = [];
     this.productIds = Array.prototype.map.call(this.selected_products, product => product.id);
     this.addCouponModel.product_id_list = this.productIds;
+    this.addCouponModel.start_date = moment(this.addCouponModel.start_date).format("YYYY-MM-DD");
+    this.addCouponModel.end_date = moment(this.addCouponModel.end_date).format("YYYY-MM-DD");
     if (this.validateForm()) {
     this.auth.showLoader();
     this._productService.postMethod('offer/create', this.addCouponModel).then(
@@ -131,6 +133,9 @@ export class CouponAddEditComponent implements OnInit {
       (data: any) => {
         this.auth.hideLoader();
         this.addCouponModel = data.result;
+        console.log("this.addCouponModel",this.addCouponModel);
+        this.addCouponModel.start_date = moment(data.result.start_date).format("MM-DD-YYYY");
+        this.addCouponModel.end_date = moment(data.result.end_date).format("MM-DD-YYYY");
         this.addCouponModel.discount_type = String(this.addCouponModel.discount_type);
         this.addCouponModel.product_id_list = data.result.product_details_list;
         this.selected_products = this.addCouponModel.product_id_list;
@@ -147,6 +152,8 @@ export class CouponAddEditComponent implements OnInit {
     this.productIds = [];
     this.productIds = Array.prototype.map.call(this.selected_products, product => product.id);
     this.addCouponModel.product_id_list = this.productIds;
+    this.addCouponModel.start_date = moment(this.addCouponModel.start_date).format("YYYY-MM-DD");
+    this.addCouponModel.end_date = moment(this.addCouponModel.end_date).format("YYYY-MM-DD");
     this.offerStatus === true ? this.addCouponModel.offer_status = 2 : this.addCouponModel.offer_status = 1;
   if (this.validateForm()) {
     this.auth.showLoader();

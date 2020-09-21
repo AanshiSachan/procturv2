@@ -38,7 +38,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
     priority: "",
     follow_type: "",
     followUpDate: "",
-    commentDate: moment().format('YYYY-MM-DD'),
+    commentDate: moment().format('MM-DD-YYYY'),
     followUpTime: {
       hour: "",
       minute: ""
@@ -317,7 +317,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
   // Update And Admit
   updateRegisterEnquiry() {
     this.updateFormData.follow_type = "Walkin";
-    this.updateFormData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
+    this.updateFormData.walkin_followUpDate = moment(new Date()).format('MM-DD-YYYY');
     this.updateFormData.walkin_followUpTime = this.commonService.getCurrentTImeForDropDown();
     if (this.updateFormData.walkin_followUpTime != '' && this.updateFormData.walkin_followUpTime != null) {
       this.pushUpdatedEnquiry(true);
@@ -353,13 +353,13 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
     /// Date conversion given by user
 
     if (this.updateFormData.followUpDate != "" && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid date") {
-      this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
+      this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('MM-DD-YYYY');
     } else {
       this.updateFormData.followUpDate = "";
     }
 
     if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null && this.updateFormData.walkin_followUpDate != "Invalid date") {
-      this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+      this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('MM-DD-YYYY');
     } else {
       this.updateFormData.walkin_followUpDate = "";
     }
@@ -461,7 +461,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
       phone: this.enquiryDet.phone,
       email: this.enquiryDet.email,
       gender: this.enquiryDet.gender,
-      dob: moment(this.enquiryDet.dob).format("YYYY-MM-DD"),
+      dob: moment(this.enquiryDet.dob).format("MM-DD-YYYY"),
       parent_email: this.enquiryDet.parent_email,
       parent_name: this.enquiryDet.parent_name,
       parent_phone: this.enquiryDet.parent_phone,
@@ -485,7 +485,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
       priority: "",
       follow_type: "",
       followUpDate: "",
-      commentDate: moment().format('YYYY-MM-DD'),
+      commentDate: moment().format('MM-DD-YYYY'),
       followUpTime: {
         hour: "",
         minute: ""

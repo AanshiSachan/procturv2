@@ -914,7 +914,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       else {
         setTimeout(()=>{
           this.reCheckLogin();
-        },3000);
+        },1000);
       }
     });
   }

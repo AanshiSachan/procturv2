@@ -45,7 +45,7 @@ export class CourseExamComponent implements OnInit {
   leaveCount: number = 0;
   attendanceNote: string = "";
   batchAdderData = {
-    exam_date: moment().format("YYYY-MM-DD"),
+    exam_date: moment().format("MM-DD-YYYY"),
     exam_desc: "",
     start_time: {
       hour: "12 PM",
@@ -73,7 +73,7 @@ export class CourseExamComponent implements OnInit {
   courseData = {
     master_course: '-1',
     course_id: -1,
-    requested_date: moment().format("YYYY-MM-DD")
+    requested_date: moment().format("MM-DD-YYYY")
   }
   types: SelectItem[] = [
     { label: 'Course', value: 'course' },
@@ -86,7 +86,7 @@ export class CourseExamComponent implements OnInit {
   times: any[] = ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   minArr: any[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   selectedType: string = "course";
-  currentDate: any = moment().format("YYYY-MM-DD");
+  currentDate: any = moment().format("MM-DD-YYYY");
   jsonVar = {
     isSheduleBatch: true,
     cancelCourseLevel: false
@@ -461,7 +461,7 @@ export class CourseExamComponent implements OnInit {
           this.examScheduleData = res;
           this.batchStartDate = this.examScheduleData.batch_start_date;
           this.batchEndDate = this.examScheduleData.batch_end_date;
-          if (moment(this.batchEndDate).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD")) {
+          if (moment(this.batchEndDate).format("MM-DD-YYYY") < moment().format("MM-DD-YYYY")) {
             this.jsonVar.isSheduleBatch = false;
           }
           else {
@@ -507,7 +507,7 @@ export class CourseExamComponent implements OnInit {
     }
     let obj: any = {};
     obj.total_marks = this.batchAdderData.total_marks;
-    obj.exam_date = moment(this.batchAdderData.exam_date).format('YYYY-MM-DD');
+    obj.exam_date = moment(this.batchAdderData.exam_date).format('MM-DD-YYYY');
     let start_time = moment(this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, 'comp'), 'h:mma');
     let end_time = moment(this.createTimeInFormat(this.batchAdderData.end_time.hour, this.batchAdderData.end_time.minute, 'comp'), 'h:mma');
     if (!(start_time.isBefore(end_time))) {
@@ -524,7 +524,7 @@ export class CourseExamComponent implements OnInit {
     obj.isReferenced = "Y";
     this.examSchedule.push(obj);
     this.batchAdderData = {
-      exam_date: moment().format("YYYY-MM-DD"),
+      exam_date: moment().format("MM-DD-YYYY"),
       exam_desc: "",
       start_time: {
         hour: "12 PM",
@@ -584,7 +584,7 @@ export class CourseExamComponent implements OnInit {
     if (this.examSchedule.length > 0) {
       for (let i = 0; i < this.examSchedule.length; i++) {
         let test: any = {};
-        test.exam_date = moment(this.examSchedule[i].exam_date).format('YYYY-MM-DD'),
+        test.exam_date = moment(this.examSchedule[i].exam_date).format('MM-DD-YYYY'),
         test.start_time = this.examSchedule[i].start_time;
         test.end_time = this.examSchedule[i].end_time;
         test.total_marks = this.examSchedule[i].total_marks;
@@ -1063,7 +1063,7 @@ export class CourseExamComponent implements OnInit {
       selectedCourse = this.courseList.coursesList.filter(
         el => el.course_id == this.courseData.course_id
       )
-      if (moment(selectedCourse[0].start_date).format('YYYY-MM-DD') <= moment(this.courseData.requested_date).format('YYYY-MM-DD') && moment(this.courseData.requested_date).format('YYYY-MM-DD') <= moment(selectedCourse[0].end_date).format('YYYY-MM-DD')) {
+      if (moment(selectedCourse[0].start_date).format('MM-DD-YYYY') <= moment(this.courseData.requested_date).format('MM-DD-YYYY') && moment(this.courseData.requested_date).format('MM-DD-YYYY') <= moment(selectedCourse[0].end_date).format('MM-DD-YYYY')) {
         check = true;
       } else {
         this.messageNotifier('error', 'Date Out Of Range', 'You have selected date out of course start date ' + selectedCourse[0].start_date + " and course end date " + selectedCourse[0].end_date);
@@ -1081,7 +1081,7 @@ export class CourseExamComponent implements OnInit {
       }
       this.clearAllField();
       this.auth.showLoader();
-      this.courseData.requested_date = moment(this.courseData.requested_date).format('YYYY-MM-DD');
+      this.courseData.requested_date = moment(this.courseData.requested_date).format('MM-DD-YYYY');
       this.apiService.getSchedule(this.courseData).subscribe(
         (res: any) => {
           this.auth.hideLoader();
@@ -1786,7 +1786,7 @@ export class CourseExamComponent implements OnInit {
     let data: any = {};
     let total = 0;
     data.master_course = this.courseData.master_course;
-    data.requested_date = moment(this.courseData.requested_date).format('YYYY-MM-DD');
+    data.requested_date = moment(this.courseData.requested_date).format('MM-DD-YYYY');
     data.coursesList = [];
 
     // FOR ALREADY PRESENT EXAM
@@ -2065,7 +2065,7 @@ export class CourseExamComponent implements OnInit {
         course_exam_schedule_id: this.cancelExamData.selectedCourseList.course_exam_schedule_id,
         course_id: this.courseData.course_id,
         is_cancel_notify: notify,
-        requested_date: moment(this.courseData.requested_date).format('YYYY-MM-DD')
+        requested_date: moment(this.courseData.requested_date).format('MM-DD-YYYY')
       }
       this.apiService.cancelExamScheduleCourse(obj).subscribe(
         res => {
@@ -2099,7 +2099,7 @@ export class CourseExamComponent implements OnInit {
       let obj = {
         course_exam_schedule_id: data.selectedCourseList.course_exam_schedule_id,
         course_id: this.courseData.course_id,
-        requested_date: moment(this.courseData.requested_date).format('YYYY-MM-DD')
+        requested_date: moment(this.courseData.requested_date).format('MM-DD-YYYY')
       }
       this.apiService.sendReminder(obj).subscribe(
         res => {
@@ -2191,7 +2191,7 @@ export class CourseExamComponent implements OnInit {
 export class DateMonthFormat implements PipeTransform {
   public transform(value) {
     if (value != "" && value != null && value != undefined) {
-      return moment(value).format('DD-MMM-YYYY');
+      return moment(value).format('DD-MM-YYYY');
     } else {
       return value
     }

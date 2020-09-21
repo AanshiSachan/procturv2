@@ -30,7 +30,7 @@ export class CampaignHomeComponent implements OnInit {
   checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = [];
   enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = [];
   enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; commentFormData: any = {};
-  today: any = Date.now(); searchBarData: any = null; searchBarDate: any = moment().format('YYYY-MM-DD');
+  today: any = Date.now(); searchBarData: any = null; searchBarDate: any = moment().format('MM-DD-YYYY');
   displayBatchSize: number = 100; incrementFlag: boolean = true; updateFormComments: any = [];
   updateFormCommentsBy: any = []; updateFormCommentsOn: any = []; PageIndex: number = 1;
   maxPageSize: number = 0; totalVisibleEnquiry: number = 0; totalCampaign: number = 0; isProfessional: boolean = false;
@@ -364,7 +364,7 @@ export class CampaignHomeComponent implements OnInit {
   /*  */
   getFollowUpColor(status): string {
     if (status != '') {
-      if (moment(status).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD")) {
+      if (moment(status).format("MM-DD-YYYY") > moment().format("MM-DD-YYYY")) {
         return 'black';
       }
       else {

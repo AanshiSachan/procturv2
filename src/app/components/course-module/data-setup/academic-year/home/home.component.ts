@@ -143,8 +143,8 @@ export class HomeComponent implements OnInit {
       let data = {
         inst_acad_year: row2.inst_acad_year,
         desc: row2.desc,
-        start_date:  moment(row2.start_date).format("YYYY-MM-DD"),
-        end_date: moment(row2.end_date).format("YYYY-MM-DD"),
+        start_date:  moment(row2.start_date).format("MM-DD-YYYY"),
+        end_date: moment(row2.end_date).format("MM-DD-YYYY"),
         inst_id: row2.inst_id,
         default_academic_year: row2.default_academic_year,
         created_date:moment(row2.created_date).format("DD-MM-YYYY")

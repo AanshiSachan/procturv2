@@ -49,8 +49,8 @@ export class ProfitLossComponent implements OnInit {
 
   fetchAllData(event) {
     if (event == "2") {
-      this.getExpenses.startdate = moment().format('YYYY-MM-DD');
-      this.getExpenses.enddate = moment().format('YYYY-MM-DD');
+      this.getExpenses.startdate = moment().format('MM-DD-YYYY');
+      this.getExpenses.enddate = moment().format('MM-DD-YYYY');
       this.fetchIncome(this.getExpenses.startdate, this.getExpenses.enddate);
       this.fetchIncomeFees(this.getExpenses.startdate, this.getExpenses.enddate);
       this.fetchProfitLoss(this.getExpenses.startdate, this.getExpenses.enddate);
@@ -160,8 +160,8 @@ export class ProfitLossComponent implements OnInit {
   
   fetchByRange(event) {
     if (event == "2") {
-      this.getExpenses.startdate = moment().format('YYYY-MM-DD');
-      this.getExpenses.enddate = moment().format('YYYY-MM-DD');
+      this.getExpenses.startdate = moment().format('MM-DD-YYYY');
+      this.getExpenses.enddate = moment().format('MM-DD-YYYY');
       this.fetchIncome(this.getExpenses.startdate, this.getExpenses.enddate);
       this.fetchIncomeFees(this.getExpenses.startdate, this.getExpenses.enddate);
       this.fetchProfitLoss(this.getExpenses.startdate, this.getExpenses.enddate);

@@ -28,7 +28,7 @@ export class AuthenticatorService {
     public baseUrlStudent: string = window.location.origin;
 
     constructor() {
-        this.baseUrl = environment.production ? "https://app.proctur.com/StdMgmtWebAPI" : "https://test999.proctur.com/StdMgmtWebAPI";
+        this.baseUrl = environment.production ? "https://app.proctur.com/StdMgmtWebAPI" : "https://api.proctur.com/StdMgmtWebAPI";
         this.getAuthToken(false);
         this.getInstituteId();
         this.getIsMainBranchValue();
