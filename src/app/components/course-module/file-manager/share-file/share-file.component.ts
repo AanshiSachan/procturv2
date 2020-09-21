@@ -549,8 +549,8 @@ export class ShareFileComponent implements OnInit {
     this.getBatchesData.map(ele => {
       if (ele.isChecked == true) {
         let obj = {
-          file_access_end_time: ele.file_access_end_time,
-          file_access_start_time: ele.file_access_start_time,
+          file_access_end_time: moment(ele.file_access_end_time).format('YYYY-MM-DD'),
+          file_access_start_time: moment(ele.file_access_start_time).format('YYYY-MM-DD'),
           is_file_shared: ele.is_file_shared,
           batch_id: ele.batch_id
         }
@@ -568,8 +568,8 @@ export class ShareFileComponent implements OnInit {
     this.getStudentsData.map(ele => {
       if (ele.isChecked == true) {
         let obj = {
-          file_access_end_time: ele.file_access_end_time,
-          file_access_start_time: ele.file_access_start_time,
+          file_access_end_time: moment(ele.file_access_end_time).format('YYYY-MM-DD'),
+          file_access_start_time: moment(ele.file_access_start_time).format('YYYY-MM-DD'),
           is_file_shared: ele.is_file_shared,
           student_id: ele.student_id
         }
