@@ -64,7 +64,7 @@ export class FileCardComponent implements OnChanges {
   dwnldLink = "";
   arr: any[] = [];
   fileURL: any;
-  vimeo_category_id = '305';
+  vimeo_category_id = '272';
 
   @Output() downloadStatus = new EventEmitter<any>();
   constructor(

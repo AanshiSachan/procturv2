@@ -57,7 +57,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   category_id: number | string = "-1";
   youtubeUrl: any = '';
   is_readonly:any = '';
-  vimeo_category_id = '305';
+  vimeo_category_id = '272';
 
   category_image = {
     png: "1",
@@ -147,7 +147,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       rtf: "7",
       zip:'8'
     },
-    305: {
+    272: {
       avi: '1',
       flv: '2',
       wmv: '3',
