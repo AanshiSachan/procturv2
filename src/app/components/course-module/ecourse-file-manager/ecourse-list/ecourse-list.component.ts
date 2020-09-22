@@ -55,8 +55,9 @@ export class EcourseListComponent implements OnInit {
   getParams() {
     let url = window.location.href;
     if (url.indexOf("?") > -1) {
-      let arr = url.split('?'); 
+      let arr = url.split('?');
       if (url.length > 1 && arr[1] !== '') {
+        window.location.href = url.substring(0,arr[0].length);
         this.activatedRoute.queryParams.subscribe(params => {
           let videoId = params['videoId'];
           if(videoId!='' && videoId!=null) {
