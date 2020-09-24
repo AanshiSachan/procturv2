@@ -848,7 +848,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
       let obj = {
-        data: el.toLowerCase(),
+        data: el.toString(),
         checked: false
       }
       customPrefilled.push(obj);
@@ -1953,13 +1953,13 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     this.getPaymentModes();
   }
 
-  getPaymentModes(){
+  getPaymentModes() {
     this.httpService.getData('/api/v1/masterData/type/PAYMENT_MODES').subscribe(
-      (res:any)=>{
+      (res: any) => {
         console.log(res);
         this.Payment_Modes = res;
       },
-      err=>{
+      err => {
         console.log(err);
       }
     )
