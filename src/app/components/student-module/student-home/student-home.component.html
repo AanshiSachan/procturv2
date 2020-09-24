@@ -987,6 +987,11 @@
                                                     <span [innerHTML]="row.message"></span>
                                                 </td>
                                             </tr>
+                                            <tr *ngIf=" messageList.length ==0">
+                                                <td colspan="3">
+                                                    No Notification Available
+                                                </td>
+                                            </tr>
                                         </tbody>
                                         <tbody *ngIf="sendNotification.emailChkbx == true">
                                             <tr *ngFor="let row of emailMessageList; let i = index; trackBy: i;">
@@ -1003,6 +1008,11 @@
                                                 </td>
                                                 <td>
                                                     <span [innerHTML]="row.message"></span>
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf=" emailMessageList.length ==0">
+                                                <td colspan="3">
+                                                    No Notification Available
                                                 </td>
                                             </tr>
                                         </tbody>
