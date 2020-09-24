@@ -1393,6 +1393,11 @@
                             </enquiry-sms-action>
                           </td>
                         </tr>
+                        <tr *ngIf=" smsSourceApproved.length ==0">
+                          <td colspan="3">
+                            No Message List Found
+                          </td>
+                        </tr>
                       </tbody>
                       <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='SMS'">
                         <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
@@ -1419,6 +1424,11 @@
                             <enquiry-sms-action style="display: inline-block"></enquiry-sms-action>
                           </td>
                         </tr>
+                        <tr *ngIf=" smsSourceOpen.length ==0">
+                          <td colspan="3">
+                            No Message List Found
+                          </td>
+                        </tr>
                       </tbody>
                       <!-- Email -->
                       <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='Email'">
@@ -1432,6 +1442,11 @@
                           <td>
                             <enquiry-sms-action>
                             </enquiry-sms-action>
+                          </td>
+                        </tr>
+                        <tr *ngIf=" emailSourceApproved.length ==0">
+                          <td colspan="3">
+                            No Message List Found
                           </td>
                         </tr>
                       </tbody>
@@ -1452,6 +1467,11 @@
                                 style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
                             </span>
                             <enquiry-sms-action style="display: inline-block"></enquiry-sms-action>
+                          </td>
+                        </tr>
+                        <tr *ngIf=" emailSourceOpen.length ==0">
+                          <td colspan="3">
+                            No Message List Found
                           </td>
                         </tr>
                       </tbody>
