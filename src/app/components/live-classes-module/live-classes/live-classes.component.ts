@@ -196,7 +196,12 @@ export class LiveClassesComponent implements OnInit {
         }
       }
     )
+    let pastClass = sessionStorage.getItem('pastClass');
+    if (pastClass === 'true') {
+      this.liveClassFor = true;
+      sessionStorage.setItem('pastClass', 'false');
 
+    }
     let zoom = sessionStorage.getItem('is_zoom_enable');
     this.is_zoom_integration_enable = JSON.parse(zoom);
     if (this.is_zoom_integration_enable) {
