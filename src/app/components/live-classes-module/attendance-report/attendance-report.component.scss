@@ -12,7 +12,17 @@ html {
 .border-container{
   border-top: 1px solid #e3e3e3;
 }
-
+.normal-btn {
+  padding: 4px 10px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  margin-top: -18px;
+  background: #0084f6;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
 
 .header-container{
   padding-bottom: 10px;
