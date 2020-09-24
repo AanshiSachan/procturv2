@@ -5,7 +5,7 @@ import { HttpService  } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 declare var $;
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
-import { DomSanitizer } from '@angular/platform-browser';
+import * as moment from 'moment';
 
 class fileObj {
   private fileName: string;
@@ -84,7 +84,7 @@ export class ReviewAssignmentComponent implements OnInit {
     student_phone: "",
     student_status: "Open",
     teacher_comment: "",
-    teacher_status: "Open",
+    // teacher_status: "Open",
     grade_id: ''
   };
   editStudentAttachments = {
@@ -131,6 +131,17 @@ export class ReviewAssignmentComponent implements OnInit {
     this.getAssignmentDetails();
   }
 
+  checkEvaluateButton() {
+    let end_date = '';
+    this.assignmentDetails.show_evaluate = false;
+    end_date = (this.assignmentDetails.allow_assignment_late_submission == 'Y') ? this.assignmentDetails.assignment_late_submission_date : this.assignmentDetails.end_date;
+    let currentDate = moment(new Date()).format('YYYY-MM-DD');
+    end_date = moment(end_date).format('YYYY-MM-DD');
+    if (moment(end_date).valueOf() > moment(currentDate).valueOf()) {
+      this.assignmentDetails.show_evaluate = true;
+    }
+  }
+
   getAssignmentDetails(){
     this.auth.showLoader();
     const url = `/api/v2/onlineAssignment/get/${this.jsonFlag.institute_id}/${this.reviewAssignmentId}`;
@@ -141,6 +152,7 @@ export class ReviewAssignmentComponent implements OnInit {
         if(this.assignmentDetails.enable_grade) {
           this.getGradeDetails();
         }
+        this.checkEvaluateButton();
       },
       err => {
         this.auth.hideLoader();
@@ -191,7 +203,7 @@ export class ReviewAssignmentComponent implements OnInit {
     this.editStatus.student_phone = student.student_phone;
     this.editStatus.student_status = student.student_status;
     this.editStatus.teacher_comment = student.teacher_comment;
-    this.editStatus.teacher_status = student.teacher_status;
+    // this.editStatus.teacher_status = 'Done';
 
     this.auth.showLoader();
     const url = `/api/v2/onlineAssignment/studentAttachmentsDetail/${this.jsonFlag.institute_id}/${this.editStatus.student_id}/${this.reviewAssignmentId}`;
@@ -318,7 +330,7 @@ export class ReviewAssignmentComponent implements OnInit {
       "url_lists": this.facultyUrlList,
       "attachmentId_array": this.removedAttchedDocsIds,
       "teacher_comment": this.editStatus.teacher_comment,
-      "teacher_status": this.editStatus.teacher_status,
+      // "teacher_status": 'Reviewed',
       "marks": this.editStatus.evaluation_marks,
       "grade_id": this.editStatus.grade_id
     }
@@ -372,7 +384,7 @@ export class ReviewAssignmentComponent implements OnInit {
             this.editStatus.student_phone = "";
             this.editStatus.student_status = "Open";
             this.editStatus.teacher_comment = "";
-            this.editStatus.teacher_status = "Open";
+            // this.editStatus.teacher_status = "Open";
 
 
             this.editStudentAttachments.urlList = [];
