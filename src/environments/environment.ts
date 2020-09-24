@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'https://app.proctur.com/StdMgmtWebAPI'
+  serverUrl: 'https://api.proctur.com/StdMgmtWebAPI'
 };

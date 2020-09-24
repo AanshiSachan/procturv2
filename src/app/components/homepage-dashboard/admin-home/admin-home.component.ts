@@ -427,8 +427,8 @@ export class AdminHomeComponent implements OnInit {
 
   fetchScheduleWidgetData() {
     let obj = {
-      from_date: moment(this.schedDate[0]).format('MM-DD-YYYY'),
-      to_date: moment(this.schedDate[0]).format('MM-DD-YYYY')
+      from_date: moment(this.schedDate[0]).format('YYYY-MM-DD'),
+      to_date: moment(this.schedDate[0]).format('YYYY-MM-DD')
     }
     this.getAllExamsAndClass(obj);
     this.widgetService.fetchSchedWidgetData(obj).subscribe(
@@ -447,8 +447,8 @@ export class AdminHomeComponent implements OnInit {
 
   updateschedByDate(e) {
     let obj = {
-      from_date: moment(e).format('MM-DD-YYYY'),
-      to_date: moment(e).format('MM-DD-YYYY')
+      from_date: moment(e).format('YYYY-MM-DD'),
+      to_date: moment(e).format('YYYY-MM-DD')
     }
     this.schedDate[0] = moment(e).format('DD MMM YYYY');
     this.schedDate[1] = moment(e).format('DD MMM YYYY');
@@ -2201,9 +2201,9 @@ export class AdminHomeComponent implements OnInit {
     let tempMessageList: any = [];
     this.auth.showLoader();
     let obj = {
-      from_date: moment().subtract(1, 'months').format("MM-DD-YYYY"),
+      from_date: moment().subtract(1, 'months').format("YYYY-MM-DD"),
       status: 1,
-      to_date: moment().format("MM-DD-YYYY")
+      to_date: moment().format("YYYY-MM-DD")
     }
     this.widgetService.getMessageList(obj).subscribe(
       res => {

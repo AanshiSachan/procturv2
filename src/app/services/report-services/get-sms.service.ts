@@ -71,7 +71,7 @@ export class getSMSService {
         let tempObj = {
             batch_size: "-1",
             from_date: obj.from_date == '' ? moment().format('YYYY-MM-DD') : moment(obj.from_date).format('YYYY-MM-DD'),
-            institution_id: 100058,
+            institution_id: obj.institution_id,
             order_by: "",
             sorted_by: "",
             start_index: "-1",

@@ -127,8 +127,8 @@ export class EnquiryWidgetComponent implements OnInit {
     updateEnqChartByDate(e) {
         this.cd.markForCheck();
         let obj = {
-            updateDateFrom: moment(e[0]).format("MM-DD-YYYY"),
-            updateDateTo: moment(e[1]).format("MM-DD-YYYY")
+            updateDateFrom: moment(e[0]).format("YYYY-MM-DD"),
+            updateDateTo: moment(e[1]).format("YYYY-MM-DD")
         }
         this.enquiryService.fetchEnquiryWidgetView(obj).subscribe(
             (res: any) => {
