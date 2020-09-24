@@ -28,7 +28,7 @@
           <div class="link-attachment-container" *ngIf="bulkUrlList?.length > 0">
             <div class="link-attachment-item" *ngFor="let url of bulkUrlList">
               <i class="fa fa-globe" aria-hidden="true"></i>
-              <span>{{url.display_name}}</span>
+              <span title="{{url.display_name}}">{{(url.display_name.length > 45) ? (url.display_name | slice:0:45) + '...' : url.display_name}}</span>
               <i class="fa fa-times" aria-hidden="true" (click)="removeLink(url.display_name)" style="color:red;"></i>
             </div>
           </div>
@@ -36,7 +36,7 @@
             <div class="file-attachment-item" *ngFor="let file of fileArray">
               <i class="fa fa-file" aria-hidden="true"></i>
               <span>{{file.fileName}}.{{file.fileType}}</span>
-              <i class="fa fa-times" aria-hidden="true" (click)="removeFile(file.name)" style="color:red;"></i>
+              <i class="fa fa-times" aria-hidden="true" (click)="removeFile(file)" style="color:red;"></i>
             </div>
           </div>
         </div>
@@ -80,8 +80,14 @@
             <div class="url-list-container" *ngIf="editStudentAttachments.urlList?.length > 0">
               <div class="link-attachment-item" *ngFor="let url of editStudentAttachments.urlList">
                 <i class="fa fa-globe" aria-hidden="true"></i>
-                <span style="width: 40%;">{{url.attachment_display_name}}</span>
-                <span style="width: 40%;"> <a href="url.attachment_url">{{url.attachment_url}}</a> </span>
+                <span style="width: 40%;" *ngIf="url.attachment_display_name!=''">
+                  {{ (url.attachment_display_name.length >50) ? (url.attachment_display_name | slice:0:50) + '...' : url.attachment_display_name }}
+                </span>
+                <span style="width: 40%;"> 
+                  <a href="url.attachment_url">
+                  {{ (url.attachment_url.length >50) ? (url.attachment_url | slice:0:50) + '...' : url.attachment_url }}
+                  </a> 
+                </span>
               </div>
             </div>
             <div class="attachment-list" *ngIf="editStudentAttachments.attachmentList?.length > 0">
@@ -104,9 +110,16 @@
                   <option value="Reviewed">Evaluated</option>
                 </select>
               </div>
-              <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y'">
+              <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y' && !assignmentDetails.enable_grade">
                 <label for="state-date" style="font-size: 12px;">Faculty Marks</label>
                 <input type="text" name="" value="" class="form-ctrl marks-input"  placeholder="Faculty Marks" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  [(ngModel)]="editStatus.evaluation_marks">
+              </div>
+              <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y' && assignmentDetails.enable_grade">
+                <label for="state-date" style="font-size: 12px;">Faculty Grade</label>
+                <select name="" class="course-input marks-input form-ctrl" [(ngModel)]="editStatus.grade_id" style="width:78%; margin-top: 5px;">
+                  <option value="">Select</option>
+                  <option value="{{data.grade_id}}" *ngFor="let data of gradeDetails">{{data.grade}}</option>
+                </select>
               </div>
             </div>
 
@@ -268,7 +281,9 @@
             <span title="{{student?.student_status}}" >{{ (!student.student_status) ? '-' : (student.student_status.length > 25) ? (student.student_status | slice:0:25) + '...' : student.student_status}}</span>
           </div>
           <div class="list-value-item small-item align-center" style="display: flex;justify-content: center;">
-            <button type="button" name="button" class="status-btn" [disabled]="student.student_status!='Done' || student.teacher_status == 'Reviewed'" (click)="updateStatus(student)">Evaluate</button>
+            <button type="button" name="button" class="status-btn" [disabled]="student.student_status!='Done' || student.teacher_status == 'Reviewed'" (click)="updateStatus(student)">
+              {{student.teacher_status == 'Reviewed' ? 'Evaluated' : 'Evaluate'}}
+            </button>
           </div>
         </div>
         <div class="no-records" *ngIf="tempStudentList?.length  == 0">

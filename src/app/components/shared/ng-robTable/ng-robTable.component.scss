@@ -95,7 +95,7 @@ $color-highlight: lighten($color-base, 7%);
     justify-content: space-between;
     flex-wrap: wrap;
     &>li {
-        box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
+        // box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
         background: #fff;
         margin-bottom: 16px;
         width: 100%;
@@ -135,6 +135,14 @@ $color-highlight: lighten($color-base, 7%);
     }
 }
 
+.illustration-container {
+    display: block;
+    .illustration-img {
+      width: 40%;
+      margin-left: 25%;
+    }
+  } 
+
 .schedule-bottom {
     ::-webkit-scrollbar {
         display: block;
@@ -142,8 +150,8 @@ $color-highlight: lighten($color-base, 7%);
         height: 7px;
     }
     .schedule-scroller {
-        min-height: 55vh;
-        max-height: 55vh;
+        min-height: 63vh;
+        max-height: 63vh;
         overflow-x: hidden;
         overflow-y: auto;
         ::-webkit-scrollbar {
@@ -165,7 +173,12 @@ $color-highlight: lighten($color-base, 7%);
         }
     }
     ul {
-        border-bottom: 2px solid rgba(211, 212, 213, 0.5);
+        // border-bottom: 2px solid rgba(211, 212, 213, 0.5);
+        box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+        margin-bottom: 5px;
+        margin-top: 5px;
+        border-radius: 6px;
+        border-left: 5px solid #e0eaec;
         background: #fff;
         display: flex;
         cursor: pointer;
@@ -218,13 +231,13 @@ $color-highlight: lighten($color-base, 7%);
             }
         }
         &.sche-head {
-            background: #fafafa;
+            background: #e0eaec;
             li {
                 width: 15%;
                 padding: 20px 10px 10px;
                 text-transform: uppercase;
                 color: black;
-                text-align: center;
+                text-align: left;
                 background: transparent;
                 font-size: 12px;
                 font-weight: 600;
@@ -250,13 +263,13 @@ $color-highlight: lighten($color-base, 7%);
                     width: 40%;
                 }
                 &.No {
-                    text-align: right;
+                    text-align: left;
                 }
                 &.Id {
-                    text-align: right;
+                    text-align: left;
                 }
                 &.Date {
-                    text-align: right;
+                    text-align: left;
                 }
             }
         }
@@ -300,7 +313,7 @@ $color-highlight: lighten($color-base, 7%);
                 padding: 10px 10px 0px;
                 text-transform: capitalize;
                 color: black;
-                text-align: center;
+                text-align: left;
                 font-size: 14px;
                 white-space: nowrap;
                 overflow: hidden;
@@ -326,13 +339,13 @@ $color-highlight: lighten($color-base, 7%);
                     overflow-x: auto;
                 }
                 &.No {
-                    text-align: right;
+                    text-align: left;
                 }
                 &.Id {
-                    text-align: right;
+                    text-align: left;
                 }
                 &.Date {
-                    text-align: right;
+                    text-align: left;
                 }
             }
         }

@@ -1,6 +1,7 @@
 <div class="dropdown-wrapper" *ngIf="!isDropdown">
     <ul class="single">
-        <li  [ngClass]="{'hide': !isChequeUpdatable}" class="item" (click)="selectOption(option)" *ngFor="let option of columnMaps;">
+        <li [ngClass]="{'hide': !isChequeUpdatable}" class="item" (click)="selectOption(option)"
+            *ngFor="let option of columnMaps;">
             <a>
                 {{option.header}}
             </a>
@@ -9,8 +10,11 @@
 </div>
 
 <div class="dropdown-wrapper" *ngIf="isDropdown">
-
-    <button aria-expanded="true" class="d-item dropdown-trigger" (click)="openMenu()">
+    <button class="btn btn-light btn-xs dropdown-toggle" type="button" (click)="openMenu()" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
+    </button>
+    <!-- <button aria-expanded="true" class="d-item dropdown-trigger" (click)="openMenu()">
         <span class="d-item svg-icon-wrap">
             <span class="visually-hidden"></span>
             <div aria-hidden="true" type="ellipsis-horizontal-icon">
@@ -20,7 +24,7 @@
                 </svg>
             </div>
         </span>
-    </button>
+    </button> -->
 
     <div class="d-item dd-list-container" *ngIf="showMenu" (mouseleave)="closeMenu()">
         <div class="d-item dropdown-list">

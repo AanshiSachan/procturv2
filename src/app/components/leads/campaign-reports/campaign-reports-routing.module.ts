@@ -11,10 +11,10 @@ const routes: Routes = [{
   component: CampaignReportsComponent,
   pathMatch: 'prefix',
   children: [
-    {
-      path: '',
-      component: CampaignReportsHomeComponent
-    },
+    // {
+    //   path: '',
+    //   component: CampaignReportsHomeComponent
+    // },
     {
       path: 'sms-report',
       component: CampaignSmsComponent,

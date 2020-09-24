@@ -154,6 +154,7 @@ export class VoucherAddEditComponent implements OnInit {
     this.addVoucherModel.start_date = moment(this.addVoucherModel.start_date).format("YYYY-MM-DD");
     this.addVoucherModel.end_date = moment(this.addVoucherModel.end_date).format("YYYY-MM-DD");
     this.offerStatus === true ? this.addVoucherModel.offer_status = 2 : this.addVoucherModel.offer_status = 1;
+    this.addVoucherModel.end_date =  moment(this.addVoucherModel.end_date).format('YYYY-MM-DD');
     if (this.validateForm()) {
       this.auth.showLoader();
       this._productService.postMethod('offer/update', this.addVoucherModel).then(

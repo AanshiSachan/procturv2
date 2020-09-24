@@ -37,7 +37,7 @@
 .action-bar {
   border-bottom: 1pt solid #ddd;
   padding: 0.5em 0;
-  background: #fafafa;
+  // background: #fafafa;
 
   .container {
     .form-el-width {
@@ -45,7 +45,7 @@
       min-width: 170px;
       max-width: 170px;
       display: inline-block;
-      margin: .4em;
+      margin: 8px;
       vertical-align: middle;
     }
   }
@@ -187,12 +187,12 @@
 }
 
 .adv_prod_border {
-  border-left: 5px solid #005cbf;
+  border-left: 5px solid #27c24c;
   border-radius: .2em;
 }
 
 .normal_prod_border {
-  border-left: 5px solid #27c24c;
+  border-left: 5px solid #005cbf;
   border-radius: .2em;
 }
 
@@ -323,12 +323,12 @@
     position: relative;
     z-index: 1;
     float: left;
+    border-radius: 4px;
     // border-right: 0;
     // height: 35px;
     font: 400 12px 'Open sans',sans-serif;
     width: 70% !important;
   }
-
   &:after {
     content: '';
     background: url('../../../../assets/images/calendar.svg') no-repeat;
@@ -369,6 +369,8 @@
     text-align: left;
     padding: 7px;
     border: 1px solid #ccc;
+    border-radius: 6px;
+    border-left: 5px solid #e0eaec;
     .heading-item {
       width: 60%;
       text-align: center;

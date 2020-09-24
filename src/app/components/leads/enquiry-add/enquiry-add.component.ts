@@ -317,7 +317,15 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     sessionStorage.removeItem('enquiryPrefill');
   }
+  checkCustomeComponentElement(index) {
+    if (!(index % 3)) {
+      return true;
+    }
+    else {
+      return false;
+    }
 
+  }
   convertToEnquiryDetected() {
     this.convertEnquiry = true;
     let data = JSON.parse(sessionStorage.getItem('enquiryPrefill'));

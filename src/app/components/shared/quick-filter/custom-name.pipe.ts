@@ -10,7 +10,7 @@ export class CustomNamePipe implements PipeTransform {
             }
 
             case 'Pending Followup': {
-                return "Enquiries Pending Followup";
+                return "Pending Enquiries for Follow-up";
             }
 
             case 'Open': {

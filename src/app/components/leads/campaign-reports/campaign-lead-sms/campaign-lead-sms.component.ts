@@ -24,7 +24,7 @@ export class CampaignLeadSmsComponent implements OnInit {
     start_index: 0,
     batch_size: 50
   };
-
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   smsTotalCount: number = 0;
   smsSuccessCount: number = 0;
   smsFailedCount: number = 0;
@@ -34,6 +34,7 @@ export class CampaignLeadSmsComponent implements OnInit {
   tempLeadSmslist: any;
   from_date:any;
   to_date:any;
+  leadsmsSource: any = [];
   // FOR PAGINATION
   pageIndex: number = 1;
   displayBatchSize: number = 50;
@@ -49,9 +50,92 @@ export class CampaignLeadSmsComponent implements OnInit {
 
   ngOnInit() {
     this.dateFilter.institution_id = sessionStorage.getItem('institute_id');
+    this.setTableData();
     this.getSmsReport(this.dateFilter);
   }
+  headerSetting: any;
+  tableSetting: any;
+  rowColumns: any;
 
+  setTableData() {
+    this.headerSetting = [
+      {
+        primary_key: 'mobile',
+        value: "Contact No.",
+        charactLimit: 20,
+        sorting: true,
+        visibility: true
+      },
+      {
+        primary_key: 'name',
+        value: "Name",
+        charactLimit: 15,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'email',
+        value: "Email",
+        charactLimit: 15,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'created_date',
+        value: "Sent Date",
+        charactLimit: 50,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'message',
+        value: "Message",
+        charactLimit: 15,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'sms_status',
+        value: "Status",
+        charactLimit: 30,
+        sorting: false,
+        visibility: true
+      },
+    ]
+
+    this.tableSetting = {
+      width: "100%",
+      height: "48vh"
+    }
+
+    this.rowColumns = [
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "25%",
+        textAlign: "left"
+      },
+      {
+        width: "15%",
+        textAlign: "left"
+      },
+
+    ]
+  }
   getSmsReport(obj) {
     let tempObj = {
       from_date: moment(obj.from_date).format('YYYY-MM-DD'),
@@ -67,14 +151,16 @@ export class CampaignLeadSmsComponent implements OnInit {
     if (obj.start_index == 0) {
       return this.campaignService.fetchSmsReport(tempObj).subscribe(
         (res: any) => {
+          this.auth.hideLoader();
+          this.leadsmsSource = res;
           let result: any;
           result = res;
-          this.auth.hideLoader();
+
           this.pageIndex = 1;
           this.totalCount = 0;
           this.leadSmsList = res;
           this.tempLeadSmslist = res;
-          if(result.length > 0){
+          if (result.length > 0) {
             this.totalCount = this.leadSmsList[0].total_count;
             this.smsTotalCount = this.leadSmsList[0].total_count;
             this.smsSuccessCount = this.leadSmsList[0].successful_count;
@@ -114,13 +200,13 @@ export class CampaignLeadSmsComponent implements OnInit {
         if(checkFromDate){
           var tempFromDate = moment(this.dateFilter.from_date).format("MM-DD-YYYY");
         }
-        else{
+        else {
           this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "From date can not be greater than To date");
           this.dateFilter.from_date = moment(tempFromDate).format("MM-DD-YYYY");
           return;
         }
       }
-      else{
+      else {
         this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "To date can not be lesser than From date");
         this.dateFilter.to_date = moment(tempToDate).format("MM-DD-YYYY");
         return;
@@ -133,22 +219,22 @@ export class CampaignLeadSmsComponent implements OnInit {
     }
   }
 
-  dateGreaterThanCheck(from_date, to_date){
+  dateGreaterThanCheck(from_date, to_date) {
     from_date = new Date(from_date);
     to_date = new Date(to_date);
     let currentDate = new Date();
-    if(from_date > to_date){
+    if (from_date > to_date) {
       return false;
     }
-    else if(from_date > currentDate){
+    else if (from_date > currentDate) {
       return false;
     }
-    else{
+    else {
       return true;
     }
   }
 
-  searchDatabase(){   // quick search
+  searchDatabase() {   // quick search
     this.leadSmsList = this.tempLeadSmslist;
     if (this.leadSmsSearchInput == undefined || this.leadSmsSearchInput == null) {
       this.leadSmsSearchInput = "";
@@ -174,27 +260,32 @@ export class CampaignLeadSmsComponent implements OnInit {
 
   /* Fetch previous set of data from server and update table */
   fetchPrevious() {
-    this.pageIndex--;
-    this.fectchTableDataByPage(this.pageIndex);
-  }
+    if (this.pageIndex != 1) {
+      this.pageIndex--;
+      this.fectchTableDataByPage(this.pageIndex);
+    }
 
-  /* Fetch table data by page index */
-  fectchTableDataByPage(index) {
-    this.pageIndex = index;
-    let startindex = this.displayBatchSize * (index - 1);
-    this.dateFilter.start_index = startindex;
-    this.getSmsReport(this.dateFilter);
   }
 
   /* Fetches Data as per the user selected batch size */
-  updateTableBatchSize(num) {
-    this.pageIndex = 1;
-    this.displayBatchSize = parseInt(num);
-    this.dateFilter.start_index = this.startindex;
-    this.getSmsReport(this.dateFilter);
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fectchTableDataByPage(this.pageIndex);
   }
 
-  openCalendar(id){
+  fectchTableDataByPage(index) {
+    this.pageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.leadSmsList = this.getDataFromDataSource(startindex);
+  }
+
+
+  getDataFromDataSource(startindex) {
+    let t = this.leadsmsSource.slice(startindex, startindex + this.displayBatchSize);
+    return t;
+  }
+
+  openCalendar(id) {
     document.getElementById(id).click();
   }
 

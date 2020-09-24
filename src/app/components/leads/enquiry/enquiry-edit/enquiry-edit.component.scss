@@ -3103,8 +3103,8 @@ homewrap {
                 content: '';
                 background: url('../../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
-                right: 50px;
-                top: 35px;
+                left: 115px;
+                top: 30px;
                 width: 21px;
                 height: 21px;
                 z-index: 0;
@@ -3246,12 +3246,80 @@ homewrap {
         }
     }
 }
+.AdFilter-field {
+    .field-wrapper {
+        margin: 15px 0;
+        .date-clear {
+            position: absolute;
+            right: -35px;
+            top: 35px;
+            cursor: pointer;
+            color: #0084f6;
+        }
+        &.datePickerBox {
+            &:after {
+                content: '';
+                background: url('../../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                left: 92% !important;
+                top: 29px !important;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+*{
+    font-weight: 600;
+}
 
+.date-clear {
+    position: absolute;
+    right: -35px;
+    top: 35px;
+    cursor: pointer;
+    color: #0084f6;
+}
 .more-detail {
     margin-top: 10px;
     font-size: 12px;
 }
-
+.datePickerBox2 {
+    &:after {
+        content: '';
+        background: url('../../../../../assets/images/calendar.svg') no-repeat;
+        position: absolute;
+        // left: 71% !important;
+        right: 30px;
+        top: 28px !important;
+        width: 21px;
+        height: 21px;
+        z-index: 0;
+    }
+}
+.qInfoIcon {
+    width: 20px;
+    margin-left: 5px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+    line-height: 20px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0px 0px 1px 0px #ccc inset;
+    color: #888;
+    transition: all 0.2s linear;
+    &:hover {
+        border-color: $header-bg;
+        box-shadow: 0px 0px 1px 0px $header-bg inset;
+        color: $header-bg;
+    }
+  }
 .circle-accor {
     display: inline-block;
     width: 32px;
@@ -3295,7 +3363,7 @@ homewrap {
 
 .newDate {
     .field-wrapper {
-        margin: 15px 0;
+        // margin: 15px 0;
         .date-clear {
             position: absolute;
             right: 5px;
@@ -3317,17 +3385,26 @@ homewrap {
         }
     }
 }
-
+.field-wrapper.datePickerBox1:after {
+    content: '';
+    background: url(/./assets/images/calendar.svg) no-repeat;
+    position: absolute;
+    right: 30px;
+    top: 28px;
+    width: 21px;
+    height: 21px;
+    z-index: 0;
+}
 .AdFilter-field {
     .field-wrapper {
         margin: 15px 0;
-        .date-clear {
-            position: absolute;
-            right: -35px;
-            top: 35px;
-            cursor: pointer;
-            color: #0084f6;
-        }
+        // .date-clear {
+        //     position: absolute;
+        //     right: -35px;
+        //     top: 35px;
+        //     cursor: pointer;
+        //     color: #0084f6;
+        // }
         &.datePickerBox {
             &:after {
                 content: '';
@@ -3444,7 +3521,7 @@ homewrap {
             z-index: 2;
         }
         &:first-child {
-            margin-top: -10px;
+            margin-top: 0px;
         }
     }
 }

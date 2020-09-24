@@ -229,7 +229,7 @@ export class EnquiryHomeComponent implements OnInit {
         enquiry_no: "",
         priority: "",
         status: -1,
-        filtered_statuses: "",
+        // filtered_statuses: "",
         follow_type: "",
         followUpDate: this.getDateFormated(null, 'MM-DD-YYYY'),
         enquiry_date: "",
@@ -239,7 +239,7 @@ export class EnquiryHomeComponent implements OnInit {
         master_course_name: '',
         courseIdArray: null,
         subject_id: -1,
-        is_recent: "N",
+        is_recent: "Y",
         slot_id: -1,
         filtered_slots: "",
         isDashbord: "N",
@@ -252,8 +252,8 @@ export class EnquiryHomeComponent implements OnInit {
         batch_size: this.varJson.displayBatchSize,
         closedReason: "",
         enqCustomLi: null,
-        sorted_by: "",
-        order_by: "",
+        // sorted_by: "",
+        // order_by: "",
         commentShow: 'false'
     };
 
@@ -301,7 +301,7 @@ export class EnquiryHomeComponent implements OnInit {
     };
     enquiryFullDetail: any;
     enquirySettings: ColumnSetting[] = [
-        { primaryKey: 'enquiry_no', header: 'Enquiry No', priority: 1, format: this.varJson.currentDirection },
+        { primaryKey: 'enquiry_no', header: 'ENQ No.', priority: 1, format: this.varJson.currentDirection },
         { primaryKey: 'name', header: 'Name', priority: 2 },
         { primaryKey: 'phone', header: 'Contact No', priority: 3 },
         { primaryKey: 'statusValue', header: 'Status', priority: 4 },
@@ -311,7 +311,7 @@ export class EnquiryHomeComponent implements OnInit {
         { primaryKey: 'updateDate', header: 'Last Updated', priority: 8 },
         { primaryKey: 'assigned_name', header: 'Assignee Name', priority: 9 },
         { primaryKey: 'follow_type', header: 'Follow Up Type', priority: 10 },
-        { primaryKey: 'standard', header: 'Standard', priority: 11 },
+        { primaryKey: 'standard', header: 'STD', priority: 11 },
         { primaryKey: 'referred_by_name', header: 'Referred By', priority: 12 },
         { primaryKey: 'noOfCoursesAssigned', header: 'No. of Courses Assigned', priority: 12 }
     ];
@@ -429,6 +429,7 @@ export class EnquiryHomeComponent implements OnInit {
             sessionStorage.setItem('dashBoardParam', '');
         } else {
             this.loadTableDatatoSource(this.instituteData);
+            // this.statusFilter('Pending');
         }
         this.cd.markForCheck();
         /* Fetch the status of message from  popup handler service */
@@ -558,20 +559,25 @@ export class EnquiryHomeComponent implements OnInit {
         this.sourceEnquiry = [];
         this.closeEnquiryFullDetails();
         this.flagJSON.isSideBar = false;
+        let enquiryDataSource: any;
         /* start index of object passed is zero then create pagination */
         if (obj.start_index == 0) {
             return this.enquire.getAllEnquiry(obj).subscribe(
                 data => {
                     if (data.length != 0) {
+                        enquiryDataSource = data;
                         this.varJson.totalEnquiry = data[0].totalcount;
                         this._commService.contactNoPatternChange(data);
+                        for (let i = 0; i < data.length; i++) {
+                            data[i].updateDate = moment(enquiryDataSource[i].updateDate).format("DD-MMM-YY hh:mm A");
+                        }
                         this.sourceEnquiry = data;
                         this.cd.markForCheck();
                         return this.sourceEnquiry;
                     }
                     else {
                         this.varJson.fetchingDataMessage = 2;
-                        this.showErrorMessage('info', 'No Records Found', 'We did not find any enquiry for the specified query');
+                        this.showErrorMessage('info', 'No Records Found', "We did not find any enquiry for the today's date");
                         this.varJson.totalEnquiry = data.length;
                         this.cd.markForCheck();
                     }
@@ -691,7 +697,7 @@ export class EnquiryHomeComponent implements OnInit {
             alignleft aligncenter alignright alignjustify | \
             bullist numlist outdent indent'
     };
-    //End
+    //End															 	  		 
     fetchCustomComponentData() {
         this.customComponents = [];
         this.prefill.fetchCustomComponentEmpty()
@@ -1130,7 +1136,7 @@ export class EnquiryHomeComponent implements OnInit {
         );
     }
 
-    /* Service to fetch sms records from server and update table Added condtion for sms and email type ashwini gupta*/
+    /* Service to fetch sms records from server and update table*/
     smsServicesInvoked() {
         this.auth.showLoader();
         /* store the data from server and update table */
@@ -2859,7 +2865,7 @@ export class EnquiryHomeComponent implements OnInit {
     }
 
     approveRejectSms(data, statusCode) {
-        console.log("Approve", data);
+
         let msg: any = "";
         if (statusCode == 1) {
             msg = "approve";
@@ -2924,7 +2930,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     setDefaultValues() {
         this.tableSetting.keys = [
-            { primaryKey: 'enquiry_no', header: 'Enquiry No', priority: 1, allowSortingFlag: true },
+            { primaryKey: 'enquiry_no', header: 'ENQ No', priority: 1, allowSortingFlag: true },
             { primaryKey: 'name', header: 'Name', priority: 2, allowSortingFlag: true },
             { primaryKey: 'phone', header: "Contact No", priority: 3, allowSortingFlag: true },
             { primaryKey: 'statusValue', header: 'Status', priority: 4, allowSortingFlag: true },

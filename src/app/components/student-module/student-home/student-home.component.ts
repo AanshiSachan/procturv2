@@ -95,6 +95,8 @@ export class StudentHomeComponent implements OnInit {
   currentDirection: string = 'asc';
   sortBy: string = "student_name";
   downloadStudentReportAccess: boolean = false;
+  showQuickFilter = false;
+  isAdvFilter = false;
 
 
   private editForm: any = {
@@ -590,7 +592,40 @@ export class StudentHomeComponent implements OnInit {
     //this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
     //this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
     //this.instituteData.filtered_statuses = this.statusString.join(',');
+    let obj :any = {
+      name: "",
+      is_active_status: this.advancedFilterForm.is_active_status,
+      mobile: "",
+      start_index: startindex,
+      batch_size: this.studentdisplaysize,
+      is_quick_filter: 'Y',
+      master_course_name: this.advancedFilterForm.master_course_name,
+      course_id : this.advancedFilterForm.course_id,
+      standard_id: this.advancedFilterForm.standard_id
+   }
+   if(this.advancedFilterForm.master_course_name == '-1') {
+    obj.master_course_name = '';
+  }
+    if(this.showQuickFilter) {
+     this.loadTableDataSource(obj);
+   }else if (this.searchBarData != '' && this.searchBarData != null && this.searchBarData != undefined) {
+    this.searchBarData = this.searchBarData.trim();
+    /* If input is of type string then validate string validity*/
+    if (isNaN(this.searchBarData)) {
+      obj.name = this.searchBarData;
+    }/* If not string then use the data as a number*/
+    else {
+      obj.mobile = this.searchBarData;
+    }
+      obj.master_course_name = '';
+      obj.course_id= '-1';
+      obj.standard_id = '-1';
+    this.loadTableDataSource(obj);
+  } else if((this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) && !this.isAdvFilter){
+    this.loadTableDataSource(obj);
+   } else {
     this.loadTableDataSource(this.instituteData);
+   }
   }
 
   /* Fetch next set of data from server and update table */
@@ -728,10 +763,15 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   openAdFilter() {
+    this.isAdvFilter = true;
+    this.showQuickFilter = false;
+    this.searchBarData = '';
     this.closeSideBar();
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
     document.getElementById('adFilterOpen').classList.add('hide');
+    if(document.getElementById('basic-search')) {
     document.getElementById('basic-search').classList.add('hide');
+    }
     document.getElementById('adFilterExit').classList.remove('hide');
     // document.getElementById('black-bg').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.remove('hide');
@@ -744,10 +784,11 @@ export class StudentHomeComponent implements OnInit {
   closeAdFilter() {
     //document.getElementById('middleMainForEnquiryList').classList.remove('hasFilter');
     document.getElementById('adFilterExit').classList.add('hide');
-    document.getElementById('basic-search').classList.remove('hide');
+    // document.getElementById('basic-search').classList.remove('hide');
     document.getElementById('adFilterOpen').classList.remove('hide');
     // document.getElementById('black-bg').classList.add('hide');
     document.getElementById('advanced-filter-section').classList.add('hide');
+    this.isAdvFilter = false;
   }
 
   /* update the advanced filter forn */
@@ -1219,25 +1260,39 @@ export class StudentHomeComponent implements OnInit {
   searchDatabase() {
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
-    /* If User has entered an empty value needs to be informed */
-    if (this.searchBarData == '' || this.searchBarData == ' ' || this.searchBarData == null || this.searchBarData == undefined) {
-      this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
-      this.loadTableDataSource(this.instituteData);
-    }
-    /* valid input detected, check for type of input */
-    else {
+      let obj :any = {
+         name: "",
+         is_active_status: this.advancedFilterForm.is_active_status,
+         mobile: "",
+         start_index: 0,
+         batch_size: this.studentdisplaysize,
+         is_quick_filter: 'Y',
+         master_course_name: this.advancedFilterForm.master_course_name,
+         course_id : this.advancedFilterForm.course_id,
+         standard_id: this.advancedFilterForm.standard_id
+      }
+
+      if(this.advancedFilterForm.master_course_name == '-1') {
+        obj.master_course_name = '';
+      }
+
+      if (this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) {
+        obj.name = '';
+        obj.mobile = '';
+      } else {
       this.searchBarData = this.searchBarData.trim();
       /* If input is of type string then validate string validity*/
       if (isNaN(this.searchBarData)) {
-        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: this.searchBarData, is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
-        this.loadTableDataSource(this.instituteData);
+        obj.name = this.searchBarData;
       }/* If not string then use the data as a number*/
       else {
-        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: this.searchBarData, language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
-        this.loadTableDataSource(this.instituteData);
+        obj.mobile = this.searchBarData;
       }
-
+      obj.master_course_name = '';
+      obj.course_id= '-1';
+      obj.standard_id = '-1';
     }
+    this.loadTableDataSource(obj);
   }
 
   /* update the latest comment for the selected student */
@@ -2555,5 +2610,38 @@ export class StudentHomeComponent implements OnInit {
         }
       )
     }
+  }
+
+  openQuickFilter() {
+    this.isAdvFilter = false;
+    this.searchBarData = '';
+    document.getElementById('adFilterExit').classList.add('hide');
+    document.getElementById('adFilterOpen').classList.remove('hide');
+    // document.getElementById('black-bg').classList.add('hide');
+    document.getElementById('advanced-filter-section').classList.add('hide');
+    this.showQuickFilter = true;
+    if (!this.standardList.length) {
+      this.auth.showLoader();
+      this.prefill.getEnqStardards().subscribe(data => {
+        this.auth.hideLoader();
+        this.standardList = data;
+      });
+    }
+    this.auth.showLoader();
+    this.studentPrefill.fetchBatchDetails().subscribe(data => {
+      this.auth.hideLoader();
+      this.batchList = data;
+    });
+  }
+
+  closeQuickFilter() {
+    this.showQuickFilter = false;
+    this.advancedFilterForm.standard_id = '-1';
+    this.advancedFilterForm.subject_id = '-1';
+    this.advancedFilterForm.is_active_status = '';
+    this.advancedFilterForm.master_course_name = '-1';
+    this.advancedFilterForm.course_id = '-1';
+    this.advancedFilterForm.standard_id = '-1';
+    this.searchBarData = '';
   }
 }

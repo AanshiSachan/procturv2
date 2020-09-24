@@ -57,6 +57,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   category_id: number | string = "-1";
   youtubeUrl: any = '';
   is_readonly:any = '';
+  vimeo_category_id = '305';
 
   category_image = {
     png: "1",
@@ -145,6 +146,29 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       txt: "6",
       rtf: "7",
       zip:'8'
+    },
+    305: {
+      avi: '1',
+      flv: '2',
+      wmv: '3',
+      mp4: '4',
+      webm: '5',
+      mkv: '6' ,
+      ogv: '7',
+      vob: '8',
+      gifv: '9',
+      mng: '10',
+      gif: '11',
+      drc: '12',
+      ogg: '13',
+      MTS: '14',
+      M2TS: '15',
+      TS: '16',
+      mov: '17',
+      qt: '18',
+      yuv: '19',
+      rm: '20',
+      rmvb: '21'
     }
   }
 
@@ -198,6 +222,10 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   tempArr: any[] = [];
   inputFiles: any;
   isUploadingXls: boolean = false;
+  @ViewChild('form') form: ElementRef;
+  Vimeofile: any = {
+    files : []
+  };
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -320,7 +348,6 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   }
 
   uploadFile() {
-    this.uploadStatus.emit(true);
       let path: string = "";
       let institute_id = sessionStorage.getItem("institute_id");
 
@@ -329,10 +356,27 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       let formData = new FormData();
       // formData.append("file", this.selectedFiles[0]);
 
-      let arr = Array.from(this.selectedFiles)
-      arr.map((ele, index) => {
-        formData.append("file_" + index, ele);
-      })
+      let size = 0;
+      let fileJson = {
+        "size": '',
+        "title": '',
+      }
+      if(this.category_id == this.vimeo_category_id) {
+        if(this.youtubeUrl == '') {
+          this.appC.popToast({ type: "error", body: "Please Enter title" })
+          return;
+        }
+      size = this.Vimeofile.files && this.Vimeofile.files[0] ? this.Vimeofile.files[0].size : 0;
+      fileJson.size = (size / (1024*1024)).toFixed(3);
+      fileJson.title = this.youtubeUrl;
+      } else {
+        let arr = Array.from(this.selectedFiles)
+        arr.map((ele, index) => {
+          formData.append("file_" + index, ele);
+        })
+      }
+      formData.append('fileJson', JSON.stringify(fileJson));
+      this.uploadStatus.emit(true);
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/createFiles";
       let newxhr = new XMLHttpRequest();
@@ -352,7 +396,9 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       // newxhr.setRequestHeader("processData", "false");
       newxhr.setRequestHeader("category_id", this.category_id.toString());
       newxhr.setRequestHeader("institute_id", institute_id);
-      newxhr.setRequestHeader("youtubeUrl", this.youtubeUrl);
+      if(this.category_id!=this.vimeo_category_id) {
+        newxhr.setRequestHeader("youtubeUrl", this.youtubeUrl);
+      }
       newxhr.setRequestHeader("Authorization", Authorization);
       newxhr.setRequestHeader("enctype", "multipart/form-data;");
       newxhr.setRequestHeader("keyName", path);
@@ -378,12 +424,25 @@ export class UploadPopupComponent implements OnInit, OnChanges {
 
           if (newxhr.status >= 200 && newxhr.status < 300) {
             this.isUploadingXls = false;
-            let data = {
-              type: 'success',
-              title: "File uploaded successfully",
-              body: newxhr.response.fileName
+            if(this.category_id!= this.vimeo_category_id) {
+              let data = {
+                type: 'success',
+                title: "File uploaded successfully",
+                body: newxhr.response.fileName
+              }
+              this.appC.popToast(data);
+            } else {
+              let payloadObject: any = JSON.parse(newxhr.response);	
+              let Vimeopayload = payloadObject;	
+              var res = Vimeopayload.upload_link.substring(0 , Vimeopayload.upload_link.lastIndexOf("="));	
+              let url = window.location.href;	
+              url = url.substring(0 , url.lastIndexOf("#"));	
+              res = res.concat('=' + url + '#/view/course/file-manager/drive?videoId=' + Vimeopayload.videoId);	
+              if(Vimeopayload.upload_link!='' && Vimeopayload.upload_link!=null) {	
+                (document.getElementById('form') as HTMLFormElement).action = res;	
+                this.form.nativeElement.submit();	
+              }
             }
-            this.appC.popToast(data);
             this.uploadStatus.emit(false);
             this.manualUpload = false;
             this.filePath.emit(path);
@@ -477,7 +536,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
           body: ''
         }
         this.appC.popToast(data);
-        if(this.category_id == 230){
+        if(this.category_id == 230 || this.category_id == this.vimeo_category_id){
         let temp = this.editView.res.keyName.split('/https');
         if(temp && temp.length) {
         let newPath = temp[0].concat('/');
@@ -494,5 +553,10 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         this.closePopupValue.emit(false);
       }
     )
+  }
+
+  onFileChange($event) {
+    this.Vimeofile = $event.target;
+    this.selectedFiles = $event.target.files;
   }
 }

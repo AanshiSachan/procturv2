@@ -28,7 +28,7 @@ export class AuthenticatorService {
     public baseUrlStudent: string = window.location.origin;
 
     constructor() {
-        this.baseUrl = environment.production ? "https://app.proctur.com/StdMgmtWebAPI" : "https://test999.proctur.com/StdMgmtWebAPI";
+        this.baseUrl = environment.serverUrl;
         this.getAuthToken(false);
         this.getInstituteId();
         this.getIsMainBranchValue();
@@ -54,6 +54,7 @@ export class AuthenticatorService {
     }
 
     getAuthToken(studnetValidation) {
+        console.log(environment);
         let obj: any = {
             userid: sessionStorage.getItem('userid'),
             userType: sessionStorage.getItem('userType'),

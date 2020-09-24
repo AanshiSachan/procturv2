@@ -5,10 +5,20 @@
 .middle-section{
   padding: 1%;
 }
+.round{
+  border-radius: 43px;
+    font-size: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 1px;
+    padding-bottom: 0px;
+}
 .status-wise-container{
   display: flex;
   flex-direction: column;
   width: 100%;
+  border-bottom: 1px solid rgba(10,10,10,0.5);
+  padding-bottom: 2%;
   .status-wise-header-container{
     display: flex;
     flex-direction: row;
@@ -79,19 +89,20 @@
   flex-wrap: wrap;
   padding-top: 20px;
   margin-top: 20px;
-  border-top: 1px solid rgba(10,10,10,0.5);
+  // border-top: 1px solid rgba(10,10,10,0.5);
   width: 100%;
   .leads-menu-item{
     padding: 15px 10px;
-    width: 31%;
+    width: 27%;
     background: #fff;
-    height: 120px;
+    height: 100px;
     border-radius: 4px;
     cursor: pointer;
     text-align: left;
     margin: 1%;
+    margin-right: 5%;
     -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.24);
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.24);
+    box-shadow: 0px 3px 6px #696969	;
     .menu-title{
       width: 100%;
       justify-content: flex-start;
@@ -131,3 +142,14 @@ button {
         margin-left: 16px;
     }
 }
+.dropdown{
+  position: absolute;
+  top: 35%;
+  right: 1%;
+
+}
+.dropdown-menu{
+  top: 6%;
+    left: -162px;
+    border: 1px solid rgb(15, 14, 14)
+  }

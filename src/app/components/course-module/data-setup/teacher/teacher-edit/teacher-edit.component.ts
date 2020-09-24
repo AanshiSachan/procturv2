@@ -28,16 +28,16 @@ export class TeacherEditComponent implements OnInit {
   maxlength: number = 10;
   country_id: number = null;
   enable_ip_lock_feature: any = 'N';
-
+  isShoweOnlineExam: boolean = false;
   constructor(
     private route: Router,
     private ApiService: TeacherAPIService,
     private fb: FormBuilder,
     private toastCtrl: AppComponent,
     private routeParam: ActivatedRoute,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private commonService: CommonServiceFactory
-      ) {
+  ) {
     this.routeParam.params.subscribe(params => {
       this.selectedTeacherId = params['id'];
     });
@@ -46,6 +46,8 @@ export class TeacherEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    let type = Number(sessionStorage.getItem('institute_setup_type'));
+    this.isOnlineExamAllow(type);
     this.fetchDataForCountryDetails();
     this.createEditTeacherForm();
     if (this.selectedTeacherId) {
@@ -60,24 +62,88 @@ export class TeacherEditComponent implements OnInit {
   fetchDataForCountryDetails() {
     let countryCodeEncryptedData = sessionStorage.getItem('country_data');
     let temp = JSON.parse(countryCodeEncryptedData);
-      if (temp.length > 0) {
+    if (temp.length > 0) {
       this.countryDetails = temp;
       this.maxlength = this.countryDetails[0].country_phone_number_length;
       this.instituteCountryDetObj = this.countryDetails[0];
       this.country_id = this.countryDetails[0].id;
     }
   }
+  isOnlineExamAllow(type) {
+    this.isShoweOnlineExam = this.checkInstSetupType(type, 4);
+  }
+  checkInstSetupType(value, role): boolean {
+    if (value != 0) {
+      var start = 2;
+      var count = 1;
+      while (start != value) {
+        count++;
+        start = start + 2;
+      }
+      var arr = [0, 0, 0, 0, 0, 0, 0, 0];
+      var s = count.toString(2);
+      var k = 0;
+      for (var i = s.length - 1; i >= 0; i--) {
+        arr[k] = parseInt(s.charAt(i));
+        k++;
+      }
 
+      switch (role) {
+        case 2:
+          if (arr[0] == 1)
+            return true;
+          break;
+
+        case 4:
+          if (arr[1] == 1)
+            return true;
+          break;
+
+        case 8:
+          if (arr[2] == 1)
+            return true;
+          break;
+
+        case 16:
+          if (arr[3] == 1)
+            return true;
+          break;
+        case 32:
+          if (arr[4] == 1)
+            return true;
+          break;
+        case 64:
+          if (arr[5] == 1)
+            return true;
+          break;
+
+        case 128:
+          if (arr[6] == 1)
+            return true;
+          break;
+        case 256:
+          if (arr[7] == 1)
+            return true;
+          break;
+        default: return false;
+      }
+      return false;
+
+    }
+    else {
+      return false;
+    }
+  }
   onChangeObj(event) {
-   for(let i=0; i<this.countryDetails.length;i++){
+    for (let i = 0; i < this.countryDetails.length; i++) {
       if (this.countryDetails[i].id == event) {
         this.instituteCountryDetObj = this.countryDetails[i];
         this.maxlength = this.countryDetails[i].country_phone_number_length;
         this.country_id = this.countryDetails[i].id;
         this.editTeacherForm.setValue({
-          country_id : this.countryDetails[i].id,
-          teacher_name : this.editTeacherForm.value.teacher_name,
-          teacher_curr_addr : this.editTeacherForm.value.teacher_curr_addr,
+          country_id: this.countryDetails[i].id,
+          teacher_name: this.editTeacherForm.value.teacher_name,
+          teacher_curr_addr: this.editTeacherForm.value.teacher_curr_addr,
           teacher_phone: this.editTeacherForm.value.teacher_phone,
           teacher_alt_phone: this.editTeacherForm.value.teacher_alt_phone,
           teacher_standards: this.editTeacherForm.value.teacher_standards,
@@ -86,6 +152,7 @@ export class TeacherEditComponent implements OnInit {
           hour_rate: this.editTeacherForm.value.hour_rate,
           attendance_device_id: this.editTeacherForm.value.attendance_device_id,
           is_active: this.editTeacherForm.value.is_active,
+          allow_exam_desk_login: this.editTeacherForm.value.allow_exam_desk_login,
           is_allow_teacher_to_only_mark_attendance: this.editTeacherForm.value.is_allow_teacher_to_only_mark_attendance,
           is_student_mgmt_flag: this.editTeacherForm.value.is_student_mgmt_flag,
           dob: this.editTeacherForm.value.dob,
@@ -101,6 +168,7 @@ export class TeacherEditComponent implements OnInit {
     this.auth.showLoader();
     this.ApiService.getSelectedTeacherInfo(this.selectedTeacherId).subscribe(
       (data: any) => {
+        console.log("Dar", data);
         this.auth.hideLoader();
         this.selectedTeacherInfo = data;
         let setFormData = this.getFormFieldsdata(data);
@@ -128,11 +196,12 @@ export class TeacherEditComponent implements OnInit {
       hour_rate: [''],
       attendance_device_id: [''],
       is_active: [true],
+      allow_exam_desk_login: [false],
       is_allow_teacher_to_only_mark_attendance: [false],
       is_office_only_access: [false],
       is_student_mgmt_flag: [true],
-      dob:[''],
-      date_of_joining:[''],
+      dob: [''],
+      date_of_joining: [''],
     })
   }
 
@@ -158,6 +227,12 @@ export class TeacherEditComponent implements OnInit {
     }
     else {
       dataToBind.is_active = false;
+    }
+    if (data.allow_exam_desk_login == "Y") {
+      dataToBind.allow_exam_desk_login = true;
+    }
+    else {
+      dataToBind.allow_exam_desk_login = false;
     }
     if (data.is_allow_teacher_to_only_mark_attendance == "Y") {
       dataToBind.is_allow_teacher_to_only_mark_attendance = true;
@@ -191,24 +266,24 @@ export class TeacherEditComponent implements OnInit {
       this.messageToast('error', '', 'Please enter valid email address.');
       return;
     }
-    let phoneCheck = this.commonService.phonenumberCheck(formData.teacher_phone, this.maxlength,this.country_id);
+    let phoneCheck = this.commonService.phonenumberCheck(formData.teacher_phone, this.maxlength, this.country_id);
     if (phoneCheck == false) {
       this.messageToast('error', '', 'Please enter valid contact number.');
       return;
     }
-    if(phoneCheck == 'noNumber') {
+    if (phoneCheck == 'noNumber') {
       this.messageToast('error', '', 'Please enter valid contact no.');
       return
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
-      if (!(this.commonService.phonenumberCheck(formData.teacher_alt_phone, this.maxlength,this.country_id))) {
+      if (!(this.commonService.phonenumberCheck(formData.teacher_alt_phone, this.maxlength, this.country_id))) {
         this.messageToast('error', '', 'Please enter valid alternate phone number.');
         return;
       }
     }
-    if(formData.teacher_name == "" || formData.teacher_name == null){
+    if (formData.teacher_name == "" || formData.teacher_name == null) {
       this.messageToast('error', '', 'Faculty Name is required.');
-        return;
+      return;
     }
     if (formData.hour_rate == "" || formData.hour_rate == null) {
       formData.hour_rate = 0;
@@ -228,6 +303,11 @@ export class TeacherEditComponent implements OnInit {
       formData.is_active = "Y";
     } else {
       formData.is_active = "N";
+    }
+    if (formData.allow_exam_desk_login == true) {
+      formData.allow_exam_desk_login = "Y";
+    } else {
+      formData.allow_exam_desk_login = "N";
     }
     if (formData.is_allow_teacher_to_only_mark_attendance == true) {
       formData.is_allow_teacher_to_only_mark_attendance = "Y";
@@ -270,24 +350,24 @@ export class TeacherEditComponent implements OnInit {
       this.messageToast('error', '', 'Please enter valid email address.');
       return;
     }
-    let phoneCheck = this.commonService.phonenumberCheck(formData.teacher_phone, this.maxlength,this.country_id);
+    let phoneCheck = this.commonService.phonenumberCheck(formData.teacher_phone, this.maxlength, this.country_id);
     if (phoneCheck == false) {
       this.messageToast('error', '', 'Please enter valid contact number.');
       return;
     }
-    if(phoneCheck == 'noNumber') {
+    if (phoneCheck == 'noNumber') {
       this.messageToast('error', '', 'Please enter valid contact no.');
       return;
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
-      if (!(this.commonService.phonenumberCheck(formData.teacher_alt_phone, this.maxlength,this.country_id))) {
+      if (!(this.commonService.phonenumberCheck(formData.teacher_alt_phone, this.maxlength, this.country_id))) {
         this.messageToast('error', '', 'Please enter valid alternate phone number.');
         return;
       }
     }
-    if(formData.teacher_name == "" || formData.teacher_name == null){
+    if (formData.teacher_name == "" || formData.teacher_name == null) {
       this.messageToast('error', '', 'Faculty Name is required.');
-        return;
+      return;
     }
     if (formData.hour_rate == "" || formData.hour_rate == null) {
       formData.hour_rate = "0";
@@ -307,6 +387,11 @@ export class TeacherEditComponent implements OnInit {
       formData.is_active = "Y";
     } else {
       formData.is_active = "N";
+    }
+    if (formData.allow_exam_desk_login == true) {
+      formData.allow_exam_desk_login = "Y";
+    } else {
+      formData.allow_exam_desk_login = "N";
     }
     if (formData.is_allow_teacher_to_only_mark_attendance == true) {
       formData.is_allow_teacher_to_only_mark_attendance = "Y";

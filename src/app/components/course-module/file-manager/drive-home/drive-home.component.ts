@@ -6,6 +6,8 @@ import { MessageShowService } from '../../../../services/message-show.service';
 import { FileManagerService } from '../file-manager.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpService } from '../../../../services/http.service';
+import {  ActivatedRoute } from '@angular/router';
+declare var $;
 
 @Component({
   selector: 'app-drive-home',
@@ -86,7 +88,8 @@ export class DriveHomeComponent implements OnInit {
     private auth:AuthenticatorService,
     private msgService: MessageShowService,
     private sanitizer: DomSanitizer,
-    private http: HttpService
+    private http: HttpService,
+    private activatedRoute: ActivatedRoute
     ) { }
 
 
@@ -99,6 +102,35 @@ export class DriveHomeComponent implements OnInit {
       this.fetchPrefillFolderAndFiles(institute_id + "/");
     }
     this.fetchUsedSpace();
+    this.getParams();
+  }
+
+  //Developed by - Nalini 
+// When vimeo file uploaded successfully then video status api is called based on video id and pop up msg is displayed
+getParams() {
+  let url = window.location.href;
+  if (url.indexOf("?") > -1) {
+    let arr = url.split('?'); 
+    if (url.length > 1 && arr[1] !== '') {
+      this.activatedRoute.queryParams.subscribe(params => {
+        let videoId = params['videoId'];
+        if(videoId!='' && videoId!=null) {
+        $('#thankYou').modal('show');
+        let obj = {
+          "videoID": videoId,
+          "institute_id": sessionStorage.getItem('institute_id'),
+          "video_status": "Queued",
+          "category_id": 305
+        }
+        let url = "/api/v1/instFileSystem/updateVideoStatus";
+        this.http.postData(url, obj).subscribe((res: any) => {
+          console.log(res);
+        }, (err) => {
+        });
+      }
+      });
+    }
+    }
   }
 
 
@@ -687,7 +719,7 @@ export class DriveHomeComponent implements OnInit {
   deleteFile() {
     let fileArray: any = [];
     if(this.SelectedFilesArray &&  this.SelectedFilesArray.length) {
-    if(this.SelectedFilesArray[0].category_id == 230){
+    if(this.SelectedFilesArray[0].category_id == 230 || this.SelectedFilesArray[0].category_id == 305){
       let key = this.SelectedFilesArray[0].keyName.split('/https');
       if(key && key.length) {
       let newPath = key[0].concat('/');
@@ -751,5 +783,10 @@ export class DriveHomeComponent implements OnInit {
   confirmDelete() {
     this.deleteConfirmation = true;
     this.deleteFile();
+  }
+
+  playVimeoVideo(obj) {
+    this.videoplayer = true;
+    this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl(obj.res.video_url);
   }
 }

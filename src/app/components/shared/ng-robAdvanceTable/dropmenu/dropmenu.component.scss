@@ -24,7 +24,11 @@
 .svg-icon-wrap {
     display: inline-block;
 }
-
+.btn-xs {
+    padding: .4em .6em;
+    font-size: .8em;
+    line-height: 1;
+  }
 .visually-hidden {
     display: block;
     border: 0;

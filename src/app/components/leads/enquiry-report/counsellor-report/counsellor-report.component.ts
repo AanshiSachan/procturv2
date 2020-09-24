@@ -26,6 +26,7 @@ export class CounsellorReportComponent implements OnInit {
     updateDateFrom: moment().startOf('month').format('MM-DD-YYYY'),
     updateDateTo: moment().format('MM-DD-YYYY'),
   }
+
   permission: boolean = true;
   getCounsellorDetails: any = {};
   getCounsellorData: any = [];
@@ -83,7 +84,6 @@ export class CounsellorReportComponent implements OnInit {
     }
     this.fetchAllCounsellorDataDetails();
   }
-
 
   fetchAllCounsellorData() {
     this.dataStatus = 1;

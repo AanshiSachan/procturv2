@@ -151,24 +151,24 @@
                     <td>{{record.statusValue}}</td>
                     <td>{{record.total_count}}</td>
                     <td>
-                      <a *ngIf="record.success_count != 0" id="success{{record.list_id}}" >
+                      <a *ngIf="record.success_path != ''" id="success{{record.list_id}}" >
                         Success
                       </a>
-                      <span *ngIf="record.success_count == 0">
+                      <span *ngIf="record.success_path == ''">
                         -
                       </span>                      
                     </td>
                     <td>
-                      <a *ngIf="record.failure_count != 0" id="failure{{record.list_id}}" >
+                      <a *ngIf="record.failure_path != ''" id="failure{{record.list_id}}" >
                         Fail
                       </a>
-                      <span *ngIf="record.failure_count == 0">
+                      <span *ngIf="record.failure_path == ''">
                         -
                       </span>
                     </td>
                     <td>
-                      <span style="color: #0084f6;" *ngIf="record.failure_count != 0 || record.success_count != 0" (click)="genrateReport(record)">Generate Report <i class="fa fa-download download-icon" aria-hidden="true"></i></span>
-                      <span *ngIf="record.failure_count == 0 && record.success_count == 0">-</span>
+                      <span style="color: #0084f6;" *ngIf="record.success_path != '' || record.failure_path != ''" (click)="genrateReport(record)">Generate Report <i class="fa fa-download download-icon" aria-hidden="true"></i></span>
+                      <span *ngIf="record.failure_path == '' && record.success_path == ''">-</span>
                     </td>
                   </tr>
                 </tbody>

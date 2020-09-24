@@ -10,7 +10,8 @@
                                 <ul class="sche-head">
                                     <li>
                                         <div class="field-checkbox-wrapper" style="background: transparent;">
-                                            <input #headerCheckbox type="checkbox" value="" name="check" [checked]="isAllChecked()" (change)="selectAllRows($event)"
+                                            <input #headerCheckbox type="checkbox" value="" name="check"
+                                                [checked]="isAllChecked()" (change)="selectAllRows($event)"
                                                 class="form-checkbox">
                                             <label></label>
                                         </div>
@@ -18,7 +19,9 @@
                                     <li *ngIf="tableName=='student'" style="width: 6%;padding-left: 0;">
                                         #
                                     </li>
-                                    <li class="{{map.primaryKey}} {{ map.header }}" *ngFor="let map of columnMaps" (click)="requestSort(map.primaryKey)" [ctStyleCell]="getStyle(map.primaryKey, '')">
+                                    <li class="{{map.primaryKey}} {{ map.header }}" *ngFor="let map of columnMaps"
+                                        (click)="requestSort(map.primaryKey)"
+                                        [ctStyleCell]="getStyle(map.primaryKey, '')">
                                         {{ map.header }}
                                         <section *ngIf="isSorted(map)" style="display: inline-block">
                                             <aside *ngIf="asc;then ascending else descending">
@@ -34,36 +37,47 @@
                                 </ul>
 
                                 <div class="schedule-scroller" *ngIf="records.length != 0">
-                                    <ul class="ul-body ct-ongoing" *ngFor="let record of records; let i = index;" [class.selected]="i == selectedRow">
+                                    <ul class="ul-body ct-ongoing" *ngFor="let record of records; let i = index;"
+                                        [class.selected]="i == selectedRow">
                                         <li>
                                             <div class="field-checkbox-wrapper" style="background: transparent;">
-                                                <input type="checkbox" name="recordcb[]" value="" name="check" class="rowCheckbox form-checkbox" [(ngModel)]="record.uiSelected"
+                                                <input type="checkbox" name="recordcb[]" value="" name="check"
+                                                    class="rowCheckbox form-checkbox" [(ngModel)]="record.uiSelected"
                                                     (ngModelChange)="rowCheckboxChange(record)">
                                                 <label></label>
                                             </div>
                                         </li>
-                                        <li style="padding-top: 3px;width: 7%;padding-left: 0;" *ngIf="tableName=='student'">
-                                        <span>
-                                            <img [src]="record.thumbnail_url" alt="profile" class="profile_img" title="{{record.student_name}}">
-                                        </span>
-                                    </li>
-                                        <li title="{{ record[map.access(record)] | formatCell:map.primaryKey }}" class="{{map.primaryKey}} {{ map.header }}" *ngFor="let map of columnMaps"
-                                            (click)="userRowClicked($event, i, record)" [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])">
-                                            <div *ngIf="map.primaryKey != 'batchesAssigned'&& map.primaryKey != 'noOfCoursesAssigned'" [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])">
+                                        <li style="padding-top: 3px;width: 7%;padding-left: 0;"
+                                            *ngIf="tableName=='student'">
+                                            <span>
+                                                <img [src]="record.thumbnail_url" alt="profile" class="profile_img"
+                                                    title="{{record.student_name}}">
+                                            </span>
+                                        </li>
+                                        <li title="{{ record[map.access(record)] | formatCell:map.primaryKey }}"
+                                            class="{{map.primaryKey}} {{ map.header }}" *ngFor="let map of columnMaps"
+                                            (click)="userRowClicked($event, i, record)"
+                                            [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])">
+                                            <div *ngIf="map.primaryKey != 'batchesAssigned'&& map.primaryKey != 'noOfCoursesAssigned'"
+                                                [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])">
                                                 {{ record[map.access(record)] | formatCell:map.primaryKey }}
                                             </div>
                                             <div *ngIf="map.primaryKey == 'batchesAssigned'">
-                                                <div [ngClass]="{'hide': batch == ''}" *ngFor="let batch of getBatchListArr(record[map.access(record)])" class="chipped intable">
+                                                <div [ngClass]="{'hide': batch == ''}"
+                                                    *ngFor="let batch of getBatchListArr(record[map.access(record)])"
+                                                    class="chipped intable">
                                                     {{batch}}
                                                 </div>
                                             </div>
 
-                                            <div *ngIf="map.primaryKey=='noOfCoursesAssigned' && isLangInstitue" title="{{record.subjects}}">
-                                                {{ record[map.access(record)] | formatCell:map.primaryKey }} 
+                                            <div *ngIf="map.primaryKey=='noOfCoursesAssigned' && isLangInstitue"
+                                                title="{{record.subjects}}">
+                                                {{ record[map.access(record)] | formatCell:map.primaryKey }}
                                             </div>
 
-                                            <div *ngIf="map.primaryKey=='noOfCoursesAssigned' && !isLangInstitue" title="{{record.coursesName}}">
-                                                {{ record[map.access(record)] | formatCell:map.primaryKey }} 
+                                            <div *ngIf="map.primaryKey=='noOfCoursesAssigned' && !isLangInstitue"
+                                                title="{{record.coursesName}}">
+                                                {{ record[map.access(record)] | formatCell:map.primaryKey }}
                                             </div>
                                         </li>
 
@@ -81,19 +95,30 @@
                                         </li>
                                     </ul>
                                 </div>
+                                <!-- <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus === 2"> -->
                                 <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus === 2">
-                                    <ul class="ul-body ct-ongoing">
+                                    <div class="illustration-container">
+                                        <img alt="illustration" class="illustration-img"
+                                            src="./assets/images/course_planner/blank-illustration.svg">
+                                    </div>
+                                    <!-- <ul class="ul-body ct-ongoing">
                                         <li style="width: 100%;">
                                             <label style="font-size: 16px;font-weight: 600;">No Records Found</label>
                                         </li>
-                                    </ul>
+                                    </ul> -->
                                 </div>
-                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus === 3">
-                                    <ul class="ul-body ct-ongoing">
+                                <!-- <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus === 3"> -->
+                                <div *ngIf="records.length == 0 && dataStatus === 3">
+                                    <div class="illustration-container">
+                                        <img alt="illustration" class="illustration-img"
+                                            src="./assets/images/course_planner/blank-illustration.svg">
+                                    </div>
+                                    <!-- <ul class="ul-body ct-ongoing">
                                         <li style="width: 100%;">
-                                            <label style="font-size: 16px;font-weight: 600;">Enter Detail to Search</label>
+                                            <label style="font-size: 16px;font-weight: 600;">Enter Detail to
+                                                Search</label>
                                         </li>
-                                    </ul>
+                                    </ul> -->
                                 </div>
                             </div>
                         </div>

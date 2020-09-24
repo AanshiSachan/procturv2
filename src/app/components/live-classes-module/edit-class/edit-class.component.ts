@@ -28,7 +28,7 @@ export class EditClassComponent implements OnInit {
   selectedFacultyList: any[] = [];
   selectedModeratorList: any[] = [];
   selectedCourseList: any[] = [];
-  selectedBatchList :any[] = [];
+  selectedBatchList: any[] = [];
 
   dropdownList = [];
   teachersAssigned: any[] = [];
@@ -70,7 +70,7 @@ export class EditClassComponent implements OnInit {
   scheduledateFrom = moment(new Date()).format('MM-DD-YYYY');
   institution_id:any=sessionStorage.getItem('institution_id');
   userType: any;
-  username:any = '';
+  username: any = '';
   getPayloadBatch = {
     inst_id: this.institution_id,
     coursesArray: [''],
@@ -91,8 +91,8 @@ export class EditClassComponent implements OnInit {
     private_access: false,
     access_enable_lobby: false,
     access_before_start: 0,
-    batch_list:null,
-    course_list:null,
+    batch_list: null,
+    course_list: null,
     host_video: true,
     participant_video: false,
     join_before_host: true,
@@ -140,7 +140,7 @@ export class EditClassComponent implements OnInit {
     this.is_zoom_integration_enable = JSON.parse(zoom);
 
     let zoom_status = this.route.snapshot.queryParams["isZoomLiveClass"];
-    if(this.is_zoom_integration_enable && zoom_status == "1"){
+    if (this.is_zoom_integration_enable && zoom_status == "1") {
       this.singleSelectionOfFaculty = true;
       this.zoom_enable = true;
       this.live_class_for = "2";
@@ -157,7 +157,7 @@ export class EditClassComponent implements OnInit {
 
   }
 
-  setMultiSelectSetting(){
+  setMultiSelectSetting() {
     this.facultySettings = {
       singleSelection: false,
       idField: 'teacher_id',
@@ -215,8 +215,8 @@ export class EditClassComponent implements OnInit {
     }
   }
 
-  changeLiveClassFor(){
-    if(this.live_class_for == "2"){
+  changeLiveClassFor() {
+    if (this.live_class_for == "2") {
       this.singleSelectionOfFaculty = true;
       this.zoom_enable = true;
       this.selectedFacultyList = [];
@@ -229,7 +229,7 @@ export class EditClassComponent implements OnInit {
         enableCheckAll: false
       };
     }
-    else if(this.live_class_for == "1"){
+    else if (this.live_class_for == "1") {
       this.singleSelectionOfFaculty = false;
       this.zoom_enable = false;
       this.selectedModeratorList = [];
@@ -248,7 +248,7 @@ export class EditClassComponent implements OnInit {
     if (enable_eLearn_feature == '1') {
       this.isShowProductOption = true;
       this.auth.showLoader();
-      this.product_service.getMethod('product/get-product-list?slug=Online_Class',null).subscribe(
+      this.product_service.getMethod('product/get-product-list?slug=Online_Class', null).subscribe(
         (data: any) => {
           this.auth.hideLoader();
           this.productData = data.result;
@@ -268,6 +268,7 @@ export class EditClassComponent implements OnInit {
 
   onChangeProduct(event) {
     let institute_id = sessionStorage.getItem('institute_id');
+    this.selectedUserList = [];
     let url = `/api/v1/meeting_manager/userDetailByProductID/${institute_id}/${event}`;
     this.auth.showLoader();
     this.http_service.getData(url).subscribe(
@@ -285,15 +286,17 @@ export class EditClassComponent implements OnInit {
   getLiveClassData() {
     this.auth.showLoader();
     let zoom_status = 0;
-    if(this.zoom_enable){
+    if (this.zoom_enable) {
       zoom_status = 1
     }
-    const url ='/api/v1/meeting_manager/getMeeting/' + this.institution_id +"/"+this.editSessionId+"?isZoomLiveClass="+zoom_status;
+    const url = '/api/v1/meeting_manager/getMeeting/' + this.institution_id + "/" + this.editSessionId + "?isZoomLiveClass=" + zoom_status;
     this.http_service.getData(url).subscribe(
       (data: any) => {
         console.log(data)
         this.editData = data;
-        this.topicName = this.editData.session_name;
+        this.getBatchesCourses();
+        setTimeout (() => {
+          this.topicName = this.editData.session_name;
 
         if (this.editData.sent_notification_flag == 1) {
           this.editData.sent_notification_flag = true;
@@ -302,10 +305,10 @@ export class EditClassComponent implements OnInit {
           this.editData.sent_notification_flag = false;
         }
 
-        if(this.editData.auto_recording == "none"){
+        if (this.editData.auto_recording == "none") {
           this.auto_recording = false;
         }
-        else if(this.editData.auto_recording == "local"){
+        else if (this.editData.auto_recording == "local") {
           this.auto_recording = true;
         }
 
@@ -336,24 +339,25 @@ export class EditClassComponent implements OnInit {
         }
 
         this.batchesIds = this.editData.batch_list;
-        if(this.editData.course_list != null && this.editData.course_list.length>0){
+        if (this.editData.course_list != null && this.editData.course_list.length > 0) {
           this.courseValue = this.editData.course_list[0].master_course_name;
         }
-        this.getCourses(this.courseValue);
+          this.getCourses(this.courseValue);
         this.courseIds = this.editData.course_list;
-        this.getBatchesCourses();
-        if(this.editData.course_list != null && this.editData.course_list.length>0){
+        if (this.editData.course_list != null && this.editData.course_list.length > 0) {
           this.getCoursepreFillData();
         }
         this.getTeachers();
-        if(!this.zoom_enable){
+        if (!this.zoom_enable) {
           this.getCustomUsers();
         }
 
         if (this.editData.product_id != null) {
           this.product_id = this.editData.product_id;
+          this.onChangeProduct(this.product_id);
           this.getUserpreFillData();
         }
+       }, 5000);
         // this.getStudentpreFillData();
       },
       (error: any) => {
@@ -365,7 +369,7 @@ export class EditClassComponent implements OnInit {
 
 
   getEvent(event) {
-    let proctur_live_expiry_date:any = sessionStorage.getItem('proctur_live_expiry_date');
+    let proctur_live_expiry_date: any = sessionStorage.getItem('proctur_live_expiry_date');
     if (moment(event).diff(moment(), 'days') < 0) {
       let msg = {
         type: "info",
@@ -434,24 +438,42 @@ export class EditClassComponent implements OnInit {
 
   checkMandatoryFields() {
     this.getEventHourTo();
-    if (this.topicName != "" && this.topicName != null && this.selectedFacultyList.length != 0) {
-      if (this.dateTimeStatus) {
-        this.navigateTo("assignStudent")
-        this.getStudentpreFillData();
+    if (this.userType === "3") {
+      if (this.topicName != "" && this.topicName != null) {
+        if (this.dateTimeStatus) {
+          this.navigateTo("assignStudent")
+          this.getStudentpreFillData();
+        }
+        else {
+          this.getEventHourTo();
+        }
       }
       else {
-        this.getEventHourTo();
+        this.appC.popToast({ type: "error", body: "All fields are required" })
       }
-    }
-    else {
-      this.appC.popToast({ type: "error", body: "All fields are required" })
+    } else {
+
+
+
+      if (this.topicName != "" && this.topicName != null && this.selectedFacultyList.length != 0) {
+        if (this.dateTimeStatus) {
+          this.navigateTo("assignStudent")
+          this.getStudentpreFillData();
+        }
+        else {
+          this.getEventHourTo();
+        }
+      }
+      else {
+        this.appC.popToast({ type: "error", body: "All fields are required" })
+      }
     }
   }
 
   getBatchpreFillData() {
 
-    let userIDs:any=[];
-    let userName:any=[];
+    let userIDs: any = [];
+    let userName: any = [];
     this.batchesIds.forEach(element => {
       userIDs.push(element.batch_id);
       userName.push(element.batch_name)
@@ -464,7 +486,7 @@ export class EditClassComponent implements OnInit {
         batch_name: ''
       };
       x.batch_id = userIDs[i];
-      x.batch_name=userName[i];
+      x.batch_name = userName[i];
       temp.push(x)
     }
     // this.course = temp;
@@ -474,8 +496,8 @@ export class EditClassComponent implements OnInit {
 
   getCoursepreFillData() {
 
-    let userIDs:any=[];
-    let userName:any=[];
+    let userIDs: any = [];
+    let userName: any = [];
     this.courseIds.forEach(element => {
       userIDs.push(element.course_id);
       userName.push(element.course_name)
@@ -488,7 +510,7 @@ export class EditClassComponent implements OnInit {
         course_name: ''
       };
       x.course_id = userIDs[i];
-      x.course_name=userName[i];
+      x.course_name = userName[i];
       temp.push(x)
     }
     // this.course = temp;
@@ -497,11 +519,11 @@ export class EditClassComponent implements OnInit {
 
 
   getStudentpreFillData() {
-
+    let temp: any[] = [];
+    if(this.editData.studentIDS!=null) {
     let studentIDS = this.editData.studentIDS.split(',')
     let studentName = this.editData.studentName.split(',')
 
-    let temp: any[] = [];
     for (var i = 0; i < studentIDS.length; i++) {
       let x = {
         student_id: '',
@@ -510,6 +532,7 @@ export class EditClassComponent implements OnInit {
       x.student_id = studentIDS[i];
       x.student_name = studentName[i]
       temp.push(x)
+    }
     }
 
     // this.studentList = temp;
@@ -528,7 +551,7 @@ export class EditClassComponent implements OnInit {
         name: ''
       };
       x.user_id = userIDs[i];
-      x.name=userName[i];
+      x.name = userName[i];
       temp.push(x)
     }
     this.userList = temp;
@@ -538,30 +561,31 @@ export class EditClassComponent implements OnInit {
   scheduleClass() {
 
     let validationFlag = true;
-    if(!this.isProfessional){
-      if(this.courseIds != null && this.courseValue != null && this.courseValue != ''){
-        if(this.selectedStudentList.length!=0 || this.selectedUserList.length!=0){
+    if (!this.isProfessional) {
+      if (this.courseIds != null && this.courseValue != null && this.courseValue != '') {
+        if (this.selectedStudentList.length != 0 || this.selectedUserList.length != 0) {
           validationFlag = true;
-        }else{
+        } else {
           validationFlag = false;
           this.appC.popToast({ type: "info", body: "Please select students or users" })
         }
       }
-      else{
+      else {
         validationFlag = false;
         this.appC.popToast({ type: "error", body: "All fields are required" })
       }
     }
-    else{
-      if(this.batchesIds != null){
+    else {
+      if (this.batchesIds != null) {
         console.log(this.batchesIds)
-        if(this.selectedStudentList.length!=0 || this.selectedUserList.length!=0){
+        if (this.selectedStudentList.length != 0 || this.selectedUserList.length != 0) {
           validationFlag = true;
-        }else{
+        } else {
           validationFlag = false;
           this.appC.popToast({ type: "info", body: "Please select students or users" })
-        }      }
-      else{
+        }
+      }
+      else {
         validationFlag = false;
         this.appC.popToast({ type: "error", body: "All fields are required" })
       }
@@ -593,26 +617,26 @@ export class EditClassComponent implements OnInit {
         }
       );
 
-    this.selectedUserList.map(
-      (ele: any) => {
-        let x = ele.user_id.toString();
-        this.eLearnCustUserIDs.push(x);
-      }
-    );
-    console.log(this.eLearnCustUserIDs);
+      this.selectedUserList.map(
+        (ele: any) => {
+          let x = ele.user_id.toString();
+          this.eLearnCustUserIDs.push(x);
+        }
+      );
+      console.log(this.eLearnCustUserIDs);
 
-    let course_list : any = [];
+      let course_list: any = [];
       this.selectedCourseList.map(
         (ele: any) => {
-          let x ={'course_id': ele.course_id.toString()}
+          let x = { 'course_id': ele.course_id.toString() }
           course_list.push(x);
         }
       );
 
-      let batch_list:any =[];
+      let batch_list: any = [];
       this.selectedBatchList.map(
         (ele: any) => {
-          let x ={'batch_id': ele.batch_id.toString()}
+          let x = { 'batch_id': ele.batch_id.toString() }
           batch_list.push(x);
         }
       );
@@ -650,10 +674,10 @@ export class EditClassComponent implements OnInit {
         this.updateOnlineClass.access_before_start = 0;
       }
 
-      if(this.zoom_enable){
+      if (this.zoom_enable) {
         this.updateOnlineClass.is_zoom_live_class = true;
       }
-      else{
+      else {
         this.updateOnlineClass.is_zoom_live_class = false;
       }
 
@@ -664,31 +688,31 @@ export class EditClassComponent implements OnInit {
         this.updateOnlineClass.auto_recording = "none";
       }
 
-      if(this.editData.mute_upon_entry){
+      if (this.editData.mute_upon_entry) {
         this.updateOnlineClass.mute_upon_entry = true;
       }
-      else{
+      else {
         this.updateOnlineClass.mute_upon_entry = false;
       }
 
-      if(this.editData.host_video){
+      if (this.editData.host_video) {
         this.updateOnlineClass.host_video = true;
       }
-      else{
+      else {
         this.updateOnlineClass.host_video = false;
       }
 
-      if(this.editData.participant_video){
+      if (this.editData.participant_video) {
         this.updateOnlineClass.participant_video = true;
       }
-      else{
+      else {
         this.updateOnlineClass.participant_video = false;
       }
 
-      if(this.editData.join_before_host){
+      if (this.editData.join_before_host) {
         this.updateOnlineClass.join_before_host = true;
       }
-      else{
+      else {
         this.updateOnlineClass.join_before_host = false;
       }
 
@@ -699,8 +723,8 @@ export class EditClassComponent implements OnInit {
 
       if (this.repeat_session == 0) {
         this.auth.showLoader();
-        const url = '/api/v1/meeting_manager/update/'+ this.institution_id +"/"+ this.editSessionId;
-        this.http_service.postData(url,this.updateOnlineClass).subscribe(
+        const url = '/api/v1/meeting_manager/update/' + this.institution_id + "/" + this.editSessionId;
+        this.http_service.postData(url, this.updateOnlineClass).subscribe(
           (data: any) => {
             this.appC.popToast({ type: "success", body: "Live class session " + this.topicName + " " + "updated successfully" });
             this.router.navigate(['/view/live-classes']);
@@ -720,7 +744,7 @@ export class EditClassComponent implements OnInit {
         this.updateOnlineClass.studentIds = this.studentsId;
         this.auth.showLoader();
         const url = '/api/v1/meeting_manager/create'
-        this.http_service.putData(url,this.updateOnlineClass).subscribe(
+        this.http_service.putData(url, this.updateOnlineClass).subscribe(
           (data: any) => {
             this.appC.popToast({ type: "success", body: this.topicName + " " + "created successfully" });
             this.router.navigate(['/view/live-classes']);
@@ -750,7 +774,7 @@ export class EditClassComponent implements OnInit {
   /** this function is used to fetch teacher details */
   getTeachers() {
     this.auth.showLoader();
-    const url =`/api/v1/teachers/all/+${this.institution_id}?active=Y`
+    const url = `/api/v1/teachers/all/+${this.institution_id}?active=Y`
     this.http_service.getData(url).subscribe(
       (data: any) => {
         this.teachersAssigned = data;
@@ -820,22 +844,23 @@ export class EditClassComponent implements OnInit {
   }
 
   getBatchesCoursesIds(ids) {
-    let temp:any=[];
+    this.selectedStudentList = [];
+    let temp: any = [];
     if (this.isProfessional) {
       this.batchesIds = ids;
       this.batchesIds.forEach(element => {
-      temp.push(element.batch_id);
-    });
+        temp.push(element.batch_id);
+      });
       this.fetchStudentsApi(temp);
       // this.getStudents();
     }
     else {
       this.courseIds = ids
       this.courseIds.forEach(element => {
-      temp.push(element.course_id);
-    });
+        temp.push(element.course_id);
+      });
       this.fetchStudentsApi(temp);
-         // this.getStudents();
+      // this.getStudents();
     }
   }
 
@@ -844,9 +869,9 @@ export class EditClassComponent implements OnInit {
     if (this.isProfessional) {
       let url = '';
       if (this.userType === '3') {
-        url = '/api/v1/batches/all/' + this.institution_id + '?active=Y' + '&isAllCourses=Y&isActiveNotExpire=Y';
+        url = '/api/v1/batches/all/' + this.institution_id + '?active=Y' + '&isTeacher=true&isActiveNotExpire=Y';
       } else {
-        url =  '/api/v1/batches/all/' + this.institution_id + '?active=Y&isActiveNotExpire=Y';
+        url = '/api/v1/batches/all/' + this.institution_id + '?active=Y&isActiveNotExpire=Y';
       }
       this.http_service.getData(url).subscribe(
         (data: any) => {
@@ -863,9 +888,9 @@ export class EditClassComponent implements OnInit {
     else {
       let url = '';
       if (this.userType === '3') {
-        url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y&isActiveNotExpire=Y';
+        url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y&isActiveNotExpire=Y';
       } else {
-        url =  '/api/v1/courseMaster/fetch/' + this.institution_id + '/all?isActiveNotExpire=Y';
+        url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all?isActiveNotExpire=Y';
       }
       this.http_service.getData(url).subscribe(
         (data: any) => {
@@ -884,23 +909,11 @@ export class EditClassComponent implements OnInit {
 
   getCourses(master_course_name) {
     this.selectedCourseList = [];
-    this.selectedStudentList = [];
-    if (master_course_name == null || master_course_name == '') {
-      this.courses = [];
-    }
-    else {
-      this.auth.showLoader();
-      const url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/' + master_course_name
-      this.http_service.getData(url).subscribe(
-        (data: any) => {
-          this.auth.hideLoader();
-          this.courses = data.coursesList;
-        },
-        (error: any) => {
-          this.errorMessage(error);
-          this.auth.hideLoader();
-        }
-      )
+    let tempData: any = this.masters;
+    for (let i = 0; i < tempData.length; i++) {
+      if (tempData[i].master_course === master_course_name) {
+        this.courses = tempData[i].coursesList;
+      }
     }
   }
 
@@ -931,10 +944,30 @@ export class EditClassComponent implements OnInit {
     this.auth.showLoader();
     this.getPayloadBatch.coursesArray = courseArray;
     const url = '/api/v1/courseMaster/onlineClass/fetch/users'
-    this.http_service.postData(url,this.getPayloadBatch).subscribe(
+    this.http_service.postData(url, this.getPayloadBatch).subscribe(
       (data: any) => {
         this.studentList = data.studentsAssigned;
-        console.log(data.studentsAssigned)
+        // Added by - Nalini Walunj
+        // if we change course then selected student list should be clear and if we select same course then already selected students should be seleted
+        let temp: any[] = [];
+        if(this.editData.studentIDS!=null) {
+          let studentIDS = this.editData.studentIDS.split(',')
+          let studentName = this.editData.studentName.split(',')
+          for (var i = 0; i < this.studentList.length; i++) {
+            for(var j = 0; j < studentIDS.length; j++){
+            if(this.studentList[i].student_id == studentIDS[j]){
+            let x = {
+              student_id: '',
+              student_name: ''
+            };
+            x.student_id = studentIDS[j];
+            x.student_name = studentName[j]
+            temp.push(x)
+            }
+            }
+          }
+          }
+            this.selectedStudentList = temp;
         // this.getCheckedBox(this.studentsAssigned);
         this.auth.hideLoader();
       },
@@ -988,7 +1021,7 @@ export class EditClassComponent implements OnInit {
         document.getElementById('li-two').classList.add('active');
         this.isBasicActive = false;
         this.isOtherActive = true;
-        if(this.batchesIds != null){
+        if (this.batchesIds != null) {
           this.getBatchpreFillData();
         }
         this.getStudentpreFillData();

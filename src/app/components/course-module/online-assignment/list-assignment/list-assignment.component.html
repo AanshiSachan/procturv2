@@ -65,7 +65,14 @@
           <span>Status</span>
         </div>
         <div class="list-header-item v-small-item">
-          <span>Submissions</span>
+          <span>Submissions
+            <div class="questionInfo inline-relative" style="left:0%;top:5px;">
+              <span class="qInfoIcon i-class">i</span>
+              <div class="tooltip-box-field md">
+                Status shown "Number of Students Submitted the Assignment  / Total Number of Students.
+              </div>
+            </div>
+          </span>
         </div>
         <div class="list-header-item small-item align-right" style="margin-right: 10px;">
           <span>Action</span>
@@ -86,7 +93,7 @@
             <span>{{assignment.start_date}} {{assignment.start_time}}</span>
           </div>
           <div class="list-value-item small-item" style="width: 12.5%">
-            <span>{{assignment.start_date}} {{assignment.end_time}}</span>
+            <span>{{assignment.end_date}} {{assignment.end_time}}</span>
           </div>
           <div class="list-value-item small-item">
             <span title="{{assignment?.course_name}}" >{{ (!assignment.course_name) ? '-' : (assignment.course_name.length > 20) ? (assignment.course_name | slice:0:20) + '...' : assignment.course_name}}</span>
@@ -112,7 +119,7 @@
                 <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
               </button>
               <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
-                <span class="dropdown-item" (click)="viewSubmission(assignment.file_id)" *ngIf="assignment.assignment_status == 'Published' || assignment.assignment_status == 'Under Evalution'">
+                <span class="dropdown-item" (click)="viewSubmission(assignment.file_id)" *ngIf="assignment.assignment_status == 'Published' || assignment.assignment_status == 'Under Evalution' || assignment.assignment_status == 'Pending Evaluation'">
                   <i class="fa fa-eye" style="margin-top: 3px;" aria-hidden="true"></i> View
                 </span>
                 <span class="dropdown-item" (click)="editAssignment(assignment.file_id)" *ngIf="assignment.assignment_status == 'Published' || assignment.assignment_status == 'Draft' || assignment.assignment_status == 'Scheduled'">

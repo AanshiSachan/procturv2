@@ -58,8 +58,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     HttpService
   ],
   exports: [
-    UserEnquiryComponent,
-    EditorModule
+    UserEnquiryComponent
   ]
 })
 export class LeadsModule { }

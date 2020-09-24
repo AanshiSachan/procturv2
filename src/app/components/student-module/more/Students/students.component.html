@@ -1,62 +1,70 @@
-<div class="report-wrapper clearFix">
+<div class="report-wrapper clearFix" style="height: 100vh;">
   <aside class="middle-full">
     <section class="middle-main clearFix">
 
       <div class="middle-top mb0 clearFix header">
-        <div class="report-header" style="padding-bottom:1% ; height:7vh;">
+        <div class="report-header" style="padding-bottom:1% ;">
           <h2 style="padding: 5px;" class="pull-left">
             <a routerLink="/view/students">
-             Student
+              Student
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            <span *ngIf="!isProfessional"> Archiving  Students</span>
+            <span *ngIf="!isProfessional"> Archive Students</span>
           </h2>
         </div>
       </div>
-    </section>
-    <section>
-      <div class="filter-box clearFix" style="margin: 6px 0px 6px 6px;float: right;">
-        <div id="basic-search" class="search-filter-wrapper">
-          <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()"
-            style="padding: 10px;">
+      <div class="filter-box clearFix" style="margin-top: -20px;margin-bottom: 20px;">
+        <div id="basic-search" class="search-filter-wrapper" style="float: right;margin-right: 8%;">
+          <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText"
+            name="searchData" (keyup)="searchDatabase()"
+            style="padding: 8px;border:1px solid lightgrey;border-radius: 4px;">
+        </div>
+        <div style="float: right;margin-right: -17rem;">
+          <button type="button" class="btn" value="Archive" (click)="studentsDataPost($event)">Archive</button>
         </div>
       </div>
+    </section>
+
+    <section>
+
       <div class="table table-responsive">
-        <table>
+        <table class="tableBodyScroll">
           <thead>
             <tr>
-              <th style="text-align: left;" >
+              <th style="text-align: left;padding-left: 16px;">
                 <div class="field-checkbox-wrapper" style="display: inline-block; height: 16px;">
-                  <input type="checkbox" class="form-checkbox" [(ngModel)]="checkedStatus" (ngModelChange)="getValueChanged($event)">
+                  <input type="checkbox" class="form-checkbox" [checked]="isAllChecked()"
+                    [(ngModel)]="checkedStatus" (change)="toggleAllCheckBox()">
                   <label></label>
                 </div>
-                <span (click)="sortedData('student_disp_id') "> Student ID &nbsp;</span>
+                <span (click)="sortedData('student_disp_id') "># &nbsp;&nbsp;&nbsp;Student ID &nbsp;</span>
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_disp_id') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_disp_id') && direction != 1"></i>
               </th>
-              <th style="text-align: left;" >
-                <div class="field-checkbox-wrapper"  style="display: inline-block; height: 16px;">
-                  <input type="checkbox" class="form-checkbox" [(ngModel)]="checkedAlumni" (ngModelChange)="getAlumniValue($event)">
+              <th style="text-align: left;padding-left: 15px;padding-top: 14px;">
+                <div class="field-checkbox-wrapper" style="display: inline-block; height: 16px;">
+                  <input type="checkbox" class="form-checkbox" [(ngModel)]="checkedAlumni"
+                    (ngModelChange)="getAlumniValue($event)">
                   <label></label>
                 </div>
                 Alumni
               </th>
-              <th style="text-align: left;" (click)="sortedData('student_name') ">
+              <th style="text-align: left;padding-left: 39px;" (click)="sortedData('student_name') ">
                 Student Name &nbsp;
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_name') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_name') && direction != 1"></i>
               </th>
-              <th style="text-align: right;" (click)="sortedData('student_phone') ">
+              <th style="text-align: center;padding-left: 78px;" (click)="sortedData('student_phone') ">
                 Contact No. &nbsp;
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_phone') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_phone') && direction != 1"></i>
               </th>
-              <th style="text-align: right;" (click)="sortedData('doj') ">
+              <th style="text-align: center;padding-left: 90px;" (click)="sortedData('doj') ">
                 Joining date &nbsp;
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('doj') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('doj') && direction != 1"></i>
               </th>
-              <th style="text-align: right;" (click)="sortedData('dob') ">
+              <th style="text-align: center;" (click)="sortedData('dob') ">
                 DOB &nbsp;
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('dob') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('dob') && direction != 1"></i>
@@ -67,18 +75,19 @@
             <tr *ngFor="let i of newPaginated , let j=index;">
               <td style="text-align: left;">
                 <div class="field-checkbox-wrapper" style="height: 16px;">
-                  <input type="checkbox" class="form-checkbox" [(ngModel)]="i.status" (ngModelChange)="getStatusValue($event,i)">
+                  <input type="checkbox" class="form-checkbox" [checked]="i.status" [id]="'checkbox-'+i" [(ngModel)]="i.status" (ngModelChange)="notifyMe(j)">
                   <label></label>
                 </div>
                 {{i.student_disp_id}}
               </td>
               <td class="field-wrapper" style="width:14%; text-align: left;">
-                <select class="form-ctrl" style="width:50px; " [(ngModel)]="i.alumni" (ngModelChange)="valueChange($event , i ,j)">
+                <select class="form-ctrl" style="width:50px; " [(ngModel)]="i.alumni"
+                  (ngModelChange)="valueChange($event , i ,j)">
                   <option value="Y" selected>Y</option>
                   <option value="N">N</option>
                 </select>
               </td>
-              <td style="text-align: left;">
+              <td style="text-align: center;">
                 {{i.student_name}}
               </td>
               <td style="text-align: right;">
@@ -87,13 +96,8 @@
               <td style="text-align: right;">
                 {{i.doj}}
               </td>
-              <td style="text-align: right;">
+              <td style="text-align: center;">
                 {{i.dob}}
-              </td>
-            </tr>
-            <tr>
-              <td colspan="6">
-                <input type="button" value="Archive" class="btn fullBlue" (click)="studentsDataPost($event)">
               </td>
             </tr>
           </tbody>
@@ -116,8 +120,9 @@
       </div>
       <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-            [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+            [pagesToShow]="10" [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow" [sizeArr]="sizeArr"
+            (sizeChange)="updateTableBatchSize($event)">
           </pagination>
         </div>
       </div>

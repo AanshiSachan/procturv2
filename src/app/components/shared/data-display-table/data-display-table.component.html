@@ -21,15 +21,15 @@
   </section>
 </div>
 
-<table class="tableBodyScroll" id="printDiv">
+<table class="tableBodyScroll" id="printDiv" style="margin-top: 2px;">
   <thead>
-    <tr>
+    <tr style="line-height: 24px;">
       <th *ngIf="displayKeys.selectAll.showSelectAll" class="checkBoxCss">
         <!-- <input type="checkbox" class="form-checkbox" > -->
 
         <div class="field-checkbox-wrapper">
-          <input type="checkbox" class="form-checkbox" [checked]="displayKeys.selectAll.checked"
-            (change)="toggleAllCheckBox()" id="ch2">
+          <input type="checkbox" style="cursor: pointer;" class="form-checkbox"
+            [checked]="displayKeys.selectAll.checked" (change)="toggleAllCheckBox()" id="ch2">
           <label for="ch2"></label>
         </div>
       </th>
@@ -55,7 +55,8 @@
     <tr *ngFor="let data of recordsTrimmed ; let i=index" (click)="rowClick(i)" [id]="'editTableRow-'+i">
       <td *ngIf="displayKeys.selectAll.showSelectAll" class="checkBoxCss">
         <div class="field-checkbox-wrapper">
-          <input type="checkbox" class="form-checkbox" [checked]="data.checked"
+          <input type="checkbox" class="form-checkbox" style="cursor: pointer;" [checked]="data.checked"
+            [(ngModel)]="data.checked" (ngModelChange)="checkboxVal(data)"
             (change)="toggleCheckbox($event,data,displayKeys.selectAll.key)" [id]="'checkbox-'+i">
           <label [for]="'checkbox-'+i"></label>
         </div>
@@ -111,14 +112,18 @@
 
         <ng-template [ngIf]="displayKeys.actionSetting.isEditRowShow &&isEditRow!='editTableRow-'+i">
           <ng-container *ngFor="let option of displayKeys.actionSetting.options">
-            <button class="button" *ngIf="checkCondition(data)"
-              (click)="editRow('editTableRow-'+i,data,option.optionType)">{{option.title}}</button>
+            <i class="fa fa-pencil" style="color: #0084f6;" aria-hidden="true" *ngIf="checkCondition(data)"
+              (click)="editRow('editTableRow-'+i,data,option.optionType)"></i>
+            <!-- <button class="button" *ngIf="checkCondition(data)"
+              (click)="editRow('editTableRow-'+i,data,option.optionType)">{{option.title}}</button> -->
           </ng-container>
         </ng-template>
-
-        <button class="button"
+        <i class="fa fa-pencil" style="color: #0084f6;" aria-hidden="true"
           *ngIf="(!displayKeys.actionSetting.isEditRowShow) &&displayKeys.actionSetting.editOption=='button'&& checkCondition(data)"
-          (click)="editRow('editTableRow-'+i,data)">{{ displayKeys.actionSetting.options[0].title}}</button>
+          (click)="editRow('editTableRow-'+i,data)"></i>
+        <!-- <button class="button"
+          *ngIf="(!displayKeys.actionSetting.isEditRowShow) &&displayKeys.actionSetting.editOption=='button'&& checkCondition(data)"
+          (click)="editRow('editTableRow-'+i,data)">{{ displayKeys.actionSetting.options[0].title}}</button> -->
         <div style="padding: 15px;font-size: 16px;font-weight: 500;"
           *ngIf="displayKeys.actionSetting.editOption=='icon'">
           <ng-template [ngIf]="true">
@@ -150,8 +155,10 @@
         style="  background: rgba(211, 212, 213, 0.5);">
         <ng-template [ngIf]="displayKeys.actionSetting.editOption=='button'">
           <ng-container *ngFor="let option of displayKeys.actionSetting.editOptions">
-            <button class="button" *ngIf="checkCondition(data)"
-              (click)="editRow('editTableRow-'+i,data,option.optionType)">{{option.title}}</button>
+            <i class="fa fa-pencil" style="color: #0084f6;" *ngIf="checkCondition(data)" aria-hidden="true"
+              (click)="editRow('editTableRow-'+i,data,option.optionType)"></i>
+            <!-- <button class="button" *ngIf="checkCondition(data)"
+              (click)="editRow('editTableRow-'+i,data,option.optionType)">{{option.title}}</button> -->
           </ng-container>
         </ng-template>
         <drop-menu *ngIf="displayKeys.actionSetting.editOption!='button'" [dropType]="dropType" [info]="data"
@@ -165,13 +172,16 @@
     </tr>
 
     <ng-template [ngIf]="recordsTrimmed.length==0">
-      <div class="schedule-scroller">
+      <div class="illustration-container">
+        <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
+      </div>
+      <!-- <div class="schedule-scroller">
         <ul class="ulCss ul-body ct-ongoing">
           <li style="width: 100%;">
             <label style="font-size: 16px;font-weight: 600;">{{displayKeys.displayMessage}}</label>
           </li>
         </ul>
-      </div>
+      </div> -->
     </ng-template>
   </tbody>
 </table>

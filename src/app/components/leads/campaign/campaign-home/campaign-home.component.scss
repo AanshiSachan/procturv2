@@ -4,6 +4,35 @@
     width: 100%;
     box-sizing: border-box;
 }
+th{
+    background-color: #e0eaec;
+    color: black;
+}
+tr {
+    border-radius: 12px;
+    border-left: 5px solid #e0eaec;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.tableBodyScoll tbody {
+    display: block;
+    overflow-y: auto;
+    background: #ffffff;
+  
+}
+.tableBodyScoll thead,
+tbody tr {
+    display: table;
+   width : 100%;
+    table-layout: fixed;
+}
+.tableBodyScroll thead,
+tbody tr {
+    display: table;
+   width: 100%;
+    table-layout: fixed;
+}
 
 .search-filter-wrapper {
     .normal-field {
@@ -22,6 +51,30 @@
         box-sizing: border-box;
         float: left;
         cursor: pointer;
+    }
+    .add-class-btn{
+        border: 1px solid #3a66fa;
+        border-radius: 4px;
+        box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+        padding: 4px 10px;
+        background: white;
+        color: #1283f4;
+        font-weight: 600;
+        height: 30px;
+        margin-left: 15px;
+    }
+    #btnNewSmsAdd{
+        border: 1px solid #3a66fa;
+        border-radius: 4px;
+        box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+        padding: 4px 10px;
+        background: white;
+        color: #1283f4;
+        font-weight: 600;
+        height: 30px;
+        margin-left: 15px;
+        margin-bottom: 5px;
+        margin-top: 5px;
     }
     .field-wrapper {
         position: relative;
@@ -96,8 +149,8 @@
     .enquiry-table {
         overflow-y: visible;
         overflow-x: visible;
-        max-height: 76vh;
-        min-height: 76vh;
+        // max-height: 76vh;
+        // min-height: 76vh;
         table {
             .field-checkbox-wrapper {
                 width: 30px !important;
@@ -187,13 +240,21 @@
         }
     }
 }
-
+.tableBodyScroll tbody {
+    display: block;
+    // max-height: 70vh;
+    // min-height: 70vh;
+    overflow-y: auto;
+    background: #ffffff;
+    // border-radius: 4px;
+    // border-radius: 1px solid rgba(211, 212, 213, 0.5);
+}
 .middle-main {
     margin-top: 10px;
     position: relative;
-    max-height: 88vh;
+    // max-height: 88vh;
     overflow: hidden;
-    min-height: 88vh;
+    // min-height: 88vh;
     &:before {
         content: '';
         position: absolute;
@@ -223,8 +284,8 @@
     }
     .table-wrapper {
         padding: 0px 2px 0px 2px;
-        max-height: 80vh;
-        min-height: 80vh;
+        // max-height: 80vh;
+        // min-height: 80vh;
         overflow-x: hidden;
         overflow-y: auto;
     }
@@ -391,7 +452,9 @@
         margin: 0px 0px;
     }
 }
-
+th{
+    padding: 7px;
+}
 .closePopup {
     right: 10px;
     top: 10px;
@@ -527,7 +590,7 @@
     display: flex !important;
     overflow-x: hidden;
     overflow-y: auto;
-    background: #efefef;
+    background: white;
     padding: 10px;
     .form-ctrl{
         background: transparent;
@@ -686,6 +749,7 @@
   color: red;
 }
 .promotion-popup-content {
+    border: 1px solid lightgrey;
     width: 100%;
     max-height: 500px;
     overflow: auto;
@@ -694,7 +758,7 @@
     }
     .addSection {
         padding: 10px 20px;
-        background: #efefef;
+        background: white;
         margin: 10px 0px;
         textarea {
             height: 50px;
@@ -764,7 +828,7 @@
 }
 
 .sms-popup-content-wrapper {
-    height: 450px;
+    height: 422px;
     ::-webkit-scrollbar {
         display: block;
     }
@@ -785,7 +849,7 @@ table {
     &.camp-table {
         tr {
             td {
-                padding: 15px;
+                // padding: 15px;
                 font-size: 14px;
                 border-bottom: none;
             }
