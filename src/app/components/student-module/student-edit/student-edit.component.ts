@@ -309,7 +309,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   selectedData = {
     country: '',
     state: '',
-    city:''
+    city: ''
   };
 
   constructor(
@@ -399,31 +399,18 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
 
-<<<<<<< HEAD
-  getStateList(){
-    if(this.studentAddFormData.country_id != ""){
+  getStateList() {
+    if (this.studentAddFormData.country_id != "") {
       const url = `/api/v1/country/state?country_ids=${this.country_id}`
-       this.auth.showLoader();
+      this.auth.showLoader();
       this.httpService.getData(url).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          if(res.result.length > 0){
+          if (res.result.length > 0) {
             this.stateList = res.result[0].stateList;
-            if(this.studentAddFormData.state_id != ""){
+            if (this.studentAddFormData.state_id != "") {
               this.getCityList();
             }
-=======
-  getStateList() {
-    const url = `/api/v1/country/state?country_ids=${this.country_id}`
-    this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if (res.result.length > 0) {
-          this.stateList = res.result[0].stateList;
-          if (this.studentAddFormData.state_id != "") {
-            this.getCityList();
->>>>>>> customField
           }
         },
         err => {
@@ -435,31 +422,18 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   // get city list as per state selection
-<<<<<<< HEAD
-  getCityList(){
-    if(this.studentAddFormData.state_id != "-1" && this.studentAddFormData.state_id != ""){
+  getCityList() {
+    if (this.studentAddFormData.state_id != "-1" && this.studentAddFormData.state_id != "") {
       const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
-       this.auth.showLoader();
+      this.auth.showLoader();
       this.httpService.getData(url).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          if(res.result.length > 0){
+          if (res.result.length > 0) {
             this.cityList = res.result[0].cityList;
-            if(this.studentAddFormData.city_id != ""){
+            if (this.studentAddFormData.city_id != "") {
               this.getAreaList();
             }
-=======
-  getCityList() {
-    const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
-    this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if (res.result.length > 0) {
-          this.cityList = res.result[0].cityList;
-          if (this.studentAddFormData.city_id != "") {
-            this.getAreaList();
->>>>>>> customField
           }
         },
         err => {
@@ -470,31 +444,20 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
 
-<<<<<<< HEAD
-  getAreaList(){
-    if(this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != ""){
+  getAreaList() {
+    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "") {
       const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
-       this.auth.showLoader();
-       this.httpService.getData(url).subscribe(
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          if(res.result&&res.result.length > 0){
+          if (res.result && res.result.length > 0) {
             this.areaList = res.result[0].areaList;
           }
         },
         err => {
           this.auth.hideLoader();
           this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-=======
-  getAreaList() {
-    const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
-    this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if (res.result && res.result.length > 0) {
-          this.areaList = res.result[0].areaList;
->>>>>>> customField
         }
       )
     }
