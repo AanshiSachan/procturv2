@@ -231,7 +231,7 @@ export class EnquiryHomeComponent implements OnInit {
         status: -1,
         // filtered_statuses: "",
         follow_type: "",
-        followUpDate: this.getDateFormated(null, 'MM-DD-YYYY'),
+        followUpDate: this.getDateFormated(null, 'YYYY-MM-DD'),
         enquiry_date: "",
         assigned_to: -1,
         standard_id: -1,

@@ -186,13 +186,13 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
         }
 
         if (res.followUpDate != "" && res.followUpDate != null && res.followUpDate != "Invalid date") {
-          this.updateFormData.followUpDate = res.followUpDate;
+          this.updateFormData.followUpDate = moment(res.followUpDate).format("MM-DD-YYYY");
         }
 
         // Walkin Date And Time Validation
 
         if (res.walkin_followUpDate != "" && res.walkin_followUpDate != "Invalid date" && res.walkin_followUpDate != null) {
-          this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
+          this.updateFormData.walkin_followUpDate = moment(res.walkin_followUpDate).format("MM-DD-YYYY");
         }
 
         if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null && res.walkin_followUpTime != ": ") {
@@ -317,7 +317,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
   // Update And Admit
   updateRegisterEnquiry() {
     this.updateFormData.follow_type = "Walkin";
-    this.updateFormData.walkin_followUpDate = moment(new Date()).format('MM-DD-YYYY');
+    this.updateFormData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
     this.updateFormData.walkin_followUpTime = this.commonService.getCurrentTImeForDropDown();
     if (this.updateFormData.walkin_followUpTime != '' && this.updateFormData.walkin_followUpTime != null) {
       this.pushUpdatedEnquiry(true);
@@ -353,13 +353,13 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
     /// Date conversion given by user
 
     if (this.updateFormData.followUpDate != "" && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid date") {
-      this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('MM-DD-YYYY');
+      this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
     } else {
       this.updateFormData.followUpDate = "";
     }
 
     if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null && this.updateFormData.walkin_followUpDate != "Invalid date") {
-      this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('MM-DD-YYYY');
+      this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
     } else {
       this.updateFormData.walkin_followUpDate = "";
     }

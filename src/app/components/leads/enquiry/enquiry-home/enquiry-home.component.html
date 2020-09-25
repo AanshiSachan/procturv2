@@ -1,99 +1,88 @@
 <div class="middle-section clearFix" id="enquiryList" #enquiryManager>
-  <!-- Main View -->
-  <aside class="middle-full" #enqPage>
-    <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;">
+    <!-- Main View -->
+    <aside class="middle-full" #enqPage>
+        <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;">
 
-      <h1 class="pull-left">
-        <a routerLink="/view/leads" style="padding:0px;">
+            <h1 class="pull-left">
+                <a routerLink="/view/leads" style="padding:0px;">
           Lead
         </a>
-        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-        Enquiry List
-        <a class="hide" id="enq_download"></a>
-      </h1>
-      <!-- </section> -->
-      <!-- Navigation to other tabs -->
-      <!-- <section class="middle-top mb0 clearFix"> -->
-      <!-- <h1 class="pull-left">
+                <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Enquiry List
+                <a class="hide" id="enq_download"></a>
+            </h1>
+            <!-- </section> -->
+            <!-- Navigation to other tabs -->
+            <!-- <section class="middle-top mb0 clearFix"> -->
+            <!-- <h1 class="pull-left">
         Enquiry List
         <a class="hide" id="enq_download"></a>
       </h1> -->
 
-      <aside class="headEnq pull-right">
+            <aside class="headEnq pull-right">
 
-        <div class="btn-container">
-          <div class="btn-item">
-            <p-splitButton label="{{varJson.selectedRowCount}} Enquiry Selected" [model]="bulkAddItems"
-              *ngIf="varJson.selectedRowCount != 0"></p-splitButton>
-          </div>
-          <div class="btn-item">
-            <button type="button" class="add-class-btn pull-right" name="button" routerLink='/view/leads/add'>
+                <div class="btn-container">
+                    <div class="btn-item">
+                        <p-splitButton label="{{varJson.selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="varJson.selectedRowCount != 0"></p-splitButton>
+                    </div>
+                    <div class="btn-item">
+                        <button type="button" class="add-class-btn pull-right" name="button" routerLink='/view/leads/add'>
               <i class="fa fa-plus" aria-hidden="true"></i>
               &nbsp; Add Enquiry
             </button>
-          </div>
-          <div class="btn-item" *ngIf="permission">
-            <button type="button" class="add-class-btn pull-right" name="button"
-              (click)="flagJSON.isEnquiryOptions = !flagJSON.isEnquiryOptions">
+                    </div>
+                    <div class="btn-item" *ngIf="permission">
+                        <button type="button" class="add-class-btn pull-right" name="button" (click)="flagJSON.isEnquiryOptions = !flagJSON.isEnquiryOptions">
               More &nbsp;
               <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
             </button>
-            <div class="more-info-container" [ngClass]="{'visibiltyClass':(flagJSON.isEnquiryAdmin == false)}"
-              *ngIf="flagJSON.isEnquiryOptions" (mouseleave)="flagJSON.isEnquiryOptions = false" #optMenu>
-              <div class="more-info-item" (click)="downloadAllEnquiries()" *ngIf="downloadEnquiryReportAccess">
-                <i class="fa fa-file-excel-o" aria-hidden="true"></i>
-                &nbsp;
-                <span>Export</span>
-              </div>
-              <div class="more-info-item" routerLink="upload" *ngIf="showBulkUpload">
-                <i class="fa fa-upload" aria-hidden="true"></i>
-                &nbsp;
-                <span>Upload Enquiry</span>
-              </div>
-              <div *ngIf="varJson.showDownloadSummary && downloadEnquiryReportAccess" class="more-info-item"
-                (click)="downloadSummaryReport()" style="border-bottom: none;">
-                <i class="fa fa-download" aria-hidden="true"></i>
-                &nbsp;
-                <span>Download Summary Report</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </aside>
-
-    </section>
-
-    <!-- Enquiry Page Start here -->
-    <section class="middle-main clearFix" id="middleMainForEnquiryList" style="border-top: 1px solid lightgrey;">
-      <!-- Search bar and Advance Filter -->
-      <section class="common-search-filter" id="searchFilter">
-        <div class="filter-search">
-          <div class="filter-box clearFix">
-            <!-- Search Bar -->
-            <div class="row">
-              <div class="c-lg-5 c-md-5 c-sm-5 pull-left" style="padding-right: 0;">
-                <div class="search-filter-wrapper" id="adFilterExitVisible">
-                  <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No."
-                    style="font-size:12px; margin: 0px 5px 0px -5px;" [(ngModel)]="varJson.searchBarData"
-                    name="searchData" (keyup.enter)="searchDatabase()" id="searchBarData">
-                  <input type="button" class="fullBlue btn" value="Search" (click)="searchDatabase()"
-                    id="btnSearchData" />
+                        <div class="more-info-container" [ngClass]="{'visibiltyClass':(flagJSON.isEnquiryAdmin == false)}" *ngIf="flagJSON.isEnquiryOptions" (mouseleave)="flagJSON.isEnquiryOptions = false" #optMenu>
+                            <div class="more-info-item" (click)="downloadAllEnquiries()" *ngIf="downloadEnquiryReportAccess">
+                                <i class="fa fa-file-excel-o" aria-hidden="true"></i> &nbsp;
+                                <span>Export</span>
+                            </div>
+                            <div class="more-info-item" routerLink="upload" *ngIf="showBulkUpload">
+                                <i class="fa fa-upload" aria-hidden="true"></i> &nbsp;
+                                <span>Upload Enquiry</span>
+                            </div>
+                            <div *ngIf="varJson.showDownloadSummary && downloadEnquiryReportAccess" class="more-info-item" (click)="downloadSummaryReport()" style="border-bottom: none;">
+                                <i class="fa fa-download" aria-hidden="true"></i> &nbsp;
+                                <span>Download Summary Report</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
+            </aside>
+
+        </section>
+
+        <!-- Enquiry Page Start here -->
+        <section class="middle-main clearFix" id="middleMainForEnquiryList" style="border-top: 1px solid lightgrey;">
+            <!-- Search bar and Advance Filter -->
+            <section class="common-search-filter" id="searchFilter">
+                <div class="filter-search">
+                    <div class="filter-box clearFix">
+                        <!-- Search Bar -->
+                        <div class="row">
+                            <div class="c-lg-5 c-md-5 c-sm-5 pull-left" style="padding-right: 0;">
+                                <div class="search-filter-wrapper" id="adFilterExitVisible">
+                                    <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;" [(ngModel)]="varJson.searchBarData" name="searchData" (keyup.enter)="searchDatabase()" id="searchBarData">
+                                    <input type="button" class="fullBlue btn" value="Search" (click)="searchDatabase()" id="btnSearchData" />
+                                </div>
+                            </div>
 
 
-              <!-- Quick Filter -->
-              <div class="c-lg-3 c-md-3 c-sm-3 pull-left" style="right: 2%;">
-                <div id="qfilt">
-                  <quick-filter [inputList]="statFilter" (selectedValue)="statusFilter($event)" [modelName]="'enqList'">
-                  </quick-filter>
-                </div>
-              </div>
+                            <!-- Quick Filter -->
+                            <div class="c-lg-3 c-md-3 c-sm-3 pull-left" style="right: 2%;">
+                                <div id="qfilt">
+                                    <quick-filter [inputList]="statFilter" (selectedValue)="statusFilter($event)" [modelName]="'enqList'">
+                                    </quick-filter>
+                                </div>
+                            </div>
 
 
-              <!-- Advance Filter Trigger -->
-              <div class="c-lg-3 c-md-3 c-sm-3" style="left: 7%;">
-                <span class="filter-right" style="float: right;margin-right: 33px;margin-top: 4px;">
+                            <!-- Advance Filter Trigger -->
+                            <div class="c-lg-3 c-md-3 c-sm-3" style="left: 7%;">
+                                <span class="filter-right" style="float: right;margin-right: 33px;margin-top: 4px;">
 
                   <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advance
                     Filter&nbsp;
@@ -141,12 +130,11 @@
                     Close Advance Filter
                   </a>
                 </span>
-                <section id="customizableTableSection" class="login-tube" style="position: absolute;right: 7px;">
-                  <!-- <div> -->
-                  <i class="fa fa-eye-slash" (click)="openPreferences()"
-                    style="font-family: 'FontAwesome' ; display: inline-block;font-size: 28px;cursor: pointer;color: blue;"></i>
-                  <!-- </div> -->
-                  <!-- <nav style="margin-top: 10px;">
+                                <section id="customizableTableSection" class="login-tube" style="position: absolute;right: 7px;">
+                                    <!-- <div> -->
+                                    <i class="fa fa-eye-slash" (click)="openPreferences()" style="font-family: 'FontAwesome' ; display: inline-block;font-size: 28px;cursor: pointer;color: blue;"></i>
+                                    <!-- </div> -->
+                                    <!-- <nav style="margin-top: 10px;">
                   <ul class="login-nav">
                     <li class="pos-rel">
                       <i class="icons">
@@ -167,204 +155,181 @@
                     </li>
                   </ul>
                 </nav> -->
-                </section>
-              </div>
-            </div>
-          </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
 
-          <!-- Advance Filter Div Element -->
-          <div class="AdFilter-field container hide" id="advanced-filter-section">
+                    <!-- Advance Filter Div Element -->
+                    <div class="AdFilter-field container hide" id="advanced-filter-section">
 
-            <div class="row">
-              <!-- Status -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <label for="enquiryStatus">Enquiry Status</label>
-                  <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses"
-                    name="status" style="border-radius: 4px;">
+                        <div class="row">
+                            <!-- Status -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <label for="enquiryStatus">Enquiry Status</label>
+                                    <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses" name="status" style="border-radius: 4px;">
                     <option value=""></option>
                     <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
                   </select>
 
-                </div>
-              </div>
+                                </div>
+                            </div>
 
-              <!-- Campaigns -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.list_id != '-1' }">
-                  <label for="campaignList">Campaigns</label>
-                  <select id="campaignList" class="form-ctrl" [(ngModel)]="advancedFilterForm.list_id" name="campaign"
-                    style="border-radius: 4px;">
+                            <!-- Campaigns -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.list_id != '-1' }">
+                                    <label for="campaignList">Campaigns</label>
+                                    <select id="campaignList" class="form-ctrl" [(ngModel)]="advancedFilterForm.list_id" name="campaign" style="border-radius: 4px;">
                     <option value="-1"></option>
                     <option *ngFor="let campaign of campaignList" [value]="campaign.list_id">{{campaign.list_name}}
                     </option>
                   </select>
-                </div>
-              </div>
+                                </div>
+                            </div>
 
-              <!-- Priority -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <label for="enquiryPriority">Enquiry Priority</label>
-                  <select id="enquiryPriority" class="form-ctrl" style="border-radius: 4px;"
-                    [(ngModel)]="advancedFilterForm.priority" name="priority">
+                            <!-- Priority -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <label for="enquiryPriority">Enquiry Priority</label>
+                                    <select id="enquiryPriority" class="form-ctrl" style="border-radius: 4px;" [(ngModel)]="advancedFilterForm.priority" name="priority">
                     <option></option>
                     <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
                       {{priority.data_value}}
                     </option>
                   </select>
 
-                </div>
-              </div>
-            </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="row">
-              <!-- Followup Type -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <label for="followupType">Enquiry Follow up Type</label>
-                  <select id="followupType" class="form-ctrl" style="border-radius: 4px;"
-                    [(ngModel)]="advancedFilterForm.follow_type" name="followType">
+                        <div class="row">
+                            <!-- Followup Type -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <label for="followupType">Enquiry Follow up Type</label>
+                                    <select id="followupType" class="form-ctrl" style="border-radius: 4px;" [(ngModel)]="advancedFilterForm.follow_type" name="followType">
                     <option></option>
                     <option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
                       {{ follow.data_value }}
                     </option>
                   </select>
-                </div>
-              </div>
+                                </div>
+                            </div>
 
-              <!-- Update Date From -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox">
-                  <label for="enquiryDateTo">Enquiry Changes From</label>
-                  <input type="text" value="" id="enquiryDateTo" style="border-radius: 4px;"
-                    class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.updateDateFrom"
-                    name="enquiryDateTo" readonly="true" bsDatepicker />
+                            <!-- Update Date From -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper datePickerBox">
+                                    <label for="enquiryDateTo">Enquiry Changes From</label>
+                                    <input type="text" value="" id="enquiryDateTo" style="border-radius: 4px;" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.updateDateFrom" name="enquiryDateTo" readonly="true" bsDatepicker />
 
-                  <span class="date-clear" name="followupdate"
-                    (click)="advancedFilterForm.updateDateFrom = ''">clear</span>
-                </div>
-              </div>
+                                    <span class="date-clear" name="followupdate" (click)="advancedFilterForm.updateDateFrom = ''">clear</span>
+                                </div>
+                            </div>
 
-              <!-- Update Date To -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox">
-                  <label for="enquiryDateFrom">Enquiry Changes To</label>
-                  <input type="text" value="" id="enquiryDateFrom" style="border-radius: 4px;"
-                    class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.updateDateTo"
-                    name="enquiryDateFrom" readonly="true" bsDatepicker />
+                            <!-- Update Date To -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper datePickerBox">
+                                    <label for="enquiryDateFrom">Enquiry Changes To</label>
+                                    <input type="text" value="" id="enquiryDateFrom" style="border-radius: 4px;" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.updateDateTo" name="enquiryDateFrom" readonly="true" bsDatepicker />
 
-                  <span class="date-clear" name="followupdate"
-                    (click)="advancedFilterForm.updateDateTo = ''">clear</span>
-                </div>
-              </div>
-            </div>
+                                    <span class="date-clear" name="followupdate" (click)="advancedFilterForm.updateDateTo = ''">clear</span>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="row">
-              <!-- Enquiry From Date -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox">
-                  <label for="enquiryFromDate">Enquiry From Date</label>
-                  <input type="text" value="" id="enquiryFromDate" style="border-radius: 4px;"
-                    class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.enquireDateFrom"
-                    name="EFD" bsDatepicker readonly="true" />
+                        <div class="row">
+                            <!-- Enquiry From Date -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper datePickerBox">
+                                    <label for="enquiryFromDate">Enquiry From Date</label>
+                                    <input type="text" value="" id="enquiryFromDate" style="border-radius: 4px;" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.enquireDateFrom" name="EFD" bsDatepicker readonly="true" />
 
-                  <span class="date-clear" name="followupdate" (click)="clearFilterType('enquireDateFrom')">clear</span>
-                </div>
-              </div>
+                                    <span class="date-clear" name="followupdate" (click)="clearFilterType('enquireDateFrom')">clear</span>
+                                </div>
+                            </div>
 
-              <!-- Enquiry To Date -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox">
-                  <label for="enquiryToDate">Enquiry To Date</label>
-                  <input type="text" value="" id="enquiryToDate" style="border-radius: 4px;"
-                    class="form-ctrl bsDatepicker dateFormat " [(ngModel)]="advancedFilterForm.enquireDateTo" name="ETD"
-                    bsDatepicker readonly="true" />
+                            <!-- Enquiry To Date -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper datePickerBox">
+                                    <label for="enquiryToDate">Enquiry To Date</label>
+                                    <input type="text" value="" id="enquiryToDate" style="border-radius: 4px;" class="form-ctrl bsDatepicker dateFormat " [(ngModel)]="advancedFilterForm.enquireDateTo" name="ETD" bsDatepicker readonly="true" />
 
-                  <span class="date-clear" name="followupdate" (click)="clearFilterType('enquireDateTo')">clear</span>
-                </div>
-              </div>
+                                    <span class="date-clear" name="followupdate" (click)="clearFilterType('enquireDateTo')">clear</span>
+                                </div>
+                            </div>
 
-              <!-- Follow Up Date -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox">
-                  <label for="followDate">Follow-Up Date</label>
-                  <input type="text" value="" id="followDate" style="border-radius: 4px;"
-                    class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.followUpDate" name="FD"
-                    readonly="true" bsDatepicker />
+                            <!-- Follow Up Date -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper datePickerBox">
+                                    <label for="followDate">Follow-Up Date</label>
+                                    <input type="text" value="" id="followDate" style="border-radius: 4px;" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.followUpDate" name="FD" readonly="true" bsDatepicker />
 
-                  <span class="date-clear" name="followupdate" (click)="clearFilterType('followUpDate')">clear</span>
-                </div>
-              </div>
-            </div>
+                                    <span class="date-clear" name="followupdate" (click)="clearFilterType('followUpDate')">clear</span>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="row" *ngIf="flagJSON.isProfessional">
-              <!-- master Professional -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <label for="editStandard">Master Course</label>
-                  <select id="editStandard" class="form-ctrl" style="border-radius: 4px;"
-                    [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchEnquirySubject($event)"
-                    name="editStandard">
+                        <div class="row" *ngIf="flagJSON.isProfessional">
+                            <!-- master Professional -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <label for="editStandard">Master Course</label>
+                                    <select id="editStandard" class="form-ctrl" style="border-radius: 4px;" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchEnquirySubject($event)" name="editStandard">
                     <option value="-1"></option>
                     <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                   </select>
-                </div>
-              </div>
+                                </div>
+                            </div>
 
-              <!-- course Professional -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <label for="forSubject">Course</label>
-                  <select id="forSubject" class="form-ctrl form-ctrl-multiple" style="border-radius: 4px;"
-                    [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject" multiple>
+                            <!-- course Professional -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <label for="forSubject">Course</label>
+                                    <select id="forSubject" class="form-ctrl form-ctrl-multiple" style="border-radius: 4px;" [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject" multiple>
 
                     <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">{{subject.subject_name}}
                     </option>
                   </select>
-                </div>
-              </div>
-              <!-- Slot -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
-                  <label for="assignCourses">Slots</label>
-                  <input id="slot" type="text" [ngModel]="varJson.selectedSlotsString" name="slots"
-                    style="border-radius: 4px;" class="form-ctrl" readonly="true" />
+                                </div>
+                            </div>
+                            <!-- Slot -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                                    <label for="assignCourses">Slots</label>
+                                    <input id="slot" type="text" [ngModel]="varJson.selectedSlotsString" name="slots" style="border-radius: 4px;" class="form-ctrl" readonly="true" />
 
-                </div>
-                <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
-                  <div class="multiselect-wrapper-inner">
-                    <ul class="">
-                      <li *ngFor="let slot of slots">
-                        <div class="field-checkbox-wrapper">
+                                </div>
+                                <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
+                                    <div class="multiselect-wrapper-inner">
+                                        <ul class="">
+                                            <li *ngFor="let slot of slots">
+                                                <div class="field-checkbox-wrapper">
 
-                          <input type="checkbox" value="" name="slotLabel" style="border-radius: 4px;"
-                            [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox"
-                            id="slotLabel">
-                          <label for="slotLabel">{{slot.label}}</label>
+                                                    <input type="checkbox" value="" name="slotLabel" style="border-radius: 4px;" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox" id="slotLabel">
+                                                    <label for="slotLabel">{{slot.label}}</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="row">
-              <!-- Institute List  -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id != '-1' }">
-                  <label for="schoolList">Institute Name</label>
-                  <select id="schoolList" class="form-ctrl" style="border-radius: 4px;"
-                    [(ngModel)]="advancedFilterForm.school_id" name="school">
+                        <div class="row">
+                            <!-- Institute List  -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id != '-1' }">
+                                    <label for="schoolList">Institute Name</label>
+                                    <select id="schoolList" class="form-ctrl" style="border-radius: 4px;" [(ngModel)]="advancedFilterForm.school_id" name="school">
                     <option value="-1"></option>
                     <option *ngFor="let school of schools" [value]="school.school_id">{{school.school_name}}</option>
                   </select>
-                </div>
-              </div>
+                                </div>
+                            </div>
 
-              <!-- City List  -->
-              <!-- <div class="c-lg-4 c-md-4 c-sm-4">
+                            <!-- City List  -->
+                            <!-- <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="cityList">City</label>
                   <select id="cityList" class="form-ctrl" [(ngModel)]="advancedFilterForm.city" name="cityList" (ngModelChange)="onCitySelection($event)">
@@ -374,8 +339,8 @@
                 </div>
               </div> -->
 
-              <!-- Area List  -->
-              <!-- <div class="c-lg-4 c-md-4 c-sm-4">
+                            <!-- Area List  -->
+                            <!-- <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <label for="areaList">Area</label>
                   <select id="areaList" class="form-ctrl" [(ngModel)]="advancedFilterForm.area" name="areaList">
@@ -384,144 +349,134 @@
                   </select>
                 </div>
               </div> -->
-              <!-- Assigned -->
-              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="flagJSON.isEnquiryAdmin">
-                <div class="field-wrapper">
-                  <label for="assignTo">Assign To</label>
-                  <select id="assignTo" class="form-ctrl" style="border-radius: 4px;"
-                    [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo">
+                            <!-- Assigned -->
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="flagJSON.isEnquiryAdmin">
+                                <div class="field-wrapper">
+                                    <label for="assignTo">Assign To</label>
+                                    <select id="assignTo" class="form-ctrl" style="border-radius: 4px;" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo">
                     <option></option>
                     <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
                       {{ assigned.name }}
                     </option>
                   </select>
 
-                </div>
-              </div>
+                                </div>
+                            </div>
 
-              <!-- Lead Sources  -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.id == '-1' }">
-                  <label for="sourceList">Source</label>
-                  <select id="sourceList" class="form-ctrl" style="border-radius: 4px;"
-                    [(ngModel)]="advancedFilterForm.source_id" name="source">
+                            <!-- Lead Sources  -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.id == '-1' }">
+                                    <label for="sourceList">Source</label>
+                                    <select id="sourceList" class="form-ctrl" style="border-radius: 4px;" [(ngModel)]="advancedFilterForm.source_id" name="source">
                     <option value="-1"></option>
                     <option *ngFor="let source of sources" [value]="source.id">{{source.name}}</option>
                   </select>
-                </div>
-              </div>
-            </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="row">
+                        <div class="row">
 
-              <!-- Referred By -->
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <label for="ReferredBy">Referred By</label>
-                  <select id="ReferredBy" class="form-ctrl" style="border-radius: 4px;"
-                    [(ngModel)]="advancedFilterForm.referred_by" name="referred_by">
+                            <!-- Referred By -->
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <label for="ReferredBy">Referred By</label>
+                                    <select id="ReferredBy" class="form-ctrl" style="border-radius: 4px;" [(ngModel)]="advancedFilterForm.referred_by" name="referred_by">
                     <option value="-1"></option>
                     <option *ngFor="let source of referredByData" [value]="source.id">{{source.name}}</option>
                   </select>
-                </div>
-              </div>
+                                </div>
+                            </div>
 
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.country_id != ''}">
-                  <label for="state">Country</label>
-                  <select id="state" class="form-ctrl" style="border-radius: 4px;"
-                    [(ngModel)]="advancedFilterForm.country_id" name="state" (ngModelChange)="getStateList()">
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.country_id != ''}">
+                                    <label for="state">Country</label>
+                                    <select id="state" class="form-ctrl" style="border-radius: 4px;" [(ngModel)]="advancedFilterForm.country_id" name="state" (ngModelChange)="getStateList()">
                     <option value="-1">Select Country</option>
                     <option title="{{country.country_name}}" [value]="country.id" *ngFor="let country of countryList">
                       {{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}
                     </option>
                   </select>
-                </div>
-              </div>
+                                </div>
+                            </div>
 
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.state_id != ''}">
-                  <label for="state">State</label>
-                  <select id="state" class="form-ctrl" style="border-radius: 4px;"
-                    [(ngModel)]="advancedFilterForm.state_id" name="state" (ngModelChange)="getCityList()">
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.state_id != ''}">
+                                    <label for="state">State</label>
+                                    <select id="state" class="form-ctrl" style="border-radius: 4px;" [(ngModel)]="advancedFilterForm.state_id" name="state" (ngModelChange)="getCityList()">
                     <option value="-1">Select State</option>
                     <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">
                       {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}
                     </option>
                   </select>
-                </div>
-              </div>
-            </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="row">
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.city_id != ''}">
-                  <label for="city">City</label>
-                  <select id="city" class="form-ctrl" [(ngModel)]="advancedFilterForm.city_id" name="city"
-                    style="border-radius: 4px;" (ngModelChange)="getAreaList()">
+                        <div class="row">
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.city_id != ''}">
+                                    <label for="city">City</label>
+                                    <select id="city" class="form-ctrl" [(ngModel)]="advancedFilterForm.city_id" name="city" style="border-radius: 4px;" (ngModelChange)="getAreaList()">
                     <option value="-1">Select City</option>
                     <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityDetails">
                       {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}
                     </option>
                   </select>
-                </div>
-              </div>
-            </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="row">
-              <!-- masterCourse course -->
-              <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <label for="editMc">Master Course</label>
-                  <select id="editMc" class="form-ctrl" name="editMc" style="border-radius: 4px;"
-                    [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="courseMasterChange($event)">
+                        <div class="row">
+                            <!-- masterCourse course -->
+                            <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <label for="editMc">Master Course</label>
+                                    <select id="editMc" class="form-ctrl" name="editMc" style="border-radius: 4px;" [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="courseMasterChange($event)">
                     <option value="-1"></option>
                     <option *ngFor="let master of masterCourseData" [value]="master.master_course">
                       {{master.master_course}}</option>
                   </select>
-                </div>
-              </div>
+                                </div>
+                            </div>
 
-              <!-- course course-->
-              <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <label for="editCC">Course</label>
-                  <select id="editCC" class="form-ctrl form-ctrl-multiple" style="border-radius: 4px;"
-                    [(ngModel)]="advancedFilterForm.courseIdArray" name="editCC" multiple>
+                            <!-- course course-->
+                            <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <label for="editCC">Course</label>
+                                    <select id="editCC" class="form-ctrl form-ctrl-multiple" style="border-radius: 4px;" [(ngModel)]="advancedFilterForm.courseIdArray" name="editCC" multiple>
                     <option *ngFor="let cc of course_course" [value]="cc.course_id">{{cc.course_name}}</option>
                   </select>
-                </div>
-              </div>
-              <!-- subject Course -->
-              <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <label for="forSubject">Subject</label>
-                  <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple" style="border-radius: 4px;"
-                    [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject">
+                                </div>
+                            </div>
+                            <!-- subject Course -->
+                            <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <label for="forSubject">Subject</label>
+                                    <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple" style="border-radius: 4px;" [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject">
                     <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">{{subject.subject_name}}
                     </option>
                   </select>
-                </div>
-              </div>
-            </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="row">
-              <!-- standard Course-->
-              <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <label for="editStandard">Standard</label>
-                  <select id="editStandard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id"
-                    style="border-radius: 4px;" (ngModelChange)="fetchEnquirySubject($event)" name="editStandard">
+                        <div class="row">
+                            <!-- standard Course-->
+                            <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <label for="editStandard">Standard</label>
+                                    <select id="editStandard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" style="border-radius: 4px;" (ngModelChange)="fetchEnquirySubject($event)" name="editStandard">
                     <option value="-1"></option>
                     <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                   </select>
-                </div>
-              </div>
-            </div>
+                                </div>
+                            </div>
+                        </div>
 
 
-            <!-- Update Date -->
-            <!-- <div class="c-lg-4 c-md-4 c-sm-4 hide">
+                        <!-- Update Date -->
+                        <!-- <div class="c-lg-4 c-md-4 c-sm-4 hide">
               <div class="field-wrapper datePickerBox">
                 <label for="updateDate">Update Date</label>
                 <input type="text" value="" id="updateDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.updateDate"
@@ -530,171 +485,145 @@
                 <span class="date-clear" name="followupdate" (click)="clearFilterType('updateDate')">clear</span>
               </div>
             </div> -->
-            <!--enquiry Custom Component -->
-            <ng-template [ngIf]="true" *ngFor="let component of filterCustomComponent; let i= index;">
-              <div class="row" *ngIf="checkCustomeComponentElement(i)">
-                <ng-template [ngIf]="true" *ngFor="let component of filterCustomComponent |slice:i:i+3">
-                  <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1" input-def>
-                    <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                      <label for="{{component.id}}">{{component.label}} </label>
-                      <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl"
-                        style="border-radius: 4px;" name="{{component.label}}" />
+                        <!--enquiry Custom Component -->
+                        <ng-template [ngIf]="true" *ngFor="let component of filterCustomComponent; let i= index;">
+                            <div class="row" *ngIf="checkCustomeComponentElement(i)">
+                                <ng-template [ngIf]="true" *ngFor="let component of filterCustomComponent |slice:i:i+3">
+                                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1" input-def>
+                                        <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                                            <label for="{{component.id}}">{{component.label}} </label>
+                                            <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" style="border-radius: 4px;" name="{{component.label}}" />
 
-                    </div>
-                  </div>
+                                        </div>
+                                    </div>
 
-                  <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2" input-def>
-                    <br>
-                    <div class="field-checkbox-wrapper">
+                                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2" input-def>
+                                        <br>
+                                        <div class="field-checkbox-wrapper">
 
-                      <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"
-                        style="border-radius: 4px;" name="{{component.label}}" value="">
-                      <label for="{{component.id}}">{{component.label}} </label>
+                                            <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" style="border-radius: 4px;" name="{{component.label}}" value="">
+                                            <label for="{{component.id}}">{{component.label}} </label>
 
-                    </div>
-                  </div>
+                                        </div>
+                                    </div>
 
-                  <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3" input-def>
-                    <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                      <label for="{{component.id}}">{{component.label}} </label>
-                      <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value"
-                        style="border-radius: 4px;" name="{{component.label}}">
+                                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3" input-def>
+                                        <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                                            <label for="{{component.id}}">{{component.label}} </label>
+                                            <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" style="border-radius: 4px;" name="{{component.label}}">
                         <option value=""></option>
                         <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.displayName}}
                         </option>
                       </select>
 
 
-                    </div>
-                  </div>
+                                        </div>
+                                    </div>
 
-                  <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 " input-def>
-                    <div id="{{component.id}}wrapper" class="field-wrapper"
-                      (click)="multiselectVisible($event.target.id)">
-                      <label for="{{component.id}}">{{component.label}} </label>
-                      <input id="{{component.id}}" type="text" [ngModel]="component.selectedString"
-                        style="border-radius: 4px;" name="{{component.label}}" class="form-ctrl" readonly="true" />
+                                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 " input-def>
+                                        <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                                            <label for="{{component.id}}">{{component.label}} </label>
+                                            <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" style="border-radius: 4px;" name="{{component.label}}" class="form-ctrl" readonly="true" />
 
-                    </div>
-                    <div id="{{component.id}}multi" class="hide multiselect-wrapper"
-                      (mouseleave)="multiselectVisible(component.id)">
-                      <div class="multiselect-wrapper-inner">
-                        <ul class="">
-                          <li *ngFor="let opt of component.prefilled_data">
-                            <div class="field-checkbox-wrapper">
+                                        </div>
+                                        <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
+                                            <div class="multiselect-wrapper-inner">
+                                                <ul class="">
+                                                    <li *ngFor="let opt of component.prefilled_data">
+                                                        <div class="field-checkbox-wrapper">
 
-                              <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked"
-                                style="border-radius: 4px;" (ngModelChange)="updateMultiSelect(opt, component.id)"
-                                class="form-checkbox" id="{{opt.data}}">
-                              <label for="opt.data">{{opt.data}}</label>
+                                                            <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" style="border-radius: 4px;" (ngModelChange)="updateMultiSelect(opt, component.id)" class="form-checkbox" id="{{opt.data}}">
+                                                            <label for="opt.data">{{opt.data}}</label>
+
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 " input-def>
+                                        <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                                            <label for="{{component.id}}">{{component.label}} </label>
+                                            <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" style="border-radius: 4px;" class="form-ctrl bsDatepicker" name="{{component.label}}" bsDatepicker />
+
+
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </ng-template>
+
+                        <!-- Submitter -->
+                        <div class="row">
+                            <div class="c-lg-12 c-md-12 c-sm-12">
+                                <div class="field-wrapper pull-left">
+                                    <input type="button" class="btn filterSearchBtn fullBlue" value="Clear Filter" (click)="clearFilterAdvanced()" id="BtnClearAdvance" />
+                                </div>
+                                <div class="field-wrapper pull-left">
+                                    <input type="button" class="btn filterSearchBtn fullBlue" value="Search Now" (click)="filterAdvanced()" id="BtnFilterAdvance" />
+                                </div>
 
                             </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 " input-def>
-                    <div class="field-wrapper datePickerBox"
-                      [ngClass]="{'has-value': component.value != 'Invalid date'}">
-                      <label for="{{component.id}}">{{component.label}} </label>
-                      <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value"
-                        style="border-radius: 4px;" class="form-ctrl bsDatepicker" name="{{component.label}}"
-                        bsDatepicker />
-
+                        </div>
 
                     </div>
-                  </div>
-                </ng-template>
-              </div>
-            </ng-template>
 
-            <!-- Submitter -->
-            <div class="row">
-              <div class="c-lg-12 c-md-12 c-sm-12">
-                <div class="field-wrapper pull-left">
-                  <input type="button" class="btn filterSearchBtn fullBlue" value="Clear Filter"
-                    (click)="clearFilterAdvanced()" id="BtnClearAdvance" />
                 </div>
-                <div class="field-wrapper pull-left">
-                  <input type="button" class="btn filterSearchBtn fullBlue" value="Search Now"
-                    (click)="filterAdvanced()" id="BtnFilterAdvance" />
+            </section>
+
+            <!-- Data Table and Pagination -->
+            <section class="search-data">
+                <!-- Enquiry DataTable -->
+                <div class="" id="table-main" #tablemain>
+                    <div class="table-scroll-wrapper">
+                        <div class="">
+                            <ng-robTable [records]="sourceEnquiry" [reset]="flagJSON.isSideBar" [defaultSort]="varJson.sortBy" [tableName]="'enquiry'" [settings]="displayKeys" (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="varJson.fetchingDataMessage"
+                                [key1]="'followUpDate'" [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
+                            </ng-robTable>
+                        </div>
+                    </div>
                 </div>
 
-              </div>
-            </div>
+                <!-- Paginator Here -->
+                <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)" [count]="varJson.totalEnquiry">
+                        </pagination>
+                    </div>
 
-          </div>
+                </div>
+            </section>
+        </section>
 
-        </div>
-      </section>
+    </aside>
 
-      <!-- Data Table and Pagination -->
-      <section class="search-data">
-        <!-- Enquiry DataTable -->
-        <div class="" id="table-main" #tablemain>
-          <div class="table-scroll-wrapper">
-            <div class="">
-              <ng-robTable [records]="sourceEnquiry" [reset]="flagJSON.isSideBar" [defaultSort]="varJson.sortBy"
-                [tableName]="'enquiry'" [settings]="displayKeys" (userRowSelect)="userRowSelect($event)"
-                (rowsSelected)="getRowCount($event)" [dataStatus]="varJson.fetchingDataMessage" [key1]="'followUpDate'"
-                [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)"
-                (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
-              </ng-robTable>
-            </div>
-          </div>
-        </div>
+    <aside #mySidenav class="middle-full sidenav" [ngClass]="{'hide': !flagJSON.isSideBar}">
+        <div class="sidewrapper">
+            <a href="javascript:void(0)" title="close" class="closebtn" (click)="closeEnquiryFullDetails($event); false; $event.stopPropagation()" id="closeAnch1">
 
-        <!-- Paginator Here -->
-        <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
-          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-              [pagesToShow]="10" [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="sizeArr"
-              (sizeChange)="updateTableBatchSize($event)" [count]="varJson.totalEnquiry">
-            </pagination>
-          </div>
-
-        </div>
-      </section>
-    </section>
-
-  </aside>
-
-  <aside #mySidenav class="middle-full sidenav" [ngClass]="{'hide': !flagJSON.isSideBar}">
-    <div class="sidewrapper">
-      <a href="javascript:void(0)" title="close" class="closebtn"
-        (click)="closeEnquiryFullDetails($event); false; $event.stopPropagation()" id="closeAnch1">
-
-        <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet"
-          class="artdeco-icon" focusable="false">
+                <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon" focusable="false">
           <path
             d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
             class="large-icon" style="fill: currentColor"></path>
         </svg>
-      </a>
-      <enquiry-sidebar *ngIf="flagJSON.isSideBar" [enqAssignTo]="enqAssignTo" [enquiryRow]="enquiryFullDetail"
-        [row]="selectedRow" [priorityArr]="enqPriority" [sourceList]="sources" [statusArr]="enqstatus"
-        [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)"
-        (cancelUpdate)="closeEnquiryFullDetails($event); false; $event.stopPropagation()"
-        [mainBranchAdmin]="isMainBranch" [subBranchAdmin]="flagJSON.subBranchSelected" [branchesList]="branchesList"
-        (getUserList)="branchUpdated($event)" [masterCourseData]="masterCourseData" [standardArr]="enqStd"
-        [subjectArr]="enqSubject" (fullEnquiryDetails)="completeEnquiryDeatils($event)"
-        [closingReasonDataSource]="closingReasonDataSource">
-      </enquiry-sidebar>
-    </div>
-  </aside>
+            </a>
+            <enquiry-sidebar *ngIf="flagJSON.isSideBar" [enqAssignTo]="enqAssignTo" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority" [sourceList]="sources" [statusArr]="enqstatus" [customComp]="customCompid" [followupArr]="enqFollowType"
+                (updateEnq)="virtualUpdateEnquiry($event)" (cancelUpdate)="closeEnquiryFullDetails($event); false; $event.stopPropagation()" [mainBranchAdmin]="isMainBranch" [subBranchAdmin]="flagJSON.subBranchSelected" [branchesList]="branchesList" (getUserList)="branchUpdated($event)"
+                [masterCourseData]="masterCourseData" [standardArr]="enqStd" [subjectArr]="enqSubject" (fullEnquiryDetails)="completeEnquiryDeatils($event)" [closingReasonDataSource]="closingReasonDataSource">
+            </enquiry-sidebar>
+        </div>
+    </aside>
 
-  <!-- Enquiry update popup -->
-  <app-enquiry-update-popup *ngIf="varJson.message === 'update'" [enqData]="varJson.enquiryInfo"
-    (closePopUp)="closeUpdatePop($event)"></app-enquiry-update-popup>
+    <!-- Enquiry update popup -->
+    <app-enquiry-update-popup *ngIf="varJson.message === 'update'" [enqData]="varJson.enquiryInfo" (closePopUp)="closeUpdatePop($event)"></app-enquiry-update-popup>
 
 
-  <!-- Delete PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="varJson.message === 'delete'">
-    <div class="popup pos-abs">
-      <div class="popup-wrapper pos-rel">
-        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+    <!-- Delete PopUp -->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="varJson.message === 'delete'">
+        <div class="popup pos-abs">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
           <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
             viewBox="0 0 24 24" width="24px" x="0" y="0">
             <path class="large-icon"
@@ -702,32 +631,31 @@
               style="fill: currentColor"></path>
           </svg>
         </span>
-        <div class="popup-content">
-          <h2>Delete Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
-          <div class="update-enquiry-form overflowHidden">
-            <div class="enquiry-update-history">
-              <h4>Are you Sure you wish to delete this data, it cannot be recovered later.</h4>
+                <div class="popup-content">
+                    <h2>Delete Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
+                    <div class="update-enquiry-form overflowHidden">
+                        <div class="enquiry-update-history">
+                            <h4>Are you Sure you wish to delete this data, it cannot be recovered later.</h4>
+                        </div>
+                        <div class="">
+                            <div class="clearfix">
+                                <aside class="pull-right popup-btn">
+                                    <input type="button" value="Cancel" class="btn" (click)="closePopup()" id="BtncancelClose">
+                                    <input type="button" value="Delete" class="fullBlue btn" (click)="deleteEnquiry()" id="BtndeleteClose">
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="">
-              <div class="clearfix">
-                <aside class="pull-right popup-btn">
-                  <input type="button" value="Cancel" class="btn" (click)="closePopup()" id="BtncancelClose">
-                  <input type="button" value="Delete" class="fullBlue btn" (click)="deleteEnquiry()"
-                    id="BtndeleteClose">
-                </aside>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Convert PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="varJson.message === 'convert'">
-    <div class="popup pos-abs">
-      <div class="popup-wrapper pos-rel">
-        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+    <!-- Convert PopUp -->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="varJson.message === 'convert'">
+        <div class="popup pos-abs">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
           <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
             viewBox="0 0 24 24" width="24px" x="0" y="0">
             <path class="large-icon"
@@ -736,53 +664,52 @@
           </svg>
         </span>
 
-        <!-- If Not converted -->
-        <div class="popup-content" *ngIf="!flagJSON.isConverted">
-          <h2>Convert Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
-          <div class="update-enquiry-form overflowHidden">
-            <div class="enquiry-update-history">
-              <h4> You will be converting {{selectedRow.name}} to student, this is irreversible </h4>
+                <!-- If Not converted -->
+                <div class="popup-content" *ngIf="!flagJSON.isConverted">
+                    <h2>Convert Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
+                    <div class="update-enquiry-form overflowHidden">
+                        <div class="enquiry-update-history">
+                            <h4> You will be converting {{selectedRow.name}} to student, this is irreversible </h4>
+                        </div>
+                        <div class="">
+                            <div class="clearfix">
+                                <aside class="pull-right popup-btn">
+                                    <input type="button" value="Cancel" class="btn" (click)="closePopup()" id="btnClosePopup">
+                                    <input type="button" value="Convert" class="fullBlue btn" (click)="convertRow(selectedRow.data)" id="btnConvertRow">
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- If Enquiry Converted -->
+                <div class="popup-content" *ngIf="flagJSON.isConverted">
+                    <h2>Convert Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
+                    <div class="update-enquiry-form overflowHidden">
+                        <div class="enquiry-update-history">
+                            <h4>It Seems that this enquiry has already been converted to student</h4>
+                        </div>
+                        <div class="">
+                            <div class="clearfix">
+                                <aside class="pull-right popup-btn">
+                                    <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnClosePopup2">
+                                    <!-- <input type="button" value="Convert" class="redBtn btn" (click)="convertRow(selectedRow.data)"> -->
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
-            <div class="">
-              <div class="clearfix">
-                <aside class="pull-right popup-btn">
-                  <input type="button" value="Cancel" class="btn" (click)="closePopup()" id="btnClosePopup">
-                  <input type="button" value="Convert" class="fullBlue btn" (click)="convertRow(selectedRow.data)"
-                    id="btnConvertRow">
-                </aside>
-              </div>
-            </div>
-          </div>
         </div>
+    </section>
 
-        <!-- If Enquiry Converted -->
-        <div class="popup-content" *ngIf="flagJSON.isConverted">
-          <h2>Convert Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
-          <div class="update-enquiry-form overflowHidden">
-            <div class="enquiry-update-history">
-              <h4>It Seems that this enquiry has already been converted to student</h4>
-            </div>
-            <div class="">
-              <div class="clearfix">
-                <aside class="pull-right popup-btn">
-                  <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnClosePopup2">
-                  <!-- <input type="button" value="Convert" class="redBtn btn" (click)="convertRow(selectedRow.data)"> -->
-                </aside>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-      </div>
-    </div>
-  </section>
-
-  <!--Registration Payment PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="varJson.message === 'payment'">
-    <div class="popup pos-abs">
-      <div class="popup-wrapper pos-rel">
-        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+    <!--Registration Payment PopUp -->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="varJson.message === 'payment'">
+        <div class="popup pos-abs">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
             <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
               <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -796,83 +723,78 @@
             </g>
           </svg>
         </span>
-        <div class="popup-content">
-          <h2>Registration Fee</h2>
-          <div class="registration-fee-form overflowHidden">
-            <div class="">
+                <div class="popup-content">
+                    <h2>Registration Fee</h2>
+                    <div class="registration-fee-form overflowHidden">
+                        <div class="">
 
-              <!-- student has invoice and registered with status 11 -->
-              <div class="enquiry-update-history" *ngIf="flagJSON.hasReceipt">
-                <h4>
-                  A payment towards the selected enquiry has been updated, you may download the receipt for your
-                  reference
-                </h4>
-              </div>
+                            <!-- student has invoice and registered with status 11 -->
+                            <div class="enquiry-update-history" *ngIf="flagJSON.hasReceipt">
+                                <h4>
+                                    A payment towards the selected enquiry has been updated, you may download the receipt for your reference
+                                </h4>
+                            </div>
 
-              <!-- any one of above case has failed -->
-              <div class="payment-form" *ngIf="!flagJSON.hasReceipt">
+                            <!-- any one of above case has failed -->
+                            <div class="payment-form" *ngIf="!flagJSON.hasReceipt">
 
-                <!-- status admitted or registered but no open, inprogress or closed  -->
-                <div class="" *ngIf="flagJSON.isadmitted">
-                  <div class="row extraMargin">
-                    <div class="c-lg-6 c-md-6 c-sm-6">
-                      <div class="field-wrapper has-value">
-                        <label for="pDate">Payment Date</label>
-                        <input type="text" value="" id="pDate" class="form-ctrl bsDatepicker"
-                          [ngModel]="registrationForm.paymentDate" name="pDate" bsDatepicker readonly="true" />
-                      </div>
-                    </div>
-                    <div class="c-lg-6 c-md-6 c-sm-6">
-                      <div class="field-wrapper">
-                        <label for="paymentMode">Payment Mode</label>
-                        <select id="paymentMode" class="form-ctrl" [(ngModel)]="registrationForm.paymentMode">
+                                <!-- status admitted or registered but no open, inprogress or closed  -->
+                                <div class="" *ngIf="flagJSON.isadmitted">
+                                    <div class="row extraMargin">
+                                        <div class="c-lg-6 c-md-6 c-sm-6">
+                                            <div class="field-wrapper has-value">
+                                                <label for="pDate">Payment Date</label>
+                                                <input type="text" value="" id="pDate" class="form-ctrl bsDatepicker" [ngModel]="registrationForm.paymentDate" name="pDate" bsDatepicker readonly="true" />
+                                            </div>
+                                        </div>
+                                        <div class="c-lg-6 c-md-6 c-sm-6">
+                                            <div class="field-wrapper">
+                                                <label for="paymentMode">Payment Mode</label>
+                                                <select id="paymentMode" class="form-ctrl" [(ngModel)]="registrationForm.paymentMode">
                           <option></option>
                           <option *ngFor="let payment of paymentMode" [value]="payment">
                             {{payment}}
                           </option>
                         </select>
 
-                      </div>
-                    </div>
-                  </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                  <div class="row extraMargin">
-                    <div class="c-lg-6 c-md-6 c-sm-6">
-                      <div class="field-wrapper">
-                        <label for="remark">Amount</label>
-                        <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount"
-                          name="remark" />
-                      </div>
-                    </div>
-                    <div class="c-lg-6 c-md-6 c-sm-6">
-                      <div class="field-wrapper">
-                        <label for="referenceNo">Reference No.</label>
-                        <input type="text" value="" id="referenceNo" class="form-ctrl"
-                          [(ngModel)]="registrationForm.reference" name="reference" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                                    <div class="row extraMargin">
+                                        <div class="c-lg-6 c-md-6 c-sm-6">
+                                            <div class="field-wrapper">
+                                                <label for="remark">Amount</label>
+                                                <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount" name="remark" />
+                                            </div>
+                                        </div>
+                                        <div class="c-lg-6 c-md-6 c-sm-6">
+                                            <div class="field-wrapper">
+                                                <label for="referenceNo">Reference No.</label>
+                                                <input type="text" value="" id="referenceNo" class="form-ctrl" [(ngModel)]="registrationForm.reference" name="reference" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                <!-- status open, inprogress or converted but not closed-->
-                <h4 *ngIf="flagJSON.notClosednAdmitted">
-                  The requested enquiry has not yet been converted to student, please select the convert to student
-                  option from menu.
-                </h4>
+                                <!-- status open, inprogress or converted but not closed-->
+                                <h4 *ngIf="flagJSON.notClosednAdmitted">
+                                    The requested enquiry has not yet been converted to student, please select the convert to student option from menu.
+                                </h4>
 
-                <!-- status closed-->
-                <h4 *ngIf="flagJSON.isClosed">
-                  The Enquiry has been closed or converted as a student.
-                </h4>
+                                <!-- status closed-->
+                                <h4 *ngIf="flagJSON.isClosed">
+                                    The Enquiry has been closed or converted as a student.
+                                </h4>
 
-              </div>
+                            </div>
 
-              <!-- Icon for DownLoad -->
-              <div class="row" *ngIf="flagJSON.hasReceipt">
-                <div class="c-lg-12 c-md-12 c-sm-12">
-                  <ul class="print-output-section">
+                            <!-- Icon for DownLoad -->
+                            <div class="row" *ngIf="flagJSON.hasReceipt">
+                                <div class="c-lg-12 c-md-12 c-sm-12">
+                                    <ul class="print-output-section">
 
-                    <!-- <li>
+                                        <!-- <li>
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="9177 266 26 22">
                             <g id="Group_1224" data-name="Group 1224" transform="translate(8100 -6)">
                               <g id="Group_1222" data-name="Group 1222">
@@ -898,8 +820,8 @@
                           <span>Print Fee Receipt</span>
                     </li> -->
 
-                    <li class="svg-icon" (click)="downloadReceiptPdf()">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="14362 435 26 22">
+                                        <li class="svg-icon" (click)="downloadReceiptPdf()">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="14362 435 26 22">
                         <g id="Group_1230" data-name="Group 1230" transform="translate(13654 -6)">
                           <rect id="Rectangle_695" data-name="Rectangle 695" class="cls-1" width="26" height="22"
                             transform="translate(708 441)" style="stroke:none" />
@@ -913,60 +835,59 @@
                           </g>
                         </g>
                       </svg>
-                      <a id="reg-pdf-link"></a>
-                      <span>PDF Download</span>
-                    </li>
+                                            <a id="reg-pdf-link"></a>
+                                            <span>PDF Download</span>
+                                        </li>
 
-                  </ul>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Footer 1-->
+                            <div class="row" *ngIf="!flagJSON.hasReceipt">
+
+                                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="flagJSON.isadmitted">
+                                    <aside class="pull-right popup-btn">
+                                        <input type="button" value="Cancel" class="btn" (click)="closePopup()" id="BtncancelPopup">
+                                        <input type="button" value="Save" class="btn fullBlue" (click)="registerPayment()" id="BtnregisterPayment">
+                                    </aside>
+                                </div>
+
+                                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="flagJSON.notClosednAdmitted">
+                                    <aside class="pull-right popup-btn">
+                                        <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnclosePopup">
+                                    </aside>
+                                </div>
+
+                                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="flagJSON.isClosed">
+                                    <aside class="pull-right popup-btn">
+                                        <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnOpenClose">
+                                    </aside>
+                                </div>
+
+                            </div>
+
+                            <!-- Footer 2-->
+                            <div class="row" *ngIf="flagJSON.hasReceipt">
+                                <div class="c-lg-12 c-md-12 c-sm-12">
+                                    <aside class="pull-right popup-btn">
+                                        <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnOpenClosePopup">
+                                    </aside>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
-              </div>
-
-              <!-- Footer 1-->
-              <div class="row" *ngIf="!flagJSON.hasReceipt">
-
-                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="flagJSON.isadmitted">
-                  <aside class="pull-right popup-btn">
-                    <input type="button" value="Cancel" class="btn" (click)="closePopup()" id="BtncancelPopup">
-                    <input type="button" value="Save" class="btn fullBlue" (click)="registerPayment()"
-                      id="BtnregisterPayment">
-                  </aside>
-                </div>
-
-                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="flagJSON.notClosednAdmitted">
-                  <aside class="pull-right popup-btn">
-                    <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnclosePopup">
-                  </aside>
-                </div>
-
-                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="flagJSON.isClosed">
-                  <aside class="pull-right popup-btn">
-                    <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnOpenClose">
-                  </aside>
-                </div>
-
-              </div>
-
-              <!-- Footer 2-->
-              <div class="row" *ngIf="flagJSON.hasReceipt">
-                <div class="c-lg-12 c-md-12 c-sm-12">
-                  <aside class="pull-right popup-btn">
-                    <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnOpenClosePopup">
-                  </aside>
-                </div>
-              </div>
-
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Bulk Assign PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="flagJSON.isAssignEnquiry">
-    <div class="popup pos-abs">
-      <div class="popup-wrapper pos-rel">
-        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="bulkAssignEnquiriesClose()">
+    <!-- Bulk Assign PopUp -->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="flagJSON.isAssignEnquiry">
+        <div class="popup pos-abs">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="bulkAssignEnquiriesClose()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
             <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
               <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -980,69 +901,65 @@
             </g>
           </svg>
         </span>
-        <div class="popup-content">
-          <h2>Assign {{selectedRowGroup.length}} Enquiries </h2>
-          <div class="update-enquiry-form overflowHidden">
-            <div class="enquiry-update-history">
-              <div class="field-wrapper" *ngIf="isMainBranch == 'Y' || flagJSON.subBranchSelected == true">
-                <div class="row">
-                  <div class="c-lg-6 c-md-6 c-sm-6">
-                    <label for="brchList">Branch</label>
-                    <select id="brchList" class="form-ctrl" name="brchList"
-                      [(ngModel)]="assignMultipleForm.source_instituteId"
-                      (ngModelChange)="branchUpdated(assignMultipleForm.source_instituteId)">
+                <div class="popup-content">
+                    <h2>Assign {{selectedRowGroup.length}} Enquiries </h2>
+                    <div class="update-enquiry-form overflowHidden">
+                        <div class="enquiry-update-history">
+                            <div class="field-wrapper" *ngIf="isMainBranch == 'Y' || flagJSON.subBranchSelected == true">
+                                <div class="row">
+                                    <div class="c-lg-6 c-md-6 c-sm-6">
+                                        <label for="brchList">Branch</label>
+                                        <select id="brchList" class="form-ctrl" name="brchList" [(ngModel)]="assignMultipleForm.source_instituteId" (ngModelChange)="branchUpdated(assignMultipleForm.source_instituteId)">
                       <option value="-1"></option>
                       <option *ngFor="let branch of branchesList" [value]="branch.institute_id">
                         {{ branch.institute_name }}
                       </option>
                     </select>
-                  </div>
-                  <div class="c-lg-4 c-md-4 c-sm-4">
-                    <label for="assignTo">Assign To</label>
-                    <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to"
-                      name="assignTo">
+                                    </div>
+                                    <div class="c-lg-4 c-md-4 c-sm-4">
+                                        <label for="assignTo">Assign To</label>
+                                        <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
                       <option></option>
                       <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
                         {{ assigned.name }}
                       </option>
                     </select>
-                  </div>
-                </div>
-              </div>
-              <div class="field-wrapper" style="max-width: 70%" *ngIf="isMainBranch=='N'">
-                <div class="row">
-                  <label for="assignTo">Assign To</label>
-                  <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field-wrapper" style="max-width: 70%" *ngIf="isMainBranch=='N'">
+                                <div class="row">
+                                    <label for="assignTo">Assign To</label>
+                                    <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
                     <option></option>
                     <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
                       {{ assigned.name }}
                     </option>
                   </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="clearfix">
+                                <aside class="pull-right popup-btn">
+                                    <input type="button" value="Cancel" class="btn" (click)="bulkAssignEnquiriesClose()" id="btn4">
+                                    <input type="button" value="Assign Enquiries" class="fullBlue btn" (click)="bulkAssignEnquiries()" id="BtnassignEnquiries">
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-            <div class="">
-              <div class="clearfix">
-                <aside class="pull-right popup-btn">
-                  <input type="button" value="Cancel" class="btn" (click)="bulkAssignEnquiriesClose()" id="btn4">
-                  <input type="button" value="Assign Enquiries" class="fullBlue btn" (click)="bulkAssignEnquiries()"
-                    id="BtnassignEnquiries">
-                </aside>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- SMS PopUp Single-->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="varJson.message === 'sms'">
-    <!-- -->
-    <div class="popup pos-abs popup-body-container">
-      <div class="popup-wrapper pos-rel" style="height: 80%;">
+    <!-- SMS PopUp Single-->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="varJson.message === 'sms'">
+        <!-- -->
+        <div class="popup pos-abs popup-body-container">
+            <div class="popup-wrapper pos-rel" style="height: 80%;">
 
-        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
           <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
             viewBox="0 0 24 24" width="24px" x="0" y="0">
             <path class="large-icon"
@@ -1051,196 +968,185 @@
           </svg>
         </span>
 
-        <div class="popup-content">
-          <h2>Send SMS</h2>
-          <div class="sms-form sms-popup-content">
-            <div class="sms-update">
-              <aside class="pull-left sms-table">
-                <div class="sms-top-section">
-                  <!-- Create New SMS Toggler -->
-                  <div class="row">
-                    <div class="c-lg-12">
-                      <div class="clearFix add-edit">
-                        <a class="expend-box" (click)="addNewMessage()">
-                          <i class="add-sms" id="sms-toggler-icon">+</i>
-                          <span>Create New Sms</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+                <div class="popup-content">
+                    <h2>Send SMS</h2>
+                    <div class="sms-form sms-popup-content">
+                        <div class="sms-update">
+                            <aside class="pull-left sms-table">
+                                <div class="sms-top-section">
+                                    <!-- Create New SMS Toggler -->
+                                    <div class="row">
+                                        <div class="c-lg-12">
+                                            <div class="clearFix add-edit">
+                                                <a class="expend-box" (click)="addNewMessage()">
+                                                    <i class="add-sms" id="sms-toggler-icon">+</i>
+                                                    <span>Create New Sms</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                  <!-- Message TextArea Here -->
-                  <div class="row" *ngIf="flagJSON.isMessageAddOpen">
-                    <section class="clearFix new-sms-form">
-                      <div class="row">
-                        <div class="c-lg-8 pull-left new-sms-wrapper">
-                          <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox"
-                            aria-autocomplete="list" placeholder="Enter your SMS here" [(ngModel)]="newSmsString.data"
-                            aria-haspopup="true" value="" id="listTxt"></textarea>
+                                    <!-- Message TextArea Here -->
+                                    <div class="row" *ngIf="flagJSON.isMessageAddOpen">
+                                        <section class="clearFix new-sms-form">
+                                            <div class="row">
+                                                <div class="c-lg-8 pull-left new-sms-wrapper">
+                                                    <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="Enter your SMS here" [(ngModel)]="newSmsString.data" aria-haspopup="true" value="" id="listTxt"></textarea>
 
-                          <p>Message characters : {{newSmsString.data.length}}</p>
-                        </div>
+                                                    <p>Message characters : {{newSmsString.data.length}}</p>
+                                                </div>
 
-                        <div class="c-lg-4 pull-right">
-                          <aside class="pull-left create-cancel-small">
-                            <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()"
-                              id="Btncancel7">
-                            <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()"
-                              id="BtnsaveSms">
-                          </aside>
-                        </div>
+                                                <div class="c-lg-4 pull-right">
+                                                    <aside class="pull-left create-cancel-small">
+                                                        <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()" id="Btncancel7">
+                                                        <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()" id="BtnsaveSms">
+                                                    </aside>
+                                                </div>
 
-                      </div>
-                    </section>
-                  </div>
+                                            </div>
+                                        </section>
+                                    </div>
 
-                  <!-- Message Header -->
-                  <h3>Message List</h3>
+                                    <!-- Message Header -->
+                                    <h3>Message List</h3>
 
-                  <!-- Length of SMS Total and SearchBar -->
-                  <div class="row sms-table-head">
-                    <div class="c-lg-7 c-md-7 c-sm-7" style="padding-top: 10px;">
-                      <div id="approvedSms" class="sms-tab active" style="margin-left: 5px;"
-                        (click)="switchSmsTab('approvedSms')">
-                        <label style="cursor: pointer">Approved</label>
-                      </div>
-                      <div id="openSms" class="sms-tab" (click)="switchSmsTab('openSms')">
-                        <label style="cursor: pointer">Open</label>
-                      </div>
-                    </div>
-                    <div class="c-lg-5 c-md-5 c-sm-5 align-right">
-                      <!-- <div class="search-filter-wrapper">
+                                    <!-- Length of SMS Total and SearchBar -->
+                                    <div class="row sms-table-head">
+                                        <div class="c-lg-7 c-md-7 c-sm-7" style="padding-top: 10px;">
+                                            <div id="approvedSms" class="sms-tab active" style="margin-left: 5px;" (click)="switchSmsTab('approvedSms')">
+                                                <label style="cursor: pointer">Approved</label>
+                                            </div>
+                                            <div id="openSms" class="sms-tab" (click)="switchSmsTab('openSms')">
+                                                <label style="cursor: pointer">Open</label>
+                                            </div>
+                                        </div>
+                                        <div class="c-lg-5 c-md-5 c-sm-5 align-right">
+                                            <!-- <div class="search-filter-wrapper">
                         <input type="text" class="sms-search-field" placeholder="Search SMS" #smssearch [(ngModel)]="smsSearchData" name="searchData"
                           (keyup.enter)="onSearch(smssearch.value)">
                       </div> -->
-                    </div>
-                  </div>
+                                        </div>
+                                    </div>
 
-                </div>
-                <!-- Table Here -->
-                <div class="sms-middle-section">
-                  <div class="table table-responsive table-container table-data-overflow">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>
-                            <label>
+                                </div>
+                                <!-- Table Here -->
+                                <div class="sms-middle-section">
+                                    <div class="table table-responsive table-container table-data-overflow">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <label>
                               <a class="cursor-icon" id="cursorAnch1">{{smsHeader.message.title}}</a>
                             </label>
-                          </th>
-                          <th style="width: 18%;">
-                            <label>
+                                                    </th>
+                                                    <th style="width: 18%;">
+                                                        <label>
                               <a class="cursor-icon" id="cursorAnch2">{{smsHeader.date.title}}</a>
                             </label>
-                          </th>
-                          <th>
-                            <label>
+                                                    </th>
+                                                    <th>
+                                                        <label>
                               <a class="cursor-icon" id="cursorAnch3">{{smsHeader.action.title}}</a>
                             </label>
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody *ngIf="flagJSON.isApprovedTab">
-                        <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
-                          <td style="text-overflow: ellipsis">
-                            <span [innerHTML]="row.message"></span>
-                          </td>
-                          <td style="width: 18%;">
-                            {{row.date}}
-                          </td>
-                          <td>
-                            <enquiry-sms-action>
-                            </enquiry-sms-action>
-                          </td>
-                        </tr>
-                        <tr *ngIf="smsSourceApproved.length == 0">
-                          <td colspan="3">
-                            No Message List Found
-                          </td>
-                        </tr>
-                      </tbody>
-                      <tbody *ngIf="flagJSON.isAllSelected">
-                        <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
-                          <td style="text-align: left; text-overflow: ellipsis">
-                            <span [innerHTML]="row.message"></span>
-                          </td>
-                          <td style="width: 18%;">
-                            {{row.date}}
-                          </td>
-                          <td>
-                            <enquiry-sms-action>
-                            </enquiry-sms-action>
-                          </td>
-                        </tr>
-                        <tr *ngIf="smsSourceOpen.length == 0">
-                          <td colspan="3">
-                            No Message List Found
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngIf="flagJSON.isApprovedTab">
+                                                <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
+                                                    <td style="text-overflow: ellipsis">
+                                                        <span [innerHTML]="row.message"></span>
+                                                    </td>
+                                                    <td style="width: 18%;">
+                                                        {{row.date}}
+                                                    </td>
+                                                    <td>
+                                                        <enquiry-sms-action>
+                                                        </enquiry-sms-action>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="smsSourceApproved.length == 0">
+                                                    <td colspan="3">
+                                                        No Message List Found
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody *ngIf="flagJSON.isAllSelected">
+                                                <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
+                                                    <td style="text-align: left; text-overflow: ellipsis">
+                                                        <span [innerHTML]="row.message"></span>
+                                                    </td>
+                                                    <td style="width: 18%;">
+                                                        {{row.date}}
+                                                    </td>
+                                                    <td>
+                                                        <enquiry-sms-action>
+                                                        </enquiry-sms-action>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="smsSourceOpen.length == 0">
+                                                    <td colspan="3">
+                                                        No Message List Found
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
 
-              </aside>
+                            </aside>
 
 
-              <aside class="pull-right sms-preview">
-                <div class="sms-preview-header">
-                  <div class="row">
-                    <div class="c-lg-6 c-md-6 c-sm-6">
-                      <h4>Enquiry No. {{smsSelectedRows.enquiry_no}} Selected</h4>
-                    </div>
-                    <div class="c-lg-6 c-md-6 c-sm-6" style="padding:24px 0px;">
-                      <a style="cursor:pointer;" (click)="closePopup()" id="cursorAnch5">Change</a>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="c-lg-12 c-md-12 c-sm-12">
-                      Available SMS Quota: {{varJson.availableSMS}}
-                    </div>
-                  </div>
-                </div>
-                <div class="sms-preview-content">
-                  <div class="field-sms-wrapper">
-                    <textarea placeholder="Select SMS to preview or edit to update template" rows="20" cols="1"
-                      autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" id="sms-content"
-                      value="" [(ngModel)]="selectedSMS.message" [disabled]="!flagJSON.smsBtnToggle"></textarea>
-                  </div>
-                </div>
-                <div class="sms-preview-footer">
-                  <div class="">
-                    <div class="clearfix">
-                      <aside class="popup-btn">
-                        <input type="button" value="Cancel Edit" class="btn" *ngIf="flagJSON.smsBtnToggle"
-                          (click)="cancelSmsEdit()" id="BtncancelSmsEdit">
-                        <input type="button" value="Save Template" class="fullBlue btn" *ngIf="flagJSON.smsBtnToggle"
-                          (click)="saveEditedSms()" id="BtnsaveEditedSms">
-                        <input type="button" value="Cancel" class="btn" *ngIf="!flagJSON.smsBtnToggle"
-                          (click)="closePopup()" id="Btncancel8">
-                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!flagJSON.smsBtnToggle"
-                          (click)="sendSmsTemplate()" id="BtnsendSms5">
-                      </aside>
-                    </div>
-                  </div>
-                </div>
-              </aside>
+                            <aside class="pull-right sms-preview">
+                                <div class="sms-preview-header">
+                                    <div class="row">
+                                        <div class="c-lg-6 c-md-6 c-sm-6">
+                                            <h4>Enquiry No. {{smsSelectedRows.enquiry_no}} Selected</h4>
+                                        </div>
+                                        <div class="c-lg-6 c-md-6 c-sm-6" style="padding:24px 0px;">
+                                            <a style="cursor:pointer;" (click)="closePopup()" id="cursorAnch5">Change</a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="c-lg-12 c-md-12 c-sm-12">
+                                            Available SMS Quota: {{varJson.availableSMS}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sms-preview-content">
+                                    <div class="field-sms-wrapper">
+                                        <textarea placeholder="Select SMS to preview or edit to update template" rows="20" cols="1" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!flagJSON.smsBtnToggle"></textarea>
+                                    </div>
+                                </div>
+                                <div class="sms-preview-footer">
+                                    <div class="">
+                                        <div class="clearfix">
+                                            <aside class="popup-btn">
+                                                <input type="button" value="Cancel Edit" class="btn" *ngIf="flagJSON.smsBtnToggle" (click)="cancelSmsEdit()" id="BtncancelSmsEdit">
+                                                <input type="button" value="Save Template" class="fullBlue btn" *ngIf="flagJSON.smsBtnToggle" (click)="saveEditedSms()" id="BtnsaveEditedSms">
+                                                <input type="button" value="Cancel" class="btn" *ngIf="!flagJSON.smsBtnToggle" (click)="closePopup()" id="Btncancel8">
+                                                <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!flagJSON.smsBtnToggle" (click)="sendSmsTemplate()" id="BtnsendSms5">
+                                            </aside>
+                                        </div>
+                                    </div>
+                                </div>
+                            </aside>
 
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
 
-  </section>
+    </section>
 
-  <!-- SMS PopUp MultiRow Selected-->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="flagJSON.isMultiSms">
-    <!--  -->
-    <div class="popup pos-abs popup-body-container">
-      <div class="popup-wrapper pos-rel" style="height: 86%;">
+    <!-- SMS PopUp MultiRow Selected-->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="flagJSON.isMultiSms">
+        <!--  -->
+        <div class="popup pos-abs popup-body-container">
+            <div class="popup-wrapper pos-rel" style="height: 86%;">
 
-        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBulkSms()">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBulkSms()">
           <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
             viewBox="0 0 24 24" width="24px" x="0" y="0">
             <path class="large-icon"
@@ -1249,413 +1155,384 @@
           </svg>
         </span>
 
-        <div class="popup-content">
-          <h2>Send Notification </h2>
-          <div class="common-tab">
-            <div class="row">
-              <div class="menu_list c-lg-6 c-md-6 c-sm-6"
-                [ngClass]="{'active':flagJSON.notificationType=='SMS'?true:false}"
-                (click)="sendNotificationType('SMS')">
-                Send SMS
-              </div>
-              <div class="menu_list c-lg-6 c-md-6 c-sm-6"
-                [ngClass]="{'active':flagJSON.notificationType=='Email'?true:false}"
-                (click)="sendNotificationType('Email')">
-                Send Email
-              </div>
-              <div class="menu_list c-lg-6 c-md-6 c-sm-6"
-                [ngClass]="{'active':flagJSON.notificationType=='sendGrid'?true:false}"
-                (click)="showSendGridData('sendGrid')" style="width: 25%;" *ngIf="isSendGridEnable">
-                Send Email using SendGrid
-              </div>
-            </div>
-          </div>
-          <div class="sms-form sms-popup-content"
-            *ngIf="flagJSON.notificationType=='Email'|| flagJSON.notificationType=='SMS'">
-            <div class="sms-update">
-
-              <aside class="pull-left sms-table">
-                <div class="sms-top-section">
-                  <!-- Create New SMS Toggler -->
-                  <div class="row">
-                    <div class="c-lg-12">
-                      <div class="clearFix add-edit">
-                        <a class="expend-box" (click)="addNewMessage()">
-                          <i class="add-sms" id="sms-toggler-icon">+</i>
-                          <span>Create New Sms</span>
-                        </a>
-                      </div>
+                <div class="popup-content">
+                    <h2>Send Notification </h2>
+                    <div class="common-tab">
+                        <div class="row">
+                            <div class="menu_list c-lg-6 c-md-6 c-sm-6" [ngClass]="{'active':flagJSON.notificationType=='SMS'?true:false}" (click)="sendNotificationType('SMS')">
+                                Send SMS
+                            </div>
+                            <div class="menu_list c-lg-6 c-md-6 c-sm-6" [ngClass]="{'active':flagJSON.notificationType=='Email'?true:false}" (click)="sendNotificationType('Email')">
+                                Send Email
+                            </div>
+                            <div class="menu_list c-lg-6 c-md-6 c-sm-6" [ngClass]="{'active':flagJSON.notificationType=='sendGrid'?true:false}" (click)="showSendGridData('sendGrid')" style="width: 25%;" *ngIf="isSendGridEnable">
+                                Send Email using SendGrid
+                            </div>
+                        </div>
                     </div>
-                  </div>
+                    <div class="sms-form sms-popup-content" *ngIf="flagJSON.notificationType=='Email'|| flagJSON.notificationType=='SMS'">
+                        <div class="sms-update">
 
-                  <!-- Message TextArea Here -->
-                  <div class="row" *ngIf="flagJSON.isMessageAddOpen">
-                    <section class="clearFix new-sms-form">
-                      <div class="row">
-                        <div class="c-lg-8 pull-left new-sms-wrapper">
-                          <textarea cols="1" rows="5" *ngIf="flagJSON.notificationType=='SMS'" class="new-sms-textarea"
-                            autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="Enter your SMS here"
-                            [(ngModel)]="newSmsString.data" aria-haspopup="true" value="" id="listTxt"
-                            (ngModelChange)="countNumberOfMessage()"></textarea>
-                          <!-- Added editor for email formatting ashwini kumar gupta -->
-                          <editor [init]="editorConf" *ngIf="flagJSON.notificationType=='Email'"
-                            apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
-                            (ngModelChange)="countNumberOfMessage()" [(ngModel)]="newSmsString.data"
-                            placeholder="Enter your SMS here">
-                          </editor>
-                          <!-- End -->
-                          <div style="width:100%; display:flex; justify-content:space-between;">
-                            <span>Character Count : {{newSmsString.data.length}}</span>
-                            <span>Message Count :
+                            <aside class="pull-left sms-table">
+                                <div class="sms-top-section">
+                                    <!-- Create New SMS Toggler -->
+                                    <div class="row">
+                                        <div class="c-lg-12">
+                                            <div class="clearFix add-edit">
+                                                <a class="expend-box" (click)="addNewMessage()">
+                                                    <i class="add-sms" id="sms-toggler-icon">+</i>
+                                                    <span>Create New Sms</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Message TextArea Here -->
+                                    <div class="row" *ngIf="flagJSON.isMessageAddOpen">
+                                        <section class="clearFix new-sms-form">
+                                            <div class="row">
+                                                <div class="c-lg-8 pull-left new-sms-wrapper">
+                                                    <textarea cols="1" rows="5" *ngIf="flagJSON.notificationType=='SMS'" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="Enter your SMS here" [(ngModel)]="newSmsString.data" aria-haspopup="true" value="" id="listTxt"
+                                                        (ngModelChange)="countNumberOfMessage()"></textarea>
+                                                    <!-- Added editor for email formatting ashwini kumar gupta -->
+                                                    <editor [init]="editorConf" *ngIf="flagJSON.notificationType=='Email'" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t" (ngModelChange)="countNumberOfMessage()" [(ngModel)]="newSmsString.data" placeholder="Enter your SMS here">
+                                                    </editor>
+                                                    <!-- End -->
+                                                    <div style="width:100%; display:flex; justify-content:space-between;">
+                                                        <span>Character Count : {{newSmsString.data.length}}</span>
+                                                        <span>Message Count :
                               <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span>
-                            </span>
-                          </div>
-                        </div>
+                                                        </span>
+                                                    </div>
+                                                </div>
 
-                        <div class="c-lg-4 pull-right" style="margin-top: 16px;">
-                          <aside class="pull-left create-cancel-small">
-                            <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()">
-                            <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()">
-                          </aside>
-                        </div>
+                                                <div class="c-lg-4 pull-right" style="margin-top: 16px;">
+                                                    <aside class="pull-left create-cancel-small">
+                                                        <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()">
+                                                        <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()">
+                                                    </aside>
+                                                </div>
 
-                      </div>
-                    </section>
-                  </div>
+                                            </div>
+                                        </section>
+                                    </div>
 
-                  <!-- Message Header -->
+                                    <!-- Message Header -->
 
-                  <h3>Message List</h3>
+                                    <h3>Message List</h3>
 
 
-                  <!-- Length of SMS Total and SearchBar -->
-                  <div class="row sms-table-head">
-                    <div class="c-lg-7 c-md-7 c-sm-7" style="padding-top: 10px;">
-                      <div id="approvedSms" class="sms-tab active" style="margin-left: 5px;"
-                        (click)="switchSmsTab('approvedSms')">
-                        <label style="cursor: pointer">Approved</label>
-                      </div>
-                      <div id="openSms" class="sms-tab" (click)="switchSmsTab('openSms')">
-                        <label style="cursor: pointer">Open</label>
-                      </div>
-                    </div>
-                    <div class="c-lg-5 c-md-5 c-sm-5 align-right">
-                      <!-- <div class="search-filter-wrapper">
-                            <input type="text" class="sms-search-field" placeholder="Search SMS" #smssearch [(ngModel)]="smsSearchData" name="searchData"
-                              (keyup.enter)="onSearch(smssearch.value)">
-                          </div> -->
-                    </div>
-                  </div>
+                                    <!-- Length of SMS Total and SearchBar -->
+                                    <div class="row sms-table-head">
+                                        <div class="c-lg-7 c-md-7 c-sm-7" style="padding-top: 10px;">
+                                            <div id="approvedSms" class="sms-tab active" style="margin-left: 5px;" (click)="switchSmsTab('approvedSms')">
+                                                <label style="cursor: pointer">Approved</label>
+                                            </div>
+                                            <div id="openSms" class="sms-tab" (click)="switchSmsTab('openSms')">
+                                                <label style="cursor: pointer">Open</label>
+                                            </div>
+                                        </div>
+                                        <div class="c-lg-5 c-md-5 c-sm-5 align-right">
+                                            <!-- <div class="search-filter-wrapper">
+                          <input type="text" class="sms-search-field" placeholder="Search SMS" #smssearch [(ngModel)]="smsSearchData" name="searchData"
+                            (keyup.enter)="onSearch(smssearch.value)">
+                        </div> -->
+                                        </div>
+                                    </div>
 
-                </div>
+                                </div>
 
-                <div class="sms-middle-section">
-                  <div class="table table-responsive table-container table-data-overflow">
-                    <table class="tableBodyScroll">
-                      <thead>
-                        <tr>
-                          <!-- <th></th> -->
-                          <th>
-                            <label>
+                                <div class="sms-middle-section">
+                                    <div class="table table-responsive table-container table-data-overflow">
+                                        <table class="tableBodyScroll">
+                                            <thead>
+                                                <tr>
+                                                    <!-- <th></th> -->
+                                                    <th>
+                                                        <label>
                               <a class="cursor-icon" id="cursorAnch11">{{smsHeader.message.title}}</a>
                             </label>
-                          </th>
-                          <th style="width: 18%;">
-                            <label>
+                                                    </th>
+                                                    <th style="width: 18%;">
+                                                        <label>
                               <a class="cursor-icon" id="cursorAnch12">{{smsHeader.date.title}}</a>
                             </label>
-                          </th>
-                          <th style="text-align: center;">
-                            <label>
+                                                    </th>
+                                                    <th style="text-align: center;">
+                                                        <label>
                               <a class="cursor-icon" id="cursorAnch13">{{smsHeader.action.title}}</a>
                             </label>
-                          </th>
-                        </tr>
-                      </thead>
-                      <!-- Added conditon for SMS and email  Ashwini kumar gupta -->
-                      <!-- SMS -->
-                      <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='SMS'">
-                        <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
-                          <!-- <td>
-                            <div class="field-radio-wrapper">
-                              <label for="appradiosms{{i}}"></label>
-                              <input type="radio" name="smsTable" class="form-radio" id="appradiosms{{i}}">
-                            </div>
-                          </td> -->
-                          <td>
-                            <span [innerHTML]="row.message"></span>
-                          </td>
-                          <td style="width: 18%;">
-                            {{row.date}}
-                          </td>
-                          <td>
-                            <enquiry-sms-action style="text-align: center;">
-                            </enquiry-sms-action>
-                          </td>
-                        </tr>
-                      </tbody>
-                      <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='SMS'">
-                        <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
-                          <!-- <td>
-                            <div class="field-radio-wrapper">
-                              <label for="oppradiosms{{i}}"></label>
-                              <input type="radio" name="smsTable" class="form-radio" id="opradiosms{{i}}">
-                            </div>
-                          </td> -->
-                          <td>
-                            <span [innerHTML]="row.message"></span>
-                          </td>
-                          <td style="width: 18%;">
-                            {{row.date}}
-                          </td>
-                          <td class="sms-Action-td" style="display:block">
-                            <span class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}"
-                              style="display: inline-block">
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <!-- Added conditon for SMS and email  Ashwini kumar gupta -->
+                                            <!-- SMS -->
+                                            <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='SMS'">
+                                                <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
+                                                    <!-- <td>
+                          <div class="field-radio-wrapper">
+                            <label for="appradiosms{{i}}"></label>
+                            <input type="radio" name="smsTable" class="form-radio" id="appradiosms{{i}}">
+                          </div>
+                        </td> -->
+                                                    <td>
+                                                        <span [innerHTML]="row.message"></span>
+                                                    </td>
+                                                    <td style="width: 18%;">
+                                                        {{row.date}}
+                                                    </td>
+                                                    <td>
+                                                        <enquiry-sms-action style="text-align: center;">
+                                                        </enquiry-sms-action>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='SMS'">
+                                                <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
+                                                    <!-- <td>
+                          <div class="field-radio-wrapper">
+                            <label for="oppradiosms{{i}}"></label>
+                            <input type="radio" name="smsTable" class="form-radio" id="opradiosms{{i}}">
+                          </div>
+                        </td> -->
+                                                    <td>
+                                                        <span [innerHTML]="row.message"></span>
+                                                    </td>
+                                                    <td style="width: 18%;">
+                                                        {{row.date}}
+                                                    </td>
+                                                    <td class="sms-Action-td" style="display:block">
+                                                        <span class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}" style="display: inline-block">
                               <i class="fas fa-check" (click)="approveRejectSms(row , '1')"
                                 style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
                               <i class="fa fa-times" (click)="approveRejectSms(row,'2')"
                                 style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
                             </span>
-                            <enquiry-sms-action style="display: inline-block"></enquiry-sms-action>
-                          </td>
-                        </tr>
-                      </tbody>
-                      <!-- Email -->
-                      <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='Email'">
-                        <tr *ngFor="let row of emailSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
-                          <td>
-                            <span [innerHTML]="row.message"></span>
-                          </td>
-                          <td style="width: 18%;">
-                            {{row.date}}
-                          </td>
-                          <td>
-                            <enquiry-sms-action>
-                            </enquiry-sms-action>
-                          </td>
-                        </tr>
-                      </tbody>
-                      <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='Email'">
-                        <tr *ngFor="let row of emailSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
-                          <td>
-                            <span [innerHTML]="row.message"></span>
-                          </td>
-                          <td style="width: 18%;">
-                            {{row.date}}
-                          </td>
-                          <td class="sms-Action-td" style="display:block;text-align: center;">
-                            <span class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}"
-                              style="display: inline-block">
+                                                        <enquiry-sms-action style="display: inline-block"></enquiry-sms-action>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <!-- Email -->
+                                            <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='Email'">
+                                                <tr *ngFor="let row of emailSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
+                                                    <td>
+                                                        <span [innerHTML]="row.message"></span>
+                                                    </td>
+                                                    <td style="width: 18%;">
+                                                        {{row.date}}
+                                                    </td>
+                                                    <td>
+                                                        <enquiry-sms-action>
+                                                        </enquiry-sms-action>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='Email'">
+                                                <tr *ngFor="let row of emailSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
+                                                    <td>
+                                                        <span [innerHTML]="row.message"></span>
+                                                    </td>
+                                                    <td style="width: 18%;">
+                                                        {{row.date}}
+                                                    </td>
+                                                    <td class="sms-Action-td" style="display:block;text-align: center;">
+                                                        <span class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}" style="display: inline-block">
                               <i class="fas fa-check" (click)="approveRejectSms(row , '1')" title="Approve"
                                 style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
                               <i class="fa fa-times" (click)="approveRejectSms(row,'2')" title="Reject"
                                 style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
                             </span>
-                            <enquiry-sms-action style="display: inline-block;"></enquiry-sms-action>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+                                                        <enquiry-sms-action style="display: inline-block;"></enquiry-sms-action>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
 
-              </aside>
+                            </aside>
 
 
-              <aside class="pull-right sms-preview">
-                <div style="    margin-bottom: 5px;">
-                  <div class="row">
-                    <div class="c-lg-6 c-md-6 c-sm-6">
-                      <h4>{{smsSelectedRowsLength}} Users Selected</h4>
-                    </div>
-                    <div class="c-lg-6 c-md-6 c-sm-6" style="padding:24px 0px;">
-                      <a style="cursor:pointer;" (click)="closeBulkSms()" id="closeBulkAnch4">Change</a>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="c-lg-12 c-md-12 c-sm-12">
-                      Available SMS Quota: {{varJson.availableSMS}}
-                    </div>
-                  </div>
-                  <div class="row" style="padding: 10px 0px; " *ngIf="flagJSON.notificationType=='Email'">
-                    <div class="c-lg-12 c-md-12 c-sm-12" style="padding-bottom: 5px">
-                      <label>Subject
+                            <aside class="pull-right sms-preview">
+                                <div style="    margin-bottom: 5px;">
+                                    <div class="row">
+                                        <div class="c-lg-6 c-md-6 c-sm-6">
+                                            <h4>{{smsSelectedRowsLength}} Users Selected</h4>
+                                        </div>
+                                        <div class="c-lg-6 c-md-6 c-sm-6" style="padding:24px 0px;">
+                                            <a style="cursor:pointer;" (click)="closeBulkSms()" id="closeBulkAnch4">Change</a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="c-lg-12 c-md-12 c-sm-12">
+                                            Available SMS Quota: {{varJson.availableSMS}}
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding: 10px 0px; " *ngIf="flagJSON.notificationType=='Email'">
+                                        <div class="c-lg-12 c-md-12 c-sm-12" style="padding-bottom: 5px">
+                                            <label>Subject
                         <span class="danger">*</span>
                       </label>
-                    </div>
-                    <div class="c-lg-12 c-md-12 c-sm-12">
-                      <input type="text" placeholder="Email Subject" [(ngModel)]="emailSubject" name="searchEmailData">
-                    </div>
-                  </div>
-                </div>
-                <div class="sms-preview-content">
-                  <div class="field-sms-wrapper">
-                    <!-- Added Editor for email formatting  By Ashwini kumar gupta-->
-                    <textarea placeholder="Edit Message Here" rows="20" cols="1"
-                      *ngIf="flagJSON.notificationType=='SMS'" autocomplete="off" role="textbox"
-                      aria-autocomplete="list" aria-haspopup="true" id="sms-content" value=""
-                      [(ngModel)]="selectedSMS.message" [disabled]="!flagJSON.smsBtnToggle"
-                      (ngModelChange)="countNumberOfMessageForEdit()"></textarea>
-                    <editor [init]="editorConf" id="email-content" *ngIf="flagJSON.notificationType=='Email'"
-                      [disabled]="!flagJSON.smsBtnToggle" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
-                      [(ngModel)]="selectedSMS.message" (ngModelChange)="countNumberOfMessageForEdit()"></editor>
-                    <!-- End -->
-                    <div style="width:100%; display:flex; justify-content:space-between;font-size:12px">
-                      <span>Character Count : {{selectedSMS.message.length}}</span>
-                      <span>Message Count :
+                                        </div>
+                                        <div class="c-lg-12 c-md-12 c-sm-12">
+                                            <input type="text" placeholder="Email Subject" [(ngModel)]="emailSubject" name="searchEmailData">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sms-preview-content">
+                                    <div class="field-sms-wrapper">
+                                        <!-- Added Editor for email formatting  By Ashwini kumar gupta-->
+                                        <textarea placeholder="Edit Message Here" rows="20" cols="1" *ngIf="flagJSON.notificationType=='SMS'" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!flagJSON.smsBtnToggle"
+                                            (ngModelChange)="countNumberOfMessageForEdit()"></textarea>
+                                        <editor [init]="editorConf" id="email-content" *ngIf="flagJSON.notificationType=='Email'" [disabled]="!flagJSON.smsBtnToggle" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t" [(ngModel)]="selectedSMS.message" (ngModelChange)="countNumberOfMessageForEdit()"></editor>
+                                        <!-- End -->
+                                        <div style="width:100%; display:flex; justify-content:space-between;font-size:12px">
+                                            <span>Character Count : {{selectedSMS.message.length}}</span>
+                                            <span>Message Count :
                         <span [ngClass]="{'red' : messageCountForEdit >= 2}">{{messageCountForEdit}}</span>
-                      </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sms-preview-footer">
+                                    <div class="">
+                                        <div class="clearfix">
+                                            <aside class="popup-btn">
+                                                <input type="button" value="Cancel" class="btn" *ngIf="flagJSON.smsBtnToggle" (click)="cancelSmsEdit()" id="BtncancelEditSms">
+                                                <input type="button" value="Save" class="fullBlue btn" *ngIf="flagJSON.smsBtnToggle" (click)="saveEditedSms()" id="BtnsaveSmsEdited">
+                                                <input type="button" value="Cancel" class="btn" *ngIf="!flagJSON.smsBtnToggle" (click)="closeBulkSms()" id="Btncancel0">
+                                                <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="(!flagJSON.smsBtnToggle)&&(flagJSON.notificationType=='SMS')" (click)="sendSmsTemplate()" id="btn0">
+                                                <input type="button" value="Send Email" class="btn fullBlue" *ngIf="(!flagJSON.smsBtnToggle)&&(flagJSON.notificationType=='Email')" (click)="addNewEmailTemplate()">
+                                            </aside>
+                                        </div>
+                                    </div>
+                                </div>
+                            </aside>
+
+                        </div>
                     </div>
-                  </div>
-                </div>
-                <div class="sms-preview-footer">
-                  <div class="">
-                    <div class="clearfix">
-                      <aside class="popup-btn">
-                        <input type="button" value="Cancel" class="btn" *ngIf="flagJSON.smsBtnToggle"
-                          (click)="cancelSmsEdit()" id="BtncancelEditSms">
-                        <input type="button" value="Save" class="fullBlue btn" *ngIf="flagJSON.smsBtnToggle"
-                          (click)="saveEditedSms()" id="BtnsaveSmsEdited">
-                        <input type="button" value="Cancel" class="btn" *ngIf="!flagJSON.smsBtnToggle"
-                          (click)="closeBulkSms()" id="Btncancel0">
-                        <input type="button" value="Send SMS" class="fullBlue btn"
-                          *ngIf="(!flagJSON.smsBtnToggle)&&(flagJSON.notificationType=='SMS')"
-                          (click)="sendSmsTemplate()" id="btn0">
-                        <input type="button" value="Send Email" class="btn fullBlue"
-                          *ngIf="(!flagJSON.smsBtnToggle)&&(flagJSON.notificationType=='Email')"
-                          (click)="addNewEmailTemplate()">
-                      </aside>
-                    </div>
-                  </div>
-                </div>
-              </aside>
 
-            </div>
-          </div>
+                    <div *ngIf="flagJSON.notificationType=='sendGrid'">
+                        <div class="sms-form sms-popup-content">
+                            <div class="sms-update">
 
-          <div *ngIf="flagJSON.notificationType=='sendGrid'">
-            <div class="sms-form sms-popup-content">
-              <div class="sms-update">
+                                <aside class="pull-left sms-grid-table">
+                                    <div class="sms-top-section">
+                                        <h3 style="margin-top: 15px;margin-bottom: 15px;">Template List</h3>
+                                    </div>
 
-                <aside class="pull-left sms-grid-table">
-                  <div class="sms-top-section">
-                    <h3 style="margin-top: 15px;margin-bottom: 15px;">Template List</h3>
-                  </div>
+                                    <div class="sms-middle-section">
+                                        <div class="table table-responsive table-container table-data-overflow">
+                                            <table>
+                                                <tr>
+                                                    <th>
 
-                  <div class="sms-middle-section">
-                    <div class="table table-responsive table-container table-data-overflow">
-                      <table>
-                        <tr>
-                          <th>
-
-                          </th>
-                          <th style="width: 30%;">
-                            <label>
+                                                    </th>
+                                                    <th style="width: 30%;">
+                                                        <label>
                               <a class="cursor-icon" id="cursorAnch11">Template Name</a>
                             </label>
-                          </th>
-                          <th style="width: 30%;">
-                            <label>
+                                                    </th>
+                                                    <th style="width: 30%;">
+                                                        <label>
                               <a class="cursor-icon" id="cursorAnch12">Version Name</a>
                             </label>
-                          </th>
-                          <th style="width: 25%;">
-                            <label>
+                                                    </th>
+                                                    <th style="width: 25%;">
+                                                        <label>
                               <a class="cursor-icon" id="cursorAnch12">Updated Date</a>
                             </label>
-                          </th>
-                          <th style="width: 15%;">
-                            <label>
+                                                    </th>
+                                                    <th style="width: 15%;">
+                                                        <label>
                               <a class="cursor-icon" id="cursorAnch13">Preview</a>
                             </label>
-                          </th>
-                        </tr>
-                        <tr id="row{{i}}" *ngFor="let row of emailGridData; let i = index;"
-                          (click)="opEmailGridSelected(row,i)" [class.selected]="i == selectedTableRow">
-                          <td>
-                            <!-- <div class="c-sm-1 c-md-1 c-lg-1"> -->
-                            <!-- <div class="field-radio-wrapper"> -->
-                            <input type="radio" name="bothRadio" [id]="'bothRadio-'+i" class="form-radio" [value]="i"
-                              [(ngModel)]="selectedTableRow">
-                            <!-- <label [for]="'bothRadio-'+i">{{smsDetails.total_sms}}</label> -->
-                            <!-- </div> -->
-                            <!-- </div> -->
-                          </td>
-                          <td style="width: 30%;">
-                            <span title="{{row.template_name}}">{{ (row.template_name.length > 20) ? (row.template_name | slice:0:20) + '...' : row.template_name
-                              }}
+                                                    </th>
+                                                </tr>
+                                                <tr id="row{{i}}" *ngFor="let row of emailGridData; let i = index;" (click)="opEmailGridSelected(row,i)" [class.selected]="i == selectedTableRow">
+                                                    <td>
+                                                        <!-- <div class="c-sm-1 c-md-1 c-lg-1"> -->
+                                                        <!-- <div class="field-radio-wrapper"> -->
+                                                        <input type="radio" name="bothRadio" [id]="'bothRadio-'+i" class="form-radio" [value]="i" [(ngModel)]="selectedTableRow">
+                                                        <!-- <label [for]="'bothRadio-'+i">{{smsDetails.total_sms}}</label> -->
+                                                        <!-- </div> -->
+                                                        <!-- </div> -->
+                                                    </td>
+                                                    <td style="width: 30%;">
+                                                        <span title="{{row.template_name}}">{{ (row.template_name.length > 20) ? (row.template_name | slice:0:20) + '...' : row.template_name
+                            }}
                             </span>
-                          </td>
-                          <td style="width: 30%;">
-                            <span title="{{row.version_name}}">{{ (row.version_name.length > 20) ? (row.version_name | slice:0:20) + '...' : row.version_name
-                              }}
+                                                    </td>
+                                                    <td style="width: 30%;">
+                                                        <span title="{{row.version_name}}">{{ (row.version_name.length > 20) ? (row.version_name | slice:0:20) + '...' : row.version_name
+                            }}
                             </span>
-                          </td>
-                          <td style="width: 25%;">
-                            <span title="{{row.template_updated_date}}">{{row.template_updated_date}}</span>
-                          </td>
-                          <td style="width: 15%;" (click)="viewThumbnailUrl(row.template_subject_thumbnail_url)">
-                            <a class="cursor">View</a>
-                          </td>
-                        </tr>
-                        <tr *ngIf="emailGridData?.length==0">
-                          <td colspan="5" style="padding: 10px;text-align: center;font-weight: 600;">
-                            No Data Found
-                          </td>
-                        </tr>
-                      </table>
+                                                    </td>
+                                                    <td style="width: 25%;">
+                                                        <span title="{{row.template_updated_date}}">{{row.template_updated_date}}</span>
+                                                    </td>
+                                                    <td style="width: 15%;" (click)="viewThumbnailUrl(row.template_subject_thumbnail_url)">
+                                                        <a class="cursor">View</a>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="emailGridData?.length==0">
+                                                    <td colspan="5" style="padding: 10px;text-align: center;font-weight: 600;">
+                                                        No Data Found
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </aside>
+
+
+                                <aside class="pull-right sms-grid-preview">
+                                    <div class="sms-preview-footer" style="float: right;">
+                                        <div class="">
+                                            <div class="clearfix">
+                                                <aside class="popup-btn">
+                                                    <input type="button" value="Cancel" class="btn" (click)="closeBulkSms()" id="Btncancel0">
+                                                    <input type="button" value="Send" class="fullBlue btn" (click)="sendEmailGrid()" id="btn0">
+                                                </aside>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </aside>
+
+                            </div>
+                        </div>
                     </div>
-                  </div>
 
-                </aside>
+                </div>
 
-
-                <aside class="pull-right sms-grid-preview">
-                  <div class="sms-preview-footer" style="float: right;">
-                    <div class="">
-                      <div class="clearfix">
-                        <aside class="popup-btn">
-                          <input type="button" value="Cancel" class="btn" (click)="closeBulkSms()" id="Btncancel0">
-                          <input type="button" value="Send" class="fullBlue btn" (click)="sendEmailGrid()" id="btn0">
-                        </aside>
-                      </div>
-                    </div>
-                  </div>
-                </aside>
-
-              </div>
             </div>
-          </div>
-
         </div>
 
-      </div>
-    </div>
-
-  </section>
+    </section>
 
 
-  <section class="absent_popup" *ngIf="viewPopUp">
-    <div class="absent_student">
-      <div class="header">
-        <span style="font-weight: 600; cursor: pointer;" (click)="closeViewPopUp()">X</span>
-      </div>
-      <div class="main_container">
-        <div class="for_absent">
-          <img [src]="EmailThumbnailUrl" class="emailGridImg">
+    <section class="absent_popup" *ngIf="viewPopUp">
+        <div class="absent_student">
+            <div class="header">
+                <span style="font-weight: 600; cursor: pointer;" (click)="closeViewPopUp()">X</span>
+            </div>
+            <div class="main_container">
+                <div class="for_absent">
+                    <img [src]="EmailThumbnailUrl" class="emailGridImg">
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <div class="black-bg1" id="black-bg1" *ngIf="viewPopUp" (click)="closeViewPopUp()"></div>
-  <!-- Download Summary Report Options PopUp Single-->
-  <section id="" class="popupWrapper fadeIn" *ngIf="flagJSON.summaryOptions">
-    <!-- -->
+    <div class="black-bg1" id="black-bg1" *ngIf="viewPopUp" (click)="closeViewPopUp()"></div>
+    <!-- Download Summary Report Options PopUp Single-->
+    <section id="" class="popupWrapper fadeIn" *ngIf="flagJSON.summaryOptions">
+        <!-- -->
 
-    <div class="popup pos-abs popup-body-container" style="max-width: 30%">
-      <div class="popup-wrapper pos-rel">
-        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+        <div class="popup pos-abs popup-body-container" style="max-width: 30%">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
           <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
             viewBox="0 0 24 24" width="24px" x="0" y="0">
             <path class="large-icon"
@@ -1663,86 +1540,77 @@
               style="fill: currentColor"></path>
           </svg>
         </span>
-        <div class="popup-content">
-          <h2>Download Summary Report</h2>
-          <div class="content-section">
-            <div class="download-report">
-              <div class="label-container">
-                <span>Download summary report for</span>
-              </div>
-              <div class="checkbox-container">
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" name="slotLabel" [(ngModel)]="downloadReportFor.enquiry"
-                    class="form-checkbox" id="enq-download">
-                  <label for="enq-download">Enquiry</label>
-                </div>
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" name="slotLabel" [(ngModel)]="downloadReportFor.admissions"
-                    class="form-checkbox" id="enq-admissions">
-                  <label for="enq-admissions">Admissions</label>
-                </div>
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" name="slotLabel" [(ngModel)]="downloadReportFor.fees"
-                    class="form-checkbox" id="enq-fees">
-                  <label for="enq-fees">Fees</label>
-                </div>
-              </div>
-            </div>
-            <div id="divDropDownSection" *ngIf="!flagJSON.showDateRange" class="row dropDownSection">
-              <div class="c-sm-6 c-lg-6 c-lg-6">
-                <div class="field-wrapper has-value">
-                  <label for="priorityEdit">Select Duration</label>
-                  <select id="month" class="form-ctrl" [(ngModel)]="varJson.downloadReportOption" name="priority">
+                <div class="popup-content">
+                    <h2>Download Summary Report</h2>
+                    <div class="content-section">
+                        <div class="download-report">
+                            <div class="label-container">
+                                <span>Download summary report for</span>
+                            </div>
+                            <div class="checkbox-container">
+                                <div class="field-checkbox-wrapper">
+                                    <input type="checkbox" value="" name="slotLabel" [(ngModel)]="downloadReportFor.enquiry" class="form-checkbox" id="enq-download">
+                                    <label for="enq-download">Enquiry</label>
+                                </div>
+                                <div class="field-checkbox-wrapper">
+                                    <input type="checkbox" value="" name="slotLabel" [(ngModel)]="downloadReportFor.admissions" class="form-checkbox" id="enq-admissions">
+                                    <label for="enq-admissions">Admissions</label>
+                                </div>
+                                <div class="field-checkbox-wrapper">
+                                    <input type="checkbox" value="" name="slotLabel" [(ngModel)]="downloadReportFor.fees" class="form-checkbox" id="enq-fees">
+                                    <label for="enq-fees">Fees</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divDropDownSection" *ngIf="!flagJSON.showDateRange" class="row dropDownSection">
+                            <div class="c-sm-6 c-lg-6 c-lg-6">
+                                <div class="field-wrapper has-value">
+                                    <label for="priorityEdit">Select Duration</label>
+                                    <select id="month" class="form-ctrl" [(ngModel)]="varJson.downloadReportOption" name="priority">
                     <option value="1">Select Month</option>
                     <option value="2">This Month</option>
                     <option value="3">Previous Month</option>
                     <option value="4">Last Two Month</option>
                   </select>
+                                </div>
+                            </div>
+                            <div style="padding-top: 16px;" class="c-sm-6 c-lg-6 c-lg-6">
+                                <button class="btn fullBlue" (click)="downloadSummaryReportXl()" style="margin-top: 10px" id="btnDownloadSummary">Download</button>
+                            </div>
+                        </div>
+                        <div id="divRangeSelection" *ngIf="flagJSON.showDateRange" class="row select-dates" style="margin:0 -15px">
+                            <div class="c-sm-4 c-lg-4 c-lg-4">
+                                <div class="field-wrapper datePickerBox">
+                                    <label for="fromDate">From Date</label>
+                                    <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.from_date" name="fromDate" readonly="true" bsDatepicker />
+
+
+                                </div>
+                            </div>
+                            <div class="c-sm-4 c-lg-4 c-lg-4">
+                                <div class="field-wrapper datePickerBox">
+                                    <label for="toDate">To Date</label>
+                                    <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.to_date" name="toDate" readonly="true" bsDatepicker />
+
+                                </div>
+                            </div>
+                            <div class="c-sm-4 c-lg-4 c-lg-4" style="margin-top: 15px;">
+                                <button class="btn fullBlue" (click)="downloadSummaryReportXlDateWise()" style="margin-top: 10px; padding: 5px" id="btnDownloadDatewise">Download</button>
+                            </div>
+                        </div>
+                        <a id="anchTagToggle" class="pull-right" (click)="toggleDateSection()" style="cursor: pointer;margin-top: 10px;">Download By Date Range</a>
+                        <a id="downloadSummaryReport121" class="hide"></a>
+                    </div>
                 </div>
-              </div>
-              <div style="padding-top: 16px;" class="c-sm-6 c-lg-6 c-lg-6">
-                <button class="btn fullBlue" (click)="downloadSummaryReportXl()" style="margin-top: 10px"
-                  id="btnDownloadSummary">Download</button>
-              </div>
+
+
             </div>
-            <div id="divRangeSelection" *ngIf="flagJSON.showDateRange" class="row select-dates" style="margin:0 -15px">
-              <div class="c-sm-4 c-lg-4 c-lg-4">
-                <div class="field-wrapper datePickerBox">
-                  <label for="fromDate">From Date</label>
-                  <input type="text" value="" id="" class="form-ctrl bsDatepicker"
-                    [(ngModel)]="varJson.summaryReport.from_date" name="fromDate" readonly="true" bsDatepicker />
-
-
-                </div>
-              </div>
-              <div class="c-sm-4 c-lg-4 c-lg-4">
-                <div class="field-wrapper datePickerBox">
-                  <label for="toDate">To Date</label>
-                  <input type="text" value="" id="" class="form-ctrl bsDatepicker"
-                    [(ngModel)]="varJson.summaryReport.to_date" name="toDate" readonly="true" bsDatepicker />
-
-                </div>
-              </div>
-              <div class="c-sm-4 c-lg-4 c-lg-4" style="margin-top: 15px;">
-                <button class="btn fullBlue" (click)="downloadSummaryReportXlDateWise()"
-                  style="margin-top: 10px; padding: 5px" id="btnDownloadDatewise">Download</button>
-              </div>
-            </div>
-            <a id="anchTagToggle" class="pull-right" (click)="toggleDateSection()"
-              style="cursor: pointer;margin-top: 10px;">Download By Date Range</a>
-            <a id="downloadSummaryReport121" class="hide"></a>
-          </div>
         </div>
 
-
-      </div>
-    </div>
-
-  </section>
+    </section>
 
 
 </div>
 
 <!-- Customizable Enquiry table -->
-<preference-popup [settings]="tableSetting" [keys]="enquirySettings" (closeButton)="closePreferncesPopup($event)"
-  *ngIf="flagJSON.showPreference"></preference-popup>
+<preference-popup [settings]="tableSetting" [keys]="enquirySettings" (closeButton)="closePreferncesPopup($event)" *ngIf="flagJSON.showPreference"></preference-popup>

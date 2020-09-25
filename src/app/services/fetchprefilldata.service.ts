@@ -131,8 +131,8 @@ export class FetchprefilldataService {
 
   updateEnquiryForm(id, data) {
 
-    data.followUpDate = moment(data.followUpDate).format('MM-DD-YYYY');
-    data.commentDate = moment(data.commentDate).format('MM-DD-YYYY');
+    data.followUpDate = moment(data.followUpDate).format('YYYY-MM-DD');
+    data.commentDate = moment(data.commentDate).format('YYYY-MM-DD');
 
     let url = this.baseUrl + "/api/v1/enquiry/status/" + this.institute_id + "/" + id;
 

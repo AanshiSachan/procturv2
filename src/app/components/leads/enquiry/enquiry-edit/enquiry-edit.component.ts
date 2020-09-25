@@ -406,6 +406,9 @@ export class EnquiryEditComponent implements OnInit {
       data => {
         this.editEnqData = data;
         console.log(data);
+        this.editEnqData.enquiry_date = moment(data.enquiry_date).format("MM-DD-YYYY");
+        this.editEnqData.followUpDate =moment(data.followUpDate).format("MM-DD-YYYY");
+        this.editEnqData.walkin_followUpDate =moment(data.walkin_followUpDate).format("MM-DD-YYYY");
         // this.editEnqData.country_id = this.instituteCountryDetObj.country_id;
         this.countryDetails.forEach(element => {
           if (element.id == this.editEnqData.country_id) {
@@ -434,7 +437,7 @@ export class EnquiryEditComponent implements OnInit {
         }
 
         if (data.walkin_followUpDate != "" && data.walkin_followUpDate != "Invalid date" && data.walkin_followUpDate != null) {
-          this.editEnqData.walkin_followUpDate = data.walkin_followUpDate;
+          this.editEnqData.walkin_followUpDate = moment(data.walkin_followUpDate).format("MM-DD-YYYY");
         }
 
         if (data.walkin_followUpTime != "" && data.walkin_followUpTime != null && data.walkin_followUpTime != ": ") {
@@ -1137,6 +1140,7 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
+    // this.editEnqData.enquiry_date = moment(this.editEnqData.enquiry_date).format("YYYY-MM-DD");
     let phoneFlag = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone, this.maxlength, this.country_id);
     if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
       return this.showErrorMessage('error', 'Please enter name', '');
@@ -1306,7 +1310,7 @@ export class EnquiryEditComponent implements OnInit {
       this.updateFormData.statusValue = res.statusValue;
       this.updateFormData.status = res.status;
       this.updateFormData.followUpDate = res.followUpDate;
-      this.updateFormData.commentDate = moment().format('MM-DD-YYYY');
+      this.updateFormData.commentDate = moment(res.commentDate).format('MM-DD-YYYY');
       if (res.comments != null) {
         this.updateFormComments = res.comments;
       }

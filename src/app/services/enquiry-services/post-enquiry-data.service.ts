@@ -44,8 +44,8 @@ export class PostEnquiryDataService {
   }
 
   updateEnquiryForm(id, data) {
-    data.followUpDate = moment(data.followUpDate).format('MM-DD-YYYY');
-    data.commentDate = moment(data.commentDate).format('MM-DD-YYYY');
+    data.followUpDate = moment(data.followUpDate).format('YYYY-MM-DD');
+    data.commentDate = moment(data.commentDate).format('YYYY-MM-DD');
     this.urlUpdateEnquiryForm = this.baseUrl + "/api/v1/enquiry/status/" + this.institute_id + "/" + id;
     return this.http.put(this.urlUpdateEnquiryForm, data, { headers: this.headers }).pipe(map(res => {
       return res;
@@ -68,8 +68,9 @@ export class PostEnquiryDataService {
   }
 
   editFormUpdater(id, data) {
-    data.enquiry_date = moment(data.enquiry_date).format('MM-DD-YYYY');
-    data.followUpDate = moment(data.followUpDate).format('MM-DD-YYYY') == "Invalid date" ? '' : moment(data.followUpDate).format('MM-DD-YYYY');
+    data.enquiry_date = moment(data.enquiry_date).format('YYYY-MM-DD');
+    data.followUpDate = moment(data.followUpDate).format('YYYY-MM-DD') == "Invalid date" ? '' : moment(data.followUpDate).format('YYYY-MM-DD');
+     data.walkin_followUpDate = moment(data.walkin_followUpDate).format('YYYY-MM-DD');
 
     this.urlEditFormUpdater = this.baseUrl + "/api/v1/enquiry/" + this.institute_id + "/" + id;
     return this.http.put(this.urlEditFormUpdater, data, { headers: this.headers }).pipe(
@@ -79,9 +80,9 @@ export class PostEnquiryDataService {
   }
 
   postNewEnquiry(data) {
-    data.enquiry_date = moment(data.enquiry_date).format('MM-DD-YYYY');
-    data.followUpDate = moment(data.followUpDate).format('MM-DD-YYYY') == "Invalid date" ? '' : moment(data.followUpDate).format('MM-DD-YYYY');
-    data.dob = moment(data.dob).format('MM-DD-YYYY') == "Invalid date" ? '' : moment(data.dob).format('MM-DD-YYYY');
+    data.enquiry_date = moment(data.enquiry_date).format('YYYY-MM-DD');
+    data.followUpDate = moment(data.followUpDate).format('YYYY-MM-DD') == "Invalid date" ? '' : moment(data.followUpDate).format('YYYY-MM-DD');
+    data.dob = moment(data.dob).format('YYYY-MM-DD') == "Invalid date" ? '' : moment(data.dob).format('YYYY-MM-DD');
     this.urlPostEnquiry = this.baseUrl + "/api/v1/enquiry/" + this.institute_id;
     return this.http.post(this.urlPostEnquiry, data, { headers: this.headers }).pipe(map(
       data => { return data }

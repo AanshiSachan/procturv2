@@ -154,10 +154,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
       this.rowData.parent_name = res.parent_name;
       this.rowData.parent_email = res.parent_email;
       this.rowData.parent_phone = res.parent_phone;
-      this.updateFormData.followUpDate = res.followUpDate;
+      this.updateFormData.followUpDate = moment(res.followUpDate).format("MM-DD-YYYY");
       this.cd.markForCheck();
       this.updateFormData.assigned_to = res.assigned_to;
-      this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
+      this.updateFormData.walkin_followUpDate = moment(res.walkin_followUpDate).format("MM-DD-YYYY");
       if (res.followUpTime != '' && res.followUpTime != null) {
         this.followUpTime = this.breakTimeInToHrAndMin(res.followUpTime);
       }
