@@ -693,7 +693,6 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
               this.customComponents.push(obj);
             });
           }
-          this.emptyCustomComponent = this.componentListObject;
         });
   }
 
@@ -735,12 +734,11 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
       let obj = {
-        data: el.toLowerCase(),
+        data: el.toString(),
         checked: false
       }
       customPrefilled.push(obj);
     });
-
     return customPrefilled;
   }
 
