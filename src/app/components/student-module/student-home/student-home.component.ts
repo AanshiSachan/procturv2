@@ -258,7 +258,7 @@ export class StudentHomeComponent implements OnInit {
     this.today = moment().format('DD MMM YYYY');
     let institute_id = sessionStorage.getItem('institute_id');
     if (institute_id == "100292" || institute_id == "100058" || institute_id == "100127") {
-    // if (institute_id == "100292" || institute_id == "100127") {
+      // if (institute_id == "100292" || institute_id == "100127") {
       this.attendanceCertificate = true;
     }
     this.actRoute.queryParams.subscribe(e => {
@@ -592,7 +592,7 @@ export class StudentHomeComponent implements OnInit {
     //this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
     //this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
     //this.instituteData.filtered_statuses = this.statusString.join(',');
-    let obj :any = {
+    let obj: any = {
       name: "",
       is_active_status: this.advancedFilterForm.is_active_status,
       mobile: "",
@@ -600,7 +600,7 @@ export class StudentHomeComponent implements OnInit {
       batch_size: this.studentdisplaysize,
       is_quick_filter: 'Y',
       master_course_name: this.advancedFilterForm.master_course_name,
-      course_id : this.advancedFilterForm.course_id,
+      course_id: this.advancedFilterForm.course_id,
       standard_id: this.advancedFilterForm.standard_id
    }
    if(this.advancedFilterForm.master_course_name == '-1') {
@@ -617,8 +617,22 @@ export class StudentHomeComponent implements OnInit {
     else {
       obj.mobile = this.searchBarData;
     }
+    if (this.advancedFilterForm.master_course_name == '-1') {
       obj.master_course_name = '';
-      obj.course_id= '-1';
+    }
+    if (this.showQuickFilter) {
+      this.loadTableDataSource(obj);
+    } else if (this.searchBarData != '' && this.searchBarData != null && this.searchBarData != undefined) {
+      this.searchBarData = this.searchBarData.trim();
+      /* If input is of type string then validate string validity*/
+      if (isNaN(this.searchBarData)) {
+        obj.name = this.searchBarData;
+      }/* If not string then use the data as a number*/
+      else {
+        obj.mobile = this.searchBarData;
+      }
+      obj.master_course_name = '';
+      obj.course_id = '-1';
       obj.standard_id = '-1';
     this.loadTableDataSource(obj);
   } else if((this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) && !this.isAdvFilter && !this.isProfessional){
@@ -769,8 +783,8 @@ export class StudentHomeComponent implements OnInit {
     this.closeSideBar();
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
     document.getElementById('adFilterOpen').classList.add('hide');
-    if(document.getElementById('basic-search')) {
-    document.getElementById('basic-search').classList.add('hide');
+    if (document.getElementById('basic-search')) {
+      document.getElementById('basic-search').classList.add('hide');
     }
     document.getElementById('adFilterExit').classList.remove('hide');
     // document.getElementById('black-bg').classList.remove('hide');
@@ -1152,7 +1166,7 @@ export class StudentHomeComponent implements OnInit {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
       let obj = {
-        data: el.toLowerCase(),
+        data: el.toString(),
         checked: false
       }
       customPrefilled.push(obj);
@@ -1260,21 +1274,21 @@ export class StudentHomeComponent implements OnInit {
   searchDatabase() {
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
-      let obj :any = {
-         name: "",
-         is_active_status: this.advancedFilterForm.is_active_status,
-         mobile: "",
-         start_index: 0,
-         batch_size: this.studentdisplaysize,
-         is_quick_filter: 'Y',
-         master_course_name: this.advancedFilterForm.master_course_name,
-         course_id : this.advancedFilterForm.course_id,
-         standard_id: this.advancedFilterForm.standard_id
-      }
+    let obj: any = {
+      name: "",
+      is_active_status: this.advancedFilterForm.is_active_status,
+      mobile: "",
+      start_index: 0,
+      batch_size: this.studentdisplaysize,
+      is_quick_filter: 'Y',
+      master_course_name: this.advancedFilterForm.master_course_name,
+      course_id: this.advancedFilterForm.course_id,
+      standard_id: this.advancedFilterForm.standard_id
+    }
 
-      if(this.advancedFilterForm.master_course_name == '-1') {
-        obj.master_course_name = '';
-      }
+    if (this.advancedFilterForm.master_course_name == '-1') {
+      obj.master_course_name = '';
+    }
 
       if(!this.isProfessional) {
       if (this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) {
@@ -1290,7 +1304,7 @@ export class StudentHomeComponent implements OnInit {
         obj.mobile = this.searchBarData;
       }
       obj.master_course_name = '';
-      obj.course_id= '-1';
+      obj.course_id = '-1';
       obj.standard_id = '-1';
     }
     this.loadTableDataSource(obj);
