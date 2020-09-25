@@ -137,7 +137,7 @@ export class ReviewAssignmentComponent implements OnInit {
     end_date = (this.assignmentDetails.allow_assignment_late_submission == 'Y') ? this.assignmentDetails.assignment_late_submission_date : this.assignmentDetails.end_date;
     let currentDate = moment(new Date()).format('YYYY-MM-DD');
     end_date = moment(end_date).format('YYYY-MM-DD');
-    if (moment(end_date).valueOf() > moment(currentDate).valueOf()) {
+    if (moment(end_date).valueOf() < moment(currentDate).valueOf()) {
       this.assignmentDetails.show_evaluate = true;
     }
   }
