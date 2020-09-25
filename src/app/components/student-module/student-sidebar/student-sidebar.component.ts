@@ -45,6 +45,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   institute_id:any;
   downloadStudentReportAccess:boolean = false;
   studdentEdit = true;
+  isSubAdmin = false;
 
   /* Model for institute Data for fetching student enquiry */
   currRow: instituteInfo = {
@@ -83,6 +84,13 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
     });
+
+    const permissionArray = sessionStorage.getItem('permissions');
+    const userType = sessionStorage.getItem('userType');
+
+    if (userType == '0' && (permissionArray != "" && permissionArray != null)) {
+      this.isSubAdmin = true;
+    }
 
   }
 
