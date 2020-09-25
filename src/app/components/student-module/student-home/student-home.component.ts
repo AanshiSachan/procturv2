@@ -622,9 +622,6 @@ export class StudentHomeComponent implements OnInit {
       obj.standard_id = '-1';
     this.loadTableDataSource(obj);
   } else if((this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) && !this.isAdvFilter && !this.isProfessional){
-    obj.master_course_name = '';
-    obj.course_id= '-1';
-    obj.standard_id = '-1';
     this.loadTableDataSource(obj);
    } else {
     this.loadTableDataSource(this.instituteData);
@@ -1283,9 +1280,6 @@ export class StudentHomeComponent implements OnInit {
       if (this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) {
         obj.name = '';
         obj.mobile = '';
-        obj.master_course_name = '';
-        obj.course_id= '-1';
-        obj.standard_id = '-1';
       } else {
       this.searchBarData = this.searchBarData.trim();
       /* If input is of type string then validate string validity*/
