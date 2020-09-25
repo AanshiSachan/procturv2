@@ -1980,9 +1980,14 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       let permissions: any[] = [];
       permissions = JSON.parse(sessionStorage.getItem('permissions'));
       /* User has permission to view all enquiries */
-      if (permissions.includes('115')) {
+      if ((sessionStorage.getItem('userType') == '0') && (sessionStorage.getItem('username') != 'admin') && (sessionStorage.getItem('enable_assign_to_feature') == '0')) {
+        this.isEnquiryAdmin = false;
+      }
+
+      else if (permissions.includes('115')) {
         this.isEnquiryAdmin = true;
       }
+
       /* User is not authorized as enquiry admin and see only enquiry assigned to him */
       else {
         this.isEnquiryAdmin = false;

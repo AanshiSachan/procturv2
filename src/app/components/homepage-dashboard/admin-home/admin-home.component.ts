@@ -344,6 +344,7 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.getSettings().subscribe(
       res => {
         this.settingInfo = res;
+        sessionStorage.setItem("enable_assign_to_feature", res.enable_assign_to_feature);
       },
       err => {
       }
