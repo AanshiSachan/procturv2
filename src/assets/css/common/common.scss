@@ -1771,3 +1771,7 @@ bs-daterangepicker-container {
     z-index: 1080;
     left: 6% !important;
 }
+
+.next:after {
+    content: "" !important;
+}
