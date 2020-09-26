@@ -278,7 +278,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     student_id: 0,
     country_id: ''
   };
-
+  assignTo: boolean = true;
   feeObject: FeeModel;
   tableHeaderCheckbox: boolean = false;
   isFeePaymentUpdate: boolean = false;
@@ -373,6 +373,9 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       this.checkBoxGroup.showFeeSection = true;
       this.checkBoxGroup.manageCheque = true;
       this.checkBoxGroup.hideReconfigure = true;
+    }
+    if ((sessionStorage.getItem('userType') == '0') && (sessionStorage.getItem('username') != 'admin') && (sessionStorage.getItem('enable_assign_to_feature') == '0')) {
+      this.assignTo = false;
     }
     this.fetchDataForCountryDetails();
     this.getStateList();
