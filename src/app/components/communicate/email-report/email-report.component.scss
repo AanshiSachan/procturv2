@@ -1,83 +1,82 @@
 @import "./src/assets/css/common/variables.scss";
-
-.filter-box{
+.filter-box {
     background: #efefef;
     box-shadow: 1px 1px #000;
     box-shadow: 0px 1px 3px 0px #5d5d5d;
     border-radius: 5px;
 }
 
-.table-control{
+.table-control {
     //padding: 5px 0px;
     height: 50px;
     //border: 1px solid #efefef;
     //box-shadow: 0px 0px 1px 0px;
 }
-@media (min-width: 1200px)
-{
-.c-lg-5,.c-lg-7 {
-     width: unset; 
-}
-}
-.c-lg-7{
-  
-  margin-top: 20px;
-  line-height: 29px;
-  margin-right: -42px;
 
+@media (min-width: 1200px) {
+    .c-lg-5,
+    .c-lg-7 {
+        width: unset;
+    }
 }
-::ng-deep .bs-datepicker-container {
-    margin-left: 5% !important;
-  }
-.sms-view-wrapper{
+
+.c-lg-7 {
+    margin-top: 20px;
+    line-height: 29px;
+    margin-right: -42px;
+}
+
+// ::ng-deep .bs-datepicker-container {
+//     margin-left: 5% !important;
+//   }
+.sms-view-wrapper {
     padding: 5px;
-    .row{
+    .row {
         margin: 5px 15px;
     }
 }
 
-.sms-table-wrapper{
-
-    ::-webkit-scrollbar{
+.sms-table-wrapper {
+     ::-webkit-scrollbar {
         display: block;
     }
-    .table-responsive{
+    .table-responsive {
         max-height: 340px;
         overflow-x: hidden;
         overflow-y: auto;
-        ::-webkit-scrollbar{
+         ::-webkit-scrollbar {
             display: block;
         }
-    } 
-    .pagination{
-    width: 100%;
-    border-top: 1px solid rgba(119, 119, 119, 0.28);
+    }
+    .pagination {
+        width: 100%;
+        border-top: 1px solid rgba(119, 119, 119, 0.28);
     }
 }
 
-.sms-header{
+.sms-header {
     padding: 15px;
 }
 
-.sms-filter-wrapper{
-    .field-wrapper{
+.sms-filter-wrapper {
+    .field-wrapper {
         width: 40%;
         padding: 15px 0px;
         margin-left: 20px;
         display: inline-block;
     }
-    .btn-sms-search{
+    .btn-sms-search {
         padding: 15px 0px;
-        .btn{
+        .btn {
             width: 100px;
         }
     }
 }
 
-.sms-table-controller{ 
+.sms-table-controller {
     margin: 5px;
-    ul{
-        li{
+    ul {
+        li {
             display: inline-block;
             margin: 0px 20px 0px 0px;
         }
@@ -168,7 +167,7 @@
     }
 }
 
-.search{
-text-align: right;
-float: right;
+.search {
+    text-align: right;
+    float: right;
 }

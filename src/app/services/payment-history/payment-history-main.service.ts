@@ -61,6 +61,8 @@ export class PaymentHistoryMainService {
   }
 
   updatePerPersonData(obj) {
+    console.log("Object",obj);
+    obj.paid_date = moment(obj.paid_date).format("YYYY-MM-DD");
     let url = this.baseUrl + "/api/v1/studentWise/fee/updateFeeReceipt/" + this.institute_id + "/save";
     return this.http.post(url, obj, { headers: this.headers }).pipe(map(
       (data: any) => {

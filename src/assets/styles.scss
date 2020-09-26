@@ -1,8 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import '~@angular/material/prebuilt-themes/purple-green.css';
 @import "~ng-pick-datetime/assets/style/picker.min.css";
-
-
-html, body{
+html,
+body {
     background: #fdfdfd;
+}
+
+.theme-green .bs-datepicker-body table td.week span {
+    color: #0084f6 !important;
+}
+
+// .theme-green .bs-datepicker-head {
+//     background-color: #0084f6 !important;
+// }
+.theme-green .bs-datepicker-head {
+    color: #0084f6 !important;
 }

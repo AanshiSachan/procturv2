@@ -18,7 +18,7 @@ import { ColumnData2 } from '../../shared/data-display-table/data-display-table.
 })
 export class PaymentHistoryMainComponent implements OnInit {
 
-  @ViewChild('child',{static: false}) private child: DataDisplayTableComponent;
+  @ViewChild('child',{static: true}) private child: DataDisplayTableComponent;
   downloadFeeReportAccess:boolean = false;
   allPaymentRecords: any[] = [];
   tempRecords: any[] = [];
@@ -418,7 +418,7 @@ export class PaymentHistoryMainComponent implements OnInit {
   optionSelected(e) {
     // console.log(e);
     this.personData = e.data;
-    this.updatedResult.paid_date = e.data.paid_date;
+    this.updatedResult.paid_date = moment(e.data.paid_date).format("MM-DD-YYYY");
     this.chequeDetailsJson = [];
     this.varJson.tempData = {};
     this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(
@@ -469,7 +469,7 @@ export class PaymentHistoryMainComponent implements OnInit {
             if (feeSchedule_TxLst == false) {
               return
             }
-            this.chequeDetailsJson.cheque_date = moment(this.chequeDetailsJson.cheque_date).format('MM-DD-YYYY');
+            this.chequeDetailsJson.cheque_date = moment(this.chequeDetailsJson.cheque_date).format('YYYY-MM-DD');
 
             let obj = {
               chequeDetailsJson: Object.assign({}, this.chequeDetailsJson),
@@ -478,7 +478,7 @@ export class PaymentHistoryMainComponent implements OnInit {
               financial_year: this.personData.financial_year,
               invoice_no: this.personData.invoice_no,
               old_invoice_no: this.personData.invoice_no,
-              paid_date: moment(this.updatedResult.paid_date).format("MM-DD-YYYY"),
+              paid_date: moment(this.updatedResult.paid_date).format("YYYY-MM-DD"),
               paymentMode: this.updatedResult.paymentMode,
               reference_no: this.updatedResult.reference_no,
               remarks: this.updatedResult.remarks,
