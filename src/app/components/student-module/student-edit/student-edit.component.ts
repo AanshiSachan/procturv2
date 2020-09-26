@@ -306,7 +306,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   areaList: any[] = [];
   addArea: boolean = false;
   studdentEdit = true;
-
+  assignTo: boolean = true;
   constructor(
     private studentPrefillService: AddStudentPrefillService,
     private prefill: FetchprefilldataService,
@@ -335,6 +335,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
     this.is_tax_enabled = sessionStorage.getItem('enable_tax_applicable_fee_installments') == "1" ? true : false;
     this.tax_type_without_percentage = sessionStorage.getItem("tax_type_without_percentage");
+    if ((sessionStorage.getItem('userType') == '0') && (sessionStorage.getItem('username') != 'admin') && (sessionStorage.getItem('enable_assign_to_feature') == '0')) {
+      this.assignTo = false;
+    }
     if (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null) {
       this.switchToView('feeDetails-icon');
     }
