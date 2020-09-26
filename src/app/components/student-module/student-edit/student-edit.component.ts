@@ -131,9 +131,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   category_id: number | string = "";
   uploadedFileData: any[] = [];
   downloadStudentReportAccess: boolean = false;
-  is_tax_enabled: boolean ;
-  tax_type_without_percentage : String;
-  Payment_Modes: any =[];
+  is_tax_enabled: boolean;
+  tax_type_without_percentage: String;
+  Payment_Modes: any = [];
 
   studentAddFormData: StudentForm = {
     student_name: "",
@@ -304,9 +304,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   stateList: any[] = [];
   cityList: any[] = [];
   areaList: any[] = [];
-  addArea:boolean = false;
+  addArea: boolean = false;
   studdentEdit = true;
-
+  assignTo: boolean = true;
   constructor(
     private studentPrefillService: AddStudentPrefillService,
     private prefill: FetchprefilldataService,
@@ -329,12 +329,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.getPermissions();
     this.fetchDataForCountryDetails();
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
-    this. is_tax_enabled=sessionStorage.getItem('enable_tax_applicable_fee_installments')=="1"?true:false;
-    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
+    this.is_tax_enabled = sessionStorage.getItem('enable_tax_applicable_fee_installments') == "1" ? true : false;
+    this.tax_type_without_percentage = sessionStorage.getItem("tax_type_without_percentage");
+    if ((sessionStorage.getItem('userType') == '0') && (sessionStorage.getItem('username') != 'admin') && (sessionStorage.getItem('enable_assign_to_feature') == '0')) {
+      this.assignTo = false;
+    }
     if (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null) {
       this.switchToView('feeDetails-icon');
     }
@@ -394,15 +397,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  getStateList(){
+  getStateList() {
     const url = `/api/v1/country/state?country_ids=${this.country_id}`
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        if(res.result.length > 0){
+        if (res.result.length > 0) {
           this.stateList = res.result[0].stateList;
-          if(this.studentAddFormData.state_id != ""){
+          if (this.studentAddFormData.state_id != "") {
             this.getCityList();
           }
         }
@@ -415,15 +418,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   // get city list as per state selection
-  getCityList(){
+  getCityList() {
     const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        if(res.result.length > 0){
+        if (res.result.length > 0) {
           this.cityList = res.result[0].cityList;
-          if(this.studentAddFormData.city_id != ""){
+          if (this.studentAddFormData.city_id != "") {
             this.getAreaList();
           }
         }
@@ -435,13 +438,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     )
   }
 
-  getAreaList(){
+  getAreaList() {
     const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        if(res.result&&res.result.length > 0){
+        if (res.result && res.result.length > 0) {
           this.areaList = res.result[0].areaList;
         }
       },
@@ -452,16 +455,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     )
   }
 
-  toggleAddArea(){
-    if(this.addArea){
+  toggleAddArea() {
+    if (this.addArea) {
       this.addArea = false;
     }
-    else{
+    else {
       this.addArea = true;
     }
   }
 
-  resetStateCityArea(){
+  resetStateCityArea() {
     this.stateList = [];
     this.cityList = [];
     this.areaList = [];
@@ -470,7 +473,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.studentAddFormData.area_id = "";
     this.getStateList();
   }
-  getNewCityList(){
+  getNewCityList() {
     this.cityList = [];
     this.areaList = [];
     this.studentAddFormData.city_id = "";
@@ -478,7 +481,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.getCityList()
   }
 
-  getNewAreaList(){
+  getNewAreaList() {
     this.areaList = [];
     this.getAreaList();
   }
@@ -721,7 +724,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   fetchPrefillFormData() {
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.JsonFlags.isDisabled = true;
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
@@ -758,7 +761,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     //     this.appC.popToast(obj);
     //   }
     // )
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
       err => {
@@ -789,7 +792,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   fetchAcademicYears() {
     if (!this.academicYear.length) {
-       this.auth.showLoader();
+      this.auth.showLoader();
       this.prefill.getAllFinancialYear().subscribe(
         (data: any) => {
           this.academicYear = data;
@@ -816,7 +819,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   fetchCustomeComponents() {
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.studentPrefillService.fetchCustomComponentById(this.student_id, undefined, 2).subscribe(
       data => {
         this.auth.hideLoader();
@@ -1187,7 +1190,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       /* fetch batch details */
       else {
         this.batchList = [];
-         this.auth.showLoader();
+        this.auth.showLoader();
         if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
           country_id = '-1';
         }
@@ -1716,66 +1719,66 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   /* function to add institute data to server */
   addInstituteData() {
-    if(this.createInstitute.instituteName.trim()!=''){
-      if((this.instituteList.filter(x=>x.school_name == this.createInstitute.instituteName.trim())).length == 0){
+    if (this.createInstitute.instituteName.trim() != '') {
+      if ((this.instituteList.filter(x => x.school_name == this.createInstitute.instituteName.trim())).length == 0) {
         this.prefill.createNewInstitute(this.createInstitute).subscribe(el => {
-        if (el.message === "OK") {
-          let alert = {
-            type: 'success',
-            title: '',
-            body: 'Institution added successfully !'
-          }
-          this.appC.popToast(alert);
-        this.prefill.getSchoolDetails().subscribe(
-          data => {
-            this.school = data;
-            this.instituteList = this.school;
-            this.instituteList.forEach(el => {
-              el.edit = false;
-            });
+          if (el.message === "OK") {
+            let alert = {
+              type: 'success',
+              title: '',
+              body: 'Institution added successfully !'
+            }
+            this.appC.popToast(alert);
+            this.prefill.getSchoolDetails().subscribe(
+              data => {
+                this.school = data;
+                this.instituteList = this.school;
+                this.instituteList.forEach(el => {
+                  el.edit = false;
+                });
 
-            this.closeAddInstitute();
-          },
+                this.closeAddInstitute();
+              },
+              err => {
+                let alert = {
+                  type: 'error',
+                  title: 'Failed To Add Institute',
+                  body: 'There was an error processing your request'
+                }
+                this.appC.popToast(alert);
+              }
+            );
+            //console.log("institute Added");
+          }
+          else {
+
+          }
+        },
           err => {
             let alert = {
               type: 'error',
-              title: 'Failed To Add Institute',
-              body: 'There was an error processing your request'
+              title: '',
+              body: err.error.message
             }
             this.appC.popToast(alert);
           }
         );
-        //console.log("institute Added");
+      } else {
+        let alert = {
+          type: 'error',
+          title: '',
+          body: 'Institution name already exist!'
+        }
+        this.appC.popToast(alert);
       }
-      else {
-
-      }
-    },
-    err=>{
-      let alert = {
-        type: 'error',
-        title: '',
-        body: err.error.message
-      }
-      this.appC.popToast(alert);
-    }
-    );
     } else {
       let alert = {
-        type: 'error',
+        type: 'info',
         title: '',
-        body: 'Institution name already exist!'
+        body: 'Please enter institution name'
       }
       this.appC.popToast(alert);
     }
-   } else {
-      let alert = {
-      type: 'info',
-      title: '',
-      body: 'Please enter institution name'
-    }
-    this.appC.popToast(alert);
-  }
   }
 
   fetchInstituteInfo() {
@@ -1800,44 +1803,44 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   cancelEditInstitute(id) {
-    let temp = this.instituteList.filter(el=> el.school_id == id);
-    if(temp) {
+    let temp = this.instituteList.filter(el => el.school_id == id);
+    if (temp) {
       temp[0].edit = false;
       temp[0].new_school_name = temp[0].school_name;
     }
   }
 
   updateInstitute(id, school_name) {
-    if(school_name.trim()!=''){
+    if (school_name.trim() != '') {
       this.postService.updateInstituteDetails(id, school_name).subscribe(
-      res => {
-        let alert = {
-          type: 'success',
-          title: '',
-          body: 'Institution name updated successfully!'
+        res => {
+          let alert = {
+            type: 'success',
+            title: '',
+            body: 'Institution name updated successfully!'
+          }
+          this.appC.popToast(alert);
+          this.fetchInstituteInfo();
+        },
+        err => {
+          let alert = {
+            type: 'error',
+            title: '',
+            body: err.error.message
+          }
+          this.appC.popToast(alert);
+          this.fetchInstituteInfo();
         }
-        this.appC.popToast(alert);
-        this.fetchInstituteInfo();
-      },
-      err => {
-        let alert = {
-          type: 'error',
-          title: '',
-          body: err.error.message
-        }
-        this.appC.popToast(alert);
-        this.fetchInstituteInfo();
+      )
+    } else {
+      let alert = {
+        type: 'info',
+        title: '',
+        body: 'Please enter institution name'
       }
-    )
-  } else {
-    let alert = {
-      type: 'info',
-      title: '',
-      body: 'Please enter institution name'
+      this.appC.popToast(alert);
     }
-    this.appC.popToast(alert);
-}
-}
+  }
 
   deleteInstitute(id) {
     this.postService.deleteInstitute(id).subscribe(
@@ -2094,13 +2097,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.getPaymentModes();
   }
 
-  getPaymentModes(){
+  getPaymentModes() {
     this.httpService.getData('/api/v1/masterData/type/PAYMENT_MODES').subscribe(
-      (res:any)=>{
+      (res: any) => {
         console.log(res);
         this.Payment_Modes = res;
       },
-      err=>{
+      err => {
         console.log(err);
       }
     )
@@ -2489,7 +2492,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('YYYY-MM-DD'),
       cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
     }
-     this.auth.showLoader();
+    this.auth.showLoader();
     this.pdcAddForm.country_id = this.instituteCountryDetObj.id;
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
@@ -2576,7 +2579,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   updatePDC(el) {
     if (this.validPdc(el)) {
       let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id: el.country_id };
-       this.auth.showLoader();
+      this.auth.showLoader();
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
           this.auth.hideLoader();
@@ -2906,7 +2909,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   getUploadedFileData() {
-     this.auth.showLoader();
+    this.auth.showLoader();
     const url = `/users-file/downloadFile?studentId=${this.student_id}`;
     this.productService.getUploadFileData(url).subscribe(
       (res: any) => {
@@ -2944,20 +2947,20 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   deletefile(id) {
     if (confirm('Are you sure, you want to delete file?')) {
-    this.auth.showLoader();
-    const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
-    this.productService.deleteFile(url).subscribe(
-      (res:any) => {
-        this.appC.popToast({ type: "success", title: "", body: "File deleted successfully" });
-        if(res){
-          this.getUploadedFileData();
-        }
+      this.auth.showLoader();
+      const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
+      this.productService.deleteFile(url).subscribe(
+        (res: any) => {
+          this.appC.popToast({ type: "success", title: "", body: "File deleted successfully" });
+          if (res) {
+            this.getUploadedFileData();
+          }
           this.auth.hideLoader();
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    )
-  }
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      )
+    }
   }
 }
