@@ -167,18 +167,18 @@
                 <td>
                   {{row.data.success_count}}
                 </td>
-
-
                 <td *ngIf="row.data.failure_count == 0">
                   {{row.data.failure_count}}
                 </td>
-
-                <!-- <td *ngIf="row.data.failure_count > 0" title="Download Failure Report" style="cursor:pointer"
-                  (click)="downloadFailureListFile(row)" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
-                  <a id="template_link_{{row.data.list_id}}">{{row.data.failure_count}}</a>
-                </td> -->
-                <td *ngIf="row.data.failure_count > 0" title="Download Failure Report" style="cursor:pointer"
-                  (click)="downloadFailureListFile(row)" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
+                <td *ngIf="row.data.failure_count > 0 && row.data.failure_path.includes('https://s3-')"
+                  title="Download Failure Report" style="cursor:pointer"
+                  [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
+                  <a id="template_link_{{row.data.list_id}}"
+                    href="{{row.data.failure_path}}">{{row.data.failure_count}}</a>
+                </td>
+                <td *ngIf="row.data.failure_count > 0 && !row.data.failure_path.includes('https://s3-')"
+                  title="Download Failure Report" style="cursor:pointer" (click)="downloadFailureListFile(row)"
+                  [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
                   <a id="template_link_{{row.data.list_id}}">{{row.data.failure_count}}</a>
                 </td>
                 <td>
