@@ -110,7 +110,10 @@
                   </a>
                 </td> -->
                 <td>
-                  <a *ngIf="record.success_count != 0 && downloadEnquiryReportAccess && record.success_path.includes('https://s3-')"
+                  <span *ngIf="record.success_count != 0 " [id]="record.list_id" title="Download Success Report"
+                    id="generateAnch5">{{record.success_count}}
+                  </span>
+                  <!-- <a *ngIf="record.success_count != 0 && downloadEnquiryReportAccess && record.success_path.includes('https://s3-')"
                     [id]="record.list_id" title="Download Success Report" href="{{record.success_path}}"
                     id="generateAnch5">{{record.success_count}}
                   </a>
@@ -120,7 +123,7 @@
                   </a>
                   <a *ngIf="record.failure_count != 0 && !downloadEnquiryReportAccess" id="success{{record.list_id}}">
                     {{record.success_count}}
-                  </a>
+                  </a> -->
                   <span *ngIf="record.success_count == 0">
                     {{record.success_count}}
                   </span>

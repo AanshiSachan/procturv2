@@ -175,22 +175,20 @@
                       </span>
                     </td>
                     <td>
-                      <span *ngIf="record.success_path.includes('https://s3-')">
-                        <a href="{{record.success_path}}">Generate Report<i class="fa fa-download download-icon"
-                            aria-hidden="true"></i></a>
-                      </span>
-                      <span *ngIf="record.failure_path.includes('https://s3-')">
-                        <a href="{{record.failure_path}}">Generate Report<i class="fa fa-download download-icon"
-                            aria-hidden="true"></i></a>
-                      </span>
-                      <span style="color: #0084f6;"
+                      <a *ngIf="record.success_path.includes('https://s3-')" style="color: #0084f6;"
+                        href="{{record.success_path}}">Generate
+                        Report<i class="fa fa-download download-icon" aria-hidden="true"></i></a>
+                      <a *ngIf="record.failure_path.includes('https://s3-')" style="color: #0084f6;"
+                        href="{{record.failure_path}}">Generate
+                        Report<i class="fa fa-download download-icon" aria-hidden="true"></i></a>
+                      <a style="color: #0084f6;"
                         *ngIf="record.success_path != '' && !record.success_path.includes('https://s3-') "
                         (click)="genrateReport(record)">Generate Report<i class="fa fa-download download-icon"
-                          aria-hidden="true"></i></span>
-                      <span style="color: #0084f6;"
+                          aria-hidden="true"></i></a>
+                      <a style="color: #0084f6;"
                         *ngIf="record.failure_path != '' && !record.failure_path.includes('https://s3-') "
                         (click)="genrateReport(record)">Generate Report<i class="fa fa-download download-icon"
-                          aria-hidden="true"></i></span>
+                          aria-hidden="true"></i></a>
                       <span *ngIf="record.failure_path == '' && record.success_path == ''">-</span>
                     </td>
                   </tr>
