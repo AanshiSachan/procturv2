@@ -37,10 +37,6 @@ export class ProductListComponent implements OnInit {
     displayBatchSize: 25,
     total_items: 0
   };
-<<<<<<< HEAD
-
-=======
->>>>>>> course_UI
   productList: any = [];
   productDetails: any = [];
   ecourseList: any = [];
@@ -286,7 +282,7 @@ export class ProductListComponent implements OnInit {
           "course_id": this.course_id
         };
       } else if (this.master_course_name != "" && this.course_id != "" && this.batch_id != "") {
-          object = {
+        object = {
           "ecourse_ids": [],
           'standard_id': "",
           'subject_id': "",

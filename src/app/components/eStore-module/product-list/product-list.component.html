@@ -31,11 +31,7 @@
 
       <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">Status</label>
-<<<<<<< HEAD
         <select [(ngModel)]="filter.by.status" class="form-ctrl" style="border-radius: 4px; width: 69%;">
-=======
-        <select [(ngModel)]="filter.by.status" class="form-ctrl" style="border-radius: 4px;">
->>>>>>> course_UI
           <option value=10>Draft</option>
           <option value=20>Ready </option>
           <option value=30>Published</option>
@@ -46,11 +42,7 @@
 
       <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">Is Paid</label>
-<<<<<<< HEAD
         <select [(ngModel)]="filter.by.isPaid" class="form-ctrl" style="border-radius: 4px; width: 69%;">
-=======
-        <select [(ngModel)]="filter.by.isPaid" class="form-ctrl" style="border-radius: 4px;">
->>>>>>> course_UI
           <option value="true">Yes</option>
           <option value="false">No</option>
         </select>
@@ -70,24 +62,15 @@
       <div class="form-group field-wrapper form-el-width datePickerBox">
         <label class="text-bold">Publish Date</label>
         <input type="text" value="" id="publishDate" class="form-ctrl bsDatepicker dateFormat"
-<<<<<<< HEAD
           [(ngModel)]="filter.by.publishDate" name="FD" bsDatepicker readonly="true" style="border-radius: 4px;" />
       </div>
 
       <button class="btn pr-btn btn-product btn_go" [disabled]="isRippleLoad" (click)="filterData()"
         style="height: 35px;margin-top: 25px;margin-left: -18px;">GO</button>
-=======
-          [(ngModel)]="filter.by.publishDate" name="FD" bsDatepicker readonly="true" />
-      </div>
-
-      <button class="btn pr-btn btn-product btn_go" [disabled]="isRippleLoad" (click)="filterData()"
-        style="height: 35px;margin-top: 25px;">GO</button>
->>>>>>> course_UI
       <!-- <button class="btn pr-btn btn-product btn_go" >Clear Filter</button> -->
       <!-- <button type="button" name="button" (click)="Clearfilter()" style="color: red; cursor: pointer;">Clear Filter</button> -->
       <span (click)="Clearfilter()" style="color: red;cursor: pointer;margin-top: 35px;margin-left: 1em;">Clear
         Filter</span>
-<<<<<<< HEAD
 
     </div>
     <div class="col-lg-3" style="margin-left: -24rem;margin-top: 2rem;"><i class="fa fa-square"
@@ -98,13 +81,6 @@
       </div>
 
       <!-- </span> -->
-=======
-      <i class="fa fa-square" style="font-family: FontAwesome; color: #27c24c;margin-left: 19px;margin-top: 34px;"
-        aria-hidden="true"></i>
-      <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'"
-        style="margin-top: 22px;">
-      </rob-tooltip>
->>>>>>> course_UI
     </div>
   </div>
 
@@ -238,7 +214,8 @@
                     *ngIf="item.status == 20">Publish</a>
                   <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)"
                     style="border: none;" *ngIf="item.status == 30">Unpublished</a>
-                  <a class="dropdown-item" (click)="showAssignStudentPopup(item)" *ngIf="item.status == 30">Assign/Unassign
+                  <a class="dropdown-item" (click)="showAssignStudentPopup(item)"
+                    *ngIf="item.status == 30">Assign/Unassign
                     Student</a>
                   <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;"
                     *ngIf="item.status == 40">Closed</a>
@@ -403,13 +380,13 @@
               <div class="value-container" *ngFor="let data of studentDetails;let i= index">
                 <div class="value-item" style="width: 10%;">
                   <div class="field-checkbox-wrapper">
-                    
+
                     <!-- <input type="checkbox" class="form-checkbox" [disabled]="data.is_product_already_purchased"
                     [checked]="data.isSelected" [(ngModel)]="data.isSelected" [id]="'checkbox-'+i"> -->
                     <!-- Removed disable for de-selecting the  assigned student - Ashwini Kumar Gupta -->
-                    <input type="checkbox" class="form-checkbox"
-                      [checked]="data.isSelected" [(ngModel)]="data.isSelected" [id]="'checkbox-'+i">
-                      <!-- End -->
+                    <input type="checkbox" class="form-checkbox" [checked]="data.isSelected"
+                      [(ngModel)]="data.isSelected" [id]="'checkbox-'+i">
+                    <!-- End -->
                     <label [for]="'checkbox-'+i"></label>
                   </div>
                 </div>

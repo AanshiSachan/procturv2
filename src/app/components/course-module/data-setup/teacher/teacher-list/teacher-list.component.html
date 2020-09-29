@@ -24,13 +24,8 @@
         </div>
       </div>
       <div class="search-filter-wrapper">
-<<<<<<< HEAD
-        <input type="text" style="width:18%" #teacherSearch class="normal-field pull-right" id="searchTeacher"
-          placeholder="Search" [(ngModel)]="searchValue" (keyup)="searchTeacher()">
-=======
         <input type="text" style="width:18%; border-radius: 4px;" #teacherSearch class="normal-field pull-right"
           id="searchTeacher" placeholder="Search" [(ngModel)]="searchValue" (keyup)="searchTeacher()">
->>>>>>> course_UI
       </div>
     </div>
   </section>
@@ -81,11 +76,7 @@
               </td>
               <td>
                 <span *ngIf="row.date_of_joining==''"> - </span>
-<<<<<<< HEAD
-                <span *ngIf="row.date_of_joining!=''">&nbsp;&nbsp;{{row.date_of_joining}}</span>
-=======
                 <span *ngIf="row.date_of_joining!=''">&nbsp;&nbsp;{{row.date_of_joining | date:'dd-MMM-yyyy'}}</span>
->>>>>>> course_UI
               </td>
               <td>&nbsp;&nbsp;
                 {{row.is_active}}
@@ -93,39 +84,14 @@
               <td *ngIf="isShoweOnlineExam">
                 {{row.allow_exam_desk_login}}
               </td>
-<<<<<<< HEAD
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;
-                <!-- (click)="editTeacherDeatils(row)" -->
-=======
               <td>
->>>>>>> course_UI
                 <i class="fa fa-pencil" title="Edit" style="color: #0084f6;margin-right: 3px;" aria-hidden="true"
                   [routerLink]="['/view/course/setup/teacher/edit',  row.teacher_id]"></i>
                 <i class="fa fa-trash" title="Delete" style="color: red;margin-right: 3px;" aria-hidden="true"
                   (click)="deleteTeacherDeatils(row)"></i>
                 <i class="fas fa fa-eye" [routerLink]="['/view/course/setup/teacher/view',  row.teacher_id]"
                   style="color: blue;" title="View"></i>
-<<<<<<< HEAD
-
-                <!-- <a class="anchorTagCursor" [routerLink]="['/view/course/setup/teacher/edit',  row.teacher_id]"
-                  style="margin-right:5px">
-                  <i class="edit-icon" aria-hidden="true" title="Edit" style="margin-right:5px"></i>Edit
-                </a> -->
-                <!-- <a class="anchorTagCursor" (click)="deleteTeacherDeatils(row)">
-                  <i class="fa fa-trash" aria-hidden="true" title="Delete" style="margin-right:5px"></i>Delete
-                </a> -->
               </td>
-              <!-- <td class="anchorTags"> -->
-              <!-- (click)="viewTeacherActivity(row)" -->
-              <!-- <a class="anchorTagCursor" [routerLink]="['/view/course/setup/teacher/view',  row.teacher_id]"> -->
-              <!-- <i class="fas fa fa-eye" [routerLink]="['/view/course/setup/teacher/view',  row.teacher_id]"
-                style="color: blue;" title="View"></i> -->
-              <!-- View
-                </a> -->
-              <!-- </td> -->
-=======
-              </td>
->>>>>>> course_UI
             </tr>
           </tbody>
           <tbody *ngIf="teacherList.length == 0 && dataStatus === 1">
@@ -148,13 +114,8 @@
     </div>
 
     <!-- Paginator Here -->
-<<<<<<< HEAD
-    <div class="filter-res pagination" style="width: 100%;">
-      <div class="c-lg-12 c-md-12 c-sm-12 align-right" style="margin-top: -41px;">
-=======
     <div class="filter-res pagination" style="width: 100%;margin-top: 0px;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
->>>>>>> course_UI
         <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
           [pagesToShow]="10" [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow" [sizeArr]="sizeArr"
           (sizeChange)="updateTableBatchSize($event)">
