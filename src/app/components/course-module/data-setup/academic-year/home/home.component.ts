@@ -15,10 +15,12 @@ export class HomeComponent implements OnInit {
   academicTableList: any = [];
   varJson = {
     PageIndex: 1,
-    studentdisplaysize: 10,
+    studentdisplaysize: 15,
     totalRow: 0,
     createNewAcademicYear: false
+
   };
+  sizeArr: any[] = [15, 25, 50, 100, 150, 200, 500, 1000];
   type: string = '';
 
   addAcademicYearTemplate: any = {
@@ -143,11 +145,11 @@ export class HomeComponent implements OnInit {
       let data = {
         inst_acad_year: row2.inst_acad_year,
         desc: row2.desc,
-        start_date:  moment(row2.start_date).format("YYYY-MM-DD"),
+        start_date: moment(row2.start_date).format("YYYY-MM-DD"),
         end_date: moment(row2.end_date).format("YYYY-MM-DD"),
         inst_id: row2.inst_id,
         default_academic_year: row2.default_academic_year,
-        created_date:moment(row2.created_date).format("DD-MM-YYYY")
+        created_date: moment(row2.created_date).format("DD-MM-YYYY")
       }
 
       this._http.putData("/api/v1/academicYear/" + row2.inst_acad_year_id, data).subscribe(
@@ -207,6 +209,10 @@ export class HomeComponent implements OnInit {
   getDataFromDataSource(startindex) {
     let t = this.academicYearDataSource.slice(startindex, startindex + this.varJson.studentdisplaysize);
     return t;
+  }
+  updateTableBatchSize(event) {
+    this.varJson.studentdisplaysize = event;
+    this.fetchTableDataByPage(this.varJson.PageIndex);
   }
 
   // toast function

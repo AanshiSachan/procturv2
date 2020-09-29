@@ -1,14 +1,13 @@
-
 <section class="middle-section">
   <!-- course module -->
   <section class="header-section">
-      <div>
-          <div class="header-title">
-              <span  *ngIf="(!isLangInstitue)">Course</span>
-              <span  *ngIf="(isLangInstitue)"> Batch</span>
-            </div>
+    <div>
+      <div class="header-title">
+        <span *ngIf="(!isLangInstitue)">Course</span>
+        <span *ngIf="(isLangInstitue)"> Batch</span>
       </div>
-    </section>
+    </div>
+  </section>
   <div class="course-menu-section-container" *ngIf="(!isLangInstitue)">
     <div class="course-menu-item" routerLink="/view/course/setup" *ngIf="jsonFlags.isShowSetup">
       <div class="menu-title">
@@ -34,7 +33,8 @@
         <span>Study Material</span>
       </div>
       <div class="menu-description">
-        <span>Study Material Repository - To be used for Sharing with Students in Offline / Online Courses and for Selling purpose.</span>
+        <span>Study Material Repository - To be used for Sharing with Students in Offline / Online Courses and for
+          Selling purpose.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/course/file-manager">
@@ -59,13 +59,13 @@
     <div class="course-menu-item" routerLink="/view/course/coursePlanner/class" *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/class-planner.svg" alt="class planner">
-        <span>Class Planner</span>
+        <span>Class/Exam Planner</span>
       </div>
       <div class="menu-description">
-        <span>Plan and Manage classes for all courses at one place.</span>
+        <span>Plan and Manage classes/exams for all courses at one place.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/coursePlanner/exam" *ngIf="jsonFlags.isShowClassPlanner">
+    <!-- <div class="course-menu-item" routerLink="/view/course/coursePlanner/exam" *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/exam-planner.svg" alt="exam planner">
         <span>Exam Planner</span>
@@ -73,7 +73,7 @@
       <div class="menu-description">
         <span>Plan and Manage exams for all courses at one place.</span>
       </div>
-    </div>
+    </div> -->
     <div class="course-menu-item" routerLink="/view/course/timeTable">
       <div class="menu-title">
         <img src="./assets/images/course/timetable.svg" alt="timetable">
@@ -108,8 +108,10 @@
         <span>eCourse Mapping</span>
       </div>
       <div class="menu-description">
-        <span *ngIf="!isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore Products.</span>
-        <span *ngIf="isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore Products.</span>
+        <span *ngIf="!isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore
+          Products.</span>
+        <span *ngIf="isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore
+          Products.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/course/archiving" *ngIf="jsonFlags.isShowArchiving">
@@ -127,15 +129,15 @@
 
   <!-- batch module -->
   <div class="course-menu-section-container" *ngIf="(isLangInstitue)">
-      <div class="course-menu-item" routerLink="/view/batch/setup" *ngIf="jsonFlags.isShowSetup">
-        <div class="menu-title">
-          <img src="./assets/images/course/data-setup.svg" alt="data setup">
-          <span>Data Setup</span>
-        </div>
-        <div class="menu-description">
-          <span> One time setup of Academic Year, Faculty Details, Classrooms & Exam Grades.</span>
-        </div>
+    <div class="course-menu-item" routerLink="/view/batch/setup" *ngIf="jsonFlags.isShowSetup">
+      <div class="menu-title">
+        <img src="./assets/images/course/data-setup.svg" alt="data setup">
+        <span>Data Setup</span>
       </div>
+      <div class="menu-description">
+        <span> One time setup of Academic Year, Faculty Details, Classrooms & Exam Grades.</span>
+      </div>
+    </div>
     <div class="course-menu-item" routerLink="/view/batch/create" *ngIf="jsonFlags.isShowModel">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create batch">
@@ -151,7 +153,8 @@
         <span>Study Material</span>
       </div>
       <div class="menu-description">
-        <span>Study Material Repository - To be used for Sharing with Students in Offline / Online Courses and for Selling purpose.</span>
+        <span>Study Material Repository - To be used for Sharing with Students in Offline / Online Courses and for
+          Selling purpose.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/batch/file-manager" *ngIf="jsonFlags.isShowFileManager">
@@ -176,13 +179,13 @@
     <div class="course-menu-item" routerLink="/view/batch/coursePlanner/class" *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/class-planner.svg" alt="class planner">
-        <span>Class Planner</span>
+        <span>Class/Exam Planner</span>
       </div>
       <div class="menu-description">
-        <span>Plan and manage classes for all courses at one place.</span>
+        <span>Plan and manage classes/exams for all courses at one place.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/batch/coursePlanner/exam"  *ngIf="jsonFlags.isShowClassPlanner">
+    <!-- <div class="course-menu-item" routerLink="/view/batch/coursePlanner/exam" *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/exam-planner.svg" alt="exam planner">
         <span>Exam Planner</span>
@@ -190,7 +193,7 @@
       <div class="menu-description">
         <span>Plan and manage exams for all courses at one place.</span>
       </div>
-    </div>
+    </div> -->
     <div class="course-menu-item" routerLink="/view/batch/timeTable">
       <div class="menu-title">
         <img src="./assets/images/course/timetable.svg" alt="timetable">
@@ -224,8 +227,10 @@
         <span>eCourse Mapping</span>
       </div>
       <div class="menu-description">
-        <span *ngIf="!isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore Products.</span>
-        <span *ngIf="isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore Products.</span>
+        <span *ngIf="!isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore
+          Products.</span>
+        <span *ngIf="isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore
+          Products.</span>
       </div>
     </div>
     <div class="course-menu-item" routerLink="/view/batch/archiving" *ngIf="jsonFlags.isShowArchiving">

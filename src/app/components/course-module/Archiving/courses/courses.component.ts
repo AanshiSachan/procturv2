@@ -13,9 +13,10 @@ export class CoursesComponent implements OnInit {
 
   isProfessional: boolean = false;
   getCourses: any[] = [];
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   PageIndex: number = 1;
   PageIndexPopup: number = 1;
-  pagedisplaysize: number = 10;
+  pagedisplaysize: number = 25;
   pagedisplaysizePopup: number = 10;
   totalRow: number = 0;
   newPaginated: any[] = [];
@@ -36,7 +37,7 @@ export class CoursesComponent implements OnInit {
   getId: any[] = [];
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
-  columnMaps2: any[] = [0, 1, 2, 3, 4, 5 ,6, 7];
+  columnMaps2: any[] = [0, 1, 2, 3, 4, 5, 6, 7];
   dataStatus: boolean;
   sortedenabled: boolean = true;
   sortedBy: string = "";
@@ -171,33 +172,33 @@ export class CoursesComponent implements OnInit {
         if (confirm('Are you sure, you want to Archive?')) {
           this.batch.courses(this.sendPayload).subscribe(
             (data: any) => {
-              if(data.status_code == 202){
+              if (data.status_code == 202) {
                 if (confirm(data.message)) {
-                    this.sendPayload.archived = true;
-                    this.batch.courses(this.sendPayload).subscribe(
-                      (data: any) => {
-                       this.router.navigateByUrl("/view/course/archiving/coursesArchivedReport")
-                        let msg={
-                          type:"success",
-                          body:"Course(s) archived successfully"
-                        }
-                        this.appc.popToast(msg);
-                      },
-                      (error: any) => {
-                        let msg = {
-                          type: "error",
-                          body: error.error.message
-                        }
-                        this.appc.popToast(msg);
+                  this.sendPayload.archived = true;
+                  this.batch.courses(this.sendPayload).subscribe(
+                    (data: any) => {
+                      this.router.navigateByUrl("/view/course/archiving/coursesArchivedReport")
+                      let msg = {
+                        type: "success",
+                        body: "Course(s) archived successfully"
                       }
-                    )
+                      this.appc.popToast(msg);
+                    },
+                    (error: any) => {
+                      let msg = {
+                        type: "error",
+                        body: error.error.message
+                      }
+                      this.appc.popToast(msg);
+                    }
+                  )
                 }
               }
-              else{
+              else {
                 this.router.navigateByUrl("/view/activity/archiving/coursesArchivedReport")
-                let msg={
-                  type:"success",
-                  body:"Course(s) archived successfully"
+                let msg = {
+                  type: "success",
+                  body: "Course(s) archived successfully"
                 }
                 this.appc.popToast(msg);
               }
@@ -225,15 +226,15 @@ export class CoursesComponent implements OnInit {
         if (confirm('Are you sure, you want to Archive?')) {
           this.batch.batches(this.sendPayloadBatch).subscribe(
             (data: any) => {
-              if(data.status_code == 202){
-                if(confirm(data.message)){
+              if (data.status_code == 202) {
+                if (confirm(data.message)) {
                   this.sendPayloadBatch.archived = true;
                   this.batch.batches(this.sendPayloadBatch).subscribe(
                     (data: any) => {
                       this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
-                      let msg={
-                        type:"success",
-                        body:"Batch(s) archived successfully"
+                      let msg = {
+                        type: "success",
+                        body: "Batch(s) archived successfully"
                       }
                       this.appc.popToast(msg);
                     },
@@ -247,39 +248,39 @@ export class CoursesComponent implements OnInit {
                   )
                 }
               }
-              else{
+              else {
                 this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
-                let msg={
-                  type:"success",
-                  body:"Batch(s) archived successfully"
+                let msg = {
+                  type: "success",
+                  body: "Batch(s) archived successfully"
                 }
                 this.appc.popToast(msg);
               }
             },
             (error: any) => {
-              if(error.error.message.includes("Batch Already assigned with active Student")){
+              if (error.error.message.includes("Batch Already assigned with active Student")) {
                 if (confirm(error.error.message)) {
-                    this.sendPayloadBatch.archived = true;
-                    this.batch.batches(this.sendPayloadBatch).subscribe(
-                      (data: any) => {
-                        this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
-                        let msg={
-                          type:"success",
-                          body:"Batch(s) archived successfully"
-                        }
-                        this.appc.popToast(msg);
-                      },
-                      (error: any) => {
-                        let msg = {
-                          type: "error",
-                          body: error.error.message
-                        }
-                        this.appc.popToast(msg);
+                  this.sendPayloadBatch.archived = true;
+                  this.batch.batches(this.sendPayloadBatch).subscribe(
+                    (data: any) => {
+                      this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+                      let msg = {
+                        type: "success",
+                        body: "Batch(s) archived successfully"
                       }
-                    )
+                      this.appc.popToast(msg);
+                    },
+                    (error: any) => {
+                      let msg = {
+                        type: "error",
+                        body: error.error.message
+                      }
+                      this.appc.popToast(msg);
+                    }
+                  )
                 }
               }
-              else{
+              else {
                 let msg = {
                   type: "error",
                   body: error.error.message
@@ -355,7 +356,10 @@ export class CoursesComponent implements OnInit {
       return t;
     }
   }
-
+  updateTableBatchSize(event) {
+    this.pagedisplaysize = event;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
       this.PageIndex = 1;
