@@ -14,13 +14,12 @@ import { FeeStrucService } from '../../../../../services/feeStruc.service';
 export class TemplateHomeComponent implements OnInit {
 
   isProfessional: boolean = false;
-  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   countryAdditioalFeeTypes: any = {};
   source: any[] = [];
   selectedTemplate: any;
   isHeaderEdit: boolean = false;
   isEditFee: boolean = false;
-  selectedCountry: any;
+  selectedCountry:any;
   feeStructure: any;
   installmentList: any = [];
   otherInstList: any = [];
@@ -62,13 +61,13 @@ export class TemplateHomeComponent implements OnInit {
   totalAmountCal: number = 0;
   templateName: any = "";
   PageIndex: number = 0;
-  displayBatchSize: number = 25;
+  displayBatchSize: number = 20;
   moduleState: any;
   totalRow: number = 0;
   searchText: string = '';
   addTemplatePopUp: boolean = false;
   searchDataFlag: boolean = false;
-  tax_type_without_percentage: String;
+  tax_type_without_percentage : String;
   is_tax_enabled: boolean = false;
 
   constructor(
@@ -81,100 +80,11 @@ export class TemplateHomeComponent implements OnInit {
       this.router.navigate(['/authPage']);
     }
   }
-  headerSetting: any;
-  tableSetting: any;
-  rowColumns: any;
-  datatarget: any;
-  setTableData() {
 
-    this.headerSetting = [
-      {
-        primary_key: 'template_name',
-        value: "Fee Structure",
-        charactLimit: 20,
-        sorting: false,
-        visibility: true
-      },
-      {
-        primary_key: 'master_course_standard_name',
-        value: "Master Course",
-        charactLimit: 30,
-        sorting: true,
-        visibility: true
-      },
-      {
-        primary_key: 'course_subject_name',
-        value: "Course",
-        charactLimit: 30,
-        sorting: false,
-        visibility: true
-      },
-      {
-        primary_key: 'country_name',
-        value: "Country",
-        charactLimit: 15,
-        sorting: false,
-        visibility: true
-      },
-      {
-        primary_key: 'totalAssignedStudent',
-        value: "Student Assigned",
-        charactLimit: 15,
-        sorting: false,
-        visibility: true
-      },
-
-      {
-        primary_key: 'action',
-        value: "Action",
-        charactLimit: 10,
-        sorting: false,
-        visibility: true,
-        edit: true,
-        delete: true,
-        view: true
-        // editCondition: 'converted == 0',
-        // deleteCondition: 'converted == 0'
-      },
-    ]
-
-    this.tableSetting = {
-      width: "100%",
-      height: "71vh"
-    }
-
-    this.rowColumns = [
-      {
-        width: "20%",
-        textAlign: "center"
-      },
-      {
-        width: "20%",
-        textAlign: "center"
-      },
-      {
-        width: "20%",
-        textAlign: "center"
-      },
-      {
-        width: "20%",
-        textAlign: "center"
-      },
-      {
-        width: "10%",
-        textAlign: "center"
-      },
-      {
-        width: "10%",
-        textAlign: "center"
-      },
-
-    ]
-  }
   ngOnInit() {
     this.enableTax = sessionStorage.getItem('enable_tax_applicable_fee_installments');
-    this.tax_type_without_percentage = sessionStorage.getItem("tax_type_without_percentage");
-    this.is_tax_enabled = this.enableTax == "1" ? true : false;
+    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
+    this.is_tax_enabled=this.enableTax=="1"?true:false;
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -186,7 +96,6 @@ export class TemplateHomeComponent implements OnInit {
         }
       }
     )
-    this.setTableData();
     this.fetchPrefill();
   }
 
@@ -241,21 +150,19 @@ export class TemplateHomeComponent implements OnInit {
     )
   }
 
-  changesValuesAsPerType(row) {
-    if (row.day_type == 1) {
-      row.days = 0;
+  changesValuesAsPerType(row){
+    if(row.day_type==1){
+      row.days=0;
     }
   }
 
   editFee(fee) {
-    console.log("In Edit function");
-    console.log(fee.data.template_name);
-    this.templateName = fee.data.template_name;
-    this.selectedTemplate = fee.data;
+    this.templateName = fee.template_name;
+    this.selectedTemplate = fee;    
     this.feeStructure = [];
     this.isEditFee = true;
     this.auth.showLoader();
-    this.fetchService.fetchFeeDetail(fee.data.template_id).subscribe(
+    this.fetchService.fetchFeeDetail(fee.template_id).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.feeStructure = res;
@@ -269,19 +176,19 @@ export class TemplateHomeComponent implements OnInit {
         let data = JSON.parse(encryptedData);
         if (data.length > 0) {
           data.forEach((country) => {
-            if (this.selectedTemplate.country_id == country.id) {
-              this.selectedCountry = country;
+            if(this.selectedTemplate.country_id==country.id){
+              this.selectedCountry=country;
             }
           })
         }
         this.fillDataInYTable(res.customFeeSchedules);
         // if (res.studentwise_fees_tax_applicable == "Y") {
-        if (this.enableTax == "1" &&
-          document.getElementById('checkBoxtaxes')) {
-          document.getElementById('checkBoxtaxes').checked = true;
-          this.showTaxFields();
-        }
-
+          if (this.enableTax == "1" &&
+            document.getElementById('checkBoxtaxes')) {
+            document.getElementById('checkBoxtaxes').checked = true;
+            this.showTaxFields();
+          }
+        
         this.totalAmountCal = res.studentwise_total_fees_amount;
       },
       err => {
@@ -724,10 +631,6 @@ export class TemplateHomeComponent implements OnInit {
     }
     return data;
   }
-  updateTableBatchSize(event) {
-    this.displayBatchSize = event;
-    this.fetchTableDataByPage(this.PageIndex);
-  }
 
   searchInList() {
     if (this.searchText.trim() != "" && this.searchText.trim() != null) {
@@ -749,18 +652,14 @@ export class TemplateHomeComponent implements OnInit {
 
   ////Delete Fee Structure
 
-  deleteFeeStructure(row) {
+  deleteFeeStructure(fee) {
     let is_archived = "N";
     if (confirm('Are you sure, you want to delete Fee Structure?')) {
-      console.log("1");
-      console.log(row);
-      console.log(row.data.template_id);
       this.auth.showLoader();
-      this.fetchService.deleteFeeStructure(row.data.template_id, is_archived).subscribe(
+      this.fetchService.deleteFeeStructure(fee.template_id, is_archived).subscribe(
         res => {
           this.auth.hideLoader();
           this.commonService.showErrorMessage('success', 'Deleted', 'Fee Structure Deleted Successfully');
-          console.log("2");
           this.getFeeStructures();
           this.searchText = "";
           this.searchDataFlag = false;
@@ -769,16 +668,13 @@ export class TemplateHomeComponent implements OnInit {
           this.auth.hideLoader();
 
           if (err.error.message.includes("Fee template(s) are assigned to student(s).")) {
-            console.log("3");
             if (confirm('Fee template(s) are assigned to student(s). Do you wish to delete it ?')) {
-              console.log("4");
               is_archived = "Y";
               this.auth.showLoader();
-              this.fetchService.deleteFeeStructure(row.data.template_id, is_archived).subscribe(
+              this.fetchService.deleteFeeStructure(fee.template_id, is_archived).subscribe(
                 res => {
                   this.auth.hideLoader();
                   this.commonService.showErrorMessage('success', 'Deleted', 'Fee Structure Deleted Successfully');
-                  console.log("5");
                   this.getFeeStructures();
                 },
                 err => {
@@ -799,13 +695,9 @@ export class TemplateHomeComponent implements OnInit {
   // for showing students assigned to the particular fee template
 
   studentsAssigned(fee) {
-    console.log("Helo");
-    console.log(fee);
-    console.log(fee.data.studentList);
-    if (fee.data.studentList != null) {
+    if (fee.studentList != null) {
       this.addTemplatePopUp = true;
-      console.log("In IF Part");
-      this.studentList = fee.data.studentList;
+      this.studentList = fee.studentList;
     }
     else {
       this.commonService.showErrorMessage("info", "", "No data found");

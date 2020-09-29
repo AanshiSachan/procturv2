@@ -263,10 +263,6 @@ export class ClassRoomComponent {
       return t;
     }
   }
-  updateTableBatchSize(event) {
-    this.displayBatchSize = event;
-    this.fetchTableDataByPage(this.pageIndex);
-  }
   /*==================================================================================
   ====================================================================================== */
   removeFullscreen() {
@@ -280,7 +276,10 @@ export class ClassRoomComponent {
       el.classList.remove('hide');
     });
   }
-
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.pageIndex);
+  }
   removeSelectionFromSideNav() {
     // let classArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'lizero'];
     // classArray.forEach(function (className) {

@@ -27,7 +27,7 @@
       </div>
       <div class="search-filter-wrapper">
         <input type="text" style="width:48%; border-radius: 4px;" #search class="normal-field pull-right"
-          placeholder="Search" [(ngModel)]="searchText" (keyup)="searchTeacher()">
+          placeholder="Search" [(ngModel)]="searchText" (keyup)="searchDatabase()">
       </div>
     </div>
   </section>
@@ -123,10 +123,10 @@
                 <th>
                   Room Name
                 </th>
-                <th>
+                <th style="text-align: center;">
                   Description
                 </th>
-                <th>
+                <th style="text-align: center;">
                   Edit
                 </th>
               </tr>
@@ -153,24 +153,24 @@
                   </div>
                 </td>
 
-                <td class="view-comp">
+                <td class="view-comp" style="text-align: left;padding-left: 11%;">
                   {{row.class_room_desc}}
                 </td>
 
-                <td class="edit-comp">
+                <td class="edit-comp" style="text-align: left;padding-left: 11%;">
                   <div class="field-wrapper">
                     <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_desc"
                       style="overflow: hidden;" name="label">
                   </div>
                 </td>
 
-                <td class="view-comp">&nbsp;&nbsp;
+                <td class="view-comp" style="text-align: center;">&nbsp;&nbsp;
                   <i class="fa fa-pencil" title="Edit" style="color: #0084f6;" aria-hidden="true"
                     (click)="editRowTable(row , i)"></i>
                   <!-- <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a> -->
                 </td>
 
-                <td class="edit-comp">&nbsp;&nbsp;&nbsp;
+                <td class="edit-comp" style="text-align: center;">&nbsp;&nbsp;&nbsp;
                   <i class="fa fa-floppy-o" title="Save" style="color: blue; margin-right: 4px;" aria-hidden="true"
                     (click)="saveclassRoomInfo(row , i)"></i>
                   <i class="fa fa-times" title="Cancel" style="color: red;font-size: 17px;" aria-hidden="true"
@@ -181,7 +181,7 @@
 
               </tr>
             </tbody>
-            <tbody *ngIf="classRoomData.length ==0">
+            <tbody *ngIf="classRoomData.length ==0 || totalRow == 0">
               <td colspan="4" style="text-align: center">
                 No data found
               </td>

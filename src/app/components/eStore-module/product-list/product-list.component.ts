@@ -37,7 +37,10 @@ export class ProductListComponent implements OnInit {
     displayBatchSize: 25,
     total_items: 0
   };
+<<<<<<< HEAD
 
+=======
+>>>>>>> course_UI
   productList: any = [];
   productDetails: any = [];
   ecourseList: any = [];

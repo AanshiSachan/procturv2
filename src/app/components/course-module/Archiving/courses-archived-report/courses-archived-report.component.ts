@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../../app.component';
 import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-courses-archived-report',
   templateUrl: './courses-archived-report.component.html',
@@ -101,7 +101,7 @@ export class CoursesArchivedReportComponent implements OnInit {
         primary_key: 'status',
         value: "Status",
         charactLimit: 10,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -152,47 +152,6 @@ export class CoursesArchivedReportComponent implements OnInit {
         textAlign: "left"
       },
     ]
-
-    // if (this.isProfessional) {
-
-    //   console.log("true block");
-    //   this.headerSetting.push(
-    //     {
-    //       primary_key: 'batch_name',
-    //       value: "Batch",
-    //       charactLimit: 10,
-    //       sorting: false,
-    //       visibility: true
-    //     },
-    //     {
-    //       primary_key: 'standard_name',
-    //       value: "Master Course",
-    //       charactLimit: 10,
-    //       sorting: false,
-    //       visibility: true
-    //     },
-    //     {
-    //       primary_key: 'subject_name',
-    //       value: "Course",
-    //       charactLimit: 10,
-    //       sorting: false,
-    //       visibility: true
-    //     });
-    //   this.rowColumns.push(
-    //     {
-    //       width: "10%",
-    //       textAlign: "left"
-    //     },
-    //     {
-    //       width: "10%",
-    //       textAlign: "left"
-    //     },
-    //     {
-    //       width: "10%",
-    //       textAlign: "left"
-    //     },
-    //   );
-    // }
   }
   getCoursesArchived() {
     this.dataStatus = true;
@@ -202,6 +161,11 @@ export class CoursesArchivedReportComponent implements OnInit {
         (data: any) => {
           this.dataStatus = false;
           this.auth.hideLoader();
+          for (let i = 0; i < data.length; i++) {
+            data[i].archived_date = moment(data[i].archived_date).format('DD-MMM-YY, h:mm:ss A');
+            data[i].end_date = moment(data[i].end_date).format('DD-MMM-YY');
+            data[i].start_date = moment(data[i].start_date).format('DD-MMM-YY');
+          }
           this.archivedData = data;
           this.totalRow = data.length;
           this.PageIndex = 1;
@@ -224,6 +188,12 @@ export class CoursesArchivedReportComponent implements OnInit {
         (data: any) => {
           this.dataStatus = false;
           this.auth.hideLoader();
+          for (let i = 0; i < data.length; i++) {
+            data[i].archived_date = moment(data[i].archived_date).format('DD-MMM-YY, h:mm:ss A');
+            data[i].end_date = moment(data[i].end_date).format('DD-MMM-YY');
+            data[i].start_date = moment(data[i].start_date).format('DD-MMM-YY');
+          }
+
           this.archivedData = data;
           this.totalRow = data.length;
           this.PageIndex = 1;

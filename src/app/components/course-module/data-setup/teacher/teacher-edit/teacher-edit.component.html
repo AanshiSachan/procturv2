@@ -1,4 +1,5 @@
 <div class="middle-section clearFix">
+<<<<<<< HEAD
     <section style="border-bottom: 1px solid lightgrey;padding-bottom: 4px;">
         <h1 *ngIf="selectedTeacherId==undefined">
             Add Faculty
@@ -162,20 +163,23 @@
 <!-- ======================================================================================================================================== -->
 <div class="middle-section clearFix">
     <!-- <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+=======
+    <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+>>>>>>> course_UI
         <h1 class="pull-left" *ngIf="selectedTeacherId==undefined">
             Add Faculty
         </h1>
         <h1 class="pull-left" *ngIf="selectedTeacherId != undefined">
             Edit Faculty
         </h1>
-    </section> -->
+    </section>
 
     <section class="middle-main clearFix">
 
         <aside class="c-lg-6 c-md-6 c-sm-6">
             <div class="pull-left">
                 <form [formGroup]="editTeacherForm" novalidate (ngSubmit)="addOrEditFun()">
-                    <!-- <div class="row field-wrapper">
+                    <div class="row field-wrapper">
                         <label for="name">Faculty Name
                             <span class="text-danger">*</span>
                         </label>
@@ -187,9 +191,9 @@
                                 Faculty Name is required.
                             </div>
                         </div>
-                    </div> -->
+                    </div>
 
-                    <!-- <div class="row field-wrapper">
+                    <div class="row field-wrapper">
                         <label for="contNumber">Contact Number
                             <span class="text-danger">*</span>
                         </label><br>
@@ -220,20 +224,20 @@
                                 Contact Number is not valid.
                             </div>
                         </div>
-                    </div> -->
-                    <!-- <div class="row field-wrapper">
+                    </div>
+                    <div class="row field-wrapper">
                         <label for="emailID">Email Id
                         </label>
                         <input type="email" class="form-ctrl" name="emailID" formControlName="teacher_email">
-                    </div> -->
-                    <!-- <div class="row field-wrapper">
+                    </div>
+                    <div class="row field-wrapper">
                         <label for="CurrentAddress">Current Address
                         </label>
                         <input type="text" class="form-ctrl" formControlName="teacher_curr_addr" name="CurrentAddress">
 
-                    </div> -->
+                    </div>
 
-                    <!-- <div class="row field-wrapper datePickerBox">
+                    <div class="row field-wrapper datePickerBox">
                         <label for="CurrentAddress">Date of Birth
                         </label>
                         <input type="text" class="form-ctrl" readonly="true" formControlName="dob" name="dob"
@@ -245,9 +249,13 @@
                         </label>
                         <input type="text" class="form-ctrl" readonly="true" formControlName="date_of_joining"
                             name="date_of_joining" bsDatepicker />
+<<<<<<< HEAD
                     </div> -->
+=======
+                    </div>
+>>>>>>> course_UI
 
-                    <!-- <div class="row field-wrapper">
+                    <div class="row field-wrapper">
                         <label for="alternateNo">Alternate Contact Number
                         </label><br>
                         <span class="countryCallingCode" style="width: 30%">
@@ -289,8 +297,8 @@
                         </label>
                         <input type="text" class="form-ctrl" name="biometric" formControlName="attendance_device_id">
 
-                    </div> -->
-                    <!-- <div class="extra-margin" style="margin-top: 15px;">
+                    </div>
+                    <div class="extra-margin" style="margin-top: 15px;">
 
                         <div class="field-checkbox-wrapper" style="margin-left: -40px;">
                             <div class="field-checkbox-wrapper">
@@ -298,24 +306,36 @@
                                     class="form-checkbox">
                                 <label for="isActive">Is Active</label>
                             </div>
-                        </div> -->
+                        </div>
 
+<<<<<<< HEAD
                     <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;" *ngIf="isShoweOnlineExam">
                         <div class="field-checkbox-wrapper">
                             <input type="checkbox" value="" name="allowExamDesk" formControlName="allow_exam_desk_login"
                                 class="form-checkbox">
+=======
+                        <div class="field-checkbox-wrapper" style="margin-left: -40px;" *ngIf="isShoweOnlineExam">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" name="allowExamDesk"
+                                    formControlName="allow_exam_desk_login" class="form-checkbox">
+>>>>>>> course_UI
 
                             <label for="allowExamDesk">Allow Exam Desk Login</label>
                         </div>
                     </div> -->
 
+<<<<<<< HEAD
                     <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+=======
+                        <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+>>>>>>> course_UI
                             <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" name="allow" formControlName="is_allow_teacher_to_only_mark_attendance" class="form-checkbox">
                                 <label for="allow">Allow faculty to only mark attendance</label>
                             </div>
                         </div> -->
 
+<<<<<<< HEAD
                     <!-- <div class="row field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'"
                         style="padding-left: 0;">
                         <div class="field-checkbox-wrapper">
@@ -324,25 +344,35 @@
                             <label for="is_office_only_access">Enable IP Lock Functionality</label>
                         </div>
                     </div>  -->
+=======
+                        <div class="row field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'"
+                            style="padding-left: 0;">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" name="is_office_only_access" id="is_office_only_access"
+                                    formControlName="is_office_only_access" class="form-checkbox">
+                                <label for="is_office_only_access">Enable IP Lock Functionality</label>
+                            </div>
+                        </div>
+>>>>>>> course_UI
 
 
-                    <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+                        <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
                             <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" name="markAttendance" formControlName="is_student_mgmt_flag" class="form-checkbox">
                                 <label for="markAttendance">Allow Faculty to view Contact details of student</label>
                             </div>
                         </div> -->
-                    <!-- </div>
+                    </div>
                     <div class="row">
                         <div class="pull-right" style="margin-top: 10px;">
                             <button routerLink="/view/course/setup/teacher" class="btn">Cancel</button>
                             <button class="btn fullBlue" style="font-size: 16px;" type="submit">Save</button>
                         </div>
-                    </div> -->
+                    </div>
                 </form>
             </div>
         </aside>
-        <aside class="c-lg-6 c-md-6 c-sm-6" style="margin-top: -38rem;margin-left: 49rem;width: 40%;">
+        <aside class="c-lg-6 c-md-6 c-sm-6">
             <div class="profileWrapper">
                 <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth"
                     (setImage)="setImage($event)">

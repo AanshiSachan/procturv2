@@ -89,6 +89,40 @@
     <!-- <section>
       <app-basic-table [headers]="headerSetting" [displayData]="academicTableList" [tableSetting]="tableSetting"
         [rowColumnSetting]="rowColumns" (editView)='editFee($event)' (viewView)='studentsAssigned($event)'>
+				 
+				   
+				  
+					
+					
+					 
+					
+							   
+					 
+					
+							 
+					 
+					
+							
+					 
+					
+						  
+					 
+					
+							
+					 
+					
+							
+					 
+					
+						
+					 
+				   
+					
+				   
+																													  
+					
+						   
+					 
 
     </section> -->
     <section>
@@ -104,7 +138,7 @@
                   <th style="text-align: left;">
                     Academic Year
                   </th>
-                  <th>
+                  <th style="text-align: left;padding-left: 4%;">
                     Description
                   </th>
                   <th>
@@ -140,7 +174,7 @@
                         id="txtRowInst">
                     </div>
                   </td>
-                  <td class="view-comp">
+                  <td class="view-comp" style="text-align: left;padding-left: 4%;">
                     {{row.desc}}
                   </td>
                   <td class="edit-comp">
@@ -151,7 +185,7 @@
                   </td>
 
                   <td class="view-comp">
-                    {{row.start_date | date:'dd-MMM-yyyy'}}
+                    {{row.start_date | date:'dd-MMM-yy'}}
                   </td>
                   <td class="edit-comp edit">
                     <div class="field-wrapper has-Value">
@@ -160,7 +194,7 @@
                     </div>
                   </td>
                   <td class="view-comp edit">
-                    {{row.end_date | date:'dd-MMM-yyyy'}}
+                    {{row.end_date | date:'dd-MMM-yy'}}
                   </td>
                   <td class="edit-comp">
                     <div class="field-wrapper has-value">
@@ -169,7 +203,7 @@
                     </div>
                   </td>
                   <td class="view-comp">
-                    {{row.created_date | date:'dd-MMM-yyyy'}}
+                    {{row.created_date | date:'dd-MMM-yy'}}
                   </td>
                   <td class="edit-comp">
                     <div class="field-wrapper has-value">
@@ -219,6 +253,7 @@
         </div>
       </div>
     </section>
+
     <!-- Paginator Here -->
     <div class="row filter-res pagination" style="width: 100%;"
       [ngStyle]="{'margin-top':varJson.createNewAcademicYear == true ? '2px' : '4px','margin-bottom':varJson.createNewAcademicYear == true ? '-10px' : '-20px' }">

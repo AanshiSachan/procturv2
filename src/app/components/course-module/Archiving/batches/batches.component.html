@@ -132,54 +132,13 @@
             <td *ngIf="isProfessional" style="text-align: left;">
               {{i.subject_name}}
             </td>
-            <td style="text-align: center;">
-              {{i.start_date}}
+            <td>
+              {{i.start_date | date:'dd-MMM-yy'}}
             </td>
-            <td style="text-align: center;">
-              {{i.end_date}}
+            <td>
+              {{i.end_date | date:'dd-MMM-yy'}}
             </td>
           </tr>
-          <!-- <tr *ngIf="isProfessional">
-              <td>
-
-              </td>
-              <td>
-
-              </td>
-              <td>
-
-              </td>
-              <td>
-
-              </td>
-              <td>
-                <input type="button" class="btn fullBlue" value="Archive" (click)="archiveData($event)"
-                  style="float: right;">
-              </td>
-
-            </tr> -->
-          <!-- <tr *ngIf="!isProfessional">
-              <td>
-
-              </td>
-              <td>
-
-              </td>
-              <td>
-
-              </td>
-              <td>
-
-              </td>
-              <td>
-
-              </td>
-              <td>
-                <input type="button" class="btn fullBlue" value="Archive" (click)="archiveData($event)"
-                  style="float: right;">
-              </td>
-
-            </tr> -->
         </tbody>
         <tbody *ngIf="newPaginated.length == 0 && dataStatus === true">
           <tr *ngFor="let dummy of dummyArr">

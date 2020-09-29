@@ -717,7 +717,6 @@ export class InstituteSettingsComponent implements OnInit {
     obj.new_student_addmission_sms_notification = this.instituteSettingDet.new_student_addmission_sms_notification;
     obj.enable_send__website_url_in_student_credentail = this.convertBoolenToNumber(this.instituteSettingDet.enable_send__website_url_in_student_credentail);
     obj.student_study_material_visibility = this.convertBoolenToNumber(this.instituteSettingDet.student_study_material_visibility);
-    obj.enable_student_app_offline_video_download = this.convertBoolenToNumber(this.instituteSettingDet.enable_student_app_offline_video_download);
     obj.notification_for_studymaterial_upload = this.convertBoolenToNumber(this.instituteSettingDet.notification_for_studymaterial_upload);
     obj.enable_student_app_offline_video_download = this.convertBoolenToNumber(this.instituteSettingDet.enable_student_app_offline_video_download);
     obj.vdocipher_video_ready_sms_to_admin = this.convertBoolenToNumber(this.instituteSettingDet.vdocipher_video_ready_sms_to_admin);
@@ -953,7 +952,6 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.vat_percentage = data.cgst + data.sgst;
     this.instituteSettingDet.enable_send__website_url_in_student_credentail = data.enable_send__website_url_in_student_credentail;
     this.instituteSettingDet.student_study_material_visibility = data.student_study_material_visibility;
-    this.instituteSettingDet.enable_student_app_offline_video_download = data.enable_student_app_offline_video_download;
     this.instituteSettingDet.notification_for_studymaterial_upload = data.notification_for_studymaterial_upload;
     this.instituteSettingDet.enable_student_app_offline_video_download = data.enable_student_app_offline_video_download;
     this.instituteSettingDet.vdocipher_video_ready_sms_to_admin = data.vdocipher_video_ready_sms_to_admin;

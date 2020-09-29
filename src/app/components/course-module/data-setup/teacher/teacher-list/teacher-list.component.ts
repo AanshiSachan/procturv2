@@ -20,9 +20,9 @@ export class TeacherListComponent implements OnInit {
   searchData: any = [];
   searchDataFlag: boolean = false;
   dataStatus: number = 1;
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   isShoweOnlineExam: boolean = false;
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
-  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
   selectedRow: number;
   searchValue: string = "";
@@ -220,10 +220,9 @@ export class TeacherListComponent implements OnInit {
     }
     return data;
   }
+
   updateTableBatchSize(event) {
     this.studentdisplaysize = event;
     this.fetchTableDataByPage(this.PageIndex);
   }
-
-
 }

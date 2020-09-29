@@ -240,14 +240,15 @@ form{
         margin-left: 229px;
     }
 }
-
+table th, table td {
+    text-align: left;
+}
 .btn-sms-search {
     margin-top: 35px;
     text-align: center;
     margin-left: 280px;
     width: 100%
 }
-
 // .search-filter-wrapper {
 //     margin-top: 10px;
 //     .normal-field {

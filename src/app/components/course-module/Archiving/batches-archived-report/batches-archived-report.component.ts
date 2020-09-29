@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 import { AppComponent } from '../../../../app.component';
 import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
@@ -130,6 +131,11 @@ export class BatchesArchivedReportComponent implements OnInit {
         (data: any) => {
           this.dataStatus = false;
           this.auth.hideLoader();
+          for (let i = 0; i < data.length; i++) {
+            data[i].archived_date = moment(data[i].archived_date).format('DD-MMM-YY, h:mm:ss A');
+            data[i].end_date = moment(data[i].end_date).format('DD-MMM-YY');
+            data[i].start_date = moment(data[i].start_date).format('DD-MMM-YY');
+          }
           this.archivedData = data;
           this.totalRow = data.length;
           this.PageIndex = 1;
@@ -152,6 +158,11 @@ export class BatchesArchivedReportComponent implements OnInit {
         (data: any) => {
           this.dataStatus = false;
           this.auth.hideLoader();
+          for (let i = 0; i < data.length; i++) {
+            data[i].archived_date = moment(data[i].archived_date).format('DD-MMM-YY, h:mm:ss A');
+            data[i].end_date = moment(data[i].end_date).format('DD-MMM-YY');
+            data[i].start_date = moment(data[i].start_date).format('DD-MMM-YY');
+          }
           this.archivedData = data;
           this.totalRow = data.length;
           this.PageIndex = 1;
