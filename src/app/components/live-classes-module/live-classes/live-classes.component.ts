@@ -1065,7 +1065,9 @@ export class LiveClassesComponent implements OnInit {
     }
     formData.append('fileJson', JSON.stringify(fileJson));
 
-      // this.auth.showLoader();
+    if(this.isVimeo == 'Vimeo') {
+      this.auth.showLoader();
+    }
     let isZoom = true;
     if (this.uploadClassType != 'Zoom') {
       isZoom = false;
