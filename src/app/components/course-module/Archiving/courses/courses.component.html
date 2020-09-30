@@ -72,12 +72,12 @@
               <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('master_course') && direction == 1"></i>
               <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('master_course') && direction != 1"></i>
             </th>
-            <th *ngIf="!isProfessional" (click)="sortedData('standard_name') " style="width: 8%;">
+            <th *ngIf="!isProfessional" (click)="sortedData('standard_name') " style="width: 10%;">
               Standard &nbsp;
               <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('standard_name') && direction == 1"></i>
               <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('standard_name') && direction != 1"></i>
             </th>
-            <th *ngIf="isProfessional" (click)="sortedData('subject_name') " style="width: 8%;">
+            <th *ngIf="isProfessional" (click)="sortedData('subject_name') " style="width: 10%;">
               Course &nbsp;
               <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('subject_name') && direction == 1"></i>
               <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('subject_name') && direction != 1"></i>
@@ -122,10 +122,10 @@
             <td *ngIf="!isProfessional" style="width: 10%;padding: 10px 0px;">
               {{i.master_course}}
             </td>
-            <td *ngIf="isProfessional" style="width: 10%;padding: 10px 0px;width: 8%;">
+            <td *ngIf="isProfessional" style="width: 10%;padding: 10px 0px;width: 10%;">
               {{i.standard_name}}
             </td>
-            <td *ngIf="!isProfessional" style="width: 8%;">
+            <td *ngIf="!isProfessional" style="width: 10%;">
               {{i.standard_name}}
             </td>
             <td *ngIf="!isProfessional">
