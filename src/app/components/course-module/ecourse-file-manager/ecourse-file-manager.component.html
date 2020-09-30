@@ -7,34 +7,37 @@
       &gt;
       <span> Study Materials</span>
       &gt;
-        <span>
-          <ng-container *ngIf="_http.routeList.length">
-            <span class="breadcrums" (click)="gotoPageData(route)" style="cursor: pointer;" *ngFor="let route of _http.routeList ;let i = index">
-             <span *ngIf="route.name == 'E-Course'" style="color: #0084f6;">{{route.name}}</span>
-             <span *ngIf="route.name != 'E-Course'">{{route.name}}</span>
-              <i class="fa fa-angle-right" *ngIf=" i < (_http.routeList.length-1) "></i>
-            </span>
-          </ng-container>
-        </span>
+      <span>
+        <ng-container *ngIf="_http.routeList.length">
+          <span class="breadcrums" (click)="gotoPageData(route)" style="cursor: pointer;"
+            *ngFor="let route of _http.routeList ;let i = index">
+            <span *ngIf="route.name == 'E-Course'" style="color: #0084f6;">{{route.name}}</span>
+            <span *ngIf="route.name != 'E-Course'">{{route.name}}</span>
+            <i class="fa fa-angle-right" *ngIf=" i < (_http.routeList.length-1) "></i>
+          </span>
+        </ng-container>
+      </span>
     </div>
   </div>
 
-<div class="row">
-  <div class="col-md-2 file-mgr-sidebar" style="margin-top: 1.6em;float: right;width: 20%;">
-    <div>
-      <button class="btn btn-wide-blue" (click)="toggleFileUploadModal()">Upload File</button>
-    </div>
-    <div *ngIf="enable_vdoCipher_feature || enable_vimeo_feature" style="margin-top: 15px;">
-      <button class="btn btn-wide-blue" (click)="getSettingDetails()">Video Setting</button>
-    </div>
+  <div class="row">
+    <div class="col-md-2 file-mgr-sidebar" style="margin-top: 1.6em;float: right;width: 20%;">
+      <div>
+        <button class="btn btn-wide-blue" (click)="toggleFileUploadModal()" style="border-radius: 4px;">Upload
+          File</button>
+      </div>
+      <div *ngIf="enable_vdoCipher_feature || enable_vimeo_feature" style="margin-top: 15px;">
+        <button class="btn btn-wide-blue" (click)="getSettingDetails()" style="border-radius: 4px;">Video Cipher
+          Setting</button>
+      </div>
 
-    <!-- <div class="sidecard">
+      <!-- <div class="sidecard">
     <ul>
       <li class="btn-wide-blue">E-Course</li>
     </ul>
   </div> -->
 
-    <!-- <div class="sidecard">
+      <!-- <div class="sidecard">
       <div class="wrap">
         <h4>Download Usage<div class="questionInfo inline-relative">
           <span class="qInfoIcon i-class">i</span>
@@ -51,71 +54,71 @@
       </div>
     </div> -->
 
-    <div class="sidecard" *ngIf="enable_vdoCipher_feature">
-      <div class="wrap">
-        <h4>Bandwidth Capacity
-        </h4>
-        <p class="small usage">
-          {{(vDOCipher_allocated_bandwidth?vDOCipher_allocated_bandwidth:0)| number:'.2-2'}} GB
-        </p>
+      <div class="sidecard" *ngIf="enable_vdoCipher_feature">
+        <div class="wrap">
+          <h4>Bandwidth Capacity
+          </h4>
+          <p class="small usage">
+            {{(vDOCipher_allocated_bandwidth?vDOCipher_allocated_bandwidth:0)| number:'.2-2'}} GB
+          </p>
+        </div>
       </div>
-    </div>
 
-    <div class="sidecard" *ngIf="enable_vdoCipher_feature">
-      <div class="wrap">
-        <h4>Used Bandwidth Capacity
-        </h4>
-        <p class="small usage">
-          {{(vDOCipher_used_bandwidth?vDOCipher_used_bandwidth:0)| number:'.2-2'}} GB
-        </p>
+      <div class="sidecard" *ngIf="enable_vdoCipher_feature">
+        <div class="wrap">
+          <h4>Used Bandwidth Capacity
+          </h4>
+          <p class="small usage">
+            {{(vDOCipher_used_bandwidth?vDOCipher_used_bandwidth:0)| number:'.2-2'}} GB
+          </p>
+        </div>
       </div>
-    </div>
 
-    <div class="sidecard" *ngIf="enable_vdoCipher_feature">
-      <div class="wrap">
-        <h4>Storage Capacity
-        </h4>
-        <p class="small usage">
-          {{(vDOCipher_allocated_storage?vDOCipher_allocated_storage:0)| number:'.2-2'}} GB
-        </p>
+      <div class="sidecard" *ngIf="enable_vdoCipher_feature">
+        <div class="wrap">
+          <h4>Storage Capacity
+          </h4>
+          <p class="small usage">
+            {{(vDOCipher_allocated_storage?vDOCipher_allocated_storage:0)| number:'.2-2'}} GB
+          </p>
+        </div>
       </div>
-    </div>
 
-    <div class="sidecard" *ngIf="enable_vdoCipher_feature">
-      <div class="wrap">
-        <h4>Used Storage Capacity
-        </h4>
-        <p class="small usage">
-          {{(vDOCipher_used_storage?vDOCipher_used_storage:0)| number:'.2-2'}} GB
-        </p>
+      <div class="sidecard" *ngIf="enable_vdoCipher_feature">
+        <div class="wrap">
+          <h4>Used Storage Capacity
+          </h4>
+          <p class="small usage">
+            {{(vDOCipher_used_storage?vDOCipher_used_storage:0)| number:'.2-2'}} GB
+          </p>
+        </div>
       </div>
-    </div>
 
-    <div class="sidecard" *ngIf="enable_vimeo_feature">
-      <div class="wrap">
-        <h4>Vimeo allocated Storage
-        </h4>
-        <p class="small usage">
-          {{(vimeo_allocated_storage?vimeo_allocated_storage:0)| number:'.2-2'}} GB
-        </p>
+      <div class="sidecard" *ngIf="enable_vimeo_feature">
+        <div class="wrap">
+          <h4>Vimeo allocated Storage
+          </h4>
+          <p class="small usage">
+            {{(vimeo_allocated_storage?vimeo_allocated_storage:0)| number:'.2-2'}} GB
+          </p>
+        </div>
       </div>
-    </div>
 
-    <div class="sidecard" *ngIf="enable_vimeo_feature">
-      <div class="wrap">
-        <h4>Vimeo Used Storage
-        </h4>
-        <p class="small usage">
-          {{(vimeo_consumed_storage?vimeo_consumed_storage:0)| number:'.2-2'}} GB
-        </p>
+      <div class="sidecard" *ngIf="enable_vimeo_feature">
+        <div class="wrap">
+          <h4>Vimeo Used Storage
+          </h4>
+          <p class="small usage">
+            {{(vimeo_consumed_storage?vimeo_consumed_storage:0)| number:'.2-2'}} GB
+          </p>
+        </div>
       </div>
-    </div>
 
-  </div>
-  <div class="col-md-10 file-mgr-wrapper" style="width: 80%;">
-    <div class="row">
-      <div class="col-md-12 file-mgr-breadcrumb">
-        <!-- <h2>
+    </div>
+    <div class="col-md-10 file-mgr-wrapper" style="width: 80%;">
+      <div class="row">
+        <div class="col-md-12 file-mgr-breadcrumb">
+          <!-- <h2>
           <ng-container *ngIf="_http.routeList.length">
             <a class="breadcrums" (click)="gotoPageData(route)" *ngFor="let route of _http.routeList ;let i = index">
               {{route.name}}
@@ -123,17 +126,17 @@
             </a>
           </ng-container>
         </h2> -->
-      </div>
+        </div>
 
-      <div class="col-md-12 file-mgr-body">
-        <router-outlet></router-outlet>
+        <div class="col-md-12 file-mgr-body">
+          <router-outlet></router-outlet>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div>
-<app-upload-file></app-upload-file>
-</div>
+  <div>
+    <app-upload-file></app-upload-file>
+  </div>
 </div>
 
 <div class="ga-modal-wrapper" [hidden]="showSettings">
@@ -141,7 +144,8 @@
     <div class="ga-modal">
       <div class="ga-modal-head" style="text-align: left">
         <span>Video Settings </span>
-        <div class="btn_cross"> <button class="btn btn-xs btn-ga-white" (click)="showSettings = true" style="padding: 0;border: none;">X</button></div>
+        <div class="btn_cross"> <button class="btn btn-xs btn-ga-white" (click)="showSettings = true"
+            style="padding: 0;border: none;">X</button></div>
       </div>
       <div class="ga-modal-body">
         <div class="row upload-box">
@@ -150,15 +154,18 @@
               <label>Dynamic Watermark</label>
               <div class="row" style="padding: 15px 30px;">
                 <div class="col-md-4">
-                  <input type="checkbox" id="name" style="-webkit-appearance: checkbox;" [(ngModel)]="settingDetails.watermark_name" />
+                  <input type="checkbox" id="name" style="-webkit-appearance: checkbox;"
+                    [(ngModel)]="settingDetails.watermark_name" />
                   <label for="name">Name</label>
                 </div>
                 <div class="col-md-4">
-                  <input id="phone" type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="settingDetails.watermark_phone" />
+                  <input id="phone" type="checkbox" style="-webkit-appearance: checkbox;"
+                    [(ngModel)]="settingDetails.watermark_phone" />
                   <label for="phone">Phone</label>
                 </div>
                 <div class="col-md-4">
-                  <input id="email" type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="settingDetails.watermark_email" />
+                  <input id="email" type="checkbox" style="-webkit-appearance: checkbox;"
+                    [(ngModel)]="settingDetails.watermark_email" />
                   <label for="email">Email</label>
                 </div>
               </div>
@@ -188,7 +195,7 @@
             <div class="row">
               <div class="col-md-7" style="padding-left: 0;">
                 <div class="field-wrapper">
-                  <label>Watermark 
+                  <label>Watermark
                     <div class="questionInfo inline-relative">
                       <span class="qInfoIcon i-class">i</span>
                       <div class="tooltip-box-field">
@@ -312,7 +319,8 @@
       </div>
       <div class="ga-modal-head" style="text-align: right;">
         <div class="modal-footer" style="padding: 0;border: none;">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearObject()" style="height: 30px;">Cancel</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearObject()"
+            style="height: 30px;">Cancel</button>
           <button type="button" class="btn btn-primary fullBlue" (click)="Save_Setting_Details()">Save </button>
         </div>
       </div>

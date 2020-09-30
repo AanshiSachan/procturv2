@@ -481,7 +481,13 @@ tbody tr {
         transform: scale(0.6);
     }
 }
-
+tr td {
+    font-size: 12px;
+    padding: 10px;
+}
+label {
+    font-weight: 600;
+}
 .table-responsive {
     th {
         font-size: 14px !important;
