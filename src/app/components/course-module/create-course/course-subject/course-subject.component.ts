@@ -15,7 +15,8 @@ export class CourseSubjectComponent implements OnInit {
   no_subject_name: boolean = false;
   subjectListDataSource;
   PageIndex: number = 1;
-  displayBatchSize = 15;
+  displayBatchSize = 25;
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   totalRow: number;
   subjectList: any = [];
   standardList: any = [];
@@ -314,7 +315,10 @@ export class CourseSubjectComponent implements OnInit {
     }
     return data;
   }
-
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
   sortTable(str) {
     if (str == "standard_name" || str == "subject_name" || str == "is_active") {
       this.subjectListDataSource.sort(function (a, b) {
