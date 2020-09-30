@@ -11,9 +11,9 @@
           </h1> -->
           <h4 style="padding-top: 10px;">Choose filter to view class schedule</h4>
 
-          <div  style="margin-right: 15px">
-            <p-button label="Multiple Delete" (click)="deleteMultipleSchedule()" *ngIf="showDeleteBTN()" icon="fa fa-times"
-              iconPos="left"></p-button>
+          <div style="margin-right: 15px">
+            <p-button label="Multiple Delete" (click)="deleteMultipleSchedule()" *ngIf="showDeleteBTN()"
+              icon="fa fa-times" iconPos="left"></p-button>
             <input *ngIf="showManageClass" type="button" [routerLink]="['../add']" value="Add/Edit Class" class="btn">
           </div>
         </div>
@@ -38,18 +38,18 @@
                       <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top :20px;">
                         <div class="radio-main">
                           <div class="field-radio-wrapper">
-                            <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)" name="sFilter" class="form-radio"
-                              value="All" id="idAll">
+                            <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)"
+                              name="sFilter" class="form-radio" value="All" id="idAll">
                             <label for="idAll">All</label>
                           </div>
                           <div class="field-radio-wrapper">
-                            <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)" name="sFilter"
-                            value="Teacher" class="form-radio"    id="idTeacher">
+                            <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)"
+                              name="sFilter" value="Teacher" class="form-radio" id="idTeacher">
                             <label for="idTeacher">Faculty</label>
                           </div>
                           <div class="field-radio-wrapper">
-                            <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)" name="sFilter"
-                            value="Batch" class="form-radio"   id="idBatch">
+                            <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)"
+                              name="sFilter" value="Batch" class="form-radio" id="idBatch">
                             <label for="idBatch">Batch</label>
                           </div>
                         </div>
@@ -71,7 +71,8 @@
                           <div class="c-sm-4 c-lg-4 c-sm-4">
                             <div class="field-wrapper">
                               <label for="smc">Select Master Course</label>
-                              <select id="smc" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
+                              <select id="smc" class="form-ctrl" [(ngModel)]="batchData.standard_id"
+                                (ngModelChange)="onBatchMasterCourseSelection($event)">
                                 <option value="0"></option>
                                 <option [value]="master.standard_id" *ngFor="let  master of batchMasterCourse">
                                   {{master.standard_name}}
@@ -83,7 +84,8 @@
                           <div class="c-sm-4 c-lg-4 c-sm-4">
                             <div class="field-wrapper">
                               <label for="sc">Select Course</label>
-                              <select id="sc" class="form-ctrl" [(ngModel)]="batchData.subject_id" (ngModelChange)="onSubjectSelection($event)">
+                              <select id="sc" class="form-ctrl" [(ngModel)]="batchData.subject_id"
+                                (ngModelChange)="onSubjectSelection($event)">
                                 <option value="0"></option>
                                 <option [value]="course.subject_id" *ngFor="let course of subjectListBatch">
                                   {{course.subject_name}}
@@ -170,7 +172,8 @@
                   <input type="button" class="fullBlue btn" value="View" (click)="submitMasterCourse()">
                 </div>
                 <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top:15px;">
-                  <a class="pull-right" style="cursor: pointer;" (click)="showhideAdvanceFilter('1');">Advance Filter</a>
+                  <a class="pull-right" style="cursor: pointer;" (click)="showhideAdvanceFilter('1');">Advance
+                    Filter</a>
                 </div>
               </div>
 
@@ -203,9 +206,10 @@
                   <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isLangInstitute">
                     <div class="field-wrapper">
                       <label for="sc">Select Course
-                       <span class="text-danger">*</span>
+                        <span class="text-danger">*</span>
                       </label>
-                      <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="updateSubjectList($event)">
+                      <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id"
+                        (ngModelChange)="updateSubjectList($event)">
                         <option value="-1"></option>
                         <option [value]="course.course_id" *ngFor="let course of courseList.coursesList">
                           {{course.course_name}}
@@ -218,9 +222,10 @@
                     <div class="c-lg-4 c-md-4 c-sm-4">
                       <div class="field-wrapper">
                         <label for="smc" style="white-space: nowrap;">Select Master Course
-                         <span class="text-danger">*</span>
+                          <span class="text-danger">*</span>
                         </label>
-                        <select id="smc" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
+                        <select id="smc" class="form-ctrl" [(ngModel)]="batchData.standard_id"
+                          (ngModelChange)="onBatchMasterCourseSelection($event)">
                           <option value="-1"></option>
                           <option [value]="master.standard_id" *ngFor="let  master of batchMasterCourse">
                             {{master.standard_name}}
@@ -232,9 +237,10 @@
                     <div class="c-lg-4 c-md-4 c-sm-4">
                       <div class="field-wrapper">
                         <label for="sc">Select Course
-                         <span class="text-danger">*</span>
+                          <span class="text-danger">*</span>
                         </label>
-                        <select id="sc" class="form-ctrl" [(ngModel)]="batchData.subject_id" (ngModelChange)="onSubjectSelection($event)">
+                        <select id="sc" class="form-ctrl" [(ngModel)]="batchData.subject_id"
+                          (ngModelChange)="onSubjectSelection($event)">
                           <option value="-1"></option>
                           <option [value]="course.subject_id" *ngFor="let course of subjectListBatch">
                             {{course.subject_name}}
@@ -246,7 +252,7 @@
                     <div class="c-lg-4 c-md-4 c-sm-4">
                       <div class="field-wrapper">
                         <label for="sc">Batch
-                         <span class="text-danger">*</span>
+                          <span class="text-danger">*</span>
                         </label>
                         <select id="sc" class="form-ctrl" [(ngModel)]="batchData.batch_id">
                           <option value="-1"></option>
@@ -261,20 +267,20 @@
                   <div class="c-sm-3 c-md-3 c-lg-3">
                     <div class="field-wrapper datePickerBox">
                       <label for="strtDate">Start Date
-                       <span class="text-danger">*</span>
+                        <span class="text-danger">*</span>
                       </label>
-                      <input type="text" value="" id="strtDate" class="form-ctrl bsDatepicker" [(ngModel)]="advanceFilter.startdate"
-                        readonly="true" name="strtDate" bsDatepicker>
+                      <input type="text" value="" id="strtDate" class="form-ctrl bsDatepicker"
+                        [(ngModel)]="advanceFilter.startdate" readonly="true" name="strtDate" bsDatepicker>
                     </div>
                   </div>
 
                   <div class="c-sm-3 c-md-3 c-lg-3">
                     <div class="field-wrapper datePickerBox">
                       <label for="endDate">End Date
-                       <span class="text-danger">*</span>
+                        <span class="text-danger">*</span>
                       </label>
-                      <input type="text" value="" id="endDate" class="form-ctrl bsDatepicker" [(ngModel)]="advanceFilter.enddate"
-                        readonly="true" name="endDate" bsDatepicker>
+                      <input type="text" value="" id="endDate" class="form-ctrl bsDatepicker"
+                        [(ngModel)]="advanceFilter.enddate" readonly="true" name="endDate" bsDatepicker>
                     </div>
                   </div>
                 </div>
@@ -283,7 +289,8 @@
                   <button class="btn fullBlue" (click)="advanceFilterView()">View</button>
                 </div>
                 <div class="c-sm-1 c-md-1 c-lg-1">
-                  <a class="pull-right" style="margin-top: 30px;cursor: pointer;" (click)="showhideAdvanceFilter('0');">Back</a>
+                  <a class="pull-right" style="margin-top: 30px;cursor: pointer;"
+                    (click)="showhideAdvanceFilter('0');">Back</a>
                 </div>
               </div>
 
@@ -328,11 +335,11 @@
           <div class="pull-right extra-button">
             <button class="btn" (click)="expandAllRows()">Expand/Collapse All</button>
             <button class="btn" *ngIf="!isChecked" (click)="checkAllCheckbox()">Check All</button>
-            <button class="btn"  *ngIf="isChecked" (click)="checkAllCheckbox()">Uncheck All</button>
+            <button class="btn" *ngIf="isChecked" (click)="checkAllCheckbox()">Uncheck All</button>
           </div>
         </div>
 
-        <section class="clearFix calender-view1" >
+        <section class="clearFix calender-view1">
           <div class="table-responsive ">
             <table>
               <thead>
@@ -365,7 +372,8 @@
                       </div>
                       <div class="pull-right" *ngIf="isLangInstitute == false" style="width:5%">
                         <span class="" (click)="editClass(class)" title="Edit">
-                          <i class="fas fa-edit" style="font-family: FontAwesome;font-size: 20px;color: rgba(0, 0, 255, 0.49019607843137253);"></i>
+                          <i class="fas fa-edit"
+                            style="font-family: FontAwesome;font-size: 20px;color: rgba(0, 0, 255, 0.49019607843137253);"></i>
                         </span>
                         <span class="mail-notification" *ngIf="hidePastClassAction(class)" (click)="notify(class)"
                           title="Send Reminder"></span>
@@ -382,7 +390,7 @@
                             <div class="field-checkbox-wrapper">
                               <input type="checkbox" name="uiSelected" class="form-checkbox" [(ngModel)]="sc.selected"
                                 id="uiSelected{{i}}" (ngModelChange)="userSelectedData($event , sc)">
-                              <label ></label>
+                              <label></label>
                             </div>
                           </td>
                           <td style="width:10%">{{sc.class_type}}</td>
@@ -393,20 +401,23 @@
 
                             <div *ngIf="sc.class_type != 'Exam'" class="changeteacher">
                               <span id="teacher{{sc.schd_id}}">{{sc.teacher_name}}
-                                <i (click)="changeTeacher(sc)" class="edit-icon" aria-hidden="true" title="Edit" style="margin-right:5px"></i>
+                                <i (click)="changeTeacher(sc)" class="edit-icon" aria-hidden="true" title="Edit"
+                                  style="margin-right:5px"></i>
                               </span>
                               <span id="editTeacher{{sc.schd_id}}" class="hide spanSection">
                                 <div class="field-wrapper editSection">
-                                  <select id="teacherList" class="form-ctrl ddnChangeTeacher" [(ngModel)]="allotedTeacher">
+                                  <select id="teacherList" class="form-ctrl ddnChangeTeacher"
+                                    [(ngModel)]="allotedTeacher">
                                     <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
                                       {{subject.teacher_name}}
                                     </option>
                                   </select>
                                 </div>
-                                <i (click)="updateTeacher(sc)" class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;margin-left:0px 2px"
+                                <i (click)="updateTeacher(sc)" class="fas fa-check"
+                                  style="font-family: FontAwesome ;font-size: 19px;margin-left:0px 2px"
                                   title="Update"></i>
-                                <i (click)="cancelChangeTeacher(sc)" class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;"
-                                  title="Cancel"></i>
+                                <i (click)="cancelChangeTeacher(sc)" class="fas fa fa-times"
+                                  style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
                               </span>
                             </div>
 
@@ -418,12 +429,13 @@
                           <td style="width:15%">{{sc.topics_covered}}</td>
                           <td style="width:15%">
                             <div class="action-box" *ngIf="!isLangInstitute">
-                              <span class="mail-notification" *ngIf="hidePastClassAction(class) && sc.isAttendanceMarked == 'N'"
+                              <span class="mail-notification"
+                                *ngIf="hidePastClassAction(class) && sc.isAttendanceMarked == 'N'"
                                 (click)="notifySubjectLevel(sc ,class )" title="Send Reminder"></span>
-                              <span class="reschedule-icon" *ngIf="sc.isAttendanceMarked == 'N'" (click)="rescheduleClassData(sc)"
-                                title="Reschedule"></span>
-                              <span class="delete-btn" *ngIf=" sc.isAttendanceMarked == 'N'" style="font-family: FontAwesome;"
-                                (click)="CancelClass(sc)" title="Cancel Class">
+                              <span class="reschedule-icon" *ngIf="sc.isAttendanceMarked == 'N'"
+                                (click)="rescheduleClassData(sc)" title="Reschedule"></span>
+                              <span class="delete-btn" *ngIf=" sc.isAttendanceMarked == 'N'"
+                                style="font-family: FontAwesome;" (click)="CancelClass(sc)" title="Cancel Class">
                                 <i class="fa fa-trash-o " aria-hidden="true "></i>
                               </span>
                               <!-- <span class="edit-icon "></span> -->
@@ -477,8 +489,10 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77) rotate(45)" />
             </g>
             <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
               transform="translate(1012 297)" />
@@ -512,7 +526,8 @@
                     </select>
                   </div>
                   <div class="times">
-                    <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute" name="minute">
+                    <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute"
+                      name="minute">
                       <option *ngFor="let minute of minArr" [value]="minute">
                         {{minute}}
                       </option>
@@ -527,14 +542,16 @@
                 <label for="endtime">End Time</label>
                 <div class="tbox">
                   <div class="times ">
-                    <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour" name="endtime">
+                    <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour"
+                      name="endtime">
                       <option [value]="time" *ngFor="let time of times">
                         {{time}}
                       </option>
                     </select>
                   </div>
                   <div class="times">
-                    <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute" name="minute">
+                    <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute"
+                      name="minute">
                       <option *ngFor="let minute of minArr" [value]="minute">
                         {{minute}}
                       </option>
@@ -559,8 +576,8 @@
             <aside class="pull-left" style="margin-top: 10px;">
               <div class="field-checkbox-wrapper">
 
-                <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
-                  (change)="notifyRescheduleUpdate($event)">
+                <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified"
+                  [checked]="getCheckedStatus('resheduleNotified')" (change)="notifyRescheduleUpdate($event)">
                 <label for="is_reshedule_notified">Notify Students
                   <div class="questionInfo lefts" style="margin-left: 30px;">
                     <span class="qInfoIcon">?</span>
@@ -598,8 +615,10 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77) rotate(45)" />
             </g>
             <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
               transform="translate(1012 297)" />
@@ -644,15 +663,16 @@
             <aside class="pull-left">
               <div class="field-checkbox-wrapper">
 
-                <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')"
-                  (change)="notifyCancelUpdate($event)">
+                <input type="checkbox" value="" class="form-checkbox" id="notifyCancel"
+                  [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
                 <label for="notifyCancel">Notify Students</label>
 
               </div>
             </aside>
             <aside class="pull-right popup-btn">
+              <input type="button" value="Save" (click)="cancelClass()" class="btn">
               <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
-              <input type="button" value="Save" (click)="cancelClass()" class="btn fullBlue">
+
             </aside>
           </div>
         </div>

@@ -460,7 +460,7 @@
                       </div>
 
                         <div class="pull-right" style="margin-right:10px;">
-                            <button (click)="clearField()" class="btn fullBlue small-btn">Clear</button>
+                            <button (click)="clearField()" class="btn">Clear</button>
                         </div>
 
                     </div>
@@ -793,8 +793,8 @@
                         <button type="button" class="btn" Style="margin-left: 0px;" name="button" routerLink="/view/course/coursePlanner/exam" *ngIf="coursePlannerStatus=='true'">Back</button>
                       </div>
                       <div class="pull-right">
-                        <button class="btn fullBlue pull-right" (click)="saveExamScheduleCourse()" [disabled]="multiClickDisabled">Save</button>
-                        <button type="button" name="button" class="btn pull-right">Cancel</button>
+                        <button class="btn" (click)="saveExamScheduleCourse()" [disabled]="multiClickDisabled">Save</button>
+                        <button type="button" name="button" class="btn">Cancel</button>
                       </div>
                     </div>
                 </div>
@@ -850,8 +850,8 @@
            Checked keys: {{checkedKeys.join("|")}}
        </div> -->
     <div class="extraMargin row  pull-right" style="margin: 15px">
-      <button class="btn" (click)="closeAlert()">Cancel</button>
-      <button class="btn fullBlue"  (click)="saveTopic()">Save</button>
+        <button class="btn"  (click)="saveTopic()">Save</button>
+        <button class="btn" (click)="closeAlert()">Cancel</button>
     </div>
   </div>
 </section>
@@ -872,9 +872,10 @@
            <ng-container *ngTemplateOutlet="topicsRecursiveList; context:{$implicit: topicsList, level: 1 }"></ng-container> 
         </div>
         <div class="extraMargin row  pull-right" style="margin: 15px">
+            <button class="btn " *ngIf="showTopicsPopUp && !showExamEditModal" (click)="saveSelectedTopics()">Save</button>
+            <button class="btn " *ngIf="showExamEditModal" (click)="linkTopics()">Save</button>
           <button class="btn" (click)="closeTopicModal()">Cancel</button>
-          <button class="btn fullBlue" *ngIf="showTopicsPopUp && !showExamEditModal" (click)="saveSelectedTopics()">Save</button>
-          <button class="btn fullBlue" *ngIf="showExamEditModal" (click)="linkTopics()">Save</button>
+         
         </div>
       </div>
 </section>
@@ -1018,7 +1019,7 @@
                     <div class="clearfix" style="margin-top: 10px">
                         <aside class="pull-right popup-btn">
                             <input type="button" value="Cancel" class="btn" (click)="closeCourseLevelAttendance()">
-                            <input type="button" value="Mark Attendance" (click)="updateCourseAttendance()" class="fullBlue btn">
+                            <input type="button" value="Mark Attendance" (click)="updateCourseAttendance()" class="btn">
                         </aside>
                     </div>
 
