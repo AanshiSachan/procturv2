@@ -33,7 +33,8 @@ export class CourseSubjectComponent implements OnInit {
   selectedRow: number;
   isLangInstitue: boolean = false;
   sortingDir: string = "asc";
-  subjectCodeCharLimit : number =4;
+  subjectCodeCharLimit: number = 4;
+  activeList: boolean = false;
 
   constructor(
     private apiService: SubjectApiService,
@@ -41,10 +42,9 @@ export class CourseSubjectComponent implements OnInit {
     private auth: AuthenticatorService
   ) {
     //Abhishek kumar ​102047 Kohima college
-    if(sessionStorage.getItem('institute_id')==102047+"") {
-    this.subjectCodeCharLimit=8;
-    }
-   }
+    if (sessionStorage.getItem('institute_id') == 102047 + "")
+      this.subjectCodeCharLimit = 8;
+  }
 
   ngOnInit() {
     this.checkInstituteType();
@@ -56,15 +56,38 @@ export class CourseSubjectComponent implements OnInit {
     this.auth.showLoader();
     this.apiService.getAllSubjectListFromServer().subscribe(
       (data: any) => {
+        console.log("getAllSubjectList", data);
 
-        this.totalRow = data.length;
         data.sort(function (a, b) {
           return moment(b.created_date).unix() - moment(a.created_date).unix();
         })
-        this.subjectListDataSource = data;
-        this.fetchTableDataByPage(this.PageIndex);
-        this.auth.hideLoader();
-        this.dataStatus = 2;
+        if (this.activeList == false) {
+          this.subjectListDataSource = [];
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].is_active === "Y") {
+              this.subjectListDataSource.push(data[i]);
+            }
+          }
+          // this.subjectListDataSource = data;
+          this.totalRow = this.subjectListDataSource.length;
+          this.fetchTableDataByPage(this.PageIndex);
+          this.auth.hideLoader();
+          this.dataStatus = 2;
+        }
+        else if (this.activeList == true) {
+          this.subjectListDataSource = [];
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].is_active === "N") {
+              this.subjectListDataSource.push(data[i]);
+            }
+          }
+          // this.subjectListDataSource = data;
+          this.totalRow = this.subjectListDataSource.length;
+          this.fetchTableDataByPage(this.PageIndex);
+          this.auth.hideLoader();
+          this.dataStatus = 2;
+        }
+
       },
       error => {
 
@@ -90,7 +113,7 @@ export class CourseSubjectComponent implements OnInit {
     data.subject_name = row.subject_name;
     data.institution_id = row.institution_id;
     if (!this.isLangInstitue) {
-    data.subject_code = row.subject_code.toUpperCase();
+      data.subject_code = row.subject_code.toUpperCase();
     }
     if (data.subject_name == "" && data.data.subject_name == null) {
       let msg = {
@@ -100,7 +123,7 @@ export class CourseSubjectComponent implements OnInit {
       }
       this.toastCtrl.popToast(msg);
       return;
-    } else if (!this.isLangInstitue && data.subject_code.trim() == ''){
+    } else if (!this.isLangInstitue && data.subject_code.trim() == '') {
       let msg = {
         type: "error",
         title: "",
@@ -136,7 +159,7 @@ export class CourseSubjectComponent implements OnInit {
   getAllStandardSubjectList() {
     this.apiService.getAllStandardName().subscribe(
       res => {
-
+        console.log("getAllStandardSubjectList", res);
         this.standardList = res;
       },
       error => {
@@ -161,7 +184,7 @@ export class CourseSubjectComponent implements OnInit {
         this.newSubjectDetails.is_active = "N";
       }
       if (!this.isLangInstitue) {
-      this.newSubjectDetails.subject_code = this.newSubjectDetails.subject_code.toUpperCase();
+        this.newSubjectDetails.subject_code = this.newSubjectDetails.subject_code.toUpperCase();
       }
       this.apiService.createNewSubject(this.newSubjectDetails).subscribe(
         res => {
