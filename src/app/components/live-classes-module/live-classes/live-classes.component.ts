@@ -1113,7 +1113,9 @@ export class LiveClassesComponent implements OnInit {
               this.msgService.showErrorMessage('error', '', data.message);
             }
           } else {
-            if(data.upload_link!='') {
+            this.isVimeo = 'VDOCipher';
+            this.vimeo_title = '';
+            if(data.upload_link!='' && data.upload_link != null) {
             this.patchRequest(data.result);
             }
           }
@@ -1180,8 +1182,6 @@ export class LiveClassesComponent implements OnInit {
         this.msgService.showErrorMessage('success', '', 'File(s) uploaded successfully');
         $('#uploadRec').modal('hide');
         this.getClassesList();
-        this.isVimeo = 'VDOCipher';
-        this.vimeo_title = '';
       },
       err => {
         console.log(err);
