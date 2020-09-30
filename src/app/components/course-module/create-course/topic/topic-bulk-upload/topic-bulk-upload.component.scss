@@ -3,6 +3,9 @@
 .middle-section{
   padding: 1%;
 }
+th{
+    background-color: #e0eaec !important;
+}
 
 .bulk-update-report {
     max-height: 400px !important;
@@ -25,7 +28,7 @@
     }
   }
   .filter_div {
-    background: #ddd;
+    // background: #ddd;
     padding: 1rem;
     border-radius: 4px;
   }

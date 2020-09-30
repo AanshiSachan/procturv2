@@ -14,10 +14,10 @@
             <!-- <p-splitButton label="{{selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton> -->
           </div>
           <ul style="display: inline-flex;">
-            <li class="headerBtn" routerLink='add' *ngIf="jsonFlags.isShowAddCourse">
+            <li class="btn" routerLink='add' *ngIf="jsonFlags.isShowAddCourse">
               <i class="fa fa-plus" aria-hidden="true"></i>
-                &nbsp;
-                Add Course
+              &nbsp;
+              Add Course
             </li>
           </ul>
         </aside>
@@ -38,13 +38,13 @@
                   Course End Date
                 </th>
                 <th style="width:15%">
-                  <label style="cursor:pointer;" >Academic Year </label>
+                  <label style="cursor:pointer;">Academic Year </label>
                 </th>
                 <th style="width:15%">
                   <label style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
                 </th>
                 <th style="width: 5%;">
-                  <label style="cursor:pointer;" >Total Students </label>
+                  <label style="cursor:pointer;">Total Students </label>
                 </th>
                 <th style="width:10%;font-size: 14px !important;">Action</th>
 
@@ -58,8 +58,10 @@
                       <span class="close-accor" (click)="toggleTbodyClass(i)">-</span>
                       <span class="open-accor" (click)="toggleTbodyClass(i)">+</span>
                       <span class="date-c" (click)="toggleTbodyClass(i)">{{row.master_course}}</span>
-                      <span class="pull-right" *ngIf="jsonFlags.isShowAddStudent" routerLink="{{row.master_course}}" style="cursor: pointer;padding-right: 6% !important;text-align: left;">
-                        <i class="edit-icon" aria-hidden="true" style="margin-right: 5px;" title="Edit"></i>Edit
+                      <span class="pull-right" *ngIf="jsonFlags.isShowAddStudent" routerLink="{{row.master_course}}"
+                        style="cursor: pointer;padding-right: 4% !important;text-align: left;">
+                        <i class="fa fa-pencil" aria-hidden="true" style="margin-right: 5px;color: #0084f6;"
+                          title="Edit"></i>
                       </span>
                     </h4>
                   </div>
@@ -74,7 +76,9 @@
                         <td style="width:20%" title="{{'Course Id - '+ sc.course_id}}">{{sc.course_name}}</td>
                         <td style="width: 10%;">{{sc.end_date}}</td>
                         <td style="width:15%">
-                          <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':sc.academic_year_id? 'lightgrey':'','cursor':sc.academic_year_id ? 'not-allowed':''}" [(ngModel)]="sc.academic_year_id" >
+                          <select class="form-ctrl" [disabled]="true"
+                            [ngStyle]="{'background':sc.academic_year_id? 'lightgrey':'','cursor':sc.academic_year_id ? 'not-allowed':''}"
+                            [(ngModel)]="sc.academic_year_id">
                             <option value="-1">Select</option>
                             <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                               {{opt.inst_acad_year}}
@@ -85,7 +89,8 @@
                         <td style="width: 5%;">{{sc.total_students}}</td>
                         <td style="width:10%">
                           <div class="action-box ">
-                            <a style="cursor:pointer"  *ngIf="jsonFlags.isShowAddStudent" (click)="addStudentToBatch(sc)">Add Student
+                            <a style="cursor:pointer" *ngIf="jsonFlags.isShowAddStudent"
+                              (click)="addStudentToBatch(sc)">Add Student
                               <!-- <i class="far fa fa-plus-square" style="font-size: 25px" alt="Add Student" title="Add Student"></i> -->
                             </a>
                           </div>
@@ -120,7 +125,8 @@
       <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
           <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-            [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+            [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow" [sizeArr]="sizeArr"
+            (sizeChange)="updateTableBatchSize($event)">
           </pagination>
         </div>
       </div>
@@ -137,8 +143,11 @@
   <div class="popup pos-abs popup-body-container">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeStudentPopup()">
-        <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-          <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+        <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+          viewBox="0 0 24 24" width="24px" x="0" y="0">
+          <path class="large-icon"
+            d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+            style="fill: currentColor"></path>
         </svg>
       </span>
       <div class="popup-content student-assign-popup">
@@ -151,18 +160,18 @@
         <div class="row filter-section">
           <div class="c-sm-4 c-md-4 c-lg-4 radio-button">
             <div class="field-radio-wrapper">
-              <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0" [(ngModel)]="searchFilter.unassignFlag"
-                (ngModelChange)="onRadioButtonChange()">
+              <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0"
+                [(ngModel)]="searchFilter.unassignFlag" (ngModelChange)="onRadioButtonChange()">
               <label for="bothRadio">Both</label>
             </div>
             <div class="field-radio-wrapper">
-              <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio" [(ngModel)]="searchFilter.unassignFlag"
-                (ngModelChange)="onRadioButtonChange()">
+              <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio"
+                [(ngModel)]="searchFilter.unassignFlag" (ngModelChange)="onRadioButtonChange()">
               <label for="assignRadio">Assigned</label>
             </div>
             <div class="field-radio-wrapper">
-              <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio" [(ngModel)]="searchFilter.unassignFlag"
-                (ngModelChange)="onRadioButtonChange()">
+              <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio"
+                [(ngModel)]="searchFilter.unassignFlag" (ngModelChange)="onRadioButtonChange()">
               <label for="unassignStudent">UnAssigned</label>
             </div>
           </div>
@@ -186,8 +195,8 @@
 
             <div class="c-sm-4 c-md-4 c-lg-4">
               <div class="search-filter-wrapper">
-                <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent" name="searchData"
-                  [(ngModel)]="searchData">
+                <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent"
+                  name="searchData" [(ngModel)]="searchData">
               </div>
             </div>
 
@@ -200,7 +209,9 @@
               <thead>
                 <th>
                   <div class="field-checkbox-wrapper">
-                    <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">  <!-- [attr.disabled] = "searchFilter.unassignFlag == 1 ? 'disabled' : null" -->
+                    <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked"
+                      (click)="selectAllCheckBox(idSelectAll)">
+                    <!-- [attr.disabled] = "searchFilter.unassignFlag == 1 ? 'disabled' : null" -->
                     <label></label>
                   </div>
                 </th>
@@ -230,7 +241,8 @@
                 <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
                   <td>
                     <div class="field-checkbox-wrapper">
-                      <input type="checkbox" id="studentcheck{{row.student_id}}" class="form-checkbox" [(ngModel)]="row.assigned">  <!-- [disabled]="row.immutableKey" -->
+                      <input type="checkbox" id="studentcheck{{row.student_id}}" class="form-checkbox"
+                        [(ngModel)]="row.assigned"> <!-- [disabled]="row.immutableKey" -->
                       <label></label>
                     </div>
                   </td>
@@ -238,10 +250,10 @@
                     {{row.student_disp_id}}
                   </td>
                   <td [title]="row.country_name">
-                   {{row.country_code}}
-                    </td>
+                    {{row.country_code}}
+                  </td>
                   <td>
-              {{row.student_name}}
+                    {{row.student_name}}
                   </td>
                   <td>
                     {{row.student_phone}}
@@ -251,7 +263,9 @@
                   </td>
                   <td>
                     <div class="field-wrapper">
-                      <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':courseDetails.academic_year_id? 'lightgrey':'','cursor':courseDetails.academic_year_id ? 'not-allowed':''}" [(ngModel)]="courseDetails.academic_year_id" style="background: transparent">
+                      <select class="form-ctrl" [disabled]="true"
+                        [ngStyle]="{'background':courseDetails.academic_year_id? 'lightgrey':'','cursor':courseDetails.academic_year_id ? 'not-allowed':''}"
+                        [(ngModel)]="courseDetails.academic_year_id" style="background: transparent">
                         <option value="-1">Select</option>
                         <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                           {{opt.inst_acad_year}}
@@ -264,7 +278,8 @@
                       <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.assigned_fee_template_id"
                         style="background: transparent">
                         <option value="-1">Select</option>
-                        <option *ngFor="let opt of setDefaultTemplate(row.country_id,feeTemplateDataSource,row)" [value]="opt.template_id">
+                        <option *ngFor="let opt of setDefaultTemplate(row.country_id,feeTemplateDataSource,row)"
+                          [value]="opt.template_id">
                           <label title="{{opt.template_name}}">
                             {{ (opt.template_name.length > 20) ? (opt.template_name | slice:0:20) + '...' :opt.template_name }}
                           </label>
@@ -302,8 +317,7 @@
     </div>
     <br>
     <div class="field-checkbox-wrapper">
-      <input type="checkbox" id="delete_unpaid_fee" name="batch" [(ngModel)]="delete_unpaid_fee"
-          class="form-checkbox">
+      <input type="checkbox" id="delete_unpaid_fee" name="batch" [(ngModel)]="delete_unpaid_fee" class="form-checkbox">
       <label> Delete unpaid fees installments</label>
     </div>
     <div class="confirmation_button_container">
