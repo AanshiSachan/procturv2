@@ -175,6 +175,12 @@ export class LiveClassesComponent implements OnInit {
   daysLeftForSubscriptionExpiry: number;
   ShowActionBtn: any = {};
   attendance_buffer: any = 0;
+  proctur_live_integration_with_vimeo: any = 0;
+  proctur_live_integration_with_vdoCipher: any = 0;
+  isVimeo: any = 'VDOCipher';
+  vimeo_title: any = '';
+  videoplayer: boolean = false;
+  currentProjectUrl: any;
 
   constructor(
     private auth: AuthenticatorService,
@@ -268,6 +274,15 @@ export class LiveClassesComponent implements OnInit {
         this.futureLiveClasses = data.upcomingLiveClasses;
         this.is_proctur_live_recording_allow = data.is_proctur_live_recording_allow;
         this.attendance_buffer = data.attendance_buffer;
+        this.proctur_live_integration_with_vdoCipher = data.proctur_live_integration_with_vdoCipher;
+        this.proctur_live_integration_with_vimeo = data.proctur_live_integration_with_vimeo;
+        if(!(this.proctur_live_integration_with_vimeo == '1' && this.proctur_live_integration_with_vdoCipher == '1')) {
+          if(this.proctur_live_integration_with_vimeo == '1') {
+            this.isVimeo = 'Vimeo';
+          } else if(this.proctur_live_integration_with_vimeo == '1') {
+            this.isVimeo = 'VDOCipher';
+          }
+        }
         if (this.is_proctur_live_recording_allow == 1 && this.videoLimitExceed == 1) {
           $('#videoLimit').modal('show');
           this.videoLimitExceed = 0;
@@ -924,6 +939,12 @@ export class LiveClassesComponent implements OnInit {
       });
   }
 
+  playVimeoVideo(obj) {
+    this.viewDownloadPopup = false;
+    this.videoplayer = true;
+    this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl(obj.vimeo_video_url);
+  }
+
   ShowVideo(otpString, playbackInfoString) {
     this.isVDOCipherVDO = true;
     this.showVideo = false;
@@ -1031,11 +1052,20 @@ export class LiveClassesComponent implements OnInit {
     let institute_id = sessionStorage.getItem("institute_id");
     let formData = new FormData();
 
-    for (let i = 0; i < this.selectedFiles.length; i++) {
-      formData.append("files", this.selectedFiles[i]);
+    if(this.isVimeo == 'VDOCipher') {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        formData.append("files", this.selectedFiles[i]);
+      }
     }
 
-    this.auth.showLoader();
+    let fileJson = {
+      "video_size": this.selectedFiles[0].size,
+      "video_title": this.vimeo_title,
+      "video_upload_on": this.isVimeo
+    }
+    formData.append('fileJson', JSON.stringify(fileJson));
+
+      // this.auth.showLoader();
     let isZoom = true;
     if (this.uploadClassType != 'Zoom') {
       isZoom = false;
@@ -1052,6 +1082,7 @@ export class LiveClassesComponent implements OnInit {
     newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
     newxhr.setRequestHeader("Accept", "application/json, text/javascript");
 
+    if(this.isVimeo == 'VDOCipher') {
     this.progressBar = true;
     newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
       if (e.lengthComputable) {
@@ -1059,23 +1090,30 @@ export class LiveClassesComponent implements OnInit {
         document.getElementById('progress-width').style.width = this.progress + '%';
       }
     }, false);
+  }
 
     newxhr.onreadystatechange = () => {
       if (newxhr.readyState == 4) {
 
         if (newxhr.status >= 200 && newxhr.status < 300) {
           this.auth.hideLoader();
-          let data = JSON.parse((newxhr.response))
-          if (data.statusCode >= 200 && data.statusCode < 300) {
-            this.msgService.showErrorMessage('success', '', 'File(s) uploaded successfully');
-            this.fileUploadInput = '';
-            this.progress = 0;
-            this.progressBar = false;
-            $('#uploadRec').modal('hide');
-            this.getClassesList();
-          }
-          else {
-            this.msgService.showErrorMessage('error', '', data.message);
+          let data = JSON.parse((newxhr.response));
+          if(this.isVimeo == 'VDOCipher') {
+            if (data.statusCode >= 200 && data.statusCode < 300) {
+              this.msgService.showErrorMessage('success', '', 'File(s) uploaded successfully');
+              this.fileUploadInput = '';
+              this.progress = 0;
+              this.progressBar = false;
+              $('#uploadRec').modal('hide');
+              this.getClassesList();
+            }
+            else {
+              this.msgService.showErrorMessage('error', '', data.message);
+            }
+          } else {
+            if(data.upload_link!='') {
+            this.patchRequest(data.result);
+            }
           }
         }
         else {
@@ -1089,6 +1127,64 @@ export class LiveClassesComponent implements OnInit {
     }
     newxhr.send(formData);
 
+  }
+
+  patchRequest(obj) {
+    // this.auth.showLoader();
+    let base = this.auth.getBaseUrl();
+    let urlPostXlsDocument = obj.upload_link;
+    let newxhr = new XMLHttpRequest();
+
+    newxhr.open("PATCH", urlPostXlsDocument, true);
+    newxhr.setRequestHeader("Tus-Resumable", '1.0.0');
+    newxhr.setRequestHeader("Upload-Offset", '0');
+    newxhr.setRequestHeader("Content-Type", "application/offset+octet-stream");
+    newxhr.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4");
+
+    this.progressBar = true;
+    newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
+      if (e.lengthComputable) {
+        this.progress = Math.round((e.loaded * 100) / e.total);
+        document.getElementById('progress-width').style.width = this.progress + '%';
+      }
+    }, false);
+
+    newxhr.onreadystatechange = () => {
+      if (newxhr.readyState == 4) {
+
+        if (newxhr.status >= 200 && newxhr.status < 300) {
+          this.auth.hideLoader();
+          this.updateVimeoStatus(obj.videoId);
+          }
+        }
+        else {
+          this.progress = 0;
+          this.progressBar = false;
+          this.auth.hideLoader();
+        }
+      }
+    newxhr.send(this.selectedFiles[0]);
+  }
+
+  updateVimeoStatus(videoId) {
+    let obj = {
+      "videoID": videoId,
+      "institute_id": this.institution_id,
+      "video_status": "Queued",
+      "is_live_class_recording":"Y"  
+    }
+    this._http.postData('/api/v1/instFileSystem/updateVideoStatus', obj).subscribe(
+      (res: any) => {
+        this.msgService.showErrorMessage('success', '', 'File(s) uploaded successfully');
+        $('#uploadRec').modal('hide');
+        this.getClassesList();
+        this.isVimeo = 'VDOCipher';
+        this.vimeo_title = '';
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
 
   viewAttandance(session_id) {

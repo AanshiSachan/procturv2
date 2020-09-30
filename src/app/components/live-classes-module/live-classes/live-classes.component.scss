@@ -974,3 +974,9 @@ html {
   width: auto;
   font-weight: 600;
  }
+ .videoplayer{
+  position: fixed;
+  top: 15%;
+  left: 30%;
+  z-index: 10;
+}
