@@ -1,16 +1,16 @@
 <div class="middle-section clear-fix">
   <!-- breadcrumb -->
-  <section class="middle-top clearFix bulk-header">
+  <section class="middle-top clearFix bulk-header" style="border-bottom: 1px solid lightgrey;">
     <div>
       <h1 class="pull-left">
-        <a routerLink="/view/course"  *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
+        <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
           Course
         </a>
         <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional" style="padding:0px; ">
           Batch
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-         <span>Online Assignment</span>
+        <span>Online Assignment</span>
       </h1>
     </div>
   </section>
@@ -20,17 +20,19 @@
     <div class="filter-container">
       <div class="search-filter-wrapper">
         <i class="fa fa-search" aria-hidden="true"></i>
-        <input type="text" class="normal-field" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchDatabase()">
+        <input type="text" class="normal-field" placeholder="Search" name="searchData" [(ngModel)]="searchText"
+          (keyup)="searchDatabase()">
       </div>
       <div class="filter-item field-wrapper datePickerBox">
         <!-- <label for="date-range">Select Date Range</label> -->
-        <input type="text" value="" id="date-range"  [(ngModel)]="dateFilterRange"  (ngModelChange)="dateRangeChange($event)"
-        class="form-ctrl widgetDatepicker bsDatepicker" style="padding: 6px;" readonly="true" name="date-range" placeholder="Date" bsDaterangepicker/>
+        <input type="text" value="" id="date-range" [(ngModel)]="dateFilterRange"
+          (ngModelChange)="dateRangeChange($event)" class="form-ctrl widgetDatepicker bsDatepicker"
+          style="padding: 6px;" readonly="true" name="date-range" placeholder="Date" bsDaterangepicker />
       </div>
 
       <div class="manage-assignment-btn-container">
-        <button type="button" name="button" class="manage-assignment-btn"  routerLink='/view/course/online-assignment/create-assignment'>
-          <i class="fa fa-plus" aria-hidden="true" style="color: #0084f6;"></i>&nbsp;
+        <button type="button" name="button" class="btn" routerLink='/view/course/online-assignment/create-assignment'>
+          <!-- <i class="fa fa-plus" aria-hidden="true" style="color: #0084f6;"></i>&nbsp; -->
           New Assignment</button>
       </div>
     </div>
@@ -39,7 +41,7 @@
   <!-- list container -->
   <section>
     <div class="list-table-container">
-      <div class="list-header-container" >
+      <div class="list-header-container">
         <div class="list-header-item v-small-item">
           <span>ID</span>
         </div>
@@ -69,7 +71,7 @@
             <div class="questionInfo inline-relative" style="left:0%;top:5px;">
               <span class="qInfoIcon i-class">i</span>
               <div class="tooltip-box-field md">
-                Status shown "Number of Students Submitted the Assignment  / Total Number of Students.
+                Status shown "Number of Students Submitted the Assignment / Total Number of Students.
               </div>
             </div>
           </span>
@@ -79,27 +81,29 @@
         </div>
       </div>
       <div class="list-value-outer-container">
-        <div class="list-value-container"
-        [ngClass]="{'border-published-class': assignment.assignment_status == 'Published',
+        <div class="list-value-container" [ngClass]="{'border-published-class': assignment.assignment_status == 'Published',
                     'border-draft-class': assignment.assignment_status == 'Draft'}"
-        *ngFor="let assignment of assignmentList">
+          *ngFor="let assignment of assignmentList">
           <div class="list-value-item v-small-item">
             <span>{{assignment.file_id}}</span>
           </div>
           <div class="list-value-item small-item">
-            <span title="{{assignment?.title}}" >{{ (!assignment.title) ? '-' : (assignment.title.length > 12) ? (assignment.title | slice:0:12) + '...' : assignment.title}}</span>
+            <span
+              title="{{assignment?.title}}">{{ (!assignment.title) ? '-' : (assignment.title.length > 12) ? (assignment.title | slice:0:12) + '...' : assignment.title}}</span>
           </div>
           <div class="list-value-item small-item" style="width: 12.5%">
-            <span>{{assignment.start_date}} {{assignment.start_time}}</span>
+            <span>{{assignment.start_date | date: 'dd-MMM-yy'}} {{assignment.start_time}}</span>
           </div>
           <div class="list-value-item small-item" style="width: 12.5%">
-            <span>{{assignment.end_date}} {{assignment.end_time}}</span>
+            <span>{{assignment.end_date | date: 'dd-MMM-yy'}} {{assignment.end_time}}</span>
           </div>
           <div class="list-value-item small-item">
-            <span title="{{assignment?.course_name}}" >{{ (!assignment.course_name) ? '-' : (assignment.course_name.length > 20) ? (assignment.course_name | slice:0:20) + '...' : assignment.course_name}}</span>
+            <span
+              title="{{assignment?.course_name}}">{{ (!assignment.course_name) ? '-' : (assignment.course_name.length > 20) ? (assignment.course_name | slice:0:20) + '...' : assignment.course_name}}</span>
           </div>
           <div class="list-value-item small-item">
-            <span title="{{assignment?.subject_name}}" >{{ (!assignment.subject_name) ? '-' : (assignment.subject_name.length > 20) ? (assignment.subject_name | slice:0:20) + '...' : assignment.subject_name}}</span>
+            <span
+              title="{{assignment?.subject_name}}">{{ (!assignment.subject_name) ? '-' : (assignment.subject_name.length > 20) ? (assignment.subject_name | slice:0:20) + '...' : assignment.subject_name}}</span>
           </div>
           <div class="list-value-item medium-item">
             <span>{{assignment.topic_name}}-{{assignment.sub_topic_name}}</span>
@@ -109,23 +113,28 @@
             <span>{{assignment.assignment_status}}</span>
           </div>
           <div class="list-value-item v-small-item action-container">
-            <span *ngIf="assignment.assignment_status == 'Published' && assignment.total_assign_submitted_count!=0">{{assignment.total_assign_submitted_count}}/{{assignment.total_assign_students}}</span>
-            <span *ngIf="assignment.assignment_status != 'Published' || assignment.total_assign_submitted_count == 0">-</span>
+            <span
+              *ngIf="assignment.assignment_status == 'Published' && assignment.total_assign_submitted_count!=0">{{assignment.total_assign_submitted_count}}/{{assignment.total_assign_students}}</span>
+            <span
+              *ngIf="assignment.assignment_status != 'Published' || assignment.total_assign_submitted_count == 0">-</span>
           </div>
           <div class="list-value-item small-item align-center action-container">
             <div class="dropdown dropleft">
-              <button class="btn btn-light btn-xs dropdown-toggle" type="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button class="btn btn-light btn-xs dropdown-toggle" type="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
               </button>
               <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
-                <span class="dropdown-item" (click)="viewSubmission(assignment.file_id)" *ngIf="assignment.assignment_status == 'Published' || assignment.assignment_status == 'Under Evalution' || assignment.assignment_status == 'Pending Evaluation'">
+                <span class="dropdown-item" (click)="viewSubmission(assignment.file_id)"
+                  *ngIf="assignment.assignment_status == 'Published' || assignment.assignment_status == 'Under Evalution' || assignment.assignment_status == 'Pending Evaluation'">
                   <i class="fa fa-eye" style="margin-top: 3px;" aria-hidden="true"></i> View
                 </span>
-                <span class="dropdown-item" (click)="editAssignment(assignment.file_id)" *ngIf="assignment.assignment_status == 'Published' || assignment.assignment_status == 'Draft' || assignment.assignment_status == 'Scheduled'">
+                <span class="dropdown-item" (click)="editAssignment(assignment.file_id)"
+                  *ngIf="assignment.assignment_status == 'Published' || assignment.assignment_status == 'Draft' || assignment.assignment_status == 'Scheduled'">
                   <i class="fa fa-pencil" style="margin-top: 3px;" aria-hidden="true"></i> Edit
                 </span>
-                <span class="dropdown-item" (click)="deleteAssignment(assignment.file_id)" *ngIf="assignment.assignment_status == 'Draft' || assignment.assignment_status == 'Scheduled'">
+                <span class="dropdown-item" (click)="deleteAssignment(assignment.file_id)"
+                  *ngIf="assignment.assignment_status == 'Draft' || assignment.assignment_status == 'Scheduled'">
                   <i class="fa fa-trash" style="margin-top: 3px;" aria-hidden="true"></i> Delete
                 </span>
               </div>
@@ -139,7 +148,7 @@
 
 
 
-      </div>
+    </div>
   </section>
 
   <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
