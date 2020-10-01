@@ -1113,10 +1113,11 @@ export class LiveClassesComponent implements OnInit {
               this.msgService.showErrorMessage('error', '', data.message);
             }
           } else {
-            this.isVimeo = 'VDOCipher';
-            this.vimeo_title = '';
-            if(data.upload_link!='' && data.upload_link != null) {
+            if(data.result.upload_link!='' && data.result.upload_link != null) {
             this.patchRequest(data.result);
+            } else {
+              this.isVimeo = 'VDOCipher';
+              this.vimeo_title = '';
             }
           }
         }
@@ -1159,6 +1160,8 @@ export class LiveClassesComponent implements OnInit {
         if (newxhr.status >= 200 && newxhr.status < 300) {
           this.auth.hideLoader();
           this.updateVimeoStatus(obj.videoId);
+            this.isVimeo = 'VDOCipher';
+            this.vimeo_title = '';
           }
         }
         else {
