@@ -27,7 +27,7 @@
           File</button>
       </div>
       <div *ngIf="enable_vdoCipher_feature || enable_vimeo_feature" style="margin-top: 15px;">
-        <button class="btn btn-wide-blue" (click)="getSettingDetails()" style="border-radius: 4px;">Video Cipher
+        <button class="btn btn-wide-blue" (click)="getSettingDetails()" style="border-radius: 4px;">VDO Cipher
           Setting</button>
       </div>
 
@@ -54,25 +54,7 @@
       </div>
     </div> -->
 
-      <div class="sidecard" *ngIf="enable_vdoCipher_feature" style="height: 90px;">
-        <div class="wrap">
-          <h4>Bandwidth Capacity
-          </h4>
-          <p class="small usage">
-            {{(vDOCipher_used_bandwidth?vDOCipher_used_bandwidth:0)| number:'.2-2'}} GB of
-            {{(vDOCipher_allocated_bandwidth?vDOCipher_allocated_bandwidth:0)| number:'.2-2'}} GB used
-          </p>
-          <div style="width: 100px;height: 10%;margin-top: 9px;">
-            <svg style="height: 60px;" [ngStyle]="{'width': percent+'px'}">
-              <rect style="fill:#F08080;" height="10%" width="100%"></rect>
-            </svg>
-            <svg style="position: absolute;height: 60px" [ngStyle]="{'width': remainPercent+'px'}">
-              <rect style="fill:#d3e3f2;" height="10%" width="100%"></rect>
-            </svg>
-          </div>
 
-        </div>
-      </div>
 
       <!-- <div class="sidecard" *ngIf="enable_vdoCipher_feature">
         <div class="wrap">
@@ -86,7 +68,7 @@
 
       <div class="sidecard" *ngIf="enable_vdoCipher_feature" style="height: 90px;">
         <div class="wrap">
-          <h4>Storage Capacity
+          <h4> VDO Cipher Storage
           </h4>
           <p class="small usage">
             {{(vDOCipher_used_storage?vDOCipher_used_storage:0)| number:'.2-2'}} GB of
@@ -103,6 +85,25 @@
         </div>
       </div>
 
+      <div class="sidecard" *ngIf="enable_vdoCipher_feature" style="height: 90px;">
+        <div class="wrap">
+          <h4>VDO Cipher Bandwidth
+          </h4>
+          <p class="small usage">
+            {{(vDOCipher_used_bandwidth?vDOCipher_used_bandwidth:0)| number:'.2-2'}} GB of
+            {{(vDOCipher_allocated_bandwidth?vDOCipher_allocated_bandwidth:0)| number:'.2-2'}} GB used
+          </p>
+          <div style="width: 100px;height: 10%;margin-top: 9px;">
+            <svg style="height: 60px;" [ngStyle]="{'width': percent+'px'}">
+              <rect style="fill:#F08080;" height="10%" width="100%"></rect>
+            </svg>
+            <svg style="position: absolute;height: 60px" [ngStyle]="{'width': remainPercent+'px'}">
+              <rect style="fill:#d3e3f2;" height="10%" width="100%"></rect>
+            </svg>
+          </div>
+
+        </div>
+      </div>
       <!-- <div class="sidecard" *ngIf="enable_vdoCipher_feature">
         <div class="wrap">
           <h4>Used Storage Capacity
@@ -115,7 +116,7 @@
 
       <div class="sidecard" *ngIf="enable_vimeo_feature" style="height: 90px;">
         <div class="wrap">
-          <h4>Vimeo allocated Storage
+          <h4>Vimeo Storage
           </h4>
           <p class="small usage">
             {{(vimeo_consumed_storage?vimeo_consumed_storage:0)| number:'.2-2'}} GB of
@@ -171,7 +172,7 @@
   <div class="ga-modal-container">
     <div class="ga-modal">
       <div class="ga-modal-head" style="text-align: left">
-        <span>Video Settings </span>
+        <span>VDO Cipher Settings </span>
         <div class="btn_cross"> <button class="btn btn-xs btn-ga-white" (click)="showSettings = true"
             style="padding: 0;border: none;">X</button></div>
       </div>
