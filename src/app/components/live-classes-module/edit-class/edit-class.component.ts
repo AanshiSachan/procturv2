@@ -876,6 +876,9 @@ export class EditClassComponent implements OnInit {
       this.http_service.getData(url).subscribe(
         (data: any) => {
           this.batches = data;
+          if(this.batches && !this.batches.length) {
+            this.appC.popToast({ type: "error", body: "No Active Batches" });
+          }
           console.log(this.batches)
           this.auth.hideLoader();
         },
@@ -895,6 +898,9 @@ export class EditClassComponent implements OnInit {
       this.http_service.getData(url).subscribe(
         (data: any) => {
           this.masters = data;
+          if(this.masters && !this.masters.length) {
+            this.appC.popToast({ type: "error", body: "No Active master course" });
+          }
           console.log(this.masters)
           this.auth.hideLoader();
         },
