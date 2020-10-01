@@ -659,7 +659,7 @@ export class AddClassComponent implements OnInit {
 
           this.batches = data;
           if(this.batches && !this.batches.length) {
-            this.appC.popToast({ type: "error", body: "No Active Batches" });
+            this.appC.popToast({ type: "error", body: "Please check batches are active or not." });
           }
           console.log(this.batches)
           this.auth.hideLoader();
@@ -682,7 +682,7 @@ export class AddClassComponent implements OnInit {
 
           this.masters = data;
           if(this.masters && !this.masters.length) {
-            this.appC.popToast({ type: "error", body: "No Active master course" });
+            this.appC.popToast({ type: "error", body: "Please check courses are active or not." });
           }
           this.auth.hideLoader();
         },
