@@ -113,7 +113,8 @@
                 (click)="sortTable('subject_name')">Course</label>
             </th>
             <th *ngIf="!isLangInstitue">
-              Subject Code
+              <label>Subject Code</label>
+
             </th>
             <th>
               <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
@@ -175,7 +176,7 @@
             </td>
 
             <td style="padding-left: 20px;">
-              {{row.created_date}}
+              {{row.created_date | date:'dd-MMM-yy'}}
             </td>
 
             <td class="view-comp" style="padding-left: 20px;">

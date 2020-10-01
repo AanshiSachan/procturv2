@@ -19,7 +19,13 @@ export class EcourseFileManagerComponent implements OnInit {
   isLangInstitue: any;
   vDOCipher_allocated_bandwidth: any;
   vDOCipher_used_bandwidth: any;
-  vDOCipher_allocated_storage: any ='0';
+  percent: any;
+  remainPercent: any;
+  storagePercent: any;
+  storageRemainPercent: any;
+  vimeoPercent: any;
+  vimeoRemainPercent: any;
+  vDOCipher_allocated_storage: any = '0';
   vDOCipher_used_storage: any = '0';
   enable_vdoCipher_feature: any = false;
   enable_vimeo_feature: any = false;
@@ -46,7 +52,7 @@ export class EcourseFileManagerComponent implements OnInit {
   constructor(private _http: HttpService,
     private auth: AuthenticatorService,
     private router: Router,
-    private _fservice:FileService,
+    private _fservice: FileService,
     private msgService: MessageShowService
   ) {
 
@@ -77,7 +83,7 @@ export class EcourseFileManagerComponent implements OnInit {
     this.uploadFile.showModal = (this.uploadFile.showModal) ? false : true;
   }
 
-  gotoPageData(route){
+  gotoPageData(route) {
     console.log(route)
     this.router.navigate([route.routeLink], { queryParams: route.data });
   }
@@ -88,17 +94,26 @@ export class EcourseFileManagerComponent implements OnInit {
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
       this._fservice.storageData.storage_allocated = (Number(res.storage_allocated) * 0.001048576);
-      this._fservice.storageData.uploaded_size =(Number(res.uploaded_size) * 0.001048576);
+      this._fservice.storageData.uploaded_size = (Number(res.uploaded_size) * 0.001048576);
       this.vDOCipher_allocated_bandwidth = (Number(res.vDOCipher_allocated_bandwidth) / 1024).toFixed(3);
       this.vDOCipher_used_bandwidth = (Number(res.vDOCipher_used_bandwidth) / 1024).toFixed(3);
+      let tempPer: any = ((100 * this.vDOCipher_used_bandwidth) / this.vDOCipher_allocated_bandwidth).toFixed(3);
+      this.percent = tempPer * 2;
+      this.remainPercent = 200 - this.percent;
       this.vDOCipher_allocated_storage = (Number(res.vDOCipher_allocated_storage) / 1024).toFixed(3);
       this.vDOCipher_used_storage = (Number(res.vDOCipher_used_storage) / 1024).toFixed(3);
+      let storagetempPer: any = ((100 * this.vDOCipher_used_storage) / this.vDOCipher_allocated_storage).toFixed(3);
+      this.storagePercent = storagetempPer * 2;
+      this.storageRemainPercent = 200 - this.storagePercent;
       this.vimeo_allocated_storage = (Number(res.vimeo_allocated_storage) / 1024).toFixed(3);
       sessionStorage.setItem('vimeo_allocated_storage', this.vimeo_allocated_storage);
       this.vimeo_consumed_storage = (Number(res.vimeo_consumed_storage) / 1024).toFixed(3);
-      let width =1;
-      if (this._fservice.storageData.uploaded_size!=0 &&
-        this._fservice.storageData.uploaded_size<=this._fservice.storageData.storage_allocated) { width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated; }
+      let vimeotempPer: any = ((100 * this.vimeo_consumed_storage) / this.vimeo_allocated_storage).toFixed(3);
+      this.vimeoPercent = vimeotempPer * 2;
+      this.vimeoRemainPercent = 200 - this.vimeoPercent;
+      let width = 1;
+      if (this._fservice.storageData.uploaded_size != 0 &&
+        this._fservice.storageData.uploaded_size <= this._fservice.storageData.storage_allocated) { width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated; }
       this._fservice.storageData.width = Math.round(width);
     });
   }
@@ -113,14 +128,14 @@ export class EcourseFileManagerComponent implements OnInit {
       this.auth.hideLoader();
       this.settingDetails = res;
       this.is_video_public = this.settingDetails.is_video_public == 'Y' ? true : false;
-      if(this.settingDetails.dynamic_watermark_text!=null && this.settingDetails.dynamic_watermark_text!='NA') {
+      if (this.settingDetails.dynamic_watermark_text != null && this.settingDetails.dynamic_watermark_text != 'NA') {
         let temp_details = this.settingDetails.dynamic_watermark_text.split(',');
-        for(let i=0;i<3;i++) {
+        for (let i = 0; i < 3; i++) {
           if (temp_details[i] == 'name') {
             this.settingDetails.watermark_name = true;
-          } else if(temp_details[i] == 'phone') {
+          } else if (temp_details[i] == 'phone') {
             this.settingDetails.watermark_phone = true;
-          } else if(temp_details[i] == 'email') {
+          } else if (temp_details[i] == 'email') {
             this.settingDetails.watermark_email = true;
           }
         }
@@ -142,12 +157,12 @@ export class EcourseFileManagerComponent implements OnInit {
     let url = "/api/v1/instFileSystem/updateStudyMaterialSetting";
     this.settingDetails.institute_id = this.institute_id;
     this.settingDetails.is_video_public = this.is_video_public == true ? 'Y' : 'N';
-    let temp :any = [];
+    let temp: any = [];
     (this.settingDetails.watermark_name) ? (temp.push('name')) : '';
     (this.settingDetails.watermark_phone) ? (temp.push('phone')) : '';
     (this.settingDetails.watermark_email) ? (temp.push('email')) : '';
     temp = temp.join(',');
-    if(temp == '' || temp == null) {
+    if (temp == '' || temp == null) {
       temp = 'NA';
     }
     let object = {

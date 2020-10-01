@@ -233,7 +233,13 @@ table {
 .closeBtnClass {
     line-height: 0.6rem !important;
 }
-
+td{
+    font-size: 12px;
+    padding: 0;
+}
+tr th {
+    padding: 10px;
+}
 .search-filter-wrapper {
     .normal-field {
         padding: 4px 10px;

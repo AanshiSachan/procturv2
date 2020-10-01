@@ -206,10 +206,11 @@
                     {{row.created_date | date:'dd-MMM-yy'}}
                   </td>
                   <td class="edit-comp">
-                    <div class="field-wrapper has-value">
+                    {{row.created_date | date:'dd-MMM-yy'}}
+                    <!-- <div class="field-wrapper has-value">
                       <input type="text" value="" class="form-ctrl editCellInput" name="endDate" readonly="true"
                         [(ngModel)]="row.created_date" bsDatepicker id="rowCreatedYear">
-                    </div>
+                    </div> -->
                   </td>
                   <td class="view-comp">
                     <span *ngIf="row.default_academic_year == 0">No</span>
