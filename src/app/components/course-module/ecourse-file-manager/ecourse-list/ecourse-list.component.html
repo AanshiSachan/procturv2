@@ -45,6 +45,10 @@
 
 </div>
 
+<pagination style="margin-top: 2%;" (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()"
+  (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+  [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+</pagination>
 <!-- Developed by- Nalini walunj
 Popup to show vimeo uploaded successfully msg
 -->

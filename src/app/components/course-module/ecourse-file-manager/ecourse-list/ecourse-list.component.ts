@@ -13,16 +13,16 @@ declare var $;
 export class EcourseListComponent implements OnInit {
 
   categiesList: any = [];
-  // totalRecords: number = 0;
+  totalRecords: number = 0;
   searchData: any = [];
   institute_id: any;
   is_video_public: boolean = true;
   outputMessage: any = '';
   searchValue: any = '';
   PageIndex: number = 1;
-  // searchDataDataSource: any = [];
-  // displayBatchSize: any = 25;
-  // sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  searchDataDataSource: any = [];
+  displayBatchSize: any = 25;
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   constructor(
     private _http: HttpService,
     private auth: AuthenticatorService,
@@ -110,10 +110,11 @@ export class EcourseListComponent implements OnInit {
         });
         element.size = (element.size / 1024);
       });
-      // this.searchDataDataSource = res;
-      // this.searchData = this.getDataFromDataSource(0);
-      // this.totalRecords = this.searchData[0].totalCount;
-      this.searchData = res;
+      this.searchDataDataSource = res;
+      this.searchData = this.getDataFromDataSource(0);
+      this.totalRecords = this.searchDataDataSource.length;
+      console.log("Total Records", this.totalRecords);
+      // this.searchData = res;
       if (this.categiesList.length == 0) {
         this.outputMessage = 'No data found';
       }
@@ -138,31 +139,31 @@ export class EcourseListComponent implements OnInit {
   // pagination functions
 
 
-  // fetchTableDataByPage(index) {
-  //   this.PageIndex = index;
-  //   let startindex = this.displayBatchSize * (index - 1);
-  //   this.searchData = this.getDataFromDataSource(startindex);
-  // }
+  fetchTableDataByPage(index) {
+    this.PageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.searchData = this.getDataFromDataSource(startindex);
+  }
 
-  // fetchNext() {
-  //   this.PageIndex++;
-  //   this.fetchTableDataByPage(this.PageIndex);
-  // }
+  fetchNext() {
+    this.PageIndex++;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
 
-  // fetchPrevious() {
-  //   if (this.PageIndex != 1) {
-  //     this.PageIndex--;
-  //     this.fetchTableDataByPage(this.PageIndex);
-  //   }
-  // }
+  fetchPrevious() {
+    if (this.PageIndex != 1) {
+      this.PageIndex--;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
 
-  // getDataFromDataSource(startindex) {
-  //   let t = this.searchDataDataSource.slice(startindex, startindex + this.displayBatchSize);
-  //   return t;
-  // }
+  getDataFromDataSource(startindex) {
+    let t = this.searchDataDataSource.slice(startindex, startindex + this.displayBatchSize);
+    return t;
+  }
 
-  // updateTableBatchSize(event) {
-  //   this.displayBatchSize = event;
-  //   this.fetchTableDataByPage(this.PageIndex);
-  // }
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
 }
