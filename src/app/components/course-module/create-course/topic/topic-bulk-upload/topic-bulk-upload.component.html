@@ -5,17 +5,18 @@
       <div>
         <div class="header-title">
           <h2>
-            <a routerLink="/view/course/create/topic/home" style="color: #0084f6;">
+            <!-- <a routerLink="/view/course/create/topic/home" style="color: #0084f6;">
               Topic
-            </a>
-            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Bulk Upload
+            </a> -->
+            <!-- <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>  -->
+            Bulk Upload
           </h2>
         </div>
       </div>
     </section>
     <br>
-    <div class="filter_div">
-      <div class="field-wrapper">
+    <div class="filter_div" style="border-bottom: 1px solid lightgrey;">
+      <div class="field-wrapper" style="margin-left:0px">
         <label *ngIf="!isProfessional">Standard<span class="text-danger">*</span></label>
         <label *ngIf="isProfessional">Master Course<span class="text-danger">*</span></label>
         <div class="dropdown-div">

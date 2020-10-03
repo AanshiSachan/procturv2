@@ -37,7 +37,9 @@
 /* ========================================================================================= */
 
 /* ========================================================================================= */
-
+.form-ctrl{
+  border-radius: 4px;
+}
 .classSchedule-Add {
   padding: 15px 5px 10px;
   background: #efefef;
@@ -337,7 +339,11 @@
     color: #979797;
   }
 }
-
+.btn {
+  background: #0084f6;
+  color: white;
+  border-radius: 4px;
+}
 .create-cancel-small {
   margin-top: 10px;
 
@@ -347,7 +353,13 @@
     height: 36px;
   }
 }
+tr{
+  border: none;
+}
 
+  th{
+    background-color: #e0eaec !important;
+}
 // css for edit .course
 .edit-view-of-couse {
   & > tr > td {

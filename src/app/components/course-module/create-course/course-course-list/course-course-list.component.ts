@@ -13,6 +13,7 @@ export class CourseCourseListComponent implements OnInit {
 
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6, 7];
+  sizeArr: any[] = [10, 15, 25, 50, 100, 150, 200, 500, 1000];
   courseListDataSource: any = [];
   studentListDataSource: any = [];
   feeTemplateDataSource: any = [];
@@ -45,7 +46,7 @@ export class CourseCourseListComponent implements OnInit {
 
   constructor(
     private apiService: CourseListService,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private toastCtrl: AppComponent,
   ) {
 
@@ -144,7 +145,10 @@ export class CourseCourseListComponent implements OnInit {
     let t = this.courseListDataSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
   }
-
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
   sortTable(str) {
     if (str == "master_course" || str == "standard_name" || str == "coursee_names") {
       this.courseList.sort(function (a, b) {
@@ -195,7 +199,7 @@ export class CourseCourseListComponent implements OnInit {
       let all_template = []
       let keys = Object.keys(templates);
       keys.forEach((key) => {
-        all_template =[...all_template,...templates[key]];
+        all_template = [...all_template, ...templates[key]];
       });
       return all_template;
     } else {

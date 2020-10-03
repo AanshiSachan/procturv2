@@ -1,27 +1,33 @@
-<section class="marginExtra">
-
-  <div class="row" style="margin-top:10px;">
-    <div class="c-lg-6 c-md-6 c-sm-6">
-      <div class="clearFix add-edit">
-        <a (click)="toggleCreateNewSubject()">
-          <i id="showAddBtnSubject" class="addBtnClass">+</i>
-          <i id="showCloseBtnSubject" style="display:none" class="closeBtnClass">-</i>
-          <span *ngIf="(isLangInstitue != true )">Add Subject</span>
-          <span *ngIf="(isLangInstitue == true )">Add Course</span>
-        </a>
-      </div>
-    </div>
-    <div class="c-lg-3 c-md-3 c-sm-3">
-
-    </div>
-
-    <div class="pull-right">
-      <div class="search-filter-wrapper">
-        <input #searchVal type="text" class="normal-field pull-right" style="margin-right: 15px" placeholder="Search" id="search"
-          name="searchData " (keyup)="searchInList(searchVal)">
-      </div>
+<section style="margin-top: 10px; margin-bottom: 10px;">
+  <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2">
+    <div class="field-radio-wrapper">
+      <input class="form-radio" type="radio" name="isActive" [(ngModel)]="activeList" [value]="false" id='Active'
+        (ngModelChange)="getAllSubjectList()">
+      <label for="Active">Active</label>
     </div>
   </div>
+  <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2">
+    <div class="field-radio-wrapper">
+      <input class="form-radio" type="radio" name="isActive" [(ngModel)]="activeList" [value]="true" id='InActive'
+        (ngModelChange)="getAllSubjectList()">
+      <label for="InActive">In Active</label>
+    </div>
+  </div>
+  <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2"></div>
+  <div class="c-lg-6 c-md-6 c-sm-6" style="float: right;margin-right: 1%;width: 28%;">
+    <input #searchVal type="text" class="searchBox" placeholder="Search" id="search" name="searchData "
+      (keyup)="searchInList(searchVal)">
+    <button class="btn" *ngIf="(isLangInstitue != true )" (click)="toggleCreateNewSubject()" value="Add Subject">Add
+      Subject</button>
+
+    <button class="btn" *ngIf="(isLangInstitue == true )" (click)="toggleCreateNewSubject()" value="Add Course">Add
+      Course</button>
+
+  </div>
+</section>
+
+<section class="">
+
 
   <section class="clearFix create-standard-form" *ngIf="createNewSubject">
     <div class="c-lg-10 c-sm-10 c-md-10">
@@ -63,12 +69,14 @@
             Subject Code
             <span class="text-danger">*</span>
           </label>
-          <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_code" id="sub_code" name="sub_code">
+          <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl"
+            [(ngModel)]="newSubjectDetails.subject_code" id="sub_code" name="sub_code">
         </div>
 
         <div class="c-lg-2 c-sm-2 c-md-2" style="padding-top: 10px">
           <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_active" id="isAct">
+            <input type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_active"
+              id="isAct">
             <label for="isAct">Is Active</label>
           </div>
         </div>
@@ -77,37 +85,45 @@
     </div>
     <div class="c-lg-2 c-sm-2 c-md-2" style="padding-top: 20px">
       <aside class="">
-        <input type="button" value="Cancel" class="btn cancel-btn" style="" (click)="toggleCreateNewSubject()">
         <input type="button" value="Add" class="btn fullBlue" (click)="addNewSubject()">
+        <input type="button" value="Cancel" class="btn cancel-btn" style="" (click)="toggleCreateNewSubject()">
+
       </aside>
     </div>
   </section>
 
-  <div class="fee-install-table courses-list-table">
-    <div class="table-responsive table-change" >
-      <table>
+  <div class="">
+    <div class="">
+      <table class="tableBodyScroll">
         <thead>
           <tr>
             <th>
               <label style="cursor:pointer;" (click)="sortTable('subject_id')">ID</label>
             </th>
             <th>
-              <label *ngIf="isLangInstitue" style="cursor:pointer;" (click)="sortTable('standard_name')">Master Course</label>
-              <label *ngIf="!isLangInstitue" style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
+              <label *ngIf="isLangInstitue" style="cursor:pointer;" (click)="sortTable('standard_name')">Master
+                Course</label>
+              <label *ngIf="!isLangInstitue" style="cursor:pointer;"
+                (click)="sortTable('standard_name')">Standard</label>
             </th>
-            <th>
-              <label *ngIf="(isLangInstitue != true )" style="cursor:pointer;" (click)="sortTable('subject_name')">Subject</label>
-              <label *ngIf="(isLangInstitue == true )" style="cursor:pointer;" (click)="sortTable('subject_name')">Course</label>
+            <th style="width: 30%;">
+              <label *ngIf="(isLangInstitue != true )" style="cursor:pointer;"
+                (click)="sortTable('subject_name')">Subject</label>
+              <label *ngIf="(isLangInstitue == true )" style="cursor:pointer;"
+                (click)="sortTable('subject_name')">Course</label>
             </th>
             <th *ngIf="!isLangInstitue">
-              Subject Code
+              <label>Subject Code</label>
+
             </th>
             <th>
               <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
             </th>
             <th>
-              <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up" style="font-family: FontAwesome;"></i>
-              <i *ngIf="sortingDir != 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-down" style="font-family: FontAwesome;"></i>
+              <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up"
+                style="font-family: FontAwesome;"></i>
+              <i *ngIf="sortingDir != 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-down"
+                style="font-family: FontAwesome;"></i>
               <label style="cursor:pointer;" (click)="sortTable('created_date')">Added Date</label>
             </th>
             <th>
@@ -115,8 +131,10 @@
             </th>
           </tr>
         </thead>
-        <tbody *ngIf="(subjectList.length != 0)">
-          <tr (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" class="displayComp" id="row{{i}}" *ngFor="let row of subjectList; let i = index; trackBy: i;">
+        <tbody *ngIf="(subjectList.length != 0)"
+          [ngStyle]="{'max-height':createNewSubject == true ? '52vh' : '65vh','min-height':createNewSubject == true ? '52vh' : '65vh' }">
+          <tr (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" class="displayComp" id="row{{i}}"
+            *ngFor="let row of subjectList; let i = index; trackBy: i;">
             <td>
               {{row.subject_id}}
             </td>
@@ -125,57 +143,67 @@
               {{row.standard_name}}
             </td>
 
-            <td class="view-comp">
+            <td class="view-comp" style="width: 30%;">
               {{row.subject_name}}
             </td>
-            <td class="edit-comp">
+            <td class="edit-comp" style="width: 30%;">
               <div class="field-wrapper">
-                <input type="text" class="form-ctrl" [(ngModel)]="row.subject_name" name="label" style="margin:auto">
+                <input type="text" class="form-ctrl" [(ngModel)]="row.subject_name" name="label"
+                  style="width: 100%;text-align: left;">
               </div>
             </td>
 
-            <td class="view-comp" *ngIf="!isLangInstitue">
+            <td class="view-comp" *ngIf="!isLangInstitue" style="padding-left: 20px;">
               {{row.subject_code}}
             </td>
-            <td class="edit-comp" *ngIf="!isLangInstitue">
+            <td class="edit-comp" *ngIf="!isLangInstitue" style="padding-left: 20px;">
               <div class="field-wrapper">
-                <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl" [(ngModel)]="row.subject_code" name="label" style="margin:auto">
+                <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl" [(ngModel)]="row.subject_code"
+                  name="label">
               </div>
             </td>
 
-            <td class="view-comp">
+            <td class="view-comp" style="padding-left: 20px;">
               {{row.is_active}}
             </td>
-            <td class="edit-comp">
+            <td class="edit-comp" style="padding-left: 20px;">
               <div class="field-wrapper has-value">
-                <select id="issearchable" class="form-ctrl" name="issearchable" style="margin:auto" [(ngModel)]="row.is_active">
+                <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="row.is_active">
                   <option value="Y">Yes</option>
                   <option value="N">No</option>
                 </select>
               </div>
             </td>
 
-            <td>
-              {{row.created_date}}
+            <td style="padding-left: 20px;">
+              {{row.created_date | date:'dd-MMM-yy'}}
             </td>
 
-            <td class="view-comp">
-              <a style="cursor: pointer;" (click)="editRow(i)" style="margin-right: 10px;">
+            <td class="view-comp" style="padding-left: 20px;">
+              <i class="fa fa-pencil" aria-hidden="true" style="cursor: pointer;color:#0084f6;    font-size: 14px;"
+                (click)="editRow(i)" title="Edit"></i>
+              <i class="fa fa-trash" style="cursor: pointer;color: red;font-size: 14px;margin-left: 8px;"
+                (click)="deleteRow(row)" aria-hidden="true" title="Delete"></i>
+              <!-- <a style="cursor: pointer;" (click)="editRow(i)" style="margin-right: 10px;">
                 <i class="edit-icon" aria-hidden="true" style="margin-right: 5px;" title="Edit"></i>Edit
               </a>
               <a style="cursor: pointer;" (click)="deleteRow(row)">
                 <i aria-hidden="true" title="Delete"></i>Delete
-              </a>
+              </a> -->
             </td>
             <td class="edit-comp">
-              <a style="cursor: pointer; margin-right: 10px;" (click)="updateRow(row,i)">
+              <i class="fa fa-floppy-o" style="cursor: pointer;margin-right: 10px; font-size: 14px;color: green;"
+                (click)="updateRow(row,i)" title="Save" aria-hidden="true"></i>
+              <i class="fa fa-times" style="cursor: pointer;font-size: 14px;color: red;" (click)="cancelRow(i)"
+                title="Cancel" aria-hidden="true"></i>
+              <!-- <a style="cursor: pointer; margin-right: 10px;" (click)="updateRow(row,i)">
                 <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 15px;" title="Update"></i>
                 Update
               </a>
               <a style="cursor: pointer; margin-right: 10px;" (click)="cancelRow(i)">
                 <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 15px;" title="Cancel"></i>
                 Cancel
-              </a>
+              </a> -->
             </td>
           </tr>
         </tbody>
@@ -200,8 +228,9 @@
   <!-- Paginator Here -->
   <div class="row filter-res pagination" style="width: 100%;">
     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-        [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow" [sizeArr]="sizeArr"
+        (sizeChange)="updateTableBatchSize($event)">
       </pagination>
     </div>
   </div>
