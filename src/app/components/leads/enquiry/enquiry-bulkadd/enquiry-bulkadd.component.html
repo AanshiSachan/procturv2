@@ -94,7 +94,7 @@
                 <th>Total Count</th>
                 <th>Success Count</th>
                 <th>Failure Count</th>
-                <th *ngIf="downloadEnquiryReportAccess">Action</th>
+                <!-- <th *ngIf="downloadEnquiryReportAccess">Action</th> -->
               </tr>
             </thead>
             <tbody>
@@ -102,13 +102,48 @@
                 <td style="width: 43%;">{{record.list_name}}</td>
                 <td style="width: 13%;">{{record.created_date}}</td>
                 <td>{{record.total_count}}</td>
-                <td>{{record.success_count}}</td>
+                <!-- <td>{{record.success_count}}</td>
                 <td>{{record.failure_count}}</td>
                 <td *ngIf="downloadEnquiryReportAccess">
                   <a *ngIf="record.failure_count != 0" [id]="record.list_id" title="Generate Report"
                     class="download-icon" (click)="downloadBulkStatusReport(record)" id="generateAnch5">
-                    <!-- Generate Report -->
                   </a>
+                </td> -->
+                <td>
+                  <span *ngIf="record.success_count != 0 " [id]="record.list_id" title="Download Success Report"
+                    id="generateAnch5">{{record.success_count}}
+                  </span>
+                  <!-- <a *ngIf="record.success_count != 0 && downloadEnquiryReportAccess && record.success_path.includes('https://s3-')"
+                    [id]="record.list_id" title="Download Success Report" href="{{record.success_path}}"
+                    id="generateAnch5">{{record.success_count}}
+                  </a>
+                  <a *ngIf="record.success_count != 0 && downloadEnquiryReportAccess && !record.success_path.includes('https://s3-')"
+                    [id]="record.list_id" title="Download Success Report" (click)="downloadBulkStatusReport(record)"
+                    id="generateAnch5">{{record.success_count}}
+                  </a>
+                  <a *ngIf="record.failure_count != 0 && !downloadEnquiryReportAccess" id="success{{record.list_id}}">
+                    {{record.success_count}}
+                  </a> -->
+                  <span *ngIf="record.success_count == 0">
+                    {{record.success_count}}
+                  </span>
+                </td>
+
+                <td>
+                  <a *ngIf="record.failure_count != 0 && downloadEnquiryReportAccess && record.failure_path.includes('https://s3-')"
+                    title="Download Failure Report" href="{{record.failure_path}}">
+                    {{record.failure_count}}
+                  </a>
+                  <a *ngIf="record.failure_count != 0 && downloadEnquiryReportAccess && !record.failure_path.includes('https://s3-')"
+                    [id]="record.list_id" title="Download Failure Report" (click)="downloadBulkStatusReport(record)"
+                    id="generateAnch5">{{record.failure_count}}
+                  </a>
+                  <a *ngIf="record.failure_count != 0 && !downloadEnquiryReportAccess" id="failure{{record.list_id}}">
+                    {{record.failure_count}}
+                  </a>
+                  <span *ngIf="record.failure_count == 0">
+                    {{record.failure_count}}
+                  </span>
                 </td>
               </tr>
             </tbody>
