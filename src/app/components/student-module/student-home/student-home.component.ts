@@ -2719,7 +2719,7 @@ export class StudentHomeComponent implements OnInit {
     this.showQuickFilter = false;
     this.advancedFilterForm.standard_id = '-1';
     this.advancedFilterForm.subject_id = '-1';
-    this.advancedFilterForm.is_active_status = '';
+    this.advancedFilterForm.is_active_status = '1';
     this.advancedFilterForm.master_course_name = '-1';
     this.advancedFilterForm.course_id = '-1';
     this.advancedFilterForm.standard_id = '-1';
