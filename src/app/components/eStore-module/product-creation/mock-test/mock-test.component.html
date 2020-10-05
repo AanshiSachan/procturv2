@@ -24,8 +24,8 @@
       <label class="text-bold">Description <span class="text-danger">*</span></label>
       <!-- <textarea [(ngModel)]="description" name="description" style="height:120px" class="form-control form-control-sm"
         placeholder="Write a description about mock test" maxLength="1500"></textarea> -->
-        <editor
-         [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"   [(ngModel)]="description"></editor>
+      <editor [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t" [(ngModel)]="description">
+      </editor>
     </div>
   </div>
 
@@ -55,11 +55,11 @@
           <ng-container *ngFor="let ecourse of product_ecourse_maps;">
             <tr>
               <td>
-                <i class="fa fa-minus" *ngIf="ecourse.isExpand" (click)="expandEcourse(ecourse)"></i>
-                <i class="fa fa-plus" *ngIf="!ecourse.isExpand" (click)="expandEcourse(ecourse)"></i>
+                <i class="fa fa-minus iconSize" *ngIf="ecourse.isExpand" (click)="expandEcourse(ecourse)"></i>
+                <i class="fa fa-plus iconSize" *ngIf="!ecourse.isExpand" (click)="expandEcourse(ecourse)"></i>
               </td>
               <td colspan="7" class="text-left">
-                <label>{{ecourse.course_type}}</label>
+                <label class="labelSize">{{ecourse.course_type}}</label>
               </td>
             </tr>
             <ng-template [ngIf]="ecourse.isExpand">
@@ -68,8 +68,8 @@
                 <td>
                   <div class="field-checkbox-wrapper">
                     <input type="checkbox" class="form-checkbox" [disabled]="test?.is_existed_checked"
-                     [checked]="test.isChecked" [(ngModel)]="test.isChecked"
-                      (ngModelChange)="selectVlaue($event,test)" [id]="'ch'+index">
+                      [checked]="test.isChecked" [(ngModel)]="test.isChecked" (ngModelChange)="selectVlaue($event,test)"
+                      [id]="'ch'+index">
                     <label [for]="'ch'+index"></label>
                   </div>
                 </td>
