@@ -856,32 +856,35 @@ export class StudentHomeComponent implements OnInit {
     this.bulkActionFunction();
     this.instituteData.batch_size = this.studentdisplaysize;
     this.PageIndex = 1;
-    this.instituteData.start_index = 0;
-    this.studentDataSource = [];
-    this.auth.showLoader();
-    this.studentFetch.fetchAllStudentDetails(this.instituteData).subscribe(
-      res => {
-        this.auth.hideLoader();
-        if (res.length != 0) {
-          this.totalRow = res[0].total_student_count;
-          this.studentDataSource = res;
-        }
-        else {
-          let alert = {
-            type: 'info',
-            title: 'No Records Found',
-            body: 'We did not find any student for the specified query'
-          }
-          this.loading_message = 2;
-          this.appC.popToast(alert);
-          this.studentDataSource = [];
-          this.totalRow = this.studentDataSource.length;
-        }
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    );
+    // Changes done by - Nalini
+    // to handle quick filter cases while changing batch size
+    this.fectchTableDataByPage(this.PageIndex);
+    // this.instituteData.start_index = 0;
+    // this.studentDataSource = [];
+    // this.auth.showLoader();
+    // this.studentFetch.fetchAllStudentDetails(this.instituteData).subscribe(
+    //   res => {
+    //     this.auth.hideLoader();
+    //     if (res.length != 0) {
+    //       this.totalRow = res[0].total_student_count;
+    //       this.studentDataSource = res;
+    //     }
+    //     else {
+    //       let alert = {
+    //         type: 'info',
+    //         title: 'No Records Found',
+    //         body: 'We did not find any student for the specified query'
+    //       }
+    //       this.loading_message = 2;
+    //       this.appC.popToast(alert);
+    //       this.studentDataSource = [];
+    //       this.totalRow = this.studentDataSource.length;
+    //     }
+    //   },
+    //   err => {
+    //     this.auth.hideLoader();
+    //   }
+    // );
   }
 
   /* Toggle page size menu on Click */
