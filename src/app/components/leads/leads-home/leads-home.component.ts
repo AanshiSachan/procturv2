@@ -89,8 +89,8 @@ export class LeadsHomeComponent implements OnInit {
 
   fetchenquiry() {
     let obj = {
-      updateDateFrom: moment().date(1).format("MM-DD-YYYY"),
-      updateDateTo: moment().format("MM-DD-YYYY")
+      updateDateFrom: moment().date(1).format("YYYY-MM-DD"),
+      updateDateTo: moment().format("YYYY-MM-DD")
     }
     this.auth.showLoader();
     this.enquire.fetchEnquiryWidgetView(obj).subscribe(

@@ -1,12 +1,21 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-
-import 'rxjs/Rx';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild
+  } from '@angular/core';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
+import { Router } from '@angular/router';
+import 'rxjs/Rx';
+
 
 @Component({
   selector: 'app-side-bar',
@@ -68,7 +77,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   private userInput: string;
   videoplayer: boolean = false;
   privacy: any = false;
-
+  subItem :string= "" ;
   globalSearchForm: any = {
     name: '',
     phone: '',
@@ -126,7 +135,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         }
       }
     )
-
+  console.log("isProfessional",this.isProfessional);
     this.log.currentPermissions.subscribe(e => {
       if (e == '' || e == null || e == undefined) {
       }
@@ -160,7 +169,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       });
 
     this.checkUserHadAccess();
-    this.checkInstituteType();
+    // this.checkInstituteType();
     this.checkManinBranch();
     this.privacy = JSON.parse(sessionStorage.getItem('privacy_alert'));
   }
@@ -662,9 +671,32 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   /* Function to set the id for setActive function to act upon */
   toggler(id) {
+    this.subItem = "";
     this.activeSession = id;
-  }
+    switch (id) {
+      case 'lione': this.subItem = "lione";
+        break;
+      case 'litwo': this.subItem = "litwo";
+        break;
+      case 'lithree': this.subItem = "lithree";
+        break;
+      case 'lifour': this.subItem = "lifour";
+        break;
+      case 'lifive': this.subItem = "lifive";
+        break;
+      case 'lisix': this.subItem = "lisix";
+        break;
+      case 'liseven': this.subItem = "liseven";
+        break;
+      case 'lieight': this.subItem = "lieight";
+        break;
+      case 'linine': this.subItem = "linine";
+        break;
+      case 'liten': this.subItem = "liten";
+        break;
 
+    }      
+  }
   checkInstituteType() {
     this.auth.institute_type.subscribe(
       res => {

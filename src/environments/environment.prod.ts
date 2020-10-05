@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  serverUrl: 'https://app.proctur.com/StdMgmtWebAPI'
+  serverUrl: 'https://test999.proctur.com/StdMgmtWebAPI'
 };

@@ -12,7 +12,10 @@ import { CourseListService } from '../services/course-services/course-list.servi
 import { SideBarComponent } from './core/side-bar/side-bar.component';
 import { StudentFeeService } from './student-module/student_fee.service';
 import { TrainingVideoComponent } from './training-video/training-video.component';
-
+import { TopToolbarComponent } from './core/top-toolbar/top-toolbar.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatButtonModule}  from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
     imports: [
         CommonModule,
@@ -20,6 +23,9 @@ import { TrainingVideoComponent } from './training-video/training-video.componen
         BsDatepickerModule.forRoot(),
         SharedModule,
         FormsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatMenuModule
     ],
     declarations: [
         ComponentsComponent,
@@ -28,6 +34,7 @@ import { TrainingVideoComponent } from './training-video/training-video.componen
         SearchBoxComponent,
         SideBarComponent,
         TrainingVideoComponent,
+        TopToolbarComponent,
     ],
     entryComponents: [
     ],

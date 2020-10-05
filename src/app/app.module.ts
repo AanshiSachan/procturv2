@@ -23,7 +23,9 @@ import { MastersService } from './services/library/master/masters.service';
 import { ReturnBookService } from './services/library/return/return-book.service';
 import { ProductService } from './services/products.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatButtonModule}  from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
   imports: [
     BrowserModule,
@@ -39,6 +41,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SharedModule,
     Ng2OrderModule,
     FontAwesomeModule,
+      MatToolbarModule,
+    MatButtonModule,
+    MatMenuModule
 
   ],
   declarations: [
