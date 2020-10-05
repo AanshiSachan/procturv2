@@ -624,27 +624,15 @@ export class StudentHomeComponent implements OnInit {
     if (this.advancedFilterForm.master_course_name == '-1') {
       obj.master_course_name = '';
     }
-    if (this.showQuickFilter) {
-      this.loadTableDataSource(obj);
-    } else if (this.searchBarData != '' && this.searchBarData != null && this.searchBarData != undefined) {
-      this.searchBarData = this.searchBarData.trim();
-      /* If input is of type string then validate string validity*/
-      if (isNaN(this.searchBarData)) {
-        obj.name = this.searchBarData;
-      }/* If not string then use the data as a number*/
-      else {
-        obj.mobile = this.searchBarData;
-      }
-      obj.master_course_name = '';
-      obj.course_id = '-1';
-      obj.standard_id = '-1';
+    obj.master_course_name = '';
+    obj.course_id = '-1';
+    obj.standard_id = '-1';
     this.loadTableDataSource(obj);
   } else if((this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) && !this.isAdvFilter && !this.isProfessional){
     this.loadTableDataSource(obj);
    } else {
     this.loadTableDataSource(this.instituteData);
    }
-  }
 }
 
   /* Fetch next set of data from server and update table */
