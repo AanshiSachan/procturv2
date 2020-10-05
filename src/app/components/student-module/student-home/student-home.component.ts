@@ -622,9 +622,12 @@ export class StudentHomeComponent implements OnInit {
     else {
       obj.mobile = this.searchBarData;
     }
+    if (this.advancedFilterForm.master_course_name == '-1') {
       obj.master_course_name = '';
-      obj.course_id= '-1';
-      obj.standard_id = '-1';
+    }
+    obj.master_course_name = '';
+    obj.course_id = '-1';
+    obj.standard_id = '-1';
     this.loadTableDataSource(obj);
   } else if((this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) && !this.isAdvFilter && !this.isProfessional){
     obj.master_course_name = '';
