@@ -1142,7 +1142,23 @@ p.error-msg {
 select.form-new-field {
     width: 110px;
 }
-
+main{
+    padding-left: 197px !important;
+    box-sizing: border-box;
+    position: relative; 
+}
+.middle-section{
+    margin-top: 53px;
+}
+.mat-h1, .mat-headline, .mat-typography h1, .mat-typography h2 {
+    font: bold 14px/20px 'Open Sans', sans-serif;
+    letter-spacing: normal;
+    margin: 0 0 16px;
+}
+.mat-body, .mat-body-1, .mat-typography {
+    font: 400 14px/20px 'Open Sans', sans-serif;
+    letter-spacing: normal;
+}
 .tooltip-box {
     position: absolute;
     width: 150px;

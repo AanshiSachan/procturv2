@@ -49,14 +49,14 @@
                             </div>
                             <div class="more-info-item hand_icon" routerLink='/view/students/archived_student'>
                                 <a>
-                                    <img src="../../../../assets/images/students/Student_archived.svg" alt="">  Archive
+                                    <img src="../../../../assets/images/students/Student_archived.svg" alt=""> Archive
                                     Students
                                 </a>
                             </div>
                             <div class="more-info-item hand_icon" routerLink='/view/students/archived_status'
                                 style="border-bottom: none;">
                                 <a>
-                                    <img src="../../../../assets/images/students/Archived_reports.svg" alt="">  Archived
+                                    <img src="../../../../assets/images/students/Archived_reports.svg" alt=""> Archived
                                     Status Report
                                 </a>
                             </div>
@@ -77,14 +77,15 @@
                     <!-- Advance Filter -->
                     <div class="filter-box clearFix">
                         <div class="c-lg-8 c-md-8 c-sm-8">
-                            <div *ngIf="showQuickFilter == false && !isAdvFilter">                            <div id="basic-search" class="search-filter-wrapper">
-                                <input #search type="text" class="normal-field"
-                                    placeholder="Search By Student Name/Contact No."
-                                    style="font-size:12px; margin: 0px 5px 0px -5px;" [(ngModel)]="searchBarData"
-                                    name="searchData" (keyup.enter)="searchDatabase()">
-                                <input type="button" class="btn normal-btn fullBlue" value="Search"
-                                    (click)="searchDatabase()" />
-                            </div>
+                            <div *ngIf="showQuickFilter == false && !isAdvFilter">
+                                <div id="basic-search" class="search-filter-wrapper">
+                                    <input #search type="text" class="normal-field"
+                                        placeholder="Search By Student Name/Contact No."
+                                        style="font-size:12px; margin: 0px 5px 0px -5px;" [(ngModel)]="searchBarData"
+                                        name="searchData" (keyup.enter)="searchDatabase()">
+                                    <input type="button" class="btn normal-btn fullBlue" value="Search"
+                                        (click)="searchDatabase()" />
+                                </div>
                             </div>
                         </div>
 
@@ -112,12 +113,14 @@
                                     Close Advance Filter
                                 </a>
 
-                                <a href="javascript:void(0);" style="margin-right: 10px;" *ngIf="!showQuickFilter && !isProfessional" (click)="openQuickFilter()"
+                                <a href="javascript:void(0);" style="margin-right: 10px;"
+                                    *ngIf="!showQuickFilter && !isProfessional" (click)="openQuickFilter()"
                                     class="openAdFilter">Quick Filter
                                 </a>
 
-                                <a href="javascript:void(0);" class="closeAdFilter" *ngIf="showQuickFilter && !isProfessional"
-                                    (click)="closeQuickFilter()" style="margin-right: 10px;">
+                                <a href="javascript:void(0);" class="closeAdFilter"
+                                    *ngIf="showQuickFilter && !isProfessional" (click)="closeQuickFilter()"
+                                    style="margin-right: 10px;">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
                                         <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
                                             <g id="Group_1213" data-name="Group 1213"
@@ -139,8 +142,8 @@
 
                     <div style="margin: 0;" class="row" *ngIf="showQuickFilter">
                         <div style="margin: 0;" class="row">
-                            <input type="button" *ngIf="isProfessional" style="margin-top: 2%" class="btn normal-btn fullBlue" value="Search"
-                                    (click)="searchDatabase()" />
+                            <input type="button" *ngIf="isProfessional" style="margin-top: 2%"
+                                class="btn normal-btn fullBlue" value="Search" (click)="searchDatabase()" />
                         </div>
 
                         <div style="margin: 0;" class="row" *ngIf="!isProfessional">
@@ -148,8 +151,7 @@
                                 <div class="field-wrapper"
                                     [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
                                     <label for="standard">Standard</label>
-                                    <select id="standard" name="standard"
-                                        [(ngModel)]="advancedFilterForm.standard_id"
+                                    <select id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id"
                                         (ngModelChange)="fetchCourseForMaster($event)" class="form-ctrl"
                                         [disabled]="advancedFilterForm.master_course_name!=-1"
                                         [ngStyle]="{'cursor':advancedFilterForm.master_course_name!=-1?'no-drop':'pointer'}">
@@ -200,16 +202,16 @@
                                 <div class="field-wrapper"
                                     [class.has-value]="advancedFilterForm.is_active_status != ''">
                                     <label for="status">Is Active</label>
-                                    <select id="active" [(ngModel)]="advancedFilterForm.is_active_status"
-                                        name="sFilter" class="form-ctrl">
+                                    <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter"
+                                        class="form-ctrl">
                                         <option value=""></option>
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
                                 </div>
                             </div>
-                            <input type="button" *ngIf="!isProfessional" style="margin-top: 2%" class="btn normal-btn fullBlue" value="Search"
-                                    (click)="searchDatabase()" />
+                            <input type="button" *ngIf="!isProfessional" style="margin-top: 2%"
+                                class="btn normal-btn fullBlue" value="Search" (click)="searchDatabase()" />
                         </div>
                     </div>
 

@@ -48,13 +48,16 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   @Output() enquiryUpdateAction = new EventEmitter<any>();
   @Output() hideSearchPopup = new EventEmitter<any>();
   @Output() changePassword = new EventEmitter<any>();
-
+  showSMSReport: boolean = false;
+  showEmailReport: boolean = false;
   permissionData: any[] = [];
   enquiryResult: any[] = [];
   studentResult: any[] = [];
   branchesList: any = [];
   userType: any = '';
   mainBranchId: any = "";
+  permissions: any;
+  permissionArray = sessionStorage.getItem('permissions');
   isMainBranch: any = "N";
   checkAdmin: any = "";
   instituteId: any;
@@ -100,7 +103,18 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isShowPowerBy: false,
     isShowExpense: false
   }
-
+  jsonCourseFlags = {
+    isShowSetup: false,
+    isShowFileManager: false,
+    isShowArchiving: false,
+    isShowModel: false,
+    isShowClass: false,
+    isShowExam: false,
+    isShowClassPlanner: false,
+    isShowEcourseMapping: false,
+    isEcourseFileManager: false,
+    isShowOnlineAssignment: false
+  }
   jsonRolesFlags = {
     isShowManageEnquiry: false,
     isShowDataSetup: false,
@@ -108,6 +122,16 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isShowAddEnquiry: false,
     isShowReport: false
   }
+  is_tax_enabled: any;
+  jsonFeesFlags = {
+    moduleState: '',
+    isFeeActivity: false,
+    isAdmin: false,
+    isProfitnloss: false,
+  }
+
+  tax_type_without_percentage: String;
+  enable_online_payment: string = "";
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -134,7 +158,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
     this.auth.institute_type.subscribe(
       res => {
-        if (res == 'LANG') {
+        if (res === 'LANG') {
           this.isProfessional = true;
         } else {
           this.isProfessional = false;
@@ -175,7 +199,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       });
 
     this.checkUserHadAccess();
-    // this.checkInstituteType();
+    this.checkInstituteType();
     this.checkManinBranch();
     this.privacy = JSON.parse(sessionStorage.getItem('privacy_alert'));
   }
@@ -221,6 +245,121 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
     }
   }
+  checkCoursePermissions() {
+    let perm = sessionStorage.getItem('permissions');
+    let userType = sessionStorage.getItem('userType');
+    const permissionArray = sessionStorage.getItem('permissions');
+    const permittedRoles = sessionStorage.getItem('permitted_roles');
+    if ((userType == '0') && ((perm == null || perm == undefined || perm == ''))) {
+      let array = Object.keys(this.jsonCourseFlags);
+      array.forEach((flag) => {
+        this.jsonCourseFlags[flag] = true;
+      })
+    }
+    else if ((userType == '3')) {
+      this.jsonCourseFlags.isShowModel = false;
+      this.jsonCourseFlags.isShowArchiving = false;
+      let array = ['isShowFileManager', 'isShowExam', 'isShowClass', 'isShowClassPlanner'];
+
+      array.forEach((flag) => {
+        this.jsonCourseFlags[flag] = true;
+      });
+    }
+    else {
+      this.jsonCourseFlags.isShowModel = true;
+      if (perm.includes('114')) {
+        this.jsonCourseFlags.isShowFileManager = true;
+      }
+
+      if (perm.includes('701')) {
+        this.jsonCourseFlags.isShowClass = true;
+      }
+      if (perm.includes('702')) {
+        this.jsonCourseFlags.isShowExam = true;
+      }
+      if (perm.includes('704')) {
+        this.jsonCourseFlags.isShowClassPlanner = true;
+      }
+    }
+    if (userType == '0' && (permissionArray == "" || permissionArray == null)) {
+      this.jsonCourseFlags.isShowEcourseMapping = true;
+    }
+
+    if (sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1') {
+      this.jsonCourseFlags.isShowEcourseMapping = true;
+    }
+
+    if (permittedRoles['718'] != undefined && sessionStorage.getItem('enable_eLearn_feature') == '1') {
+      this.jsonCourseFlags.isEcourseFileManager = true;
+    }
+
+    this.jsonCourseFlags.isShowOnlineAssignment = false;
+    if (sessionStorage.getItem('enable_online_assignment_feature') == '1') {
+      this.jsonCourseFlags.isShowOnlineAssignment = true;
+    }
+  }
+
+  checkpermissionOfCommunicate() {
+    this.userType = Number(sessionStorage.getItem('userType'));
+    this.permissionArray = sessionStorage.getItem('permissions');
+    if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
+      if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
+        this.permissions = JSON.parse(sessionStorage.getItem('permissions'));
+        this.showSMSReport = this.permissions.includes('206') ? true : false;//sms visiblity
+        this.showEmailReport = this.permissions.includes('207') ? true : false; //email visiblity
+      }
+    }
+    else {
+      this.showSMSReport = true;
+      this.showEmailReport = true;
+    }
+  }
+  checkPermissionForFees() {
+    this.tax_type_without_percentage = sessionStorage.getItem('tax_type_without_percentage');
+    this.is_tax_enabled = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.enable_online_payment = sessionStorage.getItem('enable_online_payment_feature');
+    const userType = sessionStorage.getItem('userType');
+    if (userType == '3') {
+      this.jsonFeesFlags.isAdmin = false;
+      this.jsonFeesFlags.isProfitnloss = false;
+    }
+    else if (userType == '0') {
+      if (sessionStorage.getItem('permissions') == "" || sessionStorage.getItem('permissions') == null) {
+        this.jsonFeesFlags.isAdmin = true;
+        this.jsonFeesFlags.isProfitnloss = true;
+      }
+    }
+    if (sessionStorage.getItem('permissions')) {
+      let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+
+      if (permissions.indexOf('102') != -1) {
+        this.jsonFeesFlags.isFeeActivity = true;
+      }
+      /* profit and lodd */
+      if (permissions.indexOf('208') != -1) {
+        this.jsonFeesFlags.isProfitnloss = true;
+      }
+
+    }
+
+    if (sessionStorage.getItem('userType') == '0') {
+      if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+        this.jsonFeesFlags.isFeeActivity = true;
+        this.jsonFeesFlags.isProfitnloss = true;
+
+      }
+    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') { ///batch 
+          this.jsonFeesFlags.moduleState = 'Batch';
+        } else { ///course
+          this.jsonFeesFlags.moduleState = 'Course';
+        }
+      }
+    )
+  }
+
 
   hideForUsers() {
     if (sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0') {
@@ -502,8 +641,46 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.isLibraryFeatureAllow(permission); // check librabry feature
     this.isExpenseFeatureAllow();
     this.checkpermissinForLeadDetails();
+    this.checkCoursePermissions();
+    this.checkPermissionForFees();
+    this.checkpermissionOfCommunicate();
   }
 
+  // checkPermissionsForCourse(){
+  //   let perm = sessionStorage.getItem('permissions');
+  //   let userType = sessionStorage.getItem('userType');
+  //    if ((userType=='0')&&((perm == null || perm == undefined || perm == ''))){
+  //      let array = Object.keys( this.jsonFlags);
+  //      array.forEach((flag)=>{
+  //        this.jsonFlags[flag]= true;
+  //      })
+  //    }
+  //    else if((userType=='3')){
+  //      this.jsonFlags.isShowModel = false;
+  //      this.jsonFlags.isShowArchiving = false;
+  //       let array = ['isShowFileManager','isShowExam','isShowClass','isShowClassPlanner'];
+
+  //        array.forEach((flag)=>{
+  //          this.jsonFlags[flag]=true;
+  //        });         
+  //    }
+  //    else{
+  //      this.jsonFlags.isShowModel = true;
+  //      if (perm.includes('114')) {
+  //        this.jsonFlags.isShowFileManager = true;
+  //      }
+
+  //      if (perm.includes('701')) {
+  //        this.jsonFlags.isShowClass = true;
+  //      }
+  //      if (perm.includes('702')) {
+  //        this.jsonFlags.isShowExam = true;
+  //      }
+  //      if (perm.includes('704')) {
+  //        this.jsonFlags.isShowClassPlanner = true;
+  //      }
+  //    }
+  //  }
   // check only default values
   checkDefaultData(p, e) {
     if (p == '' || p == null || p == undefined) {
