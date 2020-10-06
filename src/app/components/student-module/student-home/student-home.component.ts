@@ -624,27 +624,15 @@ export class StudentHomeComponent implements OnInit {
     if (this.advancedFilterForm.master_course_name == '-1') {
       obj.master_course_name = '';
     }
-    if (this.showQuickFilter) {
-      this.loadTableDataSource(obj);
-    } else if (this.searchBarData != '' && this.searchBarData != null && this.searchBarData != undefined) {
-      this.searchBarData = this.searchBarData.trim();
-      /* If input is of type string then validate string validity*/
-      if (isNaN(this.searchBarData)) {
-        obj.name = this.searchBarData;
-      }/* If not string then use the data as a number*/
-      else {
-        obj.mobile = this.searchBarData;
-      }
-      obj.master_course_name = '';
-      obj.course_id = '-1';
-      obj.standard_id = '-1';
+    obj.master_course_name = '';
+    obj.course_id = '-1';
+    obj.standard_id = '-1';
     this.loadTableDataSource(obj);
   } else if((this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) && !this.isAdvFilter && !this.isProfessional){
     this.loadTableDataSource(obj);
    } else {
     this.loadTableDataSource(this.instituteData);
    }
-  }
 }
 
   /* Fetch next set of data from server and update table */
@@ -868,32 +856,35 @@ export class StudentHomeComponent implements OnInit {
     this.bulkActionFunction();
     this.instituteData.batch_size = this.studentdisplaysize;
     this.PageIndex = 1;
-    this.instituteData.start_index = 0;
-    this.studentDataSource = [];
-    this.auth.showLoader();
-    this.studentFetch.fetchAllStudentDetails(this.instituteData).subscribe(
-      res => {
-        this.auth.hideLoader();
-        if (res.length != 0) {
-          this.totalRow = res[0].total_student_count;
-          this.studentDataSource = res;
-        }
-        else {
-          let alert = {
-            type: 'info',
-            title: 'No Records Found',
-            body: 'We did not find any student for the specified query'
-          }
-          this.loading_message = 2;
-          this.appC.popToast(alert);
-          this.studentDataSource = [];
-          this.totalRow = this.studentDataSource.length;
-        }
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    );
+    // Changes done by - Nalini
+    // to handle quick filter cases while changing batch size
+    this.fectchTableDataByPage(this.PageIndex);
+    // this.instituteData.start_index = 0;
+    // this.studentDataSource = [];
+    // this.auth.showLoader();
+    // this.studentFetch.fetchAllStudentDetails(this.instituteData).subscribe(
+    //   res => {
+    //     this.auth.hideLoader();
+    //     if (res.length != 0) {
+    //       this.totalRow = res[0].total_student_count;
+    //       this.studentDataSource = res;
+    //     }
+    //     else {
+    //       let alert = {
+    //         type: 'info',
+    //         title: 'No Records Found',
+    //         body: 'We did not find any student for the specified query'
+    //       }
+    //       this.loading_message = 2;
+    //       this.appC.popToast(alert);
+    //       this.studentDataSource = [];
+    //       this.totalRow = this.studentDataSource.length;
+    //     }
+    //   },
+    //   err => {
+    //     this.auth.hideLoader();
+    //   }
+    // );
   }
 
   /* Toggle page size menu on Click */
@@ -1299,6 +1290,14 @@ export class StudentHomeComponent implements OnInit {
       if (this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) {
         obj.name = '';
         obj.mobile = '';
+        if(!this.showQuickFilter) {
+          obj.master_course_name = '';
+          obj.course_id = '-1';
+          obj.standard_id = '-1';
+          this.advancedFilterForm.master_course_name = '-1';
+          this.advancedFilterForm.course_id = '-1';
+          this.advancedFilterForm.standard_id = '-1';
+        }
       } else {
       this.searchBarData = this.searchBarData.trim();
       /* If input is of type string then validate string validity*/
@@ -2731,7 +2730,7 @@ export class StudentHomeComponent implements OnInit {
     this.showQuickFilter = false;
     this.advancedFilterForm.standard_id = '-1';
     this.advancedFilterForm.subject_id = '-1';
-    this.advancedFilterForm.is_active_status = '';
+    this.advancedFilterForm.is_active_status = '1';
     this.advancedFilterForm.master_course_name = '-1';
     this.advancedFilterForm.course_id = '-1';
     this.advancedFilterForm.standard_id = '-1';
