@@ -54,6 +54,7 @@ export class CourseSubjectComponent implements OnInit {
   }
 
   getAllSubjectList() {
+    this.PageIndex = 1;
     this.auth.showLoader();
     this.apiService.getAllSubjectListFromServer().subscribe(
       (data: any) => {
