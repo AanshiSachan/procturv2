@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
   ViewChild
-  } from '@angular/core';
+} from '@angular/core';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
@@ -25,24 +25,24 @@ import 'rxjs/Rx';
 export class SideBarComponent implements OnInit, AfterViewInit {
 
 
-  @ViewChild('divAdminTag',{static: true}) divAdminTag: ElementRef;
-  @ViewChild('divMyAccountTag',{static: true}) divMyAccountTag: ElementRef;
-  @ViewChild('divMasterTag',{static: true}) divMasterTag: ElementRef;
-  @ViewChild('divProfileTag',{static: true}) divProfileTag: ElementRef;
-  @ViewChild('divTeacherTag',{static: true}) divTeacherTag: ElementRef;
-  @ViewChild('divSlotTag',{static: true}) divSlotTag: ElementRef;
-  @ViewChild('divClassRoomTag',{static: true}) divClassRoomTag: ElementRef;
-  @ViewChild('divManageTag',{static: true}) divManageTag: ElementRef;
-  @ViewChild('divAcademicTag',{static: true}) divAcademicTag: ElementRef;
-  @ViewChild('divGradesTag',{static: true}) divGradesTag: ElementRef;
-  @ViewChild('divManageUsers',{static: true}) divManageUsers: ElementRef;
-  @ViewChild('divSettingTag',{static: true}) divSettingTag: ElementRef;
-  @ViewChild('divGeneralSettingTag',{static: true}) divGeneralSettingTag: ElementRef;
-  @ViewChild('divManageFormTag',{static: true}) divManageFormTag: ElementRef;
-  @ViewChild('divAreaAndMap',{static: true}) divAreaAndMap: ElementRef;
-  @ViewChild('searchInput',{static: true}) searchInput: ElementRef;
-  @ViewChild('seachResult',{static: true}) seachResult: ElementRef;
-  @ViewChild('form',{static: true}) form: any;
+  @ViewChild('divAdminTag', { static: true }) divAdminTag: ElementRef;
+  @ViewChild('divMyAccountTag', { static: true }) divMyAccountTag: ElementRef;
+  @ViewChild('divMasterTag', { static: true }) divMasterTag: ElementRef;
+  @ViewChild('divProfileTag', { static: true }) divProfileTag: ElementRef;
+  @ViewChild('divTeacherTag', { static: true }) divTeacherTag: ElementRef;
+  @ViewChild('divSlotTag', { static: true }) divSlotTag: ElementRef;
+  @ViewChild('divClassRoomTag', { static: true }) divClassRoomTag: ElementRef;
+  @ViewChild('divManageTag', { static: true }) divManageTag: ElementRef;
+  @ViewChild('divAcademicTag', { static: true }) divAcademicTag: ElementRef;
+  @ViewChild('divGradesTag', { static: true }) divGradesTag: ElementRef;
+  @ViewChild('divManageUsers', { static: true }) divManageUsers: ElementRef;
+  @ViewChild('divSettingTag', { static: true }) divSettingTag: ElementRef;
+  @ViewChild('divGeneralSettingTag', { static: true }) divGeneralSettingTag: ElementRef;
+  @ViewChild('divManageFormTag', { static: true }) divManageFormTag: ElementRef;
+  @ViewChild('divAreaAndMap', { static: true }) divAreaAndMap: ElementRef;
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+  @ViewChild('seachResult', { static: true }) seachResult: ElementRef;
+  @ViewChild('form', { static: true }) form: any;
 
   @Output() searchViewMore = new EventEmitter<any>();
   @Output() enquiryUpdateAction = new EventEmitter<any>();
@@ -77,7 +77,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   private userInput: string;
   videoplayer: boolean = false;
   privacy: any = false;
-  subItem :string= "" ;
+  subItem: string = "";
   globalSearchForm: any = {
     name: '',
     phone: '',
@@ -101,7 +101,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isShowExpense: false
   }
 
-
+  jsonRolesFlags = {
+    isShowManageEnquiry: false,
+    isShowDataSetup: false,
+    isShowCampaign: false,
+    isShowAddEnquiry: false,
+    isShowReport: false
+  }
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -135,7 +141,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         }
       }
     )
-  console.log("isProfessional",this.isProfessional);
+    console.log("isProfessional", this.isProfessional);
     this.log.currentPermissions.subscribe(e => {
       if (e == '' || e == null || e == undefined) {
       }
@@ -183,7 +189,38 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
   }
 
+  checkpermissinForLeadDetails() {
+    let userType = sessionStorage.getItem('userType');
+    let username = sessionStorage.getItem('username');
+    let array = Object.keys(this.jsonRolesFlags);
+    if (sessionStorage.getItem('permissions') == '' && userType == '0' && username == 'admin') {// user role is admin
+      array.forEach((flag) => {
+        this.jsonRolesFlags[flag] = true;
+      });
+    }
+    else {
+      array.forEach((flag) => {
+        this.jsonRolesFlags[flag] = false;
+      });
+      // quick enquiry  --110
+      if (JSON.parse(sessionStorage.getItem('permissions')).includes('110')) {
+        this.jsonRolesFlags.isShowManageEnquiry = true;
+        this.jsonRolesFlags.isShowAddEnquiry = true;
+        this.jsonRolesFlags.isShowReport = true;
+      }
+      // enquiry  admin --115
+      if (JSON.parse(sessionStorage.getItem('permissions')).includes('115')) {
+        this.jsonRolesFlags.isShowCampaign = true;
+        this.jsonRolesFlags.isShowManageEnquiry = true;
+        this.jsonRolesFlags.isShowAddEnquiry = true;
+      }
+      // enquiry  report --722
+      if (JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
+        this.jsonRolesFlags.isShowReport = true;
+      }
 
+    }
+  }
 
   hideForUsers() {
     if (sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0') {
@@ -464,6 +501,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.isElearnAllow(this.permissionData);
     this.isLibraryFeatureAllow(permission); // check librabry feature
     this.isExpenseFeatureAllow();
+    this.checkpermissinForLeadDetails();
   }
 
   // check only default values
@@ -492,18 +530,18 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  isExpenseFeatureAllow(){
+  isExpenseFeatureAllow() {
     this.jsonFlags.isShowExpense = false;
     // developed by - Nalini 
     // Expenses option are showing in all user login so need to remove-Growth Academy - 101238
-    if ((this.instituteId == 101238 && (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') == 'admin') ) ||
-        this.instituteId == 101242 ||
-        this.instituteId == 101008 ||
-        this.instituteId == 101243 ||
-        this.instituteId == 101244 ||
-        this.instituteId == 100058 ||
-        this.instituteId == 100127 ||
-        this.instituteId == 100126) {
+    if ((this.instituteId == 101238 && (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') == 'admin')) ||
+      this.instituteId == 101242 ||
+      this.instituteId == 101008 ||
+      this.instituteId == 101243 ||
+      this.instituteId == 101244 ||
+      this.instituteId == 100058 ||
+      this.instituteId == 100127 ||
+      this.instituteId == 100126) {
       this.jsonFlags.isShowExpense = true;
     }
   }
@@ -514,7 +552,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.jsonFlags.isShowLiveclass = this.checkInstSetupType(type, 256);
     // if zoom is enable then also show live class // added by Swapnil
     let zoom = sessionStorage.getItem('is_zoom_enable');
-    if(JSON.parse(zoom)){
+    if (JSON.parse(zoom)) {
       this.jsonFlags.isShowLiveclass = true;
     }
 
@@ -524,13 +562,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     // this senction is used for enable elearn feature
     this.jsonFlags.isShoweStore = false;
     if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
-      if(sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin'){
-        if(sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null){
-            this.jsonFlags.isShoweStore = permissions.includes('727') ? true : false;
+      if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
+        if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
+          this.jsonFlags.isShoweStore = permissions.includes('727') ? true : false;
         }
-        } else {
-          this.jsonFlags.isShoweStore = true;
-        }
+      } else {
+        this.jsonFlags.isShoweStore = true;
+      }
     }
   }
 
@@ -695,7 +733,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       case 'liten': this.subItem = "liten";
         break;
 
-    }      
+    }
   }
   checkInstituteType() {
     this.auth.institute_type.subscribe(
@@ -783,15 +821,15 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   logout() {
     this.clearSearch();
     this.log.logoutUser().subscribe(
-      (res:any)=> {
-      this.multiBranchService.subBranchSelected.next(false);
-      this.auth.clearStoredData();
-      this.auth.changeAuthenticationKey(null);
-      this.auth.changeInstituteId(null);
-      this.log.changeSidenavStatus('unauthorized');
-      sessionStorage.clear();
+      (res: any) => {
+        this.multiBranchService.subBranchSelected.next(false);
+        this.auth.clearStoredData();
+        this.auth.changeAuthenticationKey(null);
+        this.auth.changeInstituteId(null);
+        this.log.changeSidenavStatus('unauthorized');
+        sessionStorage.clear();
 
-      this.router.navigateByUrl('/authPage');
+        this.router.navigateByUrl('/authPage');
       },
       err => {
       }
@@ -1017,7 +1055,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('open_enq_Visibility_feature', res.open_enq_Visibility_feature);
     sessionStorage.setItem('enable_fee_template_country_wise', res.enable_fee_template_country_wise);
     sessionStorage.setItem('tax_type_without_percentage', res.tax_type);
-    sessionStorage.setItem('tax_type_with_percentage', res.tax_type+"(%)");
+    sessionStorage.setItem('tax_type_with_percentage', res.tax_type + "(%)");
     sessionStorage.setItem('enable_elearn_course_mapping_feature', res.enable_elearn_course_mapping_feature);
   }
 

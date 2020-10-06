@@ -6,16 +6,19 @@
 
 <!-- <core-sidednav (changePassword)="changePasswordPopUp($event)" (enquiryUpdateAction)="updateEnquiryPopUp($event)" (hideSearchPopup)="searchViewMore($event)"
     (searchViewMore)="searchViewMore($event)"></core-sidednav> -->
-<app-top-toolbar></app-top-toolbar>
-<app-side-bar (changePassword)="changePasswordPopUp($event)" (enquiryUpdateAction)="updateEnquiryPopUp($event)" (hideSearchPopup)="searchViewMore($event)" (searchViewMore)="searchViewMore($event)"></app-side-bar>
+<!-- <app-top-toolbar></app-top-toolbar> -->
+<app-side-bar (changePassword)="changePasswordPopUp($event)" (enquiryUpdateAction)="updateEnquiryPopUp($event)"
+    (hideSearchPopup)="searchViewMore($event)" (searchViewMore)="searchViewMore($event)"></app-side-bar>
 
 <router-outlet></router-outlet>
 
 <!-- Change Password Popup Component -->
 
-<app-change-password *ngIf="changePasswordComp" [institute_id]="institute_id" (close)="closeChangePasswordPopup($event)"></app-change-password>
+<app-change-password *ngIf="changePasswordComp" [institute_id]="institute_id"
+    (close)="closeChangePasswordPopup($event)"></app-change-password>
 
 
 <!-- Enquiry update popup -->
 
-<app-enquiry-update-popup *ngIf="enquiryUpdateComp" [enqData]="enquiryInfo" (closePopUp)="closeEnquiryPopUp($event)"></app-enquiry-update-popup>
+<app-enquiry-update-popup *ngIf="enquiryUpdateComp" [enqData]="enquiryInfo" (closePopUp)="closeEnquiryPopUp($event)">
+</app-enquiry-update-popup>
