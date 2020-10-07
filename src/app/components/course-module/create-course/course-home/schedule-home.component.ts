@@ -54,6 +54,7 @@ export class ScheduleHomeComponent implements OnInit {
 
 
   getAllStandardList() {
+    this.PageIndex = 1;
     this.auth.showLoader();
     this.apiService.getAllStandardListFromServer().subscribe(
       (data: any) => {
