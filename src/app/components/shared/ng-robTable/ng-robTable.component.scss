@@ -150,8 +150,8 @@ $color-highlight: lighten($color-base, 7%);
         height: 7px;
     }
     .schedule-scroller {
-        min-height: 63vh;
-        max-height: 63vh;
+        min-height: 53vh;
+        max-height: 53vh;
         overflow-x: hidden;
         overflow-y: auto;
         ::-webkit-scrollbar {

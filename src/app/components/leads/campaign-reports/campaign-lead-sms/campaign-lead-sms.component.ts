@@ -32,8 +32,8 @@ export class CampaignLeadSmsComponent implements OnInit {
   leadSmsSearchInput: any = "";
   leadSmsList: any;
   tempLeadSmslist: any;
-  from_date:any;
-  to_date:any;
+  from_date: any;
+  to_date: any;
   leadsmsSource: any = [];
   // FOR PAGINATION
   pageIndex: number = 1;
@@ -105,7 +105,7 @@ export class CampaignLeadSmsComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "48vh"
+      height: "43vh"
     }
 
     this.rowColumns = [
@@ -145,7 +145,7 @@ export class CampaignLeadSmsComponent implements OnInit {
       batch_size: 50
     }
     this.auth.showLoader();
-    if(tempObj.to_date != null && tempObj.to_date != ""){
+    if (tempObj.to_date != null && tempObj.to_date != "") {
       tempObj.to_date = moment(tempObj.to_date).format("YYYY-MM-DD");
     }
     if (obj.start_index == 0) {
@@ -195,9 +195,9 @@ export class CampaignLeadSmsComponent implements OnInit {
     if (diff <= 0) {
       let checkToDate = this.dateGreaterThanCheck(this.dateFilter.from_date, this.dateFilter.to_date);
       let checkFromDate = this.dateGreaterThanCheck(this.dateFilter.from_date, this.dateFilter.to_date);
-      if(checkToDate){
+      if (checkToDate) {
         var tempToDate = moment(this.dateFilter.to_date).format("MM-DD-YYYY");
-        if(checkFromDate){
+        if (checkFromDate) {
           var tempFromDate = moment(this.dateFilter.from_date).format("MM-DD-YYYY");
         }
         else {

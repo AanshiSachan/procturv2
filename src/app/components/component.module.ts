@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ComponentRoutingModule } from './component-routing.module';
 import { ComponentsComponent } from './components.component';
 import { SharedModule } from '../components/shared/shared.module';
-import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { OverlayMenuComponent } from './overlay-menu/overlay-menu.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SearchBoxComponent } from './core/search-box/search-box.component';
@@ -14,8 +14,9 @@ import { StudentFeeService } from './student-module/student_fee.service';
 import { TrainingVideoComponent } from './training-video/training-video.component';
 import { TopToolbarComponent } from './core/top-toolbar/top-toolbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatButtonModule}  from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
 @NgModule({
     imports: [
         CommonModule,
@@ -23,9 +24,10 @@ import { MatMenuModule } from '@angular/material/menu';
         BsDatepickerModule.forRoot(),
         SharedModule,
         FormsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatMenuModule
+        MatToolbarModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatTabsModule
     ],
     declarations: [
         ComponentsComponent,

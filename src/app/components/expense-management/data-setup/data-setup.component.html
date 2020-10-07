@@ -1,4 +1,4 @@
-<section class="middle-section clearFix">
+<section class="middle-section clearFix" style="padding: 2%;padding-top: 1%;">
   <!-- Header and Navigation -->
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
@@ -14,21 +14,24 @@
   <div class="common-tab">
     <ul>
       <li id="payee" (click)="switchActiveView('payee')" class="">
-          <span>Manage Payee</span>
+        <span>Manage Payee</span>
       </li>
       <li id="payer" (click)="switchActiveView('payer')" class="">
-          <span>Manage Payer</span>
+        <span>Manage Payer</span>
       </li>
       <li id="account" (click)="switchActiveView('account')" class="">
-          <span>Manage Account</span>
+        <span>Manage Account</span>
       </li>
     </ul>
   </div>
 
   <div class="add-container">
-    <button type="button" name="button" class="add-btn" *ngIf="selectedSection == 'payee'" (click)="togglePayee()">Add Payee</button>
-    <button type="button" name="button" class="add-btn" *ngIf="selectedSection == 'payer'" (click)="togglePayer()">Add Payer</button>
-    <button type="button" name="button" class="add-btn" *ngIf="selectedSection == 'account'" (click)="toggleAccount()">Add Account</button>
+    <button type="button" name="button" class="add-btn" *ngIf="selectedSection == 'payee'" (click)="togglePayee()">Add
+      Payee</button>
+    <button type="button" name="button" class="add-btn" *ngIf="selectedSection == 'payer'" (click)="togglePayer()">Add
+      Payer</button>
+    <button type="button" name="button" class="add-btn" *ngIf="selectedSection == 'account'"
+      (click)="toggleAccount()">Add Account</button>
   </div>
 
   <div class="table-container" *ngIf="headerList?.length > 0">
@@ -41,13 +44,16 @@
     <div class="table-value-outer-container" *ngIf="selectedSection == 'account'">
       <div class="table-value-container" *ngFor="let detail of tableValueData">
         <div class="table-value-item">
-          <span title="{{detail?.display_name}}" >{{ (!detail.display_name) ? '-' : (detail.display_name.length > 20) ? (detail.display_name | slice:0:20) + '...' : detail.display_name}}</span>
+          <span
+            title="{{detail?.display_name}}">{{ (!detail.display_name) ? '-' : (detail.display_name.length > 20) ? (detail.display_name | slice:0:20) + '...' : detail.display_name}}</span>
         </div>
         <div class="table-value-item">
-          <span title="{{detail?.notes}}" >{{ (!detail.notes) ? '-' : (detail.notes.length > 20) ? (detail.notes | slice:0:20) + '...' : detail.notes}}</span>
+          <span
+            title="{{detail?.notes}}">{{ (!detail.notes) ? '-' : (detail.notes.length > 20) ? (detail.notes | slice:0:20) + '...' : detail.notes}}</span>
         </div>
         <div class="table-value-item">
-          <span title="{{detail?.type_value}}" >{{ (!detail.type_value) ? '-' : (detail.type_value.length > 20) ? (detail.type_value | slice:0:20) + '...' : detail.type_value}}</span>
+          <span
+            title="{{detail?.type_value}}">{{ (!detail.type_value) ? '-' : (detail.type_value.length > 20) ? (detail.type_value | slice:0:20) + '...' : detail.type_value}}</span>
         </div>
         <div class="table-value-item">
           <i class="fa fa-pencil" aria-hidden="true" title="Edit Account" (click)="editAccount(detail.account_id)"></i>
@@ -58,23 +64,30 @@
     <div class="table-value-outer-container" *ngIf="selectedSection == 'payee' || selectedSection == 'payer'">
       <div class="table-value-container" *ngFor="let detail of tableValueData">
         <div class="table-value-item">
-          <span title="{{detail?.display_name}}" >{{ (!detail.display_name) ? '-' : (detail.display_name.length > 20) ? (detail.display_name | slice:0:20) + '...' : detail.display_name}}</span>
+          <span
+            title="{{detail?.display_name}}">{{ (!detail.display_name) ? '-' : (detail.display_name.length > 20) ? (detail.display_name | slice:0:20) + '...' : detail.display_name}}</span>
         </div>
         <div class="table-value-item">
-          <span title="{{detail?.type_value}}" >{{ (!detail.type_value) ? '-' : (detail.type_value.length > 20) ? (detail.type_value | slice:0:20) + '...' : detail.type_value}}</span>
+          <span
+            title="{{detail?.type_value}}">{{ (!detail.type_value) ? '-' : (detail.type_value.length > 20) ? (detail.type_value | slice:0:20) + '...' : detail.type_value}}</span>
         </div>
         <div class="table-value-item">
-          <span title="{{detail?.company_name}}" >{{ (!detail.company_name) ? '-' : (detail.company_name.length > 20) ? (detail.company_name | slice:0:20) + '...' : detail.company_name}}</span>
+          <span
+            title="{{detail?.company_name}}">{{ (!detail.company_name) ? '-' : (detail.company_name.length > 20) ? (detail.company_name | slice:0:20) + '...' : detail.company_name}}</span>
         </div>
         <div class="table-value-item">
-          <span title="{{detail?.primary_mobile_no}}" >{{ (!detail.primary_mobile_no) ? '-' : (detail.primary_mobile_no.length > 20) ? (detail.primary_mobile_no | slice:0:20) + '...' : detail.primary_mobile_no}}</span>
+          <span
+            title="{{detail?.primary_mobile_no}}">{{ (!detail.primary_mobile_no) ? '-' : (detail.primary_mobile_no.length > 20) ? (detail.primary_mobile_no | slice:0:20) + '...' : detail.primary_mobile_no}}</span>
         </div>
         <div class="table-value-item">
-          <span title="{{detail?.email_id}}" >{{ (!detail.email_id) ? '-' : (detail.email_id.length > 20) ? (detail.email_id | slice:0:20) + '...' : detail.email_id}}</span>
+          <span
+            title="{{detail?.email_id}}">{{ (!detail.email_id) ? '-' : (detail.email_id.length > 20) ? (detail.email_id | slice:0:20) + '...' : detail.email_id}}</span>
         </div>
         <div class="table-value-item">
-          <i class="fa fa-pencil" aria-hidden="true" title="Edit" *ngIf="selectedSection == 'payee'" (click)="editPayee(detail.party_id)"></i>
-          <i class="fa fa-pencil" aria-hidden="true" title="Edit" *ngIf="selectedSection == 'payer'" (click)="editPayer(detail.party_id)"></i>
+          <i class="fa fa-pencil" aria-hidden="true" title="Edit" *ngIf="selectedSection == 'payee'"
+            (click)="editPayee(detail.party_id)"></i>
+          <i class="fa fa-pencil" aria-hidden="true" title="Edit" *ngIf="selectedSection == 'payer'"
+            (click)="editPayer(detail.party_id)"></i>
         </div>
       </div>
     </div>
@@ -82,11 +95,14 @@
 
 </section>
 
-<app-add-edit-payee *ngIf=payeeVisibilty (closePopup)="togglePayee($event)" [isEditPayee]="isEditPayee" [editPayeeId]="editPayeeId">
+<app-add-edit-payee *ngIf=payeeVisibilty (closePopup)="togglePayee($event)" [isEditPayee]="isEditPayee"
+  [editPayeeId]="editPayeeId">
 </app-add-edit-payee>
 
-<app-add-edit-payer *ngIf=payerVisibilty (closePopup)="togglePayer($event)" [isEditPayer]="isEditPayer" [editPayerId]="editPayerId">
+<app-add-edit-payer *ngIf=payerVisibilty (closePopup)="togglePayer($event)" [isEditPayer]="isEditPayer"
+  [editPayerId]="editPayerId">
 </app-add-edit-payer>
 
-<app-add-edit-account *ngIf=accountVisibilty (closePopup)="toggleAccount($event)" [isEditAccount]="isEditAccount" [editAccountId]="editAccountId">
+<app-add-edit-account *ngIf=accountVisibilty (closePopup)="toggleAccount($event)" [isEditAccount]="isEditAccount"
+  [editAccountId]="editAccountId">
 </app-add-edit-account>

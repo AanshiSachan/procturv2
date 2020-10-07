@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToasterModule } from 'angular2-toaster';
 import { Ng2OrderModule } from 'ng2-order-pipe';
-import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { AppComponent, AuthenticatorService, CommonServiceFactory, ExpensesService, FetchenquiryService, FetchprefilldataService, HttpService, LoginService, MessageShowService, MultiBranchDataService, PaginationService, PostEnquiryDataService, TablePreferencesService } from '.';
 import { AppMainLoaderComponent } from './app-loader/app-loader.component';
@@ -24,8 +24,9 @@ import { ReturnBookService } from './services/library/return/return-book.service
 import { ProductService } from './services/products.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatButtonModule}  from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
 @NgModule({
   imports: [
     BrowserModule,
@@ -41,9 +42,10 @@ import { MatMenuModule } from '@angular/material/menu';
     SharedModule,
     Ng2OrderModule,
     FontAwesomeModule,
-      MatToolbarModule,
+    MatToolbarModule,
     MatButtonModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTabsModule
 
   ],
   declarations: [
@@ -65,7 +67,7 @@ import { MatMenuModule } from '@angular/material/menu';
     CommonServiceFactory,
     MessageShowService,
     HttpService,
-       ExpensesService,
+    ExpensesService,
     MastersService,
     AddBookService,
     IssueBookService,
@@ -73,7 +75,7 @@ import { MatMenuModule } from '@angular/material/menu';
     ProductService,
     MasterTagService
 
-    
+
     //   {
     //     provide: HTTP_INTERCEPTORS,
     //     useClass: I2,               // <-- I2 first

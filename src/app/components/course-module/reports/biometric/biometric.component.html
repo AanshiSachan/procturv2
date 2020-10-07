@@ -1,4 +1,4 @@
-<div class="clear-fix background">
+<div class="clear-fix background" style="padding: 2%;">
   <aside class="middle-full">
     <section class="middle-main clearFix">
 
@@ -41,12 +41,15 @@
                     <div class="c-lg-4 dateBox">
                       <div class="field-wrapper datePickerBox">
                         <label> Select Date</label>
-                        <input type="text" class="form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date" (ngModelChange)="dateValidationForFuture($event)">
+                        <input type="text" class="form-ctrl bsDatepicker" bsDatepicker
+                          [(ngModel)]="getData.biometric_attendance_date"
+                          (ngModelChange)="dateValidationForFuture($event)">
                       </div>
                     </div>
                     <div class="c-lg-4 field-wrapper">
                       <label> Name</label>
-                      <input type="text" placeholder="Name" class="form-ctrl" (change)="courseEmpty()" [(ngModel)]="getData.name" [value]="getData.is_active_status">
+                      <input type="text" placeholder="Name" class="form-ctrl" (change)="courseEmpty()"
+                        [(ngModel)]="getData.name" [value]="getData.is_active_status">
                     </div>
                   </div>
                 </div>
@@ -67,7 +70,8 @@
                 <div class="c-lg-3" style="padding-left: 0px;" *ngIf="masterCourseNames  && !isProfessional">
                   <div class="field-wrapper">
                     <label>Master Course</label>
-                    <select class="form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)">
+                    <select class="form-ctrl" [(ngModel)]="getData.master_course_name"
+                      (ngModelChange)="getCourses($event)">
                       <option value="-1"></option>
                       <option *ngFor="let i of masterCourse" [value]="i.master_course">
                         {{i.master_course}}
@@ -120,8 +124,10 @@
                     </select>
                   </div>
                 </div>
-                <button class="btn fullBlue" (click)="fetchDataByName()" style="display: inline-block; margin-top: 26px;" *ngIf="isProfessional">GO</button>
-                <button class="btn fullBlue" (click)="fetchDataByName()" style="display: inline-block; margin-top: 26px;" *ngIf="!isProfessional">GO</button>
+                <button class="btn fullBlue" (click)="fetchDataByName()"
+                  style="display: inline-block; margin-top: 26px;" *ngIf="isProfessional">GO</button>
+                <button class="btn fullBlue" (click)="fetchDataByName()"
+                  style="display: inline-block; margin-top: 26px;" *ngIf="!isProfessional">GO</button>
                 <a (click)="showNameWiseFilter()" style="float: right;
                 margin-top: 3%;
                 margin-right: 1%; display: inline-block;" class="form">Show Name Filter
@@ -136,8 +142,9 @@
             <div class="table table-responsive student-table">
               <div class="filter-box">
                 <div id="basic-search">
-                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-                    (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
+                  <input #search type="text" class="search-field searchName" placeholder="Search"
+                    [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()"
+                    style="padding:7px 10px; width:200px; height:35px;">
                 </div>
               </div>
               <div class="common-elements">
@@ -222,8 +229,8 @@
             <!-- Paginator Here -->
             <div class="row filter-res pagination" style="width: 100%;">
               <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                  [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+                  [pagesToShow]="10" [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
                 </pagination>
               </div>
             </div>
@@ -233,8 +240,8 @@
             <div class="table table-responsive student-table">
               <div class="filter-box">
                 <div id="basic-search">
-                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-                    (keyup)="searchDatabase()">
+                  <input #search type="text" class="search-field searchName" placeholder="Search"
+                    [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
                 </div>
               </div>
               <div class="student-elements">
@@ -321,8 +328,8 @@
             <!-- Paginator Here -->
             <div class="row filter-res pagination" style="width: 100%;">
               <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                  [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+                  [pagesToShow]="10" [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
                 </pagination>
               </div>
             </div>
@@ -331,8 +338,8 @@
             <div class="table table-responsive student-table">
               <div class="filter-box box">
                 <div id="basic-search">
-                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-                    (keyup)="searchDatabase()">
+                  <input #search type="text" class="search-field searchName" placeholder="Search"
+                    [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
                 </div>
               </div>
               <div class="common-elements">
@@ -416,8 +423,8 @@
             <!-- Paginator Here -->
             <div class="row filter-res pagination" style="width: 100%;">
               <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                  [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+                  [pagesToShow]="10" [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
                 </pagination>
               </div>
             </div>
@@ -426,8 +433,11 @@
 
           <proctur-popup [sizeWidth]="'medium'" *ngIf="addReportPopUp">
             <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeReportPopup()" close-button>
-              <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-                <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+              <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+                viewBox="0 0 24 24" width="24px" x="0" y="0">
+                <path class="large-icon"
+                  d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+                  style="fill: currentColor"></path>
               </svg>
             </span>
 
@@ -544,11 +554,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77) rotate(45)" />
             </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
           </g>
         </svg>
       </span>
@@ -564,8 +576,9 @@
               <div class="field-wrapper">
                 <label for="master">Master Course
                 </label>
-                <select class="form-ctrl" [(ngModel)]="getAbsentiesData.master_course_name" (change)="getCourses($event.target.value)">
-                    <option value="-1">Master Course</option>
+                <select class="form-ctrl" [(ngModel)]="getAbsentiesData.master_course_name"
+                  (change)="getCourses($event.target.value)">
+                  <option value="-1">Master Course</option>
                   <option *ngFor="let i of masterCourse" [value]="i.master_course">
                     {{i.master_course}}
                   </option>
@@ -577,8 +590,9 @@
               <div class="field-wrapper">
                 <label for="course">Course
                 </label>
-                <select class="form-ctrl" [(ngModel)]="getAbsentiesData.course_id" (change)="getSubjects($event.target.value)">
-                    <option value="-1">Course</option>
+                <select class="form-ctrl" [(ngModel)]="getAbsentiesData.course_id"
+                  (change)="getSubjects($event.target.value)">
+                  <option value="-1">Course</option>
                   <option *ngFor="let i of courses" [value]="i.course_id">
                     {{i.course_name}}
                   </option>>
@@ -603,7 +617,8 @@
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper datePickerBox">
                 <label>Date</label>
-                <input type="text" class="form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getAbsentiesData.from_date" (change)="dateValidationForFuture($event)">
+                <input type="text" class="form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getAbsentiesData.from_date"
+                  (change)="dateValidationForFuture($event)">
               </div>
             </div>
           </div>
@@ -642,8 +657,8 @@
               <tr *ngFor="let obj of absendStudentData">
                 <td class="checkBoxCss">
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" class="form-checkbox" [value]="obj.student_id"  (change)="toggleCheckbox($event.target.value)"
-                      [id]="'checkbox-'+i">
+                    <input type="checkbox" class="form-checkbox" [value]="obj.student_id"
+                      (change)="toggleCheckbox($event.target.value)" [id]="'checkbox-'+i">
                     <label [for]="'checkbox-'+i"></label>
                   </div>
                 </td>
@@ -655,8 +670,8 @@
           </table>
         </div>
         <div class="row text-center" *ngIf="absendStudentData.length>0">
-            <button id="btnSave" class="btn fullBlue" type="submit" (click)="sendSMSToAbsenties()"> Send SMS </button>
-          </div>
+          <button id="btnSave" class="btn fullBlue" type="submit" (click)="sendSMSToAbsenties()"> Send SMS </button>
+        </div>
       </div>
     </div>
   </div>

@@ -1,8 +1,8 @@
 @import "./src/assets/css/common/variables.scss";
 .homewrap {
-    max-height: 100vh;
+    // max-height: 100vh;
     overflow-x: auto;
-    overflow-y: scroll;
+    overflow-y: hidden;
     ::-webkit-scrollbar {
         display: block;
         width: 7px;

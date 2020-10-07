@@ -1,6 +1,6 @@
 <div class="clearFix sms-view-wrapper" style="padding-left: 15px; padding-right: 15px; padding-top: 2px;">
   <!-- Header and Navigation -->
-  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;">
+  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;margin-top: 1%;">
     <h1 class="pull-left">
       <a routerLink="/view/leads" style="padding:0px;">
         Lead
@@ -59,7 +59,7 @@
     <div class="c-lg-12 c-md-12 c-sm-12 table-wrapper">
       <div class="table-scroll-wrapper">
         <div class="table table-responsive enquiry-table">
-          <table class="tableBodyScroll">
+          <table class="tableBodyScroll" style="width: 97%;margin-left: 21px;">
             <thead>
               <tr>
                 <th style="text-align: left;">
@@ -229,7 +229,7 @@
 <section id="popup" class="popupWrapper fadeIn" style="overflow:auto;" *ngIf="message === 'sms'">
   <!-- tab 1 for sms-->
   <div class="popup pos-abs popup-body-container" *ngIf="testMessagePopUp === false" style="width: 63%;">
-    <div class="popup-wrapper pos-rel">
+    <div class="popup-wrapper pos-rel" style="height: 58vh !important;">
 
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -327,14 +327,11 @@
               <div class="row campaign-message-wrapper">
                 <div class="c-lg-12 c-md-12 c-sm-12 campaign-message-table">
                   <div class="table table-responsive enquiry-table">
+                    <div class="sendHeader">
+                      Campaign Message
+                    </div>
+
                     <table style="width:100%" class="camp-table">
-                      <th>
-                        Campaign Message
-                      </th>
-                      <!-- <tr>
-                        <th></th>
-                        <th></th>
-                      </tr> -->
                       <tr id="message{{i}}" *ngFor="let message of messageList; let i = index; trackBy: i;">
                         <td class="c-lg-12 c-md-12 c-sm-12" style="width: 12%;">
                           <div class="field-checkbox-wrapper">
@@ -377,7 +374,7 @@
 
   <!--Tab 2 for sms  -->
   <!-- -->
-  <div class="popup pos-abs popup-body-container" *ngIf="testMessagePopUp === true">
+  <div class="popup pos-abs popup-body-container" *ngIf="testMessagePopUp === true" style="width: 50%;">
     <div class="popup-wrapper pos-rel">
 
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">

@@ -80,7 +80,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   private userInput: string;
   videoplayer: boolean = false;
   privacy: any = false;
-  subItem: string = "";
   globalSearchForm: any = {
     name: '',
     phone: '',
@@ -886,31 +885,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   /* Function to set the id for setActive function to act upon */
   toggler(id) {
-    this.subItem = "";
     this.activeSession = id;
-    switch (id) {
-      case 'lione': this.subItem = "lione";
-        break;
-      case 'litwo': this.subItem = "litwo";
-        break;
-      case 'lithree': this.subItem = "lithree";
-        break;
-      case 'lifour': this.subItem = "lifour";
-        break;
-      case 'lifive': this.subItem = "lifive";
-        break;
-      case 'lisix': this.subItem = "lisix";
-        break;
-      case 'liseven': this.subItem = "liseven";
-        break;
-      case 'lieight': this.subItem = "lieight";
-        break;
-      case 'linine': this.subItem = "linine";
-        break;
-      case 'liten': this.subItem = "liten";
-        break;
 
-    }
   }
   checkInstituteType() {
     this.auth.institute_type.subscribe(
@@ -1246,10 +1222,19 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   // FOR Search
   showSearchBar() {
-    this.searchBar = true;
+
     window.setTimeout(function () {
-      document.getElementById("search_bar").focus();
-    }, 550);
+
+      document.getElementById('searchIcon').classList.remove('beforeSearchIcon');
+      document.getElementById('searchIcon').classList.add('afterSearchIcon');
+      document.getElementById('search_bar').classList.remove('afterHover');
+      document.getElementById('search_bar').classList.add('beforeHover');
+
+    }, 20);
+    // window.setTimeout(function () {
+    //   document.getElementById("search_bar").focus();
+    // }, 550);
+    this.searchBar = true;
   }
 
   closeSearchBar() {
@@ -1257,6 +1242,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   }
 
   triggerSearchBox($event) {
+
     this.showSearchBar();
     $event.preventDefault();
     this.isResultDisplayed = true;

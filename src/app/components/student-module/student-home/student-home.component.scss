@@ -17,6 +17,7 @@
 /* ======================================================================================================== */
 .middle-top{
   margin: 0px;
+  padding-bottom: 0 !important;
 }
 .gradeLegend{
     background: black;
@@ -1067,7 +1068,7 @@ screen and (max-height: 768px) {
 
 .search-data {
     margin: 0px 0px;
-    padding: 0px 5px;
+    // padding: 0px 5px;
     // background: #efefef;
     th {
         padding: 15px 5px;
