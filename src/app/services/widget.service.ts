@@ -1,9 +1,10 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { Observable } from 'rxjs';
 import { AuthenticatorService } from "./authenticator.service";
+import * as moment from 'moment';
 
 
 
@@ -12,9 +13,9 @@ import { AuthenticatorService } from "./authenticator.service";
 export class WidgetService {
     baseUrl: string = '';
     Authorization: any;
-    headers:any;
-    institute_id:any;
-    
+    headers: any;
+    institute_id: any;
+
     constructor(private http: HttpClient, private auth: AuthenticatorService) {
         this.auth.currentAuthKey.subscribe(key => {
             this.Authorization = key;
@@ -40,7 +41,7 @@ export class WidgetService {
 
 
     fetchFeeWidgetData(obj): Observable<any> {
-        obj.institute_id = this.institute_id ;
+        obj.institute_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/studentWise/fee/feesStats/" + this.institute_id;
         return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
@@ -144,6 +145,7 @@ export class WidgetService {
 
 
     cancelCourseSchedule(obj) {
+        obj.requested_date = moment(obj.requested_date).format("YYYY-MM-DD");
         let url = this.baseUrl + "/api/v1/courseClassSchedule/cancelMasterClassSchedule";
 
         return this.http.post(url, obj, { headers: this.headers }).pipe(map(
@@ -194,6 +196,7 @@ export class WidgetService {
     }
 
     fetchCourseLevelWidgetData(obj) {
+        obj.requested_date = moment(obj.requested_date).format("YYYY-MM-DD");
         let url = this.baseUrl + '/api/v1/courseClassSchedule/fetchMasterCourseDetails/todaySchedule';
         return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => {
@@ -231,6 +234,7 @@ export class WidgetService {
     }
 
     remindCourseLevel(obj): Observable<any> {
+        obj.requested_date = moment(obj.requested_date).format("YYYY-MM-DD");
         let url = this.baseUrl + "/api/v1/courseClassSchedule/sendCourseMasterReminder";
 
         return this.http.post(url, obj, { headers: this.headers }).pipe(map(
@@ -433,6 +437,7 @@ export class WidgetService {
 
 
     getMasterCourseDetails(obj) {
+        obj.requested_date = moment(obj.requested_date).format("YYYY-MM-DD");
         obj.inst_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/courseClassSchedule/fetch";
         return this.http.post(url, obj, { headers: this.headers }).pipe(map(
@@ -477,6 +482,7 @@ export class WidgetService {
 
     sendReminder(obj) {
         obj.inst_id = this.institute_id;
+        obj.requested_date = moment(obj.requested_date).format("YYYY-MM-DD");
         let url = this.baseUrl + "/api/v1/courseExamSchedule/sendReminder";
         return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
@@ -527,6 +533,8 @@ export class WidgetService {
     //Course Model API
 
     getCourseExamFromServer(obj) {
+        obj.start_date = moment(obj.start_date).format('YYYY-MM-DD');
+        obj.end_date = moment(obj.end_date).format('YYYY-MM-DD');
         obj.inst_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/courseExamSchedule/fetchExamSchld";
         return this.http.post(url, obj, { headers: this.headers }).pipe(map(
@@ -560,6 +568,7 @@ export class WidgetService {
     }
 
     cancelExamScheduleCourse(obj) {
+        obj.requested_date = moment(obj.requested_date).format("YYYY-MM-DD");
         obj.inst_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/courseExamSchedule/cancel";
         return this.http.post(url, obj, { headers: this.headers }).pipe(map(

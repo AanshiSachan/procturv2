@@ -982,6 +982,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
+    console.log("Form", form);
 
     //Validates if the custom component required fields are selected or not
 
@@ -1355,9 +1356,9 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         return this.showErrorMessage('error', msg, '');
       }
     }
-    else if (this.commonServiceFactory.checkValueType(this.newEnqData.enquiry_date)) {
-      return this.showErrorMessage('error', '', 'Please select enquiry date ');
-    }
+    // else if (this.commonServiceFactory.checkValueType(moment(this.newEnqData.enquiry_date).format("YYYY-MM-DD"))) {
+    //   return this.showErrorMessage('error', '', 'Please select enquiry date ');
+    // }
     else if (this.commonServiceFactory.sourceValueCheck(this.newEnqData.source_id)) {
       return this.showErrorMessage('error', '', 'Please select enquiry source');
     }

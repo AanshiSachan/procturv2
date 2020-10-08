@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 
 export class CommonServiceFactory {
 
-    currency_default_symbol:any='₹​ ';
+    currency_default_symbol: any = '₹​ ';
     show_loader = new BehaviorSubject('hide');
     constructor(private toasterService: ToasterService) { }
 
@@ -175,7 +175,7 @@ export class CommonServiceFactory {
             if (inputtxt.length == maxlength) {
                 return true;
             }
-            else if(inputtxt.length==0){
+            else if (inputtxt.length == 0) {
                 return 'noNumber';
             }
             else {
@@ -183,10 +183,10 @@ export class CommonServiceFactory {
             }
         }
         else {
-            if(inputtxt.length==0){
+            if (inputtxt.length == 0) {
                 return 'noNumber';
             } else {
-            return true;
+                return true;
             }
         }
     }
@@ -204,9 +204,9 @@ export class CommonServiceFactory {
     // Remove Selection From SideNav
 
     removeSelectionFromSideNav() {
-        let array =['lione','litwo','lithree','lifour','lifive','lisix','liseven','lieight','linine','lizero'];
-        array.forEach((object)=>{
-            document.getElementById(object) &&  document.getElementById(object).classList.remove('active');
+        let array = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'lizero'];
+        array.forEach((object) => {
+            document.getElementById(object) && document.getElementById(object).classList.remove('active');
         })
     }
 
@@ -263,42 +263,42 @@ export class CommonServiceFactory {
         return Array.from(data);
     }
 
-/* Converts base64 string into a byte[] */
+    /* Converts base64 string into a byte[] */
     convertBase64ToArray(val) {
         var binary_string = window.atob(val);
         var len = binary_string.length;
         var bytes = new Uint8Array(len);
         for (var i = 0; i < len; i++) {
-          bytes[i] = binary_string.charCodeAt(i);
+            bytes[i] = binary_string.charCodeAt(i);
         }
         return bytes.buffer;
-      }
+    }
 
-       setDefaultCurrencySymbol(symbol){
-           this.currency_default_symbol=symbol;
-       }
+    setDefaultCurrencySymbol(symbol) {
+        this.currency_default_symbol = symbol;
+    }
 
-        // contact no pattern change if mobile no role is not present (for other users) ---> created by anushka
-        contactNoPatternChange(list) {
-            if(sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') { // if user is admin
-            if(sessionStorage.getItem('permissions') != null && sessionStorage.getItem('permissions') != ''){
+    // contact no pattern change if mobile no role is not present (for other users) ---> created by anushka
+    contactNoPatternChange(list) {
+        if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') { // if user is admin
+            if (sessionStorage.getItem('permissions') != null && sessionStorage.getItem('permissions') != '') {
                 var permissions = JSON.parse(sessionStorage.getItem('permissions'));
-                if(!permissions.includes('726')){
-                    list.forEach(el =>{
-                    var countryCode = el.phone.split('-')[0];
-                    var phnNo = el.phone.split('-')[1];
-                    if(phnNo.length > 4){
-                    var result = phnNo.replace(/\d{4}$/, 'XXXX');
-                    }
-                    else {
-                    var result = phnNo.replace(/\d{1}$/, 'X');
-                    }
-                    el.phone = countryCode + '-' + result;
-                })
+                if (!permissions.includes('726')) {
+                    list.forEach(el => {
+                        var countryCode = el.phone.split('-')[0];
+                        var phnNo = el.phone.split('-')[1];
+                        if (phnNo.length > 4) {
+                            var result = phnNo.replace(/\d{4}$/, 'XXXX');
+                        }
+                        else {
+                            var result = phnNo.replace(/\d{1}$/, 'X');
+                        }
+                        el.phone = countryCode + '-' + result;
+                    })
                 }
             }
-            }
         }
+    }
 
 
 }

@@ -27,7 +27,7 @@ declare var $;
 })
 export class AdminHomeComponent implements OnInit {
 
-  @ViewChild('ref',{static: false}) private ref: ElementRef;
+  @ViewChild('ref', { static: false }) private ref: ElementRef;
   permissionArray = sessionStorage.getItem('permissions');
   public order: string[] = ['1', '2', '3', '4', '5'];
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
@@ -1119,7 +1119,7 @@ export class AdminHomeComponent implements OnInit {
     if (e == 'course') {
       // this.isSubjectView = false;
       sessionStorage.setItem('isSubjectView', String('false'));
-      // this.generateCourseLevelWidget();
+      this.generateCourseLevelWidget();
     }
     if (sessionStorage.getItem('isSubjectView') == 'false') {
       this.isSubjectView = false;
@@ -1702,7 +1702,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   addNewNotification() {
-    let sms =   (document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
+    let sms = (document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
     let email = (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked;
     // let sms = document.getElementById('chkbxSmsSend').checked;
     // let email = document.getElementById('chkbxEmailSend').checked;
@@ -1746,7 +1746,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   saveNewMessage() {
-    let sms =   (document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
+    let sms = (document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
     let email = (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked;
     // let sms = document.getElementById('chkbxSmsSend').checked;
     // let email = document.getElementById('chkbxEmailSend').checked;
@@ -1808,7 +1808,7 @@ export class AdminHomeComponent implements OnInit {
       document.getElementById('sendToHead').classList.remove('hide');
     }
     if (document.getElementById('chkbxEmailSend')) {
-    (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked = false;
+      (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked = false;
     }
     if (document.getElementById('sendLoginChkbx')) {
       (document.getElementById("sendLoginChkbx") as HTMLInputElement).checked = false;
@@ -1822,9 +1822,9 @@ export class AdminHomeComponent implements OnInit {
       document.getElementById('divLoginMode').classList.remove('show');
       document.getElementById('divLoginMode').classList.add('hide');
       document.getElementById('liAdd').classList.remove('hide');
-      
+
       (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked = false;
-      
+
       if ((document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked) {
         document.getElementById('divParentOrGaurdian').classList.add('hide');
         document.getElementById('sendToHead').classList.add('hide');
@@ -1840,23 +1840,23 @@ export class AdminHomeComponent implements OnInit {
 
 
   whichCheckBoxSelected() {
-    
+
     if ((document.getElementById("chkBoxActiveSelection") as HTMLInputElement).checked) {
       this.selectedOption = "showTable";
       return;
     } else {
       this.selectedOption = "";
     }
-   
-    if ( (document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked) {
+
+    if ((document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked) {
       this.selectedOption = "showTutor";
       return
     } else {
       this.selectedOption = "";
     }
-    
-   
-    if ((document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked ||  (document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked) {
+
+
+    if ((document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked || (document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked) {
       this.selectedOption = "showTextBox";
       return
     } else {
@@ -1879,10 +1879,10 @@ export class AdminHomeComponent implements OnInit {
 
   onMasterCourseSelection(event) {
     if (this.userType != 3) {
-      
-      
-    
-      
+
+
+
+
       (document.getElementById("chkBoxActiveSelection") as HTMLInputElement).checked = false;
       (document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked = false;
       (document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked = false;
@@ -1900,15 +1900,15 @@ export class AdminHomeComponent implements OnInit {
 
   onCourseSelection(event) {
     if (this.userType != 3) {
-   
+
       (document.getElementById("chkBoxActiveSelection") as HTMLInputElement).checked = false;
-     
+
       (document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked = false;
-      
+
       (document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked = false;
-     
+
       (document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked = false;
-      
+
       (document.getElementById("chkBoxOpenAppSelection") as HTMLInputElement).checked = false;
     }
     this.showTableFlag = false;
@@ -1919,15 +1919,15 @@ export class AdminHomeComponent implements OnInit {
 
   fetchDataOnBatchBasis(event) {
     if (this.userType != 3) {
-      
+
       (document.getElementById("chkBoxActiveSelection") as HTMLInputElement).checked = false;
-     
+
       (document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked = false;
-   
+
       (document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked = false;
-      
+
       (document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked = false;
-      
+
       (document.getElementById("chkBoxOpenAppSelection") as HTMLInputElement).checked = false;
     }
     if (this.sendNotification.batch_id == "-1") {
@@ -1981,16 +1981,16 @@ export class AdminHomeComponent implements OnInit {
   clearCheckBoxSelction(id) {
     this.searchData = "";
     (document.getElementById("chkBoxActiveSelection") as HTMLInputElement).checked = false;
-      (document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked = false;
-      (document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked = false;
-      (document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked = false;
-      (document.getElementById("chkBoxOpenAppSelection") as HTMLInputElement).checked = false;
+    (document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked = false;
+    (document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked = false;
+    (document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked = false;
+    (document.getElementById("chkBoxOpenAppSelection") as HTMLInputElement).checked = false;
     // document.getElementById('chkBoxActiveSelection').checked = false;
     // document.getElementById('chkBoxTutorSelection').checked = false;
     // document.getElementById('chkBoxInActiveSelection').checked = false;
     // document.getElementById('chkBoxAluminiSelection').checked = false;
     // document.getElementById('chkBoxOpenAppSelection').checked = false;
-    
+
     (document.getElementById(id) as HTMLInputElement).checked = true;
     this.openAppUserSelected = false;
     this.whichCheckBoxSelected();
@@ -2007,7 +2007,7 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.getAllActiveStudentList().subscribe(
         res => {
           this.auth.hideLoader();
-          
+
           if ((document.getElementById('chkBoxActiveSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
@@ -2035,8 +2035,8 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.getAllTeacherList().subscribe(
         res => {
           this.auth.hideLoader();
-         
-          if ( (document.getElementById('chkBoxTutorSelection') as HTMLInputElement).checked) {
+
+          if ((document.getElementById('chkBoxTutorSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
@@ -2064,7 +2064,7 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.getAllInActiveList().subscribe(
         res => {
           this.auth.hideLoader();
-          
+
           if ((document.getElementById('chkBoxInActiveSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
@@ -2108,7 +2108,7 @@ export class AdminHomeComponent implements OnInit {
           this.openAppUserSelected = true;
           this.auth.hideLoader();
           let response = res['body'];
-          
+
           if ((document.getElementById('chkBoxOpenAppSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(response.result, true);
@@ -2137,7 +2137,7 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.getAllAluminiList().subscribe(
         res => {
           this.auth.hideLoader();
-          
+
           if ((document.getElementById('chkBoxAluminiSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
@@ -2173,19 +2173,19 @@ export class AdminHomeComponent implements OnInit {
   emailCheckBoxClick(event) {
     if (event.target.checked) {
       this.showEmailSubject = true;
-      
+
       (document.getElementById('chkbxSmsSend') as HTMLInputElement).checked = false; //Added By AKG to check only one checkbox at a time
 
     } else {
       this.showEmailSubject = false;
-  
+
       (document.getElementById('chkbxSmsSend') as HTMLInputElement).checked = true; //Added By AKG to check only one checkbox at a time
     }
   }
   smsCheckBoxClick(event) {
     if (event.target.checked) {
       this.showEmailSubject = false;
-  
+
       (document.getElementById('chkbxEmailSend') as HTMLInputElement).checked = false; //Added By AKG to check only one checkbox at a time
 
     } else {
@@ -2316,8 +2316,8 @@ export class AdminHomeComponent implements OnInit {
   getNotificationMessage() {
     console.log("getNotificationMessage");
     let count = 0;
-   
-    let sms =  (document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
+
+    let sms = (document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
     let email = (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked;
     if (sms === true) {
       for (let t = 0; t < this.messageList.length; t++) {
@@ -2364,8 +2364,8 @@ export class AdminHomeComponent implements OnInit {
   // End
   getDeliveryModeValue() {
     console.log("getDeliveryModeValue");
-    
-    
+
+
     let sms = (document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
     let email = (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked;
     if (sms == true && email == true) {
@@ -2388,10 +2388,10 @@ export class AdminHomeComponent implements OnInit {
 
   getDestinationValue() {
     console.log("getDestinationValue");
-   
-   
-    let student =  (document.getElementById("chkBoxStudent") as HTMLInputElement).checked;
-    let parent =  (document.getElementById("chkBoxParent") as HTMLInputElement).checked;
+
+
+    let student = (document.getElementById("chkBoxStudent") as HTMLInputElement).checked;
+    let parent = (document.getElementById("chkBoxParent") as HTMLInputElement).checked;
     // let gaurdian = document.getElementById('chkBoxGaurdian').checked;
     // if (student == true && parent == false && gaurdian == false) {
     if (student == true && parent == false) {
@@ -2479,7 +2479,7 @@ export class AdminHomeComponent implements OnInit {
       }
     }
     let isAlumini = 0;
-    
+
     if ((document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked) {
       isAlumini = 1;
     }

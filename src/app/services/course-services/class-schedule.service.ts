@@ -1,9 +1,10 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from '../authenticator.service';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
 @Injectable()
 export class ClassScheduleService {
@@ -143,6 +144,7 @@ export class ClassScheduleService {
 
     getAllSubjectlist(data): Observable<any> {
         data.inst_id = this.institute_id;
+        data.requested_date = moment(data.requested_date).format('YYYY-MM-DD');
         let url = this.baseURL + "/api/v1/courseClassSchedule/fetch";
         return this.http.post(url, data, { headers: this.headers }).pipe(map(
             this.successCallback,
@@ -367,25 +369,25 @@ export class ClassScheduleService {
 
     // Course Planner services
 
-    getCoursePlannerData(obj, section){
-      obj.institute_id = this.institute_id;
-      let url = this.baseURL + "/api/v1/coursePlanner/category?type="+section;
-      return this.http.post(url, obj, { headers: this.headers }).pipe(map(
-          res => { return res },
-          err => { return err }
-      ))
+    getCoursePlannerData(obj, section) {
+        obj.institute_id = this.institute_id;
+        let url = this.baseURL + "/api/v1/coursePlanner/category?type=" + section;
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
+            res => { return res },
+            err => { return err }
+        ))
     }
 
-    notifyCancelClass(obj, section){
-      let url = this.baseURL + "/api/v1/coursePlanner/notifyCancelClassOrExam/?type="+section;
-      return this.http.post(url, obj, { headers: this.headers }).pipe(map(
-        res => {
-            return res;
-        },
-        err => {
-            return err;
-        }
-      ))
+    notifyCancelClass(obj, section) {
+        let url = this.baseURL + "/api/v1/coursePlanner/notifyCancelClassOrExam/?type=" + section;
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        ))
     }
 
 

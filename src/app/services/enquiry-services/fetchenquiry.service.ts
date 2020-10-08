@@ -1,5 +1,5 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
@@ -104,15 +104,15 @@ export class FetchenquiryService {
     }
   }
 
-    /* return the template user has to edit */
-    fetchEnquiryStudentData(instituteID,id) {
-      this.urlDownloadTemplate = this.baseUrl + "/api/v1/enquiry/"+instituteID+"/"+id;
+  /* return the template user has to edit */
+  fetchEnquiryStudentData(instituteID, id) {
+    this.urlDownloadTemplate = this.baseUrl + "/api/v1/enquiry/" + instituteID + "/" + id;
 
-      return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).pipe(map(
-        data => { return data },
-        err => { return err; }
-      ));
-    }
+    return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).pipe(map(
+      data => { return data },
+      err => { return err; }
+    ));
+  }
 
   /* return the template user has to edit */
   fetchDownloadTemplate() {
@@ -184,7 +184,8 @@ export class FetchenquiryService {
 
 
   fetchEnquiryWidgetView(obj) {
-
+    obj.updateDateFrom = moment(obj.updateDateFrom).format("YYYY-MM-DD");
+    obj.updateDateTo = moment(obj.updateDateTo).format("YYYY-MM-DD");
     let url = this.baseUrl + "/api/v1/enquiry/dashboard/" + this.institute_id;
     return this.http.post(
       url, obj, { headers: this.headers }
@@ -198,7 +199,7 @@ export class FetchenquiryService {
   // Download Report Summary
 
   getSummaryReportOfThisMonth(reportFor) {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/this_month/NA?download_type="+reportFor;
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/this_month/NA?download_type=" + reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
     ).pipe(map(
@@ -208,7 +209,7 @@ export class FetchenquiryService {
   }
 
   getPreviousMSummary(reportFor) {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/prev_month/NA?download_type="+reportFor;
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/prev_month/NA?download_type=" + reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
     ).pipe(map(
@@ -219,7 +220,7 @@ export class FetchenquiryService {
 
 
   getSummaryReportOfLastTwoMonth(reportFor) {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/last_two_months/NA?download_type="+reportFor;
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/last_two_months/NA?download_type=" + reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
     ).pipe(map(
@@ -229,7 +230,7 @@ export class FetchenquiryService {
   }
 
   getSummaryReportFromDates(obj, reportFor) {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/" + obj.from_date + "/" + obj.to_date+"?download_type="+reportFor;
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/" + obj.from_date + "/" + obj.to_date + "?download_type=" + reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
     ).pipe(map(

@@ -1,12 +1,58 @@
-<!-- <mat-toolbar
-    style="position: fixed;width: 100%;z-index: 567890;margin-left: -197px;margin-top: -53px;background: #2e3345;"
-    class="tool"> -->
-
 <mat-toolbar
     style="position: fixed;margin-left: -197px;;margin-top: -53px;z-index: 9999999999;background: #13558f;width: 100%;height: 7%;"
     class="tool">
 
     <span style="color: white;">{{instituteName}} - {{instituteId}}</span>
+    <a mat-button style="margin-left: 14px;color: white;width: 10%;text-decoration: none;"
+        *ngIf="isMainBranch == 'Y' && checkAdmin" (click)="showSubSection('branches')">Branch<i class="fa fa-angle-down"
+            style="font-size: 18px;padding-left: 4px;" aria-hidden="true"></i>
+    </a>
+
+    <a mat-button style="width: 14%;text-decoration: none;margin-left: -6px;color: white;"
+        (click)="showSubSection('quick')">
+        Quick Add<i class="fa fa-angle-down" style="font-size: 18px;padding-left: 4px;" aria-hidden="true"></i>
+    </a>
+    <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
+        <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
+            <div class="side-section" id="quick" style="left: 288px;">
+                <div class="side-section-item">
+                    <span class="dropSize" routerLink="/view/students/add">
+                        <i class="fa fa-plus" style="font-size: 15px;padding-right: 9px;padding-left: 5px;"
+                            aria-hidden="true"></i>
+                        Add Student
+                    </span>
+                </div>
+                <div class="side-section-item">
+                    <span class="dropSize" style="padding-left: 5px" routerLink="/view/leads/add"><img
+                            src="./assets/images/leads/add-enquiry.svg" alt="add enquiry" class="helpSection">Add
+                        Enquiry </span>
+                </div>
+                <div class="side-section-item" (click)="showExpensesList()">
+                    <i class="fa fa-money" id="videoIcon" style="font-size: 15px;padding-right: 9px;"
+                        aria-hidden="true"></i> <span class="dropSize">Add Expenses</span>
+                </div>
+                <div class="side-section-item" (click)="showExpensesList()">
+                    <i class="fa fa-list-ol" id="videoIcon" style="font-size: 15px;padding-right: 9px;"
+                        aria-hidden="true"></i> <span class="dropSize">TO DO List</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
+        <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
+            <div class="side-section" id="branches" style="    left: 203px;">
+                <div class="setting-item">
+                    <img src="./assets/images/sidebar/branches.svg" title="Branches" alt="">
+                    <div class="side-section" id="branches" style="left: 198px;top: 497px;">
+                        <div class="side-section-item" *ngFor="let data of branchesList">
+                            <span (click)="onSubBranchClick(data)">{{data.institute_name}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- <div class="spacer"></div> -->
     <!-- <div style="float: right;"> -->
     <div class="c-lg-12 sbox">
@@ -22,79 +68,99 @@
     </div>
 
     <div class="spacer"></div>
-    <div style="padding-top: 18px;">
+    <div style="padding-top: 28px;">
         <a mat-button>
             <div class="release-note-container" style="margin-left: 0;">
-                <span data-toggle="modal" data-target="#releaseNote" style="color: white;">New Release</span>
+                <span data-toggle="modal" data-target="#releaseNote" style="color: white;">What's New</span>
             </div>
         </a>
-        <a mat-button> <img src="./assets/images/sidebar/help.svg" title="Help" alt="" (click)="showSubSection('help')">
+        <a mat-button style="margin-left: -15px;"> <img src="./assets/images/sidebar/help.svg" title="Help" alt=""
+                (click)="showSubSection('help')">
         </a>
 
 
+        <a mat-button style="margin-left: -15px;"> <img src="./assets/images/sidebar/setup.svg" title="Setup" alt=""
+                (click)="showSubSection('setup')"></a>
 
-
-        <a mat-button>
-
+        <a mat-button style="margin-left: -15px;"> <img src="./assets/images/sidebar/users.svg" title="Manage Users"
+                alt="" (click)="routerLink('/view/manage','user');activeSession=null"></a>
+        <a mat-button style="margin-left: -15px;">
             <img src="./assets/images/sidebar/settings.svg" title="Settings" alt=""
                 (click)="routerLink('/view/setting','generalSetting');activeSession=null">
-
         </a>
-        <a mat-button><img src="./assets/images/sidebar/my-account.svg" title="My Account" alt=""
-                (click)="showSubSection('account')"></a>
+        <a mat-button style="margin-left: -15px;"><img src="./assets/images/sidebar/my-account.svg" title="My Account"
+                alt="" (click)="showSubSection('account')"></a>
         <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
-                <div class="side-section" id="help">
+                <div class="side-section" id="help" style="right:57px">
                     <div class="side-section-item">
-                        <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')"><img
-                                src="./assets/images/sidebar/sideMenu/proctur.svg" alt="faqs"
-                                class="helpSection">FAQs</span>
-                    </div>
-                    <div class="side-section-item">
-                        <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')"><img
-                                src="./assets/images/sidebar/sideMenu/support.svg" alt="ticket"
-                                class="helpSection">Create
-                            Support
-                            Ticket</span>
-                    </div>
-                    <div class="side-section-item">
-                        <span (click)="openInNewTab('https://anydesk.com/en/downloads/')"><img
+                        <span class="dropSize" (click)="openInNewTab('https://anydesk.com/en/downloads/')"><img
                                 src="./assets/images/sidebar/sideMenu/download.svg" alt="download"
                                 class="helpSection">Download Anydesk</span>
                     </div>
                     <div class="side-section-item">
-                        <span><img src="./assets/images/sidebar/sideMenu/call.svg" alt="phone" class="helpSection">+91
+                        <span class="dropSize"><img src="./assets/images/sidebar/sideMenu/call.svg" alt="phone"
+                                class="helpSection">+91
                             9971839153</span>
                     </div>
                     <div class="side-section-item" (click)="routerLink('/view/training-video' ,'help')">
-                        <span>Training Videos</span>
+                        <i class="fa fa-video-camera" id="videoIcon" style="font-size: 15px;padding-right: 9px;"
+                            aria-hidden="true"></i> <span class="dropSize">Training
+                            Videos</span>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- <a mat-button> -->
+        <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
+            <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
+                <div class="side-section" id="setup" style="right: 6px;top: 55px;">
+                    <div class="side-section-item" *ngIf="hasInventoryAccess()">
+                        <span class="dropSize" (click)="routerLink('/view/inventory','setup')"><img
+                                src="./assets/images/sidebar/inventory.svg" alt="phone" class="helpSection">Manage
+                            Inventory</span>
+                    </div>
+                    <div class="side-section-item">
+                        <span class="dropSize" (click)="routerLink('/view/formField/home','setup')"><img
+                                src="./assets/images/sidebar/custom_form_field.svg" alt="phone"
+                                class="helpSection">Custom
+                            Form Field</span>
+                    </div>
+                    <div class="side-section-item">
+                        <span class="dropSize" (click)="routerLink('/view/master/areaCity','setup')"><img
+                                src="./assets/images/sidebar/city_area_map.svg" alt="phone" class="helpSection">City
+                            Area
+                            Map</span>
+                    </div>
+                    <div class="side-section-item" *ngIf="jsonFlags.isShowLibrabry">
+                        <span class="dropSize" (click)="routerLink('/view/library/master','setup')"><img
+                                src="./assets/images/sidebar/master_data.svg" alt="phone"
+                                class="helpSection">Library</span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
                 <div class="side-section" id="account">
                     <div class="side-section-item" *ngIf="hideForUsers()">
-                        <span (click)="routerLink('/view/account','account')"><img
+                        <span class="dropSize" (click)="routerLink('/view/account','account')"><img
                                 src="./assets/images/sidebar/sideMenu/account.svg" alt="icon" class="helpSection">My
                             Account</span>
                     </div>
                     <div class="side-section-item">
-                        <span (click)="changePasswordClick()"><img src="./assets/images/sidebar/change_password.svg"
-                                alt="phone" class="helpSection">Change Password</span>
+                        <span class="dropSize" (click)="changePasswordClick()"><img
+                                src="./assets/images/sidebar/change_password.svg" alt="phone" class="helpSection">Change
+                            Password</span>
                     </div>
                     <div class="side-section-item">
-                        <span (click)="openInNewTab('https://bit.ly/3c1ig58')"><img
+                        <span class="dropSize" (click)="openInNewTab('https://bit.ly/3c1ig58')"><img
                                 src="./assets/images/sidebar/sideMenu/android.svg" alt="icon"
                                 class="helpSection">Download
                             Admin App</span>
                     </div>
                     <div class="side-section-item">
-                        <span (click)="logout()"><img src="./assets/images/sidebar/sideMenu/logout.svg" alt="icon"
-                                class="helpSection">Logout</span>
+                        <span class="dropSize" (click)="logout()"><img src="./assets/images/sidebar/sideMenu/logout.svg"
+                                alt="icon" class="helpSection">Logout</span>
                     </div>
                 </div>
             </div>
@@ -120,7 +186,8 @@
                 <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput [ngClass]="{'has-focus': isResultDisplayed}" (focus)="triggerSearchBox($event)" autocomplete="off" placeholder="Search here..." class="search-input searchbox form-ctrl-head search-item searchBox">
             </form>
             <i class="fa fa-search search-icon" aria-hidden="true"></i> -->
-            <section class="search-dropdown search-item" #seachResult style="margin-left: 13%;margin-top: 2%;">
+            <section class="search-dropdown search-item" #seachResult
+                style="margin-left: 20%;margin-top: 2%;width: 42%;">
                 <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat"
                     [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)"
                     (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)"
@@ -544,17 +611,17 @@
     </span> -->
     </div>
     <div class="release-note-container"
-        [ngStyle]="{'margin-top':activeSession === 'litone' || activeSession === 'lithree' || activeSession === 'lifour' || activeSession === 'lisix'  || activeSession === 'lieight' || activeSession === 'liten' ? '40%' : '57%' }">
+        [ngStyle]="{'margin-top':activeSession === 'litone' || activeSession === 'lithree' || activeSession === 'lifour' || activeSession === 'lisix'  || activeSession === 'lieight' || activeSession === 'liten' ? '40%' : '117%' }">
         <!-- <span data-toggle="modal" data-target="#releaseNote">New Release</span> -->
     </div>
     <div *ngIf="privacy" class="release-note-container" style="margin-top: 5%;">
-        <span data-toggle="modal" style="background: #0084f6;border: 1px solid #0084f6;"
-            data-target="#privacy">DLT</span>
+        <!-- <span data-toggle="modal" style="background: #0084f6;border: 1px solid #0084f6;"
+            data-target="#privacy">DLT</span> -->
         <!-- <span class="badge">v3.0</span> -->
     </div>
     <div style="bottom: 15%;position: initial;margin-left: 44%;height: 26px;    margin-top: -21px;
     margin-bottom: 23px;">
-        <span class="badge">v3.0</span>
+        <!-- <span class="badge">v3.0</span> -->
     </div>
     <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="margin-left: 8%;">
         <div class="setting-item" *ngIf="jsonFlags.isShowPowerBy">
@@ -585,13 +652,13 @@
                 </div>
             </div>
         </div>
-        <div class="setting-item" #divSettingTag id="divSettingTag">
+        <!-- <div class="setting-item" #divSettingTag id="divSettingTag">
             <img src="./assets/images/sidebar/settings.svg" title="Settings" alt=""
                 (click)="routerLink('/view/setting','generalSetting');activeSession=null">
             <div class="side-section" id="generalSetting">
             </div>
-        </div>
-        <div class="setting-item" #divMasterTag id="divMasterTag">
+        </div> -->
+        <!-- <div class="setting-item" #divMasterTag id="divMasterTag">
             <img src="./assets/images/sidebar/setup.svg" title="Setup" alt="" (click)="showSubSection('setup')">
             <div class="side-section" id="setup" style="left: 198px;top: 497px;">
                 <div class="side-section-item" *ngIf="hasInventoryAccess()">
@@ -614,8 +681,8 @@
                             src="./assets/images/sidebar/master_data.svg" alt="phone" class="helpSection">Library</span>
                 </div>
             </div>
-        </div>
-        <div class="setting-item" (click)="showSubSection('branches')" *ngIf="isMainBranch == 'Y' && checkAdmin">
+        </div> -->
+        <!-- <div class="setting-item" (click)="showSubSection('branches')" *ngIf="isMainBranch == 'Y' && checkAdmin">
             <img src="./assets/images/sidebar/branches.svg" title="Branches" alt="">
             <div class="side-section" id="branches" style="left: 198px;top: 497px;">
                 <div class="side-section-item" *ngFor="let data of branchesList">
@@ -626,14 +693,14 @@
         <div class="setting-item" (click)="showSubMenu('branches')" *ngIf="(showMainBranchBackBtn)">
             <img src="./assets/images/sidebar/branches.svg" title="Back To Main Branch" alt=""
                 (click)="loginToMainBranch()">
-        </div>
-        <div class="setting-item" #divManageUsers id="divManageUsers">
+        </div> -->
+        <!-- <div class="setting-item" #divManageUsers id="divManageUsers">
             <img src="./assets/images/sidebar/users.svg" title="Manage Users" alt=""
                 (click)="routerLink('/view/manage','user');activeSession=null">
             <div class="side-section" id="user">
             </div>
-        </div>
-        <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
+        </div> -->
+        <!-- <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
             <img src="./assets/images/sidebar/my-account.svg" title="My Account" alt=""
                 (click)="showSubSection('account')">
             <div class="side-section" id="account">
@@ -656,11 +723,12 @@
                             class="helpSection">Logout</span>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="proctur-info" style="    margin-right: 15%;">
-        <a href="https://www.proctur.com/" target="_blank"> <span>Powered by Proctur</span> </a>
+        <a href="https://www.proctur.com/" target="_blank"><img src="./assets/images/sidebar/sideMenu/logo.png"
+                alt="faqs" class="helpSection" style="height: 17px;width: 17px;"> <span>Powered by Proctur</span> </a>
     </div>
 
 </section>
