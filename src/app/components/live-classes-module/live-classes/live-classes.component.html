@@ -252,7 +252,7 @@
                       (click)="viewAttandance(class.session_id)">View Attendance</span>
                     <span class="dropdown-item"
                       *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'"
-                      data-toggle="modal" data-target="#uploadRec"
+                      data-toggle="modal" data-target="#uploadRec" data-backdrop="static"
                       (click)="upload(class.session_id, class.live_meeting_with)">Upload Recording&nbsp;
                     </span>
                     <span class="dropdown-item">
@@ -271,9 +271,9 @@
                         </div>
                       </div>
                     </span>
-                    <span class="dropdown-item"
+                    <span class="dropdown-item" (click)="viewdownload_links(class)"
                       *ngIf="proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0">
-                      <button style="background: none;" title="download/view" (click)="viewdownload_links(class)"
+                      <button style="background: none;" title="download/view"
                         [ngClass]="{'disabledButton': class.download_links?.length==0}">
                         View Recording
                       </button>
@@ -396,7 +396,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="close" (click)="closeUploadModal()">&times;</button>
         <h4 class="modal-title">Upload Recording</h4>
       </div>
       <div class="modal-body">
@@ -515,9 +515,9 @@
               <span *ngIf="data.video_duration==null">-</span>
             </div>
             <div class="value-item" style="width: 20%; display: flex; justify-content: space-around;">
-              <div *ngIf="(proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3) && (data.vimeo_video_url=='' || data.vimeo_video_url== null)">
+              <div *ngIf="((proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3) && (data.vimeo_video_url=='' || data.vimeo_video_url== null)) || ((data.vimeo_video_url!='' || data.vimeo_video_url!= null) && vimeo_video_downlodable)">
                 <button class="fa fa-download" style="font-size: 14px; color: #0084f6;background: none;"
-                  title="Download" (click)="downloadFile(data);" id="downloadFile"
+                  title="Download" (click)="downloadFileCheck(data);" id="downloadFile"
                   [disabled]="data.download_id==null || auth.isRippleLoad.getValue()"
                   [ngClass]="{'disabledButton': data.download_id==null || auth.isRippleLoad.getValue()}"></button>
                 <a id="downloadFileClick" [href]="fileUrl" class="hide"></a>
@@ -535,11 +535,11 @@
               </div>
               <div (click)="playVimeoVideo(data)"
                 *ngIf="(JsonVars.view_proctur_live_recorded_session==4 || JsonVars.view_proctur_live_recorded_session==5 || JsonVars.view_proctur_live_recorded_session==6 || JsonVars.view_proctur_live_recorded_session==7)">
-                <button class="fa fa-play" style="font-size: 15px; color: #0084f6; background: none;" title="Play"
+                <button class="fa fa-play" style="font-size: 15px; color: #0084f6; background: none;" title="{{data.video_status!='ready' ? 'Video is in processing state. Kindly wait for an hour.' : 'Play'}}"
                   [disabled]="(data.video_status!='ready' || data.vimeo_video_url == '' || data.vimeo_video_url == null)" [ngStyle]="{'opacity':(data.video_status!='ready' || data.vimeo_video_url=='' || data.vimeo_video_url== null) ? '0.5' : '1' }">
                 </button>
               </div>
-              <div (click)="deleteRecording(data.id)">
+              <div (click)="deleteRecording(data.id, false)">
                 <button class="fa fa-trash" style="font-size: 15px; color: red; background: none;"
                   title="Delete recoding">
                 </button>
@@ -656,3 +656,60 @@
 </div>
 
 <div class="black-bg" id="black-bg" *ngIf="videoplayer" (click)="this.videoplayer = false"></div>
+
+<!-- Download option pop up 
+  Developed by Nalini-->
+<div id="downloadOption" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Please select the size for downloading</h4>
+      </div>
+      <div class="modal-body">
+        <section>
+          <div class="table-container">
+            <div class="heading-container">
+              <div class="heading-item" style="text-align: left;width: 10%;">
+                <span></span>
+              </div>
+              <div class="heading-item" style="width: 45%;text-align: left;">
+                <span>Dimension (Width x Height)</span>
+              </div>
+              <!-- <div class="heading-item" style="width: 30%;">
+                <span>Height</span>
+              </div> -->
+              <div class="heading-item" style="width: 45%;">
+                <span>Size</span>
+              </div>
+            </div>
+            <div class="value-outer-container">
+              <div class="value-container" *ngFor="let data of vimeoDownloadLinks; let i = index;">
+                <div class="value-item" style="text-align: left;width: 10%;">
+                  <div class="field-radio-wrapper" style="width: 25%;">
+                    <input type="radio" [value]="i" [id]="'bothRadio-'+i" class="form-radio" [(ngModel)]="data.selected"
+                    (ngModelChange)="changeSelectedSize(data)" name="select" id="select">
+                      <label></label>
+                  </div>
+                </div>
+                <div class="value-item" style="text-align: left;width: 45%;">
+                  <span title="{{data.width}}">{{data.width}} x {{data.height}}</span>
+                </div>
+                <!-- <div class="value-item" style="width: 30%;">
+                  <span title="{{data.height}}">{{data.height}}</span>
+                </div> -->
+                <div class="value-item" style="width: 45%;">
+                  <span title="{{data.size_short}}">{{data.size_short}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" (click)="downloadVimeoVdo()">Download</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -365,14 +365,28 @@ export class InstituteSettingsComponent implements OnInit {
     notification_for_studymaterial_upload: '',
     enable_student_app_offline_video_download: '',
     enable_assign_to_feature: '',
-    feedback_email_ids: ''
+    feedback_email_ids: '',
+    vimeo_storage_capacity_threshold: '',
+    vimeo_video_download_visibility_filemanager: {
+      student: '',
+      teacher: '',
+      admin: '',
+      openApp: ''
+    },
+    vimeo_video_download_visibility_studymaterial: {
+      student: '',
+      teacher: '',
+      admin: '',
+      openApp: ''
+    }
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
   instituteName: any = '';
   biometricSetting: number = 0;
-  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport', 'liAccess', 'lieStore', 'liLive'];
-  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent', 'divAccessControl', 'divLiveClassContent', 'diveStoreContent'];
+  vimeo_account_plan: any = false;
+  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport', 'liAccess', 'lieStore', 'liLive', 'liVdo'];
+  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent', 'divAccessControl', 'divLiveClassContent', 'diveStoreContent', 'divVdoContent'];
 
   IPJson: any = {
     'institute_id': sessionStorage.getItem('institute_id'),
@@ -720,6 +734,9 @@ export class InstituteSettingsComponent implements OnInit {
     obj.notification_for_studymaterial_upload = this.convertBoolenToNumber(this.instituteSettingDet.notification_for_studymaterial_upload);
     obj.enable_student_app_offline_video_download = this.convertBoolenToNumber(this.instituteSettingDet.enable_student_app_offline_video_download);
     obj.vdocipher_video_ready_sms_to_admin = this.convertBoolenToNumber(this.instituteSettingDet.vdocipher_video_ready_sms_to_admin);
+    obj.vimeo_video_download_visibility_filemanager = this.getSumOfTableField(this.instituteSettingDet.vimeo_video_download_visibility_filemanager);
+    obj.vimeo_video_download_visibility_studymaterial = this.getSumOfTableField(this.instituteSettingDet.vimeo_video_download_visibility_studymaterial);
+    obj.vimeo_storage_capacity_threshold = this.instituteSettingDet.vimeo_storage_capacity_threshold;
     if (this.checkPhoneValidation(this.instituteSettingDet.new_student_addmission_sms_notification) == false) {
       this.commonService.showErrorMessage('error', '', 'Please enter valid contact number.');
     } else {
@@ -958,6 +975,13 @@ export class InstituteSettingsComponent implements OnInit {
     if (this.instituteSettingDet.virtual_host_url == '' && this.instituteSettingDet.enable_send__website_url_in_student_credentail == 1) {
       this.instituteSettingDet.virtual_host_url = 'web.proctur.com';
     }
+    // Developed by Nalini to add vimeo setting keys
+    if(data.vimeo_account_plan == 'Pro' || data.vimeo_account_plan == 'Business' || data.vimeo_account_plan == 'Premium') {
+      this.vimeo_account_plan = true;
+    }
+    this.fillTableCheckboxValue(this.instituteSettingDet.vimeo_video_download_visibility_filemanager, data.vimeo_video_download_visibility_filemanager);
+    this.fillTableCheckboxValue(this.instituteSettingDet.vimeo_video_download_visibility_studymaterial, data.vimeo_video_download_visibility_studymaterial);
+    this.instituteSettingDet.vimeo_storage_capacity_threshold = data.vimeo_storage_capacity_threshold;
   }
 
 
@@ -1022,6 +1046,8 @@ export class InstituteSettingsComponent implements OnInit {
         total = total + 8;
       } else if (Object.keys(data)[i] == 'admin' && data.admin == true) {
         total = total + 16;
+      } else if (Object.keys(data)[i] == 'openApp' && data.admin == true) {
+        total = total + 64;
       }
     }
     return total;
@@ -1138,6 +1164,14 @@ export class InstituteSettingsComponent implements OnInit {
             dataJSON.gaurdian = true;
           } else {
             dataJSON.gaurdian = false;
+          }
+        }
+
+        if (dataJSON.hasOwnProperty('openApp')) {
+          if (binaryArray[5] == 1) {
+            dataJSON.openApp = true;
+          } else {
+            dataJSON.openApp = false;
           }
         }
 

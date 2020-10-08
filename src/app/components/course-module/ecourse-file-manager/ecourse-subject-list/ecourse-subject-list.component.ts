@@ -6,6 +6,7 @@ import { MessageShowService } from '../../../../services/message-show.service';
 import { UploadFileComponent } from '../core/upload-file/upload-file.component';
 import { Create_Topic } from '../../create-course/topic/topic.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ProductService } from '../../../../services/products.service';
 declare var window, $;
 @Component({
   selector: 'app-ecourse-subject-list',
@@ -42,7 +43,10 @@ export class EcourseSubjectListComponent implements OnInit {
   Confirm_deleteFile: any = false;
   selectedRowCount: any = 0;
   viewUserList: boolean = false;
-  video_watch_history_det = []
+  video_watch_history_det = [];
+  vimeo_video_downlodable: any = false;
+  vimeoDownloadLinks: any = [];
+  selectedDownloadSize: any = {};
 
   constructor(
     private _http: HttpService,
@@ -50,7 +54,8 @@ export class EcourseSubjectListComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private msgService: MessageShowService,
-    public sanitizer:DomSanitizer
+    public sanitizer:DomSanitizer,
+    private productService: ProductService
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -249,6 +254,7 @@ export class EcourseSubjectListComponent implements OnInit {
           }
 
         });
+        this.vimeo_video_downlodable = this.subjectList[0].vimeo_video_downlodable;
 
       }
       this.subjectList = array;
@@ -660,5 +666,35 @@ export class EcourseSubjectListComponent implements OnInit {
         this.auth.hideLoader();
       }
     );
+  }
+
+  // Developed by Nalini
+  // To download vimeo file
+  getVimeoDownloadData(obj) {
+    this.auth.showLoader();
+    this.productService.getMethod('vimeo/download-links/' + obj.videoID, null).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.vimeoDownloadLinks = res.result;
+        if(this.vimeoDownloadLinks && this.vimeoDownloadLinks.length) {
+          $('#downloadOption').modal('show');
+        } else {
+          this.msgService.showErrorMessage('error','','No download links found')
+        }
+      },
+      err => {
+        this.auth.hideLoader();
+        console.log(err);
+      }
+    )
+  }
+
+  changeSelectedSize(obj) {
+    this.selectedDownloadSize = obj;
+  }
+
+  downloadVimeoVdo() {
+    window.open(this.selectedDownloadSize.link, "_blank");
+    $('#downloadOption').modal('hide');
   }
 }

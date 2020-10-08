@@ -70,6 +70,14 @@
           </span>
         </li>
         <!--  End -->
+        <!-- Added By Nalini -->
+        <li id="liVdo" class="menu-item" style="cursor: pointer" *ngIf="vimeo_account_plan" (click)="changeView('liVdo','divVdoContent')">
+          <span>
+            <a class="">Vimeo/ Video Setting</a>
+            <i class="fas fa-line-chart" style="font-family: FontAwesome"></i>
+          </span>
+        </li>
+        <!--  End -->
         <li id="liMisc" class="menu-item" style="cursor: pointer" (click)="changeView('liMisc','divMiscContent')">
           <span>
             <a class="">Miscellaneous</a>
@@ -3190,6 +3198,115 @@
                       </div>
                     </div>
                   </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+<!-- End -->
+
+<!-- Added by Nalini -->
+<section id="divVdoContent" class="fee-content-wrapper sectionDevideContainer" *ngIf="vimeo_account_plan">
+  <div class="row m-0">
+    <div class="fee-table-wrapper">
+      <div class="table-scroll-wrapper">
+        <div class="table table-responsive">
+          <table>
+            <tbody>
+              <tr style="height: 45px; background-color: #efefef">
+                <td class="tableHeader" colspan="6">
+                  VIMEO/ VIDEO SETTING
+                </td>
+              </tr>
+              <tr>
+                <td>
+
+                  <div class="row webkitBox">
+                    <div class="c-sm-4 c-md-4 c-lg-4">Video download visibility (File Manager)
+                      <label for="vimeo_video_download_visibility_filemanager" style="font-size: 14px;padding-left: 5px;">
+                      </label>
+                    </div>
+                    <div class="c-sm-8 c-md-8 c-lg-8">
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_filemanager.student != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_filemanager.student" 
+                          name="filemanager_student" id="filemanager_student">
+                          <label for="filemanager_student" style="transform: none;">Student</label>
+                    </div>
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_filemanager.teacher != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_filemanager.teacher" 
+                          name="filemanager_teacher" id="filemanager_teacher">
+                          <label for="filemanager_teacher"style="transform: none;">Faculty</label>
+                    </div>
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_filemanager.admin != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_filemanager.admin" 
+                          name="filemanager_admin" id="filemanager_admin">
+                          <label for="filemanager_admin" style="transform: none;">Admin</label>
+                    </div>
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_filemanager.openApp != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_filemanager.openApp" 
+                          name="filemanager_openApp" id="filemanager_openApp">
+                          <label for="filemanager_openApp" style="transform: none;">Open App</label>
+                    </div>
+                  </div>
+                 </div>
+
+                  <div class="row webkitBox">
+                    <div class="c-sm-4 c-md-4 c-lg-4">Video download visibility (Study Material)
+                      <label for="vimeo_video_download_visibility_studymaterial" style="font-size: 14px;padding-left: 5px;">
+                      </label>
+                    </div>
+                    <div class="c-sm-8 c-md-8 c-lg-8">
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_studymaterial.student != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_studymaterial.student" 
+                          name="study_student" id="study_student">
+                          <label for="study_student" style="transform: none;">Student</label>
+                    </div>
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_studymaterial.teacher != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_studymaterial.teacher" 
+                          name="study_teacehr" id="study_teacehr">
+                          <label for="study_teacehr" style="transform: none;">Faculty</label>
+                    </div>
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_studymaterial.admin != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_studymaterial.admin" 
+                          name="study_admin" id="study_admin">
+                          <label for="study_admin" style="transform: none;">Admin</label>
+                    </div>
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_studymaterial.openApp != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_studymaterial.openApp" 
+                          name="study_openApp" id="study_openApp">
+                          <label for="study_openApp" style="transform: none;">Open App</label>
+                    </div>
+                  </div>
+                 </div>
+
+               <div class="row webkitBox">
+                <div class="c-sm-4 c-md-4 c-lg-4" style="text-align: left;">
+                  <div class="field-wrapper" style="padding-top: 0;">
+                    <label style="font-size: 14px;" for="storge_thr">Storage capacity threshold alert
+                      <div class="questionInfo inline-relative pointOfComtact">
+                        <span class="qInfoIcon i-class">i</span>
+                        <div class="tooltip-box-field">
+                          Set limits (in percentage) for 
+                          <br>storage utilization to receive
+                          <br> the alerts in SMS
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top: 10px;">
+                  <input type="range" min="1" max="100" id="storge_thr" [(ngModel)]="instituteSettingDet.vimeo_storage_capacity_threshold" />
+                </div>
+                <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 10px;">
+                  {{instituteSettingDet.vimeo_storage_capacity_threshold}} %
+                </div>
+                </div>
                 </td>
               </tr>
             </tbody>
