@@ -228,12 +228,12 @@
                     style="padding-left: 5px">Online Assignment</span>
             </span>
             <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowClassPlanner" routerLink="/view/batch/coursePlanner/class">
+                *ngIf="jsonCourseFlags.isShowClassPlanner" routerLink="/view/course/coursePlanner/class">
                 <img src="./assets/images/course/class-planner.svg" alt="class planner"><span
                     class="sideBar_centerAlign1" style="padding-left: 5px">Class Planner</span>
             </span>
             <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowClassPlanner" routerLink="/view/batch/coursePlanner/exam">
+                *ngIf="jsonCourseFlags.isShowClassPlanner" routerLink="/view/course/coursePlanner/exam">
                 <img src="./assets/images/course/exam-planner.svg" alt="exam planner"><span class="sideBar_centerAlign1"
                     style="padding-left: 5px">Exam Planner</span>
             </span>
@@ -290,12 +290,12 @@
                     style="padding-left: 5px">Online Assignment</span>
             </span>
             <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowClassPlanner" routerLink="/view/batch/batchPlanner/class">
+                *ngIf="jsonCourseFlags.isShowClassPlanner" routerLink="/view/batch/coursePlanner/class">
                 <img src="./assets/images/course/class-planner.svg" alt="class planner"><span
                     class="sideBar_centerAlign1" style="padding-left: 5px">Class Planner</span>
             </span>
             <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowClassPlanner" routerLink="/view/batch/batchPlanner/exam">
+                *ngIf="jsonCourseFlags.isShowClassPlanner" routerLink="/view/batch/coursePlanner/exam">
                 <img src="./assets/images/course/exam-planner.svg" alt="exam planner"><span class="sideBar_centerAlign1"
                     style="padding-left: 5px">Exam Planner</span>
             </span>
@@ -320,7 +320,7 @@
                     style="padding-left: 5px">eCourse Mapping</span>
             </span>
             <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowArchiving" routerLink=" /view/batch/archiving">
+                *ngIf="jsonCourseFlags.isShowArchiving" routerLink="/view/batch/archiving">
                 <img src="./assets/images/activity/archive.svg" alt="archiving"><span class="sideBar_centerAlign1"
                     style="padding-left: 5px">Data Archiving</span>
             </span>

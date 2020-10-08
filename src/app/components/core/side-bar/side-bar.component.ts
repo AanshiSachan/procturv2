@@ -941,12 +941,14 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   showHelpMenu() {
     this.helpMenu = (!this.helpMenu);
     this.sideBar = false;
+    this.removeClass();
     this.searchBar = false;
   }
 
   showMenu() {
     this.sideBar = true;
     this.helpMenu = false;
+    this.removeClass();
     this.searchBar = false;
     let totalExternalClasses = document.getElementsByClassName("external-menu").length;
     let externalMenu = document.getElementsByClassName("external-menu") as HTMLCollectionOf<HTMLElement>;
@@ -957,6 +959,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   closeMenu() {
     this.sideBar = false;
+    this.removeClass();
     this.searchBar = false;
     this.helpMenu = false;
     if (document.getElementById('blurBg')) {
@@ -996,6 +999,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   changePasswordClick() {
     this.changePassword.emit('true');
+    this.removeClass();
     this.searchBar = false;
     this.sideBar = false;
     let totalExternalClasses = document.getElementsByClassName("external-menu").length;
@@ -1238,9 +1242,15 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   }
 
   closeSearchBar() {
+    this.removeClass();
     this.searchBar = false;
-  }
 
+
+  }
+  removeClass() {
+    document.getElementById('searchIcon').classList.remove('afterSearchIcon');
+    document.getElementById('searchIcon').classList.add('beforeSearchIcon');
+  }
   triggerSearchBox($event) {
 
     this.showSearchBar();
@@ -1312,12 +1322,14 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   selectedStudent(s) {
     this.closeSearch(false);
     this.router.navigate(['/view/students'], { queryParams: { id: s.id } });
+    this.removeClass();
     this.searchBar = false;
   }
 
   selectedEnquiry(e) {
     this.closeSearch(false);
     this.router.navigate(['/view/leads'], { queryParams: { id: e.id } });
+    this.removeClass();
     this.searchBar = false;
   }
 
@@ -1332,6 +1344,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
     this.closeSearch(false)
     this.searchViewMore.emit(obj);
+    this.removeClass();
     this.searchBar = false;
   }
 
@@ -1339,15 +1352,18 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.closeSearch(false);
     if (d.data.source == "Student") {
       this.router.navigate(['/view/students'], { queryParams: { id: d.data.id, action: d.action } });
+      this.removeClass();
       this.searchBar = false;
     }
     else if (d.data.source == "Enquiry") {
       if (d.action == "enquiryUpdate") {
         this.enquiryUpdateAction.emit(d);
+        this.removeClass();
         this.searchBar = false;
       }
       else
         this.router.navigate(['/view/leads/enquiry/edit/' + d.data.id]); {
+        this.removeClass();
         // this.router.navigate(['/view/leads'], { queryParams: { id: d.data.id, action: d.action } });
         this.searchBar = false;
       }
