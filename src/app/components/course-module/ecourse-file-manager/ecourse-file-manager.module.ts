@@ -10,6 +10,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileService } from './file.service';
+import { ProductService } from '../../../services/products.service';
 
 
 
@@ -29,7 +30,8 @@ import { FileService } from './file.service';
     EcourseSubjectListComponent,
   ],
   providers: [
-    FileService
+    FileService,
+    ProductService
   ]
 })
 export class EcourseFileManagerModule { }
