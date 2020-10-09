@@ -32,6 +32,9 @@ export class AdminHomeComponent implements OnInit {
   public order: string[] = ['1', '2', '3', '4', '5'];
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   minArr: any[] = ['', '00', '15', '30', '45'];
+  blockClientPopUpFlag: boolean = false;
+  amount: any;
+  due_date: any;
   public enquiryDate: any[] = [];
   public studentAttList: any = [];
   public schedDate: any[] = [];
@@ -205,7 +208,15 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
-
+    //For restricting the client if payment is due.
+    // Added By : Ashwini Kumar Gupta
+    if (sessionStorage.getItem('login_option') == '12') {
+      this.blockClientPopUpFlag = true;
+      this.amount = sessionStorage.getItem('payment_amount');
+      let date = sessionStorage.getItem('payment_due_date');
+      this.due_date = moment(date).format('DD/MMM/YYYY');
+    }
+    // End
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
