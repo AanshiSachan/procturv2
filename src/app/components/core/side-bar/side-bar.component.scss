@@ -506,8 +506,7 @@ sup {
     a,
     span {
         // font-size: 22px;
-        font-size: initial;
-        color: black;
+        font-size: 14px;
     }
     
     input {
@@ -559,3 +558,19 @@ input{
     color: white;
     opacity: 1; /* Firefox */
   }
+  .mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button{
+    min-width: 52px ;
+        padding: 0;
+    }
+
+
+    a:focus{
+        outline: none;
+        outline-offset: none;
+    }
+    a:hover{
+        border-radius: 75%;
+    }
+.hoverColor:hover{
+    opacity: 1;
+}

@@ -3,12 +3,14 @@
     class="tool">
 
     <span style="color: white;">{{instituteName}} - {{instituteId}}</span>
-    <a mat-button style="margin-left: 14px;color: white;width: 10%;text-decoration: none;"
+    <a mat-button class="hoverColor"
+        style="margin-left: 14px;color: white;width: 10%;text-decoration: none;border-radius: 4px;"
         *ngIf="isMainBranch == 'Y' && checkAdmin" (click)="showSubSection('branches')">Branch<i class="fa fa-angle-down"
             style="font-size: 18px;padding-left: 4px;" aria-hidden="true"></i>
     </a>
 
-    <a mat-button style="width: 14%;text-decoration: none;margin-left: -6px;color: white;"
+    <a mat-button class="hoverColor"
+        style="width: 14%;text-decoration: none;margin-left: -6px;color: white;border-radius: 4px;"
         (click)="showSubSection('quick')">
         Quick Add<i class="fa fa-angle-down" style="font-size: 18px;padding-left: 4px;" aria-hidden="true"></i>
     </a>
@@ -31,7 +33,7 @@
                     <i class="fa fa-money" id="videoIcon" style="font-size: 15px;padding-right: 9px;"
                         aria-hidden="true"></i> <span class="dropSize">Add Expenses</span>
                 </div>
-                <div class="side-section-item" (click)="showExpensesList()">
+                <div class="side-section-item" (click)="showToDoList()">
                     <i class="fa fa-list-ol" id="videoIcon" style="font-size: 15px;padding-right: 9px;"
                         aria-hidden="true"></i> <span class="dropSize">TO DO List</span>
                 </div>
@@ -39,6 +41,16 @@
         </div>
     </div>
 
+
+
+    <div class="toDoList-container" id="toDoList-container" *ngIf="showToDo">
+        <app-to-do-list (loaderOn)="onOfLoaderFromTodoList($event)"></app-to-do-list>
+    </div>
+
+    <div class="expenses-container" id="expenses-container" *ngIf="showExpenses">
+        <button type="button" name="button" class="close_button" (click)="closeShowList()">X</button>
+        <app-manage-expenses></app-manage-expenses>
+    </div>
     <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
         <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
             <div class="side-section" id="branches" style="    left: 203px;">
@@ -74,8 +86,7 @@
                 <span data-toggle="modal" data-target="#releaseNote" style="color: white;">What's New</span>
             </div>
         </a>
-        <a mat-button style="margin-left: -15px;"> <img src="./assets/images/sidebar/help.svg" title="Help" alt=""
-                (click)="showSubSection('help')">
+        <a mat-button> <img src="./assets/images/sidebar/help.svg" title="Help" alt="" (click)="showSubSection('help')">
         </a>
 
 
@@ -202,6 +213,7 @@
             <span class="sideBar_centerAlign" style="padding-left: 5px">Home </span>
 
         </span>
+
         <span [ngClass]="activeSession === 'lione' ? 'active activeClass' : 'NavLink'" routerLink="/view/leads"
             id="lione" (click)="toggler('lione')" *ngIf="jsonFlags.isShowLead">
             <img src="./assets/images/sidebar/lead.svg" alt="" class="sideBar_centerAlign">
@@ -251,7 +263,18 @@
         <span [ngClass]="activeSession === 'litwo' ? 'active activeClass' : 'NavLink'" routerLink="/view/students"
             id="litwo" (click)="toggler('litwo')" *ngIf="jsonFlags.isShowStudent">
             <img src="./assets/images/sidebar/student.svg" alt="" class="sideBar_centerAlign">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Student</span>
+            <span class="sideBar_centerAlign" *ngIf="showDrop == 'studenthide'" style="padding-left: 5px"
+                (click)="show('student')">Student</span>
+            <span class="sideBar_centerAlign" *ngIf="showDrop == 'student'" style="padding-left: 5px"
+                (click)="hide('student')">Student</span>
+            <i class="fa fa-chevron-down" *ngIf="showDrop == 'student'" aria-hidden="true"
+                style="float: right;padding-top: 14px;font-size: 12px;"></i>
+            <i class="fa fa-chevron-left" *ngIf="showDrop == 'studenthide'" aria-hidden="true"
+                style="float: right;padding-top: 14px;font-size: 12px;"></i>
+        </span>
+        <span routerLink="/view/students/add" class="NavLink" id="litwo" *ngIf="showDrop == 'student'">
+            <img src="./assets/images/sidebar/student.svg" alt="" class="sideBar_centerAlign">
+            <span class="sideBar_centerAlign" style="padding-left: 5px">Add Student</span>
 
         </span>
 
@@ -624,7 +647,7 @@
         <!-- <span class="badge">v3.0</span> -->
     </div>
     <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="margin-left: 8%;">
-        <div class="setting-item" *ngIf="jsonFlags.isShowPowerBy">
+        <!-- <div class="setting-item" *ngIf="jsonFlags.isShowPowerBy">
             <img src="./assets/images/sidebar/help.svg" title="Help" alt="" (click)="showSubSection('help')">
             <div class="side-section" id="help">
                 <div class="side-section-item">
@@ -651,7 +674,7 @@
                     <span>Training Videos</span>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- <div class="setting-item" #divSettingTag id="divSettingTag">
             <img src="./assets/images/sidebar/settings.svg" title="Settings" alt=""
                 (click)="routerLink('/view/setting','generalSetting');activeSession=null">

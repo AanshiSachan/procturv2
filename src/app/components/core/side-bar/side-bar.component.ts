@@ -52,6 +52,10 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   showEmailReport: boolean = false;
   permissionData: any[] = [];
   enquiryResult: any[] = [];
+  showExpenseToDo: boolean = false;
+  showToDo: boolean = false;
+  showExpenses: boolean = false;
+  isRippleLoad: boolean = false;
   studentResult: any[] = [];
   branchesList: any = [];
   userType: any = '';
@@ -1374,5 +1378,77 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     window.open(url, "_blank");
     this.closeMenu();
     this.helpMenu = false;
+  }
+
+  showExpensesList() {
+    alert("Hello");
+    if (this.showExpenses) {
+      this.showExpenses = false;
+    }
+    else {
+      this.showExpenses = true;
+    }
+  }
+
+
+  onOfLoaderFromTodoList(ev) {
+    this.isRippleLoad = ev;
+  }
+  closeShowList() {
+    this.showList();
+  }
+
+  showList() {
+    if (this.showExpenseToDo) {
+      this.showExpenseToDo = false;
+      if (this.showToDo) {
+        this.showToDo = false;
+        // Need to call to  to do list destroy function;
+      }
+      else if (this.showExpenses) {
+        this.showExpenses = false;
+      }
+    }
+    else {
+      this.showExpenseToDo = true;
+    }
+  }
+  showToDoList() {
+    if (this.showToDo) {
+      this.showToDo = false;
+      // Need to call to  to do list destroy function;
+    }
+    else {
+      this.showToDo = true;
+    }
+  }
+
+  showDrop: any = 'studenthide';
+  hideDrop: any = '';
+
+  show(id) {
+    switch (id) {
+      case 'student': this.showDrop = 'student'; break;
+      case 'lead': this.showDrop = 'lead'; break;
+      case 'course': this.showDrop = 'course'; break;
+      case 'batch': this.showDrop = 'batch'; break;
+      case 'fees': this.showDrop = 'fees'; break;
+      case 'communicate': this.showDrop = 'communicate'; break;
+      case 'eStore': this.showDrop = 'eStore'; break;
+      case 'expense': this.showDrop = 'expense'; break;
+    }
+  }
+  hide(id) {
+    switch (id) {
+      case 'student': this.showDrop = 'studenthide'; break;
+      case 'lead': this.showDrop = 'leadhide'; break;
+      case 'course': this.showDrop = 'coursehide'; break;
+      case 'batch': this.showDrop = 'batchhide'; break;
+      case 'fees': this.showDrop = 'feeshide'; break;
+      case 'communicate': this.showDrop = 'communicatehide'; break;
+      case 'eStore': this.showDrop = 'eStorehide'; break;
+      case 'expense': this.showDrop = 'expensehide'; break;
+
+    }
   }
 }
