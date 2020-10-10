@@ -1046,7 +1046,7 @@ export class InstituteSettingsComponent implements OnInit {
         total = total + 8;
       } else if (Object.keys(data)[i] == 'admin' && data.admin == true) {
         total = total + 16;
-      } else if (Object.keys(data)[i] == 'openApp' && data.admin == true) {
+      } else if (Object.keys(data)[i] == 'openApp' && data.openApp == true) {
         total = total + 64;
       }
     }
