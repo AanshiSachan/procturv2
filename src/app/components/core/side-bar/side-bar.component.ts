@@ -559,6 +559,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.multiBranchService.getAllBranches().subscribe(
       res => {
         this.branchesList = res;
+        console.log("this.branchesList", this.branchesList);
       },
       err => {
 
@@ -923,6 +924,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
 
   showSubSection(id) {
+
     for (let i = 0; i < 6; i++) {
       if (document.getElementsByClassName("side-section")[i]) {
         document.getElementsByClassName("side-section") && document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
@@ -1381,7 +1383,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   }
 
   showExpensesList() {
-    alert("Hello");
     if (this.showExpenses) {
       this.showExpenses = false;
     }
@@ -1413,6 +1414,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.showExpenseToDo = true;
     }
   }
+
   showToDoList() {
     if (this.showToDo) {
       this.showToDo = false;
@@ -1423,31 +1425,39 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  showDrop: any = 'studenthide';
-  hideDrop: any = '';
 
+  showLead: any = 'leadhide';
+  showbatch: any = 'batchhide';
+  showcourse: any = 'coursehide';
+  showFee: any = "feeshide";
+  showComm: any = "comhide";
+  showeStore: any = "eStorehide";
+  showExp: any = "expensehide";
   show(id) {
     switch (id) {
-      case 'student': this.showDrop = 'student'; break;
-      case 'lead': this.showDrop = 'lead'; break;
-      case 'course': this.showDrop = 'course'; break;
-      case 'batch': this.showDrop = 'batch'; break;
-      case 'fees': this.showDrop = 'fees'; break;
-      case 'communicate': this.showDrop = 'communicate'; break;
-      case 'eStore': this.showDrop = 'eStore'; break;
-      case 'expense': this.showDrop = 'expense'; break;
+      case 'lead': this.showLead = 'lead'; break;
+      case 'course': this.showcourse = 'course';
+        this.showbatch = 'batch1'; break;
+      case 'batch': this.showbatch = 'batch';
+        this.showcourse = 'course1';
+        break;
+      case 'fees': this.showFee = 'fees'; break;
+      case 'communicate': this.showComm = 'com'; break;
+      case 'eStore': this.showeStore = 'eStore'; break;
+      case 'expense': this.showExp = 'expense'; break;
     }
   }
   hide(id) {
     switch (id) {
-      case 'student': this.showDrop = 'studenthide'; break;
-      case 'lead': this.showDrop = 'leadhide'; break;
-      case 'course': this.showDrop = 'coursehide'; break;
-      case 'batch': this.showDrop = 'batchhide'; break;
-      case 'fees': this.showDrop = 'feeshide'; break;
-      case 'communicate': this.showDrop = 'communicatehide'; break;
-      case 'eStore': this.showDrop = 'eStorehide'; break;
-      case 'expense': this.showDrop = 'expensehide'; break;
+      case 'lead': this.showLead = 'leadhide'; break;
+      case 'course': this.showcourse = 'coursehide';
+        this.showbatch = 'batchhide1'; break;
+      case 'batch': this.showbatch = 'batchhide';
+        this.showcourse = 'coursehide1'; break;
+      case 'fees': this.showFee = 'feeshide'; break;
+      case 'communicate': this.showComm = 'comhide'; break;
+      case 'eStore': this.showeStore = 'eStorehide'; break;
+      case 'expense': this.showExp = 'expensehide'; break;
 
     }
   }

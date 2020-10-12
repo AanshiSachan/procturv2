@@ -2,24 +2,9 @@
 
     <div class="expenses-header">
         <span style="font-weight:bold;">Manage Expenses</span>
-        <!-- <span class="qInfoIcon">i</span>
-      <div class="tooltip-box-field">
-        Send message for todays homework OR If Last class Homework is Not Done/Incomplete
-      </div> -->
     </div>
 
     <div class="expenses-input-container">
-        <!-- <div class="expenses-radio-container">
-        <div class="field-radio-wrapper">
-          <input type="radio" [value]="false" [(ngModel)]="expenseFor" name="expenses" (ngModelChange)="changeExpenseType()" class="form-radio">
-          <label for="expenses">Total Amount</label>
-        </div>
-        <div class="field-radio-wrapper">
-          <input type="radio" [value]="true" [(ngModel)]="expenseFor" name="expenses" (ngModelChange)="changeExpenseType()" class="form-radio">
-          <label for="expenses">Quantity</label>
-        </div>
-      </div> -->
-
         <div class="expense-form-container-for-total-amount">
             <div class="form-wrapper">
                 <select id="category" class="expense-form-ctrl select-box" name="item_cat"
@@ -84,7 +69,6 @@
         <div class="sort-by-date-container">
             <select id="sortDate" class="filterCategoryByItem select-box" name="sortDate" [(ngModel)]="sortDate"
                 (ngModelChange)="dateRangeChanges()">
-                <!-- <option value="" disabled  selected="selected" hidden>Sort By Date</option> -->
                 <option value="-1" disabled selected="selected" hidden>Filter By Date</option>
                 <option value="last_week">Last 7 Days</option>
                 <option value="this_month">This Month</option>
@@ -96,9 +80,7 @@
         </div>
 
         <div class="selected-date-range-container" [hidden]="filteredDate">
-            <!-- <span style="font-weight: 600;">Date Range :</span> &nbsp;&nbsp; -->
             <span id="filteredDate"></span>
-            <!-- <span (click)="resetSortByDate()" style="color:#87c0f9;cursor:pointer;text-decoration: underline;">clear</span> -->
         </div>
 
         <input type="text" value="" id="dateRange" class="widgetDatepicker bsDatepicker" name="addDate" readonly="true"
@@ -115,40 +97,6 @@
             </button>
         </div>
 
-        <!-- <div class="expense-filter-container">
-        <button aria-expanded="true" class="dropdown-trigger" (click)="openMenu(i)">
-          <span class="svg-icon-wrap">
-            <span class="visually-hidden"></span>
-            <div aria-hidden="true" type="ellipsis-horizontal-icon">
-              <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
-                focusable="false">
-                <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
-              </svg>
-            </div>
-          </span>
-        </button>
-  
-        <div id="menuList" class="dd-list-container hide">
-          <div class="dropdown-list">
-            <div class="dd-list-inner">
-              <ul class="actions-menu">
-                <li class="action-item" (click)="openCalendar('dateRange')">
-                  <span class="textContent">
-                    <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;"></i>
-                    &nbsp;Filter by Date Range
-                  </span>
-                </li>
-                <li class="action-item" (click)="downloadExpenses()">
-                  <span class="textContent">
-                    <i class="fa fa-file-excel-o" style="cursor: pointer;color: #1283f4;"></i>
-                    &nbsp;Export excel sheet
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div> -->
 
     </div>
 
@@ -162,7 +110,6 @@
                     <th>Total</th>
                     <th>Date</th>
                     <th *ngIf="limitedAccess">Source</th>
-                    <!-- <th *ngIf="limitedAccess">Remarks</th> -->
                     <th></th>
                 </tr>
             </thead>
@@ -173,7 +120,6 @@
                     <td class="edit-comp">
                         <select id="" class="expense-edit-form-ctrl edit-select-box" name="item_cat"
                             [(ngModel)]="editExpense.category_id">
-                            <!--  [(ngModel)]="expensesCategory" (ngModelChange)="cat()"-->
                             <option value="" disabled selected="selected" hidden style="color: #cbcbcb;">Item Category
                             </option>
                             <option value="{{category.category_id}}" *ngFor="let category of allCategory">
@@ -238,13 +184,6 @@
                         <span id="debitFrom">{{expense.userName}}</span>
                     </td>
 
-                    <!-- Remarks -->
-                    <!-- <td class="edit-comp" *ngIf="limitedAccess">
-              <input type="text" style="width:120px;" class="expense-edit-form-ctrl" placeholder="Enter Remarks" [(ngModel)]="editExpense.total_amount">
-            </td>
-            <td class="view-comp" *ngIf="limitedAccess">
-              <span id="">{{expense.userName}}</span>
-            </td> -->
 
                     <td class="table-action edit-comp">
                         <a style="cursor:pointer" (click)="updateRow(expense.expense_id)">
@@ -261,7 +200,6 @@
                             (click)="editCurrentExpense(i,expense)"></i>
                     </td>
                     <td class="view-comp" *ngIf="expense.created_date != todayDateForEdit">
-                        <!-- <i class="fa fa-pencil"  title="Edit Expense" style="color: #1283f4; cursor:pointer;" (click)="editCurrentExpense(i,expense)"></i> -->
                     </td>
                 </tr>
 

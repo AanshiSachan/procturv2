@@ -557,6 +557,7 @@ input{
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: white;
     opacity: 1; /* Firefox */
+    font-weight: 400;
   }
   .mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button{
     min-width: 52px ;
