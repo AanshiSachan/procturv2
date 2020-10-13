@@ -29,11 +29,11 @@ export class EcourseSubjectListComponent implements OnInit {
   tempData: any = {};
   videoplayer: boolean = false;
   currentProjectUrl: any;
-  showEditModal:boolean = false;
+  showEditModal: boolean = false;
   editObj: any = '';
   subjectId: any = '';
-  addTopic: Create_Topic = new Create_Topic();	
-  subjectTempData: any[] = [];	
+  addTopic: Create_Topic = new Create_Topic();
+  subjectTempData: any[] = [];
   standardData: any[] = [];
   fileSharedArray: any = [];
   selectedFilesArray: any = [];
@@ -50,7 +50,7 @@ export class EcourseSubjectListComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private msgService: MessageShowService,
-    public sanitizer:DomSanitizer
+    public sanitizer: DomSanitizer
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -78,19 +78,19 @@ export class EcourseSubjectListComponent implements OnInit {
   decodeEntities(encodedString) {
     var translate_re = /&(nbsp|amp|quot|lt|gt);/g;
     var translate = {
-        "nbsp":" ",
-        "amp" : "&",
-        "quot": "\"",
-        "lt"  : "<",
-        "gt"  : ">"
+      "nbsp": " ",
+      "amp": "&",
+      "quot": "\"",
+      "lt": "<",
+      "gt": ">"
     };
-    return encodedString.replace(translate_re, function(match, entity) {
-        return translate[entity];
-    }).replace(/&#(\d+);/gi, function(match, numStr) {
-        var num = parseInt(numStr, 10);
-        return String.fromCharCode(num);
+    return encodedString.replace(translate_re, function (match, entity) {
+      return translate[entity];
+    }).replace(/&#(\d+);/gi, function (match, numStr) {
+      var num = parseInt(numStr, 10);
+      return String.fromCharCode(num);
     });
-}
+  }
 
 
   ngOnInit() {
@@ -129,15 +129,15 @@ export class EcourseSubjectListComponent implements OnInit {
     this.uploadFile.getSubjectsList(this.ecourse_id);
     this.uploadFile.varJson.subject_id = topic.subject_id;
     this.uploadFile.getTopicsList(topic.subject_id);
-    if(topic.topicId && topic.topicId != '-1') {
-      if(subtopic.topicId && subtopic.topicId!='-1'){
+    if (topic.topicId && topic.topicId != '-1') {
+      if (subtopic.topicId && subtopic.topicId != '-1') {
         topic.parent_topic_id = subtopic.topicId;
         topic.parent_topic_name = subtopic.topicName;
         topic.sub_topic_id = topic.topicId;
         topic.topic_name = topic.topicName;
       }
       this.uploadTopicPopupOpen(topic);
-    } else if(subtopic.topicId && subtopic.topicId != ''){
+    } else if (subtopic.topicId && subtopic.topicId != '') {
       this.uploadTopicPopupOpen(subtopic);
     }
   }
@@ -183,11 +183,11 @@ export class EcourseSubjectListComponent implements OnInit {
   }
 
 
-   // vdocipher stop video
-   stopVideo() {
+  // vdocipher stop video
+  stopVideo() {
     this.showVideo = true;
-    if(this.videoObject){
-       this.videoObject.pause(); // removes video
+    if (this.videoObject) {
+      this.videoObject.pause(); // removes video
     }
   }
 
@@ -262,7 +262,7 @@ export class EcourseSubjectListComponent implements OnInit {
 
   toggleObject(subject) {
     if (subject.subjectId) {
-    this.subjectId = subject.subjectId;
+      this.subjectId = subject.subjectId;
     }
     subject.isExpand = !subject.isExpand;
     if (subject.isExpand) {
@@ -294,7 +294,7 @@ export class EcourseSubjectListComponent implements OnInit {
       "fileIdArray": fileIdArray
     }
     console.log(data);
-    this._http.deleteData(url, data).subscribe((res:any) => {
+    this._http.deleteData(url, data).subscribe((res: any) => {
       // console.log(res);
       this.auth.hideLoader();
       this.msgService.showErrorMessage('success', '', res.message);
@@ -380,8 +380,8 @@ export class EcourseSubjectListComponent implements OnInit {
   }
 
   checkSelectedFile(obj, event) {
-    if(event) {
-        this.selectedFilesArray.push(obj);
+    if (event) {
+      this.selectedFilesArray.push(obj);
     }
   }
 
@@ -393,56 +393,56 @@ export class EcourseSubjectListComponent implements OnInit {
 
   setRemoveDataFile() {
     let temp: any = [];
-    if(this.selectedFilesArray && this.selectedFilesArray.length) {
-    this.selectedFilesArray.forEach(data=>{
-      if(data.selected) {
-        temp.push(data.file_id);
-      }
-    });
+    if (this.selectedFilesArray && this.selectedFilesArray.length) {
+      this.selectedFilesArray.forEach(data => {
+        if (data.selected) {
+          temp.push(data.file_id);
+        }
+      });
     }
     if (temp && temp.length) {
-    this.selectedRowCount = temp.length;
-    let obj:any = {
-      "source":2,
-      "file_id_list": temp,
-      "institute_id": sessionStorage.getItem('institute_id'),
-    }
-    if(this.vdoCipherFile) {
-      obj.video_status = 'Delete';
-    }
-    if(this.Confirm_deleteFile) {
-      obj.delete_source = 3;
-    }
-    this.auth.showLoader();
-    this._http.postData('/api/v1/instFileSystem/files/delete', obj).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-         if (this.Confirm_deleteFile) {
-          this.msgService.showErrorMessage('success','','Deleted Successfully');
-          this.closeDeletePopup();
-          this.getSubjectList();
-         } else {
-         this.fileSharedArray = [];
-         this.deletePopup = true;
-         }
-      },
-      err=>{
-        this.auth.hideLoader();
-        this.fileSharedArray = err.error.error;
-        if (!this.Confirm_deleteFile) {
-        this.deletePopup = true;
-        }
+      this.selectedRowCount = temp.length;
+      let obj: any = {
+        "source": 2,
+        "file_id_list": temp,
+        "institute_id": sessionStorage.getItem('institute_id'),
       }
-    )
+      if (this.vdoCipherFile) {
+        obj.video_status = 'Delete';
+      }
+      if (this.Confirm_deleteFile) {
+        obj.delete_source = 3;
+      }
+      this.auth.showLoader();
+      this._http.postData('/api/v1/instFileSystem/files/delete', obj).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if (this.Confirm_deleteFile) {
+            this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
+            this.closeDeletePopup();
+            this.getSubjectList();
+          } else {
+            this.fileSharedArray = [];
+            this.deletePopup = true;
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.fileSharedArray = err.error.error;
+          if (!this.Confirm_deleteFile) {
+            this.deletePopup = true;
+          }
+        }
+      )
     } else {
-      this.msgService.showErrorMessage('error','','Please select file(s)');
+      this.msgService.showErrorMessage('error', '', 'Please select file(s)');
     }
   }
 
   closeDeletePopup() {
     this.deletePopup = false;
     console.log(this.selectedFilesArray);
-    this.selectedFilesArray.forEach(data=>{
+    this.selectedFilesArray.forEach(data => {
       data.selected = false;
     })
     this.selectedFilesArray = [];
@@ -461,7 +461,7 @@ export class EcourseSubjectListComponent implements OnInit {
 
   addMaterialExtension(object) {
     let keys = ["Notes", "Assignment", "EBook", "Images", "PreviousYearQuestionsPaper", "AudioNotes", "Slides"];
-    keys.forEach(key => {      
+    keys.forEach(key => {
       if (object.studyMaterialMap[key]) {
         object.studyMaterialMap[key].forEach(element => {
           let str = element.file_path;
@@ -528,7 +528,7 @@ export class EcourseSubjectListComponent implements OnInit {
     this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl(obj.video_url);
   }
 
-  closePlayer(){
+  closePlayer() {
     this.videoplayer = false;
   }
 
@@ -540,23 +540,23 @@ export class EcourseSubjectListComponent implements OnInit {
 
   updateFile() {
     let obj = {
-      "title":this.editObj.title,
+      "title": this.editObj.title,
       "institute_id": sessionStorage.getItem('institute_id'),
-      "category_id":this.editObj.category_id,
+      "category_id": this.editObj.category_id,
       "is_readonly": this.editObj.is_readonly ? 'Y' : 'N'
-  }
-  this.auth.showLoader();
-  this._http.putData('/api/v1/instFileSystem/update/'+this.editObj.file_id, obj).subscribe(
-    (res:any) => {
-      this.auth.hideLoader();
-      this.msgService.showErrorMessage('success','','File updated successfully');
-    },
-    err=>{
-      this.auth.hideLoader();
     }
-  );
-  this.editObj.is_readonly = (this.editObj.is_readonly) ? 'Y' : 'N';
-  this.showEditModal = false;
+    this.auth.showLoader();
+    this._http.putData('/api/v1/instFileSystem/update/' + this.editObj.file_id, obj).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('success', '', 'File updated successfully');
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+    );
+    this.editObj.is_readonly = (this.editObj.is_readonly) ? 'Y' : 'N';
+    this.showEditModal = false;
   }
 
   gotoAddTopic() {
@@ -564,79 +564,79 @@ export class EcourseSubjectListComponent implements OnInit {
     this.getAllStandards();
   }
 
-  getAllStandards() {	
-    let userType: any = sessionStorage.getItem('userType');	
-    let teacher_id: any = -1;	
-    if (userType == 3) {	
-     teacher_id = sessionStorage.getItem('login_teacher_id');	
-    }	
-    let url = "/api/v1/standards/all/" + this.institute_id + "?active=Y" + '&teacher_id=' + teacher_id;	
-    this.auth.showLoader();	
-    this._http.getData(url).subscribe(	
-      (data: any) => {	
-        this.auth.hideLoader();	
-        this.standardData = data;	
+  getAllStandards() {
+    let userType: any = sessionStorage.getItem('userType');
+    let teacher_id: any = -1;
+    if (userType == 3) {
+      teacher_id = sessionStorage.getItem('login_teacher_id');
+    }
+    let url = "/api/v1/standards/all/" + this.institute_id + "?active=Y" + '&teacher_id=' + teacher_id;
+    this.auth.showLoader();
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.standardData = data;
         // console.log(data);	
-      },	
-      (error: any) => {	
-        this.auth.hideLoader();	
-        console.log(error);	
-      }	
-    )	
-  }	
-  getAllSubjectList(standards_id) {	
-    this.subjectTempData = [];	
-    this.auth.showLoader();	
-    let url = "/api/v1/subjects/standards/" + standards_id + '?active=Y';	
-    this._http.getData(url).subscribe(	
-      (data: any) => {	
-        this.auth.hideLoader();	
-        this.subjectTempData = data;	
-        console.log(data);	
-      },	
-      error => {	
-        this.auth.hideLoader();	
-        console.log(error);	
-      }	
-    );	
-  }	
-  Add_New_Topic_Details() {	
-    this.auth.showLoader();	
-    let url = "/api/v1/topic_manager/add/" + this.institute_id;	
-    this._http.postData(url, this.addTopic).subscribe(	
-      (data: any) => {	
-        this.auth.hideLoader();	
-        this.msgService.showErrorMessage('success', '', "Topic Added Successfully");	
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
+  getAllSubjectList(standards_id) {
+    this.subjectTempData = [];
+    this.auth.showLoader();
+    let url = "/api/v1/subjects/standards/" + standards_id + '?active=Y';
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.subjectTempData = data;
+        console.log(data);
+      },
+      error => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    );
+  }
+  Add_New_Topic_Details() {
+    this.auth.showLoader();
+    let url = "/api/v1/topic_manager/add/" + this.institute_id;
+    this._http.postData(url, this.addTopic).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('success', '', "Topic Added Successfully");
         $('#addTopic').modal('hide');
         this.getSubjectList();
         this.clearObject();
-      },	
-      (error: any) => {	
-        this.auth.hideLoader();	
-        this.msgService.showErrorMessage('error', '', "Something went wrong try again ");	
-        console.log(error);	
-      }	
-    );	
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('error', '', "Something went wrong try again ");
+        console.log(error);
+      }
+    );
   }
 
   clearObject() {
     this.addTopic = {
-    name : '',
-    standard_id : '-1',
-    subject_id: '-1',
-    parent_topic_id: '-1',
-    description: '',
-    estimated_time:  0,
-    institute_topic_id: '-1'
+      name: '',
+      standard_id: '-1',
+      subject_id: '-1',
+      parent_topic_id: '-1',
+      description: '',
+      estimated_time: 0,
+      institute_topic_id: '-1'
     };
   }
 
   collapseAll(obj, cond) {
-    if(obj.subjectId) {
-    this.subjectId = obj.subjectId;
+    if (obj.subjectId) {
+      this.subjectId = obj.subjectId;
     }
     obj.isExpand = cond;
-    if(obj.subtopicList) {
+    if (obj.subtopicList) {
       obj.subtopicList.forEach(element => {
         element.isExpand = cond;
         element.subject_id = this.subjectId;
@@ -656,7 +656,7 @@ export class EcourseSubjectListComponent implements OnInit {
         this.video_watch_history_det = data.result;
         this.viewUserList = true;
       },
-      (error: any) => {	
+      (error: any) => {
         this.auth.hideLoader();
       }
     );
