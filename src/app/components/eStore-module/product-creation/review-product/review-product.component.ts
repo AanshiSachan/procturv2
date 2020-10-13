@@ -126,7 +126,16 @@ export class ReviewProductComponent implements OnInit {
 
 
   }
+  calc() {
+    if (this.prodForm.discount_percentage < 0 || this.prodForm.discount_percentage > 100) {
 
+      this.msgService.showErrorMessage('error', 'Discount should be greater than 0 and less than 100', '');
+    }
+    else {
+      this.prodForm.price = Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100)));
+    }
+
+  }
   // calc_days() {
   //   return (this.prodForm.valid_from_date != '' && this.prodForm.valid_to_date != '') ? Math.ceil(Math.abs((new Date(this.prodForm.valid_to_date).getTime()) - (new Date(this.prodForm.valid_from_date).getTime())) / (1000 * 3600 * 24)) : 'NA';
   // }
