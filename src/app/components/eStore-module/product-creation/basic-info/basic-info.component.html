@@ -81,7 +81,7 @@
       <div class="col-md-12">
         <div class="col-md-4">
           <div class="form-group">
-            <label class="text-bold">Actual Discount(Rs.)</label>
+            <label class="text-bold">Actual Price(Rs.)</label>
             <span class="field-checkbox-wrapper">
               <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_paid"
                 (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.discount_percentage =0" name="free_price"
@@ -129,6 +129,25 @@
           <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" autocomplete="off"
             [(ngModel)]="prodForm.start_index_for_total_prod_purchase" name="start_index_for_total_prod_purchase"
             class="form-control form-control-sm">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="text-bold">Tags</label>
+          <select name="" id="" [(ngModel)]="prodForm.tag" class="form-ctrl" style="border-radius: 4px;">
+            <option value=""></option>
+            <option value="Featured">Featured</option>
+            <option value="Recommended">Recommended</option>
+            <option value="Popular">Popular</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group" *ngIf="prodForm.tag === 'Others'">
+          <label class="text-bold">Others
+          </label>
+          <input type="text" autocomplete="off" [(ngModel)]="others" name="Others" class="form-control form-control-sm">
         </div>
       </div>
     </div>

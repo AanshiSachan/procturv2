@@ -81,7 +81,7 @@
       <div class="col-md-12">
         <div class="col-md-4">
           <div class="form-group">
-            <label class="text-bold">Actual Discount(Rs.)</label>
+            <label class="text-bold">Actual Price(Rs.)</label>
             <input type="text" value="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
               [(ngModel)]="prodForm.price_before_discount" [disabled]="prodForm.is_paid ||isAdvanceProductEdit "
               name="price" class="form-control form-control-sm" (ngModelChange)="calc()">
@@ -121,6 +121,26 @@
             </label>
             <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" autocomplete="off"
               [(ngModel)]="prodForm.start_index_for_total_prod_purchase" name="start_index_for_total_prod_purchase"
+              class="form-control form-control-sm">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="text-bold">Tags</label>
+            <select name="" id="" [(ngModel)]="prodForm.tag" class="form-ctrl" style="border-radius: 4px;">
+              <option value=""></option>
+              <option value="Featured">Featured</option>
+              <option value="Recommended">Recommended</option>
+              <option value="Popular">Popular</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group" *ngIf="prodForm.tag === 'Others'">
+            <label class="text-bold">Others
+            </label>
+            <input type="text" autocomplete="off" [(ngModel)]="others" name="Others"
               class="form-control form-control-sm">
           </div>
         </div>
