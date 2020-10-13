@@ -33,7 +33,7 @@ export class BasicInfoComponent implements OnInit {
     enableCheckAll: false
   };
 
-
+  others: any;
   // prodForm = new product_details();
   prodForm: any = {
     entity_id: 0,
@@ -48,6 +48,7 @@ export class BasicInfoComponent implements OnInit {
     about: '',
     is_paid: true,
     is_advance_product: true,
+    tag: null,
     price: 0,
     price_before_discount: 0,
     discount_percentage: 0,
@@ -157,6 +158,10 @@ export class BasicInfoComponent implements OnInit {
         let response = resp.result;
         if (resp.validate) {
           this.prodForm = response;
+          if (!(this.prodForm.tag === 'Featured' || this.prodForm.tag === 'Recommended' || this.prodForm.tag === 'Popular' || this.prodForm.tag === 'Others' || this.prodForm.tag == null)) {
+            this.others = this.prodForm.tag;
+            this.prodForm.tag = "Others";
+          }
           this.prodForm.is_paid = this.prodForm.is_paid == 'Y' ? 0 : 1;
           this.products_ecourse_maps = [];
           this.prodForm.product_ecourse_maps.forEach((object) => {
@@ -278,6 +283,9 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'Product visibility start date cannot be prior to sales start date', '');
       return;
     }
+    if (this.prodForm.tag === "Others") {
+      this.prodForm.tag = this.others;
+    }
 
     let keys = Object.keys(this.prodItems);
     let notselectedItem = keys.filter(key => this.prodItems[key] == false);
@@ -342,6 +350,7 @@ export class BasicInfoComponent implements OnInit {
       "discount_percentage": this.prodForm.discount_percentage,
       "price_before_discount": this.prodForm.price_before_discount,
       "price": this.prodForm.price,
+      "tag": this.prodForm.tag
 
     }
     if (this.prodForm.entity_id == null || this.prodForm.entity_id == 0) {

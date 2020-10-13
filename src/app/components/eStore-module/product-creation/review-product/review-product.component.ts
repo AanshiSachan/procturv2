@@ -13,6 +13,7 @@ import { ProductService } from '../../../../services/products.service';
 })
 export class ReviewProductComponent implements OnInit {
   prod_free: any;
+  others: any;
   selectedPeople1: any;
   people: any;
   isAdvanceProductEdit: boolean = false;
@@ -173,6 +174,11 @@ export class ReviewProductComponent implements OnInit {
           if (resp.validate) {
             let productData = response;
             this.prodForm = productData;
+            if (!(this.prodForm.tag === 'Featured' || this.prodForm.tag === 'Recommended' || this.prodForm.tag === 'Popular' || this.prodForm.tag === 'Others' || this.prodForm.tag == null)) {
+              this.others = this.prodForm.tag;
+              this.prodForm.tag = "Others";
+            }
+
             this.prodForm.is_paid = this.prodForm.is_paid == 'Y' ? 0 : 1;
             this.prodForm.is_duration = this.prodForm.duration == 0 ? false : true;
             this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date).format('DD-MMM-YYYY');
@@ -322,7 +328,9 @@ export class ReviewProductComponent implements OnInit {
       productFor = 4;
     }
     this.prodForm.product_user_type = productFor;
-
+    if (this.prodForm.tag === "Others") {
+      this.prodForm.tag = this.others;
+    }
     this.prodForm.is_paid = Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100))) ? 'Y' : 'N';
     this.prodForm.price = Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100))) ? Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100))) : 0;
     let object = {
@@ -350,6 +358,7 @@ export class ReviewProductComponent implements OnInit {
       "discount_percentage": this.prodForm.discount_percentage,
       "price_before_discount": this.prodForm.price_before_discount,
       "start_index_for_total_prod_purchase": this.prodForm.start_index_for_total_prod_purchase,
+      "tag": this.prodForm.tag
     }
     this.updateProduct(object);
 
