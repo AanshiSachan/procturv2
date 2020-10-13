@@ -25,7 +25,7 @@ export class BasicInfoComponent implements OnInit {
   products_ecourse_maps: any[] = [];
   itemStates: any[] = [];
   prodItems: any = {}
-  advanceProductItems:any={};
+  advanceProductItems: any = {};
   moderatorSettings: any = {
     singleSelection: false,
     idField: 'course_type_id',
@@ -47,14 +47,16 @@ export class BasicInfoComponent implements OnInit {
     short_description: '',
     about: '',
     is_paid: true,
-    is_advance_product:true,
+    is_advance_product: true,
     price: 0,
+    price_before_discount: 0,
+    discount_percentage: 0,
     cateory: 0,
     itemStates: [],
     valid_from_date: moment().format('DD-MMM-YYYY'),
     valid_to_date: '',
     sales_from_date: moment().format('DD-MMM-YYYY'),
-    sales_to_date:  moment().format('DD-MMM-YYYY'),
+    sales_to_date: moment().format('DD-MMM-YYYY'),
     start_timestamp: '',
     end_timestamp: '',
     status: 10,
@@ -96,7 +98,7 @@ export class BasicInfoComponent implements OnInit {
     private http: ProductService,
     private msgService: MessageShowService,
     private router: Router,
-    private auth:AuthenticatorService ) {
+    private auth: AuthenticatorService) {
   }
 
   ngOnInit() {
@@ -136,7 +138,16 @@ export class BasicInfoComponent implements OnInit {
       });
 
   }
+  calc() {
+    if (this.prodForm.discount_percentage < 0 || this.prodForm.discount_percentage > 100) {
 
+      this.msgService.showErrorMessage('error', 'Discount should be greater than 0 and less than 100', '');
+    }
+    else {
+      this.prodForm.price = Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100)));
+    }
+
+  }
   initForm() {
     //Fetch Product Info
     this.auth.showLoader();
@@ -153,25 +164,25 @@ export class BasicInfoComponent implements OnInit {
             this.products_ecourse_maps.push(obj);
           });
           this.prodForm.is_duration = this.prodForm.duration ? true : false;
-          if(this.prodForm.product_user_type == 8){
+          if (this.prodForm.product_user_type == 8) {
             this.advanceProduct.forStudent = true;
             this.advanceProduct.forOpenUser = true;
           }
-          else if(this.prodForm.product_user_type == 16){
+          else if (this.prodForm.product_user_type == 16) {
             this.advanceProduct.forStudent = false;
             this.advanceProduct.forOpenUser = false;
           }
-          else if(this.prodForm.product_user_type == 2){
+          else if (this.prodForm.product_user_type == 2) {
             this.advanceProduct.forStudent = true;
             this.advanceProduct.forOpenUser = false;
           }
-          else if(this.prodForm.product_user_type == 4){
+          else if (this.prodForm.product_user_type == 4) {
             this.advanceProduct.forStudent = false;
             this.advanceProduct.forOpenUser = true;
           }
 
           this.prodForm.is_advance_product = this.prodForm.is_advance_product ? true : false;
-         this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status== 30) ?true:false;
+          this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status == 30) ? true : false;
           this.prodForm.product_item_stats = {};
           this.advanceProductItems = {};
           this.prodForm.product_items_types.forEach(element => {
@@ -235,11 +246,11 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'Please add product name', '');
       return;
     }
-    if (this.prodForm.about == '' ) {
+    if (this.prodForm.about == '') {
       this.msgService.showErrorMessage('error', 'Please add description', '');
       return;
     }
-    if (this.prodForm.about.length>10000 ) {
+    if (this.prodForm.about.length > 10000) {
       this.msgService.showErrorMessage('error', 'allowed description limit is 10000 characters', '');
       return;
     }
@@ -263,7 +274,7 @@ export class BasicInfoComponent implements OnInit {
 
 
     if ((!this.prodForm.is_duration) &&
-    (moment(this.prodForm.valid_from_date).valueOf() < moment(this.prodForm.sales_from_date).valueOf())) {
+      (moment(this.prodForm.valid_from_date).valueOf() < moment(this.prodForm.sales_from_date).valueOf())) {
       this.msgService.showErrorMessage('error', 'Product visibility start date cannot be prior to sales start date', '');
       return;
     }
@@ -275,8 +286,8 @@ export class BasicInfoComponent implements OnInit {
       return;
     }
 
-    this.prodForm.is_paid = (this.prodForm.price) ? 'Y' : 'N';
-    this.prodForm.price = this.prodForm.price ? this.prodForm.price : 0;
+    this.prodForm.is_paid = Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100))) ? 'Y' : 'N';
+    this.prodForm.price = Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100))) ? Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100))) : 0;
     this.productItems.forEach(element => {
       this.prodForm.product_item_stats[element.slug] = (this.prodItems[element.slug]) ? this.prodForm.product_item_stats[element.slug] : 0;
       if (this.prodForm.product_item_stats[element.slug]) {
@@ -296,13 +307,13 @@ export class BasicInfoComponent implements OnInit {
       this.prodForm.valid_to_date = null;
     }
     let productFor = 16;
-    if(this.advanceProduct.forStudent && this.advanceProduct.forOpenUser){
+    if (this.advanceProduct.forStudent && this.advanceProduct.forOpenUser) {
       productFor = 8;
     }
-    else if(this.advanceProduct.forStudent){
+    else if (this.advanceProduct.forStudent) {
       productFor = 2;
     }
-    else if(this.advanceProduct.forOpenUser){
+    else if (this.advanceProduct.forOpenUser) {
       productFor = 4;
     }
     this.prodForm.product_user_type = productFor;
@@ -315,19 +326,23 @@ export class BasicInfoComponent implements OnInit {
       "photo_url": this.prodForm.photo_url,
       "about": this.prodForm.about,
       "is_paid": this.prodForm.is_paid,
-      "is_advance_product":is_advance_product,
-      "price": this.prodForm.price,
+      "is_advance_product": is_advance_product,
       "valid_from_date": this.prodForm.valid_from_date,
       "valid_to_date": this.prodForm.valid_to_date,
       "duration": this.prodForm.duration,
-      "sales_from_date":moment(this.prodForm.sales_from_date).format('YYYY-MM-DD'),
+      "sales_from_date": moment(this.prodForm.sales_from_date).format('YYYY-MM-DD'),
       "sales_to_date": moment(this.prodForm.sales_to_date).format('YYYY-MM-DD'),
       "purchase_limit": this.prodForm.purchase_limit,
+      "start_index_for_total_prod_purchase": this.prodForm.start_index_for_total_prod_purchase,
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
       "product_items_types": this.product_item_list,
       "product_user_type": this.prodForm.product_user_type,
-      "publish_date": this.prodForm.publish_date
+      "publish_date": this.prodForm.publish_date,
+      "discount_percentage": this.prodForm.discount_percentage,
+      "price_before_discount": this.prodForm.price_before_discount,
+      "price": this.prodForm.price,
+
     }
     if (this.prodForm.entity_id == null || this.prodForm.entity_id == 0) {
       this.createProduct(object);
@@ -372,7 +387,7 @@ export class BasicInfoComponent implements OnInit {
       let body = JSON.parse(JSON.stringify(object));
       this.auth.showLoader();
       this.http.postMethod('product/update', body).then(
-        (resp:any) => {
+        (resp: any) => {
           this.auth.hideLoader();
           let data = resp['body'];
           if (data.validate) {
@@ -399,7 +414,7 @@ export class BasicInfoComponent implements OnInit {
 
     // newDate.setHours(hours - offset);
     return moment(date_s).format('YYYY-MM-DD');
-}
+  }
 
 
   calc_days() {
