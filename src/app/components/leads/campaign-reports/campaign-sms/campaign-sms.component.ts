@@ -24,8 +24,8 @@ export class CampaignSmsComponent implements OnInit {
   projectSettings: any[] = [
     { primaryKey: 'campaign_list_name', header: 'List Name', priority: 1, allowSortingFlag: true },
     { primaryKey: 'message', header: 'Message', priority: 2, allowSortingFlag: true },
-    { primaryKey: 'date', header: 'Schedule Date Time', priority: 3, allowSortingFlag: true },
-    { primaryKey: 'running_date', header: 'Created Date', priority: 4, allowSortingFlag: true },
+    { primaryKey: 'running_date', header: 'Schedule Date Time', priority: 3, allowSortingFlag: true },
+    { primaryKey: 'date', header: 'Created Date', priority: 4, allowSortingFlag: true },
     { primaryKey: 'statusValue', header: 'Status', priority: 5, allowSortingFlag: true }
   ];
   PageIndex: number = 1;
@@ -167,10 +167,10 @@ export class CampaignSmsComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.smsDataSource = res;
-        for (let i = 0; i < res.length; i++) {
-          res[i].date = moment(this.smsDataSource[i].date).format("DD-MMM-YY hh:mm A");
-          res[i].running_date = moment(this.smsDataSource[i].running_date).format("DD-MMM-YY hh:mm A");
-        }
+        // for (let i = 0; i < res.length; i++) {
+        //   res[i].date = moment(this.smsDataSource[i].date).format("DD-MMM-YY hh:mm A");
+        //   res[i].running_date = moment(this.smsDataSource[i].running_date).format("DD-MMM-YY hh:mm A");
+        // }
         let temp = res;
         this.smsSource = temp;
         this.totalRecords = this.smsSource.length;
@@ -227,7 +227,7 @@ export class CampaignSmsComponent implements OnInit {
   }
   viewRecords($event) {
     console.log($event);
-    let obejct = btoa(JSON.stringify($event.data))
+    let obejct = (JSON.stringify($event.data));
     this.router.navigate(['/view/leads/campaign-reports/sms-report/' + $event.data.campaign_list_message_id], { queryParams: { data: obejct } });
   }
 
