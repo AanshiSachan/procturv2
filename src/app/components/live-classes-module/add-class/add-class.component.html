@@ -316,7 +316,22 @@
                                 </div>
                               </div>
                             </div>
-
+                            <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
+                              <input type="checkbox" name="access_enable_breakout_rooms" [(ngModel)]="addOnlineClass.access_enable_breakout_rooms" [value]="0" class="form-checkbox" id="access_enable_breakout_rooms">
+                              <label for="access_enable_breakout_rooms">Breakout Room</label>
+                              <!-- <div class="questionInfo inline-relative">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field">
+                                    All the students will
+                                    <br>wait in waiting room
+                                    <br> after joining the
+                                    <br> session. Teachers will
+                                    <br> have access to allow
+                                    <br> students in the
+                                    <br>meeting.
+                                </div>
+                              </div> -->
+                            </div>
                             <!-- Enable Host -->
                             <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
                               <input type="checkbox" name="host_video" [(ngModel)]="addOnlineClass.host_video" [value]="0" class="form-checkbox" id="host_video">
