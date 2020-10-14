@@ -1258,7 +1258,13 @@ export class LiveClassesComponent implements OnInit {
         this.progress = 0;
         this.fileUploadXHR = '';
         this.progressBar = false;
-        this.isVimeo = 'VDOCipher';
+        if(!(this.proctur_live_integration_with_vimeo == '1' && this.proctur_live_integration_with_vdoCipher == '1')) {
+          if(this.proctur_live_integration_with_vimeo == '1') {
+            this.isVimeo = 'Vimeo';
+          } else if(this.proctur_live_integration_with_vimeo == '1') {
+            this.isVimeo = 'VDOCipher';
+          }
+        }
         this.vimeo_title = '';
         this.isUploding = false;
       }
