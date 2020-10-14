@@ -6,7 +6,7 @@ import { MessageShowService } from '../../../../services/message-show.service';
 import { FileManagerService } from '../file-manager.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpService } from '../../../../services/http.service';
-import {  ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 declare var $;
 
 @Component({
@@ -76,21 +76,21 @@ export class DriveHomeComponent implements OnInit {
   videoplayer: boolean = false;
   currentProjectUrl: any;
   editYoutubeFile: any = {
-    editView : false
+    editView: false
   };
-  fileSharedArray:any = [];
-  deletePopup : boolean = false;
+  fileSharedArray: any = [];
+  deletePopup: boolean = false;
   deleteConfirmation: boolean = false;
   SelectedFilesArray: any[] = [];
 
   constructor(private zone: NgZone,
     private fileService: FileManagerService,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private msgService: MessageShowService,
     private sanitizer: DomSanitizer,
     private http: HttpService,
     private activatedRoute: ActivatedRoute
-    ) { }
+  ) { }
 
 
   ngOnInit(refreshTree?) {
@@ -106,31 +106,31 @@ export class DriveHomeComponent implements OnInit {
   }
 
   //Developed by - Nalini 
-// When vimeo file uploaded successfully then video status api is called based on video id and pop up msg is displayed
-getParams() {
-  let url = window.location.href;
-  if (url.indexOf("?") > -1) {
-    let arr = url.split('?'); 
-    if (url.length > 1 && arr[1] !== '') {
-      window.location.href = url.substring(0,arr[0].length);
-      this.activatedRoute.queryParams.subscribe(params => {
-        let videoId = params['videoId'];
-        if(videoId!='' && videoId!=null) {
-        $('#thankYou').modal('show');
-        let obj = {
-          "videoID": videoId,
-          "institute_id": sessionStorage.getItem('institute_id'),
-          "video_status": "Queued",
-          "category_id": 305
-        }
-        let url = "/api/v1/instFileSystem/updateVideoStatus";
-        this.http.postData(url, obj).subscribe((res: any) => {
-          console.log(res);
-        }, (err) => {
+  // When vimeo file uploaded successfully then video status api is called based on video id and pop up msg is displayed
+  getParams() {
+    let url = window.location.href;
+    if (url.indexOf("?") > -1) {
+      let arr = url.split('?');
+      if (url.length > 1 && arr[1] !== '') {
+        window.location.href = url.substring(0, arr[0].length);
+        this.activatedRoute.queryParams.subscribe(params => {
+          let videoId = params['videoId'];
+          if (videoId != '' && videoId != null) {
+            $('#thankYou').modal('show');
+            let obj = {
+              "videoID": videoId,
+              "institute_id": sessionStorage.getItem('institute_id'),
+              "video_status": "Queued",
+              "category_id": 305
+            }
+            let url = "/api/v1/instFileSystem/updateVideoStatus";
+            this.http.postData(url, obj).subscribe((res: any) => {
+              console.log(res);
+            }, (err) => {
+            });
+          }
         });
       }
-      });
-    }
     }
   }
 
@@ -145,6 +145,7 @@ getParams() {
       (res: any) => {
         this.auth.hideLoader();
         this.children = res;
+        console.log("children", this.children);
         this.getPath = obj.keyName;
         this.pathArray = this.getPath.split('/');
         this.pathArray.pop();
@@ -174,7 +175,7 @@ getParams() {
 
   closeSharePopup(event) {
     console.log(event);
-   this.getPopupOpen = event;
+    this.getPopupOpen = event;
   }
 
   collapseString(index) {
@@ -307,8 +308,8 @@ getParams() {
   onNodeSelect(event) {
     this.filePathPopup = event.node.data.keyName;
     if (event.node.type == 'folder') {
-    this.selectedFolder = event;
-    this.getFilesAndFolder('200');
+      this.selectedFolder = event;
+      this.getFilesAndFolder('200');
     }
   }
 
@@ -650,21 +651,20 @@ getParams() {
     }
   }
 
-  downloadStatus(event){
+  downloadStatus(event) {
     this.toggleLoader(event);
     this.jsonFlag.downloading = event;
   }
 
-  uploadStatus(event){
-    
+  uploadStatus(event) {
+
     this.toggleLoader(event);
     this.jsonFlag.uploading = event;
   }
 
-  toggleLoader(event){
-    if(event)
-    {this.auth.showLoader();}
-    else{
+  toggleLoader(event) {
+    if (event) { this.auth.showLoader(); }
+    else {
       this.auth.hideLoader();
     }
   }
@@ -697,7 +697,7 @@ getParams() {
     const video_id = atob(file.res.proc_id);
     this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video_id);
   }
-  closePlayer(){
+  closePlayer() {
     this.videoplayer = false;
   }
 
@@ -710,8 +710,8 @@ getParams() {
 
   ShowDeleteFileButton(file) {
     this.SelectedFilesArray = [];
-    this.fileDisplayArr.forEach(data=>{
-      if(data.data.selected) {
+    this.fileDisplayArr.forEach(data => {
+      if (data.data.selected) {
         this.SelectedFilesArray.push(data.data);
       }
     });
@@ -719,13 +719,13 @@ getParams() {
 
   deleteFile() {
     let fileArray: any = [];
-    if(this.SelectedFilesArray &&  this.SelectedFilesArray.length) {
-    if(this.SelectedFilesArray[0].category_id == 230 || this.SelectedFilesArray[0].category_id == 305){
-      let key = this.SelectedFilesArray[0].keyName.split('/https');
-      if(key && key.length) {
-      let newPath = key[0].concat('/');
-      this.filePathPopup = newPath;
-      }
+    if (this.SelectedFilesArray && this.SelectedFilesArray.length) {
+      if (this.SelectedFilesArray[0].category_id == 230 || this.SelectedFilesArray[0].category_id == 305) {
+        let key = this.SelectedFilesArray[0].keyName.split('/https');
+        if (key && key.length) {
+          let newPath = key[0].concat('/');
+          this.filePathPopup = newPath;
+        }
       } else {
         let path = this.SelectedFilesArray[0].keyName.split('/');
         path.pop();
@@ -737,35 +737,35 @@ getParams() {
         fileArray.push(element.file_id);
       });
     } else {
-      this.msgService.showErrorMessage('error','','Please select File');
+      this.msgService.showErrorMessage('error', '', 'Please select File');
       return;
     }
-    let obj:any = {
+    let obj: any = {
       "source": 1,
       "file_id_list": fileArray,
       "institute_id": sessionStorage.getItem('institute_id'),
     }
-    if(this.deleteConfirmation){
-        obj.delete_source = 3
+    if (this.deleteConfirmation) {
+      obj.delete_source = 3
     }
     this.auth.showLoader();
     this.http.postData('/api/v1/instFileSystem/files/delete', obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-         if(this.deleteConfirmation) {
-            this.msgService.showErrorMessage('success','','Deleted Successfully');
-            this.closeDeletePopup();
-            this.getFilesAndFolder('200');
-         } else {
-         this.fileSharedArray = [];
-         this.deletePopup = true;
-         }
+        if (this.deleteConfirmation) {
+          this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
+          this.closeDeletePopup();
+          this.getFilesAndFolder('200');
+        } else {
+          this.fileSharedArray = [];
+          this.deletePopup = true;
+        }
       },
       err => {
         this.auth.hideLoader();
         this.fileSharedArray = err.error.error;
         if (!this.deleteConfirmation) {
-        this.deletePopup = true;
+          this.deletePopup = true;
         }
       }
     )
@@ -773,7 +773,7 @@ getParams() {
 
   closeDeletePopup() {
     this.deletePopup = false;
-    this.fileDisplayArr.forEach(data=>{
+    this.fileDisplayArr.forEach(data => {
       data.data.selected = false;
     });
     this.getFilesAndFolder('200');

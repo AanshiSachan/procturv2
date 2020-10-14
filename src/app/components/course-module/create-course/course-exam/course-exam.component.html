@@ -72,8 +72,8 @@
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl"
                                 [(ngModel)]="courseData.master_course" (ngModelChange)="getCourseList(event)">
                                 <option value="-1">Select Master Course</option>
-                                <option [value]="master.master_course" *ngFor="let  master of masterCourseList">
-                                    {{master.master_course}}
+                                <option [value]="master" *ngFor="let  master of masterCourseList">
+                                    {{master}}
                                 </option>
                             </select>
 
@@ -88,7 +88,7 @@
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl"
                                 [(ngModel)]="courseData.course_id" (ngModelChange)="displayCourseDate()">
                                 <option value="-1">Select Course</option>
-                                <option [value]="master.course_id" *ngFor="let  master of courseList.coursesList">
+                                <option [value]="master.course_id" *ngFor="let  master of courseList">
                                     {{master.course_name}}
                                 </option>
                             </select>

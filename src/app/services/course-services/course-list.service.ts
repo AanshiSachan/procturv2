@@ -15,13 +15,13 @@ export class CourseListService {
         private http: HttpClient,
         private auth: AuthenticatorService,
     ) {
-        this.auth.currentAuthKey.subscribe( key => {
+        this.auth.currentAuthKey.subscribe(key => {
             this.Authorization = key;
             this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
-          }) 
-          this.auth.currentInstituteId.subscribe( id => {
+        })
+        this.auth.currentInstituteId.subscribe(id => {
             this.institute_id = id;
-          });
+        });
         this.baseURL = this.auth.getBaseUrl();
     }
 
@@ -38,7 +38,8 @@ export class CourseListService {
     }
 
     getStandardListFromServer() {
-        let url = this.baseURL + "/api/v1/standards/all/" + this.institute_id + '?active=Y';
+        // let url = this.baseURL + "/api/v1/standards/all/" + this.institute_id + '?active=Y';
+        let url = this.baseURL + "/api/v1/standards/standard-subject-list/" + this.institute_id + "?is_active=Y" + '&is_subject_required=true';
         return this.http.get(url, { headers: this.headers }).map(
             res => {
                 return res;
