@@ -613,7 +613,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('inst_set_up', res.data.institute_setup_type);
         sessionStorage.setItem('institution_name', res.data.institute_name);
         sessionStorage.setItem('is_cobranding', res.data.is_cobranding);
-        window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+        // window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+        this.gotoStudentPortal();
       }
       else if (sessionStorage.getItem('userType') == '5') {
         sessionStorage.setItem('student_id', res.data.parentStudentList[0].student_id);
@@ -622,7 +623,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('inst_set_up', res.data.institute_setup_type);
         sessionStorage.setItem('institution_name', res.data.institute_name);
         sessionStorage.setItem('is_cobranding', res.data.is_cobranding);
-        window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+        // window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+        this.gotoStudentPortal();
       }
       else if (sessionStorage.getItem('userType') == '99' && sessionStorage.getItem('testprepEnabled')
         && institute_data.courseType == "") {
@@ -676,13 +678,78 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   gotoStudentPortal() {
-    if (sessionStorage.getItem('testprepEnabled') != 'false') {
+    let examDeskCheck = this.checkInstSetupType(sessionStorage.getItem('inst_set_up'), 4)
+    if (examDeskCheck != 'false') {
       window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
     }
     else {
       window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Documents";
     }
 
+  }
+//  Developed by Nalini
+// To check is exam desk is enable for student or not
+  checkInstSetupType(value, role){
+    if (value != 0) {
+      var start = 2;
+      var count = 1;
+      while (start != value) {
+        count++;
+        start = start + 2;
+      }
+      var arr = [0, 0, 0, 0, 0, 0, 0, 0];
+      var s = count.toString(2);
+      var k = 0;
+      for (var i = s.length - 1; i >= 0; i--) {
+        arr[k] = parseInt(s.charAt(i));
+        k++;
+      }
+
+      switch (role) {
+        case 2:
+          if (arr[0] == 1)
+            return 'true';
+          break;
+
+        case 4:
+          if (arr[1] == 1)
+            return 'true';
+          break;
+
+        case 8:
+          if (arr[2] == 1)
+            return 'true';
+          break;
+
+        case 16:
+          if (arr[3] == 1)
+            return 'true';
+          break;
+        case 32:
+          if (arr[4] == 1)
+            return 'true';
+          break;
+        case 64:
+          if (arr[5] == 1)
+            return 'true';
+          break;
+
+        case 128:
+          if (arr[6] == 1)
+            return 'true';
+          break;
+        case 256:
+          if (arr[7] == 1)
+            return 'true';
+          break;
+        default: return 'false';
+      }
+      return 'false';
+
+    }
+    else {
+      return 'false';
+    }
   }
 
   toggleCheckbox(course, data) {
@@ -908,7 +975,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('inst_set_up', this.serverUserData.data.institute_setup_type);
           sessionStorage.setItem('institution_name', this.serverUserData.data.institute_name);
           sessionStorage.setItem('is_cobranding', this.serverUserData.data.is_cobranding);
-          window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+          // window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+          this.gotoStudentPortal();
         }
         else if (sessionStorage.getItem('userType') == '5' && this.serverUserData) {
           // sessionStorage.setItem('student_id', this.serverUserData.data.parentStudentList[0].student_id);
@@ -920,7 +988,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('inst_set_up', this.serverUserData.data.institute_setup_type);
           sessionStorage.setItem('institution_name', this.serverUserData.data.institute_name);
           sessionStorage.setItem('is_cobranding', this.serverUserData.data.is_cobranding);
-          window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+          // window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+          this.gotoStudentPortal();
         }
       }
       /* If Id Not set then recall the function as user has successfully logged in */
