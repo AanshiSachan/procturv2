@@ -378,15 +378,30 @@ export class InstituteSettingsComponent implements OnInit {
       teacher: '',
       admin: '',
       openApp: ''
-    }
+    },
+    external_lead_notification_admin: {
+      student: '',
+      parent: '',
+      gaurdian: '',
+      teacher: '',
+      admin: '',
+    },
+    external_lead_notification_enquirer: {
+      student: '',
+      parent: '',
+      gaurdian: '',
+      teacher: '',
+      admin: '',
+    },
+    enable_enquiry_notification: '',
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
   instituteName: any = '';
   biometricSetting: number = 0;
   vimeo_account_plan: any = false;
-  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport', 'liAccess', 'lieStore', 'liLive', 'liVdo'];
-  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent', 'divAccessControl', 'divLiveClassContent', 'diveStoreContent', 'divVdoContent'];
+  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport', 'liAccess', 'lieStore', 'liLive', 'liVdo', 'liEnquiry'];
+  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent', 'divAccessControl', 'divLiveClassContent', 'diveStoreContent', 'divVdoContent', 'divEnquiryContent'];
 
   IPJson: any = {
     'institute_id': sessionStorage.getItem('institute_id'),
@@ -737,6 +752,9 @@ export class InstituteSettingsComponent implements OnInit {
     obj.vimeo_video_download_visibility_filemanager = this.getSumOfTableField(this.instituteSettingDet.vimeo_video_download_visibility_filemanager);
     obj.vimeo_video_download_visibility_studymaterial = this.getSumOfTableField(this.instituteSettingDet.vimeo_video_download_visibility_studymaterial);
     obj.vimeo_storage_capacity_threshold = this.instituteSettingDet.vimeo_storage_capacity_threshold;
+    obj.external_lead_notification_admin = this.getSumOfTableField(this.instituteSettingDet.external_lead_notification_admin);
+    obj.external_lead_notification_enquirer = this.getSumOfTableField(this.instituteSettingDet.external_lead_notification_enquirer);
+    obj.enable_enquiry_notification = this.instituteSettingDet.enable_enquiry_notification;
     if (this.checkPhoneValidation(this.instituteSettingDet.new_student_addmission_sms_notification) == false) {
       this.commonService.showErrorMessage('error', '', 'Please enter valid contact number.');
     } else {
@@ -972,6 +990,9 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.notification_for_studymaterial_upload = data.notification_for_studymaterial_upload;
     this.instituteSettingDet.enable_student_app_offline_video_download = data.enable_student_app_offline_video_download;
     this.instituteSettingDet.vdocipher_video_ready_sms_to_admin = data.vdocipher_video_ready_sms_to_admin;
+    this.fillTableCheckboxValue(this.instituteSettingDet.external_lead_notification_enquirer, data.external_lead_notification_enquirer);
+    this.fillTableCheckboxValue(this.instituteSettingDet.external_lead_notification_admin, data.external_lead_notification_admin);
+    this.instituteSettingDet.enable_enquiry_notification = data.enable_enquiry_notification;
     if (this.instituteSettingDet.virtual_host_url == '' && this.instituteSettingDet.enable_send__website_url_in_student_credentail == 1) {
       this.instituteSettingDet.virtual_host_url = 'web.proctur.com';
     }
