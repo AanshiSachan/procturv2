@@ -443,15 +443,17 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   //if login is successfull ( Start - 3)
   alternateLoginSuccess(res) {
-    if (!this.validInstituteCheck(res)) {
-      this.route.navigateByUrl('/authPage');
-      //console.log('Institute ID Not Found');
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "There is no access for Open User login in web..Kindly access the same through APP");
-      sessionStorage.clear();
-      localStorage.clear();
-      return
-    }
-    else {
+    // Changes done by - Nalini
+    // To remove restriction of open App user login 
+    // if (!this.validInstituteCheck(res)) {
+    //   this.route.navigateByUrl('/authPage');
+    //   //console.log('Institute ID Not Found');
+    //   this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "There is no access for Open User login in web..Kindly access the same through APP");
+    //   sessionStorage.clear();
+    //   localStorage.clear();
+    //   return
+    // }
+    // else {
       if (res.institution_id != null) {
         if (sessionStorage.getItem('userType') != '1' && sessionStorage.getItem('userType') != '99') {
           this.getCountryDetails(res.institution_id);
@@ -644,7 +646,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('institution_name', res.data.institute_name);
         this.gotoStudentPortal();
       }
-    }
+    // }
   }
 
   getGuestUserCourser(institute_id) {
