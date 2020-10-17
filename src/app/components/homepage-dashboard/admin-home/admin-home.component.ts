@@ -366,20 +366,13 @@ export class AdminHomeComponent implements OnInit {
           this.storageData.vDOCipher_used_storage = (Number(this.storageData.vDOCipher_used_storage) / 1024).toFixed(3);
           this.storageData.vimeo_allocated_storage = (Number(this.storageData.vimeo_allocated_storage) / 1024).toFixed(3);
           this.storageData.vimeo_consumed_storage = (Number(this.storageData.vimeo_consumed_storage) / 1024).toFixed(3);
-          let storageExceed = false;
+          sessionStorage.setItem('videoLimitExceeded', "0");
           if ((Number(this.storageData.vDOCipher_allocated_storage)) != 0 && Number(this.storageData.vDOCipher_used_storage) != 0) {
             let perUsed = ((Number(this.storageData.vDOCipher_allocated_storage) * 80) / 100).toFixed(3);
             let usedSpace = Number(this.storageData.vDOCipher_used_storage).toFixed(3);
             if (parseFloat(perUsed) <= parseFloat(usedSpace)) {
               sessionStorage.setItem('videoLimitExceeded', "1");
-              storageExceed = true;
             }
-            else {
-              sessionStorage.setItem('videoLimitExceeded', "0");
-            }
-          }
-          else {
-            sessionStorage.setItem('videoLimitExceeded', "0");
           }
 
           if ((Number(this.storageData.storage_allocated)) != 0 && Number(this.storageData.consumed_storage) != 0) {
@@ -387,16 +380,6 @@ export class AdminHomeComponent implements OnInit {
             let usedSpace = Number(this.storageData.consumed_storage).toFixed(3);
             if (parseFloat(perUsed) <= parseFloat(usedSpace)) {
               sessionStorage.setItem('videoLimitExceeded', "1");
-            }
-            else {
-              if (!storageExceed) {
-                sessionStorage.setItem('videoLimitExceeded', "0");
-              }
-            }
-          }
-          else {
-            if (!storageExceed) {
-              sessionStorage.setItem('videoLimitExceeded', "0");
             }
           }
 

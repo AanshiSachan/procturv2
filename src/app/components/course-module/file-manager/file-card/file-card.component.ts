@@ -61,6 +61,8 @@ export class FileCardComponent implements OnChanges {
   @Output() editYoutubeVideo = new EventEmitter<any>();
   @Output() ShowDeleteFileButton = new EventEmitter<any>();
   @Output() playVimeoVideo = new EventEmitter<any>();
+  @Input() vimeo_video_downlodable: any;
+  @Output() getVimeoDownloadData = new EventEmitter<any>();
   dwnldLink = "";
   arr: any[] = [];
   fileURL: any;
@@ -236,6 +238,7 @@ export class FileCardComponent implements OnChanges {
   }
 
   getFileDownloaded(fileObj) {
+    if(fileObj.res.category_id!=this.vimeo_category_id) {
     let file_type = fileObj.type
     const url = "/api/v1/instFileSystem/downloadFile/" + this.fileService.institute_id + "?fileId=" + fileObj.res.file_id;
     this.downloadStatus.emit(true);
@@ -260,6 +263,9 @@ export class FileCardComponent implements OnChanges {
         console.log(err);
       }
     )
+    } else {
+      this.getVimeoDownloadData.emit(fileObj);
+    }
   }
   /**
    *
