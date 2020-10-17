@@ -95,14 +95,14 @@ export class CampaignSmsComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'date',
+        primary_key: 'running_date',
         value: "Schedule Date Time",
         charactLimit: 15,
         sorting: false,
         visibility: true
       },
       {
-        primary_key: 'running_date',
+        primary_key: 'date',
         value: "Created Date",
         charactLimit: 50,
         sorting: false,
