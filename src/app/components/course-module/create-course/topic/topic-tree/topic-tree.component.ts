@@ -49,32 +49,25 @@ export class TopicTreeComponent implements OnInit {
           this.isProfessional = false;
         }
       })
-      console.log('model typ:',this.isProfessional);
+    console.log('model typ:', this.isProfessional);
   }
 
   ngOnInit() {
     let userType: any = sessionStorage.getItem('userType');
-    if(userType == 3){
-    this.teacher_id = sessionStorage.getItem('login_teacher_id');
-  }
+    if (userType == 3) {
+      this.teacher_id = sessionStorage.getItem('login_teacher_id');
+    }
     this.getAllStandards();
   }
 
   getAllSubjectList(standards_id) {
     this.subjectTempData = [];
-    this.auth.showLoader();
-    let url = "/api/v1/subjects/standards/" + standards_id + '?active=Y';
-    this._http.getData(url).subscribe(
-      (data: any) => {
-        this.auth.hideLoader();
-        this.subjectTempData = data;
-        console.log(data);
-      },
-      error => {
-        this.auth.hideLoader();
-        console.log(error);
+    this.filterData.subject_id = -1;
+    for (let i = 0; i < this.standardData.length; i++) {
+      if (this.standardData[i].standard_id == this.addTopic.standard_id) {
+        this.subjectTempData = this.standardData[i].subject_list;
       }
-    );
+    }
   }
 
   // get subject
@@ -82,19 +75,11 @@ export class TopicTreeComponent implements OnInit {
     this.subjectData = [];
     this.subjectList = [];
     this.filterData.subject_id = -1;
-    this.auth.showLoader();
-    let url = "/api/v1/subjects/standards/" + standards_id + '?active=Y';
-    this._http.getData(url).subscribe(
-      (data: any) => {
-        this.auth.hideLoader();
-        this.subjectData = data;
-        console.log(data);
-      },
-      error => {
-        this.auth.hideLoader();
-        console.log(error);
+    for (let i = 0; i < this.standardData.length; i++) {
+      if (this.standardData[i].standard_id == this.filterData.standard_id) {
+        this.subjectData = this.standardData[i].subject_list;
       }
-    );
+    }
   }
 
   //
@@ -128,13 +113,15 @@ export class TopicTreeComponent implements OnInit {
 
   // get standard
   getAllStandards() {
-    let url = "/api/v1/standards/all/" + this.institute_id + "?active=Y" + '&teacher_id=' + this.teacher_id;
+    // let url = "/api/v1/standards/all/" + this.institute_id + "?active=Y" + '&teacher_id=' + this.teacher_id;
+    let url = "/api/v1/standards/standard-subject-list/" + this.institute_id + "?is_active=Y" + '&is_subject_required=true';
+
     this.auth.showLoader();
     this._http.getData(url).subscribe(
       (data: any) => {
         this.auth.hideLoader();
-        this.standardData = data;
-        // console.log(data);
+        this.standardData = data.result;
+        console.log(data.result);
       },
       (error: any) => {
         this.auth.hideLoader();
@@ -173,7 +160,7 @@ export class TopicTreeComponent implements OnInit {
           "name": $event.data.name,
           "parent_topic_id": $event.data.parentTopicId,
           "institute_topic_id": $event.data.topicId,
-          "description":$event.data.description,
+          "description": $event.data.description,
           "priority_order": $event.data.priority_order
         }
         this.Update_Topic_Details('EditSubtopic', object);
@@ -189,7 +176,7 @@ export class TopicTreeComponent implements OnInit {
         let object = $event.data;
         object.subject_id = this.filterData.subject_id;
         object.standard_id = this.filterData.standard_id;
-       // this.auth.showLoader();
+        // this.auth.showLoader();
         let url = "/api/v1/topic_manager/add/" + this.institute_id;
         this._http.postData(url, object).subscribe(
           (data: any) => {
@@ -315,8 +302,8 @@ export class TopicTreeComponent implements OnInit {
             this.subjectList = data;
           }
         }
-        if(!data.length || data == null){
-          this._toastPopup.showErrorMessage('info','', 'No topics linked')
+        if (!data.length || data == null) {
+          this._toastPopup.showErrorMessage('info', '', 'No topics linked')
         }
       },
       (error: any) => {
@@ -333,7 +320,7 @@ export class TopicTreeComponent implements OnInit {
     else {
       for (let i = 0; i < topic.subTopic.length; i++) {
         let object = topic.subTopic[i];
-        let subject = subjectList != undefined ?  subjectList.subTopic[i] : '';
+        let subject = subjectList != undefined ? subjectList.subTopic[i] : '';
         object.addSubtopic = subject && subject.addSubtopic ? subject.addSubtopic : [];
         if (subject && subject.addSubtopic && subject.addSubtopic[0]) {
           let add_sub_object = subject.addSubtopic[0];

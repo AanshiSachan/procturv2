@@ -157,7 +157,9 @@ export class ClassScheduleService {
     }
 
     getAllActiveTeachersList(): Observable<any> {
-        let url = this.baseURL + "/api/v1/teachers/all/" + this.institute_id + '?active=Y';
+        // let url = this.baseURL + "/api/v1/teachers/all/" + this.institute_id + '?active=Y';
+        let url = this.baseURL + "/api/v1/teachers/teacher-list/" + this.institute_id + '?active=Y';
+
         return this.http.get(url, { headers: this.headers }).map(
             this.successCallback,
             this.errorCallBack
@@ -289,7 +291,9 @@ export class ClassScheduleService {
     }
 
     getAllTeachersList(): Observable<any> {
-        let url = this.baseURL + "/api/v1/teachers/all/" + this.institute_id + '?active=Y';
+        // let url = this.baseURL + "/api/v1/teachers/all/" + this.institute_id + '?active=Y';
+        let url = this.baseURL + "/api/v1/teachers/teacher-list/" + this.institute_id + '?active=Y';
+
         return this.http.get(url, { headers: this.headers }).map(
             res => {
                 return res;
@@ -365,25 +369,25 @@ export class ClassScheduleService {
 
     // Course Planner services
 
-    getCoursePlannerData(obj, section){
-      obj.institute_id = this.institute_id;
-      let url = this.baseURL + "/api/v1/coursePlanner/category?type="+section;
-      return this.http.post(url, obj, { headers: this.headers }).map(
-          res => { return res },
-          err => { return err }
-      )
+    getCoursePlannerData(obj, section) {
+        obj.institute_id = this.institute_id;
+        let url = this.baseURL + "/api/v1/coursePlanner/category?type=" + section;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
     }
 
-    notifyCancelClass(obj, section){
-      let url = this.baseURL + "/api/v1/coursePlanner/notifyCancelClassOrExam/?type="+section;
-      return this.http.post(url, obj, { headers: this.headers }).map(
-        res => {
-            return res;
-        },
-        err => {
-            return err;
-        }
-      )
+    notifyCancelClass(obj, section) {
+        let url = this.baseURL + "/api/v1/coursePlanner/notifyCancelClassOrExam/?type=" + section;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
     }
 
 

@@ -3,6 +3,7 @@ import { CheckableSettings, TreeItemLookup } from '@progress/kendo-angular-treev
 import * as moment from 'moment';
 import { SelectItem } from 'primeng/components/common/api';
 import { of } from 'rxjs/observable/of';
+import { HttpService } from '../../../..';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { ExamCourseService } from '../../../../services/course-services/exam-schedule.service';
@@ -21,6 +22,7 @@ export class CourseExamComponent implements OnInit {
   masterCourseList: any = [];
   courseList: any = [];
   batchesList: any = [];
+  fullResponse: any = [];
   examScheduleData: any = [];
   cancelledSchedule: any = [];
   studentList: any = [];
@@ -43,6 +45,7 @@ export class CourseExamComponent implements OnInit {
   absentCount: number = 0;
   presentCount: number = 0;
   leaveCount: number = 0;
+  institute_id: any;
   attendanceNote: string = "";
   batchAdderData = {
     exam_date: moment().format("YYYY-MM-DD"),
@@ -98,23 +101,23 @@ export class CourseExamComponent implements OnInit {
     endTimeMins: '00',
     total_marks: ''
   };
-  exam_desc:any ='';
-  exam_room_no:any ='';
-  subject_id:any ='';
-  subject_name:any ='';
-  exam_marks:any ='';
-  edit_subject_id:any ='';
-  edit_subject_name:any ='';
-  edit_exam_marks:any ='';
-  edit_subject_topics:any ='';
-  edit_exam_desc:any ='';
-  edit_exam_room_no:any ='';
-  row_edit_subject_id:any ='';
-  row_edit_subject_name:any ='';
-  row_edit_exam_marks:any ='';
-  row_edit_subject_topics:any ='';
-  row_edit_exam_desc:any ='';
-  row_edit_exam_room_no:any ='';
+  exam_desc: any = '';
+  exam_room_no: any = '';
+  subject_id: any = '';
+  subject_name: any = '';
+  exam_marks: any = '';
+  edit_subject_id: any = '';
+  edit_subject_name: any = '';
+  edit_exam_marks: any = '';
+  edit_subject_topics: any = '';
+  edit_exam_desc: any = '';
+  edit_exam_room_no: any = '';
+  row_edit_subject_id: any = '';
+  row_edit_subject_name: any = '';
+  row_edit_exam_marks: any = '';
+  row_edit_subject_topics: any = '';
+  row_edit_exam_desc: any = '';
+  row_edit_exam_room_no: any = '';
   selectedSubId: any;
   total_marks_to_show = 0;
   // Topic listing variables
@@ -151,7 +154,8 @@ export class CourseExamComponent implements OnInit {
     private toastCtrl: AppComponent,
     private auth: AuthenticatorService,
     private topicService: TopicListingService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private _http: HttpService,
   ) { }
 
   public get checkableSettings(): CheckableSettings {
@@ -165,20 +169,23 @@ export class CourseExamComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.institute_id = sessionStorage.getItem('institute_id');
     this.checkInstituteType();
     this.fetchPrefillData();
     this.checkForCoursePlannerRoute();
   }
 
-  checkForCoursePlannerRoute(){
+  checkForCoursePlannerRoute() {
     this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
   }
 
   fetchPrefillData() {
     if (this.isLangInstitute) {
       this.getMasterCourseBatchData();
+      this.getBatchList();
     } else {
-      this.getMasterCourseList();
+      // this.getMasterCourseList();
+      this.getMasterCourse();
     }
   }
 
@@ -191,7 +198,7 @@ export class CourseExamComponent implements OnInit {
           this.masterCourseList = res.standardLi;
         }
         if (res.batchLi != null && res.batchLi.length > 0) {
-          this.batchesList = res.batchLi;
+          // this.batchesList = res.batchLi;
           this.subjectsList = res.subjectLi;
         }
         if (res.subjectLi != null && res.subjectLi.length > 0) {
@@ -205,193 +212,207 @@ export class CourseExamComponent implements OnInit {
       }
     )
   }
-
-  fetchTopics(){
+  getBatchList() {
+    this.auth.showLoader();
+    let url = '/api/v1/batches/batch-list/' + this.institute_id + '/-1?is_active_not_expire=A&sorted_by=batch_name';
+    this._http.getData(url).subscribe((data: any) => {
+      this.auth.hideLoader();
+      this.batchesList = data.result;
+      // this.batchPro = data.batchLi;
+    },
+      (error: any) => {
+        this.auth.hideLoader();
+        return error;
+      }
+    )
+  }
+  fetchTopics() {
     this.auth.showLoader();
     this.totalTopicsList = [];
     this.selectedTopics = '';
     this.selectedTopicsListObj = [];
-    this.topicService.getAllTopicsSubTopics(this.batchData.subject_id).subscribe(data =>{
+    this.topicService.getAllTopicsSubTopics(this.batchData.subject_id).subscribe(data => {
       this.topicsList = [];
       this.topicsList = data;
-      if(this.topicsList.length && this.topicsList != null){
+      if (this.topicsList.length && this.topicsList != null) {
         this.showTopicsPopUp = true;
         this.auth.hideLoader();
-        this.topicsList.forEach(tpc =>{
+        this.topicsList.forEach(tpc => {
           this.totalTopicsList.push(tpc);
           tpc.checked = false;
-          if(tpc.subTopic.length){
+          if (tpc.subTopic.length) {
             this.getAllTopics(tpc.subTopic)
           }
         })
       }
-      else{
+      else {
         this.auth.hideLoader();
-        this.messageNotifier('info', 'Info', 'No topics available to link !');      }
-    }, err=>{
+        this.messageNotifier('info', 'Info', 'No topics available to link !');
+      }
+    }, err => {
       this.auth.hideLoader();
-      this.messageNotifier('error','', err.error.message)
+      this.messageNotifier('error', '', err.error.message)
     })
   }
 
-  saveSelectedTopics(){
+  saveSelectedTopics() {
     /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
       this.messageNotifier('info','Info', 'Please select topics to save !')    }
     else { */
-     this.auth.showLoader();
-     this.selectedTopicsListObj = [];
-     this.selectedTopicsListObj = this.totalTopicsList.filter(obj => obj.checked == true);
-      if(this.selectedTopicsListObj != undefined){
-      this.selectedTopics = this.selectedTopicsListObj.map(obj=>{
+    this.auth.showLoader();
+    this.selectedTopicsListObj = [];
+    this.selectedTopicsListObj = this.totalTopicsList.filter(obj => obj.checked == true);
+    if (this.selectedTopicsListObj != undefined) {
+      this.selectedTopics = this.selectedTopicsListObj.map(obj => {
         return obj.topicId;
       })
       this.selectedTopics = this.selectedTopics.join('|');
-      }
-     this.messageNotifier('success','', 'Topics linked successfully');
-     this.auth.hideLoader();
-     this.showTopicsPopUp = false;
-   // }
+    }
+    this.messageNotifier('success', '', 'Topics linked successfully');
+    this.auth.hideLoader();
+    this.showTopicsPopUp = false;
+    // }
   }
 
-  fetchSelectedTopics(){
+  fetchSelectedTopics() {
     this.auth.showLoader();
-    this.showTopicsPopUp= true;
-    this.selectedTopicsListObj.forEach(obj =>{
+    this.showTopicsPopUp = true;
+    this.selectedTopicsListObj.forEach(obj => {
       var getTopicObject = this.totalTopicsList.find(ele => ele.topicId == obj.topicId);
       getTopicObject.checked = true;
     });
     this.auth.hideLoader();
   }
 
-  getAllTopics(topic){
-    topic.forEach(obj =>{
+  getAllTopics(topic) {
+    topic.forEach(obj => {
       this.totalTopicsList.push(obj);
       obj.checked = false;
-      if(obj.subTopic.length){
+      if (obj.subTopic.length) {
         this.getAllTopics(obj.subTopic)
       }
     })
   }
 
-  toggleArrow(topic){
+  toggleArrow(topic) {
     topic.isExpand = !(topic.isExpand);
   }
-  closeTopicModal(topic){
+  closeTopicModal(topic) {
     this.showTopicsPopUp = false;
     this.showExamEditModal = false;
   }
-  linkTopics(){
+  linkTopics() {
     /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
      this.messageNotifier('info','Info','No topics selected')
     }
     else { */
-      this.auth.showLoader();
-      var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
-      var getTopicIds ;;
-      if(getSelectedTopics !=undefined){
-          getTopicIds = getSelectedTopics.map(obj =>{
-            return obj.topicId;
-          })
-          getTopicIds = getTopicIds.join('|')
-          this.getSubjectObject.topics_covered = getTopicIds;
-          this.examSchedule.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
-      }
-      this.showTopicsPopUp = false;
-      this.auth.hideLoader();
-      this.showExamEditModal = false;
-      this.messageNotifier('success','','Topics updated successfully');
-   // }
+    this.auth.showLoader();
+    var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
+    var getTopicIds;;
+    if (getSelectedTopics != undefined) {
+      getTopicIds = getSelectedTopics.map(obj => {
+        return obj.topicId;
+      })
+      getTopicIds = getTopicIds.join('|')
+      this.getSubjectObject.topics_covered = getTopicIds;
+      this.examSchedule.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
+    }
+    this.showTopicsPopUp = false;
+    this.auth.hideLoader();
+    this.showExamEditModal = false;
+    this.messageNotifier('success', '', 'Topics updated successfully');
+    // }
   }
 
   //on checkbox check
-  selectTopics(topic,event){
+  selectTopics(topic, event) {
     topic.checked = !topic.checked;
-      if(topic.subTopic.length){
-        this.checkAllSubTopics(topic.subTopic, event.target.checked);
+    if (topic.subTopic.length) {
+      this.checkAllSubTopics(topic.subTopic, event.target.checked);
+    }
+    if (!event.target.checked) {
+      if (topic.parentTopicId != 0) {
+        this.uncheckParent(topic);
       }
-      if(!event.target.checked){
-        if(topic.parentTopicId != 0){
-          this.uncheckParent(topic);
-        }
-      }
-      this.checkParent(topic);
+    }
+    this.checkParent(topic);
 
   }
   // check/uncheck all subtopics if parent is checked/unchecked
-  checkAllSubTopics(topic,param){
-    topic.forEach(obj =>{
-      if(param){
-      obj.checked = true;
+  checkAllSubTopics(topic, param) {
+    topic.forEach(obj => {
+      if (param) {
+        obj.checked = true;
       }
-      else{
+      else {
         obj.checked = false
       }
-      if(obj.subTopic.length){
-        this.checkAllSubTopics(obj.subTopic,param);
+      if (obj.subTopic.length) {
+        this.checkAllSubTopics(obj.subTopic, param);
       }
     })
   }
 
 
   //check parent if all subtopics are checked
-  checkParent(topic){
+  checkParent(topic) {
     var checkAll: boolean = true;
-    if(this.totalTopicsList.find(el => el.topicId == topic.topicId) != undefined){
+    if (this.totalTopicsList.find(el => el.topicId == topic.topicId) != undefined) {
       var parentTopic = this.totalTopicsList.find(ele => ele.topicId == topic.parentTopicId);
-      if(parentTopic != undefined){
-      if(parentTopic.subTopic.length){
-        parentTopic.subTopic.forEach(subTpc =>{
-          if(!subTpc.checked){
-            checkAll = false;
-          }
-        });
-        if(checkAll){
-          parentTopic.checked = true;
-          if(parentTopic.parentTopicId != 0){
-            this.checkParent(parentTopic)
+      if (parentTopic != undefined) {
+        if (parentTopic.subTopic.length) {
+          parentTopic.subTopic.forEach(subTpc => {
+            if (!subTpc.checked) {
+              checkAll = false;
+            }
+          });
+          if (checkAll) {
+            parentTopic.checked = true;
+            if (parentTopic.parentTopicId != 0) {
+              this.checkParent(parentTopic)
+            }
           }
         }
       }
     }
-    }
   }
 
-   //uncheck parent if any of the child is deselected
-   uncheckParent(topic){
+  //uncheck parent if any of the child is deselected
+  uncheckParent(topic) {
     var getParentTopic = this.totalTopicsList.find(obj => obj.topicId == topic.parentTopicId);
-    if(getParentTopic !=undefined){
+    if (getParentTopic != undefined) {
       getParentTopic.checked = false;
-      if(getParentTopic.parentTopicId !=0){
+      if (getParentTopic.parentTopicId != 0) {
         this.uncheckParent(getParentTopic)
       }
     }
   }
 
-  editTopics(row){
-    console.log('inside edit topics:',row);
+  editTopics(row) {
+    console.log('inside edit topics:', row);
     this.getSubjectObject = '';
     this.getSubjectObject = row;
     this.auth.showLoader();
-    if(row.topics_covered != '' && row.topics_covered != null){
-    var selectedTopicIds = row.topics_covered.split('|');
+    if (row.topics_covered != '' && row.topics_covered != null) {
+      var selectedTopicIds = row.topics_covered.split('|');
     }
     var list = [];
-    this.topicService.getAllTopicsSubTopics(this.batchData.subject_id).subscribe(res =>{
+    this.topicService.getAllTopicsSubTopics(this.batchData.subject_id).subscribe(res => {
       this.topicsList = [];
       this.topicsList = res;
-      if(this.topicsList != null && this.topicsList.length){
-       this.showTopicsPopUp = true;
-       this.showExamEditModal = true;
+      if (this.topicsList != null && this.topicsList.length) {
+        this.showTopicsPopUp = true;
+        this.showExamEditModal = true;
         this.auth.hideLoader();
-        this.topicsList.forEach(obj =>{
-         list.push(obj);
-         if(selectedTopicIds !=undefined){
-          if(selectedTopicIds.indexOf((obj.topicId).toString()) > -1){
-            obj.checked = true;
+        this.topicsList.forEach(obj => {
+          list.push(obj);
+          if (selectedTopicIds != undefined) {
+            if (selectedTopicIds.indexOf((obj.topicId).toString()) > -1) {
+              obj.checked = true;
+            }
           }
-         }
-          if(obj.subTopic.length){
-            this.fetchAllTopics(obj.subTopic,list,selectedTopicIds);
+          if (obj.subTopic.length) {
+            this.fetchAllTopics(obj.subTopic, list, selectedTopicIds);
           }
 
         });
@@ -399,27 +420,27 @@ export class CourseExamComponent implements OnInit {
         this.totalTopicsList = list
       }
       else {
-       this.auth.hideLoader();
-      // this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', "No topics available to Link");
-      this.messageNotifier('info','Info','No topics available to link')
+        this.auth.hideLoader();
+        // this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', "No topics available to Link");
+        this.messageNotifier('info', 'Info', 'No topics available to link')
       }
-    },err => {
-     this.auth.hideLoader();
-    // this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
-    this.messageNotifier('error', '', err.error.message);
-   })
+    }, err => {
+      this.auth.hideLoader();
+      // this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+      this.messageNotifier('error', '', err.error.message);
+    })
   }
 
-  fetchAllTopics(topic,list,idList){
-    topic.forEach(key =>{
-      if(idList !=undefined && idList != null){
-      if(idList.indexOf((key.topicId).toString()) > -1){
-        key.checked = true;
+  fetchAllTopics(topic, list, idList) {
+    topic.forEach(key => {
+      if (idList != undefined && idList != null) {
+        if (idList.indexOf((key.topicId).toString()) > -1) {
+          key.checked = true;
+        }
       }
-    }
       list.push(key);
-      if(key.subTopic.length){
-        this.fetchAllTopics(key.subTopic,list,idList)
+      if (key.subTopic.length) {
+        this.fetchAllTopics(key.subTopic, list, idList)
       }
 
     });
@@ -443,7 +464,7 @@ export class CourseExamComponent implements OnInit {
     }
     this.getCourseName(event)
   }
-  getCourseName(eve){
+  getCourseName(eve) {
     this.selectedCourseName = '';
     this.selectedCourseName = this.subjectsList.find(ob => ob.subject_id == eve).subject_name;
   }
@@ -585,7 +606,7 @@ export class CourseExamComponent implements OnInit {
       for (let i = 0; i < this.examSchedule.length; i++) {
         let test: any = {};
         test.exam_date = moment(this.examSchedule[i].exam_date).format('YYYY-MM-DD'),
-        test.start_time = this.examSchedule[i].start_time;
+          test.start_time = this.examSchedule[i].start_time;
         test.end_time = this.examSchedule[i].end_time;
         test.total_marks = this.examSchedule[i].total_marks;
         test.exam_desc = this.examSchedule[i].exam_desc;
@@ -767,7 +788,7 @@ export class CourseExamComponent implements OnInit {
         }
       )
     }
-}
+  }
   // Mark Attendance Popup
 
   markAttendanceSchedule(data) {
@@ -1025,32 +1046,60 @@ export class CourseExamComponent implements OnInit {
       }
     )
   }
+  getMasterCourse() {
+    let url = "/api/v1/courseMaster/master-course-list/" + this.institute_id + '?is_active_not_expire=Y&sorted_by=course_name';
 
+    let keys;
+    this.auth.showLoader();
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.fullResponse = data.result;
+        keys = Object.keys(data.result);
+
+        console.log("keys", keys);
+
+        for (let i = 0; i < keys.length; i++) {
+          this.masterCourseList.push(keys[i]);
+        }
+
+
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
   getCourseList(event) {
     this.courseList = [];
-    this.courseData.course_id = -1;
-    if (event != -1) {
-      this.auth.showLoader();
-      this.apiService.fetchCourseListData(this.courseData.master_course).subscribe(
-        res => {
-          this.auth.hideLoader();
-          this.courseList = res;
-        },
-        err => {
-          console.log(err);
-          this.auth.hideLoader();
-        }
-      )
+    let temp = this.fullResponse[this.courseData.master_course];
+    for (let i = 0; i < temp.length; i++) {
+      this.courseList.push(temp[i]);
     }
+    // this.courseData.course_id = -1;
+    // if (event != -1) {
+    //   this.auth.showLoader();
+    //   this.apiService.fetchCourseListData(this.courseData.master_course).subscribe(
+    //     res => {
+    //       this.auth.hideLoader();
+    //       this.courseList = res;
+    //     },
+    //     err => {
+    //       console.log(err);
+    //       this.auth.hideLoader();
+    //     }
+    //   )
+    // }
   }
 
   displayCourseDate() {
     console.log(this.courseData.course_id)
     this.showCourseStartEndDate = true;
-    for (let i = 0; i < this.courseList.coursesList.length; i++) {
-      if (this.courseList.coursesList[i].course_id == this.courseData.course_id) {
-        this.batchStartDate = this.courseList.coursesList[i].start_date;
-        this.batchEndDate = this.courseList.coursesList[i].end_date;
+    for (let i = 0; i < this.courseList.length; i++) {
+      if (this.courseList[i].course_id == this.courseData.course_id) {
+        this.batchStartDate = this.courseList[i].sql_start_date;
+        this.batchEndDate = this.courseList[i].sql_end_date;
       }
     }
 
@@ -1059,8 +1108,8 @@ export class CourseExamComponent implements OnInit {
   validateDateRange() {
     let selectedCourse: any = {};
     let check = true;
-    if (this.courseList.coursesList.length > 0) {
-      selectedCourse = this.courseList.coursesList.filter(
+    if (this.courseList.length > 0) {
+      selectedCourse = this.courseList.filter(
         el => el.course_id == this.courseData.course_id
       )
       if (moment(selectedCourse[0].start_date).format('YYYY-MM-DD') <= moment(this.courseData.requested_date).format('YYYY-MM-DD') && moment(this.courseData.requested_date).format('YYYY-MM-DD') <= moment(selectedCourse[0].end_date).format('YYYY-MM-DD')) {
@@ -1693,7 +1742,7 @@ export class CourseExamComponent implements OnInit {
       let y = this.row_edit_subject_topicId.join("|")
       topics_covered_ids = y.replace(/,/g, "|");
     }
-  
+
 
     this.viewList[j].courseTableList[index].subject_id = this.row_edit_subject_id;
     this.viewList[j].courseTableList[index].subject_name = subjectName;
@@ -1728,7 +1777,7 @@ export class CourseExamComponent implements OnInit {
     this.multiClickDisabled = true;
     this.auth.showLoader();
     let dataToSend = this.makeDataJsonToSendServer();
-    if (dataToSend == false ||dataToSend==undefined) {
+    if (dataToSend == false || dataToSend == undefined) {
       this.auth.hideLoader();
       this.multiClickDisabled = false;
       return;

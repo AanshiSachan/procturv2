@@ -52,6 +52,7 @@ export class BiometricComponent implements OnInit {
   studentId: string = "";
   teacherId: string = "";
   customId: string = "";
+  fullResponse: any = [];
   masterCourseNames: boolean = false;
   isProfessional: boolean = true;
   addReportPopUp: boolean = false;
@@ -202,7 +203,8 @@ export class BiometricComponent implements OnInit {
         }
       )
     }
-    this.getMasterCourse();
+    // this.getMasterCourse();
+    this.getMasterCourseResponse();
   }
 
   getMasterCourse() {
@@ -220,6 +222,33 @@ export class BiometricComponent implements OnInit {
       }
     )
   }
+
+  getMasterCourseResponse() {
+    let url = "/api/v1/courseMaster/master-course-list/" + this.institute_id + '?is_active_not_expire=Y&sorted_by=course_name';
+
+    let keys;
+    this.auth.showLoader();
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.fullResponse = data.result;
+        keys = Object.keys(data.result);
+
+        console.log("keys", keys);
+
+        for (let i = 0; i < keys.length; i++) {
+          this.masterCourse.push(keys[i]);
+        }
+
+
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
+
   switchFilter() {
     this.studentsData = [];
     this.getData.name = "";
@@ -251,7 +280,7 @@ export class BiometricComponent implements OnInit {
     // this.batchPro = [];
     this.coursePro = [];
     this.courses = [];
-    this.subjects=[];
+    this.subjects = [];
     if (this.isProfessional) {
       const url = "/api/v1/subjects/standards/" + i;
       this._http.getData(url).subscribe(
@@ -268,19 +297,23 @@ export class BiometricComponent implements OnInit {
       )
     }
     else {
-      const url = "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + i
-      this._http.getData(url).subscribe(
-        (data: any) => {
-          this.dataStatus = false;
-          this.auth.hideLoader();
-          this.courses = data.coursesList;
-        },
-        (error) => {
-          this.dataStatus = false;
-          this.auth.hideLoader();
-          return error;
-        }
-      )
+      let temp = this.fullResponse[this.getData.master_course_name];
+      for (let i = 0; i < temp.length; i++) {
+        this.courses.push(temp[i]);
+      }
+      // const url = "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + i
+      // this._http.getData(url).subscribe(
+      //   (data: any) => {
+      //     this.dataStatus = false;
+      //     this.auth.hideLoader();
+      //     this.courses = data.coursesList;
+      //   },
+      //   (error) => {
+      //     this.dataStatus = false;
+      //     this.auth.hideLoader();
+      //     return error;
+      //   }
+      // )
     }
   }
 
