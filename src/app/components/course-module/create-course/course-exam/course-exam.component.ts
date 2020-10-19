@@ -181,8 +181,8 @@ export class CourseExamComponent implements OnInit {
 
   fetchPrefillData() {
     if (this.isLangInstitute) {
-      this.getMasterCourseBatchData();
-      this.getBatchList();
+      // this.getMasterCourseBatchData();
+      this.getMasterCourseBatchDataNew();
     } else {
       // this.getMasterCourseList();
       this.getMasterCourse();
@@ -198,7 +198,7 @@ export class CourseExamComponent implements OnInit {
           this.masterCourseList = res.standardLi;
         }
         if (res.batchLi != null && res.batchLi.length > 0) {
-          // this.batchesList = res.batchLi;
+          this.batchesList = res.batchLi;
           this.subjectsList = res.subjectLi;
         }
         if (res.subjectLi != null && res.subjectLi.length > 0) {
@@ -212,9 +212,31 @@ export class CourseExamComponent implements OnInit {
       }
     )
   }
+  getMasterCourseBatchDataNew() {
+    let url = "/api/v1/standards/standard-subject-list/" + this.institute_id + '?is_active=Y&is_subject_required=true';
+    this.auth.showLoader();
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.masterCourseList = data.result;
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
+
+  getCourse() {
+    for (let i = 0; i < this.masterCourseList.length; i++) {
+      if (this.batchData.standard_id == this.masterCourseList[i].standard_id) {
+        this.courseList = this.masterCourseList[i].subject_list;
+      }
+    }
+  }
   getBatchList() {
     this.auth.showLoader();
-    let url = '/api/v1/batches/batch-list/' + this.institute_id + '/-1?is_active_not_expire=A&sorted_by=batch_name';
+    let url = '/api/v1/batches/batch-list/' + this.institute_id + '/' + this.batchData.subject_id + '?is_active_not_expire=A&sorted_by=batch_name';
     this._http.getData(url).subscribe((data: any) => {
       this.auth.hideLoader();
       this.batchesList = data.result;
@@ -453,14 +475,17 @@ export class CourseExamComponent implements OnInit {
     this.batchData.batch_id = -1;
     this.courseList = [];
     this.batchesList = [];
-    this.getMasterCourseBatchData();
+    // this.getMasterCourseBatchData();
+    this.getCourse();
   }
 
   onBatchCourseSelection(event) {
     this.batchData.batch_id = -1;
     if (this.batchData.subject_id != -1) {
       this.batchesList = [];
-      this.getMasterCourseBatchData();
+      // this.getMasterCourseBatchData();
+      this.getBatchList();
+      // this.getMasterCourseBatchDataNew();
     }
     this.getCourseName(event)
   }
