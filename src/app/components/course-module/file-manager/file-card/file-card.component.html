@@ -25,9 +25,12 @@
     <div class="file__details">{{fileObj.res.downloads}}</div>
 
     <!-- <i class="fa fa-trash" style="font-size: 17px;  color: red;" title="Delete File" *ngIf="fileObj.res.user_type!=3" (click)="getFilesDeleted(fileObj)"></i> -->
-    <i class="fa fa-edit" style="font-size: 15px;  color: #0084f6;margin-left: 1%;" title="Edit File" *ngIf="fileObj.res.category_id==230 || fileObj.res.category_id==vimeo_category_id" (click)="editYoutubeUrl(fileObj)"></i>
+    <i class="fa fa-edit" style="font-size: 15px;  color: #0084f6;" title="Edit File" *ngIf="fileObj.res.category_id==230 || fileObj.res.category_id==vimeo_category_id" (click)="editYoutubeUrl(fileObj)"></i>
     <i class="fa fa-share-alt" style="font-size: 17px; color: #0084f6; margin-left: 1%;" title="Share File" (click)="getPopupOpen(fileObj)" *ngIf="!(fileObj.res.category_id==vimeo_category_id && fileObj.res.video_status != 'ready')"></i>
     <a class="fa fa-download" style="font-size: 17px; color: #0084f6; margin-left: 1%;" *ngIf="fileObj.res.category_id!=230 && fileObj.res.teacher_access && fileObj.res.category_id!=vimeo_category_id" title="Download File" (click)="getFileDownloaded(fileObj);"
+      id="downloadFile" ></a>
+      <!-- Changes done by Nalini to download vimeo file -->
+      <a class="fa fa-download" style="font-size: 17px; color: #0084f6; margin-left: 1%;" *ngIf="(fileObj.res.category_id==vimeo_category_id && vimeo_video_downlodable)" title="Download File" (click)="getFileDownloaded(fileObj);"
       id="downloadFile" ></a>
     <a [href]='fileURL' id="downloadFileClick" class="hide" ></a>
     <a class="fa fa-play" style="font-size: 17px; color: #0084f6; margin-left: 1%;" *ngIf="fileObj.res.category_id==230" title="Play" (click)="getYoutubeLink(fileObj);"

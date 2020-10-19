@@ -85,6 +85,7 @@ export class AddClassComponent implements OnInit {
     product_id: null,
     private_access: false,
     access_enable_lobby: false,
+    access_enable_breakout_rooms: false,
     access_before_start: 0,
     batch_list: null,
     course_list: null,
@@ -546,6 +547,7 @@ export class AddClassComponent implements OnInit {
       eLearnCustUserIDs: [],
       private_access: false,
       access_enable_lobby: false,
+      access_enable_breakout_rooms: false,
       access_before_start: 0,
       batch_list: null,
       course_list: null,
@@ -658,7 +660,7 @@ export class AddClassComponent implements OnInit {
         (data: any) => {
 
           this.batches = data;
-          if(this.batches && !this.batches.length) {
+          if (this.batches && !this.batches.length) {
             this.appC.popToast({ type: "error", body: "Please check batches are active or not." });
           }
           console.log(this.batches)
@@ -681,7 +683,7 @@ export class AddClassComponent implements OnInit {
         (data: any) => {
 
           this.masters = data;
-          if(this.masters && !this.masters.length) {
+          if (this.masters && !this.masters.length) {
             this.appC.popToast({ type: "error", body: "Please check courses are active or not." });
           }
           this.auth.hideLoader();
