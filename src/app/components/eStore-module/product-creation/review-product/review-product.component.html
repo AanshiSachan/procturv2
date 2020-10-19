@@ -59,7 +59,8 @@
         <div class="col-md-6" style="padding-top: 4%;padding-left: 10%;">
           <span class="field-checkbox-wrapper">
             <input class="form-checkbox" type="checkbox" id="free_price" [disabled]="isAdvanceProductEdit"
-              [(ngModel)]="prodForm.is_paid" (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price =0"
+              [(ngModel)]="prodForm.is_paid"
+              (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price_before_discount =0;prodForm.price =0;prodForm.discount_percentage =0"
               name="free_price" name="is_paid">
             <label for="free_price">Free</label>
           </span>
