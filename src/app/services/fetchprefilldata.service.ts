@@ -191,8 +191,7 @@ export class FetchprefilldataService {
   /* fetch prefill data standards*/
   getEnqStardards(): any {
 
-    this.urlStdSub = this.baseUrl + "/api/v1/standards/standard-subject-list/" + this.institute_id + "?is_active=Y&is_subject_required=false";
-
+    this.urlStdSub = this.baseUrl + "/api/v1/standards/all/" + this.institute_id + "?active=Y";
     return this.http.get(this.urlStdSub, { headers: this.headers })
       .map(res => {
         return res;

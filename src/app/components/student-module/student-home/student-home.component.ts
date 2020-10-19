@@ -66,7 +66,6 @@ export class StudentHomeComponent implements OnInit {
   studentbatchList: any[] = [];
   studentByIdcustomComponents: any[] = [];
   filterCustomComponent: any[] = []
-
   private studentdisplaysize: number = 100;
   perPage: number = 10;
   PageIndex: number = 1;
@@ -2716,7 +2715,7 @@ export class StudentHomeComponent implements OnInit {
       this.auth.showLoader();
       this.prefill.getEnqStardards().subscribe(data => {
         this.auth.hideLoader();
-        this.standardList = data.result;
+        this.standardList = data;
       });
     }
     this.auth.showLoader();
