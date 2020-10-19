@@ -66,7 +66,7 @@ export class FileCardComponent implements OnChanges {
   dwnldLink = "";
   arr: any[] = [];
   fileURL: any;
-  vimeo_category_id = '272';
+  vimeo_category_id = '305';
 
   @Output() downloadStatus = new EventEmitter<any>();
   constructor(
@@ -238,7 +238,6 @@ export class FileCardComponent implements OnChanges {
   }
 
   getFileDownloaded(fileObj) {
-    console.log(fileObj);
     if(fileObj.res.category_id!=this.vimeo_category_id) {
     let file_type = fileObj.type
     const url = "/api/v1/instFileSystem/downloadFile/" + this.fileService.institute_id + "?fileId=" + fileObj.res.file_id;
