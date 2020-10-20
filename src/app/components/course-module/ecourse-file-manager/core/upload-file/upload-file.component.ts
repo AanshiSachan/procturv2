@@ -10,7 +10,7 @@ import { FileService } from '../../file.service';
   templateUrl: './upload-file.component.html',
   styleUrls: ['./upload-file.component.scss']
 })
-export class UploadFileComponent implements OnInit,AfterViewChecked {
+export class UploadFileComponent implements OnInit, AfterViewChecked {
 
   subjectList: any[] = [];
   topicList: any[] = [];
@@ -66,7 +66,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
   Vimeopayload: any = {};
   @ViewChild('form',{static: false}) form: ElementRef;
   Vimeofile: any = {
-    files : []
+    files: []
   };
 
   constructor(
@@ -75,7 +75,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
     private msgService: MessageShowService,
     private router: Router,
     private _fservice: FileService,
-    private renderer:Renderer2
+    private renderer: Renderer2
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -94,7 +94,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
     });
   }
 
-  ngAfterViewChecked(){
+  ngAfterViewChecked() {
     // if(document.getElementsByClassName('ui-fileupload-row').length){
     //   this.renderer.setStyle(document.getElementsByClassName('ui-fileupload-row')[0].children[2], 'display', 'none');
     // }
@@ -128,9 +128,9 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       "title": this.varJson.title,
       "category_id": this.Existing_video_category_id,
     }
-    if(!this.showModal) {
+    if (!this.showModal) {
       object.sub_topic_id = Number(this.jsonData.mainTopicId),
-      object.topic_id = Number(this.jsonData.parentTopicId)
+        object.topic_id = Number(this.jsonData.parentTopicId)
     }
     let flag = this.uploadDatavalidation();
     if (!this.auth.isRippleLoad.getValue() && (flag)) {
@@ -189,9 +189,9 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         "size": 0
       }
 
-      if(!this.showModal) {
+      if (!this.showModal) {
         fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
-        fileJson.topic_id = Number(this.jsonData.parentTopicId)
+          fileJson.topic_id = Number(this.jsonData.parentTopicId)
       }
 
       let base = this.auth.getBaseUrl();
@@ -314,10 +314,11 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         sub_topic_id: this.varJson.sub_topic_id,
         subject_id: this.varJson.subject_id,
         file_id: -1,
+        is_readonly: this.varJson.is_readonly ? 'Y' : 'N'
       }
-      if(!this.showModal) {
+      if (!this.showModal) {
         fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
-        fileJson.topic_id = Number(this.jsonData.parentTopicId)
+          fileJson.topic_id = Number(this.jsonData.parentTopicId)
       }
       formData.append('fileJson', JSON.stringify(fileJson));
       if ($event.files && $event.files.length) {
@@ -376,7 +377,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       }
     });
     this.Vimeofile = {
-      files : []
+      files: []
     };
     if (value == '330') {
       this.jsonData.selectedVideo = '';
@@ -480,19 +481,19 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please add video title");
           flag = false;
         }
-        if(files.length) {
-        for (let i = 0; i < files.length; i++) {
-          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV|.FIV|.flv|.mp4|.mov|.webm|.WEBM|.mkv|.MKV|.ogv|.OGV|.vob|.VOB|.gifv|.GIFV|.mng|.MNG|.avi|.gif|.GIF|.drc|.DRC|.ogg|.OGG|.MTS|.mts|.M2TS|.m2ts|.TS|.ts|.qt|.QT|.wmv|.yuv|.YUV|.rm|.RM|.rmvb|.RMVB)/i;
-          if (!pattern.test(files[i].name)) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select " + this.varJson.name + " in avi,flv,wmv,mp4 ,webm, mkv ,ogv, vob,gifv, mng, avi,gif, drc, ogg, MTS, M2TS , TS, mov, qt , yuv, rm,rmvb and mov form");
-            flag = false;
-            break;
+        if (files.length) {
+          for (let i = 0; i < files.length; i++) {
+            let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV|.FIV|.flv|.mp4|.mov|.webm|.WEBM|.mkv|.MKV|.ogv|.OGV|.vob|.VOB|.gifv|.GIFV|.mng|.MNG|.avi|.gif|.GIF|.drc|.DRC|.ogg|.OGG|.MTS|.mts|.M2TS|.m2ts|.TS|.ts|.qt|.QT|.wmv|.yuv|.YUV|.rm|.RM|.rmvb|.RMVB)/i;
+            if (!pattern.test(files[i].name)) {
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select " + this.varJson.name + " in avi,flv,wmv,mp4 ,webm, mkv ,ogv, vob,gifv, mng, avi,gif, drc, ogg, MTS, M2TS , TS, mov, qt , yuv, rm,rmvb and mov form");
+              flag = false;
+              break;
+            }
           }
-        }
         } else {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select file");
-            flag = false;
-            break;
+          flag = false;
+          break;
         }
         break;
       }
@@ -645,7 +646,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
       let is_private = this.varJson.is_private == false ? 'Y' : 'N';
       let enable_watermark = this.varJson.enable_watermark == true ? 'Y' : 'N';
       let size = 0;
-      size = $event.files && $event.files[0] ? $event.files[0].size:0;
+      size = $event.files && $event.files[0] ? $event.files[0].size : 0;
       let fileJson = {
         "institute_id": this.institute_id,
         "category_id": this.varJson.category_id,
@@ -659,11 +660,11 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
         "is_private": is_private,                                                 // if user wants to make file as private
         "title": this.varJson.title,
         "enable_watermark": enable_watermark,
-        "size": (size / (1024*1024)).toFixed(3)
+        "size": (size / (1024 * 1024)).toFixed(3)
       }
-      if(!this.showModal) {
+      if (!this.showModal) {
         fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
-        fileJson.topic_id = Number(this.jsonData.parentTopicId)
+          fileJson.topic_id = Number(this.jsonData.parentTopicId)
       }
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";
@@ -701,7 +702,7 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               this.auth.hideLoader();
               // this.isUploadingXls = false;
-              if(this.varJson.category_id == 235) {
+              if (this.varJson.category_id == 235) {
                 var files = $event.files;
                 this.file = files[0];
                 let payloadObject: any = JSON.parse(newxhr.response);
@@ -710,11 +711,11 @@ export class UploadFileComponent implements OnInit,AfterViewChecked {
               } else {
                 let payloadObject: any = JSON.parse(newxhr.response);
                 this.Vimeopayload = payloadObject;
-                var res = this.Vimeopayload.upload_link.substring(0 , this.Vimeopayload.upload_link.lastIndexOf("="));
+                var res = this.Vimeopayload.upload_link.substring(0, this.Vimeopayload.upload_link.lastIndexOf("="));
                 let url = window.location.href;
-                url = url.substring(0 , url.lastIndexOf("#"));
+                url = url.substring(0, url.lastIndexOf("#"));
                 res = res.concat('=' + url + '#/view/course/ecourse-file-manager/ecourses?videoId=' + this.Vimeopayload.videoId);
-                if(this.Vimeopayload.upload_link!='' && this.Vimeopayload.upload_link!=null) {
+                if (this.Vimeopayload.upload_link != '' && this.Vimeopayload.upload_link != null) {
                   (document.getElementById('form') as HTMLFormElement).action = res;
                   this.form.nativeElement.submit();
                 }

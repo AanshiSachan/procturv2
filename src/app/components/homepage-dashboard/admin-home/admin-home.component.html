@@ -176,9 +176,7 @@
                                                                 </span>
                                                             </div>
                                                         </li>
-                                                        <!-- <li class="exam">
-                              <div title="{{class.course_name}}">{{class.course_name}}</div>
-                            </li> -->
+
                                                         <li class="subject">
                                                             <div title="{{class.subject_name}}">
                                                                 {{(class.subject_name?.length > 10)? (class.subject_name | slice:0:10)+'..':(class.subject_name) }}
@@ -361,11 +359,9 @@
                                                                 <span
                                                                     *ngIf="!((class.freq == 'WEEK' && class.custom_class_type == '') || class.custom_class_type == 'Regular(Custom)' || class.custom_class_type=='Regular')"
                                                                     style="color: #ff6600">Extra</span>
-                                                                <!-- <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span> -->
                                                             </div>
                                                             <div *ngIf="class.isExam">
                                                                 <span style="color: #f41237">Exam</span>
-                                                                <!-- <span class="class-type-status" [ngClass]="getClassStatus(class)" >ongoing</span> -->
                                                             </div>
                                                         </li>
 
@@ -375,11 +371,7 @@
                                                                 </span></div>
                                                         </li>
                                                         <li class="class_room">
-                                                            <!-- <div>
-                                <span>
-                                  {{class.class_room_name}}
-                                </span>
-                              </div> -->
+
                                                             <div title="{{class.topicName}}"
                                                                 *ngIf="class.topicName != null && class.topicName != ''">
                                                                 {{(class.topicName.length > 15) ? (class.topicName | slice:0:15)+ '..':(class.topicName)}}
@@ -515,12 +507,9 @@
         <div class="attendanceWrapper" widget-content>
             <div class="row">
                 <aside class="tableSection">
-                    <!-- <div class="row button-row">
-            <button class="btn pull-right" (click)="getTopicsUpdate()">Update Topic/SubTopic</button>
-          </div> -->
+
 
                     <div *ngIf="showTopicList">
-                        <!-- <h1>Hey There</h1> -->
                     </div>
 
                     <div class="row filterSection">
@@ -554,10 +543,7 @@
                                     [checked]="AllPresent" (change)="markAllPresent($event)">
                                 <label for="MarkAllPresent" class="txt-font">Mark All Present</label>
                             </div>
-                            <!-- <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" class="form-checkbox" id="SendSMSAllPresentSTD" [checked]="isSendSMSPresent" (change)="sendSMSToAllPresentStudent($event,'studentAttList')">
-                <label for="SendSMSAllPresentSTD" class="txt-font">Send SMS To Present Student</label>
-              </div> -->
+
                         </div>
 
                         <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: -10px">
@@ -667,17 +653,7 @@
                                 (change)="updateTopicCovered($event)">
                             <label for="EnableSmsTopic">Enable SMS For Covered Topic</label>
                         </div>
-                        <!-- <div class="field-checkbox-wrapper" [ngClass]="{'hide':settingInfo.sms_absent_notification == 0}">
-              <input type="checkbox" value="" class="form-checkbox" id="EnableSmsAbsentees">
-              <label for="EnableSmsTopic">Send SMS for Absentees
-                <div class="questionInfo lefts" style="margin-left: 30px;">
-                  <span class="qInfoIcon">?</span>
-                  <div class="tooltip-box-field">
-                    Send message if Absent is marked
-                  </div>
-                </div>
-              </label>
-            </div> -->
+
                     </div>
 
                     <div style="margin-top: 0px">
@@ -978,12 +954,7 @@
                     <span class="present">{{presentCount}}</span>
                     <h5>Present</h5>
                 </div>
-                <!-- <div class="c-sm-3 c-md-3 c-lg-3">
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" id="SendSMSAllPresentSTD" [checked]="isSendSMSPresent" (change)="sendSMSToAllPresentStudent($event,'courseLevelStudentAtt')">
-            <label for="SendSMSAllPresentSTD" class="txt-font">Send SMS To Present Student</label>
-          </div>
-        </div> -->
+
             </div>
 
             <div class="attendanceMain">
@@ -994,7 +965,6 @@
                                 <tr style="height: 35px;">
                                     <th style="font-size: 14px;font-weight: 600;">Student Id</th>
                                     <th style="font-size: 14px;font-weight: 600;">Student Name</th>
-                                    <!-- <th style="font-size: 14px;font-weight: 600;">Joining Date</th> -->
                                     <th style="font-size: 14px;font-weight: 600;">Attendance</th>
                                     <th style="font-size: 14px;font-weight: 600;"
                                         *ngIf="settingInfo.home_work_feature_enable==1">HomeWork Status
@@ -1009,9 +979,7 @@
                                     <td>
                                         {{s.student_name}}
                                     </td>
-                                    <!-- <td>
-                    {{s.doj}}
-                  </td> -->
+
                                     <td>
                                         <div class="btnGroup">
                                             <button id="leaveBtnCourse{{s.student_id}}"
@@ -1157,17 +1125,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="c-sm-5 c-md-5 c-lg-5 note-section"> -->
-                        <!-- <h3>Note</h3>
-              <span>1. Always start with "Dear Student, Dear Parent, Dear Faculty etc".</span>
-              <br>
-              <span>2. Please check spelling and grammar of the SMS.</span>
-              <br>
-              <span>3. Do not use any improper or derogatory statements.</span>
-              <br>
-              <span>4. Approve message before sending to the audience.</span>
-              <br> -->
-                        <!-- </div> -->
+
                         <div class="c-sm-3 c-md-3 c-lg-3 btn-Group">
                             <button class="btn" (click)="closeNewMessageDiv()">Cancel</button>
                             <button class="btn fullBlue" *ngIf="!jsonFlag.editMessage"
@@ -1245,9 +1203,7 @@
                                     </div>
                                 </div>
 
-                                <!-- <div class="c-sm-3 c-md-3 c-lg-3">
-                  <button class="btn" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
-                </div> -->
+
 
                                 <div *ngIf="studentList.length > 0" class="pull-right" style="margin-top: 15px">
                                     <div class="search-filter">
@@ -1540,13 +1496,11 @@
                                             <input type="checkbox" checked="true" value="" name="sms"
                                                 (click)="smsCheckBoxClick($event)" class="form-checkbox"
                                                 id="chkbxSmsSend">
-                                            <!-- <input type="radio" checked="true" value="" name="sms" class="form-checkbox" id="chkbxSmsSend"> -->
 
                                             <label for="chkbxSmsSend" style=" margin-left: 10px;">SMS</label>
                                         </div>
                                         <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
 
-                                            <!-- <input type="radio" value="" (click)="emailCheckBoxClick($event)" name="mail" class="form-checkbox" id="chkbxEmailSend"> -->
                                             <input type="checkbox" value="" (click)="emailCheckBoxClick($event)"
                                                 name="mail" class="form-checkbox" id="chkbxEmailSend">
                                             <label for="chkbxEmailSend" style=" margin-left: 10px;">Mail</label>
@@ -1564,10 +1518,7 @@
                                                 id="chkBoxParent">
                                             <label for="chkBoxParent" style=" margin-left: 10px;">Parent</label>
                                         </div>
-                                        <!-- <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                      <input type="checkbox" value="" name="guardian" class="form-checkbox" id="chkBoxGaurdian">
-                      <label for="chkBoxGaurdian" style=" margin-left: 10px;">Guardian</label>
-                    </div> -->
+
                                     </div>
                                 </div>
 
@@ -1609,10 +1560,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>
-                                                        <!-- <div class="field-checkbox-wrapper">
-                              <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus(messageList)" (click)="checkAllChechboxes($event , messageList)">
-                              <label></label>
-                            </div> -->
+
                                                     </th>
                                                     <th class="dateSection">
                                                         Date
@@ -1674,7 +1622,7 @@
                                                             (click)="editSMS(row )"></i> &nbsp;
                                                     </td>
                                                 </tr>
-                                                <tr *ngIf="messageList.length == 0">
+                                                <tr *ngIf="emailMessageList.length == 0">
                                                     <td colspan="4">
                                                         No Notification Available
                                                     </td>
@@ -1727,7 +1675,7 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <tr *ngIf="messageList.length == 0">
+                                                <tr *ngIf="openMessageList.length == 0">
                                                     <td colspan="3">
                                                         No Notification Available
                                                     </td>
@@ -1763,7 +1711,7 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <tr *ngIf=" emailMessageList.length ==0">
+                                                <tr *ngIf=" openEmailMessageList.length ==0">
                                                     <td colspan="3">
                                                         No Notification Available
                                                     </td>
@@ -1804,9 +1752,6 @@
                                         </div>
                                         <div widget-content style="margin-top: 2%;">
                                             <button class="btn" (click)="sendNotificationMessage()">Send</button>
-                                            <button class="btn"
-                                                *ngIf="selectedOption == 'showTable' || selectedOption == 'filter' || openAppUserSelected"
-                                                (click)="sendPushNotification()">Send Push Notification</button>
                                             <button class="btn" (click)="close()">Close</button>
                                         </div>
                                     </proctur-widget>
@@ -1861,14 +1806,91 @@
 
         </div>
 
-        <!-- <div class="" widget-footer>
-      <div class="clearfix">
-        <aside class="pull-right popup-btn">
-          <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
-          <input type="button" value="Update Schedule" (click)="cancelCourseClass()" class="redBtn btn">
-        </aside>
-      </div>
-    </div> -->
+
+    </proctur-widget>
+
+    <proctur-widget *ngIf="viewDetailsPopUp">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeViewDetailsPopUp()" close-button>
+            <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+                viewBox="0 0 24 24" width="24px" x="0" y="0">
+                <path class="large-icon"
+                    d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+                    style="fill: currentColor"></path>
+            </svg>
+        </span>
+
+        <h2 widget-header>Course Details
+            <span style="font-weight: 600;color: #9b9b9b;">{{selectedViewDet.master_course}}</span>
+            <span style="font-weight: 600;color: #9b9b9b;">→</span>
+            <span style="font-weight: 600;color: #9b9b9b;">{{selectedViewDet.coursee_names}}</span>
+        </h2>
+
+        <div class="viewDeatail-wrapper" widget-content>
+            <div class="table-details-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Faculty</th>
+                            <th>Description</th>
+                            <th>Room No</th>
+                            <th>Class Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of viewDetTable">
+                            <td>{{data.subject_name}}</td>
+                            <td>{{data.start_time}}</td>
+                            <td>{{data.end_time}}</td>
+                            <td>{{data.teacher_name}}</td>
+                            <td>{{data.class_desc}}</td>
+                            <td>{{data.room_no}}</td>
+                            <td>{{data.custom_class_type}}</td>
+                        </tr>
+                        <tr *ngIf="viewDetTable.length == 0">
+                            <td colspan="7">
+                                No Classes Found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="divLoginMode" class="hide">
+
+            <div class="row">
+                <div class="radio-options">
+                    <div class="field-radio-wrapper">
+                        <input type="radio" [checked]="(loginField.checkBox == '0')" [(ngModel)]="loginField.checkBox"
+                            value="0" name="student" class="form-radio">
+                        <label for="student">Student Only</label>
+                    </div>
+                    <div class="field-radio-wrapper">
+                        <input type="radio" value="1" [(ngModel)]="loginField.checkBox" name="parent"
+                            class="form-radio">
+                        <label for="parent">Parent Only</label>
+                    </div>
+                    <div class="field-radio-wrapper">
+                        <input type="radio" value="2" [(ngModel)]="loginField.checkBox" name="both" class="form-radio">
+                        <label for="both">Both</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row btn-loginGroup"
+                *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter')">
+                <button class="btn" (click)="sendSmsForApp('1',0)">SMS For App Download</button>
+                <button class="btn" (click)="sendSmsForApp('2',0)">SMS For App Upgrade</button>
+                <button class="btn" (click)="sendSmsForApp('4',0)">Send Credentials via SMS</button>
+                <button class="btn" (click)="sendSmsForApp('4',1)">Send Credentials via
+                    Email</button>
+            </div>
+
+        </div>
+
     </proctur-widget>
 
     <proctur-widget *ngIf="viewDetailsPopUp">
@@ -1992,10 +2014,7 @@
 
     </proctur-widget>
     <!-- Exam Popup Section -->
-    <!-- Exam Popup Section -->
-    <!-- Exam Popup Section -->
-    <!-- Exam Popup Section -->
-    <!-- Exam Popup Section -->
+
 
 
     <proctur-widget *ngIf="cancelExamPopUP" [size]="'50%'">
@@ -2106,10 +2125,7 @@
                             [checked]="checkCheckAllChkboxStatusExam()" (change)="markAllPresentExam($event)">
                         <label for="MarkAllPresent" class="txt-font">Mark All Present</label>
                     </div>
-                    <!-- <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" id="SendSMSAllPresentSTD" [checked]="isSendSMSPresent" (change)="sendSMSToAllPresentStudent($event,'studentList')">
-            <label for="SendSMSAllPresentSTD" class="txt-font">Send SMS To Present Student</label>
-          </div> -->
+
                 </div>
 
             </div>
@@ -2205,17 +2221,6 @@
                     <h3>Total Marks : {{examData.total_marks}}</h3>
                 </div>
 
-                <!-- <div class="c-sm-6 c-md-6 c-lg-6">
-
-          <span class="leave">{{leaveCount}}</span>
-          <h5>Leave</h5>
-
-          <span class="absent">{{absentCount}}</span>
-          <h5>Absent</h5>
-
-          <span class="present">{{presentCount}}</span>
-          <h5>Present</h5>
-        </div> -->
 
             </div>
 
@@ -2347,25 +2352,10 @@
 
                 <div class="c-sm-6 c-md-6 c-lg-6">
 
-                    <!-- <span class="leave">{{leaveCount}}</span>
-          <h5>Leave</h5>
-
-          <span class="absent">{{absentCount}}</span>
-          <h5>Absent</h5>
-
-          <span class="present">{{presentCount}}</span>
-          <h5>Present</h5>  -->
                 </div>
 
                 <div class="c-sm-3 c-md-3 c-lg-3">
-                    <!-- <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" id="chkBxAbsenteesCourse">
-            <label for="chkBxAbsenteesCourse">Send SMS To Absentees</label>
-          </div> -->
-                    <!-- <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" id="SendSMSAllPresentSTD" [checked]="isSendSMSPresent" (change)="sendSMSToAllPresentStudent($event,'studentList')">
-            <label for="SendSMSAllPresentSTD" class="txt-font">Send SMS To Present Student</label>
-          </div> -->
+
                 </div>
 
             </div>
@@ -2479,15 +2469,6 @@
                             <label for="both">Course Wise</label>
                         </div>
                     </div>
-                    <!-- <div>
-              <div style="display: inline-block;">
-                <span  (click)="showUploadCourseMarksSection()">Upload Marks</span>
-                <a  data-html="true" data-placement="right" data-toggle="tooltip" style="font-weight: bold;font-size: 15px;"
-                  title="" data-original-title="<div style='text-align:left;font-size:12px;z-index:4;'>Download the marks/grade template for selected course and upload that with updated marks/grades</div>">
-                  <b>?</b>
-                </a>
-              </div>
-            </div> -->
                 </div>
 
 
@@ -2639,42 +2620,9 @@
                     <div class="c-sm-4 c-md-4 c-lg-4">
                         <h6>Course : {{courseTempData.course_name}}</h6>
                     </div>
-                    <!-- <div class="pull-right" *ngIf="showReasonSection == ''">
-            <button class="btn fullBlue" (click)="cancelExamCourseWise()">Cancel</button>
-          </div> -->
+
                 </div>
             </div>
-
-            <!-- <div class="table-responsive" *ngIf="showReasonSection == ''">
-        <table class="cancel-table">
-          <thead>
-            <tr>
-              <th>
-                Batch Name
-              </th>
-              <th>
-                Start Time
-              </th>
-              <th>
-                End Time
-              </th>
-              <th>
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of tempData.batchExamSchdList">
-              <td>{{data.batch_name}}</td>
-              <td>{{data.exam_start_time}}</td>
-              <td>{{data.exam_end_time}}</td>
-              <td>
-                <a style="cursor: pointer;" (click)="cancelSubjectWiseExam(data)">Cancel Exam</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
 
             <div class="cancel-section">
                 <div class="cancel-Class-Wrapper">
@@ -2746,10 +2694,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="c-sm-6 c-md-6 c-lg-6">
-              <div style="display: inline-block;"><a href="#" (click)="showUploadCourseMarksSection()">Upload Marks</a>
-                <a href="javascript:void(0);" data-html="true" data-placement="right" data-toggle="tooltip" style="font-weight: bold;font-size: 15px;" title="" data-original-title="<div style='text-align:left;font-size:12px;z-index:4;'>Download the marks/grade template for selected course and upload that with updated marks/grades</div>"><b>?</b></a></div>
-            </div> -->
+
 
             </div>
 

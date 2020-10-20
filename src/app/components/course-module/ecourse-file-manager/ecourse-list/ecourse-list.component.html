@@ -8,34 +8,47 @@
 
 <div class="row  wrap-data">
   <div class="search-filter-wrapper">
-    <input type="text" style="width: 25%;padding: 5px;border: 1px solid #ddd;border-radius: 4px;margin-right: 5px;" #teacherSearch class="normal-field pull-right" id="searchTeacher" placeholder="Search"
-     [(ngModel)]="searchValue" (keyup)="searchTeacher()">
+    <input type="text" style="width: 25%;padding: 5px;border: 1px solid #ddd;border-radius: 4px;margin-right: 5px;"
+      #teacherSearch class="normal-field pull-right" id="searchTeacher" placeholder="Search" [(ngModel)]="searchValue"
+      (keyup)="searchTeacher()">
   </div>
   <div class="col-md-3 ecourse-item" *ngFor="let ecourse of searchData;  ">
     <div class="ecourse-card" (click)="getToSubject(ecourse)">
       <div class="head" title="{{ecourse.course_type}}">
         <span>{{ecourse.course_type}} ({{ecourse.eCourseType}}) </span>
         <span style="float: right;"> Total Size: {{(ecourse.size == 0.00) ? '-' : (ecourse.size | number:'.2-2')}}
-         <span *ngIf="ecourse.size!='0.00'"> GB</span>
+          <span *ngIf="ecourse.size!='0.00'"> GB</span>
         </span>
       </div>
       <div class="body">
-        <span *ngIf="ecourse.categoryDtoList.length==0" style="display: flex;font-size: 12px;padding-bottom: 5px;">No materials added</span>
+        <span *ngIf="ecourse.categoryDtoList.length==0" style="display: flex;font-size: 12px;padding-bottom: 5px;">No
+          materials added</span>
         <div style="flex-wrap: wrap;display: flex;flex-direction: row;">
-          <div style=" width: 20%;justify-content: flex-start;display: flex;flex-direction: column;font-size:12px;padding-bottom:5px" *ngFor="let item of ecourse.categoryDtoList">            
-            <span *ngIf="item.category_name != 'VDOCipher' && item.category_name != 'Youtube URL'">{{item.category_name}} - {{item.count}}</span>
-                <span *ngIf="item.category_name == 'VDOCipher'">Video - {{item.count}}</span>
-                <span *ngIf="item.category_name == 'Youtube URL'">Youtube Video - {{item.count}}</span>
+          <div
+            style=" width: 20%;justify-content: flex-start;display: flex;flex-direction: column;font-size:12px;padding-bottom:5px"
+            *ngFor="let item of ecourse.categoryDtoList">
+            <span
+              *ngIf="item.category_name != 'VDOCipher' && item.category_name != 'Youtube URL'">{{item.category_name}} -
+              {{item.count}}</span>
+            <span *ngIf="item.category_name == 'VDOCipher'">Video - {{item.count}}</span>
+            <span *ngIf="item.category_name == 'Youtube URL'">Youtube Video - {{item.count}}</span>
           </div>
         </div>
       </div>
+
     </div>
   </div>
+
   <div class="col-md-12" style="margin-top:12px;" *ngIf="categiesList.length==0">
     {{outputMessage}}
   </div>
+
 </div>
 
+<pagination style="margin-top: 2%;" (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()"
+  (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+  [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+</pagination>
 <!-- Developed by- Nalini walunj
 Popup to show vimeo uploaded successfully msg
 -->

@@ -16,7 +16,8 @@ export class ScheduleHomeComponent implements OnInit {
 
   no_standard_name: boolean = false;
   standardListDataSource: any = [];
-  displayBatchSize = 15;
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  displayBatchSize = 25;
   standardList: any = [];
   PageIndex: number = 1;
   createNewStandard: boolean = false;
@@ -35,7 +36,7 @@ export class ScheduleHomeComponent implements OnInit {
   sortingDir: string = "asc";
 
   @ViewChild('#StdName',{static: false}) standard_name_label: ElementRef
-
+  activeList: boolean = false;
   constructor(
     private apiService: StandardServices,
     private toastCtrl: AppComponent,
@@ -53,18 +54,47 @@ export class ScheduleHomeComponent implements OnInit {
 
 
   getAllStandardList() {
+    this.PageIndex = 1;
     this.auth.showLoader();
     this.apiService.getAllStandardListFromServer().subscribe(
       (data: any) => {
-        this.totalRow = data.length;
+
         data.sort(function (a, b) {
           return moment(a.created_date).unix() - moment(b.created_date).unix();
         })
-        this.standardListDataSource = data;
-        this.standardListDataSource.reverse();
-        this.fetchTableDataByPage(this.PageIndex);
-        this.auth.hideLoader();
-        this.dataStatus = 2;
+        if (this.activeList == false) {
+          this.standardListDataSource = [];
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].is_active === "Y") {
+              this.standardListDataSource.push(data[i]);
+            }
+          }
+          console.log("active", this.standardListDataSource);
+          this.totalRow = this.standardListDataSource.length;
+          this.standardListDataSource.reverse();
+          this.fetchTableDataByPage(this.PageIndex);
+          this.auth.hideLoader();
+          this.dataStatus = 2;
+        }
+        else if (this.activeList == true) {
+          this.standardListDataSource = [];
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].is_active === "N") {
+              this.standardListDataSource.push(data[i]);
+            }
+          }
+          console.log("Not active", this.standardListDataSource);
+          this.totalRow = this.standardListDataSource.length;
+          this.standardListDataSource.reverse();
+          this.fetchTableDataByPage(this.PageIndex);
+          this.auth.hideLoader();
+          this.dataStatus = 2;
+        }
+        // this.standardListDataSource = data;
+        // this.standardListDataSource.reverse();
+        // this.fetchTableDataByPage(this.PageIndex);
+        // this.auth.hideLoader();
+        // this.dataStatus = 2;
       },
       error => {
         this.auth.hideLoader();
@@ -258,7 +288,10 @@ export class ScheduleHomeComponent implements OnInit {
       this.fetchTableDataByPage(this.PageIndex);
     }
   }
-
+  updateTableBatchSize(event) {
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
   getDataFromDataSource(startindex) {
     let data = [];
     if (this.searchDataFlag == true) {
@@ -382,9 +415,9 @@ export class ScheduleHomeComponent implements OnInit {
   }
 
   hideAllTabs() {
-    let array  = ['liStandard','liSubject','liManageBatch','liExam','liClass'];
-    array.forEach((flag)=>{
-      if(document.getElementById(flag)){
+    let array = ['liStandard', 'liSubject', 'liManageBatch', 'liExam', 'liClass'];
+    array.forEach((flag) => {
+      if (document.getElementById(flag)) {
         document.getElementById(flag).classList.remove('active');
       }
     });

@@ -1,6 +1,6 @@
 <div class="middle-section clear-fix" style="padding: 2%;">
   <!-- breadcrumb -->
-  <section class="middle-top clearFix bulk-header">
+  <section class="middle-top clearFix bulk-header" style="border-bottom: 1px solid lightgrey;">
     <div>
       <h1 class="pull-left">
         <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
@@ -31,9 +31,8 @@
       </div>
 
       <div class="manage-assignment-btn-container">
-        <button type="button" name="button" class="manage-assignment-btn"
-          routerLink='/view/course/online-assignment/create-assignment'>
-          <i class="fa fa-plus" aria-hidden="true" style="color: #0084f6;"></i>&nbsp;
+        <button type="button" name="button" class="btn" routerLink='/view/course/online-assignment/create-assignment'>
+          <!-- <i class="fa fa-plus" aria-hidden="true" style="color: #0084f6;"></i>&nbsp; -->
           New Assignment</button>
       </div>
     </div>
@@ -93,10 +92,10 @@
               title="{{assignment?.title}}">{{ (!assignment.title) ? '-' : (assignment.title.length > 12) ? (assignment.title | slice:0:12) + '...' : assignment.title}}</span>
           </div>
           <div class="list-value-item small-item" style="width: 12.5%">
-            <span>{{assignment.start_date}} {{assignment.start_time}}</span>
+            <span>{{assignment.start_date | date: 'dd-MMM-yy'}} {{assignment.start_time}}</span>
           </div>
           <div class="list-value-item small-item" style="width: 12.5%">
-            <span>{{assignment.end_date}} {{assignment.end_time}}</span>
+            <span>{{assignment.end_date | date: 'dd-MMM-yy'}} {{assignment.end_time}}</span>
           </div>
           <div class="list-value-item small-item">
             <span

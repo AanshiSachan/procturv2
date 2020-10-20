@@ -278,7 +278,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     student_id: 0,
     country_id: ''
   };
-
+  assignTo: boolean = true;
   feeObject: FeeModel;
   tableHeaderCheckbox: boolean = false;
   isFeePaymentUpdate: boolean = false;
@@ -367,6 +367,9 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       this.checkBoxGroup.showFeeSection = true;
       this.checkBoxGroup.manageCheque = true;
       this.checkBoxGroup.hideReconfigure = true;
+    }
+    if ((sessionStorage.getItem('userType') == '0') && (sessionStorage.getItem('username') != 'admin') && (sessionStorage.getItem('enable_assign_to_feature') == '0')) {
+      this.assignTo = false;
     }
     this.fetchDataForCountryDetails();
     this.getStateList();
@@ -848,7 +851,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
       let obj = {
-        data: el.toLowerCase(),
+        data: el.toString(),
         checked: false
       }
       customPrefilled.push(obj);
@@ -1954,13 +1957,13 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     this.getPaymentModes();
   }
 
-  getPaymentModes(){
+  getPaymentModes() {
     this.httpService.getData('/api/v1/masterData/type/PAYMENT_MODES').subscribe(
-      (res:any)=>{
+      (res: any) => {
         console.log(res);
         this.Payment_Modes = res;
       },
-      err=>{
+      err => {
         console.log(err);
       }
     )

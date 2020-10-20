@@ -89,8 +89,12 @@
                 <td>{{record.statusValue}}</td>
                 <td>{{record.total_count}}</td>
                 <td>
-                  <a *ngIf="record.success_count != 0 && downloadStudentReportAccess" id="success{{record.list_id}}"
-                    class="download-icon" (click)="downloadSuccess(record)">
+                  <a *ngIf="record.success_count != 0 && downloadStudentReportAccess && record.success_path.includes('https://s3-')"
+                    id="success{{record.list_id}}" itle="Download Success Report" href="{{record.success_path}}">
+                    {{record.success_count}}
+                  </a>
+                  <a *ngIf="record.success_count != 0 && downloadStudentReportAccess && !record.success_path.includes('https://s3-')"
+                    id="success{{record.list_id}}" itle="Download Success Report" (click)="downloadSuccess(record)">
                     {{record.success_count}}
                   </a>
                   <a *ngIf="record.success_count != 0 && !downloadStudentReportAccess" id="success{{record.list_id}}">
@@ -101,8 +105,12 @@
                   </span>
                 </td>
                 <td>
-                  <a *ngIf="record.failure_count != 0 && downloadStudentReportAccess" id="failure{{record.list_id}}"
-                    class="download-icon" (click)="downloadFailure(record)">
+                  <a *ngIf="record.failure_count != 0 && downloadStudentReportAccess  && record.failure_path.includes('https://s3-')"
+                    id="failure{{record.list_id}}" title="Download Failure Report" href="{{record.failure_path}}">
+                    {{record.failure_count}}
+                  </a>
+                  <a *ngIf="record.failure_count != 0 && downloadStudentReportAccess  && !record.failure_path.includes('https://s3-')"
+                    id="failure{{record.list_id}}" title="Download Failure Report" (click)="downloadFailure(record)">
                     {{record.failure_count}}
                   </a>
                   <a *ngIf="record.failure_count != 0 && !downloadStudentReportAccess" id="failure{{record.list_id}}">

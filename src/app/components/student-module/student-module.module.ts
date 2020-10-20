@@ -14,7 +14,7 @@ import {
   StudentModuleComponent, StudentHomeComponent, PartialPayHistoryComponent, StudentAddComponent,
   UserStudentComponent, StudentEditComponent, StudentBulkComponent, StudentSidebarComponent,
   StudentBatchListComponent, SortPipe, StudentFeeTableComponent, StudentDiscountComponent, RegisteredStudentsComponent,
-  StudentsComponent,StudentsArchivedReportComponent, ViewReportCardComponent
+  StudentsComponent, StudentsArchivedReportComponent, ViewReportCardComponent
 } from '.';
 import { SharedModule } from '../shared/shared.module';
 import { UserService } from '../../services/user-management/user.service';
@@ -23,6 +23,7 @@ import { StudentReportService } from '../../services/report-services/student-rep
 import { ProductService } from '../../services/products.service';
 import { HttpService } from '../../services/http.service';
 import { ManageExamModule } from '../master/master.module';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { ManageExamModule } from '../master/master.module';
     FileUploadModule,
     SplitButtonModule,
     MenuModule,
-    ManageExamModule
+    ManageExamModule,
+    EditorModule,
   ],
   declarations: [
     StudentAddComponent,

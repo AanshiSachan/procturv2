@@ -2,32 +2,21 @@
   <aside class="middle-full">
     <section class="middle-main clearFix">
 
-      <div class="middle-top mb0 clearFix header">
-        <div class="report-header" style="padding-bottom:1%">
-          <h2 style="padding: 5px;" class="pull-left">
-            <a routerLink="/view/batch">
-              Batch
-            </a>
-            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            <a routerLink="/view/batch/archiving">
-              Archiving
-            </a>
-            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="!isProfessional"></i>
-            <span *ngIf="!isProfessional">Courses</span>
-            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="isProfessional"></i>
-            <span *ngIf="isProfessional">Batches</span>
-          </h2>
-          <div class="row">
-            <div class="c-lg-12">
-              <h2 *ngIf="!isProfessional">
-                Courses List
-              </h2>
-              <h2 *ngIf="isProfessional">
-                Batches List
-              </h2>
-            </div>
-          </div>
-        </div>
+    <div class="middle-top mb0 clearFix header">
+      <div class="" style="padding-bottom:2%">
+        <h2 style="padding: 5px;" class="pull-left">
+          <a routerLink="/view/batch">
+            Batch
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+          <a routerLink="/view/batch/archiving">
+            Archiving
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="!isProfessional"></i>
+          <span *ngIf="!isProfessional">Courses</span>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="isProfessional"></i>
+          <span *ngIf="isProfessional">Batches</span>
+        </h2>
       </div>
     </section>
     <div class="filter-box clearFix" style="margin: 6px 0px 6px 6px;float: right;">
@@ -197,6 +186,7 @@
           </pagination>
         </div>
       </div>
-    </section>
-  </aside>
+    </div>
+  </section>
+  <!-- </aside> -->
 </div>

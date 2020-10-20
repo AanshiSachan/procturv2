@@ -30,12 +30,16 @@ export class StudentHomeComponent implements OnInit {
 
   private subscriptionStudent: ISubscription;
   private subscriptionCustomComp: ISubscription;
-  @ViewChild('studentPage',{static: false}) studentPage: ElementRef;
-  @ViewChild('mySidenav',{static: false}) mySidenav: ElementRef;
-  @ViewChild('optMenu',{static: true}) optMenu: ElementRef;
+  @ViewChild('studentPage', { static: false }) studentPage: ElementRef;
+  @ViewChild('mySidenav', { static: false }) mySidenav: ElementRef;
+  @ViewChild('optMenu', { static: true }) optMenu: ElementRef;
 
   sizeArr: any[] = [50, 100, 250, 500, 1000];
   private enqstatus: any = [];
+  emailMessageList: any = [];
+  subject: any;
+  previewedMessage: any;
+  previewBox: boolean = false;
   private masterCourseList: any = [];
   private schoolList: any = [];
   private subjectList: any = [];
@@ -45,7 +49,7 @@ export class StudentHomeComponent implements OnInit {
   private subCourseList: any = [];
   private customComponent: any = [];
   private studentDataSource: any[] = [];
-
+  showEmailSubject: boolean = false;
   private selectedRowGroup: any[] = [];
   private optionsModel: any = null;
   private customComponents: any[] = [];
@@ -181,7 +185,7 @@ export class StudentHomeComponent implements OnInit {
   };
   studentCustomField: any = {};
 
-  @ViewChild('content',{static: false}) content: ElementRef;
+  @ViewChild('content', { static: false }) content: ElementRef;
 
   private studentAddFormData: StudentForm = {
     student_name: "",
@@ -258,7 +262,7 @@ export class StudentHomeComponent implements OnInit {
     this.today = moment().format('DD MMM YYYY');
     let institute_id = sessionStorage.getItem('institute_id');
     if (institute_id == "100292" || institute_id == "100058" || institute_id == "100127") {
-    // if (institute_id == "100292" || institute_id == "100127") {
+      // if (institute_id == "100292" || institute_id == "100127") {
       this.attendanceCertificate = true;
     }
     this.actRoute.queryParams.subscribe(e => {
@@ -592,7 +596,7 @@ export class StudentHomeComponent implements OnInit {
     //this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
     //this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
     //this.instituteData.filtered_statuses = this.statusString.join(',');
-    let obj :any = {
+    let obj: any = {
       name: "",
       is_active_status: this.advancedFilterForm.is_active_status,
       mobile: "",
@@ -600,32 +604,35 @@ export class StudentHomeComponent implements OnInit {
       batch_size: this.studentdisplaysize,
       is_quick_filter: 'Y',
       master_course_name: this.advancedFilterForm.master_course_name,
-      course_id : this.advancedFilterForm.course_id,
+      course_id: this.advancedFilterForm.course_id,
       standard_id: this.advancedFilterForm.standard_id
-   }
-   if(this.advancedFilterForm.master_course_name == '-1') {
-    obj.master_course_name = '';
-  }
-    if(this.showQuickFilter) {
-     this.loadTableDataSource(obj);
-   }else if (this.searchBarData != '' && this.searchBarData != null && this.searchBarData != undefined) {
-    this.searchBarData = this.searchBarData.trim();
-    /* If input is of type string then validate string validity*/
-    if (isNaN(this.searchBarData)) {
-      obj.name = this.searchBarData;
-    }/* If not string then use the data as a number*/
-    else {
-      obj.mobile = this.searchBarData;
     }
+    if (this.advancedFilterForm.master_course_name == '-1') {
       obj.master_course_name = '';
-      obj.course_id= '-1';
+    }
+    if (this.showQuickFilter && !this.isProfessional) {
+      this.loadTableDataSource(obj);
+    } else if (this.searchBarData != '' && this.searchBarData != null && this.searchBarData != undefined && !this.isProfessional) {
+      this.searchBarData = this.searchBarData.trim();
+      /* If input is of type string then validate string validity*/
+      if (isNaN(this.searchBarData)) {
+        obj.name = this.searchBarData;
+      }/* If not string then use the data as a number*/
+      else {
+        obj.mobile = this.searchBarData;
+      }
+      if (this.advancedFilterForm.master_course_name == '-1') {
+        obj.master_course_name = '';
+      }
+      obj.master_course_name = '';
+      obj.course_id = '-1';
       obj.standard_id = '-1';
-    this.loadTableDataSource(obj);
-  } else if((this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) && !this.isAdvFilter){
-    this.loadTableDataSource(obj);
-   } else {
-    this.loadTableDataSource(this.instituteData);
-   }
+      this.loadTableDataSource(obj);
+    } else if ((this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) && !this.isAdvFilter && !this.isProfessional) {
+      this.loadTableDataSource(obj);
+    } else {
+      this.loadTableDataSource(this.instituteData);
+    }
   }
 
   /* Fetch next set of data from server and update table */
@@ -769,8 +776,8 @@ export class StudentHomeComponent implements OnInit {
     this.closeSideBar();
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
     document.getElementById('adFilterOpen').classList.add('hide');
-    if(document.getElementById('basic-search')) {
-    document.getElementById('basic-search').classList.add('hide');
+    if (document.getElementById('basic-search')) {
+      document.getElementById('basic-search').classList.add('hide');
     }
     document.getElementById('adFilterExit').classList.remove('hide');
     // document.getElementById('black-bg').classList.remove('hide');
@@ -849,32 +856,35 @@ export class StudentHomeComponent implements OnInit {
     this.bulkActionFunction();
     this.instituteData.batch_size = this.studentdisplaysize;
     this.PageIndex = 1;
-    this.instituteData.start_index = 0;
-    this.studentDataSource = [];
-    this.auth.showLoader();
-    this.studentFetch.fetchAllStudentDetails(this.instituteData).subscribe(
-      res => {
-        this.auth.hideLoader();
-        if (res.length != 0) {
-          this.totalRow = res[0].total_student_count;
-          this.studentDataSource = res;
-        }
-        else {
-          let alert = {
-            type: 'info',
-            title: 'No Records Found',
-            body: 'We did not find any student for the specified query'
-          }
-          this.loading_message = 2;
-          this.appC.popToast(alert);
-          this.studentDataSource = [];
-          this.totalRow = this.studentDataSource.length;
-        }
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    );
+    // Changes done by - Nalini
+    // to handle quick filter cases while changing batch size
+    this.fectchTableDataByPage(this.PageIndex);
+    // this.instituteData.start_index = 0;
+    // this.studentDataSource = [];
+    // this.auth.showLoader();
+    // this.studentFetch.fetchAllStudentDetails(this.instituteData).subscribe(
+    //   res => {
+    //     this.auth.hideLoader();
+    //     if (res.length != 0) {
+    //       this.totalRow = res[0].total_student_count;
+    //       this.studentDataSource = res;
+    //     }
+    //     else {
+    //       let alert = {
+    //         type: 'info',
+    //         title: 'No Records Found',
+    //         body: 'We did not find any student for the specified query'
+    //       }
+    //       this.loading_message = 2;
+    //       this.appC.popToast(alert);
+    //       this.studentDataSource = [];
+    //       this.totalRow = this.studentDataSource.length;
+    //     }
+    //   },
+    //   err => {
+    //     this.auth.hideLoader();
+    //   }
+    // );
   }
 
   /* Toggle page size menu on Click */
@@ -1152,7 +1162,7 @@ export class StudentHomeComponent implements OnInit {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
       let obj = {
-        data: el.toLowerCase(),
+        data: el.toString(),
         checked: false
       }
       customPrefilled.push(obj);
@@ -1260,39 +1270,69 @@ export class StudentHomeComponent implements OnInit {
   searchDatabase() {
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
-      let obj :any = {
-         name: "",
-         is_active_status: this.advancedFilterForm.is_active_status,
-         mobile: "",
-         start_index: 0,
-         batch_size: this.studentdisplaysize,
-         is_quick_filter: 'Y',
-         master_course_name: this.advancedFilterForm.master_course_name,
-         course_id : this.advancedFilterForm.course_id,
-         standard_id: this.advancedFilterForm.standard_id
-      }
+    let obj: any = {
+      name: "",
+      is_active_status: this.advancedFilterForm.is_active_status,
+      mobile: "",
+      start_index: 0,
+      batch_size: this.studentdisplaysize,
+      is_quick_filter: 'Y',
+      master_course_name: this.advancedFilterForm.master_course_name,
+      course_id: this.advancedFilterForm.course_id,
+      standard_id: this.advancedFilterForm.standard_id
+    }
 
-      if(this.advancedFilterForm.master_course_name == '-1') {
-        obj.master_course_name = '';
-      }
+    if (this.advancedFilterForm.master_course_name == '-1') {
+      obj.master_course_name = '';
+    }
 
+    if (!this.isProfessional) {
       if (this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) {
         obj.name = '';
         obj.mobile = '';
+        if (!this.showQuickFilter) {
+          obj.master_course_name = '';
+          obj.course_id = '-1';
+          obj.standard_id = '-1';
+          this.advancedFilterForm.master_course_name = '-1';
+          this.advancedFilterForm.course_id = '-1';
+          this.advancedFilterForm.standard_id = '-1';
+        }
       } else {
-      this.searchBarData = this.searchBarData.trim();
-      /* If input is of type string then validate string validity*/
-      if (isNaN(this.searchBarData)) {
-        obj.name = this.searchBarData;
-      }/* If not string then use the data as a number*/
-      else {
-        obj.mobile = this.searchBarData;
+        this.searchBarData = this.searchBarData.trim();
+        /* If input is of type string then validate string validity*/
+        if (isNaN(this.searchBarData)) {
+          obj.name = this.searchBarData;
+        }/* If not string then use the data as a number*/
+        else {
+          obj.mobile = this.searchBarData;
+        }
+        obj.master_course_name = '';
+        obj.course_id = '-1';
+        obj.standard_id = '-1';
       }
-      obj.master_course_name = '';
-      obj.course_id= '-1';
-      obj.standard_id = '-1';
+      this.loadTableDataSource(obj);
+    } else {
+      /* If User has entered an empty value needs to be informed */
+      if (this.searchBarData == '' || this.searchBarData == ' ' || this.searchBarData == null || this.searchBarData == undefined) {
+        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+        this.loadTableDataSource(this.instituteData);
+      }
+      /* valid input detected, check for type of input */
+      else {
+        this.searchBarData = this.searchBarData.trim();
+        /* If input is of type string then validate string validity*/
+        if (isNaN(this.searchBarData)) {
+          this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: this.searchBarData, is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+          this.loadTableDataSource(this.instituteData);
+        }/* If not string then use the data as a number*/
+        else {
+          this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: this.searchBarData, language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+          this.loadTableDataSource(this.instituteData);
+        }
+
+      }
     }
-    this.loadTableDataSource(obj);
   }
 
   /* update the latest comment for the selected student */
@@ -1945,6 +1985,8 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   getAllMessageFromServer() {
     this.messageList = [];
+    this.emailMessageList = [];
+    let tempMessageList: any = [];
     this.auth.showLoader();
     let obj = {
       from_date: moment().subtract(1, 'months').format("MM-DD-YYYY"),
@@ -1954,7 +1996,17 @@ export class StudentHomeComponent implements OnInit {
     this.widgetService.getMessageList(obj).subscribe(
       res => {
         this.auth.hideLoader();
-        this.messageList = this.addKeys(res, false);
+        console.log("Message List Get All message", res);
+        tempMessageList = res;
+        for (let i = 0; i < tempMessageList.length; i++) {
+          if (tempMessageList[i].source === "EMAIL") {
+            this.emailMessageList.push(tempMessageList[i]);
+          }
+          else if (tempMessageList[i].source === "SMS") {
+            this.messageList.push(tempMessageList[i]);
+          }
+        }
+        // this.messageList = this.addKeys(res, false);
       },
       err => {
         this.auth.hideLoader();
@@ -1968,10 +2020,20 @@ export class StudentHomeComponent implements OnInit {
   getAllSavedMessages() {
     this.auth.showLoader();
     this.messageList = [];
+    this.emailMessageList = [];
+    let tempMessageList: any = [];
     this.widgetService.getMessageList({ status: 1 }).subscribe(
       res => {
         this.auth.hideLoader();
-        this.messageList = this.addKeys(res, false);
+        tempMessageList = res;
+        for (let i = 0; i < tempMessageList.length; i++) {
+          if (tempMessageList[i].source === "EMAIL") {
+            this.emailMessageList.push(tempMessageList[i]);
+          }
+          else if (tempMessageList[i].source === "SMS") {
+            this.messageList.push(tempMessageList[i]);
+          }
+        }
       },
       err => {
         this.auth.hideLoader();
@@ -2032,25 +2094,50 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   getNotificationMessage() {
+    let sms = (document.getElementById('smsC') as HTMLInputElement).checked;
+    let email = (document.getElementById('mailC') as HTMLInputElement).checked;
     let count = 0;
-    for (let t = 0; t < this.messageList.length; t++) {
-      if (this.messageList[t].assigned == true) {
-        return {
-          message: this.messageList[t].message, messageId: this.messageList[t].message_id
+    if (sms === true) {
+      for (let t = 0; t < this.messageList.length; t++) {
+        if (this.messageList[t].assigned == true) {
+          return {
+            message: this.messageList[t].message, messageId: this.messageList[t].message_id
+          };
+        } else {
+          count++;
+        }
+      }
+      if (this.messageList.length == count) {
+        let msg = {
+          type: 'error',
+          title: '',
+          body: "Please select message"
         };
-      } else {
-        count++;
+        this.appC.popToast(msg);
+        return false;
       }
     }
-    if (this.messageList.length == count) {
-      let msg = {
-        type: 'error',
-        title: '',
-        body: "Please select message"
-      };
-      this.appC.popToast(msg);
-      return false;
+    else if (email === true) {
+      for (let t = 0; t < this.emailMessageList.length; t++) {
+        if (this.emailMessageList[t].assigned == true) {
+          return {
+            message: this.emailMessageList[t].message, messageId: this.emailMessageList[t].message_id
+          };
+        } else {
+          count++;
+        }
+      }
+      if (this.emailMessageList.length == count) {
+        let msg = {
+          type: 'error',
+          title: '',
+          body: "Please select message"
+        };
+        this.appC.popToast(msg);
+        return false;
+      }
     }
+
   }
 
   /* =================================================================================================== */
@@ -2109,6 +2196,8 @@ export class StudentHomeComponent implements OnInit {
           body: "Sent successfully"
         };
         this.appC.popToast(msg);
+        this.close();
+        this.closeNotifyStudent();
       },
       err => {
         let msg = {
@@ -2143,6 +2232,8 @@ export class StudentHomeComponent implements OnInit {
           body: "Sent successfully"
         };
         this.appC.popToast(msg);
+        this.close();
+        this.closeNotifyStudent();
       },
       err => {
         let msg = {
@@ -2174,6 +2265,7 @@ export class StudentHomeComponent implements OnInit {
             body: "Sent successfully"
           };
           this.appC.popToast(msg);
+
         },
         err => {
           let msg = {
@@ -2638,10 +2730,74 @@ export class StudentHomeComponent implements OnInit {
     this.showQuickFilter = false;
     this.advancedFilterForm.standard_id = '-1';
     this.advancedFilterForm.subject_id = '-1';
-    this.advancedFilterForm.is_active_status = '';
+    this.advancedFilterForm.is_active_status = '1';
     this.advancedFilterForm.master_course_name = '-1';
     this.advancedFilterForm.course_id = '-1';
     this.advancedFilterForm.standard_id = '-1';
     this.searchBarData = '';
   }
+  emailCheckBoxClick(event) {
+    if (event.target.checked) {
+      this.sendNotification.emailChkbx = true;
+      (document.getElementById('smsC') as HTMLInputElement).checked = false; //Added By AKG to check only one checkbox at a time
+
+    } else {
+      this.sendNotification.emailChkbx = false;
+      (document.getElementById('smsC') as HTMLInputElement).checked = true; //Added By AKG to check only one checkbox at a time
+    }
+  }
+  smsCheckBoxClick(event) {
+    if (event.target.checked) {
+      this.sendNotification.emailChkbx = false;
+      (document.getElementById('mailC') as HTMLInputElement).checked = false; //Added By AKG to check only one checkbox at a time
+
+    } else {
+      this.sendNotification.emailChkbx = true;
+      (document.getElementById('mailC') as HTMLInputElement).checked = true; //Added By AKG to check only one checkbox at a time
+    }
+  }
+  onCheckBoxSelection(index, data) {
+    let sms = (document.getElementById('smsC') as HTMLInputElement).checked;
+    let email = (document.getElementById('mailC') as HTMLInputElement).checked;
+    if (sms === true) {
+      this.messageList.map(ele => {
+        if (ele.message_id == data.message_id) {
+          ele.assigned = true;
+        } else {
+          ele.assigned = false;
+        }
+      })
+    }
+    else if (email === true) {
+      this.emailMessageList.map(ele => {
+        if (ele.message_id == data.message_id) {
+          ele.assigned = true;
+        } else {
+          ele.assigned = false;
+        }
+      })
+    }
+
+  }
+  close() {
+    this.previewBox = false;
+  }
+  // Function for preview email message Added by ashwini gupta
+  previewMessage() {
+    this.previewedMessage = "";
+    let check = this.validateAllFields();
+    if (check === false) {
+      return false;
+    }
+    let messageSelected: any = this.getNotificationMessage();
+    this.previewedMessage = messageSelected.message;
+    console.log("messageSelected", messageSelected.message);
+    this.previewBox = true;
+
+    if (messageSelected === false) {
+      this.previewBox = false;
+      return;
+    }
+  }
+
 }

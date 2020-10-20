@@ -53,7 +53,7 @@
                             </a>
                         </li>
 
-                        <li class="action-item" (click)="emitDelete($event)">
+                        <li class="action-item" *ngIf="!isSubAdmin" (click)="emitDelete($event)">
                             <a class="">
                                 <img src="../../../../assets/images/students/delete.svg" alt="">Delete Student
                             </a>

@@ -595,7 +595,7 @@
                           <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )" ></i> &nbsp;
                         </td>
                       </tr>
-                      <tr *ngIf="messageList.length == 0">
+                      <tr *ngIf="emailMessageList.length == 0">
                         <td colspan="4">
                           No Notification Available
                         </td>
@@ -644,7 +644,7 @@
                           </div>
                         </td>
                       </tr>
-                      <tr *ngIf="messageList.length == 0">
+                      <tr *ngIf="openMessageList.length == 0">
                         <td colspan="3">
                           No Notification Available
                         </td>
@@ -674,7 +674,7 @@
                           </div>
                         </td>
                       </tr>
-                      <tr *ngIf=" emailMessageList.length ==0">
+                      <tr *ngIf=" openEmailMessageList.length ==0">
                         <td colspan="3">
                           No Notification Available
                         </td>
@@ -719,7 +719,7 @@
                   </div>
               <div widget-content style="margin-top: 2%;">
                 <button class="btn"  (click)="sendNotificationMessage()">Send</button>
-                <button class="btn" *ngIf="selectedOption == 'showTable' || selectedOption == 'filter' || openAppUserSelected" (click)="sendPushNotification()">Send Push Notification</button>
+                <!-- <button class="btn" *ngIf="selectedOption == 'showTable' || selectedOption == 'filter' || openAppUserSelected" (click)="sendPushNotification()">Send Push Notification</button> -->
                 <button class="btn"  (click)="close()">Close</button>
               </div>
                 </app-proctur-widget-pop-up>

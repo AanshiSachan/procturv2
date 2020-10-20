@@ -512,7 +512,7 @@
                                             <label for="{{component.id}}">{{component.label}} </label>
                                             <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" style="border-radius: 4px;" name="{{component.label}}">
                         <option value=""></option>
-                        <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.displayName}}
+                        <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}
                         </option>
                       </select>
 
@@ -1262,115 +1262,137 @@
                                                         <label>
                               <a class="cursor-icon" id="cursorAnch13">{{smsHeader.action.title}}</a>
                             </label>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <!-- Added conditon for SMS and email  Ashwini kumar gupta -->
-                                            <!-- SMS -->
-                                            <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='SMS'">
-                                                <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
-                                                    <!-- <td>
-                          <div class="field-radio-wrapper">
-                            <label for="appradiosms{{i}}"></label>
-                            <input type="radio" name="smsTable" class="form-radio" id="appradiosms{{i}}">
-                          </div>
-                        </td> -->
-                                                    <td>
-                                                        <span [innerHTML]="row.message"></span>
-                                                    </td>
-                                                    <td style="width: 18%;">
-                                                        {{row.date}}
-                                                    </td>
-                                                    <td>
-                                                        <enquiry-sms-action style="text-align: center;">
-                                                        </enquiry-sms-action>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='SMS'">
-                                                <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
-                                                    <!-- <td>
-                          <div class="field-radio-wrapper">
-                            <label for="oppradiosms{{i}}"></label>
-                            <input type="radio" name="smsTable" class="form-radio" id="opradiosms{{i}}">
-                          </div>
-                        </td> -->
-                                                    <td>
-                                                        <span [innerHTML]="row.message"></span>
-                                                    </td>
-                                                    <td style="width: 18%;">
-                                                        {{row.date}}
-                                                    </td>
-                                                    <td class="sms-Action-td" style="display:block">
-                                                        <span class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}" style="display: inline-block">
+                          </th>
+                        </tr>
+                      </thead>
+                      <!-- Added conditon for SMS and email  Ashwini kumar gupta -->
+                      <!-- SMS -->
+                      <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='SMS'">
+                        <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
+                          <!-- <td>
+                            <div class="field-radio-wrapper">
+                              <label for="appradiosms{{i}}"></label>
+                              <input type="radio" name="smsTable" class="form-radio" id="appradiosms{{i}}">
+                            </div>
+                          </td> -->
+                          <td>
+                            <span [innerHTML]="row.message"></span>
+                          </td>
+                          <td style="width: 18%;">
+                            {{row.date}}
+                          </td>
+                          <td>
+                            <enquiry-sms-action style="text-align: center;">
+                            </enquiry-sms-action>
+                          </td>
+                        </tr>
+                        <tr *ngIf=" smsSourceApproved.length ==0">
+                          <td colspan="3">
+                            No Message List Found
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='SMS'">
+                        <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
+                          <!-- <td>
+                            <div class="field-radio-wrapper">
+                              <label for="oppradiosms{{i}}"></label>
+                              <input type="radio" name="smsTable" class="form-radio" id="opradiosms{{i}}">
+                            </div>
+                          </td> -->
+                          <td>
+                            <span [innerHTML]="row.message"></span>
+                          </td>
+                          <td style="width: 18%;">
+                            {{row.date}}
+                          </td>
+                          <td class="sms-Action-td" style="display:block">
+                            <span class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}"
+                              style="display: inline-block">
                               <i class="fas fa-check" (click)="approveRejectSms(row , '1')"
                                 style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
                               <i class="fa fa-times" (click)="approveRejectSms(row,'2')"
                                 style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
                             </span>
-                                                        <enquiry-sms-action style="display: inline-block"></enquiry-sms-action>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <!-- Email -->
-                                            <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='Email'">
-                                                <tr *ngFor="let row of emailSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
-                                                    <td>
-                                                        <span [innerHTML]="row.message"></span>
-                                                    </td>
-                                                    <td style="width: 18%;">
-                                                        {{row.date}}
-                                                    </td>
-                                                    <td>
-                                                        <enquiry-sms-action>
-                                                        </enquiry-sms-action>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='Email'">
-                                                <tr *ngFor="let row of emailSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
-                                                    <td>
-                                                        <span [innerHTML]="row.message"></span>
-                                                    </td>
-                                                    <td style="width: 18%;">
-                                                        {{row.date}}
-                                                    </td>
-                                                    <td class="sms-Action-td" style="display:block;text-align: center;">
-                                                        <span class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}" style="display: inline-block">
+                            <enquiry-sms-action style="display: inline-block"></enquiry-sms-action>
+                          </td>
+                        </tr>
+                        <tr *ngIf=" smsSourceOpen.length ==0">
+                          <td colspan="3">
+                            No Message List Found
+                          </td>
+                        </tr>
+                      </tbody>
+                      <!-- Email -->
+                      <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='Email'">
+                        <tr *ngFor="let row of emailSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
+                          <td>
+                            <span [innerHTML]="row.message"></span>
+                          </td>
+                          <td style="width: 18%;">
+                            {{row.date}}
+                          </td>
+                          <td>
+                            <enquiry-sms-action>
+                            </enquiry-sms-action>
+                          </td>
+                        </tr>
+                        <tr *ngIf=" emailSourceApproved.length ==0">
+                          <td colspan="3">
+                            No Message List Found
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='Email'">
+                        <tr *ngFor="let row of emailSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
+                          <td>
+                            <span [innerHTML]="row.message"></span>
+                          </td>
+                          <td style="width: 18%;">
+                            {{row.date}}
+                          </td>
+                          <td class="sms-Action-td" style="display:block;text-align: center;">
+                            <span class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}"
+                              style="display: inline-block">
                               <i class="fas fa-check" (click)="approveRejectSms(row , '1')" title="Approve"
                                 style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
                               <i class="fa fa-times" (click)="approveRejectSms(row,'2')" title="Reject"
                                 style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
                             </span>
-                                                        <enquiry-sms-action style="display: inline-block;"></enquiry-sms-action>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                            <enquiry-sms-action style="display: inline-block;"></enquiry-sms-action>
+                          </td>
+                        </tr>
+                        <tr *ngIf=" emailSourceOpen.length ==0">
+                          <td colspan="3">
+                            No Message List Found
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
 
-                            </aside>
+              </aside>
 
 
-                            <aside class="pull-right sms-preview">
-                                <div style="    margin-bottom: 5px;">
-                                    <div class="row">
-                                        <div class="c-lg-6 c-md-6 c-sm-6">
-                                            <h4>{{smsSelectedRowsLength}} Users Selected</h4>
-                                        </div>
-                                        <div class="c-lg-6 c-md-6 c-sm-6" style="padding:24px 0px;">
-                                            <a style="cursor:pointer;" (click)="closeBulkSms()" id="closeBulkAnch4">Change</a>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="c-lg-12 c-md-12 c-sm-12">
-                                            Available SMS Quota: {{varJson.availableSMS}}
-                                        </div>
-                                    </div>
-                                    <div class="row" style="padding: 10px 0px; " *ngIf="flagJSON.notificationType=='Email'">
-                                        <div class="c-lg-12 c-md-12 c-sm-12" style="padding-bottom: 5px">
-                                            <label>Subject
+              <aside class="pull-right sms-preview">
+                <div style="    margin-bottom: 5px;">
+                  <div class="row">
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                      <h4>{{smsSelectedRowsLength}} Users Selected</h4>
+                    </div>
+                    <div class="c-lg-6 c-md-6 c-sm-6" style="padding:24px 0px;">
+                      <a style="cursor:pointer;" (click)="closeBulkSms()" id="closeBulkAnch4">Change</a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="c-lg-12 c-md-12 c-sm-12">
+                      Available SMS Quota: {{varJson.availableSMS}}
+                    </div>
+                  </div>
+                  <div class="row" style="padding: 10px 0px; " *ngIf="flagJSON.notificationType=='Email'">
+                    <div class="c-lg-12 c-md-12 c-sm-12" style="padding-bottom: 5px">
+                      <label>Subject
                         <span class="danger">*</span>
                       </label>
                                         </div>

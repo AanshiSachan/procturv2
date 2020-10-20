@@ -15,7 +15,7 @@ import { ExcelService } from '../../../services/excel.service';
 export class AttendanceReportComponent implements OnInit {
 
   isProfessional: boolean = false;
-  institution_id:any=sessionStorage.getItem('institution_id');
+  institution_id: any = sessionStorage.getItem('institution_id');
   session_id: any;
   invited_attendance_list: any[] = [];
   guest_attendance_list: any[] = [];
@@ -25,14 +25,15 @@ export class AttendanceReportComponent implements OnInit {
   searchInput: any = '';
   tableSetting: any = {
     keys: [
-    { primaryKey: 'display_id', header: 'Id'},
-    { primaryKey: 'name', header: 'Name'},
-    { primaryKey: 'phone', header: 'Contact No.'},
-    { primaryKey: 'attendance_status', header: 'Status'},
-    { primaryKey: 'join_time', header: 'Start Time'},
-    { primaryKey: 'leave_join', header: 'End Time'},
-    { primaryKey: 'duration', header: 'Duration'},
-  ]};
+      { primaryKey: 'display_id', header: 'Id' },
+      { primaryKey: 'name', header: 'Name' },
+      { primaryKey: 'phone', header: 'Contact No.' },
+      { primaryKey: 'attendance_status', header: 'Status' },
+      { primaryKey: 'join_time', header: 'Start Time' },
+      { primaryKey: 'leave_join', header: 'End Time' },
+      { primaryKey: 'duration', header: 'Duration' },
+    ]
+  };
 
   constructor(
     private auth: AuthenticatorService,
@@ -58,9 +59,12 @@ export class AttendanceReportComponent implements OnInit {
     // this.setDemoData()
     this.getLiveClassAttendanceReport();
   }
+  back() {
+    sessionStorage.setItem('pastClass', 'true');
+    this.router.navigateByUrl("/view/live-classes");
+  }
 
-
-  getLiveClassAttendanceReport(){
+  getLiveClassAttendanceReport() {
     let obj = {
       "session_id": this.session_id, // If want data by session Id
       "sort_by": "name", // available parameters: name, duration
@@ -73,7 +77,7 @@ export class AttendanceReportComponent implements OnInit {
     }
     this.auth.showLoader();
 
-    const url ='/api/v1/meeting_manager/getAttendanceReport';
+    const url = '/api/v1/meeting_manager/getAttendanceReport';
     this.http_service.postData(url, obj).subscribe(
       (data: any) => {
         console.log(data.result)
@@ -81,7 +85,7 @@ export class AttendanceReportComponent implements OnInit {
         var res: any = data.result;
         this.invited_attendance_list = res.invited_attendance_list;
         this.guest_attendance_list = res.guest_attendance_list;
-        this.guest_attendance_list.forEach(elem=>{
+        this.guest_attendance_list.forEach(elem => {
           elem.isInvited = true;
         })
         this.attendance_list = this.invited_attendance_list.concat(this.guest_attendance_list);
@@ -96,7 +100,7 @@ export class AttendanceReportComponent implements OnInit {
     )
   }
 
-  searchDatabase(){   // quick search
+  searchDatabase() {   // quick search
     this.attendance_list = this.temp_attendance_list;
     if (this.searchInput == undefined || this.searchInput == null) {
       this.searchInput = "";

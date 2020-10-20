@@ -683,7 +683,6 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
               this.customComponents.push(obj);
             });
           }
-          this.emptyCustomComponent = this.componentListObject;
         });
   }
 
@@ -725,12 +724,11 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
       let obj = {
-        data: el.toLowerCase(),
+        data: el.toString(),
         checked: false
       }
       customPrefilled.push(obj);
     });
-
     return customPrefilled;
   }
 
@@ -1971,9 +1969,11 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       let permissions: any[] = [];
       permissions = JSON.parse(sessionStorage.getItem('permissions'));
       /* User has permission to view all enquiries */
+
       if (permissions.includes('115')) {
         this.isEnquiryAdmin = true;
       }
+
       /* User is not authorized as enquiry admin and see only enquiry assigned to him */
       else {
         this.isEnquiryAdmin = false;
