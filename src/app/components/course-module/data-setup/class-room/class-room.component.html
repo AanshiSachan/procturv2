@@ -1,5 +1,5 @@
-<div class="middle-section clearFix">
-  <section class="middle-top mb0 clearFix" style="border-bottom: 1px solid lightgrey;padding-bottom: 11px;">
+<div class="middle-section clearFix" style="padding: 2%;">
+  <section class="middle-top mb0 clearFix" style="border-bottom: 1px solid lightgrey;    margin-top: -11px;">
     <div class="pull-left">
       <div class="header-title">
         <h2>
@@ -133,7 +133,7 @@
             </thead>
 
             <tbody *ngIf="classRoomData.length !=0"
-              [ngStyle]="{'max-height':this.CreateNewList == true ? '63vh' : '72vh','min-height':this.CreateNewList == true ? '63vh' : '72vh' }">
+              [ngStyle]="{'max-height':this.CreateNewList == true ? '50vh' : '60vh','min-height':this.CreateNewList == true ? '50vh' : '60vh' }">
 
               <tr id="row{{i}}" class="displayComp" *ngFor="let row of pagedclassRoomData; let i = index; trackBy: i;">
 

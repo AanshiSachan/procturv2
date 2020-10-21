@@ -1,6 +1,5 @@
-
 <div id="addAreaModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="top: 7%;">
 
     <!-- Modal content-->
     <div class="modal-content">
@@ -13,23 +12,29 @@
           <div class="add-item field-wrapper">
             <select class="form-ctrl" name="" [(ngModel)]="addArea.country_id" (ngModelChange)="getStateList()">
               <option value="-1">Select Country</option>
-              <option title="{{country.country_name}}" [value]="country.id" *ngFor="let country of countryList">{{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}</option>
+              <option title="{{country.country_name}}" [value]="country.id" *ngFor="let country of countryList">
+                {{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}
+              </option>
             </select>
           </div>
           <div class="add-item field-wrapper">
             <select class="form-ctrl" name="" [(ngModel)]="addArea.state_id" (ngModelChange)="getCityList()">
               <option value="-1">Select State</option>
-              <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+              <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">
+                {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}
+              </option>
             </select>
           </div>
           <div class="add-item field-wrapper">
             <select class="form-ctrl" name="" [(ngModel)]="addArea.city_id">
               <option value="-1">Select City</option>
-              <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
+              <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">
+                {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
             </select>
           </div>
           <div class="add-item field-wrapper">
-              <input type="text" name="" value="" [(ngModel)]="addArea.areaName" placeholder="Enter area name" class="edit-area-item form-ctrl">
+            <input type="text" name="" value="" [(ngModel)]="addArea.areaName" placeholder="Enter area name"
+              class="edit-area-item form-ctrl">
           </div>
         </div>
       </div>

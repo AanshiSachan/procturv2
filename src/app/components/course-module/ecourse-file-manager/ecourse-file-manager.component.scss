@@ -34,6 +34,7 @@ a {
     border-radius: 2px;
     margin: 1em 0;
     padding: .5em 0;
+    width: 220px;
     cursor: default;
     background: white;
 
@@ -100,7 +101,7 @@ a.breadcrums{
 
 .mainDiv{
   // background-color: #f5f5f5;
-    min-height: 100vh;
+  height: 90vh;
     padding: 1%;
     padding-bottom: 0;
 }

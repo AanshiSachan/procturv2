@@ -460,6 +460,7 @@ export class CourseExamComponent implements OnInit {
           this.showContentSection = true;
           this.jsonVar.isSheduleBatch = true;
           this.examScheduleData = res;
+          console.log("this.examScheduleData", this.examScheduleData);
           this.batchStartDate = this.examScheduleData.batch_start_date;
           this.batchEndDate = this.examScheduleData.batch_end_date;
           if (moment(this.batchEndDate).format("MM-DD-YYYY") < moment().format("MM-DD-YYYY")) {
@@ -1088,6 +1089,7 @@ export class CourseExamComponent implements OnInit {
           this.auth.hideLoader();
           this.multiClickDisabled = false;
           this.examScheduleData = res;
+          this.courseData.requested_date = moment(this.examScheduleData.requested_date).format('MM-DD-YYYY');
           this.calculateDataAsPerSelection(res);
           // console.log(this.subjectListData);
           this.showContentSection = true;

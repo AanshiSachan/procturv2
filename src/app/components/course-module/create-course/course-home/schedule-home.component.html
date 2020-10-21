@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2"></div>
-    <div class="c-lg-6 c-md-6 c-sm-6" style="float: right;margin-right: 1%;width: 28%;">
+    <div class="c-lg-6 c-md-6 c-sm-6" style="float: right;margin-right: 1%;width: 30%;">
         <input type="text" class="searchBox" placeholder="Search" name="searchData" #searchVal
             (keyup)="searchInList(searchVal)">
         <button class="btn" *ngIf="(isLangInstitue != true )" (click)="toggleCreateNewStandard()"
@@ -103,7 +103,7 @@
                             </tr>
                         </thead>
                         <tbody *ngIf="( standardList.length != 0)"
-                            [ngStyle]="{'max-height':createNewStandard == true ? '52vh' : '65vh','min-height':createNewStandard == true ? '52vh' : '65vh' }">
+                            [ngStyle]="{'max-height':createNewStandard == true ? '40vh' : '57vh','min-height':createNewStandard == true ? '40vh' : '57vh' }">
 
                             <tr (click)="rowClickEvent(i)" class="displayComp" id="row{{i}}"
                                 *ngFor="let row of standardList; let i = index; trackBy: i;"

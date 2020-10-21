@@ -17,7 +17,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
-import { ManageExpensesComponent } from './core/manage-expenses/manage-expenses.component';
+import { ManageExpensesComponent } from './core/quick-manage-expenses/manage-expenses.component';
+import { ExcelService } from '../services/excel.service';
 @NgModule({
     imports: [
         CommonModule,
@@ -29,6 +30,7 @@ import { ManageExpensesComponent } from './core/manage-expenses/manage-expenses.
         MatButtonModule,
         MatMenuModule,
         MatTabsModule
+
     ],
     declarations: [
         ComponentsComponent,
@@ -44,7 +46,8 @@ import { ManageExpensesComponent } from './core/manage-expenses/manage-expenses.
     ],
     providers: [
         StudentFeeService,
-        CourseListService
+        CourseListService,
+        ExcelService
     ],
     exports: [
     ]

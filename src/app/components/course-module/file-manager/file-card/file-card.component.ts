@@ -41,8 +41,8 @@ export class FileCardComponent implements OnChanges {
 
   @Output() fileid = new EventEmitter<any>();
 
-  @ViewChild("fileHeader",{static: false}) fileHeader: ElementRef;
-  @ViewChild("fileHeader",{static: false}) fileImage: ElementRef;
+  @ViewChild("fileHeader", { static: true }) fileHeader: ElementRef;
+  @ViewChild("fileHeader", { static: true }) fileImage: ElementRef;
 
   @Output() status = new EventEmitter<any>();
   @Output() filePath = new EventEmitter<any>();
@@ -68,12 +68,12 @@ export class FileCardComponent implements OnChanges {
 
   @Output() downloadStatus = new EventEmitter<any>();
   constructor(
-     private cd: ChangeDetectorRef,
-     private fileService: FileManagerService,
-     private appC: AppComponent,
-     private _http: HttpService,
-     private sanitizer: DomSanitizer
-) {
+    private cd: ChangeDetectorRef,
+    private fileService: FileManagerService,
+    private appC: AppComponent,
+    private _http: HttpService,
+    private sanitizer: DomSanitizer
+  ) {
   }
 
   ngOnChanges() {
@@ -89,19 +89,19 @@ export class FileCardComponent implements OnChanges {
     }
     let userid = sessionStorage.getItem('userid');
     data.data.teacher_access = true;
-    if((sessionStorage.getItem('userType')) == '3' && userid != data.data.uploadedUserId){
+    if ((sessionStorage.getItem('userType')) == '3' && userid != data.data.uploadedUserId) {
       data.data.teacher_access = false;
     }
     data.data.selected = false;
     // let name = data.label.split(".")[0];
     // let type = data.label.split(".")[1];
     var name = data.label.substring(0, data.label.lastIndexOf("_"));
-    var type = data.label.substring(data.label.lastIndexOf(".")+1);
+    var type = data.label.substring(data.label.lastIndexOf(".") + 1);
     this.fileObj = new File(name, type, data.data);
-    if(data.data.category_id == "230"){
+    if (data.data.category_id == "230") {
       this.fileHeader.nativeElement.classList.add("youtube");
       this.fileHeader.nativeElement.classList.add("youtube-url");
-    } else if(data.data.category_id == this.vimeo_category_id && (data.data.thumbnail_list==null || !data.data.thumbnail_list || (!data.data.thumbnail_list.length || data.data.thumbnail_list[0].posterUrl==null))) {
+    } else if (data.data.category_id == this.vimeo_category_id && (data.data.thumbnail_list == null || !data.data.thumbnail_list || (!data.data.thumbnail_list.length || data.data.thumbnail_list[0].posterUrl == null))) {
       this.fileHeader.nativeElement.classList.add("video");
       this.fileHeader.nativeElement.classList.add("vimeo-url");
     } else {
@@ -206,7 +206,7 @@ export class FileCardComponent implements OnChanges {
 
   getFilesDeleted(event) {
     this.ShowDeleteFileButton.emit(event);
-     }
+  }
 
   getPopupOpen(fileObj) {
     let shareOptions = {
@@ -240,11 +240,11 @@ export class FileCardComponent implements OnChanges {
     const url = "/api/v1/instFileSystem/downloadFile/" + this.fileService.institute_id + "?fileId=" + fileObj.res.file_id;
     this.downloadStatus.emit(true);
     this._http.downloadItem(url, file_type).subscribe(
-      (response:any)=>{
-        if(response){
+      (response: any) => {
+        if (response) {
           const blob = new Blob([response], { type: file_type });
           this.fileURL = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-          if(this.fileURL!=null){
+          if (this.fileURL != null) {
             setTimeout(() => {
               var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
               hiddenDownload.href = this.fileURL.changingThisBreaksApplicationSecurity;
@@ -255,7 +255,7 @@ export class FileCardComponent implements OnChanges {
           }
         }
       },
-       err=>{
+      err => {
         this.downloadStatus.emit(false);
         console.log(err);
       }
@@ -277,7 +277,7 @@ export class FileCardComponent implements OnChanges {
     // if(fileName.length>20){
     //   return  filenamePart1.substring(0,20)+filenamePart2;
     // }else{
-      return fileName;
+    return fileName;
     // }    
   }
 

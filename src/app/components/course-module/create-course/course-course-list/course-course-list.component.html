@@ -3,7 +3,7 @@
     <div class="boxPadding15">
 
       <!-- Expanding Table -->
-      <section class="middle-top mb0 clearFix section-header">
+      <section class="middle-top mb0 clearFix section-header" style="    margin-top: -50px;">
         <!-- <h1 class="pull-left" style="padding-top:15px;">
           Course List
         </h1> -->
@@ -57,7 +57,8 @@
                     <h4 class="clearFix ">
                       <span class="close-accor" (click)="toggleTbodyClass(i)">-</span>
                       <span class="open-accor" (click)="toggleTbodyClass(i)">+</span>
-                      <span class="date-c" (click)="toggleTbodyClass(i)">{{row.master_course}}</span>
+                      <span class="date-c" (click)="toggleTbodyClass(i)"
+                        style="font-weight: 500;">{{row.master_course}}</span>
                       <span class="pull-right" *ngIf="jsonFlags.isShowAddStudent" routerLink="{{row.master_course}}"
                         style="cursor: pointer;padding-right: 4% !important;text-align: left;">
                         <i class="fa fa-pencil" aria-hidden="true" style="margin-right: 5px;color: #0084f6;"
