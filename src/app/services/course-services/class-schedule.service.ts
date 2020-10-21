@@ -371,6 +371,8 @@ export class ClassScheduleService {
 
     getCoursePlannerData(obj, section) {
         obj.institute_id = this.institute_id;
+        obj.from_date = moment(obj.from_date).format("YYYY-MM-DD");
+        obj.to_date = moment(obj.to_date).format("YYYY-MM-DD");
         let url = this.baseURL + "/api/v1/coursePlanner/category?type=" + section;
         return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => { return res },

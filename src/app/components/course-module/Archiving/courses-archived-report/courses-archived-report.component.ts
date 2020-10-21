@@ -115,7 +115,7 @@ export class CoursesArchivedReportComponent implements OnInit {
     ]
     this.tableSetting = {
       width: "100%",
-      height: "69vh"
+      height: "62vh"
     }
 
     this.rowColumns = [

@@ -1,16 +1,18 @@
-
-<section class="middle-section">
+<section class="middle-section" style="padding: 2%;padding-top: 2px;">
   <!-- course module -->
-  <section class="header-section"> 
-      <div>
-          <div class="header-title">
-              <span >Online Exam</span>
-              <span style="float: right;" class="downloadSection"><a style="color: white;" href="https://examdesk.co/ExamdeskWordParser_11Nov19.zip"><i class="fa fa-download"></i> Word Parser</a></span>
-              <span style="float: right;padding-right: 10px;cursor: pointer;" class="downloadSection" (click)="openExamdesk()">Go to ExamDesk</span>
-            </div>
-      </div>      
-    </section>
-  <div class="course-menu-section-container" >
+  <section class="header-section">
+    <div>
+      <div class="header-title">
+        <span>Online Exam</span>
+        <span style="float: right;" class="downloadSection"><a style="color: white;"
+            href="https://examdesk.co/ExamdeskWordParser_11Nov19.zip"><i class="fa fa-download"></i> Word
+            Parser</a></span>
+        <span style="float: right;padding-right: 10px;cursor: pointer;" class="downloadSection"
+          (click)="openExamdesk()">Go to ExamDesk</span>
+      </div>
+    </div>
+  </section>
+  <div class="course-menu-section-container">
     <div class="course-menu-item" *ngIf="jsonFlag.showExamDesk" routerLink="/view/online-exam/examcourse">
       <div class="menu-title">
         <img src="./assets/images/online-exam/exam_desk.svg" alt="examDesk course assignment">

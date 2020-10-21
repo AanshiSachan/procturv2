@@ -2662,3 +2662,6 @@ div#enqChart {
         }
     }
 }
+::ng-deep bs-datepicker-container {
+    margin-left: 5% !important;
+  }

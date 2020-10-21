@@ -11,7 +11,7 @@
     </a>
 
     <a mat-button class="hoverColor"
-        style="width: 14%;text-decoration: none;margin-left: -2px;color: white;border-radius: 4px;font-weight: 400;"
+        style="width: 14%;text-decoration: none;margin-left: 1px;color: white;border-radius: 4px;font-weight: 400;"
         (click)="showSubSection('quick')">
         Quick Add<i class="fa fa-angle-down" style="font-size: 18px;padding-left: 4px;" aria-hidden="true"></i>
     </a>
@@ -21,32 +21,38 @@
                 [ngStyle]="{'left':(isMainBranch == 'Y' && checkAdmin) ? '251px' : '186px'}">
                 <div class="side-section-item">
                     <span class="dropSize" routerLink="/view/students/add">
-                        <i class="fa fa-plus" style="font-size: 15px;padding-right: 9px;padding-left: 5px;"
-                            aria-hidden="true"></i>
+                        <img src="./assets/images/sidebar/student.svg" alt="" class="sideBar_centerAlign">
+                        <!-- <i class="fa fa-plus" style="font-size: 15px;padding-right: 9px;padding-left: 5px;"
+                            aria-hidden="true"></i> -->
                         Add Student
                     </span>
                 </div>
                 <div class="side-section-item">
-                    <span class="dropSize" style="padding-left: 5px" routerLink="/view/leads/add"><img
-                            src="./assets/images/leads/add-enquiry.svg" alt="add enquiry" class="helpSection">Add
+                    <span class="dropSize" routerLink="/view/leads/add"><img src="./assets/images/leads/add-enquiry.svg"
+                            alt="add enquiry" class="helpSection">Add
                         Enquiry </span>
                 </div>
                 <div class="side-section-item" (click)="showExpensesList()">
-                    <i class="fa fa-money" id="videoIcon" style="font-size: 15px;padding-right: 9px;"
+                    <i class="fa fa-money" id="videoIcon" style="font-size: 15px;padding-right: 9px;color: green;"
                         aria-hidden="true"></i> <span class="dropSize">Add Expenses</span>
 
                 </div>
                 <div class="side-section-item" (click)="showToDoList()">
-                    <i class="fa fa-list-ol" id="videoIcon" style="font-size: 15px;padding-right: 9px;"
-                        aria-hidden="true"></i> <span class="dropSize">TO DO List</span>
+                    <i class="fa fa-list-ol" id="videoIcon"
+                        style="font-size: 15px;padding-right: 9px;color: yellowgreen;" aria-hidden="true"></i> <span
+                        class="dropSize">TO DO List</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="expenses-container" id="expenses-container" *ngIf="showExpenses">asd
+    <div class="expenses-container" id="expenses-container" *ngIf="showExpenses">
         <button type="button" name="button" class="close_button" (click)="closeShowList()">X</button>
         <app-manage-expenses></app-manage-expenses>
+    </div>
+    <div class="toDoList-container" id="toDoList-container" *ngIf="showToDo">
+        <button type="button" name="button" class="close_todo" (click)="closeShowList()">X</button>
+        <app-to-do-list (loaderOn)="onOfLoaderFromTodoList($event)"></app-to-do-list>
     </div>
     <div style="box-sizing: content-box;" class="setting" *ngIf="isMainBranch == 'Y' && checkAdmin">
         <div class="side-section" id="branches" style="left: 198px;top: 53px;width: max-content;">
@@ -354,11 +360,11 @@
                 <img src="./assets/images/course/class-planner.svg" alt="class planner"><span
                     class="sideBar_centerAlign1" style="padding-left: 5px">Class Planner</span>
             </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isShowClassPlanner "
+            <!-- <span class="activeClass1" *ngIf="jsonCourseFlags.isShowClassPlanner "
                 routerLink="/view/course/coursePlanner/exam">
                 <img src="./assets/images/course/exam-planner.svg" alt="exam planner"><span class="sideBar_centerAlign1"
                     style="padding-left: 5px">Exam Planner</span>
-            </span>
+            </span> -->
             <span class="activeClass1" routerLink="/view/batch/timeTable">
                 <img src="./assets/images/course/timetable.svg" alt="timetable"><span class="sideBar_centerAlign1"
                     style="padding-left: 5px">Timetable</span>
@@ -485,11 +491,11 @@
                 <img src="./assets/images/course/class-planner.svg" alt="class planner"><span
                     class="sideBar_centerAlign1" style="padding-left: 5px">Class Planner</span>
             </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isShowClassPlanner"
+            <!-- <span class="activeClass1" *ngIf="jsonCourseFlags.isShowClassPlanner"
                 routerLink="/view/batch/coursePlanner/exam">
                 <img src="./assets/images/course/exam-planner.svg" alt="exam planner"><span class="sideBar_centerAlign1"
                     style="padding-left: 5px">Exam Planner</span>
-            </span>
+            </span> -->
             <span class="activeClass1" routerLink="/view/batch/timeTable">
                 <img src="./assets/images/course/timetable.svg" alt="timetable"><span class="sideBar_centerAlign1"
                     style="padding-left: 5px">Timetable</span>

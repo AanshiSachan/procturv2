@@ -1,4 +1,4 @@
-<div class="container-fluid product-wrapper p-0">
+<div class="container-fluid product-wrapper p-0" style="padding-top: 2px;padding: 2%;">
   <div class="row m-0 pt-3 pb-3">
     <div class="col-md-8" style="padding-left: 0;">
       <section class="middle-top clearFix bulk-header">
@@ -71,7 +71,8 @@
                 onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" style="width: 100%;">
             </div>
           </div>
-          <div class="col-md-6 form-group" style="padding-left: 0;margin-bottom: 0;" [ngStyle]="{'width':addCouponModel.discount_type == 2 ? '100%' : '50%' }">
+          <div class="col-md-6 form-group" style="padding-left: 0;margin-bottom: 0;"
+            [ngStyle]="{'width':addCouponModel.discount_type == 2 ? '100%' : '50%' }">
             <div class="col-md-12 form-group">
               <label class="text-bold"> Minimum Amount in Cart ({{ _commService.currency_default_symbol}})
                 <span class="text-danger">*</span>

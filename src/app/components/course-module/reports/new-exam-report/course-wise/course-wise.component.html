@@ -1,4 +1,4 @@
-<div class="middle-section clear-fix">
+<div class="middle-section clear-fix" style="    padding: 2%;padding-top: 2px;">
   <section class="middle-top clearFix bulk-header">
     <div>
       <h1 class="pull-left">
@@ -29,11 +29,13 @@
         <span style="font-weight: 600;">{{masterCourse}} </span>
       </div>
       <div class="name-item">
-        <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()" *ngIf="!jsonFlag.isProfessional">
+        <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()"
+          *ngIf="!jsonFlag.isProfessional">
           <option value="-1">Select Course</option>
           <option [value]="course.course_id" *ngFor="let course of coursesList">{{course.course_name}}</option>
         </select>
-        <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()" *ngIf="jsonFlag.isProfessional">
+        <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()"
+          *ngIf="jsonFlag.isProfessional">
           <option value="-1">Select Batch</option>
           <option [value]="batch.batch_id" *ngFor="let batch of coursesList">{{batch.batch_name}}</option>
         </select>
@@ -93,8 +95,7 @@
         </div>
       </div>
       <div class="table-outer-container" style="max-height: 70vh;">
-        <div class="table-value-container" *ngFor="let report of courseWiseReportList"
-        [ngClass]="{'border-completed-class': report.exam_status == 'Mks. Updated',
+        <div class="table-value-container" *ngFor="let report of courseWiseReportList" [ngClass]="{'border-completed-class': report.exam_status == 'Mks. Updated',
                     'border-updated-class': report.exam_status == 'Mks. pending',
                     'border-pending-class': report.exam_status == 'Att. Pending',
                     'border-cancelled-class': report.exam_status == 'Cancelled'}">
@@ -102,8 +103,10 @@
             <span>{{report.exam_date | date: 'dd-MMM-yyyy'}}</span>
           </div>
           <div class="value-item large-item">
-            <span *ngIf="!jsonFlag.isProfessional" title="{{report.subject_name}}">{{ (report.subject_name.length > 40) ? (report.subject_name | slice:0:40) + '...' : report.subject_name }}</span>
-            <span *ngIf="jsonFlag.isProfessional" title="{{report.batch_name}}">{{ (report.batch_name.length > 40) ? (report.batch_name | slice:0:40) + '...' : report.batch_name }}</span>
+            <span *ngIf="!jsonFlag.isProfessional"
+              title="{{report.subject_name}}">{{ (report.subject_name.length > 40) ? (report.subject_name | slice:0:40) + '...' : report.subject_name }}</span>
+            <span *ngIf="jsonFlag.isProfessional"
+              title="{{report.batch_name}}">{{ (report.batch_name.length > 40) ? (report.batch_name | slice:0:40) + '...' : report.batch_name }}</span>
           </div>
           <div class="value-item small-item">
             <span>{{report.total_student}}</span>
@@ -132,11 +135,14 @@
             </span>
           </div>
           <div class="value-item small-item align-center">
-            <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button" class="view-result-btn" routerLink='/view/{{jsonFlag.type}}/reports/exam-dashboard/examWise/{{report.exam_schd_id}}'>View Result</button>
+            <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button" class="view-result-btn"
+              routerLink='/view/{{jsonFlag.type}}/reports/exam-dashboard/examWise/{{report.exam_schd_id}}'>View
+              Result</button>
             <span *ngIf="report.exam_status != 'Mks. Updated'">-</span>
           </div>
         </div>
-        <div class="table-value-container" *ngIf="courseWiseReportList?.length == 0" style="justify-content: center; font-size: 14px; font-weight: 600;">
+        <div class="table-value-container" *ngIf="courseWiseReportList?.length == 0"
+          style="justify-content: center; font-size: 14px; font-weight: 600;">
           <span>No Result Found</span>
         </div>
       </div>

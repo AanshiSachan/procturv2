@@ -1,8 +1,9 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
+import * as moment from 'moment';
 
 @Injectable()
 export class timeTableService {
@@ -12,7 +13,7 @@ export class timeTableService {
     Authorization: string;
     headers: HttpHeaders;
 
-    constructor(private http: HttpClient, private auth1: AuthenticatorService, ) {
+    constructor(private http: HttpClient, private auth1: AuthenticatorService,) {
         this.auth1.currentAuthKey.subscribe(key => {
             this.Authorization = key;
             this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
@@ -73,6 +74,8 @@ export class timeTableService {
     getTimeTable(obj) {
         let url = this.baseUrl + "/api/v1/timeTable";
         obj.institute_id = this.institute_id;
+        obj.enddate = moment(obj.enddate).format("YYYY-MM-DD");
+        obj.startdate = moment(obj.startdate).format("YYYY-MM-DD");
         return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => {
                 return <any>res;
@@ -83,16 +86,16 @@ export class timeTableService {
         ))
     }
 
-    downloadTimeTable(obj){
-      let url = this.baseUrl + "/api/v1/timeTable/printTimeTable";
-      return this.http.post(url, obj, { headers: this.headers }).pipe(map(
-          res => {
-              return <any>res;
-          },
-          err => {
-              return err;
-          }
-      ))
+    downloadTimeTable(obj) {
+        let url = this.baseUrl + "/api/v1/timeTable/printTimeTable";
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
+            res => {
+                return <any>res;
+            },
+            err => {
+                return err;
+            }
+        ))
     }
 
     getProData(standard_id, subject_id) {

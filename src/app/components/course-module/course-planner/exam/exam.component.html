@@ -52,7 +52,7 @@
                 {{masterCourse.master_course}}</option>
             </select>
           </div>
-          <div class="header-item" *ngIf="!jsonFlag.isProfessional">
+          <div class="header-item" *ngIf="!jsonFlag.isProfessional" style="width: 19%;">
             <span>Course</span>
             <select class="header-select-box" name="" [(ngModel)]="inputElements.course"
               (ngModelChange)="updateSubjectsList()">

@@ -2,21 +2,22 @@
   <aside class="middle-full">
     <section class="middle-main clearFix">
 
-    <div class="middle-top mb0 clearFix header">
-      <div class="" style="padding-bottom:2%">
-        <h2 style="padding: 5px;" class="pull-left">
-          <a routerLink="/view/batch">
-            Batch
-          </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-          <a routerLink="/view/batch/archiving">
-            Archiving
-          </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="!isProfessional"></i>
-          <span *ngIf="!isProfessional">Courses</span>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="isProfessional"></i>
-          <span *ngIf="isProfessional">Batches</span>
-        </h2>
+      <div class="middle-top mb0 clearFix header">
+        <div class="" style="padding-bottom:2%">
+          <h2 style="padding: 5px;" class="pull-left">
+            <a routerLink="/view/batch">
+              Batch
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <a routerLink="/view/batch/archiving">
+              Archiving
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="!isProfessional"></i>
+            <span *ngIf="!isProfessional">Courses</span>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="isProfessional"></i>
+            <span *ngIf="isProfessional">Batches</span>
+          </h2>
+        </div>
       </div>
     </section>
     <div class="filter-box clearFix" style="margin: 6px 0px 6px 6px;float: right;">
@@ -186,7 +187,7 @@
           </pagination>
         </div>
       </div>
-    </div>
-  </section>
-  <!-- </aside> -->
+      <!-- </div> -->
+    </section>
+  </aside>
 </div>

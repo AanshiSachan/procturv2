@@ -575,3 +575,28 @@ input{
 .hoverColor:hover{
     opacity: 1;
 }
+.close_button{
+    position: absolute;
+    top: 6rem;
+    right: 2rem;
+    border-radius: 50%;
+    background: white;
+    padding: 3px;
+    font-size: 25px;
+    padding-left: 8px;
+    padding-right: 8px;
+    color: grey;
+    float: right;
+}
+.close_todo{
+    position: absolute;
+    bottom: 26rem;
+    border-radius: 50%;
+    background: white;
+    padding: 3px;
+    font-size: 25px;
+    padding-left: 8px;
+    padding-right: 8px;
+    color: grey;
+    float: right;
+}

@@ -19,6 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ManageExpensesComponent } from './core/quick-manage-expenses/manage-expenses.component';
 import { ExcelService } from '../services/excel.service';
+import { ToDoListComponent } from './homepage-dashboard/to-do-list/to-do-list.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -41,6 +42,7 @@ import { ExcelService } from '../services/excel.service';
         TrainingVideoComponent,
         TopToolbarComponent,
         ManageExpensesComponent,
+        ToDoListComponent
     ],
     entryComponents: [
     ],

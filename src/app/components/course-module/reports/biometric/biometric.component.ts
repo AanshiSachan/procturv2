@@ -11,8 +11,8 @@ import { ExcelService } from '../../../../services/excel.service';
 })
 export class BiometricComponent implements OnInit {
 
-  @ViewChild('biometricTable',{static: false}) biometricTable: ElementRef;
-  @ViewChild('xlsDownloader',{static: false}) xlsDownloader: ElementRef;
+  @ViewChild('biometricTable', { static: false }) biometricTable: ElementRef;
+  @ViewChild('xlsDownloader', { static: false }) xlsDownloader: ElementRef;
   masterCourse: any[] = [];
   studentsData: any[] = [];
   monthAttendance: any[] = [];
@@ -251,7 +251,7 @@ export class BiometricComponent implements OnInit {
     // this.batchPro = [];
     this.coursePro = [];
     this.courses = [];
-    this.subjects=[];
+    this.subjects = [];
     if (this.isProfessional) {
       const url = "/api/v1/subjects/standards/" + i;
       this._http.getData(url).subscribe(
@@ -311,7 +311,7 @@ export class BiometricComponent implements OnInit {
       this.showCustomTable = false;
       this.dataStatus = true;
       if (this.isProfessional) {
-        this.getData.biometric_attendance_date = moment(this.getData.biometric_attendance_date).format('MM-DD-YYYY');
+        this.getData.biometric_attendance_date = moment(this.getData.biometric_attendance_date).format('YYYY-MM-DD');
         const url = "/api/v1/students/manage/" + this.institute_id;
         this._http.postData(url, this.getData).subscribe(
           (data: any) => {
@@ -330,7 +330,7 @@ export class BiometricComponent implements OnInit {
         )
       }
       else {
-        this.getData.biometric_attendance_date = moment(this.getData.biometric_attendance_date).format('MM-DD-YYYY');
+        this.getData.biometric_attendance_date = moment(this.getData.biometric_attendance_date).format('YYYY-MM-DD');
         const url = "/api/v1/students/manage/" + this.institute_id;
         this._http.postData(url, this.getData).subscribe(
           (data: any) => {
