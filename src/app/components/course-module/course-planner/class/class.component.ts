@@ -284,7 +284,7 @@ export class ClassComponent implements OnInit {
     }
 
     // get active faculty list
-    this.classService.getAllTeachersList().subscribe(
+    this.classService.getAllTeachersListOld().subscribe(
       res => {
         this.facultyList = res;
       },
@@ -330,9 +330,9 @@ export class ClassComponent implements OnInit {
     else {
       this.coursePlannerFilters.standard_id = this.inputElements.standard_id;
       this.inputElements.subject_id = "-1";
-      this.coursePlannerFilters.subject_id =  "-1";
+      this.coursePlannerFilters.subject_id = "-1";
       this.inputElements.batch_id = '-1';
-      if(this.inputElements.standard_id == "-1"){
+      if (this.inputElements.standard_id == "-1") {
         this.courseList = [];
       }
       else {
@@ -414,12 +414,12 @@ export class ClassComponent implements OnInit {
     }
     else {  // For Batch Model
       this.coursePlannerFilters.batch_id = this.inputElements.batch_id;
-      let temp = this.batchList.filter(x=>x.batch_id == this.inputElements.batch_id);
+      let temp = this.batchList.filter(x => x.batch_id == this.inputElements.batch_id);
       this.courseStartDate = '';
       this.courseEndDate = '';
-      if(temp){
-      this.courseStartDate = temp[0].start_date;
-      this.courseEndDate = temp[0].end_date;
+      if (temp) {
+        this.courseStartDate = temp[0].start_date;
+        this.courseEndDate = temp[0].end_date;
       }
     }
   }
@@ -1206,19 +1206,19 @@ export class ClassComponent implements OnInit {
     }
   }
 
-  showEditOption(){
+  showEditOption() {
     $('#topicModel').modal('hide');
     $('#editClass').modal('show');
   }
 
-  saveTopics(){
+  saveTopics() {
     var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
     var getTopicIds;
     if (getSelectedTopics != undefined) {
       getTopicIds = getSelectedTopics.map(obj => {
         return obj.topicId;
       })
-      let getTopicNames = getSelectedTopics.map(obj =>{
+      let getTopicNames = getSelectedTopics.map(obj => {
         return obj.topicName;
       })
       getTopicIds = getTopicIds.join('|')
@@ -1231,8 +1231,8 @@ export class ClassComponent implements OnInit {
 
   updateClass() {
     let obj;
-    if(!this.jsonFlag.isProfessional){ // for course model
-      if(this.editClass.faculty != "-1"){
+    if (!this.jsonFlag.isProfessional) { // for course model
+      if (this.editClass.faculty != "-1") {
         obj = {
           "batch_id": this.editClass.batch_id,
           "is_exam_schedule": "N",
@@ -1244,11 +1244,11 @@ export class ClassComponent implements OnInit {
           "alloted_teacher_id": this.editClass.faculty,
         };
       }
-      else{
+      else {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select faculty");
       }
     }
-    else{   // For batch model
+    else {   // For batch model
       obj = {
         "batch_id": this.editClass.batch_id,
         "is_exam_schedule": "N",
@@ -1263,7 +1263,7 @@ export class ClassComponent implements OnInit {
       res => {
         let result: any = res;
         $('#editClass').modal('hide');
-        if(result.statusCode == 200){
+        if (result.statusCode == 200) {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Class updated successfully');
           this.clearEditValues();
           this.getData();

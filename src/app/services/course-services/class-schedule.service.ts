@@ -303,6 +303,17 @@ export class ClassScheduleService {
             }
         );
     }
+    getAllTeachersListOld(): Observable<any> {
+        let url = this.baseURL + "/api/v1/teachers/all/" + this.institute_id + '?active=Y';
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            error => {
+                return error;
+            }
+        );
+    }
 
     reScheduleClass(obj): Observable<any> {
         let url = this.baseURL + "/api/v1/batchClsSched/reschedule";
