@@ -1,4 +1,4 @@
-<section class="middle-section clearFix">
+<section class="clearFix" style="padding: 2%;margin-top: -36px;">
   <div class="boxPadding15">
     <aside class="middle-full row">
       <!-- Header and Navigation -->
@@ -6,7 +6,7 @@
 
 
         <!-- Export and Toggler Here -->
-        <div class="row" style="margin-top: -5px;margin-bottom: 5px;">
+        <div class="row">
           <div class="c-lg-6 c-md-6 c-sm-6 align-left">
           </div>
           <div class="c-lg-6 c-md-6 c-sm-6 align-left">
@@ -32,33 +32,40 @@
               <tr id="table-header" class="displayComp">
                 <th class="text-align-left">
                   <label>
-                    <a class="cursor-icon" (click)="sortTableById(header.list_name.title)">{{header.inventory_item.title}}</a>
+                    <a class="cursor-icon"
+                      (click)="sortTableById(header.list_name.title)">{{header.inventory_item.title}}</a>
                   </label>
                 </th>
 
                 <th class="text-align-left">
                   <label>
-                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)">{{header.category.title}}</a>
+                    <a class="cursor-icon"
+                      (click)="sortTableById(header.referred_by.title)">{{header.category.title}}</a>
                   </label>
                 </th>
 
                 <th class="text-align-left">
                   <label>
-                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)">{{header.description.title}}</a>
+                    <a class="cursor-icon"
+                      (click)="sortTableById(header.referred_by.title)">{{header.description.title}}</a>
                   </label>
                 </th>
 
                 <th class="text-align-left">
                   <label>
-                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)" *ngIf="!isProfessional">{{header.standard_name.title}}</a>
-                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)" *ngIf="isProfessional">Master Course</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)"
+                      *ngIf="!isProfessional">{{header.standard_name.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)"
+                      *ngIf="isProfessional">Master Course</a>
                   </label>
                 </th>
 
                 <th class="text-align-left">
                   <label>
-                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)" *ngIf="!isProfessional">{{header.subject_name.title}}</a>
-                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)" *ngIf="isProfessional">Course</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)"
+                      *ngIf="!isProfessional">{{header.subject_name.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)"
+                      *ngIf="isProfessional">Course</a>
                   </label>
                 </th>
 
@@ -70,7 +77,8 @@
 
                 <th>
                   <label>
-                    <a class="cursor-icon" (click)="sortTableById(header.total_count.title)">{{header.available.title}}</a>
+                    <a class="cursor-icon"
+                      (click)="sortTableById(header.total_count.title)">{{header.available.title}}</a>
                   </label>
                 </th>
 
@@ -145,7 +153,8 @@
                 </td>
                 <td class="edit-comp editCellAllignment">
                   <div class="field-wrapper">
-                    <select id="" class="form-ctrl" name="row.standard_name" [(ngModel)]="editStandSubject.standard_id" (change)="masterCourseChanged()">
+                    <select id="" class="form-ctrl" name="row.standard_name" [(ngModel)]="editStandSubject.standard_id"
+                      (change)="masterCourseChanged()">
                       <option *ngFor="let opt of masterCategoryList" [value]="opt.standard_id">
                         {{opt.standard_name}}
                       </option>
@@ -197,7 +206,8 @@
                 </td>
                 <td class="edit-comp editCellAllignment">
                   <div class="field-wrapper">
-                    <input type="number" class="form-ctrl" style="margin:auto" [(ngModel)]="row.out_of_stock_indicator_units" name="label">
+                    <input type="number" class="form-ctrl" style="margin:auto"
+                      [(ngModel)]="row.out_of_stock_indicator_units" name="label">
                   </div>
                 </td>
 
@@ -271,8 +281,7 @@
                                 Allocate To Sub Branches
                               </span>
                             </li>
-                            <li class="action-item"
-                              (click)="showManageUnit(row)">
+                            <li class="action-item" (click)="showManageUnit(row)">
                               <span class="textContent">
                                 Manage Unit
                               </span>
@@ -299,7 +308,7 @@
 
 
         <!-- Paginator Here -->
-        <div class="row filter-res pagination" style="width: 89%;position: fixed;bottom: 0px;">
+        <div class="row filter-res pagination" style="width: 83%;position: fixed;bottom: 0px;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
               [pagesToShow]="10" [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
@@ -369,9 +378,9 @@
   <div class="popup pos-abs">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeDeletePopup()">
-        <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+        <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
           viewBox="0 0 24 24" width="24px" x="0" y="0">
-          <path  class="large-icon"
+          <path class="large-icon"
             d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
             style="fill: currentColor"></path>
         </svg>
@@ -399,12 +408,12 @@
 <!-- Create Item Pop Up -->
 <!-- =============================================================================== -->
 <section id="popup" class="popupWrapper fadeIn" *ngIf="createItemPopUp">
-  <div class="popup pos-abs popup-body-container">
+  <div class="popup pos-abs popup-body-container" style="top: 15%;">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCreatePopup()">
-        <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+        <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
           viewBox="0 0 24 24" width="24px" x="0" y="0">
-          <path  class="large-icon"
+          <path class="large-icon"
             d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
             style="fill: currentColor"></path>
         </svg>
@@ -581,9 +590,9 @@
   <div class="popup pos-abs popup-body-container">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllocateSubBranchPopup()">
-        <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+        <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
           viewBox="0 0 24 24" width="24px" x="0" y="0">
-          <path  class="large-icon"
+          <path class="large-icon"
             d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
             style="fill: currentColor"></path>
         </svg>
@@ -656,7 +665,8 @@
                 <label for="item">Allocate Unit
                   <span class="text-danger">*</span>
                 </label>
-                <input type="number" class="form-ctrl" formControlName="alloted_units" name="item" placeholder="Enter unit">
+                <input type="number" class="form-ctrl" formControlName="alloted_units" name="item"
+                  placeholder="Enter unit">
 
                 <div
                   *ngIf="allocateItemForm.controls['alloted_units'].invalid && (allocateItemForm.controls['alloted_units'].dirty || allocateItemForm.controls['alloted_units'].touched)"
@@ -671,7 +681,8 @@
               <div class="field-wrapper">
                 <label for="label">Transport
                 </label>
-                <input type="text" class="form-ctrl" formControlName="transport" name="label" placeholder="Enter transport details">
+                <input type="text" class="form-ctrl" formControlName="transport" name="label"
+                  placeholder="Enter transport details">
               </div>
             </div>
           </div>
@@ -725,9 +736,9 @@
   <div class="popup pos-abs popup-body-container">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllocationItemHistoryPopup()">
-        <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+        <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
           viewBox="0 0 24 24" width="24px" x="0" y="0">
-          <path  class="large-icon"
+          <path class="large-icon"
             d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
             style="fill: currentColor"></path>
         </svg>

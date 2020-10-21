@@ -15,7 +15,7 @@ import { TopicListingService } from '../../../../../services/course-services/top
   // encapsulation: ViewEncapsulation.Emulated
 })
 
-export class ClassAddComponent implements OnInit ,OnDestroy  {
+export class ClassAddComponent implements OnInit, OnDestroy {
   public checkedKeys: any[] = [];
   customTable: any = [];
   courseModelStdList: any[] = [];
@@ -168,15 +168,15 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   IsTopicSelectedMode: string = 'add';
   subject_name = '';
 
-  topicsList : any = [];
+  topicsList: any = [];
   showTopicsModal = false;
   totalTopicsList: any = [];
   selectedTopics: any = '' //join ids by '|'
   selectedTopicsNames: any = '';
   selectedTopicsListObj: any = []; //checked item list --> batch modal
-  selectedSubjectInBatch: any ;
+  selectedSubjectInBatch: any;
   showCustomEditModal: boolean = false;
-  getSubjectObject: any ='';
+  getSubjectObject: any = '';
   weeklyScheduleCan = {
     date: moment().format("MM-DD-YYYY"),
     cancel_note: '',
@@ -208,7 +208,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
 
   multiClickDisabled: boolean = false;
   coursePlannerStatus: any;
-  
+
   constructor(
     private router: Router,
     private login: LoginService,
@@ -246,11 +246,11 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   }
 
   ngOnDestroy() {
-    sessionStorage.setItem('isFromCoursePlanner',String(false));
+    sessionStorage.setItem('isFromCoursePlanner', String(false));
   }
 
 
-  checkForCoursePlannerRoute(){
+  checkForCoursePlannerRoute() {
     this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
   }
   checkNotifyDate(data) {
@@ -274,10 +274,10 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     }
   }
 
-// For Weekly class schedule
+  // For Weekly class schedule
 
   // All day of the week
-  getAllWeekDay(){
+  getAllWeekDay() {
     this.auth.showLoader();
     this.classService.getDayofWeekAll().subscribe(
       res => {
@@ -293,7 +293,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   }
 
   // Apply start time and end time for all week days
-  applyTimeForAll(){
+  applyTimeForAll() {
 
     let startTime = moment(this.createTimeInFormat(this.weeklyCommonStartTime.hour, this.weeklyCommonStartTime.minute, 'comp'), 'h:mma');
     let endTime = moment(this.createTimeInFormat(this.weeklyCommonEndTime.hour, this.weeklyCommonEndTime.minute, 'comp'), 'h:mma');
@@ -302,7 +302,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct start time and end time');
       return
     }
-    else{
+    else {
       this.weekDaysList.forEach(element => {
         element.start_time = this.getNewTimeFormatJson(this.weeklyCommonStartTime.hour.split(' ')[0] + ':' + this.weeklyCommonStartTime.minute + ' ' + this.weeklyCommonStartTime.hour.split(' ')[1]);
         element.end_time = this.getNewTimeFormatJson(this.weeklyCommonEndTime.hour.split(' ')[0] + ':' + this.weeklyCommonEndTime.minute + ' ' + this.weeklyCommonEndTime.hour.split(' ')[1]);
@@ -626,7 +626,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     )
   }
 
-  getSubjectName(ev){
+  getSubjectName(ev) {
     this.selectedSubjectInBatch = '';
     this.selectedSubjectInBatch = this.courseModelSubList.find(elem => elem.subject_id == ev).subject_name;
   }
@@ -751,6 +751,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     this.classService.getAllSubjectlist(this.fetchMasterCourseModule).subscribe(
       res => {
         this.fetchedCourseData = res;
+        this.fetchMasterCourseModule.requested_date = moment(res.requested_data).format("MM-DD-YYYY");
         this.auth.hideLoader();
         this.subjectListDataSource = this.getSubjectList(res);
         this.classScheduleArray = this.constructJSONForTable(res);
@@ -918,230 +919,230 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     }
   }
 
-  fetchTopics(){
+  fetchTopics() {
     this.auth.showLoader();
     this.totalTopicsList = [];
-    this.topicService.getAllTopicsSubTopics(this.fetchMasterBatchModule.subject_id).subscribe((resp)=>{
+    this.topicService.getAllTopicsSubTopics(this.fetchMasterBatchModule.subject_id).subscribe((resp) => {
       this.topicsList = [];
       this.topicsList = resp;
-      if(this.topicsList.length && this.topicsList != null){
+      if (this.topicsList.length && this.topicsList != null) {
         this.showTopicsModal = true;
         this.auth.hideLoader();
-        this.topicsList.forEach(tpc =>{
+        this.topicsList.forEach(tpc => {
           this.totalTopicsList.push(tpc);
           tpc.checked = false;
-          if(tpc.subTopic.length){
+          if (tpc.subTopic.length) {
             this.getAllTopics(tpc.subTopic)
           }
         })
-        
+
       }
       else {
-        this.auth.hideLoader();        
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to Link");
       }
-    },err =>{
+    }, err => {
       this.auth.hideLoader();
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
     })
   }
 
-  getAllTopics(topic){
-    topic.forEach(obj =>{
+  getAllTopics(topic) {
+    topic.forEach(obj => {
       this.totalTopicsList.push(obj);
       obj.checked = false;
-      if(obj.subTopic.length){
+      if (obj.subTopic.length) {
         this.getAllTopics(obj.subTopic)
       }
     })
   }
 
-  selectTopics(topic,event){  
+  selectTopics(topic, event) {
     topic.checked = !topic.checked;
-      if(topic.subTopic.length){
-        this.checkAllSubTopics(topic.subTopic, event.target.checked);
-      } 
-      if(!event.target.checked){
-        if(topic.parentTopicId != 0){
-          this.uncheckParent(topic);
-        }
+    if (topic.subTopic.length) {
+      this.checkAllSubTopics(topic.subTopic, event.target.checked);
+    }
+    if (!event.target.checked) {
+      if (topic.parentTopicId != 0) {
+        this.uncheckParent(topic);
       }
-      this.checkParents(topic);      
+    }
+    this.checkParents(topic);
   }
-  
+
   //uncheck parent if any of the child is deselected
-  uncheckParent(topic){
+  uncheckParent(topic) {
     var getParentTopic = this.totalTopicsList.find(obj => obj.topicId == topic.parentTopicId);
-    if(getParentTopic !=undefined){
+    if (getParentTopic != undefined) {
       getParentTopic.checked = false;
-      if(getParentTopic.parentTopicId != 0){
+      if (getParentTopic.parentTopicId != 0) {
         this.uncheckParent(getParentTopic)
       }
     }
   }
   //check parent if all subtopics are checked
-  checkParents(topic){
+  checkParents(topic) {
     var checkAll: boolean = true;
-    if(this.totalTopicsList.find(el => el.topicId == topic.topicId) != undefined){
+    if (this.totalTopicsList.find(el => el.topicId == topic.topicId) != undefined) {
       var parentTopic = this.totalTopicsList.find(ele => ele.topicId == topic.parentTopicId);
-      if(parentTopic != undefined){
-      if(parentTopic.subTopic.length){
-        parentTopic.subTopic.forEach(subTpc =>{
-          if(!subTpc.checked){
-            checkAll = false;
-          }
-        });
-        if(checkAll){
-          parentTopic.checked = true;
-          if(parentTopic.parentTopicId != 0){
-            this.checkParents(parentTopic)
+      if (parentTopic != undefined) {
+        if (parentTopic.subTopic.length) {
+          parentTopic.subTopic.forEach(subTpc => {
+            if (!subTpc.checked) {
+              checkAll = false;
+            }
+          });
+          if (checkAll) {
+            parentTopic.checked = true;
+            if (parentTopic.parentTopicId != 0) {
+              this.checkParents(parentTopic)
+            }
           }
         }
       }
     }
-    }
   }
- 
-  fetchSelectedTopics(){
+
+  fetchSelectedTopics() {
     this.auth.showLoader();
-    this.showTopicsModal= true;
-    this.selectedTopicsListObj.forEach(obj =>{
+    this.showTopicsModal = true;
+    this.selectedTopicsListObj.forEach(obj => {
       var getTopicObject = this.totalTopicsList.find(ele => ele.topicId == obj.topicId);
       getTopicObject.checked = true;
     });
     this.auth.hideLoader();
   }
 
-  saveSelectedTopics(){
+  saveSelectedTopics() {
     /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics selected");
     }
     else { */
-     this.auth.showLoader();
-     this.selectedTopicsListObj = [];
-     this.selectedTopicsListObj = this.totalTopicsList.filter(obj => obj.checked == true);
-     if(this.selectedTopicsListObj !=undefined){
-     this.selectedTopics = this.selectedTopicsListObj.map(obj=>{
-       return obj.topicId;
-     })
-     this.selectedTopics = this.selectedTopics.join('|');
-     this.selectedTopicsNames = this.selectedTopicsListObj.map(obj =>{
-       return obj.topicName;
-     });
-     this.selectedTopicsNames = this.selectedTopicsNames.join(',');
+    this.auth.showLoader();
+    this.selectedTopicsListObj = [];
+    this.selectedTopicsListObj = this.totalTopicsList.filter(obj => obj.checked == true);
+    if (this.selectedTopicsListObj != undefined) {
+      this.selectedTopics = this.selectedTopicsListObj.map(obj => {
+        return obj.topicId;
+      })
+      this.selectedTopics = this.selectedTopics.join('|');
+      this.selectedTopicsNames = this.selectedTopicsListObj.map(obj => {
+        return obj.topicName;
+      });
+      this.selectedTopicsNames = this.selectedTopicsNames.join(',');
     }
-     this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Topics linked successfully!");
-     this.auth.hideLoader();
-     this.showTopicsModal = false;
-   // }
+    this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Topics linked successfully!");
+    this.auth.hideLoader();
+    this.showTopicsModal = false;
+    // }
   }
   // check/uncheck all subtopics if parent is checked/unchecked
-  checkAllSubTopics(topic,param){
-    topic.forEach(obj =>{
-      if(param){
-      obj.checked = true;
+  checkAllSubTopics(topic, param) {
+    topic.forEach(obj => {
+      if (param) {
+        obj.checked = true;
       }
-      else{
+      else {
         obj.checked = false
       }
-      if(obj.subTopic.length){
-        this.checkAllSubTopics(obj.subTopic,param);
+      if (obj.subTopic.length) {
+        this.checkAllSubTopics(obj.subTopic, param);
       }
     })
   }
 
-  
-  closeTopicModal(){
+
+  closeTopicModal() {
     this.showTopicsModal = false;
   }
-  toggleArrow(topic){
+  toggleArrow(topic) {
     topic.isExpand = !(topic.isExpand);
   }
-  linkTopics(){
+  linkTopics() {
     /* if(this.totalTopicsList.filter(el => el.checked == true).length == 0){
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics selected");
     } 
     else { */
-      this.auth.showLoader();
-      var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
-      var getTopicIds;
-      if(getSelectedTopics != undefined){
-      getTopicIds = getSelectedTopics.map(obj =>{
+    this.auth.showLoader();
+    var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
+    var getTopicIds;
+    if (getSelectedTopics != undefined) {
+      getTopicIds = getSelectedTopics.map(obj => {
         return obj.topicId;
       })
       getTopicIds = getTopicIds.join('|')
       this.getSubjectObject.topics_covered = getTopicIds;
-    
-      if(this.batchFrequency == 2){
-       this.customTable.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
+
+      if (this.batchFrequency == 2) {
+        this.customTable.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
       }
       else {
         this.extraClassTable.find(ele => ele.schd_id == this.getSubjectObject.schd_id).topics_covered = getTopicIds;
       }
     }
-      this.msgService.showErrorMessage('success', '', "Topics updated successfully");
-      this.showTopicsModal = false;
-      this.auth.hideLoader();
+    this.msgService.showErrorMessage('success', '', "Topics updated successfully");
+    this.showTopicsModal = false;
+    this.auth.hideLoader();
 
     //}
   }
 
-  editTopics(row){
-   console.log('inside edit topics:',row);
-   this.getSubjectObject = '';
-   this.getSubjectObject = row;
-   this.auth.showLoader();
-   if(row.topics_covered != '' && row.topics_covered != null){
-   var selectedTopicIds = row.topics_covered.split('|');
-   }
-   var list = [];
-   this.topicService.getAllTopicsSubTopics(this.fetchMasterBatchModule.subject_id).subscribe(res =>{
-     this.topicsList = [];
-     this.topicsList = res;
-     if(this.topicsList != null && this.topicsList.length){
-      this.showTopicsModal = true;
-      this.showCustomEditModal = true;
-       this.auth.hideLoader();
-       this.topicsList.forEach(obj =>{
-        list.push(obj);
-        if(selectedTopicIds !=undefined){
-         if(selectedTopicIds.indexOf((obj.topicId).toString()) > -1){
-           obj.checked = true;
-         }
-        }
-         if(obj.subTopic.length){
-           this.fetchAllTopics(obj.subTopic,list,selectedTopicIds);
-         }
-        
-       });  
-       this.totalTopicsList = [];
-       this.totalTopicsList = list     
-     }
-     else {
+  editTopics(row) {
+    console.log('inside edit topics:', row);
+    this.getSubjectObject = '';
+    this.getSubjectObject = row;
+    this.auth.showLoader();
+    if (row.topics_covered != '' && row.topics_covered != null) {
+      var selectedTopicIds = row.topics_covered.split('|');
+    }
+    var list = [];
+    this.topicService.getAllTopicsSubTopics(this.fetchMasterBatchModule.subject_id).subscribe(res => {
+      this.topicsList = [];
+      this.topicsList = res;
+      if (this.topicsList != null && this.topicsList.length) {
+        this.showTopicsModal = true;
+        this.showCustomEditModal = true;
+        this.auth.hideLoader();
+        this.topicsList.forEach(obj => {
+          list.push(obj);
+          if (selectedTopicIds != undefined) {
+            if (selectedTopicIds.indexOf((obj.topicId).toString()) > -1) {
+              obj.checked = true;
+            }
+          }
+          if (obj.subTopic.length) {
+            this.fetchAllTopics(obj.subTopic, list, selectedTopicIds);
+          }
+
+        });
+        this.totalTopicsList = [];
+        this.totalTopicsList = list
+      }
+      else {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', "No topics available to Link");
+      }
+    }, err => {
       this.auth.hideLoader();
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', "No topics available to Link");
-     }
-   },err => {
-    this.auth.hideLoader();
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
-  })
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+    })
   }
 
- 
-  fetchAllTopics(topic,list,idList){
-    topic.forEach(key =>{
-      if(idList !=undefined && idList != null){
-      if(idList.indexOf((key.topicId).toString()) > -1){
-        key.checked = true;
+
+  fetchAllTopics(topic, list, idList) {
+    topic.forEach(key => {
+      if (idList != undefined && idList != null) {
+        if (idList.indexOf((key.topicId).toString()) > -1) {
+          key.checked = true;
+        }
       }
-    }
-      list.push(key);  
-      if(key.subTopic.length){
-        this.fetchAllTopics(key.subTopic,list,idList)
+      list.push(key);
+      if (key.subTopic.length) {
+        this.fetchAllTopics(key.subTopic, list, idList)
       }
-     
+
     });
-    
+
   }
 
   topicListingForAlreadyLinkedTopics(row, subject_id, preSelectedTopics) {
@@ -1588,26 +1589,26 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       (res: any) => {
         this.auth.hideLoader();
         // if (res.weekSchd && (res.weekSchd.length > 0)) {
-          // this.selctedScheduledClass.startTime = this.getNewTimeFormatJson(res.weekSchd[0].start_time);
-          // this.selctedScheduledClass.endTime = this.getNewTimeFormatJson(res.weekSchd[0].end_time);
+        // this.selctedScheduledClass.startTime = this.getNewTimeFormatJson(res.weekSchd[0].start_time);
+        // this.selctedScheduledClass.endTime = this.getNewTimeFormatJson(res.weekSchd[0].end_time);
 
-          this.weekDaysList.forEach(element => {
-            element.uiSelected = false;
-            element.start_time = this.getNewTimeFormatJson("12:00 PM");
-            element.end_time = this.getNewTimeFormatJson("1:00 PM");
-          });
+        this.weekDaysList.forEach(element => {
+          element.uiSelected = false;
+          element.start_time = this.getNewTimeFormatJson("12:00 PM");
+          element.end_time = this.getNewTimeFormatJson("1:00 PM");
+        });
 
-         if (res.weekSchd && (res.weekSchd.length > 0)) {
-           for(let i = 0; i < this.weekDaysList.length; i++){
-             for(let l = 0; l < res.weekSchd.length; l++){
-               if(this.weekDaysList[i].data_key == res.weekSchd[l].day_of_week){
-                 this.weekDaysList[i].start_time = this.getNewTimeFormatJson(res.weekSchd[l].start_time);
-                 this.weekDaysList[i].end_time = this.getNewTimeFormatJson(res.weekSchd[l].end_time);
-                 this.weekDaysList[i].uiSelected = true;
-               }
-             }
-           }
-         }
+        if (res.weekSchd && (res.weekSchd.length > 0)) {
+          for (let i = 0; i < this.weekDaysList.length; i++) {
+            for (let l = 0; l < res.weekSchd.length; l++) {
+              if (this.weekDaysList[i].data_key == res.weekSchd[l].day_of_week) {
+                this.weekDaysList[i].start_time = this.getNewTimeFormatJson(res.weekSchd[l].start_time);
+                this.weekDaysList[i].end_time = this.getNewTimeFormatJson(res.weekSchd[l].end_time);
+                this.weekDaysList[i].uiSelected = true;
+              }
+            }
+          }
+        }
         this.showPopUpRecurence = true;
         // }
       },
@@ -1675,7 +1676,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     }
   }
 
-  saveCustomRecurrences(){
+  saveCustomRecurrences() {
 
     this.multiClickDisabled = true;
     this.auth.showLoader();
@@ -1791,7 +1792,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
   makeJsonForRecurrence() {
     let weekDaysSelectedCount = 0;
     this.weekDaysList.forEach(element => {
-      if(element.uiSelected){
+      if (element.uiSelected) {
         weekDaysSelectedCount++;
       }
     });
@@ -1799,14 +1800,14 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter days of week');
       return;
     }
-    else{
+    else {
       let obj: any = {};
       let seletected = false;
       obj.batch_id = this.selctedScheduledClass.batch_id;
       obj.weekSchd = [];
 
       for (let t = 0; t < this.weekDaysList.length; t++) {
-        if(this.weekDaysList[t].uiSelected){
+        if (this.weekDaysList[t].uiSelected) {
 
           let test: any = {};
           test.day_of_week = Number(this.weekDaysList[t].data_key);
@@ -1888,7 +1889,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
         if ((data.weekSchd && data.weekSchd.length == 0)) {
           this.batchFrequency = '2';
         }
-        else{
+        else {
           this.batchFrequency = '1';
         }
         this.scheduleSelection(this.batchFrequency);
@@ -2086,7 +2087,7 @@ export class ClassAddComponent implements OnInit ,OnDestroy  {
     obj.schd_id = 0;
     obj.is_attendance_marked = 'N';
     obj.topics_covered = this.selectedTopics;
-    obj.topicName= this.selectedTopicsNames;
+    obj.topicName = this.selectedTopicsNames;
     this.customTable.push(obj);
     this.custom = {
       date: moment().format("MM-DD-YYYY"),

@@ -1,4 +1,4 @@
-<div id="divCategory" class="c-lg-12 c-md-12 c-sm-12" style="padding: 0px;">
+<div id="divCategory" class="c-lg-12 c-md-12 c-sm-12" style="padding: 2%;">
   <section>
     <div class="clearFix create-standard-form" *ngIf="createNewCategory">
       <div class="c-sm-3" style="padding-left: 0px;">
@@ -6,14 +6,14 @@
           <label for="ctgryName">Category Name
             <span class="text-danger">*</span>
           </label>
-          <input id="ctgryName" type="text" #categoryName class="form-ctrl" name="label" >
+          <input id="ctgryName" type="text" #categoryName class="form-ctrl" name="label">
         </div>
       </div>
       <div class="c-sm-3">
         <div class="field-wrapper">
           <label for="ctgrydesc">Category Description
           </label>
-          <input id="ctgrydesc" type="text" #categoryDesc class="form-ctrl" name="label" >
+          <input id="ctgrydesc" type="text" #categoryDesc class="form-ctrl" name="label">
         </div>
       </div>
       <div class="c-sm-3" style="padding-top: 10px; margin-top:16px;">
@@ -89,8 +89,8 @@
     <!-- Paginator Here -->
     <div class="row filter-res pagination" style="width:100%">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
         </pagination>
       </div>
     </div>

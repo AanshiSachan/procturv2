@@ -1,5 +1,4 @@
-
-<div class="common-tab">
+<div class="common-tab" style="padding-left: 7px;">
   <ul>
     <li id="liUser" (click)="switchActiveView('liUser')" class="">
       <a routerLink="/view/manage">User</a>
@@ -9,14 +8,17 @@
     </li>
   </ul>
   <div class="btnWrapper">
-    <div class="c-sm-1 c-md-1 c-lg-1 pull-right" style="width: 4%;" *ngIf="usersList?.length>0" (click)="exportToExcel()">
-      <i _ngcontent-c27="" aria-hidden="true" class="fa fa-file-excel-o" style="font-size: 28px;color: green;cursor: pointer;"></i>
+    <div class="c-sm-1 c-md-1 c-lg-1 pull-right" style="width: 4%;" *ngIf="usersList?.length>0"
+      (click)="exportToExcel()">
+      <i _ngcontent-c27="" aria-hidden="true" class="fa fa-file-excel-o"
+        style="font-size: 28px;color: green;cursor: pointer;"></i>
     </div>
-     <button type="button" style="padding: 4px 10px;border: 1px solid #0084f6;" class="btn pull-right" name="button">
+    <button type="button" style="padding: 4px 10px;border: 1px solid #0084f6;" class="btn pull-right" name="button">
       <a href="https://forms.gle/PTaJdvBZhaaXk8Sp8" target="_blank">Feedback</a>
     </button>
     <aside class="pull-left" style="border: none;padding: 0;margin-top: 5px;" class="btn pull-right">
-      <span class="new-keyword" title="Help" data-toggle="modal" style="cursor: pointer;" data-target="#helpSection">?</span>
+      <span class="new-keyword" title="Help" data-toggle="modal" style="cursor: pointer;"
+        data-target="#helpSection">?</span>
     </aside>
     <button type="button" style="padding: 4px 10px;" class="btn pull-right" name="button" routerLink='./addedit'>
       <i class="fa fa-plus" aria-hidden="true"></i>
@@ -26,28 +28,32 @@
   <div class="btnWrapper c-md-3" style="float: right;width: 18%;">
     <div class="btn-container" style="float: right;">
       <div class="btn-item">
-        <button type="button" style="padding: 4px 10px;" *ngIf="selectedRowCount != 0" class="btn pull-right" name="button" (click)="isOptions = !isOptions">
-            {{selectedRowCount}} Users Selected &nbsp;
-            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+        <button type="button" style="padding: 4px 10px;" *ngIf="selectedRowCount != 0" class="btn pull-right"
+          name="button" (click)="isOptions = !isOptions">
+          {{selectedRowCount}} Users Selected &nbsp;
+          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
         </button>
         <div class="more-info-container" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
-  
-            <div class="more-info-item hand_icon">
-                <span style="cursor: pointer;" (click)="getAllMessageFromServer()"><i class="fa fa-bell"></i> Send Notification</span>
-            </div>
-            <div class="more-info-item hand_icon" *ngIf="dataFilter.role=='1'">
-              <span style="cursor: pointer;" (click)="sendLoginCredentials(4)"><i class="fa fa-bell"></i> Send Login Credentials</span>
-            </div>
-            <div class="more-info-item hand_icon" *ngIf="dataFilter.role=='1'">
-              <span style="cursor: pointer;" (click)="sendLoginCredentials(1)"><i class="fa fa-bell"></i> Send App Link</span>
-            </div>
+
+          <div class="more-info-item hand_icon">
+            <span style="cursor: pointer;" (click)="getAllMessageFromServer()"><i class="fa fa-bell"></i> Send
+              Notification</span>
+          </div>
+          <div class="more-info-item hand_icon" *ngIf="dataFilter.role=='1'">
+            <span style="cursor: pointer;" (click)="sendLoginCredentials(4)"><i class="fa fa-bell"></i> Send Login
+              Credentials</span>
+          </div>
+          <div class="more-info-item hand_icon" *ngIf="dataFilter.role=='1'">
+            <span style="cursor: pointer;" (click)="sendLoginCredentials(1)"><i class="fa fa-bell"></i> Send App
+              Link</span>
+          </div>
         </div>
+      </div>
     </div>
-    </div>
-    </div>
+  </div>
 </div>
 
-<section class="middle-section clearFix">
+<section class="middle-section clearFix" style="padding-left: 7px;">
   <div class="content-container">
     <div class="filter-section">
       <div class="row">
@@ -67,7 +73,8 @@
         </div>
         <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 15px;">
           <div class="search-filter-wrapper">
-            <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" [(ngModel)]="dataFilter.searchCriteria">
+            <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData"
+              [(ngModel)]="dataFilter.searchCriteria">
           </div>
         </div>
         <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="dataFilter.role == '1' || dataFilter.role == '99'">
@@ -88,7 +95,8 @@
           </div>
         </div>
         <div class="c-sm-1 c-md-1 c-lg-1" style="margin-top: 15px;" *ngIf="dataFilter.role != '1'">
-          <button class="btn fullBlue" style="    height: 32px !important ;padding: 5px 12px;" (click)="getAllUserList(PageIndex)">Go</button>
+          <button class="btn fullBlue" style="    height: 32px !important ;padding: 5px 12px;"
+            (click)="getAllUserList(PageIndex)">Go</button>
         </div>
         <!-- <div class="">
           <div class="pull-right" style="margin-top: 20px;margin-right: 15px;">
@@ -103,16 +111,19 @@
         <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="dataFilter.role=='1' && !isProfessional">
           <div class="field-wrapper" style="padding-top: 0px;">
             <label for="userType" style="font-weight: bold;">Master Course</label>
-            <select id="userType" class="form-ctrl" [(ngModel)]="dataFilter.master_course" (ngModelChange)="getCourseData($event)">
+            <select id="userType" class="form-ctrl" [(ngModel)]="dataFilter.master_course"
+              (ngModelChange)="getCourseData($event)">
               <option value="">Select</option>
-              <option value="{{data.master_course}}" *ngFor="let data of masterCourseData">{{data.master_course}}</option>
+              <option value="{{data.master_course}}" *ngFor="let data of masterCourseData">{{data.master_course}}
+              </option>
             </select>
           </div>
         </div>
         <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="dataFilter.role=='1' && isProfessional">
           <div class="field-wrapper" style="padding-top: 0px;">
             <label for="userType" style="font-weight: bold;">Master Course</label>
-            <select id="userType" class="form-ctrl" [(ngModel)]="dataFilter.master_course" (ngModelChange)="getCourseData($event)">
+            <select id="userType" class="form-ctrl" [(ngModel)]="dataFilter.master_course"
+              (ngModelChange)="getCourseData($event)">
               <option value="">Select</option>
               <option value="{{data.standard_id}}" *ngFor="let data of masterCourseData">{{data.standard_name}}</option>
             </select>
@@ -137,7 +148,8 @@
           </div>
         </div>
         <div class="c-sm-1 c-md-1 c-lg-1" style="margin-top: 15px;" *ngIf="dataFilter.role == '1'">
-          <button class="btn fullBlue" style="    height: 32px !important ;padding: 5px 12px;" (click)="getAllUserList(PageIndex)">Go</button>
+          <button class="btn fullBlue" style="    height: 32px !important ;padding: 5px 12px;"
+            (click)="getAllUserList(PageIndex)">Go</button>
         </div>
       </div>
     </div>
@@ -148,8 +160,8 @@
           <div class="table_header_item" style="width: 5%;">
             <span>
               <div class="field-checkbox-wrapper">
-                <input type="checkbox" class="form-checkbox" [checked]="isAllChecked()"
-                  [(ngModel)]="selectAll" (change)="toggleAllCheckBox()" id="ch2">
+                <input type="checkbox" class="form-checkbox" [checked]="isAllChecked()" [(ngModel)]="selectAll"
+                  (change)="toggleAllCheckBox()" id="ch2">
                 <label for="ch2"></label>
               </div>
             </span>
@@ -179,8 +191,8 @@
           <div class="table_value" *ngFor="let data of usersList;let i= index">
             <div class="table_value_item" style="width: 5%;">
               <div class="field-checkbox-wrapper">
-                <input type="checkbox" class="form-checkbox"
-                  [checked]="data.assigned" [(ngModel)]="data.assigned" [id]="'checkbox-'+i" (ngModelChange)="rowCheckboxChange(data)">
+                <input type="checkbox" class="form-checkbox" [checked]="data.assigned" [(ngModel)]="data.assigned"
+                  [id]="'checkbox-'+i" (ngModelChange)="rowCheckboxChange(data)">
                 <label [for]="'checkbox-'+i"></label>
               </div>
             </div>
@@ -194,7 +206,8 @@
             <div class="table_value_item" style="width: 20%;">
               {{(data.alternate_email_id != '') ? (data.alternate_email_id) : '-'}}
             </div>
-            <div class="table_value_item" style="width: 17%;padding-left: 10px;display: flex;flex-direction: column;" title="{{data.ecourse_list}}">
+            <div class="table_value_item" style="width: 17%;padding-left: 10px;display: flex;flex-direction: column;"
+              title="{{data.ecourse_list}}">
               <div class="credentials-view">
                 <span>Username :</span>
                 <span>{{data.username}}</span>
@@ -206,30 +219,41 @@
               </div>
             </div>
             <div class="table_value_item" style="width: 5%;">
-              <i class="fa fa-eye psw-show" aria-hidden="true" (click)="descriptPassword(data)" *ngIf="!data.isEncript"></i>
-              <i class="fa fa-eye-slash psw-show" aria-hidden="true" (click)="descriptPassword(data)" *ngIf="data.isEncript"></i>
+              <i class="fa fa-eye psw-show" aria-hidden="true" (click)="descriptPassword(data)"
+                *ngIf="!data.isEncript"></i>
+              <i class="fa fa-eye-slash psw-show" aria-hidden="true" (click)="descriptPassword(data)"
+                *ngIf="data.isEncript"></i>
             </div>
             <div class="table_value_item" style="width: 13%;display: flex;flex-direction: column;">
               <div class="credentials-view">
-              <span>
-                {{data.last_login_date_time}}
-              </span>
+                <span>
+                  {{data.last_login_date_time}}
+                </span>
               </div>
-              <div class="credentials-view" style="padding-left: 30px;" (click)="getLastLoginDetails(data.user_id, historyPageIndex)">
+              <div class="credentials-view" style="padding-left: 30px;"
+                (click)="getLastLoginDetails(data.user_id, historyPageIndex)">
                 <span class="viewHistoryBtn">View</span>
               </div>
             </div>
             <div class="table_value_item" style="width: 10%;">
               <a [routerLink]='["./addedit" , data.user_id]' title="Edit"><i class="fa fa-edit actionBtnIcons"></i></a>
-              <a style="cursor: pointer;margin-left: 5px;" title="Allocate Inventory" (click)="allocateItemToUser(data)"><i class="fa fa-tasks actionBtnIcons" aria-hidden="true"></i></a>
+              <a style="cursor: pointer;margin-left: 5px;" title="Allocate Inventory"
+                (click)="allocateItemToUser(data)"><i class="fa fa-tasks actionBtnIcons" aria-hidden="true"></i></a>
               <!-- changes done by - Nalini
               cleared device and allow/block access options should be displayed to students and open app users -->
-              <span title="{{data.access_allow_title}}" *ngIf="(dataFilter.role == '1' || dataFilter.role == '99') && sso_check">
-                <button style="background: none;" [disabled]="data.access_allow == 3" [ngStyle]="{'color': (data.access_allow == 2) ? 'red' : '#0084f6' }" (click)="changeUserAccess(data)"> <i class="fa fa-universal-access allowAccessIcons" [ngStyle]="{'cursor': (data.access_allow == 3) ? 'no-drop' : 'pointer' }" aria-hidden="true"></i></button>
+              <span title="{{data.access_allow_title}}"
+                *ngIf="(dataFilter.role == '1' || dataFilter.role == '99') && sso_check">
+                <button style="background: none;" [disabled]="data.access_allow == 3"
+                  [ngStyle]="{'color': (data.access_allow == 2) ? 'red' : '#0084f6' }" (click)="changeUserAccess(data)">
+                  <i class="fa fa-universal-access allowAccessIcons"
+                    [ngStyle]="{'cursor': (data.access_allow == 3) ? 'no-drop' : 'pointer' }"
+                    aria-hidden="true"></i></button>
               </span>
               <!-- changes done by - Nalini
               cleared device and allow/block access options should be displayed to students and open app users -->
-              <span *ngIf="(dataFilter.role == '1' || dataFilter.role == '99') && sso_check" (click)="clearRegisteredDevices(data.user_id)" class="actionBtnIcons" title="Clear Registered Device">X</span>
+              <span *ngIf="(dataFilter.role == '1' || dataFilter.role == '99') && sso_check"
+                (click)="clearRegisteredDevices(data.user_id)" class="actionBtnIcons"
+                title="Clear Registered Device">X</span>
             </div>
           </div>
         </div>
@@ -245,8 +269,9 @@
     <!-- Paginator Here -->
     <div class="row filter-res pagination" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fetchTableDataByPage($event, 'user')" (goNext)="fetchNext('user')" (goPrev)="fetchPrevious('user')" [pagesToShow]="10"
-          [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"  [count]="totalRow" (sizeChange)="updateTableBatchSize($event)">
+        <pagination (goPage)="fetchTableDataByPage($event, 'user')" (goNext)="fetchNext('user')"
+          (goPrev)="fetchPrevious('user')" [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize"
+          [sizeArr]="sizeArr" [count]="totalRow" (sizeChange)="updateTableBatchSize($event)">
         </pagination>
       </div>
     </div>
@@ -272,11 +297,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228 " data-name="Group 1228" transform="translate(8298 1888) ">
             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77)rotate(45)" />
-              <line id="Line_275 " data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77)rotate(45)" />
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77)rotate(45)" />
+              <line id="Line_275 " data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77)rotate(45)" />
             </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
           </g>
         </svg>
       </span>
@@ -286,7 +313,8 @@
           <div class="c-sm-3 c-md-3 c-lg-3">
             <div class="field-wrapper">
               <label for="">Item<span class="text-danger">*</span></label>
-              <select id="" class="form-ctrl" [(ngModel)]="allocateInventory.item_id" (ngModelChange)="onitemSelction()">
+              <select id="" class="form-ctrl" [(ngModel)]="allocateInventory.item_id"
+                (ngModelChange)="onitemSelction()">
                 <option value="-1"></option>
                 <option *ngFor="let opt of inventoryList" [value]="opt.item_id">
                   {{opt.item_name}} ({{opt.category_name}})
@@ -298,7 +326,8 @@
           <div class="c-sm-3 c-md-3 c-lg-3">
             <div class="field-wrapper">
               <label for="unitInv">Unit<span class="text-danger">*</span></label>
-              <input type="text" class="form-ctrl" [(ngModel)]="allocateInventory.alloted_units" id="unitInv" name="unitInv">
+              <input type="text" class="form-ctrl" [(ngModel)]="allocateInventory.alloted_units" id="unitInv"
+                name="unitInv">
             </div>
           </div>
           <div class="c-sm-2 c-md-2 c-lg-2">
@@ -343,7 +372,7 @@
 <div *ngIf="notificationPopup" class="notification_popup">
   <div class="row c-md-12" style="padding:0;">
     <span style="width: 100%;text-align: right;float: right;">
-       <span style="cursor: pointer;font-size: 16px;font-weight: 600;" (click)="closeNotificationPopup()"> X </span>
+      <span style="cursor: pointer;font-size: 16px;font-weight: 600;" (click)="closeNotificationPopup()"> X </span>
     </span>
   </div>
   <div class="row c-md-12" style="padding: 0;margin-bottom: 5px;">
@@ -357,40 +386,43 @@
         </div>
         <div class="c-md-6" style="padding:0;width: 40%;">
           <input style="-webkit-appearance:checkbox" type="checkbox" id="transactional" name="transactional"
-          class="form-checkbox" [checked]="smsNotification" [(ngModel)]="smsNotification">
+            class="form-checkbox" [checked]="smsNotification" [(ngModel)]="smsNotification">
           <label for="transactional">SMS</label>
         </div>
         <div class="c-md-6" style="padding:0">
           <input style="-webkit-appearance:checkbox" type="checkbox" id="promotional" name="promotional"
-          class="form-checkbox" [checked]="pushNotification" [(ngModel)]="pushNotification">
+            class="form-checkbox" [checked]="pushNotification" [(ngModel)]="pushNotification">
           <label for="promotional">App Notification</label>
         </div>
-      </div>      
-     </div>
-    <div class="c-md-8" *ngIf="addSMS" style="background: #efefef;">
-      <div>
-      <textarea placeholder="Write your message here..." [(ngModel)]="message" (ngModelChange)="countNumberOfMessage()" name="message">
-      </textarea>
-      <div style="font-size: 12px;display: -webkit-box;-webkit-box-align: center;margin-top: 5px;margin-bottom: 10px;"
-        class="row c-md-12">
-        <div class="c-md-2" style="padding:0;">Character Count</div>
-        <div class="c-md-4" style="padding-right: 0;">
-          <div class="msgCount">{{message?.length}}</div>
-        </div>
-        <div class="c-md-7" style="text-align: right;">Message Count: {{messageCount}}</div>
       </div>
     </div>
+    <div class="c-md-8" *ngIf="addSMS" style="background: #efefef;">
+      <div>
+        <textarea placeholder="Write your message here..." [(ngModel)]="message"
+          (ngModelChange)="countNumberOfMessage()" name="message">
+      </textarea>
+        <div style="font-size: 12px;display: -webkit-box;-webkit-box-align: center;margin-top: 5px;margin-bottom: 10px;"
+          class="row c-md-12">
+          <div class="c-md-2" style="padding:0;">Character Count</div>
+          <div class="c-md-4" style="padding-right: 0;">
+            <div class="msgCount">{{message?.length}}</div>
+          </div>
+          <div class="c-md-7" style="text-align: right;">Message Count: {{messageCount}}</div>
+        </div>
+      </div>
     </div>
     <div class="c-md-3" [ngClass]="addSMS ? 'addSmsSection' : 'addSectionHide'">
       <!-- <div class="c-md-12"> -->
-        <span *ngIf="!addSMS" (click)="addSMS=!addSMS" style="border: 1px solid #0084f6;cursor: pointer;color: #0084f6;border-radius: 4px;padding: 3px;">
-          <i *ngIf="!addSMS" class="fa fa-plus"></i>
-          <i *ngIf="addSMS" class="fa fa-minus"></i>
-            Add SMS</span>
+      <span *ngIf="!addSMS" (click)="addSMS=!addSMS"
+        style="border: 1px solid #0084f6;cursor: pointer;color: #0084f6;border-radius: 4px;padding: 3px;">
+        <i *ngIf="!addSMS" class="fa fa-plus"></i>
+        <i *ngIf="addSMS" class="fa fa-minus"></i>
+        Add SMS</span>
       <!-- </div> -->
       <div class="c-md-12" style="margin-top: 45px;">
         <div *ngIf="addSMS">
-          <button class="btn fullBlue" style="background: no-repeat;color: #0084f6;" (click)="addSMS = false">Cancel</button>
+          <button class="btn fullBlue" style="background: no-repeat;color: #0084f6;"
+            (click)="addSMS = false">Cancel</button>
           <button class="btn fullBlue" (click)="saveMSG()">Save SMS</button>
         </div>
       </div>
@@ -427,9 +459,9 @@
         <div class="heading-item" style="width: 5%">
           <!-- <input type="radio" class="form-ctrl" name="selected" [(ngModel)]="data.selected" [id]="'selected-'+i" [value]="data.selected" [checked]="data.selected"> -->
           <!-- <div class="field-radio-wrapper"> -->
-          <input style="-webkit-appearance:radio" type="radio" name="bothRadio" [id]="'bothRadio-'+i"
-            class="form-radio" [value]="i" [checked]="data.selected" [(ngModel)]="data.selected"
-            (ngModelChange)="changeSelectedMsg(data)" [disabled]="data.statusValue == 'Open'">
+          <input style="-webkit-appearance:radio" type="radio" name="bothRadio" [id]="'bothRadio-'+i" class="form-radio"
+            [value]="i" [checked]="data.selected" [(ngModel)]="data.selected" (ngModelChange)="changeSelectedMsg(data)"
+            [disabled]="data.statusValue == 'Open'">
           <!-- </div> -->
         </div>
         <div class="value-item" style="text-align: left;width: 50%;">
@@ -447,7 +479,7 @@
               style="font-size: 14px;color: #01DF01;"></i> </span>
           <span title="Edit" (click)="editSMS(data)" style="padding:10px;cursor: pointer;"><i
               class="fa fa-pencil edit-icon-pencil" style="font-size: 14px;color: #0084f6;"></i></span>
-          <span *ngIf="data.statusValue == 'Open'"  title="Delete" (click)="DeleteMsg(data.message_id)"
+          <span *ngIf="data.statusValue == 'Open'" title="Delete" (click)="DeleteMsg(data.message_id)"
             style="padding:10px;cursor: pointer;"><i class="fa fa-times-circle"
               style="color: red;font-size: 14px;"></i></span>
         </div>
@@ -459,7 +491,7 @@
     </div>
   </div>
   <div class="c-md-12" style="margin-top: 10px;text-align: right;">
-      <button class="btn fullBlue" (click)="sendNotification()">Send Notification</button>
+    <button class="btn fullBlue" (click)="sendNotification()">Send Notification</button>
   </div>
 </div>
 <div *ngIf="notificationPopup || loginHistoryPopup" class="black-bg" (click)="closePopUp()"></div>
@@ -469,7 +501,7 @@
   <div class="row c-md-12" style="padding:0;">
     <span style="font-weight: 600;">Last Login History</span>
     <span style="padding-bottom: 10px;text-align: right;float: right;">
-       <span style="cursor: pointer;font-size: 16px;font-weight: 600;" (click)="closePopUp()"> X </span>
+      <span style="cursor: pointer;font-size: 16px;font-weight: 600;" (click)="closePopUp()"> X </span>
     </span>
   </div>
   <div class="table-container">
@@ -512,8 +544,9 @@
     </div>
     <div class="row filter-res pagination" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fetchTableDataByPage($event,'History')" (goNext)="fetchNext('History')" (goPrev)="fetchPrevious('History')" [pagesToShow]="10"
-          [page]="historyPageIndex" [perPage]="historyBatchSize" [count]="historyTotalRow">
+        <pagination (goPage)="fetchTableDataByPage($event,'History')" (goNext)="fetchNext('History')"
+          (goPrev)="fetchPrevious('History')" [pagesToShow]="10" [page]="historyPageIndex" [perPage]="historyBatchSize"
+          [count]="historyTotalRow">
         </pagination>
       </div>
     </div>
@@ -521,7 +554,7 @@
 </div>
 
 <div id="helpSection" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="top: 10%;">
 
     <!-- Modal content-->
     <div class="modal-content">
@@ -532,11 +565,15 @@
       <div class="modal-body">
         <div class="new-modules-list">
           <ol>
-            <div style="margin-bottom: 10px;"><span style="font-weight: 600;">1. Clear registered device (If Single Device Login setting is enabled) <span style="color: #0084f6;">X</span> - </span>
-              <span>When user login we capture registered devices to avoid login on multiple devices. After clicking on this option the user registered device gets cleared and the user can access through another device.</span>
+            <div style="margin-bottom: 10px;"><span style="font-weight: 600;">1. Clear registered device (If Single
+                Device Login setting is enabled) <span style="color: #0084f6;">X</span> - </span>
+              <span>When user login we capture registered devices to avoid login on multiple devices. After clicking on
+                this option the user registered device gets cleared and the user can access through another
+                device.</span>
             </div>
 
-            <div><span style="font-weight: 600;">2. Allow/Block access<i class="fa fa-universal-access allowAccessIcons" style="color: #0084f6;" aria-hidden="true"></i> - </span>
+            <div><span style="font-weight: 600;">2. Allow/Block access<i class="fa fa-universal-access allowAccessIcons"
+                  style="color: #0084f6;" aria-hidden="true"></i> - </span>
               <span>After clicking on block access user won’t be able to access on app/web.</span>
             </div>
           </ol>
