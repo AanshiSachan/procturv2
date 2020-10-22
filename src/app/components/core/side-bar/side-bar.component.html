@@ -1,9 +1,9 @@
 <mat-toolbar
-    style="position: fixed;margin-left: -197px;;margin-top: -53px;z-index: 9999999999;background: #13558f;width: 100%;height: 7%;"
+    style="position: fixed;margin-left: -23px;margin-top: -53px;z-index: 9999999999;background: #13558f;width: 89%;height: 7%;"
     class="tool">
 
-    <span style="color: white;font-weight: 400;" title="{{instituteName}} - {{instituteId}}">{{ (instituteName.length > 20) ?
-        (instituteName | slice:0:20) + '...' : instituteName }} - {{instituteId}}</span>
+    <!-- <span style="color: white;font-weight: 400;" title="{{instituteName}} - {{instituteId}}">{{ (instituteName.length > 20) ?
+        (instituteName | slice:0:20) + '...' : instituteName }} - {{instituteId}}</span> -->
     <a mat-button class="hoverColor"
         style="margin-left: 14px;color: white;width: 10%;text-decoration: none;border-radius: 4px;font-weight: 400;"
         *ngIf="isMainBranch == 'Y' && checkAdmin" (click)="showSubSection('branches')">Branch<i class="fa fa-angle-down"
@@ -181,751 +181,289 @@
 
 </mat-toolbar>
 
-<section class="sideBar">
 
-    <div class="nav" (click)="closeMenu()">
-        <div class="search-container">
-            <!-- <form autocomplete="off" #form="ngForm">
+<div class="nav" (click)="closeMenu()">
+    <div class="search-container">
+        <!-- <form autocomplete="off" #form="ngForm">
                 <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput [ngClass]="{'has-focus': isResultDisplayed}" (focus)="triggerSearchBox($event)" autocomplete="off" placeholder="Search here..." class="search-input searchbox form-ctrl-head search-item searchBox">
             </form>
             <i class="fa fa-search search-icon" aria-hidden="true"></i> -->
-            <section class="search-dropdown search-item" #seachResult
-                style="margin-left: 23%;margin-top: 2%;width: 40%;">
-                <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat"
-                    [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)"
-                    (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)"
-                    (enqSelected)="selectedEnquiry($event)" [enquiryResult]="enquiryResult"
-                    (actionSelected)="actionSelected($event)" (closeMenu)="closeMenu()">
-                </search-box>
-            </section>
+        <section class="search-dropdown search-item" #seachResult style="margin-left: 23%;margin-top: 2%;width: 40%;">
+            <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat"
+                [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)"
+                (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)"
+                [enquiryResult]="enquiryResult" (actionSelected)="actionSelected($event)" (closeMenu)="closeMenu()">
+            </search-box>
+        </section>
+    </div>
+</div>
+<div class="menu">
+
+    <section class="institute-logo-name-container">
+        <img src="https://img.icons8.com/dotty/40/000000/admission.png" style="height: 44px;" />
+        <div class="institute-name-container">
+            <span>{{instituteName}}</span>
+            <span style="font-weight: 100;"> - {{globalSearchForm.instituteId}}</span>
         </div>
-        <span [ngClass]="activeSession === 'lizero' ? 'active activeClass' : 'NavLink'" routerLink="/view/home"
-            id="lizero" class="" (click)="toggler('lizero')">
-            <img src="./assets/images/sidebar/home.svg" alt="" class="sideBar_centerAlign">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Home </span>
+    </section>
+    <ul>
+        <li (click)="toggler('lizero')">
+            <img src="./assets/images/sidebar/home.svg" alt="" class="sideBar_centerAlign"
+                style="width: 20px;padding-bottom: 4px;">
+            <a routerLink="/view/home">
+                <span [ngClass]="activeSession === 'lizero' ? ' abc' : ' NavLink'">Home</span>
+            </a>
+        </li>
+        <li *ngIf="jsonFlags.isShowLead" (click)="toggler('lione')">
+            <img src="./assets/images/sidebar/home.svg" alt="" class="sideBar_centerAlign"
+                style="width: 20px;padding-bottom: 4px;">
+            <a routerLink="/view/leads">
+                <span [ngClass]="activeSession === 'lione' ? 'abc' : ' NavLink'">Lead</span><i class="fa fa-angle-right"
+                    aria-hidden="true"></i>
+            </a>
+            <ul>
+                <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddEnquiry">
+                    <a routerLink="/view/leads/add"><span>Add Enquiry</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonRolesFlags.isShowDataSetup ">
+                    <a routerLink="/view/leads/setup"><span>Add Closing Reason</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/leads/campaign"><span>Add Campaign</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign ">
+                    <a routerLink="/view/leads/manage-campaign"><span>Manage Campaign</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonRolesFlags.isShowManageEnquiry">
+                    <a routerLink="/view/leads/enquiry"><span>Manage Enquiry</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
+                    <a routerLink="/view/leads/enquiryReport/counsellor"><span>Enquiry Report</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
+                    <a routerLink="/view/leads/campaign-reports/sms-report"><span>Campaign Report</span></a>
+                </li>
+            </ul>
+        </li>
+        <li *ngIf="jsonFlags.isShowStudent" (click)="toggler('litwo')">
+            <a routerLink="/view/students">
+                <span [ngClass]="activeSession === 'litwo' ? ' abc' : ' NavLink'">Student</span>
+            </a>
+        </li>
+        <li *ngIf="!isLangInstitute" (click)="toggler('lithree')">
+            <a routerLink="/view/course">
+                <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">Course</span><i
+                    class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+            <ul>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
+                    <a routerLink="/view/course/setup"><span>Data Setup</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
+                    <a routerLink="/view/course/create/standardlist"><span>Manage Course</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/course/ecourse-file-manager/ecourses"><span>Study Material</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isEcourseFileManager ">
+                    <a routerLink="/view/course/file-manager/drive"><span>File/Doc. Manager</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnlineAssignment ">
+                    <a routerLink="/view/course/online-assignment"><span>Online Assignment</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
+                    <a routerLink="/view/course/coursePlanner/class"><span>Class/Exam Planner</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
+                    <a routerLink="/view/course/timeTable"><span>Timetable</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
+                    <a routerLink="/view/course/reports"><span>Reports</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/course/master-tag"><span>Manage Tags</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
+                    <a routerLink="/view/course/ecoursemapping"><span>eCourse Mapping</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isShowArchiving ">
+                    <a routerLink="/view/course/archiving"><span>Data Archiving</span></a>
+                </li>
+            </ul>
+        </li>
+        <li *ngIf="isLangInstitute" (click)="toggler('lithree')">
+            <a routerLink="/view/batch">
+                <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">Batch</span><i
+                    class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+            <ul>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
+                    <a routerLink="/view/batch/setup"><span>Data Setup</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
+                    <a routerLink="/view/batch/create/standardlist"><span>Manage Course</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/course/ecourse-file-manager/ecourses"><span>Study Material</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isEcourseFileManager ">
+                    <a routerLink="/view/batch/file-manager/drive"><span>File/Doc. Manager</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnslineAssignment ">
+                    <a routerLink=""><span>Online Assignment</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
+                    <a routerLink="/view/batch/coursePlanner/class"><span>Class/Exam Planner</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
+                    <a routerLink="/view/batch/timeTable"><span>Timetable</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
+                    <a routerLink="/view/batch/reports"><span>Reports</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/batch/master-tag"><span>Manage Tags</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
+                    <a routerLink="/view/batch/ecoursemapping"><span>eCourse Mapping</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonCourseFlags.isShowArchiving ">
+                    <a routerLink="/view/batch/archiving"><span>Data Archiving</span></a>
+                </li>
+            </ul>
+        </li>
+        <li *ngIf="jsonFlags.isShowFee" (click)="toggler('lifour')">
+            <a routerLink="/view/fee">
+                <span [ngClass]="activeSession === 'lifour' ? ' abc' : ' NavLink'">Fees</span><i
+                    class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+            <ul>
+                <li class="subMenu">
+                    <a routerLink="/view/fee/data-setup"><span>Data Setup</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonFeesFlags.isFeeActivity">
+                    <a routerLink="/view/fee/cheque"><span>Manage Cheque</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/fee/allDueReport"><span>Fee Dues</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/fee/moduleReport"><span>{{jsonFeesFlags.moduleState}} wise Report</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/fee/paymentHistory"><span>Payment History</span></a>
+                </li>
+                <li class="subMenu" *ngIf="is_tax_enabled=='1'">
+                    <a routerLink="/view/fee/gst"><span>{{tax_type_without_percentage}} Report</span></a>
+                </li>
+                <li class="subMenu" *ngIf="enable_online_payment == 1">
+                    <a routerLink="/view/fee/onlinePayment"><span>Online Fee Collection</span></a>
+                </li>
+                <li class="subMenu" *ngIf="jsonFeesFlags.isAdmin">
+                    <a routerLink="/view/fee/monitoring-dashboard/home"><span>Monitoring Dashboard</span></a>
+                </li>
 
-        </span>
-
-        <!-- <span [ngClass]="activeSession === 'lione' ? 'active activeClass' : 'NavLink'" routerLink="/view/leads"
-            id="lione" (click)="toggler('lione')" *ngIf="jsonFlags.isShowLead">
-            <img src="./assets/images/sidebar/lead.svg" alt="" class="sideBar_centerAlign">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Lead</span>
-            <i *ngIf="activeSession === 'lione'" class="fa fa-chevron-down" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-            <i *ngIf="activeSession !== 'lione'" class="fa fa-chevron-left" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-        </span> -->
-        <span [ngClass]="activeSession === 'lione' ? 'active activeClass' : 'NavLink'" routerLink="/view/leads"
-            id="lione" (click)="toggler('lione')" *ngIf="jsonFlags.isShowLead">
-            <img src="./assets/images/sidebar/lead.svg" alt="" class="sideBar_centerAlign">
-            <span class="sideBar_centerAlign" *ngIf="showLead == 'leadhide'" style="padding-left: 5px"
-                (click)="show('lead')">Lead</span>
-            <span class="sideBar_centerAlign" *ngIf="showLead == 'lead'" style="padding-left: 5px"
-                (click)="hide('lead')">Lead</span>
-            <i class="fa fa-chevron-down" *ngIf="showLead == 'lead'" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-            <i class="fa fa-chevron-left" *ngIf="showLead == 'leadhide'" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-        </span>
-
-        <span routerLink="/view/leads/add" class="activeClass1" id="litwo"
-            *ngIf="showLead == 'lead' && jsonRolesFlags.isShowAddEnquiry">
-            <img src="./assets/images/leads/add-enquiry.svg" alt="add enquiry">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Add Enquiry</span>
-
-        </span>
-        <span routerLink="/view/leads/setup" class="activeClass1" id="litwo"
-            *ngIf="showLead == 'lead' && jsonRolesFlags.isShowDataSetup ">
-            <img src="./assets/images/leads/manage-campaign.svg" alt="campaign">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Add Closing Reason</span>
-
-        </span>
-        <span routerLink="/view/leads/campaign" class="activeClass1" id="litwo" *ngIf="showLead == 'lead' ">
-            <img src="./assets/images/leads/add-campaign.svg" alt="campaign">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Add Campaign</span>
-
-        </span>
-        <span routerLink="/view/leads/manage-campaign" class="activeClass1" id="litwo"
-            *ngIf="showLead == 'lead' && jsonRolesFlags.isShowCampaign ">
-            <img src="./assets/images/leads/add-campaign.svg" alt="campaign">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Manage Campaign</span>
-
-        </span>
-        <span routerLink="/view/leads/enquiry" class="activeClass1" id="litwo"
-            *ngIf="showLead == 'lead' && jsonRolesFlags.isShowManageEnquiry">
-            <img src="./assets/images/leads/manage.svg" alt="manage enq">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Manage Enquiry</span>
-
-        </span>
-        <span routerLink="/view/leads/enquiryReport/counsellor" class="activeClass1" id="litwo"
-            *ngIf="showLead == 'lead' && jsonRolesFlags.isShowReport">
-            <img src="./assets/images/leads/reports.svg" alt="reports">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Enquiry Report</span>
-
-        </span>
-        <span routerLink="/view/leads/campaign-reports/sms-report" class="activeClass1" id="litwo"
-            *ngIf="showLead == 'lead' && jsonRolesFlags.isShowCampaign">
-            <img src="./assets/images/fee/campaign_sms_report.svg" alt="reports">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Campaign Report</span>
-
-        </span>
-        <!-- Sub menu on side nav  lead-->
-
-        <!-- <span [ngClass]="activeSession === 'lione' ? 'activeClass1' : 'activeClass2'" routerLink="/view/leads/add"
-            *ngIf="jsonRolesFlags.isShowAddEnquiry">
-            <img src="./assets/images/leads/add-enquiry.svg" alt="add enquiry"><span class="sideBar_centerAlign1"
-                style="padding-left: 5px">Add Enquiry</span>
-        </span>
-        <span [ngClass]="activeSession === 'lione' ? 'activeClass1' : 'activeClass2'" routerLink="/view/leads/setup"
-            *ngIf="jsonRolesFlags.isShowDataSetup">
-            <img src="./assets/images/leads/manage-campaign.svg" alt="campaign"><span class="sideBar_centerAlign1"
-                style="padding-left: 5px">Add Closing Reason</span>
-        </span>
-        <span [ngClass]="activeSession === 'lione' ? 'activeClass1' : 'activeClass2'" routerLink="/view/leads/campaign">
-            <img src="./assets/images/leads/add-campaign.svg" alt="campaign"><span class="sideBar_centerAlign1"
-                style="padding-left: 5px">Add Campaign</span>
-        </span>
-        <span [ngClass]="activeSession === 'lione' ? 'activeClass1' : 'activeClass2'"
-            *ngIf="jsonRolesFlags.isShowCampaign" routerLink="/view/leads/manage-campaign">
-            <img src="./assets/images/leads/manage-campaign.svg" alt="campaign"><span class="sideBar_centerAlign1"
-                style="padding-left: 5px">Manage Campaign</span>
-        </span>
-        <span [ngClass]="activeSession === 'lione' ? 'activeClass1' : 'activeClass2'"
-            *ngIf="jsonRolesFlags.isShowManageEnquiry" routerLink="/view/leads/enquiry">
-            <img src="./assets/images/leads/manage.svg" alt="manage enq"><span class="sideBar_centerAlign1"
-                style="padding-left: 5px">Manage Enquiry</span>
-        </span>
-        <span [ngClass]="activeSession === 'lione' ? 'activeClass1' : 'activeClass2'"
-            *ngIf="jsonRolesFlags.isShowReport" routerLink="/view/leads/enquiryReport/counsellor">
-            <img src="./assets/images/leads/reports.svg" alt="reports"><span class="sideBar_centerAlign1"
-                style="padding-left: 5px">Enquiry Report</span>
-        </span>
-        <span [ngClass]="activeSession === 'lione' ? 'activeClass1' : 'activeClass2'"
-            *ngIf="jsonRolesFlags.isShowCampaign" routerLink="/view/leads/campaign-reports/sms-report">
-            <img src="./assets/images/fee/campaign_sms_report.svg" alt="reports"><span class="sideBar_centerAlign1"
-                style="padding-left: 5px">Campaign Report</span>
-        </span> -->
-        <!-- End for lead -->
-
-        <span [ngClass]="activeSession === 'litwo' ? 'active activeClass' : 'NavLink'" routerLink="/view/students"
-            id="litwo" (click)="toggler('litwo')" *ngIf="jsonFlags.isShowStudent">
-            <img src="./assets/images/sidebar/student.svg" alt="" class="sideBar_centerAlign">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Student</span>
-        </span>
-
-
-
-        <span [ngClass]="activeSession === 'lithree' ? 'active activeClass' : 'NavLink'"
-            [routerLink]="isLangInstitute?'/view/batch': '/view/course'" id="lithree" (click)="toggler('lithree')"
-            *ngIf="jsonFlags.isShowModel">
-            <img src="./assets/images/sidebar/course.svg" alt="" class="sideBar_centerAlign">
-            <span id="li3" *ngIf="(!isLangInstitute) && showbatch == 'batchhide'" class="sideBar_centerAlign"
-                style="padding-left: 5px" (click)="show('batch')">Course</span>
-            <span id="li3" *ngIf="(!isLangInstitute) && showbatch == 'batch'" class="sideBar_centerAlign"
-                style="padding-left: 5px" (click)="hide('batch')">Course</span>
-            <span id="li3" *ngIf="(isLangInstitute && showcourse == 'coursehide')" class="sideBar_centerAlign"
-                (click)="show('course')" style="padding-left: 5px">Batch</span>
-            <span id="li3" *ngIf="(isLangInstitute) && showcourse == 'course'" class="sideBar_centerAlign"
-                (click)="hide('course')" style="padding-left: 5px">Batch</span>
-            <i *ngIf="showbatch == 'batch' || showcourse == 'course'" class="fa fa-chevron-down" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-            <i *ngIf="showbatch == 'batchhide' || showcourse == 'coursehide'" class="fa fa-chevron-left"
-                aria-hidden="true" style="float: right;padding-top: 14px;font-size: 12px;"></i>
-        </span>
-        <span *ngIf="(!isLangInstitute) && showbatch == 'batch'">
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isShowSetup " routerLink="/view/course/setup">
-                <img src="./assets/images/course/data-setup.svg" alt="data setup"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Data Setup</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isShowModel " routerLink="/view/batch/create">
-                <img src="./assets/images/course/create-course.svg" alt="create course"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Manage Course</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isEcourseFileManager "
-                routerLink="/view/course/ecourse-file-manager/ecourses">
-                <img src="./assets/images/activity/study_material.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Study Material</span>
-            </span>
-            <span class="activeClass1" routerLink="/view/batch/file-manager">
-                <img src="./assets/images/activity/file_manager.svg" alt="file manager"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">File/Doc. Manager</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isShowOnlineAssignment "
-                routerLink="/view/course/online-assignment">
-                <img src="./assets/images/course/reports.svg" alt="reports"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Online Assignment</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isShowClassPlanner "
-                routerLink="/view/course/coursePlanner/class">
-                <img src="./assets/images/course/class-planner.svg" alt="class planner"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Class Planner</span>
-            </span>
-            <!-- <span class="activeClass1" *ngIf="jsonCourseFlags.isShowClassPlanner "
-                routerLink="/view/course/coursePlanner/exam">
-                <img src="./assets/images/course/exam-planner.svg" alt="exam planner"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Exam Planner</span>
-            </span> -->
-            <span class="activeClass1" routerLink="/view/batch/timeTable">
-                <img src="./assets/images/course/timetable.svg" alt="timetable"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Timetable</span>
-            </span>
-            <span class="activeClass1" routerLink="/view/batch/reports">
-                <img src="./assets/images/course/reports.svg" alt="reports"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Reports</span>
-            </span>
-            <span class="activeClass1" routerLink="/view/course/master-tag">
-                <img src="./assets/images/activity/manage_tag.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Manage Tags</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isShowEcourseMapping "
-                routerLink="/view/course/ecoursemapping">
-                <img src="./assets/images/activity/ecourse.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">eCourse Mapping</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isShowArchiving " routerLink="/view/course/archiving">
-                <img src="./assets/images/activity/archive.svg" alt="archiving"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Data Archiving</span>
-            </span>
-        </span>
-
-        <!-- <span [ngClass]="activeSession === 'lithree' ? 'active activeClass' : 'NavLink'"
-            [routerLink]="isLangInstitute?'/view/batch': '/view/course'" id="lithree" (click)="toggler('lithree')"
-            *ngIf="jsonFlags.isShowModel">
-            <img src="./assets/images/sidebar/course.svg" alt="" class="sideBar_centerAlign">
-            <span id="li3" *ngIf="(!isLangInstitute)" class="sideBar_centerAlign"
-                style="padding-left: 5px">Course</span>
-            <span id="li3" *ngIf="(isLangInstitute)" class="sideBar_centerAlign" style="padding-left: 5px">Batch</span>
-            <i *ngIf="activeSession === 'lithree'" class="fa fa-chevron-down" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-            <i *ngIf="activeSession !== 'lithree'" class="fa fa-chevron-left" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-        </span> -->
-
-        <!-- <span *ngIf="(!isLangInstitute)">
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowSetup" routerLink="/view/course/setup">
-                <img src="./assets/images/course/data-setup.svg" alt="data setup"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Data Setup</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowModel" routerLink="/view/batch/create">
-                <img src="./assets/images/course/create-course.svg" alt="create course"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Manage Course</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isEcourseFileManager" routerLink="/view/course/ecourse-file-manager/ecourses">
-                <img src="./assets/images/activity/study_material.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Study Material</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                routerLink="/view/batch/file-manager">
-                <img src="./assets/images/activity/file_manager.svg" alt="file manager"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">File/Doc. Manager</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowOnlineAssignment" routerLink="/view/course/online-assignment">
-                <img src="./assets/images/course/reports.svg" alt="reports"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Online Assignment</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowClassPlanner" routerLink="/view/course/coursePlanner/class">
-                <img src="./assets/images/course/class-planner.svg" alt="class planner"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Class Planner</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowClassPlanner" routerLink="/view/course/coursePlanner/exam">
-                <img src="./assets/images/course/exam-planner.svg" alt="exam planner"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Exam Planner</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                routerLink="/view/batch/timeTable">
-                <img src="./assets/images/course/timetable.svg" alt="timetable"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Timetable</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                routerLink="/view/batch/reports">
-                <img src="./assets/images/course/reports.svg" alt="reports"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Reports</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                routerLink="/view/course/master-tag">
-                <img src="./assets/images/activity/manage_tag.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Manage Tags</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowEcourseMapping" routerLink="/view/course/ecoursemapping">
-                <img src="./assets/images/activity/ecourse.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">eCourse Mapping</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowArchiving" routerLink="/view/course/archiving">
-                <img src="./assets/images/activity/archive.svg" alt="archiving"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Data Archiving</span>
-            </span>
-        </span> -->
-        <span *ngIf="(isLangInstitute)  && showcourse == 'course'">
-            <span class="activeClass1" *ngIf=" jsonCourseFlags.isShowSetup" routerLink="/view/batch/setup">
-                <img src="./assets/images/course/data-setup.svg" alt="data setup"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Data Setup</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isShowModel" routerLink="/view/batch/create">
-                <img src="./assets/images/course/create-course.svg" alt="create course"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Manage Course</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isEcourseFileManager"
-                routerLink="/view/batch/ecourse-file-manager/ecourses">
-                <img src="./assets/images/activity/study_material.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Study Material</span>
-            </span>
-            <span class="activeClass1" routerLink="/view/batch/file-manager">
-                <img src="./assets/images/activity/file_manager.svg" alt="file manager"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">File/Doc. Manager</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isShowOnlineAssignment"
-                routerLink="/view/batch/online-assignment">
-                <img src="./assets/images/course/reports.svg" alt="reports"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Online Assignment</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isShowClassPlanner"
-                routerLink="/view/batch/coursePlanner/class">
-                <img src="./assets/images/course/class-planner.svg" alt="class planner"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Class Planner</span>
-            </span>
-            <!-- <span class="activeClass1" *ngIf="jsonCourseFlags.isShowClassPlanner"
-                routerLink="/view/batch/coursePlanner/exam">
-                <img src="./assets/images/course/exam-planner.svg" alt="exam planner"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Exam Planner</span>
-            </span> -->
-            <span class="activeClass1" routerLink="/view/batch/timeTable">
-                <img src="./assets/images/course/timetable.svg" alt="timetable"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Timetable</span>
-            </span>
-            <span class="activeClass1" routerLink="/view/batch/reports">
-                <img src="./assets/images/course/reports.svg" alt="reports"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Reports</span>
-            </span>
-            <span class="activeClass1" routerLink="/view/batch/master-tag">
-                <img src="./assets/images/activity/manage_tag.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Manage Tags</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isShowEcourseMapping"
-                routerLink="/view/batch/ecoursemapping">
-                <img src="./assets/images/activity/ecourse.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">eCourse Mapping</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonCourseFlags.isShowArchiving" routerLink="/view/batch/archiving">
-                <img src="./assets/images/activity/archive.svg" alt="archiving"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Data Archiving</span>
-            </span>
-        </span>
-        <!-- <span *ngIf="(isLangInstitute)">
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowSetup" routerLink="/view/batch/setup">
-                <img src="./assets/images/course/data-setup.svg" alt="data setup"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Data Setup</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowModel" routerLink="/view/batch/create">
-                <img src="./assets/images/course/create-course.svg" alt="create course"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Manage Course</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isEcourseFileManager" routerLink="/view/batch/ecourse-file-manager/ecourses">
-                <img src="./assets/images/activity/study_material.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Study Material</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                routerLink="/view/batch/file-manager">
-                <img src="./assets/images/activity/file_manager.svg" alt="file manager"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">File/Doc. Manager</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowOnlineAssignment" routerLink="/view/batch/online-assignment">
-                <img src="./assets/images/course/reports.svg" alt="reports"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Online Assignment</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowClassPlanner" routerLink="/view/batch/coursePlanner/class">
-                <img src="./assets/images/course/class-planner.svg" alt="class planner"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Class Planner</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowClassPlanner" routerLink="/view/batch/coursePlanner/exam">
-                <img src="./assets/images/course/exam-planner.svg" alt="exam planner"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Exam Planner</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                routerLink="/view/batch/timeTable">
-                <img src="./assets/images/course/timetable.svg" alt="timetable"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Timetable</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                routerLink="/view/batch/reports">
-                <img src="./assets/images/course/reports.svg" alt="reports"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Reports</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                routerLink="/view/batch/master-tag">
-                <img src="./assets/images/activity/manage_tag.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Manage Tags</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowEcourseMapping" routerLink="/view/batch/ecoursemapping">
-                <img src="./assets/images/activity/ecourse.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">eCourse Mapping</span>
-            </span>
-            <span [ngClass]="activeSession === 'lithree' ? 'activeClass1' : 'activeClass2'"
-                *ngIf="jsonCourseFlags.isShowArchiving" routerLink="/view/batch/archiving">
-                <img src="./assets/images/activity/archive.svg" alt="archiving"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Data Archiving</span>
-            </span>
-        </span> -->
-
-
-        <!-- End Course  -->
-
-        <span [ngClass]="activeSession === 'lifour' ? 'active activeClass' : 'NavLink'" routerLink="/view/fee"
-            id="lifour" (click)="toggler('lifour')" *ngIf="jsonFlags.isShowFee">
-            <img src="./assets/images/sidebar/fees.svg" alt="" class="sideBar_centerAlign">
-
-
-            <span class="sideBar_centerAlign" style="padding-left: 5px" *ngIf="showFee == 'feeshide'"
-                (click)="show('fees')">Fees</span>
-
-
-            <span class="sideBar_centerAlign" style="padding-left: 5px" *ngIf="showFee == 'fees'"
-                (click)="hide('fees')">Fees</span>
-
-
-            <i *ngIf="showFee == 'fees'" class="fa fa-chevron-down" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-            <i *ngIf="showFee == 'feeshide'" class="fa fa-chevron-left" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-        </span>
-        <span *ngIf="showFee == 'fees'">
-            <span class="activeClass1" routerLink="/view/fee/data-setup">
-                <img src="./assets/images/fee/data_setup.svg" alt="data setup"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Data Setup</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonFeesFlags.isFeeActivity" routerLink="/view/fee/cheque">
-                <img src="./assets/images/fee/Mange_cheque.svg" alt="manage cheque"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Manage Cheque</span>
-            </span>
-            <span class="activeClass1" routerLink="/view/fee/allDueReport">
-                <img src="./assets/images/fee/Due_fees_report.svg" alt="all due fee report"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Fee Dues</span>
-            </span>
-            <span class="activeClass1" *ngIf="is_tax_enabled=='1'" routerLink="/view/fee/moduleReport">
-                <img src="./assets/images/fee/course_wise_report.svg" alt="{{jsonFeesFlags.moduleState}} wise"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">{{jsonFeesFlags.moduleState}} wise
-                    Report</span>
-            </span>
-            <span class="activeClass1" routerLink="/view/fee/paymentHistory">
-                <img src="./assets/images/fee/payment_history.svg" alt="payment history"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Payment History</span>
-            </span>
-            <span class="activeClass1" *ngIf="is_tax_enabled=='1'" routerLink="/view/fee/gst">
-                <img src="./assets/images/fee/gst_report.svg" alt="gst report"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">{{tax_type_without_percentage}} Report</span>
-            </span>
-            <span class="activeClass1" *ngIf="enable_online_payment == 1" routerLink="/view/fee/onlinePayment">
-                <img src="./assets/images/fee/online_paymen_history.svg" alt="online payment history"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Online Fee Collection</span>
-            </span>
-            <span class="activeClass1" *ngIf="jsonFeesFlags.isAdmin" routerLink="/view/fee/monitoring-dashboard">
-                <img src="./assets/images/activity/dashboard.svg" alt="monitoring dashboard"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Monitoring Dashboard</span>
-            </span>
-            <span class="activeClass1" class="hide" *ngIf="jsonFeesFlags.isProfitnloss"
-                routerLink="/view/fee/monitoring-dashboard">
-                <img src="./assets/images/fee/Fee_types.svg" alt="fee types"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Profit and Loss</span>
-            </span>
-            <span class="activeClass1" class="hide" routerLink="/view/fee/cheque">
-                <img src="./assets/images/fee/Mange_cheque.svg" alt="cheque report"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Cheque/PDC Report</span>
-            </span>
-            <span class="activeClass1" class="hide" routerLink="/view/fee/discount">
-                <img src="./assets/images/fee/discount.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Discount Report</span>
-            </span>
-            <span class="activeClass1" routerLink="/view/fee/feeType" class="hide">
-                <img src="./assets/images/fee/Fee_types.svg" alt="fee types"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Reports Based on Fee Type</span>
-            </span>
-        </span>
-        <!-- End fees -->
-
-
-        <span [ngClass]="activeSession === 'lifive' ? 'active activeClass' : 'NavLink'" routerLink="/view/live-classes"
-            (click)="toggler('lifive')" id="lifive" *ngIf="jsonFlags.isShowLiveclass">
-            <img src="./assets/images/sidebar/live-class.svg" alt="" class="sideBar_centerAlign">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Live Class</span>
-        </span>
-        <!-- <span [ngClass]="activeSession === 'lifive' ? 'activeClass1' : 'activeClass2'" routerLink="/view/live-classes/add">
-            <img src="./assets/images/leads/add-campaign.svg" alt="campaign"><span class="sideBar_centerAlign1"
-                style="padding-left: 5px">Add Live Class</span>
-        </span> -->
-        <span [ngClass]="activeSession === 'lisix' ? 'active activeClass' : 'NavLink'" routerLink="/view/communicate"
-            (click)="toggler('lisix')" id="lisix" *ngIf="jsonFlags.isShowCommunicate">
-            <img src="./assets/images/sidebar/communicate.svg" alt="" class="sideBar_centerAlign">
-            <span class="sideBar_centerAlign" style="padding-left: 5px" *ngIf="showComm == 'comhide'"
-                (click)="show('communicate')">Communicate</span>
-            <span class="sideBar_centerAlign" style="padding-left: 5px" *ngIf="showComm == 'com'"
-                (click)="hide('communicate')">Communicate</span>
-
-            <i *ngIf="showComm == 'com'" class="fa fa-chevron-down" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-            <i *ngIf="showComm == 'comhide'" class="fa fa-chevron-left" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-        </span>
-        <span *ngIf="showComm == 'com'">
-            <span class="activeClass1" *ngIf="showSMSReport" routerLink="/view/communicate/sms">
-                <img src="./assets/images/communicate/send_sms.svg" alt="sms report"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">SMS Report</span>
-            </span>
-
-            <span class="activeClass1" *ngIf="showEmailReport" routerLink="/view/communicate/email">
-                <img src="./assets/images/communicate/email_report.svg" alt="email report"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Email Report</span>
-            </span>
-
-            <span class="activeClass1" routerLink="/view/communicate/ptm">
-                <img src="./assets/images/communicate/ptm.svg" alt="ptm management"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">PTM Management</span>
-            </span>
-
-            <span class="activeClass1" routerLink="/view/communicate/event">
-                <img src="./assets/images/communicate/event_management.svg" alt="event management"><span
-                    class="sideBar_centerAlign1" style="padding-left: 5px">Event Management</span>
-            </span>
-        </span>
-        <!-- End Communicate -->
-
-
-        <span routerLink="/view/library/issue"
-            [ngClass]="activeSession === 'liseven' ? 'active activeClass' : 'NavLink'" *ngIf="jsonFlags.isShowLibrabry"
-            (click)="toggler('liseven')">
-            <img src="./assets/images/sidebar/library.svg" alt="" class="sideBar_centerAlign">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Library</span>
-        </span>
-        <span [ngClass]="activeSession === 'lieight' ? 'active activeClass' : 'NavLink'" routerLink="/view/e-store/home"
-            id="lieight" (click)="toggler('lieight')" *ngIf="jsonFlags.isShoweStore">
-            <img src="./assets/images/sidebar/eStore.svg" alt="" class="sideBar_centerAlign">
-            <span class="sideBar_centerAlign" style="padding-left: 5px" *ngIf="showeStore == 'eStorehide'"
-                (click)="show('eStore')">eStore</span>
-            <span class="sideBar_centerAlign" style="padding-left: 5px" *ngIf="showeStore == 'eStore'"
-                (click)="hide('eStore')">eStore</span>
-            <i *ngIf="showeStore == 'eStore'" class="fa fa-chevron-down" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-            <i *ngIf="showeStore == 'eStorehide'" class="fa fa-chevron-left" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-        </span>
-        <span *ngIf="showeStore == 'eStore'">
-            <span class="activeClass1" routerLink="/view/e-store/details">
-                <img src="./assets/images/activity/cheque.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Manage Product</span>
-            </span>
-
-            <span class="activeClass1" routerLink="/view/e-store/registered-user">
-                <img src="./assets/images/activity/registered_student.png" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Registered User</span>
-            </span>
-
-            <span class="activeClass1" routerLink="/view/e-store/sales-report">
-                <img src="./assets/images/activity/cheque.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Sales Report</span>
-            </span>
-
-            <span class="activeClass1" routerLink="/view/e-store/manage-offers/coupon">
-                <img src="../../../../assets/images/estore/Manage_Offer.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Manage Offers</span>
-            </span>
-
-            <span class="activeClass1" routerLink="/view/e-store/offer-history">
-                <img src="../../../../assets/images/estore/Offer_History.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Offer History</span>
-            </span>
-        </span>
-
-        <!-- End eStore -->
-        <span [ngClass]="activeSession === 'linine' ? 'active activeClass' : 'NavLink'" routerLink="/view/online-exam"
-            id="linine" (click)="toggler('linine')" *ngIf="jsonFlags.isShoweOnlineExam">
-            <img src="./assets/images/sidebar/online_exam.svg" alt="" class="sideBar_centerAlign">
-            <span class="sideBar_centerAlign" style="padding-left: 5px">Online Exam</span>
-        </span>
-        <span [ngClass]="activeSession === 'liten' ? 'active activeClass' : 'NavLink'" routerLink="/view/expense"
-            id="liten" (click)="toggler('liten')" *ngIf="jsonFlags.isShowExpense">
-            <img src="./assets/images/sidebar/expenses.svg" alt="" class="sideBar_centerAlign">
-            <span class="sideBar_centerAlign" style="padding-left: 5px" *ngIf="showExp == 'expensehide'"
-                (click)="show('expense')">Expense</span>
-            <span class="sideBar_centerAlign" style="padding-left: 5px" *ngIf="showExp == 'expense'"
-                (click)="hide('expense')">Expense</span>
-            <i *ngIf="showExp == 'expense'" class="fa fa-chevron-down" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-            <i *ngIf="showExp == 'expensehide'" class="fa fa-chevron-left" aria-hidden="true"
-                style="float: right;padding-top: 14px;font-size: 12px;"></i>
-        </span>
-        <span *ngIf="showExp == 'expense'">
-            <span class="activeClass1" routerLink="/view/expense/setup">
-                <img src="./assets/images/leads/data-setup.svg" alt="data setup"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Data Setup</span>
-            </span>
-            <span class="activeClass1" routerLink="/view/expense/manage-expense">
-                <img src="./assets/images/activity/cheque.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Manage Expense</span>
-            </span>
-            <span class="activeClass1" routerLink="/view/expense/manage-income">
-                <img src="./assets/images/activity/cheque.svg" alt=""><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Manage Income</span>
-            </span>
-            <span class="activeClass1" routerLink="/view/expense/report">
-                <img src="./assets/images/leads/reports.svg" alt="reports"><span class="sideBar_centerAlign1"
-                    style="padding-left: 5px">Report</span>
-            </span>
-        </span>
-
-
-
-        <!-- <span class="NavLink" href="#/app/dashboard">
-      <img src="./assets/images/sidebar/employee.svg" alt="">
-      Empolyee
-    </span>
-    <span class="NavLink" href="#/app/dashboard">
-      <img src="./assets/images/sidebar/expenses.svg" alt="">
-      Expense
-    </span>
-    <span class="NavLink" href="#/app/dashboard">
-      <img src="./assets/images/sidebar/task.svg" alt="">
-      Task
-    </span>
-    <span class="NavLink" routerLink="/view/students">
-      <i class="fa fa-money" aria-hidden="true"></i>
-      Dashboard
-    </span> -->
-    </div>
-    <div class="release-note-container" style="margin-top: 84%;">
-        <!-- <span data-toggle="modal" data-target="#releaseNote">New Release</span> -->
-    </div>
-    <div *ngIf="privacy" class="release-note-container" style="margin-top: 5%;">
-        <!-- <span data-toggle="modal" style="background: #0084f6;border: 1px solid #0084f6;"
-            data-target="#privacy">DLT</span> -->
-        <!-- <span class="badge">v3.0</span> -->
-    </div>
-    <div style="bottom: 15%;position: initial;margin-left: 44%;height: 26px;    margin-top: -21px;
-    margin-bottom: 23px;">
-        <!-- <span class="badge">v3.0</span> -->
-    </div>
-    <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="margin-left: 8%;">
-        <!-- <div class="setting-item" *ngIf="jsonFlags.isShowPowerBy">
-            <img src="./assets/images/sidebar/help.svg" title="Help" alt="" (click)="showSubSection('help')">
-            <div class="side-section" id="help">
-                <div class="side-section-item">
-                    <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')"><img
-                            src="./assets/images/sidebar/sideMenu/proctur.svg" alt="faqs"
-                            class="helpSection">FAQs</span>
-                </div>
-                <div class="side-section-item">
-                    <span (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')"><img
-                            src="./assets/images/sidebar/sideMenu/support.svg" alt="ticket" class="helpSection">Create
-                        Support
-                        Ticket</span>
-                </div>
-                <div class="side-section-item">
-                    <span (click)="openInNewTab('https://anydesk.com/en/downloads/')"><img
-                            src="./assets/images/sidebar/sideMenu/download.svg" alt="download"
-                            class="helpSection">Download Anydesk</span>
-                </div>
-                <div class="side-section-item">
-                    <span><img src="./assets/images/sidebar/sideMenu/call.svg" alt="phone" class="helpSection">+91
-                        9971839153</span>
-                </div>
-                <div class="side-section-item" (click)="routerLink('/view/training-video' ,'help')">
-                    <span>Training Videos</span>
-                </div>
-            </div>
-        </div> -->
-        <!-- <div class="setting-item" #divSettingTag id="divSettingTag">
-            <img src="./assets/images/sidebar/settings.svg" title="Settings" alt=""
-                (click)="routerLink('/view/setting','generalSetting');activeSession=null">
-            <div class="side-section" id="generalSetting">
-            </div>
-        </div> -->
-        <!-- <div class="setting-item" #divMasterTag id="divMasterTag">
-            <img src="./assets/images/sidebar/setup.svg" title="Setup" alt="" (click)="showSubSection('setup')">
-            <div class="side-section" id="setup" style="left: 198px;top: 497px;">
-                <div class="side-section-item" *ngIf="hasInventoryAccess()">
-                    <span (click)="routerLink('/view/inventory','setup')"><img
-                            src="./assets/images/sidebar/inventory.svg" alt="phone" class="helpSection">Manage
-                        Inventory</span>
-                </div>
-                <div class="side-section-item">
-                    <span (click)="routerLink('/view/formField/home','setup')"><img
-                            src="./assets/images/sidebar/custom_form_field.svg" alt="phone" class="helpSection">Custom
-                        Form Field</span>
-                </div>
-                <div class="side-section-item">
-                    <span (click)="routerLink('/view/master/areaCity','setup')"><img
-                            src="./assets/images/sidebar/city_area_map.svg" alt="phone" class="helpSection">City Area
-                        Map</span>
-                </div>
-                <div class="side-section-item" *ngIf="jsonFlags.isShowLibrabry">
-                    <span (click)="routerLink('/view/library/master','setup')"><img
-                            src="./assets/images/sidebar/master_data.svg" alt="phone" class="helpSection">Library</span>
-                </div>
-            </div>
-        </div> -->
-        <!-- <div class="setting-item" (click)="showSubSection('branches')" *ngIf="isMainBranch == 'Y' && checkAdmin">
-            <img src="./assets/images/sidebar/branches.svg" title="Branches" alt="">
-            <div class="side-section" id="branches" style="left: 198px;top: 497px;">
-                <div class="side-section-item" *ngFor="let data of branchesList">
-                    <span (click)="onSubBranchClick(data)">{{data.institute_name}}</span>
-                </div>
-            </div>
-        </div>
-        <div class="setting-item" (click)="showSubMenu('branches')" *ngIf="(showMainBranchBackBtn)">
-            <img src="./assets/images/sidebar/branches.svg" title="Back To Main Branch" alt=""
-                (click)="loginToMainBranch()">
-        </div> -->
-        <!-- <div class="setting-item" #divManageUsers id="divManageUsers">
-            <img src="./assets/images/sidebar/users.svg" title="Manage Users" alt=""
-                (click)="routerLink('/view/manage','user');activeSession=null">
-            <div class="side-section" id="user">
-            </div>
-        </div> -->
-        <!-- <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
-            <img src="./assets/images/sidebar/my-account.svg" title="My Account" alt=""
-                (click)="showSubSection('account')">
-            <div class="side-section" id="account">
-                <div class="side-section-item" *ngIf="hideForUsers()">
-                    <span (click)="routerLink('/view/account','account')"><img
-                            src="./assets/images/sidebar/sideMenu/account.svg" alt="icon" class="helpSection">My
-                        Account</span>
-                </div>
-                <div class="side-section-item">
-                    <span (click)="changePasswordClick()"><img src="./assets/images/sidebar/change_password.svg"
-                            alt="phone" class="helpSection">Change Password</span>
-                </div>
-                <div class="side-section-item">
-                    <span (click)="openInNewTab('https://bit.ly/3c1ig58')"><img
-                            src="./assets/images/sidebar/sideMenu/android.svg" alt="icon" class="helpSection">Download
-                        Admin App</span>
-                </div>
-                <div class="side-section-item">
-                    <span (click)="logout()"><img src="./assets/images/sidebar/sideMenu/logout.svg" alt="icon"
-                            class="helpSection">Logout</span>
-                </div>
-            </div>
-        </div> -->
-    </div>
-
-    <div class="proctur-info" style="    margin-right: 15%;">
+                <li class="subMenu hide">
+                    <a routerLink="/view/fee/cheque"><span>Cheque/PDC Report</span></a>
+                </li>
+                <li class="subMenu hide">
+                    <a routerLink="/view/fee/discount"><span>Discount Report</span></a>
+                </li>
+                <li class="subMenu hide">
+                    <a routerLink="/view/fee/feeType"><span>Reports Based on Fee Type</span></a>
+                </li>
+                <li class="subMenu hide" *ngIf="jsonFeesFlags.isProfitnloss">
+                    <a routerLink="/view/fee/profitNloss"><span>Profit and Loss</span></a>
+                </li>
+            </ul>
+        </li>
+        <li *ngIf="jsonFlags.isShowLiveclass" (click)="toggler('lifive')">
+            <a routerLink="/view/live-classes">
+                <span [ngClass]="activeSession === 'lifive' ? ' abc' : ' NavLink'">Live Class</span>
+            </a>
+        </li>
+        <li *ngIf="jsonFlags.isShowCommunicate" (click)="toggler('lisix')">
+            <a routerLink="/view/communicate">
+                <span [ngClass]="activeSession === 'lisix' ? ' abc' : ' NavLink'">Communicate</span><i
+                    class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+            <ul>
+                <li class="subMenu" *ngIf="showSMSReport">
+                    <a routerLink="/view/communicate/sms"><span>SMS Report</span></a>
+                </li>
+                <li class="subMenu" *ngIf="showEmailReport">
+                    <a routerLink="/view/communicate/email"><span>Email Report</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/communicate/ptm"><span>PTM Management</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/communicate/event"><span>Event Management</span></a>
+                </li>
+            </ul>
+        </li>
+        <li *ngIf="jsonFlags.isShowLibrabry" (click)="toggler('liseven')">
+            <a routerLink="/view/library/issue">
+                <span [ngClass]="activeSession === 'liseven' ? ' abc' : ' NavLink'">Library</span>
+            </a>
+        </li>
+        <li *ngIf="jsonFlags.isShoweStore" (click)="toggler('lieight')">
+            <a routerLink="/view/e-store/home">
+                <span [ngClass]="activeSession === 'lieight' ? ' abc' : ' NavLink'">eStore</span><i
+                    class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+            <ul>
+                <li class="subMenu">
+                    <a routerLink="/view/e-store/details"><span>Manage Product</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/e-store/registered-user"><span>Registered Users</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/e-store/sales-report"><span>Sales Report</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/e-store/manage-offers/coupon"><span>Manage Offers</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/e-store/offer-history"><span>Offer History</span></a>
+                </li>
+            </ul>
+        </li>
+        <li *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
+            <a routerLink="/view/online-exam">
+                <span [ngClass]="activeSession === 'linine' ? ' abc' : ' NavLink'">Online Exam</span>
+            </a>
+        </li>
+        <li *ngIf="jsonFlags.isShowExpense" (click)="toggler('liten')">
+            <a routerLink="/view/expense">
+                <span [ngClass]="activeSession === 'liten' ? ' abc' : ' NavLink'">Expenses</span><i
+                    class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+            <ul>
+                <li class="subMenu">
+                    <a routerLink="/view/expense/setup"><span>Data Setup</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/expense/manage-expense"><span>Manage Expense</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/expense/manage-income"><span>Manage Income</span></a>
+                </li>
+                <li class="subMenu">
+                    <a routerLink="/view/expense/report"><span>Report</span></a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <div class="proctur-info" style="    position: fixed;">
         <a href="https://www.proctur.com/" target="_blank"><img src="./assets/images/sidebar/sideMenu/logo.png"
-                alt="faqs" class="helpSection" style="height: 17px;width: 17px;"> <span>Powered by Proctur</span> </a>
+                alt="faqs" class="helpSection" style="height: 17px;width: 17px;"> <span
+                style="font-size: 12px;margin-left: -11px;    font-weight: 100;">Powered
+                by
+                <strong style="font-weight: bold;">Proctur 4.0</strong></span> </a>
     </div>
-
-</section>
-
+</div>
 <aside class="blur-background" id="blurBg" *ngIf="sideBar  || searchBar || helpMenu || videoplayer"
     (click)="closeMenu()">
 </aside>
