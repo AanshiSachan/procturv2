@@ -1,17 +1,17 @@
 <mat-toolbar
-    style="position: fixed;margin-left: -23px;margin-top: -53px;z-index: 9999999999;background: #13558f;width: 89%;height: 7%;"
+    style="position: fixed;margin-left: -23px;margin-top: -53px;z-index: 9999999999;background: white;width: 89%;height: 7%;box-shadow: 16px -1px 5px 0px #696969;"
     class="tool">
 
     <!-- <span style="color: white;font-weight: 400;" title="{{instituteName}} - {{instituteId}}">{{ (instituteName.length > 20) ?
         (instituteName | slice:0:20) + '...' : instituteName }} - {{instituteId}}</span> -->
     <a mat-button class="hoverColor"
-        style="margin-left: 14px;color: white;width: 10%;text-decoration: none;border-radius: 4px;font-weight: 400;"
+        style="margin-left: 14px;color: black;width: 10%;text-decoration: none;border-radius: 4px;font-weight: 400;"
         *ngIf="isMainBranch == 'Y' && checkAdmin" (click)="showSubSection('branches')">Branch<i class="fa fa-angle-down"
             style="font-size: 18px;padding-left: 4px;" aria-hidden="true"></i>
     </a>
 
     <a mat-button class="hoverColor"
-        style="width: 14%;text-decoration: none;margin-left: 1px;color: white;border-radius: 4px;font-weight: 400;"
+        style="width: 14%;text-decoration: none;margin-left: 1px;color: black;border-radius: 4px;font-weight: 400;"
         (click)="showSubSection('quick')">
         Quick Add<i class="fa fa-angle-down" style="font-size: 18px;padding-left: 4px;" aria-hidden="true"></i>
     </a>
