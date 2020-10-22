@@ -176,8 +176,9 @@ export class ReportsComponent implements OnInit {
     let exportedArray: any[] = [];
     this.expenseRecordList.map((data: any) => {
       let obj = {};
-      obj["Payer"] = data.party_name;
+
       obj["Received Date"] = data.payment_date;
+      obj["Payer"] = data.party_name;
       obj["Category"] = data.category;
       obj["Amount(Rs)"] = data.amount;
       exportedArray.push(obj);
@@ -192,8 +193,9 @@ export class ReportsComponent implements OnInit {
     let exportedArray: any[] = [];
     this.incomeRecordList.map((data: any) => {
       let obj = {};
-      obj["Payer"] = data.party_name;
+
       obj["Received Date"] = data.payment_date;
+      obj["Payer"] = data.party_name;
       obj["Category"] = data.category;
       obj["Amount(Rs)"] = data.amount;
       exportedArray.push(obj);
