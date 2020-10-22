@@ -56,11 +56,12 @@
 
         <div class="section-table-container">
           <div class="table-header-container">
-            <div class="header-item">
-              <span>Payer</span>
-            </div>
+
             <div class="header-item">
               <span>Payment Date </span>
+            </div>
+            <div class="header-item">
+              <span>Payer</span>
             </div>
             <div class="header-item">
               <span>Category</span>
@@ -71,11 +72,12 @@
           </div>
           <div class="table-value-outer-container" style="padding-bottom: 60px;">
             <div class="table-value-container" *ngFor="let expense of expenseRecordList">
-              <div class="value-item">
-                <span>{{expense.party_name}}</span>
-              </div>
+
               <div class="value-item">
                 <span>{{expense.payment_date}}</span>
+              </div>
+              <div class="value-item">
+                <span>{{expense.party_name}}</span>
               </div>
               <div class="value-item">
                 <span
@@ -121,11 +123,12 @@
 
         <div class="section-table-container">
           <div class="table-header-container">
-            <div class="header-item">
-              <span>Payer</span>
-            </div>
+
             <div class="header-item">
               <span>Received Date </span>
+            </div>
+            <div class="header-item">
+              <span>Payer</span>
             </div>
             <div class="header-item">
               <span>Category</span>
@@ -136,11 +139,12 @@
           </div>
           <div class="table-value-outer-container" style="padding-bottom: 55px;">
             <div class="table-value-container" *ngFor="let income of incomeRecordList">
-              <div class="value-item">
-                <span>{{income.party_name}}</span>
-              </div>
+
               <div class="value-item">
                 <span>{{income.payment_date}}</span>
+              </div>
+              <div class="value-item">
+                <span>{{income.party_name}}</span>
               </div>
               <div class="value-item">
                 <span
