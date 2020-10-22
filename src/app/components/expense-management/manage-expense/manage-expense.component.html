@@ -16,26 +16,30 @@
       <div class="filter-container">
         <div class="filter-item field-wrapper">
           <label for="filter">Filter</label>
-          <select class="form-ctrl" name="filter" id="filter" [(ngModel)]="expenseFilter.dateFilter" (ngModelChange)="getExpenseRecords()">
+          <select class="form-ctrl" name="filter" id="filter" [(ngModel)]="expenseFilter.dateFilter"
+            (ngModelChange)="getExpenseRecords()">
             <option value="month">Current Month</option>
             <option value="date">Till Date</option>
             <option value="range">Date Range</option>
           </select>
         </div>
-        <div class="filter-item field-wrapper datePickerBox" style="margin-left: 10px;" *ngIf="expenseFilter.dateFilter == 'range'">
+        <div class="filter-item field-wrapper datePickerBox" style="margin-left: 10px;"
+          *ngIf="expenseFilter.dateFilter == 'range'">
           <label for="date-range">Select Date Range</label>
-          <input type="text" value="" id="date-range"  [(ngModel)]="dateFilterRange"  (ngModelChange)="dateRangeChange($event)"
-          class="form-ctrl widgetDatepicker bsDatepicker" style="padding: 6px;" readonly="true" name="date-range" placeholder="Date" bsDaterangepicker/>
+          <input type="text" value="" id="date-range" [(ngModel)]="dateFilterRange"
+            (ngModelChange)="dateRangeChange($event)" class="form-ctrl widgetDatepicker bsDatepicker"
+            style="padding: 6px;" readonly="true" name="date-range" placeholder="Date" bsDaterangepicker />
         </div>
       </div>
 
       <div class="search-data-container">
         <div class="activity-item field-wrapper">
-          <input type="text" value="" id="search_bar" [(ngModel)]="expenseSearchInput" name="expenseSearchInput" (keyup)="searchDatabase(search)"
-             placeholder="Search here..." class="search-box" #search>
+          <input type="text" value="" id="search_bar" [(ngModel)]="expenseSearchInput" name="expenseSearchInput"
+            (keyup)="searchDatabase(search)" placeholder="Search here..." class="search-box" #search>
         </div>
         <div class="activity-item">
-          <button type="button" name="button" class="add-expense-btn" [routerLink]="['/view/expense/add-expense']">Add Expense</button>
+          <button type="button" name="button" class="add-expense-btn" [routerLink]="['/view/expense/add-expense']">Add
+            Expense</button>
         </div>
       </div>
 
@@ -53,10 +57,10 @@
           <span>Received Date</span>
         </div>
         <div class="list-header-item small-item">
-          <span>Reference No.	</span>
+          <span>Reference No. </span>
         </div>
         <div class="list-header-item medium-item">
-          <span>Payer</span>
+          <span>Payee</span>
         </div>
         <div class="list-header-item medium-item">
           <span>Item/Category</span>
@@ -77,16 +81,19 @@
             <span>{{expense.reference_no}}</span>
           </div>
           <div class="list-value-item medium-item">
-            <span title="{{expense?.party_name}}" >{{ (!expense.party_name) ? '-' : (expense.party_name.length > 30) ? (expense.party_name | slice:0:30) + '...' : expense.party_name}}</span>
+            <span
+              title="{{expense?.party_name}}">{{ (!expense.party_name) ? '-' : (expense.party_name.length > 30) ? (expense.party_name | slice:0:30) + '...' : expense.party_name}}</span>
           </div>
           <div class="list-value-item medium-item">
-            <span title="{{expense?.category}}" >{{ (!expense.category) ? '-' : (expense.category.length > 30) ? (expense.category | slice:0:30) + '...' : expense.category}}</span>
+            <span
+              title="{{expense?.category}}">{{ (!expense.category) ? '-' : (expense.category.length > 30) ? (expense.category | slice:0:30) + '...' : expense.category}}</span>
           </div>
           <div class="list-value-item small-item align-right" style="padding-right: 50px;">
             <span>{{expense.amount}}</span>
           </div>
           <div class="list-value-item small-item align-center">
-            <i class="fa fa-pencil" aria-hidden="true" title="Edit Expense" (click)="editExpense(expense.expense_id)"></i>
+            <i class="fa fa-pencil" aria-hidden="true" title="Edit Expense"
+              (click)="editExpense(expense.expense_id)"></i>
           </div>
         </div>
         <div class="no-records" *ngIf="expenseRecordList.length  == 0">
