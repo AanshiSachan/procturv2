@@ -115,7 +115,7 @@ export class ManageIncomeComponent implements OnInit {
       let obj: any = {
         Payment_Date: e.payment_date,
         Reference_No: e.reference_no,
-        Payee: e.party_name,
+        Payer: e.party_name,
         Category: e.category,
         Category_Description: e.category_description,
         Total: e.amount,
