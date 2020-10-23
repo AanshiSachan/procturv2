@@ -240,6 +240,7 @@
             text-align: left;
             padding: 10px;
             padding-top: 2px;
+            border-bottom: none;
             padding-bottom: 2px;
             span {
                 cursor: pointer;
@@ -510,11 +511,13 @@ sup {
     }
     
     input {
-        color: white;
+        color: black;
         margin-right: 40px;
         border-radius: 4px;
         padding: 5px;
         font-size: small;
+        background: #7777772e;
+        width: 61%;
     }
 }
 .beforeHover{
@@ -555,13 +558,15 @@ input{
     color: white;
 }
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: white;
+    color: black;
     opacity: 1; /* Firefox */
     font-weight: 400;
+    margin-left: 10px;
   }
   .mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button{
     min-width: 52px ;
         padding: 0;
+        margin-right: 9px;
     }
 
 
@@ -667,4 +672,58 @@ a span{
 }
 .abc{
     color: #528ff0;
+}
+#quick{
+    right: 107px;width: 11%;padding: 8px;
+}
+.logout{
+    color: #109CF1 !important;
+    padding: 0 !important;
+    border: 2px solid #109CF1;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    margin-left: 20%;
+    padding-bottom: 29px !important;
+    background: white !important;
+}
+
+.mattoolbar{
+    position: fixed;margin-left: -23px;margin-top: -53px;z-index: 9999999999;background: white;width: 89%;height: 7%;box-shadow: 16px -1px 5px 0px #696969;
+}
+.mat-button img{
+    width: 44%;
+}
+#help1{
+    right:57px;padding: 8px;width: 12%;
+}
+#setup{
+    right: 6px;top: 55px;
+}
+#account{
+    padding-left: 12px;padding-right: 12px;padding-top: 8px;top: 7.5%;width: 25%;
+}
+.accHead{
+    border-bottom: 1px solid lightgrey;font-size: 14px !important;
+}
+
+#help{
+    padding-left: 12px;padding-right: 12px;padding-top: 8px;top: 7.5%;width: 28%;
+}
+.yourInstitute{
+    font-size: 14px;    float: left;
+                                margin-left: 32px;
+}
+.c-lg-12{
+    margin-left: 24px;
+}
+.whatsNew{
+    position: fixed;
+    margin-top: 6%;
+    margin-left: 2%;
+    cursor: pointer;
+    border: 1px solid #ff5c33;
+    padding: 1px 10px;
+    color: white;
+    border-radius: 4px;
+    background: #ff5c33;
 }

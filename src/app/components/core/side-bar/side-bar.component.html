@@ -1,46 +1,32 @@
-<mat-toolbar
-    style="position: fixed;margin-left: -23px;margin-top: -53px;z-index: 9999999999;background: white;width: 89%;height: 7%;box-shadow: 16px -1px 5px 0px #696969;"
-    class="tool">
+<mat-toolbar class="tool mattoolbar" id="topMenu">
+    <div class="c-lg-12 sbox">
+        <form autocomplete="off" #form="ngForm">
+            <img src="./assets/images/sidebar/searchIco.svg" alt=""
+                style="    margin-left: 6px;position: absolute;margin-top: 11px;">
+            <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput
+                [ngClass]="{'has-focus': isResultDisplayed}" (click)="triggerSearchBox($event)" autocomplete="off"
+                placeholder="Search here..." style="padding-left: 4%;"
+                class="search-input searchbox form-ctrl-head search-item searchBox ">
 
-    <!-- <span style="color: white;font-weight: 400;" title="{{instituteName}} - {{instituteId}}">{{ (instituteName.length > 20) ?
-        (instituteName | slice:0:20) + '...' : instituteName }} - {{instituteId}}</span> -->
-    <a mat-button class="hoverColor"
-        style="margin-left: 14px;color: black;width: 10%;text-decoration: none;border-radius: 4px;font-weight: 400;"
-        *ngIf="isMainBranch == 'Y' && checkAdmin" (click)="showSubSection('branches')">Branch<i class="fa fa-angle-down"
-            style="font-size: 18px;padding-left: 4px;" aria-hidden="true"></i>
-    </a>
+        </form>
 
-    <a mat-button class="hoverColor"
-        style="width: 14%;text-decoration: none;margin-left: 1px;color: black;border-radius: 4px;font-weight: 400;"
-        (click)="showSubSection('quick')">
-        Quick Add<i class="fa fa-angle-down" style="font-size: 18px;padding-left: 4px;" aria-hidden="true"></i>
-    </a>
+    </div>
     <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
         <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
-            <div class="side-section" id="quick"
-                [ngStyle]="{'left':(isMainBranch == 'Y' && checkAdmin) ? '251px' : '186px'}">
+            <div class="side-section" id="quick">
                 <div class="side-section-item">
                     <span class="dropSize" routerLink="/view/students/add">
-                        <img src="./assets/images/sidebar/student.svg" alt="" class="sideBar_centerAlign">
-                        <!-- <i class="fa fa-plus" style="font-size: 15px;padding-right: 9px;padding-left: 5px;"
-                            aria-hidden="true"></i> -->
                         Add Student
                     </span>
                 </div>
-                <div class="side-section-item">
-                    <span class="dropSize" routerLink="/view/leads/add"><img src="./assets/images/leads/add-enquiry.svg"
-                            alt="add enquiry" class="helpSection">Add
-                        Enquiry </span>
-                </div>
                 <div class="side-section-item" (click)="showExpensesList()">
-                    <i class="fa fa-money" id="videoIcon" style="font-size: 15px;padding-right: 9px;color: green;"
-                        aria-hidden="true"></i> <span class="dropSize">Add Expenses</span>
+
+                    <span class="dropSize">Add Expenses</span>
 
                 </div>
                 <div class="side-section-item" (click)="showToDoList()">
-                    <i class="fa fa-list-ol" id="videoIcon"
-                        style="font-size: 15px;padding-right: 9px;color: yellowgreen;" aria-hidden="true"></i> <span
-                        class="dropSize">TO DO List</span>
+
+                    <span class="dropSize">TO DO List</span>
                 </div>
             </div>
         </div>
@@ -54,74 +40,48 @@
         <button type="button" name="button" class="close_todo" (click)="closeShowList()">X</button>
         <app-to-do-list (loaderOn)="onOfLoaderFromTodoList($event)"></app-to-do-list>
     </div>
-    <div style="box-sizing: content-box;" class="setting" *ngIf="isMainBranch == 'Y' && checkAdmin">
-        <div class="side-section" id="branches" style="left: 198px;top: 53px;width: max-content;">
-            <div class="side-section-item" *ngFor="let data of branchesList">
-                <span style="font-size: 13px;font-weight: 100;"
-                    (click)="onSubBranchClick(data)">{{data.institute_name}}</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="c-lg-12 sbox">
-        <form autocomplete="off" #form="ngForm">
-            <i class="fa fa-search beforeSearchIcon" id="searchIcon" aria-hidden="true"></i>
-            <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput
-                [ngClass]="{'has-focus': isResultDisplayed}" (click)="triggerSearchBox($event)" autocomplete="off"
-                placeholder="Search here..."
-                class="search-input searchbox form-ctrl-head search-item searchBox afterHover">
-
-        </form>
-
-    </div>
 
     <div class="spacer"></div>
-    <div style="padding-top: 28px;">
-        <a mat-button>
-            <div class="release-note-container" style="margin-left: 0;">
-                <span data-toggle="modal" data-target="#releaseNote" style="color: white;font-weight: 400;">What's
-                    New</span>
-            </div>
-        </a>
-        <a mat-button> <img src="./assets/images/sidebar/help.svg" title="Help" alt="" (click)="showSubSection('help')">
+    <div style="padding-top: 37px;">
+
+        <!-- Quick Add -->
+        <a mat-button> <img src="./assets/images/sidebar/quickAdd.svg" title="Quick Add" alt=""
+                (click)="showSubSection('quick')">
         </a>
 
+        <!-- Help -->
+        <a mat-button style="margin-left: -15px;"> <img src="./assets/images/sidebar/helpIcon.svg" title="Help" alt=""
+                (click)="showSubSection('help1')"></a>
+        <!-- Setting -->
 
-        <a mat-button style="margin-left: -15px;"> <img src="./assets/images/sidebar/setup.svg" title="Setup" alt=""
-                (click)="showSubSection('setup')"></a>
-
-        <a mat-button style="margin-left: -15px;"> <img src="./assets/images/sidebar/users.svg" title="Manage Users"
-                alt="" (click)="routerLink('/view/manage','user');activeSession=null"></a>
         <a mat-button style="margin-left: -15px;">
-            <img src="./assets/images/sidebar/settings.svg" title="Settings" alt=""
-                (click)="routerLink('/view/setting','generalSetting');activeSession=null">
+            <img src="./assets/images/sidebar/Vector.svg" title="Settings" alt="" (click)="showSubSection('help')">
         </a>
-        <a mat-button style="margin-left: -15px;"><img src="./assets/images/sidebar/my-account.svg" title="My Account"
+        <!-- My Account -->
+        <a mat-button style=" margin-left: -15px;"><img src="./assets/images/sidebar/myAccount.svg" title="My Account"
                 alt="" (click)="showSubSection('account')"></a>
         <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
-                <div class="side-section" id="help" style="right:57px">
-                    <div class="side-section-item">
-                        <span class="dropSize" (click)="openInNewTab('https://anydesk.com/en/downloads/')"><img
-                                src="./assets/images/sidebar/sideMenu/download.svg" alt="download"
-                                class="helpSection">Download Anydesk</span>
-                    </div>
-                    <div class="side-section-item">
-                        <span class="dropSize"><img src="./assets/images/sidebar/sideMenu/call.svg" alt="phone"
-                                class="helpSection">+91
-                            9971839153</span>
-                    </div>
+                <div class="side-section" id="help1" style="">
                     <div class="side-section-item" (click)="routerLink('/view/training-video' ,'help')">
-                        <i class="fa fa-video-camera" id="videoIcon" style="font-size: 15px;padding-right: 9px;"
-                            aria-hidden="true"></i> <span class="dropSize">Training
+                        <span class="dropSize">Training
                             Videos</span>
                     </div>
+                    <div class="side-section-item">
+                        <span class="dropSize" (click)="openInNewTab('https://anydesk.com/en/downloads/')">Download
+                            Anydesk</span>
+                    </div>
+                    <div class="side-section-item">
+                        <span class="dropSize">+91-
+                            9971839153</span>
+                    </div>
+
                 </div>
             </div>
         </div>
         <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
-                <div class="side-section" id="setup" style="right: 6px;top: 55px;">
+                <div class="side-section" id="setup">
                     <div class="side-section-item" *ngIf="hasInventoryAccess()">
                         <span class="dropSize" (click)="routerLink('/view/inventory','setup')"><img
                                 src="./assets/images/sidebar/inventory.svg" alt="phone" class="helpSection">Manage
@@ -150,25 +110,127 @@
         <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
                 <div class="side-section" id="account">
-                    <div class="side-section-item" *ngIf="hideForUsers()">
-                        <span class="dropSize" (click)="routerLink('/view/account','account')"><img
-                                src="./assets/images/sidebar/sideMenu/account.svg" alt="icon" class="helpSection">My
-                            Account</span>
+                    <div style="border-bottom: 1px solid lightgrey;">
+                        <div class="accHead">
+                            MY ACCOUNT
+                        </div>
+                        <div class="side-section-item" *ngIf="hideForUsers()">
+                            <span class="dropSize" (click)="routerLink('/view/account','account')">
+                                My
+                                Account</span>
+                        </div>
+                        <div class="side-section-item">
+                            <span class="dropSize" (click)="changePasswordClick()">
+                                Change
+                                Password</span>
+                        </div>
                     </div>
-                    <div class="side-section-item">
-                        <span class="dropSize" (click)="changePasswordClick()"><img
-                                src="./assets/images/sidebar/change_password.svg" alt="phone" class="helpSection">Change
-                            Password</span>
+                    <div style="font-size: 14px;">
+                        BRANCHES
                     </div>
-                    <div class="side-section-item">
-                        <span class="dropSize" (click)="openInNewTab('https://bit.ly/3c1ig58')"><img
-                                src="./assets/images/sidebar/sideMenu/android.svg" alt="icon"
-                                class="helpSection">Download
-                            Admin App</span>
+                    <div *ngIf="isMainBranch == 'Y' && checkAdmin" style="border-bottom: 1px solid lightgrey;">
+                        <div class="side-section-item" *ngFor="let data of branchesList">
+                            <span style="font-size: 13px;font-weight: 100;"
+                                (click)="onSubBranchClick(data)">{{data.institute_name}}</span>
+                        </div>
                     </div>
-                    <div class="side-section-item">
-                        <span class="dropSize" (click)="logout()"><img src="./assets/images/sidebar/sideMenu/logout.svg"
-                                alt="icon" class="helpSection">Logout</span>
+                    <div style="    
+                    padding: 10px;border-bottom: 1px solid lightgrey;">
+                        <input type="button" class="logout" (click)="logout()" value="Logout">
+                    </div>
+                    <div class="row">
+                        <div class="c-lg-6 ">
+                            <div class="side-section-item">
+                                <span class="dropSize" style="margin-left: 20px;">
+                                    Privacy policy</span>
+
+                            </div>
+                        </div>
+                        <div class="c-lg-6 ">
+                            <div class="side-section-item">
+
+                                <span class="dropSize">
+                                    Terms of Service</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
+            <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
+                <div class="side-section" id="help">
+                    <div style="border-bottom: 1px solid lightgrey;">
+                        <div class="row">
+                            <div class="c-lg-6" style="    border-right: 1px solid lightgrey;">
+                                <div class="yourInstitute">
+                                    Your Institute
+                                </div>
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize"
+                                                (click)="routerLink('/view/setting','setting');activeSession=null">
+                                                SMS Settings</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize"
+                                                (click)="routerLink('/view/manage','user');activeSession=null">
+                                                Manage Users</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize" (click)="openInNewTab('https://bit.ly/3c1ig58')">
+                                                Download Admin App</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="c-lg-6">
+                                <div style="font-size: 14px;float: left; margin-left: 33px;">
+                                    Setup
+                                </div>
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item" *ngIf="hasInventoryAccess()">
+                                            <span class="dropSize"
+                                                (click)="routerLink('/view/inventory','setup')">Manage
+                                                Inventory</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize"
+                                                (click)="routerLink('/view/formField/home','setup')">Custom
+                                                Form Field</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize"
+                                                (click)="routerLink('/view/master/areaCity','setup')">City Area
+                                                Map</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -181,290 +243,319 @@
 
 </mat-toolbar>
 
+<section>
 
-<div class="nav" (click)="closeMenu()">
-    <div class="search-container">
-        <!-- <form autocomplete="off" #form="ngForm">
+    <div class="nav" (click)="closeMenu()">
+        <div class="search-container">
+            <!-- <form autocomplete="off" #form="ngForm">
                 <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput [ngClass]="{'has-focus': isResultDisplayed}" (focus)="triggerSearchBox($event)" autocomplete="off" placeholder="Search here..." class="search-input searchbox form-ctrl-head search-item searchBox">
             </form>
             <i class="fa fa-search search-icon" aria-hidden="true"></i> -->
-        <section class="search-dropdown search-item" #seachResult style="margin-left: 23%;margin-top: 2%;width: 40%;">
-            <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat"
-                [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)"
-                (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)"
-                [enquiryResult]="enquiryResult" (actionSelected)="actionSelected($event)" (closeMenu)="closeMenu()">
-            </search-box>
-        </section>
-    </div>
-</div>
-<div class="menu">
-
-    <section class="institute-logo-name-container">
-        <img src="https://img.icons8.com/dotty/40/000000/admission.png" style="height: 44px;" />
-        <div class="institute-name-container">
-            <span>{{instituteName}}</span>
-            <span style="font-weight: 100;"> - {{globalSearchForm.instituteId}}</span>
+            <section class="search-dropdown search-item" #seachResult
+                style="margin-left: 3%;margin-top: 2%;width: 40%;z-index: 9999;">
+                <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat"
+                    [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)"
+                    (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)"
+                    (enqSelected)="selectedEnquiry($event)" [enquiryResult]="enquiryResult"
+                    (actionSelected)="actionSelected($event)" (closeMenu)="closeMenu()">
+                </search-box>
+            </section>
         </div>
-    </section>
-    <ul>
-        <li (click)="toggler('lizero')">
-            <img src="./assets/images/sidebar/home.svg" alt="" class="sideBar_centerAlign"
-                style="width: 20px;padding-bottom: 4px;">
-            <a routerLink="/view/home">
-                <span [ngClass]="activeSession === 'lizero' ? ' abc' : ' NavLink'">Home</span>
-            </a>
-        </li>
-        <li *ngIf="jsonFlags.isShowLead" (click)="toggler('lione')">
-            <img src="./assets/images/sidebar/home.svg" alt="" class="sideBar_centerAlign"
-                style="width: 20px;padding-bottom: 4px;">
-            <a routerLink="/view/leads">
-                <span [ngClass]="activeSession === 'lione' ? 'abc' : ' NavLink'">Lead</span><i class="fa fa-angle-right"
-                    aria-hidden="true"></i>
-            </a>
-            <ul>
-                <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddEnquiry">
-                    <a routerLink="/view/leads/add"><span>Add Enquiry</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonRolesFlags.isShowDataSetup ">
-                    <a routerLink="/view/leads/setup"><span>Add Closing Reason</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/leads/campaign"><span>Add Campaign</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign ">
-                    <a routerLink="/view/leads/manage-campaign"><span>Manage Campaign</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonRolesFlags.isShowManageEnquiry">
-                    <a routerLink="/view/leads/enquiry"><span>Manage Enquiry</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
-                    <a routerLink="/view/leads/enquiryReport/counsellor"><span>Enquiry Report</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
-                    <a routerLink="/view/leads/campaign-reports/sms-report"><span>Campaign Report</span></a>
-                </li>
-            </ul>
-        </li>
-        <li *ngIf="jsonFlags.isShowStudent" (click)="toggler('litwo')">
-            <a routerLink="/view/students">
-                <span [ngClass]="activeSession === 'litwo' ? ' abc' : ' NavLink'">Student</span>
-            </a>
-        </li>
-        <li *ngIf="!isLangInstitute" (click)="toggler('lithree')">
-            <a routerLink="/view/course">
-                <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">Course</span><i
-                    class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
-            <ul>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
-                    <a routerLink="/view/course/setup"><span>Data Setup</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
-                    <a routerLink="/view/course/create/standardlist"><span>Manage Course</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/course/ecourse-file-manager/ecourses"><span>Study Material</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isEcourseFileManager ">
-                    <a routerLink="/view/course/file-manager/drive"><span>File/Doc. Manager</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnlineAssignment ">
-                    <a routerLink="/view/course/online-assignment"><span>Online Assignment</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
-                    <a routerLink="/view/course/coursePlanner/class"><span>Class/Exam Planner</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
-                    <a routerLink="/view/course/timeTable"><span>Timetable</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
-                    <a routerLink="/view/course/reports"><span>Reports</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/course/master-tag"><span>Manage Tags</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
-                    <a routerLink="/view/course/ecoursemapping"><span>eCourse Mapping</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isShowArchiving ">
-                    <a routerLink="/view/course/archiving"><span>Data Archiving</span></a>
-                </li>
-            </ul>
-        </li>
-        <li *ngIf="isLangInstitute" (click)="toggler('lithree')">
-            <a routerLink="/view/batch">
-                <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">Batch</span><i
-                    class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
-            <ul>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
-                    <a routerLink="/view/batch/setup"><span>Data Setup</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
-                    <a routerLink="/view/batch/create/standardlist"><span>Manage Course</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/course/ecourse-file-manager/ecourses"><span>Study Material</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isEcourseFileManager ">
-                    <a routerLink="/view/batch/file-manager/drive"><span>File/Doc. Manager</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnslineAssignment ">
-                    <a routerLink=""><span>Online Assignment</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
-                    <a routerLink="/view/batch/coursePlanner/class"><span>Class/Exam Planner</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
-                    <a routerLink="/view/batch/timeTable"><span>Timetable</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
-                    <a routerLink="/view/batch/reports"><span>Reports</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/batch/master-tag"><span>Manage Tags</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
-                    <a routerLink="/view/batch/ecoursemapping"><span>eCourse Mapping</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonCourseFlags.isShowArchiving ">
-                    <a routerLink="/view/batch/archiving"><span>Data Archiving</span></a>
-                </li>
-            </ul>
-        </li>
-        <li *ngIf="jsonFlags.isShowFee" (click)="toggler('lifour')">
-            <a routerLink="/view/fee">
-                <span [ngClass]="activeSession === 'lifour' ? ' abc' : ' NavLink'">Fees</span><i
-                    class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
-            <ul>
-                <li class="subMenu">
-                    <a routerLink="/view/fee/data-setup"><span>Data Setup</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonFeesFlags.isFeeActivity">
-                    <a routerLink="/view/fee/cheque"><span>Manage Cheque</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/fee/allDueReport"><span>Fee Dues</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/fee/moduleReport"><span>{{jsonFeesFlags.moduleState}} wise Report</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/fee/paymentHistory"><span>Payment History</span></a>
-                </li>
-                <li class="subMenu" *ngIf="is_tax_enabled=='1'">
-                    <a routerLink="/view/fee/gst"><span>{{tax_type_without_percentage}} Report</span></a>
-                </li>
-                <li class="subMenu" *ngIf="enable_online_payment == 1">
-                    <a routerLink="/view/fee/onlinePayment"><span>Online Fee Collection</span></a>
-                </li>
-                <li class="subMenu" *ngIf="jsonFeesFlags.isAdmin">
-                    <a routerLink="/view/fee/monitoring-dashboard/home"><span>Monitoring Dashboard</span></a>
-                </li>
-
-                <li class="subMenu hide">
-                    <a routerLink="/view/fee/cheque"><span>Cheque/PDC Report</span></a>
-                </li>
-                <li class="subMenu hide">
-                    <a routerLink="/view/fee/discount"><span>Discount Report</span></a>
-                </li>
-                <li class="subMenu hide">
-                    <a routerLink="/view/fee/feeType"><span>Reports Based on Fee Type</span></a>
-                </li>
-                <li class="subMenu hide" *ngIf="jsonFeesFlags.isProfitnloss">
-                    <a routerLink="/view/fee/profitNloss"><span>Profit and Loss</span></a>
-                </li>
-            </ul>
-        </li>
-        <li *ngIf="jsonFlags.isShowLiveclass" (click)="toggler('lifive')">
-            <a routerLink="/view/live-classes">
-                <span [ngClass]="activeSession === 'lifive' ? ' abc' : ' NavLink'">Live Class</span>
-            </a>
-        </li>
-        <li *ngIf="jsonFlags.isShowCommunicate" (click)="toggler('lisix')">
-            <a routerLink="/view/communicate">
-                <span [ngClass]="activeSession === 'lisix' ? ' abc' : ' NavLink'">Communicate</span><i
-                    class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
-            <ul>
-                <li class="subMenu" *ngIf="showSMSReport">
-                    <a routerLink="/view/communicate/sms"><span>SMS Report</span></a>
-                </li>
-                <li class="subMenu" *ngIf="showEmailReport">
-                    <a routerLink="/view/communicate/email"><span>Email Report</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/communicate/ptm"><span>PTM Management</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/communicate/event"><span>Event Management</span></a>
-                </li>
-            </ul>
-        </li>
-        <li *ngIf="jsonFlags.isShowLibrabry" (click)="toggler('liseven')">
-            <a routerLink="/view/library/issue">
-                <span [ngClass]="activeSession === 'liseven' ? ' abc' : ' NavLink'">Library</span>
-            </a>
-        </li>
-        <li *ngIf="jsonFlags.isShoweStore" (click)="toggler('lieight')">
-            <a routerLink="/view/e-store/home">
-                <span [ngClass]="activeSession === 'lieight' ? ' abc' : ' NavLink'">eStore</span><i
-                    class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
-            <ul>
-                <li class="subMenu">
-                    <a routerLink="/view/e-store/details"><span>Manage Product</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/e-store/registered-user"><span>Registered Users</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/e-store/sales-report"><span>Sales Report</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/e-store/manage-offers/coupon"><span>Manage Offers</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/e-store/offer-history"><span>Offer History</span></a>
-                </li>
-            </ul>
-        </li>
-        <li *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
-            <a routerLink="/view/online-exam">
-                <span [ngClass]="activeSession === 'linine' ? ' abc' : ' NavLink'">Online Exam</span>
-            </a>
-        </li>
-        <li *ngIf="jsonFlags.isShowExpense" (click)="toggler('liten')">
-            <a routerLink="/view/expense">
-                <span [ngClass]="activeSession === 'liten' ? ' abc' : ' NavLink'">Expenses</span><i
-                    class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
-            <ul>
-                <li class="subMenu">
-                    <a routerLink="/view/expense/setup"><span>Data Setup</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/expense/manage-expense"><span>Manage Expense</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/expense/manage-income"><span>Manage Income</span></a>
-                </li>
-                <li class="subMenu">
-                    <a routerLink="/view/expense/report"><span>Report</span></a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <div class="proctur-info" style="    position: fixed;">
-        <a href="https://www.proctur.com/" target="_blank"><img src="./assets/images/sidebar/sideMenu/logo.png"
-                alt="faqs" class="helpSection" style="height: 17px;width: 17px;"> <span
-                style="font-size: 12px;margin-left: -11px;    font-weight: 100;">Powered
-                by
-                <strong style="font-weight: bold;">Proctur 4.0</strong></span> </a>
     </div>
-</div>
-<aside class="blur-background" id="blurBg" *ngIf="sideBar  || searchBar || helpMenu || videoplayer"
+    <div class="menu">
+
+        <section class="institute-logo-name-container">
+            <img src="./assets/images/sidebar/newSideMenu/institute.svg" style="height: 44px;" />
+            <div class="institute-name-container">
+                <span>{{instituteName}}</span>
+                <span style="font-weight: 100;"><br> {{globalSearchForm.instituteId}}</span>
+            </div>
+        </section>
+        <ul>
+            <li (click)="toggler('lizero')">
+                <img src="./assets/images/sidebar/newSideMenu/home.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/home">
+                    <span [ngClass]="activeSession === 'lizero' ? ' abc' : ' NavLink'">Home</span>
+                </a>
+            </li>
+            <li *ngIf="jsonFlags.isShowLead" (click)="toggler('lione')">
+                <img src="./assets/images/sidebar/newSideMenu/lead.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/leads">
+                    <span [ngClass]="activeSession === 'lione' ? 'abc' : ' NavLink'">Lead</span><i
+                        class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <ul style="top: 16%;">
+                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddEnquiry">
+                        <a routerLink="/view/leads/add"><span>Add Enquiry</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowDataSetup ">
+                        <a routerLink="/view/leads/setup"><span>Add Closing Reason</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/leads/campaign"><span>Add Campaign</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign ">
+                        <a routerLink="/view/leads/manage-campaign"><span>Manage Campaign</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowManageEnquiry">
+                        <a routerLink="/view/leads/enquiry"><span>Manage Enquiry</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
+                        <a routerLink="/view/leads/enquiryReport/counsellor"><span>Enquiry Report</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
+                        <a routerLink="/view/leads/campaign-reports/sms-report"><span>Campaign Report</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li *ngIf="jsonFlags.isShowStudent" (click)="toggler('litwo')">
+                <img src="./assets/images/sidebar/newSideMenu/student.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/students">
+                    <span [ngClass]="activeSession === 'litwo' ? ' abc' : ' NavLink'">Student</span>
+                </a>
+            </li>
+            <li *ngIf="!isLangInstitute" (click)="toggler('lithree')">
+                <img src="./assets/images/sidebar/newSideMenu/course.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/course">
+                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">Course</span><i
+                        class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <ul style="top: 16%;">
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
+                        <a routerLink="/view/course/setup"><span>Data Setup</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
+                        <a routerLink="/view/course/create/standardlist"><span>Manage Course</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/course/ecourse-file-manager/ecourses"><span>Study Material</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isEcourseFileManager ">
+                        <a routerLink="/view/course/file-manager/drive"><span>File/Doc. Manager</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnlineAssignment ">
+                        <a routerLink="/view/course/online-assignment"><span>Online Assignment</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
+                        <a routerLink="/view/course/coursePlanner/class"><span>Class/Exam Planner</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
+                        <a routerLink="/view/course/timeTable"><span>Timetable</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
+                        <a routerLink="/view/course/reports"><span>Reports</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/course/master-tag"><span>Manage Tags</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
+                        <a routerLink="/view/course/ecoursemapping"><span>eCourse Mapping</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowArchiving ">
+                        <a routerLink="/view/course/archiving"><span>Data Archiving</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li *ngIf="isLangInstitute" (click)="toggler('lithree')">
+                <img src="./assets/images/sidebar/newSideMenu/course.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/batch">
+                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">Batch</span><i
+                        class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <ul style="top: 16%;">
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
+                        <a routerLink="/view/batch/setup"><span>Data Setup</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
+                        <a routerLink="/view/batch/create/standardlist"><span>Manage Course</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/course/ecourse-file-manager/ecourses"><span>Study Material</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isEcourseFileManager ">
+                        <a routerLink="/view/batch/file-manager/drive"><span>File/Doc. Manager</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnslineAssignment ">
+                        <a routerLink=""><span>Online Assignment</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
+                        <a routerLink="/view/batch/coursePlanner/class"><span>Class/Exam Planner</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
+                        <a routerLink="/view/batch/timeTable"><span>Timetable</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
+                        <a routerLink="/view/batch/reports"><span>Reports</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/batch/master-tag"><span>Manage Tags</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
+                        <a routerLink="/view/batch/ecoursemapping"><span>eCourse Mapping</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowArchiving ">
+                        <a routerLink="/view/batch/archiving"><span>Data Archiving</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li *ngIf="jsonFlags.isShowFee" (click)="toggler('lifour')">
+                <img src="./assets/images/sidebar/newSideMenu/fees.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/fee">
+                    <span [ngClass]="activeSession === 'lifour' ? ' abc' : ' NavLink'">Fees</span><i
+                        class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <ul style="top: 16%;">
+                    <li class="subMenu">
+                        <a routerLink="/view/fee/data-setup"><span>Data Setup</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonFeesFlags.isFeeActivity">
+                        <a routerLink="/view/fee/cheque"><span>Manage Cheque</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/fee/allDueReport"><span>Fee Dues</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/fee/moduleReport"><span>{{jsonFeesFlags.moduleState}} wise
+                                Report</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/fee/paymentHistory"><span>Payment History</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="is_tax_enabled=='1'">
+                        <a routerLink="/view/fee/gst"><span>{{tax_type_without_percentage}} Report</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="enable_online_payment == 1">
+                        <a routerLink="/view/fee/onlinePayment"><span>Online Fee Collection</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonFeesFlags.isAdmin">
+                        <a routerLink="/view/fee/monitoring-dashboard/home"><span>Monitoring Dashboard</span></a>
+                    </li>
+
+                    <li class="subMenu hide">
+                        <a routerLink="/view/fee/cheque"><span>Cheque/PDC Report</span></a>
+                    </li>
+                    <li class="subMenu hide">
+                        <a routerLink="/view/fee/discount"><span>Discount Report</span></a>
+                    </li>
+                    <li class="subMenu hide">
+                        <a routerLink="/view/fee/feeType"><span>Reports Based on Fee Type</span></a>
+                    </li>
+                    <li class="subMenu hide" *ngIf="jsonFeesFlags.isProfitnloss">
+                        <a routerLink="/view/fee/profitNloss"><span>Profit and Loss</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li *ngIf="jsonFlags.isShowLiveclass" (click)="toggler('lifive')">
+                <img src="./assets/images/sidebar/newSideMenu/liveclass.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/live-classes">
+                    <span [ngClass]="activeSession === 'lifive' ? ' abc' : ' NavLink'">Live Class</span>
+                </a>
+            </li>
+            <li *ngIf="jsonFlags.isShowCommunicate" (click)="toggler('lisix')">
+                <img src="./assets/images/sidebar/newSideMenu/Communicate-Icon.png" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/communicate">
+                    <span [ngClass]="activeSession === 'lisix' ? ' abc' : ' NavLink'">Communicate</span><i
+                        class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <ul style="top:39%">
+                    <li class="subMenu" *ngIf="showSMSReport">
+                        <a routerLink="/view/communicate/sms"><span>SMS Report</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="showEmailReport">
+                        <a routerLink="/view/communicate/email"><span>Email Report</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/communicate/ptm"><span>PTM Management</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/communicate/event"><span>Event Management</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li *ngIf="jsonFlags.isShowLibrabry" (click)="toggler('liseven')">
+                <img src="./assets/images/sidebar/newSideMenu/library.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/library/issue">
+                    <span [ngClass]="activeSession === 'liseven' ? ' abc' : ' NavLink'">Library</span>
+                </a>
+            </li>
+            <li *ngIf="jsonFlags.isShoweStore" (click)="toggler('lieight')">
+                <img src="./assets/images/sidebar/newSideMenu/eStoreIcon.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/e-store/home">
+                    <span [ngClass]="activeSession === 'lieight' ? ' abc' : ' NavLink'">eStore</span><i
+                        class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <ul style="top: 52%;">
+                    <li class="subMenu">
+                        <a routerLink="/view/e-store/details"><span>Manage Product</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/e-store/registered-user"><span>Registered Users</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/e-store/sales-report"><span>Sales Report</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/e-store/manage-offers/coupon"><span>Manage Offers</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/e-store/offer-history"><span>Offer History</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
+                <img src="./assets/images/sidebar/newSideMenu/onlineExam.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/online-exam">
+                    <span [ngClass]="activeSession === 'linine' ? ' abc' : ' NavLink'">Online Exam</span>
+                </a>
+            </li>
+            <li *ngIf="jsonFlags.isShowExpense" (click)="toggler('liten')">
+                <img src="./assets/images/sidebar/newSideMenu/expense.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/expense">
+                    <span [ngClass]="activeSession === 'liten' ? ' abc' : ' NavLink'">Expenses</span><i
+                        class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <ul style="top: 57%;">
+                    <li class="subMenu">
+                        <a routerLink="/view/expense/setup"><span>Data Setup</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/expense/manage-expense"><span>Manage Expense</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/expense/manage-income"><span>Manage Income</span></a>
+                    </li>
+                    <li class="subMenu">
+                        <a routerLink="/view/expense/report"><span>Report</span></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="whatsNew">
+            <span data-toggle="modal" data-target="#releaseNote">What's New</span>
+        </div>
+        <div class="proctur-info" style="    position: fixed;">
+            <a href="https://www.proctur.com/" target="_blank"><img src="./assets/images/sidebar/sideMenu/logo.png"
+                    alt="faqs" class="helpSection" style="height: 17px;width: 17px;"> <span
+                    style="font-size: 12px;margin-left: -11px;    font-weight: 100;">Powered
+                    by
+                    <strong style="font-weight: bold;">Proctur 4.0</strong></span> </a>
+        </div>
+    </div>
+
+</section>
+<aside class="blur-background" id="blurBg" *ngIf="sideBar  || searchBar || helpMenu || videoplayer || quick"
     (click)="closeMenu()">
 </aside>
 
