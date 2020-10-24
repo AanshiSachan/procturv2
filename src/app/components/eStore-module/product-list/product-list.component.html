@@ -148,8 +148,10 @@
               </span>
             </div>
             <div class="value-item td" style="text-align: left;width: 13%;">
+              <i class="fa fa-link" *ngIf="!(item.product_sharable_link == null)" aria-hidden="true"
+                (click)="copyToClipboard(item.product_sharable_link)"></i>
               <span>
-                <label title="{{item.title}}">
+                <label title=" {{item.title}}">
                   {{ (item.title.length > 20) ? (item.title | slice:0:20) + '...' : item.title }}
                   <span *ngIf="item.product_user_type == '2'">(For Student)</span>
                   <span *ngIf="item.product_user_type == '4'">(For Open User)</span>
@@ -157,6 +159,7 @@
                   <span *ngIf="item.product_user_type == '16'">(For Offline)</span>
                 </label>
               </span>
+
             </div>
             <div class="value-item td" style="width: 20%;text-align: left;">
               <span class="ecourse-list" *ngFor="let  ecourse of item.product_ecourse_maps">
