@@ -441,3 +441,13 @@ bs-daterangepicker-container {
   color: white;
   background: #0084f6;
 }
+.fa-link{
+  display: none;
+}
+
+.value-item:hover{
+  .fa-link{
+        display: block;
+        cursor: pointer;
+  }
+} 

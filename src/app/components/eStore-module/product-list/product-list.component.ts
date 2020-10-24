@@ -678,4 +678,13 @@ export class ProductListComponent implements OnInit {
     // event.target.nextElementSibling.classList.toggle('d-flex');
   }
 
+  copyToClipboard(item) {
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', (item));
+      e.preventDefault();
+      document.removeEventListener('copy', null);
+    });
+    document.execCommand('copy');
+    this.msgService.showErrorMessage('success', 'Copied to Clipboard', '');
+  }
 }
