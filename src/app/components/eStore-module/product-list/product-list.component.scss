@@ -438,12 +438,15 @@ bs-daterangepicker-container {
   background: #0084f6;
 }
 .fa-link{
-  display: none;
+  display: block;
+        cursor: pointer;
 }
 
-.value-item:hover{
-  .fa-link{
-        display: block;
-        cursor: pointer;
-  }
-} 
+.mess{
+  position: absolute;
+  margin-top: -25px;
+  border: 1px solid lightgrey;
+  background: lightgrey;
+  border-radius: 4px;
+  padding: 2px;
+}
