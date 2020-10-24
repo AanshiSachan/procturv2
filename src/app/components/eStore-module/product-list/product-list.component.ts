@@ -37,6 +37,7 @@ export class ProductListComponent implements OnInit {
     displayBatchSize: 25,
     total_items: 0
   };
+  showMessage: boolean: false;
   productList: any = [];
   productDetails: any = [];
   ecourseList: any = [];
@@ -680,11 +681,14 @@ export class ProductListComponent implements OnInit {
 
   copyToClipboard(item) {
     document.addEventListener('copy', (e: ClipboardEvent) => {
-      e.clipboardData.setData('text/plain', (item));
+      e.clipboardData.setData('text/plain', (item.product_sharable_link));
       e.preventDefault();
       document.removeEventListener('copy', null);
     });
     document.execCommand('copy');
-    this.msgService.showErrorMessage('success', 'Copied to Clipboard', '');
+    item.showMessage = true;
+    window.setTimeout(function () {
+      item.showMessage = false;
+    }, 1500);
   }
 }
