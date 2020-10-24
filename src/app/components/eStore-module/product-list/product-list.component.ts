@@ -37,7 +37,7 @@ export class ProductListComponent implements OnInit {
     displayBatchSize: 25,
     total_items: 0
   };
-  showMessage: boolean: false;
+  showMessage: boolean = false;
   productList: any = [];
   productDetails: any = [];
   ecourseList: any = [];
