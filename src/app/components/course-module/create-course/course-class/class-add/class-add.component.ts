@@ -1304,7 +1304,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     startTime = this.convertIntoFullClock(this.addClassDetails.start_hour, this.addClassDetails.start_minute, this.addClassDetails.start_meridian);
     endTime = this.convertIntoFullClock(this.addClassDetails.end_hour, this.addClassDetails.end_minute, this.addClassDetails.end_meridian);
     obj.duration = this.getDifference(startTime, endTime);
-    obj.subject_name = this.getValueFromArray(this.subjectListDataSource, 'subject_id', obj.subject_id, 'subject_name');
+    obj.subject_name = this.getValueFromArraySubject(this.subjectListDataSource, 'subject_id', obj.subject_id, 'subject_name');
     if (this.addClassDetails.teacher_id == "" || this.addClassDetails.teacher_id == '-1') {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct teacher name');
       this.convertTimeToBindableFormat();
@@ -1393,13 +1393,22 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   getValueFromArray(data, key, compareVal, getKey) {
     let result: any = '';
     for (let i = 0; i < data.length; i++) {
+      if (data[i] === compareVal) {
+        result = data[i];
+      }
+    }
+    return result;
+  }
+
+  getValueFromArraySubject(data, key, compareVal, getKey) {
+    let result: any = '';
+    for (let i = 0; i < data.length; i++) {
       if (data[i][key] == compareVal) {
         result = data[i][getKey];
       }
     }
     return result;
   }
-
   onCourseListSelection(event) {
     if (event != '-1') {
       for (let i = 0; i < this.courseList.length; i++) {
