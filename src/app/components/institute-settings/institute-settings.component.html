@@ -1516,7 +1516,7 @@
                           </div>
                           <div class="c-lg-5" style="margin-left: 15px;" *ngIf="instituteSettingDet.daily_account_summary == '1' || instituteSettingDet.daily_account_summary == true">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.emailids_for_report != ''}">
-                              <label for="dailyConatctID">Email-ids to receive DSR (comman seperated)
+                              <label for="dailyConatctID">Email-ids to receive DSR (comma seperated)
                                 <!--<div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field md">
@@ -2530,7 +2530,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <td colspan="6">
+                      <td colspan="6" style="padding-bottom: 15px;">
                       <div class="row">
                       <div class="c-lg-5" style="padding: 0;font-weight: 600;" *ngIf="instituteSettingDet.teacher_monthly_report == '1' || instituteSettingDet.teacher_monthly_report == true">
                         <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.emailid_for_teacher_report != ''}">
@@ -3907,7 +3907,7 @@
                               <label for="ch106">Email-ids to receive students feedback on                                
                               </label>
                               <input type="text" [(ngModel)]="instituteSettingDet.feedback_email_ids " class="form-ctrl" id="ch106">
-                              <p>Comman seperated Email-ids</p>
+                              <p>Comma seperated Email-ids</p>
                             </div>
                           </div>
                       </td>
